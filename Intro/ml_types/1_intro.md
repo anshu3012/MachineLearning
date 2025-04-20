@@ -1,12 +1,12 @@
 # Types of ML
 
-| Supervised Learning                        | Unsupervised Learning     | Semi-Supervised Learning          | Reinforcement Learning        |
-| ------------------------------------------ | ------------------------- | --------------------------------- | ----------------------------- |
-| Labeled data                               | Unlabeled data            | Mix of labeled and unlabeled data | Reward-based learning         |
-| Classification (if output is categorical)  | Clustering                | Partially labeled data            | Agent-environment interaction |
-| Regression (if output is numerical)        | Dimensionality reduction  |                                   |                               |
-|                                            | Anomaly Detection         |                                   |                               |
-|                                            | Association Rule Learning |                                   |                               |
+| Supervised Learning                       | Unsupervised Learning     | Semi-Supervised Learning          | Reinforcement Learning        |
+| ----------------------------------------- | ------------------------- | --------------------------------- | ----------------------------- |
+| Labeled data                              | Unlabeled data            | Mix of labeled and unlabeled data | Reward-based learning         |
+| Classification (if output is categorical) | Clustering                | Partially labeled data            | Agent-environment interaction |
+| Regression (if output is numerical)       | Dimensionality reduction  |                                   |                               |
+|                                           | Anomaly Detection         |                                   |                               |
+|                                           | Association Rule Learning |                                   |                               |
 
 ## Supervised Learning
 
@@ -58,10 +58,10 @@ In the table provided:
 * This could help identify patterns, such as students with high IQ and CGPA being in one group and those with lower values in another.
 
 | IQ (Input) | CGPA (Input) | Category (4 different clusters based on input columns) |
-| ---------- | ------------ | ----------------------------------------------------- |
-| 100        | 9.5          | 0                                                     |
-| 90         | 8.5          | 1                                                     |
-| 80         | 7            | 2                                                     |
+| ---------- | ------------ | ------------------------------------------------------ |
+| 100        | 9.5          | 0                                                      |
+| 90         | 8.5          | 1                                                      |
+| 80         | 7            | 2                                                      |
 
 ### 2. Dimensionality Reduction
 
@@ -143,3 +143,65 @@ Reinforcement Learning (RL) is a type of machine learning where an agent learns 
 - **Reward**: Winning, losing, or drawing the game.
 
 Reinforcement Learning is particularly useful in scenarios where the optimal solution is not known in advance and must be discovered through trial and error.
+
+## Instance-Based vs Model-Based Learning
+
+Instance-based and model-based learning are two fundamental approaches in machine learning, differing in how they generalize from training data to make predictions.
+
+### Instance-Based Learning
+
+#### Definition
+Instance-based learning methods store the training data and make predictions by comparing new inputs to the stored instances.
+
+#### How It Works
+- No explicit model is built during training.
+- Predictions are made by finding the most similar instances (e.g., using distance metrics like Euclidean distance).
+
+#### Example
+- **k-Nearest Neighbors (k-NN)**
+
+#### Advantages
+- Simple to implement.
+- Adapts well to changes in the data since it doesn't rely on a fixed model.
+
+#### Disadvantages
+- Computationally expensive at prediction time because it requires searching through the stored data.
+- Sensitive to noise in the training data.
+
+---
+
+### Model-Based Learning
+
+#### Definition
+Model-based learning methods build a general model from the training data and use this model to make predictions.
+
+#### How It Works
+- During training, the algorithm learns a mathematical representation (e.g., a decision tree, neural network, or regression equation).
+- At prediction time, the model is used to infer outputs for new inputs.
+
+#### Example
+- **Linear Regression**
+- **Decision Trees**
+- **Neural Networks**
+
+#### Advantages
+- Faster predictions since the model is precomputed.
+- Often more robust to noise in the data.
+
+#### Disadvantages
+- Requires more time and resources during training.
+- May not adapt well to new data unless retrained.
+
+---
+
+## Key Differences
+
+| Feature              | Instance-Based Learning      | Model-Based Learning               |
+| -------------------- | ---------------------------- | ---------------------------------- |
+| **Approach**         | Relies on raw training data  | Relies on a precomputed model      |
+| **Training Phase**   | Minimal computation          | Computationally intensive          |
+| **Prediction Phase** | Slower, requires comparisons | Faster, uses precomputed model     |
+| **Adaptability**     | Adapts well to new data      | Requires retraining for new data   |
+| **Examples**         | k-NN                         | Linear Regression, Neural Networks |
+
+In summary, instance-based learning is more memory-intensive and slower at prediction time, while model-based learning requires more upfront computation but is faster and more efficient for predictions.
