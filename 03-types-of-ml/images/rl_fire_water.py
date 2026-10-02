@@ -9,7 +9,7 @@ from PIL import Image
 
 HERE = Path(__file__).parent
 BLUE_C, ORANGE_C, GREEN_C, RED_C, GREY_C = "#4C78A8", "#F58518", "#54A24B", "#E45756", "#6B6B6B"
-Text.set_default(color=BLACK, font="Roboto")
+Text.set_default(color=BLACK, font="Latin Modern Roman")
 
 
 class FireWater(Scene):
@@ -24,7 +24,7 @@ class FireWater(Scene):
         water = VGroup(Circle(0.6, color=BLUE_C, fill_color=BLUE_C, fill_opacity=0.6),
                        Text("Water", font_size=30, weight=BOLD)).arrange(DOWN, buff=0.25).move_to([4.8, -0.5, 0])
         agent = VGroup(Circle(0.62, color=RED_C, fill_color=RED_C, fill_opacity=0.25, stroke_width=5),
-                       Text("Agent", font_size=20, weight=BOLD)).move_to([0, -0.5, 0])
+                       Text("Agent", font_size=28, weight=BOLD)).move_to([0, -0.5, 0])
         agent[1].move_to(agent[0])
         policy_box = RoundedRectangle(width=6.4, height=1.0, corner_radius=0.15, color=GREY_C).move_to([0, 2.6, 0])
         policy = Text("Policy: go to the fire", font_size=30).move_to(policy_box)

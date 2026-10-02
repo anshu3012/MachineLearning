@@ -17,7 +17,7 @@ plot = (
     .add(so.Line(color="#F58518", linewidth=4), so.PolyFit(order=1))
     .label(title="Pattern found: about 10 extra marks per hour studied")
     .layout(size=(8, 5))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Roboto", "font.size": 14,
+    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
             "axes.titlesize": 16, "axes.labelsize": 15})
 )
 plot.save(here / "pattern_in_data.png", dpi=200, bbox_inches="tight")

@@ -1,5 +1,7 @@
 % Shared look for every TikZ diagram. Load with \input{../../tools/tikz-style.tex}
-\usepackage[sfdefault]{roboto}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\renewcommand{\sfdefault}{lmr}  % diagrams use the same serif as the text
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc, fit, backgrounds}
 \definecolor{cblue}{HTML}{4C78A8}
 \definecolor{corange}{HTML}{F58518}

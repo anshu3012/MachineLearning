@@ -44,7 +44,7 @@ Professional teaching material, written for a reader with ADHD. Every sentence t
 
 ## Visuals
 
-No matplotlib. Diagram style: clean (few colours, big labels, white background, same colour = same meaning everywhere).
+No matplotlib. One font everywhere: Latin Modern (text and every diagram; Plotly/Seaborn/Manim use it as the system font "Latin Modern Roman", linked from TinyTeX into ~/.fonts). Latin Modern has no ₹ sign: write "rupees". Diagram style: clean (few colours, big labels, white background, same colour = same meaning everywhere).
 Before making any image, write down which tool fits and why.
 
 | Tool | Used for | Shows up as |

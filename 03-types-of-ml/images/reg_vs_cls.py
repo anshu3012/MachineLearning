@@ -39,7 +39,7 @@ fig.update_xaxes(title_text="CGPA", row=1, col=1)
 fig.update_yaxes(title_text="Package (LPA)", row=1, col=1)
 fig.update_xaxes(title_text="IQ", row=1, col=2)
 fig.update_yaxes(title_text="CGPA", range=[5.3, 9.7], row=1, col=2)
-fig.update_layout(template="simple_white", width=1300, height=560, font=dict(family="Roboto, Arial", size=17),
+fig.update_layout(template="simple_white", width=1300, height=560, font=dict(family="Latin Modern Roman", size=17),
                   legend=dict(orientation="h", x=0.56, y=-0.2), margin=dict(l=70, r=20, t=80, b=110))
 fig.update_annotations(font_size=19)
 fig.add_annotation(x=1, y=-0.28, xref="paper", yref="paper", xanchor="right", showarrow=False,

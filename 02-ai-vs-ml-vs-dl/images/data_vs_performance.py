@@ -16,7 +16,7 @@ fig.add_annotation(x=8.2, y=0.98, text="DL: continues to improve", showarrow=Fal
 fig.add_vrect(x0=0, x1=3, fillcolor="#6B6B6B", opacity=0.08, line_width=0)
 fig.add_annotation(x=1.5, y=0.97, text="small data:<br>ML performs better", showarrow=False, font=dict(size=16, color="#6B6B6B"))
 fig.update_layout(
-    template="simple_white", width=900, height=540, font=dict(family="Roboto, Arial", size=18),
+    template="simple_white", width=900, height=540, font=dict(family="Latin Modern Roman", size=18),
     title=dict(text="Performance vs amount of data", x=0.5),
     xaxis=dict(title="Amount of data", showticklabels=False, ticks=""),
     yaxis=dict(title="Performance", showticklabels=False, ticks="", range=[0, 1.05]),

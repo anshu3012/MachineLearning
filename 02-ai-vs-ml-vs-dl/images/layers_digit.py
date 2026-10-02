@@ -9,7 +9,7 @@ from PIL import Image
 
 HERE = Path(__file__).parent
 BLUE_C, ORANGE_C, GREEN_C, PURPLE_C, GREY_C = "#4C78A8", "#F58518", "#54A24B", "#B279A2", "#6B6B6B"
-Text.set_default(color=BLACK, font="Roboto")
+Text.set_default(color=BLACK, font="Latin Modern Roman")
 
 # Pixels of a 7 on a 7x7 grid, as (row, col)
 TOP_BAR = [(0, c) for c in range(1, 6)]

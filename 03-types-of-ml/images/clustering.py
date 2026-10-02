@@ -26,7 +26,7 @@ plot = (
     .scale(color=["#4C78A8", "#F58518", "#54A24B"])
     .label(title="Clustering: 3 groups found without any labels  (example data)")
     .layout(size=(8.5, 5))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Roboto", "font.size": 14,
+    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
             "axes.titlesize": 15, "axes.labelsize": 15})
 )
 plot.save(here / "clustering.png", dpi=200, bbox_inches="tight")

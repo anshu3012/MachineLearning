@@ -15,7 +15,7 @@ def digits_figure():
                         category_orders={"color": [str(d) for d in range(10)]},
                         labels={"x": "PC 1", "y": "PC 2", "z": "PC 3", "color": "Digit"})
     fig.update_traces(marker=dict(size=4, opacity=0.85))
-    fig.update_layout(template="simple_white", font=dict(family="Roboto, Arial", size=15),
+    fig.update_layout(template="simple_white", font=dict(family="Latin Modern Roman", size=15),
                       title=dict(text="1,797 handwritten digits: 64 columns reduced to 3", x=0.5),
                       legend=dict(itemsizing="constant"), margin=dict(l=0, r=0, t=50, b=0))
     return fig
