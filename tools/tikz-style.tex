@@ -1,0 +1,18 @@
+% Shared look for every TikZ diagram. Load with \input{../../tools/tikz-style.tex}
+\usepackage[sfdefault]{roboto}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc, fit, backgrounds}
+\definecolor{cblue}{HTML}{4C78A8}
+\definecolor{corange}{HTML}{F58518}
+\definecolor{cgreen}{HTML}{54A24B}
+\definecolor{cred}{HTML}{E45756}
+\definecolor{cpurple}{HTML}{B279A2}
+\definecolor{cgrey}{HTML}{6B6B6B}
+\tikzset{
+  every picture/.style={font=\sffamily, line width=1.2pt},
+  box/.style={draw=#1, fill=#1!12, rounded corners=4pt, align=center, inner sep=7pt, minimum height=1.1cm},
+  box/.default=cgrey,
+  arrow/.style={-{Stealth[length=3mm]}, draw=cgrey, line width=1.4pt},
+  title/.style={font=\sffamily\bfseries\Large},
+  note/.style={font=\sffamily\small, text=cgrey, align=center},
+}
+\AtBeginDocument{\hyphenpenalty=10000 \exhyphenpenalty=10000}

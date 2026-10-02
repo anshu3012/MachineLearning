@@ -1,0 +1,12 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, font=\sffamily\bfseries\Large, minimum width=3.6cm] (i) at (0,0) {Intelligence};
+  \foreach \a/\t in {90/{Logic \&\\reasoning}, 18/{Solving\\puzzles \& problems}, -54/{Writing\\code}, -126/{Emotional\\intelligence}, 162/{Creativity \&\\imagination}}
+    { \node[box=cgrey, minimum width=3.2cm] (n\a) at (\a:4.6) {\t}; \draw[arrow] (i) -- (n\a); }
+  \node[note] at (0,-6.1) {Human intelligence is many abilities mixed together.\\
+    \textcolor{cgreen}{\textbf{Today's AI}} copies one narrow ability at a time.\\
+    \textcolor{cred}{\textbf{General AI}} (all of them, like us) does not exist yet.};
+\end{tikzpicture}
+\end{document}

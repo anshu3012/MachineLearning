@@ -1,0 +1,6 @@
+% PDF look for every Note: block quotes (Extra / Python boxes) get a coloured bar.
+\usepackage{framed}
+\definecolor{boxbar}{HTML}{B279A2}
+\renewenvironment{quote}
+  {\def\FrameCommand{{\color{boxbar}\vrule width 3pt}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}
+  {\endMakeFramed}

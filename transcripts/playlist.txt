@@ -1,0 +1,134 @@
+001|ZftI2fEz0Fw|What is Machine Learning? | 100 Days of Machine Learning
+002|1v3_AQ26jZ0|AI Vs ML Vs DL for Beginners in Hindi
+003|81ymPYEtFOw|Types of Machine Learning for Beginners | Types of Machine learning in Hindi | Types of ML in Depth
+004|nPrhFxEuTYU|Batch Machine Learning | Offline Vs Online Learning | Machine Learning Types
+005|3oOipgCbLIk|Online Machine Learning | Online Learning | Online Vs Offline Machine Learning
+006|ntAOq1ioTKo|Instance-Based Vs Model-Based Learning | Types of Machine Learning
+007|WGUNAJki2S4|Challenges in Machine Learning | Problems in Machine Learning
+008|UZio8TcTMrI|Application of Machine Learning | Real Life Machine Learning Applications
+009|iDbhQGz_rEo|Machine Learning Development Life Cycle | MLDLC in Data Science
+010|93rKZs0MkgU|Data Engineer Vs Data Analyst Vs Data Scientist Vs ML Engineer | Data Science Job Roles
+011|vVhD2EyS41Y|What are Tensors | Tensor In-depth Explanation | Tensor in Machine Learning
+012|82P5N2m41jE|Installing Anaconda For Data Science | Jupyter Notebook for Machine Learning | Google Colab for ML
+013|dr7z7a_8lQw|End to End Toy Project | Day 13 | 100 Days of Machine Learning
+014|A9SezQlvakw|How to Frame a Machine Learning Problem | How to plan a Data Science Project Effectively
+015|a_XrmKlaGTs|Working with CSV files | Day 15 | 100 Days of Machine Learning
+016|fFwRC-fapIU|Working with JSON/SQL | Day 16 | 100 Days of Machine Learning
+017|roTZJaxjnJc|Fetching Data From an API | Day 17 | 100 Days of Machine Learning
+018|8NOdgjC1988|Fetching data using Web Scraping | Day 18 | 100 Days of Machine Learning
+019|mJlRTUuVr04|Understanding Your Data | Day 19 | 100 Days of Machine Learning
+020|4HyTlbHUKSw|EDA using Univariate Analysis | Day 20 | 100 Days of Machine Learning
+021|6D3VtEfCw7w|EDA using Bivariate and Multivariate Analysis | Day 21 | 100 Days of Machine Learning
+022|E69Lg2ZgOxg|Pandas Profiling | Day 22 | 100 Days of Machine Learning
+023|sluoVhT0ehg|What is Feature Engineering | Day 23 | 100 Days of Machine Learning
+024|1Yw9sC0PNwY|Feature Scaling - Standardization | Day 24 | 100 Days of Machine Learning
+025|eBrGyuA2MIg|Feature Scaling - Normalization | MinMaxScaling | MaxAbsScaling | RobustScaling
+026|w2GglmYHfmM|Encoding Categorical Data | Ordinal Encoding | Label Encoding
+027|U5oCv3JKWKA|One Hot Encoding | Handling Categorical Data | Day 27 | 100 Days of Machine Learning
+028|5TVj6iEBR4I|Column Transformer in Machine Learning | How to use ColumnTransformer in Sklearn
+029|xOccYkgRV4Q|Machine Learning Pipelines A-Z | Day 29 | 100 Days of Machine Learning
+030|cTjj3LE8E90|Function Transformer | Log Transform | Reciprocal Transform | Square Root Transform
+031|lV_Z4HbNAx0|Power Transformer | Box - Cox Transform | Yeo - Johnson Transform
+032|kKWsJGKcMvo|Binning and Binarization | Discretization | Quantile Binning | KMeans Binning
+033|9xiX-I5_LQY|Handling Mixed Variables | Feature Engineering
+034|J73mvgG9fFs|Handling Date and Time Variables | Day 34 | 100 Days of Machine Learning
+035|aUnNWZorGmk|Handling Missing Data | Part 1 | Complete Case Analysis
+036|mCL2xLBDw8M|Handling missing data | Numerical Data | Simple Imputer
+037|l_Wip8bEDFQ|Handling Missing Categorical Data | Simple Imputer | Most Frequent Imputation | Missing Category Imp
+038|Ratcir3p03w|Missing Indicator | Random Sample Imputation | Handling Missing Data Part 4
+039|-fK-xEev2I8|KNN Imputer | Multivariate Imputation | Handling Missing Data Part 5
+040|a38ehxv3kyk|Multivariate Imputation by Chained Equations for Missing Value | MICE Algorithm | Iterative Imputer
+041|Lln1PKgGr_M|What are Outliers | Outliers in Machine Learning
+042|OnPE-Z8jtqM|Outlier Detection and Removal using Z-score Method | Handling Outliers Part 2
+043|Ccv1-W5ilak|Outlier Detection and Removal using the IQR Method | Handing Outliers Part 3
+044|bcXA4CqRXvM|Outlier Detection using the Percentile Method | Winsorization Technique
+045|ma-h30PoFms|Feature Construction | Feature Splitting
+046|ToGuhynu-No|Curse of Dimensionality
+047|iRbsBi5W0-c|Principle Component Analysis  (PCA) | Part 1 | Geometric Intuition
+048|tXXnxjj2wM4|Principle Component Analysis (PCA) | Part 2 | Problem Formulation and Step by Step Solution
+049|tofVCUDrg4M|Principle Component Analysis(PCA) | Part 3 | Code Example and Visualization
+050|UZPfbG0jNec|Simple Linear Regression | Code + Intuition | Simplest Explanation in Hindi
+051|dXHIDLPKdmA|Simple Linear Regression | Mathematical Formulation | Coding from Scratch
+052|Ti7c-Hz7GSM|Regression Metrics | MSE, MAE & RMSE | R2 Score & Adjusted R2 Score
+053|ashGekqstl8|Multiple Linear Regression | Geometric Intuition & Code
+054|NU37mF5q8VE|Multiple Linear Regression | Part 2 | Mathematical Formulation From Scratch
+055|VmZWXzxmNrE|Multiple Linear Regression | Part 3 | Code From Scratch
+056|EmSNAtcHLm8|What are the main Assumptions of Linear Regression? | Top 5 Assumptions of Linear Regression
+057|ORyfPJypKuU|Gradient Descent From Scratch | End to End Gradient Descent | Gradient Descent Animation
+058|Jyo53pAyVAM|Batch Gradient Descent with Code Demo | Simple Explanation in Hindi
+059|V7KBAa_gh4c|Stochastic Gradient Descent
+060|_scscQ4HVTY|Mini-Batch Gradient Descent
+061|BNWLf3cKdbQ|Polynomial Regression | Machine Learning
+062|74DU02Fyrhk|Bias Variance Trade-off | Overfitting and Underfitting in Machine Learning
+063|aEow1QoTLo0|Ridge Regression Part 1 | Geometric Intuition and Code | Regularized Linear Models
+064|oDlZBQjk_3A|Ridge Regression Part 2 | Mathematical Formulation & Code from scratch | Regularized Linear Models
+065|Fci_wwMp8G8|Ridge Regression Part 3 | Gradient Descent | Regularized Linear Models
+066|8osKeShYVRQ|5 Key Points - Ridge Regression | Part 4 | Regularized Linear Models
+067|HLF4bFbBgwk|Lasso Regression | Intuition and Code Sample | Regularized Linear Models
+068|FN4aZPIAfI4|Why Lasso Regression creates sparsity?
+069|2g2DBkFhTTY|ElasticNet Regression | Intuition and Code Example | Regularized Linear Models
+070|XNXzVfItWGY|Logistic Regression Part 1 | Perceptron Trick
+071|tLezwPKvPK4|Logistic Regression Part 2 | Perceptron Trick Code
+072|ehO0-6i9qD4|Logistic Regression Part 3 | Sigmoid Function | 100 Days of ML
+073|6bXOo0sxY5c|Logistic Regression Part 4 | Loss Function | Maximum Likelihood | Binary Cross Entropy
+074|awjXaFR1jOM|Derivative of Sigmoid Function
+075|ABrrSwMYWSg|Logistic Regression Part 5 | Gradient Descent & Code From Scratch
+076|c09drtuCS3c|Accuracy and Confusion Matrix | Type 1 and Type 2 Errors | Classification Metrics Part 1
+077|iK-kdhJ-7yI|Precision, Recall and F1 Score | Classification Metrics Part 2
+078|gdW6hj9IXaA|ROC Curve in Machine Learning | ROC-AUC in Machine Learning Simplified | CampusX
+079|Z8noL_0M4tw|Softmax Regression || Multinomial Logistic Regression || Logistic Regression Part 6
+080|WnBYW_DX3sM|Polynomial Features in Logistic Regression | Non Linear Logistic Regression | Logistic Regression 7
+081|ay_OcblJasE|Logistic Regression Hyperparameters || Logistic Regression Part 8
+082|Ty7knppVo9E|Naive Bayes Classifier | Part 1 | Conditional Probability
+083|0GD480CnrO4|Naive Bayes Classifier | Part 2 | Independent Events in Probability
+084|nneTjTYikBE|Naive Bayes Classifier | Part 3 | Mutually Exclusive Events
+085|Oqw-v-Z7PuU|Naive Bayes Classifier | Part 4 | Bayes Theorem in Probability
+086|aAEHjXDHtbE|Naive Bayes Classifier | Part 5 | Problem based upon Bayes Theorem
+087|ZR1_QtLk_4U|Naive Bayes Classifier | Part 6 | Intuition
+088|2PVRG45eVrY|Naive Bayes Classifier | Part 7 | Mathematics behind Naive Bayes Algorithm
+089|DeeWsqoY4Eo|Naive Bayes Classifier | Part 8 | Simple Example Code
+090|TCgK2nBJx9o|Naive Bayes Part 9 | Handling Numerical Data
+091|abnL_GUGub4|What is K Nearest Neighbors? | KNN Explained in Hindi | Simple Overview in 1 Video | CampusX
+092|ugTxMLjLS8M|Support Vector Machines | Geometric Intuition
+093|yCAlHPDgWtM|Mathematics of SVM | Support Vector Machines | Hard margin SVM
+094|utqrvIFAE1k|Mathematics of Support Vector Machine | Soft Margin SVM
+095|egxjT0p7_K8|Kernel Trick in SVM | Geometric Intuition
+096|pjvmVMDrzVU|Kernel Trick in SVM | Code Example
+097|IZnno-dKgVQ|Decision Trees Geometric Intuition | Entropy | Gini impurity | Information Gain
+098|mDEV0Iucwz0|Decision Trees - Hyperparameters | Overfitting and Underfitting in Decision Trees
+099|RANHxyAvtM4|Regression Trees | Decision Trees Part 3
+100|SlMZqfvl5uw|Awesome Decision Tree Visualization using dtreeviz library
+101|bHK1fE_BUms|Introduction to Ensemble Learning | Ensemble Techniques in Machine Learning
+102|_W1i-c_6rOk|Voting Ensemble |  Introduction and Core Idea | Part 1
+103|pGQnNYdPTvY|Voting Ensemble | Classification | Voting Classifier | Hard Voting Vs Soft Voting | Part 2
+104|ut4vh59rGkw|Voting Ensemble | Regression | Part 3
+105|LUiBOAy7x6Y|Bagging | Introduction | Part 1
+106|-1T54G_E-ys|Bagging Ensemble | Part 2 | Bagging Classifiers
+107|HYVzrETXbkE|Bagging Ensemble | Part 3 | Bagging Regressor
+108|F9uESCHGjhA|Introduction to Random Forest | Intuition behind the Algorithm
+109|jHgG4gjuFAk|How Random Forest Performs So Well? Bias Variance Trade-Off in Random Forest
+110|l93jRojZMqU|Bagging Vs Random Forest | What is the difference between Bagging and Random Forest | Very Important
+111|WOFVY_wQ9wU|Random Forest Hyper-parameters
+112|4Im0CT43QxY|Hyperparameter Tuning Random Forest using GridSearchCV and RandomizedSearchCV | Code Example
+113|tdDhyFoSG94|OOB Score | Out of Bag Evaluation in Random Forest | Machine Learning
+114|R47JAob1xBY|Feature Importance using Random Forest and Decision Trees | How is Feature Importance calculated
+115|sFKnP0iP0K0|How Adaboost Classifier Works? | Geometric Intuition
+116|RT0t9a3Xnfw|AdaBoost - A Step by Step Explanation
+117|a20TaKNsriE|AdaBoost Algorithm | Code from Scratch
+118|JmXnztjULnQ|AdaBoost Hyperparameters | GridSearchCV in Adaboost
+119|7M5oWXCpDEw|Bagging Vs Boosting | What is the difference between Bagging and Boosting
+120|fbKz7N92mhQ|Gradient Boosting Explained | How Gradient Boosting Works?
+121|nMNiTZm-qY0|Gradient Boosting Regression Part 2 | Mathematics of Gradient Boosting
+122|4p5EQtyxSyI|Gradient Boosting for Classification | Geometric Intuition | CampusX
+123|C6aDw4y8qJ0|Introduction to XGBOOST | Machine Learning | CampusX
+124|gmp2tS2joaA|XGBoost for Regression | XGBoost Part 2 | CampusX
+125|mELtxVUNNrw|XGBoost For Classification | How XGBoost works on Classification Problems | CampusX
+126|0Eo-_5bfers|The Maths Behind XGBoost | Machine Learning | CampusX
+127|O-aDHBGMqXA|Stacking and Blending Ensembles
+128|5shTLzwAdEc|K-Means Clustering Algorithm | Geometric Intuition | Clustering | Unsupervised Learning
+129|UPvv9SprgVo|K-Means Clustering Algorithm in Python | Practical Example | Student Clustering Example | sklearn
+130|MFraC1JObUo|K-Means Clustering Algorithm From Scratch In Python | ML Algorithms From Scratch
+131|Ka5i9TVUT-E|Agglomerative Hierarchical Clustering | Python Code Example
+132|1_bLnsNmhCI|DBSCAN Clustering Algorithms | Density Based Clustering | How DBSCAN Works | CampusX
+133|yh2AKoJCV3k|Imbalanced Data in Machine Learning | Undersampling | Oversampling | SMOTE
+134|E2b3SKMw934|Hyperparameter Tuning using Optuna | Bayesian Optimization using Optuna

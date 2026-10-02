@@ -56,7 +56,19 @@ campusx/
 
 - Python: conda env `campusx` (`conda activate campusx`): numpy, pandas, scikit-learn, plotly, kaleido, dash, seaborn, manim, jupyterlab.
 - LaTeX: TinyTeX in `~/.local/bin`. Build with `pdflatex -interaction=nonstopmode -halt-on-error` (without `-halt-on-error` a broken file still produces a PDF).
-- PDFs: pandoc + TinyTeX.
+- PDFs: pandoc + TinyTeX (xelatex).
+
+## Building a Note
+
+`tools/build.sh 02-ai-vs-ml-vs-dl` builds every image in that Note's `images/` (each `.tex` → PDF + PNG, each `.py` run) and writes `pdf/02-ai-vs-ml-vs-dl.pdf`.
+In the PDF, GIFs are swapped for their `_frames.png` key frames and PNGs for a vector `.pdf` of the same name when one exists (`tools/media-swap.lua`).
+Shared looks: `tools/tikz-style.tex` (diagrams), `tools/pdf-style.tex` (PDF).
+Symbols like ⊃ or → go in Markdown as maths (`$\supset$`, `$\rightarrow$`): the PDF font has no such characters.
+
+## Transcripts
+
+`transcripts/fetch.sh` downloads subtitles for every Video in `transcripts/playlist.txt` as `NNN.<lang>.txt`.
+`en-IN` = human English subtitles. `hi-orig` = YouTube's automatic Hindi speech recognition: messy (e.g. "DL" comes out as "डीजल"), so read it for meaning, not word for word.
 
 ## Workflow
 
