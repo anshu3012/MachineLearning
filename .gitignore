@@ -7,3 +7,4 @@ media/
 .manim/
 transcripts/*.vtt
 transcripts/fetch.err
+reference/
