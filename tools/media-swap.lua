@@ -11,7 +11,10 @@ function Image(img)
     local pdf = src:gsub("%.png$", ".pdf")
     if exists(pdf) then img.src = pdf end
   end
-  return img
+  -- Fit inside the text width and a third of the page height (keeping the shape),
+  -- so figures rarely jump to the next page.
+  return pandoc.RawInline("latex",
+    "\\includegraphics[width=\\linewidth,height=0.35\\textheight,keepaspectratio]{" .. img.src .. "}")
 end
 
 local boxes = { ["Key point:"] = "keypoint", ["Extra:"] = "extra" }
@@ -26,5 +29,12 @@ function BlockQuote(bq)
       table.insert(out, pandoc.RawBlock("latex", "\\end{" .. env .. "}"))
       return out
     end
+  end
+end
+
+-- The Summary starts on a fresh page, so it can be revised on its own.
+function Header(h)
+  if h.level == 2 and pandoc.utils.stringify(h):match("Summary$") then
+    return { pandoc.RawBlock("latex", "\\newpage"), h }
   end
 end
