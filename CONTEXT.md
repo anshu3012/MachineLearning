@@ -13,7 +13,7 @@ The study material for exactly one Video. Complete enough to learn from without 
 _Avoid_: Chapter, page, summary
 
 **Teacher's flow**:
-The order, examples and analogies the teacher uses in a Video, taken from its subtitles. Forms the main path of a Note.
+The order, examples and analogies the teacher uses in a Video, taken from its subtitles. Shapes a Note's sections but is never named or narrated in it.
 _Avoid_: Script, outline
 
 **Extra box**:

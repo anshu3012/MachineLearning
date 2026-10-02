@@ -7,7 +7,7 @@ Written for a visual learner with no prior ML or Python knowledge. Terms used he
 ## What each Note is
 
 - **One Note per Video**, in plain English. Complete enough to learn from without watching the Video.
-- Follows the **Teacher's flow** (his order, examples, analogies), taken from the Video's subtitles in `transcripts/`.
+- Follows the **Teacher's flow** (his order, examples, analogies), taken from the Video's subtitles in `transcripts/`, without ever narrating it.
 - **Extra boxes** add what he skips (formulas, common mistakes). Clearly marked as not his.
 - **Python boxes** teach just the Python needed at that point.
 - Every formula in 3 steps: plain words → formula → worked with small real numbers.
@@ -16,10 +16,17 @@ Written for a visual learner with no prior ML or Python knowledge. Terms used he
 
 ### Note structure
 
-1. **In one picture**: one diagram of the whole Video
-2. **Before you start**: earlier Notes this one builds on
-3. **The Teacher's flow**: his sections in his order, each as words → picture → example (Extra and Python boxes inline)
-4. **Cheat sheet**: short recap
+1. **Overview**: one diagram of the whole topic, plus one or two sentences
+2. **Prerequisites**: earlier Notes this one builds on (omit if none)
+3. **Numbered sections named after the topic itself**, in the Video's order. Each idea: definition → diagram → example. Extra and Python boxes inline.
+4. **Summary**: comparison table + short bullet list
+
+### Writing style
+
+Professional teaching material. Every sentence teaches something.
+- No scene-setting or filler ("people have dreamed of this for a long time").
+- No narration about the Video or teacher ("he explains", "his example"). His order and examples are used, silently.
+- Diagram text follows the same rules: labels and short technical phrases, no chatty captions.
 
 ## Visuals
 

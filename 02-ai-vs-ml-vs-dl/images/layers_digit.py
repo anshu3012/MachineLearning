@@ -84,12 +84,9 @@ class LayersDigit(Scene):
         col3 = self.column("Output", 5.2)
         self.play(GrowArrow(self.arrow_to(5.2)), Create(col3[0]), Write(col3[1]))
         seven = Text("7", font_size=150, color=GREEN_C, weight=BOLD).move_to([5.2, 0.3, 0])
-        verdict = Text("It's a 7!", font_size=30, color=GREEN_C, weight=BOLD).move_to([5.2, -1.6, 0])
+        verdict = Text("digit: 7", font_size=30, color=GREEN_C, weight=BOLD).move_to([5.2, -1.6, 0])
         self.play(TransformFromCopy(VGroup(bar, slant), seven), run_time=1.4)
         self.play(Write(verdict))
-        footer = Text("Each layer builds on the one before it: small pieces become bigger ideas.",
-                      font_size=22, color=GREY_C).to_edge(DOWN, buff=0.3)
-        self.play(FadeIn(footer))
         self.wait(1.5)
         self.snap()
 

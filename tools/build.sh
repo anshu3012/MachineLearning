@@ -14,7 +14,7 @@ done
 rm -f *.aux *.log
 for p in *.py; do "$PY" "$p"; done
 cd "$root/$note"
-pandoc note.md -o "$root/pdf/$note.pdf" --pdf-engine=xelatex \
+pandoc note.md -o "$root/pdf/$note.pdf" --pdf-engine=pdflatex \
   --lua-filter="$root/tools/media-swap.lua" \
-  -V geometry:margin=2cm -V fontsize=11pt -H "$root/tools/pdf-style.tex" -V mainfont="Roboto" -V colorlinks=true -V linkcolor=blue
+  -V geometry:margin=2cm -V fontsize=11pt -H "$root/tools/pdf-style.tex" -V colorlinks=true -V linkcolor=blue
 echo "Built pdf/$note.pdf"
