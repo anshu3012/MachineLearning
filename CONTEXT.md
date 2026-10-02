@@ -20,6 +20,14 @@ _Avoid_: Script, outline
 A clearly marked section in a Note with material the teacher did not cover (formulas, common mistakes, deeper intuition).
 _Avoid_: Bonus, aside
 
+**Key point**:
+A one-line box opening every section of a Note, stating the section's main idea before it is explained.
+_Avoid_: TL;DR, summary box
+
+**Key terms**:
+The closing list of a Note: each new term with a one-line definition. A subset of the glossary.
+_Avoid_: Vocabulary, definitions
+
 **Notebook**:
 A Jupyter notebook that goes with a Note, holding interactive demos and the Video's code rebuilt by us for current library versions. Never a copy of the teacher's notebook.
 _Avoid_: Code file, script, lab

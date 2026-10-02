@@ -23,10 +23,24 @@ Written for a visual learner with no prior ML or Python knowledge. Terms used he
 
 ### Writing style
 
-Professional teaching material. Every sentence teaches something.
-- No scene-setting or filler ("people have dreamed of this for a long time").
-- No narration about the Video or teacher ("he explains", "his example"). His order and examples are used, silently.
+Professional teaching material, written for a reader with ADHD. Every sentence teaches something.
+- Voice: "we" (writer and reader working through it together), e.g. "In ML, we select the features ourselves." No scene-setting or filler. Never mention the Video or teacher; his order and examples are used silently.
+- Depth: the Video's content plus whatever a beginner needs to fully understand it. Anything added is an **Extra** box.
+- Examples: his first; add our own when an idea needs a second angle.
+- Headings name a real topic ("Why expert systems fail"), never a bare label ("Limitation", "Example"). Examples live inside sections.
+- Figures are numbered with captions, and the text points to them ("Figure 3 shows…").
+- Title page: title only. Then the contents.
+- Each Note ends with **Key terms** (term + one line), as well as the shared glossary.
 - Diagram text follows the same rules: labels and short technical phrases, no chatty captions.
+
+### Layout for focus (ADHD)
+
+- Every section opens with a one-line **Key point** box; the explanation follows.
+- Paragraphs: at most 3 sentences. Use a list wherever a paragraph would only enumerate. **Split, never cut**: long ideas become more paragraphs, lists or subsections; no detail is dropped.
+- A Note longer than ~10 PDF pages is split into parts (02a, 02b), each with its own Summary and Key terms.
+- Bold only a term at the point it is first defined. Key phrases go in Key point boxes.
+- Text stays black; colour is only used in diagrams.
+- Title page: title only (no reading time). No video link anywhere in the Note.
 
 ## Visuals
 

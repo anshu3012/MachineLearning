@@ -8,3 +8,6 @@
 \renewenvironment{quote}
   {\def\FrameCommand{{\color{boxbar}\vrule width 3pt}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}
   {\endMakeFramed}
+% Contents on its own page.
+\let\oldtoc\tableofcontents
+\renewcommand{\tableofcontents}{\oldtoc\newpage}
