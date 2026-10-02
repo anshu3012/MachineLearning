@@ -16,6 +16,6 @@ for p in *.py; do "$PY" "$p"; done
 cd "$root/$note"
 /home/anshu/miniforge3/envs/campusx/bin/pandoc note.md -o "$root/pdf/$note.pdf" --pdf-engine=pdflatex --toc --toc-depth=3 -V toc-title=Contents \
   --lua-filter="$root/tools/media-swap.lua" \
-  -V geometry:margin=2cm -V fontsize=11pt -H "$root/tools/pdf-style.tex" -V colorlinks=true -V linkcolor=blue
+  -V geometry:margin=1in -V fontsize=12pt -H "$root/tools/pdf-style.tex" -V colorlinks=true -V linkcolor=blue
 "$PY" "$root/tools/check_pdf.py" note.md "$root/pdf/$note.pdf" || { echo "PDF is missing text: $note"; exit 1; }
 echo "Built pdf/$note.pdf"

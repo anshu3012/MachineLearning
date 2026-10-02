@@ -1,5 +1,9 @@
-% PDF look for every Note.
-\usepackage[sfdefault]{roboto}
+% PDF look for every Note: modelled on the MIT thesis class (mitthesis):
+% Latin Modern serif at 12pt, 1in margins, microtype, booktabs tables, bold caption labels.
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[labelfont=bf]{caption}
 \input{glyphtounicode}\pdfgentounicode=1
 \pdfinterwordspaceon   % real space characters, so copy/paste keeps spaces
 % Boxes. (Not the `framed` package: with a pending figure and a page-splitting table,
