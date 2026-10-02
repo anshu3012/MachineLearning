@@ -1,140 +1,204 @@
 ---
 title: "AI vs ML vs DL"
-subtitle: "100 Days of Machine Learning (CampusX), Video 2"
 ---
-
-Source: [AI Vs ML Vs DL for Beginners](https://www.youtube.com/watch?v=1v3_AQ26jZ0)
 
 ## 1. Overview
 
+> **Key point:** Deep Learning is a part of Machine Learning, and Machine Learning is a part of Artificial Intelligence.
+
 ![AI, ML and DL as nested fields](images/big_picture.png)
 
-Deep Learning is a subset of Machine Learning, and Machine Learning is a subset of Artificial Intelligence. Every DL system is an ML system, and every ML system is an AI system.
+Figure 1 shows the three fields as nested circles. Every DL system is also an ML system, and every ML system is also an AI system.
 
 ## 2. Artificial Intelligence
 
-**Artificial Intelligence (AI)** is the field of building machines that show intelligence.
+> **Key point:** AI is the field of building machines that show intelligence. Every AI system in use today handles one narrow task.
 
-### 2.1 What intelligence is
+**Artificial Intelligence (AI)** is the field of building machines that show intelligence. To see what that involves, we first need to look at what intelligence is.
 
-Intelligence is not a single ability. It is a combination of many:
+### 2.1 Intelligence is many abilities
+
+> **Key point:** Intelligence is not one ability but a combination of many, and some of them cannot even be defined precisely.
 
 ![Components of intelligence](images/intelligence.png)
 
-Some of these, such as logic, are well defined. Others, such as creativity or emotional intelligence, have no precise definition, which makes them very hard to build into a machine.
+Figure 2 shows some of the abilities that make up human intelligence. We use different ones for different jobs: logic to write code, problem solving to crack a puzzle, imagination to create something new.
+
+Some of these abilities, such as logic, are well defined. Others, such as creativity or emotional intelligence, have no precise definition. An ability we cannot define is very hard to build into a machine.
 
 ### 2.2 Narrow AI and general AI
 
-- **Artificial general intelligence (AGI)**: one machine with all of these abilities, like a human. It does not exist yet, and it remains the long-term goal of the field.
-- **Narrow AI**: a system that performs one specific task, such as recognising faces, translating text or playing chess. All AI in use today is narrow AI.
+> **Key point:** All AI today is narrow AI. General AI, a machine with every human ability, does not exist yet.
+
+- **Narrow AI**: a system that performs one specific task, such as recognising faces, translating text or playing chess.
+- **Artificial general intelligence (AGI)**: a single machine with all the abilities in Figure 2, like a human.
+
+AGI is the long-term goal of the field. Every AI system we use today is narrow AI.
 
 ## 3. Symbolic AI and expert systems
 
+> **Key point:** Early AI worked by having humans write down rules. This works for problems with clear rules and fails for everything else.
+
 ![Timeline of approaches to AI](images/timeline.png)
 
-The first approach to AI, starting in the 1950s, was **symbolic AI**: humans write down the knowledge a machine needs, as explicit rules.
+Figure 3 shows how approaches to AI changed over time. Serious work on AI began in the 1950s.
 
-Its best-known product is the **expert system**:
+The first approach was **symbolic AI**: humans write down the knowledge a machine needs, as explicit rules. The machine then follows those rules.
+
+> **Extra:** The start of AI is usually dated to Alan Turing's 1950 paper *Computing Machinery and Intelligence*, which asked "Can machines think?". The middle two eras in Figure 3 are approximate.
+
+### 3.1 How an expert system works
+
+> **Key point:** An expert system stores an expert's knowledge as rules and uses a program to apply them.
+
+The best-known product of symbolic AI is the **expert system**. Figure 4 shows how one is built and used.
 
 ![How an expert system works](images/expert_system.png)
 
-1. Knowledge is collected from a **human expert**, such as a doctor or a chess master.
-2. It is written as rules in a **knowledge base**.
+1. We collect knowledge from a **human expert**, such as a doctor or a chess master.
+2. We write that knowledge as rules in a **knowledge base**.
 3. An **inference engine**, a program, applies those rules to answer questions.
 
-Chess-playing computers are an example.
+Chess-playing computers are a classic example.
 
-### 3.1 Limitation
+### 3.2 Why expert systems fail
 
-Expert systems work only when the problem has **clear, fixed rules**, as in chess or logic puzzles. They fail when the rules are fuzzy.
+> **Key point:** Expert systems need clear, fixed rules. Most real-world problems do not have them.
 
-*Example: does this photo contain a dog?* There are hundreds of breeds, each with a different size, colour, ear shape and tail, and a photo can be taken from any angle and in any light. No one can write rules covering all of this. Speech recognition fails for the same reason.
+Expert systems work well when a problem has clear, fixed rules, as in chess or logic puzzles. They fail when the rules are fuzzy.
 
-Machine Learning was developed to solve this class of problem.
+Take the question: *does this photo contain a dog?* To answer it with rules, we would have to cover:
 
-> **Extra:** The 1950s start is usually dated to Alan Turing's 1950 paper *Computing Machinery and Intelligence*, which asked "Can machines think?". The middle two eras on the timeline are approximate.
+- hundreds of breeds,
+- every size, colour, ear shape and tail,
+- every camera angle and every kind of lighting.
+
+Nobody can write rules for all of that. Speech recognition fails for the same reason. Machine Learning was developed to solve exactly this kind of problem.
 
 ## 4. Machine Learning
 
-**Machine Learning (ML)** is a branch of computer science that uses **statistical techniques to find patterns in data**.
+> **Key point:** In Machine Learning, we do not write the rules. We give the machine examples with answers, and it works out the rules itself.
 
-ML requires **no explicit programming**: no human writes the rules. The machine is given data together with the correct answers, and it works out the rules itself.
+**Machine Learning (ML)** is a branch of computer science that uses statistical techniques to find patterns in data.
+
+### 4.1 Learning rules from data
+
+> **Key point:** Traditional programming turns rules into answers. ML turns answers into rules.
 
 ![Traditional programming vs Machine Learning](images/rules_vs_data.png)
 
-### 4.1 Example: detecting a dog
+Figure 5 compares the two approaches:
 
-| Approach | Method | Result |
+- **Traditional programming:** we give the computer data and rules, and it produces answers.
+- **Machine Learning:** we give the computer data and the correct answers, and it produces the rules.
+
+Writing every rule by hand is called **explicit programming**. ML needs none of it.
+
+Finding the rules from examples is called **learning**. Once a machine has learned, it can **predict**: give an answer for new data it has never seen.
+
+> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 6), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression*).
+
+![A pattern in data: marks rise with hours studied (example data)](images/pattern_in_data.png)
+
+### 4.2 Teaching a machine to recognise dogs
+
+> **Key point:** We stop writing rules and start providing labelled examples.
+
+Back to the dog problem from Section 3.2:
+
+| Approach | What we do | Result |
 |---|---|---|
-| Symbolic AI | Write rules for every breed, colour and shape | Impossible to complete |
-| ML | Provide thousands of photos labelled "dog" or "not dog" | The system learns the pattern itself and can then classify new photos |
+| Symbolic AI | Write rules for every breed, colour and shape | Impossible to finish |
+| ML | Show thousands of photos labelled "dog" or "not dog" | The machine learns what a dog looks like and can classify new photos |
 
-Finding the pattern from labelled examples is called **learning**. A model that has learned can then **predict**: give an answer for new data it has never seen.
+Our job changes from writing rules to providing good data. This is how children learn too: from examples ("this is a dog, this is not"), not from a rulebook.
 
-The human's job changes from writing rules to providing good data. This mirrors how children learn: from examples ("this is a dog, this is not"), not from a rulebook.
+### 4.3 Why ML took off
 
-### 4.2 Why ML became dominant
+> **Key point:** ML is old, but it only became practical once we had enough data and fast enough computers.
 
-ML methods are decades old but became dominant in industry over the last 20 to 30 years, because of:
+ML methods have existed for decades. They became dominant in industry over the last 20 to 30 years because of two changes:
 
-1. **Large amounts of data**, from the internet and phones.
+1. **Large amounts of data**, produced by the internet and phones.
 2. **Fast, cheap hardware** that can learn from that data.
 
 ## 5. Deep Learning
 
-**Deep Learning (DL)** is a subset of ML. It took off after about 2010.
+> **Key point:** DL is ML that uses neural networks. Its big advantage: it finds the features by itself, and it keeps improving as we give it more data.
 
-The process is the same as in ML: give data to an algorithm, **train** it (let it learn while reducing its errors), then use it to predict on new data. The difference is the algorithm.
+**Deep Learning (DL)** is a subset of ML that took off after about 2010.
+
+The process is the same as in ML. We give data to an algorithm and **train** it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
 
 ### 5.1 Neural networks
 
-DL uses **neural networks**, which are loosely inspired by the neurons of the brain. Inspired by does not mean the same as: how the brain works is still not fully understood, so a neural network is a mathematical model, not a copy of the brain. Its smallest unit is the **perceptron**, an artificial neuron (covered later in the course).
+> **Key point:** Neural networks are inspired by the brain, but they do not work like the brain.
 
-### 5.2 Automatic feature extraction
+DL uses **neural networks**, which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. It is a mathematical model that borrows one idea: many simple units connected together.
 
-A **feature** is one piece of information about an example that a model uses to make its decision.
+The smallest unit of a neural network is the **perceptron**, an artificial neuron. It is covered in detail later in the course.
 
-In ML, **a human must choose the features**. In DL, **the network finds them itself**.
+### 5.2 Features: chosen by us or learned
 
-*Example: predicting whether a student will be placed in campus placements.*
+> **Key point:** In ML, we choose the features. In DL, the network learns them.
+
+A **feature** is one piece of information about an example that a model uses to make its decision. For example, to predict whether a student will get a job in campus placements, our data might look like this:
+
+| Student | CGPA | IQ | Certifications | Placed? |
+|---|---|---|---|---|
+| A | 8.9 | 120 | 3 | Yes |
+| B | 6.1 | 105 | 0 | No |
+| C | 7.5 | 112 | 2 | Yes |
+
+Here CGPA, IQ and Certifications are the features, and "Placed?" is the answer we want to predict.
 
 ![Feature selection in ML vs DL (student placement example)](images/features_ml_vs_dl.png)
 
-- **ML:** you decide which features matter (CGPA, IQ, number of certifications) and supply them. Choosing well requires a good understanding of the data, and a useful feature that you leave out can never be used by the model.
-- **DL:** you supply the raw data, and the network works out which information matters.
+Figure 7 shows the difference:
 
-This makes DL especially useful when no one knows what the right features are. For example, nobody can list the features that make a photo a dog photo.
+- **ML:** we decide which features matter and supply them. Choosing well requires a good understanding of the data. A useful feature we leave out can never be used by the model.
+- **DL:** we supply the raw data, and the network works out which information matters.
 
-### 5.3 Layers
+This makes DL valuable when nobody knows what the right features are. For example, nobody can list the features that make a photo a dog photo.
 
-A neural network is organised in **layers** of neurons. Each layer builds on the output of the previous one, so adding layers lets the network detect more complex patterns. A network with many layers is called *deep*.
+### 5.3 Layers build up understanding
 
-*Example: recognising a handwritten digit.*
+> **Key point:** Each layer of a neural network combines what the previous layer found into something bigger.
+
+A neural network is organised in **layers** of neurons. Each layer works on the output of the layer before it. Adding layers lets the network detect more complex patterns, and a network with many layers is called *deep*.
+
+Figure 8 shows a network recognising a handwritten digit:
 
 ![Layers of a neural network recognising a handwritten 7](images/layers_digit.gif)
 
 1. The first layer detects **edges**: short straight segments.
-2. The next layer combines edges into **shapes**: a horizontal bar, a slanted line.
-3. The next layer combines shapes into the **answer**: 7.
+2. The next layer combines edges into **shapes**: a horizontal bar and a slanted line.
+3. The next layer combines the shapes into the answer: 7.
 
-> **Extra:** Layers are not told to look for "edges" or "shapes". When researchers inspected trained networks, they found that early layers tend to respond to edges and later layers to larger parts. The figure is a simplified version of this.
+> **Extra:** Nobody tells the layers to look for "edges" or "shapes". When researchers inspected trained networks, they found that early layers tend to respond to edges and later layers to larger parts. Figure 8 is a simplified version of this.
 
-### 5.4 Data and performance
+### 5.4 More data helps DL more
+
+> **Key point:** ML stops improving after a point. DL keeps improving as data grows.
 
 ![Performance as the amount of data grows](images/data_vs_performance.png)
 
-- **ML** performance improves with more data up to a point, then levels off.
-- **DL** performance keeps improving as data grows.
+Figure 9 shows how performance changes as we add data:
 
-As a result, DL outperforms ML on tasks with very large datasets: **image classification, object detection, and text and speech tasks**.
+- **ML** improves at first, then levels off.
+- **DL** keeps improving as data grows.
+
+This is why DL now outperforms ML on tasks with very large datasets: image classification, object detection, and text and speech tasks.
 
 ## 6. Choosing between ML and DL
 
-DL needs **large amounts of data**. With small datasets it performs worse than ML (shaded region of the chart).
+> **Key point:** Lots of data, especially images, text or speech: use DL. Small or tabular data: use ML.
 
-Many organisations, such as banks and insurance companies, do not have that much data, so ML remains the standard choice there.
+DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 9 shows.
 
-| Data | Use |
+Many organisations, such as banks and insurance companies, do not have that much data. For them, ML remains the standard choice.
+
+| Our data | Use |
 |---|---|
 | Small or medium, especially tables of numbers | ML |
 | Very large, especially images, text or speech | DL |
@@ -143,17 +207,37 @@ Many organisations, such as banks and insurance companies, do not have that much
 
 | | AI | ML | DL |
 |---|---|---|---|
-| Definition | Machines that show intelligence | Machine learns rules from data | ML with many-layered neural networks |
+| What it is | Machines that show intelligence | Machines that learn rules from data | ML with many-layered neural networks |
 | Who writes the rules | Humans (symbolic AI) | The machine | The machine |
-| Who chooses the features | No learning involved | A human | The network |
+| Who chooses the features | No learning involved | We do | The network |
 | Data needed | None | Moderate | Very large |
-| Strong at | Problems with clear rules | Tabular data | Images, text, speech |
+| Strong at | Problems with clear rules | Tables of data | Images, text, speech |
 
 - AI $\supset$ ML $\supset$ DL.
 - Expert systems fail on problems whose rules cannot be written down.
-- ML: data + answers $\rightarrow$ rules, with no explicit programming.
-- DL removes manual feature selection.
-- More data: DL keeps improving, ML levels off.
-- Small data: use ML.
+- ML: data + answers $\rightarrow$ rules. No explicit programming.
+- DL learns its own features.
+- With more data, DL keeps improving while ML levels off.
+- With little data, use ML.
 
-Terms: see the [glossary](../glossary.md).
+## 8. Key terms
+
+| Term | Meaning |
+|---|---|
+| Artificial Intelligence (AI) | The field of building machines that show intelligence |
+| Narrow AI | AI that performs one specific task |
+| Artificial general intelligence (AGI) | A machine with all human abilities; does not exist yet |
+| Symbolic AI | AI built from rules written by humans |
+| Expert system | Symbolic AI system: an expert's rules plus a program that applies them |
+| Knowledge base | The set of rules inside an expert system |
+| Inference engine | The program that applies an expert system's rules |
+| Machine Learning (ML) | Using statistical techniques to let a machine find patterns in data |
+| Explicit programming | Writing every rule a computer follows by hand |
+| Learning | Finding rules (patterns) from examples |
+| Predict | Give an answer for new, unseen data |
+| Deep Learning (DL) | ML using neural networks with many layers |
+| Train | Let a model learn by repeatedly reducing its errors |
+| Neural network | A model of many connected simple units, loosely inspired by the brain |
+| Perceptron | The smallest unit of a neural network; an artificial neuron |
+| Feature | One piece of information about an example that a model uses |
+| Layer | One stage of a neural network, building on the previous stage |

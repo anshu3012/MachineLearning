@@ -3,11 +3,23 @@
 \input{glyphtounicode}\pdfgentounicode=1
 \pdfinterwordspaceon   % real space characters, so copy/paste keeps spaces
 \usepackage{framed}
-\definecolor{boxbar}{HTML}{B279A2}
-% Block quotes (Extra / Python boxes) get a coloured bar.
+\definecolor{keybar}{HTML}{4C78A8}
+\definecolor{keyfill}{HTML}{EDF2F8}
+\definecolor{extrabar}{HTML}{B279A2}
+% Key point: blue bar on a pale blue background. Extra: purple bar.
+\newenvironment{keypoint}
+  {\def\FrameCommand{{\color{keybar}\vrule width 4pt}\colorbox{keyfill}}\MakeFramed{\advance\hsize-\width\FrameRestore}}
+  {\endMakeFramed}
+\newenvironment{extra}
+  {\def\FrameCommand{{\color{extrabar}\vrule width 3pt}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}
+  {\endMakeFramed}
 \renewenvironment{quote}
-  {\def\FrameCommand{{\color{boxbar}\vrule width 3pt}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}
+  {\def\FrameCommand{{\color{gray}\vrule width 2pt}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}
   {\endMakeFramed}
 % Contents on its own page.
 \let\oldtoc\tableofcontents
 \renewcommand{\tableofcontents}{\oldtoc\newpage}
+% Never leave a heading stranded at the bottom of a page.
+\usepackage{needspace}
+\pretocmd{\subsection}{\needspace{8\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\needspace{6\baselineskip}}{}{}
