@@ -1,0 +1,171 @@
+---
+title: "Batch (Offline) Machine Learning"
+---
+
+## 1. Overview
+
+> **Key point:** In batch learning, we train the model on all the data at once, on our own machine, and then deploy it. The deployed model never learns anything new until we retrain it.
+
+**Prerequisites:** *Types of Machine Learning* (Note 3), which grouped ML algorithms by the amount of supervision.
+
+This Note groups ML algorithms in a second way: **by how a model is trained once it is in production**. There are two types:
+
+- **Batch learning**, also called **offline learning** (this Note),
+- **Online learning** (the next Note).
+
+## 2. Development and production
+
+> **Key point:** We build a model on our own machine (development), then put it on a server where users can reach it (production).
+
+A model is only useful once other people can use it. For that, it has to run on a **server**: a computer that is always on and that users can reach over the internet.
+
+![Development vs production](images/dev_vs_prod.png)
+
+Figure 1 shows the two places a model lives:
+
+- **Development environment:** our own machine, where we write code and train the model.
+- **Production environment:** the server, where the model answers users' requests.
+
+Moving a model from development to production is called **deploying** it. How the model keeps learning after deployment is what separates batch learning from online learning.
+
+## 3. Batch learning
+
+> **Key point:** Batch learning trains on the whole dataset in one go, offline, and deploys the finished model.
+
+### 3.1 How batch learning works
+
+> **Key point:** All the data $\rightarrow$ train $\rightarrow$ test $\rightarrow$ deploy. Training happens once, before deployment.
+
+**Batch learning** is the conventional way to train an ML model: we use **the whole dataset at once**. It is not **incremental**: we do not feed the data in small pieces over time.
+
+Training on a large dataset is slow and expensive, so it is rarely done on the production server. Instead, a data scientist or ML engineer trains the model **offline**, on their own machine. That is why batch learning is also called **offline learning**.
+
+![The batch learning pipeline](images/batch_pipeline.png)
+
+Figure 2 shows the steps:
+
+1. Take all the data.
+2. Train the model on it.
+3. Test that the model's predictions are correct.
+4. Deploy the trained model to the server.
+5. The model now makes predictions for every user who sends it data.
+
+### 3.2 Example: a movie recommender
+
+> **Key point:** A recommender trained this way keeps suggesting movies from the data it was trained on.
+
+Suppose we work at Netflix and build a **recommendation engine** that suggests movies to users. With batch learning:
+
+1. We train the recommender on our machine, using all the data we have.
+2. We deploy it to Netflix's servers.
+3. It automatically suggests movies to every user.
+
+## 4. Keeping a batch model up to date
+
+> **Key point:** A batch model is frozen, but the world keeps changing. To stay useful, the model must be retrained regularly.
+
+### 4.1 Models go stale
+
+> **Key point:** Once deployed, a batch model learns nothing new, so it slowly falls out of date.
+
+Once deployed, a batch model is **static**: it keeps using what it learned from the old data. But real-world situations keep changing:
+
+- **Movies:** new movies are added every week. Our recommender was trained before they existed, so it can never suggest them.
+- **Spam:** a spam classifier that is accurate today will be out of date in a year, because spammers keep inventing new tricks.
+
+![A batch model gets stale between retrains](images/staleness.png)
+
+Figure 3 shows the effect. Performance slowly drops after each deployment and jumps back up each time we retrain.
+
+> **Extra:** This slow loss of accuracy is usually called **model drift** or **concept drift**: the patterns in the real world drift away from the patterns the model learned.
+
+### 4.2 Retraining on a schedule
+
+> **Key point:** Combine old and new data, retrain from scratch, test, redeploy, and repeat.
+
+To keep a batch model current, we **retrain** it on a regular schedule. Figure 4 shows the cycle:
+
+![The batch retraining cycle](images/retrain_cycle.png)
+
+1. New data keeps arriving and is added to the old data.
+2. We retrain the model **on all of it, from scratch**.
+3. We test the new model.
+4. We deploy it, replacing the old one.
+5. We wait, and repeat.
+
+How often we repeat depends on how long training takes, which depends on how much data we have. Common schedules are every 24 hours or once a week.
+
+## 5. Problems with batch learning
+
+> **Key point:** Batch learning struggles with very large data, with models we cannot reach, and with situations that change fast.
+
+### 5.1 Too much data
+
+> **Key point:** Batch learning must process all the data at once, and data keeps growing.
+
+Data keeps growing. A social network, for example, adds huge amounts of new data every month.
+
+Because batch learning trains on **all** the data at once, the dataset can eventually become too large for our tools to process in one go. We have no option to train on just part of it.
+
+### 5.2 No connection to the model
+
+> **Key point:** Retraining needs a connection to the deployed model. Some models run where there is none.
+
+Retraining means bringing the model back, training it on new data and uploading it again. That requires a connection to wherever the model is running. Sometimes there is none:
+
+- An app used by the army in a remote area like Ladakh, running on phones with no internet access.
+- Software running on a satellite once it is in orbit.
+- A device installed on a moving train.
+
+In these cases, we cannot update the model frequently, so batch learning is a poor fit.
+
+### 5.3 Slow to react
+
+> **Key point:** A model retrained every 24 hours needs up to 24 hours to respond to anything new.
+
+Suppose a social network ranks each user's feed with a model that is retrained every 24 hours, based on users' interests.
+
+Now a big story breaks, such as the 2016 demonetisation announcement in India. Everyone wants to read about it, including users who usually read only about sport.
+
+![Breaking news reaches the feed a day late](images/news_lag.png)
+
+Figure 5 shows the problem:
+
+- Users want the news **now**, but the model learns about the new interest only at the next retrain, up to 24 hours later.
+- When it does update, the feed fills up with news that is already a day old.
+
+Batch learning cannot handle situations that change this quickly. For these, a different approach is used: **online learning**, the topic of the next Note.
+
+## 6. Summary
+
+| | Batch (offline) learning |
+|---|---|
+| Training data | The whole dataset, at once |
+| Where training happens | On our own machine, before deployment |
+| After deployment | The model is static; it learns nothing new |
+| Staying up to date | Retrain from scratch on old + new data, on a schedule (e.g. daily or weekly) |
+| Weak spots | Very large data, no connection to the model, fast-changing situations |
+| Example | A movie recommender retrained every week |
+
+- **Development** = our machine. **Production** = the server users reach. **Deploying** moves a model from one to the other.
+- Batch models go stale because the world changes; regular retraining fixes this.
+- Retraining is from scratch on all the data, so it gets slower as data grows.
+- For fast-changing situations, use online learning instead.
+
+The Notebook for this Note (`notebook.ipynb`) has a slider for the retraining schedule, showing how stale the model gets between retrains.
+
+## 7. Key terms
+
+| Term | Meaning |
+|---|---|
+| Server | A computer that is always on and that users reach over the internet |
+| Development environment | Our own machine, where we build and train a model |
+| Production environment | The server where a model serves real users |
+| Deploy | Move a model from development to production |
+| Batch learning | Training on the whole dataset at once, offline, then deploying |
+| Offline learning | Another name for batch learning |
+| Incremental learning | Training on small pieces of data over time (the opposite of batch) |
+| Recommendation engine | A model that suggests items, such as movies, to users |
+| Static model | A model that learns nothing new after deployment |
+| Retrain | Train a model again, here from scratch on old + new data |
+| Model drift / concept drift | A model's accuracy dropping as the real world changes |

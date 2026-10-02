@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=1.0cm]
+  \node[box=cblue, minimum width=2.6cm, minimum height=1.5cm] (data) {\textbf{All the data}\\{\small at once}};
+  \node[box=cgrey, right=of data, minimum width=2.4cm, minimum height=1.5cm] (train) {\textbf{Train}\\{\small on our machine}};
+  \node[box=cgrey, right=of train, minimum width=2.0cm, minimum height=1.5cm] (test) {\textbf{Test}};
+  \node[box=cgreen, right=of test, minimum width=2.6cm, minimum height=1.5cm] (server) {\textbf{Deploy}\\{\small to the server}};
+  \node[box=corange, right=of server, minimum width=2.6cm, minimum height=1.5cm] (pred) {\textbf{Predictions}\\{\small for users}};
+  \draw[arrow] (data) -- (train); \draw[arrow] (train) -- (test); \draw[arrow] (test) -- (server); \draw[arrow] (server) -- (pred);
+  \draw[decorate, decoration={brace, amplitude=6pt, mirror}, cgrey] (data.south west) ++(0,-0.3) -- ($(test.south east)+(0,-0.3)$)
+    node[midway, below=8pt, note] {offline: done once, before deployment};
+\end{tikzpicture}
+\end{document}
