@@ -9,7 +9,7 @@ Written for a visual learner with no prior ML or Python knowledge. Terms used he
 - **One Note per Video**, in plain English. Complete enough to learn from without watching the Video.
 - Follows the **Teacher's flow** (his order, examples, analogies), taken from the Video's subtitles in `transcripts/`, without ever narrating it.
 - **Extra boxes** add what he skips (formulas, common mistakes). Clearly marked as not his.
-- **Python boxes** teach just the Python needed at that point.
+- **Python boxes** teach just the Python needed at that point. Written as a block quote starting `**Python:**` (green bar in the PDF), like `**Key point:**` (blue) and `**Extra:**` (purple).
 - Every formula in 3 steps: plain words → formula → worked with small real numbers.
 - No practice questions.
 - New terms go in [glossary.md](glossary.md), linked to the Note that first explains them.

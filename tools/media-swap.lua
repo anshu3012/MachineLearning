@@ -1,6 +1,6 @@
 -- PDF build only.
 -- Images: GIF -> its key-frames PNG; PNG -> a vector PDF of the same name if one exists.
--- Block quotes starting with **Key point:** or **Extra:** become coloured boxes.
+-- Block quotes starting with **Key point:**, **Extra:** or **Python:** become coloured boxes.
 local function exists(p) local f = io.open(p, "r"); if f then f:close() return true end return false end
 
 function Image(img)
@@ -17,7 +17,7 @@ function Image(img)
     "\\includegraphics[width=\\linewidth,height=0.35\\textheight,keepaspectratio]{" .. img.src .. "}")
 end
 
-local boxes = { ["Key point:"] = "keypoint", ["Extra:"] = "extra" }
+local boxes = { ["Key point:"] = "keypoint", ["Extra:"] = "extra", ["Python:"] = "pythonbox" }
 
 function BlockQuote(bq)
   local first = bq.content[1]

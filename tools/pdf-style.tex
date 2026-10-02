@@ -12,11 +12,13 @@
 \definecolor{keybar}{HTML}{4C78A8}
 \definecolor{keyfill}{HTML}{EDF2F8}
 \definecolor{extrabar}{HTML}{B279A2}
+\definecolor{pybar}{HTML}{54A24B}
 \tcbset{notebox/.style={breakable, enhanced, sharp corners, boxrule=0pt, top=3pt, bottom=3pt, left=8pt, right=4pt,
   before skip=6pt, after skip=8pt}}
-% Key point: blue bar on a pale blue background. Extra: purple bar. Plain quote: grey bar.
+% Key point: blue bar on a pale blue background. Extra: purple bar. Python: green bar. Plain quote: grey bar.
 \newtcolorbox{keypoint}{notebox, colback=keyfill, colframe=keybar, leftrule=4pt}
 \newtcolorbox{extra}{notebox, colback=white, colframe=extrabar, leftrule=3pt}
+\newtcolorbox{pythonbox}{notebox, colback=white, colframe=pybar, leftrule=3pt}
 \renewenvironment{quote}{\begin{tcolorbox}[notebox, colback=white, colframe=gray, leftrule=2pt]}{\end{tcolorbox}}
 % Figures sit exactly where they are written. Floating figures + page-splitting tables
 % pushed text off the page, where it vanished from the PDF.
