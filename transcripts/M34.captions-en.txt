@@ -1,0 +1,57 @@
+In essence, Binomial events are a sequence of identical Bernoulli events. Before we get into the 
+difference and similarities between these two distributions, let us examine the proper notation for 
+a Binomial Distribution. We use the letter “B” to express a Binomial distribution, followed by 
+the number of trials and the probability of success in each one. Therefore, we read the following 
+statement as “Variable “X” follows a Binomial distribution with 10 trials and a likelihood of 
+success of 0.6 on each individual trial”. Additionally, we can express a Bernoulli distribution 
+as a Binomial distribution with a single trial. Alright! To better understand the differences 
+between the two types of events, suppose the following scenario. You go to class and your professor 
+gives the class a surprise pop-quiz, which you have not prepared for. Luckily for you, the quiz 
+consists of 10 true or false problems. In this case, guessing a single true or false question is a 
+Bernoulli event, but guessing the entire quiz is a Binomial Event. Alright! Let’s go back to the 
+quiz example we just mentioned. In it, the expected value of the Bernoulli distribution suggests 
+which outcome we expect for a single trial. Now, the expected value of the Binomial distribution 
+would suggest the number of times we expect to get a specific outcome. Great! Now, the graph of the 
+binomial distribution represents the likelihood of attaining our desired outcome a specific number 
+of times. If we run n trials, our graph would consist “n + 1”-many bars - one for each unique 
+value from 0 to n. For instance, we could be flipping the same unfair coin we had from last 
+lecture. If we toss it twice, we need bars for the three different outcomes - zero, one or two 
+tails. Fantastic! If we wish to find the associated likelihood of getting a given outcome a precise 
+number of times over the course of n trials, we need to introduce the probability function of the 
+Binomial distribution. For starters, each individual trial is a Bernoulli trial, so we express the 
+probability of getting our desired outcome as “p” and the likelihood of the other one as “1 
+minus p”. In order to get our favoured outcome exactly y-many times over the n trials, we also 
+need to get the alternative outcome “n minus y”-many times. If we don’t account for this, we 
+would be estimating the likelihood of getting our desired outcome at least y-many times. 
+Additionally, more than one way to reach our desired outcome could exist. To account for this, we 
+need to find the number of scenarios in which “y” out of the “n”-many outcomes would be 
+favourable. But these are actually the “combinations” we already know! For instance, If we wish 
+to find out the number of ways in which 4 out of the 6 trials can be successful, it is the same as 
+picking 4 elements out of a sample space of 6. Now you see why combinatorics are a fundamental part 
+of probability! Thus, we need to find the number of combinations in which “y” out of the 
+“n” outcomes would be favourable. For instance, there are 3 different ways to get tails exactly 
+twice in 3 coin flips. Therefore, the probability function for a Binomial Distribution is the 
+product of the number of combinations of picking y-many elements out of n, times “p” to the 
+power of y, times “1 - p” to the power of “n minus y”. Great! To see this in action, let us 
+look at an example. Imagine you bought a single stock of General Motors. Historically, you know 
+there is a 60% chance the price of your stock will go up on any given day, and a 40% chance it will 
+drop. By the price going up, we mean that the closing price is higher than the opening price. With 
+the probability distribution function, you can calculate the likelihood of the stock price 
+increasing 3 times during the 5-work-day week. If we wish to use the probability distribution 
+formula, we need to plug in 3 for “y”, 5 for “n” and 0.6 for “p”. After plugging in we 
+get: “number of different possible combinations of picking 3 elements out of 5, times 0.6 to the 
+power of 3, times 0.4 to the power of 2”. This is equivalent to 10, times 0.216, times 0.16, or 
+0.3456. Thus, we have a 34.56% of getting exactly 3 increases over the course of a work week. The 
+big advantage of recognizing the distribution is that you can simply use these formulas and plug-in 
+the information you already have! Alright! Now that we know the probability function, we can move 
+on to the expected value. By definition, the expected value equals the sum of all values in the 
+sample space, multiplied by their respective probabilities. The expected value formula for a 
+Binomial event equals the probability of success for a given value, multiplied by the number of 
+trials we carry out. After computing the expected value, we can finally calculate the variables. 
+After computing the expected value, we can finally calculate the variance. We do so by applying the 
+short formula we learned earlier: “Variance of Y equals the expected value of Y squared, minus 
+the expected value of Y, squared.” After some simplifications, this results in “n, times p, 
+times 1 minus p”. If we plug in the values from our stock market example, that gives us a 
+variance of 5, times 0.6, times 0.4, or 1.2. This would give us a standard deviation of 
+approximately 1.1. Knowing the expected value and the standard deviation allows us to make more 
+accurate future forecasts. 

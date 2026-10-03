@@ -24,3 +24,15 @@ link and teaches only what is new: more depth, proofs, new concepts.
 
 M11, M12, M17–M23 are CampusX channel-member videos and cannot be downloaded without the user's login. Until then, their
 topics are covered from free videos in the other maths playlists where possible.
+
+## Supplementary videos (M26–M37)
+
+Chosen to cover concepts the free CampusX sessions lack (see `transcripts/maths_playlist.txt`). English videos are read from their YouTube captions (`transcripts/Mnn.captions-en.txt`); Hindi ones go through Whisper.
+
+| Session | Source | Note IDs | Fills |
+|---|---|---|---|
+| M26 | CampusX free linear algebra session | 460+ | linear algebra basics |
+| M27 | Equation of a hyperplane | 470 (if new) | compare with 363 |
+| M28–M33 | 3Blue1Brown, Essence of Linear Algebra ch. 1, 2, 3, 4, 9, 14 | 480–530 | span and basis, matrices as transformations, composition, duality, eigenvectors |
+| M34–M36 | 365 Data Science: binomial, Bernoulli, Poisson | 540–560 | Poisson (binomial and Bernoulli only if new) |
+| M37 | p-value, t-test, chi-square, ANOVA tutorial | 570+ | chi-square tests, ANOVA |

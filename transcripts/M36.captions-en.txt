@@ -1,0 +1,42 @@
+Hello again! In this lecture we are going to discuss the Poisson Distribution and its main 
+characteristics. For starters, we denote a Poisson distribution with the letters “Po” and a 
+single value parameter - lambda. We read the statement below as “Variable “Y” follows a 
+Poisson distribution with lambda equal to 4”. Okay! The Poisson Distribution deals with the 
+frequency with which an event occurs in a specific interval. Instead of the probability of an 
+event, the Poisson Distribution requires knowing how often it occurs for a specific period of time 
+or distance. For example, a firefly might light up 3 times in 10 seconds on average. We should use 
+a Poisson Distribution if we want to determine the likelihood of it lighting up 8 times in 20 
+seconds. The graph of the Poisson distribution plots the number of instances the event occurs in a 
+standard interval of time and the probability for each one. Thus, our graph would always start from 
+0, since no event can happen a negative amount of times. However, there is no cap to the amount of 
+times it could occur over the time interval. Okay, let us explore an example. Imagine you created 
+an online course on probability. Usually, your students ask you around 4 questions per day, but 
+yesterday they asked 7. Surprised by this sudden spike in interest from your students, you wonder 
+how likely it was that they asked exactly 7 questions. In this example, the average questions you 
+anticipate is 4, so lambda equals 4. The time interval is one entire work day and the singular 
+instance you are interested in is 7. Therefore, “y” is 7. To answer this question, we need to 
+explore the probability function for this type of distribution. Alright! As you already saw, the 
+Poisson Distribution is wildly different from any other we have gone over so far. It comes without 
+much surprise that its probability function is much different from anything we have examined so 
+far. The formula looks as follows: “p of y, equals, lambda to the power of y, times the Euler’s 
+number to the power of negative lambda, over y factorial. Before we plug in the values from our 
+course-creation example, we need to make sure you understand the entire formula. Let’s refresh 
+your knowledge of the various parts of this formula. First, the “e” you see on your screens is 
+known as Euler’s number or Napier’s constant. As the second name suggests, it is a fixed value 
+approximately equal to 2.72. We commonly observe it in physics, mathematics and nature, but for the 
+purposes of this example you only need to know its value. Secondly, a number to the power of 
+“negative n”, is the same as dividing 1 by that number to the power of n. In this case, “e to 
+the power or negative lambda” is just “1 over, e to the power of lambda”. Right! Going back 
+to our example, the probability of receiving 7 questions is equal to “4, raised to the 7th 
+degree, multiplied by “E” raised to the negative 4, over 7 factorial,”. That approximately 
+equals 16384, times 0.183, over 5040, or 0.06. Therefore, there was only a 6% chance of receiving 
+exactly 7 questions. So far so good! Knowing the probability function, we can calculate the 
+expected value. By definition, the expected value of Y, equals the sum of all the products of a 
+distinct value in the sample space and its probability. By plugging in, we get this complicated 
+expression. Eventually, we get that the expected value is simply lambda. Similarly, by applying the 
+formulas we already know, the variance also ends up being equal to lambda. Both the mean and 
+variance being equal to lambda serves as yet another example of the elegant statistics these 
+distributions possess and why we can take advantage of them. Great job, everyone! Now, if we wish 
+to compute the probability of an interval of a Poisson distribution, we take the same steps we 
+usually do for discrete distributions. We find the joint probability of all individual elements 
+within it. 

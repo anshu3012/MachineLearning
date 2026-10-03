@@ -1,0 +1,27 @@
+Hello again! In this lecture we are going to discuss the Bernoulli distribution. Before we begin, 
+we use “Bern” to define a Bernoulli distribution, followed by the probability of our preferred 
+outcome in parenthesis. Therefore, we read the following statement as “Variable “X” follows a 
+Bernoulli distribution with a probability of success equal to “p””. Okay! We need to describe 
+what types of events follow a Bernoulli distribution. Any event where we have only 1 trial and two 
+possible outcomes follows such a distribution. These may include a coin flip, a single True or 
+False quiz question, or deciding whether to vote for the Democratic or Republican parties in the US 
+elections. Usually, when dealing with a Bernoulli Distribution, we either have the probabilities of 
+either event occurring, or have past data indicating some experimental probability. In either case, 
+the graph of a Bernoulli distribution is simple. It consists of 2 bars, one for each of the 
+possible outcomes. One bar would rise up to its associated probability of “p”, and the other 
+one would only reach “1 minus p”. For Bernoulli Distributions we often have to assign which 
+outcome is 0, and which outcome is 1. After doing so, we can calculate the expected value. Have in 
+mind that depending on how we assign the 0 and the 1, our expected value will be equal to either 
+“p” or “1 minus p”. We usually denote the higher probability with “p”, and the lower 
+one with “1 minus p”. Furthermore, conventionally we also assign a value of 1 to the event with 
+probability equal to “p”. That way, the expected value expresses the likelihood of the favoured 
+event. Since we only have 1 trial and a favoured event, we expect that outcome to occur. By 
+plugging in “p” and “1 minus p” into the variance formula, we get that the variance of 
+Bernoulli events would always equal “p, times 1 minus p”. That is true, regardless of what the 
+expected value is. Here’s the first instance where we observe how elegant the characteristics of 
+some distributions are. Once again, we can calculate the variance and standard deviation using the 
+formulas we defined earlier, but they bring us little value. For example, consider flipping an 
+unfair coin. This coin is called “unfair” because its weight is spread disproportionately, and 
+it gets tails 60% of the time. We assign the outcome of tails to be 1, and p to equal 0.6. 
+Therefore, the expected value would be “p”, or 0.6. If we plug in this result into the variance 
+formula, we would get a variance of 0.6, times 0.4, or 0.24. Great job, everybody! 
