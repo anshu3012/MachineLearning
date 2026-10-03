@@ -7,7 +7,7 @@ title: "What are Outliers"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)).
+> - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)).
 > - **Compare with:** Missing values ([Note 38](../38-missing-indicator-random-sample/note.md)).
 <!-- /where-this-fits -->
 

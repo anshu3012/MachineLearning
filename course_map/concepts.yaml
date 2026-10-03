@@ -58,6 +58,8 @@ notes:
   39: 39-knn-imputer
   40: 40-iterative-imputer-mice
   41: 41-what-are-outliers
+  42: 42-outliers-zscore
+  43: 43-outliers-iqr
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
@@ -127,8 +129,8 @@ concepts:
   - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 23, 41], status: confirmed}
   - {id: trimming, name: Trimming outliers, step: 4, videos: [41, 42, 43], status: confirmed}
   - {id: capping, name: Capping (winsorization), step: 4, videos: [41, 42, 43, 44], status: confirmed}
-  - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42], status: draft}
-  - {id: iqr, name: IQR outlier method, step: 4, videos: [41, 43], status: draft}
+  - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42], status: confirmed}
+  - {id: iqr, name: IQR outlier method, step: 4, videos: [41, 43], status: confirmed}
   - {id: percentile, name: Percentile outlier method, step: 4, videos: [41, 44], status: draft}
 
   # 5 Engineer features
@@ -297,16 +299,20 @@ links:
   - [mice, compared with, knn_imputer, confirmed]
   - [mice, needs, simple_imputation, confirmed]
   - [mice, needs, linear_regression, confirmed]
-  - [zscore, used in, outliers, draft]
+  - [zscore, used in, outliers, confirmed]
   - [trimming, fixes, outliers, confirmed]
+  - [zscore, compared with, iqr, confirmed]
+  - [zscore, needs, standardization, confirmed]
+  - [zscore, needs, skewness, confirmed]
+  - [iqr, needs, univariate, confirmed]
   - [capping, fixes, outliers, confirmed]
   - [trimming, compared with, capping, confirmed]
   - [binning, fixes, outliers, confirmed]
   - [outliers, compared with, missing_values, confirmed]
-  - [iqr, used in, outliers, draft]
+  - [iqr, used in, outliers, confirmed]
   - [percentile, used in, outliers, draft]
   - [zscore, needs, descriptive_stats, draft]
-  - [iqr, needs, descriptive_stats, draft]
+  - [iqr, needs, descriptive_stats, confirmed]
   # Features
   - [feature_engineering, needs, feature, confirmed]
   - [feature_scaling, is a kind of, feature_engineering, confirmed]

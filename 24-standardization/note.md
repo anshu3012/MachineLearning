@@ -8,7 +8,7 @@ title: "Feature Scaling: Standardization"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Leads to:** Normalization ([Note 25](../25-normalization/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours (Video 91, coming); Gradient descent (Video 57, coming); K-means (Video 128, coming).
+> - **Leads to:** Normalization ([Note 25](../25-normalization/note.md)); Z-score outlier method ([Note 41](../41-what-are-outliers/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours (Video 91, coming); Gradient descent (Video 57, coming); K-means (Video 128, coming).
 > - **Compare with:** Normalization ([Note 25](../25-normalization/note.md)).
 <!-- /where-this-fits -->
 

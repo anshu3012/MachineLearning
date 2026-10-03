@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 85 of 139 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 87 of 139 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -106,10 +106,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Random sample imputation | [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
 | KNN imputer | [Note 39](../39-knn-imputer/note.md) | confirmed |
 | Iterative imputation (MICE) | [Note 40](../40-iterative-imputer-mice/note.md) | confirmed |
-| Trimming outliers | [Note 41](../41-what-are-outliers/note.md), Video 42, coming, Video 43, coming | confirmed |
-| Capping (winsorization) | [Note 41](../41-what-are-outliers/note.md), Video 42, coming, Video 43, coming, Video 44, coming | confirmed |
-| Z-score outlier method | [Note 41](../41-what-are-outliers/note.md), Video 42, coming | draft |
-| IQR outlier method | [Note 41](../41-what-are-outliers/note.md), Video 43, coming | draft |
+| Trimming outliers | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 43](../43-outliers-iqr/note.md) | confirmed |
+| Capping (winsorization) | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 43](../43-outliers-iqr/note.md), Video 44, coming | confirmed |
+| Z-score outlier method | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md) | confirmed |
+| IQR outlier method | [Note 41](../41-what-are-outliers/note.md), [Note 43](../43-outliers-iqr/note.md) | confirmed |
 | Percentile outlier method | [Note 41](../41-what-are-outliers/note.md), Video 44, coming | draft |
 
 ### 2.6 Step 5: Engineer features
@@ -315,9 +315,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 38 | Grid and random search, ML pipelines, Missing indicator, Missing values, Random sample imputation | [Note 28](../28-column-transformer/note.md), [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 37](../37-missing-categorical-data/note.md) | written |
 | 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
 | 40 | Iterative imputation (MICE) | [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
-| 41 | Capping (winsorization), IQR outlier method, Outliers, Percentile outlier method, Trimming outliers, Z-score outlier method | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
-| 42 | Capping (winsorization), Trimming outliers, Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), [Note 41](../41-what-are-outliers/note.md) | coming |
-| 43 | Capping (winsorization), IQR outlier method, Trimming outliers | [Note 19](../19-understanding-your-data/note.md), [Note 41](../41-what-are-outliers/note.md) | coming |
+| 41 | Capping (winsorization), IQR outlier method, Outliers, Percentile outlier method, Trimming outliers, Z-score outlier method | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md) | written |
+| 42 | Capping (winsorization), Trimming outliers, Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
+| 43 | Capping (winsorization), IQR outlier method, Trimming outliers | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
 | 44 | Capping (winsorization), Percentile outlier method | [Note 41](../41-what-are-outliers/note.md) | coming |
 | 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |

@@ -7,6 +7,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | .dt accessor | The pandas tool that applies date and time methods to every value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | .str accessor | The pandas tool that applies a text method to every value of a column. | [Video 33](33-mixed-variables/note.md) |
 | 5% rule of thumb | Apply CCA only to columns missing less than about 5% of their values. | [Video 35](35-complete-case-analysis/note.md) |
+| 68-95-99.7 rule (empirical rule) | In a normal column, about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. | [Video 42](42-outliers-zscore/note.md) |
 | `add_indicator=True` | The `SimpleImputer` setting that imputes and appends missing indicators in one step. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | `BayesianRidge` | A linear regression with built-in shrinkage of the weights; the default model of `IterativeImputer`. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `best_params_` | The best combination of settings found by `GridSearchCV`. | [Video 38](38-missing-indicator-random-sample/note.md) |
@@ -23,7 +24,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `max_iter` | The largest number of iterations `IterativeImputer` runs; default 10. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `MissingIndicator` | The scikit-learn class that builds missing indicator columns; `features_` lists the columns with gaps. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | `n_neighbors` (k) | The number of nearest rows the KNN imputer averages; default 5. | [Video 39](39-knn-imputer/note.md) |
+| `np.where` | NumPy function that picks one value where a condition is true and another where it is false. | [Video 42](42-outliers-zscore/note.md) |
 | `pd.concat` | pandas function that joins several DataFrames into one. | [Video 17](17-fetching-data-from-api/note.md) |
+| `quantile` | pandas method that returns a percentile, given as a fraction (0.25 for the 25th). | [Video 43](43-outliers-iqr/note.md) |
 | `random_state` | A seed that fixes a random draw, so the same code gives the same result. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | `read_json` | pandas function that reads JSON from a file or a URL into a DataFrame. | [Video 16](16-working-with-json-and-sql/note.md) |
 | `read_sql_query` | pandas function that runs an SQL query and returns a DataFrame. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -55,6 +58,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
+| Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
 | Best-fit line | The line with the smallest total error over all the training points. | [Video 50](50-simple-linear-regression/note.md) |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data. | [Video 5](05-online-learning/note.md) |
 | Bimodal | A distribution with two peaks. | [Video 31](31-power-transformer/note.md) |
@@ -221,6 +225,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | intercept_ | The fitted intercept in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data. | [Video 20](20-univariate-analysis/note.md) |
+| IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. | [Video 43](43-outliers-iqr/note.md) |
 | IQR rule | Values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$) are outliers; used for skewed columns. | [Video 41](41-what-are-outliers/note.md) |
 | isnull | The pandas method that marks each missing cell `True`. | [Video 35](35-complete-case-analysis/note.md) |
 | ISO week | The week number of the ISO calendar, from `.dt.isocalendar().week`; week 1 holds the year's first Thursday. | [Video 34](34-date-and-time/note.md) |
@@ -377,6 +382,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Q-Q plot | A plot of a column's sorted values against the values a normal distribution would have; points on the line mean normal. | [Video 30](30-function-transformer/note.md) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Video 30](30-function-transformer/note.md) |
 | Quarter | One of four three-month parts of a year. | [Video 34](34-date-and-time/note.md) |
+| Quartile | $Q_1$ (25th percentile) and $Q_3$ (75th percentile): they cut the sorted column into quarters. | [Video 43](43-outliers-iqr/note.md) |
 | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. | [Video 19](19-understanding-your-data/note.md) |
 | Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Query | A request for data, written in SQL. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -490,6 +496,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same. | [Video 7](07-challenges-in-ml/note.md) |
 | Unsupervised binning | Binning that uses only the column's own values. | [Video 32](32-binning-binarization/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |
+| Upper / lower limit | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers. | [Video 42](42-outliers-zscore/note.md) |
 | User-Agent | A short text a browser sends to say what it is. | [Video 15](15-working-with-csv/note.md) |
 | UTF-8 | The most common encoding, and `read_csv`'s default. | [Video 15](15-working-with-csv/note.md) |
 | Variable | One column of a dataset. | [Video 20](20-univariate-analysis/note.md) |
@@ -506,5 +513,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | X, y | Usual names for the input table and the output column. | [Video 11](11-tensors/note.md) |
 | XAMPP | A free package that runs a web server and a MySQL server on one computer. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default. | [Video 31](31-power-transformer/note.md) |
+| Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. | [Video 42](42-outliers-zscore/note.md) |
 | Z-score normalization | Another name for standardization. | [Video 24](24-standardization/note.md) |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean. | [Video 24](24-standardization/note.md) |
