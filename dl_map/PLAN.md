@@ -86,3 +86,10 @@ From Video 1: Python basics, how to train a model and prepare data (the ML cours
 - **No live sessions** in titles. Upload order not checked: it would need 84 extra YouTube requests while transcripts download.
 - **Transcripts:** auto-Hindi (`hi-orig`) so far, same messy quality as the ML ones. About 90 s per Video, so the full set takes about 2 hours. Videos with no subtitles are listed in `transcripts/fetch.err` as `NNN NO SUBS`.
 - yt-dlp warns "No supported JavaScript runtime". Captions still download; if many come back NO SUBS, install `deno` and rerun `transcripts/fetch.sh` (it skips finished Videos).
+
+## 6. Numbering and map (decided 2026-10-03)
+
+- **DL Note ID = 1000 + Video number** (Video 5 → Note 1005, folder `1005-perceptron-trick/`). No clash with ML Notes (1–134) or maths Notes (210–629).
+- **One course map:** DL Concepts go into `course_map/concepts.yaml` (same 14 steps), with DL Note IDs in their `videos:` lists; `dl_map/concepts.yaml` is the draft to merge from, Video by Video.
+- **Transcripts:** Whisper English translation (`transcripts/DNNN.whisper-en.txt`), not the messy auto-Hindi captions in `dl_map/transcripts/`.
+- **Scope:** the DL optimizer Notes (EWMA to Adam) and backpropagation Notes also serve as the maths material on optimisation and calculus in practice; maths Notes 600+ link to them.
