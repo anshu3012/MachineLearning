@@ -1,0 +1,1078 @@
+[00:00] Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+[00:04] So, this is going to be a very important video because in this video we are going to cover a very important topic
+[00:10] and that is Linear Algebra.
+[00:12] Precisely, in today's topic, we will study vectors which is a very important part of Linear Algebra.
+[00:18] Before starting, I would like to tell you one thing that
+[00:21] whenever you will go and search this in Machine Learning
+[00:24] that what all we should know well before learning machine learning
+[00:28] then you will always be told about linear algebra
+[00:31] it is so important, so foundational
+[00:34] so please it's a request you watch this video till end to end
+[00:37] because if you watch then whatever vector related concepts you will require in machine learning
+[00:43] you will learn all of them in this video
+[00:46] before starting one more thing
+[00:48] I didn't want the whole video to be dry, as in I'm just teaching theory and you're getting bored
+[00:54] I didn't want it to be like that, that's why I tried to tell you with every topic
+[00:58] that where that particular topic will be used in machine learning
+[01:02] along with that I tried to give you examples through codes
+[01:06] so the whole idea is that you not only learn vectors
+[01:10] you can see vectors in machine learning while using them
+[01:14] So, I guess you have understood the whole setup of this video. Now, let's start the video.
+[01:20] So guys, let's start the video. First of all, let's discuss what is linear algebra and then we will discuss the importance of linear algebra in machine learning.
+[01:30] So, if you go to a very simple definition, then linear algebra is a branch of mathematics that deals with the study of linear systems.
+[01:40] Which are set of equations involving linear functions of variables.
+[01:45] If you have linear equations, then the branch of mathematics to deal with them is called linear algebra.
+[01:54] Honestly, you might have already taken the flavour of linear algebra in high school mathematics.
+[02:00] It is written here. It is a foundational subject in mathematics and has applications in many areas including computer science, engineering, physics, economics and more.
+[02:11] So you can say that it is a very foundational branch of mathematics because in almost every area where mathematics is used, you will see that linear algebra is used.
+[02:23] What do you study here?
+[02:25] You study different objects here.
+[02:28] Like you study about scalars.
+[02:31] What are scalars?
+[02:33] Scalars are nothing but numbers.
+[02:35] Like 2, 5, minus 6.
+[02:37] You can call them scalars.
+[02:39] Here you study about vectors.
+[02:43] Vectors are basically collection of numbers.
+[02:46] 1D.
+[02:49] Then you study matrices.
+[02:51] This is also collection of 2D numbers.
+[02:59] And you read about tensors here.
+[03:03] Like the objects in higher dimension.
+[03:07] So the study of all these things and the linear equations that you solve by using them.
+[03:13] You call it as linear algebra.
+[03:15] So there is a very big branch of mathematics in itself.
+[03:19] A lot of work has been done in this particular branch of mathematics.
+[03:24] So, our question is that why to use it in machine learning, what is the use in machine learning, why should I know linear algebra.
+[03:35] So, I will give you two reasons why we should study linear algebra for machine learning.
+[03:42] So the first reason is that linear algebra is very good in generalizing concepts in higher dimension.
+[03:58] You will notice this all the time that whatever you are discussing or using in one dimension or two dimensions, you can use it very easily in the end dimension.
+[04:14] We humans are not very good with higher dimension data.
+[04:17] The max that we can visualize is 3D, right?
+[04:19] So, let's take an example.
+[04:21] Let's say you are given a problem in machine learning to work.
+[04:27] That given, let's say, salary data, given experience and salary data,
+[04:34] you have to create a predictor that how much salary you should get on experience.
+[04:41] so this data is still 2d and let's say you put linear regression so you can draw this line
+[04:50] right now tomorrow one more column comes here let's say you said that what is education or
+[04:57] what are the marks of education so now this data will become 3d and still you will be able to draw
+[05:03] a plane you will be able to draw a plane and you will you will be able to solve this problem but
+[05:10] what if one more column comes here or 10 more columns come, then you will have a problem because you cannot visualize what is happening.
+[05:20] So by using linear algebra, what you can do is you can solve these higher dimension problems and in machine learning,
+[05:29] most of the time the data you will get is of very high dimension. Sometimes I have seen like 5000 dimension data.
+[05:39] But there is no problem, you can still solve it, you can work with it. Why?
+[05:44] Because linear algebra helps you with the high dimensionality.
+[05:50] What is true in 2D, what is true in 3D, that thing is also true in higher dimension.
+[05:55] Here you made it plain, in higher dimension it will become hyper plain.
+[06:00] And the concepts will be exactly the same.
+[06:03] you can use the generalization of the equation that you have derived here
+[06:08] you can draw hyper plane
+[06:10] so this helps you throughout machine learning
+[06:14] whenever you work with high dimensionality data
+[06:17] second reason
+[06:19] second reason is
+[06:21] data representation
+[06:23] so in machine learning and deep learning
+[06:28] you get a wide variety of data
+[06:31] so you get tabular data
+[06:34] you get textual data, you get image data, you get even video data
+[06:41] so you can easily represent such wide variety formats using linear algebra
+[06:50] and once you are able to represent how that data looks
+[06:56] then you can easily feed it in a machine learning algorithm
+[07:03] Right, and after that machine learning algorithm will do its work and will give you predictions.
+[07:08] But the main problem is that how to represent the data in one of these objects.
+[07:14] Who is solving this problem and giving it to you?
+[07:18] Linear algebra.
+[07:20] Not only that, linear algebra is so beautifully designed that it kind of works well with our CPUs and GPUs.
+[07:30] The way the mathematics has been created, it really supports the way CPUs and GPUs work.
+[07:38] In fact, you might have heard in deep learning that a lot of GPUs are used.
+[07:44] And behind the scenes, you can utilize the GPU by using linear algebra.
+[07:50] So, these are the two biggest reasons.
+[07:52] First, it is giving you eyes in higher dimension which you don't have.
+[07:56] And second, it gives you the power to represent complex data in the right way
+[08:04] so that you can feed it in any machine learning algorithm.
+[08:07] And that is why you should learn linear algebra, okay?
+[08:11] So, we will not go too deep in this course.
+[08:15] So, we will cover the basics and the advanced topics.
+[08:19] My plan is that whenever those topics occur,
+[08:23] In future, when we will study machine learning algorithms, we will cover those topics.
+[08:27] But these lectures which I am teaching you on linear algebra,
+[08:32] you should understand that it will help you a lot in understanding all of machine learning.
+[08:39] It's like the ABCD of linear algebra which you are going to study in this video.
+[08:43] So this video will be all about vectors.
+[08:47] And then we will have one more video on matrices.
+[08:51] and I'll share one more video with about tensors, scalars are like pretty simple, they are normal numbers
+[08:58] so there is no need to make a separate video around it, but yeah, on vectors, matrices and tensors
+[09:05] we will do detailed discussions, so I hope you are excited, this is like a very very interesting and very very important subject
+[09:14] which you should know very well, if you are going to pursue machine learning then let's get started
+[09:20] so guys let's start with the first topic of linear algebra and generally the first topic
+[09:26] that you are taught in linear algebra is vectors okay now vectors is such a topic which is
+[09:34] very useful in different types of areas like you will study the concept of vectors in maths
+[09:41] you will also study in physics and you will also study in computer science and that is why you will also study in machine learning
+[09:52] so it is a very general sort of concept I will give you a small intuition that what are vectors
+[09:58] the easiest way to understand vectors is that you go to basic 2D coordinate geometry
+[10:05] which you might have read in 10th class
+[10:08] so there is a concept of point
+[10:11] so if you have a 2D coordinate system
+[10:15] you have points in 2D coordinate system
+[10:19] like this is a point
+[10:21] let's say the coordinates of this point is 3,4
+[10:24] what does it mean
+[10:26] if this is your X axis
+[10:28] and this is your Y axis
+[10:30] so it means to reach this point
+[10:33] first move 3 units in x direction and then move 4 units in y direction
+[10:42] then you will reach this point
+[10:44] so for all practical purposes you can treat this point as a vector in this 2D coordinate space
+[10:53] and you can write like let's say this vector A is 3,4
+[11:00] Now, these 3 and 4 are called components of the vector.
+[11:05] Basically, the individual units that form the vector are called components.
+[11:13] So, this 3 is the y component and this 4 is...
+[11:18] I am sorry, this 3 is x component and this 4 is the y component.
+[11:23] Now, this is about 2D.
+[11:27] The good part about linear algebra is that you can always start from a small dimension and go to a big dimension.
+[11:34] So imagine you have a 3D coordinate system.
+[11:37] Let's say there is a point there and you can treat it as a vector.
+[11:44] In this obviously there will be three components.
+[11:48] So, here you can say that A is a set of three numbers which represents a vector in 3D space or 3D coordinate system.
+[12:00] Similarly, on this line, you can imagine an n-dimensional coordinate system.
+[12:07] Obviously, I can't show you.
+[12:09] So, in the same way, you can imagine a vector in n-dimensional hyperspace which has got, let's say, n components.
+[12:21] So, x1, x2, x3, xn.
+[12:27] So, in simple words, you can easily say that it is a point in a particular coordinate system.
+[12:38] One more concept that you should know is about dimension.
+[12:43] Dimension simply means the coordinate system or the vector of the coordinate system of any dimension.
+[12:52] Let's say if you are a vector in 2D coordinate space, then the dimension of this particular vector would be 2.
+[13:00] If you are a vector in 3D coordinate system, you are a vector of dimension 3.
+[13:06] If you are a vector in n-dimensional coordinate system, then you are a vector of dimension n.
+[13:14] So, this is the basic funda of vectors.
+[13:18] How to represent?
+[13:19] In machine learning, generally, you represent vectors using a square bracket notation.
+[13:26] Where you write like this.
+[13:27] And then you represent all the components in this manner.
+[13:33] Comma separated numbers.
+[13:35] So this is an n-dimensional vector.
+[13:40] I hope you understood this simple thing.
+[13:43] Now I will tell you the point of view of machine learning.
+[13:46] How vectors are used in machine learning.
+[13:53] So it is a very simple method.
+[13:55] Suppose we take a small data set.
+[13:59] Like iris data set.
+[14:01] It is a famous data set.
+[14:02] Generally it is the first data set of Robo.
+[14:04] In IRIS, we had data of 150 flower species.
+[14:11] We used to have total of 5 columns, one was sample length, one was sample width, one was petal length and one was petal width.
+[14:28] and in the last you were told about the species
+[14:33] for example a sample flower will look like this
+[14:36] 5.2, 2.1, 7.2, 9.1, setosa
+[14:44] 3.1, 4.2, 7, 6.5, versicolor
+[14:53] in this way you had data of 150 flowers
+[14:59] In machine learning, there is a concept of feature vector and you will hear this a lot in the future.
+[15:06] What is feature vector? You can treat every data point's input features as a vector.
+[15:22] For example, here you can say that
+[15:25] sepal length, sepal width, petal length, petal width
+[15:28] they are your input features
+[15:31] or input columns.
+[15:34] Whereas your specie is your target column.
+[15:37] Why target? Because
+[15:40] you generally want to credit it on the basis of this input.
+[15:43] So, in machine learning algorithms
+[15:46] what you do is, you convert every data point
+[15:49] Let's convert it into a feature vector, so what I will do is if I have to ask my machine learning algorithm
+[15:56] that what will be the species of this particular flower, then I will provide it a vector in the input
+[16:02] and that vector will look like this, for the first flower it would be 5.2, 2.1, 7.2, 9.1
+[16:12] This is a 4 dimensional vector, like in a 4 dimensional space, it would be a vector.
+[16:20] I will send this vector in my machine learning model and internally that model will work and give a prediction that it is setosa.
+[16:28] Similarly, I can represent my second flower which is this one as another 4 dimensional vector 3.1, 4.2, 7, 6.5
+[16:43] So in a way you can imagine like this, I will not be able to make 4D space but I will make you imagine in 3D space
+[16:51] Let's assume for a while that this particular column does not exist and we have only three columns, one is sepal length, one is sepal width and one is petal length.
+[17:02] So we have a total of 150 flowers, so basically we can imagine each of these 150 flowers as vectors in this 3D space.
+[17:14] So, basically we will have 150 vectors, 150 feature vectors.
+[17:25] So, I hope you got a little intuition.
+[17:27] First of all, what are vectors?
+[17:29] It's a concept which you might have encountered sometime.
+[17:33] But more important than that, we discussed why vectors are so important in machine learning.
+[17:39] So, vectors are so important in machine learning because
+[17:43] Whenever you work with any machine learning algorithm,
+[17:47] when you input your data,
+[17:51] it will be in the format of a feature vector.
+[17:55] It could be of any dimension.
+[17:57] In our Iris data set, this is 4D.
+[18:01] But let's say if you had a data set of Titanic,
+[18:04] and there were many columns,
+[18:06] there was age, there was fare,
+[18:09] there was sex,
+[18:11] there was gender, I am sorry sex and gender is same, let's say there was P class, there were many more columns, let's say there were 8-10 columns.
+[18:28] So, every passenger can be represented as a feature vector of that dimensional space.
+[18:39] For example, if it is 5, then it will be a 5 dimensional space.
+[18:43] Now, in your mind, it may come that, let's say, age is 17, fare is 52, sex is male, P class is 1, and embarked is E.
+[18:55] So, you cannot send numbers in the machine learning algorithm.
+[19:00] your vectors which are generally feature vectors
+[19:03] they are a collection of numbers
+[19:05] it cannot have
+[19:07] English words or characters
+[19:10] so in this case what you do is you use encodings
+[19:14] you encode let's say m as 0
+[19:18] female as 1
+[19:19] in that case this vector will become 17
+[19:22] 52 0 1
+[19:25] let's say there are 3 values in m bar
+[19:28] q c s
+[19:30] So you are calling it 0, 1, 2, so let's say if S is here, then you will write 2 here and this will be your feature vector.
+[19:39] So the basic concept we learned after this discussion was that you can represent the data points in your input columns in any data set as a feature vector.
+[19:55] And your machine learning algorithm always expects these feature vectors
+[20:00] and then only it does the prediction.
+[20:02] Okay?
+[20:03] So, I hope you understood the entire discussion around vectors.
+[20:07] We studied about 2D vectors, 3D vectors, ND vectors
+[20:12] and more importantly, we studied about feature vectors.
+[20:16] Okay?
+[20:18] So, we just did a discussion on vectors
+[20:21] And we also understood that where vectors can be used in machine learning.
+[20:26] Now I will give you a more concrete example and the reason for giving this example is that
+[20:32] I want to put in your mind that vectors are really very important in machine learning.
+[20:39] So let's say we are given a task, it is a task of machine learning.
+[20:45] We have to make a recommender system.
+[20:47] And we have to make recommender system of movies, which means that if we are told a particular movie, then on the basis of that movie, we will recommend 5 more movies to the user.
+[21:03] Let's say the user said Matrix, then we will recommend him 5 more movies which we think are very similar to Matrix.
+[21:15] Netflix etc. use this type of algorithms.
+[21:19] If you understand this problem statement,
+[21:22] then I will tell you how your data is available.
+[21:26] You have a data where you don't have anything.
+[21:30] You have only two columns.
+[21:34] The first column is the name of the movie.
+[21:37] And the second column is the summary.
+[21:43] This is movie 1, its summary.
+[21:46] this is movie 2 its summary this is movie 3 and its summary and you have to make a recommender system on the basis of this given data
+[21:57] ok so now how will you do this work you have to use vectors to do this
+[22:07] So, as I have already told you that machine learning algorithms are not really good to work with textual data.
+[22:16] But the data we have is completely textual.
+[22:20] So, how will you operate in such problems?
+[22:23] So, what you will do is, let's take an example for some time.
+[22:27] We have a summary of three movies.
+[22:31] The first summary is I, How, Are, You.
+[22:36] I know this is not a summary, but I am just giving you an example, then the next one is my name is campus X, okay, this is 2023, okay, I know this is a summary of three movies, movie 1, movie 2, movie 3,
+[22:59] So the biggest challenge in front of you is that how will you represent this textual data in numbers or simply put how will you convert them into feature vectors.
+[23:12] Right. So I am going to show you that. So there are many techniques in the NLP domain. The technique we are seeing is bag of words.
+[23:23] It is a very simple technique, so what you do is that you will go to your full vocabulary first.
+[23:28] Vocabulary consists of all the unique words that are present in your data set.
+[23:34] So you can see we have 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.
+[23:44] There are 10 unique words, so what you will do is that you will write all the unique words like this.
+[23:52] Hi, How, Are, You, My, Name, Is, CampusX, This, 2023
+[24:11] and now what you will do is you will go to every movie and you will ask that how many times hi came, one time, how many times how, one time, how many times r came, one time, how many times u came, one time
+[24:23] rest all 0 times came
+[24:26] ok
+[24:28] then in next review you will go how many times hi came, 0 times
+[24:32] my name is campus x, one time came
+[24:36] ok
+[24:38] then the last review it would be this and this is how you can actually convert your textual data
+[24:50] into feature vectors so now what you just did you had a data set in which you had a summary of three
+[24:58] movies you converted it into three feature vectors right and each of these feature vectors are a
+[25:07] vector in a 10 dimensional space right I cannot show you 10 dimension but you can have a feel
+[25:15] right you can imagine in 3D so you can imagine in 10D also right and this is very small data
+[25:21] when you are working with real world data then it is possible that you don't have 3 movies but
+[25:28] you have 5000 movies and then if you have 5000 movies then only 10 words will not be in your vocabulary
+[25:36] can be 50,000 words. Right? In that case also, the concept will be the same. You will make 5,000 feature vectors for your 5,000 movies.
+[25:49] And each vector will be a vector in a 50-thousand dimensional coordinate space. There will be 50,000 dimensional vectors.
+[26:00] But the idea would be the same. Now imagine that you have these 3 movies.
+[26:05] you have three movies and you have made these vectors
+[26:12] now someone asked you the name of this movie
+[26:16] and asked you to recommend a movie similar to this
+[26:20] so what you can do is
+[26:23] if you are calling this movie A, B or C
+[26:27] and someone asked you to recommend a movie that you like
+[26:32] so you will recommend C because you can see it is closer like in terms of Euclidean distance it is closer to B
+[26:42] you will not recommend A because this distance is larger right so you can do something like this
+[26:48] in fact the recommender systems which are there if you have not studied machine learning before
+[26:53] so I can tell you this that many recommender systems work on such simple things that you first make these vectors
+[27:01] and between those high dimensional vectors, you calculate distances and recommend movies or books.
+[27:10] So I gave this example so that you can appreciate more how powerful and useful vectors are in machine learning.
+[27:19] So now that I gave you the intuition of vectors, now I would like to tell you about two more vectors.
+[27:29] row vector and column vector
+[27:31] actually this is not a different thing
+[27:33] this is basically a method of writing vector
+[27:35] okay, suppose
+[27:37] we have a vector A
+[27:39] and let's say
+[27:41] it has N components, this is a vector of N dimension
+[27:43] so if you
+[27:45] write it in row format
+[27:47] these are the
+[27:50] components of your vector
+[27:52] vector, if you write it in
+[27:54] row format
+[27:56] then it is known as
+[27:58] a row vector explicitly in some books you see this notation so what is it saying that your one is the
+[28:09] number of rows and n is the number of columns which is in this vector ok so after seeing this you should
+[28:17] immediately understand that a is a row vector ok similarly if let's say you have a vector b and you
+[28:30] you are writing x1 x2 x3 dot dot dot xn this is also a vector of n dimension but this time
+[28:39] you have written it as column vector and you are representing it like this then it is called
+[28:46] a column vector where n represents the number of rows and 1 represents the number of columns
+[28:56] okay so I can give you some examples in the machine learning domain let's say you have the same data set
+[29:02] sample length, sample width, petal length, petal width and then species right and here you have data of different flowers
+[29:14] flowers like this total you have 150 flowers data ok so here you can see row vector and column
+[29:28] vector both like let's say if you are picking a single flower and you are holding its feature
+[29:35] vector so this could be an example of a row vector where the dimension would be 1 cross
+[29:46] 4 because there is one flower and each flower has 4 dimensions similarly if you are taking
+[29:55] If you are taking the type of flowers, then this is a column vector, where the dimensions are 150 x 1.
+[30:09] Basically, I have one data about 150 flowers, that what is their type, is it setosa, versicolor or virginica.
+[30:18] Basically, whenever you pick up a whole column, that is a column vector.
+[30:22] Whenever you pick up a row, that is a row vector.
+[30:25] Now going forward in machine learning, you would see that in different scenarios,
+[30:31] depending on our requirement, we either use row vector or we use column vector.
+[30:38] But this notation should always be in front of you.
+[30:42] So, the next small concept we are going to study is
+[30:46] what is the distance from the origin of any vector?
+[30:50] We are going to calculate this.
+[30:52] It becomes useful in certain scenarios.
+[30:55] So, let's say we have a 2D coordinate space
+[30:59] and we have a vector.
+[31:02] Let's call this vector A.
+[31:05] And in this vector, there are two components A and B.
+[31:10] So, what will be the distance from the origin of this vector?
+[31:15] Basically, we have to calculate the distance from its tail to its head.
+[31:20] I guess you already know this.
+[31:22] It is very simple to calculate this.
+[31:24] So, what we do is, we connect these dots once.
+[31:28] So, this distance is your A and this distance is your B.
+[31:36] So, obviously this distance will also be B.
+[31:39] So, if you want to calculate the distance, then this distance will be by Pythagoras Theorem a square plus b square.
+[31:51] Simple. This is the distance from origin.
+[31:55] And the good part is that this logic is true in higher dimension also.
+[32:00] Let's say you have a 3D point or 3D vector.
+[32:04] right, let's say this vector has a, b and c, three components, x, y and z in axis, so again this distance
+[32:15] will be root over of all your components, their square sum, like this, ok, and this will be true even in
+[32:27] n-dimensional space. Let's say you have a vector and the vector is let's say x1, x2, xn.
+[32:37] You have to find the distance from origin in this n-dimensional space. The distance would be
+[32:42] the sum of all your components. This is the distance from origin.
+[32:53] this is also called as magnitude of our vector
+[33:00] and it is represented like this
+[33:05] going forward we will use this notation in many places
+[33:09] so you have to remember this
+[33:11] now I will quickly show you that
+[33:14] in python how you can use any n dimensional vector
+[33:20] distance from origin or how to calculate magnitude, so you can see here I have written code, you should have NumPy installed, so you imported NumPy, this is your 5 dimensional vector, you can take 10 dimensional, 100 dimensional also, I have taken a vector which is 5 dimensional, and you don't have to do anything, you have to call norm function from np.linearalgebra,
+[33:49] and there you have to pass your vector
+[33:52] and as you will run it
+[33:55] you would be able to see the distance from origin
+[33:58] so you can see this 5 dimensional vector
+[34:02] in 5 dimensional coordinate space
+[34:05] the distance from origin is 7.41
+[34:08] the good part about using this function is
+[34:10] that you don't have to take tension
+[34:12] that how many dimension vector you have
+[34:14] no matter how many dimension vector you have
+[34:16] it does not matter
+[34:18] we can easily calculate this function
+[34:22] so you can see this is a vector of 10-15 dimensions
+[34:27] I put it here
+[34:29] and you can see you are still able to get the output
+[34:32] so guys the next concept we are going to study is the concept of Euclidean distance
+[34:38] and I am sure you must have already studied it
+[34:41] but let's discuss it again
+[34:44] so as always in linear algebra
+[34:47] What you do is, you read any concept in 2D, maybe 3D and then you scale the same thing in n-dimensional hyperspace.
+[34:58] So basically, let's say we have a 2D space, a 2D coordinate system and we have two vectors, right?
+[35:08] Its components are a and b and its components are c and d.
+[35:16] And we have to find the Euclidean distance between these two.
+[35:22] Now you might already know the formula.
+[35:26] I will give you a little geometric intuition.
+[35:29] So it is very simple.
+[35:31] If you connect all the points once.
+[35:35] Let's say this is the x component of the other vector.
+[35:40] This is the y component.
+[35:42] And here also I can do the same thing.
+[35:48] So, you can see we have to find this distance
+[35:51] right, sorry
+[35:53] we have to find this distance
+[35:55] and here this triangle is forming
+[35:58] so basically if we find this distance
+[36:02] and if we find this distance
+[36:05] then we can calculate this distance by using Pythagoras theorem
+[36:11] and it is very easy to find that what is this distance
+[36:14] This distance is C and this distance is A, so this distance is automatically C-A and similarly if you see then this distance will be B-D.
+[36:34] So, if you want to calculate this distance, Euclidean distance, then this becomes root over of c minus a square plus d minus b square.
+[36:50] and this is the distance, Euclidean distance in 2D
+[36:54] if you do the same thing in 3D
+[36:58] then your distance becomes
+[37:00] root over of
+[37:01] let's do this
+[37:05] let's take two vectors
+[37:06] one with x1, y1, z1 component
+[37:12] and let's take another vector with
+[37:15] x2, y2, z2
+[37:22] so here it will come x2-x1 whole square y2-y1 whole square plus z2-z1 whole square
+[37:35] so basically you are taking both the vectors and subtracting their components
+[37:41] and doing its square and doing this for every component you are doing square
+[37:47] And the same thing will be true in n-dimensional space also.
+[37:53] Okay?
+[37:54] Now I'll show you how you can calculate Euclidean distance in Python for any dimensional vector.
+[38:05] So you can see the code is written here.
+[38:06] We have two vectors, a and b.
+[38:10] What we did first is we calculated the difference, a minus b.
+[38:14] Okay?
+[38:15] I'll show you what is a minus b.
+[38:17] So I'm cutting the code for a while.
+[38:19] and I am just printing out what is difference
+[38:26] you can see 6-1, 7-2, 8-3 we have subtracted
+[38:35] and now we just have to square everything
+[38:40] and square everything means that you are taking distance from origin
+[38:46] and you can take it out using norm function
+[38:50] and you can see this is the output
+[38:52] It does not matter if it is a 5-dimensional vector or a 500-dimensional vector.
+[38:57] This approach will always calculate the Euclidean distance between two n-dimensional vectors.
+[39:05] So it is like a code which you always have to remember that first you have to subtract both the vectors.
+[39:11] Item-wise subtraction, component-wise subtraction and then you have to call the norm function.
+[39:18] Now, you might be thinking that in the context of machine learning, where is the concept of Euclidean distance used?
+[39:25] So, let me tell you, Euclidean distance is one concept which is very useful in machine learning.
+[39:31] A lot of machine learning algorithms, they actually use Euclidean distance internally.
+[39:38] let me give you an example
+[39:40] one of the example is
+[39:42] k nearest neighbors
+[39:44] this is an algorithm
+[39:46] which you might have heard the name
+[39:48] or read
+[39:50] so k nearest neighbors is an algorithm
+[39:52] which internally
+[39:54] it is a
+[39:56] classification algorithm
+[39:58] and internally
+[40:00] it uses Euclidean distance
+[40:02] to classify data points
+[40:04] so suppose you have
+[40:06] you have data set of iris and you have data set of sepal length, petal length and species
+[40:18] so I have taken only two points so it means all our features and vectors will be in 2D coordinate system
+[40:26] like you can actually visualize them this is SL and this is PL all the vectors will be aligned like this
+[40:35] now suppose we are given a new flower
+[40:40] new flower means new flower
+[40:43] we are given sl and pl
+[40:45] and we have to know that
+[40:47] let's say this is setosa
+[40:51] or versicolor or virginica
+[40:54] so what you do
+[40:56] you consider this new flower as a vector
+[40:59] and you distance it
+[41:02] as in euclidean distance
+[41:04] take out with all the other flowers
+[41:07] and whatever flower is nearest to it
+[41:10] ask from that flower what is its type
+[41:13] let's say it is setosa
+[41:15] so we will say that our new point
+[41:17] will also be setosa
+[41:19] and this is how k-nearest neighbors work
+[41:22] ok
+[41:23] so let me show you a small demo
+[41:25] how this whole thing is useful
+[41:27] so see here
+[41:28] what I have done
+[41:29] I have written a code
+[41:31] where
+[41:32] I have made 5 vectors in 3-dimensional space, so you can see, these are the 5 vectors, so it is not very clear,
+[41:41] there will be a little bug in the code, but we have 5 vectors, 3 of them are of red color and 2 of them are of blue color,
+[41:50] and what are we doing, we are taking a new vector, like input from the user, so the user said that our new vector is
+[42:00] 1, space, 1, space, 1
+[42:02] these are its 3 components in 3 dimensional space
+[42:05] ok, and now what I am doing
+[42:09] this new vector I have taken
+[42:11] its distance I am calculating
+[42:13] Euclidean distance I am calculating
+[42:15] with all of these 5 vectors
+[42:17] ok, and
+[42:19] whoever is nearest, we will assign that color
+[42:21] so you can see
+[42:26] this graph
+[42:29] is not printed
+[42:30] let me run it one more time
+[42:33] Let's do one thing, let's write this whole code together.
+[42:39] So, let me write it this way.
+[42:50] And now let's run.
+[42:52] So, it is asking me for a new vector.
+[42:54] This is the new vector.
+[42:58] 1, 1, 1.
+[43:00] And you can see
+[43:02] that it is saying that
+[43:04] nearest neighbor is 0.
+[43:06] Which means this green point is our
+[43:08] query point.
+[43:10] Like that vector which we
+[43:12] insert the input of 1, 1, 1, the rest of these 5 vectors, 3 of them are of blue color, 2 of them are of red color,
+[43:20] so we have calculated the distance, so by looking at it, we can understand that it is the closest to this blue one,
+[43:24] so since the color of this blue one was 0 or the class was 0, so we are saying that our green one will also be 0,
+[43:31] so you will see this concept in machine learning in many places, when you will be studying K-means clustering,
+[43:37] there also you will calculate Euclidean distances
+[43:40] let's say you will make recommender systems
+[43:43] there also you will calculate Euclidean distance
+[43:45] so in short Euclidean distance is a very simple concept
+[43:49] but it is used extensively in machine learning
+[43:53] so guys next we are going to study 2 operations on vectors
+[43:59] and these 2 operations are scalar operations
+[44:02] The first operation that we will study is scalar addition and along with this we will also study subtraction because actually there is no difference between the two.
+[44:17] And the second operation that we are going to study is scalar multiplication and along with this we will also study division because essentially both are similar.
+[44:29] Let's focus on scalar addition.
+[44:32] Let's say you have an n-dimensional vector v
+[44:36] in which you have all these components v1, v2, v3, vn.
+[44:43] If you want, you can add a scalar on it.
+[44:48] Means you have a scalar n
+[44:51] and if you want, you can add that scalar to every component of this vector.
+[44:58] So after this operation, your vector will become this, you can see, if I show you a simple example,
+[45:14] suppose you have a 2D coordinate system and this is your vector 2 comma 2, okay, and now what did you do,
+[45:23] you took a scalar 5 and you added it on this vector, so basically you would get a new vector 5 by 5,
+[45:35] or let's say you have another vector
+[45:39] let's say something like this
+[45:46] this is 2,3
+[45:50] and you have a scalar 3
+[45:53] so after the scalar operation what will happen is
+[45:56] you will get a new vector which will be 5,6
+[46:01] so if this is 2,5,6
+[46:05] Something will be at this place, let's say, okay?
+[46:10] So, you can also call this operation as shifting
+[46:13] because essentially what is happening is that your vector is getting shifted in the coordinate system, okay?
+[46:24] This is also called shifting.
+[46:26] Subtraction also works the same way.
+[46:28] Let's say you have a scalar and a vector, you can subtract them.
+[46:32] scalar will be subtracted from every component and you will have this
+[46:37] this is also called shifting because
+[46:45] essentially what you are doing
+[46:47] you are changing the value of components and as soon as you change the value of components
+[46:53] then it can be shifted
+[46:55] so scalar addition or subtraction is called shifting
+[47:00] now you may have this question in your mind that
+[47:02] why are we reading this operation, where will it help us in machine learning
+[47:06] So, I will tell you a concept where you use shifting.
+[47:11] So, there is a concept called mean centering.
+[47:15] I will explain you.
+[47:19] So, suppose we have 2D coordinate system and we have let's say 50 2D vectors.
+[47:29] You can also call vectors as points.
+[47:32] And let's say the scatter plot of those vectors looks like this, this is your x1 axis and this is your x2 axis.
+[47:44] Here you can treat every point as a vector, all of these are vectors.
+[47:51] Now, what you can do is, you can take x1 component of all your vectors and calculate its mean.
+[48:10] Similarly, you can take x2 component of all your vectors and calculate its mean.
+[48:19] I will explain you, this is the data, x1, x2, 3, 4, 5, 6, 7, 8, in this way you have all these vectors
+[48:35] and every vector has one x1 component and one x2 component, this is vector 1, vector 2 and vector 3
+[48:43] you are taking x1 component of all the vectors
+[48:50] this is the x1 component
+[48:52] and you are calculating its mean
+[48:55] and after calculating the mean let's say you got 15 by 3
+[49:00] so this mean is 5
+[49:04] now what you will do is
+[49:07] you will take out x1 shifted
+[49:10] so what you will do is
+[49:12] you will subtract 5 from this 3
+[49:14] subtract 5 from 5, subtract 7 from 7. Similarly, you will do the same work with X2.
+[49:21] You will get the mean of X2 which will be 18 by 6. So this would be 6. Let's say this is 6.
+[49:28] And now what will you do? You will get X2 shifted. And what will be X2 shifted?
+[49:35] will be minus 2, 0, 2 and now what you will do is that you will plot these points in your coordinate system
+[49:47] so you would find that your structure will remain like this but your points will be mean centred
+[49:55] so this operation is called mean centering
+[50:02] after the operation you can see when you will take out the sum
+[50:06] then it would be 0
+[50:08] and this operation you get to see in machine learning in many places
+[50:14] where you do that you center your data in mean
+[50:19] like you bring around mean
+[50:21] now you are thinking what is the benefit of this
+[50:24] So here I have added some text, now I will not go in detail because we have not studied machine learning yet.
+[50:31] But you can see these are all the scenarios where you actually do mean centering.
+[50:37] And by doing mean centering, the performance of your machine learning algorithm improves.
+[50:44] See here it is written, mean centering is a useful pre-processing technique.
+[50:48] various machine learning applications, it can improve the performance, convergence and
+[50:52] interpretability of the model. Some practical examples where mean centric is applied, principal
+[50:58] component analysis, linear regression, gradient descent, clustering algorithms, regularization.
+[51:03] So all of these are machine learning algorithms, where internally you do mean centric and by
+[51:10] doing mean centric, your performance improves. I will show you a code example of this. So
+[51:18] you can see what we have done we have generated 100 vectors here 2d 2d vectors ok so you can see
+[51:28] this is the data you can take every row here as a vector in this way we have 100 vectors and
+[51:37] what I have done I have also plotted them so you can see when you plot it you would see this is
+[51:45] data this is the original data like this data like this data so after that what I did I took the data of all our vectors
+[52:02] and calculated its mean so you can see this is the mean of x1 component this is the mean of x2 component
+[52:11] And then what I did, I did scalar subtraction from data, okay.
+[52:17] You do subtraction in mean centering, which I have told you here.
+[52:25] Maybe I didn't tell you, you are basically performing this operation,
+[52:29] x1 minus x1 mean and x2 minus x2 mean, okay.
+[52:35] Where x1 and x2, these are both vectors whereas x1 mean and x2 mean both are scalars.
+[52:43] So, this is a scalar operation.
+[52:45] So, these two steps are happening together.
+[52:49] And after doing this, when you will make a plot again,
+[52:54] you would see that the shape of your data is the same,
+[52:59] but the data of mean is centered.
+[53:02] You can see, if you want to see it together, I have written this code here.
+[53:05] So, this is before mean centering.
+[53:07] This data is somewhere else.
+[53:09] You can see this is the origin point.
+[53:10] These two black lines are intersecting.
+[53:12] And this is also the origin where black lines are intersecting, so you can see this is the original data, this is the mean centered data.
+[53:19] So this is one example where you use shifting in machine learning.
+[53:24] So guys we just studied addition and subtraction operation between two vectors.
+[53:30] Now I guess you must be wondering whether we can do multiplication between two vectors.
+[53:35] between them? The answer is yes. If you have two vectors, let's say vector A, in which let's say
+[53:46] n components are there and vector B, let's say it also has n components. In between these two, you can do
+[53:57] product. But product in vectors is of different type. In fact, here you get to see two products.
+[54:04] So the first product is called dot product and the second product is called cross product.
+[54:15] Maybe you have heard the name. So dot product is also called scalar product and cross product is also called vector product.
+[54:26] So the reason for this is that when you take two vectors and make a dot product between them,
+[54:34] then the result that you get is a scalar itself, whereas when you take two vectors and cross product between them,
+[54:44] then the result that you get is a vector. That is why their name is like this.
+[54:51] So we will first focus on dot product because this is more useful.
+[54:56] At least in terms of machine learning, you would find that you will be using dot product a lot.
+[55:03] You will get to see cross product in some places in machine learning.
+[55:07] So we will cover this further when we will be reading matrices.
+[55:12] So going forward our focus is on how dot product works.
+[55:20] So first I will tell you how to calculate dot product because it is very very simple.
+[55:26] So suppose you have two vectors.
+[55:28] Both are n dimensional vectors and you have to calculate dot product between them.
+[55:33] So the dot product between these two is that you first do the multiplication component wise like multiplication of A1 and B1.
+[55:42] Then you subtract A2 and B2.
+[55:45] Then you subtract A3 and B3.
+[55:48] And while doing this you subtract AN and BN and then perform the sum between all of them.
+[55:56] So, this thing that you get is dot product between two vectors.
+[56:03] I hope you understood.
+[56:07] So, what is its geometric intuition? I will tell you that after some time.
+[56:12] For now, you just understand that given two vectors, this is how you calculate dot product.
+[56:18] There is one more interpretation of this, I would like to tell you that too.
+[56:22] So, what you can do is that you can treat this dot product as matrix multiplication.
+[56:32] So, I haven't taught you matrix multiplication yet, but I am assuming you have studied it in school.
+[56:38] So, you can actually break down this product into two matrices.
+[56:43] So, you can actually take one matrix which will be a row vector in which you have A1, A2, AN.
+[56:52] This is a row vector whose shape is 1 cross N, one row, N columns.
+[57:00] And second, what you can do is you can take one more vector like this.
+[57:08] like this is a column vector
+[57:10] whose shape is n cross 1
+[57:12] now you see yourself
+[57:14] if you remember the matrix multiplication
+[57:16] rules then you
+[57:18] can do matrix multiplication between
+[57:20] 1 cross n and n cross 1
+[57:22] if this and this are same
+[57:24] if these two are same then
+[57:26] then your result of matrix multiplication
+[57:28] will be 1 cross 1 which is basically a scalar
+[57:30] which you get here
+[57:32] so what will happen to you
+[57:34] this one will be multiplied by this
+[57:36] it will be multiplied by this, a3 will be multiplied by b3, an will be multiplied by bn and you will do plus in between all of them, okay.
+[57:44] So basically what I want to say is that if you want, then you can break down dot product into matrix multiplication of a row vector and a column vector.
+[57:53] Now one thing I have told you or I don't know, I may not have told you, but mostly when you talk about vectors,
+[57:59] So, by default you take column vectors only, if it is not specified then you will assume that it is a column vector.
+[58:08] So, suppose you have A and B as two vectors, so if you actually write them in matrix form then you would write them like this.
+[58:18] You would write them like this, right. So, if you want to bring them in this shape or in this form then you will transpose A.
+[58:33] So, you would write A transpose B or you can write like this because we are taking capital.
+[58:40] A transpose B. Okay. What is transpose? I guess you know.
+[58:45] Where you convert rows into columns and columns into rows. We will read it in detail in matrices.
+[58:51] But yeah, if you have one or two vectors and you want to draw a dot product between them.
+[59:00] Also, I didn't tell you that this is the symbol of dot product, you put a dot in between.
+[59:05] So, you can write it as A transpose B.
+[59:09] You will get to see this in many other places.
+[59:12] Specially, when we will study some inner working of machine learning algorithms,
+[59:16] there you would see that I will show you something like this.
+[59:20] So, I hope you understood till now that how dot product is calculated
+[59:26] And what is its interpretation in matrix form and how you can use transpose to calculate your dot product.
+[59:38] So A is a matrix 1 cross n, B is n cross 1.
+[59:43] The matrix multiplication between these two will also give you dot product.
+[59:47] Now you have to remember some rules while performing dot product.
+[59:55] First your rule is that dot product is commutative, commutative means let's say you have two vectors
+[60:07] A and B, so A dot product B will be equal to B dot product A and second rule is distributive
+[60:19] law which says that a dot b plus c will be equal to a dot b plus a dot c. These two rules
+[60:35] hold in case of dot product. You have to remember this and it will help you. I will show you
+[60:43] Let me show you how you can calculate dot product between n-dimensional vectors using python.
+[60:51] We have built-in functions. Let me show you.
+[60:57] So you can see I have written a code here where we will use numpy to get dot product between two 3D vectors.
+[61:05] So you can see this is our first vector, this is our second vector.
+[61:09] We have a function called mp.dot in which you have to send both the vectors a and b
+[61:16] and it will calculate the dot product and give it to you.
+[61:19] There is also an alternate syntax which I have not used much personally but it is very simple.
+[61:24] You write the first vector and the second one and add at the rate between them.
+[61:28] By using both the syntax you can calculate the dot products.
+[61:32] Also, I have written a code here to prove these two laws that it is commutative and distributive.
+[61:39] So you can see what I did for commutative, I took out the dot product of A and B,
+[61:44] took out the dot product of B and A and printed both of them and you can see both are 32 only
+[61:50] and the dot product is commutative.
+[61:53] Then to prove distributive law, you can see I have taken three vectors, there are three vectors above.
+[61:58] This is the third one.
+[61:59] so you can see what we are doing, first we are taking dot product between a and b plus c
+[62:06] so first we added between b and c, we got a new vector from that, we are taking dot product of that new vector with a
+[62:13] and then what we are doing, we are taking dot product of a and b, we are taking dot product of a and c
+[62:20] and the two scalars that are coming, we are joining them
+[62:24] And we compared them and you can see both are coming out to be 82 which proves the dot product is distributed.
+[62:34] You can try this out yourself.
+[62:36] Now going forward, you must be having a question in your mind that why is dot product useful?
+[62:44] Where can you use dot product?
+[62:47] So for multiple use cases in dot product, it is a very useful thing in linear algebra.
+[62:52] The most useful thing is that it is used to compute similarity between two vectors.
+[63:08] If you have let's say two vectors, then you can tell how similar these two vectors are.
+[63:21] Let's say you have three vectors, then you can tell which two vectors are more close and similar.
+[63:27] How will you do this?
+[63:28] We will discuss this after some time when we will discuss Geometric Intuition
+[63:32] of Dot Product. But yeah, this is pretty useful.
+[63:35] Second use case is that you can use Dot Product
+[63:40] to calculate Projections.
+[63:44] You can calculate projections. So suppose you have two vectors.
+[63:48] This is the first vector, this is the second vector.
+[63:50] This is A, this is B.
+[63:52] So what you can do is, the projection of vector A
+[63:56] You can calculate that on vector B.
+[63:59] So basically you can calculate projection of A on vector B.
+[64:05] Projections are also very useful.
+[64:07] So we will discuss projections after some time but again this can be found out using dot products.
+[64:14] And the third thing that you can do is that you can perform matrix multiplication.
+[64:24] The multiplication of matrix depends on dot product only.
+[64:30] So you can achieve these three main mathematical objectives if you know dot product.
+[64:38] If you ask me where dot product is useful in machine learning,
+[64:44] I can give you some examples.
+[64:46] The first example is, if you remember in the beginning of this video I told you that
+[64:51] For example, we have some movies and their summary, what I did was that I converted this summary into vectors
+[65:01] and by doing this, every movie had become a vector in our coordinate space.
+[65:08] And then I said that let's say I am given a new movie and I have to recommend a similar movie.
+[65:16] So, using dot product what we can do is, we can find out similarity between two vectors.
+[65:21] So, I will compute the similarity of this new vector with every vector.
+[65:27] And I will recommend the most similar vector.
+[65:33] Okay.
+[65:34] How to do this thing?
+[65:35] I will tell you this after some time when we will discuss cosine similarity.
+[65:40] It's an important concept.
+[65:42] We will discuss it after some time.
+[65:44] where you do exactly the same work.
+[65:46] And the second use case in machine learning is actually deep learning.
+[65:51] So in deep learning you use a lot of matrix multiplication to perform all the computations
+[66:00] and to perform that means you are actually using dot product behind the scenes.
+[66:07] So you can easily say that deep learning totally relies on dot product.
+[66:13] So, I hope you got a rough idea about dot product.
+[66:18] Now, we will discuss its geometric intuition.
+[66:21] Okay, because we haven't discussed geometric intuition yet.
+[66:24] We just discussed how dot product is computed.
+[66:27] Now, we will study its geometric intuition.
+[66:30] So, we saw a formulation of dot product a while ago.
+[66:35] And now, I will show you a different formulation of dot product.
+[66:39] which will give you a little geometric intuition that what dot product is doing.
+[66:45] So, suppose we have a 2D coordinate space and we have two vectors in it.
+[66:53] One is A and another one is B and there is an angle of theta in between these two.
+[67:00] So, you can remove dot product in this way also that a.b will be equal to this value.
+[67:11] Okay.
+[67:16] Where this is distance of a from origin and this is distance of b from origin.
+[67:31] Okay.
+[67:34] So this is a very interesting formulation and you can draw some conclusions from it which will help you a lot in the future.
+[67:43] For example, let's say you have two vectors A and B and both are non-zero vectors which means their magnitude is not zero.
+[67:54] and it's given that a.b is equal to 0
+[68:01] so what can you conclude from this?
+[68:04] from this you can conclude that this expression is also 0
+[68:11] and from this you can conclude that theta is 90 degree
+[68:16] which basically means that you can conclude that a and b are perpendicular
+[68:26] or one more word is used
+[68:29] Orthogonal
+[68:31] ok and this is a very important property
+[68:35] it actually tells that A
+[68:37] and B
+[68:39] they are dissimilar
+[68:43] they don't share
+[68:45] too many properties
+[68:48] and when we will read some algorithms in the future
+[68:51] like SVM etc you will utilize this property a lot
+[68:55] So this formulation provides you with a very good geometric intuition.
+[69:00] Also, there is one more advantage of this formulation.
+[69:03] Suppose you have A and B, two vectors given.
+[69:07] If you have all the components of these two, let's say you have all the components of A.
+[69:12] A1, A2, A3, A n.
+[69:16] Even in n dimensions.
+[69:18] And you also have all the components of B.
+[69:23] In n dimensions.
+[69:25] So you can use only these values to calculate the angle between A and B.
+[69:31] How? It is very simple.
+[69:33] In this, you just have to do this.
+[69:36] You will write cos of theta is equal to A dot B, A, B.
+[69:46] And then what can you do?
+[69:48] You can calculate theta using inverse cos, or cos of inverse, I am sorry, inverse of cos, a dot b, which you also call arc cos.
+[70:01] By using this formula, you can directly calculate, you can directly calculate the angle between these two vectors, okay.
+[70:10] I hope you are able to understand.
+[70:12] Now here, I will discuss one more thing with you and that is cosine similarity, which is a very very important concept in machine learning.
+[70:21] learning. What is cosine similarity? Cosine similarity is this. Cos of theta is equal
+[70:27] to a dot b divided by this. This is called cosine similarity. Basically, the cos of angle
+[70:42] between two vectors a and b is called cosine similarity. And in machine learning, as a
+[70:52] a similarity measure is used, which basically means that how similar are the two vectors,
+[71:01] this is the method of removing cosine similarity. Okay, and how easy you can see, you only have
+[71:11] all the component values ​​of A and B, what can you do quickly, by applying this formula, you can remove
+[71:16] theta between them, cos theta will give value from minus 1 to 1. Now see for yourself, if
+[71:24] value 1 is coming, then you can say that the theta between them is equal to 0, which basically
+[71:32] means that a and b are in exactly same direction. And you can say they are completely similar.
+[71:46] So basically you are taking out the similarity on the basis of direction.
+[71:52] As your theta is 0, you can say that the direction of A and B is exactly same.
+[71:57] Even though the magnitude is different, but the direction is exactly same.
+[72:00] Which means they are very very similar.
+[72:05] Whereas if your minus 1 is coming, it basically means that your theta is 180 degree.
+[72:12] which means your a is exactly opposite like it's like polar opposite but if your theta is 90 or
+[72:24] if you say like this that cosine similarity is 0 then this proves that your these two vectors are
+[72:36] orthogonal and being orthogonal means they don't have any similarity they don't share any features
+[72:46] are common. If it is between 0 and 1, then you can say that the angle between them is
+[72:54] acute which is basically between 0 and 90. If it is between minus 1 and 0, then you can
+[73:02] say that the angle is obtuse. So when I told you a little while ago, a logic of your movie
+[73:12] a logic of recommender system
+[73:14] there you can easily
+[73:16] create cosine similarity
+[73:18] so you have movies name
+[73:20] and their summary
+[73:22] I have taught you
+[73:24] how to convert summary into vectors
+[73:26] so that
+[73:28] you have in n dimensional space
+[73:30] different movies
+[73:32] are aligned like this
+[73:34] now let's say you query
+[73:36] about a new movie
+[73:38] so what you are doing is
+[73:40] you are taking cost theta with all the movies like this, okay and you will recommend those movies
+[73:51] between which like between black and pink, the angle is very small, like it would be best if it
+[74:03] but if it is between 0 to 30 or 60 or 90, then you would recommend those movies.
+[74:10] So in today's date, the simple recommender systems that we make using machine learning,
+[74:17] there you would find that you are using the concept of cosine similarity which is highly based on dot product.
+[74:28] So, this is the second formulation which provides you a little more geometric meaning.
+[74:35] Now, I will show you a code of this.
+[74:40] So, you can see here we have three vectors.
+[74:44] All three vectors are three-dimensional.
+[74:46] A, B and C.
+[74:48] And I have to find out who is more similar to A.
+[74:52] B or C.
+[74:54] So, what did I do? I took out cosine similarity twice.
+[74:57] once in between A and B and once in between A and C and you can see when I run this code
+[75:06] then the similarity between A and B they were like very very opposite whereas A and C they
+[75:14] were quite similar and you can see that why these three are positive and these three are
+[75:19] positive so the angle will be very small between them and whereas this is completely negative
+[75:24] So there will be an obtuse angle between them due to which you are getting such large negative value.
+[75:30] So I hope you understood this second interpretation of dot product.
+[75:36] In this video we will learn how to represent the equation of a hyperplane.
+[75:41] So let me first tell you what is a hyperplane.
+[75:45] After that why it is necessary to study and then we will do the whole work.
+[75:49] So, if you talk about 2D, if there are two dimensions, let's say X and Y, this thing
+[75:58] is known as a line, you already know this.
+[76:01] What if you have a 3D coordinate system, in that case, you have something known as a plane.
+[76:12] What if you have 4D, 5D, or a ND coordinate system, what do you think is the equivalent
+[76:23] of a line or a plane?
+[76:25] The answer is hyperplane, hyperplane, and we have to learn to calculate the equation
+[76:34] of this hyperplane.
+[76:37] So that's the whole point of this video.
+[76:39] But you might be curious, why are we studying, why is it necessary to calculate the equation
+[76:42] of hyperplane?
+[76:43] So the reason is very simple, in machine learning very frequently you will be getting high dimensional data
+[76:52] Means very easily like even the iris data set which is the toy data set of machine learning
+[76:58] It also has 4 columns, if you talk about the MNIST data set it has 785 columns
+[77:08] So you can see that very soon you will be running out of this 2D or 3D space and you will be getting into this higher dimensional space.
+[77:16] So here if you are dealing with some classifier or some algorithm where you have to do classification through lines or perform regression like logistic regression or SVM.
+[77:29] In this kind of algorithms, you need to learn how to find out the equation of hyperplane
+[77:36] because there you have so many columns, so many dimensions of data
+[77:41] and if you want to do classification there you will need this hyperplane equation
+[77:46] and that is why in this video we are going to learn how to represent the equation
+[77:52] I hope I have motivated you
+[77:55] So now let me rub this board and we will start with this thing.
+[78:00] So the strategy is very simple. We will start with 2D and while building we will go to n.
+[78:07] So if someone asks you what is the equation of this line, then you already know the answer.
+[78:12] The answer is y is equal to mx plus b.
+[78:17] So what is m here? m is basically this slope, this theta.
+[78:23] And what is b? It's this intercept.
+[78:27] This is your equation of line.
+[78:32] There is one more general form.
+[78:34] If you have studied in your childhood, then there is a general form of this equation.
+[78:40] And you write it like this, ax plus by plus c is equal to 0.
+[78:46] I guess you have seen this.
+[78:48] So, if you rearrange it, you will understand that you can write it like this
+[78:53] y is equal to minus a by b x minus c by b
+[79:00] and here you can rearrange, you will understand that slope will become minus a by b
+[79:05] and the intercept will become minus c by b
+[79:10] means this b is different from this b, I hope you understand this
+[79:15] So we will use this form more because it is a general form
+[79:19] So you will be able to state more easily for hyperplane
+[79:22] So for now let's replace this thing with this equation
+[79:28] Ax plus By plus C is equal to 0
+[79:34] In fact you can change one more thing here
+[79:36] Let's say we are calling our first axis as x1 and second axis as x2
+[79:41] This will be easy because if you have 3,4,5,10 dimensions then you can make it x3,x4,x5
+[79:48] So after you can write it like this
+[79:51] ax1 plus bx2 plus c is equal to 0
+[79:57] There is one more thing that you can do
+[79:59] Because eventually when you work in more than 26 spaces then you will have less a,b and c
+[80:05] So, one more way of writing this is w1 x1 plus w2 x2 plus w0 is equal to 0.
+[80:16] And this is the general equation.
+[80:19] We will use this.
+[80:21] This will be the easiest to understand.
+[80:23] Now, think about it.
+[80:24] If this is for 2D, then what about 3D, guys?
+[80:29] What if I have a plane like this?
+[80:31] In this case, we have x1 here, x2 here and x3 here.
+[80:37] Again, you can simply scale this.
+[80:40] You can write w1x1 plus w2x2 plus w3x3 plus w0 is equal to 0.
+[80:53] This is the equation of a plane.
+[80:58] This is the line. This is the plane.
+[81:01] Now you can easily think, if it was 4D then it would be W4X4
+[81:06] but if it is n-dimensional then you can write it like this
+[81:09] W1X1 plus W2X2 plus W3X3 plus WnXn plus your intercept term is still here
+[81:24] So this is the equation of a hyperplane for an any-dimensional coordinate space.
+[81:32] Now we will try to write it in a compact way.
+[81:36] So I have written the equation over here.
+[81:39] By the way, one more thing.
+[81:41] You represent hyperplanes in a higher dimension with pi.
+[81:47] Now it still looks a bit cumbersome.
+[81:52] If you want you can reduce it into a much more compact form.
+[81:57] How can you do this?
+[81:58] If you represent this in the terms of vectors, then it becomes very easy.
+[82:02] And then it becomes very convenient for you to handle things in higher dimension.
+[82:08] I will tell you how.
+[82:09] So whenever we have to do something, we will come back to the movie.
+[82:12] So let's say we are in the movie and we have x1 and x2 are two axes.
+[82:17] Now let's say we have this point.
+[82:19] So obviously it will have an x1 component and an x2 component, if you think about it, right?
+[82:24] If it was in 3D, then it would have had an x3 component, if it was in 4D, then it would have had an x4 component.
+[82:29] You can imagine this point as a vector, right?
+[82:35] Now think about it, the equation of the line was this, you saw it earlier, in 2D.
+[82:41] So it was w1 x1 plus w2 x2, so basically this line will be something like this, right?
+[82:49] and a lot of points like this will be on this line
+[82:52] plus obviously w0
+[82:54] this is not the origin by the way
+[82:56] if it was the origin then you would not have seen it like this
+[82:58] you would have done equal to 0 like this
+[83:00] I guess you have understood this thing
+[83:02] now think for yourself guys
+[83:04] you already know what is dot product
+[83:06] if this is a vector
+[83:08] and let's say w1
+[83:10] and w2 is also like a vector
+[83:12] then this means
+[83:14] that what you are actually writing
+[83:16] this is actually a dot product
+[83:18] think about it, this is w dot x
+[83:21] because what will be w dot x? w1 x1
+[83:24] plus w2 x2, right? if you were in 3D
+[83:27] here would be x3 and w would be w3
+[83:30] then also what would be w dot x?
+[83:33] w1 x1 plus w2 x2
+[83:36] plus w3 x3
+[83:39] so I just want to say that what you can do is
+[83:42] you can treat this x in an n dimensional space
+[83:45] So you can actually assume that there is a vector, and that vector is like this, w vector.
+[83:52] You know the component is w1, w2, wn.
+[83:57] Similarly there is a vector x, in which the component is x1, x2, xn.
+[84:04] So actually you can reduce this thing into, I will write it in this way.
+[84:13] write it in black, you can actually reduce it to w dot product x plus w0 equal to 0.
+[84:25] Now if you want to remove this dot product notation and do simple multiplication, you
+[84:30] know that by default whenever you write vectors, they are generally written in column format.
+[84:37] So these two are written like this, W1, W2, Wn and X is also written like this, X1, X2, Xn, right.
+[84:49] So if you want to convert this into matrix format then what you can do is you can write it like this.
+[84:55] So that you come to this equation, W1, W2, W3, Wn.
+[85:05] now what you have done is that you have made it a row vector and you have also made x a column vector
+[85:14] so x2, x3, x4, xn
+[85:18] now you know that by default column is always there
+[85:22] if you want to convert it into a row then you are actually doing this operation
+[85:25] transpose operation
+[85:28] and this x is still the same so actually you can write this thing like this
+[85:33] So you might have understood that A dot B is actually A transpose B
+[85:37] You might have studied this in vectors
+[85:39] So we did the same thing
+[85:40] We did W dot X as W transpose X
+[85:43] And plus this W dot will be there
+[85:46] And guys now this is the equation of the line
+[85:51] In any dimension
+[85:52] It is valid in 2D, 3D and NB
+[85:57] This is the final equation
+[85:59] So now comes the question
+[86:01] What is this W dot?
+[86:02] because the rest of the things are correct
+[86:05] but w0 is hanging in the wrong place
+[86:08] so if you want to know the significance of w0
+[86:11] then you can do this
+[86:14] again we are going to 2D
+[86:17] in 2D you can write a line equation in two forms
+[86:20] y is equal to mx plus b
+[86:23] and w1 x1 plus w2
+[86:26] I can write y here
+[86:29] w1x plus w2y plus w0 equal to 0
+[86:32] you can write this
+[86:33] if you are not able to write then I will write it properly
+[86:36] you can write this equation like this
+[86:38] w1x plus w2y plus w0 equal to 0
+[86:43] right
+[86:44] now from here we will try to understand
+[86:46] what exactly does w0 represent
+[86:48] ok
+[86:49] like in this equation what does b represent
+[86:51] this y intercept
+[86:52] now imagine if you bring the whole line down
+[86:55] then this line will pass from here
+[86:57] like this
+[86:58] its b term will be zero
+[87:00] so its equivalent, you already know that in this equation
+[87:03] if you equate both, you can write
+[87:06] b is equal to minus w0
+[87:09] by w2
+[87:11] right, now if b is zero
+[87:14] then you have to make this zero as well
+[87:17] and to make this zero as well
+[87:19] you have to make w0 zero
+[87:22] so you can infer this
+[87:25] that if your line
+[87:28] if your n-dimensional hyperplane passes through the origin
+[87:31] then your W0 will always be 0
+[87:34] so we are taking a simplifying assumption
+[87:36] that our hyperplane is passing through the origin
+[87:40] because we can move vectors up and down all the time
+[87:43] so you are taking this assumption that W2X is equal to 0
+[87:48] and you have simplified the whole equation even more
+[87:52] think about it guys
+[87:54] you just took an assumption that this hyperplane is passing through the origin
+[87:57] and it becomes W0 because you understood why
+[88:01] and then your equation of the hyperplane is now WPX is equal to 0
+[88:07] and this is so simple guys
+[88:09] if it is 2D then you will write it like this
+[88:11] W1X1 plus W2X2 is equal to 0
+[88:15] if it is 4D then you will write W1X1 plus W2X2
+[88:19] W4X4 is equal to 0
+[88:22] Now you can represent any higher dimensional line
+[88:25] in this way
+[88:28] Obviously the assumption is that it is passing through the origin
+[88:31] Now we have to do one last thing because almost we have done everything
+[88:34] We will try to interpret once
+[88:37] that what is this w
+[88:40] We are going to see this
+[88:43] I will just wrap the whiteboard once
+[88:46] So now let's interpret what is this w representing
+[88:49] Now you already know that this Wt by x can easily be written as W dot product x right
+[89:00] and you already know that this is equal to W x cos theta dot product what happens guys
+[89:11] if there are two vectors, w and x, then basically their absolute value multiplied by the theta,
+[89:19] cos of theta between them, right? Think about it. So we are saying that this is equal to
+[89:27] zero, right? And when will this happen? Think about it, when theta will be this much, 90
+[89:33] 90 degrees. So, this means that
+[89:36] your W and your X
+[89:41] have an angle of 90 degrees between them.
+[89:46] And you already know that your X
+[89:49] is obviously lying above your plane.
+[89:53] Right? This X or any other X
+[89:56] will always lie above your plane. Right?
+[89:59] All these vectors are lying above your plane.
+[90:02] so if you want to interpret what is this w
+[90:05] then this hyperplane equation that you are forming
+[90:08] this w will always be perpendicular to it
+[90:15] this is what this w is
+[90:18] this vector is a vector
+[90:21] which is always perpendicular to this hyperplane
+[90:24] and this is its interpretation
+[90:27] I hope you are able to understand this
+[90:30] So now that you know how to write the equation of a hyperplane for any dimension, any dimensional space
+[90:36] Now you can plug it in many places
+[90:38] And trust me, it will not only help you in mathematics but it will also help you in programming
+[90:44] When you are making your own classes of some algorithm
+[90:47] So this is a very kickass concept
+[90:49] I hope you understood this, okay?
+[90:51] So that was the video guys
+[90:53] We haven't covered all the topics in vectors yet
+[90:57] And some topics are still remaining
+[90:59] So the plan will be that I will release two more videos
+[91:03] One would be on matrices where I will cover some of the remaining vector topics
+[91:07] And then there will be a third video on tensors
+[91:11] And I know that I am covering everything on a very basic level
+[91:14] But the reason for that is that it is no use of reading hardcore linear algebra, it would just waste time
+[91:21] So what we will do is that whenever we will see any concept in the future
+[91:25] by reading any machine learning algorithm
+[91:27] that we should know the concept of advanced linear algebra
+[91:32] then we will study it at that time
+[91:34] like I can give you one example
+[91:35] let's say you are studying PCA
+[91:37] then we will study eigenvalues, eigen decomposition at that time
+[91:41] rather than now unnecessarily studying and forgetting
+[91:44] it would be a better strategy
+[91:46] so I hope you liked the video first of all
+[91:49] if you liked it then please like it
+[91:52] if you haven't subscribed to the channel
+[91:54] Please subscribe, okay, see you in the next video, bye
