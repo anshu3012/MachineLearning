@@ -1,0 +1,213 @@
+Hi guys, in this video we will learn how to represent the equation of a hyperplane.
+So, let me first tell you what is a hyperplane.
+After that, why it is important to study and then we will do the whole thing.
+So, if you talk about 2D, if there are two dimensions, let's say X and Y,
+this thing is known as a line, right? You already know this.
+What if you have a 3D coordinate system?
+In that case, you have something known as a plane, right?
+What if you have 3D, I'm sorry, what if you have 4D, 5D, or a ND coordinate system?
+What do you think is the equivalent of a line or a plane?
+The answer is hyperplane.
+Hyperplane.
+and we have to learn to calculate the equation of this hyperplane
+so that's the whole point of this video
+but you might be curious that why are we studying
+why is it necessary to calculate the equation of hyperplane
+so the reason is very simple
+in machine learning
+very frequently
+you will be getting high dimensional data
+means very easily
+like even the iris data set
+which is the toy data set of machine learning
+it also has 4 columns
+If you talk about the MNIST data set, it has 785 columns.
+So you can see that very soon you will be running out of this 2D or 3D space and you will be getting into this higher dimensional space.
+So here if you are dealing with some classifier or some algorithm where you have to do classification through lines or perform regression like logistic regression or SBM.
+In this kind of algorithms, you need to learn how to find out the equation of hyperplane
+because there you have so many columns, so many dimensions of data and if you want to
+do classification, you will need this hyperplane equation a lot.
+And that is why in this video, we are going to learn how to represent the equation.
+I hope I have motivated you.
+ok so now let me rub this board and we'll start with this thing ok so the
+strategy is very simple we will start with 2D and while building we will go to NB
+ok so if someone asks you what is the equation of this line so you already
+know the answer the answer is y is equal to MX plus B right so here what is N
+and M is basically this slope, this theta, right. And what is B? It's this intercept,
+right. This is your equation of line, okay. There is one more general form, means if you
+must have studied in your childhood, there is a general form of this equation and you
+see it like this, Ax plus By plus C is equal to 0. You must have seen this, right. So if
+So, if you rearrange it, you will understand that you can write it like this, y is equal to minus a by b x minus c by b.
+And if you rearrange it, you will understand that slope will become minus a by b and the intercept will become minus c by b.
+This b is different from this b. I hope you understand this.
+So we will use this form more because it is a general form
+So you will be able to stay for hyperplane more easily
+So for now let's replace this thing with this equation
+Ax plus By plus C is equal to 0
+In fact you can change one more thing here
+Let's say we are calling our first axis as x1 and second axis as x2
+This will be easy because if you have 3,4,5,10 dimensions then you can divide it into x3,x4,x5
+So after you can write it like this
+ax1 plus bx2 plus c is equal to 0
+There is one more change that you can do
+Because eventually if you count in more than 26 spaces then you will have less a,b and c
+So one more way of writing this is w1 x1 plus w2 x2 plus w0 is equal to 0.
+And this is the general equation.
+We will use this.
+This will be the easiest to understand.
+Now think, if this is for 2D, then what about 3D guys?
+What if I have a plane like this?
+In this case, we have x1 here, x2 here and x3 here.
+Again, you can simply scale this.
+You can write w1x1 plus w2x2 plus w3x3 plus w0 is equal to 0.
+This is the equation of a plane.
+This is the line. This is the plane.
+Now you can easily think, if it was 4D, it would be W4X4
+But if it is n-dimensional, you can write it like this
+W1X1 plus W2X2 plus W3X3 plus WnXn plus your intercept term is still here
+So this is the equation of a hyperplane for an any-dimensional coordinate space.
+Now let's try to write it in a more compact way.
+So I have written the equation over here.
+By the way, one more thing.
+You represent hyperplanes in higher dimensions with pi.
+So now, it still looks a bit cumbersome.
+If you want you can reduce it into a much more compact form, how can you do that?
+If you represent all this in terms of vectors then it becomes very easy
+And then it becomes very convenient for you to handle things in higher dimensions
+I will tell you how, so whenever you want to do something we will go back to 2D
+So let's say we are in 2D and we have x1 and x2 are x's
+Now let's say we have this point.
+So obviously it will have an x1 component and an x2 component if you think about it.
+If it was in 3D then it would have had an x3 component and if it was in 4D then it would have had an x4 component.
+If you want you can imagine this point as a vector.
+Now think about it.
+This was the equation of the line that we saw earlier in 2D.
+So it was w1 x1 plus w2 x2.
+so basically this line will be something like this
+and a lot of points like this will come on this line
+plus obviously w0
+this is not the origin by the way
+if it was the origin then you wouldn't have looked at it like this
+you would have done equal to zero
+I guess you are able to understand this
+now think for yourself guys
+you already know what dot product is
+if this is a vector
+and let's say you are a vector of w1 and w2
+So this means that what you are writing is actually a dot product
+Think about it, this is w dot x
+Because what will be w dot x?
+w1 x1 plus w2 x2
+Right?
+If it was in 3D, x would be here and w would be in w3
+Then what would be w dot x?
+w1 x1 plus w2 x2 plus w3 x3
+So I just want to say that
+What you can do is, you can treat x in an n dimensional space like a vector.
+Like this.
+So you can actually assume that there is a vector.
+And that vector is like this.
+W vector.
+And it has a component w1, w2, wn.
+Similarly there is a vector x.
+Which has a component x1, x2, xn.
+so actually you can reduce this to w dot product x plus w0 equal to 0
+now if you want to remove this dot product notation and do simple multiplication then you know that
+by default when you write vectors then they are generally written in column format
+W1, W2, Wn and X1, X2, Xn are written in this way
+If you want to convert it to matrix format then you can write it like this
+so that you can come to this equation
+now you have converted it to row vector
+and you have also converted x to column vector
+so x2, x3, x4
+xn
+now you know that by default column is always there
+if you want to convert it to row then you are actually doing this operation
+transpose operation
+and this x is still the same
+so actually you can write this
+like this
+a dot v is actually
+a transpose b
+so we did the same
+w dot x is
+w transpose x
+plus w dot the a
+and guys
+now this is
+the equation of the line
+in any range
+This is valid in 3D as well as in MD
+This is the final equation
+So now comes the question
+What is this W0?
+Because everything else is correct
+It is just hanging in vain
+What is this?
+So if you want to know the significance of W0
+You can do this
+Again we are going to 2D
+In 2D you can write a line equation in two forms
+y is equal to mx plus b
+and the second one was w1x1 plus w2y plus w0 equal to 0
+you can write it like this
+you can write this equation like this
+w1x plus w2y plus w0 equal to 0
+now from here we will try to understand what exactly w0 is representing
+In this equation, what does B represent? This y-intercept.
+Now imagine if you bring the whole line down, then this line will pass from here, like this.
+Its B term will become 0.
+So its equivalent, you already know that in this equation, if you equate both,
+then you can write B is equal to minus W0 by W2.
+Right?
+Now if B becomes 0, then you have to make this also 0.
+and to make it zero, you have to make w0 zero
+so you can infer that if your line or your n-dimensional hyperplane passes through origin
+then your w0 will always be zero
+so we are taking a simplifying assumption that our hyperplane is passing through origin
+because you can move vectors up and down all the time
+So you are taking this assumption that W2X is equal to 0
+And you have simplified the equation even more
+Think about it guys
+You just took an assumption that this is passing through the origin
+And W0 is 0
+Because you understood why
+And then your equation of the hyperplane is now WPX is equal to 0
+And this is so simple guys
+If this is 2D then you will write it like this
+W1X1 plus W2X2 is equal to 0
+If it is 4D then you will write W1X1 plus W2X2
+W4X4 is equal to 0
+Now you can represent any higher dimensional line in this way
+Obviously the assumption is that it is passing through origin
+Now we have to do one last thing because almost we have done everything
+So let's try to interpret what is this w
+We are going to see this, I will just wrap up the report
+Ok guys, so now let's interpret what is this w representing
+What is this vector? What is this?
+Now you already know that this wt by x can be easily written as w dot product x
+and you already know that this is equal to w x cos theta
+what is dot product?
+if there are two vectors w and x
+then their absolute value is multiplied by cos theta between them
+so we are saying that this is equal to 0
+and when will it be? when theta will be 90 degrees
+so this means that the angle between w and x is 90 degrees
+and you already know that x will lie on your plane
+means this x or any other x will always lie on your plane
+all these vectors will always lie on your plane
+so if you want to interpret what is this w
+then this hyperplane equation that you are forming
+this w will always be perpendicular to it
+this is what this w is
+This vector is a vector which is always perpendicular to your hyperplane
+And this is the interpretation of this
+I hope you are able to understand this
+So now that you know how to write the equation of a hyperplane
+For any dimensional space
+Now you can plug it in many places
+And trust me this will not only help you in mathematics
+But it will also help you in programming
+when you have made your own classes of some algorithm
+so this is a very fakeass concept
+I hope you understood this, so thanks for watching

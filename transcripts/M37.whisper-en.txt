@@ -1,0 +1,142 @@
+Hello all, my name is Krishna and welcome to my YouTube channel.
+Today in this particular video, we will be discussing about t-test, chi-square test, ANOVA test
+and we will also be discussing about a very important thing which is called as p-value
+which is also called as significance value.
+Now guys, in my previous video, I have already explained you about hypothesis testing
+and given you your overall overview about it.
+We have discussed about null hypothesis, alternate hypothesis.
+But now, in this particular video, we will focus on when to use t-test, when to use chi-square test, when to use ANOVA test.
+right we are going to discuss about this right so guys and one more confusion
+that I usually get from students and some of my subscribers is that they are
+they they are not able to relate this concepts with the real world scenario
+okay this is the main problem over here so I'm going to take a very simple data
+set over here and remember that this is a sample of the data set and as you
+remember I told you that when we are discussing about hypothesis testing we
+come to a conclusion for a population based on a sample data set right and
+based on the sample data set we will divide that into an internet and null
+hypothesis and then we collect evidences then we apply different types of
+techniques and these are one of the test techniques that we can apply in order to
+find out whether null hypothesis is true or alternate hypothesis is true so let us go ahead
+so in this particular data set I have gender age group weight height okay
+weight and height are given in kg and meters over here you have age group
+which is my category feature we have gender again this is the category feature
+now let me just consider one category feature over here okay so suppose I
+consider gender now what kind of conclusion what kind of question what
+kind of things I can research from this particular gender category just think in
+this particular example I'll just give you one simple example over here I'll try to
+find out whether there is a difference in the proportion of male and female so
+this is my question whether there is a difference between the proportion of
+male and female count okay so what we do is that in the hypothesis testing first
+of all we need to consider our null hypothesis then our alternate hypothesis
+then we need to do a test on it and when this test I'll just be telling you what
+happens after this particular test now in this particular case alternate
+hypothesis I will just say that yes there is a difference okay there is a
+difference in the proportion suppose this is my alternate hypothesis okay
+Now always remember guys, there is a difference.
+Now suppose if I just take this sample data set, if I just create a plot diagram, a barge
+plot like this for male and female, then considering this barge chart, I can come to know that
+whether there is a difference in the proportion of male and female from this particular data
+set.
+But remember guys, this is just a sample data set, it is not a population data set.
+So for that reason, we also have to consider a null hypothesis.
+So Null Hypothesis will be that there is no difference.
+So this is my Null Hypothesis which will always be true.
+Now considering any test over here, considering one category feature and you need to apply a test
+which says that where we have this Null Hypothesis as true, what is the likelihood that your Alternate Hypothesis will be true?
+What is your likelihood or what is your probability that your Alternate Hypothesis will be true?
+So considering your null hypothesis is true and when I do this particular test and for this particular test suppose I get the value p is less than 0.05 now in this particular p value is basically called as significance value ok significance value it is also mentioned as alpha ok alpha so we consider a significance value like 0.05 again I will explain you what is this significance value what does it say and after applying this test.
+this particular test now since we have just taken one category feature the type
+of test that we basically applies something called as one sample
+proportion test one sample proportion test okay guys just understand this
+because in my upcoming classes I will be telling you the mathematical formula for
+this how you can do with the help of Python also but just consider that if
+you're just considering one category feature the type of test that you have
+to use is called as one sample proportion test and let me write over
+So suppose if I have one category then I basically need to apply one sample proportion test and
+if I get my p-value less than 0.05.
+Now always remember guys, this p-value needs to be selected before this particular test
+is basically done.
+Why 0.05?
+Just understand in this particular way.
+If we take 0.05, suppose we have Gaussian distribution somewhere like this.
+Then we are basically considering that if our test says that it falls in this tail region like 2.5 over here, 2.5 over here.
+0.05 basically means 5% of the total distribution. We want our test to fall somewhere here.
+If it is less than 0.05, we are considering that it is falling in this tail region.
+So we are actually rejecting it. Now if your p-value is less than 0.05, we are going to reject the null hypothesis.
+And then we are going to accept the alternate hypothesis.
+Now understand guys, we have considered that the null hypothesis is true.
+Now what is the likelihood that my alternate hypothesis will be true?
+And based on that, the type of test you do, if you are considering one category feature, is something called as one sample proportion test.
+and if this particular test gives me a value less than 0.05 somewhere here that I am going to reject this
+because this is not supporting it we have a very small value somewhere less than 0.05
+so we need to reject the null hypothesis and then we need to accept the alternate hypothesis
+and then we will consider that there is a difference between the proportion of the count in the male and female ratio
+Now suppose if I take two category feature
+Suppose I take two category feature now
+Now what kind of question may come with respect to two category feature
+So with respect to two category feature I may say that
+Is there is a difference between male and female proportion based on age group
+Based on age group
+Now this one category become two category right
+Now again I can again construct this particular bar plot based on this age group and all
+Again my alternate hypothesis will be that there is a difference and my null hypothesis says that there will be no difference
+Then the type of test that we apply if we have two category feature is something called as chi-square test
+Now if this chi-square test gives us a value less than 0.05 at that time we are going to consider it that we are going to reject the null hypothesis and accept the alternate hypothesis
+Always remember this thing guys, if you are using two category feature and if you are trying to come to a conclusion like a statement that I have actually told, at that time you basically have to use a chi-square test.
+Now instead of category feature, let me consider one continuous numerical variable.
+Now these two categories I will just remove it and let me just say that one continuous variable.
+Now what kind of statement can come up with respect to this continuous variable?
+Let me consider that I have considered height over here.
+Now what kind of statement can I come?
+Suppose this is my sample height. If I calculate the mean of this height, it may come somewhere around 1.3.
+Now I may consider that based on the previous sample that I have, is there a difference with respect to this particular mean height?
+Again I can come with this particular statement since I just have one continuous variable.
+So in this case, again I will write an alternate hypothesis saying that there is a difference.
+Again my null hypothesis will be saying that there is no difference.
+And the type of test in case of continuous variable that we basically use is called as t-test.
+Again guys, I will be telling you the formula but just understand the difference.
+When you have one categorical feature, you apply one sample proportion test.
+If you have two categorical features, you apply chi-square test.
+If you have one numerical variable, you apply t-test.
+And similarly if you apply two variables and now let me consider two numerical variables
+And again the concept will be same in t-test also
+Based on this t-test if I get the p-value less than 0.05
+I am going to reject the null hypothesis and I am going to accept the alternate hypothesis
+If the p-value is greater than 0.05 I am going to stay true with this
+That is my null hypothesis saying that there is no difference
+And again this test formula I will be defining you in the next class itself
+Now suppose if I consider two numerical variables.
+Now two numerical variables over here, what kind of test we can apply?
+For this, we basically apply a test which is very very common and everybody knows it, which is called as correlation.
+Now what is this correlation? We create this kind of graph and we try to see this correlation.
+And according to Pearson correlation, the value always ranges between 1 to minus 1 to plus 1.
+If there is no correlation suppose how do I determine the two features are not having correlation
+That basically means that our correlation value will be somewhere near to 0
+If it is near to 0 it basically indicates no correlation
+I hope you have seen my video on Pearson correlation
+So just understand in this particular way that if my correlation is somewhere near to 0
+That basically indicates that there is no relationship between this particular numerical variable
+Now, I can just say that there is a relationship over here as my alternate hypothesis.
+In the null hypothesis, I can say that there is no relationship.
+Again, now based on this, we can again apply a t-test and we can come to a conclusion saying that my p-value is less than this.
+I am going to reject it. Otherwise, I am going to accept this.
+Now guys one more thing, suppose I consider one numerical variable and one category variable or two category variable or category variable which has more categories over here, you can see that it is having more than two categories, we have elderly, we have adult, we have child right, if it is having more than two categories then what kind of test we basically apply is called as ANOVA test.
+Again guys just understand these things because based on the categorical feature, based on the numerical feature
+Now when do we apply among what test is that?
+Suppose if I have a scenario wherein I have a numerical variable and I have a categorical variable
+And suppose in this particular categorical variable I have 2 categories only
+At that time I apply only t-test
+I apply only t-test
+Suppose if I have a category feature which has more than two categories, then I will go with Anubhav test.
+And again the methodology will be same guys, that whenever through this particular test we get a value p is less than or equal to 0.05,
+we are going to basically reject our null hypothesis and accept our alternate hypothesis.
+If it is greater than 0.05, we are going to accept the null hypothesis and reject the alternate hypothesis.
+We should accept the null hypothesis and reject the alternate hypothesis.
+So yes, this was all about this particular video.
+I hope you have understood when do we use key test, when do we use calculate test, when do we use ANOVA test.
+And this is the fundamental mechanism behind hypothesis testing and the type of test you do.
+In my upcoming videos, I am going to show you an example with the help of python programming language.
+How do you perform this particular test and that time you will be able to understand with respect to code also.
+So I hope you understood it. I hope you like this particular video.
+If you like this particular video, please do subscribe this channel if you have not already subscribed.
+I will see you all in the next video. Have a great day and thank you all very much.

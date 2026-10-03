@@ -1,0 +1,835 @@
+Can you hear me guys?
+Yes sir, good evening sir.
+Good evening.
+Let's wait for some more people.
+Arpan has joined.
+Guys, please message in a group that
+class has started. My phone is actually
+in charge.
+Okay sir.
+Meanwhile guys, let's talk.
+Can you tell me
+how much is your machine learning proficiency
+how much is it? like zero or you know a little because I was thinking whether to teach numpy like a child or not
+I was thinking that so one by one
+mine is zero
+sir mine is also zero
+I don't understand whose zero is it actually all the photos came at once
+just one second what do I ask
+type in the chat whose zero is it
+write zero
+I guess he has done saumya di in machine learning
+saumya di can you hear me
+Who is RBS? Is it Raunak?
+Yes sir.
+So guys I was asking this question.
+This is our first class and I had told you that our proper batch will start from 1st September.
+Then all the students will join. Now there are few people in this batch.
+So initially I just want to know that how much is your machine learning proficiency at this point?
+So, I am asking you some questions, you just have to type the answer in the chat.
+The question is this, what is your machine learning proficiency?
+You have to write beginner or intermediate.
+Obviously, no one has advanced.
+So, type beginner or intermediate once.
+I just want to know from which place you have to start studying.
+Write once in the chat, guys.
+If you want me to start from the basic zero,
+then just type beginner.
+Are you typing?
+I am not able to see.
+So, Arpaan is saying 0, Seba is a beginner, and Raunak is also saying 0.
+Swamyadeep, what about you?
+Sir, I am a beginner. I know just the query question only.
+Okay, fine. So guys, we will start from the beginning.
+And what we will do is, we will start from NumPy.
+Again, I assume everyone knows Python.
+I guess everyone knows Python.
+basic level python means you will know about loop, loop, list, dictionaries and all.
+Is there anyone who has a problem in python? Yes sir.
+Is there anyone who has a problem in python? Yes sir.
+Is there anyone who has a problem in python? Yes sir.
+Is there anyone who has a problem in python? Yes sir.
+Just tell me that. Just taking a feedback. If there is then I will share some videos with you.
+And you will understand python by watching those videos.
+So just tell me that if you have a problem in python then please let me know at this point.
+No one has a problem. Okay.
+So the plan would be this. Today we will start with a little linear algebra.
+Linear algebra is very important. Without it you will not be able to work on any algorithm.
+So linear algebra is very important. We will discuss that a little.
+Today's class will be small because I am not feeling well.
+Then tomorrow we will take a class again. Tomorrow's class will be at Nampai at the same time.
+And after that we will do classes around 7-8 pm.
+So let's start with a small session on Linear Algebra.
+So someone will tell you what is Linear Algebra.
+You must have studied in school.
+Which chapters are called Linear Algebra?
+First of all, tell me this.
+Which chapters are called Linear Algebra?
+Which chapters are called Linear Algebra?
+I don't know if this is the right question or not.
+I just want to know which topics do you identify as Linear Algebra?
+Sir, where do you use that X, Y, X, something, something, that variables?
+But that is Algebra.
+Yeah, what is Linear Algebra?
+Linear Algebra is specifically a branch of Mathematics.
+For example, what are the topics in Calculus?
+Integration, Differentiation, Differential Equations, Maxima, Minima.
+These are all topics of Calculus.
+Similarly, I am asking this question that
+If I say linear algebra, what topics do you have in your mind?
+Matrix, determinant, etc.
+First of all, you should have matrices in your mind.
+Second, you should have vectors in your mind.
+Vectors and matrices are two fundamental principles on which linear algebra works.
+In today's class, I will just share why these two things are so important and powerful.
+So, watch carefully. Let's start.
+We won't read a lot of things. It would hardly be half an hour.
+I'll share my screen and I'll just open something to draw.
+Where I can draw. So, I will use this website or app.
+So, let's start with the discussion.
+First of all, you tell me.
+There are very few people and you know I am very friendly with students, so let's have a discussion like friends, senior-junior type.
+So can you tell me, what do you call a vector?
+Vector is a magnitude and direction.
+Yes, that definition is correct according to the book.
+I will ask you a question in a better way and then you tell me where the vector is.
+I have a data set and I use this data set in many examples.
+You might have seen this data set before.
+This data set has three columns.
+What are these three columns?
+These three columns are
+CGPA
+IQ
+and the placement of that student
+Sorry, my handwriting is not good because I don't have practice in writing
+placement
+Yes or No
+Means, how will the values be here? Yes or No
+Yes or No. This is how the values will be
+How will the values be in IQ? 73
+84, 125
+How much will be the value of CGPA?
+Like 2.5 is not that much
+5.5, 6.6 is my own CGPA
+7.7, 8.8
+This is CGPA
+Now if I ask you a question
+Where is the vector in this whole thing?
+Can you see any vector here?
+Can you see any vector here?
+You can call anything a vector.
+I showed you something and I am asking you what is a vector.
+So how will you identify what is a vector?
+Placement column.
+Yes, which one?
+Placement column.
+Placement column is a vector.
+Okay.
+Tell the rest of the people.
+Both are opposite to each other.
+Both are opposite to each other.
+Okay, you are applying this logic.
+Ok, tell me something else, I will tell you. Where is the vector hidden here?
+So what if I say that I have to represent this data on a graph.
+So can you tell me how you can represent this data on a graph so that I can understand what this data is trying to tell?
+Like what kind of graph would I use? You use different types of graphs, right?
+My question is, if you have a numerical column, first let's discuss one thing.
+How many types of data are there? I am telling you that there are two types of data.
+Can you tell me what are the types of data? It is a very simple question.
+What are the types of data? It is a very abstract question.
+There are two types of data. First is numerical data.
+First is Numerical data and second is Categorical data.
+I guess you are knowing the names of both of them.
+Can you give an example of Numerical data?
+In float.
+Can you give a real life example?
+1,2,3,4,5,6
+Can you repeat it?
+1,2,3,4,5,6
+Can you give a real life example of Numerical data?
+I have typed it in the chat box. Let me open the chat box on the side.
+Yes, see this is in your data. What kind of data is this CGPA?
+Numerical? What about this IQ? What kind of data is this?
+What kind of data is IQ? Numerical.
+What about this placement? What kind of data is this?
+Categorical. This is categorical.
+placement is categorical, gender is categorical, city is categorical,
+age is numerical, weight is numerical.
+So, I wanted to discuss with you that what are the types of data.
+You will have to identify in the future that when something is categorical and when something is numerical.
+Now comes this question. Now I am asking you a question and try to answer this question.
+If you have a categorical data, if you have a categorical data
+and if you have a numerical data, that means you have a numerical data and a categorical data
+you can imagine anything in your mind
+and if I have to make a graph to represent these two, then what will be that graph?
+you must have read different types of graphs in your childhood
+scatter plot, line plot, box plot, bar graph, pie charts, you must have read different things
+so my question is that if you have to represent a categorical data and a numerical data
+So which graph will you use to represent this data?
+We can take an example.
+For example, numerical data is age and categorical data is gender.
+Let's say you have this data.
+So can you tell me which graph will you use to represent age and gender?
+Think about it. It is a very simple question.
+Think about it. Is it numerical data or categorical data?
+What kind of graph should be plotted?
+The answer is bar graph.
+You will use a bar graph. You will plot here male and here female and you will draw bars like this.
+Now these bars can tell you anything. This bar can tell you the total age as in add all the age. It has no logic.
+It can tell you what is the mean of age for male and for female. Do you understand this?
+So what will you use for this kind of data? You will use a bar graph.
+So my question is that if you have two categorical data and no numerical data
+then what kind of graph will you use?
+If you use a bar graph for one numerical then which one will you use for two numerical?
+My question is, which one will you use for 2 numerical data?
+There are 2 numerical data, i.e. numerical in X and numerical in Y.
+Which graph is suitable for this type of data? The answer is scatter plot.
+You will plot all the data points like this.
+Do you understand?
+See here
+Here every row
+This is the data of one student
+You took the data of first student
+Here you put CGPA
+Here you put IQ
+And here every X is showing
+Guys tell me
+What is representing every X
+What is representing every dot
+Guys
+What is representing every dot
+Tell me again
+Actually here every point is representing one student, don't you think?
+This is one student, this is the second student, this is the third student, this is the fourth student.
+I am doing one thing, I have become a little clumsy, I am reloading the page and again I will draw and show you.
+I have become a little clumsy, so look carefully.
+So what I am doing is, I am creating a graph.
+sorry this drawing is not looking good and here are my columns CGPA IQ and placement
+ok so here are students there are 1000 students data so here when you are drawing the scatter
+plot here every cross represents one student I guess you are able to understand this can
+Can you tell me the third information that whether they have placement or not, how can I represent that on this graph?
+These are all students. How can I represent this information that whether they have placement or not on this graph?
+Depending on the data.
+For example, if your first student is here and his CGPA is 7.5 and his IQ is 100 and his placement is done.
+Suppose he is this student.
+How can I represent that he has placement?
+because all these points look the same in black colour.
+So what can I do to differentiate that this is placement and that is not?
+What can I do to create this differentiation?
+That by looking at the graph we can understand that this is the placement and that is not.
+Sir, by drawing a line?
+Yes, we can do it by drawing a line but we are not doing it now.
+At this point we are not into machine learning.
+Suppose you don't have any algorithm or prediction. You have this data. I am not asking you to predict new data.
+I am simply asking you to show the information in the old data. How will you show? Colors.
+You will do colors. It is very simple. What will you do? You will say that all the people who were placed, I will surround them with green color.
+So what is the green color representing? That the placement has been done.
+And what is the red color signifying? That the placement has not been done.
+So after looking at it, I am able to understand three things.
+Like if I catch any particular point, then I am getting its CGPA from this place,
+I am getting its IQ from this place and I am also getting to know whether its placement has been done or not by looking at its color.
+I guess you are able to understand this thing.
+Now comes the question, where are the vectors? So look carefully where the vectors are.
+Each of these points are actually a vector. Can anyone justify this line?
+Each of these points are actually vectors. Can anyone justify this point?
+How? See this. This is a vector. Guys, is this a vector in a 2D space?
+Suppose its CGPA is 8 and its IQ is 80 and this is your x direction and this is your y direction.
+Can I write this point as 8i plus 80j where i and j are unit vectors in x and y direction.
+direction. Can I call every point as a vector? Think about it guys. This point is very important.
+Swamiji, I can't hear you properly. Say it again.
+Those are positional vectors.
+I am just saying that can you call them vectors?
+First of all, get comfortable with this idea that every point over here is actually a vector.
+In this two-dimensional space. Are you comfortable with this point?
+Yes sir.
+Okay. I am doing one thing.
+Swamiji, mute your mic. I can hear my voice again and it is disturbing.
+As soon as you stop speaking, mute it once.
+So guys, next point, listen carefully.
+I changed my data a little bit and now I have added a new column in my data.
+Listen carefully.
+And this is the column.
+What data do I have now?
+I have CGPA.
+I have IQ.
+and i have
+hmm
+its
+what can be more logical
+whether we get placement or not
+and what can depend on
+placement apart from CGP IQ
+hmm
+that
+how many backlogs it has
+how many backlogs it has
+number of backlogs
+ok
+i added a third data
+which is the fourth column, placement, did it happen or not, now can you tell me, how can I plot this information in the graph,
+I am reloading the page again, I hope you have understood this one, I am reloading this page,
+and I am asking you just one second
+so my data is this, I will write it here again, my data is CGPA
+my data is IQ, my data is backlogs
+and my data is whether the placement is done or not and again guys
+I have to represent this whole thing in a graph, how will I do it
+In 3D space, it will be 3D.
+Now, you will make a graph which will be a scatter plot but it will be 3D.
+So, this will be CGPA, this will be IQ and this would be backlogs.
+So, let's say there is a point here.
+This is a student.
+So, in this 3D space, it is somewhere here.
+It is somewhere here.
+Similarly, there is one more student.
+He is here.
+There are some more students.
+There are some more students.
+Who are here.
+Who are here.
+Who are here.
+Now again, let me ask you this question.
+Where are the vectors here?
+All are vector points.
+Again all are vectors?
+Don't you think you can say again
+that this point of yours
+is actually a vector.
+There will be three components of this. One in the direction of CGPA, one in the direction of IQ and one in the direction of backlog.
+So again, every point is a vector. I guess there is no problem till here.
+Again, what are these colors representing? Was the placement done or not?
+Now again, let me ask you this question again. What if I add three more columns here?
+I have added some more 3 columns and these 4 columns are still there
+So now I have 7 columns, out of which 1 will be placement and the rest will be 6 columns
+So now what will I do?
+Dimension will increase
+Dimension will increase, right
+Now this data has reached 6D space
+But is it still true that every point is still a vector?
+Is this still true? That every student is a vector in this 6 dimensional space.
+Will you agree with this? Yes sir.
+This is still true, right?
+Now there will be 6 components of this vector.
+1, 2, 3, 4, 5, 6. Right?
+But this will still be a vector.
+Let's imagine n dimensional space.
+And this is also true in n dimensional space.
+So in machine learning, I just wanted to tell you one thing, you have to remember this till the end and it will be very useful to you.
+What is this thing? As soon as you get any data set, in all your input columns, the one row will always be a vector.
+Remember this thing always. I guess you will remember this thing.
+Always think of it as a vector. Then you will get a lot of help in solving this problem.
+There will be a lot of situations in future when you will not be able to solve the problem if you will not think like a vector.
+So this is really important. So now, what are matrices then?
+We have understood vectors. What are matrices? You must have studied in your childhood.
+Who did you call matrices? What are matrices?
+Set of vectors.
+Set of vectors. Perfect.
+So, if I have a data, let's call it D and let's say it has M columns.
+1st column, 2nd column, 3rd column, 4th column, M column.
+So, what is every row?
+Every row is a vector.
+And if you take all these vectors collectively, then this is known as matrix and in machine learning it is called data matrix.
+This is called data matrix in machine learning language.
+So always remember to separate all the input columns and remove all the rows from there
+That becomes your data matrix
+And here, this thing here, whether their placement is there or not
+Let's say we are representing it from 1, 0, 0, 1, 1, 0
+What is this thing? What will you call this?
+This is our input and this is our target.
+Target means the one which we have to predict.
+What is this?
+What will you call this guys?
+Is it a vector?
+Is it a matrix or vector?
+This is a vector.
+This is also a vector guys.
+This is also a vector and you call it column vector.
+Because in this, we call it column vector or row vector, I got confused, actually it doesn't matter much, row vector, let's see an example, I guess it is called column vector, so row vector is matrix A is a column vector, this is a column vector and this is a row vector.
+So yeah, this is a column vector, we will call it column vector.
+This is a column vector, okay?
+Now what will happen?
+If you put a transpose operation on it, what will it become?
+If you put a transpose operation on a column vector, what will it become?
+Row vector.
+Okay, you will do this operation many times too.
+So just remember who is called column vector and who is called row vector.
+Although I don't matter much, I forget it myself.
+It doesn't matter.
+Just remember that the target itself is a vector.
+This is a vector and this is what you call as data matrix.
+I guess you understood till here.
+Now I will discuss one important thing.
+Sir, why don't you call it matrix?
+Because it doesn't have multiple components.
+He said it right. What is matrix?
+It is basically collection of vectors.
+You call collection of vectors as matrix.
+Sir, in matrix, it is called column matrix or row matrix.
+Yes, in math, it is called like this.
+It is called matrix solution.
+Obviously, you can say that.
+As you are using square bracket notation, you can call it that.
+But, if there is only one single component like this.
+If there is a single component, then essentially it is a vector.
+You can plot it on the coordinates through points.
+That is basically a vector.
+In this notation, you can call it a matrix.
+Its general term is matrix.
+But specifically, it is a vector.
+You can plot it in an n-dimensional space.
+If there are three things.
+1, 2, 3.
+It is basically coordinates in x, y and z direction.
+then you can plot it. If it is like this
+1, 2, 3, 4, 5, 6
+so now you have two coordinates in three dimensional space
+or you can give it roughly
+a general term that it is a matrix but essentially
+if it is single then it is a vector and that is why
+I don't know which website is this, startrek.com
+it also says that this is a row vector
+and this is a column vector.
+Always remember that collection of vectors will become matrix and when it will be alone, you have to call it vector.
+There will be no confusion after that.
+Now I have to do an important discussion with you.
+The equation of a line.
+The equation of a line will trouble you a lot in the future.
+So let's discuss it once and this discussion will be useful for you in the future.
+So in a two dimensional space, can you tell me what is the equation of a line?
+y equals to mx plus
+Suppose this is a line. Can you tell me the equation of this?
+y equals to mx?
+Not this one. I want the general form.
+In the general form, ax plus by plus c is equal to 0.
+You might have read this form.
+ax plus by plus c is equal to 0.
+Some of you may know that without regression there is a problem in studying this concept.
+You can understand it like this, what do you call a and b in this?
+Some of you know what do you call a and b? Coefficient.
+And what do you call c? Constant.
+And in the terms of machine learning it is called bias.
+So, these are coefficients and this is the bias.
+Now, can you tell me if you go in 3D, what will be the line?
+In 3D, what will be the line?
+Z plus D.
+No, I am not talking about the equation.
+I am asking that in 3D, what will be the equation of plane?
+AX plus BY plus CZ plus D is equal to 0. Similarly, if you go by the same logic, then what will happen in 4D?
+First of all, what do we call that thing? For example, there is a plane here, then what will we call this plane in 4D?
+Does anyone know what will we call this plane in 4D? What is the term?
+If you have to draw a linear surface on 3D
+Can you tell me what will you say in 1D?
+What is there in 1D?
+Point
+In 2D, it's a line
+In 3D, it's a plane
+And in 1D, you have a number line
+There are numbers here
+Okay, so here
+What would be that thing? Point
+You will call it a point. Dot. Dot. Dot. Dot. This dot is separating this space in two parts.
+Similarly, what does line always do? This thing, line, plane, point, what do these people always do?
+They divide the whole space in two parts. Think about it. If this was 2D, sorry, I can't handle this pen,
+Pen, Tab, whatever it is, in 2D, if you take a line and consider its length to be infinite,
+a very long line, then what is this big line doing? It is dividing this whole plane into two spaces.
+This is one space and this is another space. Similarly, in 3D space, what is this plane doing?
+It is dividing it into two parts again. Similarly, in 1D space, what is this point doing?
+again dividing it into two parts
+so that is my question
+what will happen in 4D
+obviously we can't imagine because
+it is not possible
+so can you tell me
+what is called
+I just want to hear the name
+what is that word
+does anyone know
+the word is
+listen carefully
+you are going to hear this word
+when you will make all the algorithms
+The word is HYPERPLANE and this is also true in ND, what will you call it in ND, HYPERPLANE.
+What is HYPERPLANE? HYPERPLANE is a surface which divides your coordinate space into two parts.
+That's it. And this is LINEAR. LINEAR means LINEAR RELATIONSHIP.
+There is a linear relationship between x and y.
+The more x increases, the more y increases.
+So, this hyperplane is also the same thing.
+So, if you understand plane, then hyperplane is not different.
+So, can you tell me what will happen if we write its equation in 4D?
+What will be the equation in 4D?
+What will be the equation in 4D, guys?
+Ax plus By plus Cz plus...
+What will you write?
+The notation you are using will fail for big equations, so let's do one thing, let's keep it general
+We are making a general equation of hyperplane which is also true in n-dimensional
+I will make it and show you, it is very simple
+What will you do? If you take x, y, z then it will end at some point
+It ends at Z. So, let's use X1, X2, X3, Xn.
+Similarly, rather than using A, B, C, D, let's use W1, W2, W3 till Wn.
+There is no problem till here. Now tell me, can you write a 4D hyperplane equation?
+By the way, you can call constant as B. B is for constant.
+So can you tell me what will be 4D equation? What will be the equation in 4D?
+Sir, when will X4 stop?
+You will write W1X1 plus W2X2 plus W3X3 plus W4X4
+In the end?
+B
+B
+Equal to 0
+Right
+What can you write in nd?
+It will go till Xn
+It will go till Xn
+What can be done to write it in small?
+summation of wixi
+summation of i is equal to
+from 1 to n
+there are n points
+wixi
+plus
+b equal to
+0
+right
+now tell me something guys
+i am asking a simple question
+can you tell me
+from x1 to xn
+what is it
+based on the discussion we had till now, what can you call it?
+Sample point.
+Yes, it is a sample point. I was asking a general term for it.
+Coordinate.
+There are coordinates of a particular point, right?
+There are coordinates of a particular point in n dimensions.
+What can you call this? What will be the word for this?
+We had decided a word for a particular coordinate a while ago.
+It's a row vector. You can write it like this.
+X1, X2, X3.
+If I had the same data set like CGPA, IQ and number of backlogs.
+It would be represented like this for every row.
+Don't you think everything is a vector?
+and what is this guys, every x has a corresponding weight or a coefficient, so don't you think
+this is also a vector, this is also a vector, so what I can do is I can write it like this,
+column vector will be this, we are making this column vector, like this, we are making
+vector. This is basically W transpose. This is W transpose. And you can collectively call
+it X. So what is my whole equation? W transpose X plus B. And in the middle, can you tell
+me which operation is this? Which operation is this guys? W transpose X and the dot in
+the middle, what does it represent? In vectors? A row dot product. This is the dot product.
+Can you tell me if this is of n dimension and this is also of n dimension
+So when their dot product will be there, then what will be the dimension of the resultant?
+One dimension will be there
+One dimension will be there because what is this?
+1 cross n and what is this?
+n cross 1
+These two are matching, so what will be the resultant?
+1, basically a number will come, in that number you will add b
+You will get a number
+So here you just have to understand that what you do is that you take W and X as dot product and add bias to it
+And you make it equal to zero and this is the general equation of the line
+This is true in one dimension, this is true in 2D, this is true in 3D and this is true in ND
+And guys you will read this in every particular algorithm, you will read it in linear regression, you will read it in logistic regression
+The whole deep learning is on this only
+If you have understood what is WX plus B, tell me what can you call WX plus B?
+What is WX plus B?
+WX plus B is basically the general equation of a hyper plane in n dimensional space.
+If you want to bring it down in 2D, then what will it become?
+W1 X1 plus W2 X2 plus B.
+So guys if you understood this thing then please let me know.
+Then I will share a very interesting problem with you.
+And you tell me how you will solve that problem without even knowing any algorithm.
+Forget about machine learning, we are studying Maths.
+We are students of Maths.
+So I will discuss a very interesting problem with you.
+And we will discuss that when you have this in your mind that WX plus B is not a big thing
+WX plus B is basically a line in n-dimensional space. That's it.
+And what is W here? N-dimensional vector. What is X? N-dimensional vector.
+Actually, W should be transpose. But you write WX plus B. People understand that this is a dot product.
+So, guys, did you understand the concept of WX plus B, the equation of a line, the equation of a hyperplane?
+Yes, sir.
+Now, I am sharing a very interesting problem with you.
+And that interesting problem will give you a very nice kick to study machine learning.
+And then you will understand how powerful Maths can be.
+And you would start appreciating Maths.
+So, I am sharing a problem with you and the name of this problem is very famous and you will also read it after 1-2 months
+You will write it in a proper code word, today we are not writing it in code, today we are just formulating it
+The name of this problem is Sentiment Analysis
+Now listen carefully, the problem is this that you have some movie reviews
+You have a data set where there are two columns. The first column is movie review and the second column is sentiment.
+This can be movie review, product review, basically any textual data. This can be a Twitter feed, Instagram post, anything.
+This is the text. So this is the first text, this is the second text and you can imagine a big text.
+You can imagine the text as big as you want and here you have a number 1 or 0, 1 or 0.
+1 means that the sentiment of this text is positive. I will give you one example.
+If you are talking about India, then this text that India is a great country is positive.
+India is a shitty country is negative. So whatever this review is about,
+He feels that the sentiment inside him is positive.
+He feels that the sentiment inside him is bad.
+So now comes the problem.
+What I have to do is to make a system
+What he should do is that he should be able to identify that actually I have to give a problem of sentiment and you have to give another problem.
+Actually give me one minute, I will think once. I have two options, I want to give you a more interesting problem.
+I have two problems. One is movie review and the other is movie recommender system.
+So what I want is to give you a problem. Just give me one minute.
+So let's continue with the sentiment one. We will see the movie one later.
+So my problem statement is this that you have this data guys and then you get a new review.
+You are getting a new review. You have to tell whether its sentiment is positive or negative without studying.
+Obviously, you will have a program which will read it and tell whether its output is 1 or 0.
+How would you approach this problem first of all? How would you approach this problem?
+forget that you are studying machine learning
+forget deep learning
+we will resolve it on some bias
+if the value is less then we will make it 0
+if it is more then we will make it 1
+how will we know the threshold
+Obviously, you will work on this data only to get that bias.
+Because this is the input that you have got.
+Suppose you have a review of 5000 movies and their sentiment.
+So what I want is that if you are asking me to get a threshold value,
+then it will come out from the data itself.
+It will not come out from the new data.
+It will come out from this place only.
+So how will you get that threshold?
+And this is actually a good point of discussion.
+Forget about machine learning and talk like this.
+Suppose you are sitting in an interview,
+IS interview, UPSC interview,
+there is some good interview
+and you are asked this question.
+Given this data,
+how can you create a model
+which can identify the sentiment
+of a new incoming movie review?
+Any solution guys, any suggestion
+you have?
+See what you will do.
+See what you will do guys.
+I am reloading it again.
+Because its eraser is very shitty that's why I am reloading it again and again.
+Watch carefully what you will do.
+And it's okay, I was not expecting the answer because it's not that easy.
+So watch the answer carefully.
+So you have data here.
+Here is your sentiment.
+Sorry, here is the text of your movie.
+As in sentiment.
+Sorry, here is the text of your review.
+And here is your sentiment.
+This could be as big as IMDB review. It could be 50 words, 100 words, 500 words.
+It doesn't matter how big it is. Here its value is positive and negative sentiment.
+I will transform this data into another kind of data.
+What I am doing is called vectorization.
+This process is called vectorization.
+This is a great thing, you will understand. So what I am doing is, I picked up a particular review, in fact, I picked up all the reviews, I ran a loop on every review, this is Python, simple Python, I ran a loop on every review and I made a split function, does anyone know what a split function does?
+Yes sir, it takes both the inputs and we can take them together and we can separate them by giving a comma.
+Let me show you what Input does. I already have a notebook open.
+So let's say I have a string.
+I have a string.
+This was a great movie.
+This is the string. If I put a split on it,
+then see what it will do.
+It will convert it into a list.
+And what will happen in that list?
+Every word that will be used in the sentence.
+What I did here, all my words, all my reviews, suppose I had 5000 reviews.
+I ran a loop on those 5000 reviews and formed a big list.
+So if I ran a loop on the first review, I got the first list, then the second, then the third, then the fourth.
+By doing this, I got 5000 lists. There were words in every list.
+Now I added all the lists. What will happen if I add all the lists?
+What will happen if I add 5000 lists?
+I will give you this example. This was the first one. I stored it in list 1.
+Similarly, I copied it and made L2 and this is the second review.
+And I wrote here, it was a shitty moon.
+And I also colored this.
+And then I did L1 plus L2.
+Do you understand what happened?
+Both were added.
+Both were added.
+But you can see here, some words are being repeated.
+A is being repeated.
+Was is being repeated.
+Movie is being repeated.
+What I want is that I want only unique words from this big list.
+Only unique words.
+I can do something here. How can I get unique words?
+Will anyone tell me? All those who have studied Python.
+I want to get unique words from this. How can I get it?
+I want only unique words, guys.
+Which?
+You will set it.
+Do you know what set does?
+Set always keeps unique words.
+There are no duplicates in set.
+Yes, sir.
+You have converted it to a set.
+Now remember this operation and come back here.
+If I had done the same thing on 5000 reviews, then I would have got a set.
+I would have got a set.
+Can you tell me what would have been in that set?
+There would have been only words that would have been given directly.
+All those words would have been there once.
+There would have been no two times.
+So all the words are once used to create these 5,000 reviews.
+Is everything fine till here?
+So let's say the total words are 1, 2, 3, 4, 5, 6, 7.
+If I put the length on it, then I will get the total number of words
+which I used to create these 2 reviews.
+And it's basically 7.
+So, imagine that I put the same operation on this set and I got 35000.
+This means that to create 5000 reviews, how many unique words were required?
+35000. There should be no problem till here. It is very simple.
+Now, the main thing starts from here.
+Now, what did I do? I made columns of these 35000 words.
+So what I did is I took all these words and made a column out of them.
+So what were all these words? Let me write it here.
+It, this, a great movie.
+So what I did is I made a column here.
+It, this, was, a, 34000 words in the middle, great movie.
+How many columns are these in total?
+There are 35,000 columns.
+35,000 columns.
+Now listen carefully.
+Now from here, the first one
+I picked up the first review.
+I picked up the first review.
+Basically I picked up this review.
+This was a great movie.
+And what I did here, I asked a question from this review.
+How many times does it come in this?
+So I got to know that it comes 0 times.
+So for the first row,
+I wrote 0 here.
+Then I asked how many times does this come?
+So here it comes once.
+So I wrote 1 here.
+How many times does was come?
+It comes once. How many times does great come?
+How many times does movie come?
+And in the middle everything is 0.
+Okay.
+And I did the same thing with my 2nd movie.
+Then I did it with 3rd movie.
+And with 5000 movies.
+And now see
+this became your tabular data.
+What will be its shape?
+Can you tell me what is the shape of this new tabular data?
+35,000
+35,000
+Actually it won't be 35,000
+First you write rows
+How many rows? 5,000
+And how many columns?
+35,000
+This is the shape
+And obviously here
+many words will be 0, some will be 1
+some will be 7, in this way
+the whole thing will be visible
+And in the last I added one more column
+where it is written 1,0,0,1 which tells us that this particular vector
+By the way don't you think that now a vector has been created?
+Here every row is a vector? Yes sir
+Can you tell me how many dimension of vector is this?
+Here every row has how many dimension of vector?
+35000
+In 35000 space it is a vector right?
+If you make a space of 35,000 dimensions, you will be able to pick up every point and plot it.
+And now see what I have done.
+I have plotted all the points in that 35,000 dimension space.
+Obviously, I can show you this in 3D only.
+Okay.
+And now what I have done is, I got a new review.
+I got a new review which I don't know what the sentiment is.
+I asked the same question from that as well.
+Tell me how many times did you get it?
+How many times did you get this?
+How many times was has come in yours? How many times a has come in yours?
+How many times grade has come in yours? How many times movie has come in yours?
+So don't you think what I have formed from my new incoming movie?
+A vector. Can I plot that vector also in this n dimensional space?
+Let's say I have plotted it and here is the new one.
+Now apply some common sense and tell me how can I find out in this 35000 dimensional space
+whether this new movie is a positive or negative sentiment
+let me give you a hint
+what if all the movies around this
+all the movies around this
+all these vectors
+all these movie reviews
+are positive sentiments
+then we will do clustering
+what will you say
+Don't forget the cluster, don't forget the machine learning, talk about common sense, talk about maths.
+You got to know that as soon as you made it a vector and plotted this new red point in space,
+many of its nearby points, probably 70% points are green.
+30% points, let's say in the radius of 1 meter.
+Obviously, the radius of 1 meter is not the correct metric, but we are talking in common language.
+70% is green and 30% is red, so what would you say?
+What can you say about this?
+Green.
+It will be green.
+It will be green.
+Right.
+What did you calculate?
+You calculated the distance.
+You made your metric for the distance.
+And you said that most of the points in the nearest points are actually green.
+So what I will do is, I will say that there is a 70% probability that this point will be a positive sentiment.
+And since there is more than 50% probability, I would say that yes, its sentiment is positive.
+70% chance is there that its sentiment is positive.
+And that is machine learning.
+That is one example of machine learning where you implement whatever you have studied today and make a small algorithm.
+By the way, the algorithm you have studied is KNN.
+What you do in KNN is that you decide a number like 5.
+So what you are doing is that you are finding the 5 nearest neighbours of this red point.
+And you are finding out their classes.
+Is it a positive sentiment or a negative sentiment?
+So if 3 of them are positive then you will tell your new point that it is positive.
+This is called KNN.
+It is a very simple algorithm.
+Okay.
+And guys, this is how algorithms are made.
+The idea is this, it's all about maths. You have to visualize what is going on in the higher dimensional space.
+You have to do the plotting, you have to understand what is there in the data.
+Then only you will be able to understand machine learning. Anyone can do the code, guys.
+The code is very easy. The underlying maths is very important.
+So, today I was just giving you a little introduction of linear algebra.
+Did you understand a little? Guys, tell me.
+Was it interesting? When I read it for the first time, I felt that it is very interesting and it is a good use of Maths.
+There are some more concepts in Linear Algebra. We will cover them slowly.
+Then we will start with statistics and then we will study a little calculus and probability.
+So we have to study all these four things and we have to learn all the tools.
+So, let's keep today's class as it is.
+Let's start Numpy from tomorrow's class.
+Let's start from the basics.
+Then, we will move to Pandas and learn Data Analysis.
+Eventually, we will move into Machine Learning.
+We will make all the algorithms from scratch.
+I always think that if you learn to make an algorithm,
+then you will definitely know how to use it.
+So the idea would be that you learn Maths so well that you can code the algorithm from end to end.
+That should be the idea. You should not need libraries in this way.
+So we are going to do this in this course. We are together for 6 months.
+I really want you to become a machine learning engineer who can hire anyone.
+That's the whole idea. So yeah, that's all for today.
+If you have any doubts, any problem, let me know.
+Otherwise, go and do it.
+Sardiya, what are you saying?
+But sir, upper case, lower case.
+Yes, you can do it.
+You can bring such considerations.
+But I was giving you a very simple example.
+Okay.
+How to think about things in higher dimensional space.
+In terms of vectors.
+That was very important.
+Okay.
+So guys, tell me if there is any problem.
+I am here for two minutes.
+otherwise go and have dinner, tomorrow we will do one more class
+I will confirm you tomorrow morning because I might have an extra class
+if that happens then we will not do the class tomorrow but the day after tomorrow
+but there is a chance that we will start the lumpy tomorrow
+so yeah tell me, I will give you the recording of this class till tomorrow
+if you want revision, I don't think there is much of revision
+but as a reference you can keep this lecture
+Especially the equation that we derived, wx plus b equal to 0, will be useful to you in the future.
+So, I guess there is no problem guys.
+Let's meet in the next class.
+Okay. Bye.
