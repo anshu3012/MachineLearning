@@ -38,6 +38,7 @@ notes:
   19: 19-understanding-your-data
   20: 20-univariate-analysis
   21: 21-bivariate-multivariate-analysis
+  22: 22-pandas-profiling
   23: 23-what-is-feature-engineering
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
@@ -87,7 +88,7 @@ concepts:
   - {id: univariate, name: Univariate analysis, step: 3, videos: [20], status: confirmed}
   - {id: skewness, name: Skewness, step: 3, videos: [20], status: confirmed}
   - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [21], status: confirmed}
-  - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: draft}
+  - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: confirmed}
   - {id: imbalanced_data, name: Imbalanced data, step: 3, videos: [9, 133], status: draft}
 
   # 4 Clean
@@ -244,7 +245,9 @@ links:
   - [univariate, needs, descriptive_stats, confirmed]
   - [skewness, is a kind of, descriptive_stats, confirmed]
   - [univariate, used in, outliers, confirmed]
-  - [pandas_profiling, used in, eda, draft]
+  - [pandas_profiling, used in, eda, confirmed]
+  - [pandas_profiling, compared with, univariate, confirmed]
+  - [pandas_profiling, compared with, bivariate, confirmed]
   - [missing_values, is a kind of, data_quality, draft]
   - [outliers, is a kind of, data_quality, draft]
   - [complete_case, fixes, missing_values, draft]

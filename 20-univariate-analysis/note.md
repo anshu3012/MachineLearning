@@ -9,6 +9,7 @@ title: "Univariate Analysis: Exploring One Column at a Time"
 >
 > - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)).
 > - **Leads to:** Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Z-score outlier method (Video 42, coming); IQR outlier method (Video 43, coming); Percentile outlier method (Video 44, coming).
+> - **Compare with:** Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

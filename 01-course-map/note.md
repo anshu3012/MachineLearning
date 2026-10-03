@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 58 of 131 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 59 of 131 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -88,7 +88,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Univariate analysis | [Note 20](../20-univariate-analysis/note.md) | confirmed |
 | Skewness | [Note 20](../20-univariate-analysis/note.md) | confirmed |
 | Bivariate and multivariate analysis | [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
-| Pandas Profiling | Video 22, coming | draft |
+| Pandas Profiling | [Note 22](../22-pandas-profiling/note.md) | confirmed |
 
 ### 2.5 Step 4: Clean
 
@@ -288,7 +288,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 19 | Correlation, Descriptive statistics, Exploratory data analysis, Variance | [Note 15](../15-working-with-csv/note.md) | written |
 | 20 | Outliers, Skewness, Univariate analysis | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
 | 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
-| 22 | Pandas Profiling | nothing | coming |
+| 22 | Pandas Profiling | nothing | written |
 | 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md), [Note 11](../11-tensors/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
 | 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 25 | Normalization | Video 24, coming | coming |
