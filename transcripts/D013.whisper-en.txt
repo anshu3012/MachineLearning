@@ -1,0 +1,191 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we will continue our deep learning course
+As I told you that we will do 3 small projects
+After doing which we will get an idea
+That how you can solve classification and regression problems in deep learning
+By making artificial neural networks
+So we have already solved 2 problems
+In the previous video we saw binary classification
+when we worked on Customer Churn Dataset
+In the last video, we did multi-class classification on MNIST Dataset
+where there were 10 categories
+and today we will work on a regression problem
+We will learn that if you have a regression problem
+then how you can work on it by making an artificial neural network
+The dataset that we will use is a very simple dataset
+where you have some data of students
+and that data set is about graduate admission
+means it is a data set of GRE that how much score your candidates got in GRE, how much score they got in TOEFL
+apart from that how much strength they have in their resume
+there is a data like this and we have to predict that how much is their admission chance
+so this is a regression problem and we would use a neural network to solve this problem
+ok so let's start the video
+So guys, as I have told you that in this video we will solve a regression problem with the help of an artificial neural network.
+And the data set is in front of us. Our data set is a graduate admission data set where we have some columns.
+This data set is basically for those who apply for foreign universities.
+they have to give GRE and TOEFL exam and apart from that they have to make their profile
+to apply for those universities
+so if you notice here we have 7 columns
+so first is GRE score which is max upto 340
+TOEFL score is 120 max
+university rating, what is the rating of the university you are from
+your statement of purpose
+also your letter of recommendation strength
+So when you apply, you have to write a cover letter about yourself that why you want to pursue that particular course.
+Also, you need a letter of recommendation to apply for these universities.
+So this recommendation can be of your professors or someone who has a very strong personality in your field.
+After that, how much CGPA you had in your undergraduate, whether you have research experience or not.
+These are all your input columns, and your output column is chance of admit.
+Whether you will get admission in that university or not, between 0 to 1.
+So you can see this is a regression problem, where the output is a number.
+So we have to work on this data set.
+We have to make an artificial neural network, which can achieve maximum R2 score.
+So what we will do is, we will code in Kaggle, we will click on new notebook.
+I will run the first cell and meanwhile I will write this code, df is equal to pd.readcsv
+So here there are two files, the second file is an updated file, it has 500 records
+The first file has 400 records, the second one is updated, we will use the second one
+And let me show you how our data is looking
+So you can see this is our data
+If you see the shape of the data, then that is 500 comma 9, we have data of 500 students, okay, I have already explained the columns to you, so I will not do it again.
+What will we do? We will write, first of all, we will check whether there are missing values or not, so I can just check for info.
+So you can see, it is clearly visible here that there are no missing values in any column.
+also if you want to see what is the data type of the different columns
+then GRE score is integer, TOEFL score is integer, university ranking is also integer
+SOP is float because there are ratings of 4.5, 3.5
+CGPA is also float because again anything can happen in decimal
+and research is integer, category can be made
+and chance of admit is float
+So, we will not make any changes here.
+I am checking one more thing that if there is any duplicate row.
+So, you can see that there are no duplicate rows.
+So, see again as I have told you that our end goal is not to get the best model.
+Now we are learning how to use artificial neural network in regression setting.
+So, my job is to make it and show you.
+So what I will do, I will tell you step by step, first of all we will remove this serial number column because common sense says that this work is not going to come.
+The remaining 7 columns, we will take them as input. We will make our output of chance of admit.
+Apart from that, we will do one more work, as I told you that whenever you train neural networks, then generally it is said, this is a common wisdom,
+that you bring your inputs on the same scale, like here the GRE score is also 337, but here it is also 4, it is also 4.5,
+so what does this indifference of scale do, it delays your training process, there is a problem in converting your weights,
+so what will we do here, we will scale our values, the scaling we will use here is min max scaling, we will not use standard scaling,
+Because again, as it is said that min-max scaling should be used when you know the upper bound and lower bound values.
+So whatever values are here, there is an upper bound, tight upper bound.
+It can be only 340 in GRE, it can be only 120 in TOEFL.
+So we will use min-max scaling.
+After that, we will make a very simple neural network.
+Where we will keep an input layer, a hidden layer and an output layer.
+So guys this is the architecture of our neural network.
+So you can see here we have 7 inputs and here we have 7 nodes in the hidden layer.
+And there is one node in the output.
+So if you want to calculate trainable parameters,
+So in this layer, there will be 7 x 7 weights, meaning 49 weights, and 7 biases of these.
+So in total, there will be 56 parameters here.
+If you want to talk about here, then here the total weights will be 7 x 1, meaning 7.
+And this will be 1, so the total will be 8.
+So in total, we will have 64 parameters.
+Okay? So I have explained the whole setup to you.
+Now we will go back and we will code.
+So guys, first of all, we will remove the serial number column from our data.
+For that, we have to write this code.
+df.drop columns equals, here I will pass serial number.
+And here I would write in place equals true.
+This is now my data without the serial number column.
+Now what we will do is, first of all we will split our data to train test and after that we will do min-max scaling.
+So I would write this code, first of all we are extracting x, for that we will write this code.
+All rows from 0 to minus 1 all columns and y is equal to df dot iloc all the rows with minus 1 column.
+this is my X and this is my Y, now we will write from sklearn.modelSelection import trainTestSplit
+X train, X test, Y train, Y test, and here we will pass our X and Y, test size equals 0.2, random state equals 1,
+here is my X train, you can see that rows have come randomly, 400 rows in training and 100 rows in test,
+Now we have to do minmax scaling. So we would write from sklearn.preprocessing import minmaxScaler
+We will create an object of minmaxScaler class and we would write this code
+x train scaled is equal to scalar dot fit transform and we will pass our x train
+x test scaled we are making a new variable this will be equal to scalar dot transform
+x test. After doing this, when you print your x train scaled, you will have a numpy array
+in which your entire x train has been scaled in similar values. Now what we have to do is
+build our neural network architecture. For that we will import our libraries. We would
+write, import, tensorflow, we have imported all the libraries, now we will make our architecture here,
+so here it will be tensor, we will write model is equal to the object of sequential class and now we will add our layers,
+First of all, we will add our first hidden layer in which there will be 7 nodes.
+For now, let's assume that the activation function is ReLU and our input dimension,
+the values we will get from the input column will be 7.
+After this, we will add our last output layer in which there is only one node
+node and activation function is linear. Always remember that if you are working with a regression problem
+then the activation function of the output layer node should be linear. We will run this code and we will
+search model.summary
+and you can see we have total 64 parameters
+which we have discussed
+first and second, 56 between input and hidden
+8 between hidden and output
+now we will compile our model
+we have to tell three things
+first we have to tell the loss
+so there are different loss in regression
+The name we will use is mean squared loss.
+The optimizer we will keep as Adam for now.
+And here we don't need to tell anything in the matrix.
+Our model has been compiled.
+And now what we will do in the last state?
+We will do model.fit.
+We will pass our data.
+xTrain xTest, I'm sorry, here we will pass xTrain scaled, will pass yTrain,
+number of epochs we will keep 10, and we will take a validation split along with it,
+let's take 0.2, okay. Also whatever output is there, I want to store it,
+all the stages in between so that I can plot the graph.
+So I made a variable by saying history. And there is some error. And the error is that its name is not mean squared loss, it will be mean squared error. My bad.
+Let's run it again. And here is our code. Since the data is very less, we have converged very quickly. Our model has been trained.
+Let's quickly do one thing, let's take out predictions from the model
+By passing x test scaled
+Here are my predictions, I am storing them
+in ypred and after doing this
+I would write from sklearn dot
+matrix import r to score
+and inside r to score
+I would pass my actual data ytest and my predictions and you can see at this point the performance
+of our model is very bad so if we want we can improve it there are certain techniques
+first is that maybe we have not given enough epox so we can increase the epox also we can
+improve the model architecture
+let's say I am doing one thing
+I am adding one more dense layer
+basically I am adding one more hidden layer in which
+7 nodes will be there
+ok
+so now we will train this new architecture
+so you can see your parameters have increased
+everything is same
+we will do one more change
+by increasing the number of epochs
+we will increase it from 10 to 100
+so that we get more time on data
+And now we are training this model again, so you can see that our loss has reduced a lot, see a lot, we will take out the predictions again and again we will take out the R2 score.
+And you can see that after doing these changes, our model's performance has improved a lot, it has reached 0.76.
+So, this is what I wanted to show you, that in regression, how you can make an artificial neural network and solve your problem.
+Now, we will do one last thing, and that is that we will plot our training loss and validation loss, okay?
+And you should always do this, so I will import matplotlib and I would write this code,
+plt.plot
+history.
+history
+we will remove loss from inside
+and along with
+we will remove val loss
+and here is our curve
+you can see
+the training is done very well
+over fitting is not happening
+in the beginning loss decreased very fast
+and after a point it is decreasing steadily
+maybe we will train this model a little more
+we will be able to decrease the loss.
+So, I will share this notebook with you.
+You do experiments with it.
+So, that was the video guys.
+So, we have done these three problems.
+Now, we will move forward towards our training.
+How to train a Neural Lightbug.
+Before that, we will cover two more videos
+where in one video, we will learn
+about loss functions.
+And in another video, we will learn about activation functions.
+And as soon as we cover these two topics,
+we will start with back propagation.
+So I hope you like this playlist, if so please consider liking this video and please do subscribe
+my channel.
+That's it from my side, bye.

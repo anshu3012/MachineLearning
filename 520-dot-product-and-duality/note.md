@@ -8,6 +8,7 @@ title: "The Dot Product as Projection, and Duality"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)).
+> - **Leads to:** Perceptron ([Note 1004](../1004-perceptron/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

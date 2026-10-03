@@ -1,0 +1,300 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we are continuing our deep learning playlist
+So we have done back propagation, we have seen how gradient descent is applied
+In today's video we will cover a different type of topic
+We will cover a topic whose name is Memoization
+Now this topic is of computer science but its usage
+you will get this message in data science also
+like in backpropagation algorithm internally
+when it will be converted in library
+then the concept of memoization will be used
+so in today's video I am going to explain you two things
+first what is memoization
+and how it is used in backpropagation
+second
+one small thing I forgot to tell you in backpropagation
+and that was that if you have a neural network which has more than one hidden layer
+then it is a little bit tricky to find the derivative of the first layer
+so I will show you that in this video
+so we will cover this concept along with memoization in this video
+again it is an important video so you should know these concepts
+so let's start the video
+Memoization is used in neural networks and deep learning especially while doing back propagation.
+Before understanding this you should know what is Memoization.
+So I searched Memoization on Google and this is the first result of Wikipedia.
+In computing, Memoization is an optimization technique used primarily to speed up computer programs
+by storing the results of expensive function calls and returning the cached result when the same inputs occur again.
+So, in simple words, if you have written a program where the output of one thing is being calculated again and again,
+then in such a situation, what you do is that when you calculate the output for the first time, you store it somewhere.
+So that when you are asked to find the output again on the same input, then you do not calculate again, you have to pick up the stored result and show it.
+What happens with this whole thing? Your program speeds up, takes less time.
+The only loss is that you have to spend a little space to store things.
+So this is a very famous trick in computer science. There is a branch of programming called dynamic programming.
+there this trick is used. To understand it better, what I will do is, I will show you a small example
+which will be shown to you everywhere whenever you will be taught memorization.
+So what are we doing? We are writing the code of Fibonacci. I guess you know the Fibonacci series
+where the value of any given term is added to the previous two terms.
+So what I have to do is, I have to make a function called Fibonacci
+who will get n in the input and I have to tell what is the nth term of Fibonacci.
+So, it is very simple. I will use recursion. My logic will be very simple.
+Now we are not going over coding. I just want to show you the output.
+I would say if n is equal to equal to 1 or n is equal to equal to 0,
+I would simply return 1.
+Else, what I will do is, I will call, rather I would return, I am calling my own function from n-1 input
+and then calling myself from n-2 input. That's it. This is the code.
+Let me show you. I am calling Fibonacci once and let's say I want to know what is 5, as in 5th term.
+So, as soon as I run it, you would get 8. If I write 10 here, I would get 89. If I write 12, I would get 233.
+So, you can see this code is working. But this code is very inefficient. Let me show you.
+Let me show you, as soon as you give 36 inputs, it took a little more time to calculate this program.
+See, now such a big number is coming, but it took some time, it took a little more time.
+What if I make it 40, the input, now see, now it will take a lot of time, it will take time in minutes.
+In fact, if you did 48 instead of 40, then it will take 3 hours to get the output.
+If you did 100, then it may take 2 months.
+This is highly inefficient.
+What is the reason? I will explain it to you.
+So, the code which we have written is an exponential time complexity code.
+How? See.
+When you want to get Fibonacci of 5, then according to your logic, you are getting Fibonacci of 4 and Fibonacci of 3.
+For 4, you are again taking out 3's and 2's.
+For 3, you are taking out 2's and 1's.
+And for 2, you are taking out 1's and 0's.
+The good thing is that at least you know the formula of 1 and 0.
+It is 1.
+So, here again for 2, you will take out 1's and 0's.
+Here again you will take out 2's and 1's.
+Here again you will take out 1's and 0's.
+So you can see, how many things you have to repeat to get only this one thing, you can notice.
+To get 5, you have to get 3 twice.
+You have recalculated this whole sub-tree.
+Okay.
+To get 5, you have to get 2 once, twice and thrice.
+Now imagine, if you are asked to draw this same tree for 48,
+For that you will take 47 and 46, for 47 you will take 46 and 45, for 46 you will take 45 and 44
+And imagine this tree, how big it will be, so the solution of this is that since you don't have to recalculate again and again
+So the logic is that once you have calculated this, then you will not calculate it again
+In fact, I can show it to you, how inefficient this code is.
+See, this is the output after a long time.
+I will measure the time and show you.
+Import time.
+And what I will do is.
+See carefully.
+What I would do is.
+I will write here, start is equal to time.time.
+And after calculating the code, I would print.
+Time.time minus start.
+and it will tell me in seconds, so if I put 36 here, then how many seconds I am taking, see 7 seconds took, if I make it 38, then you will see how many seconds it will take,
+you can see the whole function calls are happening below, 19 seconds are taking, if you do this 40, then it will go up to 1 minute, so in short, if you do a graph plot,
+plot a graph, time taken by the program, rather here input to the program and here time taken by the program
+so it would be like this, exponential, because here you have to do 2 things for each work, so its time complexity is 2 to the power n
+the way to improve this is memoization, what you will do is you will make a small change in this code, what will be the change
+that you will make a dictionary
+and in that dictionary you will store this
+value of 0 is 1
+and value of 1 is also 1
+and you will pass this dictionary in this function
+here also you will receive this dictionary
+and here what you will check this time
+that if n in d
+means you have already put the value of this given input in dictionary
+so you will not remove it again
+and return n in d
+else what you will do is
+You will write, dictionary of n is equal to Fibonacci of n minus 1 plus Fibonacci of n minus 2
+And you would return d of n
+This is the code and this is the output
+Just one second, there is an error here, we have to pass dictionary in the input
+This function also needs a dictionary
+here is our code, see how much time it took to calculate 38, it took only this much time, if I give 100 here, then it will take very less time, see it is taking the same time,
+so I will summarize what is memoization, memoization is a trick of computer science, where you spend space and reduce time, basically you speed up your program,
+Now I will tell you how you can use this same trick in backpropagation to make your backpropagation algorithm faster.
+So guys, now we know about memoization.
+Now we have to understand how you use memoization in the setup of a neural network when you are using backpropagation.
+But before explaining this thing, I want to explain you one more thing which I forgot to explain when I was teaching you backpropagation.
+and that is, if you have a neural network which has two hidden layers
+we have worked on neural networks which had only one hidden layer
+this is a neural network which has two hidden layers
+this increases the complexity
+so I just want to give you the flavor of how the complexity increased
+and how to handle it
+so what I will do is
+here we have four layers
+this is the input layer
+this is the input layer, this is hidden layer 1, this is hidden layer 2 and this is the output layer
+I will show you the derivatives of one weight of this place, one weight of this place and one weight of this place
+why do we take out derivatives? because in back propagation algorithm you have to update
+and to update you need the derivative of all your weights and biases
+so I just want to show you that it is a little difficult to find the derivative of the weights in this layer
+this is what I want to show you
+by the way if you look at this point then we have total in this neural network
+how many trainable parameters are there if you count
+here we have 9 plus 3
+here we have 6 plus 2
+and here we have 2 plus 1
+So this is 12, this is 8 and this is 3, so in total we have 23 trainable parameters.
+Now I will show you one by one how you will calculate all these weights in a complex neural network like this.
+For that what I will do is, I will just take a snapshot of this because we want this on the screen all the time.
+so I'll just take this screenshot this much and let's pin it to the screen yes
+now what we will do is we will first of all calculate the derivative for this weight
+so what I have to do is I have to take out
+del of L with respect to W2, actually it will be W3, W3, 1, 1
+now see, here you can clearly see that your L is depending on Y hat
+you can take regression setup, you can take classification setup
+and your Y hat in turn depends on 5 things
+and one of them is this
+so you can write this whole derivative like this
+dL by dy hat multiplied by del of y hat del of w3 11
+ok
+in the same way you can also calculate the derivative of this weight
+I hope you are getting the point
+now I will show you how to find the derivative of this weight
+so if you want to find the derivative of this weight
+which basically means that you have to find
+del of L
+this weight's name will be 2, 1, 1
+its derivative will be
+loss depends on y hat
+y hat depends on this output
+so I would write O21
+and now O21 depends on our weight which is W211
+so this time your derivative will be del L by del y hat multiplied by del y hat by del O21 multiplied by del O21 by del W211
+till now we were talking about chain rule
+we are talking about chain rule
+now the main problem starts from here, I hope you are able to understand
+that you can take out any derivative of any of these 6 weights from this layer
+you can do it by taking a copy pen from yourself
+now I will show you what will be the problem in this layer
+what will be the problem in these 9 weights in this layer
+The problem will be that if we try to understand through this chart, then you would understand that L depends on Y-Hat
+Y-Hat depends on O21, O21 depends on O11, and now O11 depends on this first layer weight
+L depends on Y hat, Y hat depends on this output, this output depends on this output and now this output depends on this weight
+so here you are walking on a long path
+but the problem is this, I will show you
+what is the problem
+that
+when you changed in w1
+when you changed here
+so the output of this node changed
+but the output of this node
+is going ahead from two paths
+see, so this time
+there is an additional complexity in our flow
+means once you are going from this way and once you are going from this way
+you have to consider both of them
+so in maths if you are asked to differentiate in this kind of situation
+so what you do is
+let me show you, suppose this is your x
+which is making f and g
+and from here your h, fx and gx is being made
+and someone asks you to subtract this
+so how do you do this?
+you track both the paths
+so first what you have to do is write
+delh by delfx multiplied by delfx by delx
+and then what will you add to this?
+second part you will write delh of delgx times delgx by delx ok so you have to do this here
+also the same situation is almost here there is just a little difference and that difference
+Let me show you that here you have W111, from here O11 is being made, now one path is going from O11 towards O21,
+second path from O21 is going towards Y-hat
+and this Y-hat is going towards Loss
+and second path from O11 is going towards O21
+and from O21 it is going towards Y
+this is the path
+and what do I have to find?
+I have to find del L by del W11
+I have to find this thing
+so we will base out this logic and do the rest of the work
+when we subtract this
+then this will be
+del L with respect to this
+del Y hat
+now I have to subtract this much differentiation
+this one
+I have to subtract this differentiation
+but this differentiation is like this
+so what will we do? we will write it like this
+so first we will take this path and then we will take this path
+ok
+so first we are taking the upper path
+according to the upper path
+that your del y hat by del o21 multiplied by del o21 by del o1 will be and then this will be multiplied
+with del w11 ok and here we will take the second path according to the second path what will come
+Y hat by O21
+I have written O21 at both the places
+This should be O22
+You are passing from here, it will be O22
+So this would be O22 multiplied by del O22 del O11
+del o11 del w111 and this is the answer this is the answer guys okay so you can see agar
+aapko iss weight ka derivative nikalna tha yeh kitni complex cheez hai jo aapne yaha
+pe nikaali similarly iss layer mein agar aapko aur kisi bhi weight ka nikalna padega to aapko
+we will have to do exactly the same thing
+so you can see
+just with two hidden layers
+we have only two hidden layers
+and already the formula to calculate our derivatives
+has become so cumbersome and difficult
+to find one thing we have to calculate many things
+you can see
+imagine you have a very deep neural network with ten hidden layers
+you will get scared thinking how many such terms will be there
+so here comes the role of memoization
+if you will go to do this calculation again and again then it will be very slow to calculate derivatives
+but the good thing is that when you start from the back to calculate derivatives
+then the derivatives that you take out here will be useful here
+and the derivatives that you take out here will be useful here
+so basically if you have taken out any derivative here
+you can store it somewhere and use it later
+so in this whole thing your time will be reduced
+even if it will take some memory but time will be significantly improved
+like I can show you an example right now
+so when we did calculation in the first layer here
+when we did calculation in this place according to outer weight
+then we took this thing out
+and we took this thing out
+then when we entered in second layer
+you can see this thing is same
+which we took out here
+so why we take it out again
+I guess you can understand
+if you have already taken it out then you can use it again
+similarly if you have not calculated this thing
+then you can store it somewhere
+you will store it somewhere because it will be useful to you in the future and it will really be useful to you in the future.
+Notice, let me show you that in this place this thing is not this thing, this thing is exactly the same
+that you have taken out here, ok, this thing is exactly the same that you have taken out here.
+you have calculated a new thing but you need it again
+I hope you are able to understand this
+even though the expression is very complex and a lot of derivative terms are added
+but the idea is very simple
+as you go back in the neural network
+you need the weights and derivatives again
+so what you do is that you store it and reuse it
+and that is the whole idea behind memoization
+what happens with this is that your neural network training becomes faster
+so this is it, when it comes to back propagation
+so always remember that back propagation is basically two things
+it is chain differentiation or you can call it chain rule
+applied with the technique of memoization
+chain rule is maths and this is computer science
+and with the combination of these two, our back propagation algorithm is made
+which uses library like keras or tensorflow
+I had to explain this concept separately because this is a very important concept
+I will summarize it for you, we have read two things, first is that as you go deep in your neural network, more terms will come to calculate derivatives
+The formula to calculate its derivative becomes more complex, add one more layer and see, more complexity comes in it
+because of a lot of terms you have to recalculate the same thing again and again
+but if you will recalculate the same thing then your additional time will be wasted
+and that is not a good thing
+so to optimize your overall algorithm what you do is
+you use a trick called memoization
+which is a core trick
+being used in computer science
+specially in the field of dynamic programming
+and when you use this trick with chain rule very intelligently
+that is your back propagation algorithm
+you should have this understanding that mathematically chain rule is the main guy
+and when you are converting it into code memoization is helping you
+so I hope you got this intuition
+so that's it for the video guys
+I hope you understood the video and liked it
+if so please press that like button
+Also, if you haven't subscribed yet, do subscribe to my channel, I'll keep bringing more videos like this.
+So, that's it from my side. Thanks for watching. Bye!

@@ -8,7 +8,7 @@ title: "The Perceptron Trick in Code"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Equation of a hyperplane ([Note 70](../70-perceptron-trick/note.md)).
-> - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)).
+> - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Perceptron loss ([Note 1006](../1006-perceptron-loss/note.md)).
 > - **Compare with:** Support vector machines ([Note 92](../92-svm-intuition/note.md)).
 <!-- /where-this-fits -->
 

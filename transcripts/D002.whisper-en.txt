@@ -1,0 +1,859 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel.
+So if you remember, in the last video I had announced that I am going to start a deep learning playlist on my channel.
+So today it will be the same. Today we will start our 100 days of deep learning course.
+This will be the first video and before starting the video, I will give you a little introduction to what we will cover in this video.
+So, since we are just starting and I have decided that this course will be beginner friendly
+So, the idea is very simple that we will start from scratch and gradually move to complex topics
+So, today is day 1 and I want you to know everything about deep learning
+So, that is why today's video's title is What is Deep Learning?
+So, if you are a beginner and you are entering this field for the first time
+then by watching this video you will understand what is deep learning
+and what is the origin of it
+apart from this, one more topic that I have covered in this video is that
+what is the difference between machine learning and deep learning
+so I will tell you differences on 4-5 different points
+both theoretical and practical aspects
+and after that I am covering one last topic in this video
+that is why deep learning is so famous now
+means what are the reasons behind the success of deep learning
+I am teaching this topic because I want you to have a complete perspective when you enter the field of deep learning
+Why are things as they are? What are the reasons behind it?
+That is why if you watch this video once, then you will understand the landscape of deep learning in 2022
+And this video will prepare you very well for the future
+So, I think this introduction is enough. Let's start the video.
+So guys, let's start from the beginning. First of all, I will tell you what is deep learning.
+And I will give you the definition of deep learning.
+So, if you go to the internet and type what is deep learning, then you will see mostly two types of definitions.
+One will be a simple version and the other will be a technical definition.
+In this video, I will tell you both the definitions.
+because both of them will help in your understanding
+so our first definition is on your screen
+where it is written that deep learning is a subfield of artificial intelligence and machine learning
+that is inspired by the structure of a human brain
+also deep learning algorithms attempt to draw similar conclusions as humans would
+by continually analysing data with a given logical structure called Neural Network
+so there are two parts in this definition, let's break it down and focus on the first line
+so from the first line we can understand that Deep Learning is a subfield of AI and Machine Learning
+so this diagram will help you a little
+in this diagram, we can clearly see that the biggest umbrella term
+which contains everything is Artificial Intelligence
+What is Artificial Intelligence?
+It is basically a human being's
+you learn from data so if you have a data then if there is an input and output in that data
+then the work of your machine learning algorithm is to figure out the relationship of the output with the input
+so machine learning is a sub field of AI
+Deep learning is a sub-field of machine learning
+where you are doing everything like machine learning
+but the biggest difference between machine learning and deep learning is
+that machine learning depends on statistical techniques
+to capture this relationship between input and output
+To capture this relationship, most of the machine learning algorithms focus on statistical techniques, whereas deep learning depends on a logical structure which we call the neural network.
+And this neural network is inspired by the human brain.
+Computer scientist said that if we want to make intelligent things, then let's get inspired by the most intelligent thing on earth, human beings.
+The way human beings think, the way they do decision making, what if we make algorithms that can map that thinking.
+So neural network is basically a logical structure which is inspired by human brain and this collection of algorithms is collectively called as deep learning.
+Now I will show you an example of a deep learning neural network.
+this is the example
+this is a neural network
+it is a simple neural network which we call ANN
+artificial neural network
+ok
+now
+we are going to read about it in detail
+let me give you a little introduction
+so artificial neural network is basically
+a logical structure
+where your
+fundamental unit is called perceptron
+all these circles that you can see
+these are perceptrons and they are connected to each other with these arrows
+and these arrows are called weights and this is called layer
+these are all layers which are all perceptrons in one line
+these are all layers
+now from here you take input and from here you get output
+I have given a very detailed description in front of you.
+Now, the place where you get input in the layer, you call it the input layer.
+And the place where you get output, you call it the output layer.
+Now, how many layers can you add in the middle?
+There are two here, but you can add as many as you want.
+These are called hidden layers.
+In fact, this is a fun fact.
+The name of deep learning comes from the fact that how many hidden layers do you have?
+If there are many hidden layers in between, then this whole network becomes deep.
+So that is why this name is deep learning.
+So now you must be wondering whether we have only one type of neural network or there are different types.
+So the answer is that there are different types of neural networks.
+This is only one type.
+So, ANN is the simplest one, then there is CNN, Convolutional Neural Network, then there is RNN, Recurrent Neural Network.
+Apart from this, there are many different types of neural networks which solve different purposes.
+For example, Convolutional Neural Network works very well on image data.
+Similarly, RNN works very well on speech and textual data.
+GAN can generate things like text and images.
+It is very interesting.
+In this way, you will get to read many more neural networks in this course.
+But based on the discussion till now, I will summarize that deep learning is a sub-field of machine learning.
+So machine learning works the same way as deep learning, only in a different way.
+The work is to find the relationship between input and output mostly in supervised learning.
+Now machine learning uses statistical techniques to do this work.
+Whereas deep learning follows a logical structure which we call neural network.
+And these neural networks are designed in such a way that they try to replicate human brains.
+Why did the computer scientists think so? Because they felt that if you want to make intelligent machines,
+then why not copy the human brain, which is the most advanced intelligence form on earth.
+Now ANN looks something like this, which I described in front of you, which is the simplest neural network.
+but we also understood that apart from this, there are many other neural networks
+which we will gradually study one by one in this course
+now we understood everything
+now the question is, and it should also come in your mind
+that why is deep learning getting so famous?
+I mean, recently you must have noticed that deep learning is being heard and seen everywhere.
+What is its reason? What has deep learning done that deep learning is getting so much fame?
+Let's discuss that.
+So, there are two big reasons behind deep learning being so famous.
+The first reason is applicability.
+I will explain what it means
+and the second reason is performance
+so the meaning of applicability is that
+the deep learning algorithms
+are applicable in a very big domain
+you won't believe that deep learning
+works in a lot of areas
+like computer vision
+speech recognition
+natural language processing
+machine translation
+bioinformatics
+Drug Design, Medical Image Analysis, Climate Science, Material Inspection, Board Games Programs
+So, you can apply Deep Learning in any of these fields
+And the second reason is Performance
+The performance of Deep Learning in all these fields has been skyrocketing
+In fact, many state of the art results have been provided to you by Deep Learning
+such a performance which you can't surpass
+in fact, in some scenarios, deep learning has beaten the performance of human experts
+so you might have heard, there is a famous Chinese game called Go
+where an AI agent named Alpha Go
+defeated the world champion of Go 4 times in 5 games
+There are many more such scenarios where you will see that the state of the art performance of deep learning is coming and human experts are also leaving them behind.
+So this is the reason because of which deep learning is getting so much attention in today's date from the software community, computer science community.
+You will see many examples like self-driving car, new drugs in medical science, new research in chemistry is driven by deep learning.
+In the next video, I will tell you about different types of applications where deep learning has left its impact.
+but now just understand that the sudden surge of deep learning has come due to two things
+first is that deep learning algorithms are designed in such a way that it can be applied to a wide domain of problems
+and second is performance, wherever it is being applied, their performance is state of the art
+At some places, they are surpassing the human experts.
+So, this is building the reputation of deep learning.
+So, I hope you understood the introduction of deep learning.
+Now, we will move ahead in this video.
+So, as I said in the beginning that I will tell you two definitions.
+So, we have seen the first definition which was a very common definition.
+Now let's move on to a slightly technical definition, the definition is on your screen.
+Here it is written that deep learning is a part of a broader family of machine learning methods based on artificial neural networks with representation learning.
+After that it is written that deep learning algorithms uses multiple layers to progressively extract higher level features from the raw input.
+For example, in image processing, lower layers may identify edges, while higher layers may identify the concepts relevant to a human, such as digits or letters or faces.
+Again, there are two parts in this definition. Let's focus on the first one.
+So, in the previous definition, it is only told that it comes under machine learning and is based on artificial neural networks.
+but here one more sentence is written, one more word is written
+representation learning
+so according to this definition
+deep learning
+does representation learning
+or depends on it
+now the question is
+what is representation learning
+so trust me if you want to enter deep learning
+then you should have understanding of representation learning
+in fact I will show you
+So, this is the Wikipedia page of Representation Learning.
+So, here it is written, in Machine Learning, Feature Learning or Representation Learning,
+both are same thing, is a set of techniques that allow a system to automatically discover
+the representations needed for feature detection or classification from raw data.
+This replaces manual feature engineering and allows a machine to both learn the features
+and use them to perform a specific task.
+I will explain it in easy words.
+If you have worked in machine learning then you know that there is a thing called feature extraction or feature engineering.
+In that process you create features.
+I will give you an example. Let's say you want to make a dog-cat classifier.
+Where if you are given an image, then you have to look at that image and tell whether it has a dog or a cat in it.
+If you go to solve this problem with machine learning, then you will have to make manual features.
+Features can be like size is a feature, if size is big then it is a dog, if size is small then it is a cat, color can be a feature
+and all the physical attributes can be a feature but you have to understand one thing that in machine learning you have to make these features and give them to your machine learning algorithm
+but what happens in deep learning is that this whole process is automated
+means you don't make such rules
+you just provide the image in the correct format and your deep learning algorithm automatically extracts the features
+on its own intelligence
+so this is called representation learning
+where automatic feature extraction happens
+from your problem, from your data
+so this is one more thing to understand and we will discuss it further
+that in deep learning there is no need of feature engineering
+it automatically makes your algorithm with your data
+now if you move to the second part of the definition
+so here it is written that deep learning algorithm uses multiple layers
+we have already seen this
+to progressively extract higher level features from raw input
+and then there is an example, I will explain the same example to you
+this part of the definition tells a very important thing about deep learning algorithms
+that deep learning algorithms are basically neural networks
+neural networks have layers
+now there is a purpose of these layers
+like if we take this example of dog cat classification
+so what will happen is that you will feed the data of your image from here
+pixel by pixel you will feed your data here
+now
+every layer has a purpose
+obviously here you will get the output
+whether it is a dog or a cat
+but the middle layers
+they also have a purpose
+so the initial layers
+they will extract some primitive features from your data
+like
+if you are doing cat dog analysis
+then the first layers detect the edges
+ok
+then if you go to the next layer then it will detect more complex features like shapes
+edges as in this way edges are being detected
+shapes are being detected from the next layer
+and then slowly as you go further
+more complex features will be created like faces
+so that is what is written here if you read it then it is written here
+in image processing lower layers may identify edges
+while higher layers may identify the concepts relevant to a human such as digit
+more letters, more faces
+so slowly you identify things from here
+so in the beginning basic things
+and gradually complex things
+and eventually you give your result in the last layer
+so this definition is explaining you two things
+I will summarize it again
+first, deep learning uses representation learning
+which means
+the load of extracting features is not on you
+the machine will do the algorithm on its own
+second part of the definition is what is the way to work with it
+the way to work with it is
+you give data in the input layer
+and then through hidden layers
+you start detecting things
+so the initial hidden layers extract primitive features
+and the later deep layers
+extract your complex features
+and that is how this thing works
+If I wanted I could have skipped this point but I think you should have this idea in the beginning
+because we are going to discuss this in detail in the future
+So guys now we have an idea of what is deep learning
+Now we will discuss what are the points of differences between deep learning and machine learning
+Till this point we only know that deep learning is a sub field of machine learning
+Machine learning algorithms mostly use statistical techniques
+whereas deep learning is a logical structure based on the human brain
+which we call as Neural Networks
+Now we are going to discuss what are the other points of differences at the practicality level
+So first of all, I have written 5 points here and these are the 5 points on which we will talk.
+So the first point of difference between deep learning and machine learning is that deep learning requires a lot of data in comparison to machine learning.
+So if you are working on a problem, then you can apply deep learning on it only when you have a lot of data.
+So somehow deep learning needs a little more data to be sure about things.
+After seeing a little more data, your performance of deep learning models is reliable.
+If you see here, this is a very famous graph
+where on x-axis is the amount of data
+which is available for training
+and on y-axis is the performance of the model
+and if you take this point in this graph
+suppose you have this much data
+which means the data is less
+then you can see that the performance of your machine learning models
+is better than that of deep learning models
+So in a way this graph is saying that for less data, ML wins.
+But when you bring more data than this amount, there are two things to see.
+The first thing is that the performance of the machine learning model stagnates.
+This means that if you are adding more data after one point, then the performance of the model is not improving much.
+Whereas if you follow the deep learning curve, then you can see that with the increase of data, your performance is also improving almost linearly.
+So the thing to understand here is that deep learning is data hungry.
+And as the data increases, the performance also increases linearly.
+So this is the first difference.
+The second big difference is the hardware, so if you want to train machine learning models, then you can train using CPU on your simple machine.
+But deep learning models have very complex matrix multiplication going on, of very high numbers.
+So to handle this, you need a GPU.
+without that, if you run your deep learning models on CPU, then your deep learning model will run slow
+so you need powerful GPUs with more memory
+where you can do matrix multiplication calculations
+so hardware is costly for us in deep learning
+The second point of difference is that machine learning can be done in cheap hardware as well
+but you need costly hardware to train deep learning models
+and you need costly hardware for GPU
+The third point is training time
+Again deep learning models are complex
+and that is why your model training time is high
+the training time is very high
+in comparison to machine learning where the training time is low
+so in deep learning if you apply deep learning algorithm on a big data set
+so I have heard that people take weeks to train the model
+weeks and I have also heard that some researchers take months
+for some specific purpose
+Whereas in machine learning model, you hardly need minutes to train the model.
+Sometimes you may have to run the model for hours.
+I have not heard that the whole day or whole week machine learning model is being trained.
+So the training time is very high in deep learning.
+If you talk about prediction time, then prediction time is very fast in deep learning.
+Why is it fast? You will understand later.
+Whereas, if you talk about machine learning algorithms, then in some algorithms, the prediction
+time is very slow, like in the KNN type algorithm, it takes a lot of time to predict.
+So, it varies for machine learning.
+Prediction time varies.
+But the training time is definitely less for machine learning.
+There is a lot of deep learning.
+Next point, feature selection.
+We have already discussed this point.
+we had discussed that there is a thing called representation learning
+we had just discussed it a while back
+where we had learned that deep learning algorithms automatically extract relevant features from data
+whereas if you work with machine learning then you have to manually extract those features
+I will give you an example
+So, a few years ago we were making a resume-based project.
+It was a resume-based project.
+Let me give you an example.
+We had to predict the placement of the child by looking at the content of the resume.
+So that we could give it some feedback.
+Now, when you put a machine learning approach in it,
+So what you have to do is you have to extract features from this resume.
+Like one feature can be 12th marks, second feature can be 10th marks,
+third feature can be number of achievements,
+one more feature can be number of courses,
+and one more feature can be quality of college.
+You can make all these features and then you can make this prediction that placement will be done or not.
+But obviously to make this feature we need domain experts.
+I will have to sit with some HRs or some teachers who will tell me to make such features.
+Depending on the domain.
+But if you do this project through deep learning, then you just have to provide the algorithm in the correct form to the content of the whole resume.
+Behind the scenes, it will automatically extract the features and will give you this prediction.
+So this is called representation learning and it is a very big benefit when you use deep learning.
+I have also given you an example that if you have a neural network and you are giving it an image, then the initial layers extract simple features, extract primitive features and then complex features automatically start to be extracted.
+So I have a diagram of this, you can see if you are giving this photograph, then the first two hidden layers will extract low-level features.
+Like edges, you can see edges are being detected here.
+And then in the middle, features of the middle like these shapes will start being detected.
+You can see these shapes are being detected.
+And by doing this, eventually in the last, high-level features start being detected.
+Like a complete face.
+so this is how deep learning works
+so this feature extraction is happening automatically
+this is how the network is designed
+that everything is happening automatically, we will talk about how it is happening later
+but this is also a big point of difference
+last point is interpretability
+so what happens is, we just discussed
+that feature extraction is happening automatically
+the features are extracted automatically
+and I don't know what that feature is
+I don't know which edges are these, I don't understand these
+so what happens is that the model that comes to you is not interpretable
+means if I made a dog vs cat classifier
+I have made it in this kind of architecture
+so its work is that as soon as I give it an image, it will tell me whether it is a dog or a cat
+now I have already told how it will work
+the first layer will look for some primitive features
+the next layer will look for some complex features
+but internally whatever will happen, it will be like a black box
+it will not tell me what it saw in that image
+so this means that if someone asks me why I called this image as a dog
+then I don't have any answer to this question
+so this is an issue of interpretability
+and this is a problem
+because imagine you are training a deep learning model
+on a social networking website
+where you can ban a user by looking at the comments
+now if you use deep learning, then it will read the comment and decide whether to ban or not
+let's say it says ban this user and you ban it
+then the user will ask you why did you ban it, tell me the reason
+but since you have used deep learning model, you won't know why your algorithm banned it
+and that is a big flaw
+explainability is important in many scenarios
+interpretability is important in many scenarios
+and there deep learning fails
+but if you compare it with machine learning
+then in machine learning interpretability is very high
+like let's say you are training a linear model
+you are training a logistic regression model
+where CGPA is one column
+IQ is another column
+will have placement or not
+this is the third column
+here when you will train
+logistic recreation model
+there will be two weights W1 and W2
+W1 is telling the weightage of this feature
+and W2 is of this
+now on the basis of W1 and W2
+value I can tell
+which feature is more important
+and which feature is less important
+so if some kid asks
+why I was told that I will not have placement
+so I will say that since
+that means your W1 is very less, that means your CGPA is very less
+that is why your placement will not be good
+so in machine learning models we can take one more example of decision tree
+in decision tree there is proper decision making
+and in this way you get a flow chart
+and this flow chart can tell you immediately
+why some point is called 1 and some point is called 0
+so here the explainability
+Or you can say that interpretability is quite high and it helps a lot in those scenarios where you have to tell the other person the reason for giving you 1 or 0.
+So these are the 5 points of differences. Let's summarize them.
+Data dependency is very high in deep learning and very low in machine learning.
+But the good thing is that as the data increases, its performance starts scaling linearly.
+If we talk about hardware, then deep learning is left behind
+Why? Because it requires very strong hardware
+It needs GPU to handle complex matrix multiplications
+So this is against deep learning
+If we talk about training time
+Deep learning is slow, it takes a lot of time to train models in comparison to machine learning
+But the prediction time is fast
+Feature selection, I have already told you
+Representation and learning follow
+Features are generated by themselves
+and what was the matter of layers?
+the first layers look for small features
+and the next layers look for complex features
+did you understand all this?
+last is interpretability
+deep learning is a black box
+only it knows what it thinks and decides
+we cannot know
+because of this, if we are working in a scenario
+where we have to tell the result
+why we reached that result
+then deep learning is not a good choice
+so these are 4-5 things
+I guess
+After reading and understanding these 5 things, you will reach a conclusion that
+machine learning cannot replace deep learning.
+Many people think that if deep learning is so good and powerful,
+then why not use deep learning in every project?
+The reason for this is that in some things, machine learning is better than deep learning.
+and you must have heard an old saying that where there is a need for a needle, a sword is not used there
+so the same thing is that machine learning is a needle and deep learning is a sword
+now your purpose is to sew clothes or to kill people
+depending on that you will select whether you need machine learning or deep learning
+so I hope you understood this whole section
+so till now we have read a lot of things regarding deep learning
+now we will answer some questions
+when I was studying deep learning
+in the process of studying I was getting a question in my mind
+that why deep learning is becoming so famous now
+I will teach you history of deep learning after 1-2 videos
+there you will notice that the work on deep learning
+started in 1960s
+from the time of Alan Turing
+but it became famous around 2012
+so what happened after 2010 that your deep learning suddenly became such a powerful and famous technology
+so if you want to answer this question then there are multiple reasons
+so why now can be answered in different ways
+I will tell you one by one
+first reason is data sets
+we will talk about this after some time
+second reason is frameworks
+third reason is architecture of models
+and fourth reason is hardware
+and the last reason is COMMUNITY
+we will talk about these 5 points
+with this you will get a perspective that what is the driving force behind the deep learning that companies do in the industry
+lets start with the first one
+DATA SETS
+so i have already told you that deep learning is data hungry
+it is data hungry
+means it needs a lot of data to do its predictions
+after getting a lot of data, it can be sure that what are the patterns in the data
+if you talk about machine learning, then if you have a data set of 100 rows
+if you have a data set of 1000 rows
+then you can train on it and build a model
+but not with deep learning
+deep learning needs lakhs of days
+only then it will work
+now the good thing is that around 2010
+two revolutions came in our society
+first came smartphone revolution
+and second parallelly internet pricing revolution
+because internet was already there
+prices have reduced a lot
+if you remember around 2015-16
+Reliance entered Jio market
+and for free
+they started providing high speed internet
+and if you combine these two things
+then in the world everyone has
+smartphones
+with high speed internet connection
+which now
+use different apps
+after that many apps came
+like tiktok
+Snapchat and many other social media platforms
+Now what happened is that on a daily basis we started generating a lot of data
+In fact I read in a study
+that from the time we started generating data in human history
+till 2015 if we
+we would have generated XGB data, so from 2015 to 2016, we generated XGB data again.
+From 2016 to 2017, we generated 2x data.
+From 2017 to 2018, we generated 4x data.
+It means that our time versus data generation was exponential
+and this year is around 2015
+so after 2015 we have increased like this
+so a lot of data has been generated
+this is the first reason
+which was not there in 1960s
+but just generating data will not help
+because think about it
+if you want to make an image classification system
+where you will tell by looking at the photo that there is a dog
+or there is a cat
+so first you have to do training of your model
+and during training you need a lot of photos
+with image and also with information that it has cat or dog
+but when you generate data
+through your smartphone, a lot of data is generated
+that is unlabeled data
+means you uploaded a photo of your puppy on facebook
+but you didn't tell that this is my puppy
+so what happens is that in industry you need someone to create labels
+and here came big companies like microsoft, google, facebook
+they spent a lot of money and converted the unlabeled data into labelled data
+and then they noticed that if we keep this data only with us
+then the research will not be able to progress as much as if we open source it
+so they converted these data sets into public data sets
+so public data set is basically a data set which can be accessed by anyone and can work on it
+so now when these public data sets came in the market
+like in Github
+then actual research benefited
+deep learning research happened very fast because of these public data sets
+I will give you some examples of public data sets
+like if you talk about image data
+if you talk about image data
+so microsoft coco is a data set which is used a lot for image detection
+it has a lot of images and the objects in those images have bounding boxes created around them
+and labelling what is that object
+so it is a very powerful data set which is very useful in object detection
+if you talk about video then we have youtube 8 million data set
+which has around 6.1 million youtube videos data
+imagine that
+if you talk about text then we have different types of data
+one of which is called squared
+what is squared? it is basically a data set from wikipedia
+from wikipedia around 1.5 lakh question and answers data set
+after that if you talk about audio
+then there are different data sets in audio
+like google's
+one
+called audio set data
+in which around
+20 lakh
+20 lakh sound clips
+which they have
+taken out from youtube
+under more than 600 categories
+so these are just 4-5 examples
+in today's date
+you will get thousands of public data sets
+which are open source, you can use them
+you will get them on Kaggle or on their own website
+or you can google once
+you will get these data sets
+and after these data sets came
+it became easy to do research because
+everyone was not able to make this data set
+so if you ask me why deep learning is so powerful in today's day and age
+so the biggest reason and contributor would be data set
+because without data there would be no deep learning
+so according to me the biggest second factor in pushing deep learning is hardware
+hardware means computing hardware
+so to explain this whole reason first of all I will explain you moore's law
+moore's law is a very famous law in computing
+moore's I don't know his first name but he was the co-founder of intel
+he gave this law that number of transistors on a microchip doubles every 2 years
+though the cost of the computer is halved
+it means that
+in every 2 years
+on a chip
+on any chip
+let's say i7
+on that
+the number of transistors
+you can put
+in every 2 years
+will be doubled
+and the cost to make it
+will be halved
+and that's why
+If you notice, the price of every commodity in the market increases, but the price of electronics decreases.
+That is, smartphones come at a cheaper price every year.
+I am not talking about the flagship products, but see how cheap the phones have become.
+And the performance is being improved.
+So the performance of the hardware will always improve, this is called Moore's law.
+I don't know what you guys were doing in 2005-2006 but at that time the phones that used to come had hardly 128 MB RAM
+If you look at today's smartphones then 12GB RAM phones are also coming
+So that is why there is a revolution in hardware and it is still continuing and it has pushed deep learning a lot
+If you talk about deep learning, then you already know that it needs a lot of data.
+Now on top of a lot of data, it does matrix operations.
+You will read this.
+So you need a data processing power that handles a lot of numbers.
+If you use a CPU, then the training time would be high or it will be low speed.
+at that point around 2010 someone realized that the matrix operation or matrix multiplication that I have to do
+I can convert it into a parallel task, I can implement parallel processing
+just like you need parallel processing to read or render a high quality image
+and for this purpose if people use GPU then similarly
+why not use GPU for this matrix operation also
+then this idea floated in the deep learning community
+that now we will use GPUs to train our neural networks
+at this point Nvidia came and launched CUDA
+CUDA is a programming language to program GPUs
+and then after this a revolution came
+then everyone understood that rather than conventional CPU
+let's train our model on GPUs
+and after that Nvidia's stock became very pricey
+because now not only gamers were buying your graphics card
+now our deep learning researchers also started using graphics cards
+In fact, if you approach deep learning in today's time, you will have to buy a good machine which has a good GPU.
+Because a GPU reduces training time by 10-20 times in comparison to a CPU, which is a big difference.
+as soon as people realized that we can get faster results from parallel processing
+then a lot of research started in this area and different types of hardware started coming
+like one more thing used to exist earlier called FPGA
+FPGA is full form of Field Programmable Gate Array
+if you have an ECE background in engineering then you must have heard of it
+these are basically programmable controllers
+the best thing about them is that they are very fast
+they run on very low power
+apart from this they are reprogrammable
+and you can easily install custom solutions on it
+the only problem with FPGAs is that they are very expensive
+So if you have heard of Xilinx, then it is a leading manufacturer.
+In today's date, FPGAs are also used a lot to train and run deep learning models.
+In fact, FPGAs are used a lot in Microsoft.
+Most of the AI part of the search engine of Microsoft is run on FPGAs.
+so this is one thing, after this there is one more thing
+which is called ASIC
+A S I C, its full form is
+Application Specific Integrated Circuits
+these are also custom made chips
+it is a bit expensive to design in the beginning
+but if you make it for a lot of people then it becomes cheap
+so under this there are different types of
+ASICs, like the first one is TPU
+you might have heard its name, its name is TENSOR
+processing unit
+this was made by google
+and this is specially a hardware to train deep learning models
+if you are working in google collab
+then google collab gives you the option
+to select TPU to run a piece of code
+then the second thing that came was
+edge TPU
+for edge devices
+edge devices means you have to run a deep learning model on a drone or you want to run it on a smart watch or on a smart glass
+so in this type of setup you can use edge TPUs which is basically a very small device on which you can do calculations
+similarly in today's date there are many applications in smartphones where machine learning, AI, deep learning is used
+so for that we have NPUs
+these are called Neural Processing Units
+Neural Processing Units
+now their work is to
+to exclarate the operations on your mobile device
+ok
+so if we take an example
+when and what type of hardware can be used
+so I would say that if you are just starting your deep learning journey
+if you are doing very basic small projects then you can work with cpu
+if you are training big networks
+after gaining some experience
+then you should shift to graphics card
+you will get graphics card in very good way
+like RTX 2080 TI
+it is a very good graphics card
+here you can also use TPU
+because it is designed specifically for this purpose
+if you want to use deep learning on your smartphone in an app
+then you can use mobile CPU like Snapdragon
+or you can use mobile GPU
+you can use many digital signal processors
+or you can use NPUs
+if you want to run deep learning models on smart watch or smart glass
+then you will use edge TPU
+or you can also use NPUs
+so different types of hardware came for different requirements
+But the focus shift in the last 10 years that we can make custom hardware for deep learning
+made deep learning research much faster because now we don't take much time to train
+So obviously the overall research will be fast
+So hardware is the second factor
+According to me, the third factor which boosted deep learning the most is the development of frameworks and libraries.
+See, it is difficult to train deep learning models. There is no doubt about it.
+And if you go to write its code with scratch, then the problem you are going to solve will take less time and it will take more time to make the code.
+so that is why we needed some library which can handle all this code behind the scenes
+and our job is to make our application using that library
+just like scikit learn solved our problem in machine learning domain
+so we needed a library like scikit learn which can help us in deep learning
+so today we have two famous libraries
+one is tensorflow by google and the second one is pytorch backed by facebook
+and let me tell you a little bit of history
+in 2011 google had already seen the potential of deep learning
+so they wanted to use deep learning in some of their products especially speech products
+so he made an internal framework called distbelief
+which worked fine but the problem was that it was attached to google products
+so google wanted a separate framework
+so that is why he started working on a different framework
+and in 2015 he called it tensorflow and released this library
+Now, TensorFlow was a very powerful library, is a very powerful library, and as soon as it came, it was a blast in the market and everyone was using TensorFlow.
+But slowly people realized that TensorFlow was very difficult to use.
+In fact, it became a joke that Google has made this library for its own engineers, because normal people are not even able to use it.
+In fact, people used to say that if you know how to use tensorflow, then you will get a job in google.
+It was so difficult.
+At that time, a library called Keras was created.
+Which used to work at the top of tensorflow.
+The user used to talk to Keras and Keras used to talk to tensorflow.
+It was an intermediate library.
+You can call it frontend.
+And since Keras came, the combination of these two became very popular.
+That is why in 2019, when TensorFlow 2.0 came, Google realized that if you really want to send TensorFlow to everyone,
+then it is a way to make it accessible to connect with Keras.
+So since then, Keras comes built-in with TensorFlow.
+We will use this combination in this course.
+but another company Facebook also didn't want to stay behind so in 2016 they started a library called PyTorch
+which was trying to solve the lack of TensorFlow and there were some good things, let's not get into the technicality now
+but the AI researchers liked this library a lot and if you see in today's date
+so the people who are in research, not in industry, they use pytorch more
+then around that time in 2018 they worked on another library cafe2
+whose work was to deploy pytorch models on the server
+and run on the server so that many people can use that model
+and then after some days they merged these two and made pytorch's complete framework
+today you have two frameworks, one is tensorflow plus keras framework which is used more in industry driven applications
+and the other is your ecosystem of pytorch which is used more for research purposes
+now here comes a problem that sometimes there may be a need that you have to convert one code into another
+so this can happen, suppose you are reading a researcher's paper which is internally implemented in pytorch and you want to implement that code in your company where tensorflow is being used
+so this type of interconversion was a little difficult
+so here came one more thing, such drop down GUI based applications started coming
+whose work was that you go to that website and connect with GUI and make neural networks
+and then you use the export option and it will give you the PyTorch code as well as the tensorflow code
+like I will tell you one example, AutoML, Google's product which works exactly like this
+Apart from this, there are other products like Microsoft's custom vision AI, Apple's create ML, all these products work the same way.
+So in short, what happened is that these powerful big companies made such frameworks which pushed deep learning research and industry adoption.
+So this is the third factor according to me
+So the fourth biggest factor behind the success of deep learning is
+Deep learning architecture
+Now what is deep learning architecture?
+It is difficult to understand in the first lecture
+But I still try
+So I showed you a neural network called ANN
+And there was a structure like this
+Something like this
+this is ANN Artificial Neural Network
+so this is ANN
+there are two things in this ANN
+first thing is this node
+we call this node
+these are all circles and nodes
+this is basically a fundamental unit of ANN
+and second is edges
+these are called weights
+these weights tell which nodes are connected to which nodes
+now
+these two
+can be created in different ways
+means a different neural network can have
+less nodes
+or it can have different types of
+edges like this one is connected to this one
+but this one is not connected to this one
+so by experimenting with these two combinations
+you can make different type of ANN
+so this is one architecture
+this is one way of connecting nodes and edges or weights
+similarly this is the second architecture
+so you can have different architectures
+and what is different in different architectures
+there can be different nodes
+like in CNN there is different type of node
+like in perceptron there is some other node
+in RNN there is some other node
+similarly weights can also be connected in different ways
+so depending on the problem you can create different neural network architectures
+now to find out which architecture will work best you will have to experiment
+you will have to run it and see
+obviously it will take time and effort to run this experiment
+in certain cases it will also take money
+so it is a little difficult work to figure out architectures
+but what you can do is you have a second option that you have already got some existing architectures
+what researchers have done on some big problems
+already some neural networks have been made in some architectures
+and they have been trained on the data set
+they have been trained on them, so basically they are ready to use
+all you have to do is download those architecture files
+and directly apply it on your problem
+this concept is called transfer learning, which we will study in detail
+but at this point understand that
+what is architecture, to create a neural network in different ways
+now to know which is the best architecture you will have to experiment, time, effort and money will go in the experiment
+so to avoid that you can use the existing architecture of the researchers
+which is already trained on data sets and now it is ready to use
+means you can directly download it and apply it on your problem
+and this concept is called transfer learning
+which is being used a lot in today's industry
+Now because of this concept that you can use other people's architecture, a massive boost has come in the adoption of deep learning.
+In today's date, if I want to solve a problem, then I don't have to tell my researchers to make architectures from scratch.
+Rather I can use state of the art architecture which is already best.
+means it has the best accuracy, in certain cases, it has crossed the level of human's accuracy
+so I can use them directly
+so you might have heard the names of some existing architectures
+like I will tell you the architectures of different domains
+like let's say you are talking about image classification
+where image has to be divided into one class or another class
+ResNet is a very famous neural network
+if you are talking about text classification or NLP related tasks
+then BERT is a very famous architecture
+it is a transformer, you might have heard its name
+if you are talking about image segmentation
+then we have UNIT
+if you are talking about image translation
+then we have a very famous one PIX2PIX
+if you are talking about object detection
+then we have YOLO
+you only look once
+if you are talking about speech generation
+then we have
+WAVENET
+so these are all state of the art
+architectures
+which researchers have made by investing their time
+trained on data
+and now they are ready to use
+you just have to download them on your machine and run them on your problem
+so after they came, your whole adoption of deep learning was very fast
+because things became easy
+someone did that hard work which we had to do
+so this is the fourth reason
+if you ask me what is the last reason
+then I would say factor number 5 is people
+or you can say community
+so all this is not possible if people who are very passionate about deep learning are not in the field of deep learning
+the history of deep learning is very interesting
+people have been working since 1960s but failed multiple times
+and finally became successful around 2011
+so people who are researchers
+or deep learning engineers in the company
+for that matter there were teachers like us
+for that matter there were students like you
+there was a community like Kaggle
+all of these together
+have made deep learning a technology
+so in my opinion it should not be at number 5, it should be at number 1
+but this is a non-technical reason, so I am keeping it a little different
+but yes, people have seen the potential of deep learning
+they know that this is a technology that will change the world in the future
+that matter is already changing then invest your time in it maybe that's why you are also studying
+okay so people for me is the fifth reason and one of the most important reasons due to which
+in today's date deep learning is what it is okay so so that was the video guys uh i think i
+said a little too much uh a little too much was explained but again uh that happened because i
+I was trying to teach you everything properly
+so maybe I think 40-50 minutes video would have been done
+but if you watched till here then I am sure you would have been helped at some level
+so if you liked the video then please like it
+I will probably say this at the end of every video
+because I have seen it on my channel that the videos that got more likes
+the videos that got more views
+so YouTube pushes my content
+If you tell YouTube that this content is good, so please it's a request that if you like this content, then please like it.
+Share it in your social circle if your friend is preparing and that's it from my side.
+We will meet for the next topic after two days. Until then, bye.

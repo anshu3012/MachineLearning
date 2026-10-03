@@ -8,6 +8,7 @@ title: "The Equation of a Hyperplane"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)).
+> - **Leads to:** Perceptron ([Note 1004](../1004-perceptron/note.md)); Perceptron trick ([Note 1005](../1005-perceptron-trick/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

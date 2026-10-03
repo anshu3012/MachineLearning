@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 225 of 225 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 236 of 236 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -40,7 +40,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Artificial intelligence | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
 | Symbolic AI and expert systems | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
 | Deep learning | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
-| Neural networks | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
+| Neural networks | [Note 2](../02-ai-vs-ml-vs-dl/note.md), [Note 1002](../1002-what-is-deep-learning/note.md) | confirmed |
 | Features | [Note 2](../02-ai-vs-ml-vs-dl/note.md), [Note 11](../11-tensors/note.md) | confirmed |
 | Supervised learning | [Note 3](../03-types-of-ml/note.md) | confirmed |
 | Regression problems | [Note 3](../03-types-of-ml/note.md) | confirmed |
@@ -111,6 +111,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Lagrange multipliers, KKT and duality | [Note 620](../620-lagrange-multipliers/note.md) | confirmed |
 | Convex sets and convex optimisation | [Note 621](../621-convex-sets-and-functions/note.md) | confirmed |
 | Linear and quadratic programming | [Note 622](../622-linear-and-quadratic-programming/note.md) | confirmed |
+| What deep learning is | [Note 1001](../1001-dl-scope-and-prerequisites/note.md), [Note 1002](../1002-what-is-deep-learning/note.md) | confirmed |
+| Representation learning | [Note 1002](../1002-what-is-deep-learning/note.md) | confirmed |
+| History of deep learning | [Note 1003](../1003-nn-types-history-applications/note.md) | confirmed |
+| Universal approximation theorem | [Note 1003](../1003-nn-types-history-applications/note.md), [Note 1009](../1009-mlp-intuition/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -251,7 +255,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Ridge regression | [Note 63](../63-ridge-regression-intuition/note.md), [Note 64](../64-ridge-regression-maths/note.md), [Note 65](../65-ridge-gradient-descent/note.md), [Note 66](../66-ridge-key-points/note.md) | confirmed |
 | Lasso regression | [Note 67](../67-lasso-regression/note.md), [Note 68](../68-lasso-sparsity/note.md) | confirmed |
 | Elastic Net | [Note 69](../69-elastic-net/note.md) | confirmed |
-| Perceptron trick | [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md) | confirmed |
+| Perceptron trick | [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 1005](../1005-perceptron-trick/note.md) | confirmed |
 | Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md) | confirmed |
 | Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md) | confirmed |
 | Softmax regression | [Note 79](../79-softmax-regression/note.md) | confirmed |
@@ -276,6 +280,13 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Cost-sensitive learning | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Cosine similarity | [Note 362](../362-dot-product-and-cosine-similarity/note.md) | confirmed |
 | Moore-Penrose pseudo-inverse | [Note 613](../613-svd-in-machine-learning/note.md) | confirmed |
+| Types of neural networks | [Note 1003](../1003-nn-types-history-applications/note.md) | confirmed |
+| Multi-layer perceptron (MLP) | [Note 1003](../1003-nn-types-history-applications/note.md), [Note 1009](../1009-mlp-intuition/note.md) | confirmed |
+| Perceptron | [Note 1004](../1004-perceptron/note.md) | confirmed |
+| Perceptron loss | [Note 1006](../1006-perceptron-loss/note.md) | confirmed |
+| Problem with the perceptron (XOR) | [Note 1007](../1007-problem-with-perceptron/note.md) | confirmed |
+| MLP notation and parameter count | [Note 1008](../1008-mlp-notation/note.md) | confirmed |
+| Forward propagation | [Note 1010](../1010-forward-propagation/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -340,7 +351,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 225 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 236 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -558,6 +569,16 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 620 | Lagrange multipliers, KKT and duality | [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
 | 621 | Convex sets and convex optimisation | [Note 590](../590-convex-and-non-convex-cost-functions/note.md), [Note 620](../620-lagrange-multipliers/note.md) | written |
 | 622 | Linear and quadratic programming | [Note 621](../621-convex-sets-and-functions/note.md) | written |
+| 1001 | What deep learning is | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | written |
+| 1002 | Neural networks, Representation learning, What deep learning is | [Note 2](../02-ai-vs-ml-vs-dl/note.md), [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 510](../510-matrix-multiplication-as-composition/note.md) | written |
+| 1003 | History of deep learning, Multi-layer perceptron (MLP), Types of neural networks, Universal approximation theorem | [Note 74](../74-sigmoid-derivative/note.md), [Note 1002](../1002-what-is-deep-learning/note.md) | written |
+| 1004 | Perceptron | [Note 71](../71-perceptron-code/note.md), [Note 363](../363-equation-of-a-hyperplane/note.md), [Note 520](../520-dot-product-and-duality/note.md) | written |
+| 1005 | Perceptron trick | [Note 363](../363-equation-of-a-hyperplane/note.md) | written |
+| 1006 | Perceptron loss | [Note 59](../59-stochastic-gradient-descent/note.md), [Note 1005](../1005-perceptron-trick/note.md) | written |
+| 1007 | Problem with the perceptron (XOR) | [Note 1004](../1004-perceptron/note.md) | written |
+| 1008 | MLP notation and parameter count | nothing | written |
+| 1009 | Multi-layer perceptron (MLP), Universal approximation theorem | [Note 1002](../1002-what-is-deep-learning/note.md), [Note 1004](../1004-perceptron/note.md), [Note 1007](../1007-problem-with-perceptron/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
+| 1010 | Forward propagation | [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
 
 ## 5. The Algorithm chooser
 

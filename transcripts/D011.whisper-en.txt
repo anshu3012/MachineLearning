@@ -1,0 +1,369 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel
+So we are continuing our deep learning playlist
+In the last video, we learned how a neural network predicts
+And in the last video, I told you that we are moving towards a very important topic
+Which is called Back Propagation
+Back Propagation is the algorithm by which neural networks learn
+And it is said that learning and understanding that algorithm is a bit difficult
+So I don't want to make any mistake, I want to approach this topic with a lot of love
+And I think that you can learn backpropagation better when you try to use it for the first time
+So my plan is that in today's video and the next two videos
+I will show you backpropagation on two real world data sets
+As in I will train neural networks
+We will use Kera's library because it makes things very easy
+And you will see first hand how a neural network architecture is made
+How it is trained and how it is predicted
+Not only that, I will also teach you how you can improve that neural network
+I think if you see all these concepts practically
+Then when we will study back propagation, you can understand it in a better way
+So the plan is very simple. Today we will work on a classification data set.
+The data set I have chosen is called Customer Churn Prediction.
+It is a bank data set where customers are leaving the bank and we have to look at the data and tell which customer will leave the bank in the future.
+Similarly, in the next video we will do a different problem where we will do a multi-class classification problem.
+today's problem is binary classification
+we will do multi class classification
+and in one more video we will approach a regression problem
+the whole idea of these three videos is
+that I want you to
+before reading back propagation
+to see what happens
+to make a neural network, train it and do prediction
+so that when you read these things
+So that you can connect the dots and learn more correctly.
+So that's it for the introduction, let's start the video.
+So guys this is the data set on which we will work.
+This is credit card customer churn prediction data set.
+So basically this is the data of a bank where they have stored the data of some of their customers.
+And this data tells whether their customers have left their bank or they are still customers.
+So in churn prediction, machine learning is used a lot. Different companies make machine learning models for churn prediction.
+So I thought this is a good starting point. This is a good example.
+So the data set is not very big. We have a total of 14 columns and the number of rows is also around 10,000.
+So what we will do is, we have not installed anything yet. We have not learned the secrets of TensorFlow on our system.
+So, I will use Kaggle's interface. I will code on Kaggle itself, we will get all the pre-installed libraries there.
+So, there will be no problem of any installation.
+So, we will click on new notebook and this will create a new notebook.
+We will write our code here.
+So, let's run the first cell.
+And till the time the first cell is running, I will write this code.
+We will call pandas read csv and this should give me the file path.
+As soon as we get the file path, here is our file path.
+We paste it here and now I will show you how our data looks exactly.
+Let me also print the shape.
+So, 10,000 by 14, there is a data of 10,000 customers across 14 columns.
+We will see one by one what our columns are.
+So, the first is row number, which I don't think is of any use.
+Second is customer ID, which again I don't think should be of any use.
+Third is surname, surname of the customer.
+So, here we may get something but since our end goal is to learn how to use Keras and how to build artificial neural networks
+So, at this point we don't need to get into the root of this problem
+So, I think we can remove the surname too
+Next is credit score, I guess according to the credibility of the customer
+We have geography which is a categorical column
+We have gender
+Age, tenure i.e. from how many years the customer is connected with the bank
+Balance, there is an account balance here
+How many products is the bank using?
+It can be credit card, debit card, FD, RD, mutual funds
+Has credit card 1 or 0, it's a simple thing
+Is active member, I guess it depends on the number of transactions the customer is performing
+Estimated salary, so this would have been taken out by the bank by using some other machine learning model, so that they can know the yearly salary of their customers.
+And finally our target column is exited, so 1 means the customer left the bank and 0 means it is still there.
+So, let's first find out some basic things like, are there any missing values?
+If I run df.info, you can see that we don't have a missing value in any column.
+Also, the data type seems to be correct.
+There are two objects in it, surname, geography, and gender, which is fine.
+They have told the balance in float, estimated salary in float, rest everything is integer, so there is nothing wrong here.
+One more thing that should be checked is that what are the duplicated rows?
+This code will tell us that is there any duplicated row?
+Zero means there is no duplicated row.
+Now let's do one thing, let's see how many customers left the bank and how many people are still there.
+I would write this code, exited.valueCounts
+So, it is clearly visible that around 8000 people are still there and 2000 people have left
+So, this is a bit of an imbalance classification problem
+But again, our concern at this point is not that we should make a perfect model
+Now we just have to learn
+But yes, if we were actually solving this problem then we would have to consider this too
+Also, I would like to see how many categories are there in this geography column.
+So, I will just copy this code and I will paste it over here.
+And we will write this as geography.
+So, there are three different geographies here.
+France, Germany and Spain.
+And there is a slight imbalance here.
+I guess it should be male or female in gender.
+Let's write it once again.
+I'm sorry, we will write gender, so this is fairly balanced, okay, now we will do one thing, before moving forward,
+we will remove these first three columns, okay, so we can write this code, df.drop, we will provide the name of the column in a list,
+So the first one is row number, second is customer ID and the third one is surname.
+And we will keep in place true on this so that these changes become permanent.
+And now if we look at our data set, then this is our output.
+So, our approach should have been that we perform EDA and find out which of the remaining columns are really useful and which are not.
+We should have done such things.
+But unfortunately, we can't do it now because our end goal is not to get the perfect model.
+Our end goal is to learn how to build an artificial neural network using Keras.
+So, I will tell you things in that direction.
+So, first of all, what we have to do?
+We have these two categorical columns.
+First of all, we have to encode one hot.
+So, its method is very simple.
+In pandas, there is a function called get dummies.
+Here we will pass our data frame.
+We will write the name of those columns which we have to transform.
+geography also gender and we will make drop first true
+what will happen with this we will get this data you can see
+we have made two columns from our three categories
+geography germany and geography spain
+geography france was deleted
+and from our two genders we have made one gender male
+So we can show 3 categories from these 2 columns, like 00 means France. Similarly, we can show 2 categories from 1 column, like 0 means female.
+So we have transformed it. Now all the data we have is numerical. It means that we are ready to build our model.
+One more thing that we will do before model building is that we will scale the values.
+So if you notice here, some numbers are very big like 6 digit numbers and then some are single digit numbers.
+So in this way, if you try to train your neural network, then what happens is that the value of your weights does not converge quickly.
+So that's why it is said that whenever you are working with neural networks, please make sure that you scale all your values during model building.
+So what we will do for that, first of all we will do train test split, we have done all this many times.
+We would write X train, X test, Y train, Y test, train test split, X, Y, let's pass our test size to be 0.2.
+We are keeping 80% data for training and 20% data for testing.
+and obviously, sorry, we didn't do one thing, we didn't separate x and y, so we will write this code, df.drop columns,
+we will temporarily drop the last column, and whatever is left will be stored in x, and in y we will write df.exited,
+and here is our code
+so if you print x
+this is our x
+it has all the input columns
+and if you talk about y
+then it has
+our exited column
+and if you talk about x train dot shape
+then here
+8000 our
+customers came randomly
+and 11 are our input columns
+ok so at this point
+now we have data
+has come in train and test sets. Now we just have to do scaling on this. So we would write
+this code from sklearn.preprocessing import standard scalar class. Let's create an object
+of this class. We are making a new variable x train scaled which will be equal to x train
+dot scalar dot fit transform, here we will pass our xtrain and we will make one more variable
+xtest scaled scalar dot transform xtest, and now as we will run this code, we have transformed
+I can show you, if we run this code, you can see here is a 2D array and every array in it is our one customer
+and you can see all the values are very small, they have come in decimal. So we have done scaling.
+Now we are ready to apply Keras. Since everything is pre-installed here, I will just import tensorflow
+from tensorflow I will import keras, from keras, from tensorflow.keras I will import the sequential class
+and from tensorflow.keras.layers I will import dense layer which we are going to use to make this model
+So, after importing this, now we have to build our model.
+In Keras, you can make two types of models.
+One is sequential and the other is non-sequential.
+Now we are just starting, we will make sequential models.
+So, its code is very simple.
+You write model is equal to sequential.
+You are making an object of it.
+And once your model is made, you add layers to it.
+So we will start, we will have one input layer, one hidden layer and one output layer.
+So our hidden layer, for starting we will keep three nodes there.
+That means we will keep three perceptrons.
+So its code will look like this.
+There is a function called model.add
+We are putting an object of dense class in it
+Dense basically creates a dense layer
+And
+Right now, by the way this layer is our input layer
+And our activation function here
+That will be sigmoid
+Also since this hidden layer is connected to our input
+So we will have to tell how many inputs it will get
+Okay
+So for now, we write here input dimensions is equal to 11 because we have 11 input columns.
+So this is our hidden layer. Now we will write model dot add and now we will add our output layer
+in which there will be one node and the activation will be sigmoid and this is the architecture of our neural network.
+So, this is some warning. Now what you can do is, there is a function called summary, you can run it and it will give you the summary of your model.
+So, if you see, everything is very simple. What we have done is, I will in fact show you, so we have made a neural network architecture like this.
+Here in total we have 11 inputs and all these inputs are available in every node.
+Like this.
+After that you can see the architecture clearly.
+So if you talk about the total trainable parameters.
+Here is 11 multiplied by 3 biases plus 3 biases, so this would be 36, and here is 3 cross 1 plus 1, so here it is 4.
+So your total trainable parameters are 40, which you can see here.
+So this is the connection of first layer and this is the connection of second layer.
+So, when this neural network will be trained, then it will do this only.
+It will calculate the value of 40 weights and biases for prediction.
+So, now see what we have to do.
+After doing this much, we have to compile our model.
+In model compilation stage, you tell some things.
+Like which loss function you will use, which optimizer you will use for gradient descent.
+You tell all this here.
+Let's say I wrote model.compile and here I first told that my loss function since this is our binary classification problem
+Our loss function will be binary cross entropy which you can also call log loss
+And here we will use an optimizer for our gradient descent algorithm
+whose name will be Adam.
+So we can use many different optimizers.
+Adam generally performs better.
+So this is the compilation of our model.
+Now what will we do in the last stage?
+We will fit the model.
+Here we will pass our X-train scaled data
+and here we will pass Y-train.
+Along with this, you will also tell how many passes you have to take on your data, how many times you will rotate on your data to find out these weights and biases.
+I said for now, rotate 10 times. Accordingly, we will check the result in 10 times.
+Now this is the stage where your neural network is trained. So if I run this code, you can see,
+that one by one, 10 times our whole model turned on our data and every time it calculated a loss
+and you would see that in every next epoch that loss is decreasing to a point where in last epoch we have a log loss of 0.42
+After doing this much, our model has been trained, we have calculated all the weights and biases of our model.
+Now I will show you where the value of these weights and biases is stored.
+So in your model object, there is an attribute called layers.
+We have to go to the 0th layer and call this function from there.
+And see guys, this is our output, so these are our 33 weights of the first layer and these are the 3 biases.
+So basically I will show you, the 11 x 3 weights of this layer, you can see them here and the bias of this layer, you can see them here.
+Similarly, if you put 1 in the layer instead of 0,
+then these are the 3 weights,
+this one, this one and this one,
+and this is its bias.
+So, our model has calculated this,
+and now it can do prediction.
+Prediction is very simple.
+You have a function called predict.
+You will send your X-test scaled in it.
+And it will give you a prediction for all your test sets.
+Now the thing to notice here is that your output is not 1 or 0.
+And its reason is very simple that you are using sigmoid and the output of sigmoid is a probability between 0 and 1.
+So now your job is to convert this probability to 0 or 1.
+Now converting it to 0 or 1 is actually very easy.
+You just have to decide a threshold.
+For example, we have decided a threshold of 0.5.
+If the value is below 0.5, then we will say 0.
+That means the customer will not leave the bank.
+And if it is above 0.5, then we will say 1.
+That means the customer will leave the bank.
+Obviously, what should be the threshold, for that you have to plot ROC, AUC curve and find out.
+But for now, we have accepted that our output should be, the threshold should be 0.5, okay.
+So, I am doing one thing, I am storing this whole thing in one variable, y log.
+and after that I am writing this code np. where y log greater than 0.5
+if it is then 1 if not then 0
+and this is our output let's call it ypred
+ok so we got ypred
+now we will see how much is the accuracy of this model
+So, we will write from sklearn.metrics will import accuracy score and now we will print our accuracy score.
+First, we will pass ytest which is the actual data and then we will pass yprint and here is our output.
+Our output at this point is 81.45%.
+Now what you can do is, by making some changes in your neural network, you can improve the output.
+So let me show you what changes you can do.
+First of all, you can increase the number of epochs, which is currently 10.
+You can increase it to 100,000 people train.
+Second, generally it has been seen that if you keep the activation function of hidden layers as ReLU, then it gives a better result.
+And one more thing that you can do is that you can increase the number of nodes of your hidden layers.
+Like here the number of nodes is 3, you can increase it to 10, 30 or anything.
+So you have to experiment this way.
+Also, the last thing you can do is to increase the number of layers.
+Here, there is only one hidden layer, you can add one more.
+If you add too much, it becomes over-fitting.
+So, I said that you have to experiment a little bit.
+So, I will show you these changes.
+First of all, I put the value of ReLU in place of sigmoid.
+The output will still remain sigmoid.
+After that, I did 11 here.
+and here I have increased one more layer like this
+so if you talk in architectural term
+so now what we have
+we have this first hidden layer which has 11 nodes
+this is one more hidden layer which has 11 nodes
+and this is a single node
+and here we have 11 inputs
+so now if you calculate how many trainable parameters are there
+So this is 11 times 11 weights plus 11. So 133 is here. Then 11 times 11 plus 11. 133 is here.
+Here is 11 times 1 plus 1. So this is 12. So if you talk, this is 266 plus 12, 278 weights and biases.
+So if you run this code, I have done that. If you go to the summary.
+Okay, I didn't do it, let's run it again, here are your 276, weights and biases, okay, so now what are we doing again, we are compiling, and this time while compiling, I will show you together that how you can see accuracy together, so I am writing here accuracy, so now what will happen to us, till now it was just showing loss, now it will show us accuracy too, after every epoch, okay.
+Also, I am increasing my epox by 100 and I am adding a new thing here.
+I am taking a validation split here.
+So, what happens with validation split is that at the point at which you are training your model,
+you have data of 8000 customers.
+Now, what I am doing is that I am separating 20% of customers from those 8000 customers.
+Now, my model will run on 8000 minus 20% of customers.
+And along with running it, it will test on these 2,000 customers that how is its result coming and it will tell us the accuracy along with it.
+So this is also a good technique to validate the performance of your model.
+So the changes that we have made, we will run the code on it.
+And there is some error.
+Okay, we may not have run this code.
+We will run this code and now we will run this.
+And you can see, now a lot of information is on our screen.
+If you see epoch by epoch, then first we can see the loss of the training.
+We can see the accuracy of the training.
+Then we can see the loss on the validation set of 20%.
+Then we can see the accuracy on that.
+And you will see this continuously in every epoch.
+And your end goal is that your loss should be reduced and your accuracy should increase.
+Also, one more thing you have to keep in mind is that your training accuracy should also increase and your validation accuracy should also increase.
+If it happens that only your training data's accuracy is increasing whereas your validation data's accuracy is not increasing, it has stagnated, then it becomes an over-fitting case.
+So let me show you, it doesn't take much time for the code to run because behind the scenes, all the work is happening on the GPU.
+And you can see in the last step, there is a slightly overfitting scenario.
+Because training accuracy has reached 87%, whereas validation accuracy is still 84.8.
+If you look at the loss too, then the training loss has decreased a lot and the validation loss is still in the right range.
+Here you can see the weights again as we saw last time.
+This is your 121 plus 11 of the first layer.
+The same will be the case of the 0th layer.
+And if you go to the second layer, then here it is on the second layer.
+Now what we will do is we will do the prediction again.
+And again we will apply this logic.
+And again we will get the accuracy.
+And you can see our accuracy has improved. Now it has reached 85.75.
+Obviously, if you apply cross validation, it will be a little less.
+But again, you get the idea how you are making neural networks and how you can improve their accuracy.
+We will learn many more things in the future. But now I was just showing you.
+One last thing that I would like to show in front of you is that you should also plot two graphs.
+Let me show you what are those graphs and how to plot them.
+So, I am running this model again and what I am doing here is that I am creating a variable
+which will store the whole data on your screen in this dictionary.
+If you train the model again, now you will get a dictionary called history in which all this data is stored.
+So what you can do is, you can plot a graph of any stage
+and that graph gives you a lot of information about how your neural network has performed.
+So we will wait, we will let this model train once
+and after that we will do our next steps.
+To do the next step, you will have to import matplotlib.
+So I am doing that first.
+import matplotlib.pyplot as plt
+and I guess our training is completed
+and now I will show you what is in history
+so history is basically a history object
+but if you write history.history
+then you get a dictionary
+where there are 4 key value pairs
+First key is loss and this is training loss of every epoch. Similarly, if you go down a little, then this is accuracy of your 100 epochs and this is about training till now.
+After that, if you see, this is called val loss. Here you have validation loss of every epoch and if you go down a little more, then you have validation accuracy of every epoch.
+So, I will plot two graphs. Let me show you. So, I would write this code plt.plot and here I will write history.historyloss
+and you can see this is how our training error is reduced from 1 to 100 epochs.
+So you can see in the beginning it was very high then it decreased very fast and then it started decreasing gradually.
+You can directly compare this with validation loss.
+Let's see how validation loss decreased in this whole thing.
+So you can see in the beginning both were very similar.
+And then slowly you can see that validation loss did not decrease as fast as trading loss decreased.
+And that's why there is a gap.
+And this gap only tells you how much overfitting has been done.
+Here, not much has been done, honestly. But you get this idea from this graph.
+I will plot the same set of graphs for accuracy.
+So, we are just changing the name of all these variables.
+And you can see, even though it is a bit fluctuating, we have reached over here.
+So there is a gap between 84-86%, so again you can't say too much, but yes at some level there is some overfitting.
+Now here you will have to use some concepts like regularization or dropout, we haven't read that yet.
+But as I told you that I wanted to give you an introduction, an idea that whatever we have read till now, how to write it in code.
+And how to use Kera's library
+Kera's library has made things very easy
+Making neural networks is so easy now
+So I hope by watching this video
+You must have understood two things
+First
+How to make your own neural network
+And how to improve it
+Second
+How to work with Kera's library
+So that was the video guys
+I hope
+You must have understood things
+I tried to keep everything in front of you in a very easy way
+Obviously, our end goal was not to achieve the best accuracy or to make the best model
+because at this point, it is not our concern.
+Our concern was to make the neural networks, train them and get them predicted.
+And if possible, to improve them a little.
+We covered all these things in this video.
+I hope you liked this video.
+And if you liked this video, please do like the video and please subscribe my channel.
+That's it from my side.
+Let's meet in the next video.
+Bye.

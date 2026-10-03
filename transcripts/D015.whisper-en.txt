@@ -1,0 +1,673 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel
+Sorry again for the delay in uploading the video
+The reason for that is that the next video in the Deep Learning playlist is about Backpropagation
+I was working on that
+And as you might already know that Backpropagation is one of the most important topics in Deep Learning
+and this was a topic which I want to teach very well and I want to keep that content in front of you flawlessly
+so that is why it takes a little time to create that content, I hope you can understand
+so what happened is that I put a lot of research in it and then I shot the video
+and the video became a little big, some things are still not complete
+So what I have decided is that I will bring the topic of back propagation in three parts in front of you.
+So there will be three videos on back propagation. This is the first video.
+I will tell you the structure of these three videos.
+So I have decided that I will keep this topic in the format of what, how and why.
+so I personally feel that if you want to understand anything then if you understand all the what, how and why then you will understand the topic
+so I will use the same format to explain back propagation
+today's video I will call it the what
+so what will you do in today's video?
+you will understand what is back propagation by watching today's video
+so I will explain you the basic algorithm
+I will show you a little bit of math
+so that you can understand and have an understanding of what is backpropagation and how it works
+after that in the second video of this series, I will make the video by saying the how
+in the how video, I will take two datasets, one regression dataset and one classification dataset
+and I will take out all the math from scratch and solve all the expressions
+and then I will convert the maths into the code
+so the second part would be the how part
+then the third part would be the why part
+so the doubts that will come from what and how
+like why this happened or why this thing is working like this
+so we will answer these types of questions in the third part
+which would be the why part
+so I hope you are able to understand what I am saying
+now we will start today's video
+where our goal is to understand what is backpropagation
+so let's start the video
+so let's start with the official definition
+if you google backpropagation
+then you will see this definition or this type of definition
+where it is written that backpropagation short for backward propagation of errors
+is an algorithm for supervised learning of artificial neural networks
+Using gradient descent, given an artificial neural network and an error function, the method calculates the gradient of the error function with respect to the neural network's weight.
+Now I know after reading this definition for the first time, if you are a beginner, then you get a little scared that what complex things are written.
+So we will do one thing, we will simplify this whole thing.
+So if you ask me what is backpropagation, then I have a simple answer.
+I will tell you that it is an algorithm which is used to train neural networks.
+That's it. For me, this is the definition. Backpropagation is an algorithm
+which you use to train simple neural networks, for that matter some complex neural networks.
+now you might have a question that what is training?
+what is training a neural network?
+let's take a small example
+suppose we are working on a data set
+where students have CGPA
+their IQ value
+and from that we have to predict how many lakhs per annum their package will cost
+now this data looks like this
+I am putting some examples here
+So suppose this student has a CGPA of 8, IQ of 80 and his package is of 8 lakhs.
+This student has a CGPA of 7, IQ of 70 and his package is of 7 lakhs.
+Now what I did is, I made a neural network architecture to solve this regression problem.
+This is the neural network architecture.
+It is a very simple neural network architecture.
+Here there are 3 perceptrons or 3 neurons.
+from here you will give the value of cgpa, from here you will give the value of iq and here you will get your prediction
+now what happens is that there are two things in the neural network, one is weights and the other is bias
+so these edges you are seeing are your weights and here is your bias
+So when I am saying that I want to train my neural network, I want to find the correct value of these weights and biases according to this data.
+So if I come back, definition means that back propagation is an algorithm that trains neural networks.
+Or in simple words, for a given data, it finds out the value of weights and biases.
+The most optimum value for which your neural network will give the best prediction on this data.
+I hope you are able to understand till here.
+Now the question is how?
+How?
+How exactly will you find out the correct value of these weights and biases?
+That is what we have to understand in this video.
+Now guys, before moving ahead, I want to tell you one thing in advance.
+If you want to understand back propagation properly, then you should know two topics in advance.
+The first topic is gradient descent.
+Which is basically an optimization algorithm.
+And the second topic is forward propagation.
+What is forward propagation?
+It is basically a technique by which neural network predictions are made.
+You should know both these topics well, only then you will be able to understand better what will be taught to you in this video
+I have covered both these topics on my channel, I will put the link of both these topics in the description
+Your job is that if you feel that you are not getting full confidence in both these topics
+Go and watch these two videos once, after that watch this video
+You will be able to appreciate better what I am teaching you
+Now let's learn how back propagation works.
+We are looking at the working of back propagation.
+Back propagation follows a series of steps to find the correct value of weights and biases.
+So what I am doing, for a while, I am writing my data here again, IQ, CGPA, LPA, 80, 60, 70, 120, 8, 9, 5, 7, 3, 5, 8, 11.
+this is my data, for now it has data of 4 students
+there are 4 students
+also I would do one more thing
+for further discussion
+I am making this neural network again
+because
+it will be useful
+this is the neural network
+also this is also a connection
+from here you are sending IQ
+from here you are sending CGPA
+now I am doing one thing
+we are labeling these weights according to notation
+This will be W111, this will be W112, this will be W121 and this will be W122.
+Basically here all the weights are of W1.
+Its bias will be B11, its bias will be B12.
+This weight will be W211 and this will be W221.
+this will be bias 2 1 and from here you will get your y hat
+it was necessary to do labeling so that we can do further work
+now I will tell you step by step what happens
+I will tell you the steps
+so what happens in step 1
+you select a point
+and you can say row
+here we select a student
+so what you do is you select your first student
+you catch this student
+and what you do is you put his marks
+as in his CGP and IQ in this neural network
+also before this also you can say
+step 0 is
+initialize
+weights and biases
+so there are different types of initialization
+Some people give random values to weights and bias.
+Some people give value of 1 to weights and 0 to bias.
+So there are different initialization techniques and it depends on them how efficiently back propagation will work.
+But for today's video we are going to keep everything simple.
+So what I am doing is I am using this initialization technique.
+So when backpropagation starts, all the weights will have a value of 1 and all the biases will have a value of 0.
+I have accepted this.
+Also, I forgot to tell you one more thing that all these nodes, the activation function that I have chosen in all of them is linear.
+I have not used sigmoid anywhere.
+Here is also linear and here will be linear because this is regression problem.
+So you have to remember this setup.
+Now see, we have initialized weights and bias.
+Now you catch your first student and feed his data here.
+And your work is to use your initial weight and bias value to predict the LPA of this child.
+This step is also called forward propagation.
+So what will happen?
+It will be simple dot product.
+If you have seen the video of forward propagation, then you would know that this is all matrix math
+And in the end, you will get a number here
+Which your neural network will think that this child should have LPA
+Since in the beginning, the weights are very obvious, then this number can be anything
+Assume for some time our number came 18
+18 LPA
+Now if you see, there are actually 3 in the data, but since we started with the wrong weights, the output came 18.
+You can actually do this calculation and see how much will come, but I am not doing it because the video will be long in vain.
+So whatever it is, there are 3 lakhs in the actual data, my neural network says it should get 18 lakhs.
+So I clearly know that there is a mistake.
+Now if you think, then why is the mistake happening?
+The mistake is happening because the value of your weights and biases is not correct.
+So what you have to do is, you have to somehow remove your error and adjust the value of your weights and biases according to that error.
+So in step 3 you choose a loss function, since this is a regression problem, I will use MSE, MSE is mean squared error
+whose formula is y-y hat whole square, now what I will do is calculate the loss for this child
+its loss will be 3-18 whole square which is a big number, it will be 225, so this is my error for this student
+Now I have to use this error to explain to my neural network that you are making a mistake and you have to adjust your weights and biases based on this error
+Now think about how this will work, here the main thing is back propagation, so I will just erase this
+If you think carefully, you will see that loss is basically whole square of y minus y hat.
+Basically loss has two components, one is y and the other is y hat.
+Now y is 3, which is the output of the data and y hat is 18, which is the prediction of your neural network.
+Now you have to reduce the loss, you have to reduce your error.
+Now the error is made up of two things y and y hat.
+Can you change y? No, you can't change y because it is your ground truth, it is your label, it is in your data.
+You cannot change y, you can only change y hat.
+So it basically means that if I want to reduce the loss as an error, I can change my y-hat.
+Now it is possible that I want to increase the y-hat or decrease the y-hat.
+Like in this case, it is clearly visible that my y-hat is 18 and I want to decrease it.
+It could have been that my prediction would have been 1.
+In this case, I would have to increase my y-hat.
+You are getting the idea, right?
+Now the question arises, what will be the difference between increasing or decreasing the y-hat?
+Right? We need to understand that.
+Increasing or decreasing the y-hat, if you look at this neural network, you will immediately understand what it depends on.
+So if you see, y-hat is basically the output from 2,1.
+What do you call the output of this node?
+y-hat.
+And how is the output of this node calculated?
+If you see, how is O2,1 calculated?
+In this neuron, you have 5 things.
+This is the weight which will be multiplied by the output of this node.
+W211 multiplied by O11.
+Plus, this weight will be multiplied by the output of this node.
+W221 multiplied by O12.
+Plus, its bias will be added.
+Now since there is no activation function here, then that activation function is not happening.
+Here I can clearly see that I had to minimize the loss for which I have to change my y hat.
+Y hat is O21 and if you focus on O21 then it is depending on 5 things
+It is also depending on W11, O11, W21, O12 and B21
+So if I want to make a chart then look carefully
+This chart will explain you what is happening
+You have to change L and for that you have to change Y hat which you can also call O21
+Now this thing is depending on 5 things, on which?
+O11, O12, W211, W221 and B21
+Now if you talk about this bias, this weight and this weight
+You can change them very easily
+but if you talk about O12 and O11
+basically if you talk about the output of this note and this note
+then these are complex things in themselves
+let's talk about its output
+O11 depends on how many things?
+it again depends on 5 things
+let me write and tell you
+just give me one second
+let me write and tell you on which it depends
+O11 depends on IQ value
+It is depending on the value of CGPA, it is depending on this weight
+W111 and it is depending on this weight W121
+So I will write this W111, W121
+And then it is also depending on its own bias which is B21
+I am sorry, it will be B11, just give me one second
+b11
+similarly you can write here also that
+o12 depends on what?
+this is for you
+think for yourself
+what will be its output?
+on its bias
+on this weight
+on this weight
+on CGPA
+and IQ
+so you can see
+this is a complex hierarchy
+so if I want to minimize loss
+for that I have to change this
+If I want to change this, then I can change these five things, one of them is a complex thing in itself, which you will have to go further to change.
+And you will have to go back and make changes. Obviously, you cannot make changes in CGP and IQ, this is data.
+But you can make changes in other weights, you can make changes in bias.
+So the idea is very simple that reducing this loss will depend on the way you go back and change these weights and biases.
+So the way you go back and change these things, that is why the name of this algorithm is Back Propagation.
+Back Propagation of Errors. Because you are solving this error by taking it backwards.
+So I hope you are able to understand till here.
+So now look carefully, we have chosen a loss function, our loss function is MSE.
+Now what we have to do is, we have to update our weights and biases in the fourth step.
+And what will you use to update?
+Gradient descent.
+And gradient descent will be applied in a very simple way.
+You will have to apply this rule on all your weights and biases.
+weight new is equal to weight old minus learning rate times partial derivative of your loss
+function with respect to the weight, you will use this update rule to update your weights
+as well as bias, I will also write for bias, all the biases will be updated in this way,
+This is the rule that you will follow.
+So, I am summarizing once.
+By the way, if you count here, how many weights and biases are there in total?
+There are 4 here.
+There are 2 here.
+So, total weights are 6 and biases are 3.
+So, in total, there are 9 trainable parameters here.
+So, what you have to do now, I am summarizing once again how this whole step will work.
+You would start with a random value or some value of your weights and biases.
+value of weight is 1 and value of all biases is 0
+after that I will pick up my students one by one
+I picked up my first student and did prediction for him
+using forward propagation, got a number
+now I put it in loss function and for this point
+calculated error
+now as soon as this error is calculated
+So what we have to do is go back in our neural network and update the weights and biases in each layer one by one
+And how will that updation happen? Using this formula
+Let me show you an example
+Suppose you had to change O to 1 to minimize L
+O to 1 is depending on these 5 things
+So first of all you will update this weight
+So what will be the formula to update this weight?
+w211 new
+would be w211's
+old value minus
+learning rate
+del of L
+as in partial derivative of L with respect to
+this
+this will be the formula
+similarly if I want to update this weight then its formula will be
+w221
+21's new value would be W2 21's old value minus learning rate times partial derivative of loss with respect to W2 21 and similarly if I have to update this bias then its formula will be
+b21 new is equal to b21 old minus learning rate times partial derivative of L with respect to b21
+Now guess what, if you just focus on this, then you already have this value, it is 1
+We started with 1, I will also have a learning rate, generally it is 0.1
+Now I just have to find this term, I don't have this term
+what is this term? this is the term, this is basically the derivative of loss with respect to this particular weight
+I have to remove this, now everything is on this, I have to remove this thing
+and if you go back to the definition that I showed you in the beginning of the video
+if you read it again then you will understand
+Given an artificial neural network and an error function, our loss function is mean squared error
+The method calculates the gradient of the error function with respect to the neural network's weight
+See we are doing this only, we are calculating the gradient of error function
+See, gradient is called partial derivative
+Partial derivative is gradient
+so we are calculating the gradient of the error function
+we are calculating the derivative of the loss function with respect to all the weights
+I hope you are able to understand this, so in short what I have to do is
+I have to calculate these 9 derivatives
+because I have the initial value of the derivative
+So this algorithm will be completed and it will start working.
+So next I am going to show you how you will calculate the derivative of your loss function for each of your rates and biases.
+So guys in this video our next target is to calculate these nine derivatives.
+we have to calculate the derivative of loss function in respect of all the trainable parameters
+so we will start with the first set
+we will remove this first
+these are the weights and biases
+so this derivative will be removed
+it is not that difficult
+but I want to give you an intuition
+that why are we after removing the derivative
+The thing to understand is that I have to minimize the loss function.
+Loss function is depending on y hat.
+y hat is depending on w211.
+On this weight.
+Then why am I taking out this?
+Why am I taking out this?
+What am I getting from this quantity?
+It is very important to understand this.
+See, what am I getting?
+What you have to do is understand from the first principle that what are the derivatives?
+See, whenever you subtract dy by dx, then what does it mean?
+y is a quantity and x is also a quantity.
+You want to know that when there is a small change in x, then what change comes in y?
+So if you plot x and y, then that is why you subtract the slope of that quantity.
+because you want to know that when you made a small change in x
+then how much change did you get in y
+this is the derivative
+you might have studied this in maths
+so when I am being told to take out
+derivative of L with respect to derivative of weight 211
+so what I am being asked is that when I am making some changes in this
+then what change is coming in this quantity
+I have to take out this
+I guess you are understanding this
+but if you understand this change then you will see that w211 is not directly related to loss
+means the change done in this will not be seen directly here, this is an indirect reflection
+means when I will change something in w211 then y hat will change
+and when there will be some change in y hat, then because of that change will come in L
+I hope you are understanding that you cannot directly remove this until you remove this first
+and then you multiply this in that
+so see what I am removing, first I am removing that by changing in W211, how much change is coming in y
+and then I am taking out how much change is coming in L by changing in Y
+so what I have done in front of you is called chain rule of differentiation
+so listen carefully, we want to find out how much change is coming in loss by changing in weight
+and for this I have broken it down
+that how much is coming in Y hat by changing in weight and how much is coming in loss by changing in Y hat
+so now if we want to find this quantity then we have to find these two quantities
+so let's find these two quantities one by one
+first we will find this quantity
+now we already know that loss function is y minus y hat whole square
+I am not using the i notation as there is unnecessary confusion
+As you differentiate it, you will get 2 times y minus y hat and then if you differentiate individually, you will get 1 minus 1.
+So this is the output of this quantity. I hope you are able to understand. Now we will subtract this.
+Now if you notice, this y hat is your O21 and you can write O21 like this.
+Let me write it once. You will write the output of this node O11 times W211 plus its output O12 times W221 plus its bias B21.
+Now this differentiation is very simple. This term is only here.
+the rest will be 0 and the answer will be O11
+now you have these two things
+so going by this logic you can write
+del L by del W211 would be equal to
+minus 2 times Y minus Y hat times O11
+we have calculated this first thing guys
+this is done
+this one is done
+similarly, we will calculate this
+if you understand this, then it is very simple
+your loss depends on y-hat
+y-hat depends on 5 things, one of them is W221
+when I am going to calculate this
+then I am asking that what will be the difference between loss and change in weight
+So you know what you will do, you will again apply the chain rule and you will write
+del of L divided by del of W21 would be del of L del Y hat times del of Y hat times del of W221.
+Now if you notice, this term was common in the above term and it is common here as well, I know the answer to this, now I just have to find out this thing, how will this thing be found out, it is very simple, it will be del of del w221 and here it will be o11, o12, w221 plus b21.
+basically I have written the same thing here
+now this term is only here
+so the answer for this will be
+O12
+so going by this logic
+I can write del of L
+del w2
+21
+would be equal to minus 2
+times y minus
+y hat O12
+this was my second
+derivative, we have calculated
+this one too
+now we have to write for b
+again understand for b
+this same rule will be applied
+that loss
+depends on y hat
+y hat depends on b
+again you will write
+same thing will come
+i guess you are noticing the pattern
+b21 is equal to
+del of l
+del of y hat multiplied by
+del of y hat
+del of b21
+This is the same thing again, we know the answer, we just have to calculate this, and this is very easy to calculate.
+This is just the last term in which b21 is coming and there is nothing with it, so its answer will be 1.
+And going by this logic, this will be minus 2 times y minus y hat.
+And this is our work in the future.
+Now we have taken out this too.
+Before taking out the next derivatives, I would like to attract your attention to the fact that the formula of derivatives is so simple.
+If you remember the flow, we started with the first student.
+We initialized for the first student.
+After that, we took out the prediction using the forward propagation of the first student.
+loss was calculated and then we came to update the weight
+so if you see the formula to update the weight
+so what is the formula
+like if you want to update this weight for the first student
+then your formula is minus 2 times y
+what is y?
+the output of that first student
+this one
+this will be 3
+similarly
+what is y hat for that first student
+y hat is 18
+and what is O11, when we have done forward propagation
+then the output from this node is O11
+so we will also get O11 from forward propagation
+so you can see that I have 3 numbers which I need to calculate
+so I will calculate this derivative
+now what we have to do is to calculate the rest of the derivatives
+Next we will calculate derivative of L with respect to W111, this is the weight.
+So basically what we want to find out is that how much will change in L if we make a small change in this weight.
+If you make that hierarchy diagram again then you will understand that I am writing here that L depends on Y hat.
+y hat depends on 5 things
+y hat depends on 5 things, these 2 weights
+this bias and its output and its output
+now its output o11
+this depends on 5 things and one of them is
+this weight, so again your
+relationship is indirect that when you change in this
+this will be changed by that, this will be changed by that and this will be changed by that, so you will write it in this way, you will write
+del L by del y hat, del y hat divided by del O11 and del O11 will be this chain rule, okay, similarly if I
+If I want to find out the weight of this one, then it will be del L del W1 2 1.
+Where will this be? Everything is the same.
+You will find out del L del Y hat del Y hat del O11 del O11 del W1 2 1.
+See, this first part, this much part is the same in both, this much is common, okay.
+Now if you talk about bias again, this bias, so this output also depends on bias,
+I will write the same thing here again
+del
+b11
+would be equal to
+everything will be same
+first 2 and then
+del o11 would be
+this, again you can see
+this part is common
+we just have to make changes
+in the last part
+I guess you are able to understand till here
+now we will do
+of these two weights
+of this bias. So notice, now it will come here. This y hat also depends on its output
+which is O and this O also depends on 5 things. These two weights, its bias and these two inputs.
+just like these two inputs
+now if you put this again
+then this will be
+del L del y hat
+then del y hat will depend on this
+del O 1 2
+and del O 1 2 will depend on this weight
+del W 1 1 2
+similarly I can write
+according to this weight
+first two will be same and the last one will change
+and here will be
+W122 and now I just have to find the bias
+again first two will be same
+del L del Y hat
+del Y hat
+del O12
+and if you notice then again this thing is common
+so if you focus on these 6 then you have to find out totally how many derivatives you have to find out
+first of all you have to find out del L by del y hat
+it is in all of them, it is in this, it is in this, it is in this, it is in this, it is in this and it is in this
+and guess what it was in the rest of them too, you have found it out
+this is the value of this, so this is already calculated
+I'll come down, this is already calculated
+second term is del y hat del o11
+we haven't calculated this yet, we have to calculate this
+and apart from this, we have to calculate these three things
+this is 1, this is 2 and this is 3
+Similarly, notice here that the first one is out, we have to remove the second one, del y hat, del o 11, we have to remove this, and apart from that, we have to remove the last one, 1, 2, and 3, so it is very simple to remove, as if you notice, what will happen, I will remove it one by one, the video will be a little long, I know, but it is fine, come on, for you too, practice should be done.
+So, how does y hat depend on O11?
+It is very simple.
+What is the formula of y hat?
+What is the formula of its output?
+We had written above.
+W211 O11 plus W221 O21 plus B21
+when you differentiate it from O11, then the answer will be W211
+similarly, when you write Y hat del O12
+then you will write O12 again
+this whole term will be repeated
+O11 plus W221
+O21 plus B21
+and
+now when you differentiate
+it is in this term only
+so its answer will be W221
+its answer is W221
+ok, now what we have to do
+we have to take out this term one by one
+this term
+this term
+ok, so let's take them out quickly
+after that you can multiply, like this term will be del, once again make this diagram here
+this is the diagram, ok, next we have to find O11 with respect to this, ok
+basically the output of this, we have to find the change with respect to this
+So this is very simple. How will O11 be calculated?
+O11 will be calculated by IQ times W111 plus CGPA times
+This weight, IQ is passing through from here and CGPA is passing through from here
+This weight is W121 plus its own bias B11
+When you differentiate this, then this is the term
+so the rest will be zero and this will also be zero and here will be the value of IQ for the first student
+for which student you are updating the value of IQ of this student so basically here I can write
+I can write the value of IQ as XI1, I means Ith row
+and I can write it as XI2
+here also I means row
+if you are talking about first student then it will be X11
+and if you are talking about second student then it will be X21
+so I will write it as XI1 instead of IQ
+similarly when you will take out the next term
+in this respect you also know that
+this will be simply XI2, the value of CGPA
+and the third one, your bias term, B11, basically in respect of its bias
+sorry, O11 with respect to B11 will be 1
+because when you differentiate this, it will be 1
+so these are the three terms
+And when you differentiate these three as well,
+see this once,
+wo12,
+its output depends on 5 things,
+I want to find out how much it depends on this weight,
+wo12,
+what will this be?
+del of del w1 wo12,
+its output depends on 5 things,
+IQ times W1 1 2 plus CGPA times this weight W1 2 2 plus its own bias
+so from here again you will get IQ which you will call XI1
+when you will subtract O1 2 with respect to O
+then its value will be XI2 CGPA
+and when you subtract this
+del b12
+then this will be 1
+now what I can do
+I can write all the derivatives
+what I will do is
+I will erase this
+this whole term
+and I will fill the calculations
+that I have done from below
+see if I have to subtract this
+then what will happen
+because of the first one
+minus 2 times y minus
+minus y hat. Then we calculated the middle one here, it was w211 and the last one we
+calculated below, it was xi1. Then it will be minus 2 times y minus y hat and here also
+then w211 here will be xi2 and this one will be minus 2 y minus y hat w211
+these are our remaining three answers
+similarly what we can do here we can write the answer
+I am erasing this
+I will just remember these answers that this was del of y hat with respect to O12
+so now this term will be minus 2 times y minus y hat
+this is written here w221 times xi1
+this will be minus two times y minus y hat w two two one x i two c g p a and this will be minus two times y minus y hat w two two one times one
+here are your other derivatives
+we have calculated nine of nine derivatives and i have done this intentionally because i want you to find patterns
+you have to understand the patterns
+these are our 9 derivatives
+these are our 9 derivatives
+this is 1
+this is 2, this is 3
+this is 4, this is 5
+this is 6
+this is 7, 8
+and 9, if you analyze all of them
+then you will come to know
+that you have the value of all of these
+you have the value of all of these
+so what you can do
+very easily
+You can go to your algorithm and you can apply these formulas very easily.
+So now what we will do is, we have learnt how to calculate all the derivatives.
+Now we will go back and repeat all the steps again.
+So guys, we have learnt how to calculate all the derivatives.
+Now what we will do is, we will repeat the back propagation algorithm again.
+So this is the data in which there are 4 students.
+and this is my neural network
+where there are 9 trainable parameters
+how will backpropagation work?
+first of all, what will you do in step 0?
+first of all, you will initialize your weights and biases by giving a value
+some people give it a random value
+what we have done is, we have given all the weights as 1 and all the biases as 0
+simple way to initialize
+because I am going to show you all the calculations in the next video
+so I have used this method
+now what you do in step 1
+you run a loop
+and how many times do you run the loop?
+how many students are there in your data
+basically 4 times
+now what you will do in the loop every time
+you will pick up one student
+I am writing 1A
+what you will do here
+you will take one student
+and you will do forward propagation
+and with forward propagation you will do prediction
+of salary's LPA
+you will get a number
+so here prediction will come
+suppose 18 came
+now what you will do
+now what you will do
+by using that prediction you will calculate loss
+in our case mse is the loss function
+so that would be whole square of y minus y hat
+now on the basis of that loss what you will do is
+you will adjust all the weights and biases
+and what will be the formula of this adjustment
+gradient descent will be applied and the formula will be
+the new value of all the weights will be
+the old value which was 1 and 0
+minus, you have to choose a learning rate
+derivative of w
+old
+and all these derivatives
+we have calculated, we will put them in the equation
+basically in this step
+you have to do this step 9 times
+one for each weight and bias
+and as soon as you do this, you will get the new value of your weights
+then you will go back here
+you will pick up the next student
+for that you will do prediction
+for that you will calculate the loss
+for that again with this formula
+you will change these weights and biases
+then you will go to the next student
+you will calculate his LPA
+again you will calculate the loss
+and you will change the weight
+then the last student will come
+prediction for the last student
+loss calculation and weight adjustment
+so what is happening every time
+on the arrival of every next student
+change and slowly move towards the right direction. Now this whole work, this whole work you will
+actually do multiple times. So what will you do? You will run this whole operation in multiple
+rounds on your data. That means you will run one more loop on it. Now this loop can be 100 times
+or 1000 times. Basically until convergence comes. Convergence means until your
+loss is not completely minimized till then you have to run the outer loop and the
+time you run this outer loop this is called epochs basically you are giving multiple chances
+to your algorithm on your data ok then when it runs the second time then the data of first
+student will enter again the data of second will enter again the data of third will enter
+again the data of last will enter again it will repeat ok so this is the back propagation
+algorithm, till the time convergence does not come, convergence means loss is not minimized,
+means here it was 8, till the time the answer of this child does not come near 8, till then
+you will keep doing this work, so many times people do it 100-1000 times, then the work
+is done automatically, till then you have to keep doing this whole thing inside, this
+algorithm is called back propagation, this is called back propagation, so I hope I have
+Now what we will do in the next video is that we will take a proper data set and we will calculate it properly and then we will convert it into a code and we will see whether the code is really reducing our loss or not.
+This will be our next video, the how.
+So that was the video guys, back propagation part 1, the what.
+I hope I was able to explain you how back propagation works
+there are still a lot of things left and we will cover them in the next two videos
+if you liked this video then please like it
+and if you haven't subscribed to my channel then please do subscribe, it matters
+so that's it from my side, let's meet in the next video, bye

@@ -8,6 +8,7 @@ title: "AI vs ML vs DL"
 > ![](images/where_this_fits.png)
 >
 > - **Leads to:** Supervised learning ([Note 3](../03-types-of-ml/note.md)); Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Semi-supervised learning ([Note 3](../03-types-of-ml/note.md)); Reinforcement learning ([Note 3](../03-types-of-ml/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Applications of ML ([Note 8](../08-applications-of-ml/note.md)).
+> - **Compare with:** What deep learning is ([Note 1001](../1001-dl-scope-and-prerequisites/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

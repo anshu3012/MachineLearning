@@ -218,6 +218,16 @@ notes:
   620: 620-lagrange-multipliers
   621: 621-convex-sets-and-functions
   622: 622-linear-and-quadratic-programming
+  1001: 1001-dl-scope-and-prerequisites
+  1002: 1002-what-is-deep-learning
+  1003: 1003-nn-types-history-applications
+  1004: 1004-perceptron
+  1005: 1005-perceptron-trick
+  1006: 1006-perceptron-loss
+  1007: 1007-problem-with-perceptron
+  1008: 1008-mlp-notation
+  1009: 1009-mlp-intuition
+  1010: 1010-forward-propagation
 
 concepts:
   # 0 Foundations
@@ -225,7 +235,7 @@ concepts:
   - {id: expert_system, name: Symbolic AI and expert systems, step: 0, videos: [2], status: confirmed}
   - {id: ml, name: Machine learning, step: 0, videos: [1, 2], status: confirmed}
   - {id: dl, name: Deep learning, step: 0, videos: [2], status: confirmed}
-  - {id: neural_network, name: Neural networks, step: 0, videos: [2], status: confirmed}
+  - {id: neural_network, name: Neural networks, step: 0, videos: [2, 1002], status: confirmed}
   - {id: feature, name: Features, step: 0, videos: [2, 11], status: confirmed}
   - {id: supervised, name: Supervised learning, step: 0, videos: [3], status: confirmed}
   - {id: regression_task, name: Regression problems, step: 0, videos: [3], status: confirmed}
@@ -315,6 +325,17 @@ concepts:
   - {id: lagrange, name: "Lagrange multipliers, KKT and duality", step: 0, videos: [620], status: confirmed}
   - {id: convex_optimisation, name: Convex sets and convex optimisation, step: 0, videos: [621], status: confirmed}
   - {id: lp_qp, name: Linear and quadratic programming, step: 0, videos: [622], status: confirmed}
+  - {id: dl_intro, name: What deep learning is, step: 0, videos: [1001, 1002], status: confirmed}
+  - {id: representation_learning, name: Representation learning, step: 0, videos: [1002], status: confirmed}
+  - {id: nn_types, name: Types of neural networks, step: 8, videos: [1003], status: confirmed}
+  - {id: dl_history, name: History of deep learning, step: 0, videos: [1003], status: confirmed}
+  - {id: universal_approximation, name: Universal approximation theorem, step: 0, videos: [1003, 1009], status: confirmed}
+  - {id: perceptron, name: Perceptron, step: 8, videos: [1004], status: confirmed}
+  - {id: perceptron_loss, name: Perceptron loss, step: 8, videos: [1006], status: confirmed}
+  - {id: perceptron_limits, name: Problem with the perceptron (XOR), step: 8, videos: [1007], status: confirmed}
+  - {id: mlp, name: Multi-layer perceptron (MLP), step: 8, videos: [1003, 1009], status: confirmed}
+  - {id: mlp_notation, name: MLP notation and parameter count, step: 8, videos: [1008], status: confirmed}
+  - {id: forward_propagation, name: Forward propagation, step: 8, videos: [1010], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -401,7 +422,7 @@ concepts:
   - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: confirmed}
   - {id: elasticnet, name: Elastic Net, step: 8, videos: [69], status: confirmed}
   - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: confirmed}
-  - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [70, 71], status: confirmed}
+  - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [70, 71, 1005], status: confirmed}
   - {id: sigmoid, name: Sigmoid function, step: 8, videos: [72, 74], status: confirmed}
   - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73], status: confirmed}
   - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: confirmed}
@@ -829,6 +850,26 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [dl_intro, needs, ml, confirmed]
+  - [dl_intro, compared with, ml, confirmed]
+  - [representation_learning, compared with, feature_engineering, confirmed]
+  - [nn_types, needs, dl_intro, confirmed]
+  - [mlp, is a kind of, neural_network, confirmed]
+  - [perceptron, needs, hyperplane_equation, confirmed]
+  - [perceptron, needs, dot_product, confirmed]
+  - [perceptron_trick, used in, perceptron, confirmed]
+  - [perceptron_loss, fixes, perceptron_trick, confirmed]
+  - [perceptron_loss, compared with, hinge_loss, confirmed]
+  - [perceptron_loss, needs, sgd, confirmed]
+  - [perceptron, used in, logistic_regression, confirmed]
+  - [perceptron_limits, needs, perceptron, confirmed]
+  - [mlp, fixes, perceptron_limits, confirmed]
+  - [mlp, needs, perceptron, confirmed]
+  - [mlp, needs, sigmoid, confirmed]
+  - [universal_approximation, used in, mlp, confirmed]
+  - [mlp_notation, used in, mlp, confirmed]
+  - [forward_propagation, needs, mlp_notation, confirmed]
+  - [forward_propagation, needs, matrix_multiplication, confirmed]
   - [learning_maths, needs, maths_for_ml, confirmed]
   - [convexity, needs, hessian, confirmed]
   - [lagrange, needs, gradient, confirmed]

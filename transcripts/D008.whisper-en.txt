@@ -1,0 +1,170 @@
+Hi guys, my name is Ditesh and you are welcome to my YouTube channel.
+In the previous video, we took an intuition of multi-layer perceptron.
+We tried to understand how multi-layer perceptrons work and why they can work.
+In the end, I gave you some examples on tensorflow playground.
+Now, what we will do is that we will try to understand multi-layer perceptron in more depth.
+the most difficult thing to understand multilayer perceptron is the training algorithm which is known as backpropagation
+so everyone knows that backpropagation is very difficult to understand
+I also faced it and I think the biggest reason is that beginners make a mistake
+and that mistake is that when you make a neural network
+then there are many weights and biases in that neural network
+So if we don't learn to denotate those weights and biases properly,
+then while doing backpropagation, there will be a lot of confusion.
+So I made this mistake and I don't want you to make the same mistake.
+That's why in today's video, our goal would be actually two things.
+First, I want to teach you that by looking at any neural network architecture,
+First of all, you have to calculate the number of trainable parameters in it.
+The number of trainable parameters means that when you train that model,
+then what is the total number of weights and biases that you have to find the value of.
+So the first thing we will learn in today's video is that if you are given a neural network architecture,
+then you can calculate quickly that there are so many weights and biases in it.
+The second thing we will learn is that how do you denote those weights and biases, what is their name, we have to learn their notation
+And we will learn a standard notation which is followed in the industry
+So what will happen is that in the future when you are studying a difficult algorithm like back propagation
+So you will never get confused by looking at any weight that which layer is this weight
+So that's the whole idea of this video, it is a small video but trust me it is very important
+please don't skip this one so that's it for the introduction let's start the
+video so guys let's start first of all let me explain you the setup
+what you see on the screen this is the neural network architecture using this
+architecture I will explain you the entire notation
+okay so there are four layers in total in fact four layers are there so there
+is an input layer which you are calling layer 0 hidden layer 1 layer 1 is done
+hidden layer 2 is layer 2 and output layer is layer 3
+also the data we have here is 4 dimensional data
+you can see here m denotes number of rows
+and n value is 4 means if you have data
+it will look like this there would be column 1
+column 2 column 3 column 4 and finally
+output column. So what I am doing is I will insert row by row data here. So x i1 is the
+first column value of ith row. This is the value of ith row and this is the value of ith
+row and this is the value of ith row. So when I will provide one row then I will insert
+I will insert the values here, now the question is that first of all you will decide that how many trainable parameters do you have, this is the first question that how many trainable parameters do you have,
+trainable parameters means that when you will train on this
+then your back propagation algorithm will find out the value of weights and biases
+so you should be able to calculate this by looking at the neural network architecture
+so I will show you by doing this
+like if you focus here
+so let's count the weights and biases here
+So clearly if you see the combination here, there are 3 nodes, sorry there are 4 nodes here, there are 3 nodes here, so 4 multiplied by 3, here are 12 weights, you can see, if you count all these weights, then there are 12 weights, also one more thing, if you see this color encoding, then I have created these weights in this way, that one particular node,
+all the weights that you are getting from the previous layer are encoded in one color
+like all the coming weights are in black color, all the coming weights are in red color and all the coming weights are in green color
+and I have used the same color encoding so that you can easily understand
+so coming back we have to count the total number of weights and biases in this neural network
+so in this place there are 12 weights and its bias, its bias and its bias
+so we have 3 biases
+now if we come here then here is 3 and here is 2
+so total weights will be 6 weights
+and then its bias and its bias so 2 bias
+after that if we come here then we will have two weights
+we can understand by counting and then its bias
+so here the total is 15 here the total is 8 and here the total is 3
+ok if we add these three 15 plus 8 23 plus 3
+there are 26 trainable parameters
+This means when you train this neural network, then your back propagation algorithm will try to find the value of 26 weights and biases.
+You should always understand this by looking at the architecture of the neural network.
+Now coming back to the original question that in multilayer perceptron, how do you denote weights and biases?
+what is the notation, we will solve this now. So actually I will show you three things.
+I will show you how to denote weights, how to denote biases and how to denote outputs.
+Means the output coming out of this node is the input for the next node.
+So it is also important to know that. So we will also see the notation of output.
+So let's start with biases because they are the easiest.
+so the notation to donate bias is
+Bij
+Bij
+where i represents layer number
+and j represents the number of node in that layer
+like if you talk about this node
+then its bias will be 1 1
+because it is in layer number 1
+and it is the first node of layer number 1
+Similarly this will be 1,2 because it's second node of first layer
+This will be 1,3 because it's third node of first layer
+If you talk about it then this will be 2,1 because it's first node of second layer
+This will be 2,2 because it's second node of second layer
+and this will be 3,1 because it's first node of third layer
+So that is how you denote biases
+Now the question is, how will you denote the output?
+Denoting the output is also very simple.
+Again, you use OIJ which is exactly the same.
+I means layer and J means the node of which number.
+So basically, don't think too much.
+The output of any node follows exactly the same notation which is biased.
+Okay, so suppose if you are talking about this node,
+then two outputs are coming out of it, one this and one this.
+the output of these two will be O11
+two outputs are coming out from this node
+the output of these two will be O12
+and two more are coming out from this
+O13
+one is coming out from this
+O21
+one is coming out from this
+O22
+one is coming out from this
+O31
+and by the way O31 is actually your prediction
+so that is how you denote
+output
+Now the last and the most tricky thing, how to denote weights?
+To denote weights, you need three things, i, j and k.
+So what does k mean?
+That in which layer is your weight entering?
+Remember, i means in which number of current layer is it coming out of the node.
+and J means which number of notes are entering in which layer
+I know it is a little difficult, I will explain it to you with an example
+let's say I want to know this
+so its weight will be, first of all which layer is it entering
+in layer number 1, then 1 will come here
+now what will come in the i
+that which note is coming out of the previous layer
+and in the next one, which number is entering in the node?
+it is going in 1, so its weight will be W111
+let's talk about this one
+so again, here it will be 1 because it is entering in the first layer
+here it will be 4 because it is entering in the 4th node
+and here it will be 2 because it is entering in the 2nd node
+I am talking about this one
+If you want to write this one, then it will be W1 because it is entering in the first one
+1 because it is coming from the first one
+3 because it is entering in the third one
+Let's talk about this one
+Wait
+Now it is entering in the second layer, so here 2 will come
+And it is coming out of the second one of its layer
+And it is going to the second one
+Let's talk about this one
+so it is also entering into 2nd layer
+leaving 2nd one and going in 1st one
+let's talk about this one
+it is entering in 3rd layer
+leaving 1st one and going in 1st one
+let's talk about this one
+let me give you 3-4 examples
+entering in 1st layer
+leaving 2nd one and going in 1st one
+Let's talk about this one, this one is going to the second one, coming out of the second one and entering into the first one.
+And that is how you denote weights.
+So, I would recommend you to go and make a more complex neural network.
+Something like this.
+In which there are more hidden layers.
+And pick up the copy pen.
+And try to write its weights.
+That would be the best exercise.
+Rest, whenever there is confusion, come back to the video and see.
+If you learn this once, trust me when you will study further that how to train through back propagation algorithm
+then you will not have any problem in understanding notation.
+Many people make this mistake that they don't understand notation and then they enter to study a complex algorithm which is not good.
+So I hope your whole part is clear.
+So that was the video guys.
+I hope you understood things and I personally enjoyed creating this video because
+things were interesting, we had to run examples and tell you the conclusions
+I hope you developed an understanding after watching this video
+In the next video, we will learn more about Perceptron
+We will read about multi-layer Perceptron notation, how you name weights and biases
+and after that we will work on how to train our multilayer perceptron
+and there we will study our back propagation algorithm which is very important and is the backbone of deep learning
+so that's it from my side, before going I request
+please do like this video if you liked it
+also if you haven't subscribed to the channel yet, please press that like button
+to subscribe the channel, it really motivates me
+That's it from my side. Bye.

@@ -1,0 +1,368 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel.
+So we are continuing our deep learning course and today is the third day.
+And as I told you in the last video that now the theory is complete and we will move to the practical side.
+So from today we are starting the actual deep learning which you have to study and learn.
+So we are going to start with perceptron.
+Perceptron is the fundamental building block of artificial neural network
+So I think the story of deep learning should start with Perceptron
+So first of all we will focus on Perceptron, we will understand it in and out
+After that we will move to multi-layered Perceptron or you can say ANN
+So it will take 2-3 videos to cover Perceptron
+I haven't shot it yet so I have no idea
+But I will tell you what topics we will cover
+First of all, we will see the introduction of Perceptron, what is Perceptron, what is its geometric intuition and we will run it in the code.
+After that, we will learn how to train Perceptron because just like any other machine learning or deep learning algorithm, it also has training.
+And once we learn how to train it, after that I will tell you what was the problem in perceptron that stopped the growth of perceptron and because of which multilayer perceptron was needed.
+And then we will start multilayer perceptron.
+I want to tell you honestly that without Perceptron, don't study Multilayer Perceptron
+It is very important because once you learn to train single Perceptron, then it is easy to understand how to train Multilayer Perceptron
+Many people start directly with Multilayer Perceptron, I think it is not the right learning framework
+So whatever it is, now that's it for the introduction. Let's start the video.
+Now you might ask that what is perceptron?
+So for starters, perceptron is an algorithm.
+It is an algorithm.
+Like you must have read more algorithms like linear regression, logistic regression, SVM.
+In the same way, perceptron is also an algorithm.
+And it is used for supervised machine learning.
+Supervised machine learning.
+It's just that the design of this algorithm is such that it automatically became a building block of deep learning.
+So that's why you read perceptron well before reading deep learning.
+In this section, we will try to understand Perceptron very well.
+So first of all, I will show you how Perceptron looks and what is its design.
+So you can see this is the design of Perceptron.
+So Perceptron is an algorithm but you can also call it a mathematical model.
+You can call it a Mathematical Model or you can also call it a Mathematical Function which you must have studied in school.
+Now here you see, this is the model of Perceptron. I explain things one by one.
+So first I will explain you what are the different parts.
+After that I will explain you how it works.
+So, first of all, what happens is that you input from here in perceptron, from this side, you provide input, so this X1 and this X2 is actually input.
+Now what is this 1, I will explain it after some time. Now these connections, your input and this block, we can also call it a summation block,
+where things are added. So, the connection between these blocks, we call them weights and biases.
+Like the W1 written here and the Wt written here, these two are weights. I am writing here, they are called weights.
+And this connection through 1, we call it bias. That's why I have represented it as B.
+After that, what happens is that things come here and join. Things come here and join.
+It is a summation. How is it a summation? Dot product. So what will happen? We will multiply x1 and w1.
+w1, x1. Then we will multiply w2 and x2. w2, x2. Plus we will multiply b with 1. So in this part, this operation is happening.
+This operation is happening. Okay? Let's call it z. The output that is coming is called z.
+and then you will send that z forward, from here z will travel and go here and this is called activation function
+activation function, now the work of activation function is to bring your z in a given range
+now that range can be anything, it can be minus 1 to 1, it can be 0 to 1 or it can be something else
+But the work of activation function is to bring it in a kind of range, because this number can be anything, this input can be anything, this weight can be anything, so this number can be anything, now to bring this number in a range, you use a function, a mathematical function, like a mathematical function can be a step function, what does the step function do, the graph of the step function is something like this,
+This is the graph of the step function that if the value of x is z, if the value of z is greater than 0, then the output will be 1.
+If the value of z is less than 0, then the output will be 0.
+This is an activation function.
+There are more activation functions like this. There is a function called relu, tanh, and many more activation functions like this you will read further.
+But now we just know that this is the activation function's block. So that's it guys. This is the entire design.
+From here you are providing input, from here you are providing input, you call them weights,
+this one you call bias, here things are summation as in they are added using this formula dot product
+and then that Z moves forward towards activation function and whatever output is there,
+Let's say in this step function case 0 or 1 is received from here.
+So this is the mathematical design.
+Now let me explain how to use this design.
+So for now let's take a small problem.
+We are solving a problem in machine learning.
+Let's say we have data of some students.
+Let's say we have data of 1000 students.
+data. What is the data? We have the IQ of the students, i.e. how much is the IQ of every student and how much is the CGPA in their college.
+And then we have the data whether their placement has been done or not. Placed 1 or not. So, for example, the data of one student can be
+one can be 78, 7.8, 1 means this student's IQ is 78, CGPA is 7.8 and his placement is done.
+One can be 69, 5.1, 0. This is a student whose placement is not done.
+So suppose we are solving this problem that we have to make a predictor, we have to make a model
+And when we will give this data to that model, then it will learn from this data and in future, if we will provide IQ and CGPA of a student, then this model will predict whether its placement will happen or not.
+So what happens is that if you want to solve this using perceptron, then there are two stages clearly like in any machine learning algorithm.
+The first stage is Training and the second stage is Prediction.
+So, in this Perceptron model, you will do both things.
+First, you will train it and then you will use it for prediction.
+Okay.
+So, I will explain you roughly how training is done.
+So, what do you do for training?
+You pick up every student one by one and send them here.
+Okay.
+For every student, x1 will be the value of IQ and x2 will be the value of CGPA.
+If we talk about the first student, we will send 78 here and 7.8 here.
+and we know we will calculate its output and since we already know that output should be 1
+depending on output what is coming we will train this model
+ok basically the idea is very simple
+in this whole process what you have to do is that you have to find the value of W and B
+The core objective of this whole training process is that you get the value of W2, W1 and B.
+That is the whole idea. How to get it? How to train perceptron? We are going to read all this later.
+For now, just understand this much. Let me summarize it easily.
+You use this training data to calculate the value of W1, W2 and B.
+Once the value of W1, W2 and B is calculated after training, then you can do prediction.
+How? Let me tell you. Suppose W1's value is 1 and W2's value is 2 and B's value is 3.
+You have calculated this by training. Now you have a new student whose CGPA is 5.1 and IQ is 100.
+and now you will be asked to use this perceptron and predict whether this child will get placement or not
+so what you will do is, you will pass 100 in X1 because this new child has IQ of 100
+and you will pass 5.1 in X2
+now what will you do?
+if you will sum both
+then 100 multiplied by W1
+plus 5.1 multiplied by 2
+plus the value of B is 3 multiplied by 1
+this you will calculate
+this is your Z
+So this will be 100 plus 10.2 plus 3, so 113.2, now you will pass this Z in the activation function.
+Since Z value is greater than or equal to 0, you will say that the placement of this child will be there.
+If this Z was negative, then you would say that the placement of the child will not be there.
+So now I just showed you how to do prediction from perceptron.
+To do prediction from perceptron you should know the value of these weights and this bias.
+And how to know the value of these weights and bias?
+In the process of training.
+And to do training you need data.
+Like you need in other algorithms.
+Now I told you this thing very easily while walking.
+We will discuss this in detail in the future when we will learn its training process very well.
+But for now, this was a small introduction that what is perceptron.
+Now, you may have a question in your mind that what if I have more than two input columns.
+Like IQ and CGPA have two input columns.
+What if I have one more input column that which state that child belongs to.
+ok, Maharashtra, West Bengal, UP, which state, this is also an input
+so how will your perceptron look like?
+very simple, the number of input columns you have, you will provide x
+so what you will do, here you will take one more input of x3
+and this connection, you will call it w3
+Now, how will Z be calculated? Z will be W1X1 plus W2X2 plus W3, I am sorry, plus W3X3 plus B, okay?
+So, as you will increase the input columns, you will provide more inputs, that's it.
+There is no change in the rest of the model, okay? So, I hope you got this thing clear.
+Now we will talk about another point of discussion and that is that deep learning is heavily inspired by our own nervous system.
+Just like the nervous system of humans, deep learning also works the same way.
+So, we have to discuss on this point. We will discuss that a perceptron which we have just read,
+how it is in comparison to a single neuron. So, see this image once. There are two things in this image.
+On the right hand side, you have a perceptron. Pause the video once and make sure that you understand the perceptron.
+It is exactly the same, there are multiple inputs, there can be any number of inputs, for every input there is a weight assigned
+And the last input is 1, and its weight is called W0, we called it B, ok
+Here is the summation, and here is the step function, and here is the output, ok, it is exactly the same thing
+And the entity on the left side is called neuron, so if you have studied a little elementary biology
+So there you will know that your nervous system is basically a collection of billions of neurons.
+The neuron is the building block of your nervous system.
+And this on the screen is a neuron, a single neuron.
+What happens in the neuron? First of all it is a cell.
+It is a biological cell. So there is a nucleus.
+This part is nucleus, where the most important things are going on.
+This part where you can see the roots of the tree.
+These are called dendrites.
+From here the input comes.
+Here some calculations are going on.
+And from here the output goes out.
+This thick thing is called axon.
+The thing to remember is that the input is from dendrite, the output is from exon, and the whole internal calculation is done in this nucleus.
+In a way, if you compare side by side, you can see that there is some similarity.
+You can say that the perceptron is inspired by biological neurons.
+Because here you can see that this part can be roughly compared with dendrites.
+The nucleus can be roughly compared with these two blocks.
+And the exon, the output can be compared with this output which is going forward and coming out.
+Now, neurons make nervous system by connecting with each other.
+Similarly, many perceptrons make a neural network.
+We will see this further.
+At this point, I just wanted to explain you that there is some inspiration.
+Whoever made the perceptron, Rosenblatt,
+he took some inspiration from biological neurons.
+But it is wrong to say that it is exactly the same
+or it is completely based out on neuron, but it is not like that
+it is a little bit of inspiration
+if you talk about the differences then there are many differences too
+ok, I will tell you the differences one by one
+so the first point of difference between neuron and perceptron is
+that neuron is very complex
+means if you think about it
+how many inputs, millions of inputs come
+and what happens internally no one knows
+And then this output is also obtained by many other neurons.
+So again it is a very complex structure.
+What we have made or what we are using Perceptron, it is not so complex.
+It is actually simple.
+It is a little inspired but it is very simple.
+Okay.
+Second point of difference.
+What calculation happens inside this nucleus on the basis of which the output is obtained?
+I have no idea.
+I don't know what is going on inside this nucleus.
+Some complex electrochemical reactions are going on
+Which is still not an idea by scientists
+But in our nucleus
+There are only two operations
+One is summation and the other is step function
+At least in this perceptron
+So this is a very simple mathematical function
+So the internal processing
+In the case of neuron it is unknown some sort of electrochemical reaction
+Whereas in perceptron it is a very very simple function
+which you can also plot and see, so the processing stage is also different, third, so there is a concept of neuroplasticity
+so what is neuroplasticity, your dendrites, these connections, similarly these connections, over time their thickness changes
+This thickness keeps changing, so it can be thicker, the connection of showing is very strong, or it can be very thin, the connection of showing is very weak, or it can be removed, it can also be finished, that there is no connection at all, or new connections can also be made, so this is called neuroplasticity, so whenever you are young, you learn new skills, so these connections keep getting damaged all the time, whereas in our perceptron model, these connections are
+they don't change, they never change, so this is also a very big point of difference
+which we can call neuroplasticity, so in this overall discussion I just wanted to tell you two things
+first, you can say that perceptron is weakly inspired by neurons
+The design element is, yes, I would say that it is a bit inspired, it has been copied, but if someone is saying that it is very similar, it is completely copied, just like a neuron, just like a perceptron, then I would say no, no, this is wrong, the neuron is a very complex thing and its internal working has not been understood yet, so perceptron is not its true copy, okay, so I would like to give you these two things in this discussion.
+So guys, we got a little idea of what is Persepron and how it works.
+Now I want to tell you an interpretation.
+This model that we have just discussed has a very beautiful interpretation.
+So the example that we took, in that example we got the data of the student's IQ and CGPA and we also knew whether it was placed or not.
+Now suppose we have trained this perceptron on the basis of this data and suppose we have the value of these weights and biases.
+Suppose the value of W1 is 2, W2 is 4 and the value of bias is 1. Now I will tell you an interpretation about these weights.
+What do these weights tell you?
+So these weights are actually telling the strength of these connections.
+That how strong is the connection between X1 and your model.
+Or in a way you can say that since IQ will enter from here and CGPA will enter from here.
+So, you can say that whether the student will be placed or not, the most important factor in deciding this is CGPA in comparison to IQ.
+Why did I say this? Because the weight of CGPA is more than the weight of IQ. In fact, it is two times.
+So, you can say that whether there will be a student placement or not, in telling this, CGPA is more important factor in comparison to IQ.
+So, these weights tell you that which input is more important and which input is less important.
+So I just wanted to tell you that you can draw an interpretation from this that weights tell you feature importance.
+Feature importance. Now what does this bias do? We haven't discussed it yet. We will do it in the future.
+So guys now we will see the geometric intuition of perceptron.
+Basically, to see geometric intuition means that you want to visualize the working of that algorithm.
+And I believe that if you see any machine learning algorithm visually while working, then it becomes easy to understand that algorithm.
+So Perceptron we just saw is a very simple model.
+Basically you have two operations.
+This is submission and this is let's say step function operation.
+let's draw it a bit nicely so this is summation and this is let's say activation function and these are our inputs
+W1, W2, B1, X1, X2
+Actually, let's call it X2 and X1
+We had taken a data set
+IQ, CGPA, placement
+We had taken this data set of 1000 children
+Now I will show you that visually speaking
+What is Perceptron doing
+So, if you see, perceptron is basically a function, whatever the output is y, it either comes as 1 or 0, because it has a step function, so you can write y in this way, that it is a function of z, where z is this, or you can write z is w1 x1 plus w2 x2 plus b.
+Now, you can write it like this that the output will be 1 if z is greater than or equal to 0 and the output will be 0 if z is less than or equal to 0.
+So, y is a function of z where z is this and how does y calculate? Using this logic.
+Now let us plot our data set.
+How will we plot it?
+We will make a scatter plot where on x-axis there will be value of IQ and on y-axis there will be value of CGPA.
+And we have 1000 students so we will make 1000 points.
+so the points can be something like this, in this way we can have all the students, we can have all these students,
+okay, now if it is placed, then we put it in the green circle like this and if it is not placed, it means that the value is zero,
+So, we put it in this circle like this, so I made this kind of data set where when your IQ is also high and CGPA is also high then you will fall in the green cluster and if your IQ is also low and CGPA is also low then you will fall in the red cluster.
+So, this is the data set, now I have to see how this algorithm or this function is operating on this data set.
+Our end goal is to make a predictor which will help us when we provide the IQ and CGPA of a new student
+that predictor, that model will tell us whether that student will get a placement or not.
+Now, the whole thing gets stuck here.
+Look at this, focus on this and try to think after pausing the video that have you seen any such equation before?
+Let's say we replace w1 with capital A, w2 with capital B and let's say we replace b with capital C.
+We replace x1 with small x and x2 with small y.
+So this becomes an equation ax plus by plus c.
+Now if you know, this is actually an equation of a line.
+This is an equation of a line.
+So in a way, your perceptron is nothing but a line.
+It is a line.
+See, like this.
+Now going by this logic, z is greater than or equal to 0.
+So you are saying ax plus by plus c is greater than or equal to 0.
+If this equation is true, then you are saying that there will be placement.
+If this equation is true, then you are saying that there will be no placement.
+Now, if you think what is this?
+If Ax plus By plus C equal to 0 is a line, then think and see by pausing the video that what is this?
+This is actually a region.
+This is a region.
+Similarly, this is also a region, so if you talk about Ax plus By plus C greater than or equal to 0, then it is this region.
+Everything above this.
+And if you talk about less than 0, then it is this region below.
+So, in a way, Perceptron, this whole function, it is basically a line
+which I am creating using two regions
+and in one region, if a new point is falling here, then I am saying its placement will be done
+and if it is falling here, then I am saying its placement will not be done.
+So, the thing to understand is that Perceptron is nothing but a line
+and its work is to create a region and divide your classes in the region
+here there were two classes, whether there will be placement or not, it was divided into two regions
+so in a way, that is why it is said that perceptron is a binary classifier
+Binary classifier because it divides your data into two different classes by creating two regions.
+Now you may have a question in your mind that this was 2D, I had two inputs IQ and CGPA.
+What if I have another input? Let's say I have an input IQ, CGPA and 12th marks and then I have to find out whether the placement will be done or not.
+So in this case, your whole region is in 3D, i.e. all these points are in 3D.
+And in this case, your equation will be fz will be w1 x1 plus w2 x2 plus w3 x3 plus b.
+And regions will be like this.
+Now I can write it again.
+ax plus by plus cz plus b greater than 0.
+And this equation is of a plane.
+This means in this 3D coordinate system, now your perceptron model is working as a plane instead of a line.
+Imagine your room and imagine a sheet there.
+That sheet is your perceptron model and it is creating two regions again.
+One on the upper side and one on the lower side.
+One class on the upper side and another class on the lower side.
+So, in short, in 2D, Perceptron will act as a line, in 3D, Perceptron will act as a plane and in 4D onwards, it will act as a hyperplane.
+But the idea is very simple that Perceptron will always divide your data into two parts, into two regions.
+That is why it is called binary classifier.
+And one more thing, you might be able to understand from this whole working that Perceptron has a very big limitation.
+And that limitation is that Perceptron can classify only linear or sort of linear data.
+That means it can classify the same type of data which can be separated from a line.
+As you can see here that you can separate this green cluster and this red cluster from a line.
+Sort of linear means that if 1-2 red points would have come here and 1-2 green points would have come here,
+then also you would have drawn this line and run your work.
+Accuracy would have been less but work would have been done.
+But if you have a completely non-linear data set, then perceptron will fail.
+I will show you, suppose we have such a data set, this is the data set, this is the data set of our students.
+Now you can never draw a line and separate both classes and in this type of scenario the accuracy of your perceptron will be very less.
+That is why perceptron can be used only on linear or sort of linear data sets.
+And this is true in 2D, 3D, 4D, you have to be careful about this.
+And this is the biggest limitation of Perceptron,
+due to which Perceptron could not become that much powerful.
+We will discuss this a little further.
+But my goal in this section was to give you a glasses through which you can see what Perceptron is doing.
+to visually imagine what Perceptron is doing.
+Perceptron is nothing but a line in 2D
+which creates two regions to classify two classes.
+That's it. We have discussed only this much till now.
+In 3D, the same plane will be formed. In 4D, the same hyperplane will be formed.
+The concept is the same.
+So, yeah.
+So guys, till now we have covered a little bit of theory about Perceptron.
+Now I will show you the same thing through a practical example.
+The idea would be that whatever you have learned so far should be more concrete in your mind.
+So I am showing you by applying perceptron algorithm on a data set.
+The data set we have is exactly the same data set which I was giving as an example.
+We have a data set of some students.
+where we have their CGPA, their resume score and whether their placement is done or not, this is the data.
+And CGPA and resume score, both are varying between 0 to 10.
+So the code is very simple.
+By the way, we will use the perceptron class of scikit-learn.
+There is an option of perceptron in scikit-learn.
+So we don't need to write any code by ourselves.
+So, here I have imported the library first.
+Imported the data.
+It is the data of 100 students.
+CGPA, resume score, placed column.
+Now, I will show you how CGPA and resume score are varying.
+So, this is the scatter plot.
+And you can see our data is kind of linearly separable.
+CGPA on X axis and resume score on Y axis.
+It is color coded according to placement.
+From here, the blue children did not get their placement, the orange ones got their placement.
+Now our work is to run Perceptron on it and create two decision regions.
+So, in short, what will our Perceptron do?
+We have CGPA, we have resume score and we have placed.
+So, in short, Perceptron will draw a line like this and in the process of drawing this line, it will calculate three things.
+W1, W2 and B. If you talk about the model of Perceptron, then it will be something like this.
+Here the value of CGPA will go and W1 will be calculated, here the value of resume score will go and here W2 will be calculated, here the value of 1 will go and here B will be calculated.
+So we actually have to see two things whether these three values are getting or not and whether this line is forming or not.
+And to do this, I extracted x and y, made an object of perceptron and trained my model by calling p.fit.
+Now inside p, you have an attribute called coefficient.
+As soon as I run it, you can see this is my output.
+So, here w1 is 40 something and w2 is minus 36 point something.
+Okay.
+And then I did p-rot intercept, so it is minus 25.
+So, our b is minus 25.
+Okay.
+We have taken out these three values.
+Now, if you want to see whether the line plot is done or not,
+then for that I called this function, plot decision regions from this library called ml-extend.
+In that, I passed my x and y and my classifier and this is our output, okay.
+You can see this is the line according to my perceptron, this is the line which is dividing the whole data in two classes, okay.
+Although this result is not that good, you must be seeing it too.
+But the reason is that we have not configured it properly, we have not done any hard work and the data is also very less, okay.
+But again, my end goal was not to show you the best and the most accurate perceptron.
+My idea was that whatever we have studied till now,
+once we show it practically in code.
+So now what you do is, you also pick up any data set
+which has more than 2 columns in input
+and apply perceptron on it.
+Also, you can also check the accuracy on you.
+So that's it.
+So that was the video guys.
+I have given you the full introduction in this video.
+And in the next video, we will start how to train Perceptron.
+If you liked this video, then it deserves a like from your side.
+Please do press the like button.
+It would help my content to reach a wider audience.
+So that's it from my side.
+See you the day after tomorrow. Bye.

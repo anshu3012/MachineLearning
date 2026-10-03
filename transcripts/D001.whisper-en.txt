@@ -1,0 +1,215 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel.
+So, in this video I am going to make an announcement and the announcement is that I am going to start a new playlist on my channel
+by the name of 100 days of deep learning.
+So, those who have already come to my channel will know that last year I created a course for my channel
+called 100 days of machine learning and after that I got a lot of requests from your site that I should also create a course on deep learning.
+So I tried it last year, many times I thought of creating a course on deep learning
+But honestly I was not able to create the course
+The reason was that I was finding it difficult to explain deep learning on camera
+Because deep learning is a little difficult
+So I took some time, I taught some people offline
+In fact I tried to teach the children the core ideas of deep learning
+Basic principles
+The whole idea was to be able to explain deep learning in a very simplified way.
+That was the idea.
+So after 6-8 months of effort, I think now I am ready to be able to explain and teach deep learning properly.
+Also, my NLP course is almost complete.
+2 videos are left but I need to do deep learning for them as well.
+So I thought this is the right time to create this course.
+so now what will happen in the course, how will it happen, I have made this video for that, if you watch this video till the end
+then I will tell you first of all what curriculum we will follow, after that what are the basic prerequisites
+after that what are the special features of this course and lastly I will provide some extra content in this whole course
+I will also tell you that during this video
+So I will share the screen and we will start our conversation
+So guys let's start our discussion with curriculum
+The most important thing is what we are going to study
+So deep learning is very vast
+And a lot of things come in deep learning because there are different types of neural networks
+So my idea in this course will be that I will cover the entire curriculum for you
+I have done a lot of research in the process of making this curriculum, I have been working on deep learning for the last 4 years, so I had a little idea
+but despite this, I have referred many online courses, referred many books and after that I have made a curriculum
+I can divide our curriculum into 3-4 categories broadly
+The first category would be ANN
+Artificial Neural Network
+which is the simplest type of Neural Network
+First of all we will work on this
+After that we will shift our focus to CNNs
+Convolutional Neural Networks
+Basically the Neural Networks which perform best on image data
+We will focus on them
+After that we will move on to RNNs
+Which we call Recurrent Neural Networks
+and they are used a lot for textual data
+and after that we will go towards generative models
+we will discuss GANs
+and we will discuss things like auto encoders
+and after this when we will do all this
+we will come back and discuss a few topics
+like object detection
+and let's say like image segmentation
+so I have divided this whole course in 5 parts in my mind
+If you ask me at this point, the things that we will cover in ANN, I have written it in an elaborated way in a document, I will show you the document.
+So this is the document, you can see this entire course is divided into 5 parts and this is the first part, Artificial Neural Network.
+and in total we will spend around 30-35 days out of 100 days
+the idea would be to read the most basic artificial neural network
+because once you have covered this, you will have less problems in the future neural networks
+problems but less problems
+so we will start with the absolute basics
+you can see what is deep learning, deep learning vs machine learning, what is deep learning, why it became famous these days,
+what are the applications of deep learning, what are its types, history of deep learning
+so what will happen is that you will get some idea, you will get some perspective in the world of deep learning
+after that we will start with perceptron
+so perceptron is the building block of neural networks
+It is said that Perceptron is the absolute unit of Neural Networks
+Any Neural Network you pick up is made up of Perceptron
+So what we will do is we will study Perceptron very well
+We will first discuss what is a Perceptron, what is its relationship with Neurons
+How is it predicted, how is it trained and then what is the problem in it
+Because of which Multilayer Perceptrons i.e. Artificial Neural Networks are needed
+After that we will move towards MLP which we call multi-layer perceptron or you can call it ANN
+In this we will learn about intuition, how MLPs work, we will learn about notation, weights and biases, how prediction works
+After that the most important topic of this entire course is how to train a neural network
+so here we will read some algorithms like back propagation, gradient descent
+we will cover this, once we have developed this much theory
+after that we will move on to the practical side
+so first of all we will see the installation
+because installing deep learning libraries
+I am talking about tensorflow keras
+it is a little difficult, I will explain it in detail so that it works on everyone's machine
+after that we will use keras library and see two examples
+We have read the basics, so the first example will be on regression and the second one will be on classification.
+After that, when we have got a little idea of both practical and theory,
+now what we will do is that we will learn how to improve the performance of your neural network.
+So here we will learn a lot of concepts, we will talk about exploding and vanishing gradients,
+we will talk about dropout layers, how regularization is applied in neural networks,
+After that we will talk about a lot of optimizers, you might have heard about them
+We will talk about them, after that there are 2-3 more advanced topics like gradient checking and clipping
+And batch normalization is a very famous thing that has been developed recently
+And lastly we will learn how we can do hyperparameter tuning of our neural network
+And after that in the last we will do some advanced topics
+like what are callbacks, how to use the tensorboard feature in tensorflow, how to work with pre-trained model
+so we train our model, second option is to work with pre-trained model of someone else
+after that we will work on Keras functional API
+so generally when we will start we will work on sequential API but I will teach you to work on functional API also which is more flexible
+After that, how to save and load Keras's model
+And lastly, we will make a deep learning application in Streamlit
+And lastly, to conclude this section, I will do an end-to-end project
+In which we will use all these concepts again
+We will make a proper Streamlit application and deploy it on AWS
+So these will be some 30-35 videos which will cover the whole ANN section
+After covering these 30-35 videos, your foundation in deep learning will be very good
+I don't think I have missed anything here, if I have done then please write in the comments and tell me
+After that we will move on to the next topics. We will start with CNN, then RNN, Autoencoders and finally we will move on to Object Detection.
+My target is that I will make a video every alternate day. It is a little difficult to make a daily video because there are other commitments.
+I hope you understand. So we will cover every alternate day. Most likely by the end of March to the beginning of April.
+section and after that I will show you what we are going to study in CNN and after that
+what we are going to study in RNN so I think it will take minimum 3-4 months to complete
+this entire course but I will make sure that this ANN part which is the most fundamental
+part which is asked the most and you should know that I will try to complete before 10th
+April that is my mental goal ok so this is our discussion now let's move on to our
+the second part of this video where we will discuss that what are the features of our course
+what is the speciality of this course according to me
+so the first speciality is that it is going to be a well researched course
+in the last one year I have studied deep learning from many places
+and I have made sure that you understand it
+first is well researched
+the content that you will get I will make sure that it is not wrong in any way
+second is easy to consume
+this means that I will shoot this playlist in this way
+that even if you are a beginner then you will understand the concept
+I take this on my heart
+whenever I teach something that is a challenge that I take
+that everyone should understand. So I will also make sure that everyone understands this course.
+The third thing is that it will be well structured. I have planned to make this course in this way
+that it will be complete in around 100 days. 5-4 sections and in 100 days you will understand
+the entire end-to-end machine learning. So we are spending around 30 days on ANN,
+It will take 20 days on CNN, 20-25 days on RNN and rest of the days we will spend on object detection and GANs
+So the idea is to provide a well structured course so that there is no confusion
+Because if the course is not well structured then there is a little confusion and then there is a problem in understanding
+This is also a point on which I will focus that the content is very well structured
+Fourth, mostly I will be using tensorflow plus Keras
+There was one more option, we could have used PyTorch but I have noticed that in industry, companies generally use Keras and TensorFlow more.
+In research-driven work, PyTorch is used. So I will use Keras and TensorFlow for this course.
+But in future, once this is over, we will also discuss PyTorch.
+The fifth thing would be we will do projects in between so deep learning will not only help in learning but we will also have to do projects
+So I will make sure that whenever we hit a landmark, let's say we read the whole ANN, then we make a project on it
+So what will happen by making a project is that your whole conceptual clarity will come
+so I will try to import more and more projects into the playlist
+so after every section I will try to do one end to end project
+so for now these are the 4-5 features in my mind
+and rest you tell me if you have any feedback from your side which you want to add
+I will definitely add it to the playlist
+now let's discuss what you should know before starting this course
+what are the prerequisites
+I will tell you the first prerequisite that you should know the basics of Python
+because we will assume that you know Python, I will use Python language in the course
+and I will assume that you know Python, if you don't know Python then you will have difficulty in understanding the code
+So that is assumption number one. Second, you should also know the basics of machine learning.
+Even if you don't know everything, it will be fine. But the overall flow of how the model is trained, how the data is prepared, how it is served.
+You should have a rough idea. For these two things, if you want, you can follow my playlist.
+there is a playlist on my channel called 100 days of Python programming
+where you will get all these videos if you do this much
+you don't need to know anything else in Python
+also there is a playlist on my channel called 100 days of machine learning
+you can follow this to learn the basics of machine learning
+even if you don't read everything then it will be fine
+I am not saying that you should cover all the algorithms
+but the basic funda of machine learning to train a model should be known to you
+so these are the two things
+now apart from this the third thing you should know is linear algebra
+so in deep learning linear algebra is used a lot
+in fact all your libraries are made using only linear algebra
+so it will be very useful you should have some idea about linear algebra
+I would recommend you to go to a channel called 3blue1brown
+this is a channel
+they have a playlist on linear algebra
+I would recommend you to watch its first 5 videos
+so that you get some idea
+like concepts like how matrices work
+and what are your vectors
+and how your dot product works
+you should know these things
+then the course will be easy
+Lastly, I will also try to provide you some extra content during the course.
+So the first thing would be that after a few days I will bring a proper deep learning roadmap for you.
+So even if you don't follow my course, this roadmap will help you to study deep learning by yourself.
+So this is what I want to provide you.
+Second, I will make one or two videos on deep learning project ideas.
+A lot of people ask me this, whether you are in your final year or you are building a portfolio.
+So what kind of projects should we add?
+So whatever kind of projects you will need in the deep learning domain, I will make a video and share it with you.
+Third, I will do projects, full-fledged projects, as I told you a while ago.
+Fourth, when the course will be completed, in fact, after every section, I will try to put interview preparation as in interview questions.
+Interview questions that can be asked on that section, like we read ANN, so after ANN is completed, I will share with you the top 30-40 questions.
+and that will help you during the interview
+apart from this if I get some ideas in between
+then I will try to add them
+so this is the entire thing which is in my mind
+and we will start from day after tomorrow
+so next video will be on Thursday
+and then every alternate day I will try to put up a video
+Goal is around 10th April, we have to complete our first section ANN and then we have to move towards CNN
+This course will take 3-4 months as I think but I guess it is important to give this much time to create a good course
+I hope you understand. In the middle, my commitment issues can come
+I have to go to a college to conduct a placement training
+so it can take some time but I will try to keep the course consistent
+so now my focus is on completing the first section till 10th which will include 30-35 days of video
+so yeah that's it from my side
+I have a request from you guys
+I know it will take a lot of effort in this course
+so I need some help from your side
+The help is to subscribe to the channel. I have seen that people are coming and watching the videos but they are not subscribing.
+If you are one of them then I am talking to you. Please subscribe. It matters. I can only say that it matters a lot for me.
+So if my content is helping you then please help me. That's a request.
+Second, please like this video.
+Please like this video.
+As far as I have seen, by liking the content is pushed on YouTube and the reach increases and reaches more people.
+So I want this course to reach as many people as possible and for that I need your help.
+So please like this video.
+If you like it, please like it.
+It will reach more people and when we start the course, more people will be able to join this course.
+so that's it from my side
+see you the day after tomorrow
+with the first video of this course
+i hope you are excited
+so bye

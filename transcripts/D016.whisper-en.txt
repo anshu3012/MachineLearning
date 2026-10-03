@@ -1,0 +1,743 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+So we are continuing with our deep learning playlist.
+In the last video, we started backpropagation.
+There I told you about the what parts, what is backpropagation and how it works.
+Now in today's video, we will see the how part.
+Meaning, we will take two data sets, one in the domain of regression and one in the domain of classification
+And we will run our own code on that data set and do back propagation
+So, after seeing both these things, you will get a little more clarity
+That how back propagation is working exactly behind the scenes
+Along with that, I will show you the same code in Keras
+So that you can do a comparison between the two
+So, I hope you like the video. Let's start the video.
+So, guys, we will start with the regression problem first, okay?
+So, whatever you saw in the last video of back propagation, the first video I made,
+whatever we learned there, we will apply it on this data set, okay?
+Our goal is that we will train this neural network on this data set.
+And the training we will do, we will not do it using Keras.
+we will not use Keras
+we will use our own code
+whatever algorithm we made
+we will convert it into code
+and train our model
+so the data set is the same
+which we used in the last class
+in the last video
+here I changed it
+I put the resume score instead of IQ
+the reason for that is
+IQ is generally from 80 to 120
+so it gets a little big
+and this is from 0 to 10
+So generally it is said that your inputs in neural networks should be in the same range, so the training is a little good.
+Now why all this happens, we will study further, but for the time being I have replaced IQ with resume score.
+Output column is still the same, I have the data of total 4 students.
+Okay, we are moving forward with 4 students because I have to run this code manually and show you.
+The architecture is the same, nothing special here.
+Let me summarize the back propagation algorithm which we made in the last class.
+We will run our code 5 times, as in 5 epochs.
+In each epoch, we will do this work which is written here.
+In each epoch, we will do one by one, as we have total 4 students,
+we will pick up all 4 students.
+we will pick up all 4 students, basically the inner loop will run 4 times
+ok, so first time you will pick up the first student
+by the way, later I will tell you that the selection
+of students is random, I will tell you this later
+that's why I have written a random word here, but for now think that when we will be in the first loop
+then we will pick up the first student, then what will we do
+using its inputs, we will use forward propagation
+we will do prediction by applying the equation
+we will do prediction
+whatever prediction will come
+we will calculate our loss
+using
+mean squared error
+and then what we will do
+our 9 weights and biases
+in this architecture
+there are 9 weights and biases
+so we will update all of them
+using this formula
+gradient descent
+now in this I told you that
+we have calculated the value of all the derivatives in the last video
+so we will update all the weights
+then we will go to the second student
+for that also we will do the same work
+we will do prediction and calculate the loss
+as soon as your one epoch will end
+that means you will meet all four students once
+after that you will come out of the inner loop
+and you will calculate average loss
+average loss means
+the loss of all the students
+L1, L2, L3 and L4
+you will divide it by 4
+that will be your average loss
+of that epoch
+and in this way
+the more the outside loop runs
+the more
+you will calculate the average loss
+so what will you see
+output will be like this that in epoch 1 there was a loss of 5, in epoch 2 there was a loss of 4, in epoch 3 there was a loss of 3
+so this is talking about the average loss, the loss of 4 students combined, this is talking about that loss
+so we have done everything, our math formulation is ready, now what we have to do is
+We have to feed this whole data set in our code.
+I have written the code, I will show you that next.
+So guys, I will explain you the code with scratch.
+This code is fully written.
+It may seem a bit complex in the beginning, but I will explain it to you one by one.
+So in the beginning, what we have done here is that we have imported both the libraries.
+And if you notice in the next line, I have created my data set.
+I have made a Pandas DataFrame
+in which exactly the same data of 4 students is there
+I will show you by running it once
+and you can see this is the output
+see
+exactly the same data I have shown you here
+ok
+same data
+now from here we will discuss our code
+ok
+so I have divided the code function by function
+My first function is initializeParameters
+You just have to send your architecture in input
+Like what is our architecture?
+According to our architecture, there are two nodes in our input
+There are two in the middle and one here
+So our architecture will be input 2,2,1
+As soon as you give this 2,2,1 input to this function
+It will create total 9 weights and biases for you
+And will also provide a value to them
+What value will it provide?
+For now, I have taken the value of weight as 0.1
+And the value of bias as 0
+I could have taken random values also
+But I have kept the value of 6 weights as 0.1
+And the value of 3 biases as 0
+Let me show you, I will run this function
+And will show you by using it
+So, look carefully
+Now I will run this code, its logic is very simple, you can go and see it once, we don't waste time by explaining it.
+I will call this initialize parameter function and here I have passed 2,2,1 which is the architecture of my neural network.
+And you would see that here you can see that it has made 4 different arrays.
+This is one array, this is second array, this is third array and this is fourth array.
+Notice how its structuring is.
+So what is W1? W1 is matrix of these 4 weights.
+So if you notice in W1 that there are 4 numbers.
+Basically, the initialization of these four weights is done.
+What is W2? In this layer, the value of these two weights is here.
+Then what is B1? B1 is its and its bias.
+That's why there are two numbers here.
+And what is B2? B2 is its bias.
+That's why there is one number in it.
+So what is this initialized parameter function doing for me?
+According to a given neural network architecture, it is initializing weights and biases.
+Now I have used the ones and zeros function of numpy.
+I could have used random for random initialization.
+I hope you understood this function.
+Now my next function is called linear forward.
+What is the work of linear forward? It will calculate the output of any given neuron.
+The output of any given neuron depends on total 5 things.
+First, all the weights that are coming in it, second, all the inputs that it is getting and third, its own bias.
+like if you talk about this, there will be 5 things, its own bias, these two weights and the input that is getting from this and the input that is getting from this.
+Means the output of this node and the output of this node is getting as input.
+So its logic is very simple, whatever we are getting from the previous layer and the weight and the bias,
+In between that I am simply doing np.product of w and a and adding bias in it and doing return z.
+Now this is my main function which will do forward propagation.
+Here I am writing that this is the main function which will do forward propagation for me.
+Now you can see the logic of this, how it is working.
+It is a very simple function, you can understand it by taking a copy pen.
+I will show you how we will use this to do forward propagation, so I am also running this function,
+now look carefully, what I will do, according to our algorithm, if you remember, what we have to do,
+by entering in epoch, we have to pick up every point and do prediction for it, so I already have this much code,
+So what I am going to do is, I will pick up my first student and I will send that first student in this function and in this function I will also send my parameters which is this thing, this is the whole thing.
+And as soon as we get these two inputs, this function will do prediction for that particular student.
+Ok, I will show you this. So guys, what we have done is that I have taken out the first row from my data frame and stored it in X
+and then I have taken out the value of first row as in Y and stored it in Y. Let me quickly show it to you.
+So, if I print x here, then it will give me the input of the first student, 8 and 8.
+And if I write y, then it will give me the output value of the first student, that is 4.
+And the third thing we will do is that we will initialize the parameters again.
+Although I showed you by doing it but I am doing it again.
+These are my parameters.
+9 weights and biases.
+Now what I have to do is that I have to call this above function.
+This function.
+And it needs two inputs.
+What is the first input? x, basically input of first student and current value of parameters.
+Now, as soon as I will run it, see carefully what will happen.
+Error came, the reason is that we did not run this function.
+Let's run it once. So, what is happening is that this function is using this function internally.
+You can see. Okay. That's why the error came. Let's run it once again.
+And you can see this is the output. Now you have to understand what is happening here.
+So here you can see the notation of A. A0, A1 and finally you can see A2.
+I will tell you what is A1 and A2. Look carefully.
+So when you are taking the data of the first student and feeding it in the neural network through the input layer.
+So, it is A0. Basically, the input of 8 and 8 for the first student is A0.
+Now, with this, these weights are multiplying and both the biases are being added.
+So, these two outputs are being calculated. O11 and O12.
+I am calling the combination of these two as A1. You can also call them as activation.
+So this is O11 and this is O12, and finally in this layer, its output is being calculated
+which you can call O21 or Y hat, this is a single number, this is your A2.
+So finally in our case, the output is A, A2 which you are also calling O21.
+So notice what this function is doing, first of all it is telling me what is A0,
+A0 is the same which was inside X, which was inside X, you are calling it A0,
+Then it is saying that in W1, these were the weights and in B1, these were the weights.
+By using these three things, it calculated A1.
+So now what is the output of this node and this node? 1.6.
+Then it caught A1, W2 and B2.
+And by that it calculated A2.
+And what is A2?
+Which is your final output.
+So, for the first student, this is my prediction that its package will cost 0.32 lakhs.
+I hope you are able to understand till here. Also remember one thing that this function is returning two things.
+When you are calling this function, forward propagation, then it is returning two things.
+It is returning A2 which is the final prediction and at the same time the output of these two nodes
+which you have stored in A1, it is also returning. I want both these things. Why do I want them?
+Think about it. If you go up, you will notice here that to calculate some derivatives,
+I want the value of the output which came in the previous layer. That's why in this function,
+I have returned A previous as in A1 at the time of return. Now what I have to do is
+We have to store them. In fact, we don't store them. In fact, let's go back to the algorithm.
+Let's go to the algorithm and see how much we have done. We picked up the first student.
+We did this step. For that, we did prediction. So, I got the prediction. This is the prediction.
+0.32, I got this, now see what I have to do, I have to calculate loss, how will the loss be calculated?
+whole square of y minus y hat, so basically what I have to do, I am going here and calculating loss,
+I am doing it manually, I am not doing it through code, what will be my loss, my loss will be y as in
+This y in the data is minus 0.32 square
+And this is my loss for the first student
+This is the loss for the first student
+We calculated this loss for the first student
+13 point something is coming
+This is also done
+Now what I have to do is
+Now I have to update all my weights and biases
+Using this formula
+using this formula, and notice what I have done now, I have made one more function whose name is update parameters
+and it looks a bit scary, but its work is basically to do these 9 operations, to take these 9 updates, that's it
+that's why even if you count, then there is a total of 9 lines of code, which is holding every parameter, see this
+What are we doing? We are taking every parameter and updating it.
+And what was the update rule?
+Old equal to, sorry, new equal to old minus,
+here plus happened because in our formula,
+when we had calculated the derivatives,
+there is minus in front of all.
+So this minus and this minus became plus.
+And in front of plus, I have kept my learning rate as 0.001.
+This was giving the best result on this data and after that I have written the same thing, if you sit down and pause the video a little and see, then this is exactly the same thing that is written here, see, this formula has been applied for weight, notice, what is A1, A1 is basically the output of your previous layer coming from here, that is A1, okay, and all these formulas I have very easily
+If there is any mistake, then you can see this code.
+Basically, I have converted these 9 formulas in the code.
+Now, I will call this.
+It needs all the parameters to do its work.
+Y is the LPA package of the current student in the data.
+Y-hat is its prediction, as the previous prediction was 0.32
+Then I need A1, what is A1?
+Previous layer
+This, basically the output of these two nodes
+Output of this and output of this
+I need these two and at the same time I need
+X, my data, ok
+So many things are needed here
+Ok, so look carefully what I will do
+Whatever is returning from here
+two things are returning, one is returning y hat which is the prediction and this is returning a1
+so I am storing them here for the first student, I have written y hat comma a1 is equal to this
+I have run it, now if I show you here, so this is my y hat, now the problem is that I may need this in the form of number
+So, what I will do is, I will write it like this, 0 to 0, okay, I will get a number because I have used it directly here.
+So, let's write a code, y hat is equal to y hat 0 to 0 and this is my a1, the output of the previous layer.
+Okay, this is in the correct form, we will use it like this because look here, I have taken out the things by taking out the matrix notation.
+Ok, so now we are ready, now what we will do is, I will run update parameters and I have all things, I have parameters,
+I have y of first student, I have y hat of first student, I have a1 of previous layer output and I have x.
+Now as soon as I call this function, it will change the parameters.
+Notice what will happen.
+As soon as I run it, there will be an error because obviously we have not run this code.
+We have run it and now we have called it.
+See, it has changed all the parameters.
+Now if I run the parameters again, then here are my parameters.
+notice that it has changed, my first layer weights were 0.1, now they have changed and become something else
+my second layer weights were also 0.1, now they have changed and become something else
+my b1 was 0, my b2 was also 0 and now everything has changed
+so what happened exactly, if we go back to the algorithm
+so after calculating the loss, as soon as we took this step, all my weights and biases got updated
+Now what I have to do is, I have to pick up another student in this loop and for that I have to repeat the same steps.
+So see what I will do. I will go back and I am copying the code little by little.
+I will copy this entire code and I will go down to this place.
+and here I don't have to initialize the parameters again
+and now I need second student
+we will call again to do forward propagation
+in this step I will get y hat of second student
+second student's y hat is 0.50
+this is second student's y hat
+Now what I will do, I will call the update again and I have all these inputs, the current value of the parameter has come, yy hat has come and a1 and x has also come and I have run it, it has been run, now see the parameters must have changed a little again, see this, the parameters have changed a little more, a little more change is happening, notice, it was up, a little change is happening,
+I have to do this 2 times more, so what I would do is, here I will do the changes, now I am taking 3rd student, this is my 3rd student
+And again I am doing forward propagation, whatever output is coming, I am storing it here, see this is my prediction for 3rd student, 0.60
+We can calculate loss also. I forgot to calculate loss.
+I am calling again.
+Notice, parameters will change again.
+See, parameters changed again.
+Now I will pick up last student.
+Which is 3.
+And again I will hold here.
+3.
+I will run again.
+This is prediction for my 4th student.
+Again I will call update parameters.
+and parameters are changing more and more, see parameters are changing more and more, so in short, we did this demonstration in front of you once,
+the inner loop ran 4 times, the outer loop ran 1 time for 1 epoch, but if you repeat this same work 5 times, then it will be 5 epochs,
+Now instead of doing 5 epochs, what am I doing? I have written a single piece of code which will do all the work together.
+Let me show you. This is epoch implementation. Here I am doing everything from the beginning.
+Here I have initialized the parameters. I don't need to keep 75 epochs, for now let's keep only 5.
+see here i run a loop for i in range of epochs
+here i have a loss function
+basically here when i calculate the loss inside
+and then i have to calculate the average loss
+so what i will do is i will append all the loss inside the list
+and here i will put the average on that loss
+so see carefully
+here is the loss
+I am running a loop on all my data
+every time I am picking up the student
+by doing jj
+so x and y are coming out
+I am doing forward propagation
+I am getting y hat and a1
+I am extracting y hat
+I am calling update parameters
+along with that I am taking out loss
+loss is here
+and I am going to append loss in loss
+and as soon as the inner loop is complete
+I am going out
+and I am calculating mean on loss
+so that in that particular epoch
+all the losses in the loop should be printed and in the end, coming out of both the loops, I am printing the parameters.
+This is the code. See. See this. It will run many times, 20 times in total. In fact, everything is being printed.
+Let me do one thing. This is my function. I have deliberately printed things in this function.
+I am commenting all these print statements.
+This was to show you.
+I am commenting all this so that
+so that we don't get such a big output.
+Run it again.
+Going down.
+Here is the epoch implementation.
+Run this code.
+This is the output.
+See this guys.
+When you ran on 4 points for the first time,
+then your average loss was 25.
+When you rotate the second time, till now the parameters were adjusted in such a way that loss reduced and came to 18.
+Third time loss reduced more and came to 9.47. Fifth time came to 3 and stopped at 1.3 last.
+And finally after doing all the work, when I printed my weights and biases.
+See here, started from 0.1 and reached where.
+So this is the demonstration. Now we will do one last thing. I will show you the same code written in Keras.
+Where we will use Keras library and see what output is coming on the same data. So let me show you that.
+So guys this is the Keras code. Let's run it once. Everything is same. I have made the same data frame here too.
+This is our data frame, here we have imported all the libraries and here I have made a neural network of the same architecture.
+There is an input layer, there are two units in the hidden, the activation of all is linear, we have run this.
+This is the summary of our model, there are total nine trainable parameters, six weights, two biases.
+Now see here, what Keras does is that Keras randomly initializes weights.
+So what I am doing to make it similar, what I did to make it similar to the model we made.
+First, I took out all the weights of the model using get weights.
+So see here, all the weights are visible in the weights, just like mine was here.
+Okay, in exactly the same way.
+Now what I did, I made an array by saying new weights.
+In which I gave 0.1 to all weights and 0 to all biases.
+And then I called the set weights function of Keras and set new weights.
+So after this, the model of Keras also has the same initial weights as me.
+I just did this to show you a similar thing.
+Now what did I do next?
+I went to the optimizer and set the learning rate to 0.001.
+Because in my case also it is 0.001.
+And after doing this, I took out mean squared error and finally I fit the model.
+Here, somehow, means most likely optimizer is used separately.
+That's why it took 75 epochs to converge Keras.
+See here, I am running it.
+See, model is trained and this is my loss around 1.47.
+Our loss was a little less. Our loss was around 1.34. Now what did I do again? I did model.getweights and here are the changes made by Keras in our weights.
+So, you can see whatever work we do in Keras, we did that same work by applying our own code.
+The most important thing is that the algorithm we learnt, we practically converted it into code.
+And we did this for a regression problem.
+Next, we will repeat the same work for a classification problem.
+That will make our understanding more solid.
+So guys, we have seen a regression example step by step.
+Now we will see a classification example.
+Everything is going to be very similar.
+But I want to give you the flavour of classification.
+We have made some changes in the same data set.
+And we have made a new data set.
+This data set is for classification.
+Here you have CGPA in input, student's profile score.
+and whether the placement is done or not in the form of 1 or 0
+and guess what, I have kept the architecture of the neural network exactly the same
+we have 3 layers, input, hidden and output
+there are 2 in input, 2 in hidden and 1 in output
+now the biggest change here is that in the regression example
+my activation function in all three nodes was linear
+but since this is a classification example, what I have done here is
+I have taken sigmoid in all three nodes
+there will be some changes due to sigmoid, also your
+loss function is binary cross entropy
+already okay so here see when forward propagation happens notice here
+suppose you give something in input suppose your initial weights are 0.1
+here also 0.1 these 4 weights are 0.1 this is also 0.1 bias is 0 so I will quickly
+tell you that how the output will be calculated on this node suppose
+first for student there is an input of 8 and 8 so your output will be calculated
+Z will be 0.1 multiplied by 8 plus 0.1 multiplied by 8 plus 0
+Now you will pass this in sigmoid and this will be your O11 output
+So this extra step is coming here
+After taking out Z, you will send it in sigmoid function
+And whatever will come is your output
+You have to do this extra step here
+this is the change of sigmoid
+and your loss function has changed
+earlier it was y minus y hat whole square
+now it is this
+so these two changes are happening in classification problem
+back propagation algorithm will be same
+you will start for number of epochs
+you will enter into epochs
+you will run the inner loop as many times as there are rows in your data
+inside you can either randomly pick points
+or you can pick one by one
+we are using one by one approach
+for every point as in every student
+by doing forward propagation
+you will predict its placement
+or not
+and then you will calculate its loss
+here it will not be MSE
+it will be binary cross entropy
+after that what will you do
+this is your main step
+where you will update your 9
+weights and biases
+using gradient descent
+now what is the problem
+Since we haven't calculated all these derivatives yet, we will have to calculate them one by one
+Like I showed you in the last video for regression
+So that is our next task
+I will show you one by one
+The good thing is that since you have already done it once, it won't be that difficult
+So watch carefully
+I am starting, suppose this is my neural network architecture
+This is the neural network architecture
+First of all, my y hat is coming here, which is entering the loss function.
+First of all, I will calculate the derivative of this weight, this weight and its bias with respect to the loss function.
+I am writing the loss function here again.
+Loss function is minus y log of y hat minus 1 minus y log of 1 minus y hat.
+Now see, what we are doing first, we will first calculate del of L with respect to this weight.
+Now you will remember our logic, how we were taking out that if you want to make changes in L,
+so for that you have to do changes in y hat
+now what is y hat
+y hat is basically sigmoid of z
+and the z of this node is its sigmoid
+so y hat in turn will depend on z
+let's call it z final
+because this is the final of the last node
+now what is this z final
+This is basically linear sum, linear combination W211 multiplied by its output O11 plus W2, this weight, 21, its output O12 plus its own bias, B21.
+So here we are taking out on the basis of this weight
+So Z final depends on W211
+So if you change a little in this then it will change in Z, in Z it will change in Y hat
+and in Y hat it will change in L. So if I come here
+then I can write this whole thing by breaking it down like this
+it means if I have to calculate this
+for that I have to calculate these three things
+similarly, let's do one thing
+let's write this too
+what will be the derivative according to this weight
+according to this, the same path will follow
+here only in the last will be
+w2, 2, 1
+so everything will remain the same, first two derivatives
+will remain exactly the same
+only here in the last will be
+w2 2 1 and then if you look at it according to this bias then everything will remain the same
+first 2 will come here, bias 2 1
+so now what we have to do, the good thing is that this is common, this much is common in all three
+so we have to subtract these two and these three
+So, if we take out 5 derivatives in total, we will get 3.
+So, let's focus. First of all, we will take out derivative of L with respect to y hat.
+So, basically, I have to take out this. Sorry, there will be no minus here.
+here it will be y hat minus 1 minus y here it will be log 1 minus y hat
+I have to find the derivative of this thing, see it is very simple
+first we will differentiate this term
+here it will be minus y divided by log of this would be y hat
+minus 1 minus y
+this whole term's derivative will be
+1 minus y hat
+then if you differentiate this term inside
+then this negative will come out and plus will come out
+if you solve this then this would become
+minus y 1 minus y hat
+plus y hat times 1 minus y
+and below y hat 1 minus y hat
+if you multiply it completely
+minus y plus y y hat plus y hat minus y y hat
+divided by y hat 1 minus y hat
+this and this will cancel out
+and you will have minus y minus y hat
+Divided by y-hat
+So the derivative of this is this
+You can see
+So guys we have taken out this one
+Now we will take out this one
+It is very easy to take out this one
+We will go down and write this expression
+And basically we have to solve this
+because y hat is nothing but sigmoid of z
+now if you know the derivative of sigmoid is
+sigmoid multiplied by 1 minus sigmoid
+you have to remember this
+so this will be sigmoid 1 minus sigmoid
+and here what I will do is
+I will replace this with y hat
+So this would become y hat times y minus y hat.
+Okay, so now we have taken out this as well.
+Now the good thing is that you have to multiply these two.
+You have to multiply these two.
+Now notice that when you multiply these two, then what will happen?
+I will write it in front of you.
+See, del l del y hat.
+we got minus y minus y hat y hat times 1 minus y hat and we got y hat 1 minus y hat
+now notice we have to multiply these two in three equations
+Now if you multiply these two, then this would become
+multiplied by y, del z would become
+minus y minus y hat
+1 minus y, multiplied by
+y hat, 1 minus y hat. This and this term will be cancelled.
+And I will get from these two multiplications, minus y times
+y hat. So this is a very good thing.
+the multiplication of these two terms is a very simple term
+and that is minus y minus y hat
+now we just have to find these three terms
+these three terms are also very simple
+notice that what is our z
+at this point Z is W211O11 plus W221OO12 plus B21
+now when you will differentiate it with respect to W211
+then you will get O11
+here I am writing that its value will be O11
+and when you will do it with respect to this then its value will be O12
+If you do it in this respect, since there is no term here, the answer will be 1.
+This means I can come down and I can write this expression.
+Look carefully. I can write this.
+This would become minus y y hat times O11.
+This is its differentiation.
+equal to minus y minus y hat o 1 2
+and here it will be minus y minus y hat
+and nothing will happen further
+we have taken out these three
+ok
+if you want then you can compare these expressions with regression expression
+you would see that there
+see, this is what we got
+compare and see, this is not minus 2
+here it is minus 1
+see, this is the only difference
+you can compare and see
+now we will find
+the derivative of these three
+of this weight
+of this weight
+and of this bias
+so see how the path will follow
+here is loss, here is y hat
+y hat will depend on the z from this
+z will depend on the output from this
+and its output now depends on the rest
+so basically we have to calculate three things
+we have to calculate this
+this weight
+we have to calculate this weight
+And we have to calculate this bias.
+Let's do it one by one.
+Let's focus on this weight.
+Let's see how the connection of this weight will be.
+So, loss will depend on y-hat.
+y-hat will depend on z of this note.
+We call it z-final.
+z-final will depend on this output.
+this output will depend on z in previous
+z will be calculated in this node
+and this z will depend on w111
+so if you want to write this
+then it will be something like this
+del L, del Y hat, del Y hat, del ZF, del ZF, del O11, del O11, del Z previous, del Z previous, del W11
+now there is no need to be afraid
+the good thing is that we have already calculated both of them
+we know the answer of both of them
+minus y minus y hat
+we already know this answer
+let's talk about this one
+what is the relationship between z final and o11
+what is z final
+z final is w211
+this weight times o11
+its output plus w221
+this weight
+its output o12 plus this bias
+ok
+now when you differentiate this with respect to o11
+then what will you get
+you will get this weight
+ok
+so I will write here
+its output will be w211
+ok
+Now let's focus on this. What is O11? You can write O11 as sigmoid of Z previous.
+Here the value of Z is its sigmoid. So what will this be? Z previous 1 minus sigmoid of Z previous.
+right now what can you write this you can write this z previous o11 multiplied by o11
+ok so its answer will be o11 1-o11 ok now only this last one is left where you have to
+find that when you will do z previous with w21 so see what is z previous z previous is
+here is the value of z, so how will it come out, w1, sorry, w11, this weight, multiplied by this input x i1, plus this weight w1, 21 multiplied by this input
+and its own bias
+now when you differentiate it with respect to
+this weight
+then what will be left in the output
+only this will be left, so its input will be
+its derivative will be x i1
+so what can I do, I can write this whole thing here
+that
+this will be
+minus y minus y hat
+W211 multiplied by output 11 minus O11 XI1
+Now if you take out the next one
+I will put it in the box
+If you take out the next one
+Means in respect to this weight
+Then you will understand that only the last thing will change
+Only the last thing will change
+if you take the derivative in respect of this weight, then it will be XI2
+so you can write very easily here
+everything will be the same
+this weight will also be the same
+this output will also be the same
+but in the end, it will be XI2
+ok
+and lastly
+when you will take the bias one
+everything will be the same
+but in the last one, it will be 1
+if you do all this by yourself with a copy pen
+then you will get more confidence
+It looks a bit scary on the screen, but it's not that scary, your mind will automatically start finding patterns.
+So we have taken out in respect of these three.
+Now we will take out the remaining three in respect of this weight, this weight and its bias.
+So basically I have to take out three things.
+I have to remove w1, 1, 2, w1, 2, 2 and this one
+I have to remove these three things
+first let's remove in respect to this
+see how the whole relationship will be
+loss will depend on y hat
+y hat will depend on z final
+z final will depend on its output
+o1, 2
+O12 will depend on Z previous and Z previous will depend on W112
+So if I want to write then I would write this
+is equal to del l del y hat multiplied by del y hat del z f multiplied by del z f del o 1 2
+multiplied by del o12 z previous multiplied by previous W 1 1 2
+now the good news is that we have calculated it
+okay also it is very easy to calculate this because I told you earlier
+what is z final? z final is w1 sorry w2 11 times o11 this weight and its output plus
+w2 21 times o11 this weight and its output plus bias of this node b21 when you will differentiate
+when you differentiate O12, you will get this weight
+so the output of this will be W221
+also when you differentiate O11
+So the way you got this term, you will get this term here in the same way, and from this last one you will get to see
+I am sorry, I have written it wrong, we are not using this, we are using this, I have written it wrong, I have written it right here
+this is 1 2 this is W 1 1 2 and this is W 1 2 2
+here I have written correctly and here I had drawn it wrong, I am sorry
+now what you are doing in respect to this when you will do ZP
+then here you will get XI1 so its output will be XI1
+so I can write here that
+del L w1 1 2 would be
+minus times y minus y hat
+times w2 2 1
+O 1 2 1 minus
+O 1 2 multiplied by x i1
+ok now if you go in the same way
+take out this w1 2 2
+so everything will be same
+everything will be same
+but here x will be replaced by i1
+and if you take it out for ys
+then everything will be same
+nothing will be here, it will be 1
+here is your remaining 3 odd derivatives
+this is all calculated
+ok
+this is 3
+this is 3
+and this is also 3
+So in our backpropagation algorithm, I have got this thing.
+I have taken out 9 of 9 derivatives. Now what I have to do is,
+I will again convert this algorithm into code.
+And I will take it out and show you.
+So now let's move to the coding window.
+So guys, I have already written the code.
+Let me explain in front of you. It is the same code which we had written for regression.
+I just made a small change in it, I have made two changes, first according to the activation function and second according to the loss function.
+Look carefully once, I am importing everything, this is my data set, exactly what I have shown you a while ago, it looks like this,
+here also the same functions are there, these are initialized parameters, which according to a given architecture will give you initialization of 0.1 for all the weights and initialization of 0 for all the biases.
+I have made a utility function here by calling it as sigmoid, if you give it z, then it will calculate sigmoid on it, 1 divided by 1 plus e to the power minus z, it returns it, now here also you have the same function, in this function and in this function there is not much difference, if you think, see, this linear forward, here you were just returning it by doing dot product,
+but here after dot product you are sending it in sigmoid so this is the difference
+rest the next main function which was here
+same copied here what is its work
+send y hat and the last layer
+just give me one second I will open one note
+So, this layer's output should be given as O11 and O12.
+So, it will give me three things, Y hat, O11 and O12.
+Now, see the main thing here.
+Here update parameters are a little different from this.
+See here.
+Here it was 2 times everything.
+Here you will notice according to current.
+According to the current one, the formula which we have taken out here, according to these formulas.
+What you can do once, you can go and check, it will be a little confusing, but if you do it yourself, you will understand.
+Basically, I have changed this function according to these formulas.
+And this is my update parameter. Now I will show you by applying back propagation.
+First I will run the first epoch manually, I am taking out the first student for the first time, see here the value is 0.
+This is the first student, when I run the first student, then the loss of 0.61 came for it, here I am calculating the loss too.
+And changes came in its weights, see a little change has happened, it was 0.1, a little change has happened from 0.1,
+Bias is changed a lot.
+Yes, Bias is changed a lot.
+Not much, actually 10 to the power minus 7, so it is near 0.
+Then I caught the next student.
+And sent him.
+Run again.
+And you would see that the loss of this student came a little less.
+And the weight changed slightly.
+Ok.
+Then I sent the third student by putting 2 here.
+And you would see that its loss is coming a little more.
+and it is an obvious thing, third student's CGP and profile score is good but its placement is not good
+so our model is making a mistake here, let's come here, this is the third student
+now we have come to the fourth student and we have run for this and you would see that the loss is still more
+but the idea is that slowly this whole thing is changing, our weights are changing
+now what I have done here, I have put the implementation of epoch
+Everything code is same as before, everything is same, nothing is different, nothing has changed, everything is same
+The thing to calculate the loss function is different, like this
+Rest everything is same, I have run it on many epochs, around 550 epochs
+But unfortunately what I noticed is that loss is not decreasing from 0.69, you can see
+Now there can be any reason for it, there is less data, there is a problem in initialization technique,
+loss, I am sorry, there is some problem in the optimizer, anything can be a problem,
+but whatever it is, this is the output.
+So I thought that did I do something wrong?
+So what did I do? I wrote the same code in Keras.
+See, there is exactly the same code in Keras.
+This is the code, here I made a neural network of the same architecture,
+here also there were 9 trainable parameters, I did all the get weights,
+I have set new weights which will be my weights
+and now new weights have become this
+now I have set learning rate and everything the same
+I have put loss function binary cross entropy
+and when I have trained the model for 50 epochs
+see here, it is also not increasing beyond 69
+so Keras is also not able to converge on this data with 4 rows
+but loss function is coming exactly the same
+with this I can say that we are doing it right
+so this is the notebook
+Again, I would say that once you pick up this notebook and run it yourself, you will get a lot of perspective, so internally Keras is doing the same thing, so I hope you understood the whole thing, so that was the video guys, I hope you understood the video, I will recommend one thing that you please take a copy pen and take your machine and watch this video together so that you also practice, because what I have taught in this video is a practice thing, the more you practice, the more you will get more conceptual clarity, okay?
+Now there is one more video left in Backpropagation where we will study the Y part.
+That is the most important video. So please do watch it.
+So that's it from my side. Thanks for watching. Bye.

@@ -1,0 +1,412 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+So, in this video, we will continue our deep learning playlist
+We have read a lot, we have done back propagation
+and we have covered some other topics like what is memoization
+or how you can apply gradient descent
+In this video, we will read a very special and important topic
+about which a lot of questions are asked in interviews
+the name of this topic is vanishing gradient problem
+in simple words I can tell you that in deep learning
+you will find many villains
+vanishing gradient problem is one of them
+it is a problem which can happen in a neural network
+and if that problem happens
+then your neural network will not be trained
+so that is why what is vanishing gradient problem
+why it happens and how to solve it
+if you want to make your career in deep learning
+so in this video I will explain you end to end
+what is the vanishing gradient problem
+why does it happen
+and I will teach you 5 ways to solve it
+so I hope you understood the topic of this video
+let's start the video
+so guys first of all let's see
+what is written on wikipedia about vanishing gradient problem
+so I have taken this cutout from wikipedia
+In machine learning, the vanishing gradient problem is encountered when training artificial
+neural networks with gradient-based learning methods and backpropagation.
+In such methods, during each iteration of training, each of the neural network's weights
+receive an update proportional to the partial derivative of the error function with respect
+to the current weight.
+The problem is that, in some cases, the gradient will be vanishingly small, effectively preventing
+the weight from changing its value and in its worst case, this may completely stop the
+neural network from further training.
+Now, if you find some things to be complex, I will tell you 2-3 simple points which will
+make it easy for you.
+The first point is that this problem comes from a very simple mathematical law and that
+law is this.
+What if I ask you that you have to multiply a lot of point 1s.
+What would be the product?
+You know that if all the numbers that you are multiplying are less than 1, then the
+the resultant product will be smaller than those four numbers
+the more small numbers you add, the smaller number you will get as a product
+so this whole vanishing gradient problem is based on this principle
+second thing you have to remember is that this is only available in deep neural networks
+Deep neural networks means that there are many hidden layers
+So in this type of neural networks only you will get vanishing gradient problem
+And the third point which you have to remember is that when you use sigmoid or tanh type activation function
+then only you get to see
+Now I will explain you very easily what is the vanishing gradient problem.
+So if you remember, we had read the back propagation algorithm before the last few videos.
+According to the back propagation algorithm, suppose this is our neural network.
+This is our neural network.
+Now in this, we used to insert a point.
+By forward propagation, we used to get y hat.
+by using this y hat and y we used to get the loss
+and then we used to update all these weights using this rule
+w new is equal to w old minus learning rate
+if you notice here then what is this
+it is the derivative of loss with respect to
+that particular weight
+so in a way we are starting with an initial value of weight and every time
+we are reducing it
+with a factor of the derivative of
+the weight, see here it is written exactly
+in such methods
+during each iteration of the training
+each neural network's weight receives an update proportional to the partial derivative of the error function
+with respect to the current weight
+see this is what we are doing
+ok
+Now, what is the problem sometimes, let's take an example, suppose you have to update this weight
+and this is a classification problem, there is a sigmoid everywhere as your activation function
+so I told you that the logic of back propagation is very simple, if you have to remove this, this is the weight
+if you have to remove this, then you will see how to reduce the loss
+Loss depends on y-hat, y-hat depends on O11, and O11 depends on W111, on this weight.
+In a way, we had to find some more derivatives to get this derivative.
+Like this.
+I showed you by doing this.
+Right?
+now if you notice here you have to find the derivative of sigmoid
+which is always between 0 and 0.5
+sigmoid in general is also between 0 and 1
+so sometimes all these numbers will be between 0 and 1
+And as soon as all these numbers are between 0 and 1 and you multiply them, you would see that this will happen and your derivative will be a very small number like this.
+Now what is your rule?
+Suppose your initial weight was 1, so how will your new weight be calculated?
+Your new weight will be calculated as initial weight minus, let's say learning rate is 0.01 multiplied by 0.0001
+So it would be like 0.99999, this is your new weight
+Now if you think, if your weight will change with such a low value
+so it basically means that there is no change
+did not change
+and if the weights did not change
+then the loss will remain as it was
+loss will not decrease
+so here it is written that in the worst case
+this may completely stop the neural network from further training
+or you can see here
+effectively preventing the weight from changing its value
+So you can see here the value of weight is vanishingly small, that's why the word came.
+And I gave you an example of a 2 layer network.
+Imagine a network where let's say there are 10 hidden layers.
+imagine, what will happen here, that number, the initial layer weights will become very small
+and due to that, your back propagation algorithm will not be able to converge and model training will not be possible
+I hope you get the idea
+this problem was so big that during 80s and 90s it was one of the main reasons
+due to which neural networks or deep learning in general failed
+means there was no way to solve them because at that time most of the activation functions were sigmoid or tanh
+Now the problem of both of them is that both of them bring a very big input space in a very small output space.
+Think about it. What does sigmoid do? What is the function of sigmoid function?
+The function of sigmoid function is that no matter how big or small the input is, it brings it in the range of 0 to 1.
+so what happens with that is that your vanishing gradient problem comes out
+so I hope you are understanding this whole thing, let me summarize it
+vanishing gradient problem is a very big problem in deep learning
+which comes out of the fact that if you multiply many small numbers together
+then the result will be the smallest number
+and why does this happen? because in bad propagation you have to update the weight
+and the weight update depends on your partial derivative
+but since this is a deep neural network, your partial derivative will be a multiplication of so many components
+if all of these components are very very small
+even if it is less than 1, the derivative will be very very small
+and when you will subtract that with the initial value, you will get a very small change
+or you can say that there will be no change
+and when there will be no change in weights, then your model will not train
+your loss will always be the same as the first time
+now the question is how to recognize that there is a vanishing gradient problem
+how to recognize
+there are two ways
+first way is to focus on loss
+you will get loss after every epoch
+if there are no changes in loss
+if there are no changes
+then it is a sign that you are having a vanishing gradient problem
+The second method is to plot a graph of your weights.
+What kind of graph?
+Let's say you have a weight of W111.
+You plot an epoch versus value graph.
+If it is consistent, it basically means that it is not changing.
+I will show you all this when we will read tensor board and callbacks
+this is the next topic
+I will show you how to do this
+but before that you can do this loss system
+when you do training in keras
+keras tells you the loss
+after every epoch
+so what you can do
+you can go and see
+that loss is reducing or not
+if it is not
+that there is some problem. So let's go guys, now I will show you a demonstration that how
+can a vanishing gradient problem occur. I have already written the code, I will show you by running
+line by line. So in this line we have imported all our libraries. Here I have called the makemoons
+function and made a classification data set in which there are two input columns and one output
+And it looks like this.
+This data set is not much dependent on it.
+I just need a data set.
+Main thing starts from here.
+Here you will notice that I have a very deep neural network.
+Where we have got around 10 hidden layers.
+I made this model.
+Rest of the things are the same which we do.
+Now what I did, I stored the weight of the first layer of the weights at this point in old weights.
+I told you that you can call model.getWeights and see all your weights and biases which are randomly initialized for the time being.
+Now what I have to do is, I need the weights of the first layer.
+So as I wrote 0, so these are the weights of the first layer, you can see.
+So I have two inputs and those are given to the first hidden layer which has 10 nodes.
+So 2x10 will be 20, so here you can see 20 weights.
+So I did the same, I stored the 20 weights in the first layer in the old weights.
+after that I did X train X test basically train test split and then what I did I trained my model for one epoch
+just one epoch ok see this I have done this now see carefully from here our main thing starts
+that as soon as we will do training then after training then there will be some changes in our weights
+So, I again took model.getWeights after training and stored its zero in new weights.
+Like this.
+Okay.
+At this point, I found out the learning rate of my model.
+This is the default value of 0.001.
+Now, what I did is, I calculated the value of gradients for each of the weights in my first layer.
+It is very simple.
+What is our formula?
+Our formula is this.
+This is the formula, weight, just one second, weight new is equal to weight old minus learning rate times dl by this.
+Now if I want the value of this, then what will I have to do?
+I will have to do basically this, w old minus w new divided by learning rate.
+By doing this, I will get the value of gradient.
+I have taken out the value of gradient for every weight, see this, old weight minus new weight divided by learning weight,
+also I have taken out a percentage change between my old weight and new weight, that how much has changed,
+and I have calculated both these quantities, see this, the gradient of the 20 weights in my first layer has come after one epoch,
+and you can see how less this gradient is, how less it is, okay, now I have taken a percentage change and you can see this is the percent change, every weight has changed from this percent, not even 1% this is 0.00%, 0.00% nothing happens, okay, there is only one weight here, I guess that is also not there, there is only one weight which has changed from 0.3%, the rest all see, not even a little change has happened, in fact, if you come down and if you
+see old weights, this is my old weights and this is my new weights, you can see there is nothing, there is no change,
+there is no change, if you enter too much in decimal value then you will see changes, but you can understand,
+here vanishing gradient problem is happening, in fact what I do, I show you how you can detect,
+So what I did, I run this code again, run it again, this time what we will do, we will run it for a little more epochs.
+This is my old weights, this is my train test split, this time what we will do, we will run it for 100 epochs.
+See, the model will be trained and you would see after a point your loss is not reducing anymore, it has come to 0.69 and stuck.
+See, no matter how much you go ahead, it is near 0.69, now I took out new weights from here, and now I am going here, here is my old weights,
+in the beginning, before training, and this is after training, and you would see that even after running 100 epochs, there is a very small change,
+It is a very small change, in some places you will still see some changes in decimal points, but you get the idea that due to this problem, our loss is not being reduced and our neural network is not being trained properly.
+So this is called the vanishing gradient problem. Now what we have to do is we have to learn how to solve this problem.
+So guys, I will tell you 5 ways
+I will show you 2 of them right now
+But the remaining 3 ways we will study in the future
+But you should know
+So if you want to remove the vanishing gradient problem in your neural network
+The simplest way is to reduce the complexity of your model
+So if you have 10 hidden layers
+or if you say that it is a very deep neural network
+then obviously it will have a vanishing gradient problem
+so there is a way to reduce this
+that you use a shallow neural network
+like this
+what will happen is that
+the derivative of the weights of the initial layers
+would be a bigger number
+in comparison to this one
+because here more derivatives will have to be multiplied
+and because of that this number will be smaller
+whereas in a shallow neural network these numbers will not be very big
+and the number of derivatives will be very less
+then the chance of having a vanishing gradient problem is less
+now this method will work but it is not that applicable
+because the reason is that why do you increase the complexity of neural network
+to find out complex patterns
+to find out complex patterns
+so if you remove that thing
+then you will not be able to figure out complex patterns
+then what is the use of model training
+so in a way it can be useful sometimes but most of the time you will not use it
+You just need to have an intuition as to why it works.
+If you feel that your data doesn't have that many complexities,
+there are no non-linearities,
+then reduce it.
+Okay?
+By doing this, at least there won't be a vanishing gradient problem.
+Okay?
+Let me show you one demonstration
+that is there really any benefit in reducing the model complexity?
+So guys, we will use the same code again.
+What we are changing this time is
+that instead of using
+so many hidden layers, I would use just 3 hidden layers, and everything is same, these are my initial weights,
+I have split train test, and again we will train for 100 epochs, we have trained for 100 epochs,
+and it is trained, I have stored my new weights here, the first change will be seen here,
+As your epochs are increasing, this time you are not stopped at 0.69, you can see that you are going down little by little, eventually you have reached 0.39 and now if I show you old weights vs new weights, these are my old weights before the model training and these are my new weights.
+you can see already many changes will be seen, here is 0.29, here is 0.64, here is 0.50, here is 0.98
+so you can see this thing is working, we reduced the complexity of model as it is, the issue of vanishing gradient problem
+we resolved it in a way, so guys we will use the same code again, what we are changing this time
+that instead of using so many hidden layers, I would use just 3 hidden layers and everything is same.
+These are my initial weights. I have split train test and again we will train for 100 epochs.
+We have trained this for 100 epochs and it has been trained.
+I have stored my new weights here.
+The first change you will see here that as your epochs are increasing, this time you are not stopped at 0.69.
+You can see that you are going down little by little.
+Eventually, you have reached 0.39.
+And now if I show you old weights versus new weights.
+These are my old weights before model training
+And these are my new weights
+You can see already
+You can see many changes
+Here is 0.29
+Here is 0.64
+Here is 0.50
+Here is 0.98
+So you can see
+This thing is working
+Ok
+We reduced the complexity of model
+The issue of vanishing gradient problem
+We resolved it in one way
+Second technique to resolve vanishing gradient problem is to use a different activation function
+In different activation function, you can use ReLU
+ReLU is a very famous activation function. We haven't discussed all activation functions yet
+We will discuss them after 1-2 videos
+So what is the function of ReLU?
+The formula of ReLU is Max and its graph is like this
+If it is negative then it will be 0 and if it is positive then the value of Z will be your output
+So basically the feature of this is that it brings your input space which is in any range in this range
+so it is not squishing exactly
+like what sigmoid does
+it brings between 0 and 1
+this atleast does not squish in positive direction
+it brings negative to 0
+this is the thing
+now the good thing is
+that its derivative
+will be either 0 or 1
+if it is negative then it will be 0
+if it is positive then it will be 1
+ok
+because of that
+when you multiply a lot of 1
+then you can see that it is 1
+then the number does not get smaller and the vanishing gradient problem does not occur
+so ReLU is one example which you can use to save a little
+but there is a problem of dying ReLU
+dying ReLU means that if the activation is zero
+then the derivative becomes zero
+and the weight update does not occur if the derivative is zero
+So this is a problem. To solve this, one more thing came. Leaky ReLU.
+We will read all this in the next video or maybe in the next video.
+But you get the idea why ReLU is working because it is not squishing.
+Like your sigmoid squishes. This is the biggest reason you would use ReLU.
+Now I will show you ReLU once implemented in code.
+So guys you can see we are using the same data set again.
+And this time we are using different model
+The model is not different, the architecture is still same
+We have taken ReLU in activation function
+Except the last layer
+You have to take sigmoid there
+Now we are compiling the model
+We are storing the old weights
+We are splitting the train test
+And we are fitting the model
+In the beginning on the same epoch
+Our model is trained
+We have taken out new weights
+This is my learning rate. I have taken gradient and percent change.
+See this is my gradient. You can see gradient has positive values.
+In some places it is negative. And see this is my percentage change.
+Already in some places it is 5% change. In some places it is 12% change.
+In some places it is 26% change. In some places it is 1% change.
+So you can see it is working using ReLU.
+Here if you take out old weights and new weights
+you would find that in some places you would see a lot of change. So let's do one thing,
+let's run this whole code again, a little more for your epochs. Here we train this model for 100 epochs.
+Let's see what happens. The loss should be reduced by the rule. See it is happening, in fact this time it is happening a lot.
+You can see your loss went to 10-4 which is like a lot less. This is my new weights, learning rate will be same.
+There is no meaning of this. I will show you the difference between new weights and old weights.
+This is your old weights and this is your new weights. And you would see many changes have come.
+and this signifies that the vanishing gradient problem is not happening here
+we have resolved the problem by using ReLU
+the third technique is proper weight initialization
+so we were initializing weights randomly
+we will see after a few videos
+there are certain weight initialization techniques like Glorat or Xavier
+we will see all these
+and when you properly initialize your weights, you can solve your vanishing gradient problem
+since we have to study this topic in future, we can't discuss more about it
+the fourth thing that one can use is batch normalization
+so batch normalization is a type of layer
+now we will discuss what exactly is going on in it in the batch normalization series
+it is a new technique but we are able to tackle the vanishing gradient problem
+and the last one is using a residual network
+Residual network
+So it is a special building block
+It is a type of block
+Which you can use in your artificial neural network
+And what is the speciality of it, we will discuss it later
+In future when we will study CNN
+There will be a topic called ResNet
+ResNet is built using a residual block
+So there we will understand
+what is this and by using it how can you avoid vanishing gradient problem
+so these are 5 techniques, let me summarize them
+first is to reduce the complexity of your model
+if possible
+second is to use such activation function
+which is not squishing your input space when there is no squishing in output space
+like ReLU
+third is proper rate initialization
+fourth is batch normalization
+and the fifth one is
+use residual networks
+so I guess you understood everything about vanishing gradient problem
+before going I would like to give you a little introduction
+about exploding gradient problem
+this is just like vanishing gradient problem
+but it is more visible in RNNs
+in recurrent neural networks
+its principle is the opposite
+if you have some numbers which are greater than 1
+when you multiply them you will get a number which is greater than all of them
+so imagine when you are calculating your derivatives
+and these derivatives are all greater than 1
+when they are greater than 1 then your derivative will be a very big number
+it would be a very big number
+so what will happen is that when you go to update the weight
+when you go to update the weight
+if this is a very big number, let's say if this is 1000
+and this is let's say 0.1
+so if your weight was 1 in the beginning
+then this will be 1-100
+it will be 99 directly
+ok
+then in the next step it can increase more
+suppose this is 1000
+So basically, no matter how much the weight increases, it will eventually start behaving randomly
+and your loss will not reduce
+So this is called the exploding gradient problem
+This is the opposite
+When the value of your derivatives is more than 1 and when you multiply a lot of derivatives
+then your derivative becomes a big number
+and this weight update becomes very random
+and your model stops training
+we will study this problem during RNN
+there I will show you in a detailed video
+what is exploding gradient problem
+and how we can use a technique like gradient clipping
+to avoid this problem
+but since this was a related topic
+I gave a light introduction
+ok
+so I hope you are clear about this
+so that was the video guys
+I hope you understood
+I will share all those notebooks with you
+Once you run those codes by yourself, you will get a little more intuition
+What is going on
+If you like the video, then like it
+And if you have not subscribed to the channel, then please do subscribe
+I will keep putting more videos in the deep learning series
+That's it from my side
+Bye

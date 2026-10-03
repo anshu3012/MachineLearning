@@ -1,0 +1,508 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+So we are continuing our deep learning playlist in this video
+We have covered two topics as in two videos on backpropagation
+The what, the how, this is the third video, the why
+This is going to be the most conceptual video and whatever you have studied in the last two videos
+And whatever doubts have come to your mind, we will clear it in this video
+So trust me if you watch these three videos then you should not have any problem in backpropagation.
+So let's start the video.
+So guys let's start with the first topic of this video.
+Here we will learn that what is the intuition behind our backpropagation algorithm.
+Honestly speaking in the last two videos we have kept a very how approach as in how things are working.
+We focused on that.
+but now we will focus on why things are working
+why does the back propagation algorithm work
+why does it give you the right results
+we will discuss this
+so again for reference
+I have kept our back propagation algorithm here
+I am revising you one more time
+so what happens is that you
+basically
+decide an epoch number
+basically how many times you want to rotate on your data
+then what you do in epoch is that you run the loop as many times as the rows are in your data
+so the total number of times the loop will rotate is epochs multiplied by rows
+this is the nested loop and it will rotate this much
+now what you do in the inner loop is that you randomly choose a point
+for that you take out the prediction using forward propagation
+and then you calculate the loss of the prediction which we call as y hat by taking its corresponding y
+using a loss function which was in regression as mse and in classification as binary cross entropy
+and once you get this loss then you update all your weights and biases using this rule
+So all the magic is happening in this step
+And we have to understand this step that why are we doing minus with this thing
+How to do minus with this thing that we are getting our weight and our bias gradually
+So our focus for the next 10-15 minutes will be on why this thing is right and why we should use this thing.
+Now we will take step by step. If we want to understand intuition then we will take step by step.
+First I will clear some of your concepts.
+The first concept is that the loss function is a function of all the parameters.
+I want to explain this to you.
+what I mean to say is that suppose you are working on the same data set
+CGPA, profile score and how much package you have
+suppose you are working on this data
+now here you have made this simple neural network
+in which there are total 3 nodes
+this is the neural network
+now here you will get y hat
+and you will put it in loss function
+since this is regression problem
+Here the loss function is this, I will write it correctly, our loss function is whole square of y minus y hat
+Now first of all you understand that this is a mathematical function
+Like any mathematical function, this is also a mathematical function
+Generally mathematical functions are in this form
+Now what does it mean to say that y is a function of x
+means if you plot a graph then y will be changed by the change of x
+so i just want to ask you that whose function is L?
+like here y is function of x similarly here L is function of what?
+pause the video and think about it
+So this is the value of L. Now if you see in this, then what is this Y, this is basically the value of the target column in your data, basically the value of LPA.
+So this is a constant, so in this formula this is a constant, means I can write it like this, L is equal to C minus Y hat square, this is a constant, I can replace it with a number, there will be no difference.
+So clearly there is only one thing left which can have this function and that is y-hat and it is correct that L is a function of y-hat.
+But what is y-hat? If you ask yourself that this is a neural network, if we assume that the activation function of all nodes is linear,
+so what is y hat this is the question think see y hat kaise niklega is node ka y hat kaise niklega
+is node ka y hat niklega using this formula w211 multiplied by iska output o11 plus ye wala weight
+w221 iska output o12 plus iska bias b21 ok but abhi bhi ye solve nahi hua
+this is not solved. Now here these three are our weights and bias. What is O11? Think
+about this. What is its output? So I would write it like this. Y hat will be W211 multiplied
+by this weight multiplied by the value of CGPA which we will call XI1 and this is the
+the value of profile which we will call XI2
+so I am writing it
+W111
+multiplied by
+XI1
+plus
+W121
+XI2
+plus
+its bias
+B11
+ok
+plus
+W
+I am writing this
+W221
+Now again what can I write for O12? How can I write the output of this?
+This weight, this weight. So I would write W112XI1 plus W122XI2 plus B12 plus this bias.
+so basically if you see now this is the equation of L
+means this is not the equation of L
+the value of Y hat in L is this complex thing
+now in this complex thing I will show you that
+this XI1 is constant because it is coming from data
+this is also constant coming from data
+this is also constant and this is also constant
+Apart from this, if you notice then this thing, this thing, this, this, this, this, this and this, all these things are variables.
+If you put this y hat in this formula, then you will understand that your loss function is basically a function of nine things.
+For example, here we have a function of one thing, x, and here we have a function of nine things, all the weights and all the biases.
+So, what I wanted to explain to you was that loss function is a function of all the trainable parameters.
+First of all, you should have this intuition that in these nine weights and biases,
+If you change anyone or everyone, then the loss will change and you have to tune all of them in such a way that your loss function becomes minimum.
+You can imagine it like this, that your neural network is basically a box on which there are 9 knobs that you can rotate and you have to rotate them in such a way that
+the L should be minimized
+this is the first intuition you should have
+I hope you understood this
+so guys the next concept you have to learn is
+what is gradient
+I hope you already know
+if you don't I will quickly convey to you
+what is the meaning of gradient
+in fact this word is so important
+that the name of our algorithm is gradient descent
+let me explain what is gradient
+so it is a very simple concept
+concept. I will tell you in single line. First of all gradient is just a fancy word. It is
+just a fancy word for derivative. There is nothing else. This is derivative only. Listen
+carefully. So suppose you have a function y. It is a function of x and its equation
+is x square plus x. Now if I tell you that you have to differentiate y with respect to
+2x so you write dy by dx is equal to d by dx of fx or fx or you write d by dx of x square
+plus x and you will get 2x plus 1 so here it is called derivative so listen carefully
+What is the difference between Derivative and Gradient?
+When your function depends on only one parameter
+like here y depends on x
+then you call this Derivative
+to differentiate you call it Derivative
+and it is denoted by the notation D
+but sometimes your function depends on more than one parameter
+like here your function depends on both x and y
+so when you are asked to find the derivative
+suppose this function was x square plus y square
+so when you are asked to differentiate
+then you write this
+del x by del z
+del z by del x
+so this will be 2x
+you have differentiated this in respect of x
+and when you find this
+del z by del y
+2y. Now you have differentiated the same function in respect to y. So the concept is very simple.
+Now the thing you have taken out, by not calling it a derivative, a gradient is called and it is denoted
+by the notation of del. So this is the only difference. Now understand this thing that our
+loss function above, our loss function is a very complex function. It is a complex mathematical
+function which is depending on nine things w111 w112 take all the weights and take all the
+biases it is depending on so many things so here when it will be said that take the derivative of
+l then you will take partial derivatives in respect to every weight and in respect to every bias that
+that is why it is called gradient
+that you are calculating gradient
+for 9 parameters
+so you should
+know one thing
+what is a gradient
+you should know
+let me summarize
+if your mathematical function
+depends on only one thing
+then you use dy dx
+to find the derivative
+if it is a function of more than one thing
+then you use del
+gradient. The loss function of our neural network has 9 parameters. It means L is a function of 9 different things.
+So when it is said to differentiate L, you will actually differentiate L 9 times and it will be said that you are removing the gradient.
+If you want its geometric intuition, then if you are in one dimension,
+y is equal to fx and your function is x square
+so your function is this, so what does it mean to calculate the derivative here?
+that you are calculating the slope at any point
+whereas if you talk about a function like this
+just one second
+if you talk about a function like this
+which is in 3D
+Assume that z is equal to x square plus y square, so here z is a function of x and y
+So here you have to understand that your function will be in 3D
+I am not able to draw here, but you get the idea. This is a 3D function. Imagine it in the room
+And what you are doing is, you are removing the slope of this 3D function with respect to x and with respect to y
+So, our loss function is a complex 9 dimensional function and when I am taking out its derivative
+I am calculating 9 different slopes with respect to each dimension, this is the intuition part
+of this.
+I hope you understood this concept, so guys the third concept we will discuss is concept
+of a derivative.
+So we start differentiating from 11th class and we learn to differentiate different types of mathematical functions and learn many formulas
+But we miss one important thing that what is the intuition of derivative?
+What is the meaning of differentiating? We should know this
+Especially today when we want to understand the intuition of back propagation, we should know the intuition of derivative
+so first we will learn what is the concept of derivative and then we will learn what is intuition
+also we will learn one more thing that what is the meaning of derivative at a point
+what is the meaning of derivative at a point
+generally this is how your derivative is denoted dy by dx
+where y is a function of x and x itself is a quantity, so x and y are two quantities
+so what is the simple meaning, you might have heard this word, specially if you have studied physics
+so it is called rate of change
+so this derivative is nothing but rate of change, it basically means
+that suppose this is our y and this is our x
+now listen carefully this is y and this is x
+since y depends on x so when you change a little bit in x
+suppose you were here and brought x here
+so you will see the corresponding change in y as well
+For example, if you increase from 1 to 2, then you can say dy by dx is 2.
+So, the basic meaning is that when you change one quantity, what effect does it have on the other quantity?
+This is called the derivative and it is denoted in the form of dy by dx.
+so if dy by dx is 2, it basically means that if x is changed by 1 unit, y is changed by 2 units
+if dy by dx is negative, it means that if x is changed by 1 unit, y is changed by negative 2 units
+So not only this magnitude is important, but this sign is also important.
+Both of these are telling us what is happening in y when we change it to x.
+I hope you are understanding this.
+Now if you understand what is the meaning of derivative at a point, then that is also a very simple concept.
+Suppose we had y as x square plus 2x.
+and i have to find x is equal to 5
+what is the derivative
+so first of all we will find dy by dx
+so we will get 2x plus 1
+now we will put the value of x here
+5
+so as soon as we put the value of x here 5
+so this will be 11
+so basically we are saying dy by dx
+at x is equal to 5 is 11
+or you can say slope of this graph at x is equal to 5 is 11
+or rate of change of y with respect to x at x is equal to 5 is 11
+I hope you are able to understand this concept
+I am summarizing
+the simple meaning of derivative is that
+how much change is happening in y by changing in x
+that's it
+here your magnitude and sign are both important
+magnitude tells how much quantity is increasing or decreasing
+and the sign tells whether it is increasing in positive or negative
+so when we were taking out here
+let's take an example of del L by this one
+so what we were trying to find out
+that in W111 when you are changing one unit
+so what is the effect of that on L
+both magnitude wise and sign wise
+this is what we took out when we did the derivative
+So our equation is W new is equal to W old minus learning rate times del L by del W
+So here we are basically reducing our weight old by derivative
+So I guess you understood this thing
+Before going to the main topic, let's understand one last concept
+The concept of minima
+Look carefully, suppose I have a graph and this is a 2D graph and here is this graph and this is y and this is x.
+If I ask you that tell me where is the minima of this graph, I guess you will say very easily that it is at this point.
+Right, because we have eyes, we can tell by looking that the minimum of this function is occurring at this point.
+But imagine that you are sitting with your eyes closed and someone asks you that tell me where is the minima of the function in front.
+So you will not be able to tell without seeing. Similarly, when we come out to find the minima of our function algorithmically,
+So there is a simple way to get it out, that you take out dy by dx and make it equal to zero.
+And then whatever value of x comes from there, your minima lies there.
+We had learned this concept in school.
+Like take this example, which is on our screen.
+You can already see that this is the equation of parabola.
+So you can say here y is equal to x square.
+So if I want to know the minima of this function, then I will have to find dy by dx which is 2x and then I will have to make it equal to 0 and from here whatever value of x I will get, my minima is there and see x is equal to 0 is coming.
+now what if our function is in more than one variable
+suppose we have this function z is equal to x square plus y square
+means it will be something in 3D
+you can understand it will be something in 3D
+now what I have to do is I have to find the minimum of this function
+means I have to find the value of x and y for which the value of z is minimum
+so what I will do is I will find del z by del x
+and I will take out del z by del y and I will make these two equal to 0
+from here I will get the value of x and from here I will get the value of y
+so when you take out this then it will come 2x equal to 0
+this means x is equal to 0 and from this 2y is equal to 0
+which means y is equal to 0
+so here x and y when both are 0 then z is minimum
+Remember this concept because the loss function we are working with depends on 9 parameters
+And what we have to do is minimize our loss function
+That is, we have to find its minima
+And what does it mean to find the minima?
+I have to find 9 derivatives
+And then I have to make those 9 derivatives equal to 0
+and then I will get the value of every parameter
+I will get the value of all the waves and bias
+for which the value of loss will be minimum
+so basically I have to get the minimum in 9 dimensional space
+I hope you understood this also
+now we have all the concepts
+which are required to understand the intuition of back propagation
+so what we will do
+this step, update step
+we will understand this step where we take this update
+this is our target to understand why this formula is like this
+also for some time we will take some assumptions
+our first assumption will be that learning rate is 1
+this will make our formula like this
+second assumption is that our neural network is like this
+So we have to do these steps 9 times, 9 steps, one for each parameter, there are 6 weights and 3 biases
+So we are going to do this 9 times, so what I am going to do, I am taking a small assumption
+And my assumption is that all the weights and these two biases, their value at this point is a constant
+you can actually change this bias
+I mean to say that your loss function which was depending on 9 things till now
+now 8 of those things have become constant
+this is our assumption, so it basically means that the loss is only the bias of this as in the function of b21
+That's it. I took this step intentionally because the next discussion will be a little easy.
+When you understand this whole discussion, then you assume that this is not a constant.
+Then everything will be understood. So look carefully.
+Our loss function is y minus y hat whole square.
+But in this y hat, there is only one term which is not constant.
+so y hat basically depends on b21 and that is why l depends on b21
+now look carefully, here the main thing starts
+so now we have to update b
+so b21 will be the old value of b21 minus this
+now we have to think why we subtracted this
+initially let's say we started with a value of b21
+So, we have to understand why we are doing this minus and also why this minus sign is
+there.
+So, look carefully, there is a square relationship between L and B21, so roughly this plot will
+be something like this, that is, here you will have B21, here you will have a loss, so
+roughly something like this.
+Now see what we have to do, we have to minimize our loss, basically we need such a value
+value for which the value of loss is minimum. So now the main concept starts here. So look carefully,
+I told you a while ago that this quantity is the derivative of L or you can call it a gradient with
+with respect to b21 which means if you change one unit in b21 then how much will be the change
+in l?
+both magnitude and sign ok now see carefully what I have to do I have to reduce l I have
+to reduce l ok now think and see if my derivative when I calculated then it came positive then
+What does it mean? It means that if you are increasing B21, then L is also increasing, but what do we have to do?
+We have to reduce the loss, so what do we have to do? We have to reduce B21 if this quantity is positive.
+This means, initially whatever is the value of B21, suppose you took 5, initial value,
+then to reduce the loss, you will have to reduce this value, you will have to bring it less than 5.
+That is why, notice here, you are subtracting the actual value of B21 from it.
+I hope you are understanding that if it is positive, then you are reducing it.
+Now let's take another case, assume that del L by del B21 is negative, this means that when you reduce B21 or when you increase B21, then the loss decreases and you have to reduce the loss, then you will increase B21.
+which means whatever the value of b21 is now, you will increase it from that, that is why you
+need something that will be added to b21, so here you notice how smartly this minus sign is,
+here I want to write a smart word, smartly it is handling both the cases, if this derivative is
+is positive then you are subtracting from the current value of b21 and if it is negative
+then automatically it will be plus and you are adding something in b21 and increasing
+b21 but can you see here the whole game is on the sign of derivative that you have to
+increase or decrease b21 how is this known by finding out the negative
+of the gradient, this is what you have done, you have put b21 is equal to b21 minus what?
+del L by del b21, what is this whole thing? It is negative of the gradient, so if I want
+this thing, then I can explain you graphically also, I have explained this logically, now
+I will explain you graphically so suppose this is the curve of B21 and this is your loss
+ok now when you started then what was the value of B?
+the value of B was 5 and you were at this point ok
+you have to reach here because this is the value where your loss is minimum
+and you have to find the corresponding value of B
+Is it right? You are starting from here and you have to reach here.
+Now I have eyes, I can see how this function is and I can reach from here.
+But my back propagation algorithm does not have eyes.
+It is sitting here with the value of b. Now it has two possibilities.
+Either it can increase b and go in this direction or it can decrease b and go in this direction.
+our algorithm will calculate the derivative
+it will calculate the slope at this point
+if the slope is positive
+like here
+then you will go in its negative direction
+basically in this direction
+it means you will subtract b
+then you will reach here
+suppose if you have started from here, initial value of b is minus 5
+so when you would have taken the derivative at this point
+then it would have been negative because slope is negative
+so now you would have gone to the negative side of this negative slope
+means you would have gone to the positive side and come here
+so always remember that you will take the slope at this curve
+which you will call gradient
+and you will go in its negative direction
+that is why it is negative
+and this is the logic
+this is the logic which we are following here
+now the thing is
+if I am here
+if I am at this place
+then how much should I move forward from here
+this is my question, how much should I move forward
+so people said that you should move forward as much as your current slope value
+that is why you have taken this magnitude and put it here
+and that is why this formula became this
+w new is equal to w old value minus this
+so what you are saying is that in the negative direction the slope should go forward
+I hope you are able to understand this
+now we will discuss that what is the funda of learning rate
+what is the need of learning rate
+why our equation is this, what is this learning rate adding to this logic that we need to keep learning rate
+we will discuss this, I hope you understood this part that why update is happening in back propagation
+update is happening because the math behind it is of this kind
+so let's discuss what is the effect of learning rate
+So let me tell you first, what is the work of learning rate?
+What is your basic goal?
+That you are starting from any random point from here or from here and you have to reach here.
+So you take steps.
+You take steps.
+So what does learning rate do?
+It makes those steps smooth.
+Okay.
+Let me explain you through an example.
+Suppose you started from minus 5.
+From b equal to minus 5.
+so what you did at this point when you took out this
+so you got to know that it is let's say
+negative slope minus 50
+ok slope is negative
+so what you had to do you had to update
+so the new bias
+what will be that old bias
+minus
+which is your current slope
+so how much is this
+this is 45
+ok so what will be the value of b the new one
+45
+so you will come to this point
+suppose this is 45 of B
+and when you will come to this slope
+suppose this is 50
+so your new bias will be current value minus this
+so you will come here
+this is B equal to minus 5
+so basically a zigzag motion is happening
+like this
+this is not a good thing
+because of this you can shoot out from this curve
+this is not good, that is why you need this kind of smooth motion
+so what you do is, you multiply the slope with a factor
+and that factor is generally 0.1 or 0.01
+this makes your steps smooth, you take small steps
+see how it will be
+again we are taking the same example
+let's say we are starting with a value of minus 5
+our slope is
+let's say minus 50
+but what you are doing is this
+learning rate
+so now what will happen
+new bias will be minus 5
+minus
+learning rate times
+0.01 multiplied by 50
+this will be plus
+so this would be like
+I don't know maybe 5
+so now you are going to minus 0.45
+see you took a small jump
+then as you go further, these jumps will get smaller
+because the value of your slope will also reduce
+and eventually you will reach the minimum
+that is the benefit of learning rate
+if you keep the learning rate very high
+let's say if you are taking default 1
+then this kind of motion will come
+If I take a very small learning rate, then these steps will become very small and it will take a lot of time to converge.
+Your algorithm will take a lot of time to train.
+So this learning rate is a tunable parameter and it is very very crucial.
+It is very important to tune it properly.
+I will show you a demonstration of this.
+This is a Google tool and in this tool you can change the learning rate and see how you are reaching the minimum, how you are reaching the star.
+Notice that they have reduced it to 0.01, now see as I will move forward one by one, see how small the steps are and as you are reaching the minimum, your next step is closer and see how much time it takes you to converge.
+So if your learning rate is very low, it would take a lot of time to train your machine learning model.
+If you correct it a little, let's say I'm taking it to 0.1.
+This is 0.1.
+Now see, I'm starting.
+See, you've reached this far.
+Then a little closer.
+Now as you're getting closer, you're taking gradual steps.
+And here you've reached.
+If you increase it a lot, let's say you've done 0.1.
+It's not happening.
+Just one second.
+Oh man, this is okay, it is 1.10, now you have to see what will happen, by reaching here on the other side,
+by reaching here, you are seeing that this function is very far behind and you are going very far ahead,
+see how fast the value is increasing, so this is happening, this is the problem, okay,
+that is why this learning rate is very very important, this is very very important, okay,
+I hope you understood this concept
+The last thing I want to discuss with you is
+How many times do we run our back propagation algorithm
+I showed you back propagation algorithm earlier
+If you remember, I set an epoch value here
+And the outer loop is running the same number of times
+But what actually happens is
+How many times do you have to run the loop
+It depends on whether the convergence has happened or not.
+Now you might ask what is convergence?
+So if you notice what was our formula?
+Our formula was W's new value is equal to W's old value minus learning rate times this.
+Now think about it.
+Convergence means as soon as you start seeing this, roughly.
+the new value you are getting is very close to the old value
+this basically means that this whole term is getting closer to zero
+means slope is coming to zero
+and this slope is coming to zero means you are reaching your minima
+so theoretically speaking if someone asks you that till when you will keep updating
+so the answer is that as soon as you reach the minima
+which basically means that there will be no benefit in updating
+WN and WOLD will be same. But what people do is, rather than writing this while convergence condition,
+they just run a for loop for let's say 100 times or 1000 times. So in this, convergence is done.
+But actually, this is the correct condition. Convergence. But we write it practically like this that
+that till the time epoch rotates 100 times, there will be a convergence, so we put a little government style logic
+so I hope you understood, we had to discuss this whole thing with you, I have got this tool
+with which you can visualize back propagation and this is a very good tool made by Google developers
+this is a single web page where they have trained it with neural network architecture and backpropagation
+and they have shown everything with very good animation
+they have defined everything here
+this is their neural network
+after that they are showing everything one by one
+they are showing error function, forward propagation
+then they are showing the whole math
+after that they are showing the error
+they are calculating the derivatives
+then full-fledged back propagation and that's it means by looking at this diagram you will get a
+little better idea that how things can work ok in fact i would say that this is a very
+good project a lot of people ask me what project should be made if you know a little bit of web
+development then you should try out this project you have learned back propagation you can try to
+you can try to animate it
+so yeah
+that's it so that was the video guys
+I hope you liked it
+if you liked it then please do like the video
+also please do subscribe
+the channel if you haven't done it yet
+we will continue deep learning
+in the next videos
+that's it from my side thanks for watching bye

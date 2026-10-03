@@ -1,0 +1,236 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel
+So we are slowly moving ahead in our deep learning course
+and in the last two videos, we have studied about multi-layer perceptron
+In the first video, we saw the intuition of multi-layer perceptron
+and in the last video, I told you its notation
+that how you name its weights and biases
+so that there is no confusion in the future
+So let me tell you what is the whole flow
+We are slowly moving towards a very important topic which is called Back Propagation
+Back Propagation is an algorithm which you use to train your Neural Networks
+It is said that Back Propagation is a bit difficult to understand
+So I have planned that before understanding Back Propagation, we will simplify things
+When you will study Back Propagation, you will realize that there are two things
+one is forward propagation
+forward propagation is where your data as in your input
+slowly moves forward in your neural network through each layer
+and back propagation is when you come to the back side and update the weights
+which is done through training
+so I thought that before studying back propagation you should have a good idea
+how forward propagation works
+so in this video I will teach you forward propagation
+Or you can say in simple words that if you have an input and if there are some weights in your neural network
+Then how do you use those weights and these inputs to make predictions? I want to show you this
+And you will see that this whole thing handles linear algebra so beautifully
+No matter how big the architecture is, it does not mean that at the end you have to do only dot products of matrices
+So I just wanted to give you this overview video
+So that's why I have shot today's video
+I would like to discuss one more thing with you
+In all the courses, you would have noticed that generally people after studying backpropagation
+move towards real-world datasets and study them as examples
+But I am going to do something different in this course
+Before backpropagation, I will use Keras library and train neural network on some real-world datasets
+I know we haven't studied the training yet, but we don't even have to write the code on our own
+Keras will handle the behind the scenes
+So I just want to give you a perspective on how these things work
+If you look at it once, then when you go to study back propagation, you will understand it better
+And then we will do some projects after that
+So my plan is that in today's video we will learn about forward propagation
+Or you can say how a neural network predicts
+And in the next 2-3 videos, we will work on some data sets with Keras library.
+So that's it for the introduction. Let's start the video.
+So guys, in this video, we have to learn how a neural network does prediction.
+So neural network is a complex architecture where you can add any number of nodes or any number of layers.
+Our goal is to learn the production from such complex architecture in a simplified manner.
+The good thing is that Linear Algebra handles everything behind the scenes.
+You just have to understand the flow.
+There is a neural network on the screen where this is the architecture.
+There are two hidden layers and one output layer.
+I have this data
+I have 4 input columns in data
+CGPA, IQ, 10th marks, 12th marks
+and output column is placed
+that the placement of that kid is done or not
+Now I believe that if you are working with neural network
+then you should always know the total number of trainable parameters
+when back propagation algorithm will work
+how many weights and biases value it will find
+it is very simple
+If you focus here, there are 4 nodes in input and 3 nodes in hidden layer
+Total number of connections is 4 x 3 which is 12
+And there are 3 nodes so there are 3 biases
+Here you have 15 trainable parameters
+Here there are 2 nodes so total number of connections is 6 plus 2 biases
+equal to 8
+and here you have
+one node so this will be
+2 cross 1
+means 2 weights
+plus 1 bias so 3
+so 3 plus 8 11
+11 or 15 there are 26
+parameters
+so we understood this
+that total when training will be done
+then 26 weights and biases training will be done
+ok
+now we have to do
+prediction. So what will happen is that we will insert each row one by one during the training.
+So first of all this row will go up. So there are 4 columns here so there are 4 input nodes here.
+So this 7.2 will enter from here, 72 will enter from here, 69 will enter from here and 81 will enter from here.
+And then in this complex architecture, here Y hat will come, prediction of my model.
+And obviously when you will start, you will start with a random value of your weights and biases.
+So now let's see how prediction is done.
+Now the thing to remember is that whenever you want output from a perceptron, this is the formula for it.
+What you do is, you multiply all the weights by the input plus you add bias and take out the sigmoid of the whole thing.
+We have already seen this.
+Now what we will do is, we will calculate the prediction layer by layer.
+First of all, our focus will be here.
+So, what I have done is, I have made a weight matrix for these weights.
+ok
+if you see this matrix
+then the notation which I introduced in last video
+I have written that
+so in first row
+W111
+this weight
+W112
+this weight
+W113
+this weight
+W121
+this weight
+W123
+you can see further also
+so if you notice
+so if you
+focus on row
+then all the weights
+coming out of input
+and if you
+focus on column
+then all the weights
+coming out of column
+this matrix is designed
+like this
+now what I have to do
+I have to multiply it by my input
+What is my input? My input is this column matrix
+where I have taken xi1, xi2, xi3, and xi4
+Now I just have to transpose the weight matrix
+So I have transposed it
+So earlier it was 4x3, after transposing it became 3x4
+Its shape is 4x1
+So since this and this are same, you will get a new matrix 3x1
+and you already have bias of 3x1
+so when you add 3x1 and 3x1
+then you will get one more 3x1 matrix
+so I have done that below
+here you can see I have transposed this matrix
+and then took dot product
+you can see this is the output
+this multiplied by this
+plus this multiplied by this
+this multiplied by this and I got this
+similarly this multiplied by this
+this multiplied by this and I got this
+similarly I got this
+now this matrix's shape is 3x1
+I added it in the bias and I got this
+now I just have to remove the sigmoid of this
+I got this matrix O11, O12, O13
+If you focus here, then this is your O11
+This is your O12 and this is your O13
+Now this will be the input for the next layer
+So what did I do?
+I moved forward and started layer 2
+If you notice in layer 2, there are 6 weights here
+So I have written it again in the same way, w211, basically this weight, after that I have written w212, this weight, then I have written w212, sorry, 21, 21, then 22, and then I have written the last one, okay.
+so this is my weight matrix this time
+its shape is 3x2
+we will transpose it, it will be 2x3
+this is my input this time
+input is 3x1
+and here is 2x3
+since 3 and 3 are same
+so I will get 2x1 matrix
+I already have bias of 2x1
+this one and this one
+and
+then when I
+again added dot product
+then I got this
+You can verify it by taking a copy pen.
+And now what I have to do is apply sigmoid again.
+And as soon as I applied sigmoid,
+here are my two outputs.
+This output
+and this output.
+Now only the last layer is left.
+In the last layer, I have two weights.
+Here are my two outputs.
+And here is my single bias
+of this one.
+And now what I have to do is transpose.
+1 cross 2 is done.
+If we do it with 2x1, then we will get a matrix of 1x1 and I will add it with 1x1.
+This is my matrix, I have taken out its sigmoid and this is my O.
+You can also call it 31 or you can call it YI hat.
+And you can see how your whole data flowed and eventually converted into a single number.
+And all because of you did multiplication of simple matrices.
+So, I will suggest you to make a complex structure from this and verify it with a copy pen
+See, what is happening at the end? It is a very simple thing
+I will do one thing, for a while, we will use a notation that whatever the input is, we will collectively call it a
+Means, we can call it the activation of the 0th layer
+Similarly, the output that came in this layer, we will collectively call it A1, the activation of the first layer.
+Similarly, the output that came in this layer, in the next one, we will call it A2.
+And finally, the last output that came, we will call it A3 or activation 3.
+So what is happening is that you are applying this formula, first of all you are taking the activation of layer 0 and multiplying it with weight of 1.
+With these weights whose superscript is 1 and you are adding bias of layer 1 and when you are applying sigmoid on it then you are getting A of 1.
+After that you are taking A and multiplying it with weight of 2
+and you are adding bias of 2 in it
+and when you are taking its sigmoid then you are getting A
+then you are taking A and multiplying it with weight of 3
+and adding it with bias of 3
+and when you are taking its sigmoid, then you are getting A , which is finally your output.
+In fact, it can be completely chained. How? See this.
+We can write it like this.
+We will write it like this.
+sigmoid of A , W , plus B .
+Now this is my a1. Now what I have done is I have multiplied w of 2 with b of 2 and then I have again taken out the sigmoid of this whole thing.
+so now this whole thing is A
+then I added weight of 3
+then I added bias of 3
+then I removed sigmoid of this whole thing
+and this whole big thing is A which is my final output
+so this is happening
+this is what I showed in matrix math in the beginning
+and this is the complex expression
+which this neural network is solving
+if you add more layers
+this expression will get bigger
+ok
+but there is nothing
+it is a very organized way of doing mathematics
+because of which even though it is a complex architecture
+but it is getting simplified
+so my suggestion to you is
+if you don't understand this
+or there is any point left
+Pick up your copy pen and draw a neural network architecture
+You can start with a small one
+And write the matrix math of the prediction
+You will understand
+So that was the video guys
+I hope you understood
+I tried to explain in a very easy way
+I will request you that if you want to understand this topic
+So once on your copy, use your pen to make a neural network architecture
+And then try to make a prediction from scratch
+The practice you will do will help you more rather than watching this video
+So I hope you liked the video
+And if you liked it then please do like it
+Also do subscribe to my channel
+It motivates me a lot
+We will slowly complete deep learning
+so that's it from my side let's meet in the next video bye

@@ -1,0 +1,473 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel.
+So, we are continuing with our deep learning course.
+In the last video, we learnt what is the problem with perceptron
+and we found that perceptron cannot create non-linear decision boundaries
+because it is a linear model, it draws a line and does its work.
+So, what is the solution?
+The solution is multi-layer perceptron.
+Meaning, you can make a big neural network by combining multiple perceptrons
+And that neural network will work as a universal function approximator and will be able to create any non-linear decision boundary.
+So today's video is the first video of this series in truest sense.
+Where you will meet the neural network for the first time.
+And you will learn that why it is able to create non-linear decision boundary.
+So in today's video, I will give you an intuition on how multi-layer perceptron works.
+And I will give you an intuition from the very first principle, that is, we will create logic from scratch and I have made a lot of diagrams.
+With the help of those diagrams, I will try to make you understand the whole concept very easily.
+Also, in the end, I'll show you a great demo on TensorFlow Playground
+where you'll enjoy the demo even more.
+Okay?
+So, that's it. Let's start the video.
+So guys, let's go back to our problem.
+Our problem is that we have Perceptron as an algorithm.
+And it works.
+But the only problem is that if that non-linearity is in your data,
+then it will not be able to capture it
+like on your screen
+this is an example
+here is a data set
+where there are two classes green and red
+but you can see
+that to separate these two classes
+you need this kind of decision boundary
+which is not a line
+which is drawn by perceptron
+in fact this is a curve
+so our problem is
+that somehow
+we have to make an algorithm which can capture any kind of non-linearity which our perceptron cannot do.
+And the most challenging thing is that we have to make that algorithm using perceptrons only.
+So we will try to make an algorithm using multiple perceptrons which can capture any kind of non-linearity.
+Now before moving towards multi-layer perceptron, I will clear one thing that in this whole video, the perceptron I will explain to you,
+the activation function in that perceptron is not a step function, it is a sigmoid and the loss function is not a hinge loss but a log loss.
+Basically, I am using my perceptron as a logistic regression.
+this clarity is very important
+so now let's see with sigmoid
+how perseptron works
+funda is very simple
+i have cgpa and iq
+i have to predict that placement will be there or not
+now how sigmoid works
+your output will not be 0 or 1
+or minus 1 or 1
+there will be a probability between 0 and 1
+which will tell whether the child will be placed or not
+let me give you an example
+suppose when you trained this model you got W1 as 5
+W2 as 10 and bias as 3
+this is an example
+now we have this line
+whose equation is 5x plus 10y plus 3 equal to 0
+this is the equation of this line
+now as soon as you will give the CGPA of a new student
+suppose CGPA is 8.7
+and you will give IQ is 87
+so what will happen is
+first of all you will calculate Z
+how will Z be calculated?
+Z will be calculated by this formula
+W1 multiplied by CGPA, W2 multiplied by IQ and your bias.
+W1 is 5, CGPA is 8.7, W2 is 10, IQ is 87 plus 3.
+This is your Z.
+Now you will send Z in this sigmoid function.
+This is the formula of sigmoid function.
+So it will always give you a probability between 0 to 1
+And this probability is the probability of placement
+So suppose this probability is 0.8
+So we will say that the probability of placement of this student is 0.8
+So automatically since only two things are possible
+Second possibility is that the probability of not having a placement is 0.2
+So you just have to understand that for every student
+We will get two probabilities
+1st probability is probability of yes and 2nd is probability of no
+one more thing to understand is that every point is a student
+so this line divides the whole space in two regions
+one is this and the other is this
+on this line probability of Y is 0.5
+means if there is a student on this line
+then its placement and non-placement
+both have probability of 0.5
+but as you go away from this line in green region
+then your probability of placement
+is more than the probability of non-placement
+if you talk about this student
+Then the probability of it being a placement can be 0.9
+Then the probability of it not being a placement automatically will be 0.1
+But if we talk about this student
+Since he is near this line
+So his probability of it getting a placement will be 0.6
+And probability of it not being a placement will be 0.4
+Similarly if you talk about this student
+Since he is very far from this line
+So the probability of it having a placement will be less and the probability of not having a placement will be more
+If you talk about this then the probability of it having a placement will be 0.4 and the probability of not having a placement will be 0.6
+So this becomes a gradient that the further you go from the line, the more your probability increases
+like if you see in all these lines
+then probability of yes will be 0.6
+because it has 0.5
+it will have 0.7
+it will have 0.8
+it will have 0.9
+similarly if you draw lines parallelly
+then it will have 0.4
+if you draw this line
+then it will have 0.5
+if you draw this line
+then it will have 0.3
+here 0.2
+and here 0.1
+like this
+ok
+So that is how perceptron works.
+So simple funda, you just have to understand that for every student you will get two probabilities.
+The first probability is your probability of yes and by doing this you can get the probability of no by doing 1 minus.
+Okay, I had to explain this to you, I hope you understood this.
+So guys, we understood how perceptron will work with sigmoid.
+now we will try to form an idea of multilayer perceptron
+suppose i have this data which i have shown you earlier
+suppose i have trained two different perceptrons on this data
+this is my first perceptron and this is my second perceptron
+Assume that W1 is 2, W2 is 3 and bias is 6 in this model
+and in this model W1 is 5, W2 is 4 and B is 3
+so the line of this perceptron looks like this
+the decision boundary of this perceptron so this line's equation will be 2x plus 3y plus
+6 similarly this is the decision boundary of second perceptron so we can write its equation
+as 5x plus 4y plus 3 equal to 0 ok now what I am saying is that what if the output of
+Decision Boundary is there, somehow connect it and by connecting it something like this will happen
+Now look at it, you will understand by looking at it, I have done that I have superimposed this image on it
+And I am getting this kind of new Decision Boundary
+Now what I will do, I will do a smoothening in it
+Now what is smoothening, you will understand a little further
+and when I will do smoothing I will see this output
+this one and guess what
+I wanted this decision boundary so what I have discussed
+with you is the abstract idea of multilayer perceptrons
+whatever we have discussed there is no mathematical logic behind it
+means I have not explained to you how this superimposition is happening
+or how this smoothing is happening I have not told you all this
+I have not given you the technical and mathematical details
+But I just want to give you an idea
+I want to give you an intuition
+What is happening
+So what are we doing
+To solve the same problem
+We are taking more than one perceptron
+In our case we are taking two perceptrons
+The decision boundary of both is different
+As you can see
+And now what are we doing
+First of all we are superimposing them
+We are making them sit on each other
+And then we are doing smoothening because of which I am getting my desired output
+But whatever we talked about, we did it in the air, I have not justified any mathematical logic behind it
+So now I will show you how this thing can be achieved mathematically
+So to prove the mathematics behind it, I have kept these two perceptrons here in front of you
+Now let's do one thing, all the points here are basically our students, so let's say we caught this student
+Now according to this particular perceptron, the probability of placement of this student is let's say 0.7
+similarly, according to this perceptron of this student, the probability of placement is 0.8
+let's assume
+similarly, the probability of placement for every student will be 0.8
+now what I did is, I caught this student again
+and added the output of both of them
+If I want to know the probability of placement of this student in my new model, then I will add the output of this perceptron to it and this will be my probability.
+There is only one problem that here it is 1.5 and you know that the probability is always between 0 to 1.
+So this is a problem. But we have a solution for this too. What if I put this probability i in sigmoid function.
+The formula of sigmoid function is 1 plus 1 divided by 1 plus e to the power minus z.
+so in this case if you want to calculate it would come out to be 0.82
+so now the combined model where I added these two probabilities and then put it in sigmoid
+so according to that new model the probability of placement of this student is coming out to be 0.82
+And I will do the same with every student. Now I will catch this student, I will get the probability of yes given by perceptron 1
+Then I will get the probability of this with perceptron 2, I will add both of them in sigmoid
+And I will get the probability of placement. So that is how you achieve this model
+So here you did two things, first you added and then added in sigmoid
+Because of which those two things are happening, superimposition and smoothening
+So I hope you are getting a little clear here that mathematically how this whole thing is working
+You are basically finding out the linear combination
+You are using the linear combination of two perceptrons
+to find out new probability and this is its result. So guys now the concept we discussed
+linear combination of two perceptron, let's extend it a little more. I want to add some
+flexibility in it. Let's say I want this decision boundary in place of this decision boundary.
+So if you look carefully, this decision boundary is such that on this Perceptron1's impact is more and Perceptron2's impact is less.
+So what I mean to say is that can I change something in this model so that Perceptron1's output dominates more than Perceptron2's output.
+The answer is you can do it. What we were doing till now is that we were taking the probability of yes from both the places.
+We were adding it and sending it in sigmoid and that was our probability.
+what if we make this addition to weighted addition
+means we don't directly send this probability here
+we send it through a weight
+let's say I gave this weight of 10 and this weight of 5
+so what I am saying is that in my new multilayer perceptron model
+In that the weightage of perceptron 1 is doubled by the weightage of perceptron 2
+So now the new combination will look like this
+We will take the output of perceptron 1 and multiply it by 10 because it is its weight
+Plus we will take the output of perceptron 2 and multiply it by 5
+And this number which will come, we are calling it Z
+Now we will send it in sigmoid
+and then the probability will be yes and I will do this with every point
+in fact you can add bias in it
+you can say that when output will come from here then weight will be 10 and when output will come from here then it will be 5
+and in this system there is a bias whose value is 3
+So now what will happen, its value is 0.7, its value is 0.8, so now this whole expression will become z here.
+0.7 times 10 plus 0.8 times 5 plus this bias and this bias came here, this is my z.
+I have sent it in sigmoid and it will give me a probability between 0 and 1 for this student
+so for every student here I will repeat the same thing
+now if you look carefully
+so what is happening is that this whole thing
+this whole thing is working as a perceptron itself
+if you think about it
+Think about it. Here you are getting the first input, here you are getting the second input, this is your W1, this is your W2 and here is a B and here is a sigmoid and then you are getting the output.
+So what are you doing in a way? From these two perceptrons, from this perceptron and this perceptron, the output that is coming, you are providing as input in this new perceptron.
+so what is happening is that you are making a combination of 3 perceptrons which we can call as multi-layer perceptron
+in fact I will draw this whole thing and make it
+so from here I am getting x1 from here I am getting x2
+here is my w1 sorry this is my w1 this is my w2 its value is 5 its value is 10
+this is my summation where the value of bias is 3
+and from here we are taking out sigmoid
+this is my z and this is my y hat
+this is my output
+now one thing is that this input is not getting from data
+it is getting from perceptron 1 and perceptron 2
+so in a way you can make a mental picture like this
+you can see that perceptron 1 and perceptron 2 is connected to perceptron 3 and over here
+you are getting your output so now this is actually a multi-layer perceptron now see
+guys I will show you clearly by drawing the whole picture so this is my perceptron 1 and
+this is my perceptron 2 and with the linear combination of these two this is my new result
+So if you want to draw it through nodes, weights and biases, how will it look like?
+First of all, I will show you this perceptron. So we have the same data, CGPA, IQ and our placement in output
+or not, this is the data. So this perceptron will look something like this. Here one input will come of CGPA
+and the second input will be of IQ
+I will write the bias inside the value of 1
+bias in this case will be 6
+this weight will be 2
+and this weight will be 3
+and from here I am getting the output of this perceptron
+basically a probability because there is a sigmoid
+similarly if you talk about this perceptron
+it will look like this
+its bias is 3
+it will also get the input of CGPA
+and it will also
+get the input of IQ
+and it will also
+give me the output
+now if you talk about this
+this is also a perceptron
+the bias of this perceptron is
+3
+and it will get the input from two places
+one from the output of this perceptron
+and one from its output
+and this will also give me the output here
+also this weight is 10 and this weight is 5
+now we can redraw this whole thing and write it like this
+so it would be 6 3
+we have drawn these two connections
+output
+CGPA
+IQ
+CGPA
+IQ
+in fact we can draw it better
+bias is 6
+bias is 3
+this is the connection
+here is weight 10 and here is weight 5
+here you will get output
+now CGPA is also getting
+so what we will do
+we will make this cgpa and we will make this iq and this cgpa input is going to both the places
+similarly output is also going to both the places also our weights are defined here
+CGPA to 1st is 2 and IQ to 1st is 3
+CGPA to 2nd is 5
+so this one will be 5 and this one will be 4
+and guys you can see this is called multi layer perceptron
+because there are multiple layers here
+this is called input layer
+this is the input layer
+this is called output layer
+and this is
+hidden layer
+ok and that's it
+this is what you had to understand
+that how
+you can organize more than one
+perceptron in this way
+and
+capture non-linearity
+So, I tried to give you an intuition with the first principle approach that how a multilayer
+perceptron can capture non-linearity, Funda is very simple, you make linear combinations
+of multiple perceptrons, I hope this idea is clear to you.
+Now what I will do is, I will make this structure a little more complex and show you what you can achieve next, which will be very very interesting.
+Guys, now we will study how we can bring changes in the architecture of our neural network to have some additional flexibility.
+First of all, it is important for you to understand that who is called the architecture of the neural network?
+so the basic meaning of architecture is that your nodes which you also call perceptron
+how they are connected to each other
+weights and the connection between your nodes
+this is called architecture
+so what you can do is you can bring changes in your architecture
+based on your requirement
+so I will tell you 4 ways how you can bring changes
+So the first way is that you can increase the number of nodes in the hidden layer
+Increase the number of nodes means increase the number of perceptrons
+Like see this example on your screen
+Till now whatever discussions we have done, in our hidden layer there were total 2 perceptrons
+But in this case you can see there are 3 perceptrons
+Rest everything is same, data is same
+I just added an extra perceptron in the hidden layer
+Now what is happening because of that
+If I have a data which is very non-linear
+So I am able to capture that additional non-linearity
+So my first perceptron decision boundary is this, second one is this and third one is this
+When I created the linear combination of these three
+Then I got this output
+Now this is not different, it is the same thing
+Now if we take this point, then the probability of this point being green by this perceptron
+could be let's say 0.2, the probability of it being green would be 0.3, it could be 0.4,
+here the weights are given, let's say 1, 2, 3, so what did we do again, for this perceptron
+So we calculated z for this. And how did we calculate z?
+0.2 multiplied by 1
+0.3 multiplied by 2
+0.4 multiplied by 3
+plus its own bias. Let's say bias is 10
+So we calculated z. Now to calculate z
+this extra term came
+because there was an extra perceptron.
+Now I sent z to sigmoid and sigmoid
+For this point, I have given a probability between 0 to 1. Everything is the same, only this extra term is there.
+If we add one more node tomorrow, then we will have to add one more term here also while calculating z.
+So the thing to understand is that first you can add nodes in your hidden layer, as much as you want.
+The second thing to understand is that the more you add nodes, the more you will get help in making more complex non-linear decision boundaries.
+As I have shown you in this example.
+The second way to change the architecture of your neural network is to increase the number of nodes in your input layer.
+But you will do this only when the input columns increase in your data.
+Like till now we were talking that we have CGPA as input column and IQ as input column
+But let's say in our data there is one more input column of 12k marks
+So now in our input layer there will be 3 nodes
+And now this whole data will go in 3D
+So on X axis let's say CGPA
+IQ on Y axis
+And 12k marks on Z axis
+and I told you that if it is in 3D then your perceptron model will be a plane
+and you can see that it is a plane similarly this is another perceptron model
+this is also a plane now what I will do is I will combine these two planes linearly
+again I will take out the linear combination
+so if you catch any point
+So for the probability of that point being green or red, I will first take out its probability
+I will multiply it with w1 and then I will do the same work with w2, with its probability
+Again I will calculate z, again I will calculate sigma of z and for that I will get the probability between 0 and 1
+here it is very simple, the more columns you have in input, the more nodes you have in input layer
+and if there was one more then it would have been 4D and in place of plane it would have been hyperplane
+obviously we can't visualize it but we can see it in 3D
+so this is the second case where you are increasing nodes in the input layer
+third way to change the architecture of neural network is to increase the number of nodes in the output layer
+In all the examples we have discussed, we have always noticed that in the end there is only one perceptron
+But it is not necessary, if you want you can keep more than one perceptron
+Generally you do this when you are doing multi-class classification
+For example, you have to tell by looking at a photo that there is a dog, cat or human in that photo
+so you will make one perceptron attached to all three
+this for dog, this for cat and this for human
+in the end whoever has more probability
+for that particular photo you will say that it is dog
+or it is cat or it is human
+so the thing to learn is that in the case of multi class classification
+you keep multiple nodes in your output layer
+Fourth way to change the architecture of neural network is to increase the number of hidden layers
+Till now we didn't increase any layer, we were increasing nodes in the layer
+But if you want you can increase the number of hidden layers
+Here you can see this is the input layer and this is the output layer
+But here I have two hidden layers
+see this is hidden layer 1 and this is my hidden layer 2
+ok, what will be the benefit by doing this
+the benefit will be that when you will have very complex non-linear data
+which you will be able to take out your work from very complex decision boundary
+in that case you will be able to make such a complex decision boundary by adding layers
+So you can see that your first hidden layer is only creating linear decision boundaries.
+But as you go deep in your neural network, you will be able to capture complex relationships.
+And if there is a linear combination of these, then you will be able to capture more complex relationships.
+So for this reason, neural networks are called Universal Function Approximator.
+it is said that if you give any complex data in which how much non-linearity is there
+if you add enough hidden layers in your network
+then given enough time
+if you give enough time in training
+then your neural network captures that relationship
+ok
+so this is a very important concept
+that how much deep neural network you can make
+obviously there are considerations that training time will be more
+and many more things will come in the picture but it is always true that given enough hidden
+layers and enough training time you can make any mathematical function with your neural
+network.
+So guys to show this demo I have brought you back to the tensorflow playground.
+So if you remember in perceptron I showed you by doing a demo here that how a single
+perceptron could not converge on this exor data and that was the biggest failure point
+of perceptron that it could not capture non-linearity so now I will show you that a small multilayer
+perceptron will handle this data very easily so here you can see we have selected exor data
+first of all and after that here we have two input nodes in the input column this is our output
+output node and this is our hidden layer in which two perceptrons are at this point ok rest you can see
+we have selected the activation function as sigmoid and now what we will do with this learning rate
+what is the learning rate is not your concern, we will discuss it further
+I am starting the training and you can see here you can see all the errors
+which are reducing over time and
+you would see it will take some time
+so you can see we could not capture it very well, so what we can do is
+we can do 2-3 things but I am increasing the nodes in this hidden layer
+I have added 2 more nodes
+and now I am training again
+and you can see guys
+we have captured non-linearity
+ok
+now let's see one or two more cases
+here some more data sets are available
+like one data set is
+this one
+ok, concentric circles data set
+completely non-linear
+let's try with same architecture
+so if we run
+you can see
+it converged immediately
+If we take one more complex data set, let's say this is a very complex data set
+If we train the same architecture on this, let's see what is the output
+So this is a little difficult data, the convergence will not be that easy
+You can see, we have run almost 500 epochs, but there is no special convergence yet
+So we will have to make some changes
+the first change I am doing is that I am increasing the hidden layers
+so you can see I am clicking here
+let's say I have done 4 hidden layers and added 4 nodes in all 4
+like this
+and now what we will do is we will train the model again
+and you can see there is not much benefit
+in fact nothing is visible till now
+this loss is going very constant
+so what is one way since you have not read all this
+so you can change the activation function to ReLU
+ReLU is the most used activation function in today's date in Neural Networks
+we will train on this once
+and you can see we can see the benefit immediately
+error is reducing very fast
+and you can see here that changes are coming in our decision boundary
+in fact the good thing about this whole website is that
+that you can go layer by layer and check the decision boundaries
+so in the first layer, all the decision boundaries of the perceptrons are linear
+but in the next one, we are capturing more complex non-linear decision boundaries
+like see this
+and here you can see
+it will take some time at this point
+we have gone near almost 1000 epochs
+so I will pause the video
+after that when it will be correct, I will show it to you, so guys you can see even after trying a lot, this is what I am getting,
+there are some misclassifications happening here, but you can see that the essence of the data is able to capture this model,
+the good thing is that you can also see what is going on in the middle, see this, see how the perceptrons in the middle are looking at the data,
+so this is a very good demonstration and a very good website which you should use
+you don't need any coding knowledge to run this, it is a GUI tool
+but it will give you a lot of perspective for the future
+so I will recommend you, there are different data sets here, you can add noises
+you can reduce the batch size, you can select regression problem
+and you can try this
+The thing to learn for us was that it can capture non-linearity and increasingly our hidden layers capture more complex patterns in our data.
+So I hope you understood the whole thing.
+So that was the video guys.
+How was it? Tell me in the feedback.
+Because I have worked hard for this particular video.
+So I would like you to like it a lot.
+If you liked the video, then please like it and please do subscribe to my channel.
+There will be more content like this.
+So, that's it from my side. Thanks for watching. Bye!

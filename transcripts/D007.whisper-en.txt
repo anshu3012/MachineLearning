@@ -1,0 +1,70 @@
+Hello guys, my name is Nitish and you are welcome to my YouTube channel.
+So, we will continue our deep learning course in this video as well.
+We have studied about Perceptron till now.
+First we saw what is Perceptron, then we saw how to train it,
+first we saw Perceptron trick, then we saw loss functions.
+So, at this point we have a clarity that what is Perceptron and how it works.
+But Perceptron was not that famous for deep learning, the reason was that Perceptron can only work on linear data and not on non-linear data.
+So in today's video, I will show you some codes and examples to show you that Perceptron cannot work on non-linear data.
+So this is a small video, I didn't want to link it with any other video because I felt that it should be treated as an independent topic.
+That is why this 10 minute video.
+But in this video, you will learn that I will really show you that if you give non-linear data, no matter how small or big.
+No matter how much time you give your perceptron to train on that data, perceptron will never be able to converge.
+Because essentially perceptron is a linear model.
+So this is what we have to see in this video. So now let's start the video.
+So guys, what is the problem in Perceptron? To show this, I have written a code and this code is on your screen.
+So what I have done is I have created three different data sets.
+One of them is OR data, one is AND data and one is EXOR data.
+I will run the Perceptron algorithm on all three data sets and I will plot a graph and show you what the output is.
+So let's run the code, here we have only imported some libraries, in this cell we have made three new pandas data frame
+and after that I have basically created a data set here, here I have created my OR data, here I have created my AND data
+and here I have created my XOR data. So I will quickly run all these cells and show you the output.
+So you can see this is my AND data. In AND, you know that when both are 1, then only the output is 1.
+In all other cases, the output is 0. All three datasets have 4 rows. If you plot it, then this is your AND data.
+In OR data, if there is any 1, then the output will be 1, if both are 0, then the output will be 0.
+I also plotted this, this is our OR data set.
+And after that XOR happens, when both are same, then the output is 0.
+And when both are different, then the output is 1.
+This is its output.
+This is the graph.
+Now I called perceptron class from scikit-learn and created three different objects
+classifier 1, classifier 2, classifier 3. All three are perceptrons.
+Then I gave different data sets to all three.
+I gave AND data to classifier 1.
+I gave OR data to classifier 2.
+And I gave EXOR data to classifier 3.
+And after that, these are my outputs, coefficients of classifier 1 and intercept of classifier 1.
+And when I plot it, you can see that my perceptron runs on AND data and it easily divided both classes clearly.
+Similarly, when I run classifier 2 on OR data,
+So again you can see that a perceptron has classified the data set in both classes.
+But when I ran classifier 3, I did not get any clear cut boundary on our XOR data.
+And this is the problem of perceptron.
+I have told you many times that it works only on linear relationship.
+But I wanted to show you practically that if there is a non-linear relationship, then it will not be captured.
+Because if you look at XOR data, you can't draw a single line and separate both the classes, okay.
+Now I have another very good tool with which I will show you the same thing on another data.
+So there is a thing called Playground, it is called TensorFlow Playground. This is a GUI tool.
+In this GUI tool, you can create and run neural networks on different data sets, okay.
+So here I will run the perceptron and show you, so I will select first of all this data set, this data set is linearly separable because both the classes are different, here you make your neural network.
+So here right now this is a proper neural network, but I don't need a neural network, I just need one perceptron, so I am removing these hidden layers, this is the perceptron and these are my inputs x1 and x2.
+here I am keeping sigmoid for now and let's set learning rate to 0.01 and here we can add some noise like this
+and now if I run this code you can see very quickly we got our line and our XOR is giving us the result
+Now what if I take this data set, now if you look at this data set, then this is our XOR data set.
+In orange cross is blue, this is XOR data, now see when I run my code on this,
+no matter how much time you give, no matter how many epochs you run this code, we will not get our output, we will not be able to separate both the classes, and the error will be very high.
+So if you go to this website, then you can practically without writing a piece of code, you can check what is the problem of perceptron.
+So we will use this tool a lot in the future, so I just wanted to show you that such a tool is available, it is a very far tool, we have to use it many times in the future.
+So this was a small video, I guess you understood this thing visually that what is the problem with perceptron.
+So that was the video guys, I know it was not much, but what happens by looking through the eyes is that things sit in the mind.
+So I thought that I just said that Perceptron can only capture linearity.
+I thought that once I have to show you everything so that in your mind back of the mind
+this idea will be established that what was the real problem of Perceptron
+due to which multilayer Perceptrons were needed.
+Now from the next video we will start multilayer Perceptron and things will be more interesting.
+So if you have not subscribed to my channel, we are making our 100 days of deep learning course here
+and I think it is a good course
+so please do subscribe
+you will get more content like this
+and those who have subscribed
+please like this video
+ok bye
