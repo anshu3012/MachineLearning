@@ -9,6 +9,7 @@ title: "Challenges in Machine Learning"
 >
 > - **Builds on:** Features ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
 > - **Leads to:** Feature selection (Video 9, coming); Feature scaling ([Note 13](../13-toy-project/note.md)); Feature extraction ([Note 46](../46-curse-of-dimensionality/note.md)); Beta and A/B testing (Video 9, coming); Encoding categorical data (Video 26, coming); Power transformer (Video 31, coming).
+> - **Compare with:** CSV files ([Note 13](../13-toy-project/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,0 +1,27 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=corange, fill=white, align=left, font=\ttfamily\small, anchor=north west] (j) at (0,0) {%
+\{\\
+\ \ "page": 1,\\
+\ \ "results": [\\
+\ \ \ \ \{"id": 19404,\\
+\ \ \ \ \ "title": "Dilwale Dulhania Le Jayenge",\\
+\ \ \ \ \ "release\_date": "1995-10-20",\\
+\ \ \ \ \ "vote\_average": 8.7, ...\},\\
+\ \ \ \ \{"id": 724089,\\
+\ \ \ \ \ "title": "Gabriel's Inferno Part II", ...\},\\
+\ \ \ \ ...\ \ \ (20 movies on each page)\\
+\ \ ],\\
+\ \ "total\_pages": 428,\\
+\ \ "total\_results": 8551\\
+\}};
+  \node[anchor=south west, font=\sffamily\bfseries] at (j.north west) {Reply to /movie/top\_rated, page 1};
+  % callouts
+  \node[note, anchor=west, text=cblue, align=left] (c1) at (9.3,-2.6) {\texttt{["results"]}: a list,\\one dictionary per movie\\$\rightarrow$ one row each};
+  \draw[arrow, draw=cblue] (c1.west) -- (7.9,-2.6);
+  \node[note, anchor=west, text=cgreen, align=left] (c2) at (9.3,-4.62) {how many times\\the loop must run};
+  \draw[arrow, draw=cgreen] (c2.west) -- (4.0,-4.62);
+\end{tikzpicture}
+\end{document}

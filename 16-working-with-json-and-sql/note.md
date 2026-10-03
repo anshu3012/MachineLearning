@@ -7,7 +7,7 @@ title: "Working with JSON and SQL"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** APIs (Video 17, coming).
+> - **Leads to:** APIs ([Note 17](../17-fetching-data-from-api/note.md)).
 > - **Compare with:** CSV files ([Note 15](../15-working-with-csv/note.md)).
 <!-- /where-this-fits -->
 

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 49 of 128 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 54 of 129 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -71,8 +71,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Labelled data | [Note 3](../03-types-of-ml/note.md), [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | Enough data | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | Sampling noise and bias | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| APIs | [Note 7](../07-challenges-in-ml/note.md), Video 17, coming | draft |
-| Web scraping | [Note 7](../07-challenges-in-ml/note.md), Video 18, coming | draft |
+| APIs | [Note 7](../07-challenges-in-ml/note.md), [Note 17](../17-fetching-data-from-api/note.md) | confirmed |
+| Web scraping | [Note 7](../07-challenges-in-ml/note.md), [Note 18](../18-web-scraping/note.md) | confirmed |
 | CSV files | [Note 13](../13-toy-project/note.md), [Note 15](../15-working-with-csv/note.md) | confirmed |
 | JSON and SQL data | [Note 16](../16-working-with-json-and-sql/note.md) | confirmed |
 
@@ -81,12 +81,13 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Imbalanced data | Video 9, coming, Video 133, coming | draft |
-| Exploratory data analysis | [Note 13](../13-toy-project/note.md), Video 19, coming | draft |
-| Descriptive statistics | Video 19, coming | draft |
+| Exploratory data analysis | [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md) | confirmed |
+| Variance | [Note 19](../19-understanding-your-data/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
+| Correlation | [Note 19](../19-understanding-your-data/note.md), Video 21, coming | confirmed |
+| Descriptive statistics | [Note 19](../19-understanding-your-data/note.md) | confirmed |
 | Univariate analysis | Video 20, coming | draft |
 | Bivariate and multivariate analysis | Video 21, coming | draft |
 | Pandas Profiling | Video 22, coming | draft |
-| Variance | [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 
 ### 2.5 Step 4: Clean
 
@@ -243,7 +244,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 128 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 129 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -280,11 +281,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 14 | Framing an ML problem | nothing | deferred |
 | 15 | CSV files | nothing | written |
 | 16 | JSON and SQL data | nothing | written |
-| 17 | APIs | [Note 16](../16-working-with-json-and-sql/note.md) | coming |
-| 18 | Web scraping | nothing | coming |
-| 19 | Descriptive statistics, Exploratory data analysis | [Note 15](../15-working-with-csv/note.md) | coming |
-| 20 | Univariate analysis | Video 19, coming | coming |
-| 21 | Bivariate and multivariate analysis | Video 19, coming | coming |
+| 17 | APIs | [Note 16](../16-working-with-json-and-sql/note.md) | written |
+| 18 | Web scraping | nothing | written |
+| 19 | Correlation, Descriptive statistics, Exploratory data analysis, Variance | [Note 15](../15-working-with-csv/note.md) | written |
+| 20 | Univariate analysis | [Note 19](../19-understanding-your-data/note.md) | coming |
+| 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md) | coming |
 | 22 | Pandas Profiling | nothing | coming |
 | 23 | Feature engineering | [Note 11](../11-tensors/note.md) | coming |
 | 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), Video 23, coming | coming |
@@ -305,12 +306,12 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), Video 36, coming | coming |
 | 40 | Iterative imputation (MICE) | Video 36, coming | coming |
 | 41 | Outliers | [Note 7](../07-challenges-in-ml/note.md) | coming |
-| 42 | Z-score outlier method | Video 19, coming, Video 41, coming | coming |
-| 43 | IQR outlier method | Video 19, coming, Video 41, coming | coming |
+| 42 | Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
+| 43 | IQR outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
 | 44 | Percentile outlier method | Video 41, coming | coming |
 | 45 | Feature construction and splitting | Video 23, coming | coming |
-| 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), Video 23, coming | written |
-| 47 | Feature extraction, PCA, Variance | Video 19, coming, Video 23, coming, Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | written |
+| 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), Video 21, coming, Video 23, coming | written |
+| 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), Video 23, coming, Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | written |
 | 48 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
 | 49 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
 | 50 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |

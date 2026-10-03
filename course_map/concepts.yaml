@@ -33,6 +33,9 @@ notes:
   13: 13-toy-project
   15: 15-working-with-csv
   16: 16-working-with-json-and-sql
+  17: 17-fetching-data-from-api
+  18: 18-web-scraping
+  19: 19-understanding-your-data
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
 
@@ -70,13 +73,14 @@ concepts:
   - {id: sampling_bias, name: Sampling noise and bias, step: 2, videos: [7], status: confirmed}
   - {id: csv, name: CSV files, step: 2, videos: [13, 15], status: confirmed}
   - {id: json_sql, name: JSON and SQL data, step: 2, videos: [16], status: confirmed}
-  - {id: api, name: APIs, step: 2, videos: [7, 17], status: draft}
-  - {id: web_scraping, name: Web scraping, step: 2, videos: [7, 18], status: draft}
+  - {id: api, name: APIs, step: 2, videos: [7, 17], status: confirmed}
+  - {id: web_scraping, name: Web scraping, step: 2, videos: [7, 18], status: confirmed}
 
   # 3 Understand data
-  - {id: eda, name: Exploratory data analysis, step: 3, videos: [13, 19], status: draft}
-  - {id: variance, name: Variance, step: 3, videos: [47], status: confirmed}
-  - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: draft}
+  - {id: eda, name: Exploratory data analysis, step: 3, videos: [13, 19], status: confirmed}
+  - {id: variance, name: Variance, step: 3, videos: [19, 47], status: confirmed}
+  - {id: correlation, name: Correlation, step: 3, videos: [19, 21], status: confirmed}
+  - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: confirmed}
   - {id: univariate, name: Univariate analysis, step: 3, videos: [20], status: draft}
   - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [21], status: draft}
   - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: draft}
@@ -221,11 +225,14 @@ links:
   - [dev_setup, used in, ml, draft]
   # Data
   - [sampling_bias, compared with, data_quantity, confirmed]
-  - [csv, used in, eda, draft]
-  - [api, compared with, web_scraping, draft]
+  - [csv, used in, eda, confirmed]
+  - [api, compared with, web_scraping, confirmed]
   - [json_sql, compared with, csv, confirmed]
-  - [json_sql, used in, api, draft]
-  - [descriptive_stats, is a kind of, eda, draft]
+  - [json_sql, used in, api, confirmed]
+  - [web_scraping, compared with, csv, confirmed]
+  - [correlation, is a kind of, descriptive_stats, confirmed]
+  - [correlation, used in, feature_selection, draft]
+  - [descriptive_stats, is a kind of, eda, confirmed]
   - [univariate, is a kind of, eda, draft]
   - [bivariate, is a kind of, eda, draft]
   - [pandas_profiling, used in, eda, draft]
@@ -277,7 +284,7 @@ links:
   - [pca, fixes, curse_dim, confirmed]
   - [pca, is a kind of, unsupervised, confirmed]
   - [pca, needs, variance, confirmed]
-  - [variance, is a kind of, descriptive_stats, draft]
+  - [variance, is a kind of, descriptive_stats, confirmed]
   - [pca, needs, standardization, draft]
   # Split
   - [overfitting, needs, train_test_split, confirmed]

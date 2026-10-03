@@ -1,0 +1,28 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[title] at (3.6,1.3) {A file sorted by age};
+  % 14 rows: first 5 children (orange), rest adults (blue)
+  \foreach \r in {0,...,13} {
+    \pgfmathsetmacro{\y}{-0.5*\r}
+    \ifnum\r<5
+      \fill[corange!35, draw=corange] (2.4,\y) rectangle (4.8,\y-0.42);
+    \else
+      \fill[cblue!20, draw=cblue] (2.4,\y) rectangle (4.8,\y-0.42);
+    \fi
+  }
+  \node[font=\small, text=corange!80!black] at (3.6,-1.2) {children};
+  \node[font=\small, text=cblue] at (3.6,-4.7) {adults};
+  % head: first five rows
+  \draw[decorate, decoration={brace, amplitude=6pt, mirror}, draw=corange, line width=1.6pt] (2.2,0) -- (2.2,-2.42);
+  \node[box=corange, anchor=east, minimum width=3.6cm] at (1.6,-1.2) {\texttt{df.head(5)}\\[2pt]\small first 5 rows:\\\small ``all children''};
+  % sample: five random rows
+  \foreach \r in {1,4,7,10,12} {
+    \pgfmathsetmacro{\y}{-0.5*\r-0.21}
+    \fill[cgreen] (5.2,\y) circle (0.12);
+    \draw[cgreen, line width=1pt] (5.35,\y) -- (6.2,-3.3);
+  }
+  \node[box=cgreen, anchor=west, minimum width=3.6cm] at (6.2,-3.3) {\texttt{df.sample(5)}\\[2pt]\small 5 random rows:\\\small a fair mix};
+\end{tikzpicture}
+\end{document}
