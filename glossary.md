@@ -96,6 +96,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
 | Centred data | Data whose mean is 0. | [Video 25](25-normalization/note.md) |
 | Centroid | The centre of one group in k-means. | [Video 32](32-binning-binarization/note.md) |
+| Chain rule | To differentiate a function of a function, multiply the outer derivative by the inner derivative. | [Video 74](74-sigmoid-derivative/note.md) |
 | Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3. | [Video 45](45-feature-construction-splitting/note.md) |
 | Chained equations | One prediction model per column, each using the latest fills of the others. | [Video 40](40-iterative-imputer-mice/note.md) |
 | Channel | One colour layer of an image (red, green or blue). | [Video 11](11-tensors/note.md) |
@@ -625,6 +626,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Upper / lower limit | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers. | [Video 42](42-outliers-zscore/note.md) |
 | User-Agent | A short text a browser sends to say what it is. | [Video 15](15-working-with-csv/note.md) |
 | UTF-8 | The most common encoding, and `read_csv`'s default. | [Video 15](15-working-with-csv/note.md) |
+| Vanishing gradient | Gradients shrinking towards 0 as they pass through many layers, which slows learning. | [Video 74](74-sigmoid-derivative/note.md) |
 | Variable | One column of a dataset. | [Video 20](20-univariate-analysis/note.md) |
 | Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other inputs predict input $j$; above 5 signals multicollinearity. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Variance | The average squared distance of the points from their mean. | [Video 47](47-pca-geometric-intuition/note.md) |

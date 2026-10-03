@@ -179,7 +179,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Lasso regression | [Note 67](../67-lasso-regression/note.md), [Note 68](../68-lasso-sparsity/note.md) | confirmed |
 | Elastic Net | [Note 69](../69-elastic-net/note.md) | confirmed |
 | Perceptron trick | [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md) | confirmed |
-| Sigmoid function | [Note 72](../72-sigmoid-function/note.md), Video 74, coming | confirmed |
+| Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md) | confirmed |
 | Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md) | confirmed |
 | Softmax regression | Video 79, coming | draft |
 | Naive Bayes | Video 82, coming, Video 83, coming, Video 84, coming, Video 85, coming, Video 86, coming, Video 87, coming, Video 88, coming, Video 89, coming, Video 90, coming | draft |
@@ -354,8 +354,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 71 | Logistic regression, Perceptron trick | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | written |
 | 72 | Logistic regression, Sigmoid function | [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md) | written |
 | 73 | Log loss (binary cross entropy), Logistic regression | [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md) | written |
-| 74 | Sigmoid function | nothing | coming |
-| 75 | Logistic regression | [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 73](../73-log-loss/note.md), Video 74, coming | coming |
+| 74 | Sigmoid function | nothing | written |
+| 75 | Logistic regression | [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 73](../73-log-loss/note.md), [Note 74](../74-sigmoid-derivative/note.md) | coming |
 | 76 | Accuracy, Confusion matrix | [Note 13](../13-toy-project/note.md) | coming |
 | 77 | Precision, recall and F1 | Video 9, coming, Video 76, coming | coming |
 | 78 | ROC curve and AUC | Video 76, coming | coming |
