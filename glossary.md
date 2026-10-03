@@ -108,6 +108,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | classes_ | The attribute holding the classes `LabelEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Classification metric | A number that measures how well a classification model performs. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | Classification | Supervised learning with a categorical output. | [Video 3](03-types-of-ml/note.md) |
+| classification_report | scikit-learn function that prints precision, recall, F1 and support for every class. | [Video 77](77-precision-recall-f1/note.md) |
 | Client, server | The program that asks, and the computer that answers. | [Video 17](17-fetching-data-from-api/note.md) |
 | Closed-form solution | An answer given directly by a formula of ordinary operations. | [Video 51](51-linear-regression-maths/note.md) |
 | Cluster | One group found by clustering. | [Video 3](03-types-of-ml/note.md) |
@@ -220,6 +221,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns. | [Video 13](13-toy-project/note.md) |
 | Extrapolation | Predicting for inputs outside the range of the training data. | [Video 50](50-simple-linear-regression/note.md) |
 | f-string | Text starting with `f` in which `{name}` is replaced by a value. | [Video 17](17-fetching-data-from-api/note.md) |
+| F1 score | The harmonic mean of precision and recall. | [Video 77](77-precision-recall-f1/note.md) |
 | False negative (FN) | Predicted negative, but actually positive; a Type II error. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | False positive (FP) | Predicted positive, but actually negative; a Type I error. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | Family size | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family. | [Video 45](45-feature-construction-splitting/note.md) |
@@ -258,6 +260,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Grouping effect | Elastic Net's tendency to give correlated inputs similar coefficients instead of keeping only one. | [Video 69](69-elastic-net/note.md) |
 | handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training. | [Video 27](27-one-hot-encoding/note.md) |
 | handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training. | [Video 29](29-pipelines/note.md) |
+| Harmonic mean | An average that stays close to the smaller of the values: $2ab/(a + b)$ for two values. | [Video 77](77-precision-recall-f1/note.md) |
 | Header | The line of a file that holds the column names. | [Video 15](15-working-with-csv/note.md) |
 | Headers | Extra information sent with a request, such as the User-Agent. | [Video 18](18-web-scraping/note.md) |
 | Heatmap | A table drawn as coloured cells, darker for larger values. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -343,6 +346,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Loss function | A formula that measures how wrong a model's predictions are. | [Video 73](73-log-loss/note.md) |
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Video 50](50-simple-linear-regression/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Macro average | The plain mean of a metric over all classes. | [Video 77](77-precision-recall-f1/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | make_classification | scikit-learn function that creates random classification data. | [Video 71](71-perceptron-code/note.md) |
 | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names. | [Video 29](29-pipelines/note.md) |
@@ -475,6 +479,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0. | [Video 70](70-perceptron-trick/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |
+| Precision | Of all items predicted positive, the fraction that really are positive. | [Video 77](77-precision-recall-f1/note.md) |
 | Predict | Use a trained model to give an answer for new data it has not seen. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Prediction ($\hat{y}$) | The value the model gives for an input; the hat marks a prediction. | [Video 51](51-linear-regression-maths/note.md) |
 | Preprocessing | Cleaning and preparing data before training. | [Video 13](13-toy-project/note.md) |
@@ -501,6 +506,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Raw data | Data as it arrives, before any preparation. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Raw string | A Python string written `r"..."`, in which a backslash is kept as it is. | [Video 33](33-mixed-variables/note.md) |
 | Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time. | [Video 15](15-working-with-csv/note.md) |
+| Recall (sensitivity) | Of all items that really are positive, the fraction the model found. | [Video 77](77-precision-recall-f1/note.md) |
 | Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values. | [Video 30](30-function-transformer/note.md) |
 | Recommendation engine | A model that suggests items, such as movies, to users. | [Video 4](04-batch-learning/note.md) |
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros. | [Video 27](27-one-hot-encoding/note.md) |
@@ -592,6 +598,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Supervised binning | Binning that also uses the target, such as decision tree binning. | [Video 32](32-binning-binarization/note.md) |
 | Supervised learning | Learning from data with inputs and outputs, to predict outputs. | [Video 3](03-types-of-ml/note.md) |
 | Supervision | Correct answers that guide an algorithm while it learns. | [Video 3](03-types-of-ml/note.md) |
+| Support | The number of items that really belong to a class. | [Video 77](77-precision-recall-f1/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Tag | One element of HTML, such as `<h2>TCS</h2>`. | [Video 18](18-web-scraping/note.md) |
 | Target leakage | Building an input column from the answer itself, so the model sees information it would not have in real use. | [Video 52](52-regression-metrics/note.md) |
@@ -649,6 +656,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Web scraping | Writing code that extracts data from web pages. | [Video 7](07-challenges-in-ml/note.md) |
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor. | [Video 65](65-ridge-gradient-descent/note.md) |
 | Weight-based algorithm | An algorithm that learns one number per input column from all the points; sensitive to outliers. | [Video 41](41-what-are-outliers/note.md) |
+| Weighted average | The mean of a metric over classes, weighted by each class's support. | [Video 77](77-precision-recall-f1/note.md) |
 | Winsorization | Capping with limits set by percentiles. | [Video 41](41-what-are-outliers/note.md) |
 | X, y | Usual names for the input table and the output column. | [Video 11](11-tensors/note.md) |
 | XAMPP | A free package that runs a web server and a MySQL server on one computer. | [Video 16](16-working-with-json-and-sql/note.md) |

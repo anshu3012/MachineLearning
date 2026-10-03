@@ -93,6 +93,7 @@ notes:
   74: 74-sigmoid-derivative
   75: 75-logistic-gradient-descent
   76: 76-accuracy-confusion-matrix
+  77: 77-precision-recall-f1
 
 concepts:
   # 0 Foundations
@@ -245,7 +246,7 @@ concepts:
   - {id: accuracy, name: Accuracy, step: 9, videos: [13, 76], status: confirmed}
   - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: confirmed}
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: confirmed}
-  - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: draft}
+  - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: confirmed}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: draft}
   - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 112], status: draft}
   - {id: oob_score, name: OOB score, step: 9, videos: [113], status: draft}
@@ -515,9 +516,9 @@ links:
   - [accuracy, used in, classification_task, confirmed]
   - [confusion_matrix, compared with, accuracy, confirmed]
   - [imbalanced_data, used in, confusion_matrix, confirmed]
-  - [precision_recall, needs, confusion_matrix, draft]
+  - [precision_recall, needs, confusion_matrix, confirmed]
+  - [precision_recall, fixes, imbalanced_data, confirmed]
   - [roc, needs, confusion_matrix, draft]
-  - [precision_recall, fixes, imbalanced_data, draft]
   - [regression_metrics, used in, regression_task, draft]
   - [cross_validation, compared with, train_test_split, draft]
   - [oob_score, used in, random_forest, draft]

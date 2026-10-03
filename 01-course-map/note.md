@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 111 of 145 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 112 of 145 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -211,7 +211,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Regression metrics | [Note 52](../52-regression-metrics/note.md) | confirmed |
 | Bias-variance trade-off | [Note 62](../62-bias-variance/note.md), Video 109, coming | confirmed |
 | Confusion matrix | [Note 76](../76-accuracy-confusion-matrix/note.md) | confirmed |
-| Precision, recall and F1 | Video 77, coming | draft |
+| Precision, recall and F1 | [Note 77](../77-precision-recall-f1/note.md) | confirmed |
 | ROC curve and AUC | Video 78, coming | draft |
 | OOB score | Video 113, coming | draft |
 
@@ -357,7 +357,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 74 | Sigmoid function | nothing | written |
 | 75 | Logistic regression | [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 73](../73-log-loss/note.md), [Note 74](../74-sigmoid-derivative/note.md) | written |
 | 76 | Accuracy, Confusion matrix | Video 9, coming, [Note 13](../13-toy-project/note.md) | written |
-| 77 | Precision, recall and F1 | Video 9, coming, [Note 76](../76-accuracy-confusion-matrix/note.md) | coming |
+| 77 | Precision, recall and F1 | Video 9, coming, [Note 76](../76-accuracy-confusion-matrix/note.md) | written |
 | 78 | ROC curve and AUC | [Note 76](../76-accuracy-confusion-matrix/note.md) | coming |
 | 79 | Softmax regression | [Note 75](../75-logistic-gradient-descent/note.md) | coming |
 | 80 | Polynomial features | nothing | coming |

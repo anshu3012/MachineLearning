@@ -8,7 +8,7 @@ title: "Classification Metrics: Accuracy and the Confusion Matrix"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Imbalanced data (Video 9, coming).
-> - **Leads to:** Precision, recall and F1 (Video 77, coming); ROC curve and AUC (Video 78, coming).
+> - **Leads to:** Precision, recall and F1 ([Note 77](../77-precision-recall-f1/note.md)); ROC curve and AUC (Video 78, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview
