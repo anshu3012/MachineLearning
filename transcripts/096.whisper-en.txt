@@ -1,0 +1,602 @@
+So hi guys, we have just discussed what is a kernel trick in SVM
+and although we have not studied deeply mathematically what are the various kernel functions
+like RBF or polynomial
+but still what I will do is I will show you one example
+one live code where you can see actually you can see the power of kernel trick
+so I will take a non-linear data set and I will apply this kernel trick on it
+and you will be able to see how you can classify non-linear data using linear surfaces
+so math is a bit difficult so at this point I will skip it
+I just want to create this understanding so that you get a conceptual understanding
+that how this whole thing is working
+so let's start, I will share my screen
+yeah so I have already created a notebook
+I will just maximize the window
+yeah so guys I have already created the window
+I am sorry I have already created the notebook
+so these are some of the imports
+I will share this notebook
+I will run this once
+and after that using scikit-learn sample generator class
+I have created a data set which looks like this
+okay
+it's a non-linear sort of data set
+means wherever you try to draw a line in this
+you won't get a good classifier
+right
+because you can see
+for obvious reasons
+okay
+now what we will do
+the approach would be this
+first I will apply a normal SVM on it
+where you will apply a linear SVM
+and you would see the results will not be good
+and then we will replace it with a non-linear kernel
+that is RBF kernel
+the polynomial kernel
+okay
+so let me show you
+what I have done here
+first of all
+these are some obvious steps
+I had 100 data points by the way
+if you notice above
+so I have generated 100 data points
+okay
+and they are stored in my x and y
+in x I have stored their x and y coordinate
+and in y I have stored their label
+okay
+so there are two labels
+red and blue
+now
+if I go back
+I have
+I have done this train test split
+right
+after that what we did
+we made a classifier object
+of SVC class
+okay
+we made a support vector classifier
+and we explicitly mentioned
+that we need a linear kernel
+okay
+means I want to do linear SVM
+and then what we did
+we fit
+and we calculated the wipe rate
+okay
+and after calculating the wipe rate
+I got the accuracy score
+and it came out to be
+55%
+only 55%
+and it was bound to happen right
+means our data was totally non-linear
+and we were putting a linear classifier on it
+so the results were going to be bad
+in fact what I have done is
+I have written this function
+plot decision boundary
+after using this
+you can actually see
+how our linear SVM
+tried to classify
+and guys here it is
+here is my test data set
+I sent my test data set
+and my classifier object
+and it plotted
+that given
+in fact let me give you
+let me give
+the entire x
+and the entire y
+and you can see
+this is happening
+okay
+so it almost classified
+so many blue points
+wrongly
+because obviously
+linear surfaces
+were not going to work on it
+okay
+now
+what can be done
+what can be the solution
+now what we did
+we tried to transform our data
+means my data is in 2D
+but I will bring it in 3D
+okay
+and first I will show you
+what function I have used
+and then I will tell you the logic behind it
+that how that function is working
+okay
+so I created a function
+by saying plot 3D plot
+and
+I took every x
+every x
+and applied this transformation on it
+okay
+so this is called
+radial basis function
+RBF is a kernel
+radial basis function
+we will read more about this
+in detail
+in some time
+but for now just understand
+that for every point
+for every x point
+what was in x
+the coordinates of my 100 points
+x and y coordinates
+I calculated an r for every point
+you can understand this r
+the value of that particular point on z axis
+okay
+so I passed my x and y coordinates
+in this formula
+and for every point
+I calculated an r
+okay
+and using that r
+I plotted a 3D scatter plot
+by giving my x
+coordinate
+my y coordinate
+and my z coordinate
+okay
+and as soon as I ran it
+guys see this
+my non-linear concentric circle type data set
+what I did was
+I took the red points in the center
+and took them up
+and the blue points are still there
+and now that
+this data set is in 3D
+what you can do is
+you can create a decision boundary
+from a plane
+and you can classify your points very easily
+so the idea we discussed in the last video
+is clearly visible here
+that because
+we applied that function
+what happened because of that
+that your 2D data set came in 3D
+and you can easily classify it
+by using a plane
+okay
+now what I will do is
+I will explain how this function works
+okay
+so first of all
+it is a radial basis function
+what is a radial basis function
+you will read it in detail
+we will discuss it in the next video
+but for now
+understand that
+the function we used
+exp to the power minus x square
+this is a radial basis function
+and what it did
+it transformed our data into 3D space
+how?
+we will discuss that
+okay
+first of all
+when our data was initially here
+so by looking at it
+we understood
+that
+if I want to classify it linearly in any way
+and take it to a higher dimension
+so one approach could be
+that I will take the center points a little higher
+right
+that could be one approach
+so that means
+I will have to apply a transformation on it
+but what will be that transformation function?
+so radial basis functions are only 3-4
+you try something from them
+and one of them is this function
+let me show you
+we had discussed this earlier
+so you used a function
+y is equal to
+exp to the power minus x square
+and guys this is the function
+see this
+this is the function
+if you have data points
+and you apply this transformation on it
+then automatically
+your center points will rise a little
+right
+in comparison to other points
+and exactly this same transformation
+we applied on our data set
+that our center points
+their z coordinate was raised a little
+and the rest was left down
+ok
+because of this transformation
+we were able to create a new feature space
+where we were able to differentiate these points
+ok
+now this thing is very tricky
+right
+the math behind this is very tricky
+it's because
+means
+now you can see
+that the data was in the center
+but in the higher dimensional space
+you won't be able to see
+and there it becomes very important
+that
+by considering whom as the center
+you have to apply this transformation
+so what SVM does there
+they hold every data point
+and do this work once
+how
+let me show you
+let's say if your point was shifted a little
+if the red point was shifted a little
+then you could have applied this transformation
+I will show you
+x minus 5
+like this
+see this guys
+if I had applied this transformation
+then if our point was centered on this side
+then it would have come up
+ok
+if you want to tackle for this side
+then you have to
+apply this transformation
+so what you will do
+for every point
+you will apply these transformations
+ok
+and
+then you will find out
+means SVM will find out
+that in which of these
+the best result is coming
+ok
+and obviously
+this is computationally
+very very expensive
+right
+as the data increases
+it becomes very difficult
+to apply this transformation
+on them
+and
+the best thing in SVM
+is that
+you don't have to actually
+do these transformations
+if you think
+I will show you in some time
+you will see
+you don't have to actually
+do these transformations
+you don't have to actually
+make a third space
+I have made this
+just to show you
+this plot 3D diagram
+I don't have to give this
+to the algorithm
+I just showed you
+to show you
+that internally
+this work is happening
+what will happen
+is that
+you never have to create
+a separate feature
+or separate column
+work will happen
+on the same columns
+you will just change the kernel
+and your result will come
+unlike polynomial regression
+if you remember
+where you have to
+create a column
+for every polynomial degree
+here you don't have to
+create extra features
+you will just fit
+your current coordinates
+in that formula
+and
+your result will come
+we will discuss this part
+in maths
+when we will talk
+about this
+but for now
+think like this
+the kernel trick
+that happens
+because of that
+instead of doing
+the kernel transformation
+actually
+you just add value
+in that formula
+and you take out
+dot product
+and you start getting
+values
+so this is a trick
+because of which
+SVM is so famous
+we have discussed
+let me show you
+what you will do
+now what you will do
+you will create a new object
+called RBF classifier
+SVC
+and this time
+you will keep the kernel
+RBF
+this is not lenient
+ok
+and again you will train
+your data
+and predict
+and guess what
+this time your accuracy score
+is coming out to be
+100%
+right
+and if you
+call the plot decision boundary
+function
+and
+plot the decision boundary
+so you can actually see
+this is
+your new decision boundary
+which creates
+on your
+2D graph
+ok
+and guess what
+as I told you
+you don't have to create
+any extra
+feature
+you don't have to do
+any feature engineering
+the columns you had
+are the same
+only two columns
+worked
+but the kernel
+did the calculations
+internally
+ok
+so that's the benefit
+ok
+now one last thing
+I will show you
+and that is
+if you want
+you can use
+polynomial kernel
+ok
+so if you talk about
+polynomial kernel
+if you go to
+SVM
+SK
+learn
+so here you get
+documentation
+and
+this is the
+documentation
+guys
+I will show you
+if you go down
+here
+so here
+you can set
+the value of
+kernel
+we are already doing
+we used linear
+and RBF
+now we are using
+poly
+and there is a term
+called degree
+whose default value is
+3
+and degree of the
+polynomial kernel function
+ignored by all
+this degree term
+is only applicable
+when your
+kernel is poly
+as in polynomial
+so now
+what we do
+by default
+we do for degree of 3
+and
+let's run it once
+actually
+I have already done
+so you can see
+that even more
+bad accuracy is coming
+around 45%
+and
+its precision boundary
+looks like this
+this is
+polynomial kernel
+with a degree of 3
+because by default
+the value is 3
+ok
+now what you can do
+using a technique like
+grid search CP
+you can see
+different values
+like if I keep
+the value of
+degree
+2
+and run it again
+you can see
+now my value is
+accuracy score
+is 1
+so for the value of
+degree 3
+it was coming out to be
+45%
+but for the value of
+degree 2
+it is coming out to be
+1
+ok
+now if I plot
+decision classifier
+boundary
+then
+you can see
+same
+we are getting
+same boundary
+ok
+so guys
+that's it
+I am giving you one last
+revision
+that what exactly
+you were doing
+in that function
+in that rbf function
+what you did there
+you have this x
+this is my x
+so I have 100
+coordinates
+x and y coordinates
+so this is one point
+this is the second point
+this is the third point
+and what you did
+you just did this
+that
+you put
+this whole x
+in this function
+ok
+what happened with this
+you also put
+x coordinates
+e to the power
+minus x square
+you also put
+y coordinates
+e to the power
+minus x square
+and after that
+what you did
+you summed
+on this
+on axis 1
+means
+x and y coordinates
+you added
+x and y coordinates
+and by doing this
+you have
+a hundred
+this is your
+z coordinate
+ok
+and then
+if you plot
+this
+what I did
+I just
+before
+summing
+x
+I just
+stored it
+and I
+plotted
+x
+new
+so guys
+actually
+in 2D
+this transformation
+looks like this
+in 3D
+it came up
+but in 2D
+this transformation
+is like this
+for these red
+points
+your x
+and y
+both values
+are more
+so obviously
+when you add
+the values
+will be more
+and you will come
+up
+in y
+so try to play
+with this
+you can try
+with different
+functions
+you can try this
+and just
+go through
+the documentation
+with this
+you will understand
+also
+we are going
+to discuss
+these kernels
+in detail
+in the future
+videos
+ok
+so I think
+I was able to help
+that's it
+for the video
+thanks for watching

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 125 of 148 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 126 of 149 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -145,14 +145,14 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Dimensionality reduction | [Note 3](../03-types-of-ml/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | PCA | [Note 3](../03-types-of-ml/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md), [Note 49](../49-pca-mnist/note.md) | confirmed |
 | Feature extraction | [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
-| Curse of dimensionality | [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
+| Curse of dimensionality | [Note 46](../46-curse-of-dimensionality/note.md), [Note 91](../91-knn/note.md) | confirmed |
 
 ### 2.8 Step 7: Split
 
 | Concept | Taught in | Status |
 |---|---|---|
 | Train-test split | [Note 13](../13-toy-project/note.md) | confirmed |
-| Data leakage | [Note 13](../13-toy-project/note.md) | confirmed |
+| Data leakage | [Note 13](../13-toy-project/note.md), [Note 91](../91-knn/note.md) | confirmed |
 
 ### 2.9 Step 8: Model
 
@@ -162,7 +162,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Anomaly detection | [Note 3](../03-types-of-ml/note.md) | confirmed |
 | Association rule learning | [Note 3](../03-types-of-ml/note.md) | confirmed |
 | Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md) | confirmed |
-| K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), Video 91, coming | confirmed |
+| K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Ensemble learning | [Note 9](../09-mldlc/note.md), Video 101, coming | draft |
 | Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | draft |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
@@ -207,22 +207,23 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Overfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md) | confirmed |
-| Underfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md) | confirmed |
-| Accuracy | [Note 13](../13-toy-project/note.md), [Note 76](../76-accuracy-confusion-matrix/note.md) | confirmed |
-| Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), Video 112, coming | draft |
+| Overfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
+| Underfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
+| Accuracy | [Note 13](../13-toy-project/note.md), [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 91](../91-knn/note.md) | confirmed |
+| Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 91](../91-knn/note.md), Video 112, coming | draft |
 | Regression metrics | [Note 52](../52-regression-metrics/note.md) | confirmed |
 | Bias-variance trade-off | [Note 62](../62-bias-variance/note.md), Video 109, coming | confirmed |
 | Confusion matrix | [Note 76](../76-accuracy-confusion-matrix/note.md) | confirmed |
 | Precision, recall and F1 | [Note 77](../77-precision-recall-f1/note.md) | confirmed |
 | ROC curve and AUC | [Note 78](../78-roc-auc/note.md) | confirmed |
+| Decision surface and boundary | [Note 91](../91-knn/note.md) | confirmed |
 | OOB score | Video 113, coming | draft |
 
 ### 2.11 Step 10: Tune
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), Video 98, coming, Video 111, coming, Video 118, coming | draft |
+| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), Video 98, coming, Video 111, coming, Video 118, coming | draft |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 112, coming | draft |
 | Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
@@ -263,7 +264,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 148 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 149 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -374,7 +375,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
 | 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
 | 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
-| 91 | K-nearest neighbours | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 24](../24-standardization/note.md) | coming |
+| 91 | Accuracy, Cross-validation, Curse of dimensionality, Data leakage, Decision surface and boundary, Hyperparameter tuning, K-nearest neighbours, Overfitting, Underfitting | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | written |
 | 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
 | 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
 | 94 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
@@ -388,11 +389,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 102 | Voting ensembles | Video 101, coming | coming |
 | 103 | Voting ensembles | Video 101, coming | coming |
 | 104 | Voting ensembles | Video 101, coming | coming |
-| 105 | Bagging | [Note 61](../61-polynomial-regression/note.md), Video 101, coming | coming |
-| 106 | Bagging | [Note 61](../61-polynomial-regression/note.md), Video 101, coming | coming |
-| 107 | Bagging | [Note 61](../61-polynomial-regression/note.md), Video 101, coming | coming |
+| 105 | Bagging | [Note 91](../91-knn/note.md), Video 101, coming | coming |
+| 106 | Bagging | [Note 91](../91-knn/note.md), Video 101, coming | coming |
+| 107 | Bagging | [Note 91](../91-knn/note.md), Video 101, coming | coming |
 | 108 | Random forest | Video 100, coming, Video 107, coming | coming |
-| 109 | Bias-variance trade-off, Random forest | [Note 61](../61-polynomial-regression/note.md), Video 100, coming, Video 107, coming | coming |
+| 109 | Bias-variance trade-off, Random forest | [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md), Video 100, coming, Video 107, coming | coming |
 | 110 | Random forest | Video 100, coming, Video 107, coming | coming |
 | 111 | Hyperparameter tuning, Random forest | Video 100, coming, Video 107, coming | coming |
 | 112 | Cross-validation, Grid and random search | [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 111, coming | coming |

@@ -9,6 +9,7 @@ title: "Polynomial Regression"
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)).
 > - **Leads to:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Logistic regression ([Note 70](../70-perceptron-trick/note.md)); Bagging (Video 105, coming).
+> - **Compare with:** Decision surface and boundary ([Note 91](../91-knn/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

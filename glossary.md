@@ -98,6 +98,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Binary file | A file that is not plain text, such as a saved model. | [Video 9](09-mldlc/note.md) |
 | Binning | Grouping a numerical column into ranges that act as categories. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
+| Black box model | A model that gives predictions without showing how each input contributed. | [Video 91](91-knn/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
 | Boosting | Combining many simple models in sequence to reduce bias. | [Video 62](62-bias-variance/note.md) |
 | Bootstrap sample | A sample of the same size drawn from the data with replacement. | [Video 66](66-ridge-key-points/note.md) |
@@ -204,6 +205,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Dead zone | The range of S for which the Lasso slope is exactly 0. | [Video 68](68-lasso-sparsity/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
 | Decision region | The part of the input space in which a model predicts a given class. | [Video 79](79-softmax-regression/note.md) |
+| Decision surface | A plot colouring every point of the input space by the class the model would predict there. | [Video 91](91-knn/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
 | Delivery routing | Planning the most efficient route for deliveries. | [Video 8](08-applications-of-ml/note.md) |
@@ -348,6 +350,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Index | The row labels of a DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Inertia | A big organisation's resistance to changing direction once it has started. | [Video 14](14-framing-ml-problem/note.md) |
 | Inference engine | The part of an expert system that applies the rules to answer a question. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Inference | Learning how the inputs affect the output, rather than only predicting it. | [Video 91](91-knn/note.md) |
 | Input / output | The columns we know / the column we want to predict. | [Video 3](03-types-of-ml/note.md) |
 | Inspect | Browser tool that shows which tag draws each part of a page. | [Video 18](18-web-scraping/note.md) |
 | Instance-based learning | Learning by storing the training data and comparing new points with it. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -373,6 +376,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | JSON | A plain-text format for structured data, used by APIs. | [Video 9](09-mldlc/note.md) |
 | Jupyter | Tool for notebooks that mix code, output and text. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | JupyterLab | The program that runs Jupyter notebooks in a web browser. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| k (n_neighbors) | The number of neighbours that vote; KNN's main hyperparameter. | [Video 91](91-knn/note.md) |
 | k-means binning | Binning whose edges lie halfway between the centres of the groups found by k-means. | [Video 32](32-binning-binarization/note.md) |
 | k-means | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. | [Video 32](32-binning-binarization/note.md) |
 | K-nearest neighbours (KNN) | Predicting from the answers of the k closest stored points. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -381,6 +385,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | KDE plot | A smooth estimate of a column's PDF, built from the data. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Kernel density estimate (KDE) | A smooth curve that estimates a column's distribution from its values. | [Video 20](20-univariate-analysis/note.md) |
 | Kernel | The running Python process behind a notebook. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| KNeighborsClassifier | scikit-learn's KNN classifier; `n_neighbors=5` by default. | [Video 91](91-knn/note.md) |
 | KNN imputer | Multivariate imputation from the most similar rows (`KNNImputer`). | [Video 35](35-complete-case-analysis/note.md) |
 | Knowledge base | The collection of rules inside an expert system. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve. | [Video 22](22-pandas-profiling/note.md) |
@@ -395,6 +400,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. | [Video 31](31-power-transformer/note.md) |
 | Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0. | [Video 89](89-naive-bayes-code/note.md) |
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1). | [Video 63](63-ridge-regression-intuition/note.md) |
+| Latency | The delay between a request and its answer; high for KNN on large data. | [Video 91](91-knn/note.md) |
 | Law of total probability | $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the $A_i$ are mutually exclusive and cover every case. | [Video 86](86-bayes-problem/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -425,6 +431,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Macro average | The plain mean of a metric over all classes. | [Video 77](77-precision-recall-f1/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
+| Majority vote | Predicting the class that most of the neighbours have. | [Video 91](91-knn/note.md) |
 | make_classification | scikit-learn function that creates random classification data. | [Video 71](71-perceptron-code/note.md) |
 | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names. | [Video 29](29-pipelines/note.md) |
 | make_moons | scikit-learn function that creates two interlocking half-moon classes. | [Video 80](80-polynomial-logistic-regression/note.md) |
@@ -454,6 +461,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Median absolute deviation (MAD) | The median distance of the values from their median. | [Video 22](22-pandas-profiling/note.md) |
 | Median imputation | Filling every gap with the median of the column's known values; better for skewed columns. | [Video 36](36-imputing-numerical-data/note.md) |
 | Median | The middle value of sorted data; the 50% percentile. | [Video 19](19-understanding-your-data/note.md) |
+| meshgrid | NumPy function that builds every combination of x and y values: the grid for a decision surface. | [Video 91](91-knn/note.md) |
 | method | The `PowerTransformer` parameter that picks `"box-cox"` or `"yeo-johnson"`. | [Video 31](31-power-transformer/note.md) |
 | Metric | A number that tells whether the work is moving in the right direction. | [Video 14](14-framing-ml-problem/note.md) |
 | MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer. | [Video 40](40-iterative-imputer-mice/note.md) |
@@ -462,6 +470,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mini-batch gradient descent | Gradient descent that uses a small random group of rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
 | Miniforge | A small installer with only conda and Python, using conda-forge. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Minkowski distance | A family of distances: p = 2 is Euclidean, p = 1 is Manhattan. | [Video 91](91-knn/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing". | [Video 37](37-missing-categorical-data/note.md) |
 | Missing indicator | A 0/1 column recording whether a value was missing. | [Video 35](35-complete-case-analysis/note.md) |
@@ -502,6 +511,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | NaT | "Not a time": the missing value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | Natural language processing (NLP) | The part of ML that works with human language. | [Video 8](08-applications-of-ml/note.md) |
 | Nearest neighbours | The rows at the smallest distance from a given row. | [Video 39](39-knn-imputer/note.md) |
+| Neighbours | The k training points closest to the query point. | [Video 91](91-knn/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Noise (irreducible error) | Randomness in the data that no model can predict. | [Video 62](62-bias-variance/note.md) |
 | Nominal data | Categorical data whose categories have no order, such as states. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -615,6 +625,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Quartile | $Q_1$ (25th percentile) and $Q_3$ (75th percentile): they cut the sorted column into quarters. | [Video 43](43-outliers-iqr/note.md) |
 | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. | [Video 19](19-understanding-your-data/note.md) |
 | Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1`. | [Video 17](17-fetching-data-from-api/note.md) |
+| Query point | The new point whose class we want to predict. | [Video 91](91-knn/note.md) |
 | Query | A request for data, written in SQL. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Random sample imputation | Filling each gap with a value drawn at random from the column's known values. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | Rank | The number of axes of a tensor (ndim in NumPy). | [Video 11](11-tensors/note.md) |
@@ -708,6 +719,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | SQLite | A database stored in a single file, built into Python, needing no server. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Square root transform | Replacing each value with $\sqrt{x}$; a milder version of the log. | [Video 30](30-function-transformer/note.md) |
 | Square transform | Replacing each value with $x^2$; used for left-skewed data. | [Video 30](30-function-transformer/note.md) |
+| Square-root rule | A rough starting value for k: about $\sqrt{n}$, made odd. | [Video 91](91-knn/note.md) |
 | Standard deviation | A measure of how spread out a column's values are. | [Video 13](13-toy-project/note.md) |
 | Standardization | Scaling a column to mean 0 and standard deviation 1. | [Video 13](13-toy-project/note.md) |
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. | [Video 31](31-power-transformer/note.md) |

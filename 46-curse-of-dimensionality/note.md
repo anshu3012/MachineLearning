@@ -8,7 +8,7 @@ title: "Curse of Dimensionality"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Leads to:** PCA ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Leads to:** PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Where we are in feature engineering

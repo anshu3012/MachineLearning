@@ -33,14 +33,14 @@ Project root: `/home/anshu/campusx`. Read these first, fully:
    For EVERY figure, look at the rendered PNG yourself (Read tool) and fix overlaps, clipping, unreadable text.
 3. `notebook.ipynb` if the Video has code: rebuild the teacher's code for current library versions (never copy his
    notebook), one comment per step for a beginner. Run it end to end with
-   `jupyter nbconvert --to notebook --execute` (output to the project-root `.logs/`, never a `.logs/` inside your folder)
+   `$PY -m nbconvert --to notebook --execute` (output to the project-root `.logs/`, never a `.logs/` inside your folder)
    and make sure it works. Data files go in `data/`. Keep `data/` under about 1 MB: trim big files to a sample that still
    shows the same behaviour, and say in the Note where the full file comes from.
    If the Video calls a live website or API, save one real reply in `data/` and let the Notebook fall back to it.
 4. Build: `tools/build.sh <folder>` must print `Built pdf/<folder>.pdf` (it also checks no text went missing).
    Look at every PDF page (pdftoppm, then Read) and fix layout problems.
 
-Python: `export PYTHONNOUSERSITE=1` first, then `/home/anshu/miniforge3/envs/campusx/bin/python`; run Jupyter as `$PY -m jupyter nbconvert ...` (a stray `jupyter` in ~/.local/bin is not the env's). LaTeX: `export PATH=$HOME/.local/bin:$PATH`.
+Python: `export PYTHONNOUSERSITE=1` first, then `/home/anshu/miniforge3/envs/campusx/bin/python`; run Jupyter as `$PY -m nbconvert --to notebook --execute ...` (never plain `jupyter`: a stray copy in ~/.local/bin is not the env's). LaTeX: `export PATH=$HOME/.local/bin:$PATH`.
 Missing LaTeX package: `tlmgr install <name>`.
 
 ## No duplication

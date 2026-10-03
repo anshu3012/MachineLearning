@@ -1,0 +1,25 @@
+M01|2GV_ouHBw30|Statistics Roadmap for Data Science and Data Analysis | Complete Guide |  Full Resources | CampusX
+M02|Uv3Blie7F3g|Session 38 - Descriptive Statistics Part 1 | DSMP 2023
+M03|1ndVC500-EU|Session 39 - Descriptive Statistics Part 2 | DSMP 2023
+M04|C_QAURbgBqY|Session 40 - Probability Distribution Functions - PDF, PMF & CDF | DSMP 2023
+M05|ADqYqSdtyW8|Session 41 - Normal Distribution | DSMP 2023
+M06|U6QCc_3zgUk|Session 42 - Non-Gaussian Probability Distributions | DSMP 2023
+M07|-WmJDYBor7c|Session 43 - Central Limit Theorem | DSMP 2023
+M08|X52HK2qkiIE|Session 44 - Confidence Intervals | DSMP 2023
+M09|S94mx6OL7kM|Session 45 - Hypothesis Testing Part 1 | DSMP 2023
+M10|xHTMjxx14sU|Session 46 - Hypothesis Testing Part 2 | p-values | t-tests | DSMP 2023
+M11|_8DTqznosvY|Session on Chi Square Tests
+M12|G9ppvMWyd54|Session on ANOVA  | Paid Zoom Session
+M13|DUT4WEUngt0|Master Probability in Data Science: The Ultimate Crash Course! | Part 1 | CampusX
+M14|ndHDsvqmbuI|Mastering Probability for ML: Joint | Marginal | Conditional Probability and Bayes' Theorem
+M15|rIsCKVyh4dI|Linear Algebra Roadmap for Machine Learning and Deep Learning | Complete Guide | CampusX
+M16|mQewAJb8oJ8|Supercharge Your ML Journey: Mastering Vectors in Linear Algebra - Part 1
+M17|Y8UjSNSMeZ4|Linear Algebra Part 2 | Matrices
+M18|7IV56bGTJTQ|Linear Algebra Part 3  | Matrices  Intuition
+M19|5HDkRG5gQHM|Session on Eigen Vectors and Eigen Values | Week 29 | DSMP
+M20|D5IlO4lzaZ0|Session on Eigen Decomposition + PCA Variants | Week 29 | DSMP
+M21|NPkMoUNkEtQ|Session on Singular Value Decomposition
+M22|T2f8249569Q|Session on Optimization - The Big Picture
+M23|-siBIGUREjw|Session on Differential Calculus
+M24|hIMzczMO_Yc|Role of Mathematics in Machine Learning
+M25|vVhD2EyS41Y|What are Tensors | Tensor In-depth Explanation | Tensor in Machine Learning
