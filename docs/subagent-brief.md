@@ -43,6 +43,15 @@ Project root: `/home/anshu/campusx`. Read these first, fully:
 Python: `export PYTHONNOUSERSITE=1` first, then `/home/anshu/miniforge3/envs/campusx/bin/python`; run Jupyter as `$PY -m jupyter nbconvert ...` (a stray `jupyter` in ~/.local/bin is not the env's). LaTeX: `export PATH=$HOME/.local/bin:$PATH`.
 Missing LaTeX package: `tlmgr install <name>`.
 
+## No duplication
+Each concept is taught in ONE Note. Before explaining any concept, check whether a written Note already teaches it:
+- `course_map/concepts.yaml`: find the Concept; its `videos:` list and the `notes:` map at the top tell which Notes cover it.
+- `grep -ril "<term>" [0-9]*/note.md` and `glossary.md` for terms that are not Concepts.
+If it is already taught: give a one-line recap and a link (e.g. "Standardization (see the [standardization Note](../24-standardization/note.md)) puts every column on mean 0, std 1."),
+then teach only what is NEW in this Video. Do not re-derive, re-draw or re-define it. Reuse the glossary's wording for terms
+already defined. If this Video teaches the same thing in more depth or from a new angle, keep only the new part.
+The same holds between Notes you write in one batch: teach a concept in the first Note that needs it, link from the later ones.
+
 ## Do NOT touch
 `README.md`, `CONTEXT.md`, `glossary.md`, `course_map/`, other Notes' folders, `tools/`, git. The main agent merges.
 
@@ -54,3 +63,4 @@ Missing LaTeX package: `tlmgr install <name>`.
    to add, change or remove. Do not edit the YAML.
 3. Key terms (term + one-line meaning) for the glossary.
 4. Anything you corrected from the teacher (facts, outdated APIs) and anything you were unsure about.
+5. Linked instead of repeated: each concept you only recapped, with the Note you linked to.
