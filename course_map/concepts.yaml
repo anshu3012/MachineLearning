@@ -99,6 +99,8 @@ notes:
   80: 80-polynomial-logistic-regression
   81: 81-logistic-hyperparameters
   82: 82-conditional-probability
+  83: 83-independent-events
+  84: 84-mutually-exclusive-events
 
 concepts:
   # 0 Foundations

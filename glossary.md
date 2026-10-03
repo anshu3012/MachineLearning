@@ -42,6 +42,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `tol` | The size of change below which `IterativeImputer` stops early; default 0.001. | [Video 40](40-iterative-imputer-mice/note.md) |
 | Absolute value | A number's size without its sign. | [Video 25](25-normalization/note.md) |
 | Accuracy | The fraction of predictions that are correct. | [Video 13](13-toy-project/note.md) |
+| Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Video 84](84-mutually-exclusive-events/note.md) |
 | Adjusted R² | R² with a penalty for the number of input columns. | [Video 52](52-regression-metrics/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -173,6 +174,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Density plot | A histogram with a smooth KDE curve on top. | [Video 20](20-univariate-analysis/note.md) |
+| Dependent events | Events that are not independent: knowing one changes the probability of the other. | [Video 83](83-independent-events/note.md) |
 | Dependent variable | The output column (y). | [Video 13](13-toy-project/note.md) |
 | Deploy | Move a model from development to production. | [Video 4](04-batch-learning/note.md) |
 | Deployment | Putting a model on a server so users can reach it. | [Video 7](07-challenges-in-ml/note.md) |
@@ -291,6 +293,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | include_bias | PolynomialFeatures setting that adds a column of 1s. | [Video 61](61-polynomial-regression/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
+| Independent events | Events where one happening does not change the probability of the other. | [Video 83](83-independent-events/note.md) |
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
 | Index | The row labels of a DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Inference engine | The part of an expert system that applies the rules to answer a question. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -414,6 +417,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Multiple linear regression | Linear regression with several input columns. | [Video 50](50-simple-linear-regression/note.md) |
 | Multivariate analysis | Studying more than two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | Multivariate imputation | Imputation that also uses the other columns. | [Video 35](35-complete-case-analysis/note.md) |
+| Mutually exclusive events | Events that cannot happen at the same time; their intersection has probability 0. | [Video 84](84-mutually-exclusive-events/note.md) |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins. | [Video 32](32-binning-binarization/note.md) |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. | [Video 49](49-pca-mnist/note.md) |
 | Naive Bayes | A classification algorithm based on Bayes' theorem (later Notes). | [Video 82](82-conditional-probability/note.md) |
@@ -506,6 +510,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Probabilistic interpretation | Reading the model's output as the probability of the positive class. | [Video 72](72-sigmoid-function/note.md) |
 | Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities. | [Video 20](20-univariate-analysis/note.md) |
+| Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$. | [Video 83](83-independent-events/note.md) |
 | Production code | The code that runs the deployed model on a server, for example behind a website. | [Video 29](29-pipelines/note.md) |
 | Production environment | The server where a model serves real users. | [Video 4](04-batch-learning/note.md) |
 | Profiling report | An automatic EDA report describing every column and pair of columns of a dataset. | [Video 22](22-pandas-profiling/note.md) |
@@ -657,6 +662,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Underflow | A number too close to 0 for the computer to store, which then becomes 0 or loses precision. | [Video 73](73-log-loss/note.md) |
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling. | [Video 19](19-understanding-your-data/note.md) |
 | Uniform weighting | Every neighbour counts equally: the fill is their plain mean. | [Video 39](39-knn-imputer/note.md) |
+| Union (A ∪ B) | The event that A or B (or both) happens. | [Video 84](84-mutually-exclusive-events/note.md) |
 | Unit hypercube | The same box in three or more dimensions (a unit cube in three). | [Video 25](25-normalization/note.md) |
 | Unit square | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns. | [Video 25](25-normalization/note.md) |
 | Unit vector | A vector of length 1, used to describe a direction. | [Video 48](48-pca-step-by-step/note.md) |
