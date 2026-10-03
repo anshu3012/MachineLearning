@@ -50,6 +50,7 @@ notes:
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
+  49: 49-pca-mnist
 
 concepts:
   # 0 Foundations
