@@ -160,7 +160,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Association rule learning | [Note 3](../03-types-of-ml/note.md) | confirmed |
 | Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md) | confirmed |
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), Video 91, coming | confirmed |
-| Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), Video 75, coming | draft |
+| Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | draft |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
 | Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
@@ -355,11 +355,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 72 | Logistic regression, Sigmoid function | [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md) | written |
 | 73 | Log loss (binary cross entropy), Logistic regression | [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md) | written |
 | 74 | Sigmoid function | nothing | written |
-| 75 | Logistic regression | [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 73](../73-log-loss/note.md), [Note 74](../74-sigmoid-derivative/note.md) | coming |
+| 75 | Logistic regression | [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 73](../73-log-loss/note.md), [Note 74](../74-sigmoid-derivative/note.md) | written |
 | 76 | Accuracy, Confusion matrix | [Note 13](../13-toy-project/note.md) | coming |
 | 77 | Precision, recall and F1 | Video 9, coming, Video 76, coming | coming |
 | 78 | ROC curve and AUC | Video 76, coming | coming |
-| 79 | Softmax regression | Video 75, coming | coming |
+| 79 | Softmax regression | [Note 75](../75-logistic-gradient-descent/note.md) | coming |
 | 80 | Polynomial features | nothing | coming |
 | 81 | Hyperparameter tuning | nothing | coming |
 | 82 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |

@@ -447,12 +447,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Pearson correlation coefficient | The usual measure of correlation, written $r$; the one `df.corr()` computes. | [Video 19](19-understanding-your-data/note.md) |
 | Pearson's r | The correlation coefficient for straight-line relationships between two numerical columns. | [Video 22](22-pandas-profiling/note.md) |
 | penalty | SGDRegressor setting that adds a regularisation penalty, such as "l2" for Ridge. | [Video 65](65-ridge-gradient-descent/note.md) |
+| penalty=None | LogisticRegression setting that switches regularisation off. | [Video 75](75-logistic-gradient-descent/note.md) |
 | Per-row seed | A seed taken from a row's own values, so the same input always gets the same random fill. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | Percentile method | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any column. | [Video 44](44-outliers-percentile/note.md) |
 | Percentile rule | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Percentile | The value below which a given share of the data lies. | [Video 19](19-understanding-your-data/note.md) |
 | Perceptron trick | Moving a line towards each misclassified point until the classes are separated. | [Video 70](70-perceptron-trick/note.md) |
 | Perceptron | The smallest building block of a neural network; one artificial neuron. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Perfect separation | When a line splits the training classes with no mistakes; unregularised weights then grow without limit. | [Video 75](75-logistic-gradient-descent/note.md) |
 | phpMyAdmin | A web page for creating and managing MySQL databases. | [Video 16](16-working-with-json-and-sql/note.md) |
 | pickle | A Python module that saves objects to a file and loads them back. | [Video 13](13-toy-project/note.md) |
 | Pie chart | A circle split into slices sized by each category's share. | [Video 20](20-univariate-analysis/note.md) |
