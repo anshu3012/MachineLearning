@@ -74,6 +74,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bayesian statistics | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. | [Video 85](85-bayes-theorem/note.md) |
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
+| BernoulliNB | Naive Bayes for binary (yes/no) inputs. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Best-fit line | The line with the smallest total error over all the training points. | [Video 50](50-simple-linear-regression/note.md) |
 | Bias | Error from a model being too simple to capture the true relationship. | [Video 62](62-bias-variance/note.md) |
 | Bias-variance trade-off | Lowering bias by adding complexity tends to raise variance, and the reverse. | [Video 62](62-bias-variance/note.md) |
@@ -269,6 +270,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Function, lambda | A named reusable piece of code (`def`), and a one-line unnamed one. | [Video 15](15-working-with-csv/note.md) |
 | FunctionTransformer | scikit-learn's class that applies any function we give it to the data. | [Video 30](30-function-transformer/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
+| Gaussian Naive Bayes | Naive Bayes that models each numerical input as normally distributed within each class. | [Video 90](90-gaussian-naive-bayes/note.md) |
+| GaussianNB | scikit-learn's Gaussian Naive Bayes. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Generalisation | How well a model performs on new data it was not trained on. | [Video 71](71-perceptron-code/note.md) |
 | get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$. | [Video 27](27-one-hot-encoding/note.md) |
 | get_feature_names_out | `OneHotEncoder` method that returns the names of the new columns. | [Video 27](27-one-hot-encoding/note.md) |
@@ -426,6 +429,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Video 37](37-missing-categorical-data/note.md) |
 | Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others. | [Video 27](27-one-hot-encoding/note.md) |
 | Multinomial logistic regression | Another name for softmax regression. | [Video 79](79-softmax-regression/note.md) |
+| MultinomialNB | Naive Bayes for count data, such as word counts. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Multiple imputation | Making several filled copies of the data to see how unsure the fills are. | [Video 40](40-iterative-imputer-mice/note.md) |
 | Multiple linear regression | Linear regression with several input columns. | [Video 50](50-simple-linear-regression/note.md) |
 | Multivariate analysis | Studying more than two variables together. | [Video 20](20-univariate-analysis/note.md) |
@@ -528,6 +532,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Prior | The probability of an event before any evidence is seen. | [Video 85](85-bayes-theorem/note.md) |
 | Probabilistic interpretation | Reading the model's output as the probability of the positive class. | [Video 72](72-sigmoid-function/note.md) |
 | Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities. | [Video 20](20-univariate-analysis/note.md) |
+| Probability density | The height of a continuous distribution's curve; compares how likely nearby values are. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Probability tree | A diagram in which each path multiplies the probabilities along its branches. | [Video 86](86-bayes-problem/note.md) |
 | Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$. | [Video 83](83-independent-events/note.md) |
 | Production code | The code that runs the deployed model on a server, for example behind a website. | [Video 29](29-pipelines/note.md) |
