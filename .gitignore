@@ -9,3 +9,6 @@ transcripts/*.vtt
 transcripts/fetch.err
 reference/
 *.pkl
+dl_map/transcripts/*.vtt
+dl_map/transcripts/fetch.log
+dl_map/transcripts/fetch.err

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 66 of 134 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 69 of 135 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -90,6 +90,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Skewness | [Note 20](../20-univariate-analysis/note.md) | confirmed |
 | Bivariate and multivariate analysis | [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
 | Pandas Profiling | [Note 22](../22-pandas-profiling/note.md) | confirmed |
+| Q-Q plot | [Note 30](../30-function-transformer/note.md) | confirmed |
 | Covariance and covariance matrix | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
 
 ### 2.5 Step 4: Clean
@@ -118,14 +119,14 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 27](../27-one-hot-encoding/note.md) | confirmed |
 | Standardization | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
-| ML pipelines | [Note 13](../13-toy-project/note.md), Video 29, coming | draft |
+| ML pipelines | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), Video 32, coming | draft |
 | Feature transformation | [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
 | Normalization | [Note 25](../25-normalization/note.md) | confirmed |
 | Ordinal and label encoding | [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
 | Column transformer | [Note 28](../28-column-transformer/note.md) | confirmed |
-| Function transformer | Video 30, coming | draft |
+| Function transformer | [Note 30](../30-function-transformer/note.md) | confirmed |
 | Power transformer | Video 31, coming | draft |
 | Mixed variables | Video 33, coming | draft |
 | Date and time features | Video 34, coming | draft |
@@ -197,12 +198,12 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Overfitting | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | Underfitting | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | Accuracy | [Note 13](../13-toy-project/note.md), Video 76, coming | confirmed |
+| Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), Video 112, coming | draft |
 | Regression metrics | Video 52, coming | draft |
 | Bias-variance trade-off | Video 62, coming, Video 109, coming | draft |
 | Confusion matrix | Video 76, coming | draft |
 | Precision, recall and F1 | Video 77, coming | draft |
 | ROC curve and AUC | Video 78, coming | draft |
-| Cross-validation | Video 112, coming | draft |
 | OOB score | Video 113, coming | draft |
 
 ### 2.11 Step 10: Tune
@@ -210,16 +211,16 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Hyperparameter tuning | Video 9, coming, Video 81, coming, Video 98, coming, Video 111, coming, Video 118, coming | draft |
-| Grid and random search | Video 112, coming | draft |
+| Grid and random search | [Note 29](../29-pipelines/note.md), Video 112, coming | draft |
 | Optuna | Video 134, coming | draft |
 
 ### 2.12 Step 11: Deploy
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Deployment | [Note 4](../04-batch-learning/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md) | confirmed |
+| Deployment | [Note 4](../04-batch-learning/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
 | Software integration | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| Saving models with pickle | [Note 13](../13-toy-project/note.md) | confirmed |
+| Saving models with pickle | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
 
 ### 2.13 Step 12: Test
 
@@ -249,7 +250,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 134 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 135 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -298,8 +299,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 26 | Encoding categorical data, Ordinal and label encoding | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 27 | Multicollinearity, One-hot encoding | [Note 26](../26-ordinal-label-encoding/note.md) | written |
 | 28 | Column transformer | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | written |
-| 29 | ML pipelines | [Note 13](../13-toy-project/note.md), [Note 28](../28-column-transformer/note.md) | coming |
-| 30 | Function transformer | nothing | coming |
+| 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 7](../07-challenges-in-ml/note.md), Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 28](../28-column-transformer/note.md) | written |
+| 30 | Cross-validation, Function transformer, Q-Q plot | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 31 | Power transformer | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
@@ -381,7 +382,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 109 | Bias-variance trade-off, Random forest | [Note 7](../07-challenges-in-ml/note.md), Video 100, coming, Video 107, coming | coming |
 | 110 | Random forest | Video 100, coming, Video 107, coming | coming |
 | 111 | Hyperparameter tuning, Random forest | Video 100, coming, Video 107, coming | coming |
-| 112 | Cross-validation, Grid and random search | Video 111, coming | coming |
+| 112 | Cross-validation, Grid and random search | [Note 29](../29-pipelines/note.md), Video 111, coming | coming |
 | 113 | OOB score | nothing | coming |
 | 114 | Feature importance | Video 111, coming | coming |
 | 115 | AdaBoost | nothing | coming |

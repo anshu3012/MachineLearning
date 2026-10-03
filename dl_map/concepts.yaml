@@ -1,0 +1,323 @@
+# Draft Course map data for the CampusX "100 Days of Deep Learning" playlist (84 Videos). Same format as
+# course_map/concepts.yaml. Everything is draft: guessed from playlist titles and checked against the first transcripts,
+# to be confirmed per Note ("transcript first, map second", see README).
+#
+# links:    [from, type, to, status], both ends in this file. type is exactly one of: needs, is a kind of, fixes,
+#           compared with, used in.
+# ml_links: same, but the "to" end is an id in course_map/concepts.yaml (the ML map). check.py verifies both.
+# ids never repeat an ML id, so the two files can be merged later without clashes.
+
+# Same 14 steps as the ML map, so the two maps line up. DL Videos only use 0, 5, 8, 9 and 10 (see PLAN.md).
+steps:
+  0: Foundations
+  1: Frame the problem
+  2: Get data
+  3: Understand data
+  4: Clean
+  5: Engineer features
+  6: Reduce dimensions
+  7: Split
+  8: Model
+  9: Evaluate
+  10: Tune
+  11: Deploy
+  12: Test
+  13: Monitor and maintain
+
+concepts:
+  # A. Foundations
+  - {id: dl_course_map, name: Deep learning course map, step: 0, videos: [1], status: draft}
+  - {id: dl_intro, name: What deep learning is, step: 0, videos: [2], status: draft}
+  - {id: representation_learning, name: Automatic feature learning, step: 0, videos: [2], status: draft}
+  - {id: nn_types, name: Types of neural networks, step: 0, videos: [3], status: draft}
+  - {id: dl_history, name: History of deep learning, step: 0, videos: [3], status: draft}
+  - {id: dl_applications, name: Applications of deep learning, step: 0, videos: [3], status: draft}
+
+  # B. Perceptron and MLP
+  - {id: perceptron, name: Perceptron, step: 8, videos: [4, 5, 6, 7], status: draft}
+  - {id: biological_neuron, name: Biological neuron, step: 0, videos: [4], status: draft}
+  - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [5], status: draft}
+  - {id: perceptron_loss, name: Perceptron loss and hinge loss, step: 8, videos: [6], status: draft}
+  - {id: perceptron_limits, name: Perceptron fails on non-linear data, step: 8, videos: [7], status: draft}
+  - {id: mlp_notation, name: "MLP notation: weights, biases and layers", step: 8, videos: [8], status: draft}
+  - {id: mlp, name: Multi-layer perceptron, step: 8, videos: [9], status: draft}
+  - {id: forward_propagation, name: Forward propagation, step: 8, videos: [10], status: draft}
+
+  # C. First ANNs in Keras
+  - {id: keras, name: Keras and TensorFlow, step: 8, videos: [11, 12, 13, 25, 39, 54], status: draft}
+  - {id: ann_classification, name: ANN for classification, step: 8, videos: [11, 12], status: draft}
+  - {id: ann_regression, name: ANN for regression, step: 8, videos: [13], status: draft}
+
+  # D. Training a neural network
+  - {id: dl_loss_functions, name: Loss functions in deep learning, step: 8, videos: [14], status: draft}
+  - {id: cross_entropy, name: Cross-entropy loss, step: 8, videos: [6, 14], status: draft}
+  - {id: chain_rule, name: Chain rule of derivatives, step: 0, videos: [15, 16, 17], status: draft}
+  - {id: backpropagation, name: Backpropagation, step: 8, videos: [15, 16, 17], status: draft}
+  - {id: vanishing_gradient, name: Vanishing gradient problem, step: 8, videos: [18], status: draft}
+  - {id: exploding_gradient, name: Exploding gradient problem, step: 8, videos: [18], status: draft}
+  - {id: memoization, name: Memoization in backpropagation, step: 8, videos: [19], status: draft}
+  - {id: epochs_batches, name: "Epochs, batch size and iterations", step: 8, videos: [20], status: draft}
+
+  # E. Improving a neural network
+  - {id: nn_improvement, name: Improving a neural network, step: 10, videos: [21], status: draft}
+  - {id: early_stopping, name: Early stopping, step: 10, videos: [22], status: draft}
+  - {id: input_scaling, name: Scaling inputs for neural networks, step: 5, videos: [23], status: draft}
+  - {id: dropout, name: Dropout, step: 8, videos: [24, 25], status: draft}
+  - {id: weight_decay, name: L1 and L2 regularisation in neural networks, step: 8, videos: [26], status: draft}
+  - {id: activation_functions, name: Activation functions, step: 8, videos: [27, 28], status: draft}
+  - {id: tanh, name: Tanh function, step: 8, videos: [27], status: draft}
+  - {id: relu, name: ReLU, step: 8, videos: [27, 28], status: draft}
+  - {id: dying_relu, name: Dying ReLU problem, step: 8, videos: [28], status: draft}
+  - {id: relu_variants, name: "Leaky ReLU, PReLU, ELU and SELU", step: 8, videos: [28], status: draft}
+  - {id: weight_init, name: Weight initialisation, step: 8, videos: [29, 30], status: draft}
+  - {id: xavier_he, name: Xavier and He initialisation, step: 8, videos: [30], status: draft}
+  - {id: batch_norm, name: Batch normalisation, step: 8, videos: [31], status: draft}
+
+  # F. Optimizers and tuning
+  - {id: optimizers, name: Optimizers, step: 8, videos: [32], status: draft}
+  - {id: ewma, name: Exponentially weighted moving average, step: 8, videos: [33], status: draft}
+  - {id: momentum, name: SGD with momentum, step: 8, videos: [34], status: draft}
+  - {id: nag, name: Nesterov accelerated gradient, step: 8, videos: [35], status: draft}
+  - {id: adagrad, name: AdaGrad, step: 8, videos: [36], status: draft}
+  - {id: rmsprop, name: RMSProp, step: 8, videos: [37], status: draft}
+  - {id: adam, name: Adam, step: 8, videos: [38], status: draft}
+  - {id: keras_tuner, name: Keras Tuner, step: 10, videos: [39], status: draft}
+
+  # G. CNN
+  - {id: cnn, name: Convolutional neural network, step: 8, videos: [40, 41, 46], status: draft}
+  - {id: visual_cortex, name: Visual cortex and the history of CNNs, step: 0, videos: [41], status: draft}
+  - {id: convolution, name: Convolution operation, step: 8, videos: [42], status: draft}
+  - {id: feature_map, name: Filters and feature maps, step: 8, videos: [42, 52], status: draft}
+  - {id: padding_strides, name: Padding and strides, step: 8, videos: [43], status: draft}
+  - {id: pooling, name: Pooling, step: 8, videos: [44], status: draft}
+  - {id: lenet, name: LeNet-5, step: 8, videos: [45], status: draft}
+  - {id: cnn_backprop, name: Backpropagation in a CNN, step: 8, videos: [47, 48], status: draft}
+  - {id: image_classification, name: Image classification, step: 8, videos: [49], status: draft}
+  - {id: data_augmentation, name: Data augmentation, step: 5, videos: [50], status: draft}
+  - {id: pretrained_models, name: Pretrained CNNs and ImageNet, step: 8, videos: [51], status: draft}
+  - {id: cnn_visualisation, name: Visualising what a CNN sees, step: 9, videos: [52], status: draft}
+  - {id: transfer_learning, name: Transfer learning, step: 8, videos: [53], status: draft}
+  - {id: fine_tuning, name: Fine-tuning, step: 10, videos: [53], status: draft}
+  - {id: keras_functional, name: Keras functional API, step: 8, videos: [54], status: draft}
+
+  # H. RNN, LSTM, GRU
+  - {id: sequence_data, name: Sequential data, step: 0, videos: [55], status: draft}
+  - {id: rnn, name: Recurrent neural network, step: 8, videos: [55, 56, 60], status: draft}
+  - {id: word_embedding, name: Word embeddings, step: 5, videos: [57], status: draft}
+  - {id: sentiment_analysis, name: Sentiment analysis, step: 8, videos: [57], status: draft}
+  - {id: rnn_types, name: "Types of RNN: many-to-one, one-to-many, many-to-many", step: 8, videos: [58], status: draft}
+  - {id: bptt, name: Backpropagation through time, step: 8, videos: [59], status: draft}
+  - {id: long_term_dependency, name: Long-term dependency problem, step: 8, videos: [60], status: draft}
+  - {id: lstm, name: LSTM, step: 8, videos: [61, 62, 63], status: draft}
+  - {id: lstm_gates, name: "Forget, input and output gates", step: 8, videos: [62], status: draft}
+  - {id: next_word_prediction, name: Next-word prediction, step: 8, videos: [63], status: draft}
+  - {id: gru, name: GRU, step: 8, videos: [64], status: draft}
+  - {id: stacked_rnn, name: Deep (stacked) RNNs, step: 8, videos: [65], status: draft}
+  - {id: bidirectional_rnn, name: Bidirectional RNNs, step: 8, videos: [66], status: draft}
+
+  # I. Seq2seq, attention and transformers
+  - {id: llm_history, name: History of large language models, step: 0, videos: [67], status: draft}
+  - {id: encoder_decoder, name: Encoder-decoder (seq2seq), step: 8, videos: [68], status: draft}
+  - {id: attention, name: Attention mechanism, step: 8, videos: [69], status: draft}
+  - {id: bahdanau_attention, name: Bahdanau attention, step: 8, videos: [70], status: draft}
+  - {id: luong_attention, name: Luong attention, step: 8, videos: [70, 76], status: draft}
+  - {id: transformer, name: Transformer, step: 8, videos: [71, 80, 83], status: draft}
+  - {id: self_attention, name: Self-attention, step: 8, videos: [72, 73, 75, 76], status: draft}
+  - {id: scaled_dot_product, name: Scaled dot-product attention, step: 8, videos: [74], status: draft}
+  - {id: multi_head_attention, name: Multi-head attention, step: 8, videos: [77], status: draft}
+  - {id: positional_encoding, name: Positional encoding, step: 8, videos: [78], status: draft}
+  - {id: layer_norm, name: Layer normalisation, step: 8, videos: [79], status: draft}
+  - {id: transformer_encoder, name: Transformer encoder, step: 8, videos: [80], status: draft}
+  - {id: masked_attention, name: Masked self-attention, step: 8, videos: [81], status: draft}
+  - {id: cross_attention, name: Cross-attention, step: 8, videos: [82], status: draft}
+  - {id: transformer_decoder, name: Transformer decoder, step: 8, videos: [83], status: draft}
+  - {id: transformer_inference, name: Transformer inference, step: 8, videos: [84], status: draft}
+
+links:
+  # A. Foundations
+  - [representation_learning, used in, dl_intro, draft]
+  - [nn_types, needs, dl_intro, draft]
+  - [dl_applications, needs, dl_intro, draft]
+  - [dl_history, needs, nn_types, draft]
+  - [cnn, is a kind of, nn_types, draft]
+  - [rnn, is a kind of, nn_types, draft]
+  - [transformer, is a kind of, nn_types, draft]
+  # B. Perceptron and MLP
+  - [perceptron, compared with, biological_neuron, draft]
+  - [perceptron_trick, used in, perceptron, draft]
+  - [perceptron_loss, used in, perceptron, draft]
+  - [perceptron_loss, compared with, perceptron_trick, draft]
+  - [perceptron_limits, needs, perceptron, draft]
+  - [mlp, fixes, perceptron_limits, draft]
+  - [mlp, needs, perceptron, draft]
+  - [mlp_notation, used in, mlp, draft]
+  - [forward_propagation, needs, mlp_notation, draft]
+  - [forward_propagation, used in, mlp, draft]
+  # C. First ANNs in Keras
+  - [ann_classification, needs, keras, draft]
+  - [ann_regression, needs, keras, draft]
+  - [ann_classification, needs, mlp, draft]
+  - [ann_regression, needs, mlp, draft]
+  - [ann_classification, compared with, ann_regression, draft]
+  # D. Training
+  - [cross_entropy, is a kind of, dl_loss_functions, draft]
+  - [perceptron_loss, is a kind of, dl_loss_functions, draft]
+  - [cross_entropy, used in, ann_classification, draft]
+  - [backpropagation, needs, forward_propagation, draft]
+  - [backpropagation, needs, dl_loss_functions, draft]
+  - [backpropagation, needs, chain_rule, draft]
+  - [memoization, used in, backpropagation, draft]
+  - [vanishing_gradient, needs, backpropagation, draft]
+  - [exploding_gradient, needs, backpropagation, draft]
+  - [vanishing_gradient, compared with, exploding_gradient, draft]
+  - [epochs_batches, used in, backpropagation, draft]
+  # E. Improving a neural network
+  - [nn_improvement, needs, backpropagation, draft]
+  - [early_stopping, used in, nn_improvement, draft]
+  - [input_scaling, used in, nn_improvement, draft]
+  - [dropout, used in, nn_improvement, draft]
+  - [weight_decay, used in, nn_improvement, draft]
+  - [dropout, compared with, weight_decay, draft]
+  - [activation_functions, used in, mlp, draft]
+  - [tanh, is a kind of, activation_functions, draft]
+  - [relu, is a kind of, activation_functions, draft]
+  - [relu, fixes, vanishing_gradient, draft]
+  - [relu, compared with, tanh, draft]
+  - [dying_relu, needs, relu, draft]
+  - [relu_variants, fixes, dying_relu, draft]
+  - [relu_variants, is a kind of, activation_functions, draft]
+  - [weight_init, fixes, vanishing_gradient, draft]
+  - [weight_init, fixes, exploding_gradient, draft]
+  - [xavier_he, is a kind of, weight_init, draft]
+  - [xavier_he, needs, activation_functions, draft]
+  - [batch_norm, fixes, vanishing_gradient, draft]
+  - [batch_norm, used in, nn_improvement, draft]
+  # F. Optimizers and tuning
+  - [optimizers, needs, backpropagation, draft]
+  - [optimizers, needs, epochs_batches, draft]
+  - [optimizers, used in, nn_improvement, draft]
+  - [momentum, needs, ewma, draft]
+  - [momentum, is a kind of, optimizers, draft]
+  - [nag, is a kind of, optimizers, draft]
+  - [nag, fixes, momentum, draft]
+  - [adagrad, is a kind of, optimizers, draft]
+  - [rmsprop, is a kind of, optimizers, draft]
+  - [rmsprop, fixes, adagrad, draft]
+  - [rmsprop, needs, ewma, draft]
+  - [adam, is a kind of, optimizers, draft]
+  - [adam, needs, momentum, draft]
+  - [adam, needs, rmsprop, draft]
+  - [keras_tuner, needs, keras, draft]
+  - [keras_tuner, used in, nn_improvement, draft]
+  # G. CNN
+  - [cnn, compared with, mlp, draft]
+  - [visual_cortex, used in, cnn, draft]
+  - [convolution, used in, cnn, draft]
+  - [feature_map, needs, convolution, draft]
+  - [padding_strides, used in, convolution, draft]
+  - [pooling, used in, cnn, draft]
+  - [lenet, is a kind of, cnn, draft]
+  - [cnn_backprop, needs, backpropagation, draft]
+  - [cnn_backprop, needs, convolution, draft]
+  - [cnn_backprop, needs, pooling, draft]
+  - [image_classification, needs, cnn, draft]
+  - [image_classification, needs, keras, draft]
+  - [data_augmentation, used in, image_classification, draft]
+  - [pretrained_models, is a kind of, cnn, draft]
+  - [cnn_visualisation, needs, feature_map, draft]
+  - [transfer_learning, needs, pretrained_models, draft]
+  - [fine_tuning, is a kind of, transfer_learning, draft]
+  - [keras_functional, needs, keras, draft]
+  - [keras_functional, used in, transfer_learning, draft]
+  # H. RNN, LSTM, GRU
+  - [rnn, needs, sequence_data, draft]
+  - [rnn, compared with, mlp, draft]
+  - [rnn, needs, forward_propagation, draft]
+  - [word_embedding, used in, sentiment_analysis, draft]
+  - [sentiment_analysis, needs, rnn, draft]
+  - [rnn_types, needs, rnn, draft]
+  - [bptt, is a kind of, backpropagation, draft]
+  - [bptt, used in, rnn, draft]
+  - [long_term_dependency, needs, bptt, draft]
+  - [long_term_dependency, needs, vanishing_gradient, draft]
+  - [lstm, fixes, long_term_dependency, draft]
+  - [lstm, is a kind of, rnn, draft]
+  - [lstm_gates, used in, lstm, draft]
+  - [next_word_prediction, needs, lstm, draft]
+  - [next_word_prediction, needs, word_embedding, draft]
+  - [gru, is a kind of, rnn, draft]
+  - [gru, compared with, lstm, draft]
+  - [gru, fixes, long_term_dependency, draft]
+  - [stacked_rnn, needs, rnn, draft]
+  - [bidirectional_rnn, needs, rnn, draft]
+  # I. Seq2seq, attention and transformers
+  - [llm_history, needs, lstm, draft]
+  - [transformer, used in, llm_history, draft]
+  - [encoder_decoder, needs, lstm, draft]
+  - [encoder_decoder, used in, rnn_types, draft]
+  - [attention, fixes, encoder_decoder, draft]
+  - [bahdanau_attention, is a kind of, attention, draft]
+  - [luong_attention, is a kind of, attention, draft]
+  - [bahdanau_attention, compared with, luong_attention, draft]
+  - [self_attention, needs, word_embedding, draft]
+  - [self_attention, is a kind of, attention, draft]
+  - [self_attention, compared with, luong_attention, draft]
+  - [scaled_dot_product, used in, self_attention, draft]
+  - [scaled_dot_product, fixes, vanishing_gradient, draft]
+  - [multi_head_attention, needs, self_attention, draft]
+  - [positional_encoding, used in, transformer, draft]
+  - [layer_norm, compared with, batch_norm, draft]
+  - [layer_norm, used in, transformer, draft]
+  - [transformer, compared with, rnn, draft]
+  - [transformer_encoder, needs, multi_head_attention, draft]
+  - [transformer_encoder, needs, positional_encoding, draft]
+  - [transformer_encoder, needs, layer_norm, draft]
+  - [transformer_encoder, used in, transformer, draft]
+  - [masked_attention, is a kind of, self_attention, draft]
+  - [masked_attention, used in, transformer_decoder, draft]
+  - [cross_attention, is a kind of, attention, draft]
+  - [cross_attention, used in, transformer_decoder, draft]
+  - [transformer_decoder, needs, transformer_encoder, draft]
+  - [transformer_decoder, used in, transformer, draft]
+  - [transformer_inference, needs, transformer_decoder, draft]
+
+# Cross-links to the ML map: [DL id, type, ML id from course_map/concepts.yaml, status].
+ml_links:
+  - [dl_intro, needs, dl, draft]
+  - [dl_intro, compared with, ml, draft]
+  - [representation_learning, compared with, feature_engineering, draft]
+  - [perceptron, compared with, logistic_regression, draft]
+  - [perceptron, needs, classification_task, draft]
+  - [perceptron_loss, compared with, svm, draft]
+  - [perceptron, needs, sigmoid, draft]
+  - [mlp, is a kind of, neural_network, draft]
+  - [forward_propagation, needs, tensor, draft]
+  - [ann_classification, needs, classification_task, draft]
+  - [ann_classification, needs, train_test_split, draft]
+  - [ann_classification, needs, encoding, draft]
+  - [ann_classification, needs, accuracy, draft]
+  - [ann_regression, needs, regression_task, draft]
+  - [ann_regression, needs, regression_metrics, draft]
+  - [dl_loss_functions, compared with, regression_metrics, draft]
+  - [cross_entropy, used in, logistic_regression, draft]
+  - [backpropagation, needs, gradient_descent, draft]
+  - [epochs_batches, needs, batch_gd, draft]
+  - [epochs_batches, needs, sgd, draft]
+  - [epochs_batches, needs, minibatch_gd, draft]
+  - [nn_improvement, needs, overfitting, draft]
+  - [early_stopping, fixes, overfitting, draft]
+  - [dropout, fixes, overfitting, draft]
+  - [weight_decay, is a kind of, regularisation, draft]
+  - [weight_decay, compared with, ridge, draft]
+  - [weight_decay, compared with, lasso, draft]
+  - [weight_decay, fixes, overfitting, draft]
+  - [data_augmentation, fixes, overfitting, draft]
+  - [input_scaling, is a kind of, feature_scaling, draft]
+  - [input_scaling, needs, standardization, draft]
+  - [input_scaling, needs, normalization, draft]
+  - [activation_functions, needs, sigmoid, draft]
+  - [batch_norm, needs, standardization, draft]
+  - [optimizers, needs, gradient_descent, draft]
+  - [keras_tuner, is a kind of, hyperparameters, draft]
+  - [keras_tuner, compared with, grid_search, draft]
+  - [ann_classification, needs, softmax, draft]

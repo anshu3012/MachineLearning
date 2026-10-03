@@ -45,6 +45,8 @@ notes:
   26: 26-ordinal-label-encoding
   27: 27-one-hot-encoding
   28: 28-column-transformer
+  29: 29-pipelines
+  30: 30-function-transformer
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
@@ -94,6 +96,7 @@ concepts:
   - {id: correlation, name: Correlation, step: 3, videos: [19, 21], status: confirmed}
   - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: confirmed}
   - {id: univariate, name: Univariate analysis, step: 3, videos: [20], status: confirmed}
+  - {id: qq_plot, name: Q-Q plot, step: 3, videos: [30], status: confirmed}
   - {id: skewness, name: Skewness, step: 3, videos: [20], status: confirmed}
   - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [21], status: confirmed}
   - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: confirmed}
@@ -123,8 +126,8 @@ concepts:
   - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 23, 27], status: confirmed}
   - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: confirmed}
   - {id: multicollinearity, name: Multicollinearity, step: 8, videos: [27], status: confirmed}
-  - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: draft}
-  - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: draft}
+  - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: confirmed}
+  - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: confirmed}
   - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: draft}
   - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: draft}
   - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: draft}
@@ -191,17 +194,17 @@ concepts:
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: draft}
   - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: draft}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: draft}
-  - {id: cross_validation, name: Cross-validation, step: 9, videos: [112], status: draft}
+  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 112], status: draft}
   - {id: oob_score, name: OOB score, step: 9, videos: [113], status: draft}
 
   # 10 Tune
   - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 98, 111, 118], status: draft}
-  - {id: grid_search, name: Grid and random search, step: 10, videos: [112], status: draft}
+  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 112], status: draft}
   - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
 
   # 11 Deploy
-  - {id: deployment, name: Deployment, step: 11, videos: [4, 7, 13], status: confirmed}
-  - {id: pickle, name: Saving models with pickle, step: 11, videos: [13], status: confirmed}
+  - {id: deployment, name: Deployment, step: 11, videos: [4, 7, 13, 29], status: confirmed}
+  - {id: pickle, name: Saving models with pickle, step: 11, videos: [13, 29], status: confirmed}
   - {id: software_integration, name: Software integration, step: 11, videos: [7], status: confirmed}
 
   # 12 Test
@@ -285,9 +288,15 @@ links:
   - [column_transformer, needs, simple_imputation, confirmed]
   - [one_hot, needs, multicollinearity, confirmed]
   - [multicollinearity, used in, linear_regression, draft]
-  - [pipeline, needs, column_transformer, draft]
+  - [pipeline, needs, column_transformer, confirmed]
   - [pipeline, fixes, data_leakage, draft]
-  - [function_transformer, used in, pipeline, draft]
+  - [function_transformer, used in, column_transformer, confirmed]
+  - [function_transformer, is a kind of, feature_transformation, confirmed]
+  - [function_transformer, fixes, skewness, confirmed]
+  - [qq_plot, used in, function_transformer, confirmed]
+  - [pipeline, used in, deployment, confirmed]
+  - [pipeline, needs, pickle, confirmed]
+  - [pipeline, used in, grid_search, confirmed]
   - [power_transformer, is a kind of, feature_engineering, draft]
   - [binning, is a kind of, feature_engineering, draft]
   - [mixed_variables, is a kind of, feature_engineering, draft]

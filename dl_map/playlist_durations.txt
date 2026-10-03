@@ -1,0 +1,84 @@
+001|2dH_qjc9mFg|100 Days of Deep Learning | Course Announcement|1112
+002|fHF22Wxuyw4|What is Deep Learning? Deep Learning Vs Machine Learning | Complete Deep Learning Course|4018
+003|fne_UE7hDn0|Types of Neural Networks | History of Deep Learning | Applications of Deep Learning|1996
+004|X7iIKPoZ0Sw|What is a Perceptron? Perceptron Vs Neuron | Perceptron Geometric Intuition|2314
+005|Lu2bruOHN6g|Perceptron Trick | How to train a Perceptron | Perceptron Part 2 |  Deep Learning Full Course|3105
+006|2_gCL5RAkHc|Perceptron Loss Function | Hinge Loss | Binary Cross Entropy | Sigmoid Function|3553
+007|Jp44b27VnOg|Problem with Perceptron|459
+008|H0_3SJh4Rqs|MLP Notation|804
+009|qw7wFGgNCSU|Multi Layer Perceptron | MLP Intuition|2266
+010|7MuiScUkboE|Forward Propagation | How a neural network predicts output?|931
+011|9wmImImmgcI|Customer Churn Prediction using ANN | Keras and Tensorflow | Deep Learning Classification|2123
+012|3xPT2Pk0Jds|Handwritten Digit Classification using ANN | MNIST Dataset|1720
+013|RCmiPBiA4qg|Graduate Admission Prediction using ANN|1063
+014|gb5nm_3jBIo|Loss Functions in Deep Learning | Deep Learning | CampusX|3596
+015|6M1wWQmcUjQ|Backpropagation in Deep Learning | Part 1 | The What?|3259
+016|ma6hWrU-LaI|Backpropagation Part 2 | The How | Complete Deep Learning Playlist|3596
+017|6xO-x8y0YSY|Backpropagation Part 3 | The Why | Complete Deep Learning Playlist|2421
+018|uCrevbBh0zM|Vanishing Gradient Problem in ANN | Exploding Gradient Problem | Code Example|1936
+019|rW0eeTXas4k|MLP Memoization | Complete Deep Learning Playlist|1524
+020|7z6yXpYk7sw|Gradient Descent in Neural Networks | Batch vs Stochastics vs Mini Batch Gradient Descent|2273
+021|Ue_6n1yT_R8|How to Improve the Performance of a Neural Network|1824
+022|Ygvskt5HadI|Early Stopping In Neural Networks | End to End Deep Learning Course|720
+023|mzRO0cVppQ0|Data Scaling in Neural Network | Feature Scaling in ANN | End to End Deep Learning Course|1015
+024|gyTlcHVeBjM|Dropout Layer in Deep Learning | Dropouts in ANN | End to End Deep Learning|1671
+025|tgIx04ML7-Y|Dropout Layers in ANN | Code Example | Regression | Classification|1157
+026|4xRonrhtkzc|Regularization in Deep Learning | L2 Regularization in ANN | L1 Regularization | Weight Decay in ANN|2157
+027|7LcUkgzx3AY|Activation Functions in Deep Learning | Sigmoid, Tanh and Relu Activation Function|2692
+028|2OwWs7Hzr9g|Relu Variants Explained | Leaky Relu | Parametric Relu | Elu | Selu | Activation Functions Part 2|2005
+029|2MSY0HwH5Ss|Weight Initialization Techniques | What not to do? | Deep Learning|2964
+030|nwVOSgcrbQI|Xavier/Glorat And He Weight Initialization in Deep Learning|1267
+031|2AscwXePInA|Batch Normalization in Deep Learning | Batch Learning in Keras|2619
+032|iCTTnQJn50E|Optimizers in Deep Learning | Part 1 | Complete Deep Learning Course|1354
+033|jAqVuYJ8TP8|Exponentially Weighted Moving Average or Exponential Weighted Average | Deep Learning|1131
+034|vVS4csXRlcQ|SGD with Momentum Explained in Detail with Animations | Optimizers in Deep Learning Part 2|2305
+035|rKG9E6rce1c|Nesterov Accelerated Gradient (NAG) Explained in Detail | Animations | Optimizers in Deep Learning|1670
+036|nqL9xYmhEpg|AdaGrad Explained in Detail with Animations | Optimizers in Deep Learning Part 4|1589
+037|p0wSmKslWi0|RMSProp Explained in Detail with Animations | Optimizers in Deep Learning Part 5|758
+038|N5AynalXD9g|Adam Optimizer Explained in Detail with Animations | Optimizers in Deep Learning Part 5|759
+039|oYnyNLj8RMA|Keras Tuner | Hyperparameter Tuning a Neural Network|3934
+040|hDVFXf74P-U|What is Convolutional Neural Network (CNN) | CNN Intution|1630
+041|aslTGS9ef98|CNN Vs Visual Cortex | The Famous Cat Experiment | History of CNN|902
+042|cgJx3GvQ5y8|CNN Part 3 | Convolution Operation|1754
+043|btWE6SsdDZA|Padding & Strides in CNN | CNN Lecture 4 | Deep Learning|1466
+044|DwmGefkowCU|Pooling Layer in CNN | MaxPooling in Convolutional Neural Network|1674
+045|ewsvsJQOuTI|CNN Architecture | LeNet -5 Architecture|1200
+046|niE5DRKvD_E|Comparing CNN Vs ANN  | CampusX|1062
+047|RvCCFttGFMY|Backpropagation in CNN | Part 1 | Deep Learning|2181
+048|OoSDzOodY3Y|CNN Backpropagation Part 2 | How Backpropagation works on Convolution, Maxpooling and Flatten Layers|2607
+049|0K4J_PTgysc|Cat Vs Dog Image Classification Project | Deep Learning Project | CNN Project|1649
+050|sM2C-SsREgM|Data Augmentation in Deep Learning | CNN|1609
+051|0MVXteg7TB4|Pretrained models in CNN | ImageNET Dataset | ILSVRC | Keras Code|1468
+052|WJysB1RK2vM|What does a CNN see? | Visualizing CNN Filters and Feature Maps | CampusX|783
+053|WWcgHjuKVqA|What is Transfer Learning? Transfer Learning in Keras | Fine Tuning Vs Feature Extraction|2033
+054|OvQQP1QVru8|Keras Functional Model | How to build non-linear Neural Networks?|1538
+055|4KpRP-YUw6c|Why RNNs are needed | RNNs Vs ANNs | RNN Part 1|1819
+056|BjWqCcbusMM|Recurrent Neural Network | Forward Propagation | Architecture|2504
+057|JgnbwKnHMZQ|RNN Sentiment Analysis | RNN Code Example in Keras | CampusX|2217
+058|TkOBxzhIySg|Types of RNN | Many to Many | One to Many | Many to One RNNs|1340
+059|OvCz1acvt-k|How Backpropagation works in RNN | Backpropagation Through Time|2038
+060|AWHSZzp96kM|Problems with RNN | 100 Days of Deep Learning|1938
+061|z7IPBg6MyrU|LSTM | Long Short Term Memory | Part 1 | The What? | CampusX|2538
+062|Akv3poqqwI4|LSTM Architecture | Part 2 | The How? | CampusX|4213
+063|fiqo6uPCJVI|LSTM | Part 3 | Next Word Predictor Using | CampusX|3605
+064|QQfZAoNGQmE|Gated Recurrent Unit | Deep Learning | GRU | CampusX|5182
+065|mlDkTrlLaio|Deep RNNs | Stacked RNNs | Stacked LSTMs | Stacked GRUs | CampusX|2708
+066|k2NSm3MNdYg|Bidirectional RNN | BiLSTM | Bidirectional LSTM | Bidirectional GRU|1541
+067|8fX3rOjTloc|The Epic History of Large Language Models (LLMs) | From LSTMs to ChatGPT | CampusX|5226
+068|KiL74WsgxoA|Encoder Decoder | Sequence-to-Sequence Architecture | Deep Learning | CampusX|4422
+069|rj5V6q6-XUM|Attention Mechanism in 1 video | Seq2Seq Networks | Encoder Decoder Architecture|2484
+070|0hZT4_fHfNQ|Bahdanau Attention Vs Luong Attention|3153
+071|BjRVS2wTtcA|Introduction to Transformers | Transformers Part 1|3605
+072|XnGGmvpDLA0|What is Self Attention | Transformers Part 2 | CampusX|1401
+073|-tCKPl_8Xb8|Self Attention in Transformers | Deep Learning | Simple Explanation with Code!|5004
+074|r7mAt0iVqwo|Scaled Dot Product Attention | Why do we scale Self Attention?|3042
+075|5ZgGuujZSbs|Self Attention Geometric Intuition | How to Visualize Self Attention | CampusX|1252
+076|o4ZVA0TuDRg|Why is Self Attention called "Self"? | Self Attention Vs Luong Attention in Depth Lecture | CampusX|1355
+077|bX2QwpjsmuA|What is Multi-head Attention in Transformers | Multi-head Attention v Self Attention | Deep Learning|2307
+078|GeoQBNNqIbM|Positional Encoding in Transformers | Deep Learning | CampusX|4395
+079|qti0QPdaelg|Layer Normalization in Transformers | Layer Norm Vs Batch Norm|2817
+080|Vs87qcdm8l0|Transformer Architecture | Part 1 Encoder Architecture | CampusX|3298
+081|m6onaKFzF94|Masked Self Attention | Masked Multi-head Attention in Transformer | Transformer Decoder|3654
+082|smOnJtCevoU|Cross Attention in Transformers | 100 Days Of Deep Learning | CampusX|2047
+083|DI2_hrAulYo|Transformer Decoder Architecture | Deep Learning | CampusX|2906
+084|FtsMOzlwxws|Transformer Inference | How Inference is done in Transformer? | Deep Learning | CampusX|2712
