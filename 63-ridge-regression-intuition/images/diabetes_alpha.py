@@ -1,0 +1,34 @@
+"""Diabetes data: test R2 and size of the largest coefficient as alpha grows (Plotly)."""
+from pathlib import Path
+import numpy as np
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from sklearn.datasets import load_diabetes
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.model_selection import train_test_split
+
+here = Path(__file__).parent
+d = load_diabetes()
+X_train, X_test, y_train, y_test = train_test_split(d.data, d.target, test_size=0.2, random_state=45)
+alphas = np.logspace(-4, 5, 60)
+coefs, r2 = [], []
+for a in alphas:
+    m = Ridge(alpha=a).fit(X_train, y_train); coefs.append(m.coef_); r2.append(m.score(X_test, y_test))
+coefs = np.array(coefs)
+ols = LinearRegression().fit(X_train, y_train)
+fig = make_subplots(1, 2, horizontal_spacing=0.1, subplot_titles=("Each coefficient shrinks towards 0", "Test R²"))
+pal = ["#4C78A8", "#F58518", "#E45756", "#72B7B2", "#54A24B", "#EECA3B", "#B279A2", "#FF9DA6", "#9D755D", "#BAB0AC"]
+for j, name in enumerate(d.feature_names):
+    fig.add_trace(go.Scatter(x=alphas, y=coefs[:, j], mode="lines", name=name, line=dict(color=pal[j], width=2.5)), 1, 1)
+fig.add_trace(go.Scatter(x=alphas, y=r2, mode="lines", line=dict(color="#4C78A8", width=4), showlegend=False), 1, 2)
+fig.add_trace(go.Scatter(x=[alphas[0], alphas[-1]], y=[ols.score(X_test, y_test)] * 2, mode="lines",
+                         line=dict(color="#6B6B6B", dash="dash"), showlegend=False), 1, 2)
+fig.update_xaxes(type="log", title="α (log scale)", row=1, col=1); fig.update_xaxes(type="log", title="α (log scale)", row=1, col=2)
+fig.update_yaxes(title="coefficient", row=1, col=1); fig.update_yaxes(title="test R²", range=[-0.05, 0.6], row=1, col=2)
+fig.update_layout(template="simple_white", width=1150, height=480, font=dict(family="Latin Modern Roman", size=15),
+                  margin=dict(l=70, r=20, t=50, b=60))
+fig.update_annotations(font_size=16)
+best = alphas[int(np.argmax(r2))]
+print("ols", round(ols.score(X_test, y_test), 3), "best alpha", round(best, 4), "R2", round(max(r2), 3))
+fig.write_image(here / "diabetes_alpha.png", scale=2)
+fig.write_image(here / "diabetes_alpha.pdf")

@@ -1,0 +1,124 @@
+ 
+hi guys so in this video we'll be
+learning about regularization
+okay so what is regularization and where
+should we use it
+that's the big question right so uh
+if you search it on google uh wikipedia
+may uh you will get this definition key
+regularization is this
+technique using which uh you know you
+induce some added information in a
+machine learning model
+so that you can reduce overfitting okay
+so
+regulations
+available so there was stacking uh i'm
+sorry there was backing there was
+boosting
+and then there was regularization okay
+so it's a very important concept
+especially when you're dealing with
+regression
+linear regression as well as logistic
+regression or because
+we use perceptron
+then okay the second one is lasso uh or
+is from l1 regulation
+and the third one is elastic net which
+is basically a combination of rich
+plus lasso okay so this video memory
+card is okay so the setup of the
+um
+is this uh this phenomena this criteria
+uh where a machine learning model is
+performing exceptionally well on
+training data
+but not so well on the testing data
+also performance on a different data set
+is giving completely different results
+and that is what overfitting
+what is does it mean okay so the answer
+is
+so the whole idea of linear regression
+is to find out the best fit line
+right y is equal to mx plus b
+right or is
+system is undefeated right now
+now m would be infinite in this case
+it means
+foreign
+and the second set is test okay
+[Music]
+which you add some extra thing so that
+extra thing is actually this let me
+write it down
+lambda uh m
+square so above functions
+right
+so this is
+okay so let's calculate it for the first
+line
+right now let's talk about this term
+this is equal to one
+and m for this one is one point five so
+minus one point five plus square
+and this is the
+so minus 0.9 minus 1.5 over
+minus
+this is my loss for the second leg 2.03
+so you can see this area it's two point
+two five
+and this line here it's two point zero
+three
+above the machine learning model
+m1 square
+and this is the description of the data
+set so actually
+uh there are 10 input columns
+8 6 body mass index average blood
+pressure
+and six blood serum measurements okay so
+in total there are 10 input columns
+or job cut target column column 11 is a
+quantitative
+measure of
+uh there is this um
+hyper parameter alpha which is basically
+the lambda
+in the last video my discussion by value
+by default
+test data set okay and you have you can
+see the accuracy score is
+exactly same almost same actually uh
+point five one eight nine either
+way i guess uh just one second
+yeah five one eight it like slightly
+better performed ridge regression
+uh over linear regression on newer data
+sets
+so uh to be honest but the whole idea is
+key
+this model is slightly less complex
+in comparison to the previous one okay
+lasso regression used to you would see a
+significant improvement in
+r2 score uh when you are dealing with
+newer
+okay
+you can see this is the main graph so
+you can see this is the data set
+or
+it's not overfitting okay and the last
+one is alpha is equal to 200
+yeah but you can see uh model over
+simplifying
+right so that is like under fitting so
+java you can clearly see
+key red is doing overfitting
+alpha is zero blue is doing
+uh under fitting matlab
+patterns picker mega because the alpha
+value is very high
+and the optima
+so thanks for watching

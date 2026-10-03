@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 103 of 143 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 105 of 143 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -174,8 +174,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md) | confirmed |
 | Polynomial regression | [Note 61](../61-polynomial-regression/note.md) | confirmed |
 | Polynomial features | [Note 61](../61-polynomial-regression/note.md), Video 80, coming | confirmed |
-| Regularisation | Video 63, coming | draft |
-| Ridge regression | Video 63, coming, Video 64, coming, Video 65, coming, Video 66, coming | draft |
+| Regularisation | [Note 63](../63-ridge-regression-intuition/note.md) | confirmed |
+| Ridge regression | [Note 63](../63-ridge-regression-intuition/note.md), Video 64, coming, Video 65, coming, Video 66, coming | confirmed |
 | Lasso regression | Video 67, coming, Video 68, coming | draft |
 | ElasticNet | Video 69, coming | draft |
 | Sigmoid function | Video 74, coming | draft |
@@ -341,13 +341,13 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 61 | Overfitting, Polynomial features, Polynomial regression, Underfitting | [Note 13](../13-toy-project/note.md), [Note 55](../55-multiple-lr-code/note.md) | written |
 | 62 | Bias-variance trade-off | [Note 61](../61-polynomial-regression/note.md) | written |
-| 63 | Regularisation, Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
-| 64 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
-| 65 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
-| 66 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
-| 67 | Lasso regression | Video 63, coming | coming |
-| 68 | Lasso regression | Video 63, coming | coming |
-| 69 | ElasticNet | Video 63, coming | coming |
+| 63 | Regularisation, Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 61](../61-polynomial-regression/note.md) | written |
+| 64 | Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | coming |
+| 65 | Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | coming |
+| 66 | Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | coming |
+| 67 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | coming |
+| 68 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | coming |
+| 69 | ElasticNet | [Note 63](../63-ridge-regression-intuition/note.md) | coming |
 | 70 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
 | 71 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
 | 72 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |

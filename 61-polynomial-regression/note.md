@@ -8,7 +8,7 @@ title: "Polynomial Regression"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)).
-> - **Leads to:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation (Video 63, coming); Logistic regression (Video 70, coming); Bagging (Video 105, coming).
+> - **Leads to:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Logistic regression (Video 70, coming); Bagging (Video 105, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview

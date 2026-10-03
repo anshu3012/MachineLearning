@@ -79,6 +79,7 @@ notes:
   60: 60-mini-batch-gradient-descent
   61: 61-polynomial-regression
   62: 62-bias-variance
+  63: 63-ridge-regression-intuition
 
 concepts:
   # 0 Foundations
@@ -196,8 +197,8 @@ concepts:
   - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: confirmed}
   - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, videos: [60], status: confirmed}
   - {id: polynomial_regression, name: Polynomial regression, step: 8, videos: [61], status: confirmed}
-  - {id: regularisation, name: Regularisation, step: 8, videos: [63], status: draft}
-  - {id: ridge, name: Ridge regression, step: 8, videos: [63, 64, 65, 66], status: draft}
+  - {id: regularisation, name: Regularisation, step: 8, videos: [63], status: confirmed}
+  - {id: ridge, name: Ridge regression, step: 8, videos: [63, 64, 65, 66], status: confirmed}
   - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: draft}
   - {id: elasticnet, name: ElasticNet, step: 8, videos: [69], status: draft}
   - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: draft}
@@ -436,13 +437,14 @@ links:
   - [polynomial_regression, needs, multiple_lr, confirmed]
   - [polynomial_regression, needs, polynomial_features, confirmed]
   - [polynomial_regression, compared with, overfitting, confirmed]
-  - [regularisation, fixes, overfitting, draft]
-  - [ridge, is a kind of, regularisation, draft]
+  - [ridge, is a kind of, regularisation, confirmed]
   - [lasso, is a kind of, regularisation, draft]
   - [elasticnet, is a kind of, regularisation, draft]
   - [lasso, compared with, ridge, draft]
   - [lasso, used in, feature_selection, draft]
-  - [ridge, needs, multiple_lr, draft]
+  - [ridge, needs, multiple_lr, confirmed]
+  - [regularisation, fixes, overfitting, confirmed]
+  - [ridge, needs, standardization, confirmed]
   # Model: classification
   - [logistic_regression, is a kind of, classification_task, draft]
   - [logistic_regression, is a kind of, model_based, draft]
