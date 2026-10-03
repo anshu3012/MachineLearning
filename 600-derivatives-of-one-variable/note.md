@@ -7,7 +7,7 @@ title: "Derivatives of One Variable"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)).
+> - **Leads to:** Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

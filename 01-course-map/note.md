@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 240 of 240 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 249 of 249 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -115,6 +115,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Representation learning | [Note 1002](../1002-what-is-deep-learning/note.md) | confirmed |
 | History of deep learning | [Note 1003](../1003-nn-types-history-applications/note.md) | confirmed |
 | Universal approximation theorem | [Note 1003](../1003-nn-types-history-applications/note.md), [Note 1009](../1009-mlp-intuition/note.md) | confirmed |
+| Memoization | [Note 1019](../1019-mlp-memoization/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -233,7 +234,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Clustering | [Note 3](../03-types-of-ml/note.md), [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md), [Note 130](../130-kmeans-from-scratch/note.md), [Note 131](../131-hierarchical-clustering/note.md), [Note 132](../132-dbscan/note.md) | confirmed |
 | Anomaly detection | [Note 3](../03-types-of-ml/note.md), [Note 132](../132-dbscan/note.md) | confirmed |
 | Association rule learning | [Note 3](../03-types-of-ml/note.md) | confirmed |
-| Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md) | confirmed |
+| Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Ensemble learning | [Note 9](../09-mldlc/note.md), [Note 101](../101-ensemble-learning/note.md) | confirmed |
 | Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | confirmed |
@@ -245,10 +246,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Multiple linear regression | [Note 53](../53-multiple-linear-regression/note.md), [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
 | Normal equation | [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
 | Assumptions of linear regression | [Note 56](../56-linear-regression-assumptions/note.md) | confirmed |
-| Gradient descent | [Note 57](../57-gradient-descent/note.md) | confirmed |
-| Convex and non-convex loss | [Note 57](../57-gradient-descent/note.md), [Note 590](../590-convex-and-non-convex-cost-functions/note.md) | confirmed |
-| Batch gradient descent | [Note 58](../58-batch-gradient-descent/note.md) | confirmed |
-| Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md) | confirmed |
+| Gradient descent | [Note 57](../57-gradient-descent/note.md), [Note 1017](../1017-backpropagation-why/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
+| Convex and non-convex loss | [Note 57](../57-gradient-descent/note.md), [Note 590](../590-convex-and-non-convex-cost-functions/note.md), [Note 1017](../1017-backpropagation-why/note.md) | confirmed |
+| Batch gradient descent | [Note 58](../58-batch-gradient-descent/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
+| Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
 | Polynomial regression | [Note 61](../61-polynomial-regression/note.md) | confirmed |
 | Polynomial features | [Note 61](../61-polynomial-regression/note.md), [Note 80](../80-polynomial-logistic-regression/note.md) | confirmed |
 | Regularisation | [Note 63](../63-ridge-regression-intuition/note.md) | confirmed |
@@ -256,8 +257,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Lasso regression | [Note 67](../67-lasso-regression/note.md), [Note 68](../68-lasso-sparsity/note.md) | confirmed |
 | Elastic Net | [Note 69](../69-elastic-net/note.md) | confirmed |
 | Perceptron trick | [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 1005](../1005-perceptron-trick/note.md) | confirmed |
-| Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md) | confirmed |
-| Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md) | confirmed |
+| Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md), [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
+| Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
 | Softmax regression | [Note 79](../79-softmax-regression/note.md) | confirmed |
 | Naive Bayes | [Note 87](../87-naive-bayes-intuition/note.md), [Note 88](../88-naive-bayes-maths/note.md), [Note 89](../89-naive-bayes-code/note.md), [Note 90](../90-gaussian-naive-bayes/note.md) | confirmed |
 | Support vector machines | [Note 92](../92-svm-intuition/note.md), [Note 93](../93-svm-maths/note.md), [Note 94](../94-svm-soft-margin/note.md) | confirmed |
@@ -289,7 +290,15 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Forward propagation | [Note 1010](../1010-forward-propagation/note.md) | confirmed |
 | Keras workflow | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
 | ANN for classification | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md) | confirmed |
+| Categorical and sparse categorical cross-entropy | [Note 1012](../1012-mnist-ann/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
 | ANN for regression | [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
+| Loss functions in deep learning | [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
+| Huber loss | [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
+| Backpropagation | [Note 1015](../1015-backpropagation-what/note.md), [Note 1016](../1016-backpropagation-how/note.md), [Note 1017](../1017-backpropagation-why/note.md), [Note 1019](../1019-mlp-memoization/note.md) | confirmed |
+| Vanishing gradient | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
+| Exploding gradient and gradient clipping | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
+| ReLU | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
+| Batch size in Keras | [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -314,7 +323,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 |---|---|---|
 | Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
-| Learning rate | [Note 57](../57-gradient-descent/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 120](../120-gradient-boosting-intuition/note.md) | confirmed |
+| Learning rate | [Note 57](../57-gradient-descent/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 120](../120-gradient-boosting-intuition/note.md), [Note 1017](../1017-backpropagation-why/note.md) | confirmed |
 | Elbow method and WCSS | [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md) | confirmed |
 | Bayesian optimisation | [Note 134](../134-optuna/note.md) | confirmed |
 | Optuna | [Note 134](../134-optuna/note.md) | confirmed |
@@ -355,7 +364,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 240 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 249 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -584,8 +593,15 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 1009 | Multi-layer perceptron (MLP), Universal approximation theorem | [Note 1002](../1002-what-is-deep-learning/note.md), [Note 1004](../1004-perceptron/note.md), [Note 1007](../1007-problem-with-perceptron/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
 | 1010 | Forward propagation | [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
 | 1011 | ANN for classification, Keras workflow, Training curves (History) | [Note 79](../79-softmax-regression/note.md), [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
-| 1012 | ANN for classification, Keras workflow, Training curves (History) | [Note 79](../79-softmax-regression/note.md), [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1012 | ANN for classification, Categorical and sparse categorical cross-entropy, Keras workflow, Training curves (History) | [Note 79](../79-softmax-regression/note.md), [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
 | 1013 | ANN for regression, Keras workflow, Training curves (History) | [Note 25](../25-normalization/note.md), [Note 52](../52-regression-metrics/note.md), [Note 91](../91-knn/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1014 | Categorical and sparse categorical cross-entropy, Huber loss, Log loss (binary cross entropy), Loss functions in deep learning | [Note 27](../27-one-hot-encoding/note.md), [Note 79](../79-softmax-regression/note.md), [Note 1010](../1010-forward-propagation/note.md) | written |
+| 1015 | Backpropagation | [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | written |
+| 1016 | Backpropagation | [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | written |
+| 1017 | Backpropagation, Convex and non-convex loss, Gradient descent, Learning rate | [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 603](../603-hessian-and-multivariate-taylor/note.md), [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | written |
+| 1018 | Exploding gradient and gradient clipping, ReLU, Sigmoid function, Vanishing gradient | [Note 1013](../1013-graduate-admission-ann/note.md), [Note 1017](../1017-backpropagation-why/note.md) | written |
+| 1019 | Backpropagation, Memoization | [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md), [Note 1017](../1017-backpropagation-why/note.md), [Note 1018](../1018-vanishing-exploding-gradients/note.md) | written |
+| 1020 | Batch gradient descent, Batch size in Keras, Gradient descent, Mini-batch gradient descent, Stochastic gradient descent | [Note 51](../51-linear-regression-maths/note.md), [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 1017](../1017-backpropagation-why/note.md) | written |
 
 ## 5. The Algorithm chooser
 

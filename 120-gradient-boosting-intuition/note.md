@@ -8,7 +8,7 @@ title: "Gradient Boosting: the Intuition"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Boosting ([Note 119](../119-bagging-vs-boosting/note.md)).
-> - **Leads to:** XGBoost ([Note 123](../123-xgboost-intro/note.md)).
+> - **Leads to:** XGBoost ([Note 123](../123-xgboost-intro/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
 > - **Compare with:** AdaBoost ([Note 118](../118-adaboost-hyperparameters/note.md)).
 <!-- /where-this-fits -->
 

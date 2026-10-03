@@ -8,7 +8,7 @@ title: "Online Machine Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Model drift ([Note 4](../04-batch-learning/note.md)).
-> - **Leads to:** Framing an ML problem ([Note 9](../09-mldlc/note.md)); Perceptron loss ([Note 1006](../1006-perceptron-loss/note.md)).
+> - **Leads to:** Framing an ML problem ([Note 9](../09-mldlc/note.md)); Perceptron loss ([Note 1006](../1006-perceptron-loss/note.md)); Batch size in Keras ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
 > - **Compare with:** Batch (offline) learning ([Note 4](../04-batch-learning/note.md)); Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Mini-batch gradient descent ([Note 60](../60-mini-batch-gradient-descent/note.md)).
 <!-- /where-this-fits -->
 

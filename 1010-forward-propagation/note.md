@@ -8,6 +8,7 @@ title: "Forward Propagation: How a Neural Network Predicts"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)); MLP notation and parameter count ([Note 1008](../1008-mlp-notation/note.md)).
+> - **Leads to:** Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

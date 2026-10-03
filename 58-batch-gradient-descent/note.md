@@ -8,6 +8,7 @@ title: "Batch Gradient Descent"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)).
+> - **Leads to:** Batch size in Keras ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
 > - **Compare with:** Stochastic gradient descent ([Note 5](../05-online-learning/note.md)).
 <!-- /where-this-fits -->
 

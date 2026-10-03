@@ -8,6 +8,7 @@ title: "The Jacobian and Gradients of Matrices"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Linear transformations and matrices ([Note 500](../500-linear-transformations-and-matrices/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)).
+> - **Leads to:** Memoization ([Note 1019](../1019-mlp-memoization/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

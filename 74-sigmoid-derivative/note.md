@@ -7,7 +7,7 @@ title: "The Derivative of the Sigmoid Function"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)).
+> - **Leads to:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Multi-layer perceptron (MLP) ([Note 1003](../1003-nn-types-history-applications/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

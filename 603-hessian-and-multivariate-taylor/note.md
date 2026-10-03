@@ -8,6 +8,7 @@ title: "The Hessian and Multivariate Taylor Series"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Eigenvectors and eigenvalues ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)).
+> - **Leads to:** Convex and non-convex loss ([Note 1017](../1017-backpropagation-why/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

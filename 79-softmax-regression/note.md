@@ -8,7 +8,7 @@ title: "Softmax Regression (Multinomial Logistic Regression)"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)).
-> - **Leads to:** ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
+> - **Leads to:** ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)); Categorical and sparse categorical cross-entropy ([Note 1012](../1012-mnist-ann/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -8,7 +8,7 @@ title: "Partial Derivatives and Gradients"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)).
-> - **Leads to:** Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)).
+> - **Leads to:** Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)); Lagrange multipliers, KKT and duality ([Note 620](../620-lagrange-multipliers/note.md)); Backpropagation ([Note 1015](../1015-backpropagation-what/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -7,7 +7,7 @@ title: "Tensors"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
+> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)); Categorical and sparse categorical cross-entropy ([Note 1012](../1012-mnist-ann/note.md)).
 > - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)).
 <!-- /where-this-fits -->
 
