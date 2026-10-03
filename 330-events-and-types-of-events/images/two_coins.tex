@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm, y=1cm]
+  \node[title] at (4.5,3.4) {Toss a coin twice: one sample space, many events};
+  \draw[thick, rounded corners, draw=cgrey] (-0.6,-1.6) rectangle (9.6,2.6);
+  \node[font=\sffamily\bfseries, anchor=north west] at (-0.5,2.55) {$S = \{HH, HT, TH, TT\}$};
+  \node[font=\sffamily\Large] (hh) at (1.2,0.5) {HH};
+  \node[font=\sffamily\Large] (ht) at (3.6,0.5) {HT};
+  \node[font=\sffamily\Large] (th) at (6.0,0.5) {TH};
+  \node[font=\sffamily\Large] (tt) at (8.2,0.5) {TT};
+  \draw[thick, corange, rounded corners=14pt, fill=corange!10, fill opacity=0.5] (0.1,-0.35) rectangle (6.9,1.45);
+  \draw[thick, cblue, fill=cblue!15, fill opacity=0.6] (1.2,0.5) circle (0.7);
+  \foreach \t/\x in {HH/1.2,HT/3.6,TH/6.0} \node[font=\sffamily\Large] at (\x,0.5) {\t};
+  \node[text=cblue, font=\sffamily\bfseries, align=center] at (1.2,-1.0) {two heads};
+  \node[text=corange, font=\sffamily\bfseries] at (4.8,-1.0) {at least one head};
+  \node[text=cgrey, font=\sffamily\bfseries] at (8.2,-1.0) {outside both};
+\end{tikzpicture}
+\end{document}

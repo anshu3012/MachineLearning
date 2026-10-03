@@ -8,8 +8,8 @@ title: "Measures of Central Tendency"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
-> - **Leads to:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)).
-> - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)).
+> - **Leads to:** Variance ([Note 222](../222-measures-of-dispersion/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)).
+> - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Expected value and variance of a random variable ([Note 332](../332-expected-value-and-variance/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

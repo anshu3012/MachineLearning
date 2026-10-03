@@ -8,8 +8,8 @@ title: "Univariate Analysis: Exploring One Column at a Time"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Poor-quality data ([Note 9](../09-mldlc/note.md)); Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)).
-> - **Leads to:** Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)); Trimming outliers ([Note 41](../41-what-are-outliers/note.md)).
-> - **Compare with:** Missing values ([Note 9](../09-mldlc/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)).
+> - **Leads to:** Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Feature selection ([Note 23](../23-what-is-feature-engineering/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)).
+> - **Compare with:** Missing values ([Note 9](../09-mldlc/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Kurtosis and moments ([Note 22](../22-pandas-profiling/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

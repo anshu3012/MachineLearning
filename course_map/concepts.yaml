@@ -166,6 +166,18 @@ notes:
   241: 241-pmf-and-discrete-cdf
   242: 242-pdf-and-continuous-cdf
   243: 243-density-estimation-kde
+  250: 250-normal-distribution
+  251: 251-standard-normal-and-z-table
+  252: 252-skewness
+  253: 253-pdf-and-cdf-in-practice
+  260: 260-kurtosis-and-qq-plots
+  261: 261-uniform-and-log-normal
+  262: 262-pareto-and-power-law
+  330: 330-events-and-types-of-events
+  331: 331-empirical-and-theoretical-probability
+  332: 332-expected-value-and-variance
+  340: 340-venn-diagrams-and-contingency-tables
+  341: 341-joint-marginal-conditional-probability
 
 concepts:
   # 0 Foundations
@@ -214,9 +226,15 @@ concepts:
   - {id: probability_distribution, name: Probability distributions, step: 0, videos: [210, 240], status: confirmed}
   - {id: pmf, name: Probability mass function (PMF), step: 0, videos: [241], status: confirmed}
   - {id: pdf, name: Probability density function (PDF), step: 3, videos: [20, 90, 242], status: confirmed}
-  - {id: cdf, name: Cumulative distribution function (CDF), step: 3, videos: [241, 242], status: confirmed}
+  - {id: cdf, name: Cumulative distribution function (CDF), step: 3, videos: [241, 242, 253], status: confirmed}
   - {id: density_estimation, name: Density estimation, step: 3, videos: [243], status: confirmed}
-  - {id: kde, name: Kernel density estimation (KDE), step: 3, videos: [20, 243], status: confirmed}
+  - {id: kde, name: Kernel density estimation (KDE), step: 3, videos: [20, 243, 253], status: confirmed}
+  - {id: normal_distribution, name: Normal distribution, step: 0, videos: [42, 90, 240, 250], status: confirmed}
+  - {id: standard_normal, name: Standard normal and the z-table, step: 0, videos: [251], status: confirmed}
+  - {id: kurtosis, name: Kurtosis and moments, step: 3, videos: [22, 260], status: confirmed}
+  - {id: uniform_dist, name: Uniform distribution, step: 0, videos: [241, 261], status: confirmed}
+  - {id: lognormal, name: Log-normal distribution, step: 0, videos: [242, 261], status: confirmed}
+  - {id: pareto, name: Pareto distribution and power laws, step: 0, videos: [262], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -227,8 +245,8 @@ concepts:
   - {id: causation, name: Correlation and causation, step: 3, videos: [231], status: confirmed}
   - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19, 210, 221, 222, 223, 230], status: confirmed}
   - {id: univariate, name: Univariate analysis, step: 3, videos: [9, 20], status: confirmed}
-  - {id: qq_plot, name: Q-Q plot, step: 3, videos: [30], status: confirmed}
-  - {id: skewness, name: Skewness, step: 3, videos: [20], status: confirmed}
+  - {id: qq_plot, name: Q-Q plot, step: 3, videos: [30, 260], status: confirmed}
+  - {id: skewness, name: Skewness, step: 3, videos: [20, 252], status: confirmed}
   - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [9, 21], status: confirmed}
   - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: confirmed}
   - {id: imbalanced_data, name: Imbalanced data, step: 3, videos: [9, 133], status: confirmed}
@@ -245,7 +263,7 @@ concepts:
   - {id: outliers, name: Outliers, step: 4, videos: [7, 9, 20, 23, 41], status: confirmed}
   - {id: trimming, name: Trimming outliers, step: 4, videos: [41, 42, 43, 44], status: confirmed}
   - {id: capping, name: Capping (winsorization), step: 4, videos: [41, 42, 43, 44], status: confirmed}
-  - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42], status: confirmed}
+  - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42, 251], status: confirmed}
   - {id: iqr, name: IQR outlier method, step: 4, videos: [41, 43], status: confirmed}
   - {id: percentile, name: Percentile outlier method, step: 4, videos: [41, 44], status: confirmed}
 
@@ -308,9 +326,14 @@ concepts:
   - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73], status: confirmed}
   - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: confirmed}
   - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: confirmed}
-  - {id: conditional_probability, name: Conditional probability, step: 0, videos: [82], status: confirmed}
+  - {id: probability_basics, name: Events and sample spaces, step: 0, videos: [330], status: confirmed}
+  - {id: probability_rules, name: "Empirical vs theoretical probability, probability rules", step: 0, videos: [331, 340], status: confirmed}
+  - {id: expected_value, name: Expected value and variance of a random variable, step: 0, videos: [332], status: confirmed}
+  - {id: venn_contingency, name: Venn diagrams and contingency tables, step: 0, videos: [340], status: confirmed}
+  - {id: joint_marginal, name: Joint and marginal probability, step: 0, videos: [341], status: confirmed}
+  - {id: conditional_probability, name: Conditional probability, step: 0, videos: [82, 341], status: confirmed}
   - {id: independent_events, name: Independent and mutually exclusive events, step: 0, videos: [83, 84], status: confirmed}
-  - {id: bayes_theorem, name: "Bayes' theorem", step: 0, videos: [85, 86], status: confirmed}
+  - {id: bayes_theorem, name: "Bayes' theorem", step: 0, videos: [85, 86, 341], status: confirmed}
   - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [87, 88, 89, 90], status: confirmed}
   - {id: hinge_loss, name: Hinge loss and soft margin, step: 8, videos: [94], status: confirmed}
   - {id: impurity, name: "Entropy, information gain and Gini", step: 8, videos: [97], status: confirmed}
@@ -726,6 +749,29 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [conditional_probability, needs, probability_basics, confirmed]
+  - [probability_rules, needs, probability_basics, confirmed]
+  - [expected_value, needs, random_variable, confirmed]
+  - [expected_value, compared with, central_tendency, confirmed]
+  - [expected_value, used in, bagging, confirmed]
+  - [venn_contingency, needs, probability_basics, confirmed]
+  - [joint_marginal, needs, venn_contingency, confirmed]
+  - [joint_marginal, used in, conditional_probability, confirmed]
+  - [joint_marginal, used in, bayes_theorem, confirmed]
+  - [normal_distribution, is a kind of, probability_distribution, confirmed]
+  - [normal_distribution, needs, pdf, confirmed]
+  - [normal_distribution, used in, zscore, confirmed]
+  - [normal_distribution, used in, naive_bayes, confirmed]
+  - [standard_normal, is a kind of, normal_distribution, confirmed]
+  - [standard_normal, needs, cdf, confirmed]
+  - [kurtosis, compared with, skewness, confirmed]
+  - [kurtosis, used in, qq_plot, confirmed]
+  - [qq_plot, needs, normal_distribution, confirmed]
+  - [uniform_dist, is a kind of, probability_distribution, confirmed]
+  - [lognormal, is a kind of, probability_distribution, confirmed]
+  - [function_transformer, fixes, lognormal, confirmed]
+  - [pareto, compared with, lognormal, confirmed]
+  - [kde, used in, feature_selection, confirmed]
   - [probability_distribution, needs, random_variable, confirmed]
   # Production
   - [deployment, needs, pickle, confirmed]

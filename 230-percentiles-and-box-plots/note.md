@@ -8,7 +8,7 @@ title: "Percentiles, the Five-Number Summary and Box Plots"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
-> - **Leads to:** Correlation ([Note 231](../231-covariance-and-correlation/note.md)).
+> - **Leads to:** Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Skewness ([Note 252](../252-skewness/note.md)).
 > - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)).
 <!-- /where-this-fits -->
 

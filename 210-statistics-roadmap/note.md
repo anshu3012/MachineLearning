@@ -8,7 +8,7 @@ title: "Statistics Roadmap for Machine Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
-> - **Leads to:** Measures of central tendency ([Note 221](../221-measures-of-central-tendency/note.md)); Variance ([Note 222](../222-measures-of-dispersion/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
+> - **Leads to:** Measures of central tendency ([Note 221](../221-measures-of-central-tendency/note.md)); Variance ([Note 222](../222-measures-of-dispersion/note.md)); Correlation ([Note 231](../231-covariance-and-correlation/note.md)); Normal distribution ([Note 240](../240-random-variables-and-distributions/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Uniform distribution ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

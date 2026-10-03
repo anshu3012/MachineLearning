@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm, y=1cm]
+  \node[title] at (7.2,2.6) {From outcomes to a centre and a spread};
+  \node[box=cgrey, text width=2.6cm] (s) at (0,0) {\textbf{sample space}\\ \small faces of a die\\ \small $\{1, \dots, 6\}$};
+  \node[box=cblue, text width=2.6cm] (x) at (4.2,0) {\textbf{random variable}\\ \small $X$ = the face\\ \small outcome $\to$ number};
+  \node[box=cblue, text width=3.2cm] (d) at (8.8,0) {\textbf{distribution}\\ \small $P(X = x) = 1/6$\\ \small for $x = 1, \dots, 6$};
+  \node[box=corange, text width=3.4cm] (e) at (13.8,0.95) {\textbf{expected value}\\ \small $E[X] = 3.5$ \ (centre)};
+  \node[box=corange, text width=3.4cm] (v) at (13.8,-0.95) {\textbf{variance}\\ \small $\mathrm{Var}(X) = 35/12$ \ (spread)};
+  \draw[arrow] (s) -- (x);
+  \draw[arrow] (x) -- (d);
+  \draw[arrow] (d.east) -- (e.west);
+  \draw[arrow] (d.east) -- (v.west);
+\end{tikzpicture}
+\end{document}
