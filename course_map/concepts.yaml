@@ -105,6 +105,7 @@ notes:
   86: 86-bayes-problem
   87: 87-naive-bayes-intuition
   88: 88-naive-bayes-maths
+  89: 89-naive-bayes-code
 
 concepts:
   # 0 Foundations
@@ -235,7 +236,7 @@ concepts:
   - {id: conditional_probability, name: Conditional probability, step: 0, videos: [82], status: confirmed}
   - {id: independent_events, name: Independent and mutually exclusive events, step: 0, videos: [83, 84], status: confirmed}
   - {id: bayes_theorem, name: "Bayes' theorem", step: 0, videos: [85, 86], status: confirmed}
-  - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [87, 88, 89, 90], status: draft}
+  - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [87, 88, 89, 90], status: confirmed}
   - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: draft}
   - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: draft}
   - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: draft}
@@ -491,10 +492,10 @@ links:
   - [softmax, is a kind of, logistic_regression, confirmed]
   - [softmax, needs, one_hot, confirmed]
   - [polynomial_features, used in, logistic_regression, confirmed]
-  - [naive_bayes, is a kind of, classification_task, draft]
+  - [naive_bayes, is a kind of, classification_task, confirmed]
   - [bayes_theorem, needs, conditional_probability, confirmed]
-  - [naive_bayes, needs, bayes_theorem, draft]
-  - [naive_bayes, needs, independent_events, draft]
+  - [naive_bayes, needs, bayes_theorem, confirmed]
+  - [naive_bayes, needs, independent_events, confirmed]
   - [knn, is a kind of, classification_task, draft]
   - [svm, is a kind of, classification_task, draft]
   - [kernel_trick, used in, svm, draft]

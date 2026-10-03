@@ -98,6 +98,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class). | [Video 79](79-softmax-regression/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
+| CategoricalNB | scikit-learn's Naive Bayes for categorical inputs. | [Video 89](89-naive-bayes-code/note.md) |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Category share | The rows in one category divided by the rows that have a value. | [Video 37](37-missing-categorical-data/note.md) |
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
@@ -344,6 +345,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lambda ($\lambda$) | The power used by a power transform, learned separately for each column. | [Video 31](31-power-transformer/note.md) |
 | Lambda | A one-line Python function without a name, such as `lambda x: x**2`. | [Video 30](30-function-transformer/note.md) |
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. | [Video 31](31-power-transformer/note.md) |
+| Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0. | [Video 89](89-naive-bayes-code/note.md) |
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1). | [Video 63](63-ridge-regression-intuition/note.md) |
 | Law of total probability | $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the $A_i$ are mutually exclusive and cover every case. | [Video 86](86-bayes-problem/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -368,6 +370,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0. | [Video 30](30-function-transformer/note.md) |
 | Logistic function | Another name for the sigmoid function. | [Video 72](72-sigmoid-function/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
+| Lookup table | The stored probabilities that Naive Bayes computes during training. | [Video 89](89-naive-bayes-code/note.md) |
 | Loss function | A formula that measures how wrong a model's predictions are. | [Video 73](73-log-loss/note.md) |
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Video 50](50-simple-linear-regression/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -483,6 +486,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | partial_fit | A scikit-learn method that continues training from where the model left off. | [Video 5](05-online-learning/note.md) |
 | passthrough | The `remainder` option that keeps untouched columns unchanged. | [Video 28](28-column-transformer/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
+| pd.crosstab | pandas function that counts how often each pair of values from two columns occurs. | [Video 89](89-naive-bayes-code/note.md) |
 | pd.cut | The pandas function that puts values into intervals we give it. | [Video 32](32-binning-binarization/note.md) |
 | pd.to_datetime | The pandas function that converts text to datetime values. | [Video 34](34-date-and-time/note.md) |
 | pd.to_numeric | The pandas function that converts values to numbers. | [Video 33](33-mixed-variables/note.md) |
@@ -713,4 +717,5 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. | [Video 42](42-outliers-zscore/note.md) |
 | Z-score normalization | Another name for standardization. | [Video 24](24-standardization/note.md) |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean. | [Video 24](24-standardization/note.md) |
+| Zero-frequency problem | A probability of 0 for a value never seen with a class, which forces that class's score to 0. | [Video 89](89-naive-bayes-code/note.md) |
 | λ (lambda), alpha | The strength of the regularisation penalty; alpha in scikit-learn. | [Video 63](63-ridge-regression-intuition/note.md) |
