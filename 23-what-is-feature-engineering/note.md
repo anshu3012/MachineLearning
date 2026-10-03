@@ -8,7 +8,7 @@ title: "What is Feature Engineering"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Features ([Note 11](../11-tensors/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)).
-> - **Leads to:** Standardization ([Note 24](../24-standardization/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Leads to:** Standardization ([Note 24](../24-standardization/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)).
 > - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)).
 <!-- /where-this-fits -->
 

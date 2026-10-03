@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, text width=3.4cm] (in) at (0,0) {\textbf{skewed column}\\[-1pt]\small e.g. Age, skew 3.34};
+  \node[box=cgreen, text width=5cm, minimum height=1.6cm] (pt) at (5.8,0)
+    {\textbf{PowerTransformer}\\[-1pt]\small learns one $\lambda$ per column,\\[-2pt]\small then reshapes the column with it};
+  \node[box=cblue, text width=3.4cm] (out) at (11.6,0) {\textbf{close to normal}\\[-1pt]\small Age: skew 0.00\\[-2pt]\small mean 0, std 1};
+  \draw[arrow] (in) -- (pt);
+  \draw[arrow] (pt) -- (out);
+  \node[box=corange, fill=white, text width=3.8cm, minimum height=1.6cm] (bc) at (3.2,-2.8)
+    {\textbf{Box-Cox}\\[-1pt]\small values above 0 only};
+  \node[box=corange, fill=white, text width=3.8cm, minimum height=1.6cm] (yj) at (8.4,-2.8)
+    {\textbf{Yeo-Johnson}\\[-1pt]\small any value, including 0\\[-2pt]\small and negatives (default)};
+  \draw[arrow] (bc.north) -- ($(pt.south)+(-0.6,0)$);
+  \draw[arrow] (yj.north) -- ($(pt.south)+(0.6,0)$);
+  \node[note] at (5.8,-4.2) {method = "box-cox" or "yeo-johnson"};
+\end{tikzpicture}
+\end{document}

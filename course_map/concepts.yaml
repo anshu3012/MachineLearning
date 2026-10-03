@@ -47,7 +47,9 @@ notes:
   28: 28-column-transformer
   29: 29-pipelines
   30: 30-function-transformer
+  31: 31-power-transformer
   32: 32-binning-binarization
+  33: 33-mixed-variables
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
@@ -130,9 +132,9 @@ concepts:
   - {id: multicollinearity, name: Multicollinearity, step: 8, videos: [27], status: confirmed}
   - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: confirmed}
   - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: confirmed}
-  - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: draft}
+  - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: confirmed}
   - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: confirmed}
-  - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: draft}
+  - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: confirmed}
   - {id: datetime, name: Date and time features, step: 5, videos: [34], status: draft}
   - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
   - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 23, 45], status: draft}
@@ -296,12 +298,16 @@ links:
   - [function_transformer, is a kind of, feature_transformation, confirmed]
   - [function_transformer, fixes, skewness, confirmed]
   - [qq_plot, used in, function_transformer, confirmed]
+  - [power_transformer, compared with, function_transformer, confirmed]
+  - [power_transformer, fixes, skewness, confirmed]
+  - [qq_plot, used in, power_transformer, confirmed]
+  - [mixed_variables, is a kind of, feature_construction, confirmed]
   - [pipeline, used in, deployment, confirmed]
   - [pipeline, needs, pickle, confirmed]
   - [pipeline, used in, grid_search, confirmed]
-  - [power_transformer, is a kind of, feature_engineering, draft]
+  - [power_transformer, is a kind of, feature_transformation, confirmed]
   - [binning, is a kind of, feature_engineering, draft]
-  - [mixed_variables, is a kind of, feature_engineering, draft]
+  - [mixed_variables, is a kind of, feature_engineering, confirmed]
   - [datetime, is a kind of, feature_engineering, draft]
   - [feature_construction, is a kind of, feature_engineering, confirmed]
   - [feature_transformation, is a kind of, feature_engineering, confirmed]

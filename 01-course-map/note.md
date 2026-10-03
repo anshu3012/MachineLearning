@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 70 of 135 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 72 of 135 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -127,8 +127,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Ordinal and label encoding | [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
 | Column transformer | [Note 28](../28-column-transformer/note.md) | confirmed |
 | Function transformer | [Note 30](../30-function-transformer/note.md) | confirmed |
-| Power transformer | Video 31, coming | draft |
-| Mixed variables | Video 33, coming | draft |
+| Power transformer | [Note 31](../31-power-transformer/note.md) | confirmed |
+| Mixed variables | [Note 33](../33-mixed-variables/note.md) | confirmed |
 | Date and time features | Video 34, coming | draft |
 | Feature importance | Video 114, coming | draft |
 
@@ -301,9 +301,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 28 | Column transformer | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | written |
 | 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 7](../07-challenges-in-ml/note.md), Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 28](../28-column-transformer/note.md) | written |
 | 30 | Cross-validation, Function transformer, Q-Q plot | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
-| 31 | Power transformer | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
+| 31 | Power transformer | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md) | written |
 | 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | written |
-| 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
+| 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 34 | Date and time features | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 35 | Complete case analysis, Missing values | [Note 7](../07-challenges-in-ml/note.md) | coming |
 | 36 | Missing values, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md) | coming |
