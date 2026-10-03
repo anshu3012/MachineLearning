@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{alg/.style={box=corange, minimum width=3.6cm, minimum height=0.95cm, font=\small},
+           st/.style={box=#1, minimum width=3.2cm, text width=3.0cm, minimum height=1.5cm, font=\small}}
+  \node[box=cblue, minimum width=2.4cm, minimum height=1.5cm, font=\small] (d) at (0,0) {\textbf{Prepared data}\\features ready};
+  \foreach \i/\t/\y in {1/Linear models/1.8, 2/Kernel-based methods/0.6, 3/Ensemble methods/-0.6, 4/Neural networks/-1.8}
+    \node[alg] (a\i) at (3.9,\y) {\t};
+  \node[st=cred] (e) at (8.6,0) {\textbf{Evaluate}\\with a performance metric};
+  \node[st=cred] (t) at (13.0,0) {\textbf{Select and tune}\\the best one(s): hyperparameters};
+  \node[st=corange] (en) at (17.4,0) {\textbf{Ensemble}\\combine several models};
+  \node[st=cgreen] (f) at (17.4,-3.0) {\textbf{Final model}};
+  \foreach \i in {1,...,4} { \draw[arrow] (d.east) -- (a\i.west); \draw[arrow] (a\i.east) -- (e.west); }
+  \draw[arrow] (e) -- (t);
+  \draw[arrow] (t) -- (en);
+  \draw[arrow] (en) -- (f);
+  \node[note, anchor=north] at (3.9,-2.45) {train them all, on the same data};
+  \node[note, text width=4.6cm, anchor=north] at (9.0,-1.0) {accuracy (classification)\\mean squared error (regression)\\Dunn index (clustering)};
+\end{tikzpicture}
+\end{document}

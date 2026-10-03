@@ -8,7 +8,7 @@ title: "What is Machine Learning?"
 > ![](images/where_this_fits.png)
 >
 > - **Leads to:** Deep learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Semi-supervised learning ([Note 3](../03-types-of-ml/note.md)); Reinforcement learning ([Note 3](../03-types-of-ml/note.md)); Applications of ML ([Note 8](../08-applications-of-ml/note.md)).
-> - **Compare with:** Symbolic AI and expert systems ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Deep learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Exploratory data analysis ([Note 13](../13-toy-project/note.md)).
+> - **Compare with:** Symbolic AI and expert systems ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Deep learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Exploratory data analysis ([Note 9](../09-mldlc/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -7,7 +7,7 @@ title: "Batch (Offline) Machine Learning"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Online learning ([Note 5](../05-online-learning/note.md)); MLOps and cost ([Note 7](../07-challenges-in-ml/note.md)); Beta and A/B testing (Video 9, coming).
+> - **Leads to:** Online learning ([Note 5](../05-online-learning/note.md)); MLOps and cost ([Note 7](../07-challenges-in-ml/note.md)); Framing an ML problem ([Note 9](../09-mldlc/note.md)); Beta and A/B testing ([Note 9](../09-mldlc/note.md)).
 > - **Compare with:** Online learning ([Note 5](../05-online-learning/note.md)).
 <!-- /where-this-fits -->
 

@@ -8,7 +8,7 @@ title: "Applications of Machine Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Association rule learning ([Note 3](../03-types-of-ml/note.md)).
-> - **Compare with:** Exploratory data analysis ([Note 13](../13-toy-project/note.md)).
+> - **Compare with:** Exploratory data analysis ([Note 9](../09-mldlc/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

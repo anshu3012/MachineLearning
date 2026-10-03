@@ -8,7 +8,8 @@ title: "Fetching Data From an API"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)).
-> - **Compare with:** Web scraping ([Note 7](../07-challenges-in-ml/note.md)).
+> - **Leads to:** Deployment ([Note 29](../29-pipelines/note.md)).
+> - **Compare with:** Web scraping ([Note 9](../09-mldlc/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

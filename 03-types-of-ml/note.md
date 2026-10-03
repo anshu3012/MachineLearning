@@ -8,7 +8,7 @@ title: "Types of Machine Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
-> - **Leads to:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Applications of ML ([Note 8](../08-applications-of-ml/note.md)); Feature selection (Video 9, coming); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)).
+> - **Leads to:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Applications of ML ([Note 8](../08-applications-of-ml/note.md)); Framing an ML problem ([Note 9](../09-mldlc/note.md)); Feature selection ([Note 9](../09-mldlc/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

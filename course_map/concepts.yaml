@@ -30,8 +30,10 @@ notes:
   6: 06-instance-vs-model-based
   7: 07-challenges-in-ml
   8: 08-applications-of-ml
+  9: 09-mldlc
   11: 11-tensors
   13: 13-toy-project
+  14: 14-framing-ml-problem
   15: 15-working-with-csv
   16: 16-working-with-json-and-sql
   17: 17-fetching-data-from-api
@@ -131,45 +133,45 @@ concepts:
   - {id: tensor, name: Tensors, step: 0, videos: [11], status: confirmed}
   - {id: applications, name: Applications of ML, step: 0, videos: [8], status: confirmed}
   - {id: data_mining, name: Data mining, step: 0, videos: [1, 8], status: confirmed}
-  - {id: mldlc, name: ML development life cycle, step: 0, videos: [9, 13], status: draft}
-  - {id: dev_setup, name: "Anaconda, Jupyter and Colab", step: 0, videos: [12], status: draft}
+  - {id: mldlc, name: ML development life cycle, step: 0, videos: [9, 13], status: confirmed}
+  - {id: dev_setup, name: "Anaconda, Jupyter and Colab", step: 0, videos: [12], status: confirmed}
 
   # 1 Frame the problem
-  - {id: problem_framing, name: Framing an ML problem, step: 1, videos: [9, 14], status: draft}
+  - {id: problem_framing, name: Framing an ML problem, step: 1, videos: [9, 14], status: confirmed}
 
   # 2 Get data
   - {id: data_quantity, name: Enough data, step: 2, videos: [7], status: confirmed}
   - {id: labelled_data, name: Labelled data, step: 2, videos: [3, 7], status: confirmed}
   - {id: sampling_bias, name: Sampling noise and bias, step: 2, videos: [7], status: confirmed}
-  - {id: csv, name: CSV files, step: 2, videos: [13, 15], status: confirmed}
+  - {id: csv, name: CSV files, step: 2, videos: [9, 13, 15], status: confirmed}
   - {id: json_sql, name: JSON and SQL data, step: 2, videos: [16], status: confirmed}
-  - {id: api, name: APIs, step: 2, videos: [7, 17], status: confirmed}
-  - {id: web_scraping, name: Web scraping, step: 2, videos: [7, 18], status: confirmed}
+  - {id: api, name: APIs, step: 2, videos: [7, 9, 17], status: confirmed}
+  - {id: web_scraping, name: Web scraping, step: 2, videos: [7, 9, 18], status: confirmed}
 
   # 3 Understand data
-  - {id: eda, name: Exploratory data analysis, step: 3, videos: [13, 19], status: confirmed}
+  - {id: eda, name: Exploratory data analysis, step: 3, videos: [9, 13, 19], status: confirmed}
   - {id: variance, name: Variance, step: 3, videos: [19, 47], status: confirmed}
   - {id: covariance, name: Covariance and covariance matrix, step: 3, videos: [48], status: confirmed}
   - {id: eigen, name: Eigenvectors and eigenvalues, step: 0, videos: [48], status: confirmed}
   - {id: correlation, name: Correlation, step: 3, videos: [19, 21], status: confirmed}
   - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: confirmed}
-  - {id: univariate, name: Univariate analysis, step: 3, videos: [20], status: confirmed}
+  - {id: univariate, name: Univariate analysis, step: 3, videos: [9, 20], status: confirmed}
   - {id: qq_plot, name: Q-Q plot, step: 3, videos: [30], status: confirmed}
   - {id: skewness, name: Skewness, step: 3, videos: [20], status: confirmed}
-  - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [21], status: confirmed}
+  - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [9, 21], status: confirmed}
   - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: confirmed}
-  - {id: imbalanced_data, name: Imbalanced data, step: 3, videos: [9, 133], status: draft}
+  - {id: imbalanced_data, name: Imbalanced data, step: 3, videos: [9, 133], status: confirmed}
 
   # 4 Clean
-  - {id: data_quality, name: Poor-quality data, step: 4, videos: [7], status: confirmed}
-  - {id: missing_values, name: Missing values, step: 4, videos: [7, 23, 35, 36, 37, 38], status: confirmed}
+  - {id: data_quality, name: Poor-quality data, step: 4, videos: [7, 9], status: confirmed}
+  - {id: missing_values, name: Missing values, step: 4, videos: [7, 9, 23, 35, 36, 37, 38], status: confirmed}
   - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: confirmed}
   - {id: simple_imputation, name: "Simple imputation (mean, median, mode, constant)", step: 4, videos: [23, 36, 37], status: confirmed}
   - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: confirmed}
   - {id: random_sample_imputation, name: Random sample imputation, step: 4, videos: [38], status: confirmed}
   - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: confirmed}
   - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: confirmed}
-  - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 23, 41], status: confirmed}
+  - {id: outliers, name: Outliers, step: 4, videos: [7, 9, 20, 23, 41], status: confirmed}
   - {id: trimming, name: Trimming outliers, step: 4, videos: [41, 42, 43, 44], status: confirmed}
   - {id: capping, name: Capping (winsorization), step: 4, videos: [41, 42, 43, 44], status: confirmed}
   - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42], status: confirmed}
@@ -177,10 +179,10 @@ concepts:
   - {id: percentile, name: Percentile outlier method, step: 4, videos: [41, 44], status: confirmed}
 
   # 5 Engineer features
-  - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 23], status: confirmed}
+  - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 9, 23], status: confirmed}
   - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13, 23, 46], status: confirmed}
-  - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 13, 23, 24], status: confirmed}
-  - {id: standardization, name: Standardization, step: 5, videos: [13, 24], status: confirmed}
+  - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 9, 13, 23, 24], status: confirmed}
+  - {id: standardization, name: Standardization, step: 5, videos: [9, 13, 24], status: confirmed}
   - {id: normalization, name: Normalization, step: 5, videos: [25], status: confirmed}
   - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: confirmed}
   - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: confirmed}
@@ -194,7 +196,7 @@ concepts:
   - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: confirmed}
   - {id: datetime, name: Date and time features, step: 5, videos: [34], status: confirmed}
   - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
-  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 23, 45], status: confirmed}
+  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 9, 23, 45], status: confirmed}
   - {id: feature_importance, name: Feature importance, step: 5, videos: [114], status: draft}
 
   # 6 Reduce dimensions
@@ -243,7 +245,7 @@ concepts:
   - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: draft}
   - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: draft}
   - {id: regression_tree, name: Regression trees, step: 8, videos: [99], status: draft}
-  - {id: ensemble, name: Ensemble learning, step: 8, videos: [101], status: draft}
+  - {id: ensemble, name: Ensemble learning, step: 8, videos: [9, 101], status: draft}
   - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: draft}
   - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: draft}
   - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111], status: draft}
@@ -274,17 +276,17 @@ concepts:
   - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
 
   # 11 Deploy
-  - {id: deployment, name: Deployment, step: 11, videos: [4, 7, 13, 29], status: confirmed}
-  - {id: pickle, name: Saving models with pickle, step: 11, videos: [13, 29], status: confirmed}
+  - {id: deployment, name: Deployment, step: 11, videos: [4, 7, 9, 13, 29], status: confirmed}
+  - {id: pickle, name: Saving models with pickle, step: 11, videos: [9, 13, 29], status: confirmed}
   - {id: software_integration, name: Software integration, step: 11, videos: [7], status: confirmed}
 
   # 12 Test
-  - {id: ab_testing, name: Beta and A/B testing, step: 12, videos: [9], status: draft}
+  - {id: ab_testing, name: Beta and A/B testing, step: 12, videos: [9], status: confirmed}
 
   # 13 Monitor and maintain
-  - {id: model_drift, name: Model drift, step: 13, videos: [4], status: confirmed}
-  - {id: retraining, name: Retraining, step: 13, videos: [4, 5], status: confirmed}
-  - {id: mlops, name: MLOps and cost, step: 13, videos: [7], status: confirmed}
+  - {id: model_drift, name: Model drift, step: 13, videos: [4, 9], status: confirmed}
+  - {id: retraining, name: Retraining, step: 13, videos: [4, 5, 9], status: confirmed}
+  - {id: mlops, name: MLOps and cost, step: 13, videos: [7, 9], status: confirmed}
 
 links:
   # Foundations
@@ -308,7 +310,11 @@ links:
   - [instance_based, compared with, model_based, confirmed]
   - [knn, is a kind of, instance_based, confirmed]
   - [tensor, used in, ml, confirmed]
-  - [problem_framing, used in, mldlc, draft]
+  - [problem_framing, used in, mldlc, confirmed]
+  - [problem_framing, needs, supervised, confirmed]
+  - [problem_framing, needs, batch_learning, confirmed]
+  - [problem_framing, needs, online_learning, confirmed]
+  - [api, used in, deployment, confirmed]
   - [applications, needs, ml, confirmed]
   - [data_mining, used in, applications, confirmed]
   - [association_rules, used in, applications, confirmed]

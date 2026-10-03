@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 120 of 148 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 125 of 148 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -54,9 +54,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Instance-based learning | [Note 6](../06-instance-vs-model-based/note.md) | confirmed |
 | Model-based learning | [Note 6](../06-instance-vs-model-based/note.md) | confirmed |
 | Applications of ML | [Note 8](../08-applications-of-ml/note.md) | confirmed |
-| ML development life cycle | Video 9, coming, [Note 13](../13-toy-project/note.md) | draft |
+| ML development life cycle | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | confirmed |
 | Tensors | [Note 11](../11-tensors/note.md) | confirmed |
-| Anaconda, Jupyter and Colab | Video 12, coming | draft |
+| Anaconda, Jupyter and Colab | Video 12, coming | confirmed |
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
 | Conditional probability | [Note 82](../82-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
@@ -66,7 +66,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Framing an ML problem | Video 9, coming, Video 14, coming | draft |
+| Framing an ML problem | [Note 9](../09-mldlc/note.md), [Note 14](../14-framing-ml-problem/note.md) | confirmed |
 
 ### 2.3 Step 2: Get data
 
@@ -75,23 +75,23 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Labelled data | [Note 3](../03-types-of-ml/note.md), [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | Enough data | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | Sampling noise and bias | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| APIs | [Note 7](../07-challenges-in-ml/note.md), [Note 17](../17-fetching-data-from-api/note.md) | confirmed |
-| Web scraping | [Note 7](../07-challenges-in-ml/note.md), [Note 18](../18-web-scraping/note.md) | confirmed |
-| CSV files | [Note 13](../13-toy-project/note.md), [Note 15](../15-working-with-csv/note.md) | confirmed |
+| APIs | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 17](../17-fetching-data-from-api/note.md) | confirmed |
+| Web scraping | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 18](../18-web-scraping/note.md) | confirmed |
+| CSV files | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 15](../15-working-with-csv/note.md) | confirmed |
 | JSON and SQL data | [Note 16](../16-working-with-json-and-sql/note.md) | confirmed |
 
 ### 2.4 Step 3: Understand data
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Imbalanced data | Video 9, coming, Video 133, coming | draft |
-| Exploratory data analysis | [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md) | confirmed |
+| Exploratory data analysis | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md) | confirmed |
+| Univariate analysis | [Note 9](../09-mldlc/note.md), [Note 20](../20-univariate-analysis/note.md) | confirmed |
+| Bivariate and multivariate analysis | [Note 9](../09-mldlc/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
+| Imbalanced data | [Note 9](../09-mldlc/note.md), Video 133, coming | confirmed |
 | Variance | [Note 19](../19-understanding-your-data/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 | Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
 | Descriptive statistics | [Note 19](../19-understanding-your-data/note.md) | confirmed |
-| Univariate analysis | [Note 20](../20-univariate-analysis/note.md) | confirmed |
 | Skewness | [Note 20](../20-univariate-analysis/note.md) | confirmed |
-| Bivariate and multivariate analysis | [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
 | Pandas Profiling | [Note 22](../22-pandas-profiling/note.md) | confirmed |
 | Q-Q plot | [Note 30](../30-function-transformer/note.md) | confirmed |
 | Covariance and covariance matrix | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
@@ -100,9 +100,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Poor-quality data | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 35](../35-complete-case-analysis/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
-| Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 41](../41-what-are-outliers/note.md) | confirmed |
+| Poor-quality data | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md) | confirmed |
+| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 35](../35-complete-case-analysis/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
+| Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 41](../41-what-are-outliers/note.md) | confirmed |
 | Simple imputation (mean, median, mode, constant) | [Note 23](../23-what-is-feature-engineering/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md) | confirmed |
 | Complete case analysis | [Note 35](../35-complete-case-analysis/note.md) | confirmed |
 | Missing indicator | [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
@@ -119,12 +119,12 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md) | confirmed |
-| Feature engineering | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
-| Feature construction and splitting | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 45](../45-feature-construction-splitting/note.md) | confirmed |
-| Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
+| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md) | confirmed |
+| Feature engineering | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
+| Feature construction and splitting | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 45](../45-feature-construction-splitting/note.md) | confirmed |
+| Feature selection | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
+| Standardization | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 27](../27-one-hot-encoding/note.md) | confirmed |
-| Standardization | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
 | ML pipelines | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), [Note 32](../32-binning-binarization/note.md) | confirmed |
@@ -163,6 +163,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Association rule learning | [Note 3](../03-types-of-ml/note.md) | confirmed |
 | Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md) | confirmed |
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), Video 91, coming | confirmed |
+| Ensemble learning | [Note 9](../09-mldlc/note.md), Video 101, coming | draft |
 | Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | draft |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
 | Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
@@ -190,7 +191,6 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Kernel trick | Video 95, coming, Video 96, coming | draft |
 | Decision trees | Video 97, coming, Video 98, coming, Video 100, coming | draft |
 | Regression trees | Video 99, coming | draft |
-| Ensemble learning | Video 101, coming | draft |
 | Voting ensembles | Video 102, coming, Video 103, coming, Video 104, coming | draft |
 | Bagging | Video 105, coming, Video 106, coming, Video 107, coming | draft |
 | Random forest | Video 108, coming, Video 109, coming, Video 110, coming, Video 111, coming | draft |
@@ -222,7 +222,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Hyperparameter tuning | Video 9, coming, [Note 81](../81-logistic-hyperparameters/note.md), Video 98, coming, Video 111, coming, Video 118, coming | draft |
+| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), Video 98, coming, Video 111, coming, Video 118, coming | draft |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 112, coming | draft |
 | Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
@@ -231,23 +231,23 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Deployment | [Note 4](../04-batch-learning/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
+| Deployment | [Note 4](../04-batch-learning/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
 | Software integration | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| Saving models with pickle | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
+| Saving models with pickle | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
 
 ### 2.13 Step 12: Test
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Beta and A/B testing | Video 9, coming | draft |
+| Beta and A/B testing | [Note 9](../09-mldlc/note.md) | confirmed |
 
 ### 2.14 Step 13: Monitor and maintain
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Model drift | [Note 4](../04-batch-learning/note.md) | confirmed |
-| Retraining | [Note 4](../04-batch-learning/note.md), [Note 5](../05-online-learning/note.md) | confirmed |
-| MLOps and cost | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
+| Model drift | [Note 4](../04-batch-learning/note.md), [Note 9](../09-mldlc/note.md) | confirmed |
+| Retraining | [Note 4](../04-batch-learning/note.md), [Note 5](../05-online-learning/note.md), [Note 9](../09-mldlc/note.md) | confirmed |
+| MLOps and cost | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md) | confirmed |
 
 ## 3. The Concept map
 
@@ -293,17 +293,17 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 6 | Feature scaling, Instance-based learning, K-nearest neighbours, Model-based learning | [Note 3](../03-types-of-ml/note.md) | written |
 | 7 | APIs, Deployment, Enough data, Feature construction and splitting, Feature engineering, Labelled data, MLOps and cost, Missing values, Outliers, Overfitting, Poor-quality data, Sampling noise and bias, Software integration, Underfitting, Web scraping | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | written |
 | 8 | Applications of ML, Data mining | [Note 2](../02-ai-vs-ml-vs-dl/note.md), [Note 3](../03-types-of-ml/note.md) | written |
-| 9 | Beta and A/B testing, Feature selection, Framing an ML problem, Hyperparameter tuning, Imbalanced data, ML development life cycle | [Note 3](../03-types-of-ml/note.md), [Note 7](../07-challenges-in-ml/note.md) | deferred |
+| 9 | APIs, Beta and A/B testing, Bivariate and multivariate analysis, CSV files, Deployment, Ensemble learning, Exploratory data analysis, Feature construction and splitting, Feature engineering, Feature scaling, Feature selection, Framing an ML problem, Hyperparameter tuning, Imbalanced data, ML development life cycle, MLOps and cost, Missing values, Model drift, Outliers, Poor-quality data, Retraining, Saving models with pickle, Standardization, Univariate analysis, Web scraping | [Note 3](../03-types-of-ml/note.md), [Note 4](../04-batch-learning/note.md), [Note 5](../05-online-learning/note.md), [Note 7](../07-challenges-in-ml/note.md) | written |
 | 11 | Features, One-hot encoding, Tensors | nothing | written |
 | 12 | Anaconda, Jupyter and Colab | nothing | deferred |
-| 13 | Accuracy, CSV files, Data leakage, Deployment, Exploratory data analysis, Feature scaling, Feature selection, Logistic regression, ML development life cycle, ML pipelines, Saving models with pickle, Standardization, Train-test split | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 7](../07-challenges-in-ml/note.md), Video 9, coming | written |
-| 14 | Framing an ML problem | nothing | deferred |
+| 13 | Accuracy, CSV files, Data leakage, Deployment, Exploratory data analysis, Feature scaling, Feature selection, Logistic regression, ML development life cycle, ML pipelines, Saving models with pickle, Standardization, Train-test split | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md) | written |
+| 14 | Framing an ML problem | [Note 3](../03-types-of-ml/note.md), [Note 4](../04-batch-learning/note.md), [Note 5](../05-online-learning/note.md) | written |
 | 15 | CSV files | nothing | written |
 | 16 | JSON and SQL data | nothing | written |
 | 17 | APIs | [Note 16](../16-working-with-json-and-sql/note.md) | written |
 | 18 | Web scraping | nothing | written |
 | 19 | Correlation, Descriptive statistics, Exploratory data analysis, Variance | [Note 15](../15-working-with-csv/note.md) | written |
-| 20 | Outliers, Skewness, Univariate analysis | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
+| 20 | Outliers, Skewness, Univariate analysis | [Note 9](../09-mldlc/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
 | 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
 | 22 | Pandas Profiling | nothing | written |
 | 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode, constant) | [Note 11](../11-tensors/note.md), [Note 13](../13-toy-project/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
@@ -312,19 +312,19 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 26 | Encoding categorical data, Ordinal and label encoding | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 27 | Multicollinearity, One-hot encoding | [Note 26](../26-ordinal-label-encoding/note.md) | written |
 | 28 | Column transformer | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | written |
-| 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 28](../28-column-transformer/note.md) | written |
+| 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 13](../13-toy-project/note.md), [Note 17](../17-fetching-data-from-api/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 28](../28-column-transformer/note.md) | written |
 | 30 | Cross-validation, Function transformer, Q-Q plot | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 31 | Power transformer | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md) | written |
 | 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 34 | Date and time features | [Note 15](../15-working-with-csv/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
-| 35 | Complete case analysis, Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
-| 36 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md) | written |
-| 37 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md) | written |
+| 35 | Complete case analysis, Missing values | [Note 9](../09-mldlc/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
+| 36 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | written |
+| 37 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | written |
 | 38 | Grid and random search, ML pipelines, Missing indicator, Missing values, Random sample imputation | [Note 28](../28-column-transformer/note.md), [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 37](../37-missing-categorical-data/note.md) | written |
 | 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
 | 40 | Iterative imputation (MICE) | [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
-| 41 | Capping (winsorization), IQR outlier method, Outliers, Percentile outlier method, Trimming outliers, Z-score outlier method | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md) | written |
+| 41 | Capping (winsorization), IQR outlier method, Outliers, Percentile outlier method, Trimming outliers, Z-score outlier method | [Note 9](../09-mldlc/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md) | written |
 | 42 | Capping (winsorization), Trimming outliers, Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
 | 43 | Capping (winsorization), IQR outlier method, Trimming outliers | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
 | 44 | Capping (winsorization), Percentile outlier method, Trimming outliers | [Note 41](../41-what-are-outliers/note.md) | written |
@@ -359,8 +359,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 73 | Log loss (binary cross entropy), Logistic regression | [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md) | written |
 | 74 | Sigmoid function | nothing | written |
 | 75 | Logistic regression | [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 73](../73-log-loss/note.md), [Note 74](../74-sigmoid-derivative/note.md) | written |
-| 76 | Accuracy, Confusion matrix | Video 9, coming, [Note 13](../13-toy-project/note.md) | written |
-| 77 | Precision, recall and F1 | Video 9, coming, [Note 76](../76-accuracy-confusion-matrix/note.md) | written |
+| 76 | Accuracy, Confusion matrix | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | written |
+| 77 | Precision, recall and F1 | [Note 9](../09-mldlc/note.md), [Note 76](../76-accuracy-confusion-matrix/note.md) | written |
 | 78 | ROC curve and AUC | [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 77](../77-precision-recall-f1/note.md) | written |
 | 79 | Softmax regression | [Note 27](../27-one-hot-encoding/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | written |
 | 80 | Polynomial features | nothing | written |

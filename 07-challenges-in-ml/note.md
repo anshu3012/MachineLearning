@@ -8,8 +8,8 @@ title: "Challenges in Machine Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Features ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
-> - **Leads to:** Feature selection (Video 9, coming); Feature scaling ([Note 13](../13-toy-project/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Compare with:** CSV files ([Note 13](../13-toy-project/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)).
+> - **Leads to:** Feature scaling ([Note 9](../09-mldlc/note.md)); Feature selection ([Note 9](../09-mldlc/note.md)); Beta and A/B testing ([Note 9](../09-mldlc/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Compare with:** CSV files ([Note 9](../09-mldlc/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
