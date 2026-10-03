@@ -52,7 +52,7 @@ Figure 2 shows the result. In every row exactly one column is "hot" (1), which i
 
 ![One-hot encoding of the color column: one column per category, one 1 per row](images/onehot_colors.png)
 
-In effect, each text value has become a **vector**, a short list of numbers: Yellow is [1, 0, 0], Blue is [0, 1, 0] and Red is [0, 0, 1]. No vector is bigger than another, so no false order is created. Whenever we meet nominal data in an ML problem, this is what we do.
+In effect, each text value has become a **vector**, a short list of numbers: Yellow is [1, 0, 0], Blue is [0, 1, 0] and Red is [0, 0, 1]. No vector is bigger than another, so no false order is created. Whenever we meet nominal data in an ML problem, this is what we do. The same trick turned words into vectors in the [tensors Note](../11-tensors/note.md) (section "3D: text"); here it is applied to the categories of a column.
 
 ### 2.3 More categories, more columns
 

@@ -1,0 +1,127 @@
+Hello guys, welcome to my youtube channel. We were studying random forest and we saw through a code demo
+that how you can apply random forest on a data set and how to perform hyperparameter tuning.
+Now we will study an important concept which we call OOBEvaluation.
+This is an important concept which you will see in almost all ensemble techniques like bagging, random forest.
+Its full form is out of bag evaluation.
+Now we will see what is this and why it is useful.
+So let me remind you once how you do training in random forest.
+So suppose you have a data set and let's say there are 1000 rows in that data set.
+There are 1000 rows.
+And what you are doing is you are training 5 decision trees.
+These are the 5 decision trees like this.
+And now what you are doing is you have decided that you will give 500 rows to every decision tree.
+And keep bootstrap true which means sampling with replacement.
+Which means as soon as a row comes out it will come back.
+Now suppose you started taking out rows one by one.
+For decision tree 1.
+Okay.
+So suppose first row number 21 was selected.
+So out of these 500 the first row is 21.
+Then you put 21 back here.
+Then the next row that was selected was 32.
+Then it was 43.
+Then it was 21 again.
+And in this way you have decided your 500 rows.
+Obviously here there will be some rows which will come multiple times.
+Like 21.
+But if you think carefully then there will be some rows which will never be selected.
+Since what you have done.
+You have done sampling with replacement.
+This means that one particular row can be selected multiple times.
+Whereas there can be a row which can never be selected for any decision tree.
+Okay.
+Similarly rows are called out of bag samples.
+Out of bag samples are called.
+Such samples which are never selected to go to any decision tree.
+Okay.
+So essentially your model has never seen these data sets.
+Means these data sets, these rows.
+These OOB samples.
+They are hidden from your model.
+So what can you do?
+You can pick up these rows and do testing.
+Once your model is trained.
+So all the data which is left which has never been in any model.
+By using that you can test your model.
+That how is the performance.
+And that is the whole concept.
+Statistically speaking.
+It has been mathematically proved.
+That 37% of your rows are always saved.
+Roughly.
+Roughly 37% of the rows are OOB samples.
+Whenever you are performing bagging or performing random forest.
+So 37% of your data is not seen by your model.
+So you can use this as a validation set.
+You can use this as a validation set.
+To find out how well your model is trained.
+And that is the whole concept.
+Okay.
+Once I am summarizing.
+So in summary.
+Whenever you perform bagging.
+Or perform random forest.
+So you take out the subset of your data.
+And give it to base models.
+And this whole process is done randomly.
+Now if you are doing sampling with replacement.
+This means.
+One particular row.
+Can be picked multiple times.
+Whereas.
+There can be some rows.
+That are never picked.
+Mathematically speaking.
+You can prove this.
+That 37% of the data.
+Never comes out of that bag.
+Now the name of Kydesis.
+Should be in the bag.
+But we call it out of bag samples.
+Okay.
+And what is their work?
+Since our model has never seen them.
+We can use them.
+To validate our model.
+Okay.
+We can test.
+How is the performance.
+And this is their work.
+This is the only funda of OOB.
+But it is asked in interviews.
+To check.
+Whether you know these deeper concepts or not.
+Okay.
+Now I will show you an example.
+Where on a dataset.
+I will run OOB evaluation.
+Okay.
+So.
+I have already written the code.
+So.
+I have already written the code.
+So.
+I have already written the code.
+I will show you.
+By running side-by-side.
+So here I have imported all the libraries.
+It is called hard CSV data.
+We are using it.
+This is the dataset.
+It is a very small dataset.
+It has 300 rows.
+We extracted X and Y from it.
+We extracted train test split.
+And we applied random forest.
+Now while making the object of random forest.
+You have to make sure.
+That if you want to do OOB evaluation.
+then you have to make obscore parameter true otherwise this thing will not work
+I have run this and trained the model and now after training the model
+I have this value in obscore underscore parameter
+accuracy is 0.80 according to all of the out of bag samples
+accuracy of this model should be 0.80 now let's do one thing
+let's check the accuracy score on the x-test and you can see it is coming out to be 0.86
+it is varying a little bit but you get an estimate of the accuracy of your model
+and that's it guys this is the concept I hope you have understood this
+thanks for watching

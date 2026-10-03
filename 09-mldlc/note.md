@@ -125,7 +125,7 @@ Data fetched from external sources is almost always **dirty** (unclean). If we p
 - **Remove outliers:** values far from the rest.
 - **Scale values:** bring columns to similar ranges.
 
-Scaling matters because ML algorithms are mathematics, and many of them compute distances between rows. If one column holds values in crores and another holds decimals, distances are decided almost entirely by the big column. Scaling all columns to similar ranges fixes this; one common way is called **standardization**.
+Scaling matters because many algorithms compute distances between rows, and a column in crores would outweigh one in decimals (see Section 7 of the [toy project Note](../13-toy-project/note.md)). One common way to scale is standardization (see the [standardization Note](../24-standardization/note.md)).
 
 The core idea of the whole stage: bring the data into a format the ML algorithm can easily consume.
 
@@ -174,7 +174,7 @@ The **features** are the input columns. The output depends on the inputs, so the
 
 **Feature engineering** means creating new columns from the existing ones, or making intelligent changes to existing columns.
 
-*Example: predicting house prices.* Suppose the data has no area column, only the number of rooms, the number of washrooms and the locality. We can replace the rooms and washrooms columns with one new column, an estimate of the area in square feet, that represents both. Two columns become one, and the analysis gets simpler.
+*Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in Section 3.3 of the [types of ML Note](../03-types-of-ml/note.md), is feature construction (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
 Feature engineering is one of the most important techniques in the whole workflow, and it has several Notes of its own.
 
@@ -187,7 +187,7 @@ Some datasets have 100 or 200 features. We do not keep them all, for two reasons
 1. **Many features do not help.** Not every input affects the output. We find the ones that do not and remove them.
 2. **Fewer columns train faster.** The more columns there are, the longer training takes.
 
-Choosing which features to keep is called **feature selection**. Its techniques come in later Notes.
+Choosing which features to keep is called feature selection; the [feature engineering Note](../23-what-is-feature-engineering/note.md) teaches it.
 
 ## 8. Model training, evaluation and selection
 
@@ -308,7 +308,7 @@ A problem can come from any earlier stage:
 
 So we go back to that stage and redo the work from there. If the feedback is good, we move forward to the last stage. Figure 4 shows one pass through the cycle, a loop back after a failed test, and the retraining loop from section 11.
 
-![A failed test sends us back; a passed test leads to optimizing; a rotting model sends us back to new data](images/cycle_loop.gif)
+![A failed test sends us back; a passed test leads to optimizing; a drifting model sends us back to new data](images/cycle_loop.gif)
 
 ## 11. Optimizing
 
@@ -324,11 +324,11 @@ In the last stage, we launch the model on the server for all customers. Before t
 - **Set up rollback:** if the live model breaks or something goes wrong, we automatically return to the last working version and put it live again.
 - **Set up load balancing:** spread incoming requests across servers, so that many users at once are still served quickly.
 
-### 11.2 Model rot and retraining
+### 11.2 Model drift and retraining
 
 > **Key point:** As the world changes, a model's performance slowly gets worse, so we retrain it on new data at a fixed, automated schedule.
 
-If a model is never retrained, its performance can get worse over time. This is called **model rot** (or *rotting*): the data in the real world keeps evolving, and the model was trained on old data.
+If a model is never retrained, its performance gets worse as the real-world data evolves away from its old training data. This is model drift, sometimes called model rot (see Section 4 of the [batch learning Note](../04-batch-learning/note.md)).
 
 *Example: a mask detection system.* It checks whether a person in front of a camera is wearing a mask. Then new kinds of masks appear, for example one whose lower half is printed to look exactly like a face. Our classifier will fail on these, so we need new data and must train the model again.
 
@@ -340,7 +340,7 @@ So we decide how often to retrain, for example weekly or monthly. This must be a
 
 Optimizing also means going through the whole process and removing extra expense wherever we find it, until the process runs smoothly.
 
-> **Extra:** Model rot is more often called **model drift** or **concept drift** (see the batch learning Note). Watching a live model's performance so that we notice drift early is called **monitoring**. The practice of running and maintaining live models is called MLOps.
+> **Extra:** Watching a live model's performance so that we notice drift early is called **monitoring**. The practice of running and maintaining live models is called MLOps.
 
 ## 12. The life cycle and the Pipeline map
 
@@ -385,7 +385,7 @@ Where the two differ:
 | 9 | Optimizing | Backup, rollback, load balancing, scheduled retraining | How do we keep it healthy at scale? |
 
 - The MLDLC guides us **from idea to product**; training a model is only one stage of nine.
-- Stage 1 comes first; stages 2 to 9 form a **cycle**, because live models rot and must be retrained on new data.
+- Stage 1 comes first; stages 2 to 9 form a **cycle**, because live models drift and must be retrained on new data.
 - A failed test sends us **back** to the stage that caused the problem.
 - Sources count the stages differently; the core idea stays the same.
 
@@ -401,14 +401,12 @@ Where the two differ:
 | ETL | Extract, transform, load: copying data from source systems into a warehouse |
 | Dirty data | Data with errors, gaps, duplicates or inconsistencies |
 | Data preprocessing | Changes made to the data before training, so an algorithm can use it |
-| Standardization | One common way to scale columns to similar ranges |
 | Exploratory data analysis (EDA) | Studying the data with graphs and summaries to find its patterns |
 | Univariate analysis | Studying one column on its own |
 | Bivariate analysis | Studying the relationship between two columns |
 | Multivariate analysis | Studying three or more columns together |
 | Imbalanced data | Data where one class has far more rows than another |
 | Feature engineering | Creating new input columns, or changing existing ones, to help the model |
-| Feature selection | Keeping only the input columns that affect the output |
 | Model training | Giving data to an algorithm so it learns the pattern |
 | Performance metric | A number that measures how well a model works |
 | Model selection | Choosing the best one or few algorithms after evaluation |
@@ -422,4 +420,3 @@ Where the two differ:
 | A/B testing | Comparing an old and a new version on two random groups of users |
 | Rollback | Returning automatically to the last working version when something breaks |
 | Load balancing | Spreading requests across servers so all users are served quickly |
-| Model rot | A model's performance slowly getting worse as real-world data changes |

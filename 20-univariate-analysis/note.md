@@ -45,19 +45,9 @@ This Note covers univariate analysis only. We take the columns one by one and le
 
 > **Key point:** Numerical data is numbers we can measure; categorical data is a choice among fixed groups. Every column is one or the other.
 
-Before drawing anything, we ask one question of each column: what kind of data does it hold? There are two kinds.
+Every column is either numerical (numbers that measure an amount, such as age or price) or categorical (one of a fixed set of groups, such as gender), as the [types of ML Note](../03-types-of-ml/note.md) (section "Numerical and categorical data") explains. The fixed groups of a categorical column are called **categories**.
 
-**Numerical data** is numbers that measure an amount. Examples:
-
-- People's height, weight or age.
-- A phone's price, or its battery capacity.
-
-**Categorical data** puts each row into one of a fixed set of groups, called **categories**. Examples:
-
-- A person's nationality, state or gender.
-- A student's college, or engineering branch.
-
-The answer decides the graphs, as in Figure 1. Categorical columns are summarised by counting each group. Numerical columns need graphs that show how the values spread over their range.
+The type decides the graphs, as in Figure 1. Categorical columns are summarised by counting each group. Numerical columns need graphs that show how the values spread over their range.
 
 ### 3.1 The columns of the Titanic data
 
@@ -228,10 +218,7 @@ The PDF matters again in bivariate and multivariate analysis, where we compare s
 
 > **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible outliers.
 
-A **box plot** draws a column's **five-number summary** (Figure 7). Before reading it, we need two ideas from the previous Note ([Understanding Your Data](../19-understanding-your-data/note.md)): the median and percentiles.
-
-- **Median:** sort the values; the one in the middle is the median.
-- **Percentile:** the value below which a given share of the data lies. If we are in the 98th percentile of an exam, 98% of students scored lower and only 1-2% scored higher.
+A **box plot** draws a column's **five-number summary** (Figure 7). It is built from the median and percentiles of the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2, "Percentiles").
 
 ![The parts of a box plot, drawn for the Titanic ages](images/box_anatomy.png)
 
@@ -365,8 +352,6 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 | Univariate analysis | Studying one variable on its own |
 | Bivariate analysis | Studying two variables together |
 | Multivariate analysis | Studying more than two variables together |
-| Numerical data | Numbers that measure an amount, such as age or price |
-| Categorical data | Data that puts each row into one of a fixed set of groups |
 | Category | One of the fixed groups of a categorical column |
 | Frequency | How many times a value or category occurs |
 | Count plot | A bar chart with one bar per category, as tall as its frequency |

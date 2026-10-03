@@ -9,12 +9,18 @@ PY=$ENV/bin/python
 root=$(cd "$(dirname "$0")/.." && pwd)
 note=${1%/}
 cd "$root/$note/images"
+# Skip figures whose source is older than its last render (FORCE=1 rebuilds all).
 for t in *.tex; do
+  [ -z "${FORCE:-}" ] && [ "${t%.tex}.png" -nt "$t" ] && continue
   pdflatex -interaction=nonstopmode -halt-on-error "$t" > /dev/null || { echo "LaTeX failed: $t"; exit 1; }
   "$ENV/bin/pdftoppm" -png -r 200 -singlefile "${t%.tex}.pdf" "${t%.tex}"
 done
 rm -f *.aux *.log
-for p in *.py; do "$PY" "$p"; done
+for p in *.py; do
+  [ -z "${FORCE:-}" ] && [ ".built_${p%.py}" -nt "$p" ] && continue
+  "$PY" "$p"
+  touch ".built_${p%.py}"
+done
 cd "$root/$note"
 "$ENV/bin/pandoc" note.md -o "$root/pdf/$note.pdf" --pdf-engine=pdflatex --toc --toc-depth=3 -V toc-title=Contents \
   --lua-filter="$root/tools/media-swap.lua" \

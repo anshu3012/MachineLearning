@@ -89,14 +89,7 @@ Both flag exactly the same rows. Section 9 does it the second way.
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
 
-Once the outliers are detected, we treat them with one of the two common treatments from Note 41:
-
-- **Trimming:** remove every outlier row. If 5 of 1,000 rows are outliers, 995 rows remain.
-- **Capping:** keep every row, but move each value above the upper limit down to the upper limit, and each value below the lower limit up to the lower limit.
-
-Trimming is the simplest choice. Its problem shows when there are many outliers: trimming then removes a large part of the data, which is bad for the model.
-
-Capping avoids that loss. In the example of Section 3.1, a CGPA of 9.12 becomes 8.81 and a CGPA of 4.89 becomes 5.11.
+Both treatments come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers). With the limits of Section 3.1, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
 ## 6. The placement data
 
@@ -277,7 +270,7 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 
 > **Key point:** The limits are learned from the data, so they should be learned on the training set only, like the mean and standard deviation of a scaler.
 
-> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. This lets the test rows influence the limits, the same data leakage that Note 24 (Section 7.2) avoids for scaling. The cleaner order is:
+> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. This lets the test rows influence the limits, the same [data leakage](../13-toy-project/note.md) that the toy-project Note avoids for scaling (section seven). The cleaner order is:
 >
 > 1. Split the data into training and test sets.
 > 2. Compute the mean, standard deviation and limits on the training set only.

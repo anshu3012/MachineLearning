@@ -1,0 +1,265 @@
+Hello guys, my name is Nitish. Welcome to my YouTube channel.
+We are studying the AdaBoost algorithm.
+In the last three videos, we have discussed in detail how AdaBoost works.
+Now in this video, we will study the hyperparameters of AdaBoost.
+And we will also learn how to implement AdaBoost in scikit-learn.
+And lastly, in this video, we will also do hyperparameter tuning of this algorithm.
+So let's start.
+So unlike gradient boosting and XGBoost, where there are many hyperparameters, AdaBoost is a simple algorithm.
+Here you will not get that many hyperparameters.
+So precisely, there are only three to four hyperparameters about which you have to study.
+So I will give you the introduction of these hyperparameters quickly.
+Then we will implement them practically.
+So here you have the main four hyperparameters.
+I have not calculated the last random state.
+I am not counting because you use the random state only for the consistency of the results.
+So the first is the base estimator.
+So it is a boosting algorithm.
+Here you can use any other algorithm other than decision tree or decision stump if you want.
+But mostly the best results you will see will be seen above the decision tree with max depth equal to 1.
+That is why it is written here.
+The base estimator from which the boosted ensemble is built.
+Support for sample weighting is required as well as proper classes and n classes attributes.
+If none, then the base estimator is decision tree classifier initialized with max depth equal to 1.
+Here you can use logistic regression.
+You can use SDM.
+Canon does not work here because there is no feature to take sample weights.
+So Canon does not work here because of that.
+But again, if you talk practically, then you have to use 99.9% times decision trees.
+So again, this is a parameter that you do not touch much.
+The next parameter is probably the most important parameter.
+The n estimators hyperparameter.
+Basically, how many base models do you want to use?
+So it is written here.
+The maximum number of estimators.
+At which boosting is terminated.
+In case of perfect fit, the learning procedure is stopped early.
+If it gets such a decision tree in the middle, which is not making a single mistake, then your learning stops in the middle.
+But if you do not get something like this, then this number will be trained by so many base models.
+I hope you understand this thing.
+Next is learning rate.
+I have not taught you this yet.
+Learning rate is basically weight applied to each classifier.
+At each boosting iteration, a higher learning rate increases the contribution of each classifier.
+There is a trade-off between the learning rate and n estimators parameter.
+So the entire hyperparameter tuning here is above these two.
+I will tell you about learning rate in a little more detail after a while.
+Next is algorithm.
+There are only two algorithms here.
+One is SAMI and one is SAMI.R.
+You have to use the default SAMI.R.
+It is written here.
+It typically converges.
+It typically converges faster than SAMI.
+It achieves a lower test error with fewer boosting iterations.
+So most of the times this will help you.
+Rest, you can check it by using grid search CV.
+So these are the three or four hyperparameters we have.
+Now I will show you practically how to tune them.
+So if you go here, I have made a notebook.
+Here I have created my own data set.
+A classification data set which looks like this.
+And what did I do on this?
+I applied AdaBoost classifier without any hyperparameter tuning.
+I took the default values.
+Meaning decision tree, max depth 1, 50 estimators, learning rate value 1 and algorithm value is this.
+And I trained it.
+So my accuracy is coming out to be 0.78.
+After that I plotted it.
+And after plotting, this is my output on that data.
+And you can see some errors are happening.
+Some yellow points are in blue region and some blue points are in yellow region.
+Now one by one we will talk about these hyperparameters.
+First of all we will talk about N estimators.
+That if you increase or decrease N estimators, then what happens?
+So first of all I will do one thing.
+Here I will make N estimator equal to 1.
+Meaning I am taking only one base model, one decision stump.
+I hope you can imagine what will happen.
+This is the output.
+This is your decision boundary.
+And obviously it is way too simplistic.
+And this is clear-cut case of under-fitting.
+This is not working well.
+But as you increase, you would see that this will show some complex behavior.
+This is 50 which we just saw.
+If you increase it to 150, then you will see behavior of over-fitting.
+Small regions will be formed.
+This is telling you that you are doing over-fitting.
+So if you increase it to 500, then you will see a lot of over-fitting.
+If you increase it to 1500, then it will be a clear-cut case of over-fitting.
+And it will take more time because you have to train more decision stumps.
+These are very small regions and this is not a good thing.
+So you have to find an optimum value of N estimators.
+Very less is under-fitting and very much is over-fitting.
+You have to find a value in the middle.
+Now here comes an interesting thing.
+And that is learning rate.
+So if you remember learning rate.
+I had told you that whenever you calculate alpha of any decision stump.
+Its formula is half multiplied by log 1 minus error divided by error.
+Now what is learning rate?
+Learning rate is that if you want.
+Now if you remember.
+So what we used to do?
+When we used to calculate alpha.
+So it used to be alpha.
+Half divided by log of 1 minus error divided by error.
+Now what does learning rate do?
+Learning rate is multiplied by alpha.
+So by default the value of your learning rate is 1.
+That is why your alpha remains as it is.
+But if you want.
+Then you can increase or decrease the value of LR.
+Generally you decrease it.
+You reduce it from 1.
+Okay.
+Suppose what did you do?
+You made it 0.1.
+What will happen by doing 0.1?
+That your alpha will also be reduced by 10 times.
+Now think.
+What happens by reducing alpha?
+Now by reducing alpha.
+There is one thing which we call shrinkage.
+You will read this further in boosting.
+What happens in shrinkage?
+Here is a very good explanation given.
+See it is written here.
+Decreasing the learning rate makes the coefficients alpha and smaller.
+Okay.
+As I told you that the value of alpha will decrease.
+Now what will happen by decreasing the value of alpha?
+It will reduce the amplitude of sample weights at each step.
+Now I told you.
+Now what you have to do?
+You have to use this alpha to update the weights.
+How?
+Current weight multiplied by e to the power minus alpha.
+For your correctly classified points.
+And current weight multiplied by e to the power alpha.
+For misclassified points.
+Now think.
+If this alpha will decrease.
+If this alpha will reduce.
+Then the amplitude of what you are updating will decrease.
+What does it mean to decrease amplitude?
+If it was increasing in negative.
+Then it will increase less in negative.
+If it was increasing in positive.
+Then it will increase less in positive.
+This is the meaning of decreasing amplitude.
+And it means.
+This translates into smaller variation of weighted data points.
+And therefore fewer differences between the weaker classifier decision boundaries.
+So basically.
+If you add more and more weak learners.
+Then its effect reduces.
+Okay.
+So in short you can say.
+It is written here.
+That the idea is to slow down learning.
+Allowing to dramatically reduce overfitting.
+So.
+The funda of this whole thing is.
+That you increase N estimators.
+What happened by increasing?
+Overfitting.
+But what can you do here?
+You can reduce the learning rate.
+By reducing the learning rate by 0.1.
+Then your overfitting will reduce.
+Because.
+As you reduced the learning rate.
+Alpha decreased.
+By decreasing alpha.
+Your weights that were being updated.
+Now.
+In a slightly less way.
+Like.
+By reducing their amplitude.
+Learning is not getting that fast.
+The speed of learning has decreased.
+Then the speed of overfitting will also decrease.
+And the resultant speed output that you will get.
+That will be something like this.
+Let me show you.
+See this.
+It is getting a little smooth.
+Okay.
+So this is called shrinkage parameter.
+Okay.
+By using the learning rate very intelligently.
+You can avoid overfitting.
+While using.
+Ada boost.
+Okay.
+So many people do not use this parameter.
+But.
+You.
+N estimator.
+And learning rate.
+If you use these two together.
+Then you will be able to remove the true power of ada boost.
+Okay.
+Now the last one thing.
+I want to show you quickly.
+That how can you put a grid search cv on it.
+So what did I do.
+I made a grid dictionary.
+Where I put some values in n estimators.
+You can also try more values.
+In learning rate.
+I tried from very less to 1.
+And put the two variations of the algorithm.
+Called grid search cv.
+Made a class.
+I put the value of estimator there.
+Ada boost.
+I passed the grid in the parameter grid.
+I did n jobs minus 1.
+Because.
+The process will be a little fast.
+Cross validation 10.
+And scoring accuracy.
+And now I am storing the grid result here.
+And.
+This is my output guys.
+0.83.
+The most.
+When I did above.
+So it was coming out to be 0.78.
+But.
+By applying grid search cv.
+I was able to reach 0.83.
+Algorithm in this case.
+In this case.
+Surprisingly.
+SAMAR.
+And learning rate.
+0.1 is the best.
+And n estimators.
+500.
+Okay.
+So.
+Ada boost.
+To tune.
+And use.
+It is not that difficult.
+It is one of those.
+Easier.
+Boosting algorithms.
+Which you.
+If you understand a little.
+Of these two parameters.
+Then you can use it very easily.
+Okay.
+Now you too.
+Pick up a data set.
+And try it.
+See.
+This whole thing.
+Which you read in this video.
+I hope.
+You liked the video.
+Thanks for watching.

@@ -350,9 +350,9 @@ Logistic regression improved by more than 3 points because the data was transfor
 
 ### 7.5 Checking with cross-validation
 
-> **Key point:** Cross-validation repeats the split 10 times and averages the accuracy, which is more reliable than one split.
+> **Key point:** Cross-validating the log and the model together confirms the gain: logistic regression goes from 65.9% to 67.8%.
 
-One train-test split gives one number, which can be lucky or unlucky. A sudden improvement should make us suspicious, so we check it with **cross-validation**: split the data 10 different ways into training and test parts, train and score the model each time, and take the average accuracy. Cross-validation has its own Note later; here we only use it.
+One train-test split gives one number, which can be lucky or unlucky, so we check the improvement with 10-fold cross-validation (see "Cross-validation with a pipeline", section 8 of the [pipelines Note](../29-pipelines/note.md)). As there, the transformer goes inside a pipeline, so it is refitted on the training folds each time.
 
 | Model | No transform | Log on both columns |
 |---|---|---|
@@ -361,18 +361,22 @@ One train-test split gives one number, which can be lucky or unlucky. A sudden i
 
 The improvement for logistic regression holds up: about 2 points. The decision tree stays where it was.
 
-> **Python:** 10-fold cross-validation.
+> **Python:** 10-fold cross-validation of the log and the model together.
 >
 > ```python
 > from sklearn.model_selection import cross_val_score
+> from sklearn.pipeline import make_pipeline
 >
-> X_transformed = trf.fit_transform(X)
-> scores = cross_val_score(LogisticRegression(),
->     X_transformed, y, scoring="accuracy", cv=10)
+> pipe = make_pipeline(FunctionTransformer(np.log1p),
+>                      LogisticRegression())
+> scores = cross_val_score(pipe, X, y,
+>                          scoring="accuracy", cv=10)
 > scores.mean()   # 0.678
 > ```
 >
 > `cv=10` makes 10 splits; `scores` holds the 10 accuracies.
+
+> **Extra:** Transforming all of `X` first and cross-validating only the model would let each test fold shape the transform, a form of data leakage. Here it changes nothing, because `FunctionTransformer` learns nothing in `fit`, but the pipeline habit protects every transformer that does learn. The mean age used in section 7.1 was computed from all 891 rows, a small leak of the same kind; putting the imputer inside the pipeline removes it.
 
 ### 7.6 Before and after the log
 
@@ -437,9 +441,9 @@ To compare all the transforms quickly, we wrap the steps in one function. It tak
 >     trf = ColumnTransformer(
 >         [("t", FunctionTransformer(transform), ["Fare"])],
 >         remainder="passthrough")
->     X_trans = trf.fit_transform(X)
->     lr = LogisticRegression(max_iter=1000)
->     acc = cross_val_score(lr, X_trans, y,
+>     pipe = make_pipeline(trf,
+>                          LogisticRegression(max_iter=1000))
+>     acc = cross_val_score(pipe, X, y,
 >         scoring="accuracy", cv=10).mean()
 >     print("Accuracy", acc)
 >
@@ -509,5 +513,4 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | func | The `FunctionTransformer` parameter that holds the function to apply |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes |
-| Cross-validation | Scoring a model on several different train-test splits and averaging the results |
 | Lambda | A one-line Python function without a name, such as `lambda x: x**2` |

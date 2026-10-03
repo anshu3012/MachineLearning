@@ -21,23 +21,11 @@ Figure 1 shows the whole method. We choose two cut-offs, turn them into a lower 
 
 ![The percentile method: choose two percentiles as limits, then trim or cap (winsorize)](images/overview.png){width=100%}
 
-## 2. Percentiles
-
-> **Key point:** The $p$-th percentile is the value that $p$% of the column lies below; the maximum is the 100th percentile, the minimum the 0th and the median the 50th.
-
-Exam results are often given as percentiles. A student at the 99th percentile scored higher than 99% of all candidates. A student at the 50th percentile sits in the middle: half scored lower, half scored higher.
-
-The same idea works for any column (Note 43, Section 3):
-
-- **100th percentile:** every other value is below it, so it is the maximum.
-- **0th percentile:** no value is below it, so it is the minimum.
-- **50th percentile:** half the values are below it, so it is the median.
-
-The column can hold anything: age, height, weight, salary. Percentiles only use the order of the values, never their shape.
-
-## 3. The percentile rule
+## 2. The percentile rule
 
 > **Key point:** Everything below the 1st percentile or above the 99th percentile is an outlier; the two cut-offs are our choice.
+
+The $p$-th percentile is the value that $p$% of the column lies below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains; it uses only the order of the values, never their shape.
 
 The method has a single step: cut off a small slice at each end of the column. Everything beyond the cut is an outlier.
 
@@ -51,26 +39,21 @@ The limits, step by step:
 1. **In words:** the lower limit is the value that 1% of the column lies below; the upper limit is the value that 99% lies below.
 2. **Formula:** with $P_p$ the $p$-th percentile,
    $$\text{lower} = P_1, \qquad \text{upper} = P_{99}$$
-3. **Example:** the 10,000 heights of Section 5, sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
+3. **Example:** the 10,000 heights of Section 4, sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
 
 > **Extra:** "Between" needs a rule, because 1% of the values rarely ends exactly on one value. pandas uses **linear interpolation** by default: it computes the position $(n - 1) \times p = 9{,}999 \times 0.01 = 99.99$ in the sorted column (counting from 0) and goes 99% of the way from the value at position 99 to the value at position 100. Other tools use slightly different rules, so their limits can differ in the second or third decimal.
 
-## 4. Trimming and capping (winsorization)
+## 3. Trimming and capping (winsorization)
 
 > **Key point:** Trimming removes the rows beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
 
-The two treatments are the same as in Notes 42 and 43:
-
-- **Trimming:** remove every row whose value lies outside the limits.
-- **Capping:** keep every row, but move each value above the upper limit down to the upper limit, and each value below the lower limit up to the lower limit.
-
-Example: with an upper limit of 70, capping turns every value of 70 or above into 70. The same happens at the lower end with the lower limit.
+Trimming and capping work as in the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers), with the percentile limits as the limits.
 
 When the capping limits are percentiles, the technique is called **winsorization**, after the statistician who proposed it. Trimming with percentiles has no special name; it is simply trimming.
 
-> **Extra:** The name comes from Charles P. Winsor (1895 to 1951), an engineer who became a biostatistician. John Tukey, who also invented the box plot of Note 43, named the technique after him.
+> **Extra:** The name comes from Charles P. Winsor (1895 to 1951), an engineer who became a biostatistician. John Tukey, who also invented the box plot (Note 20), named the technique after him.
 
-### 4.1 Variants of capping
+### 3.1 Variants of capping
 
 > **Key point:** Some people cap at the limit plus or minus a small step instead of the limit itself; neither choice is fixed, so we try both and keep what works.
 
@@ -81,7 +64,7 @@ A few implementations do not replace an outlier with the limit itself:
 
 The idea is to keep the capped values slightly apart from the normal ones. There is no fixed rule here. Outlier handling is practical and experimental: we try the options and keep the one that gives the best model.
 
-## 5. The height and weight data
+## 4. The height and weight data
 
 > **Key point:** The data has 10,000 people with their gender, height and weight; height is close to normal and its box plot shows outliers on both sides.
 
@@ -122,11 +105,11 @@ Figure 2 shows the histogram: almost a bell (skewness 0.05). The box plot above 
 >
 > The Notebook draws the histogram and box plot with Plotly.
 
-## 6. Finding the limits and the outliers
+## 5. Finding the limits and the outliers
 
 > **Key point:** The 1st percentile of height is 58.13 and the 99th is 74.79; 100 heights lie below and 100 above, so 200 people are outliers.
 
-The two limits of Section 3:
+The two limits of Section 2:
 
 - **lower limit:** 58.13 inches (1st percentile);
 - **upper limit:** 74.79 inches (99th percentile).
@@ -135,7 +118,7 @@ Figure 2 marks them as dashed lines. Exactly 100 heights lie below the lower lim
 
 ![Height of 10,000 people: box plot above, histogram below, with the 1st and 99th percentiles dashed and the 200 values outside them in red](images/limits.png){height=45%}
 
-The percentile limits sit well inside the box-plot whiskers. The box plot flags only the 8 most extreme dots; the percentile rule flags 200 values. Section 11 comes back to this difference.
+The percentile limits sit well inside the box-plot whiskers. The box plot flags only the 8 most extreme dots; the percentile rule flags 200 values. Section 10 comes back to this difference.
 
 > **Python:** The limits and the outliers.
 >
@@ -148,7 +131,7 @@ The percentile limits sit well inside the box-plot whiskers. The box plot flags 
 > (df["Height"] < lower_limit).sum()   # 100
 > ```
 
-## 7. Trimming in code
+## 6. Trimming in code
 
 > **Key point:** Keeping only the rows between 58.13 and 74.79 removes 200 rows and leaves 9,800.
 
@@ -177,7 +160,7 @@ The summary numbers before and after:
 
 The mean and median stay almost the same. The standard deviation drops a little, the minimum rises and the maximum falls. Figure 3 (middle row) shows the same bell with its two thin tails cut off, and a box plot with no dots left.
 
-## 8. Capping in code (winsorization)
+## 7. Capping in code (winsorization)
 
 > **Key point:** Each height above 74.79 becomes 74.79 and each height below 58.13 becomes 58.13; all 10,000 rows stay.
 
@@ -225,7 +208,7 @@ Only the minimum and maximum change much: they are now exactly the limits. Figur
 > - pandas: `df["Height"].clip(lower_limit, upper_limit)` gives exactly the same column as the two `np.where` calls.
 > - SciPy has a ready-made function, `scipy.stats.mstats.winsorize(values, limits=(0.01, 0.01))`. It caps at the most extreme value that is kept (58.1345 and 74.7857), not at the interpolated percentile, so its limits differ in the fourth decimal. The `np.where` code is short enough that the extra library is not needed.
 
-## 9. Choosing the cut-offs
+## 8. Choosing the cut-offs
 
 > **Key point:** Wider cut-offs, such as 0.5 and 99.5, remove less data; narrower ones, such as 5 and 95, remove more; we try a few and keep the one that gives the best results.
 
@@ -240,24 +223,20 @@ The percentiles decide how much data counts as an outlier, and the share is fixe
 
 The further out the cut-offs, the less data we trim or cap. A good habit is to start with wide cut-offs and only move them in if the model does better.
 
-## 10. Learning the limits on the training set
+## 9. Learning the limits on the training set
 
 > **Key point:** Percentiles are learned from the data, so they should be learned on the training set only and then applied to the test set.
 
-> **Extra:** The steps above compute the percentiles on all 10,000 rows, before any train-test split. This lets the test rows influence the limits, the same data leakage that Note 24 (Section 7.2) avoids for scaling and Notes 42 and 43 avoid for their limits. The cleaner order is:
->
-> 1. Split the data into training and test sets.
-> 2. Compute the 1st and 99th percentiles on the training set only.
-> 3. Apply the same limits to the training and the test set.
->
-> With an 80/20 split (`random_state=42`), the 8,000 training rows give limits of **58.16** and **74.83**:
+The limits follow the same train-only rule as the z-score limits of the [z-score Note](../42-outliers-zscore/note.md) (section 11, learning the limits on the training set).
+
+> **Extra:** With an 80/20 split (`random_state=42`), the 8,000 training rows give limits of **58.16** and **74.83**:
 >
 > - **Training set**, 8,000 rows: 80 below the lower limit, 80 above the upper limit.
 > - **Test set**, 2,000 rows: 23 below, 16 above.
 >
-> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, which is expected for new data. Trimming is done on the training set only (7,840 rows remain), since we cannot delete test rows at prediction time. Capping can be applied to both sets with the training limits; the Notebook shows both steps.
+> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, which is expected for new data. Trimming the training set leaves 7,840 rows; the Notebook shows both steps.
 
-## 11. Strengths and limits of the percentile method
+## 10. Strengths and limits of the percentile method
 
 > **Key point:** The method is simple and works on any shape, but it always flags the chosen share of values, even when the column has no real outliers.
 
@@ -267,7 +246,7 @@ The further out the cut-offs, the less data we trim or cap. A good habit is to s
 
 > **Extra:** The catch is the fixed share. With the 1st and 99th percentiles, exactly 2% of the rows are flagged, whatever the data looks like. `Height` is almost normal: the z-score rule finds only 7 outliers in it and the IQR rule only 8, yet the percentile rule flags 200. `Weight`, with almost no outliers, would also lose 200 values. So the percentile method decides *how many* values to treat, not *whether* a value is truly unusual. Winsorization is often used exactly this way: to calm the tails a little, not to hunt for errors.
 
-## 12. Comparing the three detection rules
+## 11. Comparing the three detection rules
 
 > **Key point:** Use the z-score rule for a normal column, the IQR rule for a skewed one, and the percentile rule when we want to treat a fixed share of each tail in any column.
 
@@ -285,7 +264,7 @@ This Note closes the outlier group. Figure 4 applies all three rules to the same
 | Limits on `Height` | 54.82 and 77.91 | 55.00 and 77.68 | 58.13 and 74.79 |
 | Outliers in `Height` | 7 | 8 | 200 |
 
-## 13. Summary
+## 12. Summary
 
 | Step | What we do | On `Height` |
 |---|---|---|
@@ -295,14 +274,13 @@ This Note closes the outlier group. Figure 4 applies all three rules to the same
 | Cap (winsorize) | move values beyond a limit onto it | 10,000 rows; min 58.13, max 74.79 |
 | Better practice | learn the limits on the training set | 58.16 and 74.83; 39 test values outside |
 
-- The $p$-th percentile is the value $p$% of the column lies below; the 0th is the minimum, the 50th the median, the 100th the maximum.
 - The percentile rule flags every value below a low percentile or above a high one; the cut-offs are our choice.
 - Capping with percentile limits is called winsorization.
 - The rule works on any shape, but always flags the same share of rows (2% with 1 and 99).
 - Use the variables for the limits, never rounded numbers typed by hand.
 - The limits should be learned on the training set only.
 
-## 14. Key terms
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|

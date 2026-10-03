@@ -31,10 +31,7 @@ $$100{,}000 \times 100 \times 1{,}000 = 10^{10}$$
 
 multiplications, ten billion, just for the derivatives.
 
-Two problems follow:
-
-1. **Speed:** each single step waits for a full pass over the data.
-2. **Memory:** the vectorised update needs the whole dataset in memory at once. A dataset larger than the computer's memory cannot be trained this way.
+So each step is slow and needs the whole dataset in memory: the two disadvantages listed in the [batch gradient descent Note](../58-batch-gradient-descent/note.md) (section six).
 
 ## 3. How stochastic gradient descent works
 

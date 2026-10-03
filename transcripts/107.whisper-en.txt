@@ -1,0 +1,325 @@
+Hello guys, welcome to my YouTube channel. In this video, we are going to discuss about bagging regressor.
+So in the last two videos, we have understood the core idea behind the bagging ensemble.
+In the second video, we have studied the bagging classifier specifically.
+And in this video, we will study about bagging regressor.
+So precisely, we will do only three things. First, we will see the core idea which we already know.
+Second, we will take an intuition on a web app that how the whole thing works.
+And the last thing would be to run through a code.
+So this video will be a little short because you have already studied what you have to study in the last two videos.
+So let's get started.
+Okay, so you know the core idea of bagging.
+In regression, there is only one difference in the step of aggregation.
+I will quickly show you. You will have base models.
+There will be a lot of base models.
+And you will feed them the subset of the same data set.
+Right? This is your bootstrapping phase.
+And after this, whatever will be their output, since this is a regression problem,
+here the output would be numerical.
+When you will do aggregation, then while doing aggregation, you will get the mean.
+And that's the core idea. Okay?
+Now, since here is the bootstrapping stage,
+where you will do random samples.
+You will draw random samples and give it to different base models.
+Those steps are the same.
+So here also, you can use all those variations.
+Pasting, random subspaces, and patches.
+Random patches.
+So basically, I am saying that you can try both column sampling and row sampling.
+In fact, if you go to its scikit-learn implementation,
+sklearn bagging regressor,
+then you would see that there are exactly the same hyper-parameters
+that you had found in the classifier.
+Max samples, max features, bootstrap, bootstrap features, OB score.
+All these are exactly the same that you saw in the last video.
+If you haven't seen the bagging classifier video,
+then I have put the link of the whole playlist in the description of this video.
+You can check it once. Okay?
+So here our work is very simple.
+I will first go through a sample data set,
+where through a web app, streamlit web app,
+I will show you how this whole regression task is working.
+And after that, we will work on a code problem.
+Okay?
+So let's start with this app.
+I have made this just to show you how this regression works.
+Here also, you can select a different base estimator.
+For example, if it is none, then it will be decision tree.
+Otherwise, you can select SVM as actually SVR.
+Or the regressor of KNN.
+Or you can also make an object of linear regression.
+It's up to you.
+Let's say we are working on the decision tree.
+And initially, let's say we have taken our number of estimators as 50.
+And in my case, the data set has 150 rows.
+I just want to start with 25 rows.
+Bootstrap sample is true.
+And I haven't put anything here for features.
+Because the data set here is two-dimensional.
+So one column in input and one column in output.
+There can't be more than one column.
+What will be less than one column?
+That's why I haven't written a code to handle features.
+I have written a code to handle only samples.
+Now if I run this code,
+then behind the scenes, two things will happen.
+First, a code of bagging regressor will run.
+And a code of decision tree regressor will run.
+So that I can show you side by side what is the difference between the two.
+Okay?
+So I will run the algorithm.
+And you can see guys,
+two graphs have been plotted on the same data.
+So the graph at the bottom,
+this is the decision tree regressor.
+Okay?
+If you look carefully,
+this is the decision tree regressor.
+And if you try to go over its behavior,
+then you would see that the bias is less here,
+but the variance is more.
+It means that overfitting is happening.
+It means that it is trying to pass from every point on the training data set.
+Because of which the test can be done in the data set.
+It may do some mess.
+Okay?
+So you can see this point is looking a bit outlier.
+But it is also trying to touch this.
+It is also trying to touch this.
+It is also trying to touch this.
+So it is trying to pass through every training point.
+Because that is what decision trees do.
+They tend to overfit.
+Because they don't want to make any mistake on the training.
+Okay?
+Obviously, there will be some mistakes.
+But you can see there is a behavior where variance is more.
+Okay?
+Now,
+if we go over the bagging,
+then you would see that there is a little smooth end here.
+The whole curve is a little smooth end.
+See this.
+You are not touching every point.
+You are trying to catch the core logic in your data.
+The core pattern.
+You are trying to catch that.
+Okay?
+And that is why you would see that if you talk in terms of R2 score,
+then our R2 score is better than the normal decision tree.
+Okay?
+Now, here if you want,
+you can experiment with different parameters.
+You can go through,
+let's say,
+you can have 100 decision trees.
+You can run and see.
+There is not much difference here.
+It is false.
+It is 75.
+This is the case of pasting.
+And there is not much difference here.
+Okay,
+you can experiment with this tool.
+I just wanted to show you how bagging reduces overfitting
+and creates a low-bias, low-variance model.
+Okay?
+Now,
+now that we know how it works,
+let me show you a proper data set
+where we will implement bagging.
+So,
+we have used the load Boston data set for regression.
+We have used this before.
+And I have just printed and shown you how many input columns are there
+and how many output columns are there.
+In total, we have 13 input columns,
+506.
+And one is our output column,
+which is house prices.
+And this is the name of all those columns.
+You can go and see this from the website of scikit-learn.
+I have taken some imports.
+First, I have given you linear regression,
+k-nearest regressor,
+and decision tree regressor.
+I will show you by applying decision tree regressor
+how the results are coming.
+And then I will show you by applying bagging regressor
+whether the results are really improving or not.
+Okay?
+Now, I have split train test.
+So, 404 points went to training
+and 102 points went to test.
+Okay?
+After that, I made the object of these three.
+Linear regression, decision tree regressor,
+and k-nearest regressor.
+And I fit all three in this step.
+And in the next step,
+I calculated wipe rate for all of them
+so that I can get R2 score.
+And when I got R2 score,
+this is coming guys,
+different R2 scores.
+Linear regression is best till now,
+0.65.
+Decision tree, 0.43.
+KNM, 0.54.
+Okay?
+Now, what did I do?
+I called bagging regressor.
+And the default setting of bagging regressor,
+the vanilla setting,
+base estimator, decision tree,
+number of estimators, 10,
+max samples, full,
+max fetch, features also full.
+After applying that, when I ran it,
+then I saw that on my training,
+98 is coming,
+R2 score.
+And on test data, 0.81 is coming.
+So, you can already see that
+without even tweaking any hyperparameter,
+I am able to draw better results
+in comparison to those other three algorithms.
+Right?
+Now, what can you do?
+Here, you can tweak these parameters.
+Right?
+And for tweaking,
+you will do the same thing that
+you can try pasting,
+you can try random subspaces,
+you can try random patches.
+Or there is a better approach to it
+that you can apply grid search CV.
+Like I did here.
+I applied grid search CV here.
+I gave three options in base estimator.
+Decision tree, linear regression,
+k nearest neighbor.
+I could have given more,
+but to keep the process fast,
+I gave only three options.
+In number of estimators,
+I gave 20, 50, and 100 options.
+In max samples,
+I gave 50% and 100% options.
+In max features,
+I also gave 50% and 100% options.
+Bootstrap true or false.
+Bootstrap features true or false.
+So, basically,
+I tried all four combinations.
+And here I applied grid search CV.
+Right?
+Now, guys,
+if you don't know grid search CV,
+how I do grid search CV,
+I will put its link
+in the description of this video.
+Please go through that.
+It's a very simple hyperparameter tuning technique.
+You should know it.
+Whenever you work on bagging,
+or random forest,
+or techniques like boosting,
+to find the right hyperparameter there,
+you need a tool like grid search CV.
+Right?
+Now, what I did here is,
+once I fit it,
+I am calculating the best score.
+How much did grid search CV calculate the best score?
+And what are the best parameter values?
+Right?
+And one more thing,
+I have set n jobs as minus 1.
+So, the whole process will be a little fast.
+Because all my courses will be accessed.
+All the courses will work equally.
+And it will work parallelly.
+So, the whole process will speed up.
+Right?
+And I have set verbose as 1.
+So that,
+I can see all the details.
+And I have logged the time.
+That how much time it takes for this whole thing to happen.
+Right?
+And when I run this code,
+then,
+the R2 score on my training was 98.
+And the R2 score on the test was 80.
+But the best score that I got from grid search CV,
+that I got around 87.
+Which is quite good.
+Right?
+And if you talk about the best parameters,
+then,
+base estimated decision tree is the best.
+Keep bootstrap true.
+Means,
+you have to do bagging,
+not pasting.
+Keep bootstrap features false.
+Means,
+you don't have to do column sampling.
+And max features 1.
+And max samples 1.
+And the number of estimators is 50.
+So, you can see,
+by using this tool easily,
+I got my best hyperparameter values.
+And now,
+what can I do?
+By applying these values,
+when I run my code,
+I should be getting somewhere around 87.
+.87 R2 score.
+Right?
+So,
+see,
+everything is exactly the same,
+as in the case of classification.
+Here,
+the step of aggregation becomes a little different.
+Due to which,
+you can solve regression problems.
+And there is nothing special here, guys.
+Here also,
+you can apply OB score.
+Out of bag samples,
+you can calculate R2 score.
+Everything is exactly the same.
+That is why,
+I am not spending too much time here.
+I hope,
+you will understand.
+In the description of this video,
+I will put
+video description of Grid Search CD.
+Video tool.
+Video.
+I will also put
+this code.
+And I will also put
+that visualization tool.
+So that,
+you can experiment a little and see.
+Okay?
+So, with that, guys,
+so far,
+our bagging is complete.
+Now,
+we will move on to Random Forest,
+which is the best implementation of bagging.
+So,
+yeah,
+that's it.
+If you like the video,
+please consider subscribing.
+And,
+we will meet in the next video.
+Thanks for watching.

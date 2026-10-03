@@ -8,6 +8,7 @@ title: "Feature Construction and Feature Splitting"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Cross-validation ([Note 30](../30-function-transformer/note.md)).
+> - **Compare with:** Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -26,7 +27,7 @@ Figure 1 shows the two ideas on the Titanic data. Construction combines `SibSp` 
 
 Every earlier technique had a fixed procedure. Standardization, for example, always subtracts the mean and divides by the standard deviation. Feature construction has no such procedure.
 
-**Feature construction** means creating a new column by hand, from existing columns, because we believe it will help the model. Three things decide which column we build:
+Feature construction means creating a new column by hand, from existing columns, because we believe it will help the model (see the [feature engineering Note](../23-what-is-feature-engineering/note.md), section 7). Three things decide which column we build:
 
 - **intuition:** a sense of what could matter for the target;
 - **domain knowledge:** knowing the field the data comes from;
@@ -335,7 +336,6 @@ Splitting and construction often work together. From the split-out title we can 
 
 | Term | Meaning |
 |---|---|
-| Feature construction | Creating a new column by hand from existing columns, guided by domain knowledge |
 | Family size | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family |
 | Family type | Family size grouped into alone, small family (2 to 4) and large family (5 or more) |
 | Strike rate | A batter's runs per 100 balls faced |

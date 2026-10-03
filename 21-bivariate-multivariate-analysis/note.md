@@ -159,7 +159,7 @@ Two patterns stand out:
 
 > **Key point:** Drawing the distribution of a numerical column once per category, on the same axes, shows where the groups differ.
 
-A **probability density function** (PDF) shows how the values of a column are spread: where the curve is high, values are common. A **KDE plot** (kernel density estimate) draws a smooth version of it from the data.
+A **KDE plot** draws the smooth density curve (KDE) of a column, the estimate of its PDF from the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7, density plot).
 
 To compare groups, we split the rows by a category and draw one curve per group. Figure 5 shows the ages of the Titanic passengers twice: in red those who died, in green those who survived.
 
@@ -404,7 +404,6 @@ The column tree does the same for the years. Neighbouring years with similar tra
 | Bar plot | One bar per category, its height the mean of a numerical column |
 | Confidence interval | A range in which the true mean most likely lies |
 | Box plot | A summary of a column's spread by its median, quartiles and outliers |
-| Probability density function (PDF) | A curve showing where the values of a column are common |
 | KDE plot | A smooth estimate of a column's PDF, built from the data |
 | Crosstab | A table counting the rows for every pair of categories of two columns |
 | Heatmap | A table drawn as coloured cells, darker for larger values |

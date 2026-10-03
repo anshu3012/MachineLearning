@@ -9,7 +9,7 @@ title: "PCA: Geometric Intuition"
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Dimensionality reduction ([Note 46](../46-curse-of-dimensionality/note.md)).
 > - **Leads to:** Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)).
-> - **Compare with:** Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)).
+> - **Compare with:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. What PCA is
@@ -52,7 +52,7 @@ PCA works like a photographer who walks around the stadium to find the best angl
 
 > **Key point:** To choose between two columns, project the points onto each axis and keep the column whose points are more spread out.
 
-PCA is a feature extraction technique, but it is easiest to understand by first looking at feature selection.
+PCA is a feature extraction technique, but it is easiest to understand by first looking at feature selection: keeping some existing columns and dropping the rest (see the [feature engineering Note](../23-what-is-feature-engineering/note.md), sections 8 and 9, for both parts).
 
 Take made-up data about flats with three columns: the number of rooms, the number of grocery shops nearby, and the price. Suppose we must drop one of the two input columns.
 
@@ -89,13 +89,9 @@ Feature selection is stuck. Feature extraction solves this.
 
 > **Key point:** Instead of dropping one of two equal columns, build one new column that carries the information of both.
 
-Suppose we ask a property broker which of the two columns to drop. A broker might say: neither, both matter. Instead, collect a single new column, the **size of the flat**. More rooms and more washrooms both mean a bigger flat, so size tells us about both.
+The [types of ML Note](../03-types-of-ml/note.md) (section 3.3) already did this by hand: rooms and washrooms were replaced by one new column, the flat's area. The data went from 2 input columns to 1, and the price can still be predicted.
 
-![Two columns replaced by one new column](images/broker_idea.png)
-
-Figure 3 shows the result: two input columns become one, and the price can still be predicted. The data went from 2 dimensions to 1.
-
-This is exactly what PCA does. It ignores the original columns as they are, builds a new set of columns from them, and keeps the new columns that matter most. Unlike the broker, PCA needs no knowledge of the subject: it finds the new columns from the data alone.
+PCA does the same with no knowledge of the subject. It ignores the original columns as they are, builds a new set of columns from the data alone, and keeps the new columns that matter most.
 
 ## 4. How PCA finds the new columns
 
@@ -103,7 +99,7 @@ This is exactly what PCA does. It ignores the original columns as they are, buil
 
 Feature selection could only look along the two existing axes, rooms and washrooms. PCA is allowed to turn the axes to any angle.
 
-Figure 4 shows the idea on the rooms and washrooms data. We draw a line through the centre of the data, project every point onto it, and measure the variance of the shadows. Then we turn the line and measure again.
+Figure 3 shows the idea on the rooms and washrooms data. We draw a line through the centre of the data, project every point onto it, and measure the variance of the shadows. Then we turn the line and measure again.
 
 ![Turning the line until the shadows spread the most](images/rotate_axes.gif)
 
@@ -114,7 +110,7 @@ Figure 4 shows the idea on the rooms and washrooms data. We draw a line through 
 
 The new axes are called **principal components**, written **PC1** and **PC2**. PC1 is the direction with the most variance; PC2 is at right angles to it and holds what is left.
 
-Here PC1 holds almost all the spread, 2.61 against 0.05. So we keep PC1, drop PC2, and describe each flat by one number: its position along PC1. Two columns have become one, just like the broker's flat size.
+Here PC1 holds almost all the spread, 2.61 against 0.05. So we keep PC1, drop PC2, and describe each flat by one number: its position along PC1. Two columns have become one, just like the flat's area.
 
 ### 4.1 How many principal components
 
@@ -149,14 +145,14 @@ PCA is built on variance, so it is worth being precise about what variance means
 
 > **Key point:** Two datasets can have the same mean and very different spreads.
 
-Take two small datasets (Figure 5):
+The mean gives the centre of the data (see the [understanding your data Note](../19-understanding-your-data/note.md), section 7.1), but not its spread. Take two small datasets (Figure 4):
 
 - Data A: $-5, 0, 5$
 - Data B: $-10, 0, 10$
 
 ![Same mean, different spread](images/mean_vs_variance.png)
 
-Both have mean 0. The **mean** describes the centre of the data, so it cannot tell these two apart. Data B is clearly more spread out, and to measure that we need variance.
+Both have mean 0, yet Data B is clearly more spread out. To measure that we need variance.
 
 ### 5.2 The variance formula
 
@@ -178,13 +174,13 @@ $$\sigma^2 = \frac{(-10)^2 + 0^2 + 10^2}{3} = \frac{200}{3} \approx 66.7$$
 
 Data B's variance is 4 times Data A's. Variance tells the two datasets apart where the mean could not.
 
+> **Extra:** Here we divide by $n$, which gives the **population variance**. Dividing by $n - 1$ instead gives the **sample variance**, a slightly larger value that corrects for a sample looking less spread out than the population it came from. NumPy divides by $n$ by default (`ddof=0`); pandas divides by $n - 1$ (`ddof=1`), which is why the standard deviation in `describe` uses $n - 1$.
+
 ### 5.3 Variance and spread
 
 > **Key point:** Variance grows with spread but is not the spread itself. Its square root, the standard deviation, is in the same units as the data.
 
-Data B is twice as spread out as Data A, but its variance is 4 times larger. That is because the distances are squared: variance grows with the square of the spread.
-
-Taking the square root brings it back to the units of the data. This is the **standard deviation**, $\sigma$: about 4.1 for Data A and 8.2 for Data B, exactly twice.
+Data B is twice as spread out as Data A, but its variance is 4 times larger, because the distances are squared. Its square root, the standard deviation (see the [understanding your data Note](../19-understanding-your-data/note.md), section 7.1), is back in the units of the data: about 4.1 for Data A and 8.2 for Data B, exactly twice.
 
 ### 5.4 Why squares, not absolute distances
 
@@ -198,7 +194,7 @@ PCA does not use it. Finding the best direction is an optimisation problem, and 
 
 > **Key point:** Keeping the direction of greatest variance keeps the points as far apart as they really are. A low-variance direction squeezes different points together.
 
-Figure 6 picks out two flats from the rooms and grocery shops data. They are 3.15 apart: one has 1 room and the other 4, with almost the same number of grocery shops.
+Figure 5 picks out two flats from the rooms and grocery shops data. They are 3.15 apart: one has 1 room and the other 4, with almost the same number of grocery shops.
 
 ![Two flats projected on each axis](images/why_max_variance.png)
 
@@ -209,7 +205,7 @@ Many algorithms, such as KNN, work with distances between points. After a projec
 
 This is why PCA always looks for the direction of maximum variance. It keeps the distances between points, and so the relationships in the data, as close as possible to the original. It is the photographer choosing the angle where the players stay apart.
 
-> **Extra:** PCA is sometimes described as finding the line with the *least* error. This is the same line seen from the other side. Each point's squared distance from the centre splits into two parts (Pythagoras): the part along the line, and the part from the point to the line. The total is fixed, so making the first part as large as possible makes the second as small as possible. In Figure 4 the total variance is 2.66: at 45° it splits into 2.61 along PC1 and 0.05 left over. Maximum variance along the line and minimum distance to the line are the same answer.
+> **Extra:** PCA is sometimes described as finding the line with the *least* error. This is the same line seen from the other side. Each point's squared distance from the centre splits into two parts (Pythagoras): the part along the line, and the part from the point to the line. The total is fixed, so making the first part as large as possible makes the second as small as possible. In Figure 3 the total variance is 2.66: at 45° it splits into 2.61 along PC1 and 0.05 left over. Maximum variance along the line and minimum distance to the line are the same answer.
 
 ## 7. Summary
 
@@ -236,7 +232,5 @@ This is why PCA always looks for the direction of maximum variance. It keeps the
 | Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new columns along the directions of greatest variance |
 | Projection | Dropping each point onto an axis or line, like casting a shadow |
 | Variance | The average squared distance of the points from their mean |
-| Mean | The average of the values; the centre of the data |
-| Standard deviation | The square root of the variance, in the same units as the data |
 | Mean absolute deviation | The average absolute distance of the points from their mean |
 | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most |

@@ -18,7 +18,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `fill_value` | The value `SimpleImputer` uses with `strategy="constant"`. | [Video 36](36-imputing-numerical-data/note.md) |
 | `fillna` | The pandas method that replaces every `NaN` with a given value. | [Video 36](36-imputing-numerical-data/note.md) |
 | `find`, `find_all` | Return the first matching tag, or a list of all matching tags. | [Video 18](18-web-scraping/note.md) |
-| `GridSearchCV` | The scikit-learn class that runs a grid search with cross-validation. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| `GridSearchCV` | The scikit-learn class that cross-validates every combination of settings in a grid and keeps the best. | [Video 29](29-pipelines/note.md) |
 | `ignore_index` | Setting of `pd.concat` that renumbers the joined rows from 0. | [Video 17](17-fetching-data-from-api/note.md) |
 | `IterativeImputer` | scikit-learn's class for MICE; still experimental. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `json_normalize` | pandas function that turns nested JSON into flat columns. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -35,7 +35,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `sample(n)` | The pandas method that draws `n` values at random from a Series or DataFrame. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | `sample_posterior` | Draw each fill at random from the model's spread, giving several plausible filled tables. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `statistics_` | The fill values a fitted `SimpleImputer` has learned, one per column. | [Video 36](36-imputing-numerical-data/note.md) |
-| `step__param` name | The full name of a setting inside a pipeline: step names and the parameter joined by `__`. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| `step__param` name | The full name of a setting inside a pipeline: step names and the parameter joined by `__`. | [Video 29](29-pipelines/note.md) |
 | `strategy="constant"` | The `SimpleImputer` setting that fills every gap with `fill_value`. | [Video 37](37-missing-categorical-data/note.md) |
 | `strategy="most_frequent"` | The `SimpleImputer` setting for mode imputation. | [Video 37](37-missing-categorical-data/note.md) |
 | `strategy` | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant. | [Video 36](36-imputing-numerical-data/note.md) |
@@ -51,10 +51,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Anaconda Navigator | Anaconda's point-and-click window for environments and packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anaconda | The best-known data science distribution, with Navigator and Spyder. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anomaly detection | Finding rows that do not fit the pattern of the rest. | [Video 3](03-types-of-ml/note.md) |
-| API (Application Programming Interface) | A way for two programs to talk; a website's API hands out its data on request. | [Video 17](17-fetching-data-from-api/note.md) |
+| API (Application Programming Interface) | A service that returns data when our code asks for it; a website's API hands out its data on request. | [Video 7](07-challenges-in-ml/note.md) |
 | API key | A secret code that tells the API who is asking. | [Video 17](17-fetching-data-from-api/note.md) |
 | API token | A secret file or key that lets a program use a website's API as us. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
-| API | A service that returns data when our code asks for it. | [Video 7](07-challenges-in-ml/note.md) |
 | Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. | [Video 36](36-imputing-numerical-data/note.md) |
 | arg max | The value of the variable that makes an expression largest. | [Video 88](88-naive-bayes-maths/note.md) |
 | Array | The programming name for a tensor (as in NumPy). | [Video 11](11-tensors/note.md) |
@@ -69,7 +68,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
 | B2B | Business to business: a product that helps a company run its business. | [Video 8](08-applications-of-ml/note.md) |
 | B2C | Business to customer: a product sold to ordinary users. | [Video 8](08-applications-of-ml/note.md) |
-| Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
+| Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Video 62](62-bias-variance/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | base environment | The environment the installer creates, holding conda itself. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -108,9 +107,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Buying behaviour | The pattern of what a customer buys. | [Video 8](08-applications-of-ml/note.md) |
 | C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
-| Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class). | [Video 79](79-softmax-regression/note.md) |
-| Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
+| Categorical data (categorical column) | Data made of categories: labels rather than numbers. | [Video 3](03-types-of-ml/note.md) |
 | CategoricalNB | scikit-learn's Naive Bayes for categorical inputs. | [Video 89](89-naive-bayes-code/note.md) |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Category share | The rows in one category divided by the rows that have a value. | [Video 37](37-missing-categorical-data/note.md) |
@@ -221,7 +219,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Design matrix ($X$) | The data as a matrix, one row per data point, with a first column of 1s for the intercept. | [Video 54](54-multiple-lr-maths/note.md) |
 | Development environment | Our own machine, where we build and train a model. | [Video 4](04-batch-learning/note.md) |
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised inputs, and disease progression one year later. | [Video 55](55-multiple-lr-code/note.md) |
-| Dimension | One input column. | [Video 3](03-types-of-ml/note.md) |
+| Dimension | One input column (one feature); a different meaning from the dimensions (axes) of a tensor in Video 11. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality | The number of columns (features) in the data. | [Video 27](27-one-hot-encoding/note.md) |
 | Dirty data | Data with errors, gaps, duplicates or inconsistencies. | [Video 9](09-mldlc/note.md) |
@@ -241,7 +239,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
 | Durbin-Watson statistic | A number from 0 to 4 measuring autocorrelation of residuals; about 2 means none. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Video 6](06-instance-vs-model-based/note.md) |
-| Early stopping | Stopping training when the score on held-out data is best, before full convergence. | [Video 58](58-batch-gradient-descent/note.md) |
+| Early stopping | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. | [Video 58](58-batch-gradient-descent/note.md) |
 | Economy rate | A bowler's runs conceded per over. | [Video 45](45-feature-construction-splitting/note.md) |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Video 48](48-pca-step-by-step/note.md) |
 | Eigenvalue | The factor by which a matrix stretches its eigenvector. | [Video 48](48-pca-step-by-step/note.md) |
@@ -250,7 +248,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Elastic Net | Linear regression with a mix of the L1 and L2 penalties. | [Video 63](63-ridge-regression-intuition/note.md) |
 | ElasticNetCV | scikit-learn's Elastic Net that picks alpha and l1_ratio by cross-validation. | [Video 69](69-elastic-net/note.md) |
 | encode | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output. | [Video 32](32-binning-binarization/note.md) |
-| Encoding | The rulebook that maps text characters to stored bytes. | [Video 15](15-working-with-csv/note.md) |
+| Encoding | Two senses: the rulebook that maps text characters to stored bytes (Video 15); or turning categories into numbers (categorical encoding, Video 26). | [Video 15](15-working-with-csv/note.md) |
 | End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\,\text{IQR}$. | [Video 36](36-imputing-numerical-data/note.md) |
 | End-to-end product | A complete product, from raw data to software that users use. | [Video 9](09-mldlc/note.md) |
 | Endpoint | One address of an API that returns one kind of data. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -266,14 +264,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. | [Video 33](33-mixed-variables/note.md) |
 | eta0 | The starting learning rate in SGDRegressor. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | ETL | Extract, transform, load: copying data from source systems into a warehouse. | [Video 9](09-mldlc/note.md) |
-| Euclidean distance | The straight-line distance between two points. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Euclidean distance | The straight-line distance between two points. | [Video 39](39-knn-imputer/note.md) |
 | Event | A set of outcomes, such as "the sum is at most 10". | [Video 82](82-conditional-probability/note.md) |
 | Evidence | The overall probability of the observed evidence. | [Video 85](85-bayes-theorem/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all. | [Video 49](49-pca-mnist/note.md) |
 | Explained variance | The variance along a principal component; its eigenvalue. | [Video 48](48-pca-step-by-step/note.md) |
 | explained_variance_ | The eigenvalues of the fitted PCA, largest first. | [Video 49](49-pca-mnist/note.md) |
-| Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 1](01-what-is-ml/note.md) |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns. | [Video 13](13-toy-project/note.md) |
 | Extrapolation | Predicting for inputs outside the range of the training data. | [Video 50](50-simple-linear-regression/note.md) |
 | f-string | Text starting with `f` in which `{name}` is replaced by a value. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -283,11 +281,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | False positive rate (FPR) | The fraction of real negatives the model wrongly flags. | [Video 78](78-roc-auc/note.md) |
 | Family size | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family. | [Video 45](45-feature-construction-splitting/note.md) |
 | Family type | Family size grouped into alone, small family (2 to 4) and large family (5 or more). | [Video 45](45-feature-construction-splitting/note.md) |
-| Feature construction | Creating a new column by hand from existing ones. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Feature construction | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature engineering | Choosing, removing and creating features. | [Video 7](07-challenges-in-ml/note.md) |
-| Feature extraction | Creating a new column from existing ones. | [Video 3](03-types-of-ml/note.md) |
+| Feature extraction | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature scaling | Putting columns on the same scale, so no column dominates distances. | [Video 6](06-instance-vs-model-based/note.md) |
-| Feature selection | Choosing which input columns to use. | [Video 13](13-toy-project/note.md) |
+| Feature selection | Keeping only the useful input columns and dropping the rest. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature splitting | Breaking a column that holds several facts into one column per fact. | [Video 45](45-feature-construction-splitting/note.md) |
 | Feature transformation | Changing a column into a form the model can use better. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -297,7 +295,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Five-number summary | Minimum, Q1, median, Q3 and maximum. | [Video 20](20-univariate-analysis/note.md) |
 | For loop | Code that repeats once for each item of a collection. | [Video 15](15-working-with-csv/note.md) |
 | Format string | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. | [Video 34](34-date-and-time/note.md) |
-| Forward selection | Feature selection that starts empty and adds the best column at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
+| Forward selection | Feature selection that starts empty and adds the best column at a time. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Frame | One image in a video. | [Video 11](11-tensors/note.md) |
 | Framing an ML problem | Turning a business problem into a precise ML task that can be built and measured. | [Video 14](14-framing-ml-problem/note.md) |
 | Framing the problem | Deciding the goal, users, cost, team and approach before any work starts. | [Video 9](09-mldlc/note.md) |
@@ -319,7 +317,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill. | [Video 24](24-standardization/note.md) |
 | Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase. | [Video 57](57-gradient-descent/note.md) |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation. | [Video 38](38-missing-indicator-random-sample/note.md) |
-| GridSearchCV | scikit-learn class that cross-validates every value in a grid and keeps the best. | [Video 29](29-pipelines/note.md) |
 | Grouping effect | Elastic Net's tendency to give correlated inputs similar coefficients instead of keeping only one. | [Video 69](69-elastic-net/note.md) |
 | handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training. | [Video 27](27-one-hot-encoding/note.md) |
 | handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training. | [Video 29](29-pipelines/note.md) |
@@ -361,8 +358,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Intersection (A ∩ B) | The event that both A and B happen. | [Video 82](82-conditional-probability/note.md) |
 | Inverse matrix | The matrix that undoes another: their product is the identity matrix. | [Video 54](54-multiple-lr-maths/note.md) |
 | IoT sensor | A device that measures something and sends the readings over the internet. | [Video 8](08-applications-of-ml/note.md) |
-| IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. | [Video 43](43-outliers-iqr/note.md) |
-| IQR rule | Values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$) are outliers; used for skewed columns. | [Video 41](41-what-are-outliers/note.md) |
+| IQR method (IQR rule, IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. | [Video 20](20-univariate-analysis/note.md) |
 | isnull | The pandas method that marks each missing cell `True`. | [Video 35](35-complete-case-analysis/note.md) |
 | ISO week | The week number of the ISO calendar, from `.dt.isocalendar().week`; week 1 holds the year's first Thursday. | [Video 34](34-date-and-time/note.md) |
 | Iteration (MICE) | One pass that re-predicts the gaps of every column once, in order. | [Video 40](40-iterative-imputer-mice/note.md) |
@@ -370,10 +366,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Iterative imputer | Multivariate imputation that predicts each column from the others, repeatedly; its algorithm is MICE. | [Video 35](35-complete-case-analysis/note.md) |
 | joblib | A library that saves and loads Python objects like pickle, better suited to large arrays. | [Video 29](29-pipelines/note.md) |
 | Joint probability | The probability that two events happen together, $P(A \cap B)$. | [Video 86](86-bayes-problem/note.md) |
-| JSON (JavaScript Object Notation) | A plain-text data format of objects and arrays that almost every language can read. | [Video 16](16-working-with-json-and-sql/note.md) |
+| JSON (JavaScript Object Notation) | A plain-text format for structured data, made of objects and arrays, that almost every language can read; used by APIs. | [Video 9](09-mldlc/note.md) |
 | JSON Lines | A JSON file with one object per line, read with `lines=True`. | [Video 16](16-working-with-json-and-sql/note.md) |
 | JSON viewer | A tool that lays out JSON text as a tree to show its structure. | [Video 17](17-fetching-data-from-api/note.md) |
-| JSON | A plain-text format for structured data, used by APIs. | [Video 9](09-mldlc/note.md) |
 | Jupyter | Tool for notebooks that mix code, output and text. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | JupyterLab | The program that runs Jupyter notebooks in a web browser. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | k (n_neighbors) | The number of neighbours that vote; KNN's main hyperparameter. | [Video 91](91-knn/note.md) |
@@ -406,11 +401,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
 | lbfgs | The default solver of LogisticRegression; supports L2 or no penalty. | [Video 81](81-logistic-hyperparameters/note.md) |
 | LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes. | [Video 49](49-pca-mnist/note.md) |
-| Learning rate ($\eta$) | The number the slope is multiplied by to get the step size. | [Video 57](57-gradient-descent/note.md) |
-| Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
+| Learning rate ($\eta$) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. | [Video 5](05-online-learning/note.md) |
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
-| Likelihood | The product, over all points, of the probabilities the model gives to their true classes. | [Video 73](73-log-loss/note.md) |
+| Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Video 73](73-log-loss/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Video 44](44-outliers-percentile/note.md) |
 | Linear regression | An algorithm that fits the straight line closest to all the points. | [Video 23](23-what-is-feature-engineering/note.md) |
@@ -428,7 +422,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lookup table | The stored probabilities that Naive Bayes computes during training. | [Video 89](89-naive-bayes-code/note.md) |
 | Loss function | A formula that measures how wrong a model's predictions are. | [Video 73](73-log-loss/note.md) |
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Video 50](50-simple-linear-regression/note.md) |
-| Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 1](01-what-is-ml/note.md) |
 | Macro average | The plain mean of a metric over all classes. | [Video 77](77-precision-recall-f1/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | Majority vote | Predicting the class that most of the neighbours have. | [Video 91](91-knn/note.md) |
@@ -457,7 +451,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mean normalization | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. | [Video 25](25-normalization/note.md) |
 | Mean squared error (MSE) | The average squared difference between actual and predicted values. | [Video 52](52-regression-metrics/note.md) |
 | Mean squared error loss | The average squared error; its derivatives do not grow with the number of rows. | [Video 58](58-batch-gradient-descent/note.md) |
-| Mean | The average of the values; the centre of the data. | [Video 47](47-pca-geometric-intuition/note.md) |
+| Mean | The average of the values; the centre of the data. | [Video 19](19-understanding-your-data/note.md) |
 | Median absolute deviation (MAD) | The median distance of the values from their median. | [Video 22](22-pandas-profiling/note.md) |
 | Median imputation | Filling every gap with the median of the column's known values; better for skewed columns. | [Video 36](36-imputing-numerical-data/note.md) |
 | Median | The middle value of sorted data; the 50% percentile. | [Video 19](19-understanding-your-data/note.md) |
@@ -465,7 +459,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | method | The `PowerTransformer` parameter that picks `"box-cox"` or `"yeo-johnson"`. | [Video 31](31-power-transformer/note.md) |
 | Metric | A number that tells whether the work is moving in the right direction. | [Video 14](14-framing-ml-problem/note.md) |
 | MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer. | [Video 40](40-iterative-imputer-mice/note.md) |
-| Min-max scaling | The main normalization technique. | [Video 24](24-standardization/note.md) |
+| Min-max scaling | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. | [Video 25](25-normalization/note.md) |
 | min_frequency | `OneHotEncoder` parameter that merges rare categories into one column. | [Video 27](27-one-hot-encoding/note.md) |
 | Mini-batch gradient descent | Gradient descent that uses a small random group of rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
@@ -484,8 +478,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Mode | The most common value of a column. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Model deployment | Putting a model on a server so users can reach it. | [Video 9](09-mldlc/note.md) |
-| Model drift / concept drift | A model's accuracy dropping as the real world changes. | [Video 4](04-batch-learning/note.md) |
-| Model rot | A model's performance slowly getting worse as real-world data changes. | [Video 9](09-mldlc/note.md) |
+| Model drift / concept drift | A model's accuracy dropping as the real world changes; sometimes called model rot. | [Video 4](04-batch-learning/note.md) |
 | Model selection | Training several algorithms and keeping the best. | [Video 13](13-toy-project/note.md) |
 | Model training | Giving data to an algorithm so it learns the pattern. | [Video 9](09-mldlc/note.md) |
 | Model | The logic produced by training, used to give outputs for new inputs. | [Video 1](01-what-is-ml/note.md) |
@@ -520,7 +513,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Normal distribution | A symmetric, bell-shaped distribution. | [Video 20](20-univariate-analysis/note.md) |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression. | [Video 54](54-multiple-lr-maths/note.md) |
 | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy. | [Video 54](54-multiple-lr-maths/note.md) |
-| Normalization | The other type of feature scaling, which squeezes values into a fixed range (next Note). | [Video 24](24-standardization/note.md) |
+| Normalization | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. | [Video 25](25-normalization/note.md) |
 | Notebook | A `.ipynb` file of cells, each with its output underneath. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side. | [Video 28](28-column-transformer/note.md) |
 | np.insert | NumPy function that inserts values into an array at a given position. | [Video 55](55-multiple-lr-code/note.md) |
@@ -533,7 +526,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Observation | The report's word for a row. | [Video 22](22-pandas-profiling/note.md) |
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | OLTP | Online transaction processing: the database that records every action as it happens. | [Video 14](14-framing-ml-problem/note.md) |
-| One-hot encoding | Representing each word or category by a vector with a single 1. | [Video 11](11-tensors/note.md) |
+| One-hot encoding | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. | [Video 11](11-tensors/note.md) |
 | One-vs-rest | Training one binary classifier per class, each separating that class from all others. | [Video 79](79-softmax-regression/note.md) |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned. | [Video 27](27-one-hot-encoding/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
@@ -572,8 +565,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | penalty | SGDRegressor setting that adds a regularisation penalty, such as "l2" for Ridge. | [Video 65](65-ridge-gradient-descent/note.md) |
 | penalty=None | LogisticRegression setting that switches regularisation off. | [Video 75](75-logistic-gradient-descent/note.md) |
 | Per-row seed | A seed taken from a row's own values, so the same input always gets the same random fill. | [Video 38](38-missing-indicator-random-sample/note.md) |
-| Percentile method | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any column. | [Video 44](44-outliers-percentile/note.md) |
-| Percentile rule | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers. | [Video 41](41-what-are-outliers/note.md) |
+| Percentile method (percentile rule) | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any column. | [Video 44](44-outliers-percentile/note.md) |
 | Percentile | The value below which a given share of the data lies. | [Video 19](19-understanding-your-data/note.md) |
 | Perceptron trick | Moving a line towards each misclassified point until the classes are separated. | [Video 70](70-perceptron-trick/note.md) |
 | Perceptron | The smallest building block of a neural network; one artificial neuron. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -597,7 +589,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Posterior | The probability of an event after the evidence is taken into account. | [Video 85](85-bayes-theorem/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |
-| Precision | Of all items predicted positive, the fraction that really are positive. | [Video 77](77-precision-recall-f1/note.md) |
+| Precision | Of all items predicted positive, the fraction that really are positive. | [Video 14](14-framing-ml-problem/note.md) |
 | Predict | Use a trained model to give an answer for new data it has not seen. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | predict_proba | scikit-learn method that returns predicted probabilities instead of classes. | [Video 78](78-roc-auc/note.md) |
 | Prediction ($\hat{y}$) | The value the model gives for an input; the hat marks a prediction. | [Video 51](51-linear-regression-maths/note.md) |
@@ -622,7 +614,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Q-Q plot | A plot of a column's sorted values against the values a normal distribution would have; points on the line mean normal. | [Video 30](30-function-transformer/note.md) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Video 30](30-function-transformer/note.md) |
 | Quarter | One of four three-month parts of a year. | [Video 34](34-date-and-time/note.md) |
-| Quartile | $Q_1$ (25th percentile) and $Q_3$ (75th percentile): they cut the sorted column into quarters. | [Video 43](43-outliers-iqr/note.md) |
 | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. | [Video 19](19-understanding-your-data/note.md) |
 | Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Query point | The new point whose class we want to predict. | [Video 91](91-knn/note.md) |
@@ -634,8 +625,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Raw data | Data as it arrives, before any preparation. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Raw string | A Python string written `r"..."`, in which a backslash is kept as it is. | [Video 33](33-mixed-variables/note.md) |
 | Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time. | [Video 15](15-working-with-csv/note.md) |
-| Recall (sensitivity) | Of all items that really are positive, the fraction the model found. | [Video 77](77-precision-recall-f1/note.md) |
-| Recall | Of the real positive cases, the share we flagged. | [Video 14](14-framing-ml-problem/note.md) |
+| Recall (sensitivity) | Of all items that really are positive, the fraction the model found. | [Video 14](14-framing-ml-problem/note.md) |
 | Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values. | [Video 30](30-function-transformer/note.md) |
 | Recommendation engine | A model that suggests items, such as movies, to users. | [Video 4](04-batch-learning/note.md) |
 | Reduced sample space | The outcomes that remain possible once the condition is known. | [Video 82](82-conditional-probability/note.md) |
@@ -658,15 +648,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Ridge regression | Linear regression with a penalty on the sum of squared coefficients. | [Video 63](63-ridge-regression-intuition/note.md) |
 | River | A Python library for online machine learning. | [Video 5](05-online-learning/note.md) |
 | robots.txt | A file at a site's root listing what bots are asked not to visit. | [Video 18](18-web-scraping/note.md) |
-| Robust scaler | A normalization technique that copes well with outliers. | [Video 24](24-standardization/note.md) |
 | Robust scaling | Subtract the median and divide by the interquartile range; copes well with outliers. | [Video 25](25-normalization/note.md) |
 | RobustScaler | scikit-learn's class for robust scaling. | [Video 25](25-normalization/note.md) |
 | ROC curve | A plot of TPR against FPR for every threshold. | [Video 78](78-roc-auc/note.md) |
 | Rollback | Restoring a model to an earlier, good version. | [Video 5](05-online-learning/note.md) |
 | Root mean squared error (RMSE) | The square root of MSE, in the output's units. | [Video 52](52-regression-metrics/note.md) |
 | RPM | Revolutions per minute: how fast a motor turns. | [Video 8](08-applications-of-ml/note.md) |
-| R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean. | [Video 52](52-regression-metrics/note.md) |
-| R² score | How much of the variation in a regression target the model explains: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
+| R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
 | Saddle point | A flat point that curves up in one direction and down in another. | [Video 57](57-gradient-descent/note.md) |
 | saga | A stochastic solver that supports every penalty, including Elastic Net. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Sample space | The set of all possible outcomes of an experiment. | [Video 82](82-conditional-probability/note.md) |
@@ -708,7 +696,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Video 24](24-standardization/note.md) |
 | Spam classifier | A program that decides whether an email is spam or not. | [Video 1](01-what-is-ml/note.md) |
-| Sparse data | Data where most of the space holds no points. | [Video 46](46-curse-of-dimensionality/note.md) |
+| Sparse data | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. | [Video 25](25-normalization/note.md) |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory. | [Video 27](27-one-hot-encoding/note.md) |
 | Sparse model | A model in which many coefficients are exactly 0. | [Video 67](67-lasso-regression/note.md) |
 | sparse_output | `OneHotEncoder` parameter; `False` returns a normal NumPy array. | [Video 27](27-one-hot-encoding/note.md) |
@@ -720,7 +708,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Square root transform | Replacing each value with $\sqrt{x}$; a milder version of the log. | [Video 30](30-function-transformer/note.md) |
 | Square transform | Replacing each value with $x^2$; used for left-skewed data. | [Video 30](30-function-transformer/note.md) |
 | Square-root rule | A rough starting value for k: about $\sqrt{n}$, made odd. | [Video 91](91-knn/note.md) |
-| Standard deviation | A measure of how spread out a column's values are. | [Video 13](13-toy-project/note.md) |
+| Standard deviation | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). | [Video 19](19-understanding-your-data/note.md) |
 | Standardization | Scaling a column to mean 0 and standard deviation 1. | [Video 13](13-toy-project/note.md) |
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. | [Video 31](31-power-transformer/note.md) |
 | StandardScaler | scikit-learn's class that standardizes columns with `fit` and `transform`. | [Video 24](24-standardization/note.md) |
@@ -794,7 +782,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Vanishing gradient | Gradients shrinking towards 0 as they pass through many layers, which slows learning. | [Video 74](74-sigmoid-derivative/note.md) |
 | Variable | One column of a dataset. | [Video 20](20-univariate-analysis/note.md) |
 | Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other inputs predict input $j$; above 5 signals multicollinearity. | [Video 56](56-linear-regression-assumptions/note.md) |
-| Variance | The average squared distance of the points from their mean. | [Video 47](47-pca-geometric-intuition/note.md) |
+| Variance (of data) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). | [Video 47](47-pca-geometric-intuition/note.md) |
+| Variance (of a model) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. | [Video 62](62-bias-variance/note.md) |
 | Vector | A list of numbers: a 1D tensor. | [Video 11](11-tensors/note.md) |
 | Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Video 58](58-batch-gradient-descent/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |

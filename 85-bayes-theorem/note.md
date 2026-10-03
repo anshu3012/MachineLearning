@@ -42,6 +42,8 @@ The conditional probability Note showed that $P(A \mid B)$ and $P(B \mid A)$ are
 | $P(A)$ | **prior** | how likely $A$ was before seeing anything |
 | $P(B)$ | **evidence** | how likely the observation $B$ is overall |
 
+The likelihood here is the same idea as in the [log loss Note](../73-log-loss/note.md) (section three): the probability of what we observed, given a hypothesis (there, a model's coefficients; here, an event $A$).
+
 So Bayes' theorem describes how a belief is updated: start from the **prior**, see some evidence, and end with the **posterior**. In classification, $A$ will be a class (such as "spam") and $B$ the observed inputs (such as the words in an email). The posterior is what the classifier wants.
 
 ## 4. The proof

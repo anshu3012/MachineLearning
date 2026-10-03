@@ -1,0 +1,417 @@
+Hello guys, welcome to my youtube channel.
+We are studying random forest and in this video we will study all the hyperparameters of random forest classifier algorithm.
+So there are many hyperparameters, it is a very very flexible algorithm.
+So we will see all the hyperparameters one by one.
+The good part is that the hyperparameters of random forest classifier and hyperparameters of random forest regressor,
+there is not much difference in them.
+So if you understand the classifier, you will understand the regressor as well.
+So what I have done is, I have divided this whole set of hyperparameters into 3 parts.
+So the first part is those hyperparameters which are applicable on random forest.
+The second part is hyperparameters which are applicable on random forest.
+the hyperparameters which are used to train decision trees. As you already know random forest is built using decision trees.
+So there are some hyperparameters to train the decision trees. And the third set of hyperparameters is common in all machine learning algorithms.
+So let me first show you which hyperparameters are used to tune random forest.
+So first of all I have made a kind of visualization tool and in this I have kept in total 4 hyperparameters.
+N estimators, max features, bootstrap, max samples.
+So these are the hyperparameters which you can use to tune random forest.
+So let's see all of them quickly.
+The first one is num estimators. It decides how many decision trees will be used to make your random forest.
+Max features tells that if your data set has 5 columns in input then how many columns you want to use out of them.
+Max features tells this.
+What does bootstrap tell?
+It tells that if you have 5 columns in input then how many columns you want to use out of them.
+Will you select randomly or not?
+When you are selecting rows and columns, will you select randomly or not?
+And the last one is max samples.
+How many rows do you want to give to each decision tree?
+Because you give subsets.
+So max samples decide number of rows.
+Max features decide number of columns.
+You can read these four here once.
+N estimators, default value is 100.
+And its description is the number of trees in the forest.
+The number of trees in the forest.
+How many decision trees you are using.
+Next is max features.
+It is a bit technical.
+Here you have four options.
+First is auto.
+Second is square root.
+Third is log.
+And then you can give any number if you want.
+So let's read one by one.
+The number of features to consider when looking for the best split.
+So when your decision tree is splitting.
+How many columns will it consider?
+This is decided by this hyperparameter.
+So it is written here that if you give integer value.
+So the value you gave will be the same as max features.
+Suppose you put the value of max feature as 2.
+And in your data set total columns were 10.
+So whenever you do splitting, you will consider only two columns.
+Any two randomly.
+If you are taking float, then it will become percentage.
+This value will always be 0 to 1.
+So 0.1 means 10% of the columns.
+0.2 means 20% of the column.
+0.5 means 50% of the column.
+Auto means square root of features.
+So if you have 100 features.
+So you will randomly consider 10 features.
+Square root and auto are same.
+It is a bit weird that why both exist.
+But both are same as auto.
+Log is log of number of features.
+So if you have.
+100 columns.
+So.
+You.
+Will use 6, actually 7 columns.
+Ok.
+And if you have given none.
+So the total number of your columns will be used.
+While splitting the tree.
+Ok.
+I hope you understand till here.
+Next is bootstrap.
+Default value of bootstrap is true.
+And it is written here.
+Whether bootstrap samples are used when building trees.
+If false.
+The whole data set is used to build the tree.
+Bootstrap is basically bootstrapping with replacement.
+Ok.
+So if it is true.
+Then it will be replacement.
+If it is not true.
+Then it will not be replacement.
+Ok.
+And the last one is.
+Max samples.
+Ok.
+If bootstrap is true.
+The number of samples to draw from X.
+To train each base estimator.
+How many rows will every decision tree get.
+That is decided by max sample.
+Ok.
+So let me show you once.
+Suppose.
+I have this data set.
+It has two input columns.
+And one output column.
+This is classification data set.
+Here are two classes.
+Red class and purple class.
+First of all.
+I will train five decision trees.
+In my random forest.
+Rest of the things.
+I am leaving as it is.
+Which is the default value.
+And.
+Initially.
+I am giving all the rows.
+Of 375 to 375.
+And you can see.
+In the beginning.
+Actually.
+I am giving all the rows.
+Of 375 to 375.
+And you can see.
+In the beginning.
+I am giving all the rows.
+Of 375 to 375.
+And you can see.
+In the beginning.
+Actually.
+In the beginning.
+Accuracy is 0.88.
+If I increase the number of.
+Decision trees.
+Suppose.
+I did 10.
+Then.
+Accuracy is also increasing.
+Let's increase it a little more.
+Let's say.
+50.
+So.
+Time will take a little more.
+Because.
+Number of decision trees.
+Increased.
+And your.
+Accuracy is around.
+90%.
+Ok.
+You will notice one more thing.
+The less.
+Decision trees are.
+That much.
+Your decision boundary.
+Will be a little erratic.
+Erratic.
+In the sense.
+Such weird areas.
+Will come.
+Which tells.
+Overfitting.
+Ok.
+As you.
+Increase the number of.
+Decision trees.
+Overfitting.
+Will reduce.
+And those.
+Weird areas.
+Will.
+Smoothen out.
+Ok.
+And more.
+Classification.
+Is done.
+You can see.
+Smoothening.
+Is done.
+Ok.
+Weird areas.
+Are reduced a lot.
+Ok.
+Next.
+I will tell you.
+Max samples.
+So.
+I keep 50.
+Constant.
+And.
+So.
+Let's say.
+200.
+Rows.
+Decided.
+Ok.
+Run.
+Algorithm.
+No.
+Special.
+Improvement.
+If.
+100.
+So.
+A little.
+Decreased.
+Because.
+Number.
+Of.
+Rows.
+Really.
+Very.
+Less.
+If.
+50.
+Is.
+Fine.
+If.
+100.
+So.
+50.
+Let's.
+See.
+So.
+I.
+From my experience.
+I tell you.
+Max samples.
+If you.
+50 to 75 percent.
+In the range.
+So you get the most.
+Results.
+To do a lot.
+Do a lot.
+Don't give you the best results.
+Fine.
+Next.
+Is.
+Max features.
+So what I am doing.
+Manually.
+In Max features.
+I'm working.
+With only.
+One.
+Feature.
+I am taking only one feature and you run it and you would see that the accuracy is correct
+because you are randomly selecting one feature so sometimes column 1 is coming and sometimes column 2 is coming
+so still you are getting the correct result.
+If you do zero then obviously you will get an error by doing zero because you have to give a minimum of one column.
+So it is written here that there should be a number of features from zero to number.
+If you do two then more or less the same result comes.
+In fact it increased a little by doing two.
+By default it was auto as in square root so the square root of 2 is 1.41 so by default it was taking only one column.
+Now it is taking two columns so the accuracy increased a little.
+If we increase it a little more and take it around 200 then maybe we will be able to increase the accuracy more.
+Let's see.
+It became 0.9 only.
+So it means we keep it around 170.
+I just want to show you that that is how you tune a decision random forest.
+See.
+If we increase it a little more and make it 100.
+It will take a little more time obviously because you have doubled the number of decision trees.
+Still 91 is coming.
+If we do bootstrap false then let's see what happens.
+There is not much difference between bootstrap true and false.
+Generally people keep it on 2.
+They prefer to keep it on 2.
+Ok.
+Let's see.
+So there are no special changes.
+So see that is how you can tune a random forest.
+Ok.
+So these are the hyper parameters of our four most important random forest.
+Now after this there are some more parameters.
+Like these are all parameters.
+What will be the criteria?
+Ginny or Entropy.
+What will be the max depth of every decision tree?
+What will be the minimum sample split?
+Means whenever a node will be created.
+So you can give a minimum sample split.
+That there will be so many number of rows.
+Only then you will split.
+Or else you will not split.
+Basically you will prune the decision tree.
+Ok.
+Similarly minimum sample leaves also tells the same thing.
+Min, weight, fraction, leaf.
+Tells the same thing in terms of fraction.
+Max leaf nodes.
+Tells you how many nodes can be maximum.
+Minimum impurity decrease.
+Tells you how much decrease in impurity minimum you will get.
+Only then you will split.
+And this is deprecated.
+So we are not discussing this.
+We have discussed bootstrap.
+So basically if you want to see decision trees.
+So what you can do.
+On YouTube.
+There is a video on my channel already.
+CampusX.
+Decision Tree Hyper Parameters.
+If you will watch this video.
+If you will watch this video.
+So here I have explained in detail.
+All the parameters.
+Which are written here.
+All these.
+Min sample leaf.
+Max depth.
+Min sample split.
+Criteria.
+All these I have explained in detail here.
+Ok.
+And here.
+This tool is already available.
+So you can use this tool.
+So basically I don't want to repeat.
+Otherwise video will be long.
+So all the hyper parameters of decision tree.
+You can watch this video.
+I will put its link in description.
+And you can use this tool.
+And this is done for random forest.
+Ok.
+Now some more hyper parameters are left.
+We will discuss them quickly.
+I will make a different video on OOB score.
+There you will understand this.
+N jobs helps to train parallel decision trees.
+So if there are multiple cores in your processor.
+So you can use all cores parallel.
+So basically it will be faster training.
+Ok.
+Random state.
+You use it for uniformity.
+Again and again if you train same random forest.
+With same parameter values.
+Then also results are different.
+Because when column selection happens.
+Or column sampling happens.
+Feature sampling happens.
+At that time randomly.
+Feature selection happens.
+So you can also make it constant.
+By giving a random state value.
+Ok.
+From verbose you will see all the output.
+During training.
+Warm start.
+Now you use it.
+When you want to train your algorithm in stages.
+Ok.
+That you got some data now.
+And got some data later.
+So you can use warm start.
+Class data.
+You use it when you have imbalanced data set.
+You can pass here.
+According to you.
+Weight of classes.
+Ok.
+And that will help you.
+Ok.
+And.
+What is this?
+CCP alpha.
+I have never used this.
+Although.
+It says.
+Complexity parameter used for minimal cost complexity pruning.
+The subtree with largest cost complexity.
+That is chosen by default.
+No pruning is performed.
+So default value is 0 only.
+Again this is also a parameter for pruning.
+About this.
+I will tell you in a future video.
+At this point I have never used it.
+So I will have to use it.
+I will have to take some experience about it.
+Only then I will be able to tell you about it properly.
+Ok.
+So.
+These are the hyper parameters.
+That are present in random forest classifier.
+And if you go to random forest regressor.
+So there also you get more or less the same parameters.
+But some things are different.
+Like here in criteria.
+MSE and MAE is there.
+Like here you had.
+Gini and Entropy.
+Here MSE and MAE is there.
+Rest everything is same.
+See.
+Nothing is different.
+It is same as it is.
+Ok.
+So I would recommend that you go and first.
+Do some experiment with this.
+And also do some experiment with this decision tree tool.
+By doing these two.
+Many hyper parameters will be clear to you.
+And what I am going to do.
+I will make one more video.
+Next video.
+There I will train a random forest classifier on a real world data site.
+And will show you by tuning hyper parameters.
+So whatever you are reading in this video.
+That will be a little more clear in your mind.
+Ok.
+So I hope you liked this whole video.
+And helped you.
+So that's it.
+Thanks for watching.
+Bye.

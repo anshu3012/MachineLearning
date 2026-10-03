@@ -27,13 +27,7 @@ With 1,000 rows and a batch size of 100, the data splits into 10 batches, so the
 
 > **Key point:** Batch size n is batch gradient descent; batch size 1 is stochastic gradient descent; anything between is mini-batch.
 
-The **batch size** is a hyperparameter, and the other two types are its extreme values:
-
-| Batch size | Updates per epoch | Name |
-|---|---|---|
-| $n$ (all rows) | 1 | batch gradient descent |
-| 1 | $n$ | stochastic gradient descent |
-| between 1 and $n$ | $n$ / batch size | mini-batch gradient descent |
+The **batch size** is a hyperparameter. Read the table of the three types in the [batch gradient descent Note](../58-batch-gradient-descent/note.md) (section one) by batch size: batch gradient descent is batch size $n$, stochastic gradient descent is batch size 1, and mini-batch is everything between.
 
 So mini-batch is the general form, and the batch size tunes how it behaves between the two extremes.
 

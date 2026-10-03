@@ -45,6 +45,8 @@ How much the model's predictions change from one training set to another is its 
 - shows a big gap between training and test performance;
 - is **overfitting**.
 
+This is a different meaning from the variance of a column, the average squared distance of its values from their mean (see the [understanding your data Note](../19-understanding-your-data/note.md), section seven point one, and the [PCA geometric intuition Note](../47-pca-geometric-intuition/note.md), section five). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
+
 ## 4. Seeing bias and variance
 
 > **Key point:** Train the same model on many training sets. The spread of the resulting curves is the variance; how far their average is from the truth is the bias.

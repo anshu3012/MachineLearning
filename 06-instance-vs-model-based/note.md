@@ -65,7 +65,7 @@ The idea behind step 4: points that are close together tend to share the same an
 
 This procedure is the **K-nearest neighbours (KNN)** algorithm, covered in detail later in the course.
 
-> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ. So before measuring distances, both columns are put on the same scale (**feature scaling**, covered later). The neighbours in Figures 2 and 3 were found this way.
+> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ. So before measuring distances, both columns are put on the same scale (**feature scaling**, see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2 and 3 were found this way.
 
 ### 3.2 No real training
 

@@ -80,10 +80,10 @@ class CycleLoop(Scene):
         self.wait(0.8)
         self.snap()
 
-        # the model rots over time: retrain on new data
+        # the model drifts over time: retrain on new data
         loop = CurvedArrow(self.boxes[8].get_right() + RIGHT * 0.05, self.boxes[1].get_left() + LEFT * 0.05,
                            angle=TAU / 8, color=RED_C, stroke_width=5)
-        self.play(Create(loop), *self.caption("Data changes and the model rots:\nretrain on new data", RED_C))
+        self.play(Create(loop), *self.caption("Data changes and the model drifts:\nretrain on new data", RED_C))
         self.wait(1.2)
         self.snap()
 

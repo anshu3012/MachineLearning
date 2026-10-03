@@ -75,36 +75,21 @@ Chess-playing computers are a classic example.
 
 Expert systems work well when a problem has clear, fixed rules, as in chess or logic puzzles. They fail when the rules are fuzzy.
 
-Take the question: *does this photo contain a dog?* To answer it with rules, we would have to cover:
-
-- hundreds of breeds,
-- every size, colour, ear shape and tail,
-- every camera angle and every kind of lighting.
-
-Nobody can write rules for all of that. Speech recognition fails for the same reason. Machine Learning was developed to solve exactly this kind of problem.
+Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, angles and lights make the rules impossible to write down (see the dog example in Section 4.2 of the [what is ML Note](../01-what-is-ml/note.md)). Speech recognition fails for the same reason, and Machine Learning was developed to solve exactly this kind of problem.
 
 ## 4. Machine Learning
 
 > **Key point:** In Machine Learning, we do not write the rules. We give the machine examples with answers, and it works out the rules itself.
 
-**Machine Learning (ML)** is a branch of computer science that uses statistical techniques to find patterns in data.
+**Machine Learning (ML)** is a branch of computer science that uses statistical techniques to find patterns in data. It became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../01-what-is-ml/note.md)).
 
 ### 4.1 Learning rules from data
 
 > **Key point:** Traditional programming turns rules into answers. ML turns answers into rules.
 
-![Traditional programming vs Machine Learning](images/rules_vs_data.png)
+Instead of writing every rule by hand (explicit programming), we give the machine data and the correct answers, and it finds the rules itself (see Section 3 of the [what is ML Note](../01-what-is-ml/note.md)). Finding the rules from examples is called **learning**. Once a machine has learned, it can **predict**: give an answer for new data it has never seen.
 
-Figure 5 compares the two approaches:
-
-- **Traditional programming:** we give the computer data and rules, and it produces answers.
-- **Machine Learning:** we give the computer data and the correct answers, and it produces the rules.
-
-Writing every rule by hand is called **explicit programming**. ML needs none of it.
-
-Finding the rules from examples is called **learning**. Once a machine has learned, it can **predict**: give an answer for new data it has never seen.
-
-> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 6), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression*).
+> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 5), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression*).
 
 ![A pattern in data: marks rise with hours studied (example data)](images/pattern_in_data.png)
 
@@ -112,23 +97,12 @@ Finding the rules from examples is called **learning**. Once a machine has learn
 
 > **Key point:** We stop writing rules and start providing labelled examples.
 
-Back to the dog problem from Section 3.2:
+An ML model learns what a dog looks like from labelled photos, as children do (see Section 4.2 of the [what is ML Note](../01-what-is-ml/note.md)). Compared with symbolic AI:
 
 | Approach | What we do | Result |
 |---|---|---|
 | Symbolic AI | Write rules for every breed, colour and shape | Impossible to finish |
 | ML | Show thousands of photos labelled "dog" or "not dog" | The machine learns what a dog looks like and can classify new photos |
-
-Our job changes from writing rules to providing good data. This is how children learn too: from examples ("this is a dog, this is not"), not from a rulebook.
-
-### 4.3 Why ML took off
-
-> **Key point:** ML is old, but it only became practical once we had enough data and fast enough computers.
-
-ML methods have existed for decades. They became dominant in industry over the last 20 to 30 years because of two changes:
-
-1. **Large amounts of data**, produced by the internet and phones.
-2. **Fast, cheap hardware** that can learn from that data.
 
 ## 5. Deep Learning
 
@@ -162,7 +136,7 @@ Here CGPA, IQ and Certifications are the features, and "Placed?" is the answer w
 
 ![Feature selection in ML vs DL (student placement example)](images/features_ml_vs_dl.png)
 
-Figure 7 shows the difference:
+Figure 6 shows the difference:
 
 - **ML:** we decide which features matter and supply them. Choosing well requires a good understanding of the data. A useful feature we leave out can never be used by the model.
 - **DL:** we supply the raw data, and the network works out which information matters.
@@ -175,7 +149,7 @@ This makes DL valuable when nobody knows what the right features are. For exampl
 
 A neural network is organised in **layers** of neurons. Each layer works on the output of the layer before it. Adding layers lets the network detect more complex patterns, and a network with many layers is called *deep*.
 
-Figure 8 shows a network recognising a handwritten digit:
+Figure 7 shows a network recognising a handwritten digit:
 
 ![Layers of a neural network recognising a handwritten 7](images/layers_digit.gif)
 
@@ -183,7 +157,7 @@ Figure 8 shows a network recognising a handwritten digit:
 2. The next layer combines edges into **shapes**: a horizontal bar and a slanted line.
 3. The next layer combines the shapes into the answer: 7.
 
-> **Extra:** Nobody tells the layers to look for "edges" or "shapes". When researchers inspected trained networks, they found that early layers tend to respond to edges and later layers to larger parts. Figure 8 is a simplified version of this.
+> **Extra:** Nobody tells the layers to look for "edges" or "shapes". When researchers inspected trained networks, they found that early layers tend to respond to edges and later layers to larger parts. Figure 7 is a simplified version of this.
 
 ### 5.4 More data helps DL more
 
@@ -191,7 +165,7 @@ Figure 8 shows a network recognising a handwritten digit:
 
 ![Performance as the amount of data grows](images/data_vs_performance.png)
 
-Figure 9 shows how performance changes as we add data:
+Figure 8 shows how performance changes as we add data:
 
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
@@ -202,7 +176,7 @@ This is why DL now outperforms ML on tasks with very large datasets: image class
 
 > **Key point:** Lots of data, especially images, text or speech: use DL. Small or tabular data: use ML.
 
-DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 9 shows.
+DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 8 shows.
 
 Many organisations, such as banks and insurance companies, do not have that much data. For them, ML remains the standard choice.
 
@@ -240,7 +214,6 @@ Many organisations, such as banks and insurance companies, do not have that much
 | Knowledge base | The set of rules inside an expert system |
 | Inference engine | The program that applies an expert system's rules |
 | Machine Learning (ML) | Using statistical techniques to let a machine find patterns in data |
-| Explicit programming | Writing every rule a computer follows by hand |
 | Learning | Finding rules (patterns) from examples |
 | Predict | Give an answer for new, unseen data |
 | Deep Learning (DL) | ML using neural networks with many layers |

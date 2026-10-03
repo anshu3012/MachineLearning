@@ -50,16 +50,9 @@ This is how a few outliers can quietly spoil a whole analysis. In ML, outliers a
 
 > **Key point:** Linear regression draws its line close to every point, so a few outliers pull the line away from the pattern of all the others.
 
-Take data on students: how many hours each studied per week, and the marks they got. This is a regression task: predict marks from hours. The data shows a clear trend: more hours, more marks.
+A regression line pulled by outliers is drawn in the [feature engineering Note](../23-what-is-feature-engineering/note.md) (section "Detecting and removing outliers"). Here we keep one example in mind: students' weekly study hours against their marks, where more hours bring more marks.
 
-But two students studied very little and still scored top marks. These two are outliers. Figure 2 shows what they do to a **linear regression** line, which runs as close as possible to all the points.
-
-![Two students with few hours and top marks pull the regression line](images/hours_marks.png)
-
-- **Green line:** fitted without the two outliers. It follows the trend of the 25 other students.
-- **Red line:** fitted with them. It tilts up at the left to get closer to them, and so it fits the other students worse.
-
-The red line gives wrong predictions for most students. And outliers are dangerous because they are often hidden: nothing warns us, the model just performs worse. Note 23 (Figure 2) showed the same effect with three outliers at the bottom right.
+Two students studied very little and still scored top marks. These two outliers tilt a **linear regression** line towards them, so it fits the other students worse. Outliers are dangerous because they are often hidden: nothing warns us, the model just performs worse.
 
 ## 4. When to remove and when to keep outliers
 
@@ -87,7 +80,7 @@ There, the fraudulent transactions are the outliers. If we removed the outliers,
 
 > **Key point:** Sometimes an outlier is real and makes sense once we add a column that explains it.
 
-Go back to the two students of Figure 2. They are real students, not errors. Instead of deleting them, we could add a column such as `IQ`.
+Go back to the two students of Section 3, with few hours and top marks. They are real students, not errors. Instead of deleting them, we could add a column such as `IQ`.
 
 With that column, the model may learn why these two scored high with few hours, and they stop looking like outliers. An outlier can tell us that our data is missing something.
 
@@ -141,7 +134,7 @@ Section 7 maps the treatments, Section 8 the detection rules. Notes 42 to 44 the
 
 > **Key point:** Trimming deletes the rows that hold outliers; it is fast, but too much trimming shrinks the data.
 
-**Trimming** removes every row whose value lies outside the limits. In Figure 2 we would simply delete the two students.
+**Trimming** removes every row whose value lies outside the limits. In Section 3 we would simply delete the two students.
 
 - **Advantage:** very fast and simple.
 - **Disadvantage:** if there are many outliers, we delete many rows, and the data gets thin.
@@ -150,7 +143,7 @@ Section 7 maps the treatments, Section 8 the detection rules. Notes 42 to 44 the
 
 > **Key point:** Capping keeps the rows but replaces every value beyond a limit with the limit itself.
 
-Outliers always sit at an end of the data, either too high or too low. **Capping** sets the two limits and moves every value beyond them back onto the limit. Figure 3 compares it with trimming, with limits 20 and 90.
+Outliers always sit at an end of the data, either too high or too low. **Capping** sets the two limits and moves every value beyond them back onto the limit. Figure 2 compares it with trimming, with limits 20 and 90.
 
 ![Trimming deletes the four outliers; capping keeps all 20 rows and moves the outliers onto the limits](images/trim_cap.png)
 
@@ -173,43 +166,21 @@ Trimming and capping are used far more, and they are what Notes 42 to 44 focus o
 
 > **Key point:** The column's shape decides the rule: mean ± 3 standard deviations for a normal column, the IQR fences for a skewed one, percentiles for any column.
 
-Many detection methods exist; these three are the most important. Figure 4 applies each to example data, with the limits as dashed lines and the flagged values in red.
+Many detection methods exist; these three are the most important. Figure 3 applies each to example data, with the limits as dashed lines and the flagged values in red.
 
 ![The three detection rules: mean plus or minus 3 standard deviations, the IQR fences, and the 1st and 99th percentiles](images/detection.png){width=100%}
 
 ### 8.1 Normal column: mean ± 3 standard deviations
 
-> **Key point:** In a normal distribution, 99.7% of the values lie within 3 standard deviations of the mean, so a value beyond that is an outlier.
+> **Key point:** In a normal column, a value more than 3 standard deviations from the mean is an outlier.
 
-When a column is normally distributed (bell-shaped, or close to it), its values follow a fixed pattern:
-
-- about 68.3% lie within 1 standard deviation of the mean;
-- about 95.4% lie within 2 standard deviations;
-- about 99.7% lie within 3 standard deviations.
-
-So a value outside mean ± 3 standard deviations is very rare, and we treat it as an outlier.
-
-> **Extra:** The limits, step by step.
->
-> 1. **In words:** step three standard deviations below and above the mean.
-> 2. **Formula:** with mean $\mu$ and standard deviation $\sigma$,
->    $$\text{lower} = \mu - 3\sigma, \qquad \text{upper} = \mu + 3\sigma$$
-> 3. **Example:** marks with mean 60 and standard deviation 10:
->    $$\text{lower} = 60 - 3 \times 10 = 30, \qquad \text{upper} = 60 + 3 \times 10 = 90$$
->    Marks below 30 or above 90 are outliers. In Figure 4 (left), 5 of 2,000 values fall outside.
-
-This rule is often written with the **z-score**, the distance from the mean counted in standard deviations; an outlier has a z-score below $-3$ or above 3. Note 42 covers it.
+About 99.7% of a normal column's values lie within 3 standard deviations of the mean, so a value outside that range is rare enough to call an outlier. The [z-score Note](../42-outliers-zscore/note.md) (section three, the 68-95-99.7 rule) explains the rule and its limits.
 
 ### 8.2 Skewed column: the IQR fences
 
 > **Key point:** For a skewed column, the box-plot fences, 1.5 IQR beyond the box, set the limits.
 
-When a column is skewed (a long tail to the right or left, Note 20), the mean ± 3 standard deviations rule no longer fits. Instead we use the **interquartile range (IQR)**, the width of a box plot's box, which Note 20 introduced.
-
-$$\text{IQR} = Q_3 - Q_1$$
-$$\text{lower} = Q_1 - 1.5 \times \text{IQR}, \qquad \text{upper} = Q_3 + 1.5 \times \text{IQR}$$
-
-Here $Q_1$ is the 25th percentile and $Q_3$ the 75th. For the Titanic ages (Note 20), $Q_1 = 20.125$ and $Q_3 = 38$ give limits of $-6.69$ and $64.81$. Note 43 covers this rule.
+The box-plot fences of the [univariate analysis Note](../20-univariate-analysis/note.md) serve as the limits for a skewed column; the [IQR Note](../43-outliers-iqr/note.md) puts them to work.
 
 ### 8.3 Any column: percentiles
 
@@ -217,7 +188,7 @@ Here $Q_1$ is the 25th percentile and $Q_3$ the 75th. For the Titanic ages (Note
 
 The third rule works whatever the shape of the column. We pick two percentiles, for example the 1st and the 99th, and every value below the first or above the second is an outlier.
 
-The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 4, right). Note 44 covers this rule together with winsorization.
+The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 3, right). Note 44 covers this rule together with winsorization.
 
 ## 9. The outlier Notes, in order
 
@@ -258,6 +229,4 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 | Capping | Replacing every value beyond a limit with the limit itself |
 | Winsorization | Capping with limits set by percentiles |
 | Discretization | Turning numbers into ranges (bins), so extreme values join the last range |
-| Z-score | Distance from the mean in standard deviations; beyond ± 3 marks an outlier in a normal column |
-| IQR rule | Values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$) are outliers; used for skewed columns |
 | Percentile rule | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers |

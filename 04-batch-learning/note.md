@@ -85,7 +85,7 @@ Once deployed, a batch model is **static**: it keeps using what it learned from 
 
 Figure 3 shows the effect. Performance slowly drops after each deployment and jumps back up each time we retrain.
 
-> **Extra:** This slow loss of accuracy is usually called **model drift** or **concept drift**: the patterns in the real world drift away from the patterns the model learned.
+> **Extra:** This slow loss of accuracy is usually called **model drift** (sometimes model rot) or **concept drift**: the patterns in the real world drift away from the patterns the model learned.
 
 ### 4.2 Retraining on a schedule
 

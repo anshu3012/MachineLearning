@@ -36,23 +36,7 @@ save(so.Plot(both, x="Alcohol", y="Malic acid", color="Class")
      .label(col="", color="")
      .layout(size=(10, 4.2)), "scatter_before_after")
 
-# 2. KDE of both columns on one axis, then 3. each column alone
-long = both.reset_index().melt(id_vars=["index", "stage"], value_vars=["Alcohol", "Malic acid"],
-                               var_name="Column", value_name="value")
-save(so.Plot(long, x="value", color="Column")
-     .facet(col="stage", order=STAGES).share(x=False, y=False)
-     .add(so.Line(linewidth=2.5), so.KDE(common_grid=False, common_norm=False))
-     .scale(color={"Alcohol": BLUE, "Malic acid": ORANGE})
-     .label(col="", x="value", y="Density")
-     .layout(size=(10, 4.2)), "kde_before_after")
-save(so.Plot(long, x="value", color="Column")
-     .facet(col="stage", row="Column", order={"col": STAGES}).share(x=False, y=False)
-     .add(so.Line(linewidth=2.5), so.KDE(common_grid=False, common_norm=False))
-     .scale(color={"Alcohol": BLUE, "Malic acid": ORANGE})
-     .label(col="", row="", x="value", y="Density")
-     .layout(size=(10, 6.4)), "shape_unchanged")
-
-# 4. one small column with an outlier (130), scaled five ways, all on one shared axis
+# 2. one small column with an outlier (130), scaled five ways, all on one shared axis
 w = np.array([[32.0], [54], [60], [67], [130]])
 methods = {
     "Standardization": StandardScaler().fit_transform(w),

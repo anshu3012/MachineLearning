@@ -103,6 +103,8 @@ $$\text{Data B: } \frac{(-1)(1) + (0)(0) + (1)(-1)}{3} = -\frac{2}{3} \approx -0
 
 The sign tells the direction of the relationship: positive in A, where $x$ and $y$ go up together, negative in B, where one goes up as the other goes down.
 
+Like the variance formula of the [PCA intuition Note](../47-pca-geometric-intuition/note.md) (section 5.2), this divides by $n$. `np.cov` divides by $n - 1$ instead (Section 6 notes the effect).
+
 > **Extra:** Correlation (from the Note on understanding data) is covariance divided by the two standard deviations. That squeezes it into the range $-1$ to $+1$. Covariance has no fixed range: its size depends on the units of the columns.
 
 ### 3.3 The covariance matrix

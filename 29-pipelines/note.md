@@ -355,7 +355,7 @@ The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 1
 
 > **Key point:** `SelectKBest` scores each column against the target and keeps the `k` best; it needs no column transformer because it looks at every column.
 
-**Feature selection** keeps only the most useful input columns. **`SelectKBest`** does it simply: it gives every column a score and keeps the `k` columns with the highest scores.
+Feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)) keeps only the most useful input columns. **`SelectKBest`** does it simply: it gives every column a score and keeps the `k` columns with the highest scores.
 
 The score here comes from `chi2`, the **chi-squared test**. It measures how strongly each column is linked to the target; it only works on values of 0 or more.
 
@@ -670,7 +670,6 @@ It gives the same 78.8% accuracy, and `get_feature_names_out` shows which 8 colu
 | transformers_ | List of a fitted column transformer's (name, transformer, columns) tuples |
 | handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10 |
-| Feature selection | Keeping only the most useful input columns |
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best |
 | Chi-squared test (chi2) | A test scoring how strongly a column is linked to the target; needs values of 0 or more |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data |

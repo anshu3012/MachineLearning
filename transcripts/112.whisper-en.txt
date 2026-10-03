@@ -1,0 +1,365 @@
+Hello guys, welcome to my youtube channel.
+We were studying random forest and in last video we studied hyperparameters.
+Now in this video we will understand through a code example how to apply random forest on any problem.
+The good part about random forest algorithm is that straight out of the box without any hyperparameter tuning this algorithm performs very well.
+So we will do one thing, in this video we have a dataset of heart disease which is very famous, I got it from Kaggle.
+We will apply random forest on it and this is a classification problem.
+So we are taking some imports, imported the dataset and here is my dataset.
+So this is a dataset about P03 patients and there are details about them like age, sex.
+There are some biological metrics and then it is being told whether they have heart disease or not.
+And for these inputs we have to predict whether the patient will have heart disease or not.
+So first of all I extracted x and y from this dataset like this.
+Split the train test.
+After splitting the train test, 242 rows went to train and 61 rows went to test.
+Here I have extracted x and y from this dataset.
+I made an object of random forest and trained it on the model and extracted the accuracy and it was coming out to be 0.85.
+If you compare it with other algorithms, let's say at this point if I take gradient boosting classifier which we have not studied yet but you can use it in the same way.
+If I take SVC from SVM.
+If I take logistic regression from linear model then I can show you a comparative study where random forest stands.
+We can take algorithms but I guess this will clear my point.
+So at this point what I will do is I will create gradient boosting classifier object.
+I will create SVC object.
+And I will create logistic regression.
+Logistic regression object.
+And what we can do is we can run the same code on all of them.
+So I will just do it three more times.
+Copy and here we will put gradient boost.
+Gradient boost.
+And you can see gradient boosting which is a very good algorithm in itself.
+Its accuracy is coming down a lot from random forest.
+Let's see what is the condition of SVM.
+SVM will probably perform a little better.
+Although we have not done any tuning so you never know.
+See it is getting worse.
+And let's see what is the condition of logistic regression.
+So LR.
+LR.
+And this is giving a very good result 0.88.
+So most likely data will be a little linear internally.
+Maybe that is why.
+But I just want to tell you that in any problem if you will apply random forest directly out of the box.
+It will always be in top 2-3 algorithms.
+Its performance will always be good.
+I guess this demonstration can show you this clearly.
+Okay.
+So now obviously we have only done train test split once.
+So according to that accuracy has come out.
+We have not cross validated it.
+So if you will cross validate then accuracy will decrease a little.
+You can see that it has become 0.82.
+Because I have done the same thing 10 times and then took out the average.
+So this is a little more accurate representation.
+Same thing when you will do with logistic regression then also it will not remain 88%.
+It will decrease.
+Like here it has decreased to 0.82.
+Which was 0.88 earlier.
+So you can see.
+After applying cross validation.
+Your result is coming.
+For both random forest and logistic regression.
+More or less same is coming.
+Okay.
+Now what can you do?
+You can improve the performance of random forest a little more.
+If you do its hyperparameter tuning.
+Because there are different hyperparameters.
+By adjusting their values.
+It can happen that you can improve the performance of the model.
+So what did I do?
+By saying max samples.
+Which was the hyperparameter.
+How many number of rows will go in every decision tree.
+I tuned that.
+I gave 75% rows.
+And by doing this my accuracy increased a lot.
+It became 0.90.
+If I do the same thing through cross validation.
+So if I write random forest.
+And here I write max samples.
+0.75.
+So 0.82 was coming earlier.
+Now it became 0.84.
+So.
+The only problem is.
+That there are around 25 hyperparameters in random forest.
+So how will I know.
+What will be the correct value of every parameter.
+So its solution is the same.
+And that is hyperparameter tuning.
+And to do hyperparameter tuning.
+You have different ways.
+Among them the most famous way is.
+That is grid search CV.
+So what you do there.
+You give different values to every hyperparameter.
+For which you have to test.
+So see this.
+I gave 4 different values for n estimator as in how many decision trees will be used.
+Then I gave different values for max features as in how many columns will be found in every decision tree.
+I gave different values for max depth of every decision tree.
+And then I gave different values for max samples.
+Now what will happen.
+That for every particular combination.
+One random forest will be trained.
+So how many combinations will be trained in total.
+You can see.
+4 multiplied by 3.
+Means 12.
+12 multiplied by 3.
+36.
+36 multiplied by 3.
+108 combinations.
+So what we are doing.
+We will train 108 different random forests.
+Okay.
+This is the strategy.
+This is called grid search.
+Because this is like a grid.
+If you are tuning 4 parameters.
+Then you are a 4 dimensional grid.
+4 dimensional grid.
+If you are a 4 dimensional table.
+And for every value of that table.
+You will train your random forest.
+So you have trained this first.
+After that you form a dictionary.
+By saying parameter grid.
+Here you give the exact values.
+You give the value of that hyper parameter.
+You give the name.
+And here you give its value.
+And this is my parameter grid.
+Okay.
+This is dictionary.
+Now I am making an object of random forest.
+And then I am importing grid search CV.
+Here you have to provide 4-5 things.
+First.
+Which algorithm you have to run.
+Random forest.
+You have to run this.
+Okay.
+Next.
+Parameter grid.
+What all options you have to train.
+We have told that.
+After that cross validation.
+So I am saying.
+This whole thing.
+Which you will train 108 random forests.
+Train it 5 times.
+Train every random forest 5 times.
+Okay.
+Because what will happen.
+Your cross validation will happen.
+And you will get accurate results.
+Okay.
+You will get output from verbose.
+During the process.
+And by doing n jobs minus 1.
+I will use all the cores of my machine.
+The process will be a little fast.
+Because if you are training so many models.
+Then the process will be slow.
+Right.
+So now I have run this code.
+Now in this line.
+The most important work will be done.
+Model will be trained.
+So as soon as you run it.
+See it is saying.
+Fitting 5 folds.
+For each of 108 candidates.
+Totaling 540 folds.
+So each of 108 candidates.
+Totaling 540 folds.
+So in short.
+540 different models.
+Are being trained.
+Now behind the scene.
+Now if this data was very big.
+Then it would have taken a lot of time.
+But this data set is small.
+That's why it happened.
+And you can see this summary every time.
+Okay.
+This is your output.
+Now if you want to know from this.
+What are the best parameters.
+Then you just have to write.
+rfgrid.bestparams
+And it will tell you in a summary.
+To keep max depth none.
+To keep max features 0.2.
+To keep max samples 0.75.
+And estimators 20.
+Okay.
+To keep 20 decision trees.
+And this is your best score.
+0.83.
+This is your best score.
+Okay.
+So that is how you do.
+Grid search CV.
+On top of.
+Random forest.
+Okay.
+Now there is one more thing.
+Which we call.
+Random search CV.
+Actually it is called.
+Randomized search CV.
+So what happens in this.
+That here you have.
+108 combinations.
+Right.
+So in this.
+You have.
+108 combinations.
+Right.
+So.
+If this is a very big data set.
+Or if you have to train.
+More hyper parameters.
+Then.
+Grid search CV.
+Slows down a bit.
+And it takes a lot of time.
+To train the model.
+What does.
+Randomized.
+Search CV do.
+That it.
+Randomly.
+108.
+If you have options.
+From that.
+It will select.
+10.
+15.
+20.
+And according to it.
+It will perform.
+Everything.
+Randomly.
+So here.
+What I did.
+I added one or two additional parameters.
+Like.
+Bootstrap.
+Min sample.
+Split.
+Min sample.
+Leave.
+I used more.
+Hyper parameters.
+This is my.
+Parameter.
+Grid.
+A little.
+Bigger this time.
+I then.
+Called.
+Randomized.
+Search.
+CV.
+Here.
+I kept everything.
+Same.
+As it is.
+And when.
+It was trained.
+So.
+You can.
+See.
+Fitting.
+5.
+Folds.
+For.
+All.
+Those.
+Best.
+Results.
+But.
+You.
+Get.
+The.
+Answer.
+So.
+If.
+In.
+Short.
+You.
+Working.
+On.
+A.
+Big.
+Data.
+Set.
+Like.
+Here.
+Your.
+Answer.
+Coming.
+0.81.
+Clearly.
+Better.
+Answers.
+You.
+Are.
+Working.
+On.
+Big.
+Data.
+Set.
+And.
+You.
+Have.
+To.
+Tune.
+Many.
+Hyper.
+Parameters.
+In.
+That.
+Case.
+You.
+Will.
+Use.
+Randomized.
+Search.
+CV.
+Why.
+Because.
+By.
+Selecting.
+Randomly.
+You.
+Use.
+Grid.
+Search.
+CV.
+When.
+You.
+Have.
+Less.
+Data.
+And.
+The.
+Algorithm.
+You.
+Have.
+A.
+Big.
+Data.
+Set.
+And.
+You.
+Have.
+Many.
+Hyper.
+Parameters.
+Then.
+Use.
+Randomized.
+Search.

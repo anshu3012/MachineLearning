@@ -321,7 +321,7 @@ The fill value, step by step:
 
 > **Key point:** If the column is skewed, use Q3 plus 1.5 times the IQR (or Q1 minus 1.5 times the IQR).
 
-The **interquartile range (IQR)** is the width of the middle half of the data: $\text{IQR} = Q_3 - Q_1$, the 75th percentile minus the 25th. The box-plot whiskers end 1.5 IQR beyond the box, so values past that point are outliers.
+The fill value sits on a box-plot fence, 1.5 IQR beyond the box, as in the [univariate analysis Note](../20-univariate-analysis/note.md) (section 8.1, whiskers and outliers). Values past a fence count as outliers, so a fill there stands out.
 
 The fill value, step by step:
 
@@ -383,7 +383,6 @@ Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 | End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\,\text{IQR}$ |
 | Covariance | How two columns move together; positive if they rise together, no fixed limits |
 | Correlation | Covariance rescaled to lie between $-1$ and $1$ |
-| Interquartile range (IQR) | $Q_3 - Q_1$, the width of the middle half of the data |
 | `strategy` | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant |
 | `fill_value` | The value `SimpleImputer` uses with `strategy="constant"` |
 | `statistics_` | The fill values a fitted `SimpleImputer` has learned, one per column |

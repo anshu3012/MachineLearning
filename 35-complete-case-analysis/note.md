@@ -28,9 +28,7 @@ This Note covers the left-most box: removing rows, called complete case analysis
 
 > **Key point:** Almost every scikit-learn algorithm fails on data with missing values, so we must deal with the gaps before training.
 
-A **missing value** is a cell of the table with no value in it. In pandas it shows up as `NaN` ("not a number"). A person may have skipped a field in a form, or something may have gone wrong while the data was collected.
-
-If we pass data with `NaN` cells to most scikit-learn models, training stops with an error. Removing or filling these gaps before training is therefore part of the data scientist's job.
+A **missing value** is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see "Handling missing values" in the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
 > **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier` and, since versions 1.3 and 1.4, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them.
 
@@ -52,7 +50,7 @@ When a column is missing most of its values, we can instead remove the column it
 
 > **Key point:** Univariate imputation fills a column using only that column; multivariate imputation also uses the other columns.
 
-**Imputation** means filling each missing value with an estimate. There are two families:
+Imputation, met in the feature engineering Note, fills each missing value with an estimate. There are two families:
 
 - **Univariate imputation** looks at one column at a time. To fill a gap in `age`, it uses only the other values of `age`.
 - **Multivariate imputation** looks at several columns together. To fill a gap in `age`, it also uses columns such as `income` or `education`.
@@ -352,7 +350,6 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 | Term | Meaning |
 |---|---|
 | Missing value | A cell with no value, shown as `NaN` in pandas |
-| Imputation | Filling each missing value with an estimate |
 | Univariate imputation | Imputation that uses only the column with the gap |
 | Multivariate imputation | Imputation that also uses the other columns |
 | SimpleImputer | scikit-learn's class for univariate imputation |

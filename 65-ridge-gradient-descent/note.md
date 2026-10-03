@@ -126,7 +126,7 @@ The exact Ridge answer from the previous Note scores test R² 0.463 here. Figure
 
 The diabetes inputs are strongly correlated (the s1 and s5 pair of the previous Notes). Along such directions the bowl is almost flat, so gradient descent moves very slowly there. Stopping early leaves those coefficients small, which acts like extra regularisation and here happened to help.
 
-> **Extra:** Stopping training before the loss is fully minimised, chosen by watching a validation score, is a regularisation technique of its own called **early stopping**. It is widely used for neural networks.
+> **Extra:** This is the early stopping of the [batch gradient descent Note](../58-batch-gradient-descent/note.md) (section five). Seen next to ridge, it is a regularisation technique of its own: like the penalty, it keeps the coefficients small. It is widely used for neural networks.
 
 ## 6. Ridge with gradient descent in scikit-learn
 
@@ -174,6 +174,5 @@ The diabetes inputs are strongly correlated (the s1 and s5 pair of the previous 
 | Term | Meaning |
 |---|---|
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor |
-| Early stopping | Stopping training before the loss is fully minimised, which keeps coefficients small |
 | Solver | The method a scikit-learn model uses to find its coefficients |
 | penalty | SGDRegressor setting that adds a regularisation penalty, such as "l2" for Ridge |

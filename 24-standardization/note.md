@@ -22,29 +22,16 @@ Figure 1 shows the whole topic. Standardization is two moves done one after the 
 
 ![Feature scaling and its two techniques; standardization is mean centring followed by scaling](images/overview.png)
 
-## 2. What feature scaling is
+## 2. Feature scaling, in brief
 
-> **Key point:** Feature scaling brings the input columns of a dataset to a similar range.
+> **Key point:** Feature scaling brings the input columns to a similar range, so a column with big numbers does not drown out one with small numbers.
 
-A dataset has input columns (the independent features) and a target column. Take students with two inputs, IQ and CGPA, and a target, the placement package in lakhs per year. IQ values are around 100; CGPA values are below 10.
+Feature scaling brings the input columns of a dataset into a similar range. The [toy project Note](../13-toy-project/note.md) (section "Scaling the inputs") shows why: algorithms such as KNN measure distances, so salary differences in thousands swamp age differences in tens. Two points are new here:
 
-**Feature scaling** is a technique to bring the independent features of the data into a fixed, similar range. After scaling, IQ and CGPA both sit in a similar range of numbers. Only the input columns are scaled, never the target.
+- Only the input columns are scaled, never the target.
+- Scaling is usually the last step of feature engineering: we first handle missing values, transform columns and deal with categories, then scale just before giving the data to the model.
 
-Feature scaling is usually the last step of feature engineering. We first handle missing values, transform columns and deal with categories, and scale just before giving the data to the model.
-
-## 3. Why feature scaling is needed
-
-> **Key point:** Some algorithms compare raw numbers, so a column with big numbers drowns out a column with small numbers.
-
-Take two inputs, age and salary, and a target: whether the person buys a product (1) or not (0). Suppose we solve this classification problem with **KNN** (k-nearest neighbours), which works by measuring the distance between points.
-
-The salary differences between two people run into thousands, while their age differences are a few tens. In the distance, the salary part is huge and the age part is tiny, so salary decides almost everything.
-
-The model then cannot use age properly and performs worse. Note 23 works through this distance with numbers.
-
-KNN is one example of many. Several algorithms are built in a way that works badly when the input columns are on different scales.
-
-## 4. Types of feature scaling
+## 3. Types of feature scaling
 
 > **Key point:** The two types of feature scaling are standardization and normalization.
 
@@ -55,7 +42,7 @@ There are two main types:
 
 Standardization is sometimes called **z-score normalization** in ML writing, because each scaled value is a **z-score**. The two names mean the same technique.
 
-## 5. The standardization formula
+## 4. The standardization formula
 
 > **Key point:** Each value is replaced by its distance from the column's mean, measured in standard deviations.
 
@@ -80,7 +67,7 @@ The new column always has two fixed properties, whatever the original numbers we
 
 > **Extra:** Why the new mean is always 0 and the new standard deviation always 1. Subtracting $\bar{x}$ from every value moves the mean down by exactly $\bar{x}$, to 0, without changing the spread. Dividing every value by $\sigma$ divides the spread by $\sigma$ too, so the new standard deviation is $\sigma / \sigma = 1$.
 
-## 6. What standardization does to the data
+## 5. What standardization does to the data
 
 > **Key point:** Standardization first moves the cloud of points so its centre sits at the origin (mean centring), then squeezes or stretches each axis until its standard deviation is 1.
 
@@ -100,11 +87,11 @@ The second step works differently for the two axes:
 
 At the end, both axes have mean 0 and standard deviation 1, and the dashed box is a square from -1 to 1.
 
-## 7. Standardization in scikit-learn
+## 6. Standardization in scikit-learn
 
 > **Key point:** Split the data first, then let `StandardScaler` learn the mean and standard deviation from the training set and apply them to both sets.
 
-### 7.1 The data
+### 6.1 The data
 
 > **Key point:** 400 users of a social network, with age, estimated salary and whether they bought a product.
 
@@ -128,11 +115,11 @@ The data is the Social Network Ads file: 400 users of a social network, and whet
 > df = df.iloc[:, 2:]
 > ```
 
-### 7.2 Split before scaling
+### 6.2 Split before scaling
 
 > **Key point:** Always do the train-test split before any feature scaling.
 
-Whether we standardize or normalize, the train-test split comes first. The scaler should learn only from the training set, as Note 13 explained under data leakage. With 30% of the rows held back for testing, the training set has 280 rows and the test set 120.
+Whether we standardize or normalize, the train-test split comes first. The scaler should learn only from the training set, as the [toy project Note](../13-toy-project/note.md) explained under data leakage. With 30% of the rows held back for testing, the training set has 280 rows and the test set 120.
 
 > **Python:** Splitting the data.
 >
@@ -146,11 +133,11 @@ Whether we standardize or normalize, the train-test split comes first. The scale
 > # X_train: (280, 2), X_test: (120, 2)
 > ```
 
-### 7.3 Fit on the training set, transform both
+### 6.3 Fit on the training set, transform both
 
 > **Key point:** `fit` learns the mean and standard deviation of each column; `transform` applies the formula to every value.
 
-scikit-learn's **`StandardScaler`** class does exactly what Section 5 described: it takes every value and applies $(x_i - \bar{x}) / \sigma$. Using it has two steps:
+scikit-learn's **`StandardScaler`** class does exactly what Section 4 described: it takes every value and applies $(x_i - \bar{x}) / \sigma$. Using it has two steps:
 
 - **fit:** learn each column's mean and standard deviation from the training set, and store them.
 - **transform:** apply the formula to every value, using the stored numbers.
@@ -195,7 +182,7 @@ The same formula, worked on a real row:
    $$\frac{26 - 37.86}{10.20} \approx -1.16, \qquad \frac{15000 - 69807}{34579} \approx -1.58.$$
    These are exactly the numbers in the first row of `X_train_scaled`.
 
-### 7.4 Checking the result with describe
+### 6.4 Checking the result with describe
 
 > **Key point:** After scaling, both columns have mean 0 and standard deviation 1.
 
@@ -212,11 +199,11 @@ Before scaling, the two columns live in completely different ranges. After scali
 
 > **Extra:** `scaler.scale_` gives a salary standard deviation of 34,579, while `describe()` shows 34,641. pandas divides by $n - 1$ when computing the standard deviation, while `StandardScaler` divides by $n$. With 280 rows the gap is small, and the scaled column's std shows as 1.0 either way.
 
-## 8. Effect of scaling on the data
+## 7. Effect of scaling on the data
 
 > **Key point:** Scaling changes the numbers on the axes, not the shape of the data.
 
-### 8.1 The scatter plot keeps its shape
+### 7.1 The scatter plot keeps its shape
 
 > **Key point:** The cloud of points looks the same; only its centre and its units change.
 
@@ -226,7 +213,7 @@ Figure 3 plots every training user by age and salary, before and after scaling. 
 
 The difference is on the axes. Before scaling, age runs from about 20 to 60 and salary from 15,000 to 150,000. After scaling, both axes are centred on 0 and run from about -2 to 2: the data has been mean centred and given standard deviation 1.
 
-### 8.2 The two columns become comparable
+### 7.2 The two columns become comparable
 
 > **Key point:** Before scaling, the two density curves cannot be compared; after scaling, they sit on the same range.
 
@@ -236,7 +223,7 @@ Figure 4 draws the density curve (KDE) of both columns on one axis. Before scali
 
 The two curves cannot be compared because their scales differ so much. After standardization, both curves sit on the same range, around 0. Any algorithm that compares the columns now treats them fairly, which gives better performance.
 
-### 8.3 Each column keeps its shape
+### 7.3 Each column keeps its shape
 
 > **Key point:** Standardization does not change the shape of a column's distribution.
 
@@ -246,7 +233,7 @@ Figure 5 shows each column on its own. Age before scaling and age after scaling 
 
 Only the numbers under the curve change: the mean becomes 0 and the standard deviation 1. If a column was skewed before, it is just as skewed after standardization.
 
-## 9. Why scaling matters: an experiment
+## 8. Why scaling matters: an experiment
 
 > **Key point:** On this data, logistic regression goes from 65.8% to 86.7% accuracy after scaling, while a decision tree gets 87.5% either way.
 
@@ -280,13 +267,13 @@ For a **decision tree**, scaling made no difference at all. A decision tree does
 >
 > For the decision tree, replace `LogisticRegression(solver="sag")` with `DecisionTreeClassifier()` from `sklearn.tree`.
 
-> **Extra:** Why `solver="sag"`? A **solver** is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 11), and gives up after 100 steps; on the raw data it has not reached the best answer by then, which gives the 65.8%.
+> **Extra:** Why `solver="sag"`? A **solver** is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and gives up after 100 steps; on the raw data it has not reached the best answer by then, which gives the 65.8%.
 >
 > The default solver, `"lbfgs"`, does reach it on the raw data too (87.5%), but needs 65 steps instead of 7. Either way, unscaled data makes the training harder.
 
 Scaling never hurt either model. In general, standardizing does no harm, but for some algorithms it helps a lot.
 
-## 10. Standardization and outliers
+## 9. Standardization and outliers
 
 > **Key point:** Standardization does not remove outliers or reduce their effect; they stay just as far from the rest of the data.
 
@@ -318,7 +305,7 @@ So whenever we standardize a column that has outliers, we must deal with the out
 >
 > `pd.concat` joins tables one below the other; `ignore_index=True` renumbers the rows 0, 1, 2, ... Older code uses `df.append(...)`, which was removed in pandas 2.0.
 
-## 11. When to use standardization
+## 10. When to use standardization
 
 > **Key point:** Standardize for algorithms that measure distances or train by gradient descent; tree-based algorithms do not need it.
 
@@ -345,7 +332,7 @@ These algorithms only compare values within one column, asking questions like "i
 
 > **Extra:** Why a tree does not care. Suppose a tree splits on "age > 40". After standardization, the same split becomes "scaled age > 0.21", which is $(40 - 37.86)/10.20$. Exactly the same users fall on each side, so the tree makes exactly the same predictions.
 
-## 12. Summary
+## 11. Summary
 
 | | Before standardization | After standardization |
 |---|---|---|
@@ -362,18 +349,17 @@ These algorithms only compare values within one column, asking questions like "i
 | Linear regression, logistic regression, neural networks | yes | trained with gradient descent |
 | Decision tree, random forest, gradient boosting, XGBoost | no | only compare values within one column |
 
-- Feature scaling brings the input columns to a similar range; it is usually the last step before the model.
+- Feature scaling is usually the last step before the model, and only the inputs are scaled.
 - Standardization: $x' = (x - \bar{x}) / \sigma$, giving mean 0 and standard deviation 1.
 - Geometrically: mean centring, then squeezing or stretching each axis to standard deviation 1.
 - Split first; fit the scaler on the training set only; transform both sets.
 - Standardization keeps the shape of the data and does not remove outliers.
 - On the ads data, logistic regression went from 65.8% to 86.7% accuracy; a decision tree stayed at 87.5%.
 
-## 13. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
-| Feature scaling | Bringing the input columns of the data to a similar range |
 | Standardization | Scaling a column by subtracting its mean and dividing by its standard deviation, so it gets mean 0 and std 1 |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean |
 | Z-score normalization | Another name for standardization |

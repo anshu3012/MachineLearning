@@ -198,7 +198,7 @@ concepts:
   - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: confirmed}
   - {id: datetime, name: Date and time features, step: 5, videos: [34], status: confirmed}
   - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
-  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 9, 23, 45], status: confirmed}
+  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [3, 7, 9, 23, 45], status: confirmed}
   - {id: feature_importance, name: Feature importance, step: 5, videos: [114], status: draft}
 
   # 6 Reduce dimensions
@@ -514,6 +514,7 @@ links:
   - [knn, is a kind of, classification_task, confirmed]
   - [knn, needs, cross_validation, confirmed]
   - [curse_dim, used in, knn, confirmed]
+  - [feature_extraction, compared with, feature_construction, confirmed]
   - [knn, compared with, bias_variance, confirmed]
   - [decision_surface, used in, classification_task, confirmed]
   - [decision_surface, compared with, overfitting, confirmed]

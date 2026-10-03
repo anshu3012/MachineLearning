@@ -26,12 +26,7 @@ Figure 1 shows the whole topic. The kind of categorical column decides the techn
 
 > **Key point:** Data is either numerical (numbers) or categorical (categories); categorical data is either nominal (no order) or ordinal (has an order).
 
-Every column of data is one of two types:
-
-- **Numerical data:** numbers, such as weight or height.
-- **Categorical data:** categories, such as gender, nationality, or a student's college branch.
-
-Categorical data itself comes in two types, nominal and ordinal.
+Every column is either numerical or categorical (see the [types of ML Note](../03-types-of-ml/note.md), section "Numerical and categorical data"). Categorical data itself comes in two types, nominal and ordinal.
 
 ### 2.1 Nominal data
 
@@ -58,11 +53,11 @@ Categorical data is mostly stored as strings, such as `"Male"` or `"Good"`. ML a
 There are many ways to do this, called **encoding** techniques. The two most popular ones are:
 
 1. **Ordinal encoding**, used on ordinal data. It is the subject of this Note.
-2. **One-hot encoding**, used on nominal data. It is the subject of the next Note.
+2. One-hot encoding, used on nominal data. It is the subject of the next Note.
 
 This Note also covers a third technique, **label encoding**. It does the same job as ordinal encoding, but it is meant for a different column: the target.
 
-> **Extra:** Why not simply number nominal categories too? Writing West Bengal = 0, Karnataka = 1, Maharashtra = 2 tells the model that Maharashtra is "more" than Karnataka, and that Karnataka sits exactly between the other two. That order is false, and the model may learn from it. One-hot encoding avoids this by giving each category its own column.
+> **Extra:** Numbering nominal categories would invent a false order; the [one-hot encoding Note](../27-one-hot-encoding/note.md) (section "Why nominal data needs its own technique") shows why and how one-hot encoding avoids it.
 
 ## 4. Ordinal encoding versus label encoding
 
@@ -306,14 +301,11 @@ The first five training targets were Yes, Yes, No, No, No. After encoding they a
 
 | Term | Meaning |
 |---|---|
-| Numerical data | Data made of numbers, such as weight or height |
-| Categorical data | Data made of categories, such as gender or nationality |
 | Nominal data | Categorical data whose categories have no order, such as states |
 | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good |
 | Encoding | Turning categories into numbers so an ML algorithm can use them |
 | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns |
 | Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only |
-| One-hot encoding | Replacing a nominal column by one 0/1 column per category (next Note) |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories` |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order |
 | LabelEncoder | scikit-learn's class for label encoding the target |

@@ -80,9 +80,9 @@ The **status code** is a number in the reply that says how the request went. For
 
 > **Key point:** A User-Agent header tells the server which browser is asking; sending a browser's User-Agent gets past simple bot checks.
 
-Many sites refuse requests that look like they come from a program (a **bot**) rather than a person using a browser. Every browser sends a short text called the **User-Agent** with each request, saying which browser and system it is. A plain `requests.get` sends `python-requests/2.x`, which gives it away.
+A browser announces itself with a short text called the User-Agent (see "Opening a file from a URL", section 5 of the [CSV Note](../15-working-with-csv/note.md)). Many sites refuse requests that look like they come from a program (a **bot**), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
 
-The fix is to send a browser's User-Agent ourselves, in the request's **headers** (extra information sent along with a request):
+So we send a browser's User-Agent ourselves, in the request's **headers** (extra information sent along with a request):
 
 > **Python:** Sending a browser User-Agent.
 >
@@ -411,7 +411,6 @@ On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the det
 | Status code | The number in a response saying how the request went (200 OK, 403 refused) |
 | requests | Python library for downloading web pages |
 | Headers | Extra information sent with a request, such as the User-Agent |
-| User-Agent | A short text a browser sends to say which browser it is |
 | Bot | A program that visits websites automatically |
 | robots.txt | A file at a site's root listing what bots are asked not to visit |
 | View Page Source | Browser option that shows a page's raw HTML |

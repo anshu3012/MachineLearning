@@ -98,31 +98,7 @@ Filling in missing values is called **imputation**. There are many more ways to 
 
 > **Key point:** Algorithms work only with numbers, so text categories must be converted into numbers.
 
-A **categorical** column holds labels rather than numbers, such as the names of animals. scikit-learn models work only with numbers, so the labels must be turned into numbers first.
-
-One common way is to replace the column with one new column per category. In each row, the column of that row's category gets a 1 and all others get a 0. This is called **one-hot encoding**.
-
-Before:
-
-| animal |
-|---|
-| dog |
-| cat |
-| sheep |
-| horse |
-| lion |
-
-After one-hot encoding:
-
-| dog | cat | sheep | horse | lion |
-|---|---|---|---|---|
-| 1 | 0 | 0 | 0 | 0 |
-| 0 | 1 | 0 | 0 | 0 |
-| 0 | 0 | 1 | 0 | 0 |
-| 0 | 0 | 0 | 1 | 0 |
-| 0 | 0 | 0 | 0 | 1 |
-
-The text column has become five numerical columns that hold the same information. Other ways of encoding categories come in later Notes.
+A categorical column holds labels rather than numbers, such as the names of animals (see the [types of ML Note](../03-types-of-ml/note.md), section 2.2). One common fix, one-hot encoding, replaces it with one 0/1 column per category; the [one-hot encoding Note](../27-one-hot-encoding/note.md) teaches it, and the [ordinal and label encoding Note](../26-ordinal-label-encoding/note.md) covers the other ways.
 
 ### 6.3 Binning: numbers into categories
 
@@ -158,24 +134,7 @@ When we use an algorithm that is sensitive to outliers, it is our job to deal wi
 
 > **Key point:** When columns have very different ranges, the column with the biggest numbers dominates; scaling puts all columns on a similar range.
 
-Input columns often have very different ranges. Take two columns: `age`, in the tens, and `salary`, in the tens of thousands.
-
-Some algorithms, such as KNN (which labels a point by its nearest neighbours), compare points by the straight-line distance between them. With these two columns, the salary difference is so large that it decides the distance almost alone. The age column then has almost no say in how the model behaves.
-
-> **Extra:** Euclidean distance, step by step.
->
-> 1. **In words:** for two points, take the difference in each column, square each difference, add them up, and take the square root.
-> 2. **Formula:** for points $(x_1, y_1)$ and $(x_2, y_2)$,
->    $$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
-> 3. **Example:** person A is 25 years old and earns 50,000 rupees; person B is 45 and earns 52,000 rupees. Then
->    $$d = \sqrt{(45 - 25)^2 + (52000 - 50000)^2} = \sqrt{400 + 4{,}000{,}000} \approx 2000.1$$
->    A 20-year age gap adds only 0.1 to the distance. The salary column decides almost everything.
-
-The fix is **feature scaling**: converting all columns to a similar range: for example, squeezing each into 0 to 1, or shifting each to mean 0 with standard deviation 1. We usually scale the columns before giving the data to such an algorithm. The two main techniques, **standardization** and **normalization**, each get their own Note.
-
-> **Extra:** The same example after scaling. Suppose ages run from 20 to 60 and salaries from 20,000 to 100,000 rupees. Rescaling each column to 0 to 1 gives A = (0.125, 0.375) and B = (0.625, 0.4). Now
-> $$d = \sqrt{(0.625 - 0.125)^2 + (0.4 - 0.375)^2} = \sqrt{0.25 + 0.000625} \approx 0.50$$
-> The age gap now counts: it is large for this range of ages, while the salary gap is small for this range of salaries.
+When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../13-toy-project/note.md), section 7). Feature scaling puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../24-standardization/note.md) and the [normalization Note](../25-normalization/note.md).
 
 ### 6.6 Other transformations
 
@@ -197,44 +156,7 @@ There is no fixed method for it. What we build depends on how well we know the d
 
 > **Key point:** Two Titanic columns, `SibSp` and `Parch`, combine into one clearer column: family size.
 
-The Titanic dataset has two related columns:
-
-- `SibSp`: the number of siblings or spouses travelling with the passenger;
-- `Parch`: the number of parents or children travelling with the passenger.
-
-Both describe the same thing: the passenger's family on board. So we can replace them with a single new column, `family_size`.
-
-| Passenger | SibSp | Parch | family_size | family_type |
-|---|---|---|---|---|
-| Braund, Mr. Owen Harris | 1 | 0 | 2 | small |
-| Heikkinen, Miss. Laina | 0 | 0 | 1 | alone |
-| Palsson, Master. Gosta Leonard | 3 | 1 | 5 | large |
-
-We can go one step further and turn the number into categories, as in binning:
-
-- **alone:** family size 1;
-- **small family:** family size 2 to 4;
-- **large family:** family size 5 or more.
-
-Two weak columns have become one meaningful column. Ideas like this come from working with the data and reading about it.
-
-> **Python:** Building the two new columns, on the Titanic file used in Note 19.
->
-> ```python
-> import pandas as pd
->
-> df = pd.read_csv("titanic_train.csv")
-> # +1 counts the passenger themself
-> df["family_size"] = df["SibSp"] + df["Parch"] + 1
-> # bins (0, 1], (1, 4], (4, 20]
-> df["family_type"] = pd.cut(
->     df["family_size"], bins=[0, 1, 4, 20],
->     labels=["alone", "small", "large"])
-> ```
->
-> `pd.cut` puts each value into a range (a bin) and gives that range a label.
-
-> **Extra:** The new column does carry information. In the Titanic training data, 30% of passengers travelling alone survived, 58% of those in small families, and only 16% of those in large families.
+On the Titanic, `SibSp` (siblings and spouses on board) and `Parch` (parents and children on board) both describe the passenger's family, so we can add them into one `family_size` column and group it into alone, small and large families. The [feature construction Note](../45-feature-construction-splitting/note.md), section 3, works this example through with code and measures whether it helps.
 
 ### 7.2 Splitting and grouping
 
@@ -277,38 +199,9 @@ Common techniques include **forward selection** (start with no columns, add the 
 
 Feature extraction is the last part. Like feature construction, it creates new columns. Unlike construction, the new columns are computed by an algorithm, not chosen by hand.
 
-### 9.1 Rooms, bathrooms and area
+The rooms and washrooms example of the [types of ML Note](../03-types-of-ml/note.md) (section 3.3, Dimensionality reduction) shows the idea: two related columns are replaced by one new column, the flat's area. An extraction algorithm does the same without domain knowledge: it builds the new columns from the data alone.
 
-> **Key point:** Two important columns can be replaced by one new column that holds the information of both.
-
-Take property data with three columns: number of rooms, number of bathrooms, and price. If we had to remove one of the two input columns, which would it be?
-
-Neither is easy to drop, because both help set the price. A property agent might instead suggest using neither, and replacing both with the flat's **area** in square feet. More rooms and bathrooms mean a bigger area, so one new column carries most of what the two old ones said.
-
-| rooms | bathrooms | | area in square feet (new column) |
-|---|---|---|---|
-| 2 | 1 | $\rightarrow$ | 800 |
-| 3 | 2 | $\rightarrow$ | 1,300 |
-| 4 | 3 | $\rightarrow$ | 1,900 |
-
-The number of columns went down, and none of the original columns was kept as it was.
-
-### 9.2 New axes
-
-> **Key point:** Extraction algorithms such as PCA rotate the axes so that a few new axes hold most of the information.
-
-Figure 4 shows the same idea geometrically. The points use two columns, rooms and bathrooms, and they lie roughly along a diagonal line.
-
-![Two old columns replaced by two new axes; only one is worth keeping](images/new_axis.png)
-
-We draw new axes instead of the old ones:
-
-- **New axis 1** runs along the diagonal. The points are spread out along it, so it holds most of the information. We keep it.
-- **New axis 2** runs across the diagonal. The points hardly spread along it, so we can drop it.
-
-Each point is now described by one number, its position on new axis 1, instead of two. This is what **PCA** (principal component analysis), the best-known extraction technique, does: it rotates the axes to create new columns and keeps the most useful ones.
-
-If we start with 5 columns, PCA creates 5 new ones. We might keep the 2 most useful and drop the other 3, so the number of columns goes down and none of the old columns is used directly.
+**PCA** (principal component analysis), the best-known extraction technique, rotates the axes so that a few new axes hold most of the information, and keeps those; the [PCA Note](../47-pca-geometric-intuition/note.md), section 4, shows the rotation step by step. If we start with 5 columns, PCA creates 5 new ones; we might keep the 2 most useful, so the number of columns goes down and none of the old columns is used directly.
 
 The main extraction techniques are **PCA**, **LDA** (linear discriminant analysis) and **t-SNE**. They are especially useful for high-dimensional data, meaning data with very many columns.
 
@@ -338,7 +231,7 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 | Feature transformation | changes a column's form | animal names into 0/1 columns | imputation, encoding, binning, outlier removal, scaling |
 | Feature construction | builds a new column by hand | `SibSp` + `Parch` into family size | combining, splitting, grouping |
 | Feature selection | keeps only the useful columns | drop the blank edge pixels of MNIST | forward selection, backward elimination |
-| Feature extraction | builds new columns with an algorithm | rooms and bathrooms into area | PCA, LDA, t-SNE |
+| Feature extraction | builds new columns with an algorithm | rooms and washrooms into one PCA axis | PCA, LDA, t-SNE |
 
 - Feature engineering uses domain knowledge to turn raw data into columns that help a model perform better.
 - Good features matter more than a powerful algorithm.
@@ -357,13 +250,9 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 | Feature transformation | Changing a column into a form the model can use better |
 | Imputation | Filling in missing values, for example with the mean, median or mode |
 | Mode | The most common value of a column |
-| Categorical column | A column whose values are labels rather than numbers |
-| One-hot encoding | Replacing a categorical column with one 0/1 column per category |
 | Binning | Grouping a numerical column into ranges that act as categories |
 | Outlier | A value very different from the rest of the data |
 | Linear regression | An algorithm that fits the straight line closest to all the points |
-| Feature scaling | Converting columns to a similar range so that no column dominates |
-| Euclidean distance | The straight-line distance between two points |
 | Feature construction | Creating a new column by hand from existing ones |
 | Feature selection | Keeping only the useful columns and dropping the rest |
 | MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels |

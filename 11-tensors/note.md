@@ -155,7 +155,7 @@ Whenever we work with tabular data, we are working with 1D and 2D tensors.
 
 ML algorithms work only with numbers, so text must be turned into numbers first. Converting text into vectors is called **vectorization**.
 
-One simple method is **one-hot encoding**:
+One simple method is **one-hot encoding** (the [one-hot encoding Note](../27-one-hot-encoding/note.md) applies it to categorical columns):
 
 1. List every unique word: the **vocabulary**. For "Hi Nitish", "Hi Rahul" and "Hi Ankit", it is: hi, nitish, rahul, ankit.
 2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], nitish = [0, 1, 0, 0], and so on.
@@ -250,7 +250,6 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 | Size | The total number of items: the product of the shape |
 | X, y | Usual names for the input table and the output column |
 | Vectorization | Converting data such as text into vectors of numbers |
-| One-hot encoding | Representing each word or category by a vector with a single 1 |
 | Vocabulary | The list of unique words in a set of texts |
 | Time series | Data recorded at regular time intervals |
 | Pixel | One dot of an image, stored as one or more numbers |

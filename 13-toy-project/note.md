@@ -31,7 +31,7 @@ Figure 1 shows the steps:
 
 1. **Clean** the data: fix missing values and outliers, remove unneeded columns. This is called **preprocessing**.
 2. **Explore** the data with summaries and plots, to spot patterns. This is **exploratory data analysis (EDA)**.
-3. **Choose features:** decide which input columns to use (**feature selection**). Here we keep both CGPA and IQ.
+3. **Choose features:** decide which input columns to use (feature selection, taught in the [feature engineering Note](../23-what-is-feature-engineering/note.md)). Here we keep both CGPA and IQ.
 4. **Split inputs from output:** X (the inputs) and y (the output).
 5. **Split into training and test sets.**
 6. **Scale** the inputs to similar ranges.
@@ -143,15 +143,7 @@ So we **scale** the inputs: bring every column to a similar range. A common meth
 
 ![CGPA and IQ before and after scaling](images/scaling.png)
 
-> **Extra:** Standardization, step by step.
->
-> 1. **In words:** subtract the column's average, then divide by how spread out the column is (its **standard deviation**).
-> 2. **Formula:**
->    $$z = \frac{x - \text{mean}}{\text{standard deviation}}$$
-> 3. **Example:** in our training set, CGPA has mean 5.98 and standard deviation 1.10. A CGPA of 7.4 becomes
->    $$z = \frac{7.4 - 5.98}{1.10} \approx 1.29,$$
->    about 1.3 standard deviations above average. Likewise, IQ 132 becomes
->    $$z = \frac{132 - 122.0}{38.9} \approx 0.26.$$
+> **Extra:** Standardization subtracts the column's mean and divides by its standard deviation; the formula is worked step by step in Section 4 of the [standardization Note](../24-standardization/note.md).
 
 > **Python:** Scaling with `StandardScaler`.
 >
@@ -276,7 +268,6 @@ This model is far from perfect: it learned from only 90 students and was not tun
 |---|---|
 | Preprocessing | Cleaning and preparing data before training |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns |
-| Feature selection | Choosing which input columns to use |
 | Model selection | Training several algorithms and keeping the best |
 | CSV file | A text file holding a table, with commas between values |
 | pandas, DataFrame | Python's main table library, and its name for a table |
@@ -288,7 +279,6 @@ This model is far from perfect: it learned from only 90 students and was not tun
 | scikit-learn | Python's main library for classical ML |
 | Scaling | Bringing input columns to similar ranges |
 | Standardization | Scaling a column to mean 0 and standard deviation 1 |
-| Standard deviation | A measure of how spread out a column's values are |
 | Data leakage | Information from the test set leaking into training |
 | Logistic regression | A classification algorithm that finds a separating boundary |
 | Accuracy | The fraction of predictions that are correct |

@@ -29,55 +29,27 @@ A column is **skewed** when its values have a long tail on one side (Note 20). T
 
 The IQR method makes no such assumption. It is built only on percentiles, which do not care about the shape of the column. To use it we need two ideas from Note 20: the box plot and the IQR.
 
-## 3. Percentiles, quartiles and the IQR
-
-> **Key point:** The $p$-th percentile is the value below which $p$% of the column lies; $Q_1$, the median and $Q_3$ are the 25th, 50th and 75th percentiles, and the IQR is $Q_3 - Q_1$.
-
-A **percentile** splits a column by rank. The $p$-th percentile is the value that $p$% of the values lie below.
-
-- **100th percentile:** every value is at or below it, so it is the maximum.
-- **0th percentile:** no value is below it, so it is the minimum.
-- **25th percentile ($Q_1$):** a quarter of the values lie below it.
-- **50th percentile:** half the values lie below it, so it is the **median**.
-- **75th percentile ($Q_3$):** three quarters of the values lie below it.
-
-$Q_1$ and $Q_3$ are the **quartiles**: they cut the sorted column into quarters. A box plot draws its box from $Q_1$ to $Q_3$, with a line at the median (Note 20, Figure 7).
-
-The **interquartile range (IQR)** is the width of that box, the range that holds the middle half of the data:
-
-$$\text{IQR} = Q_3 - Q_1$$
-
-## 4. The fences
+## 3. The fences
 
 > **Key point:** The lower fence is $Q_1 - 1.5 \times \text{IQR}$ and the upper fence is $Q_3 + 1.5 \times \text{IQR}$; values outside them are outliers.
 
-A box plot does not draw its whiskers to the smallest and largest values. It stops them at two limits, the **fences**, set 1.5 IQR beyond the edges of the box (Note 20, Section 8.1). Every value outside the fences is drawn as a dot: an outlier.
+The quartiles $Q_1$ (25th percentile) and $Q_3$ (75th percentile) come from the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). The interquartile range $\text{IQR} = Q_3 - Q_1$ and the two box-plot fences come from the [univariate analysis Note](../20-univariate-analysis/note.md) (sections 8 and 8.1). The IQR method uses exactly those fences as its lower and upper limits.
 
-The IQR method uses exactly these fences as its lower and upper limits:
+For the placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$, so $\text{IQR} = 44 - 17 = 27$ and $1.5 \times 27 = 40.5$:
 
-1. **In words:** take the width of the box, multiply it by 1.5, and step that far out from each edge of the box.
-2. **Formula:**
-   $$\text{lower} = Q_1 - 1.5 \times \text{IQR}, \qquad \text{upper} = Q_3 + 1.5 \times \text{IQR}$$
-3. **Example:** the placement exam marks of Section 6 have $Q_1 = 17$ and $Q_3 = 44$, so $\text{IQR} = 44 - 17 = 27$ and $1.5 \times 27 = 40.5$:
-   $$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
-   A mark below $-23.5$ or above 84.5 is an outlier.
+$$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
 
-The plan for any skewed column is therefore short: compute $Q_1$, $Q_3$ and the IQR, compute the two fences, and trim or cap every value outside them.
+A mark below $-23.5$ or above 84.5 is an outlier. The plan for any skewed column is therefore short: compute $Q_1$, $Q_3$ and the IQR, compute the two fences, and trim or cap every value outside them.
 
 > **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 is a convention from John Tukey, who invented the box plot; some people use 3 to flag only "extreme" outliers.
 
-## 5. Treating the outliers: trimming or capping
+## 4. Treating the outliers: trimming or capping
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the fence it crossed.
 
-The two treatments are the same as in Note 42:
+Both treatments come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers); here the fences are the limits.
 
-- **Trimming:** remove every row whose value lies outside the fences.
-- **Capping:** keep every row, but move each value above the upper fence down to the upper fence, and each value below the lower fence up to the lower fence.
-
-Trimming is simplest. When many rows are outliers, capping keeps the data from shrinking.
-
-## 6. The placement data
+## 5. The placement data
 
 > **Key point:** The data has 1,000 students; their placement exam marks are right-skewed (skewness 0.84), so the marks column is the one for the IQR method.
 
@@ -116,11 +88,11 @@ A quarter of the students scored below 17, half below 28 and three quarters belo
 > df["placement_exam_marks"].describe()   # the table above
 > ```
 
-## 7. Finding the fences and the outliers
+## 6. Finding the fences and the outliers
 
 > **Key point:** $Q_1 = 17$ and $Q_3 = 44$ give an IQR of 27 and fences of $-23.5$ and 84.5; 15 students lie above the upper fence and none below the lower one.
 
-Figure 2 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 (Section 4).
+Figure 2 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 (Section 3).
 
 ![The placement exam marks: box plot with Q1, median and Q3, the two fences, and the 15 outliers in red](images/fences.png){width=100%}
 
@@ -154,7 +126,7 @@ The 15 outliers:
 >
 > `quantile(0.25)` returns the 25th percentile; `quantile` takes the fraction (0.25), not the percent (25).
 
-## 8. Trimming in code
+## 7. Trimming in code
 
 > **Key point:** Keeping only the rows inside the fences removes the 15 outliers and leaves 985 rows.
 
@@ -172,7 +144,7 @@ Figure 3 (middle row) shows the result. The histogram barely changes: only its t
 
 The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
 
-### 8.1 Why a new outlier appears after trimming
+### 7.1 Why a new outlier appears after trimming
 
 > **Key point:** The box plot of the trimmed data computes new fences from the 985 remaining rows, so a value that was inside before can now be outside.
 
@@ -182,7 +154,7 @@ For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is $
 
 This is no reason to trim again: each round would move the fences in and flag new values. We detect once, with the fences of the original data, and treat once.
 
-## 9. Capping in code
+## 8. Capping in code
 
 > **Key point:** Each mark above 84.5 becomes 84.5 (and each mark below $-23.5$ would become $-23.5$); all 1,000 rows stay.
 
@@ -231,39 +203,35 @@ Figure 3 (bottom row) shows the capped column. The 15 outliers now all sit at 84
 > marks.clip(lower_limit, upper_limit)
 > ```
 
-## 10. Learning the fences on the training set
+## 9. Learning the fences on the training set
 
 > **Key point:** The fences are learned from the data, so they should be learned on the training set only and then applied to the test set.
 
-> **Extra:** The steps above compute $Q_1$ and $Q_3$ on all 1,000 rows, before any train-test split. This lets the test rows influence the fences, the same data leakage that Note 24 (Section 7.2) avoids for scaling and Note 42 (Section 11) avoids for the z-score limits. The cleaner order is:
->
-> 1. Split the data into training and test sets.
-> 2. Compute $Q_1$, $Q_3$, the IQR and the fences on the training set only.
-> 3. Apply the same fences to the training and the test set.
->
-> With an 80/20 split (`random_state=42`), the 800 training rows have the same $Q_1 = 17$ and $Q_3 = 44$, so the fences stay at $-23.5$ and 84.5:
+The fences follow the same train-only rule as the z-score limits of the [z-score Note](../42-outliers-zscore/note.md) (section 11, learning the limits on the training set).
+
+> **Extra:** With an 80/20 split (`random_state=42`), the 800 training rows have the same $Q_1 = 17$ and $Q_3 = 44$, so the fences stay at $-23.5$ and 84.5:
 >
 > | | Rows | Outliers (training fences) |
 > |---|---|---|
 > | Training set | 800 | 14: marks 86 to 97 |
 > | Test set | 200 | 1: mark 100 |
 >
-> Quartiles move very little between 800 and 1,000 rows, so here the result is the same. Trimming is done on the training set only (786 rows remain), since we cannot delete test rows at prediction time. Capping can be applied to both sets with the training fences; the Notebook shows both steps.
+> Quartiles move very little between 800 and 1,000 rows, so here the result is the same. Trimming the training set leaves 786 rows; the Notebook shows both steps.
 
-## 11. Strengths and limits of the IQR method
+## 10. Strengths and limits of the IQR method
 
 > **Key point:** The method is simple, works on skewed columns and is not pulled by the outliers it looks for; it is only a rule of thumb.
 
 - **Simple:** two percentiles give both fences.
 - **Shape-free:** it needs no bell shape, so it fits skewed columns.
-- **Robust:** the quartiles are not pulled by extreme values (Section 4, Extra).
+- **Robust:** the quartiles are not pulled by extreme values (Section 3, Extra).
 
 > **Extra:** Two things to keep in mind.
 >
 > - **On a long tail, real values get flagged.** In a strongly skewed column the far tail is often genuine (a few very high incomes, a few toppers). The fences flag it all the same, so we still decide, as in Note 41 (Section 4), whether those values are errors or real.
 > - **One side may never be used.** For a right-skewed column with a natural lower bound, such as marks starting at 0, the lower fence is often below every possible value. That is expected, not a bug.
 
-## 12. Summary
+## 11. Summary
 
 | Step | What we do | On the placement marks |
 |---|---|---|
@@ -288,13 +256,9 @@ Figure 3 (bottom row) shows the capped column. The 15 outliers now all sit at 84
 - A box plot of trimmed data computes new fences, so a new dot can appear; we do not trim again.
 - The fences should be learned on the training set only.
 
-## 13. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
 | IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns |
-| Percentile | The value below which a given percent of the column lies |
-| Quartile | $Q_1$ (25th percentile) and $Q_3$ (75th percentile): they cut the sorted column into quarters |
-| Interquartile range (IQR) | $Q_3 - Q_1$: the width of the middle half of the data |
-| Fence | $Q_1 - 1.5\,\text{IQR}$ (lower) or $Q_3 + 1.5\,\text{IQR}$ (upper); values past it are outliers |
 | `quantile` | pandas method that returns a percentile, given as a fraction (0.25 for the 25th) |

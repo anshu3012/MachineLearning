@@ -318,7 +318,7 @@ Use the `MissingIndicator` class with an imputer that has no such parameter, suc
 
 Should `Age` get the mean or the median? Should a categorical gap get the mode or a constant? Instead of deciding by hand, we can try every combination and measure which gives the best model.
 
-**Grid search** does this: it trains the model once for every combination of the settings we list, scores each with cross-validation, and keeps the best. scikit-learn's `GridSearchCV` runs it (Note 29). Grid search can tune the imputer only if the imputer is part of the model, so we build one pipeline from the raw data to the prediction.
+**Grid search** does this: it trains the model once for every combination of the settings we list, scores each with cross-validation, and keeps the best. scikit-learn's `GridSearchCV` runs it (see the [pipelines Note](../29-pipelines/note.md)). Grid search can tune the imputer only if the imputer is part of the model, so we build one pipeline from the raw data to the prediction.
 
 ### 7.2 The pipeline
 
@@ -355,7 +355,7 @@ Figure 5 shows the pipeline. Each step has a name, shown in typewriter font.
 
 > **Key point:** A setting deep inside a pipeline is named by its path: step names joined by two underscores, then the parameter name.
 
-To tune a setting, grid search needs its full name. We write the path from the outer pipeline down to the step, with `__` (two underscores) between names. Figure 5 shows `preprocessor__num__imputer__strategy`: the `strategy` of the `imputer` in `num`, inside `preprocessor`.
+A setting inside a pipeline is named `step__parameter` (see "Hyperparameter tuning with a pipeline", section 9 of the [pipelines Note](../29-pipelines/note.md)). In a nested pipeline the name is the whole path from the outer pipeline down, joined by `__`. Figure 5 shows `preprocessor__num__imputer__strategy`: the `strategy` of the `imputer` in `num`, inside `preprocessor`.
 
 The grid lists the values to try for each name:
 
@@ -430,7 +430,5 @@ On a bigger dataset, or with strategies that differ more (for example a constant
 | `MissingIndicator` | The scikit-learn class that builds missing indicator columns; `features_` lists the columns with gaps |
 | `add_indicator=True` | The `SimpleImputer` setting that imputes and appends missing indicators in one step |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation |
-| `GridSearchCV` | The scikit-learn class that runs a grid search with cross-validation |
-| `step__param` name | The full name of a setting inside a pipeline: step names and the parameter joined by `__` |
 | `best_params_` | The best combination of settings found by `GridSearchCV` |
 | `cv_results_` | The scores of every combination tried by `GridSearchCV` |

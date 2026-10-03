@@ -119,9 +119,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
+| Feature construction and splitting | [Note 3](../03-types-of-ml/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 45](../45-feature-construction-splitting/note.md) | confirmed |
 | Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md) | confirmed |
 | Feature engineering | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
-| Feature construction and splitting | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 45](../45-feature-construction-splitting/note.md) | confirmed |
 | Feature selection | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | Standardization | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 27](../27-one-hot-encoding/note.md) | confirmed |
@@ -288,7 +288,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 |---|---|---|---|
 | 1 | Data mining, Machine learning | nothing | written |
 | 2 | Artificial intelligence, Deep learning, Features, Machine learning, Neural networks, Symbolic AI and expert systems | nothing | written |
-| 3 | Anomaly detection, Association rule learning, Classification problems, Clustering, Dimensionality reduction, Labelled data, PCA, Regression problems, Reinforcement learning, Semi-supervised learning, Supervised learning, Unsupervised learning | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | written |
+| 3 | Anomaly detection, Association rule learning, Classification problems, Clustering, Dimensionality reduction, Feature construction and splitting, Labelled data, PCA, Regression problems, Reinforcement learning, Semi-supervised learning, Supervised learning, Unsupervised learning | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | written |
 | 4 | Batch (offline) learning, Deployment, Model drift, Retraining | nothing | written |
 | 5 | Online learning, Out-of-core learning, Retraining, Stochastic gradient descent | [Note 4](../04-batch-learning/note.md) | written |
 | 6 | Feature scaling, Instance-based learning, K-nearest neighbours, Model-based learning | [Note 3](../03-types-of-ml/note.md) | written |

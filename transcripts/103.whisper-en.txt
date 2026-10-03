@@ -1,0 +1,679 @@
+Hello guys, welcome to my YouTube channel. In this video, we are going to cover voting classifier.
+In the last video, we took a basic intuition of voting ensemble. We also saw the maths behind it.
+And as we have decided that we are going to cover the whole thing in three videos.
+In this video, we will cover about, we will cover everything about voting classifiers.
+Okay, so I'll share the screen and so first let's discuss what we will cover in this video.
+So the first thing that we will cover is the core idea and I'll also show you the demo.
+I have made a web app where I'll show you how the whole thing works.
+So you will get a good intuition about the algorithm.
+Second thing would be that there is a concept of hard voting and soft voting.
+There are two different types of voting. We will discuss both in detail.
+We will discuss the differences between the two. We will discuss who is better.
+And lastly, we will run the code on some data sets.
+And then hyperparameters.
+We will see how we can use hyperparameters to improve the performance of our algorithm.
+Okay, so let's start.
+So if you talk about the core idea.
+So the core idea is exactly what we discussed in the last video.
+I'll just quickly draw it one more time.
+If in case you haven't seen the last video.
+So what happens in voting classifiers is that you have multiple algorithms.
+Basically, there are different algorithms.
+Let's call them M1, M2 and M3.
+These are called base models.
+They are called base models.
+You have a data set called D.
+You train this data set by giving these three models.
+Okay.
+So D goes here.
+D goes here too.
+And D goes here too.
+And your models are trained.
+Now let's say you have a new query point called XQ.
+For which you have to calculate its Y.
+Classification problem.
+So you give this XQ here.
+You give it here too.
+And you give it here too.
+Since these three are classification algorithms.
+They will give you the output.
+0 or 1.
+I am assuming that it is a binary classification problem.
+Like this.
+And then you take the majority count.
+You calculate the mode.
+So if 0 is more.
+Then you will say that the output would be 0.
+If 1 is more.
+Then you will say that the output is 1.
+Okay.
+So that is how voting classifiers work.
+We discussed this in the last class too.
+What I will do is.
+In this class.
+In this video.
+I will also show you one web app.
+Where you can run this thing and see it properly.
+At this point this web app is not online.
+I have not been able to deploy it yet.
+I will deploy it.
+And I will put its link in the video description.
+But for now you can see how it is working.
+So here I have made a web application using Streamlit.
+Where I can load different data types.
+Just to test.
+Okay.
+Like these are the different data sets that are available.
+I can choose any of these.
+Let's say I choose this.
+Concentric circles.
+Now here I have the option to choose base estimators.
+So for now I have given only 5 options.
+I could have added more options.
+But what I have to show in these 5.
+That will happen.
+Okay.
+So what I will do is.
+I will just select.
+Let's say logistic regression.
+And I will select.
+Let's say Gaussian naive base.
+Okay.
+I have selected these two algorithms.
+I am not doing three.
+For now.
+This is your logistic regression.
+This is your Gaussian naive base.
+Okay.
+And for now voting type is hard.
+There are two options.
+Voting type is hard or soft.
+We will discuss about these two after some time.
+Default is hard.
+Hard voting type is the default voting type.
+Okay.
+So I will just keep it as it is now.
+And I will click on run algorithm.
+So what will happen is.
+These two models will be trained.
+And then collectively we will make a new voting classifier by pooling them.
+So let's see what is happening.
+Okay.
+Let's see what is happening.
+So you can see guys.
+What happened here.
+I have also drawn a decision boundary on that data set.
+So this is my voting classifier.
+This is its decision boundary.
+This is the independent decision boundary of logistic regression.
+If you would have run only logistic regression on this data set.
+Then you would have got such a boundary.
+And now you know that logistic regression classifies data by drawing a line.
+And Gaussian naive base is classifying in this way.
+So you can see.
+These two have a kind of linear combination here.
+And you are getting this resultant decision boundary.
+If you talk about classification matrix.
+Then the accuracy of logistic regression is coming out to be 0.53.
+And it is valid actually.
+Because this data is essentially non-linear.
+So logistic regression will not perform well there.
+Your Gaussian naive base is still performing a little better.
+It is giving you an accuracy of let's say around 0.6.
+60%.
+But you can see.
+That when we pooled them.
+When we combined those two models.
+And made voting classifier.
+Then our resultant accuracy increased.
+And reached 63%.
+So this is the core intuition guys.
+We were talking about this.
+And you can see.
+It has improved a little bit.
+Now if you want to feel this algorithm.
+That how this whole thing is happening.
+Then you go to this tool.
+Select any data set.
+Like I selected this data set.
+And I will show you one by one.
+Just to give you a feel.
+How this whole thing is working.
+If I would have run only logistic regression on this.
+Only logistic regression.
+Then what would have happened.
+This would have happened.
+See.
+This is my voting classifier.
+Which is made up of only logistic regression.
+And this logistic regression.
+If it would have worked independently.
+Then how it would have worked.
+Obviously both are the same.
+Okay.
+Now let's say I have added SVM here.
+Okay.
+We will see.
+How both the algorithms are working together.
+It takes a little time to run.
+Because both are running sequentially.
+One after the other.
+So you can see.
+This logistic regression will run alone.
+And this SVM will run alone.
+And you can see.
+By combining both the decision boundary.
+So you can see.
+This logistic regression will run alone.
+And this SVM will run alone.
+And this SVM will run alone.
+And you can see.
+By combining both the decision boundary.
+Okay.
+So you can see.
+Both the elements are being taken.
+And that is the core intuition behind voting classifier.
+Okay.
+I will also add.
+Let's say.
+And here you can see.
+That voting classifier is giving 0.95.
+0.9 is giving you logistic regression.
+And 95 is giving you SVM.
+Okay.
+Let's also include random forest.
+Okay.
+Let's see how the output is coming.
+I just want to give you this intuition.
+How is this whole thing working.
+Once you look at it in terms of pictures.
+Then you always remember.
+So you can see.
+So this is the output.
+So this is the output.
+So this is the output.
+So this is the output.
+So this is the output.
+So here.
+It has improved a little.
+This seems a much better decision boundary than the previous two decision boundary.
+So here you can see.
+This is random forest, by the way.
+And due to the arrival of random forest.
+It is a little more, kind of, generalizing.
+It will perform better with new data.
+Although classification metrics are not improving.
+But trust me.
+Don't worry about that.
+Because here the data is very less.
+So the metric is not too much reliable.
+But this decision boundary is being drawn.
+And this will give you a feel.
+that your voting classifier function, the resultant function, by combining these three models,
+it is able to generalize better on the given data.
+Okay. So that is how this entire thing works.
+Okay. I hope you got this feel.
+This tool is good. If you want, I will try to put this on the website.
+I will deploy it on Heroku.
+You can go and do some experimentation with it.
+These types of tools help you understand things.
+Okay. So this is our what is voting classifier, how does it work,
+what is the core intuition behind the methodology working behind the algorithm.
+Now let's discuss one important thing.
+What are hard voting classifier and soft voting classifier?
+Okay. Because when you look at this algorithm in scikit-learn,
+then you would see that you have to give all the estimators.
+You have to tell the voting type too.
+Hard or soft. There are only two options.
+Hard or soft. And by default, you can see that it is hard.
+Okay. So what I will do is, I will show you, first of all, what is the difference between both.
+Hard voting type and soft voting type. Let me show you.
+See, what we were doing till now, that was hard voting type.
+Where what happens is that the output of your model, let's say you have two models.
+This is M1 and this is M2.
+And you are working on the binary classification problem.
+That means your output will be either 0 or 1.
+So what happens is that,
+whenever you use any algorithm, it gives your output in terms of probabilities.
+Almost every algorithm, classification algorithm.
+So if it is saying that the probability of 0 is 0.6,
+then it is saying that the probability of 1 is 0.4.
+And if it is saying that the probability of 0 is 0.8,
+then it is saying that the probability of 1 is 0.2.
+So now, what happens in hard voting classifier? 0.
+And what happens here? 0.
+So what does your algorithm say? 0.
+This is hard voting.
+In terms of voting classifier.
+But if you do soft voting, then what do you do?
+You catch all the 0s.
+You catch all the 0s.
+And you remove the average of these two.
+So 0.6 and 0.8, 1.4 and its average.
+Means the probability of 0 is 0.7.
+And the probability of 1 is 0.4, 0.2, 0.6.
+So 0.3.
+And here, since the probability of 0 is higher than the probability of 1.
+So you can easily see that the output should be 0.
+So if you see a good example of this,
+then you will understand a lot from this image.
+Let's say you have a multi-class classification problem
+which has three classes.
+Class 1, class 2, class 3.
+You have made five different classifiers.
+Now here you can see that each classifier has
+the probability of class 1, class 2, and class 3.
+We have written the probability here.
+Now what do you do? You do the average.
+The probability of class 1. All 90, 10, 1.
+25 plus 5 is 26.
+The probability of class 2 is 65.6.
+And the probability of class 3 is coming out to be 8.2.
+So when you compare in the end,
+you will know that the probability of class 2
+since it is greatest, your final prediction
+would be class 2. That is how soft voting works.
+Now what happens is that
+if you ask me that should I use soft voting
+or should I use hard voting?
+So generally speaking, the result of soft voting
+is better than hard voting.
+Generally speaking, not always.
+But if you are working on a project,
+what you should do is you should
+run both of them.
+Because at the end it is just a parameter.
+You are doing hyperparameter tuning basically.
+So you can catch the result which is better.
+In fact, what I will do is I will show you
+like in this data set,
+in concentric data set,
+what I will do is I will use these algorithms.
+Since I have run it before, I remember its output.
+I am using logistic regression.
+I am using naive base. I am using random forest.
+I am keeping voting type hard.
+By keeping voting type hard,
+the probability of this algorithm,
+I am sorry, the output will not be that great.
+But as soon as I will make it soft,
+in the same setup, you would see
+that its performance will improve.
+I will show you, it will take some time.
+So yeah guys, you can see this is the output
+for hard voting.
+Your logistic regression
+is giving 53%.
+Your naive base
+is giving 60%.
+But your random forest is giving around 90%.
+But when you combined these three
+over hard voting,
+you are getting just 66%.
+This happens.
+Not necessarily, your voting result will always be good.
+This is not necessary.
+In that case, what you should do is
+choose your best performer.
+In this case, I am not crazy to use voting classifier
+which is giving me 66% accuracy.
+Instead, I will go for random forest.
+But I want to show you that if I choose soft here
+and run it again,
+let's see what happens.
+So yeah guys, you can see,
+in this case,
+everything is as before,
+53, 60, and 89%.
+But you can see, as I selected soft voting,
+my voting classifier's accuracy improved to 92%.
+In fact, you can also see in decision boundary terms,
+this is a much improved
+decision boundary.
+But again guys, it is not at all necessary
+that soft voting will always perform better than hard voting.
+In this case, it worked.
+I tried it, I saw it,
+so I showed it to you.
+But it is not necessary.
+Whatever it is, you have to pick the best one.
+What is the intuition?
+How will we understand what is the difference
+between soft voting and hard voting?
+If you run this tool again and again,
+you will realize that it has smoothening.
+Decision surface is smooth out
+when you use soft voting.
+Because of that smoothening,
+sometimes your results are better than hard voting.
+Like in this case.
+Anyways, this is a demo of soft voting and hard voting.
+And yeah,
+we are done with this.
+Now, we will go through a code
+which we have learned.
+We will apply it on a dataset
+and run it.
+So, I have made
+this, I am sorry
+I kicked the camera.
+Sorry.
+So yeah, I have made this
+Kaggle notebook already.
+And we are going to see this.
+So, I will run the cell.
+This is the iris dataset.
+You are already aware of how this dataset works.
+I will quickly show you.
+Yeah.
+So, this is the dataset.
+There are four columns.
+Sable length, sable width, petal length, petal width.
+And you have three different species.
+Cetosa, virginica, versicolor.
+What I have done is,
+I have removed this id column
+and by removing it,
+I have got this dataset.
+Next, I have brought the label encoder
+and converted cetosa, virginica and versicolor text
+into 0 and 2.
+So, you can see.
+Now, if you see,
+then
+we have this is the output
+which is our target column.
+It is converted into numerical numbers.
+Now, what I am doing is,
+if you are aware of iris dataset,
+then you should know that
+classification on iris dataset is an easy task.
+It is not that difficult.
+Algorithms easily reach 98-99% accuracy.
+So, what I have done
+to make it difficult,
+first of all, I have plotted a pair plot
+so that I can get a scatter plot
+on all numerical columns.
+So, you can see, this scatter plot came.
+Now, what I am going to do here is,
+I will take only two columns.
+And which columns will I take?
+Sapl length with sapl width.
+Because if you see here,
+then these two classes,
+one or two,
+basically, virginica and versicolor,
+between these two classes,
+if you take only these two columns,
+sapl length and sapl width,
+then classification seems very difficult
+because points are very overlapped.
+So, what I am doing to make
+my classification task difficult is,
+I am removing only two columns.
+Which columns am I keeping?
+Sapl length and sapl width.
+And I am also removing these setosa flowers.
+I am removing these flowers which are sitting separately.
+I am just keeping virginica and versicolor.
+I have written the same code ahead.
+Here, you can see, I have taken species
+not equal to zero, means one or two.
+And from the new data frame that is coming,
+I have taken only these three columns.
+And I have made a new data frame.
+And that new data frame looks like this.
+So, here in total we have
+50, 50, 50,
+because we had three different
+flower categories.
+I have removed one category.
+Now, I am extracting my x and y.
+And this time,
+I am taking these three algorithms.
+Logistic regression, KNN
+and random forest classifier.
+And I am importing crossval score
+because I will check it again and again
+after applying crossval addition.
+Here, I have created an object of
+all three algorithms.
+And here, I have created
+an estimator object.
+So, what happens is, when you go here,
+you have to tell the estimators
+that who are your base estimators.
+And those estimators should be
+a list of tuples.
+And in that tuple, one item should look like this.
+In which the first thing will be the string,
+the name of the algorithm and the second is its object.
+So, I have done the same here.
+If I go here, then I have made a list of tuples
+where in each tuple,
+the first item is the name and the second item
+is the object of that algorithm.
+Now, what I have done is, I have run a loop
+on these estimators and
+every time, I have caught one particular estimator
+and I have run crossval score on it.
+What does crossval score do? It does cross-validation.
+I have run cross-validation 10 times
+and every time, the data was fitted
+and in x, I have got
+the accuracy of all 10 times.
+And now, what I have done is, I have made
+the mean of all these accuracies.
+I have taken out the mean of all these accuracies
+for every algorithm, for logistic regression,
+for random forest, for KNN.
+Let's see what is the output.
+And I have not run ESL.
+Sorry. Now, we are running it.
+So, you can see,
+logistic regression is giving me an accuracy of
+81%, random forest
+73%, KNN 75%.
+So, here, I guess
+everyone understood.
+Now, what I am doing is, I am importing voting classifier class
+and first of all,
+I am showing you hard voting.
+So, you don't have to do anything in hard voting.
+You just have to pass the estimators in the estimators.
+If you want, you can tell the voting type.
+If you don't tell, then you know the default.
+Now, I have run the same code here.
+I have run the cross-valve score.
+I have passed my object, the classifier.
+I have passed X and Y.
+Cross-validation is happening 10 times.
+And we are monitoring the accuracy.
+I will get 10 accuracies by running it 10 times.
+And I am keeping the mean in front of you.
+It will take some time
+because you are running all three algorithms together.
+And you are getting an accuracy of 77%.
+Not necessarily voting classifier
+will be the best classifier.
+Logistic regression is performing better here.
+You will go for voting classifier.
+You will go with logistic regression.
+But we will also try soft voting.
+You don't have to do anything in soft voting.
+We have just softened the voting.
+Everything else is the same.
+Let's see what kind of output we get.
+In this case,
+the output is worse than hard voting.
+So, according to now,
+you should use logistic regression
+which is giving you the best results.
+There is one more thing.
+There is another hyperparameter here.
+I will show you.
+There is a hyperparameter called weights.
+All the base models
+get equal weights.
+But if you want,
+you can assign different weights to them.
+Basically, you are giving
+a different weight to its output.
+For example, 5 and 1.
+This means that
+its output will be five times more important
+than its output.
+This guy is more important.
+This is not democracy anymore.
+One person's vote is more important than
+other person's vote.
+So, you can assign weights too.
+Since I have three different models,
+I have set the range for all three.
+From 1 to 3.
+1, 2, 3. I, J and K.
+And I have put weights here.
+I, J and K.
+So, what will happen?
+The loop will continue to run.
+And every time, we will calculate
+the accuracy according to the loop.
+Let's see.
+When you give equal weight to all three,
+it is 77%.
+When you give more weight to the last one,
+it is decreasing.
+When you give more weight to the middle one,
+it is decreasing too.
+You can just try various values.
+To be honest,
+you won't get much help in this particular data set.
+The maximum that you will reach
+is around 79%.
+Using this,
+you can slightly improve
+the accuracy of voting classifier.
+Let's say, we reached 77%.
+Using this, we can reach,
+let's say, I don't know,
+we have to see.
+J is equal to 1 and 3.
+And here,
+we have reached 0.8.
+We have reached 0.8.
+The maximum that we are able to reach is
+when we are giving more weightage to the first one.
+And this is also true
+because your first one is performing the best.
+So, if you give more weightage to this,
+there is a chance that you will perform better.
+So, this is kind of
+hyper-parameter tuning.
+You are passing different values and checking
+at which particular value I am getting best results.
+So, I just wanted to show you that
+by manipulating these weights,
+you can get a better result.
+Many people do this.
+So, this is one approach
+where you
+bring different algorithms
+and run voting classifier on them.
+There is also another approach.
+You might have noticed that
+when you are working on
+a particular algorithm,
+you have to tune hyper-parameters.
+Right.
+So, hyper-parameters tuning is a big problem.
+Because,
+first of all,
+you don't know which value will be correct.
+As you can see here,
+we have created a new data set.
+I called the make classification
+by saying x and y.
+Here, 100 rows were generated
+and 20 columns were generated.
+This is a toy data set.
+Here, we have used SVC,
+Support Vector Classifier.
+It is a kernel polynomial
+and I don't know the degree of it.
+So, what you will do is
+you will do hyper-parameter tuning
+and you will use it.
+Now, I will show you
+the usage of voting classifier.
+What we will do is
+we will run this algorithm
+on the same data set for 5 degrees
+and we will generate accuracies
+as I am doing here.
+SVC is not defined.
+So, what I will do is I will quickly import
+from sklearn
+.svm
+import svc
+We have imported it
+and run this code.
+So, you would see
+that the first object
+is giving 85%
+second one is also giving 85%
+third one is giving 89%
+fourth one is giving 81%
+and fifth one is giving 86%.
+Now, if someone asks you to select one
+then which one do you select?
+The third one.
+But what you can do is
+you can put these 5 in voting classifier
+and you can actually achieve a better result
+than the third one.
+Let me show you that.
+So, I have made these estimators
+by the way.
+And now I have passed these estimators here.
+I am keeping voting classifier soft.
+You can try hard as well.
+But in soft, I know I was getting a better result.
+So, I will run this code.
+It will take some time.
+And you can see guys,
+93%.
+It improved better than all.
+So, if someone asks you
+which one would you select?
+Then you would take the third one.
+Better approach would be that
+you would put all the instances
+of the same algorithm on different hyperparameters
+and then put them in voting classifier
+and create a completely new classifier.
+So, these two approaches are used.
+To be honest, the second approach is more useful
+because I get better results through this.
+The above result is also useful.
+It does not give good result on every data set.
+So, whatever it is
+this is the notebook and this is the tool.
+I would recommend
+I will put the link of these two things
+in the description of the video.
+So, watch this whole video once.
+And then experiment on all these things.
+Trust me guys,
+when you are doing ensemble learning,
+experimentation matters the most.
+The more you experiment,
+the more you learn.
+Because the core idea is very simple.
+You are voting, what to learn in that?
+But when and what results,
+you have to learn this.
+Anyways, we are done with classification.
+Next, we will do regression.
+I hope you like the video.
+Thank you for watching.

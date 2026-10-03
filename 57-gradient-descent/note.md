@@ -25,7 +25,7 @@ title: "Gradient Descent from Scratch"
 
 In ML, the function is the **loss function** (for linear regression, the sum of squared errors) and the parameters are the model's coefficients. Gradient descent is one of the most widely used algorithms in ML and the main one in deep learning.
 
-The normal equation already gives linear regression's coefficients directly, so why learn this? Because the normal equation becomes very slow with many columns (the inverse costs about $m^3$), and most models (logistic regression, neural networks) have no direct formula at all. Gradient descent works for all of them. Linear regression is just a convenient place to learn it, because we can check the answer against OLS.
+We learn it on linear regression because we can check the answer against OLS, whose normal equation becomes slow with many columns (see [section seven of the multiple linear regression maths Note](../54-multiple-lr-maths/note.md)); most models have no direct formula at all.
 
 ## 2. The idea
 

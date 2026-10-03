@@ -194,37 +194,15 @@ The mean and the standard deviation come out different for each column (0.53 and
 
 > **Key point:** Min-max scaling changes the numbers on the axes, not the pattern of the data or the shape of each column.
 
-### 6.1 The scatter plot keeps its pattern
+### 6.1 Same effect as standardization
 
-> **Key point:** The cloud of wines looks the same; it now sits inside the unit square.
+> **Key point:** As in the standardization Note, the cloud keeps its pattern and each column keeps its shape; only the axes change, and now they run from 0 to 1.
 
-Figure 3 plots every training wine by alcohol and malic acid, coloured by class. The two clouds look the same: the three classes keep their places relative to each other.
+Min-max scaling has the same effects as standardization (see the [standardization Note](../24-standardization/note.md), section "Effect of scaling on the data"), now inside the unit square. Figure 3 shows the training wines before and after: the three classes keep their places, and both axes now run from 0 to 1.
 
 ![The training wines before and after min-max scaling, coloured by class](images/scatter_before_after.png)
 
-Only the axes differ. Before scaling, alcohol runs from 11 to about 15 and malic acid from about 1 to 6. After scaling, both axes run from 0 to 1: the data has been pressed into the unit square, as Figure 2 showed.
-
-### 6.2 The two columns become comparable
-
-> **Key point:** Before scaling, the two density curves sit far apart; after scaling, both live between 0 and 1.
-
-Figure 4 draws the density curve (KDE) of both columns on one axis. Before scaling, malic acid sits around 0 to 6 and alcohol around 11 to 15, far apart. After min-max scaling, both curves sit in the same range, 0 to 1, so the two columns can be compared directly.
-
-![Density curves of alcohol (blue) and malic acid (orange), before and after min-max scaling](images/kde_before_after.png)
-
-After scaling, the curves seem to spill a little below 0 and above 1. The data itself does not: a KDE curve is a smoothed estimate, and the smoothing spreads a little past the real smallest and largest values.
-
-### 6.3 Each column keeps its shape
-
-> **Key point:** Min-max scaling does not change the shape of a column's distribution.
-
-Figure 5 shows each column on its own. Alcohol before and after scaling has the same curve; so does malic acid. Only the numbers on the horizontal axis change.
-
-![Each column's distribution before and after min-max scaling: the shape stays, the numbers change](images/shape_unchanged.png)
-
-> **Extra:** The shape can never change under min-max scaling. The formula only subtracts one fixed number and divides by another, the same for every value, so every gap between two values shrinks or grows by the same factor. A skewed column stays just as skewed. Standardization behaves the same way, and so do the other techniques in this Note.
-
-### 6.4 The weakness: outliers
+### 6.2 The weakness: outliers
 
 > **Key point:** One extreme value sets the minimum or maximum, and squeezes all the normal values into a small part of 0 to 1.
 
@@ -293,7 +271,7 @@ Max-abs scaling is used for **sparse data**: data in which most values are 0. If
 
 > **Key point:** Subtract the median and divide by the interquartile range; outliers barely affect either, so robust scaling handles outliers well.
 
-The **median** is the middle value of a column once it is sorted. The **interquartile range (IQR)** is the 75th percentile minus the 25th percentile: the width of the middle half of the data.
+The median (see the [understanding your data Note](../19-understanding-your-data/note.md)) is the middle value of the sorted column. The interquartile range (IQR, see the [univariate analysis Note](../20-univariate-analysis/note.md)) is the width of the middle half of the data.
 
 **Robust scaling**, step by step:
 
@@ -310,7 +288,7 @@ scikit-learn has a class for it, **`RobustScaler`**, used exactly like the other
 
 Its biggest strength is outliers. If our data has outliers, robust scaling is the scaler to try; it performs well in that situation.
 
-Figure 6 shows why. It scales the same five weights with every technique and puts all the results on one axis.
+Figure 4 shows why. It scales the same five weights with every technique and puts all the results on one axis.
 
 ![The five weights after each scaler; the outlier 130 in red](images/scalers_outlier.png)
 
@@ -334,7 +312,7 @@ No scaler wins everywhere. On one problem one scaler does best, on another probl
 
 > **Key point:** First ask whether scaling is needed at all; if it is, standardization is the usual choice, with a normalization technique for a few special cases.
 
-Choosing between normalization and standardization confuses many people. The answer depends on the algorithm we use and the data we have. Figure 7 puts the practical rules into one flowchart.
+Choosing between normalization and standardization confuses many people. The answer depends on the algorithm we use and the data we have. Figure 5 puts the practical rules into one flowchart.
 
 ![Choosing a scaler](images/which_scaler.png){height=50%}
 
@@ -404,5 +382,3 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 | Sparse data | Data in which most values are 0 |
 | Robust scaling | Subtract the median and divide by the interquartile range; copes well with outliers |
 | RobustScaler | scikit-learn's class for robust scaling |
-| Median | The middle value of a sorted column |
-| Interquartile range (IQR) | The 75th percentile minus the 25th percentile: the width of the middle half of the data |

@@ -74,7 +74,7 @@ Lasso found which of the 16 columns matter without being told.
 
 > **Key point:** Coefficients that reach 0 remove their inputs from the model. So Lasso selects features while it trains.
 
-A coefficient of exactly 0 means that input has no effect on the predictions, so the column can be dropped. This makes Lasso a tool for **feature selection** (the feature selection Notes come later), useful when there are many columns and some of them do not matter.
+A coefficient of exactly 0 means that input has no effect on the predictions, so the column can be dropped. This makes Lasso a tool for feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)), useful when there are many columns and some of them do not matter.
 
 Figure 3 trains Lasso on the 10-input diabetes data (test size 0.2, random state 2).
 
@@ -198,5 +198,4 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 |---|---|
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients |
 | L1 regularisation | Another name for the absolute-value penalty used by Lasso |
-| Feature selection | Keeping only the useful input columns and dropping the rest |
 | Sparse model | A model in which many coefficients are exactly 0 |

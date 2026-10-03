@@ -1,0 +1,945 @@
+hello guys welcome to my youtube channel in this video we are going to start a new topic
+we are going to discuss bagging it is one of the most important ensemble techniques along
+with boosting and in my opinion if you are pursuing machine learning you should definitely
+understand bagging okay so in the next three videos we are going to talk everything about
+bagging okay so let me share my screen and let's first see what we are going to cover in this
+playlist okay so first of all in this video we will discuss about the core idea and the
+introduction intuition about the topic in the second video we will study bagging classifier
+so bagging again is an ensemble technique which is applied on classification and also on regression
+in the second video we will focus only on classification okay in the third part of this playlist we will
+discuss bagging regressor we will focus on regression only okay so this is the plan for this playlist
+uh now
+so in this video we will first discuss the core idea intuition i will draw things on the whiteboard
+second we will discuss a very important point that why should we use bagging why use bagging okay
+we will answer this question then we will also discuss when to use bagging means people know
+how bagging works why it works everything is known but they don't know when to apply
+we will discuss that too then we will discuss the code demo i have prepared a code for you
+where we will break down things step by step
+and then we will see internally how things work okay and in the last part uh we'll discuss
+the types of bagging uh techniques okay so this is the plan for this video a little bigger but i hope
+you'll like it okay so let's start with the first part core idea intuition behind this
+technique so i'll go to our drawing board uh yep okay so so guys begging if you focus on the word
+if you focus on the word
+these two words are making it together
+you can just see they are made up of five words
+first is bootstrapping and second is aggregation. So if you connect B and AGG then it forms bagging.
+Now you can understand by name that there will be two steps in this. One will be bootstrapping and one will be aggregation.
+What is bootstrapping? If you have read statistics then you will have some idea about bootstrapping.
+It is basically a technique where you draw samples randomly from a given population. This is called bootstrapping.
+Now let's see how exactly bagging works. So let's take a dataset. Let's say we have a dataset in which we have 10k rows.
+It is a big dataset. Now what I have to do is work on a classification problem. This dataset is a classification dataset of yes-no type.
+Now I have to form a classification algorithm using bagging. So what will you do? You will actually take multiple base models.
+You can take as many as you want. 10, 100, 1000. Let's call this M1, this is M2, this is M3, this is M100.
+We have taken 100 models. Now when you will take these models, you have to be really sure that all your models will be of the same algorithm.
+If it is decision tree then all are decision tree. If it is KNN then all are KNN and if it is SVM then all are SVM.
+It does not work like voting classifier that you can make models of different algorithms. This does not happen here.
+Generally it does not happen.
+You can do it but no one does it. Now the next step is that you have to train these models.
+Now what you used to do in voting classifier is that you used to give the same data to all the models.
+Here you will not do this. Here what you do is that you will give a part of your data to every model.
+Basically in simpler terms I would say that every model will be trained on different data.
+So what will happen? Let's say you have decided that you will give only 1000 rows to every model.
+So what you will do is that in your given dataset
+you will do bootstrapping. You will do sampling.
+It can be with replacement or without replacement.
+You will do sampling and you will get 1000 rows.
+And after getting 1000 rows a new dataset will be created which we will call D1.
+And we will put that same D1 in M1.
+And what will be M1? Since it is an algorithm it will be trained on this dataset.
+Then what will we do similarly? We will make another dataset D2.
+In which again there will be 1000 rows only.
+But these 1000 rows will be different from the previous 1000 rows.
+Because you have randomly sampled.
+Now this D2 will go to M2.
+M2 will be trained on this data.
+Then D3 will be made different.
+It will be trained on M3 and so on.
+So this whole step where you create different datasets and train your base models.
+This step is called bootstrapping.
+This step is known as bootstrapping.
+Where you take out the subsets of your data and train your base models.
+Now your model is trained.
+All the models are trained.
+Now what you have to do?
+Let's say you have a new query point.
+X, Q.
+And you have to find its label.
+You have to find its output.
+So what will you do?
+You will give this query point in all your models.
+In all the models.
+Now since all the models are classification algorithms.
+They will predict 1 year 0 like this.
+Like this.
+Assume the last one is also 0.
+So now since majority of your base models are same.
+That your output is 0.
+So your bagging classifier will also say that your output should be 0.
+So your output will be 0.
+So here we have used majority count.
+Or statistically speaking we have used mode.
+And these steps.
+This step where you counted the majority.
+You took the output from everyone and decided what should be the output.
+This step is known as aggregation.
+This step is known as aggregation.
+And that is the core idea guys.
+This is the core idea.
+This is what happens in bagging.
+In bagging.
+I am summarizing it once.
+You have a data set.
+You create the subsets of that data set.
+And by feeding your base models.
+You train them.
+So in a way what happens is.
+See what is the main idea of your ensemble technique.
+That your base models should be very different from each other.
+Now there are different ways to separate them.
+Either you use different algorithms.
+And then feed the same data set to everyone.
+Or the second way is.
+Keep the same data set.
+I am sorry.
+Keep the same algorithm.
+But change the data.
+How will you change the data?
+By creating subsets from the data you have.
+And give different subsets to everyone.
+So what will happen is.
+A variation is being created.
+A variety is being created in your whole approach.
+So then.
+When they work together.
+So that probability which we discussed in logic.
+That will be applied.
+And the resultant classifier that will be made.
+Its performance will be better than.
+Each one of these base models.
+Which are decision trees.
+Or whatever algorithms we are using.
+Okay.
+So that is the core intuition.
+This is what we have to study.
+Okay.
+Now.
+To be honest.
+There is no need to do anything by yourself.
+All heavy lifting internally.
+It will make you do psychic learning.
+But you should understand.
+What is happening internally.
+Okay.
+So this was the first part.
+Now comes the question.
+That.
+Why does it work?
+Means.
+Why.
+Means.
+Bagging is used.
+What is so special about bagging?
+Means.
+When I was studying this for the first time.
+Then I didn't understand.
+That.
+Why is the performance improving?
+What is the reason for this?
+The reason for this is.
+Guys.
+That.
+What happens here.
+That.
+Everything.
+Is dependent on bias variance trade-off.
+I.
+If you don't know.
+Bias variance trade-off.
+Then.
+I will share the link of a video.
+In the description.
+According to bias variance trade-off.
+If you.
+Bias.
+Basically.
+You need.
+Low bias.
+Low variance model.
+In machine learning.
+Let me define you quickly.
+What is bias?
+Bias is the inability.
+Of a machine learning algorithm.
+To.
+To.
+To.
+To.
+To.
+To fit.
+Into its training data.
+If you can't capture the patterns of the training data.
+This.
+It.
+Is bias.
+Means.
+The results of your training data.
+Have gone wrong.
+So.
+You are a model.
+Which has a high bias.
+If your results are good on a training data.
+So.
+You are an algorithm.
+Whose bias.
+Is low.
+Obviously,
+We need.
+Low bias.
+What is variance?
+Variance is.
+When.
+You train a machine learning model.
+Then this data.
+So.
+it starts varying, it starts coming different, so it is called variance.
+So high variance is bad because you need consistent results.
+Your model should give consistent results even if there is a slight change in your data.
+So you always need low bias, low variance data in machine learning.
+But the problem with bias and variance is that these two are negatively correlated.
+If the bias increases then the variance will decrease, if the variance increases then the bias will decrease.
+It is a negative correlation.
+Now I will share a video about this, you can see it in detail.
+But you cannot reduce both because if you reduce one then the other increases.
+This is the problem.
+So most of the machine learning algorithms will either be low bias high variance or high variance.
+Just one second.
+Most of the machine learning algorithms will either be low bias high variance or high bias low variance.
+Yes.
+You cannot get this combination.
+But if you use bagging properly then you can get this combination.
+How?
+This is the question.
+Let's answer this.
+See.
+What you do is in your bagging algorithm while doing bagging you take algorithms which have low bias and high variance.
+You make such algorithms as your base model.
+You make such algorithms as your base model which are low bias.
+Ok.
+I will give you an example.
+Decision tree.
+With max depth equal to none.
+Means fully grown decision tree.
+So fully grown decision tree will always give 100% accuracy on training data.
+But due to over fitting their variance is high.
+So that is why this is an example of low bias high variance.
+There are some more examples.
+There is SVM also.
+There is KNN also.
+With a low neighbor value.
+All these algorithms are low bias high variance.
+Means all of these are victims of over fitting.
+Ok.
+Now if I want to improve their result then there are no changes in bias.
+It will work as it is.
+I want to reduce variance.
+So let's see how variance reduces bagging.
+So what happens is that you have your data.
+Right.
+And you create that data subset and put it in different models.
+Ok.
+Now let's say you changed this data.
+And in return you.
+Means in this data suppose if there were 10k rows.
+You changed 100 rows from this.
+And brought some rows which are very different from the previous 100 rows.
+So if there was only one decision tree.
+Then its logic would have changed completely.
+Because of those 100 points.
+Right.
+But what will happen here.
+See.
+Now when you will give data to the previous tree.
+Suppose you are giving 5k points to each tree.
+You are giving 5000 points to each tree.
+So.
+So it will never happen.
+That only one tree will get 100 new points.
+What will happen.
+Suppose you are giving 10 new points to this one.
+From this 100.
+In this one 50 might have gone.
+In this one not even one went.
+In the next one 35 went.
+So since there are not much changes in the data.
+Then.
+The behavior of these algorithms will not change.
+It will remain the same as it was before.
+So.
+I guess you are understanding that what you are doing.
+That the changes you have done in the data.
+Because of which the changes had to come in the behavior of the algorithm.
+Which we call as variance.
+That will never happen completely.
+Because to every base model.
+The new impure noisy points that have come.
+All of them will not be tolerated.
+Your impact is getting distributed.
+So.
+5 out of 100.
+One model is getting.
+10 second model is getting.
+1 third model is not getting anything.
+Since the impact is divided.
+So the variance will never increase.
+Of your system.
+It will reduce.
+Right.
+And because of that.
+The resulting model that you make.
+The big model that you make.
+Its variance is low.
+What does it mean?
+What does low variance mean?
+That if you make changes in the data.
+Even then.
+There are not much changes in the output of this algorithm.
+Or you can say that.
+It gives consistent results.
+It gives consistent results.
+And guess what.
+It is already accurate.
+As it is low bias.
+It means that it is already accurate.
+What was the problem of over fitting?
+The results were getting bad or different on the new data.
+What happened by using this?
+That we eliminated that problem.
+So we got such a model in the net.
+Which is low bias.
+Low variance.
+Which we needed.
+And that is why guys.
+We use bagging.
+I hope you understood this whole discussion.
+If you didn't.
+Then once.
+You should see the bias variance trade off properly.
+I will share that in the video.
+Please see that video.
+After that you will find this discussion very meaningful.
+Right.
+So.
+Yeah.
+So when to use.
+Bagging.
+When to use it.
+Almost every.
+Almost every time.
+Whenever you are.
+Trying to do a project.
+Especially if you are dealing with a low bias.
+High variance model.
+You should definitely try.
+Bagging.
+Okay.
+You should definitely try.
+If you have a low bias.
+High variance model.
+Go for bagging.
+For sure you will get good results.
+Okay.
+In fact.
+There is an implementation of bagging.
+It is called random forest.
+Which is very famous.
+Because of this reason.
+Okay.
+So bagging.
+Random forest is going to be studied in detail.
+Don't have to worry about that.
+You have to just remember.
+That bagging.
+Many people get confused.
+That in bagging.
+Only decision trees are used.
+Decision trees are easy to explain.
+That's why people use it.
+And.
+Results are also good.
+It is not that the result is bad.
+Result is also good.
+And it is also easy to explain.
+So people use decision trees.
+But there is no restriction.
+In fact.
+When I will teach you.
+In the next video.
+Bagging classifier.
+There I will show you.
+Things on decision tree.
+I will make you a bagging classifier.
+On SVM and KNN.
+You don't have to worry about that.
+Just.
+Make sure.
+You put something in your mind.
+Bagging.
+Is not restricted.
+Bagging.
+Is not restricted.
+To decision trees.
+You can use.
+Almost any algorithm.
+Okay.
+You can try your combinations.
+Okay.
+So.
+This is the thing guys.
+That.
+How our algorithm works.
+Why our algorithm works.
+And.
+When our algorithm.
+Should be used.
+Okay.
+Now.
+Let's move forward.
+And.
+Let's.
+Let's see.
+Everything.
+That we discussed till now.
+Using a code.
+Okay.
+So.
+I have written a code.
+In Kaggle.
+On iris dataset.
+Because.
+It is one dataset.
+On which.
+We have been working for many days.
+So.
+We have an idea.
+We will use.
+Bagging technique.
+On iris.
+Okay.
+So.
+Let's start.
+First.
+I am importing the data.
+This is my data.
+Here.
+I have imported.
+This is my dataset.
+Now.
+Obviously.
+The ID column.
+Is not working.
+I am dropping it.
+And.
+After that.
+Now.
+This is my dataset.
+These are my input columns.
+Species.
+Output column.
+So.
+I am.
+These words.
+Setosa.
+Virginica.
+Versicolor.
+I am converting them.
+To 0 and 2.
+Using label encoder.
+Like this.
+And.
+Df.
+Head.
+Here it is.
+Okay.
+Now.
+I am doing one more thing.
+To make the problem difficult.
+I did this last time also.
+I am taking only these two columns.
+And.
+Obviously.
+Output column.
+Basically.
+I am removing sepal length.
+And.
+I am removing all points of setosa.
+So.
+I am converting it.
+So.
+This is my code.
+And.
+After running this code.
+Now.
+You can see.
+That I have.
+This dataset.
+In which total will be 100 rows.
+Will not be 150.
+Because.
+50 rows of setosa are removed.
+Okay.
+So.
+Df.
+Head.
+Here it is.
+Now.
+I have.
+Quickly.
+Like.
+Plot and show.
+That.
+Here are our points.
+These are our points.
+Two dimensional data.
+So.
+You can plot.
+Okay.
+I am doing.
+That.
+My.
+Which.
+My data is.
+In that.
+How it is.
+That.
+First 50.
+Which are rows.
+That is one species.
+Versicolor.
+And.
+Next 50.
+That is virginic.
+So.
+What I did.
+Df.
+Sample function.
+Code.
+By calling.
+It.
+Gave 100 points.
+So.
+Basically.
+I have shuffled my data.
+Shuffled the whole data.
+So.
+Anywhere.
+It is like this.
+That.
+All the initial points are 1.
+After that.
+All the points are 2.
+But.
+If I.
+Sample it.
+And.
+Here.
+Do 100.
+You can see.
+Everything is divided randomly.
+So.
+This is what I have done in this step.
+Why?
+I will tell you.
+So.
+Now.
+The df.
+After this step.
+This is a data frame.
+In which.
+There are 100 rows.
+But.
+It is not in any order.
+It is random.
+Okay.
+Now.
+So.
+What I have done is.
+From the first 60 rows.
+Everything is random.
+By the way.
+From the first 60 rows.
+I have taken out.
+10.
+Random.
+Rows.
+Okay.
+Let me show you this.
+By running separately.
+Copy.
+And.
+Now.
+If I show you.
+What is df train.
+See this.
+So.
+What happened.
+That I have randomly.
+These 10 points.
+Considered as.
+My training data.
+I want to show you.
+On the small data.
+Because.
+I want to show you.
+Some things.
+I want a small data set.
+So.
+Instead of 100 points.
+I put only 10 points.
+So.
+This is my training data.
+Okay.
+And then.
+Between 60 to 80 rows.
+I put.
+5.
+Random rows.
+In a new data frame.
+And then.
+From 80 to 100.
+Randomly.
+5 different rows.
+I put in the test.
+So.
+Now.
+I have.
+This.
+If we run it.
+So.
+This is my df train.
+This is my df train.
+There is no repetition anywhere.
+Everything is unique.
+Okay.
+This is my df val.
+And this is my df test.
+Okay.
+I will tell you.
+The need of these three.
+Okay.
+Now.
+What I did.
+Since.
+Now.
+I will do training.
+On df train.
+And.
+I will do testing.
+On df val.
+So.
+What I did.
+At this place.
+Already.
+X test.
+And y test.
+Made.
+From df val.
+Df.
+Val.
+Okay.
+So.
+This is my.
+Oh.
+Sorry.
+X test.
+This is my.
+X test.
+Okay.
+Basically.
+This thing.
+This thing.
+Okay.
+And this is my.
+Y test.
+This will be useful to me.
+So.
+I took out.
+X test.
+Y test.
+Okay.
+Basically.
+This thing.
+Two.
+One.
+One.
+Two.
+One.
+Two.
+One.
+Two.
+One.
+Two.
+So.
+See.
+Looks great.
+We see what we are
+going to
+do here.
+And here I have passed an important parameter, replace equal to true, means this sampling will be with replacement.
+It means that one row can come multiple times. It can also happen that all the rows are made from the same row.
+But generally it doesn't happen. So I have made a new dataset called DF bag, which will be given to my first decision tree.
+And I have taken out x and y from that because I will use that to train my algorithm.
+So if I run this, you can see, see this 97 is being repeated because we did sampling with replacement.
+So this data is for tree 1. Now what I am doing is importing decision tree and some other things.
+And here I am making the object of my first decision tree.
+Here I have not specified max depth inside so it will be none.
+So automatically the depth of the decision tree that will be trained will be maximum.
+This means fully grown decision tree, low bias, high variance algorithm will be made automatically.
+Now I have made a function called evaluate. I will show you.
+In that I have passed my decision tree and my training data x and y.
+And let me show you what is in evaluate. There is nothing in evaluate.
+It is a simple size function.
+In which you are getting a decision tree and training data.
+And you are training the training data.
+You are plotting the decision tree that is being made.
+And then you are plotting the decision region.
+And you are plotting the accuracy using x-test and y-test.
+That is why I had made x-test and y-test for validation.
+Now see, I will run this code once.
+So see, what will happen is that I am going up.
+See this.
+This is my first decision tree.
+I have called evaluate.
+DT bag 1.
+I have passed x and y.
+And see this guys.
+This is my first decision tree.
+Its logic is this.
+In the first column, there was a division of less than 7 is to 1.
+If you see, here there was only 1.2 and the rest were all 1.
+So there was a division of 7 is to 1.
+And when there was a split on this criteria.
+So all 1s went to the left side and 2s went to the right side.
+And your accuracy is 0.8 on testing data.
+And your decision boundary looks like this.
+So this is your first decision tree.
+This is the first base model.
+Now we will repeat the same work for the second decision tree.
+So what am I doing here?
+I am doing the same work again.
+I have again randomly sampled 8 rows with replacement from DFTrain.
+Again the same work.
+And again I have taken out x and y because we have to train the model.
+And when I run it.
+See this guys.
+This time which row is being repeated?
+This time 69 and 69.
+53, 53.
+74, 74.
+Different data.
+Repetition is coming.
+Ok.
+Now I have created a new decision tree object.
+Again match depth is none.
+And I have called evaluate.
+And see this guys.
+So apparently all these were already 1.
+So there was no split.
+Still accuracy on new data is very less.
+And this is your output.
+This does not happen generally.
+When you work on big data then obviously both classes come in the data.
+I could have insured this also.
+I did not do it.
+But ok.
+So last time we are doing the same work.
+Again we are creating a new sample for third decision tree.
+Let's run this.
+And you can see this time we have 97, 97, 65.
+It is being repeated many times.
+Ok.
+And again I have created a new decision tree.
+And in that I have passed x and y and trained it.
+And this is my second one.
+So this time also division happened in this way.
+That only one is 2 and rest are 1.
+Everything is a bit biased.
+But it is ok.
+Accuracy is 80% and this is my graph.
+Ok.
+So that is how you train different decision trees.
+So this was the training part.
+Bootstrapping part.
+Now let's go to the aggregation part.
+Ok.
+So in the aggregation part or in the prediction part what I am doing.
+I am taking my DF test.
+The third one.
+I made 3 things.
+If you go up.
+So what did I make?
+I made DF train.
+On which all the training is done.
+DF val.
+On which accuracy is calculated.
+And this is DF test.
+We have not used this yet.
+So now since 3 models are trained.
+I am going to use DF test.
+To check.
+To predict.
+That how is it working.
+During prediction.
+Ok.
+So what I will do is.
+I will first show you DF test.
+This is my DF test.
+Ok.
+Now let's say.
+What I have to do is.
+I have to give a point to all 3 models.
+Let's say we focus on this point.
+Whose output we know is 1.
+So what did I do?
+DT bag 1.
+DT bag 2.
+And DT bag 3.
+All 3 decision trees.
+I have feed this point independently.
+And what is this point?
+2.9.
+2.9.
+2.9.
+2.9.
+And 4.6.
+Ok.
+And this same point.
+I am giving to 3 decision trees.
+Like this.
+Ok.
+And I think you know that you will have to reshape this.
+And let's see what is the output.
+All 3 are saying that it is 1.
+So your output will be 1.
+Ok.
+Let's try another one.
+Let's try this one.
+2.2 and 5.0.
+2.2.
+And 5.0.
+Ok.
+I will copy this entire thing.
+Let's copy this entire thing.
+2.2.
+And 5.0.
+Ok.
+Ok.
+Paste, paste and see here guys, first one is saying 2, second one is saying 1 and third one is saying 2.
+Now since majority is saying 2, then your output will be 2 and guess what, your actual output is also 2.
+So that is how bagging works. To be honest, I could have done the work without understanding the whole thing without code.
+But I felt that if you understand things in code because most of us we come from programming backgrounds.
+So once we get the support of code, then we feel nice that yes, the whole thing is validated and it works like that.
+So I will share the link of this Kaggle notebook. You use it and set up a concrete idea in your mind that bagging works like this.
+Now we are going to do one last thing guys. That is that we have to discuss what are the types of bagging.
+So apparently, there are types of bagging and the types of bagging depend on this thing that
+you have to understand what are the types of bagging.
+How are you creating the subsets? So apparently, what I have shown you till now, this was row sampling.
+How were you creating the subsets of data? By sampling on the rows with replacement.
+But if you want, you can do it on the columns also. If you have a high dimensional data like image or text,
+then what you can do is you can use column sampling as well. Don't give all the columns to the decision team.
+Give one column to someone and give another column to someone and you can do that sampling also.
+Or you can do the combination of both.
+So there are three types of bagging. Bagging itself is one type and apart from that there are three types.
+The first type is pasting. There is only this much difference between pasting and bagging that in the case of pasting,
+you do row sampling only. I will write it over here. Here also you do row sampling as you did in bagging.
+Here also you do row sampling but without replacement. There is no replacement here.
+As you were seeing, you were repeating the rows. Here you will not repeat the rows. Okay.
+Let me show you one example. This is DFTRAIN. This is my 10 rows.
+Now here if you want to do pasting and you want a subset of 8 rows, then you will just write this code.
+Sample 8 on DFTRAIN. Replace will not be equal to 2.
+If you go to its documentation of the sample function, then you would see replace by default is false.
+So if I run this, you would see that I am getting a new data frame of 8 rows in the resultant.
+But if you look carefully, you will see that I am getting a new data frame of 8 rows.
+But if you look carefully, you will see that I am getting a new data frame of 8 rows.
+There is no repeat of any row. This is pasting. Okay. This is pasting.
+The main difference between pasting and bagging is that in bagging you do row sampling with replacement.
+In pasting you do row sampling without replacement. You don't do replacements. Okay.
+I hope you understood this. Next is random subspaces.
+So what happens in random subspaces is that you don't do row sampling. You just do column sampling.
+I hope you understood this. You do column sampling with replacement and without replacement.
+Whatever you do from both, it is called random subspaces. Okay.
+So what I did is that I again imported the whole data set of iris from above.
+And this time what I did is that I picked up only 10 rows randomly.
+This is my df1. This is not the df above. This is different. Okay. This is my random. Okay.
+Now by adding total to this, whatever is 6 or 7 columns.
+Now what we are doing is that if you have to use random subspaces, then what you will do is that
+in the sample function, you will tell how many columns you need.
+Let's say out of these 5 columns, I just need any 2 columns.
+So I will write 2 here. I have kept replace equal to true.
+So I am doing column sampling with replacement. You can also do it without replacement.
+And I have done x is equal to 1.
+x is equal to 1 is telling that I don't want to do sampling in row. I want to do sampling in columns. Okay.
+So as soon as I will run it, see this. This time I will make its combination.
+It is possible that you gave this data to the first decision tree. Okay.
+You gave this data to the second decision tree. Okay.
+Okay. You will not go to species. Species is output column. So ignore it.
+Species is coming again and again. Yes.
+You gave this data to the second decision tree.
+And columns can be repeated by the way because we have done with sampling, with replacement.
+You gave this data to the third decision tree.
+So what is happening this time is that the variety that is coming in different subsets is coming through column sampling. Okay.
+So random subspaces is all about column sampling.
+With replacement and without replacement both will work. Row sampling will not work. Okay.
+And the last one is random patches.
+In random patches, you do row sampling as well as column sampling.
+It is a simple thing. Okay.
+So suppose this is your df1.
+And you have to do row sampling as well as column sampling.
+So what I have done is that I have chained two samples. Okay.
+So the first sample is doing row sampling and the second sample is doing column sampling.
+So see here. I am saying that I want 8 rows from this data set.
+I want 8 rows with replacement. Okay.
+And then I wrote that I want only two columns in those 8 rows with replacement.
+And x is equal to 1 means column.
+And see the output is this.
+So this time you gave this to the first decision tree.
+You gave this to the second one.
+You gave this to the third one. Okay.
+So now you are seeing that there are 8 rows in total.
+Repetition is coming because there is replacement with replacement.
+And there are two columns. Okay.
+So the idea is this that you want to create variety in your base models.
+And the way to create variety is to give different data.
+Now there are four ways to give different data.
+Row sampling.
+Column sampling.
+And in both of them with replacement.
+Without replacement.
+With the variation of this, your four types are formed.
+Bagging.
+Pasting.
+Random subspaces.
+Random patches.
+These are the four. Okay.
+Now in the next video when we will work on bagging classifier.
+So I will show you by implementing these four things.
+That what changes are there in using them.
+Okay.
+But you should know as a practitioner.
+You should know that what is the difference between these four.
+Okay.
+So yeah guys anyways.
+It must have been a big video.
+I don't know how long I am talking.
+But I hope you understood this whole point.
+I will share two things with this video.
+Bias variance trade off video.
+And this notebook.
+I really hope you will utilize this and in your mind you would solidify the understanding.
+Okay.
+So yeah.
+That's it for the video.
+Thanks for watching.
+If you like it.
+Please consider subscribing the channel guys.
+Yeah.
+Thank you.

@@ -28,16 +28,9 @@ The hard part is measuring similarity when other rows have gaps too. Section 4 c
 
 ## 2. Univariate and multivariate imputation
 
-> **Key point:** Univariate imputation fills a column from that column alone; multivariate imputation also uses the other columns of the same row.
+> **Key point:** Multivariate imputation fills a gap using the other columns of the row too; scikit-learn offers two such techniques.
 
-Take a table with four columns where a value in the first column is missing. **Univariate imputation** looks only at the first column, for example its mean, its mode, or a random value taken from it (Notes 36 to 38).
-
-**Multivariate imputation** also uses the values in the other columns of the row. Two rows that agree in their other columns probably agree in the missing one too.
-
-scikit-learn has two multivariate techniques:
-
-1. **KNN imputer** (`KNNImputer`), this Note.
-2. **Iterative imputer** (`IterativeImputer`, the MICE algorithm), the next Note.
+Univariate imputation fills a column from that column alone, while multivariate imputation also uses the other columns of the same row (see "Imputing: filling in the gaps", section 3.2 of the [complete case analysis Note](../35-complete-case-analysis/note.md)). Its two scikit-learn techniques are the **KNN imputer** (`KNNImputer`, this Note) and the iterative imputer (`IterativeImputer`, the MICE algorithm, the [next Note](../40-iterative-imputer-mice/note.md)).
 
 ## 3. The nearest-neighbour idea
 
@@ -270,7 +263,6 @@ On the Titanic split, both weightings give the same accuracy for $k \le 9$ (Figu
 
 | Term | Meaning |
 |---|---|
-| Multivariate imputation | Filling a gap using the other columns of the row as well as the column itself |
 | KNN imputer | Filling a gap with the mean of that column in the k rows nearest to the row with the gap |
 | Nearest neighbours | The rows at the smallest distance from a given row |
 | `n_neighbors` (k) | The number of nearest rows the KNN imputer averages; default 5 |
