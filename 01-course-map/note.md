@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 203 of 203 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 209 of 209 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -57,6 +57,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | ML development life cycle | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | confirmed |
 | Tensors | [Note 11](../11-tensors/note.md) | confirmed |
 | Setup: conda, Jupyter and Colab | [Note 12](../12-setup-anaconda-jupyter-colab/note.md) | confirmed |
+| Chi-square tests | [Note 29](../29-pipelines/note.md), [Note 571](../571-chi-square-tests/note.md) | confirmed |
 | Vector magnitude, distance and scalar operations | [Note 39](../39-knn-imputer/note.md), [Note 361](../361-magnitude-distance-and-scalar-operations/note.md) | confirmed |
 | Normal distribution | [Note 42](../42-outliers-zscore/note.md), [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md), [Note 250](../250-normal-distribution/note.md) | confirmed |
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
@@ -74,6 +75,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Probability mass function (PMF) | [Note 241](../241-pmf-and-discrete-cdf/note.md) | confirmed |
 | Uniform distribution | [Note 241](../241-pmf-and-discrete-cdf/note.md), [Note 261](../261-uniform-and-log-normal/note.md) | confirmed |
 | Log-normal distribution | [Note 242](../242-pdf-and-continuous-cdf/note.md), [Note 261](../261-uniform-and-log-normal/note.md) | confirmed |
+| Poisson distribution | [Note 242](../242-pdf-and-continuous-cdf/note.md), [Note 560](../560-poisson-distribution/note.md) | confirmed |
 | Standard normal and the z-table | [Note 251](../251-standard-normal-and-z-table/note.md) | confirmed |
 | Pareto distribution and power laws | [Note 262](../262-pareto-and-power-law/note.md) | confirmed |
 | Sampling distribution and standard error | [Note 271](../271-sampling-distribution-and-clt/note.md) | confirmed |
@@ -84,7 +86,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Z-test and rejection regions | [Note 291](../291-rejection-region-and-z-test/note.md) | confirmed |
 | Type I and II errors, power, tails | [Note 292](../292-errors-power-and-tails/note.md) | confirmed |
 | P-values | [Note 300](../300-p-values/note.md) | confirmed |
-| T-tests: one-sample, two-sample, paired | [Note 301](../301-one-sample-t-test/note.md), [Note 302](../302-two-sample-and-paired-t-tests/note.md) | confirmed |
+| T-tests: one-sample, two-sample, paired | [Note 301](../301-one-sample-t-test/note.md), [Note 302](../302-two-sample-and-paired-t-tests/note.md), [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | Events and sample spaces | [Note 330](../330-events-and-types-of-events/note.md) | confirmed |
 | Empirical vs theoretical probability, probability rules | [Note 331](../331-empirical-and-theoretical-probability/note.md), [Note 340](../340-venn-diagrams-and-contingency-tables/note.md) | confirmed |
 | Expected value and variance of a random variable | [Note 332](../332-expected-value-and-variance/note.md) | confirmed |
@@ -93,6 +95,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Linear algebra roadmap | [Note 350](../350-linear-algebra-roadmap/note.md) | confirmed |
 | Vectors and feature vectors | [Note 360](../360-vectors-and-feature-vectors/note.md) | confirmed |
 | Role of mathematics in ML | [Note 440](../440-role-of-maths-in-ml/note.md) | confirmed |
+| Choosing a hypothesis test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
+| One-sample proportion test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
+| One-way ANOVA | [Note 572](../572-one-way-anova/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -138,6 +143,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Correlation and causation | [Note 231](../231-covariance-and-correlation/note.md) | confirmed |
 | Cumulative distribution function (CDF) | [Note 241](../241-pmf-and-discrete-cdf/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md), [Note 253](../253-pdf-and-cdf-in-practice/note.md) | confirmed |
 | Density estimation | [Note 243](../243-density-estimation-kde/note.md) | confirmed |
+| Correlation significance test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 
 ### 2.5 Step 4: Clean
 
@@ -318,7 +324,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 203 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 209 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -367,7 +373,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 26 | Encoding categorical data, Ordinal and label encoding | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 27 | Multicollinearity, One-hot encoding | [Note 26](../26-ordinal-label-encoding/note.md) | written |
 | 28 | Column transformer | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | written |
-| 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 13](../13-toy-project/note.md), [Note 17](../17-fetching-data-from-api/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 28](../28-column-transformer/note.md) | written |
+| 29 | Chi-square tests, Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 13](../13-toy-project/note.md), [Note 17](../17-fetching-data-from-api/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 28](../28-column-transformer/note.md) | written |
 | 30 | Cross-validation, Function transformer, Q-Q plot | [Note 20](../20-univariate-analysis/note.md), [Note 22](../22-pandas-profiling/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 31 | Power transformer | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md) | written |
 | 32 | Binning and binarization, K-means | [Note 3](../03-types-of-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md) | written |
@@ -384,7 +390,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 43 | Capping (winsorization), IQR outlier method, Trimming outliers | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
 | 44 | Capping (winsorization), Percentile outlier method, Trimming outliers | [Note 41](../41-what-are-outliers/note.md) | written |
 | 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md), [Note 32](../32-binning-binarization/note.md) | written |
-| 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
+| 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 29](../29-pipelines/note.md) | written |
 | 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | written |
 | 48 | Covariance and covariance matrix, Dot product, Eigenvectors and eigenvalues, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
 | 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
@@ -482,7 +488,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 231 | Correlation, Correlation and causation, Covariance and covariance matrix | [Note 222](../222-measures-of-dispersion/note.md), [Note 230](../230-percentiles-and-box-plots/note.md) | written |
 | 240 | Normal distribution, Probability distributions, Random variables | [Note 90](../90-gaussian-naive-bayes/note.md), [Note 220](../220-what-is-statistics/note.md) | written |
 | 241 | Bernoulli and binomial distributions, Cumulative distribution function (CDF), Probability mass function (PMF), Uniform distribution | [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md) | written |
-| 242 | Cumulative distribution function (CDF), Log-normal distribution, Probability density function (PDF) | [Note 240](../240-random-variables-and-distributions/note.md), [Note 241](../241-pmf-and-discrete-cdf/note.md) | written |
+| 242 | Cumulative distribution function (CDF), Log-normal distribution, Poisson distribution, Probability density function (PDF) | [Note 240](../240-random-variables-and-distributions/note.md), [Note 241](../241-pmf-and-discrete-cdf/note.md) | written |
 | 243 | Density estimation, Kernel density estimation (KDE) | [Note 220](../220-what-is-statistics/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | written |
 | 250 | Normal distribution | [Note 240](../240-random-variables-and-distributions/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | written |
 | 251 | Standard normal and the z-table, Z-score outlier method | [Note 24](../24-standardization/note.md), [Note 230](../230-percentiles-and-box-plots/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md), [Note 250](../250-normal-distribution/note.md) | written |
@@ -514,6 +520,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 362 | Cosine similarity, Dot product | [Note 360](../360-vectors-and-feature-vectors/note.md) | written |
 | 363 | Equation of a hyperplane | [Note 362](../362-dot-product-and-cosine-similarity/note.md) | written |
 | 440 | Role of mathematics in ML | nothing | written |
+| 560 | Poisson distribution | [Note 241](../241-pmf-and-discrete-cdf/note.md), [Note 332](../332-expected-value-and-variance/note.md) | written |
+| 570 | Choosing a hypothesis test, Correlation significance test, One-sample proportion test, T-tests: one-sample, two-sample, paired | [Note 231](../231-covariance-and-correlation/note.md), [Note 282](../282-t-procedure/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
+| 571 | Chi-square tests | [Note 291](../291-rejection-region-and-z-test/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | written |
+| 572 | One-way ANOVA | [Note 222](../222-measures-of-dispersion/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
 
 ## 5. The Algorithm chooser
 

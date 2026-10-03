@@ -8,7 +8,7 @@ title: "Null and Alternative Hypotheses"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Sampling distribution and standard error ([Note 271](../271-sampling-distribution-and-clt/note.md)).
-> - **Leads to:** Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)); Beta and A/B testing ([Note 292](../292-errors-power-and-tails/note.md)); T-tests: one-sample, two-sample, paired ([Note 301](../301-one-sample-t-test/note.md)).
+> - **Leads to:** Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)); Beta and A/B testing ([Note 292](../292-errors-power-and-tails/note.md)); T-tests: one-sample, two-sample, paired ([Note 301](../301-one-sample-t-test/note.md)); One-sample proportion test ([Note 570](../570-choosing-a-hypothesis-test/note.md)); Chi-square tests ([Note 571](../571-chi-square-tests/note.md)); One-way ANOVA ([Note 572](../572-one-way-anova/note.md)).
 > - **Compare with:** Confidence intervals ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
 

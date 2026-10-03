@@ -8,7 +8,7 @@ title: "Confidence Intervals with the T-procedure"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Bessel's correction ([Note 222](../222-measures-of-dispersion/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Central limit theorem ([Note 272](../272-estimating-a-mean-with-the-clt/note.md)).
-> - **Leads to:** T-tests: one-sample, two-sample, paired ([Note 301](../301-one-sample-t-test/note.md)).
+> - **Leads to:** T-tests: one-sample, two-sample, paired ([Note 301](../301-one-sample-t-test/note.md)); Correlation significance test ([Note 570](../570-choosing-a-hypothesis-test/note.md)).
 > - **Compare with:** Normal distribution ([Note 250](../250-normal-distribution/note.md)); Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)).
 <!-- /where-this-fits -->
 

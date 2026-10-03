@@ -8,6 +8,7 @@ title: "Joint, Marginal and Conditional Probability"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Events and sample spaces ([Note 330](../330-events-and-types-of-events/note.md)); Venn diagrams and contingency tables ([Note 340](../340-venn-diagrams-and-contingency-tables/note.md)).
+> - **Leads to:** Chi-square tests ([Note 571](../571-chi-square-tests/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

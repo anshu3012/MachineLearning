@@ -8,6 +8,7 @@ title: "Random Variables as Functions, Expected Value and Variance"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Random variables ([Note 240](../240-random-variables-and-distributions/note.md)).
+> - **Leads to:** Poisson distribution ([Note 560](../560-poisson-distribution/note.md)).
 > - **Compare with:** Measures of central tendency ([Note 221](../221-measures-of-central-tendency/note.md)).
 <!-- /where-this-fits -->
 

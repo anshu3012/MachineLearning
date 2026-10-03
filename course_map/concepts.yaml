@@ -196,6 +196,10 @@ notes:
   362: 362-dot-product-and-cosine-similarity
   363: 363-equation-of-a-hyperplane
   440: 440-role-of-maths-in-ml
+  560: 560-poisson-distribution
+  570: 570-choosing-a-hypothesis-test
+  571: 571-chi-square-tests
+  572: 572-one-way-anova
 
 concepts:
   # 0 Foundations
@@ -270,7 +274,13 @@ concepts:
   - {id: z_test, name: Z-test and rejection regions, step: 0, videos: [291], status: confirmed}
   - {id: type_errors, name: "Type I and II errors, power, tails", step: 0, videos: [292], status: confirmed}
   - {id: p_value, name: P-values, step: 0, videos: [300], status: confirmed}
-  - {id: t_test, name: "T-tests: one-sample, two-sample, paired", step: 0, videos: [301, 302], status: confirmed}
+  - {id: t_test, name: "T-tests: one-sample, two-sample, paired", step: 0, videos: [301, 302, 570], status: confirmed}
+  - {id: poisson_dist, name: Poisson distribution, step: 0, videos: [242, 560], status: confirmed}
+  - {id: test_choice, name: Choosing a hypothesis test, step: 0, videos: [570], status: confirmed}
+  - {id: proportion_test, name: One-sample proportion test, step: 0, videos: [570], status: confirmed}
+  - {id: correlation_test, name: Correlation significance test, step: 3, videos: [570], status: confirmed}
+  - {id: chi_square_test, name: Chi-square tests, step: 0, videos: [29, 571], status: confirmed}
+  - {id: anova, name: One-way ANOVA, step: 0, videos: [572], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -785,6 +795,22 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [poisson_dist, needs, pmf, confirmed]
+  - [poisson_dist, needs, expected_value, confirmed]
+  - [poisson_dist, compared with, binomial_dist, confirmed]
+  - [test_choice, needs, t_test, confirmed]
+  - [proportion_test, is a kind of, hypothesis_testing, confirmed]
+  - [proportion_test, needs, z_test, confirmed]
+  - [correlation_test, needs, correlation, confirmed]
+  - [correlation_test, needs, t_distribution, confirmed]
+  - [chi_square_test, is a kind of, hypothesis_testing, confirmed]
+  - [chi_square_test, needs, joint_marginal, confirmed]
+  - [chi_square_test, compared with, proportion_test, confirmed]
+  - [chi_square_test, used in, feature_selection, confirmed]
+  - [anova, is a kind of, hypothesis_testing, confirmed]
+  - [anova, compared with, t_test, confirmed]
+  - [anova, needs, variance, confirmed]
+  - [anova, used in, feature_selection, confirmed]
   - [hypothesis_testing, is a kind of, inferential_stats, confirmed]
   - [hypothesis_testing, needs, sampling_distribution, confirmed]
   - [z_test, is a kind of, hypothesis_testing, confirmed]
