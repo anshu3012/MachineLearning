@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 57 of 130 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 58 of 131 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -95,10 +95,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Poor-quality data | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| Missing values | [Note 7](../07-challenges-in-ml/note.md), Video 35, coming, Video 36, coming | draft |
-| Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md), Video 41, coming | draft |
+| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 35, coming, Video 36, coming | draft |
+| Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 41, coming | draft |
+| Simple imputation (mean, median, mode) | [Note 23](../23-what-is-feature-engineering/note.md), Video 36, coming, Video 37, coming | draft |
 | Complete case analysis | Video 35, coming | draft |
-| Simple imputation (mean, median, mode) | Video 36, coming, Video 37, coming | draft |
 | Missing indicator | Video 38, coming | draft |
 | KNN imputer | Video 39, coming | draft |
 | Iterative imputation (MICE) | Video 40, coming | draft |
@@ -110,20 +110,21 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), Video 24, coming | confirmed |
-| Feature engineering | [Note 7](../07-challenges-in-ml/note.md), Video 23, coming | confirmed |
-| Feature construction and splitting | [Note 7](../07-challenges-in-ml/note.md), Video 45, coming | draft |
-| Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
-| One-hot encoding | [Note 11](../11-tensors/note.md), Video 27, coming | confirmed |
+| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 24, coming | confirmed |
+| Feature engineering | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
+| Feature construction and splitting | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 45, coming | draft |
+| Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
+| One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 27, coming | confirmed |
 | Standardization | [Note 13](../13-toy-project/note.md), Video 24, coming | confirmed |
 | ML pipelines | [Note 13](../13-toy-project/note.md), Video 29, coming | draft |
+| Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), Video 26, coming | draft |
+| Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), Video 32, coming | draft |
+| Feature transformation | [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
 | Normalization | Video 25, coming | draft |
-| Encoding categorical data | Video 26, coming | draft |
 | Ordinal and label encoding | Video 26, coming | draft |
 | Column transformer | Video 28, coming | draft |
 | Function transformer | Video 30, coming | draft |
 | Power transformer | Video 31, coming | draft |
-| Binning and binarization | Video 32, coming | draft |
 | Mixed variables | Video 33, coming | draft |
 | Date and time features | Video 34, coming | draft |
 | Feature importance | Video 114, coming | draft |
@@ -134,8 +135,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 |---|---|---|
 | Dimensionality reduction | [Note 3](../03-types-of-ml/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | PCA | [Note 3](../03-types-of-ml/note.md), [Note 47](../47-pca-geometric-intuition/note.md), Video 48, coming, Video 49, coming | confirmed |
+| Feature extraction | [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 | Curse of dimensionality | [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
-| Feature extraction | [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 
 ### 2.8 Step 7: Split
 
@@ -245,7 +246,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 130 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 131 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -288,18 +289,18 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 20 | Outliers, Skewness, Univariate analysis | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
 | 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
 | 22 | Pandas Profiling | nothing | coming |
-| 23 | Feature engineering | [Note 11](../11-tensors/note.md) | coming |
-| 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), Video 23, coming | coming |
+| 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md), [Note 11](../11-tensors/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
+| 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 25 | Normalization | Video 24, coming | coming |
-| 26 | Encoding categorical data, Ordinal and label encoding | Video 23, coming | coming |
+| 26 | Encoding categorical data, Ordinal and label encoding | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 27 | One-hot encoding | Video 26, coming | coming |
 | 28 | Column transformer | Video 26, coming | coming |
 | 29 | ML pipelines | [Note 13](../13-toy-project/note.md), Video 28, coming | coming |
 | 30 | Function transformer | nothing | coming |
-| 31 | Power transformer | Video 23, coming | coming |
-| 32 | Binning and binarization | Video 23, coming | coming |
-| 33 | Mixed variables | Video 23, coming | coming |
-| 34 | Date and time features | Video 23, coming | coming |
+| 31 | Power transformer | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
+| 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
+| 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
+| 34 | Date and time features | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 35 | Complete case analysis, Missing values | [Note 7](../07-challenges-in-ml/note.md) | coming |
 | 36 | Missing values, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md) | coming |
 | 37 | Simple imputation (mean, median, mode) | Video 36, coming | coming |
@@ -310,9 +311,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 42 | Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
 | 43 | IQR outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
 | 44 | Percentile outlier method | Video 41, coming | coming |
-| 45 | Feature construction and splitting | Video 23, coming | coming |
-| 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), Video 23, coming | written |
-| 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), Video 23, coming, Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | written |
+| 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
+| 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
+| 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | written |
 | 48 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
 | 49 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
 | 50 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |

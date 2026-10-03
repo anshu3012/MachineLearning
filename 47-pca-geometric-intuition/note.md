@@ -7,7 +7,7 @@ title: "PCA: Geometric Intuition"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering (Video 23, coming); Standardization (Video 24, coming); Dimensionality reduction ([Note 46](../46-curse-of-dimensionality/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)).
+> - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Standardization (Video 24, coming); Dimensionality reduction ([Note 46](../46-curse-of-dimensionality/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)).
 > - **Compare with:** Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)).
 <!-- /where-this-fits -->
 

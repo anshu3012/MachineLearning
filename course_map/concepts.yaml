@@ -38,6 +38,7 @@ notes:
   19: 19-understanding-your-data
   20: 20-univariate-analysis
   21: 21-bivariate-multivariate-analysis
+  23: 23-what-is-feature-engineering
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
 
@@ -91,40 +92,41 @@ concepts:
 
   # 4 Clean
   - {id: data_quality, name: Poor-quality data, step: 4, videos: [7], status: confirmed}
-  - {id: missing_values, name: Missing values, step: 4, videos: [7, 35, 36], status: draft}
+  - {id: missing_values, name: Missing values, step: 4, videos: [7, 23, 35, 36], status: draft}
   - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: draft}
-  - {id: simple_imputation, name: "Simple imputation (mean, median, mode)", step: 4, videos: [36, 37], status: draft}
+  - {id: simple_imputation, name: "Simple imputation (mean, median, mode)", step: 4, videos: [23, 36, 37], status: draft}
   - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: draft}
   - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: draft}
   - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: draft}
-  - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 41], status: draft}
+  - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 23, 41], status: draft}
   - {id: zscore, name: Z-score outlier method, step: 4, videos: [42], status: draft}
   - {id: iqr, name: IQR outlier method, step: 4, videos: [43], status: draft}
   - {id: percentile, name: Percentile outlier method, step: 4, videos: [44], status: draft}
 
   # 5 Engineer features
   - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 23], status: confirmed}
-  - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13, 46], status: confirmed}
-  - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 13, 24], status: confirmed}
+  - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13, 23, 46], status: confirmed}
+  - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 13, 23, 24], status: confirmed}
   - {id: standardization, name: Standardization, step: 5, videos: [13, 24], status: confirmed}
   - {id: normalization, name: Normalization, step: 5, videos: [25], status: draft}
-  - {id: encoding, name: Encoding categorical data, step: 5, videos: [26], status: draft}
+  - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: draft}
   - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: draft}
-  - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 27], status: confirmed}
+  - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 23, 27], status: confirmed}
   - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: draft}
   - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: draft}
   - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: draft}
   - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: draft}
-  - {id: binning, name: Binning and binarization, step: 5, videos: [32], status: draft}
+  - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: draft}
   - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: draft}
   - {id: datetime, name: Date and time features, step: 5, videos: [34], status: draft}
-  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 45], status: draft}
+  - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
+  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 23, 45], status: draft}
   - {id: feature_importance, name: Feature importance, step: 5, videos: [114], status: draft}
 
   # 6 Reduce dimensions
   - {id: dim_reduction, name: Dimensionality reduction, step: 6, videos: [3, 46], status: confirmed}
   - {id: curse_dim, name: Curse of dimensionality, step: 6, videos: [46], status: confirmed}
-  - {id: feature_extraction, name: Feature extraction, step: 6, videos: [46, 47], status: confirmed}
+  - {id: feature_extraction, name: Feature extraction, step: 6, videos: [23, 46, 47], status: confirmed}
   - {id: pca, name: PCA, step: 6, videos: [3, 47, 48, 49], status: confirmed}
 
   # 7 Split
@@ -277,6 +279,10 @@ links:
   - [mixed_variables, is a kind of, feature_engineering, draft]
   - [datetime, is a kind of, feature_engineering, draft]
   - [feature_construction, is a kind of, feature_engineering, confirmed]
+  - [feature_transformation, is a kind of, feature_engineering, confirmed]
+  - [encoding, is a kind of, feature_transformation, confirmed]
+  - [feature_scaling, is a kind of, feature_transformation, confirmed]
+  - [binning, is a kind of, feature_transformation, confirmed]
   - [feature_selection, is a kind of, feature_engineering, confirmed]
   - [feature_extraction, is a kind of, feature_engineering, confirmed]
   - [feature_importance, used in, feature_selection, draft]

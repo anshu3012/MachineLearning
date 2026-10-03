@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1.0]
+  \draw[arrow, draw=black] (0,0) -- (7,0) node[below left, font=\sffamily] {rooms};
+  \draw[arrow, draw=black] (0,0) -- (0,6) node[above, font=\sffamily] {bathrooms};
+  % points spread along a diagonal
+  \foreach \x/\y in {1/0.9, 1.4/1.6, 1.9/1.5, 2.3/2.3, 2.6/2.0, 3.0/2.9, 3.3/2.7, 3.7/3.6, 4.1/3.5, 4.4/4.3, 4.9/4.4, 5.3/5.0, 5.6/4.9}
+    \fill[cblue] (\x,\y) circle (3.5pt);
+  % new axes
+  \draw[arrow, draw=cgreen, line width=2pt] (0.4,0.4) -- (6.4,5.9) node[above right, text=cgreen, font=\sffamily\bfseries, align=left] {new axis 1:\\most of the spread\\(keep)};
+  \draw[arrow, draw=cred, line width=2pt, dashed] (4.6,2.0) -- (2.6,4.3) node[above left, text=cred, font=\sffamily\bfseries, align=right] {new axis 2:\\little spread\\(drop)};
+\end{tikzpicture}
+\end{document}

@@ -8,7 +8,7 @@ title: "EDA: Bivariate and Multivariate Analysis"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)).
-> - **Leads to:** Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)).
+> - **Leads to:** Feature selection ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

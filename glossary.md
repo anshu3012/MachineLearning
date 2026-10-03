@@ -28,10 +28,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data. | [Video 5](05-online-learning/note.md) |
 | Bin | One of the equal ranges a histogram splits the data into. | [Video 20](20-univariate-analysis/note.md) |
+| Binning | Grouping a numerical column into ranges that act as categories. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
 | Bot | A program that visits websites automatically. | [Video 18](18-web-scraping/note.md) |
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
+| Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
 | Channel | One colour layer of an image (red, green or blue). | [Video 11](11-tensors/note.md) |
@@ -71,6 +73,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Video 3](03-types-of-ml/note.md) |
 | Distance | A number measuring how far apart two points are; small distance = similar. | [Video 6](06-instance-vs-model-based/note.md) |
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
+| Domain knowledge | Knowledge of the field the data comes from. | [Video 23](23-what-is-feature-engineering/note.md) |
 | dtype | The data type of a column, such as `int64`, `float64` or `str`. | [Video 15](15-working-with-csv/note.md) |
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -78,14 +81,17 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Endpoint | One address of an API that returns one kind of data. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment variable | A named value stored on the computer, outside the code, read with `os.environ`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment | The world the agent acts in. | [Video 3](03-types-of-ml/note.md) |
+| Euclidean distance | The straight-line distance between two points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns. | [Video 13](13-toy-project/note.md) |
 | f-string | Text starting with `f` in which `{name}` is replaced by a value. | [Video 17](17-fetching-data-from-api/note.md) |
+| Feature construction | Creating a new column by hand from existing ones. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature engineering | Choosing, removing and creating features. | [Video 7](07-challenges-in-ml/note.md) |
 | Feature extraction | Creating a new column from existing ones. | [Video 3](03-types-of-ml/note.md) |
 | Feature scaling | Putting columns on the same scale, so no column dominates distances. | [Video 6](06-instance-vs-model-based/note.md) |
 | Feature selection | Choosing which input columns to use. | [Video 13](13-toy-project/note.md) |
+| Feature transformation | Changing a column into a form the model can use better. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Fence | A limit 1.5 IQR beyond the box; values past it are possible outliers. | [Video 20](20-univariate-analysis/note.md) |
 | Five-number summary | Minimum, Q1, median, Q3 and maximum. | [Video 20](20-univariate-analysis/note.md) |
@@ -103,6 +109,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Histogram | A bar chart of how many values fall in each equal range (bin) of a numerical column. | [Video 20](20-univariate-analysis/note.md) |
 | HTML | The language web pages are written in: a tree of nested tags. | [Video 18](18-web-scraping/note.md) |
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Imputation | Filling in missing values, for example with the mean, median or mode. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
@@ -126,6 +133,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Linear regression | An algorithm that fits the straight line closest to all the points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Linear relationship | A relationship between two columns that follows a straight line. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Video 15](15-working-with-csv/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
@@ -138,6 +146,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Missing value | An empty entry, shown by pandas as `NaN`. | [Video 15](15-working-with-csv/note.md) |
 | Missing values | Empty cells in the data. | [Video 7](07-challenges-in-ml/note.md) |
 | MLOps | Running and maintaining ML models in production. | [Video 7](07-challenges-in-ml/note.md) |
+| MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Mode | The most common value of a column. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Model drift / concept drift | A model's accuracy dropping as the real world changes. | [Video 4](04-batch-learning/note.md) |
 | Model selection | Training several algorithms and keeping the best. | [Video 13](13-toy-project/note.md) |
 | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -186,6 +196,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Rank | The number of axes of a tensor (ndim in NumPy). | [Video 11](11-tensors/note.md) |
 | RapidAPI | A website listing many APIs, including free ones. | [Video 17](17-fetching-data-from-api/note.md) |
 | Rate limit | The most requests an API accepts in a given time. | [Video 17](17-fetching-data-from-api/note.md) |
+| Raw data | Data as it arrives, before any preparation. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time. | [Video 15](15-working-with-csv/note.md) |
 | Recommendation engine | A model that suggests items, such as movies, to users. | [Video 4](04-batch-learning/note.md) |
 | Regression | Supervised learning with a numerical output. | [Video 3](03-types-of-ml/note.md) |
