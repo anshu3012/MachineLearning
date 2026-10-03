@@ -8,7 +8,7 @@ title: "Decision Trees: Geometric Intuition, Entropy, Information Gain and Gini"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Decision surface and boundary ([Note 91](../91-knn/note.md)).
-> - **Leads to:** Feature importance ([Note 99](../99-regression-trees/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Ensemble learning (Video 101, coming); Random forest (Video 108, coming).
+> - **Leads to:** Feature importance ([Note 99](../99-regression-trees/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest (Video 108, coming).
 > - **Compare with:** Feature scaling ([Note 24](../24-standardization/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)).
 <!-- /where-this-fits -->
 

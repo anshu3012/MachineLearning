@@ -7,7 +7,7 @@ title: "Naive Bayes Foundations: Independent Events"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)).
+> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

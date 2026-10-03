@@ -18,7 +18,8 @@ Project root: `/home/anshu/campusx`. Read these first, fully:
 ## What to produce, in your folder only (e.g. `15-working-with-csv/`)
 1. `note.md`, following every rule in README: title only in front matter; numbered sections named after topics;
    every section opens with a `> **Key point:**` box; paragraphs max 3 sentences, split never cut; "we" voice;
-   NEVER mention the video, the teacher, "he", timestamps or the course itself; bold only a term where first defined;
+   NEVER mention the video, the teacher, "he", timestamps or the course itself (no "Video N" or "(Video N, coming)" either:
+   refer to other Notes by topic, linking only to Notes that exist); bold only a term where first defined;
    `> **Extra:**` boxes for anything not in the video; `> **Python:**` boxes for code (short lines, comments on their own
    line if long); formulas in 3 steps (words, display maths `$$...$$`, worked numbers); figures numbered via captions
    and referred to as "Figure N"; ends with `## Summary` then `## Key terms` table. No ₹ sign (write "rupees").

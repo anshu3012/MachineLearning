@@ -8,6 +8,7 @@ title: "Regression Trees"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)); Decision trees ([Note 98](../98-decision-tree-hyperparameters/note.md)); Cross-validation ([Note 91](../91-knn/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)).
+> - **Leads to:** Bagging ([Note 105](../105-bagging-intuition/note.md)).
 > - **Compare with:** Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 

@@ -8,7 +8,7 @@ title: "Visualising Decision Trees with dtreeviz"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Decision surface and boundary ([Note 91](../91-knn/note.md)); Entropy, information gain and Gini ([Note 97](../97-decision-trees-intuition/note.md)).
-> - **Leads to:** Ensemble learning (Video 101, coming); Random forest (Video 108, coming).
+> - **Leads to:** Ensemble learning ([Note 101](../101-ensemble-learning/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest (Video 108, coming).
 > - **Compare with:** Feature scaling ([Note 24](../24-standardization/note.md)).
 <!-- /where-this-fits -->
 

@@ -121,6 +121,13 @@ notes:
   98: 98-decision-tree-hyperparameters
   99: 99-regression-trees
   100: 100-dtreeviz
+  101: 101-ensemble-learning
+  102: 102-voting-ensemble
+  103: 103-voting-classifier
+  104: 104-voting-regressor
+  105: 105-bagging-intuition
+  106: 106-bagging-classifier
+  107: 107-bagging-regressor
 
 concepts:
   # 0 Foundations
@@ -258,11 +265,11 @@ concepts:
   - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: confirmed}
   - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: confirmed}
   - {id: regression_tree, name: Regression trees, step: 8, videos: [99], status: confirmed}
-  - {id: ensemble, name: Ensemble learning, step: 8, videos: [9, 101], status: draft}
-  - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: draft}
-  - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: draft}
+  - {id: ensemble, name: Ensemble learning, step: 8, videos: [9, 101], status: confirmed}
+  - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: confirmed}
+  - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: confirmed}
   - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111], status: draft}
-  - {id: boosting, name: Boosting, step: 8, videos: [119], status: draft}
+  - {id: boosting, name: Boosting, step: 8, videos: [101, 119], status: draft}
   - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: draft}
   - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: draft}
   - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: draft}
@@ -281,12 +288,12 @@ concepts:
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: confirmed}
   - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: confirmed}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: confirmed}
-  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 112], status: draft}
-  - {id: oob_score, name: OOB score, step: 9, videos: [113], status: draft}
+  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112], status: draft}
+  - {id: oob_score, name: OOB score, step: 9, videos: [105, 106, 107, 113], status: draft}
 
   # 10 Tune
   - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118], status: draft}
-  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 112], status: draft}
+  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112], status: draft}
   - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
 
   # 11 Deploy
@@ -548,14 +555,14 @@ links:
   - [regression_tree, needs, regression_metrics, confirmed]
   - [hyperparameters, fixes, overfitting, confirmed]
   - [decision_surface, used in, decision_tree, confirmed]
-  - [voting, is a kind of, ensemble, draft]
-  - [bagging, is a kind of, ensemble, draft]
-  - [boosting, is a kind of, ensemble, draft]
-  - [stacking, is a kind of, ensemble, draft]
+  - [voting, is a kind of, ensemble, confirmed]
+  - [bagging, is a kind of, ensemble, confirmed]
+  - [boosting, is a kind of, ensemble, confirmed]
+  - [stacking, is a kind of, ensemble, confirmed]
   - [bagging, compared with, boosting, draft]
   - [random_forest, is a kind of, bagging, draft]
   - [random_forest, needs, decision_tree, draft]
-  - [bagging, fixes, overfitting, draft]
+  - [bagging, fixes, overfitting, confirmed]
   - [adaboost, is a kind of, boosting, draft]
   - [gradient_boosting, is a kind of, boosting, draft]
   - [xgboost, is a kind of, gradient_boosting, draft]
@@ -586,6 +593,14 @@ links:
   - [regression_metrics, used in, regression_task, draft]
   - [cross_validation, compared with, train_test_split, draft]
   - [oob_score, used in, random_forest, draft]
+  - [ensemble, needs, bias_variance, confirmed]
+  - [voting, needs, independent_events, confirmed]
+  - [cross_validation, used in, voting, confirmed]
+  - [bagging, needs, bias_variance, confirmed]
+  - [bagging, compared with, voting, confirmed]
+  - [decision_tree, used in, bagging, confirmed]
+  - [oob_score, used in, bagging, confirmed]
+  - [grid_search, used in, bagging, confirmed]
   # Tune
   - [hyperparameters, used in, model_based, draft]
   - [grid_search, needs, cross_validation, draft]

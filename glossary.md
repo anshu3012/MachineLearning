@@ -47,6 +47,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Video 84](84-mutually-exclusive-events/note.md) |
 | Adjusted R² | R² with a penalty for the number of input columns. | [Video 52](52-regression-metrics/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
+| Aggregation | Combining the base models' predictions into one: mode for classes, mean for numbers. | [Video 105](105-bagging-intuition/note.md) |
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Alert | A warning in the report about a column that may need attention. | [Video 22](22-pandas-profiling/note.md) |
 | Anaconda Navigator | Anaconda's point-and-click window for environments and packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -71,9 +72,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | B2B | Business to business: a product that helps a company run its business. | [Video 8](08-applications-of-ml/note.md) |
 | B2C | Business to customer: a product sold to ordinary users. | [Video 8](08-applications-of-ml/note.md) |
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Bagging (bootstrap aggregation) | Averaging many models trained on different samples of the data to reduce variance. | [Video 101](101-ensemble-learning/note.md) |
+| Bagging regressor | A bagging ensemble of regressors that predicts the mean of their predictions. | [Video 107](107-bagging-regressor/note.md) |
 | Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Video 62](62-bias-variance/note.md) |
+| BaggingClassifier | scikit-learn class for bagging, pasting, random subspaces and random patches in classification. | [Video 106](106-bagging-classifier/note.md) |
+| BaggingRegressor | scikit-learn class for bagging, pasting, random subspaces and random patches in regression. | [Video 107](107-bagging-regressor/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | base environment | The environment the installer creates, holding conda itself. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Base model | One of the models inside an ensemble. | [Video 101](101-ensemble-learning/note.md) |
 | Batch (mini-batch) | A small group of training rows used for one update. | [Video 60](60-mini-batch-gradient-descent/note.md) |
 | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
@@ -98,11 +104,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Binary cross entropy (log loss) | The average cross entropy for two classes, the loss function of logistic regression. | [Video 73](73-log-loss/note.md) |
 | Binary file | A file that is not plain text, such as a saved model. | [Video 9](09-mldlc/note.md) |
 | Binning | Grouping a numerical column into ranges that act as categories. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Binomial distribution | The distribution of the number of successes in $n$ independent trials with the same success probability. | [Video 102](102-voting-ensemble/note.md) |
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | Black box model | A model that gives predictions without showing how each input contributed. | [Video 91](91-knn/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
 | Boosting | Combining many simple models in sequence to reduce bias. | [Video 62](62-bias-variance/note.md) |
 | Bootstrap sample | A sample of the same size drawn from the data with replacement. | [Video 66](66-ridge-key-points/note.md) |
+| bootstrap | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). | [Video 106](106-bagging-classifier/note.md) |
+| bootstrap_features | BaggingClassifier setting: draw columns with replacement or without. | [Video 106](106-bagging-classifier/note.md) |
+| Bootstrapping | Drawing random samples of the data to train each base model. | [Video 105](105-bagging-intuition/note.md) |
 | Boston housing data | 506 Boston districts, 13 inputs and the median home value; removed from scikit-learn in version 1.2. | [Video 99](99-regression-trees/note.md) |
 | Bot | A program that visits websites automatically. | [Video 18](18-web-scraping/note.md) |
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
@@ -111,6 +121,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Buying behaviour | The pattern of what a customer buys. | [Video 8](08-applications-of-ml/note.md) |
 | C (SVM) | The weight on the classification error; a large C means few mistakes and a narrow margin, a small C a wide margin. | [Video 94](94-svm-soft-margin/note.md) |
 | C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Video 81](81-logistic-hyperparameters/note.md) |
+| CalibratedClassifierCV | scikit-learn wrapper that gives a classifier, such as an SVM, calibrated probabilities. | [Video 103](103-voting-classifier/note.md) |
 | Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
 | cars.csv | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders. | [Video 100](100-dtreeviz/note.md) |
 | CART | Classification and regression trees: the tree algorithm used for both kinds of problem. | [Video 97](97-decision-trees-intuition/note.md) |
@@ -162,6 +173,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | conda-forge | A free, community-run conda channel. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Conditional independence | Independence that holds once a third variable (here the class) is known. | [Video 88](88-naive-bayes-maths/note.md) |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$. | [Video 82](82-conditional-probability/note.md) |
+| Condorcet's jury theorem | A majority of independent voters, each right with probability above 0.5, is right more often than any one voter, and more so as voters are added. | [Video 102](102-voting-ensemble/note.md) |
 | Confidence interval | A range in which the true mean most likely lies. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Confusion matrix | A table counting predictions for every pair of actual and predicted class. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | Connection object | The open link to a database (`conn`) that queries go through. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -281,6 +293,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Error (residual) | The gap between an actual value and the model's prediction. | [Video 50](50-simple-linear-regression/note.md) |
 | Error function (loss function) | A formula for how wrong the model is; here the sum of squared errors. | [Video 51](51-linear-regression-maths/note.md) |
 | errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. | [Video 33](33-mixed-variables/note.md) |
+| estimator | The base model that bagging copies (formerly base_estimator). | [Video 106](106-bagging-classifier/note.md) |
+| estimators_features_ | The column numbers each trained base model was given. | [Video 106](106-bagging-classifier/note.md) |
+| estimators_samples_ | The row numbers each trained base model was given. | [Video 106](106-bagging-classifier/note.md) |
 | eta0 | The starting learning rate in SGDRegressor. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | ETL | Extract, transform, load: copying data from source systems into a warehouse. | [Video 9](09-mldlc/note.md) |
 | Euclidean distance | The straight-line distance between two points. | [Video 39](39-knn-imputer/note.md) |
@@ -348,6 +363,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Grouping effect | Elastic Net's tendency to give correlated inputs similar coefficients instead of keeping only one. | [Video 69](69-elastic-net/note.md) |
 | handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training. | [Video 27](27-one-hot-encoding/note.md) |
 | handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training. | [Video 29](29-pipelines/note.md) |
+| Hard voting | Predicting the label that most base models predict. | [Video 103](103-voting-classifier/note.md) |
 | Hard-margin SVM | The SVM that allows no point inside the margin or on the wrong side; it needs perfectly separable data. | [Video 93](93-svm-maths/note.md) |
 | Harmonic mean | An average that stays close to the smaller of the values: $2ab/(a + b)$ for two values. | [Video 77](77-precision-recall-f1/note.md) |
 | Header | The line of a file that holds the column names. | [Video 15](15-working-with-csv/note.md) |
@@ -374,6 +390,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
 | Independent events | Events where one happening does not change the probability of the other. | [Video 83](83-independent-events/note.md) |
+| Independent models | Models whose mistakes are unrelated, so one being wrong says nothing about the others. | [Video 102](102-voting-ensemble/note.md) |
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
 | Index | The row labels of a DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Inertia | A big organisation's resistance to changing direction once it has started. | [Video 14](14-framing-ml-problem/note.md) |
@@ -485,6 +502,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | max_features | The number of randomly chosen columns a tree considers at each split. | [Video 98](98-decision-tree-hyperparameters/note.md) |
 | max_iter | The maximum number of epochs in SGDRegressor. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | max_leaf_nodes | The cap on the number of leaves; the tree grows best-first until it is reached. | [Video 98](98-decision-tree-hyperparameters/note.md) |
+| max_samples | The number or share of rows each base model gets. | [Video 106](106-bagging-classifier/note.md) |
 | MaxAbsScaler | scikit-learn's class for max-abs scaling. | [Video 25](25-normalization/note.md) |
 | Maximum likelihood | Choosing the parameter value under which the observed data is most likely; used to find $\lambda$. | [Video 31](31-power-transformer/note.md) |
 | MCAR | Missing completely at random: the gaps have no relation to any value in the data. | [Video 35](35-complete-case-analysis/note.md) |
@@ -500,6 +518,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Median imputation | Filling every gap with the median of the column's known values; better for skewed columns. | [Video 36](36-imputing-numerical-data/note.md) |
 | Median | The middle value of sorted data; the 50% percentile. | [Video 19](19-understanding-your-data/note.md) |
 | meshgrid | NumPy function that builds every combination of x and y values: the grid for a decision surface. | [Video 91](91-knn/note.md) |
+| Meta-model | The model in stacking that is trained on the base models' predictions. | [Video 101](101-ensemble-learning/note.md) |
 | method | The `PowerTransformer` parameter that picks `"box-cox"` or `"yeo-johnson"`. | [Video 31](31-power-transformer/note.md) |
 | Metric | A number that tells whether the work is moving in the right direction. | [Video 14](14-framing-ml-problem/note.md) |
 | MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer. | [Video 40](40-iterative-imputer-mice/note.md) |
@@ -542,6 +561,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mutually exclusive events | Events that cannot happen at the same time; their intersection has probability 0. | [Video 84](84-mutually-exclusive-events/note.md) |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins. | [Video 32](32-binning-binarization/note.md) |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. | [Video 49](49-pca-mnist/note.md) |
+| n_estimators | The number of base models in an ensemble. | [Video 106](106-bagging-classifier/note.md) |
+| n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all. | [Video 104](104-voting-regressor/note.md) |
 | Naive assumption | The assumption that the inputs are conditionally independent given the class. | [Video 87](87-naive-bayes-intuition/note.md) |
 | Naive Bayes classifier | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. | [Video 87](87-naive-bayes-intuition/note.md) |
 | Naive Bayes | A classification algorithm based on Bayes' theorem (later Notes). | [Video 82](82-conditional-probability/note.md) |
@@ -587,6 +608,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Video 26](26-ordinal-label-encoding/note.md) |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Ordinary least squares (OLS) | The closed-form method for linear regression: the line with the smallest sum of squared errors. | [Video 51](51-linear-regression-maths/note.md) |
+| Out-of-bag (OOB) score | The ensemble's accuracy measured on the rows each model never saw. | [Video 106](106-bagging-classifier/note.md) |
+| Out-of-bag rows | The rows a base model never saw because its bootstrap sample missed them (about 37%). | [Video 105](105-bagging-intuition/note.md) |
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Video 5](05-online-learning/note.md) |
 | Outlier detection | Setting a lower and an upper limit; values outside them are outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Outlier | A value far from the rest of the data. | [Video 20](20-univariate-analysis/note.md) |
@@ -605,6 +628,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | partial_fit | A scikit-learn method that continues training from where the model left off. | [Video 5](05-online-learning/note.md) |
 | passthrough | The `remainder` option that keeps untouched columns unchanged. | [Video 28](28-column-transformer/note.md) |
 | Past defaulters | Past borrowers who did not repay their loan. | [Video 8](08-applications-of-ml/note.md) |
+| Pasting | Bagging with rows sampled without replacement. | [Video 105](105-bagging-intuition/note.md) |
 | Pattern | The relationship between input and output that the algorithm discovers. | [Video 1](01-what-is-ml/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
 | pd.crosstab | pandas function that counts how often each pair of values from two columns occurs. | [Video 89](89-naive-bayes-code/note.md) |
@@ -674,7 +698,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Query point | The new point whose class we want to predict. | [Video 91](91-knn/note.md) |
 | Query | A request for data, written in SQL. | [Video 16](16-working-with-json-and-sql/note.md) |
+| Random forest | Bagging with decision trees as the base models. | [Video 101](101-ensemble-learning/note.md) |
+| Random patches | Bagging in which each model gets random rows and random columns. | [Video 105](105-bagging-intuition/note.md) |
 | Random sample imputation | Filling each gap with a value drawn at random from the column's known values. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| Random subspaces | Bagging in which each model gets all rows but a random subset of columns. | [Video 105](105-bagging-intuition/note.md) |
 | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations. | [Video 99](99-regression-trees/note.md) |
 | Rank | The number of axes of a tensor (ndim in NumPy). | [Video 11](11-tensors/note.md) |
 | RapidAPI | A website listing many APIs, including free ones. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -708,6 +735,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | River | A Python library for online machine learning. | [Video 5](05-online-learning/note.md) |
 | robots.txt | A file at a site's root listing what bots are asked not to visit. | [Video 18](18-web-scraping/note.md) |
 | Robust scaling | Subtract the median and divide by the interquartile range; copes well with outliers. | [Video 25](25-normalization/note.md) |
+| Robustness | Performing well even when the data changes somewhat. | [Video 101](101-ensemble-learning/note.md) |
 | RobustScaler | scikit-learn's class for robust scaling. | [Video 25](25-normalization/note.md) |
 | ROC curve | A plot of TPR against FPR for every threshold. | [Video 78](78-roc-auc/note.md) |
 | Rollback | Restoring a model to an earlier, good version. | [Video 5](05-online-learning/note.md) |
@@ -753,6 +781,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Video 29](29-pipelines/note.md) |
 | Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0. | [Video 68](68-lasso-sparsity/note.md) |
+| Soft voting | Predicting the class with the highest average predicted probability across the base models. | [Video 103](103-voting-classifier/note.md) |
 | Soft-margin SVM | The SVM that allows points inside the margin or on the wrong side, at a cost controlled by C. | [Video 94](94-svm-soft-margin/note.md) |
 | Softmax function | Turns a list of scores into probabilities: $e^{z_k} / \sum_j e^{z_j}$. | [Video 79](79-softmax-regression/note.md) |
 | Softmax regression | Logistic regression extended to any number of classes using the softmax function. | [Video 79](79-softmax-regression/note.md) |
@@ -775,6 +804,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Square transform | Replacing each value with $x^2$; used for left-skewed data. | [Video 30](30-function-transformer/note.md) |
 | Square-root rule | A rough starting value for k: about $\sqrt{n}$, made odd. | [Video 91](91-knn/note.md) |
 | squared_error | DecisionTreeRegressor's default criterion: split by mean squared error, leaves predict the mean. | [Video 99](99-regression-trees/note.md) |
+| Stacking | An ensemble in which a meta-model learns how to weight the base models' outputs. | [Video 101](101-ensemble-learning/note.md) |
 | Standard deviation | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). | [Video 19](19-understanding-your-data/note.md) |
 | Standardization | Scaling a column to mean 0 and standard deviation 1. | [Video 13](13-toy-project/note.md) |
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. | [Video 31](31-power-transformer/note.md) |
@@ -859,17 +889,24 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Vector | A list of numbers: a 1D tensor. | [Video 11](11-tensors/note.md) |
 | Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Video 58](58-batch-gradient-descent/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |
+| verbose | scikit-learn setting that prints progress messages during training. | [Video 106](106-bagging-classifier/note.md) |
 | View Page Source | Browser option that shows a page's raw HTML. | [Video 18](18-web-scraping/note.md) |
 | Virtual environment | A separate folder of Python and packages for one project. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Vocabulary | The list of unique words in a set of texts. | [Video 11](11-tensors/note.md) |
 | Volatile | Changing quickly and unpredictably. | [Video 14](14-framing-ml-problem/note.md) |
+| Voting classifier | A classifier that combines several trained classifiers by voting. | [Video 103](103-voting-classifier/note.md) |
+| Voting ensemble | Several models trained on the same data, combined by majority vote (classification) or mean (regression). | [Video 102](102-voting-ensemble/note.md) |
+| Voting regressor | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions. | [Video 104](104-voting-regressor/note.md) |
 | Vowpal Wabbit | A fast learning library that supports online learning. | [Video 5](05-online-learning/note.md) |
 | Wayback Machine | A web archive that keeps copies of web pages as they were. | [Video 18](18-web-scraping/note.md) |
 | Web scraping | Writing code that extracts data from web pages. | [Video 7](07-challenges-in-ml/note.md) |
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor. | [Video 65](65-ridge-gradient-descent/note.md) |
 | Weight-based algorithm | An algorithm that learns one number per input column from all the points; sensitive to outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Weighted average | The mean of a metric over classes, weighted by each class's support. | [Video 77](77-precision-recall-f1/note.md) |
+| weights | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance. | [Video 103](103-voting-classifier/note.md) |
 | Winsorization | Capping with limits set by percentiles. | [Video 41](41-what-are-outliers/note.md) |
+| Wisdom of the crowd | The combined judgement of many is often more accurate than any one member's. | [Video 101](101-ensemble-learning/note.md) |
+| With replacement | Sampling in which each drawn item is put back, so it can be drawn again. | [Video 105](105-bagging-intuition/note.md) |
 | X, y | Usual names for the input table and the output column. | [Video 11](11-tensors/note.md) |
 | XAMPP | A free package that runs a web server and a MySQL server on one computer. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default. | [Video 31](31-power-transformer/note.md) |
