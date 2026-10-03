@@ -40,7 +40,7 @@ Project root: `/home/anshu/campusx`. Read these first, fully:
 4. Build: `tools/build.sh <folder>` must print `Built pdf/<folder>.pdf` (it also checks no text went missing).
    Look at every PDF page (pdftoppm, then Read) and fix layout problems.
 
-Python: `/home/anshu/miniforge3/envs/campusx/bin/python` (and `.../bin/jupyter`). LaTeX: `export PATH=$HOME/.local/bin:$PATH`.
+Python: `export PYTHONNOUSERSITE=1` first, then `/home/anshu/miniforge3/envs/campusx/bin/python`; run Jupyter as `$PY -m jupyter nbconvert ...` (a stray `jupyter` in ~/.local/bin is not the env's). LaTeX: `export PATH=$HOME/.local/bin:$PATH`.
 Missing LaTeX package: `tlmgr install <name>`.
 
 ## Do NOT touch
