@@ -1,0 +1,202 @@
+1
+00:00:03,830 --> 00:00:05,120
+Hello again!
+
+2
+00:00:05,120 --> 00:00:09,340
+In this lecture we are going to discuss the
+Bernoulli distribution.
+
+3
+00:00:09,340 --> 00:00:15,420
+Before we begin, we use “Bern” to define
+a Bernoulli distribution, followed by the
+
+4
+00:00:15,420 --> 00:00:19,360
+probability of our preferred outcome in parenthesis.
+
+5
+00:00:19,360 --> 00:00:24,570
+Therefore, we read the following statement
+as “Variable “X” follows a Bernoulli
+
+6
+00:00:24,570 --> 00:00:30,280
+distribution with a probability of success
+equal to “p””.
+
+7
+00:00:30,280 --> 00:00:31,980
+Okay!
+
+8
+00:00:31,980 --> 00:00:36,560
+We need to describe what types of events follow
+a Bernoulli distribution.
+
+9
+00:00:36,560 --> 00:00:43,269
+Any event where we have only 1 trial and two
+possible outcomes follows such a distribution.
+
+10
+00:00:43,269 --> 00:00:48,159
+These may include a coin flip, a single True
+or False quiz question, or deciding whether
+
+11
+00:00:48,159 --> 00:00:52,200
+to vote for the Democratic or Republican parties
+in the US elections.
+
+12
+00:00:52,200 --> 00:00:57,699
+Usually, when dealing with a Bernoulli Distribution,
+we either have the probabilities of either
+
+13
+00:00:57,699 --> 00:01:03,589
+event occurring, or have past data indicating
+some experimental probability.
+
+14
+00:01:03,589 --> 00:01:07,610
+In either case, the graph of a Bernoulli distribution
+is simple.
+
+15
+00:01:07,610 --> 00:01:13,100
+It consists of 2 bars, one for each of the
+possible outcomes.
+
+16
+00:01:13,100 --> 00:01:18,670
+One bar would rise up to its associated probability
+of “p”, and the other one would only reach
+
+17
+00:01:18,670 --> 00:01:21,050
+“1 minus p”.
+
+18
+00:01:21,050 --> 00:01:26,040
+For Bernoulli Distributions we often have
+to assign which outcome is 0, and which outcome
+
+19
+00:01:26,040 --> 00:01:27,640
+is 1.
+
+20
+00:01:27,640 --> 00:01:30,930
+After doing so, we can calculate the expected
+value.
+
+21
+00:01:30,930 --> 00:01:37,070
+Have in mind that depending on how we assign
+the 0 and the 1, our expected value will be
+
+22
+00:01:37,070 --> 00:01:41,460
+equal to either “p” or “1 minus p”.
+
+23
+00:01:41,460 --> 00:01:46,030
+We usually denote the higher probability with
+“p”, and the lower one with “1 minus
+
+24
+00:01:46,030 --> 00:01:47,190
+p”.
+
+25
+00:01:47,190 --> 00:01:52,530
+Furthermore, conventionally we also assign
+a value of 1 to the event with probability
+
+26
+00:01:52,530 --> 00:01:55,330
+equal to “p”.
+
+27
+00:01:55,330 --> 00:01:59,460
+That way, the expected value expresses the
+likelihood of the favoured event.
+
+28
+00:01:59,460 --> 00:02:05,600
+Since we only have 1 trial and a favoured
+event, we expect that outcome to occur.
+
+29
+00:02:05,600 --> 00:02:10,539
+By plugging in “p” and “1 minus p”
+into the variance formula, we get that the
+
+30
+00:02:10,539 --> 00:02:17,700
+variance of Bernoulli events would always
+equal “p, times 1 minus p”.
+
+31
+00:02:17,700 --> 00:02:21,120
+That is true, regardless of what the expected
+value is.
+
+32
+00:02:21,120 --> 00:02:26,709
+Here’s the first instance where we observe
+how elegant the characteristics of some distributions
+
+33
+00:02:26,709 --> 00:02:29,400
+are.
+
+34
+00:02:29,400 --> 00:02:33,460
+Once again, we can calculate the variance
+and standard deviation using the formulas
+
+35
+00:02:33,460 --> 00:02:36,720
+we defined earlier, but they bring us little
+value.
+
+36
+00:02:36,720 --> 00:02:40,920
+For example, consider flipping an unfair coin.
+
+37
+00:02:40,920 --> 00:02:45,599
+This coin is called “unfair” because its
+weight is spread disproportionately, and it
+
+38
+00:02:45,599 --> 00:02:49,140
+gets tails 60% of the time.
+
+39
+00:02:49,140 --> 00:02:54,110
+We assign the outcome of tails to be 1, and
+p to equal 0.6.
+
+40
+00:02:54,110 --> 00:02:58,520
+Therefore, the expected value would be “p”,
+or 0.6.
+
+41
+00:02:58,520 --> 00:03:04,660
+If we plug in this result into the variance
+formula, we would get a variance of 0.6, times
+
+42
+00:03:04,660 --> 00:03:09,850
+0.4, or 0.24.
+
+43
+00:03:09,850 --> 00:03:21,490
+Great job, everybody!
+

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 236 of 236 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 240 of 240 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -287,6 +287,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Problem with the perceptron (XOR) | [Note 1007](../1007-problem-with-perceptron/note.md) | confirmed |
 | MLP notation and parameter count | [Note 1008](../1008-mlp-notation/note.md) | confirmed |
 | Forward propagation | [Note 1010](../1010-forward-propagation/note.md) | confirmed |
+| Keras workflow | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
+| ANN for classification | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md) | confirmed |
+| ANN for regression | [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -303,6 +306,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | ROC curve and AUC | [Note 78](../78-roc-auc/note.md) | confirmed |
 | Decision surface and boundary | [Note 91](../91-knn/note.md) | confirmed |
 | OOB score | [Note 105](../105-bagging-intuition/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 113](../113-oob-score/note.md) | confirmed |
+| Training curves (History) | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
 
 ### 2.11 Step 10: Tune
 
@@ -351,7 +355,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 236 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 240 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -579,6 +583,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 1008 | MLP notation and parameter count | nothing | written |
 | 1009 | Multi-layer perceptron (MLP), Universal approximation theorem | [Note 1002](../1002-what-is-deep-learning/note.md), [Note 1004](../1004-perceptron/note.md), [Note 1007](../1007-problem-with-perceptron/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
 | 1010 | Forward propagation | [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 1008](../1008-mlp-notation/note.md) | written |
+| 1011 | ANN for classification, Keras workflow, Training curves (History) | [Note 79](../79-softmax-regression/note.md), [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1012 | ANN for classification, Keras workflow, Training curves (History) | [Note 79](../79-softmax-regression/note.md), [Note 91](../91-knn/note.md), [Note 133](../133-imbalanced-data/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1013 | ANN for regression, Keras workflow, Training curves (History) | [Note 25](../25-normalization/note.md), [Note 52](../52-regression-metrics/note.md), [Note 91](../91-knn/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
 
 ## 5. The Algorithm chooser
 

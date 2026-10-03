@@ -1,0 +1,2675 @@
+1
+00:00:00,180 --> 00:00:11,230
+
+[Music]
+
+2
+00:00:11,230 --> 00:00:11,240
+
+ 
+
+3
+00:00:11,240 --> 00:00:13,110
+
+the fundamental root of itall building
+
+4
+00:00:13,110 --> 00:00:13,120
+the fundamental root of itall building
+ 
+
+5
+00:00:13,120 --> 00:00:15,589
+the fundamental root of itall building
+block for linear algebra is the vector
+
+6
+00:00:15,589 --> 00:00:15,599
+block for linear algebra is the vector
+ 
+
+7
+00:00:15,599 --> 00:00:17,070
+block for linear algebra is the vector
+so it's worth making sure that we're all
+
+8
+00:00:17,070 --> 00:00:17,080
+so it's worth making sure that we're all
+ 
+
+9
+00:00:17,080 --> 00:00:18,950
+so it's worth making sure that we're all
+on the same page about what exactly a
+
+10
+00:00:18,950 --> 00:00:18,960
+on the same page about what exactly a
+ 
+
+11
+00:00:18,960 --> 00:00:21,910
+on the same page about what exactly a
+vector is you see broadly speaking there
+
+12
+00:00:21,910 --> 00:00:21,920
+vector is you see broadly speaking there
+ 
+
+13
+00:00:21,920 --> 00:00:23,910
+vector is you see broadly speaking there
+are three distinct but related ideas
+
+14
+00:00:23,910 --> 00:00:23,920
+are three distinct but related ideas
+ 
+
+15
+00:00:23,920 --> 00:00:25,470
+are three distinct but related ideas
+about vectors which I'll call the
+
+16
+00:00:25,470 --> 00:00:25,480
+about vectors which I'll call the
+ 
+
+17
+00:00:25,480 --> 00:00:27,310
+about vectors which I'll call the
+physics student perspective the computer
+
+18
+00:00:27,310 --> 00:00:27,320
+physics student perspective the computer
+ 
+
+19
+00:00:27,320 --> 00:00:28,950
+physics student perspective the computer
+science student perspective and the
+
+20
+00:00:28,950 --> 00:00:28,960
+science student perspective and the
+ 
+
+21
+00:00:28,960 --> 00:00:30,630
+science student perspective and the
+mathematicians perspective
+
+22
+00:00:30,630 --> 00:00:30,640
+mathematicians perspective
+ 
+
+23
+00:00:30,640 --> 00:00:32,389
+mathematicians perspective
+the physics student perspective is that
+
+24
+00:00:32,389 --> 00:00:32,399
+the physics student perspective is that
+ 
+
+25
+00:00:32,399 --> 00:00:34,830
+the physics student perspective is that
+vectors are arrows pointing in space
+
+26
+00:00:34,830 --> 00:00:34,840
+vectors are arrows pointing in space
+ 
+
+27
+00:00:34,840 --> 00:00:36,709
+vectors are arrows pointing in space
+what defines a given Vector is its
+
+28
+00:00:36,709 --> 00:00:36,719
+what defines a given Vector is its
+ 
+
+29
+00:00:36,719 --> 00:00:39,030
+what defines a given Vector is its
+length and the direction its pointing
+
+30
+00:00:39,030 --> 00:00:39,040
+length and the direction its pointing
+ 
+
+31
+00:00:39,040 --> 00:00:40,510
+length and the direction its pointing
+but as long as those two facts are the
+
+32
+00:00:40,510 --> 00:00:40,520
+but as long as those two facts are the
+ 
+
+33
+00:00:40,520 --> 00:00:42,229
+but as long as those two facts are the
+same you can move it all around and it's
+
+34
+00:00:42,229 --> 00:00:42,239
+same you can move it all around and it's
+ 
+
+35
+00:00:42,239 --> 00:00:44,389
+same you can move it all around and it's
+still the same Vector vectors that live
+
+36
+00:00:44,389 --> 00:00:44,399
+still the same Vector vectors that live
+ 
+
+37
+00:00:44,399 --> 00:00:46,389
+still the same Vector vectors that live
+in the flat plane are two-dimensional
+
+38
+00:00:46,389 --> 00:00:46,399
+in the flat plane are two-dimensional
+ 
+
+39
+00:00:46,399 --> 00:00:48,029
+in the flat plane are two-dimensional
+and those sitting in broader space that
+
+40
+00:00:48,029 --> 00:00:48,039
+and those sitting in broader space that
+ 
+
+41
+00:00:48,039 --> 00:00:50,590
+and those sitting in broader space that
+you and I live in are
+
+42
+00:00:50,590 --> 00:00:50,600
+you and I live in are
+ 
+
+43
+00:00:50,600 --> 00:00:52,470
+you and I live in are
+three-dimensional the computer science
+
+44
+00:00:52,470 --> 00:00:52,480
+three-dimensional the computer science
+ 
+
+45
+00:00:52,480 --> 00:00:54,549
+three-dimensional the computer science
+perspective is that vectors are ordered
+
+46
+00:00:54,549 --> 00:00:54,559
+perspective is that vectors are ordered
+ 
+
+47
+00:00:54,559 --> 00:00:56,950
+perspective is that vectors are ordered
+lists of numbers for example let's say
+
+48
+00:00:56,950 --> 00:00:56,960
+lists of numbers for example let's say
+ 
+
+49
+00:00:56,960 --> 00:00:58,549
+lists of numbers for example let's say
+you were doing some analytics about
+
+50
+00:00:58,549 --> 00:00:58,559
+you were doing some analytics about
+ 
+
+51
+00:00:58,559 --> 00:01:00,670
+you were doing some analytics about
+house prices and the only features you
+
+52
+00:01:00,670 --> 00:01:00,680
+house prices and the only features you
+ 
+
+53
+00:01:00,680 --> 00:01:02,349
+house prices and the only features you
+cared about were square footage and
+
+54
+00:01:02,349 --> 00:01:02,359
+cared about were square footage and
+ 
+
+55
+00:01:02,359 --> 00:01:04,590
+cared about were square footage and
+price you might model each house with a
+
+56
+00:01:04,590 --> 00:01:04,600
+price you might model each house with a
+ 
+
+57
+00:01:04,600 --> 00:01:06,390
+price you might model each house with a
+pair of numbers the first indicating
+
+58
+00:01:06,390 --> 00:01:06,400
+pair of numbers the first indicating
+ 
+
+59
+00:01:06,400 --> 00:01:08,310
+pair of numbers the first indicating
+square footage and the second indicating
+
+60
+00:01:08,310 --> 00:01:08,320
+square footage and the second indicating
+ 
+
+61
+00:01:08,320 --> 00:01:11,590
+square footage and the second indicating
+price notice the order matters
+
+62
+00:01:11,590 --> 00:01:11,600
+price notice the order matters
+ 
+
+63
+00:01:11,600 --> 00:01:14,149
+price notice the order matters
+here in the lingo you'd be modeling
+
+64
+00:01:14,149 --> 00:01:14,159
+here in the lingo you'd be modeling
+ 
+
+65
+00:01:14,159 --> 00:01:16,350
+here in the lingo you'd be modeling
+houses as two-dimensional vectors where
+
+66
+00:01:16,350 --> 00:01:16,360
+houses as two-dimensional vectors where
+ 
+
+67
+00:01:16,360 --> 00:01:18,469
+houses as two-dimensional vectors where
+in this context Vector is pretty much
+
+68
+00:01:18,469 --> 00:01:18,479
+in this context Vector is pretty much
+ 
+
+69
+00:01:18,479 --> 00:01:20,469
+in this context Vector is pretty much
+just a fancy word for list and what
+
+70
+00:01:20,469 --> 00:01:20,479
+just a fancy word for list and what
+ 
+
+71
+00:01:20,479 --> 00:01:22,270
+just a fancy word for list and what
+makes it two-dimensional is the fact
+
+72
+00:01:22,270 --> 00:01:22,280
+makes it two-dimensional is the fact
+ 
+
+73
+00:01:22,280 --> 00:01:24,630
+makes it two-dimensional is the fact
+that the length of that list is
+
+74
+00:01:24,630 --> 00:01:24,640
+that the length of that list is
+ 
+
+75
+00:01:24,640 --> 00:01:27,230
+that the length of that list is
+two the mathematician on the other hand
+
+76
+00:01:27,230 --> 00:01:27,240
+two the mathematician on the other hand
+ 
+
+77
+00:01:27,240 --> 00:01:29,550
+two the mathematician on the other hand
+seeks to generalize both these views
+
+78
+00:01:29,550 --> 00:01:29,560
+seeks to generalize both these views
+ 
+
+79
+00:01:29,560 --> 00:01:31,390
+seeks to generalize both these views
+basically saying that a vector can be
+
+80
+00:01:31,390 --> 00:01:31,400
+basically saying that a vector can be
+ 
+
+81
+00:01:31,400 --> 00:01:33,069
+basically saying that a vector can be
+anything where there's a sensible notion
+
+82
+00:01:33,069 --> 00:01:33,079
+anything where there's a sensible notion
+ 
+
+83
+00:01:33,079 --> 00:01:35,270
+anything where there's a sensible notion
+of adding two vectors and multiplying a
+
+84
+00:01:35,270 --> 00:01:35,280
+of adding two vectors and multiplying a
+ 
+
+85
+00:01:35,280 --> 00:01:37,230
+of adding two vectors and multiplying a
+vector by a number operations that I'll
+
+86
+00:01:37,230 --> 00:01:37,240
+vector by a number operations that I'll
+ 
+
+87
+00:01:37,240 --> 00:01:39,510
+vector by a number operations that I'll
+talk about later on in this video the
+
+88
+00:01:39,510 --> 00:01:39,520
+talk about later on in this video the
+ 
+
+89
+00:01:39,520 --> 00:01:41,710
+talk about later on in this video the
+details of this view are rather abstract
+
+90
+00:01:41,710 --> 00:01:41,720
+details of this view are rather abstract
+ 
+
+91
+00:01:41,720 --> 00:01:43,230
+details of this view are rather abstract
+and I actually think it's healthy to
+
+92
+00:01:43,230 --> 00:01:43,240
+and I actually think it's healthy to
+ 
+
+93
+00:01:43,240 --> 00:01:44,950
+and I actually think it's healthy to
+ignore it until the last video of this
+
+94
+00:01:44,950 --> 00:01:44,960
+ignore it until the last video of this
+ 
+
+95
+00:01:44,960 --> 00:01:47,149
+ignore it until the last video of this
+series favoring a more concrete setting
+
+96
+00:01:47,149 --> 00:01:47,159
+series favoring a more concrete setting
+ 
+
+97
+00:01:47,159 --> 00:01:49,109
+series favoring a more concrete setting
+in the interim but the reason I bring it
+
+98
+00:01:49,109 --> 00:01:49,119
+in the interim but the reason I bring it
+ 
+
+99
+00:01:49,119 --> 00:01:51,310
+in the interim but the reason I bring it
+up here is that it hints at the fact
+
+100
+00:01:51,310 --> 00:01:51,320
+up here is that it hints at the fact
+ 
+
+101
+00:01:51,320 --> 00:01:53,190
+up here is that it hints at the fact
+that the ideas of vector addition and
+
+102
+00:01:53,190 --> 00:01:53,200
+that the ideas of vector addition and
+ 
+
+103
+00:01:53,200 --> 00:01:55,230
+that the ideas of vector addition and
+multiplication by numbers will play an
+
+104
+00:01:55,230 --> 00:01:55,240
+multiplication by numbers will play an
+ 
+
+105
+00:01:55,240 --> 00:01:57,749
+multiplication by numbers will play an
+important role throughout linear algebra
+
+106
+00:01:57,749 --> 00:01:57,759
+important role throughout linear algebra
+ 
+
+107
+00:01:57,759 --> 00:01:59,550
+important role throughout linear algebra
+but before I talk about those operations
+
+108
+00:01:59,550 --> 00:01:59,560
+but before I talk about those operations
+ 
+
+109
+00:01:59,560 --> 00:02:01,469
+but before I talk about those operations
+let's just settle in on a specific
+
+110
+00:02:01,469 --> 00:02:01,479
+let's just settle in on a specific
+ 
+
+111
+00:02:01,479 --> 00:02:03,270
+let's just settle in on a specific
+thought to have in mind when I say the
+
+112
+00:02:03,270 --> 00:02:03,280
+thought to have in mind when I say the
+ 
+
+113
+00:02:03,280 --> 00:02:05,630
+thought to have in mind when I say the
+word Vector given the geometric Focus
+
+114
+00:02:05,630 --> 00:02:05,640
+word Vector given the geometric Focus
+ 
+
+115
+00:02:05,640 --> 00:02:07,350
+word Vector given the geometric Focus
+that I'm shooting for here whenever I
+
+116
+00:02:07,350 --> 00:02:07,360
+that I'm shooting for here whenever I
+ 
+
+117
+00:02:07,360 --> 00:02:09,550
+that I'm shooting for here whenever I
+introduce a new topic involving vectors
+
+118
+00:02:09,550 --> 00:02:09,560
+introduce a new topic involving vectors
+ 
+
+119
+00:02:09,560 --> 00:02:11,910
+introduce a new topic involving vectors
+I want you to First think about an arrow
+
+120
+00:02:11,910 --> 00:02:11,920
+I want you to First think about an arrow
+ 
+
+121
+00:02:11,920 --> 00:02:14,110
+I want you to First think about an arrow
+and specifically think about that Arrow
+
+122
+00:02:14,110 --> 00:02:14,120
+and specifically think about that Arrow
+ 
+
+123
+00:02:14,120 --> 00:02:16,630
+and specifically think about that Arrow
+inside a coordinate system like the XY
+
+124
+00:02:16,630 --> 00:02:16,640
+inside a coordinate system like the XY
+ 
+
+125
+00:02:16,640 --> 00:02:18,509
+inside a coordinate system like the XY
+plane with its tail sitting at the
+
+126
+00:02:18,509 --> 00:02:18,519
+plane with its tail sitting at the
+ 
+
+127
+00:02:18,519 --> 00:02:20,430
+plane with its tail sitting at the
+origin this is a little bit different
+
+128
+00:02:20,430 --> 00:02:20,440
+origin this is a little bit different
+ 
+
+129
+00:02:20,440 --> 00:02:22,110
+origin this is a little bit different
+from the physics student perspective
+
+130
+00:02:22,110 --> 00:02:22,120
+from the physics student perspective
+ 
+
+131
+00:02:22,120 --> 00:02:23,990
+from the physics student perspective
+where vectors can freely sit anywhere
+
+132
+00:02:23,990 --> 00:02:24,000
+where vectors can freely sit anywhere
+ 
+
+133
+00:02:24,000 --> 00:02:26,390
+where vectors can freely sit anywhere
+they want in space in linear algebra
+
+134
+00:02:26,390 --> 00:02:26,400
+they want in space in linear algebra
+ 
+
+135
+00:02:26,400 --> 00:02:28,270
+they want in space in linear algebra
+it's almost always the case that your
+
+136
+00:02:28,270 --> 00:02:28,280
+it's almost always the case that your
+ 
+
+137
+00:02:28,280 --> 00:02:30,990
+it's almost always the case that your
+vector will be rooted at the order
+
+138
+00:02:30,990 --> 00:02:31,000
+vector will be rooted at the order
+ 
+
+139
+00:02:31,000 --> 00:02:33,110
+vector will be rooted at the order
+then once you understand A New Concept
+
+140
+00:02:33,110 --> 00:02:33,120
+then once you understand A New Concept
+ 
+
+141
+00:02:33,120 --> 00:02:35,509
+then once you understand A New Concept
+in the context of arrows in space we'll
+
+142
+00:02:35,509 --> 00:02:35,519
+in the context of arrows in space we'll
+ 
+
+143
+00:02:35,519 --> 00:02:37,309
+in the context of arrows in space we'll
+translate it over to the list of numbers
+
+144
+00:02:37,309 --> 00:02:37,319
+translate it over to the list of numbers
+ 
+
+145
+00:02:37,319 --> 00:02:38,830
+translate it over to the list of numbers
+point of view which we can do by
+
+146
+00:02:38,830 --> 00:02:38,840
+point of view which we can do by
+ 
+
+147
+00:02:38,840 --> 00:02:40,270
+point of view which we can do by
+considering the coordinates of the
+
+148
+00:02:40,270 --> 00:02:40,280
+considering the coordinates of the
+ 
+
+149
+00:02:40,280 --> 00:02:42,509
+considering the coordinates of the
+vector now while I'm sure that many of
+
+150
+00:02:42,509 --> 00:02:42,519
+vector now while I'm sure that many of
+ 
+
+151
+00:02:42,519 --> 00:02:43,790
+vector now while I'm sure that many of
+you are already familiar with this
+
+152
+00:02:43,790 --> 00:02:43,800
+you are already familiar with this
+ 
+
+153
+00:02:43,800 --> 00:02:45,550
+you are already familiar with this
+coordinate system it's worth walking
+
+154
+00:02:45,550 --> 00:02:45,560
+coordinate system it's worth walking
+ 
+
+155
+00:02:45,560 --> 00:02:47,390
+coordinate system it's worth walking
+through explicitly since this is where
+
+156
+00:02:47,390 --> 00:02:47,400
+through explicitly since this is where
+ 
+
+157
+00:02:47,400 --> 00:02:49,030
+through explicitly since this is where
+all of the important back and forth
+
+158
+00:02:49,030 --> 00:02:49,040
+all of the important back and forth
+ 
+
+159
+00:02:49,040 --> 00:02:50,750
+all of the important back and forth
+happens between the two perspectives of
+
+160
+00:02:50,750 --> 00:02:50,760
+happens between the two perspectives of
+ 
+
+161
+00:02:50,760 --> 00:02:53,470
+happens between the two perspectives of
+linear algebra focusing our attention on
+
+162
+00:02:53,470 --> 00:02:53,480
+linear algebra focusing our attention on
+ 
+
+163
+00:02:53,480 --> 00:02:55,390
+linear algebra focusing our attention on
+two dimensions for the moment you have a
+
+164
+00:02:55,390 --> 00:02:55,400
+two dimensions for the moment you have a
+ 
+
+165
+00:02:55,400 --> 00:02:57,670
+two dimensions for the moment you have a
+horizontal line called the x-axis and a
+
+166
+00:02:57,670 --> 00:02:57,680
+horizontal line called the x-axis and a
+ 
+
+167
+00:02:57,680 --> 00:03:00,229
+horizontal line called the x-axis and a
+vertical line called the y-axis the
+
+168
+00:03:00,229 --> 00:03:00,239
+vertical line called the y-axis the
+ 
+
+169
+00:03:00,239 --> 00:03:01,670
+vertical line called the y-axis the
+place where they intersect is called the
+
+170
+00:03:01,670 --> 00:03:01,680
+place where they intersect is called the
+ 
+
+171
+00:03:01,680 --> 00:03:03,390
+place where they intersect is called the
+origin which you should think of as the
+
+172
+00:03:03,390 --> 00:03:03,400
+origin which you should think of as the
+ 
+
+173
+00:03:03,400 --> 00:03:05,149
+origin which you should think of as the
+center of space and the root of all
+
+174
+00:03:05,149 --> 00:03:05,159
+center of space and the root of all
+ 
+
+175
+00:03:05,159 --> 00:03:07,270
+center of space and the root of all
+vectors after choosing an arbitrary
+
+176
+00:03:07,270 --> 00:03:07,280
+vectors after choosing an arbitrary
+ 
+
+177
+00:03:07,280 --> 00:03:08,910
+vectors after choosing an arbitrary
+length to represent one you make tick
+
+178
+00:03:08,910 --> 00:03:08,920
+length to represent one you make tick
+ 
+
+179
+00:03:08,920 --> 00:03:11,110
+length to represent one you make tick
+marks on each axis to represent this
+
+180
+00:03:11,110 --> 00:03:11,120
+marks on each axis to represent this
+ 
+
+181
+00:03:11,120 --> 00:03:13,309
+marks on each axis to represent this
+distance when I want to convey the idea
+
+182
+00:03:13,309 --> 00:03:13,319
+distance when I want to convey the idea
+ 
+
+183
+00:03:13,319 --> 00:03:15,350
+distance when I want to convey the idea
+of 2D space as a whole which you'll see
+
+184
+00:03:15,350 --> 00:03:15,360
+of 2D space as a whole which you'll see
+ 
+
+185
+00:03:15,360 --> 00:03:17,030
+of 2D space as a whole which you'll see
+comes up a lot in these videos I'll
+
+186
+00:03:17,030 --> 00:03:17,040
+comes up a lot in these videos I'll
+ 
+
+187
+00:03:17,040 --> 00:03:18,550
+comes up a lot in these videos I'll
+extend these tick marks to make grid
+
+188
+00:03:18,550 --> 00:03:18,560
+extend these tick marks to make grid
+ 
+
+189
+00:03:18,560 --> 00:03:20,270
+extend these tick marks to make grid
+lines but right now they'll actually get
+
+190
+00:03:20,270 --> 00:03:20,280
+lines but right now they'll actually get
+ 
+
+191
+00:03:20,280 --> 00:03:22,470
+lines but right now they'll actually get
+a little bit in the way the coordinates
+
+192
+00:03:22,470 --> 00:03:22,480
+a little bit in the way the coordinates
+ 
+
+193
+00:03:22,480 --> 00:03:24,869
+a little bit in the way the coordinates
+of a vector is a pair of numbers that
+
+194
+00:03:24,869 --> 00:03:24,879
+of a vector is a pair of numbers that
+ 
+
+195
+00:03:24,879 --> 00:03:26,750
+of a vector is a pair of numbers that
+basically gives instructions for how to
+
+196
+00:03:26,750 --> 00:03:26,760
+basically gives instructions for how to
+ 
+
+197
+00:03:26,760 --> 00:03:28,589
+basically gives instructions for how to
+get from the tail of that Vector at the
+
+198
+00:03:28,589 --> 00:03:28,599
+get from the tail of that Vector at the
+ 
+
+199
+00:03:28,599 --> 00:03:30,630
+get from the tail of that Vector at the
+origin to its tip
+
+200
+00:03:30,630 --> 00:03:30,640
+origin to its tip
+ 
+
+201
+00:03:30,640 --> 00:03:32,190
+origin to its tip
+the first number tells you how far to
+
+202
+00:03:32,190 --> 00:03:32,200
+the first number tells you how far to
+ 
+
+203
+00:03:32,200 --> 00:03:34,429
+the first number tells you how far to
+walk along the x-axis positive numbers
+
+204
+00:03:34,429 --> 00:03:34,439
+walk along the x-axis positive numbers
+ 
+
+205
+00:03:34,439 --> 00:03:36,030
+walk along the x-axis positive numbers
+indicating rightward motion negative
+
+206
+00:03:36,030 --> 00:03:36,040
+indicating rightward motion negative
+ 
+
+207
+00:03:36,040 --> 00:03:38,149
+indicating rightward motion negative
+numbers indicating leftward motion and
+
+208
+00:03:38,149 --> 00:03:38,159
+numbers indicating leftward motion and
+ 
+
+209
+00:03:38,159 --> 00:03:40,070
+numbers indicating leftward motion and
+the second number tells you how far to
+
+210
+00:03:40,070 --> 00:03:40,080
+the second number tells you how far to
+ 
+
+211
+00:03:40,080 --> 00:03:43,070
+the second number tells you how far to
+walk parallel to the y- AIS after that
+
+212
+00:03:43,070 --> 00:03:43,080
+walk parallel to the y- AIS after that
+ 
+
+213
+00:03:43,080 --> 00:03:44,429
+walk parallel to the y- AIS after that
+positive numbers indicating upward
+
+214
+00:03:44,429 --> 00:03:44,439
+positive numbers indicating upward
+ 
+
+215
+00:03:44,439 --> 00:03:46,350
+positive numbers indicating upward
+motion and negative numbers indicating
+
+216
+00:03:46,350 --> 00:03:46,360
+motion and negative numbers indicating
+ 
+
+217
+00:03:46,360 --> 00:03:48,949
+motion and negative numbers indicating
+downward motion to distinguish vectors
+
+218
+00:03:48,949 --> 00:03:48,959
+downward motion to distinguish vectors
+ 
+
+219
+00:03:48,959 --> 00:03:50,589
+downward motion to distinguish vectors
+from points the convention is to write
+
+220
+00:03:50,589 --> 00:03:50,599
+from points the convention is to write
+ 
+
+221
+00:03:50,599 --> 00:03:52,350
+from points the convention is to write
+this pair of numbers vertically with
+
+222
+00:03:52,350 --> 00:03:52,360
+this pair of numbers vertically with
+ 
+
+223
+00:03:52,360 --> 00:03:55,030
+this pair of numbers vertically with
+square brackets around
+
+224
+00:03:55,030 --> 00:03:55,040
+square brackets around
+ 
+
+225
+00:03:55,040 --> 00:03:58,030
+square brackets around
+them every pair of numbers gives you one
+
+226
+00:03:58,030 --> 00:03:58,040
+them every pair of numbers gives you one
+ 
+
+227
+00:03:58,040 --> 00:04:00,750
+them every pair of numbers gives you one
+and only one vector and every Vector is
+
+228
+00:04:00,750 --> 00:04:00,760
+and only one vector and every Vector is
+ 
+
+229
+00:04:00,760 --> 00:04:03,270
+and only one vector and every Vector is
+associated with one and only one pair of
+
+230
+00:04:03,270 --> 00:04:03,280
+associated with one and only one pair of
+ 
+
+231
+00:04:03,280 --> 00:04:05,910
+associated with one and only one pair of
+numbers what about in three dimensions
+
+232
+00:04:05,910 --> 00:04:05,920
+numbers what about in three dimensions
+ 
+
+233
+00:04:05,920 --> 00:04:08,030
+numbers what about in three dimensions
+well you add a third axis called the
+
+234
+00:04:08,030 --> 00:04:08,040
+well you add a third axis called the
+ 
+
+235
+00:04:08,040 --> 00:04:10,429
+well you add a third axis called the
+z-axis which is perpendicular to both
+
+236
+00:04:10,429 --> 00:04:10,439
+z-axis which is perpendicular to both
+ 
+
+237
+00:04:10,439 --> 00:04:13,589
+z-axis which is perpendicular to both
+the X and Y AIS and in this case each
+
+238
+00:04:13,589 --> 00:04:13,599
+the X and Y AIS and in this case each
+ 
+
+239
+00:04:13,599 --> 00:04:15,069
+the X and Y AIS and in this case each
+Vector is associated with an ordered
+
+240
+00:04:15,069 --> 00:04:15,079
+Vector is associated with an ordered
+ 
+
+241
+00:04:15,079 --> 00:04:17,270
+Vector is associated with an ordered
+triplet of numbers the first tells you
+
+242
+00:04:17,270 --> 00:04:17,280
+triplet of numbers the first tells you
+ 
+
+243
+00:04:17,280 --> 00:04:19,590
+triplet of numbers the first tells you
+how far to move along the x-axis the
+
+244
+00:04:19,590 --> 00:04:19,600
+how far to move along the x-axis the
+ 
+
+245
+00:04:19,600 --> 00:04:21,349
+how far to move along the x-axis the
+second tells you how far to move
+
+246
+00:04:21,349 --> 00:04:21,359
+second tells you how far to move
+ 
+
+247
+00:04:21,359 --> 00:04:23,749
+second tells you how far to move
+parallel to the y- AIS and the third one
+
+248
+00:04:23,749 --> 00:04:23,759
+parallel to the y- AIS and the third one
+ 
+
+249
+00:04:23,759 --> 00:04:25,749
+parallel to the y- AIS and the third one
+tells you how far to then move parallel
+
+250
+00:04:25,749 --> 00:04:25,759
+tells you how far to then move parallel
+ 
+
+251
+00:04:25,759 --> 00:04:28,830
+tells you how far to then move parallel
+to this new Z axis every triplet of
+
+252
+00:04:28,830 --> 00:04:28,840
+to this new Z axis every triplet of
+ 
+
+253
+00:04:28,840 --> 00:04:30,990
+to this new Z axis every triplet of
+numbers gives you one unique Vector in
+
+254
+00:04:30,990 --> 00:04:31,000
+numbers gives you one unique Vector in
+ 
+
+255
+00:04:31,000 --> 00:04:33,350
+numbers gives you one unique Vector in
+space and every Vector in space gives
+
+256
+00:04:33,350 --> 00:04:33,360
+space and every Vector in space gives
+ 
+
+257
+00:04:33,360 --> 00:04:35,550
+space and every Vector in space gives
+you exactly one triplet of
+
+258
+00:04:35,550 --> 00:04:35,560
+you exactly one triplet of
+ 
+
+259
+00:04:35,560 --> 00:04:37,870
+you exactly one triplet of
+numbers all right so back to vector
+
+260
+00:04:37,870 --> 00:04:37,880
+numbers all right so back to vector
+ 
+
+261
+00:04:37,880 --> 00:04:40,189
+numbers all right so back to vector
+addition and multiplication by numbers
+
+262
+00:04:40,189 --> 00:04:40,199
+addition and multiplication by numbers
+ 
+
+263
+00:04:40,199 --> 00:04:42,230
+addition and multiplication by numbers
+after all every topic in linear algebra
+
+264
+00:04:42,230 --> 00:04:42,240
+after all every topic in linear algebra
+ 
+
+265
+00:04:42,240 --> 00:04:44,029
+after all every topic in linear algebra
+is going to center around these two
+
+266
+00:04:44,029 --> 00:04:44,039
+is going to center around these two
+ 
+
+267
+00:04:44,039 --> 00:04:46,230
+is going to center around these two
+operations luckily each one's pretty
+
+268
+00:04:46,230 --> 00:04:46,240
+operations luckily each one's pretty
+ 
+
+269
+00:04:46,240 --> 00:04:48,590
+operations luckily each one's pretty
+straightforward to Define let's say we
+
+270
+00:04:48,590 --> 00:04:48,600
+straightforward to Define let's say we
+ 
+
+271
+00:04:48,600 --> 00:04:50,469
+straightforward to Define let's say we
+have two vectors one pointing up and a
+
+272
+00:04:50,469 --> 00:04:50,479
+have two vectors one pointing up and a
+ 
+
+273
+00:04:50,479 --> 00:04:51,990
+have two vectors one pointing up and a
+little to the right and the other one
+
+274
+00:04:51,990 --> 00:04:52,000
+little to the right and the other one
+ 
+
+275
+00:04:52,000 --> 00:04:54,310
+little to the right and the other one
+pointing right and down a bit to add
+
+276
+00:04:54,310 --> 00:04:54,320
+pointing right and down a bit to add
+ 
+
+277
+00:04:54,320 --> 00:04:56,830
+pointing right and down a bit to add
+these two vectors move the second one so
+
+278
+00:04:56,830 --> 00:04:56,840
+these two vectors move the second one so
+ 
+
+279
+00:04:56,840 --> 00:04:58,790
+these two vectors move the second one so
+that its tail sits at the tip of the
+
+280
+00:04:58,790 --> 00:04:58,800
+that its tail sits at the tip of the
+ 
+
+281
+00:04:58,800 --> 00:05:02,270
+that its tail sits at the tip of the
+first one then if you draw a new Vector
+
+282
+00:05:02,270 --> 00:05:02,280
+first one then if you draw a new Vector
+ 
+
+283
+00:05:02,280 --> 00:05:04,270
+first one then if you draw a new Vector
+from the tail of the first one to where
+
+284
+00:05:04,270 --> 00:05:04,280
+from the tail of the first one to where
+ 
+
+285
+00:05:04,280 --> 00:05:06,670
+from the tail of the first one to where
+the tip of the second one now sits that
+
+286
+00:05:06,670 --> 00:05:06,680
+the tip of the second one now sits that
+ 
+
+287
+00:05:06,680 --> 00:05:10,790
+the tip of the second one now sits that
+new Vector is their
+
+288
+00:05:10,790 --> 00:05:10,800
+
+ 
+
+289
+00:05:10,800 --> 00:05:13,189
+
+Su this definition of addition by the
+
+290
+00:05:13,189 --> 00:05:13,199
+Su this definition of addition by the
+ 
+
+291
+00:05:13,199 --> 00:05:15,230
+Su this definition of addition by the
+way is pretty much the only time in
+
+292
+00:05:15,230 --> 00:05:15,240
+way is pretty much the only time in
+ 
+
+293
+00:05:15,240 --> 00:05:17,150
+way is pretty much the only time in
+linear algebra where we let vectors
+
+294
+00:05:17,150 --> 00:05:17,160
+linear algebra where we let vectors
+ 
+
+295
+00:05:17,160 --> 00:05:19,950
+linear algebra where we let vectors
+stray away from the origin now why is
+
+296
+00:05:19,950 --> 00:05:19,960
+stray away from the origin now why is
+ 
+
+297
+00:05:19,960 --> 00:05:21,710
+stray away from the origin now why is
+this a reasonable thing to do why this
+
+298
+00:05:21,710 --> 00:05:21,720
+this a reasonable thing to do why this
+ 
+
+299
+00:05:21,720 --> 00:05:23,230
+this a reasonable thing to do why this
+definition of addition and not some
+
+300
+00:05:23,230 --> 00:05:23,240
+definition of addition and not some
+ 
+
+301
+00:05:23,240 --> 00:05:24,230
+definition of addition and not some
+other
+
+302
+00:05:24,230 --> 00:05:24,240
+other
+ 
+
+303
+00:05:24,240 --> 00:05:26,510
+other
+one well the way I like to think about
+
+304
+00:05:26,510 --> 00:05:26,520
+one well the way I like to think about
+ 
+
+305
+00:05:26,520 --> 00:05:28,350
+one well the way I like to think about
+it is that each Vector represents a
+
+306
+00:05:28,350 --> 00:05:28,360
+it is that each Vector represents a
+ 
+
+307
+00:05:28,360 --> 00:05:30,710
+it is that each Vector represents a
+certain movement a step with a certain
+
+308
+00:05:30,710 --> 00:05:30,720
+certain movement a step with a certain
+ 
+
+309
+00:05:30,720 --> 00:05:32,870
+certain movement a step with a certain
+distance and direction in
+
+310
+00:05:32,870 --> 00:05:32,880
+distance and direction in
+ 
+
+311
+00:05:32,880 --> 00:05:35,350
+distance and direction in
+space if you take a step along the first
+
+312
+00:05:35,350 --> 00:05:35,360
+space if you take a step along the first
+ 
+
+313
+00:05:35,360 --> 00:05:37,390
+space if you take a step along the first
+Vector then take a step in the direction
+
+314
+00:05:37,390 --> 00:05:37,400
+Vector then take a step in the direction
+ 
+
+315
+00:05:37,400 --> 00:05:38,950
+Vector then take a step in the direction
+and distance described by the second
+
+316
+00:05:38,950 --> 00:05:38,960
+and distance described by the second
+ 
+
+317
+00:05:38,960 --> 00:05:41,230
+and distance described by the second
+Vector the overall effect is just the
+
+318
+00:05:41,230 --> 00:05:41,240
+Vector the overall effect is just the
+ 
+
+319
+00:05:41,240 --> 00:05:43,029
+Vector the overall effect is just the
+same as if you moved along the sum of
+
+320
+00:05:43,029 --> 00:05:43,039
+same as if you moved along the sum of
+ 
+
+321
+00:05:43,039 --> 00:05:45,189
+same as if you moved along the sum of
+those two vectors to start with you
+
+322
+00:05:45,189 --> 00:05:45,199
+those two vectors to start with you
+ 
+
+323
+00:05:45,199 --> 00:05:46,710
+those two vectors to start with you
+could think about this as an extension
+
+324
+00:05:46,710 --> 00:05:46,720
+could think about this as an extension
+ 
+
+325
+00:05:46,720 --> 00:05:48,390
+could think about this as an extension
+of how we think about adding numbers on
+
+326
+00:05:48,390 --> 00:05:48,400
+of how we think about adding numbers on
+ 
+
+327
+00:05:48,400 --> 00:05:50,749
+of how we think about adding numbers on
+a number line one way that we teach kids
+
+328
+00:05:50,749 --> 00:05:50,759
+a number line one way that we teach kids
+ 
+
+329
+00:05:50,759 --> 00:05:53,550
+a number line one way that we teach kids
+to think about this say with 2 + 5 is to
+
+330
+00:05:53,550 --> 00:05:53,560
+to think about this say with 2 + 5 is to
+ 
+
+331
+00:05:53,560 --> 00:05:55,590
+to think about this say with 2 + 5 is to
+think of moving two steps to the right
+
+332
+00:05:55,590 --> 00:05:55,600
+think of moving two steps to the right
+ 
+
+333
+00:05:55,600 --> 00:05:57,350
+think of moving two steps to the right
+followed by another five steps to the
+
+334
+00:05:57,350 --> 00:05:57,360
+followed by another five steps to the
+ 
+
+335
+00:05:57,360 --> 00:05:59,670
+followed by another five steps to the
+right the overall effect is the same as
+
+336
+00:05:59,670 --> 00:05:59,680
+right the overall effect is the same as
+ 
+
+337
+00:05:59,680 --> 00:06:01,230
+right the overall effect is the same as
+if you just took seven steps to the
+
+338
+00:06:01,230 --> 00:06:01,240
+if you just took seven steps to the
+ 
+
+339
+00:06:01,240 --> 00:06:03,629
+if you just took seven steps to the
+right in fact let's see how vector
+
+340
+00:06:03,629 --> 00:06:03,639
+right in fact let's see how vector
+ 
+
+341
+00:06:03,639 --> 00:06:06,150
+right in fact let's see how vector
+addition looks numerically the first
+
+342
+00:06:06,150 --> 00:06:06,160
+addition looks numerically the first
+ 
+
+343
+00:06:06,160 --> 00:06:08,469
+addition looks numerically the first
+Vector here has coordinates one
+
+344
+00:06:08,469 --> 00:06:08,479
+Vector here has coordinates one
+ 
+
+345
+00:06:08,479 --> 00:06:13,189
+Vector here has coordinates one
+2 and the second one has coordinates
+
+346
+00:06:13,189 --> 00:06:13,199
+
+ 
+
+347
+00:06:13,199 --> 00:06:15,710
+
+31 when you take the vector sum using
+
+348
+00:06:15,710 --> 00:06:15,720
+31 when you take the vector sum using
+ 
+
+349
+00:06:15,720 --> 00:06:17,749
+31 when you take the vector sum using
+this tip toil method you can think of a
+
+350
+00:06:17,749 --> 00:06:17,759
+this tip toil method you can think of a
+ 
+
+351
+00:06:17,759 --> 00:06:19,950
+this tip toil method you can think of a
+four-step path from the origin to the
+
+352
+00:06:19,950 --> 00:06:19,960
+four-step path from the origin to the
+ 
+
+353
+00:06:19,960 --> 00:06:22,110
+four-step path from the origin to the
+tip of the second Vector walk one to the
+
+354
+00:06:22,110 --> 00:06:22,120
+tip of the second Vector walk one to the
+ 
+
+355
+00:06:22,120 --> 00:06:24,110
+tip of the second Vector walk one to the
+right then two up then three to the
+
+356
+00:06:24,110 --> 00:06:24,120
+right then two up then three to the
+ 
+
+357
+00:06:24,120 --> 00:06:27,189
+right then two up then three to the
+right then one down reorganizing these
+
+358
+00:06:27,189 --> 00:06:27,199
+right then one down reorganizing these
+ 
+
+359
+00:06:27,199 --> 00:06:28,790
+right then one down reorganizing these
+steps so that you first do all of the
+
+360
+00:06:28,790 --> 00:06:28,800
+steps so that you first do all of the
+ 
+
+361
+00:06:28,800 --> 00:06:30,430
+steps so that you first do all of the
+right word motion then do all the
+
+362
+00:06:30,430 --> 00:06:30,440
+right word motion then do all the
+ 
+
+363
+00:06:30,440 --> 00:06:32,150
+right word motion then do all the
+vertical motion you can read it as
+
+364
+00:06:32,150 --> 00:06:32,160
+vertical motion you can read it as
+ 
+
+365
+00:06:32,160 --> 00:06:35,189
+vertical motion you can read it as
+saying first move 1 + 3 to the right
+
+366
+00:06:35,189 --> 00:06:35,199
+saying first move 1 + 3 to the right
+ 
+
+367
+00:06:35,199 --> 00:06:38,909
+saying first move 1 + 3 to the right
+then move 2 - 1
+
+368
+00:06:38,909 --> 00:06:38,919
+then move 2 - 1
+ 
+
+369
+00:06:38,919 --> 00:06:42,110
+then move 2 - 1
+up so the new Vector has coordinates 1 +
+
+370
+00:06:42,110 --> 00:06:42,120
+up so the new Vector has coordinates 1 +
+ 
+
+371
+00:06:42,120 --> 00:06:44,189
+up so the new Vector has coordinates 1 +
+3 and 2
+
+372
+00:06:44,189 --> 00:06:44,199
+3 and 2
+ 
+
+373
+00:06:44,199 --> 00:06:47,150
+3 and 2
++1 in general vector addition in this
+
+374
+00:06:47,150 --> 00:06:47,160
++1 in general vector addition in this
+ 
+
+375
+00:06:47,160 --> 00:06:49,189
++1 in general vector addition in this
+list of numbers conception looks like
+
+376
+00:06:49,189 --> 00:06:49,199
+list of numbers conception looks like
+ 
+
+377
+00:06:49,199 --> 00:06:51,150
+list of numbers conception looks like
+matching up their terms and adding each
+
+378
+00:06:51,150 --> 00:06:51,160
+matching up their terms and adding each
+ 
+
+379
+00:06:51,160 --> 00:06:53,510
+matching up their terms and adding each
+one
+
+380
+00:06:53,510 --> 00:06:53,520
+one
+ 
+
+381
+00:06:53,520 --> 00:06:55,670
+one
+together the other fundamental Vector
+
+382
+00:06:55,670 --> 00:06:55,680
+together the other fundamental Vector
+ 
+
+383
+00:06:55,680 --> 00:06:58,270
+together the other fundamental Vector
+operation is multiplication by a number
+
+384
+00:06:58,270 --> 00:06:58,280
+operation is multiplication by a number
+ 
+
+385
+00:06:58,280 --> 00:06:59,790
+operation is multiplication by a number
+now this is best understood just by
+
+386
+00:06:59,790 --> 00:06:59,800
+now this is best understood just by
+ 
+
+387
+00:06:59,800 --> 00:07:01,830
+now this is best understood just by
+looking at a few examples if you take
+
+388
+00:07:01,830 --> 00:07:01,840
+looking at a few examples if you take
+ 
+
+389
+00:07:01,840 --> 00:07:03,749
+looking at a few examples if you take
+the number two and multiply it by a
+
+390
+00:07:03,749 --> 00:07:03,759
+the number two and multiply it by a
+ 
+
+391
+00:07:03,759 --> 00:07:06,029
+the number two and multiply it by a
+given Vector it means you stretch out
+
+392
+00:07:06,029 --> 00:07:06,039
+given Vector it means you stretch out
+ 
+
+393
+00:07:06,039 --> 00:07:08,150
+given Vector it means you stretch out
+that Vector so that it's two times as
+
+394
+00:07:08,150 --> 00:07:08,160
+that Vector so that it's two times as
+ 
+
+395
+00:07:08,160 --> 00:07:10,629
+that Vector so that it's two times as
+long as when you started if you multiply
+
+396
+00:07:10,629 --> 00:07:10,639
+long as when you started if you multiply
+ 
+
+397
+00:07:10,639 --> 00:07:13,230
+long as when you started if you multiply
+that vector by say 1/3 it means you
+
+398
+00:07:13,230 --> 00:07:13,240
+that vector by say 1/3 it means you
+ 
+
+399
+00:07:13,240 --> 00:07:15,629
+that vector by say 1/3 it means you
+squish it down so that it's 1/3 the
+
+400
+00:07:15,629 --> 00:07:15,639
+squish it down so that it's 1/3 the
+ 
+
+401
+00:07:15,639 --> 00:07:18,070
+squish it down so that it's 1/3 the
+original length when you multiply it by
+
+402
+00:07:18,070 --> 00:07:18,080
+original length when you multiply it by
+ 
+
+403
+00:07:18,080 --> 00:07:21,390
+original length when you multiply it by
+a negative number like - 1.8 then the
+
+404
+00:07:21,390 --> 00:07:21,400
+a negative number like - 1.8 then the
+ 
+
+405
+00:07:21,400 --> 00:07:23,670
+a negative number like - 1.8 then the
+vector first gets flipped around then
+
+406
+00:07:23,670 --> 00:07:23,680
+vector first gets flipped around then
+ 
+
+407
+00:07:23,680 --> 00:07:25,909
+vector first gets flipped around then
+stretched out by that factor of
+
+408
+00:07:25,909 --> 00:07:25,919
+stretched out by that factor of
+ 
+
+409
+00:07:25,919 --> 00:07:28,350
+stretched out by that factor of
+1.8 this process of stretching or
+
+410
+00:07:28,350 --> 00:07:28,360
+1.8 this process of stretching or
+ 
+
+411
+00:07:28,360 --> 00:07:29,909
+1.8 this process of stretching or
+squishing or sometimes vering the
+
+412
+00:07:29,909 --> 00:07:29,919
+squishing or sometimes vering the
+ 
+
+413
+00:07:29,919 --> 00:07:32,950
+squishing or sometimes vering the
+direction of a vector is called scaling
+
+414
+00:07:32,950 --> 00:07:32,960
+direction of a vector is called scaling
+ 
+
+415
+00:07:32,960 --> 00:07:34,950
+direction of a vector is called scaling
+and whenever you catch a number like 2
+
+416
+00:07:34,950 --> 00:07:34,960
+and whenever you catch a number like 2
+ 
+
+417
+00:07:34,960 --> 00:07:38,510
+and whenever you catch a number like 2
+or 1/3 or 1.8 acting like this scaling
+
+418
+00:07:38,510 --> 00:07:38,520
+or 1/3 or 1.8 acting like this scaling
+ 
+
+419
+00:07:38,520 --> 00:07:41,909
+or 1/3 or 1.8 acting like this scaling
+some Vector you call it a scaler in fact
+
+420
+00:07:41,909 --> 00:07:41,919
+some Vector you call it a scaler in fact
+ 
+
+421
+00:07:41,919 --> 00:07:43,749
+some Vector you call it a scaler in fact
+throughout linear algebra one of the
+
+422
+00:07:43,749 --> 00:07:43,759
+throughout linear algebra one of the
+ 
+
+423
+00:07:43,759 --> 00:07:45,830
+throughout linear algebra one of the
+main things that numbers do is scale
+
+424
+00:07:45,830 --> 00:07:45,840
+main things that numbers do is scale
+ 
+
+425
+00:07:45,840 --> 00:07:47,869
+main things that numbers do is scale
+vectors so it's common to use the word
+
+426
+00:07:47,869 --> 00:07:47,879
+vectors so it's common to use the word
+ 
+
+427
+00:07:47,879 --> 00:07:49,869
+vectors so it's common to use the word
+scaler pretty much interchangeably with
+
+428
+00:07:49,869 --> 00:07:49,879
+scaler pretty much interchangeably with
+ 
+
+429
+00:07:49,879 --> 00:07:52,629
+scaler pretty much interchangeably with
+the word number numerically stretching
+
+430
+00:07:52,629 --> 00:07:52,639
+the word number numerically stretching
+ 
+
+431
+00:07:52,639 --> 00:07:55,070
+the word number numerically stretching
+out a vector by a factor of say two
+
+432
+00:07:55,070 --> 00:07:55,080
+out a vector by a factor of say two
+ 
+
+433
+00:07:55,080 --> 00:07:57,110
+out a vector by a factor of say two
+corresponds with multiplying each of its
+
+434
+00:07:57,110 --> 00:07:57,120
+corresponds with multiplying each of its
+ 
+
+435
+00:07:57,120 --> 00:08:00,110
+corresponds with multiplying each of its
+components by that factor two so in the
+
+436
+00:08:00,110 --> 00:08:00,120
+components by that factor two so in the
+ 
+
+437
+00:08:00,120 --> 00:08:01,550
+components by that factor two so in the
+conception of vectors as lists of
+
+438
+00:08:01,550 --> 00:08:01,560
+conception of vectors as lists of
+ 
+
+439
+00:08:01,560 --> 00:08:03,869
+conception of vectors as lists of
+numbers multiplying a given vector by a
+
+440
+00:08:03,869 --> 00:08:03,879
+numbers multiplying a given vector by a
+ 
+
+441
+00:08:03,879 --> 00:08:05,909
+numbers multiplying a given vector by a
+scaler means multiplying each one of
+
+442
+00:08:05,909 --> 00:08:05,919
+scaler means multiplying each one of
+ 
+
+443
+00:08:05,919 --> 00:08:08,909
+scaler means multiplying each one of
+those components by that
+
+444
+00:08:08,909 --> 00:08:08,919
+those components by that
+ 
+
+445
+00:08:08,919 --> 00:08:10,790
+those components by that
+scalar you'll see in the following
+
+446
+00:08:10,790 --> 00:08:10,800
+scalar you'll see in the following
+ 
+
+447
+00:08:10,800 --> 00:08:12,270
+scalar you'll see in the following
+videos what I mean when I say that
+
+448
+00:08:12,270 --> 00:08:12,280
+videos what I mean when I say that
+ 
+
+449
+00:08:12,280 --> 00:08:14,430
+videos what I mean when I say that
+linear algebra topics tend to revolve
+
+450
+00:08:14,430 --> 00:08:14,440
+linear algebra topics tend to revolve
+ 
+
+451
+00:08:14,440 --> 00:08:16,869
+linear algebra topics tend to revolve
+around these two fundamental operations
+
+452
+00:08:16,869 --> 00:08:16,879
+around these two fundamental operations
+ 
+
+453
+00:08:16,879 --> 00:08:18,390
+around these two fundamental operations
+vector addition and scalar
+
+454
+00:08:18,390 --> 00:08:18,400
+vector addition and scalar
+ 
+
+455
+00:08:18,400 --> 00:08:20,230
+vector addition and scalar
+multiplication and I'll talk more in the
+
+456
+00:08:20,230 --> 00:08:20,240
+multiplication and I'll talk more in the
+ 
+
+457
+00:08:20,240 --> 00:08:21,950
+multiplication and I'll talk more in the
+last video about how and why the
+
+458
+00:08:21,950 --> 00:08:21,960
+last video about how and why the
+ 
+
+459
+00:08:21,960 --> 00:08:24,029
+last video about how and why the
+mathematician thinks only about these
+
+460
+00:08:24,029 --> 00:08:24,039
+mathematician thinks only about these
+ 
+
+461
+00:08:24,039 --> 00:08:26,230
+mathematician thinks only about these
+operations independent and abstracted
+
+462
+00:08:26,230 --> 00:08:26,240
+operations independent and abstracted
+ 
+
+463
+00:08:26,240 --> 00:08:27,749
+operations independent and abstracted
+away from however you choose to
+
+464
+00:08:27,749 --> 00:08:27,759
+away from however you choose to
+ 
+
+465
+00:08:27,759 --> 00:08:30,430
+away from however you choose to
+represent vectors in truth it doesn't
+
+466
+00:08:30,430 --> 00:08:30,440
+represent vectors in truth it doesn't
+ 
+
+467
+00:08:30,440 --> 00:08:31,749
+represent vectors in truth it doesn't
+matter whether you think about vectors
+
+468
+00:08:31,749 --> 00:08:31,759
+matter whether you think about vectors
+ 
+
+469
+00:08:31,759 --> 00:08:33,829
+matter whether you think about vectors
+as fundamentally being arrows in space
+
+470
+00:08:33,829 --> 00:08:33,839
+as fundamentally being arrows in space
+ 
+
+471
+00:08:33,839 --> 00:08:35,550
+as fundamentally being arrows in space
+like I'm suggesting you do that happen
+
+472
+00:08:35,550 --> 00:08:35,560
+like I'm suggesting you do that happen
+ 
+
+473
+00:08:35,560 --> 00:08:37,589
+like I'm suggesting you do that happen
+to have a nice numerical representation
+
+474
+00:08:37,589 --> 00:08:37,599
+to have a nice numerical representation
+ 
+
+475
+00:08:37,599 --> 00:08:39,430
+to have a nice numerical representation
+or fundamentally as lists of numbers
+
+476
+00:08:39,430 --> 00:08:39,440
+or fundamentally as lists of numbers
+ 
+
+477
+00:08:39,440 --> 00:08:40,949
+or fundamentally as lists of numbers
+that happen to have a nice geometric
+
+478
+00:08:40,949 --> 00:08:40,959
+that happen to have a nice geometric
+ 
+
+479
+00:08:40,959 --> 00:08:42,990
+that happen to have a nice geometric
+interpretation the usefulness of linear
+
+480
+00:08:42,990 --> 00:08:43,000
+interpretation the usefulness of linear
+ 
+
+481
+00:08:43,000 --> 00:08:44,790
+interpretation the usefulness of linear
+algebra has less to do with either one
+
+482
+00:08:44,790 --> 00:08:44,800
+algebra has less to do with either one
+ 
+
+483
+00:08:44,800 --> 00:08:46,590
+algebra has less to do with either one
+of these views than it does with the
+
+484
+00:08:46,590 --> 00:08:46,600
+of these views than it does with the
+ 
+
+485
+00:08:46,600 --> 00:08:48,550
+of these views than it does with the
+ability to translate back and forth
+
+486
+00:08:48,550 --> 00:08:48,560
+ability to translate back and forth
+ 
+
+487
+00:08:48,560 --> 00:08:51,110
+ability to translate back and forth
+between them it gives the data analyst a
+
+488
+00:08:51,110 --> 00:08:51,120
+between them it gives the data analyst a
+ 
+
+489
+00:08:51,120 --> 00:08:53,070
+between them it gives the data analyst a
+nice way to conceptualize many lists of
+
+490
+00:08:53,070 --> 00:08:53,080
+nice way to conceptualize many lists of
+ 
+
+491
+00:08:53,080 --> 00:08:55,350
+nice way to conceptualize many lists of
+numbers in a visual way which can
+
+492
+00:08:55,350 --> 00:08:55,360
+numbers in a visual way which can
+ 
+
+493
+00:08:55,360 --> 00:08:57,389
+numbers in a visual way which can
+seriously clarify patterns in data and
+
+494
+00:08:57,389 --> 00:08:57,399
+seriously clarify patterns in data and
+ 
+
+495
+00:08:57,399 --> 00:08:58,829
+seriously clarify patterns in data and
+give a global view of what certain
+
+496
+00:08:58,829 --> 00:08:58,839
+give a global view of what certain
+ 
+
+497
+00:08:58,839 --> 00:09:01,389
+give a global view of what certain
+operations do do and on the flip side it
+
+498
+00:09:01,389 --> 00:09:01,399
+operations do do and on the flip side it
+ 
+
+499
+00:09:01,399 --> 00:09:02,790
+operations do do and on the flip side it
+gives people like physicists and
+
+500
+00:09:02,790 --> 00:09:02,800
+gives people like physicists and
+ 
+
+501
+00:09:02,800 --> 00:09:05,110
+gives people like physicists and
+computer Graphics programmers a language
+
+502
+00:09:05,110 --> 00:09:05,120
+computer Graphics programmers a language
+ 
+
+503
+00:09:05,120 --> 00:09:07,430
+computer Graphics programmers a language
+to describe space and the manipulation
+
+504
+00:09:07,430 --> 00:09:07,440
+to describe space and the manipulation
+ 
+
+505
+00:09:07,440 --> 00:09:09,389
+to describe space and the manipulation
+of space using numbers that can be
+
+506
+00:09:09,389 --> 00:09:09,399
+of space using numbers that can be
+ 
+
+507
+00:09:09,399 --> 00:09:11,790
+of space using numbers that can be
+crunched and run through a computer when
+
+508
+00:09:11,790 --> 00:09:11,800
+crunched and run through a computer when
+ 
+
+509
+00:09:11,800 --> 00:09:14,230
+crunched and run through a computer when
+I do mathy animations for example I
+
+510
+00:09:14,230 --> 00:09:14,240
+I do mathy animations for example I
+ 
+
+511
+00:09:14,240 --> 00:09:15,750
+I do mathy animations for example I
+start by thinking about what's actually
+
+512
+00:09:15,750 --> 00:09:15,760
+start by thinking about what's actually
+ 
+
+513
+00:09:15,760 --> 00:09:17,590
+start by thinking about what's actually
+going on in space and then get the
+
+514
+00:09:17,590 --> 00:09:17,600
+going on in space and then get the
+ 
+
+515
+00:09:17,600 --> 00:09:19,829
+going on in space and then get the
+computer to represent things numerically
+
+516
+00:09:19,829 --> 00:09:19,839
+computer to represent things numerically
+ 
+
+517
+00:09:19,839 --> 00:09:21,550
+computer to represent things numerically
+thereby figuring out where to place the
+
+518
+00:09:21,550 --> 00:09:21,560
+thereby figuring out where to place the
+ 
+
+519
+00:09:21,560 --> 00:09:23,470
+thereby figuring out where to place the
+pixels on the screen and doing that
+
+520
+00:09:23,470 --> 00:09:23,480
+pixels on the screen and doing that
+ 
+
+521
+00:09:23,480 --> 00:09:24,990
+pixels on the screen and doing that
+usually relies on a lot of linear
+
+522
+00:09:24,990 --> 00:09:25,000
+usually relies on a lot of linear
+ 
+
+523
+00:09:25,000 --> 00:09:26,509
+usually relies on a lot of linear
+algebra
+
+524
+00:09:26,509 --> 00:09:26,519
+algebra
+ 
+
+525
+00:09:26,519 --> 00:09:28,350
+algebra
+understanding so there are your vector
+
+526
+00:09:28,350 --> 00:09:28,360
+understanding so there are your vector
+ 
+
+527
+00:09:28,360 --> 00:09:29,949
+understanding so there are your vector
+Basics and in the next video video I'll
+
+528
+00:09:29,949 --> 00:09:29,959
+Basics and in the next video video I'll
+ 
+
+529
+00:09:29,959 --> 00:09:31,110
+Basics and in the next video video I'll
+start getting into some pretty neat
+
+530
+00:09:31,110 --> 00:09:31,120
+start getting into some pretty neat
+ 
+
+531
+00:09:31,120 --> 00:09:33,230
+start getting into some pretty neat
+Concepts surrounding vectors like span
+
+532
+00:09:33,230 --> 00:09:33,240
+Concepts surrounding vectors like span
+ 
+
+533
+00:09:33,240 --> 00:09:42,650
+Concepts surrounding vectors like span
+bases and linear dependence see you then
+
+534
+00:09:42,650 --> 00:09:42,660
+
+ 
+
+535
+00:09:42,660 --> 00:09:52,919
+
+[Music]
+

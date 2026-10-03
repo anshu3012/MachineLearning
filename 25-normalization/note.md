@@ -8,6 +8,7 @@ title: "Feature Scaling: Normalization"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)).
+> - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 > - **Compare with:** Standardization ([Note 24](../24-standardization/note.md)).
 <!-- /where-this-fits -->
 

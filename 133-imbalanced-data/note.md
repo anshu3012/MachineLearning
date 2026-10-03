@@ -8,6 +8,7 @@ title: "Imbalanced Data: Undersampling, Oversampling, SMOTE and Cost-Sensitive L
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); ROC curve and AUC ([Note 78](../78-roc-auc/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)); Random forest ([Note 114](../114-feature-importance/note.md)); Cross-validation ([Note 127](../127-stacking-blending/note.md)).
+> - **Leads to:** ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

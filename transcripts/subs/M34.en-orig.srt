@@ -1,0 +1,1485 @@
+1
+00:00:02,290 --> 00:00:04,769
+
+in essence binomial events are a
+
+2
+00:00:04,769 --> 00:00:04,779
+in essence binomial events are a
+ 
+
+3
+00:00:04,779 --> 00:00:07,549
+in essence binomial events are a
+sequence of identical Bernoulli events
+
+4
+00:00:07,549 --> 00:00:07,559
+sequence of identical Bernoulli events
+ 
+
+5
+00:00:07,559 --> 00:00:09,870
+sequence of identical Bernoulli events
+before we get into the differences in
+
+6
+00:00:09,870 --> 00:00:09,880
+before we get into the differences in
+ 
+
+7
+00:00:09,880 --> 00:00:11,250
+before we get into the differences in
+similarities between these two
+
+8
+00:00:11,250 --> 00:00:11,260
+similarities between these two
+ 
+
+9
+00:00:11,260 --> 00:00:13,980
+similarities between these two
+distributions let us examine the proper
+
+10
+00:00:13,980 --> 00:00:13,990
+distributions let us examine the proper
+ 
+
+11
+00:00:13,990 --> 00:00:17,910
+distributions let us examine the proper
+notation for a binomial distribution we
+
+12
+00:00:17,910 --> 00:00:17,920
+notation for a binomial distribution we
+ 
+
+13
+00:00:17,920 --> 00:00:20,580
+notation for a binomial distribution we
+use the letter B to express a binomial
+
+14
+00:00:20,580 --> 00:00:20,590
+use the letter B to express a binomial
+ 
+
+15
+00:00:20,590 --> 00:00:22,920
+use the letter B to express a binomial
+distribution followed by the number of
+
+16
+00:00:22,920 --> 00:00:22,930
+distribution followed by the number of
+ 
+
+17
+00:00:22,930 --> 00:00:25,320
+distribution followed by the number of
+trials and the probability of success in
+
+18
+00:00:25,320 --> 00:00:25,330
+trials and the probability of success in
+ 
+
+19
+00:00:25,330 --> 00:00:26,330
+trials and the probability of success in
+each one
+
+20
+00:00:26,330 --> 00:00:26,340
+each one
+ 
+
+21
+00:00:26,340 --> 00:00:28,050
+each one
+therefore we read the following
+
+22
+00:00:28,050 --> 00:00:28,060
+therefore we read the following
+ 
+
+23
+00:00:28,060 --> 00:00:31,200
+therefore we read the following
+statement as variable X follows a
+
+24
+00:00:31,200 --> 00:00:31,210
+statement as variable X follows a
+ 
+
+25
+00:00:31,210 --> 00:00:33,900
+statement as variable X follows a
+binomial distribution with ten trials
+
+26
+00:00:33,900 --> 00:00:33,910
+binomial distribution with ten trials
+ 
+
+27
+00:00:33,910 --> 00:00:37,770
+binomial distribution with ten trials
+and a likelihood of 0.62 succeed on each
+
+28
+00:00:37,770 --> 00:00:37,780
+and a likelihood of 0.62 succeed on each
+ 
+
+29
+00:00:37,780 --> 00:00:41,759
+and a likelihood of 0.62 succeed on each
+individual trial additionally we can
+
+30
+00:00:41,759 --> 00:00:41,769
+individual trial additionally we can
+ 
+
+31
+00:00:41,769 --> 00:00:43,860
+individual trial additionally we can
+express a Bernoulli distribution as a
+
+32
+00:00:43,860 --> 00:00:43,870
+express a Bernoulli distribution as a
+ 
+
+33
+00:00:43,870 --> 00:00:46,049
+express a Bernoulli distribution as a
+binomial distribution with a single
+
+34
+00:00:46,049 --> 00:00:46,059
+binomial distribution with a single
+ 
+
+35
+00:00:46,059 --> 00:00:50,819
+binomial distribution with a single
+trial all right to better understand the
+
+36
+00:00:50,819 --> 00:00:50,829
+trial all right to better understand the
+ 
+
+37
+00:00:50,829 --> 00:00:52,379
+trial all right to better understand the
+differences between the two types of
+
+38
+00:00:52,379 --> 00:00:52,389
+differences between the two types of
+ 
+
+39
+00:00:52,389 --> 00:00:55,069
+differences between the two types of
+events suppose the following scenario
+
+40
+00:00:55,069 --> 00:00:55,079
+events suppose the following scenario
+ 
+
+41
+00:00:55,079 --> 00:00:57,599
+events suppose the following scenario
+you go to class and your professor gives
+
+42
+00:00:57,599 --> 00:00:57,609
+you go to class and your professor gives
+ 
+
+43
+00:00:57,609 --> 00:01:00,359
+you go to class and your professor gives
+the class a suprise pop quiz which you
+
+44
+00:01:00,359 --> 00:01:00,369
+the class a suprise pop quiz which you
+ 
+
+45
+00:01:00,369 --> 00:01:03,090
+the class a suprise pop quiz which you
+have not prepared for luckily for you
+
+46
+00:01:03,090 --> 00:01:03,100
+have not prepared for luckily for you
+ 
+
+47
+00:01:03,100 --> 00:01:05,490
+have not prepared for luckily for you
+the quiz consists of 10 true or false
+
+48
+00:01:05,490 --> 00:01:05,500
+the quiz consists of 10 true or false
+ 
+
+49
+00:01:05,500 --> 00:01:08,970
+the quiz consists of 10 true or false
+questions in this case guessing a single
+
+50
+00:01:08,970 --> 00:01:08,980
+questions in this case guessing a single
+ 
+
+51
+00:01:08,980 --> 00:01:11,430
+questions in this case guessing a single
+true or false question is a Bernoulli
+
+52
+00:01:11,430 --> 00:01:11,440
+true or false question is a Bernoulli
+ 
+
+53
+00:01:11,440 --> 00:01:14,700
+true or false question is a Bernoulli
+event but guessing the entire quiz is a
+
+54
+00:01:14,700 --> 00:01:14,710
+event but guessing the entire quiz is a
+ 
+
+55
+00:01:14,710 --> 00:01:19,110
+event but guessing the entire quiz is a
+binomial event alright let's go back to
+
+56
+00:01:19,110 --> 00:01:19,120
+binomial event alright let's go back to
+ 
+
+57
+00:01:19,120 --> 00:01:22,110
+binomial event alright let's go back to
+the quiz example we just mentioned in it
+
+58
+00:01:22,110 --> 00:01:22,120
+the quiz example we just mentioned in it
+ 
+
+59
+00:01:22,120 --> 00:01:24,330
+the quiz example we just mentioned in it
+the expected value of the Bernoulli
+
+60
+00:01:24,330 --> 00:01:24,340
+the expected value of the Bernoulli
+ 
+
+61
+00:01:24,340 --> 00:01:26,640
+the expected value of the Bernoulli
+distribution suggests which outcome we
+
+62
+00:01:26,640 --> 00:01:26,650
+distribution suggests which outcome we
+ 
+
+63
+00:01:26,650 --> 00:01:29,520
+distribution suggests which outcome we
+expect for a single trial now the
+
+64
+00:01:29,520 --> 00:01:29,530
+expect for a single trial now the
+ 
+
+65
+00:01:29,530 --> 00:01:31,380
+expect for a single trial now the
+expected value of the binomial
+
+66
+00:01:31,380 --> 00:01:31,390
+expected value of the binomial
+ 
+
+67
+00:01:31,390 --> 00:01:33,690
+expected value of the binomial
+distribution would suggest the number of
+
+68
+00:01:33,690 --> 00:01:33,700
+distribution would suggest the number of
+ 
+
+69
+00:01:33,700 --> 00:01:36,000
+distribution would suggest the number of
+times we expect to get a specific
+
+70
+00:01:36,000 --> 00:01:36,010
+times we expect to get a specific
+ 
+
+71
+00:01:36,010 --> 00:01:40,950
+times we expect to get a specific
+outcome great now the graph of the
+
+72
+00:01:40,950 --> 00:01:40,960
+outcome great now the graph of the
+ 
+
+73
+00:01:40,960 --> 00:01:43,020
+outcome great now the graph of the
+binomial distribution represents the
+
+74
+00:01:43,020 --> 00:01:43,030
+binomial distribution represents the
+ 
+
+75
+00:01:43,030 --> 00:01:44,820
+binomial distribution represents the
+likelihood of attaining our desired
+
+76
+00:01:44,820 --> 00:01:44,830
+likelihood of attaining our desired
+ 
+
+77
+00:01:44,830 --> 00:01:48,120
+likelihood of attaining our desired
+outcome a specific number of times if we
+
+78
+00:01:48,120 --> 00:01:48,130
+outcome a specific number of times if we
+ 
+
+79
+00:01:48,130 --> 00:01:51,210
+outcome a specific number of times if we
+run n trials our graph would consist n
+
+80
+00:01:51,210 --> 00:01:51,220
+run n trials our graph would consist n
+ 
+
+81
+00:01:51,220 --> 00:01:55,050
+run n trials our graph would consist n
+plus 1 many bars one for each unique
+
+82
+00:01:55,050 --> 00:01:55,060
+plus 1 many bars one for each unique
+ 
+
+83
+00:01:55,060 --> 00:01:58,770
+plus 1 many bars one for each unique
+value from 0 to n for instance we could
+
+84
+00:01:58,770 --> 00:01:58,780
+value from 0 to n for instance we could
+ 
+
+85
+00:01:58,780 --> 00:02:00,899
+value from 0 to n for instance we could
+be flipping the same unfair coin we had
+
+86
+00:02:00,899 --> 00:02:00,909
+be flipping the same unfair coin we had
+ 
+
+87
+00:02:00,909 --> 00:02:03,330
+be flipping the same unfair coin we had
+from the last lecture if we toss it
+
+88
+00:02:03,330 --> 00:02:03,340
+from the last lecture if we toss it
+ 
+
+89
+00:02:03,340 --> 00:02:05,910
+from the last lecture if we toss it
+twice we need bars for the three
+
+90
+00:02:05,910 --> 00:02:05,920
+twice we need bars for the three
+ 
+
+91
+00:02:05,920 --> 00:02:11,300
+twice we need bars for the three
+different outcomes 0 1 or 2 tails
+
+92
+00:02:11,300 --> 00:02:11,310
+different outcomes 0 1 or 2 tails
+ 
+
+93
+00:02:11,310 --> 00:02:12,500
+different outcomes 0 1 or 2 tails
+fantast
+
+94
+00:02:12,500 --> 00:02:12,510
+fantast
+ 
+
+95
+00:02:12,510 --> 00:02:14,660
+fantast
+if we wish to find the Associated
+
+96
+00:02:14,660 --> 00:02:14,670
+if we wish to find the Associated
+ 
+
+97
+00:02:14,670 --> 00:02:16,910
+if we wish to find the Associated
+likelihood of getting a given outcome a
+
+98
+00:02:16,910 --> 00:02:16,920
+likelihood of getting a given outcome a
+ 
+
+99
+00:02:16,920 --> 00:02:18,890
+likelihood of getting a given outcome a
+precise number of times over the course
+
+100
+00:02:18,890 --> 00:02:18,900
+precise number of times over the course
+ 
+
+101
+00:02:18,900 --> 00:02:21,830
+precise number of times over the course
+of n trials we need to introduce the
+
+102
+00:02:21,830 --> 00:02:21,840
+of n trials we need to introduce the
+ 
+
+103
+00:02:21,840 --> 00:02:23,899
+of n trials we need to introduce the
+probability function of the binomial
+
+104
+00:02:23,899 --> 00:02:23,909
+probability function of the binomial
+ 
+
+105
+00:02:23,909 --> 00:02:27,410
+probability function of the binomial
+distribution for starters each
+
+106
+00:02:27,410 --> 00:02:27,420
+distribution for starters each
+ 
+
+107
+00:02:27,420 --> 00:02:30,650
+distribution for starters each
+individual trial is a Bernoulli trial so
+
+108
+00:02:30,650 --> 00:02:30,660
+individual trial is a Bernoulli trial so
+ 
+
+109
+00:02:30,660 --> 00:02:32,270
+individual trial is a Bernoulli trial so
+we express the probability of getting
+
+110
+00:02:32,270 --> 00:02:32,280
+we express the probability of getting
+ 
+
+111
+00:02:32,280 --> 00:02:35,420
+we express the probability of getting
+our desired outcome as P and the
+
+112
+00:02:35,420 --> 00:02:35,430
+our desired outcome as P and the
+ 
+
+113
+00:02:35,430 --> 00:02:38,300
+our desired outcome as P and the
+likelihood of the other one as one minus
+
+114
+00:02:38,300 --> 00:02:38,310
+likelihood of the other one as one minus
+ 
+
+115
+00:02:38,310 --> 00:02:41,509
+likelihood of the other one as one minus
+P in order to get our favorite outcome
+
+116
+00:02:41,509 --> 00:02:41,519
+P in order to get our favorite outcome
+ 
+
+117
+00:02:41,519 --> 00:02:45,050
+P in order to get our favorite outcome
+exactly why many times over the N trials
+
+118
+00:02:45,050 --> 00:02:45,060
+exactly why many times over the N trials
+ 
+
+119
+00:02:45,060 --> 00:02:47,300
+exactly why many times over the N trials
+we also need to get the alternative
+
+120
+00:02:47,300 --> 00:02:47,310
+we also need to get the alternative
+ 
+
+121
+00:02:47,310 --> 00:02:52,250
+we also need to get the alternative
+outcome n - why many times if we don't
+
+122
+00:02:52,250 --> 00:02:52,260
+outcome n - why many times if we don't
+ 
+
+123
+00:02:52,260 --> 00:02:54,199
+outcome n - why many times if we don't
+account for this we would be estimating
+
+124
+00:02:54,199 --> 00:02:54,209
+account for this we would be estimating
+ 
+
+125
+00:02:54,209 --> 00:02:55,490
+account for this we would be estimating
+the likelihood of getting our desired
+
+126
+00:02:55,490 --> 00:02:55,500
+the likelihood of getting our desired
+ 
+
+127
+00:02:55,500 --> 00:02:59,500
+the likelihood of getting our desired
+outcome at least why many times
+
+128
+00:02:59,500 --> 00:02:59,510
+outcome at least why many times
+ 
+
+129
+00:02:59,510 --> 00:03:02,000
+outcome at least why many times
+additionally more than one way to reach
+
+130
+00:03:02,000 --> 00:03:02,010
+additionally more than one way to reach
+ 
+
+131
+00:03:02,010 --> 00:03:04,940
+additionally more than one way to reach
+our desired outcome could exist to
+
+132
+00:03:04,940 --> 00:03:04,950
+our desired outcome could exist to
+ 
+
+133
+00:03:04,950 --> 00:03:06,710
+our desired outcome could exist to
+account for this we need to find the
+
+134
+00:03:06,710 --> 00:03:06,720
+account for this we need to find the
+ 
+
+135
+00:03:06,720 --> 00:03:09,380
+account for this we need to find the
+number of scenarios in which Y out of
+
+136
+00:03:09,380 --> 00:03:09,390
+number of scenarios in which Y out of
+ 
+
+137
+00:03:09,390 --> 00:03:12,460
+number of scenarios in which Y out of
+the N many outcomes would be favorable
+
+138
+00:03:12,460 --> 00:03:12,470
+the N many outcomes would be favorable
+ 
+
+139
+00:03:12,470 --> 00:03:14,869
+the N many outcomes would be favorable
+but these are actually the combinations
+
+140
+00:03:14,869 --> 00:03:14,879
+but these are actually the combinations
+ 
+
+141
+00:03:14,879 --> 00:03:18,020
+but these are actually the combinations
+we already know for instance if we wish
+
+142
+00:03:18,020 --> 00:03:18,030
+we already know for instance if we wish
+ 
+
+143
+00:03:18,030 --> 00:03:19,789
+we already know for instance if we wish
+to find out the number of ways in which
+
+144
+00:03:19,789 --> 00:03:19,799
+to find out the number of ways in which
+ 
+
+145
+00:03:19,799 --> 00:03:22,009
+to find out the number of ways in which
+four out of the six trials could be
+
+146
+00:03:22,009 --> 00:03:22,019
+four out of the six trials could be
+ 
+
+147
+00:03:22,019 --> 00:03:24,020
+four out of the six trials could be
+successful it is the same as picking
+
+148
+00:03:24,020 --> 00:03:24,030
+successful it is the same as picking
+ 
+
+149
+00:03:24,030 --> 00:03:26,240
+successful it is the same as picking
+four elements out of a sample space of
+
+150
+00:03:26,240 --> 00:03:26,250
+four elements out of a sample space of
+ 
+
+151
+00:03:26,250 --> 00:03:29,360
+four elements out of a sample space of
+six now you see why combining Toric's
+
+152
+00:03:29,360 --> 00:03:29,370
+six now you see why combining Toric's
+ 
+
+153
+00:03:29,370 --> 00:03:31,900
+six now you see why combining Toric's
+are a fundamental part of probability
+
+154
+00:03:31,900 --> 00:03:31,910
+are a fundamental part of probability
+ 
+
+155
+00:03:31,910 --> 00:03:34,490
+are a fundamental part of probability
+thus we need to find the number of
+
+156
+00:03:34,490 --> 00:03:34,500
+thus we need to find the number of
+ 
+
+157
+00:03:34,500 --> 00:03:37,250
+thus we need to find the number of
+combinations in which Y out of the n
+
+158
+00:03:37,250 --> 00:03:37,260
+combinations in which Y out of the n
+ 
+
+159
+00:03:37,260 --> 00:03:40,849
+combinations in which Y out of the n
+outcomes would be favorable for instance
+
+160
+00:03:40,849 --> 00:03:40,859
+outcomes would be favorable for instance
+ 
+
+161
+00:03:40,859 --> 00:03:42,229
+outcomes would be favorable for instance
+there are three different ways to get
+
+162
+00:03:42,229 --> 00:03:42,239
+there are three different ways to get
+ 
+
+163
+00:03:42,239 --> 00:03:45,909
+there are three different ways to get
+tails exactly twice in three coin flips
+
+164
+00:03:45,909 --> 00:03:45,919
+tails exactly twice in three coin flips
+ 
+
+165
+00:03:45,919 --> 00:03:48,860
+tails exactly twice in three coin flips
+therefore the probability function for a
+
+166
+00:03:48,860 --> 00:03:48,870
+therefore the probability function for a
+ 
+
+167
+00:03:48,870 --> 00:03:51,530
+therefore the probability function for a
+binomial distribution is the product of
+
+168
+00:03:51,530 --> 00:03:51,540
+binomial distribution is the product of
+ 
+
+169
+00:03:51,540 --> 00:03:53,720
+binomial distribution is the product of
+the number of combinations of picking Y
+
+170
+00:03:53,720 --> 00:03:53,730
+the number of combinations of picking Y
+ 
+
+171
+00:03:53,730 --> 00:03:56,569
+the number of combinations of picking Y
+many elements out of n times P to the
+
+172
+00:03:56,569 --> 00:03:56,579
+many elements out of n times P to the
+ 
+
+173
+00:03:56,579 --> 00:04:00,409
+many elements out of n times P to the
+power of Y times 1 minus P to the power
+
+174
+00:04:00,409 --> 00:04:00,419
+power of Y times 1 minus P to the power
+ 
+
+175
+00:04:00,419 --> 00:04:07,879
+power of Y times 1 minus P to the power
+of n minus y great to see this in action
+
+176
+00:04:07,879 --> 00:04:07,889
+of n minus y great to see this in action
+ 
+
+177
+00:04:07,889 --> 00:04:11,420
+of n minus y great to see this in action
+let us look at an example imagine you
+
+178
+00:04:11,420 --> 00:04:11,430
+let us look at an example imagine you
+ 
+
+179
+00:04:11,430 --> 00:04:13,689
+let us look at an example imagine you
+bought a single stock of General Motors
+
+180
+00:04:13,689 --> 00:04:13,699
+bought a single stock of General Motors
+ 
+
+181
+00:04:13,699 --> 00:04:15,949
+bought a single stock of General Motors
+historically you know there is a 60%
+
+182
+00:04:15,949 --> 00:04:15,959
+historically you know there is a 60%
+ 
+
+183
+00:04:15,959 --> 00:04:17,990
+historically you know there is a 60%
+chance the price of your stock will go
+
+184
+00:04:17,990 --> 00:04:18,000
+chance the price of your stock will go
+ 
+
+185
+00:04:18,000 --> 00:04:21,409
+chance the price of your stock will go
+up on any given day and a 40% chance it
+
+186
+00:04:21,409 --> 00:04:21,419
+up on any given day and a 40% chance it
+ 
+
+187
+00:04:21,419 --> 00:04:24,500
+up on any given day and a 40% chance it
+will drop by the price going up we mean
+
+188
+00:04:24,500 --> 00:04:24,510
+will drop by the price going up we mean
+ 
+
+189
+00:04:24,510 --> 00:04:26,000
+will drop by the price going up we mean
+that the closing price is higher than
+
+190
+00:04:26,000 --> 00:04:26,010
+that the closing price is higher than
+ 
+
+191
+00:04:26,010 --> 00:04:26,300
+that the closing price is higher than
+the
+
+192
+00:04:26,300 --> 00:04:26,310
+the
+ 
+
+193
+00:04:26,310 --> 00:04:28,850
+the
+opening price with the probability
+
+194
+00:04:28,850 --> 00:04:28,860
+opening price with the probability
+ 
+
+195
+00:04:28,860 --> 00:04:31,190
+opening price with the probability
+distribution function you can calculate
+
+196
+00:04:31,190 --> 00:04:31,200
+distribution function you can calculate
+ 
+
+197
+00:04:31,200 --> 00:04:32,690
+distribution function you can calculate
+the likelihood of the stock price
+
+198
+00:04:32,690 --> 00:04:32,700
+the likelihood of the stock price
+ 
+
+199
+00:04:32,700 --> 00:04:35,210
+the likelihood of the stock price
+increasing three times during the five
+
+200
+00:04:35,210 --> 00:04:35,220
+increasing three times during the five
+ 
+
+201
+00:04:35,220 --> 00:04:38,240
+increasing three times during the five
+workday week if we wish to use the
+
+202
+00:04:38,240 --> 00:04:38,250
+workday week if we wish to use the
+ 
+
+203
+00:04:38,250 --> 00:04:40,400
+workday week if we wish to use the
+probability distribution formula we need
+
+204
+00:04:40,400 --> 00:04:40,410
+probability distribution formula we need
+ 
+
+205
+00:04:40,410 --> 00:04:45,110
+probability distribution formula we need
+to plug in 3 for y 5 for n and point 6
+
+206
+00:04:45,110 --> 00:04:45,120
+to plug in 3 for y 5 for n and point 6
+ 
+
+207
+00:04:45,120 --> 00:04:51,470
+to plug in 3 for y 5 for n and point 6
+for P after plugging in we get number of
+
+208
+00:04:51,470 --> 00:04:51,480
+for P after plugging in we get number of
+ 
+
+209
+00:04:51,480 --> 00:04:52,940
+for P after plugging in we get number of
+different possible combinations of
+
+210
+00:04:52,940 --> 00:04:52,950
+different possible combinations of
+ 
+
+211
+00:04:52,950 --> 00:04:55,370
+different possible combinations of
+picking three elements out of five times
+
+212
+00:04:55,370 --> 00:04:55,380
+picking three elements out of five times
+ 
+
+213
+00:04:55,380 --> 00:04:57,920
+picking three elements out of five times
+point six to the power of three times
+
+214
+00:04:57,920 --> 00:04:57,930
+point six to the power of three times
+ 
+
+215
+00:04:57,930 --> 00:05:01,340
+point six to the power of three times
+0.4 to the power of two this is
+
+216
+00:05:01,340 --> 00:05:01,350
+0.4 to the power of two this is
+ 
+
+217
+00:05:01,350 --> 00:05:04,550
+0.4 to the power of two this is
+equivalent to 10 times point two one six
+
+218
+00:05:04,550 --> 00:05:04,560
+equivalent to 10 times point two one six
+ 
+
+219
+00:05:04,560 --> 00:05:08,600
+equivalent to 10 times point two one six
+times point one six or point three four
+
+220
+00:05:08,600 --> 00:05:08,610
+times point one six or point three four
+ 
+
+221
+00:05:08,610 --> 00:05:13,310
+times point one six or point three four
+five six thus we have a 34 point five
+
+222
+00:05:13,310 --> 00:05:13,320
+five six thus we have a 34 point five
+ 
+
+223
+00:05:13,320 --> 00:05:15,500
+five six thus we have a 34 point five
+six percent chance of getting exactly
+
+224
+00:05:15,500 --> 00:05:15,510
+six percent chance of getting exactly
+ 
+
+225
+00:05:15,510 --> 00:05:17,750
+six percent chance of getting exactly
+three increases over the course of a
+
+226
+00:05:17,750 --> 00:05:17,760
+three increases over the course of a
+ 
+
+227
+00:05:17,760 --> 00:05:18,760
+three increases over the course of a
+workweek
+
+228
+00:05:18,760 --> 00:05:18,770
+workweek
+ 
+
+229
+00:05:18,770 --> 00:05:21,230
+workweek
+the big advantage of recognizing the
+
+230
+00:05:21,230 --> 00:05:21,240
+the big advantage of recognizing the
+ 
+
+231
+00:05:21,240 --> 00:05:23,360
+the big advantage of recognizing the
+distribution is that you can simply use
+
+232
+00:05:23,360 --> 00:05:23,370
+distribution is that you can simply use
+ 
+
+233
+00:05:23,370 --> 00:05:25,040
+distribution is that you can simply use
+these formulas and plug in the
+
+234
+00:05:25,040 --> 00:05:25,050
+these formulas and plug in the
+ 
+
+235
+00:05:25,050 --> 00:05:29,890
+these formulas and plug in the
+information you already have all right
+
+236
+00:05:29,890 --> 00:05:29,900
+information you already have all right
+ 
+
+237
+00:05:29,900 --> 00:05:31,969
+information you already have all right
+now that we know the probability
+
+238
+00:05:31,969 --> 00:05:31,979
+now that we know the probability
+ 
+
+239
+00:05:31,979 --> 00:05:34,400
+now that we know the probability
+function we can move on to the expected
+
+240
+00:05:34,400 --> 00:05:34,410
+function we can move on to the expected
+ 
+
+241
+00:05:34,410 --> 00:05:38,210
+function we can move on to the expected
+value by definition the expected value
+
+242
+00:05:38,210 --> 00:05:38,220
+value by definition the expected value
+ 
+
+243
+00:05:38,220 --> 00:05:40,250
+value by definition the expected value
+equals the sum of all values in the
+
+244
+00:05:40,250 --> 00:05:40,260
+equals the sum of all values in the
+ 
+
+245
+00:05:40,260 --> 00:05:42,469
+equals the sum of all values in the
+sample space multiplied by their
+
+246
+00:05:42,469 --> 00:05:42,479
+sample space multiplied by their
+ 
+
+247
+00:05:42,479 --> 00:05:45,680
+sample space multiplied by their
+respective probabilities the expected
+
+248
+00:05:45,680 --> 00:05:45,690
+respective probabilities the expected
+ 
+
+249
+00:05:45,690 --> 00:05:47,480
+respective probabilities the expected
+value formula for a binomial event
+
+250
+00:05:47,480 --> 00:05:47,490
+value formula for a binomial event
+ 
+
+251
+00:05:47,490 --> 00:05:49,880
+value formula for a binomial event
+equals the probability of success for a
+
+252
+00:05:49,880 --> 00:05:49,890
+equals the probability of success for a
+ 
+
+253
+00:05:49,890 --> 00:05:52,340
+equals the probability of success for a
+given value multiplied by the number of
+
+254
+00:05:52,340 --> 00:05:52,350
+given value multiplied by the number of
+ 
+
+255
+00:05:52,350 --> 00:05:55,400
+given value multiplied by the number of
+trials we carry out after computing the
+
+256
+00:05:55,400 --> 00:05:55,410
+trials we carry out after computing the
+ 
+
+257
+00:05:55,410 --> 00:05:57,469
+trials we carry out after computing the
+expected value we can finally calculate
+
+258
+00:05:57,469 --> 00:05:57,479
+expected value we can finally calculate
+ 
+
+259
+00:05:57,479 --> 00:06:00,469
+expected value we can finally calculate
+the variance we do so by applying the
+
+260
+00:06:00,469 --> 00:06:00,479
+the variance we do so by applying the
+ 
+
+261
+00:06:00,479 --> 00:06:03,110
+the variance we do so by applying the
+short formula variance of y equals the
+
+262
+00:06:03,110 --> 00:06:03,120
+short formula variance of y equals the
+ 
+
+263
+00:06:03,120 --> 00:06:06,440
+short formula variance of y equals the
+expected value of y squared minus the
+
+264
+00:06:06,440 --> 00:06:06,450
+expected value of y squared minus the
+ 
+
+265
+00:06:06,450 --> 00:06:10,600
+expected value of y squared minus the
+expected value of y squared
+
+266
+00:06:10,600 --> 00:06:10,610
+expected value of y squared
+ 
+
+267
+00:06:10,610 --> 00:06:13,310
+expected value of y squared
+after some simplifications this results
+
+268
+00:06:13,310 --> 00:06:13,320
+after some simplifications this results
+ 
+
+269
+00:06:13,320 --> 00:06:18,620
+after some simplifications this results
+in n times P times 1 minus P if we plug
+
+270
+00:06:18,620 --> 00:06:18,630
+in n times P times 1 minus P if we plug
+ 
+
+271
+00:06:18,630 --> 00:06:20,090
+in n times P times 1 minus P if we plug
+in the values from our stock market
+
+272
+00:06:20,090 --> 00:06:20,100
+in the values from our stock market
+ 
+
+273
+00:06:20,100 --> 00:06:22,430
+in the values from our stock market
+example that gives us a variance of five
+
+274
+00:06:22,430 --> 00:06:22,440
+example that gives us a variance of five
+ 
+
+275
+00:06:22,440 --> 00:06:26,120
+example that gives us a variance of five
+times point six times 0.4 or one point
+
+276
+00:06:26,120 --> 00:06:26,130
+times point six times 0.4 or one point
+ 
+
+277
+00:06:26,130 --> 00:06:28,550
+times point six times 0.4 or one point
+two this would give us a standard
+
+278
+00:06:28,550 --> 00:06:28,560
+two this would give us a standard
+ 
+
+279
+00:06:28,560 --> 00:06:31,300
+two this would give us a standard
+deviation of approximately one point one
+
+280
+00:06:31,300 --> 00:06:31,310
+deviation of approximately one point one
+ 
+
+281
+00:06:31,310 --> 00:06:33,860
+deviation of approximately one point one
+knowing the expected value and the
+
+282
+00:06:33,860 --> 00:06:33,870
+knowing the expected value and the
+ 
+
+283
+00:06:33,870 --> 00:06:35,960
+knowing the expected value and the
+standard deviation allows us to make
+
+284
+00:06:35,960 --> 00:06:35,970
+standard deviation allows us to make
+ 
+
+285
+00:06:35,970 --> 00:06:38,410
+standard deviation allows us to make
+more accurate future forecasts
+
+286
+00:06:38,410 --> 00:06:38,420
+more accurate future forecasts
+ 
+
+287
+00:06:38,420 --> 00:06:40,750
+more accurate future forecasts
+if you found this video interesting and
+
+288
+00:06:40,750 --> 00:06:40,760
+if you found this video interesting and
+ 
+
+289
+00:06:40,760 --> 00:06:42,580
+if you found this video interesting and
+want to gain an edge in your career make
+
+290
+00:06:42,580 --> 00:06:42,590
+want to gain an edge in your career make
+ 
+
+291
+00:06:42,590 --> 00:06:44,800
+want to gain an edge in your career make
+sure to LIKE comment and subscribe
+
+292
+00:06:44,800 --> 00:06:44,810
+sure to LIKE comment and subscribe
+ 
+
+293
+00:06:44,810 --> 00:06:46,570
+sure to LIKE comment and subscribe
+and don't forget to check out some of
+
+294
+00:06:46,570 --> 00:06:46,580
+and don't forget to check out some of
+ 
+
+295
+00:06:46,580 --> 00:06:48,250
+and don't forget to check out some of
+our other videos for another quick win
+
+296
+00:06:48,250 --> 00:06:48,260
+our other videos for another quick win
+ 
+
+297
+00:06:48,260 --> 00:06:52,120
+our other videos for another quick win
+in the data science skills department
+

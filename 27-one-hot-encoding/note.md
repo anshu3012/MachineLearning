@@ -8,7 +8,7 @@ title: "One-Hot Encoding: Handling Nominal Categorical Data"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)).
-> - **Leads to:** Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Assumptions of linear regression ([Note 56](../56-linear-regression-assumptions/note.md)); Elastic Net ([Note 69](../69-elastic-net/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Moore-Penrose pseudo-inverse ([Note 613](../613-svd-in-machine-learning/note.md)).
+> - **Leads to:** Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Assumptions of linear regression ([Note 56](../56-linear-regression-assumptions/note.md)); Elastic Net ([Note 69](../69-elastic-net/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Moore-Penrose pseudo-inverse ([Note 613](../613-svd-in-machine-learning/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 > - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)); Linear combinations, span and basis ([Note 490](../490-linear-combinations-span-and-basis/note.md)).
 <!-- /where-this-fits -->
 

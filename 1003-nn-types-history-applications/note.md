@@ -8,6 +8,7 @@ title: "Types of Neural Networks, History and Applications of Deep Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); What deep learning is ([Note 1002](../1002-what-is-deep-learning/note.md)); Neural networks ([Note 1002](../1002-what-is-deep-learning/note.md)).
+> - **Leads to:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

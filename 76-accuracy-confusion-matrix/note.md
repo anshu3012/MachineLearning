@@ -8,7 +8,7 @@ title: "Classification Metrics: Accuracy and the Confusion Matrix"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Imbalanced data ([Note 9](../09-mldlc/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)).
-> - **Leads to:** Precision, recall and F1 ([Note 77](../77-precision-recall-f1/note.md)); ROC curve and AUC ([Note 78](../78-roc-auc/note.md)).
+> - **Leads to:** Precision, recall and F1 ([Note 77](../77-precision-recall-f1/note.md)); ROC curve and AUC ([Note 78](../78-roc-auc/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 > - **Compare with:** Type I and II errors, power, tails ([Note 292](../292-errors-power-and-tails/note.md)).
 <!-- /where-this-fits -->
 

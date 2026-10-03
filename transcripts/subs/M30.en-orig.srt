@@ -1,0 +1,2945 @@
+1
+00:00:12,480 --> 00:00:14,350
+
+Hey everyone. If I had to choose just
+
+2
+00:00:14,350 --> 00:00:14,360
+Hey everyone. If I had to choose just
+ 
+
+3
+00:00:14,360 --> 00:00:16,110
+Hey everyone. If I had to choose just
+one topic that makes all of the others
+
+4
+00:00:16,110 --> 00:00:16,120
+one topic that makes all of the others
+ 
+
+5
+00:00:16,120 --> 00:00:17,950
+one topic that makes all of the others
+in linear algebra start to click, and
+
+6
+00:00:17,950 --> 00:00:17,960
+in linear algebra start to click, and
+ 
+
+7
+00:00:17,960 --> 00:00:19,710
+in linear algebra start to click, and
+which too often goes unlearned the first
+
+8
+00:00:19,710 --> 00:00:19,720
+which too often goes unlearned the first
+ 
+
+9
+00:00:19,720 --> 00:00:21,590
+which too often goes unlearned the first
+time a student takes linear algebra, it
+
+10
+00:00:21,590 --> 00:00:21,600
+time a student takes linear algebra, it
+ 
+
+11
+00:00:21,600 --> 00:00:23,830
+time a student takes linear algebra, it
+would be this one. The idea of a linear
+
+12
+00:00:23,830 --> 00:00:23,840
+would be this one. The idea of a linear
+ 
+
+13
+00:00:23,840 --> 00:00:25,710
+would be this one. The idea of a linear
+transformation and its relation to
+
+14
+00:00:25,710 --> 00:00:25,720
+transformation and its relation to
+ 
+
+15
+00:00:25,720 --> 00:00:27,070
+transformation and its relation to
+matrices.
+
+16
+00:00:27,070 --> 00:00:27,080
+matrices.
+ 
+
+17
+00:00:27,080 --> 00:00:28,710
+matrices.
+For this video, I'm just going to focus
+
+18
+00:00:28,710 --> 00:00:28,720
+For this video, I'm just going to focus
+ 
+
+19
+00:00:28,720 --> 00:00:30,710
+For this video, I'm just going to focus
+on what these transformations look like
+
+20
+00:00:30,710 --> 00:00:30,720
+on what these transformations look like
+ 
+
+21
+00:00:30,720 --> 00:00:32,550
+on what these transformations look like
+in the case of two dimensions and how
+
+22
+00:00:32,550 --> 00:00:32,560
+in the case of two dimensions and how
+ 
+
+23
+00:00:32,560 --> 00:00:34,390
+in the case of two dimensions and how
+they relate to the idea of matrix vector
+
+24
+00:00:34,390 --> 00:00:34,400
+they relate to the idea of matrix vector
+ 
+
+25
+00:00:34,400 --> 00:00:35,830
+they relate to the idea of matrix vector
+multiplication.
+
+26
+00:00:35,830 --> 00:00:35,840
+multiplication.
+ 
+
+27
+00:00:35,840 --> 00:00:37,790
+multiplication.
+In particular, I want to show you a way
+
+28
+00:00:37,790 --> 00:00:37,800
+In particular, I want to show you a way
+ 
+
+29
+00:00:37,800 --> 00:00:39,150
+In particular, I want to show you a way
+to think about matrix vector
+
+30
+00:00:39,150 --> 00:00:39,160
+to think about matrix vector
+ 
+
+31
+00:00:39,160 --> 00:00:41,270
+to think about matrix vector
+multiplication that doesn't rely on
+
+32
+00:00:41,270 --> 00:00:41,280
+multiplication that doesn't rely on
+ 
+
+33
+00:00:41,280 --> 00:00:43,110
+multiplication that doesn't rely on
+memorization.
+
+34
+00:00:43,110 --> 00:00:43,120
+memorization.
+ 
+
+35
+00:00:43,120 --> 00:00:45,310
+memorization.
+To start, let's just parse this term,
+
+36
+00:00:45,310 --> 00:00:45,320
+To start, let's just parse this term,
+ 
+
+37
+00:00:45,320 --> 00:00:47,270
+To start, let's just parse this term,
+linear transformation.
+
+38
+00:00:47,270 --> 00:00:47,280
+linear transformation.
+ 
+
+39
+00:00:47,280 --> 00:00:49,030
+linear transformation.
+Transformation is essentially a fancy
+
+40
+00:00:49,030 --> 00:00:49,040
+Transformation is essentially a fancy
+ 
+
+41
+00:00:49,040 --> 00:00:50,950
+Transformation is essentially a fancy
+word for function. It's something that
+
+42
+00:00:50,950 --> 00:00:50,960
+word for function. It's something that
+ 
+
+43
+00:00:50,960 --> 00:00:53,150
+word for function. It's something that
+takes in inputs and spits out an output
+
+44
+00:00:53,150 --> 00:00:53,160
+takes in inputs and spits out an output
+ 
+
+45
+00:00:53,160 --> 00:00:54,430
+takes in inputs and spits out an output
+for each one.
+
+46
+00:00:54,430 --> 00:00:54,440
+for each one.
+ 
+
+47
+00:00:54,440 --> 00:00:55,990
+for each one.
+Specifically, in the context of linear
+
+48
+00:00:55,990 --> 00:00:56,000
+Specifically, in the context of linear
+ 
+
+49
+00:00:56,000 --> 00:00:57,470
+Specifically, in the context of linear
+algebra, we like to think about
+
+50
+00:00:57,470 --> 00:00:57,480
+algebra, we like to think about
+ 
+
+51
+00:00:57,480 --> 00:00:59,750
+algebra, we like to think about
+transformations that take in some vector
+
+52
+00:00:59,750 --> 00:00:59,760
+transformations that take in some vector
+ 
+
+53
+00:00:59,760 --> 00:01:02,430
+transformations that take in some vector
+and spit out another vector.
+
+54
+00:01:02,430 --> 00:01:02,440
+and spit out another vector.
+ 
+
+55
+00:01:02,440 --> 00:01:04,229
+and spit out another vector.
+So, why use the word transformation
+
+56
+00:01:04,229 --> 00:01:04,239
+So, why use the word transformation
+ 
+
+57
+00:01:04,239 --> 00:01:05,710
+So, why use the word transformation
+instead of function if they mean the
+
+58
+00:01:05,710 --> 00:01:05,720
+instead of function if they mean the
+ 
+
+59
+00:01:05,720 --> 00:01:07,030
+instead of function if they mean the
+same thing?
+
+60
+00:01:07,030 --> 00:01:07,040
+same thing?
+ 
+
+61
+00:01:07,040 --> 00:01:08,710
+same thing?
+Well, it's to be suggestive of a certain
+
+62
+00:01:08,710 --> 00:01:08,720
+Well, it's to be suggestive of a certain
+ 
+
+63
+00:01:08,720 --> 00:01:10,870
+Well, it's to be suggestive of a certain
+way to visualize this input-output
+
+64
+00:01:10,870 --> 00:01:10,880
+way to visualize this input-output
+ 
+
+65
+00:01:10,880 --> 00:01:12,830
+way to visualize this input-output
+relation. You see, a great way to
+
+66
+00:01:12,830 --> 00:01:12,840
+relation. You see, a great way to
+ 
+
+67
+00:01:12,840 --> 00:01:14,950
+relation. You see, a great way to
+understand functions of vectors is to
+
+68
+00:01:14,950 --> 00:01:14,960
+understand functions of vectors is to
+ 
+
+69
+00:01:14,960 --> 00:01:16,870
+understand functions of vectors is to
+use movement.
+
+70
+00:01:16,870 --> 00:01:16,880
+use movement.
+ 
+
+71
+00:01:16,880 --> 00:01:18,670
+use movement.
+If a transformation takes some input
+
+72
+00:01:18,670 --> 00:01:18,680
+If a transformation takes some input
+ 
+
+73
+00:01:18,680 --> 00:01:21,590
+If a transformation takes some input
+vector to some output vector, we imagine
+
+74
+00:01:21,590 --> 00:01:21,600
+vector to some output vector, we imagine
+ 
+
+75
+00:01:21,600 --> 00:01:23,990
+vector to some output vector, we imagine
+that input vector moving over to the
+
+76
+00:01:23,990 --> 00:01:24,000
+that input vector moving over to the
+ 
+
+77
+00:01:24,000 --> 00:01:25,590
+that input vector moving over to the
+output vector.
+
+78
+00:01:25,590 --> 00:01:25,600
+output vector.
+ 
+
+79
+00:01:25,600 --> 00:01:27,310
+output vector.
+Then to understand the transformation as
+
+80
+00:01:27,310 --> 00:01:27,320
+Then to understand the transformation as
+ 
+
+81
+00:01:27,320 --> 00:01:29,830
+Then to understand the transformation as
+a whole, we might imagine watching every
+
+82
+00:01:29,830 --> 00:01:29,840
+a whole, we might imagine watching every
+ 
+
+83
+00:01:29,840 --> 00:01:32,550
+a whole, we might imagine watching every
+possible input vector move over to its
+
+84
+00:01:32,550 --> 00:01:32,560
+possible input vector move over to its
+ 
+
+85
+00:01:32,560 --> 00:01:35,030
+possible input vector move over to its
+corresponding output vector.
+
+86
+00:01:35,030 --> 00:01:35,040
+corresponding output vector.
+ 
+
+87
+00:01:35,040 --> 00:01:36,510
+corresponding output vector.
+It gets really crowded to think about
+
+88
+00:01:36,510 --> 00:01:36,520
+It gets really crowded to think about
+ 
+
+89
+00:01:36,520 --> 00:01:38,470
+It gets really crowded to think about
+all of the vectors all at once, each one
+
+90
+00:01:38,470 --> 00:01:38,480
+all of the vectors all at once, each one
+ 
+
+91
+00:01:38,480 --> 00:01:40,470
+all of the vectors all at once, each one
+is an arrow. So, as I mentioned last
+
+92
+00:01:40,470 --> 00:01:40,480
+is an arrow. So, as I mentioned last
+ 
+
+93
+00:01:40,480 --> 00:01:42,670
+is an arrow. So, as I mentioned last
+video, a nice trick is to conceptualize
+
+94
+00:01:42,670 --> 00:01:42,680
+video, a nice trick is to conceptualize
+ 
+
+95
+00:01:42,680 --> 00:01:44,950
+video, a nice trick is to conceptualize
+each vector not as an arrow, but as a
+
+96
+00:01:44,950 --> 00:01:44,960
+each vector not as an arrow, but as a
+ 
+
+97
+00:01:44,960 --> 00:01:46,950
+each vector not as an arrow, but as a
+single point, the point where its tip
+
+98
+00:01:46,950 --> 00:01:46,960
+single point, the point where its tip
+ 
+
+99
+00:01:46,960 --> 00:01:48,030
+single point, the point where its tip
+sits.
+
+100
+00:01:48,030 --> 00:01:48,040
+sits.
+ 
+
+101
+00:01:48,040 --> 00:01:49,190
+sits.
+That way, to think about a
+
+102
+00:01:49,190 --> 00:01:49,200
+That way, to think about a
+ 
+
+103
+00:01:49,200 --> 00:01:51,070
+That way, to think about a
+transformation taking every possible
+
+104
+00:01:51,070 --> 00:01:51,080
+transformation taking every possible
+ 
+
+105
+00:01:51,080 --> 00:01:53,350
+transformation taking every possible
+input vector to some output vector, we
+
+106
+00:01:53,350 --> 00:01:53,360
+input vector to some output vector, we
+ 
+
+107
+00:01:53,360 --> 00:01:55,470
+input vector to some output vector, we
+watch every point in space moving to
+
+108
+00:01:55,470 --> 00:01:55,480
+watch every point in space moving to
+ 
+
+109
+00:01:55,480 --> 00:01:57,230
+watch every point in space moving to
+some other point.
+
+110
+00:01:57,230 --> 00:01:57,240
+some other point.
+ 
+
+111
+00:01:57,240 --> 00:01:58,710
+some other point.
+In the case of transformations in two
+
+112
+00:01:58,710 --> 00:01:58,720
+In the case of transformations in two
+ 
+
+113
+00:01:58,720 --> 00:02:00,510
+In the case of transformations in two
+dimensions, to get a better feel for the
+
+114
+00:02:00,510 --> 00:02:00,520
+dimensions, to get a better feel for the
+ 
+
+115
+00:02:00,520 --> 00:02:03,030
+dimensions, to get a better feel for the
+whole shape of the transformation, I
+
+116
+00:02:03,030 --> 00:02:03,040
+whole shape of the transformation, I
+ 
+
+117
+00:02:03,040 --> 00:02:04,590
+whole shape of the transformation, I
+like to do this with all of the points
+
+118
+00:02:04,590 --> 00:02:04,600
+like to do this with all of the points
+ 
+
+119
+00:02:04,600 --> 00:02:06,510
+like to do this with all of the points
+on an infinite grid.
+
+120
+00:02:06,510 --> 00:02:06,520
+on an infinite grid.
+ 
+
+121
+00:02:06,520 --> 00:02:08,190
+on an infinite grid.
+I also sometimes like to keep a copy of
+
+122
+00:02:08,190 --> 00:02:08,200
+I also sometimes like to keep a copy of
+ 
+
+123
+00:02:08,200 --> 00:02:09,830
+I also sometimes like to keep a copy of
+the grid in the background just to help
+
+124
+00:02:09,830 --> 00:02:09,840
+the grid in the background just to help
+ 
+
+125
+00:02:09,840 --> 00:02:11,550
+the grid in the background just to help
+keep track of where everything ends up
+
+126
+00:02:11,550 --> 00:02:11,560
+keep track of where everything ends up
+ 
+
+127
+00:02:11,560 --> 00:02:14,910
+keep track of where everything ends up
+relative to where it starts.
+
+128
+00:02:14,910 --> 00:02:14,920
+
+ 
+
+129
+00:02:14,920 --> 00:02:16,750
+
+The effect for various transformations
+
+130
+00:02:16,750 --> 00:02:16,760
+The effect for various transformations
+ 
+
+131
+00:02:16,760 --> 00:02:18,870
+The effect for various transformations
+moving around all of the points in space
+
+132
+00:02:18,870 --> 00:02:18,880
+moving around all of the points in space
+ 
+
+133
+00:02:18,880 --> 00:02:21,790
+moving around all of the points in space
+is, you've got to admit, beautiful.
+
+134
+00:02:21,790 --> 00:02:21,800
+is, you've got to admit, beautiful.
+ 
+
+135
+00:02:21,800 --> 00:02:23,230
+is, you've got to admit, beautiful.
+It gives the feeling of squishing and
+
+136
+00:02:23,230 --> 00:02:23,240
+It gives the feeling of squishing and
+ 
+
+137
+00:02:23,240 --> 00:02:25,510
+It gives the feeling of squishing and
+morphing space itself.
+
+138
+00:02:25,510 --> 00:02:25,520
+morphing space itself.
+ 
+
+139
+00:02:25,520 --> 00:02:27,430
+morphing space itself.
+As you can imagine, though, arbitrary
+
+140
+00:02:27,430 --> 00:02:27,440
+As you can imagine, though, arbitrary
+ 
+
+141
+00:02:27,440 --> 00:02:29,230
+As you can imagine, though, arbitrary
+transformations can look pretty
+
+142
+00:02:29,230 --> 00:02:29,240
+transformations can look pretty
+ 
+
+143
+00:02:29,240 --> 00:02:31,870
+transformations can look pretty
+complicated. But luckily, linear algebra
+
+144
+00:02:31,870 --> 00:02:31,880
+complicated. But luckily, linear algebra
+ 
+
+145
+00:02:31,880 --> 00:02:33,470
+complicated. But luckily, linear algebra
+limits itself to a special type of
+
+146
+00:02:33,470 --> 00:02:33,480
+limits itself to a special type of
+ 
+
+147
+00:02:33,480 --> 00:02:35,510
+limits itself to a special type of
+transformation, ones that are easier to
+
+148
+00:02:35,510 --> 00:02:35,520
+transformation, ones that are easier to
+ 
+
+149
+00:02:35,520 --> 00:02:37,430
+transformation, ones that are easier to
+understand, called linear
+
+150
+00:02:37,430 --> 00:02:37,440
+understand, called linear
+ 
+
+151
+00:02:37,440 --> 00:02:39,030
+understand, called linear
+transformations.
+
+152
+00:02:39,030 --> 00:02:39,040
+transformations.
+ 
+
+153
+00:02:39,040 --> 00:02:41,150
+transformations.
+Visually speaking, a transformation is
+
+154
+00:02:41,150 --> 00:02:41,160
+Visually speaking, a transformation is
+ 
+
+155
+00:02:41,160 --> 00:02:43,910
+Visually speaking, a transformation is
+linear if it has two properties. All
+
+156
+00:02:43,910 --> 00:02:43,920
+linear if it has two properties. All
+ 
+
+157
+00:02:43,920 --> 00:02:46,350
+linear if it has two properties. All
+lines must remain lines without getting
+
+158
+00:02:46,350 --> 00:02:46,360
+lines must remain lines without getting
+ 
+
+159
+00:02:46,360 --> 00:02:49,110
+lines must remain lines without getting
+curved, and the origin must remain fixed
+
+160
+00:02:49,110 --> 00:02:49,120
+curved, and the origin must remain fixed
+ 
+
+161
+00:02:49,120 --> 00:02:50,590
+curved, and the origin must remain fixed
+in place.
+
+162
+00:02:50,590 --> 00:02:50,600
+in place.
+ 
+
+163
+00:02:50,600 --> 00:02:52,630
+in place.
+For example, this right here would not
+
+164
+00:02:52,630 --> 00:02:52,640
+For example, this right here would not
+ 
+
+165
+00:02:52,640 --> 00:02:54,430
+For example, this right here would not
+be a linear transformation since the
+
+166
+00:02:54,430 --> 00:02:54,440
+be a linear transformation since the
+ 
+
+167
+00:02:54,440 --> 00:02:56,070
+be a linear transformation since the
+lines get all curvy.
+
+168
+00:02:56,070 --> 00:02:56,080
+lines get all curvy.
+ 
+
+169
+00:02:56,080 --> 00:02:57,590
+lines get all curvy.
+And this one right here, although it
+
+170
+00:02:57,590 --> 00:02:57,600
+And this one right here, although it
+ 
+
+171
+00:02:57,600 --> 00:02:59,750
+And this one right here, although it
+keeps the line straight, is not a linear
+
+172
+00:02:59,750 --> 00:02:59,760
+keeps the line straight, is not a linear
+ 
+
+173
+00:02:59,760 --> 00:03:01,390
+keeps the line straight, is not a linear
+transformation because it moves the
+
+174
+00:03:01,390 --> 00:03:01,400
+transformation because it moves the
+ 
+
+175
+00:03:01,400 --> 00:03:02,630
+transformation because it moves the
+origin.
+
+176
+00:03:02,630 --> 00:03:02,640
+origin.
+ 
+
+177
+00:03:02,640 --> 00:03:04,310
+origin.
+This one here fixes the origin and it
+
+178
+00:03:04,310 --> 00:03:04,320
+This one here fixes the origin and it
+ 
+
+179
+00:03:04,320 --> 00:03:06,030
+This one here fixes the origin and it
+might look like it keeps lines straight,
+
+180
+00:03:06,030 --> 00:03:06,040
+might look like it keeps lines straight,
+ 
+
+181
+00:03:06,040 --> 00:03:07,390
+might look like it keeps lines straight,
+but that's just because I'm only showing
+
+182
+00:03:07,390 --> 00:03:07,400
+but that's just because I'm only showing
+ 
+
+183
+00:03:07,400 --> 00:03:09,470
+but that's just because I'm only showing
+the horizontal and vertical grid lines.
+
+184
+00:03:09,470 --> 00:03:09,480
+the horizontal and vertical grid lines.
+ 
+
+185
+00:03:09,480 --> 00:03:10,990
+the horizontal and vertical grid lines.
+When you see what it does to a diagonal
+
+186
+00:03:10,990 --> 00:03:11,000
+When you see what it does to a diagonal
+ 
+
+187
+00:03:11,000 --> 00:03:12,870
+When you see what it does to a diagonal
+line, it becomes clear that it's not at
+
+188
+00:03:12,870 --> 00:03:12,880
+line, it becomes clear that it's not at
+ 
+
+189
+00:03:12,880 --> 00:03:14,790
+line, it becomes clear that it's not at
+all linear since it turns that line all
+
+190
+00:03:14,790 --> 00:03:14,800
+all linear since it turns that line all
+ 
+
+191
+00:03:14,800 --> 00:03:16,750
+all linear since it turns that line all
+curvy.
+
+192
+00:03:16,750 --> 00:03:16,760
+curvy.
+ 
+
+193
+00:03:16,760 --> 00:03:18,430
+curvy.
+In general, you should think of linear
+
+194
+00:03:18,430 --> 00:03:18,440
+In general, you should think of linear
+ 
+
+195
+00:03:18,440 --> 00:03:20,230
+In general, you should think of linear
+transformations as keeping grid lines
+
+196
+00:03:20,230 --> 00:03:20,240
+transformations as keeping grid lines
+ 
+
+197
+00:03:20,240 --> 00:03:23,430
+transformations as keeping grid lines
+parallel and evenly spaced.
+
+198
+00:03:23,430 --> 00:03:23,440
+parallel and evenly spaced.
+ 
+
+199
+00:03:23,440 --> 00:03:24,990
+parallel and evenly spaced.
+Some linear transformations are simple
+
+200
+00:03:24,990 --> 00:03:25,000
+Some linear transformations are simple
+ 
+
+201
+00:03:25,000 --> 00:03:27,070
+Some linear transformations are simple
+to think about, like rotations about the
+
+202
+00:03:27,070 --> 00:03:27,080
+to think about, like rotations about the
+ 
+
+203
+00:03:27,080 --> 00:03:29,550
+to think about, like rotations about the
+origin. Others are a little trickier to
+
+204
+00:03:29,550 --> 00:03:29,560
+origin. Others are a little trickier to
+ 
+
+205
+00:03:29,560 --> 00:03:32,110
+origin. Others are a little trickier to
+describe with words.
+
+206
+00:03:32,110 --> 00:03:32,120
+describe with words.
+ 
+
+207
+00:03:32,120 --> 00:03:33,590
+describe with words.
+So, how do you think you could describe
+
+208
+00:03:33,590 --> 00:03:33,600
+So, how do you think you could describe
+ 
+
+209
+00:03:33,600 --> 00:03:36,070
+So, how do you think you could describe
+these transformations numerically? If
+
+210
+00:03:36,070 --> 00:03:36,080
+these transformations numerically? If
+ 
+
+211
+00:03:36,080 --> 00:03:37,630
+these transformations numerically? If
+you were, say, programming some
+
+212
+00:03:37,630 --> 00:03:37,640
+you were, say, programming some
+ 
+
+213
+00:03:37,640 --> 00:03:39,230
+you were, say, programming some
+animations to make a video teaching the
+
+214
+00:03:39,230 --> 00:03:39,240
+animations to make a video teaching the
+ 
+
+215
+00:03:39,240 --> 00:03:41,150
+animations to make a video teaching the
+topic, what formula do you give the
+
+216
+00:03:41,150 --> 00:03:41,160
+topic, what formula do you give the
+ 
+
+217
+00:03:41,160 --> 00:03:42,830
+topic, what formula do you give the
+computer so that if you give it the
+
+218
+00:03:42,830 --> 00:03:42,840
+computer so that if you give it the
+ 
+
+219
+00:03:42,840 --> 00:03:45,390
+computer so that if you give it the
+coordinates of a vector, it can give you
+
+220
+00:03:45,390 --> 00:03:45,400
+coordinates of a vector, it can give you
+ 
+
+221
+00:03:45,400 --> 00:03:46,670
+coordinates of a vector, it can give you
+the coordinates of where that vector
+
+222
+00:03:46,670 --> 00:03:46,680
+the coordinates of where that vector
+ 
+
+223
+00:03:46,680 --> 00:03:48,430
+the coordinates of where that vector
+lands?
+
+224
+00:03:48,430 --> 00:03:48,440
+lands?
+ 
+
+225
+00:03:48,440 --> 00:03:50,230
+lands?
+It turns out that you only need to
+
+226
+00:03:50,230 --> 00:03:50,240
+It turns out that you only need to
+ 
+
+227
+00:03:50,240 --> 00:03:52,510
+It turns out that you only need to
+record where the two basis vectors, I
+
+228
+00:03:52,510 --> 00:03:52,520
+record where the two basis vectors, I
+ 
+
+229
+00:03:52,520 --> 00:03:55,390
+record where the two basis vectors, I
+hat and J hat, each land, and everything
+
+230
+00:03:55,390 --> 00:03:55,400
+hat and J hat, each land, and everything
+ 
+
+231
+00:03:55,400 --> 00:03:57,430
+hat and J hat, each land, and everything
+else will follow from that.
+
+232
+00:03:57,430 --> 00:03:57,440
+else will follow from that.
+ 
+
+233
+00:03:57,440 --> 00:03:59,550
+else will follow from that.
+For example, consider the vector V with
+
+234
+00:03:59,550 --> 00:03:59,560
+For example, consider the vector V with
+ 
+
+235
+00:03:59,560 --> 00:04:02,830
+For example, consider the vector V with
+coordinates -1 2, meaning that it equals
+
+236
+00:04:02,830 --> 00:04:02,840
+coordinates -1 2, meaning that it equals
+ 
+
+237
+00:04:02,840 --> 00:04:09,030
+coordinates -1 2, meaning that it equals
+-1 * I hat + 2 * J hat.
+
+238
+00:04:09,030 --> 00:04:09,040
+
+ 
+
+239
+00:04:09,040 --> 00:04:10,750
+
+If we apply some transformation and
+
+240
+00:04:10,750 --> 00:04:10,760
+If we apply some transformation and
+ 
+
+241
+00:04:10,760 --> 00:04:12,430
+If we apply some transformation and
+follow where all three of these vectors
+
+242
+00:04:12,430 --> 00:04:12,440
+follow where all three of these vectors
+ 
+
+243
+00:04:12,440 --> 00:04:14,790
+follow where all three of these vectors
+go, the property that grid lines remain
+
+244
+00:04:14,790 --> 00:04:14,800
+go, the property that grid lines remain
+ 
+
+245
+00:04:14,800 --> 00:04:17,190
+go, the property that grid lines remain
+parallel and evenly spaced has a really
+
+246
+00:04:17,190 --> 00:04:17,200
+parallel and evenly spaced has a really
+ 
+
+247
+00:04:17,200 --> 00:04:19,110
+parallel and evenly spaced has a really
+important consequence.
+
+248
+00:04:19,110 --> 00:04:19,120
+important consequence.
+ 
+
+249
+00:04:19,120 --> 00:04:21,390
+important consequence.
+The place where V lands will be -1 * the
+
+250
+00:04:21,390 --> 00:04:21,400
+The place where V lands will be -1 * the
+ 
+
+251
+00:04:21,400 --> 00:04:24,030
+The place where V lands will be -1 * the
+vector where I hat landed + 2 * the
+
+252
+00:04:24,030 --> 00:04:24,040
+vector where I hat landed + 2 * the
+ 
+
+253
+00:04:24,040 --> 00:04:26,310
+vector where I hat landed + 2 * the
+vector where J hat landed. In other
+
+254
+00:04:26,310 --> 00:04:26,320
+vector where J hat landed. In other
+ 
+
+255
+00:04:26,320 --> 00:04:28,030
+vector where J hat landed. In other
+words, it started off as a certain
+
+256
+00:04:28,030 --> 00:04:28,040
+words, it started off as a certain
+ 
+
+257
+00:04:28,040 --> 00:04:30,430
+words, it started off as a certain
+linear combination of I hat and J hat,
+
+258
+00:04:30,430 --> 00:04:30,440
+linear combination of I hat and J hat,
+ 
+
+259
+00:04:30,440 --> 00:04:32,270
+linear combination of I hat and J hat,
+and it ends up as that same linear
+
+260
+00:04:32,270 --> 00:04:32,280
+and it ends up as that same linear
+ 
+
+261
+00:04:32,280 --> 00:04:34,150
+and it ends up as that same linear
+combination of where those two vectors
+
+262
+00:04:34,150 --> 00:04:34,160
+combination of where those two vectors
+ 
+
+263
+00:04:34,160 --> 00:04:35,510
+combination of where those two vectors
+landed.
+
+264
+00:04:35,510 --> 00:04:35,520
+landed.
+ 
+
+265
+00:04:35,520 --> 00:04:37,590
+landed.
+This means you can deduce where V must
+
+266
+00:04:37,590 --> 00:04:37,600
+This means you can deduce where V must
+ 
+
+267
+00:04:37,600 --> 00:04:40,310
+This means you can deduce where V must
+go based only on where I hat and J hat
+
+268
+00:04:40,310 --> 00:04:40,320
+go based only on where I hat and J hat
+ 
+
+269
+00:04:40,320 --> 00:04:41,590
+go based only on where I hat and J hat
+each land.
+
+270
+00:04:41,590 --> 00:04:41,600
+each land.
+ 
+
+271
+00:04:41,600 --> 00:04:43,270
+each land.
+This is why I like keeping a copy of the
+
+272
+00:04:43,270 --> 00:04:43,280
+This is why I like keeping a copy of the
+ 
+
+273
+00:04:43,280 --> 00:04:45,270
+This is why I like keeping a copy of the
+original grid in the background. For the
+
+274
+00:04:45,270 --> 00:04:45,280
+original grid in the background. For the
+ 
+
+275
+00:04:45,280 --> 00:04:47,390
+original grid in the background. For the
+transformation shown here, we can read
+
+276
+00:04:47,390 --> 00:04:47,400
+transformation shown here, we can read
+ 
+
+277
+00:04:47,400 --> 00:04:49,670
+transformation shown here, we can read
+off that I hat lands on the coordinates
+
+278
+00:04:49,670 --> 00:04:49,680
+off that I hat lands on the coordinates
+ 
+
+279
+00:04:49,680 --> 00:04:51,430
+off that I hat lands on the coordinates
+1 -2,
+
+280
+00:04:51,430 --> 00:04:51,440
+1 -2,
+ 
+
+281
+00:04:51,440 --> 00:04:53,550
+1 -2,
+and J hat lands on the x-axis over at
+
+282
+00:04:53,550 --> 00:04:53,560
+and J hat lands on the x-axis over at
+ 
+
+283
+00:04:53,560 --> 00:04:55,830
+and J hat lands on the x-axis over at
+the coordinates 3 0.
+
+284
+00:04:55,830 --> 00:04:55,840
+the coordinates 3 0.
+ 
+
+285
+00:04:55,840 --> 00:04:57,350
+the coordinates 3 0.
+This means that the vector represented
+
+286
+00:04:57,350 --> 00:04:57,360
+This means that the vector represented
+ 
+
+287
+00:04:57,360 --> 00:05:02,070
+This means that the vector represented
+by -1 I hat + 2 * J hat ends up at -1 *
+
+288
+00:05:02,070 --> 00:05:02,080
+by -1 I hat + 2 * J hat ends up at -1 *
+ 
+
+289
+00:05:02,080 --> 00:05:07,030
+by -1 I hat + 2 * J hat ends up at -1 *
+the vector 1 -2 + 2 * the vector 3 0.
+
+290
+00:05:07,030 --> 00:05:07,040
+the vector 1 -2 + 2 * the vector 3 0.
+ 
+
+291
+00:05:07,040 --> 00:05:09,310
+the vector 1 -2 + 2 * the vector 3 0.
+Adding that all together, you can deduce
+
+292
+00:05:09,310 --> 00:05:09,320
+Adding that all together, you can deduce
+ 
+
+293
+00:05:09,320 --> 00:05:14,510
+Adding that all together, you can deduce
+that it has to land on the vector 5 2.
+
+294
+00:05:14,510 --> 00:05:14,520
+
+ 
+
+295
+00:05:14,520 --> 00:05:16,110
+
+This is a good point to pause and ponder
+
+296
+00:05:16,110 --> 00:05:16,120
+This is a good point to pause and ponder
+ 
+
+297
+00:05:16,120 --> 00:05:18,430
+This is a good point to pause and ponder
+cuz it's pretty important.
+
+298
+00:05:18,430 --> 00:05:18,440
+cuz it's pretty important.
+ 
+
+299
+00:05:18,440 --> 00:05:20,470
+cuz it's pretty important.
+Now, given that I'm actually showing you
+
+300
+00:05:20,470 --> 00:05:20,480
+Now, given that I'm actually showing you
+ 
+
+301
+00:05:20,480 --> 00:05:22,310
+Now, given that I'm actually showing you
+the full transformation, you could have
+
+302
+00:05:22,310 --> 00:05:22,320
+the full transformation, you could have
+ 
+
+303
+00:05:22,320 --> 00:05:24,110
+the full transformation, you could have
+just looked to see that V has the
+
+304
+00:05:24,110 --> 00:05:24,120
+just looked to see that V has the
+ 
+
+305
+00:05:24,120 --> 00:05:27,030
+just looked to see that V has the
+coordinates 5 2, but the cool part here
+
+306
+00:05:27,030 --> 00:05:27,040
+coordinates 5 2, but the cool part here
+ 
+
+307
+00:05:27,040 --> 00:05:28,630
+coordinates 5 2, but the cool part here
+is that this gives us a technique to
+
+308
+00:05:28,630 --> 00:05:28,640
+is that this gives us a technique to
+ 
+
+309
+00:05:28,640 --> 00:05:31,550
+is that this gives us a technique to
+deduce where any vectors land so long as
+
+310
+00:05:31,550 --> 00:05:31,560
+deduce where any vectors land so long as
+ 
+
+311
+00:05:31,560 --> 00:05:33,750
+deduce where any vectors land so long as
+we have a record of where I hat and J
+
+312
+00:05:33,750 --> 00:05:33,760
+we have a record of where I hat and J
+ 
+
+313
+00:05:33,760 --> 00:05:35,990
+we have a record of where I hat and J
+hat each land without needing to watch
+
+314
+00:05:35,990 --> 00:05:36,000
+hat each land without needing to watch
+ 
+
+315
+00:05:36,000 --> 00:05:38,550
+hat each land without needing to watch
+the transformation itself.
+
+316
+00:05:38,550 --> 00:05:38,560
+the transformation itself.
+ 
+
+317
+00:05:38,560 --> 00:05:40,030
+the transformation itself.
+Write the vector with more general
+
+318
+00:05:40,030 --> 00:05:40,040
+Write the vector with more general
+ 
+
+319
+00:05:40,040 --> 00:05:42,150
+Write the vector with more general
+coordinates x and y,
+
+320
+00:05:42,150 --> 00:05:42,160
+coordinates x and y,
+ 
+
+321
+00:05:42,160 --> 00:05:44,070
+coordinates x and y,
+and it will land on x * the vector where
+
+322
+00:05:44,070 --> 00:05:44,080
+and it will land on x * the vector where
+ 
+
+323
+00:05:44,080 --> 00:05:47,310
+and it will land on x * the vector where
+I hat lands, 1 -2,
+
+324
+00:05:47,310 --> 00:05:47,320
+I hat lands, 1 -2,
+ 
+
+325
+00:05:47,320 --> 00:05:51,870
+I hat lands, 1 -2,
++ y * the vector where J hat lands, 3 0.
+
+326
+00:05:51,870 --> 00:05:51,880
++ y * the vector where J hat lands, 3 0.
+ 
+
+327
+00:05:51,880 --> 00:05:53,990
++ y * the vector where J hat lands, 3 0.
+Carrying out that sum, you see that it
+
+328
+00:05:53,990 --> 00:05:54,000
+Carrying out that sum, you see that it
+ 
+
+329
+00:05:54,000 --> 00:05:58,910
+Carrying out that sum, you see that it
+lands at 1x + 3y, -2x + 0y.
+
+330
+00:05:58,910 --> 00:05:58,920
+lands at 1x + 3y, -2x + 0y.
+ 
+
+331
+00:05:58,920 --> 00:06:00,910
+lands at 1x + 3y, -2x + 0y.
+I give you any vector, and you can tell
+
+332
+00:06:00,910 --> 00:06:00,920
+I give you any vector, and you can tell
+ 
+
+333
+00:06:00,920 --> 00:06:02,990
+I give you any vector, and you can tell
+me where that vector lands using this
+
+334
+00:06:02,990 --> 00:06:03,000
+me where that vector lands using this
+ 
+
+335
+00:06:03,000 --> 00:06:04,910
+me where that vector lands using this
+formula.
+
+336
+00:06:04,910 --> 00:06:04,920
+formula.
+ 
+
+337
+00:06:04,920 --> 00:06:06,670
+formula.
+What all of this is saying is that a
+
+338
+00:06:06,670 --> 00:06:06,680
+What all of this is saying is that a
+ 
+
+339
+00:06:06,680 --> 00:06:08,990
+What all of this is saying is that a
+two-dimensional linear transformation is
+
+340
+00:06:08,990 --> 00:06:09,000
+two-dimensional linear transformation is
+ 
+
+341
+00:06:09,000 --> 00:06:11,190
+two-dimensional linear transformation is
+completely described by just four
+
+342
+00:06:11,190 --> 00:06:11,200
+completely described by just four
+ 
+
+343
+00:06:11,200 --> 00:06:13,430
+completely described by just four
+numbers, the two coordinates for where I
+
+344
+00:06:13,430 --> 00:06:13,440
+numbers, the two coordinates for where I
+ 
+
+345
+00:06:13,440 --> 00:06:15,390
+numbers, the two coordinates for where I
+hat lands and the two coordinates for
+
+346
+00:06:15,390 --> 00:06:15,400
+hat lands and the two coordinates for
+ 
+
+347
+00:06:15,400 --> 00:06:18,350
+hat lands and the two coordinates for
+where J hat lands. Isn't that cool?
+
+348
+00:06:18,350 --> 00:06:18,360
+where J hat lands. Isn't that cool?
+ 
+
+349
+00:06:18,360 --> 00:06:19,990
+where J hat lands. Isn't that cool?
+It's common to package these coordinates
+
+350
+00:06:19,990 --> 00:06:20,000
+It's common to package these coordinates
+ 
+
+351
+00:06:20,000 --> 00:06:23,030
+It's common to package these coordinates
+into a 2x2 grid of numbers called a 2x2
+
+352
+00:06:23,030 --> 00:06:23,040
+into a 2x2 grid of numbers called a 2x2
+ 
+
+353
+00:06:23,040 --> 00:06:24,990
+into a 2x2 grid of numbers called a 2x2
+matrix, where you can interpret the
+
+354
+00:06:24,990 --> 00:06:25,000
+matrix, where you can interpret the
+ 
+
+355
+00:06:25,000 --> 00:06:27,790
+matrix, where you can interpret the
+columns as the two special vectors where
+
+356
+00:06:27,790 --> 00:06:27,800
+columns as the two special vectors where
+ 
+
+357
+00:06:27,800 --> 00:06:30,470
+columns as the two special vectors where
+I hat and J hat each land.
+
+358
+00:06:30,470 --> 00:06:30,480
+I hat and J hat each land.
+ 
+
+359
+00:06:30,480 --> 00:06:32,630
+I hat and J hat each land.
+If you're given a 2x2 matrix describing
+
+360
+00:06:32,630 --> 00:06:32,640
+If you're given a 2x2 matrix describing
+ 
+
+361
+00:06:32,640 --> 00:06:34,430
+If you're given a 2x2 matrix describing
+a linear transformation and some
+
+362
+00:06:34,430 --> 00:06:34,440
+a linear transformation and some
+ 
+
+363
+00:06:34,440 --> 00:06:36,630
+a linear transformation and some
+specific vector, and you want to know
+
+364
+00:06:36,630 --> 00:06:36,640
+specific vector, and you want to know
+ 
+
+365
+00:06:36,640 --> 00:06:38,950
+specific vector, and you want to know
+where that linear transformation takes
+
+366
+00:06:38,950 --> 00:06:38,960
+where that linear transformation takes
+ 
+
+367
+00:06:38,960 --> 00:06:40,270
+where that linear transformation takes
+that vector,
+
+368
+00:06:40,270 --> 00:06:40,280
+that vector,
+ 
+
+369
+00:06:40,280 --> 00:06:41,550
+that vector,
+you can take the coordinates of the
+
+370
+00:06:41,550 --> 00:06:41,560
+you can take the coordinates of the
+ 
+
+371
+00:06:41,560 --> 00:06:42,550
+you can take the coordinates of the
+vector,
+
+372
+00:06:42,550 --> 00:06:42,560
+vector,
+ 
+
+373
+00:06:42,560 --> 00:06:44,310
+vector,
+multiply them by the corresponding
+
+374
+00:06:44,310 --> 00:06:44,320
+multiply them by the corresponding
+ 
+
+375
+00:06:44,320 --> 00:06:46,710
+multiply them by the corresponding
+columns of the matrix, then add together
+
+376
+00:06:46,710 --> 00:06:46,720
+columns of the matrix, then add together
+ 
+
+377
+00:06:46,720 --> 00:06:48,070
+columns of the matrix, then add together
+what you get.
+
+378
+00:06:48,070 --> 00:06:48,080
+what you get.
+ 
+
+379
+00:06:48,080 --> 00:06:49,990
+what you get.
+This corresponds with the idea of adding
+
+380
+00:06:49,990 --> 00:06:50,000
+This corresponds with the idea of adding
+ 
+
+381
+00:06:50,000 --> 00:06:52,190
+This corresponds with the idea of adding
+the scaled versions of our new basis
+
+382
+00:06:52,190 --> 00:06:52,200
+the scaled versions of our new basis
+ 
+
+383
+00:06:52,200 --> 00:06:54,870
+the scaled versions of our new basis
+vectors.
+
+384
+00:06:54,870 --> 00:06:54,880
+
+ 
+
+385
+00:06:54,880 --> 00:06:56,070
+
+Let's see what this looks like in the
+
+386
+00:06:56,070 --> 00:06:56,080
+Let's see what this looks like in the
+ 
+
+387
+00:06:56,080 --> 00:06:58,430
+Let's see what this looks like in the
+most general case where your matrix has
+
+388
+00:06:58,430 --> 00:06:58,440
+most general case where your matrix has
+ 
+
+389
+00:06:58,440 --> 00:07:01,070
+most general case where your matrix has
+entries a b c d.
+
+390
+00:07:01,070 --> 00:07:01,080
+entries a b c d.
+ 
+
+391
+00:07:01,080 --> 00:07:02,670
+entries a b c d.
+And remember, this matrix is just a way
+
+392
+00:07:02,670 --> 00:07:02,680
+And remember, this matrix is just a way
+ 
+
+393
+00:07:02,680 --> 00:07:04,630
+And remember, this matrix is just a way
+of packaging the information needed to
+
+394
+00:07:04,630 --> 00:07:04,640
+of packaging the information needed to
+ 
+
+395
+00:07:04,640 --> 00:07:06,950
+of packaging the information needed to
+describe a linear transformation. Always
+
+396
+00:07:06,950 --> 00:07:06,960
+describe a linear transformation. Always
+ 
+
+397
+00:07:06,960 --> 00:07:09,030
+describe a linear transformation. Always
+remember to interpret that first column
+
+398
+00:07:09,030 --> 00:07:09,040
+remember to interpret that first column
+ 
+
+399
+00:07:09,040 --> 00:07:11,470
+remember to interpret that first column
+a c as the place where the first basis
+
+400
+00:07:11,470 --> 00:07:11,480
+a c as the place where the first basis
+ 
+
+401
+00:07:11,480 --> 00:07:14,150
+a c as the place where the first basis
+vector lands, and that second column b d
+
+402
+00:07:14,150 --> 00:07:14,160
+vector lands, and that second column b d
+ 
+
+403
+00:07:14,160 --> 00:07:15,670
+vector lands, and that second column b d
+as the place where the second basis
+
+404
+00:07:15,670 --> 00:07:15,680
+as the place where the second basis
+ 
+
+405
+00:07:15,680 --> 00:07:17,470
+as the place where the second basis
+vector lands.
+
+406
+00:07:17,470 --> 00:07:17,480
+vector lands.
+ 
+
+407
+00:07:17,480 --> 00:07:18,910
+vector lands.
+When we apply this transformation to
+
+408
+00:07:18,910 --> 00:07:18,920
+When we apply this transformation to
+ 
+
+409
+00:07:18,920 --> 00:07:21,990
+When we apply this transformation to
+some vector x y, what do you get?
+
+410
+00:07:21,990 --> 00:07:22,000
+some vector x y, what do you get?
+ 
+
+411
+00:07:22,000 --> 00:07:28,070
+some vector x y, what do you get?
+Well, it'll be x * a c + y * b d.
+
+412
+00:07:28,070 --> 00:07:28,080
+Well, it'll be x * a c + y * b d.
+ 
+
+413
+00:07:28,080 --> 00:07:30,430
+Well, it'll be x * a c + y * b d.
+Putting this together, you get a vector
+
+414
+00:07:30,430 --> 00:07:30,440
+Putting this together, you get a vector
+ 
+
+415
+00:07:30,440 --> 00:07:34,270
+Putting this together, you get a vector
+ax + by, cx + dy.
+
+416
+00:07:34,270 --> 00:07:34,280
+ax + by, cx + dy.
+ 
+
+417
+00:07:34,280 --> 00:07:36,350
+ax + by, cx + dy.
+You could even define this as matrix
+
+418
+00:07:36,350 --> 00:07:36,360
+You could even define this as matrix
+ 
+
+419
+00:07:36,360 --> 00:07:38,350
+You could even define this as matrix
+vector multiplication when you put the
+
+420
+00:07:38,350 --> 00:07:38,360
+vector multiplication when you put the
+ 
+
+421
+00:07:38,360 --> 00:07:40,270
+vector multiplication when you put the
+matrix on the left of the vector like
+
+422
+00:07:40,270 --> 00:07:40,280
+matrix on the left of the vector like
+ 
+
+423
+00:07:40,280 --> 00:07:41,510
+matrix on the left of the vector like
+it's a function.
+
+424
+00:07:41,510 --> 00:07:41,520
+it's a function.
+ 
+
+425
+00:07:41,520 --> 00:07:42,830
+it's a function.
+Then, you could make high schoolers
+
+426
+00:07:42,830 --> 00:07:42,840
+Then, you could make high schoolers
+ 
+
+427
+00:07:42,840 --> 00:07:44,590
+Then, you could make high schoolers
+memorize this without showing them the
+
+428
+00:07:44,590 --> 00:07:44,600
+memorize this without showing them the
+ 
+
+429
+00:07:44,600 --> 00:07:46,030
+memorize this without showing them the
+crucial part that makes it feel
+
+430
+00:07:46,030 --> 00:07:46,040
+crucial part that makes it feel
+ 
+
+431
+00:07:46,040 --> 00:07:48,230
+crucial part that makes it feel
+intuitive.
+
+432
+00:07:48,230 --> 00:07:48,240
+intuitive.
+ 
+
+433
+00:07:48,240 --> 00:07:49,870
+intuitive.
+But isn't it more fun to think about
+
+434
+00:07:49,870 --> 00:07:49,880
+But isn't it more fun to think about
+ 
+
+435
+00:07:49,880 --> 00:07:51,790
+But isn't it more fun to think about
+these columns as the transformed
+
+436
+00:07:51,790 --> 00:07:51,800
+these columns as the transformed
+ 
+
+437
+00:07:51,800 --> 00:07:53,830
+these columns as the transformed
+versions of your basis vectors, and to
+
+438
+00:07:53,830 --> 00:07:53,840
+versions of your basis vectors, and to
+ 
+
+439
+00:07:53,840 --> 00:07:55,230
+versions of your basis vectors, and to
+think about the result as the
+
+440
+00:07:55,230 --> 00:07:55,240
+think about the result as the
+ 
+
+441
+00:07:55,240 --> 00:07:57,430
+think about the result as the
+appropriate linear combination of those
+
+442
+00:07:57,430 --> 00:07:57,440
+appropriate linear combination of those
+ 
+
+443
+00:07:57,440 --> 00:08:00,910
+appropriate linear combination of those
+vectors?
+
+444
+00:08:00,910 --> 00:08:00,920
+
+ 
+
+445
+00:08:00,920 --> 00:08:02,430
+
+Let's practice describing a few linear
+
+446
+00:08:02,430 --> 00:08:02,440
+Let's practice describing a few linear
+ 
+
+447
+00:08:02,440 --> 00:08:04,510
+Let's practice describing a few linear
+transformations with matrices.
+
+448
+00:08:04,510 --> 00:08:04,520
+transformations with matrices.
+ 
+
+449
+00:08:04,520 --> 00:08:06,990
+transformations with matrices.
+For example, if we rotate all of space
+
+450
+00:08:06,990 --> 00:08:07,000
+For example, if we rotate all of space
+ 
+
+451
+00:08:07,000 --> 00:08:10,510
+For example, if we rotate all of space
+90° counterclockwise, then I hat lands
+
+452
+00:08:10,510 --> 00:08:10,520
+90° counterclockwise, then I hat lands
+ 
+
+453
+00:08:10,520 --> 00:08:14,150
+90° counterclockwise, then I hat lands
+on the coordinates 0 1.
+
+454
+00:08:14,150 --> 00:08:14,160
+on the coordinates 0 1.
+ 
+
+455
+00:08:14,160 --> 00:08:17,990
+on the coordinates 0 1.
+And J hat lands on the coordinates -1 0.
+
+456
+00:08:17,990 --> 00:08:18,000
+And J hat lands on the coordinates -1 0.
+ 
+
+457
+00:08:18,000 --> 00:08:19,470
+And J hat lands on the coordinates -1 0.
+So, the matrix we end up with has
+
+458
+00:08:19,470 --> 00:08:19,480
+So, the matrix we end up with has
+ 
+
+459
+00:08:19,480 --> 00:08:23,190
+So, the matrix we end up with has
+columns 0 1, -1 0.
+
+460
+00:08:23,190 --> 00:08:23,200
+columns 0 1, -1 0.
+ 
+
+461
+00:08:23,200 --> 00:08:24,950
+columns 0 1, -1 0.
+To figure out what happens to any vector
+
+462
+00:08:24,950 --> 00:08:24,960
+To figure out what happens to any vector
+ 
+
+463
+00:08:24,960 --> 00:08:27,150
+To figure out what happens to any vector
+after a 90° rotation, you could just
+
+464
+00:08:27,150 --> 00:08:27,160
+after a 90° rotation, you could just
+ 
+
+465
+00:08:27,160 --> 00:08:31,430
+after a 90° rotation, you could just
+multiply its coordinates by this matrix.
+
+466
+00:08:31,430 --> 00:08:31,440
+multiply its coordinates by this matrix.
+ 
+
+467
+00:08:31,440 --> 00:08:32,670
+multiply its coordinates by this matrix.
+Here's a fun transformation with a
+
+468
+00:08:32,670 --> 00:08:32,680
+Here's a fun transformation with a
+ 
+
+469
+00:08:32,680 --> 00:08:34,909
+Here's a fun transformation with a
+special name, called a shear.
+
+470
+00:08:34,909 --> 00:08:34,919
+special name, called a shear.
+ 
+
+471
+00:08:34,919 --> 00:08:37,430
+special name, called a shear.
+In it, I hat remains fixed, so the first
+
+472
+00:08:37,430 --> 00:08:37,440
+In it, I hat remains fixed, so the first
+ 
+
+473
+00:08:37,440 --> 00:08:40,709
+In it, I hat remains fixed, so the first
+column of the matrix is 1 0, but J hat
+
+474
+00:08:40,709 --> 00:08:40,719
+column of the matrix is 1 0, but J hat
+ 
+
+475
+00:08:40,719 --> 00:08:43,390
+column of the matrix is 1 0, but J hat
+moves over to the coordinates 1 1, which
+
+476
+00:08:43,390 --> 00:08:43,400
+moves over to the coordinates 1 1, which
+ 
+
+477
+00:08:43,400 --> 00:08:46,110
+moves over to the coordinates 1 1, which
+become the second column of the matrix.
+
+478
+00:08:46,110 --> 00:08:46,120
+become the second column of the matrix.
+ 
+
+479
+00:08:46,120 --> 00:08:47,870
+become the second column of the matrix.
+And at the risk of being redundant here,
+
+480
+00:08:47,870 --> 00:08:47,880
+And at the risk of being redundant here,
+ 
+
+481
+00:08:47,880 --> 00:08:49,790
+And at the risk of being redundant here,
+figuring out how a shear transforms a
+
+482
+00:08:49,790 --> 00:08:49,800
+figuring out how a shear transforms a
+ 
+
+483
+00:08:49,800 --> 00:08:52,070
+figuring out how a shear transforms a
+given vector comes down to multiplying
+
+484
+00:08:52,070 --> 00:08:52,080
+given vector comes down to multiplying
+ 
+
+485
+00:08:52,080 --> 00:08:55,750
+given vector comes down to multiplying
+this matrix by that vector.
+
+486
+00:08:55,750 --> 00:08:55,760
+this matrix by that vector.
+ 
+
+487
+00:08:55,760 --> 00:08:56,910
+this matrix by that vector.
+Let's say we want to go the other way
+
+488
+00:08:56,910 --> 00:08:56,920
+Let's say we want to go the other way
+ 
+
+489
+00:08:56,920 --> 00:08:59,150
+Let's say we want to go the other way
+around, starting with a matrix, say with
+
+490
+00:08:59,150 --> 00:08:59,160
+around, starting with a matrix, say with
+ 
+
+491
+00:08:59,160 --> 00:09:02,270
+around, starting with a matrix, say with
+columns 1 2 and 3 1, and we want to
+
+492
+00:09:02,270 --> 00:09:02,280
+columns 1 2 and 3 1, and we want to
+ 
+
+493
+00:09:02,280 --> 00:09:04,030
+columns 1 2 and 3 1, and we want to
+deduce what its transformation looks
+
+494
+00:09:04,030 --> 00:09:04,040
+deduce what its transformation looks
+ 
+
+495
+00:09:04,040 --> 00:09:06,230
+deduce what its transformation looks
+like. Pause and take a moment to see if
+
+496
+00:09:06,230 --> 00:09:06,240
+like. Pause and take a moment to see if
+ 
+
+497
+00:09:06,240 --> 00:09:08,510
+like. Pause and take a moment to see if
+you can imagine it.
+
+498
+00:09:08,510 --> 00:09:08,520
+you can imagine it.
+ 
+
+499
+00:09:08,520 --> 00:09:10,830
+you can imagine it.
+One way to do this is to first move I
+
+500
+00:09:10,830 --> 00:09:10,840
+One way to do this is to first move I
+ 
+
+501
+00:09:10,840 --> 00:09:12,750
+One way to do this is to first move I
+hat to 1 2,
+
+502
+00:09:12,750 --> 00:09:12,760
+hat to 1 2,
+ 
+
+503
+00:09:12,760 --> 00:09:16,070
+hat to 1 2,
+then move J hat to 3 1, always moving
+
+504
+00:09:16,070 --> 00:09:16,080
+then move J hat to 3 1, always moving
+ 
+
+505
+00:09:16,080 --> 00:09:17,590
+then move J hat to 3 1, always moving
+the rest of space in such a way that
+
+506
+00:09:17,590 --> 00:09:17,600
+the rest of space in such a way that
+ 
+
+507
+00:09:17,600 --> 00:09:19,670
+the rest of space in such a way that
+keeps grid lines parallel and evenly
+
+508
+00:09:19,670 --> 00:09:19,680
+keeps grid lines parallel and evenly
+ 
+
+509
+00:09:19,680 --> 00:09:21,910
+keeps grid lines parallel and evenly
+spaced.
+
+510
+00:09:21,910 --> 00:09:21,920
+spaced.
+ 
+
+511
+00:09:21,920 --> 00:09:23,870
+spaced.
+If the vectors that I hat and J hat land
+
+512
+00:09:23,870 --> 00:09:23,880
+If the vectors that I hat and J hat land
+ 
+
+513
+00:09:23,880 --> 00:09:26,470
+If the vectors that I hat and J hat land
+on are linearly dependent, which, if you
+
+514
+00:09:26,470 --> 00:09:26,480
+on are linearly dependent, which, if you
+ 
+
+515
+00:09:26,480 --> 00:09:28,470
+on are linearly dependent, which, if you
+recall from last video, means that one
+
+516
+00:09:28,470 --> 00:09:28,480
+recall from last video, means that one
+ 
+
+517
+00:09:28,480 --> 00:09:30,790
+recall from last video, means that one
+is a scaled version of the other, it
+
+518
+00:09:30,790 --> 00:09:30,800
+is a scaled version of the other, it
+ 
+
+519
+00:09:30,800 --> 00:09:32,710
+is a scaled version of the other, it
+means that the linear transformation
+
+520
+00:09:32,710 --> 00:09:32,720
+means that the linear transformation
+ 
+
+521
+00:09:32,720 --> 00:09:35,790
+means that the linear transformation
+squishes all of 2D space onto the line
+
+522
+00:09:35,790 --> 00:09:35,800
+squishes all of 2D space onto the line
+ 
+
+523
+00:09:35,800 --> 00:09:37,950
+squishes all of 2D space onto the line
+where those two vectors sit, also known
+
+524
+00:09:37,950 --> 00:09:37,960
+where those two vectors sit, also known
+ 
+
+525
+00:09:37,960 --> 00:09:40,550
+where those two vectors sit, also known
+as the one-dimensional span of those two
+
+526
+00:09:40,550 --> 00:09:40,560
+as the one-dimensional span of those two
+ 
+
+527
+00:09:40,560 --> 00:09:44,870
+as the one-dimensional span of those two
+linearly dependent vectors.
+
+528
+00:09:44,870 --> 00:09:44,880
+
+ 
+
+529
+00:09:44,880 --> 00:09:47,110
+
+To sum up, linear transformations are a
+
+530
+00:09:47,110 --> 00:09:47,120
+To sum up, linear transformations are a
+ 
+
+531
+00:09:47,120 --> 00:09:49,470
+To sum up, linear transformations are a
+way to move around space such that grid
+
+532
+00:09:49,470 --> 00:09:49,480
+way to move around space such that grid
+ 
+
+533
+00:09:49,480 --> 00:09:51,990
+way to move around space such that grid
+lines remain parallel and evenly spaced,
+
+534
+00:09:51,990 --> 00:09:52,000
+lines remain parallel and evenly spaced,
+ 
+
+535
+00:09:52,000 --> 00:09:54,310
+lines remain parallel and evenly spaced,
+and such that the origin remains fixed.
+
+536
+00:09:54,310 --> 00:09:54,320
+and such that the origin remains fixed.
+ 
+
+537
+00:09:54,320 --> 00:09:56,310
+and such that the origin remains fixed.
+Delightfully, these transformations can
+
+538
+00:09:56,310 --> 00:09:56,320
+Delightfully, these transformations can
+ 
+
+539
+00:09:56,320 --> 00:09:58,150
+Delightfully, these transformations can
+be described using only a handful of
+
+540
+00:09:58,150 --> 00:09:58,160
+be described using only a handful of
+ 
+
+541
+00:09:58,160 --> 00:10:00,270
+be described using only a handful of
+numbers, the coordinates of where each
+
+542
+00:10:00,270 --> 00:10:00,280
+numbers, the coordinates of where each
+ 
+
+543
+00:10:00,280 --> 00:10:03,550
+numbers, the coordinates of where each
+basis vector lands. Matrices give us a
+
+544
+00:10:03,550 --> 00:10:03,560
+basis vector lands. Matrices give us a
+ 
+
+545
+00:10:03,560 --> 00:10:04,950
+basis vector lands. Matrices give us a
+language to describe these
+
+546
+00:10:04,950 --> 00:10:04,960
+language to describe these
+ 
+
+547
+00:10:04,960 --> 00:10:07,150
+language to describe these
+transformations, where the columns
+
+548
+00:10:07,150 --> 00:10:07,160
+transformations, where the columns
+ 
+
+549
+00:10:07,160 --> 00:10:09,510
+transformations, where the columns
+represent those coordinates, and matrix
+
+550
+00:10:09,510 --> 00:10:09,520
+represent those coordinates, and matrix
+ 
+
+551
+00:10:09,520 --> 00:10:11,550
+represent those coordinates, and matrix
+vector multiplication is just a way to
+
+552
+00:10:11,550 --> 00:10:11,560
+vector multiplication is just a way to
+ 
+
+553
+00:10:11,560 --> 00:10:13,870
+vector multiplication is just a way to
+compute what that transformation does to
+
+554
+00:10:13,870 --> 00:10:13,880
+compute what that transformation does to
+ 
+
+555
+00:10:13,880 --> 00:10:15,230
+compute what that transformation does to
+a given vector.
+
+556
+00:10:15,230 --> 00:10:15,240
+a given vector.
+ 
+
+557
+00:10:15,240 --> 00:10:16,990
+a given vector.
+The important takeaway here is that
+
+558
+00:10:16,990 --> 00:10:17,000
+The important takeaway here is that
+ 
+
+559
+00:10:17,000 --> 00:10:19,070
+The important takeaway here is that
+every time you see a matrix, you can
+
+560
+00:10:19,070 --> 00:10:19,080
+every time you see a matrix, you can
+ 
+
+561
+00:10:19,080 --> 00:10:21,270
+every time you see a matrix, you can
+interpret it as a certain transformation
+
+562
+00:10:21,270 --> 00:10:21,280
+interpret it as a certain transformation
+ 
+
+563
+00:10:21,280 --> 00:10:22,470
+interpret it as a certain transformation
+of space.
+
+564
+00:10:22,470 --> 00:10:22,480
+of space.
+ 
+
+565
+00:10:22,480 --> 00:10:24,550
+of space.
+Once you really digest this idea, you're
+
+566
+00:10:24,550 --> 00:10:24,560
+Once you really digest this idea, you're
+ 
+
+567
+00:10:24,560 --> 00:10:26,430
+Once you really digest this idea, you're
+in a great position to understand linear
+
+568
+00:10:26,430 --> 00:10:26,440
+in a great position to understand linear
+ 
+
+569
+00:10:26,440 --> 00:10:28,870
+in a great position to understand linear
+algebra deeply. Almost all of the topics
+
+570
+00:10:28,870 --> 00:10:28,880
+algebra deeply. Almost all of the topics
+ 
+
+571
+00:10:28,880 --> 00:10:31,150
+algebra deeply. Almost all of the topics
+coming up, from matrix multiplication to
+
+572
+00:10:31,150 --> 00:10:31,160
+coming up, from matrix multiplication to
+ 
+
+573
+00:10:31,160 --> 00:10:33,110
+coming up, from matrix multiplication to
+determinants, change of basis,
+
+574
+00:10:33,110 --> 00:10:33,120
+determinants, change of basis,
+ 
+
+575
+00:10:33,120 --> 00:10:35,230
+determinants, change of basis,
+eigenvalues, all of these will become
+
+576
+00:10:35,230 --> 00:10:35,240
+eigenvalues, all of these will become
+ 
+
+577
+00:10:35,240 --> 00:10:37,510
+eigenvalues, all of these will become
+easier to understand once you start
+
+578
+00:10:37,510 --> 00:10:37,520
+easier to understand once you start
+ 
+
+579
+00:10:37,520 --> 00:10:39,030
+easier to understand once you start
+thinking about matrices as
+
+580
+00:10:39,030 --> 00:10:39,040
+thinking about matrices as
+ 
+
+581
+00:10:39,040 --> 00:10:41,310
+thinking about matrices as
+transformations of space.
+
+582
+00:10:41,310 --> 00:10:41,320
+transformations of space.
+ 
+
+583
+00:10:41,320 --> 00:10:43,070
+transformations of space.
+Most immediately, in the next video,
+
+584
+00:10:43,070 --> 00:10:43,080
+Most immediately, in the next video,
+ 
+
+585
+00:10:43,080 --> 00:10:44,670
+Most immediately, in the next video,
+I'll be talking about multiplying two
+
+586
+00:10:44,670 --> 00:10:44,680
+I'll be talking about multiplying two
+ 
+
+587
+00:10:44,680 --> 00:10:47,870
+I'll be talking about multiplying two
+matrices together. See you then.
+
+588
+00:10:47,870 --> 00:10:47,880
+matrices together. See you then.
+ 
+
+589
+00:10:47,880 --> 00:10:59,919
+matrices together. See you then.
+[Music]
+

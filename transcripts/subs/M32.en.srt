@@ -1,0 +1,3735 @@
+1
+00:00:20,840 --> 00:00:22,190
+
+Traditionally, dot products are
+
+2
+00:00:22,190 --> 00:00:22,200
+Traditionally, dot products are
+ 
+
+3
+00:00:22,200 --> 00:00:23,710
+Traditionally, dot products are
+something that's introduced really early
+
+4
+00:00:23,710 --> 00:00:23,720
+something that's introduced really early
+ 
+
+5
+00:00:23,720 --> 00:00:25,470
+something that's introduced really early
+on in a linear algebra course, typically
+
+6
+00:00:25,470 --> 00:00:25,480
+on in a linear algebra course, typically
+ 
+
+7
+00:00:25,480 --> 00:00:27,230
+on in a linear algebra course, typically
+right at the start. So, it might seem
+
+8
+00:00:27,230 --> 00:00:27,240
+right at the start. So, it might seem
+ 
+
+9
+00:00:27,240 --> 00:00:28,750
+right at the start. So, it might seem
+strange that I've pushed them back this
+
+10
+00:00:28,750 --> 00:00:28,760
+strange that I've pushed them back this
+ 
+
+11
+00:00:28,760 --> 00:00:30,150
+strange that I've pushed them back this
+far in the series.
+
+12
+00:00:30,150 --> 00:00:30,160
+far in the series.
+ 
+
+13
+00:00:30,160 --> 00:00:31,830
+far in the series.
+I did this because there's a standard
+
+14
+00:00:31,830 --> 00:00:31,840
+I did this because there's a standard
+ 
+
+15
+00:00:31,840 --> 00:00:33,150
+I did this because there's a standard
+way to introduce the topic which
+
+16
+00:00:33,150 --> 00:00:33,160
+way to introduce the topic which
+ 
+
+17
+00:00:33,160 --> 00:00:34,630
+way to introduce the topic which
+requires nothing more than a basic
+
+18
+00:00:34,630 --> 00:00:34,640
+requires nothing more than a basic
+ 
+
+19
+00:00:34,640 --> 00:00:36,670
+requires nothing more than a basic
+understanding of vectors, but a fuller
+
+20
+00:00:36,670 --> 00:00:36,680
+understanding of vectors, but a fuller
+ 
+
+21
+00:00:36,680 --> 00:00:38,110
+understanding of vectors, but a fuller
+understanding of the role that dot
+
+22
+00:00:38,110 --> 00:00:38,120
+understanding of the role that dot
+ 
+
+23
+00:00:38,120 --> 00:00:40,110
+understanding of the role that dot
+products play in math can only really be
+
+24
+00:00:40,110 --> 00:00:40,120
+products play in math can only really be
+ 
+
+25
+00:00:40,120 --> 00:00:41,630
+products play in math can only really be
+found under the light of linear
+
+26
+00:00:41,630 --> 00:00:41,640
+found under the light of linear
+ 
+
+27
+00:00:41,640 --> 00:00:43,350
+found under the light of linear
+transformations.
+
+28
+00:00:43,350 --> 00:00:43,360
+transformations.
+ 
+
+29
+00:00:43,360 --> 00:00:44,870
+transformations.
+Before that, though, let me just briefly
+
+30
+00:00:44,870 --> 00:00:44,880
+Before that, though, let me just briefly
+ 
+
+31
+00:00:44,880 --> 00:00:46,630
+Before that, though, let me just briefly
+cover the standard way that dot products
+
+32
+00:00:46,630 --> 00:00:46,640
+cover the standard way that dot products
+ 
+
+33
+00:00:46,640 --> 00:00:48,510
+cover the standard way that dot products
+are introduced, which I'm assuming is at
+
+34
+00:00:48,510 --> 00:00:48,520
+are introduced, which I'm assuming is at
+ 
+
+35
+00:00:48,520 --> 00:00:50,150
+are introduced, which I'm assuming is at
+least partially review for a number of
+
+36
+00:00:50,150 --> 00:00:50,160
+least partially review for a number of
+ 
+
+37
+00:00:50,160 --> 00:00:51,230
+least partially review for a number of
+viewers.
+
+38
+00:00:51,230 --> 00:00:51,240
+viewers.
+ 
+
+39
+00:00:51,240 --> 00:00:53,510
+viewers.
+Numerically, if you have two vectors of
+
+40
+00:00:53,510 --> 00:00:53,520
+Numerically, if you have two vectors of
+ 
+
+41
+00:00:53,520 --> 00:00:55,950
+Numerically, if you have two vectors of
+the same dimension, two lists of numbers
+
+42
+00:00:55,950 --> 00:00:55,960
+the same dimension, two lists of numbers
+ 
+
+43
+00:00:55,960 --> 00:00:58,110
+the same dimension, two lists of numbers
+with the same lengths, taking their dot
+
+44
+00:00:58,110 --> 00:00:58,120
+with the same lengths, taking their dot
+ 
+
+45
+00:00:58,120 --> 00:01:00,470
+with the same lengths, taking their dot
+product means pairing up all of the
+
+46
+00:01:00,470 --> 00:01:00,480
+product means pairing up all of the
+ 
+
+47
+00:01:00,480 --> 00:01:02,830
+product means pairing up all of the
+coordinates, multiplying those pairs
+
+48
+00:01:02,830 --> 00:01:02,840
+coordinates, multiplying those pairs
+ 
+
+49
+00:01:02,840 --> 00:01:06,670
+coordinates, multiplying those pairs
+together, and adding the result.
+
+50
+00:01:06,670 --> 00:01:06,680
+together, and adding the result.
+ 
+
+51
+00:01:06,680 --> 00:01:10,430
+together, and adding the result.
+So, the vector 1 2 dotted with 3 4 would
+
+52
+00:01:10,430 --> 00:01:10,440
+So, the vector 1 2 dotted with 3 4 would
+ 
+
+53
+00:01:10,440 --> 00:01:14,510
+So, the vector 1 2 dotted with 3 4 would
+be 1 * 3 + 2 * 4.
+
+54
+00:01:14,510 --> 00:01:14,520
+be 1 * 3 + 2 * 4.
+ 
+
+55
+00:01:14,520 --> 00:01:18,670
+be 1 * 3 + 2 * 4.
+The vector 6 2 8 3 dotted with 1 8 5 3
+
+56
+00:01:18,670 --> 00:01:18,680
+The vector 6 2 8 3 dotted with 1 8 5 3
+ 
+
+57
+00:01:18,680 --> 00:01:24,830
+The vector 6 2 8 3 dotted with 1 8 5 3
+would be 6 * 1 + 2 * 8 + 8 * 5 + 3 * 3.
+
+58
+00:01:24,830 --> 00:01:24,840
+would be 6 * 1 + 2 * 8 + 8 * 5 + 3 * 3.
+ 
+
+59
+00:01:24,840 --> 00:01:27,150
+would be 6 * 1 + 2 * 8 + 8 * 5 + 3 * 3.
+Luckily, this computation has a really
+
+60
+00:01:27,150 --> 00:01:27,160
+Luckily, this computation has a really
+ 
+
+61
+00:01:27,160 --> 00:01:29,470
+Luckily, this computation has a really
+nice geometric interpretation. To think
+
+62
+00:01:29,470 --> 00:01:29,480
+nice geometric interpretation. To think
+ 
+
+63
+00:01:29,480 --> 00:01:30,910
+nice geometric interpretation. To think
+about the dot product between two
+
+64
+00:01:30,910 --> 00:01:30,920
+about the dot product between two
+ 
+
+65
+00:01:30,920 --> 00:01:34,590
+about the dot product between two
+vectors V and W, imagine projecting W
+
+66
+00:01:34,590 --> 00:01:34,600
+vectors V and W, imagine projecting W
+ 
+
+67
+00:01:34,600 --> 00:01:36,470
+vectors V and W, imagine projecting W
+onto the line that passes through the
+
+68
+00:01:36,470 --> 00:01:36,480
+onto the line that passes through the
+ 
+
+69
+00:01:36,480 --> 00:01:38,630
+onto the line that passes through the
+origin and the tip of V.
+
+70
+00:01:38,630 --> 00:01:38,640
+origin and the tip of V.
+ 
+
+71
+00:01:38,640 --> 00:01:39,950
+origin and the tip of V.
+Multiplying the length of this
+
+72
+00:01:39,950 --> 00:01:39,960
+Multiplying the length of this
+ 
+
+73
+00:01:39,960 --> 00:01:42,510
+Multiplying the length of this
+projection by the length of V, you have
+
+74
+00:01:42,510 --> 00:01:42,520
+projection by the length of V, you have
+ 
+
+75
+00:01:42,520 --> 00:01:46,430
+projection by the length of V, you have
+the dot product V.W.
+
+76
+00:01:46,430 --> 00:01:46,440
+the dot product V.W.
+ 
+
+77
+00:01:46,440 --> 00:01:48,070
+the dot product V.W.
+Except when this projection of W is
+
+78
+00:01:48,070 --> 00:01:48,080
+Except when this projection of W is
+ 
+
+79
+00:01:48,080 --> 00:01:49,710
+Except when this projection of W is
+pointing in the opposite direction from
+
+80
+00:01:49,710 --> 00:01:49,720
+pointing in the opposite direction from
+ 
+
+81
+00:01:49,720 --> 00:01:51,550
+pointing in the opposite direction from
+V, that dot product will actually be
+
+82
+00:01:51,550 --> 00:01:51,560
+V, that dot product will actually be
+ 
+
+83
+00:01:51,560 --> 00:01:53,950
+V, that dot product will actually be
+negative.
+
+84
+00:01:53,950 --> 00:01:53,960
+negative.
+ 
+
+85
+00:01:53,960 --> 00:01:55,190
+negative.
+So, when two vectors are generally
+
+86
+00:01:55,190 --> 00:01:55,200
+So, when two vectors are generally
+ 
+
+87
+00:01:55,200 --> 00:01:56,750
+So, when two vectors are generally
+pointing in the same direction, their
+
+88
+00:01:56,750 --> 00:01:56,760
+pointing in the same direction, their
+ 
+
+89
+00:01:56,760 --> 00:01:59,510
+pointing in the same direction, their
+dot product is positive.
+
+90
+00:01:59,510 --> 00:01:59,520
+dot product is positive.
+ 
+
+91
+00:01:59,520 --> 00:02:01,230
+dot product is positive.
+When they're perpendicular, meaning the
+
+92
+00:02:01,230 --> 00:02:01,240
+When they're perpendicular, meaning the
+ 
+
+93
+00:02:01,240 --> 00:02:03,230
+When they're perpendicular, meaning the
+projection of one onto the other is the
+
+94
+00:02:03,230 --> 00:02:03,240
+projection of one onto the other is the
+ 
+
+95
+00:02:03,240 --> 00:02:05,990
+projection of one onto the other is the
+zero vector, their dot product is zero.
+
+96
+00:02:05,990 --> 00:02:06,000
+zero vector, their dot product is zero.
+ 
+
+97
+00:02:06,000 --> 00:02:07,350
+zero vector, their dot product is zero.
+And if they point in generally the
+
+98
+00:02:07,350 --> 00:02:07,360
+And if they point in generally the
+ 
+
+99
+00:02:07,360 --> 00:02:09,150
+And if they point in generally the
+opposite direction, their dot product is
+
+100
+00:02:09,150 --> 00:02:09,160
+opposite direction, their dot product is
+ 
+
+101
+00:02:09,160 --> 00:02:11,710
+opposite direction, their dot product is
+negative.
+
+102
+00:02:11,710 --> 00:02:11,720
+
+ 
+
+103
+00:02:11,720 --> 00:02:13,790
+
+Now, this interpretation is weirdly
+
+104
+00:02:13,790 --> 00:02:13,800
+Now, this interpretation is weirdly
+ 
+
+105
+00:02:13,800 --> 00:02:15,750
+Now, this interpretation is weirdly
+asymmetric. It treats the two vectors
+
+106
+00:02:15,750 --> 00:02:15,760
+asymmetric. It treats the two vectors
+ 
+
+107
+00:02:15,760 --> 00:02:17,430
+asymmetric. It treats the two vectors
+very differently. So, when I first
+
+108
+00:02:17,430 --> 00:02:17,440
+very differently. So, when I first
+ 
+
+109
+00:02:17,440 --> 00:02:19,310
+very differently. So, when I first
+learned this, I was surprised that order
+
+110
+00:02:19,310 --> 00:02:19,320
+learned this, I was surprised that order
+ 
+
+111
+00:02:19,320 --> 00:02:21,310
+learned this, I was surprised that order
+doesn't matter.
+
+112
+00:02:21,310 --> 00:02:21,320
+doesn't matter.
+ 
+
+113
+00:02:21,320 --> 00:02:23,949
+doesn't matter.
+You could instead project V onto W,
+
+114
+00:02:23,949 --> 00:02:23,959
+You could instead project V onto W,
+ 
+
+115
+00:02:23,959 --> 00:02:25,710
+You could instead project V onto W,
+multiply the length of the projected V
+
+116
+00:02:25,710 --> 00:02:25,720
+multiply the length of the projected V
+ 
+
+117
+00:02:25,720 --> 00:02:27,710
+multiply the length of the projected V
+by the length of W, and get the same
+
+118
+00:02:27,710 --> 00:02:27,720
+by the length of W, and get the same
+ 
+
+119
+00:02:27,720 --> 00:02:30,270
+by the length of W, and get the same
+result.
+
+120
+00:02:30,270 --> 00:02:30,280
+result.
+ 
+
+121
+00:02:30,280 --> 00:02:31,830
+result.
+I mean, doesn't that feel like a really
+
+122
+00:02:31,830 --> 00:02:31,840
+I mean, doesn't that feel like a really
+ 
+
+123
+00:02:31,840 --> 00:02:35,470
+I mean, doesn't that feel like a really
+different process?
+
+124
+00:02:35,470 --> 00:02:35,480
+
+ 
+
+125
+00:02:35,480 --> 00:02:37,030
+
+Here's the intuition for why order
+
+126
+00:02:37,030 --> 00:02:37,040
+Here's the intuition for why order
+ 
+
+127
+00:02:37,040 --> 00:02:38,470
+Here's the intuition for why order
+doesn't matter.
+
+128
+00:02:38,470 --> 00:02:38,480
+doesn't matter.
+ 
+
+129
+00:02:38,480 --> 00:02:40,430
+doesn't matter.
+If V and W happen to have the same
+
+130
+00:02:40,430 --> 00:02:40,440
+If V and W happen to have the same
+ 
+
+131
+00:02:40,440 --> 00:02:42,990
+If V and W happen to have the same
+length, we could leverage some symmetry.
+
+132
+00:02:42,990 --> 00:02:43,000
+length, we could leverage some symmetry.
+ 
+
+133
+00:02:43,000 --> 00:02:45,310
+length, we could leverage some symmetry.
+Since projecting W onto V, then
+
+134
+00:02:45,310 --> 00:02:45,320
+Since projecting W onto V, then
+ 
+
+135
+00:02:45,320 --> 00:02:46,430
+Since projecting W onto V, then
+multiplying the length of that
+
+136
+00:02:46,430 --> 00:02:46,440
+multiplying the length of that
+ 
+
+137
+00:02:46,440 --> 00:02:48,670
+multiplying the length of that
+projection by the length of V, is a
+
+138
+00:02:48,670 --> 00:02:48,680
+projection by the length of V, is a
+ 
+
+139
+00:02:48,680 --> 00:02:51,070
+projection by the length of V, is a
+complete mirror image of projecting V
+
+140
+00:02:51,070 --> 00:02:51,080
+complete mirror image of projecting V
+ 
+
+141
+00:02:51,080 --> 00:02:53,350
+complete mirror image of projecting V
+onto W, then multiplying the length of
+
+142
+00:02:53,350 --> 00:02:53,360
+onto W, then multiplying the length of
+ 
+
+143
+00:02:53,360 --> 00:02:57,150
+onto W, then multiplying the length of
+that projection by the length of W.
+
+144
+00:02:57,150 --> 00:02:57,160
+that projection by the length of W.
+ 
+
+145
+00:02:57,160 --> 00:02:59,630
+that projection by the length of W.
+Now, if you scale one of them, say V, by
+
+146
+00:02:59,630 --> 00:02:59,640
+Now, if you scale one of them, say V, by
+ 
+
+147
+00:02:59,640 --> 00:03:01,550
+Now, if you scale one of them, say V, by
+some constant like two, so that they
+
+148
+00:03:01,550 --> 00:03:01,560
+some constant like two, so that they
+ 
+
+149
+00:03:01,560 --> 00:03:03,910
+some constant like two, so that they
+don't have equal length, the symmetry is
+
+150
+00:03:03,910 --> 00:03:03,920
+don't have equal length, the symmetry is
+ 
+
+151
+00:03:03,920 --> 00:03:04,949
+don't have equal length, the symmetry is
+broken.
+
+152
+00:03:04,949 --> 00:03:04,959
+broken.
+ 
+
+153
+00:03:04,959 --> 00:03:06,550
+broken.
+But let's think through how to interpret
+
+154
+00:03:06,550 --> 00:03:06,560
+But let's think through how to interpret
+ 
+
+155
+00:03:06,560 --> 00:03:08,470
+But let's think through how to interpret
+the dot product between this new vector,
+
+156
+00:03:08,470 --> 00:03:08,480
+the dot product between this new vector,
+ 
+
+157
+00:03:08,480 --> 00:03:10,910
+the dot product between this new vector,
+two times V, and W.
+
+158
+00:03:10,910 --> 00:03:10,920
+two times V, and W.
+ 
+
+159
+00:03:10,920 --> 00:03:12,630
+two times V, and W.
+If you think of W is getting projected
+
+160
+00:03:12,630 --> 00:03:12,640
+If you think of W is getting projected
+ 
+
+161
+00:03:12,640 --> 00:03:16,390
+If you think of W is getting projected
+onto V, then the dot product 2V dot W
+
+162
+00:03:16,390 --> 00:03:16,400
+onto V, then the dot product 2V dot W
+ 
+
+163
+00:03:16,400 --> 00:03:19,070
+onto V, then the dot product 2V dot W
+will be exactly twice the dot product V
+
+164
+00:03:19,070 --> 00:03:19,080
+will be exactly twice the dot product V
+ 
+
+165
+00:03:19,080 --> 00:03:20,350
+will be exactly twice the dot product V
+dot W.
+
+166
+00:03:20,350 --> 00:03:20,360
+dot W.
+ 
+
+167
+00:03:20,360 --> 00:03:23,190
+dot W.
+This is because when you scale V by two,
+
+168
+00:03:23,190 --> 00:03:23,200
+This is because when you scale V by two,
+ 
+
+169
+00:03:23,200 --> 00:03:24,670
+This is because when you scale V by two,
+it doesn't change the length of the
+
+170
+00:03:24,670 --> 00:03:24,680
+it doesn't change the length of the
+ 
+
+171
+00:03:24,680 --> 00:03:27,030
+it doesn't change the length of the
+projection of W, but it doubles the
+
+172
+00:03:27,030 --> 00:03:27,040
+projection of W, but it doubles the
+ 
+
+173
+00:03:27,040 --> 00:03:28,509
+projection of W, but it doubles the
+length of the vector that you're
+
+174
+00:03:28,509 --> 00:03:28,519
+length of the vector that you're
+ 
+
+175
+00:03:28,519 --> 00:03:30,350
+length of the vector that you're
+projecting onto.
+
+176
+00:03:30,350 --> 00:03:30,360
+projecting onto.
+ 
+
+177
+00:03:30,360 --> 00:03:31,710
+projecting onto.
+But on the other hand, let's say you
+
+178
+00:03:31,710 --> 00:03:31,720
+But on the other hand, let's say you
+ 
+
+179
+00:03:31,720 --> 00:03:33,509
+But on the other hand, let's say you
+were thinking about V getting projected
+
+180
+00:03:33,509 --> 00:03:33,519
+were thinking about V getting projected
+ 
+
+181
+00:03:33,519 --> 00:03:34,910
+were thinking about V getting projected
+onto W.
+
+182
+00:03:34,910 --> 00:03:34,920
+onto W.
+ 
+
+183
+00:03:34,920 --> 00:03:36,430
+onto W.
+Well, in that case, the length of the
+
+184
+00:03:36,430 --> 00:03:36,440
+Well, in that case, the length of the
+ 
+
+185
+00:03:36,440 --> 00:03:38,270
+Well, in that case, the length of the
+projection is the thing that gets scaled
+
+186
+00:03:38,270 --> 00:03:38,280
+projection is the thing that gets scaled
+ 
+
+187
+00:03:38,280 --> 00:03:40,310
+projection is the thing that gets scaled
+when we multiply V by two, but the
+
+188
+00:03:40,310 --> 00:03:40,320
+when we multiply V by two, but the
+ 
+
+189
+00:03:40,320 --> 00:03:41,270
+when we multiply V by two, but the
+length of the vector that you're
+
+190
+00:03:41,270 --> 00:03:41,280
+length of the vector that you're
+ 
+
+191
+00:03:41,280 --> 00:03:43,710
+length of the vector that you're
+projecting onto stays constant. So, the
+
+192
+00:03:43,710 --> 00:03:43,720
+projecting onto stays constant. So, the
+ 
+
+193
+00:03:43,720 --> 00:03:45,830
+projecting onto stays constant. So, the
+overall effect is still to just double
+
+194
+00:03:45,830 --> 00:03:45,840
+overall effect is still to just double
+ 
+
+195
+00:03:45,840 --> 00:03:47,630
+overall effect is still to just double
+the dot product. So, even though
+
+196
+00:03:47,630 --> 00:03:47,640
+the dot product. So, even though
+ 
+
+197
+00:03:47,640 --> 00:03:49,590
+the dot product. So, even though
+symmetry is broken in this case, the
+
+198
+00:03:49,590 --> 00:03:49,600
+symmetry is broken in this case, the
+ 
+
+199
+00:03:49,600 --> 00:03:51,430
+symmetry is broken in this case, the
+effect that this scaling has on the
+
+200
+00:03:51,430 --> 00:03:51,440
+effect that this scaling has on the
+ 
+
+201
+00:03:51,440 --> 00:03:53,710
+effect that this scaling has on the
+value of the dot product is the same
+
+202
+00:03:53,710 --> 00:03:53,720
+value of the dot product is the same
+ 
+
+203
+00:03:53,720 --> 00:03:56,750
+value of the dot product is the same
+under both interpretations.
+
+204
+00:03:56,750 --> 00:03:56,760
+under both interpretations.
+ 
+
+205
+00:03:56,760 --> 00:03:58,510
+under both interpretations.
+There's also one other big question that
+
+206
+00:03:58,510 --> 00:03:58,520
+There's also one other big question that
+ 
+
+207
+00:03:58,520 --> 00:03:59,870
+There's also one other big question that
+confused me when I first learned this
+
+208
+00:03:59,870 --> 00:03:59,880
+confused me when I first learned this
+ 
+
+209
+00:03:59,880 --> 00:04:02,390
+confused me when I first learned this
+stuff. Why on Earth does this numerical
+
+210
+00:04:02,390 --> 00:04:02,400
+stuff. Why on Earth does this numerical
+ 
+
+211
+00:04:02,400 --> 00:04:04,310
+stuff. Why on Earth does this numerical
+process of matching coordinates,
+
+212
+00:04:04,310 --> 00:04:04,320
+process of matching coordinates,
+ 
+
+213
+00:04:04,320 --> 00:04:06,030
+process of matching coordinates,
+multiplying pairs, and adding them
+
+214
+00:04:06,030 --> 00:04:06,040
+multiplying pairs, and adding them
+ 
+
+215
+00:04:06,040 --> 00:04:08,190
+multiplying pairs, and adding them
+together have anything to do with
+
+216
+00:04:08,190 --> 00:04:08,200
+together have anything to do with
+ 
+
+217
+00:04:08,200 --> 00:04:10,830
+together have anything to do with
+projection?
+
+218
+00:04:10,830 --> 00:04:10,840
+projection?
+ 
+
+219
+00:04:10,840 --> 00:04:13,110
+projection?
+Well, to give a satisfactory answer, and
+
+220
+00:04:13,110 --> 00:04:13,120
+Well, to give a satisfactory answer, and
+ 
+
+221
+00:04:13,120 --> 00:04:14,470
+Well, to give a satisfactory answer, and
+also to do full justice to the
+
+222
+00:04:14,470 --> 00:04:14,480
+also to do full justice to the
+ 
+
+223
+00:04:14,480 --> 00:04:16,670
+also to do full justice to the
+significance of the dot product, we need
+
+224
+00:04:16,670 --> 00:04:16,680
+significance of the dot product, we need
+ 
+
+225
+00:04:16,680 --> 00:04:18,190
+significance of the dot product, we need
+to unearth something a little bit deeper
+
+226
+00:04:18,190 --> 00:04:18,200
+to unearth something a little bit deeper
+ 
+
+227
+00:04:18,200 --> 00:04:20,150
+to unearth something a little bit deeper
+going on here, which often goes by the
+
+228
+00:04:20,150 --> 00:04:20,160
+going on here, which often goes by the
+ 
+
+229
+00:04:20,160 --> 00:04:21,949
+going on here, which often goes by the
+name duality.
+
+230
+00:04:21,949 --> 00:04:21,959
+name duality.
+ 
+
+231
+00:04:21,959 --> 00:04:23,670
+name duality.
+But before getting into that, I need to
+
+232
+00:04:23,670 --> 00:04:23,680
+But before getting into that, I need to
+ 
+
+233
+00:04:23,680 --> 00:04:25,270
+But before getting into that, I need to
+spend some time talking about linear
+
+234
+00:04:25,270 --> 00:04:25,280
+spend some time talking about linear
+ 
+
+235
+00:04:25,280 --> 00:04:27,670
+spend some time talking about linear
+transformations from multiple dimensions
+
+236
+00:04:27,670 --> 00:04:27,680
+transformations from multiple dimensions
+ 
+
+237
+00:04:27,680 --> 00:04:29,350
+transformations from multiple dimensions
+to one dimension, which is just the
+
+238
+00:04:29,350 --> 00:04:29,360
+to one dimension, which is just the
+ 
+
+239
+00:04:29,360 --> 00:04:32,510
+to one dimension, which is just the
+number line.
+
+240
+00:04:32,510 --> 00:04:32,520
+
+ 
+
+241
+00:04:32,520 --> 00:04:34,150
+
+These are functions that take in a 2D
+
+242
+00:04:34,150 --> 00:04:34,160
+These are functions that take in a 2D
+ 
+
+243
+00:04:34,160 --> 00:04:36,270
+These are functions that take in a 2D
+vector and spit out some number. But
+
+244
+00:04:36,270 --> 00:04:36,280
+vector and spit out some number. But
+ 
+
+245
+00:04:36,280 --> 00:04:38,070
+vector and spit out some number. But
+linear transformations are of course
+
+246
+00:04:38,070 --> 00:04:38,080
+linear transformations are of course
+ 
+
+247
+00:04:38,080 --> 00:04:39,350
+linear transformations are of course
+much more restricted than your
+
+248
+00:04:39,350 --> 00:04:39,360
+much more restricted than your
+ 
+
+249
+00:04:39,360 --> 00:04:41,310
+much more restricted than your
+run-of-the-mill function with a 2D input
+
+250
+00:04:41,310 --> 00:04:41,320
+run-of-the-mill function with a 2D input
+ 
+
+251
+00:04:41,320 --> 00:04:44,030
+run-of-the-mill function with a 2D input
+and a 1D output. As with transformations
+
+252
+00:04:44,030 --> 00:04:44,040
+and a 1D output. As with transformations
+ 
+
+253
+00:04:44,040 --> 00:04:45,550
+and a 1D output. As with transformations
+in higher dimensions, like the ones I
+
+254
+00:04:45,550 --> 00:04:45,560
+in higher dimensions, like the ones I
+ 
+
+255
+00:04:45,560 --> 00:04:47,430
+in higher dimensions, like the ones I
+talked about in chapter three, there are
+
+256
+00:04:47,430 --> 00:04:47,440
+talked about in chapter three, there are
+ 
+
+257
+00:04:47,440 --> 00:04:48,990
+talked about in chapter three, there are
+some formal properties that make these
+
+258
+00:04:48,990 --> 00:04:49,000
+some formal properties that make these
+ 
+
+259
+00:04:49,000 --> 00:04:50,670
+some formal properties that make these
+functions linear. But I'm going to
+
+260
+00:04:50,670 --> 00:04:50,680
+functions linear. But I'm going to
+ 
+
+261
+00:04:50,680 --> 00:04:52,550
+functions linear. But I'm going to
+purposely ignore those here so as to not
+
+262
+00:04:52,550 --> 00:04:52,560
+purposely ignore those here so as to not
+ 
+
+263
+00:04:52,560 --> 00:04:54,550
+purposely ignore those here so as to not
+distract from our end goal, and instead
+
+264
+00:04:54,550 --> 00:04:54,560
+distract from our end goal, and instead
+ 
+
+265
+00:04:54,560 --> 00:04:56,470
+distract from our end goal, and instead
+focus on a certain visual property
+
+266
+00:04:56,470 --> 00:04:56,480
+focus on a certain visual property
+ 
+
+267
+00:04:56,480 --> 00:04:57,750
+focus on a certain visual property
+that's equivalent to all the formal
+
+268
+00:04:57,750 --> 00:04:57,760
+that's equivalent to all the formal
+ 
+
+269
+00:04:57,760 --> 00:04:58,990
+that's equivalent to all the formal
+stuff.
+
+270
+00:04:58,990 --> 00:04:59,000
+stuff.
+ 
+
+271
+00:04:59,000 --> 00:05:02,030
+stuff.
+If you take a line of evenly spaced dots
+
+272
+00:05:02,030 --> 00:05:02,040
+If you take a line of evenly spaced dots
+ 
+
+273
+00:05:02,040 --> 00:05:04,230
+If you take a line of evenly spaced dots
+and apply a transformation,
+
+274
+00:05:04,230 --> 00:05:04,240
+and apply a transformation,
+ 
+
+275
+00:05:04,240 --> 00:05:06,630
+and apply a transformation,
+a linear transformation will keep those
+
+276
+00:05:06,630 --> 00:05:06,640
+a linear transformation will keep those
+ 
+
+277
+00:05:06,640 --> 00:05:09,110
+a linear transformation will keep those
+dots evenly spaced once they land in the
+
+278
+00:05:09,110 --> 00:05:09,120
+dots evenly spaced once they land in the
+ 
+
+279
+00:05:09,120 --> 00:05:12,150
+dots evenly spaced once they land in the
+output space, which is the number line.
+
+280
+00:05:12,150 --> 00:05:12,160
+output space, which is the number line.
+ 
+
+281
+00:05:12,160 --> 00:05:13,990
+output space, which is the number line.
+Otherwise, if there's some line of dots
+
+282
+00:05:13,990 --> 00:05:14,000
+Otherwise, if there's some line of dots
+ 
+
+283
+00:05:14,000 --> 00:05:15,710
+Otherwise, if there's some line of dots
+that gets unevenly spaced, then your
+
+284
+00:05:15,710 --> 00:05:15,720
+that gets unevenly spaced, then your
+ 
+
+285
+00:05:15,720 --> 00:05:19,190
+that gets unevenly spaced, then your
+transformation is not linear.
+
+286
+00:05:19,190 --> 00:05:19,200
+
+ 
+
+287
+00:05:19,200 --> 00:05:21,270
+
+As with the cases we've seen before, one
+
+288
+00:05:21,270 --> 00:05:21,280
+As with the cases we've seen before, one
+ 
+
+289
+00:05:21,280 --> 00:05:23,150
+As with the cases we've seen before, one
+of these linear transformations is
+
+290
+00:05:23,150 --> 00:05:23,160
+of these linear transformations is
+ 
+
+291
+00:05:23,160 --> 00:05:25,070
+of these linear transformations is
+completely determined by where it takes
+
+292
+00:05:25,070 --> 00:05:25,080
+completely determined by where it takes
+ 
+
+293
+00:05:25,080 --> 00:05:27,790
+completely determined by where it takes
+i-hat and j-hat. But this time, each one
+
+294
+00:05:27,790 --> 00:05:27,800
+i-hat and j-hat. But this time, each one
+ 
+
+295
+00:05:27,800 --> 00:05:29,670
+i-hat and j-hat. But this time, each one
+of those basis vectors just lands on a
+
+296
+00:05:29,670 --> 00:05:29,680
+of those basis vectors just lands on a
+ 
+
+297
+00:05:29,680 --> 00:05:31,710
+of those basis vectors just lands on a
+number. So, when we record where they
+
+298
+00:05:31,710 --> 00:05:31,720
+number. So, when we record where they
+ 
+
+299
+00:05:31,720 --> 00:05:34,470
+number. So, when we record where they
+land as the columns of a matrix, each of
+
+300
+00:05:34,470 --> 00:05:34,480
+land as the columns of a matrix, each of
+ 
+
+301
+00:05:34,480 --> 00:05:38,270
+land as the columns of a matrix, each of
+those columns just has a single number.
+
+302
+00:05:38,270 --> 00:05:38,280
+those columns just has a single number.
+ 
+
+303
+00:05:38,280 --> 00:05:41,670
+those columns just has a single number.
+This is a 1 by 2 matrix.
+
+304
+00:05:41,670 --> 00:05:41,680
+This is a 1 by 2 matrix.
+ 
+
+305
+00:05:41,680 --> 00:05:43,150
+This is a 1 by 2 matrix.
+Let's walk through an example of what it
+
+306
+00:05:43,150 --> 00:05:43,160
+Let's walk through an example of what it
+ 
+
+307
+00:05:43,160 --> 00:05:44,270
+Let's walk through an example of what it
+means to apply one of these
+
+308
+00:05:44,270 --> 00:05:44,280
+means to apply one of these
+ 
+
+309
+00:05:44,280 --> 00:05:46,550
+means to apply one of these
+transformations to a vector. Let's say
+
+310
+00:05:46,550 --> 00:05:46,560
+transformations to a vector. Let's say
+ 
+
+311
+00:05:46,560 --> 00:05:48,070
+transformations to a vector. Let's say
+you have a linear transformation that
+
+312
+00:05:48,070 --> 00:05:48,080
+you have a linear transformation that
+ 
+
+313
+00:05:48,080 --> 00:05:52,390
+you have a linear transformation that
+takes I hat to 1 and J hat to -2.
+
+314
+00:05:52,390 --> 00:05:52,400
+takes I hat to 1 and J hat to -2.
+ 
+
+315
+00:05:52,400 --> 00:05:53,630
+takes I hat to 1 and J hat to -2.
+To follow where a vector with
+
+316
+00:05:53,630 --> 00:05:53,640
+To follow where a vector with
+ 
+
+317
+00:05:53,640 --> 00:05:57,030
+To follow where a vector with
+coordinates, say 4 3, ends up, think of
+
+318
+00:05:57,030 --> 00:05:57,040
+coordinates, say 4 3, ends up, think of
+ 
+
+319
+00:05:57,040 --> 00:06:00,190
+coordinates, say 4 3, ends up, think of
+breaking up this vector as 4 * I hat + 3
+
+320
+00:06:00,190 --> 00:06:00,200
+breaking up this vector as 4 * I hat + 3
+ 
+
+321
+00:06:00,200 --> 00:06:01,750
+breaking up this vector as 4 * I hat + 3
+* J hat.
+
+322
+00:06:01,750 --> 00:06:01,760
+* J hat.
+ 
+
+323
+00:06:01,760 --> 00:06:04,030
+* J hat.
+A consequence of linearity is that after
+
+324
+00:06:04,030 --> 00:06:04,040
+A consequence of linearity is that after
+ 
+
+325
+00:06:04,040 --> 00:06:06,510
+A consequence of linearity is that after
+the transformation, the vector will be 4
+
+326
+00:06:06,510 --> 00:06:06,520
+the transformation, the vector will be 4
+ 
+
+327
+00:06:06,520 --> 00:06:10,030
+the transformation, the vector will be 4
+* the place where I hat lands, 1, + 3 *
+
+328
+00:06:10,030 --> 00:06:10,040
+* the place where I hat lands, 1, + 3 *
+ 
+
+329
+00:06:10,040 --> 00:06:12,830
+* the place where I hat lands, 1, + 3 *
+the place where J hat lands, -2,
+
+330
+00:06:12,830 --> 00:06:12,840
+the place where J hat lands, -2,
+ 
+
+331
+00:06:12,840 --> 00:06:14,390
+the place where J hat lands, -2,
+which in this case implies that it lands
+
+332
+00:06:14,390 --> 00:06:14,400
+which in this case implies that it lands
+ 
+
+333
+00:06:14,400 --> 00:06:18,070
+which in this case implies that it lands
+on -2.
+
+334
+00:06:18,070 --> 00:06:18,080
+
+ 
+
+335
+00:06:18,080 --> 00:06:19,670
+
+When you do this calculation purely
+
+336
+00:06:19,670 --> 00:06:19,680
+When you do this calculation purely
+ 
+
+337
+00:06:19,680 --> 00:06:21,590
+When you do this calculation purely
+numerically, it's matrix-vector
+
+338
+00:06:21,590 --> 00:06:21,600
+numerically, it's matrix-vector
+ 
+
+339
+00:06:21,600 --> 00:06:25,990
+numerically, it's matrix-vector
+multiplication.
+
+340
+00:06:25,990 --> 00:06:26,000
+
+ 
+
+341
+00:06:26,000 --> 00:06:27,750
+
+Now, this numerical operation of
+
+342
+00:06:27,750 --> 00:06:27,760
+Now, this numerical operation of
+ 
+
+343
+00:06:27,760 --> 00:06:30,470
+Now, this numerical operation of
+multiplying a 1x2 matrix by a vector
+
+344
+00:06:30,470 --> 00:06:30,480
+multiplying a 1x2 matrix by a vector
+ 
+
+345
+00:06:30,480 --> 00:06:32,110
+multiplying a 1x2 matrix by a vector
+feels just like taking the dot product
+
+346
+00:06:32,110 --> 00:06:32,120
+feels just like taking the dot product
+ 
+
+347
+00:06:32,120 --> 00:06:34,630
+feels just like taking the dot product
+of two vectors. Doesn't that 1x2 matrix
+
+348
+00:06:34,630 --> 00:06:34,640
+of two vectors. Doesn't that 1x2 matrix
+ 
+
+349
+00:06:34,640 --> 00:06:36,190
+of two vectors. Doesn't that 1x2 matrix
+just look like a vector that we tipped
+
+350
+00:06:36,190 --> 00:06:36,200
+just look like a vector that we tipped
+ 
+
+351
+00:06:36,200 --> 00:06:37,909
+just look like a vector that we tipped
+on its side?
+
+352
+00:06:37,909 --> 00:06:37,919
+on its side?
+ 
+
+353
+00:06:37,919 --> 00:06:39,270
+on its side?
+In fact, we could say right now that
+
+354
+00:06:39,270 --> 00:06:39,280
+In fact, we could say right now that
+ 
+
+355
+00:06:39,280 --> 00:06:41,710
+In fact, we could say right now that
+there's a nice association between 1x2
+
+356
+00:06:41,710 --> 00:06:41,720
+there's a nice association between 1x2
+ 
+
+357
+00:06:41,720 --> 00:06:44,430
+there's a nice association between 1x2
+matrices and 2D vectors defined by
+
+358
+00:06:44,430 --> 00:06:44,440
+matrices and 2D vectors defined by
+ 
+
+359
+00:06:44,440 --> 00:06:46,350
+matrices and 2D vectors defined by
+tilting the numerical representation of
+
+360
+00:06:46,350 --> 00:06:46,360
+tilting the numerical representation of
+ 
+
+361
+00:06:46,360 --> 00:06:48,070
+tilting the numerical representation of
+a vector on its side to get the
+
+362
+00:06:48,070 --> 00:06:48,080
+a vector on its side to get the
+ 
+
+363
+00:06:48,080 --> 00:06:50,630
+a vector on its side to get the
+associated matrix, or to tip the matrix
+
+364
+00:06:50,630 --> 00:06:50,640
+associated matrix, or to tip the matrix
+ 
+
+365
+00:06:50,640 --> 00:06:53,470
+associated matrix, or to tip the matrix
+back up to get the associated vector.
+
+366
+00:06:53,470 --> 00:06:53,480
+back up to get the associated vector.
+ 
+
+367
+00:06:53,480 --> 00:06:54,830
+back up to get the associated vector.
+Since we're just looking at numerical
+
+368
+00:06:54,830 --> 00:06:54,840
+Since we're just looking at numerical
+ 
+
+369
+00:06:54,840 --> 00:06:56,710
+Since we're just looking at numerical
+expressions right now, going back and
+
+370
+00:06:56,710 --> 00:06:56,720
+expressions right now, going back and
+ 
+
+371
+00:06:56,720 --> 00:06:59,230
+expressions right now, going back and
+forth between vectors and 1x2 matrices
+
+372
+00:06:59,230 --> 00:06:59,240
+forth between vectors and 1x2 matrices
+ 
+
+373
+00:06:59,240 --> 00:07:01,710
+forth between vectors and 1x2 matrices
+might feel like a silly thing to do.
+
+374
+00:07:01,710 --> 00:07:01,720
+might feel like a silly thing to do.
+ 
+
+375
+00:07:01,720 --> 00:07:03,510
+might feel like a silly thing to do.
+But this suggests something that's truly
+
+376
+00:07:03,510 --> 00:07:03,520
+But this suggests something that's truly
+ 
+
+377
+00:07:03,520 --> 00:07:05,790
+But this suggests something that's truly
+awesome from the geometric view. There's
+
+378
+00:07:05,790 --> 00:07:05,800
+awesome from the geometric view. There's
+ 
+
+379
+00:07:05,800 --> 00:07:07,710
+awesome from the geometric view. There's
+some kind of connection between linear
+
+380
+00:07:07,710 --> 00:07:07,720
+some kind of connection between linear
+ 
+
+381
+00:07:07,720 --> 00:07:09,390
+some kind of connection between linear
+transformations that take vectors to
+
+382
+00:07:09,390 --> 00:07:09,400
+transformations that take vectors to
+ 
+
+383
+00:07:09,400 --> 00:07:15,470
+transformations that take vectors to
+numbers and vectors themselves.
+
+384
+00:07:15,470 --> 00:07:15,480
+
+ 
+
+385
+00:07:15,480 --> 00:07:16,870
+
+Let me show an example that clarifies
+
+386
+00:07:16,870 --> 00:07:16,880
+Let me show an example that clarifies
+ 
+
+387
+00:07:16,880 --> 00:07:18,670
+Let me show an example that clarifies
+the significance, and which just so
+
+388
+00:07:18,670 --> 00:07:18,680
+the significance, and which just so
+ 
+
+389
+00:07:18,680 --> 00:07:20,390
+the significance, and which just so
+happens to also answer the dot product
+
+390
+00:07:20,390 --> 00:07:20,400
+happens to also answer the dot product
+ 
+
+391
+00:07:20,400 --> 00:07:21,990
+happens to also answer the dot product
+puzzle from earlier.
+
+392
+00:07:21,990 --> 00:07:22,000
+puzzle from earlier.
+ 
+
+393
+00:07:22,000 --> 00:07:23,550
+puzzle from earlier.
+Unlearn what you have learned, and
+
+394
+00:07:23,550 --> 00:07:23,560
+Unlearn what you have learned, and
+ 
+
+395
+00:07:23,560 --> 00:07:25,270
+Unlearn what you have learned, and
+imagine that you don't already know that
+
+396
+00:07:25,270 --> 00:07:25,280
+imagine that you don't already know that
+ 
+
+397
+00:07:25,280 --> 00:07:29,030
+imagine that you don't already know that
+the dot product relates to projection.
+
+398
+00:07:29,030 --> 00:07:29,040
+the dot product relates to projection.
+ 
+
+399
+00:07:29,040 --> 00:07:30,750
+the dot product relates to projection.
+What I'm going to do here is take a copy
+
+400
+00:07:30,750 --> 00:07:30,760
+What I'm going to do here is take a copy
+ 
+
+401
+00:07:30,760 --> 00:07:32,310
+What I'm going to do here is take a copy
+of the number line and place it
+
+402
+00:07:32,310 --> 00:07:32,320
+of the number line and place it
+ 
+
+403
+00:07:32,320 --> 00:07:34,430
+of the number line and place it
+diagonally in space somehow, with the
+
+404
+00:07:34,430 --> 00:07:34,440
+diagonally in space somehow, with the
+ 
+
+405
+00:07:34,440 --> 00:07:36,790
+diagonally in space somehow, with the
+number zero sitting at the origin.
+
+406
+00:07:36,790 --> 00:07:36,800
+number zero sitting at the origin.
+ 
+
+407
+00:07:36,800 --> 00:07:38,390
+number zero sitting at the origin.
+Now, think of the two-dimensional unit
+
+408
+00:07:38,390 --> 00:07:38,400
+Now, think of the two-dimensional unit
+ 
+
+409
+00:07:38,400 --> 00:07:40,550
+Now, think of the two-dimensional unit
+vector whose tip sits where the number
+
+410
+00:07:40,550 --> 00:07:40,560
+vector whose tip sits where the number
+ 
+
+411
+00:07:40,560 --> 00:07:42,710
+vector whose tip sits where the number
+one on the number line is. I want to
+
+412
+00:07:42,710 --> 00:07:42,720
+one on the number line is. I want to
+ 
+
+413
+00:07:42,720 --> 00:07:45,670
+one on the number line is. I want to
+give that guy a name, u hat.
+
+414
+00:07:45,670 --> 00:07:45,680
+give that guy a name, u hat.
+ 
+
+415
+00:07:45,680 --> 00:07:47,190
+give that guy a name, u hat.
+This little guy plays an important role
+
+416
+00:07:47,190 --> 00:07:47,200
+This little guy plays an important role
+ 
+
+417
+00:07:47,200 --> 00:07:48,910
+This little guy plays an important role
+in what's about to happen, so just keep
+
+418
+00:07:48,910 --> 00:07:48,920
+in what's about to happen, so just keep
+ 
+
+419
+00:07:48,920 --> 00:07:50,990
+in what's about to happen, so just keep
+him in the back of your mind.
+
+420
+00:07:50,990 --> 00:07:51,000
+him in the back of your mind.
+ 
+
+421
+00:07:51,000 --> 00:07:53,390
+him in the back of your mind.
+If we project 2D vectors straight onto
+
+422
+00:07:53,390 --> 00:07:53,400
+If we project 2D vectors straight onto
+ 
+
+423
+00:07:53,400 --> 00:07:55,670
+If we project 2D vectors straight onto
+this diagonal number line, in effect,
+
+424
+00:07:55,670 --> 00:07:55,680
+this diagonal number line, in effect,
+ 
+
+425
+00:07:55,680 --> 00:07:57,430
+this diagonal number line, in effect,
+we've just defined a function that takes
+
+426
+00:07:57,430 --> 00:07:57,440
+we've just defined a function that takes
+ 
+
+427
+00:07:57,440 --> 00:07:59,590
+we've just defined a function that takes
+2D vectors to numbers.
+
+428
+00:07:59,590 --> 00:07:59,600
+2D vectors to numbers.
+ 
+
+429
+00:07:59,600 --> 00:08:01,270
+2D vectors to numbers.
+What's more, this function is actually
+
+430
+00:08:01,270 --> 00:08:01,280
+What's more, this function is actually
+ 
+
+431
+00:08:01,280 --> 00:08:03,790
+What's more, this function is actually
+linear since it passes our visual test
+
+432
+00:08:03,790 --> 00:08:03,800
+linear since it passes our visual test
+ 
+
+433
+00:08:03,800 --> 00:08:06,190
+linear since it passes our visual test
+that any line of evenly spaced dots
+
+434
+00:08:06,190 --> 00:08:06,200
+that any line of evenly spaced dots
+ 
+
+435
+00:08:06,200 --> 00:08:08,230
+that any line of evenly spaced dots
+remains evenly spaced once it lands on
+
+436
+00:08:08,230 --> 00:08:08,240
+remains evenly spaced once it lands on
+ 
+
+437
+00:08:08,240 --> 00:08:11,830
+remains evenly spaced once it lands on
+the number line.
+
+438
+00:08:11,830 --> 00:08:11,840
+
+ 
+
+439
+00:08:11,840 --> 00:08:13,470
+
+Just to be clear, even though I've
+
+440
+00:08:13,470 --> 00:08:13,480
+Just to be clear, even though I've
+ 
+
+441
+00:08:13,480 --> 00:08:15,590
+Just to be clear, even though I've
+embedded the number line in 2D space
+
+442
+00:08:15,590 --> 00:08:15,600
+embedded the number line in 2D space
+ 
+
+443
+00:08:15,600 --> 00:08:17,390
+embedded the number line in 2D space
+like this, the outputs of the function
+
+444
+00:08:17,390 --> 00:08:17,400
+like this, the outputs of the function
+ 
+
+445
+00:08:17,400 --> 00:08:19,870
+like this, the outputs of the function
+are numbers, not 2D vectors.
+
+446
+00:08:19,870 --> 00:08:19,880
+are numbers, not 2D vectors.
+ 
+
+447
+00:08:19,880 --> 00:08:20,830
+are numbers, not 2D vectors.
+You should think of a function that
+
+448
+00:08:20,830 --> 00:08:20,840
+You should think of a function that
+ 
+
+449
+00:08:20,840 --> 00:08:22,750
+You should think of a function that
+takes in two coordinates and outputs a
+
+450
+00:08:22,750 --> 00:08:22,760
+takes in two coordinates and outputs a
+ 
+
+451
+00:08:22,760 --> 00:08:24,990
+takes in two coordinates and outputs a
+single coordinate.
+
+452
+00:08:24,990 --> 00:08:25,000
+single coordinate.
+ 
+
+453
+00:08:25,000 --> 00:08:26,550
+single coordinate.
+But that vector u hat is a
+
+454
+00:08:26,550 --> 00:08:26,560
+But that vector u hat is a
+ 
+
+455
+00:08:26,560 --> 00:08:28,230
+But that vector u hat is a
+two-dimensional vector living in the
+
+456
+00:08:28,230 --> 00:08:28,240
+two-dimensional vector living in the
+ 
+
+457
+00:08:28,240 --> 00:08:30,590
+two-dimensional vector living in the
+input space. It's just situated in such
+
+458
+00:08:30,590 --> 00:08:30,600
+input space. It's just situated in such
+ 
+
+459
+00:08:30,600 --> 00:08:32,310
+input space. It's just situated in such
+a way that overlaps with the embedding
+
+460
+00:08:32,310 --> 00:08:32,320
+a way that overlaps with the embedding
+ 
+
+461
+00:08:32,320 --> 00:08:34,589
+a way that overlaps with the embedding
+of the number line.
+
+462
+00:08:34,589 --> 00:08:34,599
+of the number line.
+ 
+
+463
+00:08:34,599 --> 00:08:36,630
+of the number line.
+With this projection, we just defined a
+
+464
+00:08:36,630 --> 00:08:36,640
+With this projection, we just defined a
+ 
+
+465
+00:08:36,640 --> 00:08:39,190
+With this projection, we just defined a
+linear transformation from 2D vectors to
+
+466
+00:08:39,190 --> 00:08:39,200
+linear transformation from 2D vectors to
+ 
+
+467
+00:08:39,200 --> 00:08:40,950
+linear transformation from 2D vectors to
+numbers. So, we're going to be able to
+
+468
+00:08:40,950 --> 00:08:40,960
+numbers. So, we're going to be able to
+ 
+
+469
+00:08:40,960 --> 00:08:43,149
+numbers. So, we're going to be able to
+find some kind of 1 by 2 matrix that
+
+470
+00:08:43,149 --> 00:08:43,159
+find some kind of 1 by 2 matrix that
+ 
+
+471
+00:08:43,159 --> 00:08:45,430
+find some kind of 1 by 2 matrix that
+describes that transformation.
+
+472
+00:08:45,430 --> 00:08:45,440
+describes that transformation.
+ 
+
+473
+00:08:45,440 --> 00:08:47,790
+describes that transformation.
+To find that 1 by 2 matrix, let's zoom
+
+474
+00:08:47,790 --> 00:08:47,800
+To find that 1 by 2 matrix, let's zoom
+ 
+
+475
+00:08:47,800 --> 00:08:49,950
+To find that 1 by 2 matrix, let's zoom
+in on this diagonal number line setup
+
+476
+00:08:49,950 --> 00:08:49,960
+in on this diagonal number line setup
+ 
+
+477
+00:08:49,960 --> 00:08:52,430
+in on this diagonal number line setup
+and think about where i hat and j hat
+
+478
+00:08:52,430 --> 00:08:52,440
+and think about where i hat and j hat
+ 
+
+479
+00:08:52,440 --> 00:08:54,590
+and think about where i hat and j hat
+each land since those landing spots are
+
+480
+00:08:54,590 --> 00:08:54,600
+each land since those landing spots are
+ 
+
+481
+00:08:54,600 --> 00:08:58,550
+each land since those landing spots are
+going to be the columns of the matrix.
+
+482
+00:08:58,550 --> 00:08:58,560
+
+ 
+
+483
+00:08:58,560 --> 00:09:00,110
+
+This part's super cool. We can reason
+
+484
+00:09:00,110 --> 00:09:00,120
+This part's super cool. We can reason
+ 
+
+485
+00:09:00,120 --> 00:09:01,790
+This part's super cool. We can reason
+through it with a really elegant piece
+
+486
+00:09:01,790 --> 00:09:01,800
+through it with a really elegant piece
+ 
+
+487
+00:09:01,800 --> 00:09:04,550
+through it with a really elegant piece
+of symmetry. Since i hat and u hat are
+
+488
+00:09:04,550 --> 00:09:04,560
+of symmetry. Since i hat and u hat are
+ 
+
+489
+00:09:04,560 --> 00:09:07,270
+of symmetry. Since i hat and u hat are
+both unit vectors, projecting i hat onto
+
+490
+00:09:07,270 --> 00:09:07,280
+both unit vectors, projecting i hat onto
+ 
+
+491
+00:09:07,280 --> 00:09:09,430
+both unit vectors, projecting i hat onto
+the line passing through u hat looks
+
+492
+00:09:09,430 --> 00:09:09,440
+the line passing through u hat looks
+ 
+
+493
+00:09:09,440 --> 00:09:11,950
+the line passing through u hat looks
+totally symmetric to projecting u hat
+
+494
+00:09:11,950 --> 00:09:11,960
+totally symmetric to projecting u hat
+ 
+
+495
+00:09:11,960 --> 00:09:13,710
+totally symmetric to projecting u hat
+onto the x-axis.
+
+496
+00:09:13,710 --> 00:09:13,720
+onto the x-axis.
+ 
+
+497
+00:09:13,720 --> 00:09:15,430
+onto the x-axis.
+So, when we ask what number does i hat
+
+498
+00:09:15,430 --> 00:09:15,440
+So, when we ask what number does i hat
+ 
+
+499
+00:09:15,440 --> 00:09:17,470
+So, when we ask what number does i hat
+land on when it gets projected, the
+
+500
+00:09:17,470 --> 00:09:17,480
+land on when it gets projected, the
+ 
+
+501
+00:09:17,480 --> 00:09:18,829
+land on when it gets projected, the
+answer's going to be the same as
+
+502
+00:09:18,829 --> 00:09:18,839
+answer's going to be the same as
+ 
+
+503
+00:09:18,839 --> 00:09:20,750
+answer's going to be the same as
+whatever u hat lands on when it's
+
+504
+00:09:20,750 --> 00:09:20,760
+whatever u hat lands on when it's
+ 
+
+505
+00:09:20,760 --> 00:09:22,829
+whatever u hat lands on when it's
+projected onto the x-axis.
+
+506
+00:09:22,829 --> 00:09:22,839
+projected onto the x-axis.
+ 
+
+507
+00:09:22,839 --> 00:09:25,710
+projected onto the x-axis.
+But projecting u hat onto the x-axis
+
+508
+00:09:25,710 --> 00:09:25,720
+But projecting u hat onto the x-axis
+ 
+
+509
+00:09:25,720 --> 00:09:28,150
+But projecting u hat onto the x-axis
+just means taking the x-coordinate of u
+
+510
+00:09:28,150 --> 00:09:28,160
+just means taking the x-coordinate of u
+ 
+
+511
+00:09:28,160 --> 00:09:30,990
+just means taking the x-coordinate of u
+hat. So, by symmetry, the number where i
+
+512
+00:09:30,990 --> 00:09:31,000
+hat. So, by symmetry, the number where i
+ 
+
+513
+00:09:31,000 --> 00:09:32,950
+hat. So, by symmetry, the number where i
+hat lands when it's projected onto that
+
+514
+00:09:32,950 --> 00:09:32,960
+hat lands when it's projected onto that
+ 
+
+515
+00:09:32,960 --> 00:09:34,990
+hat lands when it's projected onto that
+diagonal number line is going to be the
+
+516
+00:09:34,990 --> 00:09:35,000
+diagonal number line is going to be the
+ 
+
+517
+00:09:35,000 --> 00:09:39,190
+diagonal number line is going to be the
+x-coordinate of u hat. Isn't that cool?
+
+518
+00:09:39,190 --> 00:09:39,200
+x-coordinate of u hat. Isn't that cool?
+ 
+
+519
+00:09:39,200 --> 00:09:40,910
+x-coordinate of u hat. Isn't that cool?
+The reasoning is almost identical for
+
+520
+00:09:40,910 --> 00:09:40,920
+The reasoning is almost identical for
+ 
+
+521
+00:09:40,920 --> 00:09:42,710
+The reasoning is almost identical for
+the j hat case. Think about it for a
+
+522
+00:09:42,710 --> 00:09:42,720
+the j hat case. Think about it for a
+ 
+
+523
+00:09:42,720 --> 00:09:49,310
+the j hat case. Think about it for a
+moment.
+
+524
+00:09:49,310 --> 00:09:49,320
+
+ 
+
+525
+00:09:49,320 --> 00:09:51,150
+
+For all the same reasons, the y
+
+526
+00:09:51,150 --> 00:09:51,160
+For all the same reasons, the y
+ 
+
+527
+00:09:51,160 --> 00:09:53,190
+For all the same reasons, the y
+coordinate of u hat gives us the number
+
+528
+00:09:53,190 --> 00:09:53,200
+coordinate of u hat gives us the number
+ 
+
+529
+00:09:53,200 --> 00:09:55,310
+coordinate of u hat gives us the number
+where j hat lands when it's projected
+
+530
+00:09:55,310 --> 00:09:55,320
+where j hat lands when it's projected
+ 
+
+531
+00:09:55,320 --> 00:09:57,470
+where j hat lands when it's projected
+onto the number line copy.
+
+532
+00:09:57,470 --> 00:09:57,480
+onto the number line copy.
+ 
+
+533
+00:09:57,480 --> 00:09:58,750
+onto the number line copy.
+Pause and ponder that for a moment. I
+
+534
+00:09:58,750 --> 00:09:58,760
+Pause and ponder that for a moment. I
+ 
+
+535
+00:09:58,760 --> 00:10:00,990
+Pause and ponder that for a moment. I
+just think that's really cool.
+
+536
+00:10:00,990 --> 00:10:01,000
+just think that's really cool.
+ 
+
+537
+00:10:01,000 --> 00:10:02,790
+just think that's really cool.
+So, the entries of the 1 by 2 matrix
+
+538
+00:10:02,790 --> 00:10:02,800
+So, the entries of the 1 by 2 matrix
+ 
+
+539
+00:10:02,800 --> 00:10:05,030
+So, the entries of the 1 by 2 matrix
+describing the projection transformation
+
+540
+00:10:05,030 --> 00:10:05,040
+describing the projection transformation
+ 
+
+541
+00:10:05,040 --> 00:10:06,950
+describing the projection transformation
+are going to be the coordinates of u
+
+542
+00:10:06,950 --> 00:10:06,960
+are going to be the coordinates of u
+ 
+
+543
+00:10:06,960 --> 00:10:07,830
+are going to be the coordinates of u
+hat.
+
+544
+00:10:07,830 --> 00:10:07,840
+hat.
+ 
+
+545
+00:10:07,840 --> 00:10:09,270
+hat.
+And computing this projection
+
+546
+00:10:09,270 --> 00:10:09,280
+And computing this projection
+ 
+
+547
+00:10:09,280 --> 00:10:11,190
+And computing this projection
+transformation for arbitrary vectors in
+
+548
+00:10:11,190 --> 00:10:11,200
+transformation for arbitrary vectors in
+ 
+
+549
+00:10:11,200 --> 00:10:13,270
+transformation for arbitrary vectors in
+space, which requires multiplying that
+
+550
+00:10:13,270 --> 00:10:13,280
+space, which requires multiplying that
+ 
+
+551
+00:10:13,280 --> 00:10:15,230
+space, which requires multiplying that
+matrix by those vectors, is
+
+552
+00:10:15,230 --> 00:10:15,240
+matrix by those vectors, is
+ 
+
+553
+00:10:15,240 --> 00:10:17,630
+matrix by those vectors, is
+computationally identical to taking a
+
+554
+00:10:17,630 --> 00:10:17,640
+computationally identical to taking a
+ 
+
+555
+00:10:17,640 --> 00:10:21,750
+computationally identical to taking a
+dot product with u hat.
+
+556
+00:10:21,750 --> 00:10:21,760
+
+ 
+
+557
+00:10:21,760 --> 00:10:23,870
+
+This is why taking the dot product with
+
+558
+00:10:23,870 --> 00:10:23,880
+This is why taking the dot product with
+ 
+
+559
+00:10:23,880 --> 00:10:25,910
+This is why taking the dot product with
+a unit vector can be interpreted as
+
+560
+00:10:25,910 --> 00:10:25,920
+a unit vector can be interpreted as
+ 
+
+561
+00:10:25,920 --> 00:10:28,390
+a unit vector can be interpreted as
+projecting a vector onto the span of
+
+562
+00:10:28,390 --> 00:10:28,400
+projecting a vector onto the span of
+ 
+
+563
+00:10:28,400 --> 00:10:34,150
+projecting a vector onto the span of
+that unit vector and taking the length.
+
+564
+00:10:34,150 --> 00:10:34,160
+
+ 
+
+565
+00:10:34,160 --> 00:10:36,310
+
+So, what about non-unit vectors? For
+
+566
+00:10:36,310 --> 00:10:36,320
+So, what about non-unit vectors? For
+ 
+
+567
+00:10:36,320 --> 00:10:37,830
+So, what about non-unit vectors? For
+example, let's say we take that unit
+
+568
+00:10:37,830 --> 00:10:37,840
+example, let's say we take that unit
+ 
+
+569
+00:10:37,840 --> 00:10:39,750
+example, let's say we take that unit
+vector u hat, but we scale it up by a
+
+570
+00:10:39,750 --> 00:10:39,760
+vector u hat, but we scale it up by a
+ 
+
+571
+00:10:39,760 --> 00:10:41,190
+vector u hat, but we scale it up by a
+factor of three.
+
+572
+00:10:41,190 --> 00:10:41,200
+factor of three.
+ 
+
+573
+00:10:41,200 --> 00:10:43,390
+factor of three.
+Numerically, each of its components gets
+
+574
+00:10:43,390 --> 00:10:43,400
+Numerically, each of its components gets
+ 
+
+575
+00:10:43,400 --> 00:10:45,510
+Numerically, each of its components gets
+multiplied by three. So, looking at the
+
+576
+00:10:45,510 --> 00:10:45,520
+multiplied by three. So, looking at the
+ 
+
+577
+00:10:45,520 --> 00:10:47,950
+multiplied by three. So, looking at the
+matrix associated with that vector, it
+
+578
+00:10:47,950 --> 00:10:47,960
+matrix associated with that vector, it
+ 
+
+579
+00:10:47,960 --> 00:10:50,910
+matrix associated with that vector, it
+takes i hat and j hat to three times the
+
+580
+00:10:50,910 --> 00:10:50,920
+takes i hat and j hat to three times the
+ 
+
+581
+00:10:50,920 --> 00:10:55,470
+takes i hat and j hat to three times the
+values where they landed before.
+
+582
+00:10:55,470 --> 00:10:55,480
+
+ 
+
+583
+00:10:55,480 --> 00:10:57,470
+
+Since this is all linear, it implies
+
+584
+00:10:57,470 --> 00:10:57,480
+Since this is all linear, it implies
+ 
+
+585
+00:10:57,480 --> 00:10:59,630
+Since this is all linear, it implies
+more generally that the new matrix can
+
+586
+00:10:59,630 --> 00:10:59,640
+more generally that the new matrix can
+ 
+
+587
+00:10:59,640 --> 00:11:01,590
+more generally that the new matrix can
+be interpreted as projecting any vector
+
+588
+00:11:01,590 --> 00:11:01,600
+be interpreted as projecting any vector
+ 
+
+589
+00:11:01,600 --> 00:11:03,110
+be interpreted as projecting any vector
+onto the number line copy and
+
+590
+00:11:03,110 --> 00:11:03,120
+onto the number line copy and
+ 
+
+591
+00:11:03,120 --> 00:11:05,230
+onto the number line copy and
+multiplying where it lands by three.
+
+592
+00:11:05,230 --> 00:11:05,240
+multiplying where it lands by three.
+ 
+
+593
+00:11:05,240 --> 00:11:06,990
+multiplying where it lands by three.
+This is why the dot product with a
+
+594
+00:11:06,990 --> 00:11:07,000
+This is why the dot product with a
+ 
+
+595
+00:11:07,000 --> 00:11:09,470
+This is why the dot product with a
+non-unit vector can be interpreted as
+
+596
+00:11:09,470 --> 00:11:09,480
+non-unit vector can be interpreted as
+ 
+
+597
+00:11:09,480 --> 00:11:11,710
+non-unit vector can be interpreted as
+first projecting onto that vector, then
+
+598
+00:11:11,710 --> 00:11:11,720
+first projecting onto that vector, then
+ 
+
+599
+00:11:11,720 --> 00:11:13,710
+first projecting onto that vector, then
+scaling up the length of that projection
+
+600
+00:11:13,710 --> 00:11:13,720
+scaling up the length of that projection
+ 
+
+601
+00:11:13,720 --> 00:11:17,750
+scaling up the length of that projection
+by the length of the vector.
+
+602
+00:11:17,750 --> 00:11:17,760
+
+ 
+
+603
+00:11:17,760 --> 00:11:18,870
+
+Take a moment to think about what
+
+604
+00:11:18,870 --> 00:11:18,880
+Take a moment to think about what
+ 
+
+605
+00:11:18,880 --> 00:11:20,550
+Take a moment to think about what
+happened here. We had a linear
+
+606
+00:11:20,550 --> 00:11:20,560
+happened here. We had a linear
+ 
+
+607
+00:11:20,560 --> 00:11:22,310
+happened here. We had a linear
+transformation from 2D space to the
+
+608
+00:11:22,310 --> 00:11:22,320
+transformation from 2D space to the
+ 
+
+609
+00:11:22,320 --> 00:11:24,230
+transformation from 2D space to the
+number line, which was not defined in
+
+610
+00:11:24,230 --> 00:11:24,240
+number line, which was not defined in
+ 
+
+611
+00:11:24,240 --> 00:11:26,110
+number line, which was not defined in
+terms of numerical vectors or numerical
+
+612
+00:11:26,110 --> 00:11:26,120
+terms of numerical vectors or numerical
+ 
+
+613
+00:11:26,120 --> 00:11:27,870
+terms of numerical vectors or numerical
+dot products. It was just defined by
+
+614
+00:11:27,870 --> 00:11:27,880
+dot products. It was just defined by
+ 
+
+615
+00:11:27,880 --> 00:11:30,070
+dot products. It was just defined by
+projecting space onto a diagonal copy of
+
+616
+00:11:30,070 --> 00:11:30,080
+projecting space onto a diagonal copy of
+ 
+
+617
+00:11:30,080 --> 00:11:31,510
+projecting space onto a diagonal copy of
+the number line.
+
+618
+00:11:31,510 --> 00:11:31,520
+the number line.
+ 
+
+619
+00:11:31,520 --> 00:11:32,830
+the number line.
+But because the transformation is
+
+620
+00:11:32,830 --> 00:11:32,840
+But because the transformation is
+ 
+
+621
+00:11:32,840 --> 00:11:35,550
+But because the transformation is
+linear, it was necessarily described by
+
+622
+00:11:35,550 --> 00:11:35,560
+linear, it was necessarily described by
+ 
+
+623
+00:11:35,560 --> 00:11:37,550
+linear, it was necessarily described by
+some 1 by 2 matrix. And since
+
+624
+00:11:37,550 --> 00:11:37,560
+some 1 by 2 matrix. And since
+ 
+
+625
+00:11:37,560 --> 00:11:39,670
+some 1 by 2 matrix. And since
+multiplying a 1 by 2 matrix by a 2D
+
+626
+00:11:39,670 --> 00:11:39,680
+multiplying a 1 by 2 matrix by a 2D
+ 
+
+627
+00:11:39,680 --> 00:11:41,470
+multiplying a 1 by 2 matrix by a 2D
+vector is the same as turning that
+
+628
+00:11:41,470 --> 00:11:41,480
+vector is the same as turning that
+ 
+
+629
+00:11:41,480 --> 00:11:43,030
+vector is the same as turning that
+matrix on its side and taking a dot
+
+630
+00:11:43,030 --> 00:11:43,040
+matrix on its side and taking a dot
+ 
+
+631
+00:11:43,040 --> 00:11:45,070
+matrix on its side and taking a dot
+product, this transformation was
+
+632
+00:11:45,070 --> 00:11:45,080
+product, this transformation was
+ 
+
+633
+00:11:45,080 --> 00:11:49,710
+product, this transformation was
+inescapably related to some 2D vector.
+
+634
+00:11:49,710 --> 00:11:49,720
+inescapably related to some 2D vector.
+ 
+
+635
+00:11:49,720 --> 00:11:51,670
+inescapably related to some 2D vector.
+The lesson here is that anytime you have
+
+636
+00:11:51,670 --> 00:11:51,680
+The lesson here is that anytime you have
+ 
+
+637
+00:11:51,680 --> 00:11:53,590
+The lesson here is that anytime you have
+one of these linear transformations
+
+638
+00:11:53,590 --> 00:11:53,600
+one of these linear transformations
+ 
+
+639
+00:11:53,600 --> 00:11:55,710
+one of these linear transformations
+whose output space is the number line,
+
+640
+00:11:55,710 --> 00:11:55,720
+whose output space is the number line,
+ 
+
+641
+00:11:55,720 --> 00:11:57,430
+whose output space is the number line,
+no matter how it was defined, there's
+
+642
+00:11:57,430 --> 00:11:57,440
+no matter how it was defined, there's
+ 
+
+643
+00:11:57,440 --> 00:11:59,390
+no matter how it was defined, there's
+going to be some unique vector V
+
+644
+00:11:59,390 --> 00:11:59,400
+going to be some unique vector V
+ 
+
+645
+00:11:59,400 --> 00:12:01,470
+going to be some unique vector V
+corresponding to that transformation in
+
+646
+00:12:01,470 --> 00:12:01,480
+corresponding to that transformation in
+ 
+
+647
+00:12:01,480 --> 00:12:02,470
+corresponding to that transformation in
+the sense that applying the
+
+648
+00:12:02,470 --> 00:12:02,480
+the sense that applying the
+ 
+
+649
+00:12:02,480 --> 00:12:04,270
+the sense that applying the
+transformation is the same thing as
+
+650
+00:12:04,270 --> 00:12:04,280
+transformation is the same thing as
+ 
+
+651
+00:12:04,280 --> 00:12:09,870
+transformation is the same thing as
+taking a dot product with that vector.
+
+652
+00:12:09,870 --> 00:12:09,880
+
+ 
+
+653
+00:12:09,880 --> 00:12:12,750
+
+To me, this is utterly beautiful.
+
+654
+00:12:12,750 --> 00:12:12,760
+To me, this is utterly beautiful.
+ 
+
+655
+00:12:12,760 --> 00:12:14,110
+To me, this is utterly beautiful.
+It's an example of something in math
+
+656
+00:12:14,110 --> 00:12:14,120
+It's an example of something in math
+ 
+
+657
+00:12:14,120 --> 00:12:16,110
+It's an example of something in math
+called duality.
+
+658
+00:12:16,110 --> 00:12:16,120
+called duality.
+ 
+
+659
+00:12:16,120 --> 00:12:18,310
+called duality.
+Duality shows up in many different ways
+
+660
+00:12:18,310 --> 00:12:18,320
+Duality shows up in many different ways
+ 
+
+661
+00:12:18,320 --> 00:12:20,190
+Duality shows up in many different ways
+and forms throughout math, and it's
+
+662
+00:12:20,190 --> 00:12:20,200
+and forms throughout math, and it's
+ 
+
+663
+00:12:20,200 --> 00:12:22,910
+and forms throughout math, and it's
+super tricky to actually define. Loosely
+
+664
+00:12:22,910 --> 00:12:22,920
+super tricky to actually define. Loosely
+ 
+
+665
+00:12:22,920 --> 00:12:24,830
+super tricky to actually define. Loosely
+speaking, it refers to situations where
+
+666
+00:12:24,830 --> 00:12:24,840
+speaking, it refers to situations where
+ 
+
+667
+00:12:24,840 --> 00:12:26,870
+speaking, it refers to situations where
+you have a natural but surprising
+
+668
+00:12:26,870 --> 00:12:26,880
+you have a natural but surprising
+ 
+
+669
+00:12:26,880 --> 00:12:29,150
+you have a natural but surprising
+correspondence between two types of
+
+670
+00:12:29,150 --> 00:12:29,160
+correspondence between two types of
+ 
+
+671
+00:12:29,160 --> 00:12:30,990
+correspondence between two types of
+mathematical thing.
+
+672
+00:12:30,990 --> 00:12:31,000
+mathematical thing.
+ 
+
+673
+00:12:31,000 --> 00:12:32,230
+mathematical thing.
+For the linear algebra case that you
+
+674
+00:12:32,230 --> 00:12:32,240
+For the linear algebra case that you
+ 
+
+675
+00:12:32,240 --> 00:12:33,990
+For the linear algebra case that you
+just learned about, you'd say that the
+
+676
+00:12:33,990 --> 00:12:34,000
+just learned about, you'd say that the
+ 
+
+677
+00:12:34,000 --> 00:12:36,070
+just learned about, you'd say that the
+dual of a vector is the linear
+
+678
+00:12:36,070 --> 00:12:36,080
+dual of a vector is the linear
+ 
+
+679
+00:12:36,080 --> 00:12:38,630
+dual of a vector is the linear
+transformation that it encodes.
+
+680
+00:12:38,630 --> 00:12:38,640
+transformation that it encodes.
+ 
+
+681
+00:12:38,640 --> 00:12:40,510
+transformation that it encodes.
+And the dual of a linear transformation
+
+682
+00:12:40,510 --> 00:12:40,520
+And the dual of a linear transformation
+ 
+
+683
+00:12:40,520 --> 00:12:42,750
+And the dual of a linear transformation
+from some space to one dimension is a
+
+684
+00:12:42,750 --> 00:12:42,760
+from some space to one dimension is a
+ 
+
+685
+00:12:42,760 --> 00:12:47,030
+from some space to one dimension is a
+certain vector in that space.
+
+686
+00:12:47,030 --> 00:12:47,040
+
+ 
+
+687
+00:12:47,040 --> 00:12:49,110
+
+So, to sum up, on the surface, the dot
+
+688
+00:12:49,110 --> 00:12:49,120
+So, to sum up, on the surface, the dot
+ 
+
+689
+00:12:49,120 --> 00:12:51,550
+So, to sum up, on the surface, the dot
+product is a very useful geometric tool
+
+690
+00:12:51,550 --> 00:12:51,560
+product is a very useful geometric tool
+ 
+
+691
+00:12:51,560 --> 00:12:53,390
+product is a very useful geometric tool
+for understanding projections and for
+
+692
+00:12:53,390 --> 00:12:53,400
+for understanding projections and for
+ 
+
+693
+00:12:53,400 --> 00:12:55,030
+for understanding projections and for
+testing whether or not vectors tend to
+
+694
+00:12:55,030 --> 00:12:55,040
+testing whether or not vectors tend to
+ 
+
+695
+00:12:55,040 --> 00:12:57,110
+testing whether or not vectors tend to
+point in the same direction. And that's
+
+696
+00:12:57,110 --> 00:12:57,120
+point in the same direction. And that's
+ 
+
+697
+00:12:57,120 --> 00:12:58,870
+point in the same direction. And that's
+probably the most important thing for
+
+698
+00:12:58,870 --> 00:12:58,880
+probably the most important thing for
+ 
+
+699
+00:12:58,880 --> 00:13:01,230
+probably the most important thing for
+you to remember about the dot product.
+
+700
+00:13:01,230 --> 00:13:01,240
+you to remember about the dot product.
+ 
+
+701
+00:13:01,240 --> 00:13:03,230
+you to remember about the dot product.
+But, at a deeper level, dotting two
+
+702
+00:13:03,230 --> 00:13:03,240
+But, at a deeper level, dotting two
+ 
+
+703
+00:13:03,240 --> 00:13:05,470
+But, at a deeper level, dotting two
+vectors together is a way to translate
+
+704
+00:13:05,470 --> 00:13:05,480
+vectors together is a way to translate
+ 
+
+705
+00:13:05,480 --> 00:13:06,870
+vectors together is a way to translate
+one of them into the world of
+
+706
+00:13:06,870 --> 00:13:06,880
+one of them into the world of
+ 
+
+707
+00:13:06,880 --> 00:13:08,390
+one of them into the world of
+transformations.
+
+708
+00:13:08,390 --> 00:13:08,400
+transformations.
+ 
+
+709
+00:13:08,400 --> 00:13:10,270
+transformations.
+Again, numerically, this might feel like
+
+710
+00:13:10,270 --> 00:13:10,280
+Again, numerically, this might feel like
+ 
+
+711
+00:13:10,280 --> 00:13:12,350
+Again, numerically, this might feel like
+a silly point to emphasize. It's just
+
+712
+00:13:12,350 --> 00:13:12,360
+a silly point to emphasize. It's just
+ 
+
+713
+00:13:12,360 --> 00:13:13,990
+a silly point to emphasize. It's just
+two computations that happen to look
+
+714
+00:13:13,990 --> 00:13:14,000
+two computations that happen to look
+ 
+
+715
+00:13:14,000 --> 00:13:16,030
+two computations that happen to look
+similar. But, the reason I find this so
+
+716
+00:13:16,030 --> 00:13:16,040
+similar. But, the reason I find this so
+ 
+
+717
+00:13:16,040 --> 00:13:18,190
+similar. But, the reason I find this so
+important is that throughout math, when
+
+718
+00:13:18,190 --> 00:13:18,200
+important is that throughout math, when
+ 
+
+719
+00:13:18,200 --> 00:13:20,030
+important is that throughout math, when
+you're dealing with a vector, once you
+
+720
+00:13:20,030 --> 00:13:20,040
+you're dealing with a vector, once you
+ 
+
+721
+00:13:20,040 --> 00:13:22,070
+you're dealing with a vector, once you
+really get to know its personality,
+
+722
+00:13:22,070 --> 00:13:22,080
+really get to know its personality,
+ 
+
+723
+00:13:22,080 --> 00:13:23,750
+really get to know its personality,
+sometimes you realize that it's easier
+
+724
+00:13:23,750 --> 00:13:23,760
+sometimes you realize that it's easier
+ 
+
+725
+00:13:23,760 --> 00:13:25,790
+sometimes you realize that it's easier
+to understand it not as an arrow in
+
+726
+00:13:25,790 --> 00:13:25,800
+to understand it not as an arrow in
+ 
+
+727
+00:13:25,800 --> 00:13:28,870
+to understand it not as an arrow in
+space, but as the physical embodiment of
+
+728
+00:13:28,870 --> 00:13:28,880
+space, but as the physical embodiment of
+ 
+
+729
+00:13:28,880 --> 00:13:31,150
+space, but as the physical embodiment of
+a linear transformation. It's as if the
+
+730
+00:13:31,150 --> 00:13:31,160
+a linear transformation. It's as if the
+ 
+
+731
+00:13:31,160 --> 00:13:32,830
+a linear transformation. It's as if the
+vector is really just a conceptual
+
+732
+00:13:32,830 --> 00:13:32,840
+vector is really just a conceptual
+ 
+
+733
+00:13:32,840 --> 00:13:35,390
+vector is really just a conceptual
+shorthand for a certain transformation,
+
+734
+00:13:35,390 --> 00:13:35,400
+shorthand for a certain transformation,
+ 
+
+735
+00:13:35,400 --> 00:13:37,110
+shorthand for a certain transformation,
+since it's easier for us to think about
+
+736
+00:13:37,110 --> 00:13:37,120
+since it's easier for us to think about
+ 
+
+737
+00:13:37,120 --> 00:13:39,550
+since it's easier for us to think about
+arrows in space rather than moving all
+
+738
+00:13:39,550 --> 00:13:39,560
+arrows in space rather than moving all
+ 
+
+739
+00:13:39,560 --> 00:13:42,950
+arrows in space rather than moving all
+of that space to the number line.
+
+740
+00:13:42,950 --> 00:13:42,960
+of that space to the number line.
+ 
+
+741
+00:13:42,960 --> 00:13:44,590
+of that space to the number line.
+In the next video, you'll see another
+
+742
+00:13:44,590 --> 00:13:44,600
+In the next video, you'll see another
+ 
+
+743
+00:13:44,600 --> 00:13:46,830
+In the next video, you'll see another
+really cool example of this duality in
+
+744
+00:13:46,830 --> 00:13:46,840
+really cool example of this duality in
+ 
+
+745
+00:13:46,840 --> 00:13:48,630
+really cool example of this duality in
+action as I talk about the cross
+
+746
+00:13:48,630 --> 00:13:48,640
+action as I talk about the cross
+ 
+
+747
+00:13:48,640 --> 00:13:51,320
+action as I talk about the cross
+product.
+

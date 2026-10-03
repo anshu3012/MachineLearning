@@ -9,7 +9,7 @@ title: "Instance-Based vs Model-Based Learning"
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)).
 > - **Leads to:** Standardization ([Note 9](../09-mldlc/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)); Normalization ([Note 25](../25-normalization/note.md)); K-means ([Note 32](../32-binning-binarization/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)).
-> - **Compare with:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)).
+> - **Compare with:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,0 +1,1105 @@
+1
+00:00:02,940 --> 00:00:06,000
+
+hello again in this lecture we are going
+
+2
+00:00:06,000 --> 00:00:06,010
+hello again in this lecture we are going
+ 
+
+3
+00:00:06,010 --> 00:00:08,400
+hello again in this lecture we are going
+to discuss the Poisson distribution and
+
+4
+00:00:08,400 --> 00:00:08,410
+to discuss the Poisson distribution and
+ 
+
+5
+00:00:08,410 --> 00:00:11,999
+to discuss the Poisson distribution and
+its main characteristics for starters we
+
+6
+00:00:11,999 --> 00:00:12,009
+its main characteristics for starters we
+ 
+
+7
+00:00:12,009 --> 00:00:14,159
+its main characteristics for starters we
+denote a Poisson distribution with the
+
+8
+00:00:14,159 --> 00:00:14,169
+denote a Poisson distribution with the
+ 
+
+9
+00:00:14,169 --> 00:00:17,010
+denote a Poisson distribution with the
+letters P o and a single value parameter
+
+10
+00:00:17,010 --> 00:00:17,020
+letters P o and a single value parameter
+ 
+
+11
+00:00:17,020 --> 00:00:20,480
+letters P o and a single value parameter
+lambda we read the statement below as
+
+12
+00:00:20,480 --> 00:00:20,490
+lambda we read the statement below as
+ 
+
+13
+00:00:20,490 --> 00:00:23,070
+lambda we read the statement below as
+variable Y follows a Poisson
+
+14
+00:00:23,070 --> 00:00:23,080
+variable Y follows a Poisson
+ 
+
+15
+00:00:23,080 --> 00:00:28,560
+variable Y follows a Poisson
+distribution with lambda equal to 4 okay
+
+16
+00:00:28,560 --> 00:00:28,570
+distribution with lambda equal to 4 okay
+ 
+
+17
+00:00:28,570 --> 00:00:31,020
+distribution with lambda equal to 4 okay
+the Poisson distribution deals with the
+
+18
+00:00:31,020 --> 00:00:31,030
+the Poisson distribution deals with the
+ 
+
+19
+00:00:31,030 --> 00:00:33,299
+the Poisson distribution deals with the
+frequency with which an event occurs
+
+20
+00:00:33,299 --> 00:00:33,309
+frequency with which an event occurs
+ 
+
+21
+00:00:33,309 --> 00:00:36,209
+frequency with which an event occurs
+within a specific interval instead of
+
+22
+00:00:36,209 --> 00:00:36,219
+within a specific interval instead of
+ 
+
+23
+00:00:36,219 --> 00:00:38,610
+within a specific interval instead of
+the probability of an event the Poisson
+
+24
+00:00:38,610 --> 00:00:38,620
+the probability of an event the Poisson
+ 
+
+25
+00:00:38,620 --> 00:00:40,950
+the probability of an event the Poisson
+distribution requires knowing how often
+
+26
+00:00:40,950 --> 00:00:40,960
+distribution requires knowing how often
+ 
+
+27
+00:00:40,960 --> 00:00:43,229
+distribution requires knowing how often
+it occurs for a specific period of time
+
+28
+00:00:43,229 --> 00:00:43,239
+it occurs for a specific period of time
+ 
+
+29
+00:00:43,239 --> 00:00:47,910
+it occurs for a specific period of time
+or distance for example a Firefly might
+
+30
+00:00:47,910 --> 00:00:47,920
+or distance for example a Firefly might
+ 
+
+31
+00:00:47,920 --> 00:00:50,430
+or distance for example a Firefly might
+light up three times in 10 seconds on
+
+32
+00:00:50,430 --> 00:00:50,440
+light up three times in 10 seconds on
+ 
+
+33
+00:00:50,440 --> 00:00:52,889
+light up three times in 10 seconds on
+average we should use a Poisson
+
+34
+00:00:52,889 --> 00:00:52,899
+average we should use a Poisson
+ 
+
+35
+00:00:52,899 --> 00:00:54,840
+average we should use a Poisson
+distribution if we want to determine the
+
+36
+00:00:54,840 --> 00:00:54,850
+distribution if we want to determine the
+ 
+
+37
+00:00:54,850 --> 00:00:57,119
+distribution if we want to determine the
+likelihood of it lighting up eight times
+
+38
+00:00:57,119 --> 00:00:57,129
+likelihood of it lighting up eight times
+ 
+
+39
+00:00:57,129 --> 00:01:00,840
+likelihood of it lighting up eight times
+in 20 seconds the graph of the Poisson
+
+40
+00:01:00,840 --> 00:01:00,850
+in 20 seconds the graph of the Poisson
+ 
+
+41
+00:01:00,850 --> 00:01:02,610
+in 20 seconds the graph of the Poisson
+distribution plots the number of
+
+42
+00:01:02,610 --> 00:01:02,620
+distribution plots the number of
+ 
+
+43
+00:01:02,620 --> 00:01:05,070
+distribution plots the number of
+instances the event occurs in a standard
+
+44
+00:01:05,070 --> 00:01:05,080
+instances the event occurs in a standard
+ 
+
+45
+00:01:05,080 --> 00:01:07,350
+instances the event occurs in a standard
+interval of time and the probability for
+
+46
+00:01:07,350 --> 00:01:07,360
+interval of time and the probability for
+ 
+
+47
+00:01:07,360 --> 00:01:10,109
+interval of time and the probability for
+each one thus our graph would always
+
+48
+00:01:10,109 --> 00:01:10,119
+each one thus our graph would always
+ 
+
+49
+00:01:10,119 --> 00:01:13,139
+each one thus our graph would always
+start from 0 since no event can happen a
+
+50
+00:01:13,139 --> 00:01:13,149
+start from 0 since no event can happen a
+ 
+
+51
+00:01:13,149 --> 00:01:16,139
+start from 0 since no event can happen a
+negative amount of times however there
+
+52
+00:01:16,139 --> 00:01:16,149
+negative amount of times however there
+ 
+
+53
+00:01:16,149 --> 00:01:17,850
+negative amount of times however there
+is no cap to the amount of times it
+
+54
+00:01:17,850 --> 00:01:17,860
+is no cap to the amount of times it
+ 
+
+55
+00:01:17,860 --> 00:01:22,440
+is no cap to the amount of times it
+could occur over the time interval ok
+
+56
+00:01:22,440 --> 00:01:22,450
+could occur over the time interval ok
+ 
+
+57
+00:01:22,450 --> 00:01:25,319
+could occur over the time interval ok
+let us explore an example imagine you
+
+58
+00:01:25,319 --> 00:01:25,329
+let us explore an example imagine you
+ 
+
+59
+00:01:25,329 --> 00:01:28,100
+let us explore an example imagine you
+created an online course on probability
+
+60
+00:01:28,100 --> 00:01:28,110
+created an online course on probability
+ 
+
+61
+00:01:28,110 --> 00:01:31,020
+created an online course on probability
+usually your students ask you around 4
+
+62
+00:01:31,020 --> 00:01:31,030
+usually your students ask you around 4
+ 
+
+63
+00:01:31,030 --> 00:01:33,660
+usually your students ask you around 4
+questions per day but yesterday they
+
+64
+00:01:33,660 --> 00:01:33,670
+questions per day but yesterday they
+ 
+
+65
+00:01:33,670 --> 00:01:37,050
+questions per day but yesterday they
+asked 7 surprised by this sudden spike
+
+66
+00:01:37,050 --> 00:01:37,060
+asked 7 surprised by this sudden spike
+ 
+
+67
+00:01:37,060 --> 00:01:38,940
+asked 7 surprised by this sudden spike
+in interest from your students you
+
+68
+00:01:38,940 --> 00:01:38,950
+in interest from your students you
+ 
+
+69
+00:01:38,950 --> 00:01:41,160
+in interest from your students you
+wonder how likely it was that they would
+
+70
+00:01:41,160 --> 00:01:41,170
+wonder how likely it was that they would
+ 
+
+71
+00:01:41,170 --> 00:01:45,359
+wonder how likely it was that they would
+ask exactly 7 questions in this example
+
+72
+00:01:45,359 --> 00:01:45,369
+ask exactly 7 questions in this example
+ 
+
+73
+00:01:45,369 --> 00:01:47,039
+ask exactly 7 questions in this example
+the average number of questions you
+
+74
+00:01:47,039 --> 00:01:47,049
+the average number of questions you
+ 
+
+75
+00:01:47,049 --> 00:01:51,359
+the average number of questions you
+anticipate is 4 so lambda equals 4 the
+
+76
+00:01:51,359 --> 00:01:51,369
+anticipate is 4 so lambda equals 4 the
+ 
+
+77
+00:01:51,369 --> 00:01:53,789
+anticipate is 4 so lambda equals 4 the
+time interval is one entire workday and
+
+78
+00:01:53,789 --> 00:01:53,799
+time interval is one entire workday and
+ 
+
+79
+00:01:53,799 --> 00:01:55,679
+time interval is one entire workday and
+the singular instance you are interested
+
+80
+00:01:55,679 --> 00:01:55,689
+the singular instance you are interested
+ 
+
+81
+00:01:55,689 --> 00:02:01,080
+the singular instance you are interested
+in is 7 therefore Y is 7 to answer this
+
+82
+00:02:01,080 --> 00:02:01,090
+in is 7 therefore Y is 7 to answer this
+ 
+
+83
+00:02:01,090 --> 00:02:02,639
+in is 7 therefore Y is 7 to answer this
+question we need to explore the
+
+84
+00:02:02,639 --> 00:02:02,649
+question we need to explore the
+ 
+
+85
+00:02:02,649 --> 00:02:04,289
+question we need to explore the
+probability function for this type of
+
+86
+00:02:04,289 --> 00:02:04,299
+probability function for this type of
+ 
+
+87
+00:02:04,299 --> 00:02:07,650
+probability function for this type of
+distribution
+
+88
+00:02:07,650 --> 00:02:07,660
+
+ 
+
+89
+00:02:07,660 --> 00:02:11,290
+
+alright as you already saw the Poisson
+
+90
+00:02:11,290 --> 00:02:11,300
+alright as you already saw the Poisson
+ 
+
+91
+00:02:11,300 --> 00:02:13,510
+alright as you already saw the Poisson
+distribution is wildly different from
+
+92
+00:02:13,510 --> 00:02:13,520
+distribution is wildly different from
+ 
+
+93
+00:02:13,520 --> 00:02:16,180
+distribution is wildly different from
+any other we have gone over so far it
+
+94
+00:02:16,180 --> 00:02:16,190
+any other we have gone over so far it
+ 
+
+95
+00:02:16,190 --> 00:02:18,010
+any other we have gone over so far it
+comes without much surprise that its
+
+96
+00:02:18,010 --> 00:02:18,020
+comes without much surprise that its
+ 
+
+97
+00:02:18,020 --> 00:02:19,570
+comes without much surprise that its
+probability function is far different
+
+98
+00:02:19,570 --> 00:02:19,580
+probability function is far different
+ 
+
+99
+00:02:19,580 --> 00:02:21,990
+probability function is far different
+from anything we have examined so far
+
+100
+00:02:21,990 --> 00:02:22,000
+from anything we have examined so far
+ 
+
+101
+00:02:22,000 --> 00:02:25,990
+from anything we have examined so far
+the formula looks as follows P of y
+
+102
+00:02:25,990 --> 00:02:26,000
+the formula looks as follows P of y
+ 
+
+103
+00:02:26,000 --> 00:02:29,530
+the formula looks as follows P of y
+equals lambda to the power of Y times
+
+104
+00:02:29,530 --> 00:02:29,540
+equals lambda to the power of Y times
+ 
+
+105
+00:02:29,540 --> 00:02:31,660
+equals lambda to the power of Y times
+the Euler's number to the power of
+
+106
+00:02:31,660 --> 00:02:31,670
+the Euler's number to the power of
+ 
+
+107
+00:02:31,670 --> 00:02:36,820
+the Euler's number to the power of
+negative lambda over y factorial before
+
+108
+00:02:36,820 --> 00:02:36,830
+negative lambda over y factorial before
+ 
+
+109
+00:02:36,830 --> 00:02:38,260
+negative lambda over y factorial before
+we plug in the values for our course
+
+110
+00:02:38,260 --> 00:02:38,270
+we plug in the values for our course
+ 
+
+111
+00:02:38,270 --> 00:02:40,210
+we plug in the values for our course
+creation example we need to make sure
+
+112
+00:02:40,210 --> 00:02:40,220
+creation example we need to make sure
+ 
+
+113
+00:02:40,220 --> 00:02:42,210
+creation example we need to make sure
+that you understand the entire formula
+
+114
+00:02:42,210 --> 00:02:42,220
+that you understand the entire formula
+ 
+
+115
+00:02:42,220 --> 00:02:44,410
+that you understand the entire formula
+let's refresh your knowledge of the
+
+116
+00:02:44,410 --> 00:02:44,420
+let's refresh your knowledge of the
+ 
+
+117
+00:02:44,420 --> 00:02:47,979
+let's refresh your knowledge of the
+various parts of the formula first the e
+
+118
+00:02:47,979 --> 00:02:47,989
+various parts of the formula first the e
+ 
+
+119
+00:02:47,989 --> 00:02:49,750
+various parts of the formula first the e
+you see on your screen is known as
+
+120
+00:02:49,750 --> 00:02:49,760
+you see on your screen is known as
+ 
+
+121
+00:02:49,760 --> 00:02:53,140
+you see on your screen is known as
+Euler's number or Napier's constant as
+
+122
+00:02:53,140 --> 00:02:53,150
+Euler's number or Napier's constant as
+ 
+
+123
+00:02:53,150 --> 00:02:55,780
+Euler's number or Napier's constant as
+the second name suggests it's a fixed
+
+124
+00:02:55,780 --> 00:02:55,790
+the second name suggests it's a fixed
+ 
+
+125
+00:02:55,790 --> 00:02:58,330
+the second name suggests it's a fixed
+value approximately equal to two point
+
+126
+00:02:58,330 --> 00:02:58,340
+value approximately equal to two point
+ 
+
+127
+00:02:58,340 --> 00:03:01,210
+value approximately equal to two point
+seven two we commonly observe it in
+
+128
+00:03:01,210 --> 00:03:01,220
+seven two we commonly observe it in
+ 
+
+129
+00:03:01,220 --> 00:03:04,000
+seven two we commonly observe it in
+physics mathematics in nature but for
+
+130
+00:03:04,000 --> 00:03:04,010
+physics mathematics in nature but for
+ 
+
+131
+00:03:04,010 --> 00:03:05,620
+physics mathematics in nature but for
+the purpose of this example you only
+
+132
+00:03:05,620 --> 00:03:05,630
+the purpose of this example you only
+ 
+
+133
+00:03:05,630 --> 00:03:09,250
+the purpose of this example you only
+need to know its value secondly a number
+
+134
+00:03:09,250 --> 00:03:09,260
+need to know its value secondly a number
+ 
+
+135
+00:03:09,260 --> 00:03:12,250
+need to know its value secondly a number
+to the power of negative n is the same
+
+136
+00:03:12,250 --> 00:03:12,260
+to the power of negative n is the same
+ 
+
+137
+00:03:12,260 --> 00:03:14,560
+to the power of negative n is the same
+as dividing one by that number to the
+
+138
+00:03:14,560 --> 00:03:14,570
+as dividing one by that number to the
+ 
+
+139
+00:03:14,570 --> 00:03:17,979
+as dividing one by that number to the
+power of n in this case e to the power
+
+140
+00:03:17,979 --> 00:03:17,989
+power of n in this case e to the power
+ 
+
+141
+00:03:17,989 --> 00:03:21,970
+power of n in this case e to the power
+of negative lambda is just one over e to
+
+142
+00:03:21,970 --> 00:03:21,980
+of negative lambda is just one over e to
+ 
+
+143
+00:03:21,980 --> 00:03:27,130
+of negative lambda is just one over e to
+the power of lambda right going back to
+
+144
+00:03:27,130 --> 00:03:27,140
+the power of lambda right going back to
+ 
+
+145
+00:03:27,140 --> 00:03:28,930
+the power of lambda right going back to
+our example the probability of receiving
+
+146
+00:03:28,930 --> 00:03:28,940
+our example the probability of receiving
+ 
+
+147
+00:03:28,940 --> 00:03:32,020
+our example the probability of receiving
+seven questions is equal to four raised
+
+148
+00:03:32,020 --> 00:03:32,030
+seven questions is equal to four raised
+ 
+
+149
+00:03:32,030 --> 00:03:34,830
+seven questions is equal to four raised
+to the seventh degree multiplied by e
+
+150
+00:03:34,830 --> 00:03:34,840
+to the seventh degree multiplied by e
+ 
+
+151
+00:03:34,840 --> 00:03:38,470
+to the seventh degree multiplied by e
+raised to the negative four over 7
+
+152
+00:03:38,470 --> 00:03:38,480
+raised to the negative four over 7
+ 
+
+153
+00:03:38,480 --> 00:03:42,660
+raised to the negative four over 7
+factorial that approximately equals
+
+154
+00:03:42,660 --> 00:03:42,670
+factorial that approximately equals
+ 
+
+155
+00:03:42,670 --> 00:03:46,229
+factorial that approximately equals
+16384 times point zero one eight three
+
+156
+00:03:46,229 --> 00:03:46,239
+16384 times point zero one eight three
+ 
+
+157
+00:03:46,239 --> 00:03:50,710
+16384 times point zero one eight three
+over five thousand forty or point zero
+
+158
+00:03:50,710 --> 00:03:50,720
+over five thousand forty or point zero
+ 
+
+159
+00:03:50,720 --> 00:03:54,009
+over five thousand forty or point zero
+six therefore there was only a six
+
+160
+00:03:54,009 --> 00:03:54,019
+six therefore there was only a six
+ 
+
+161
+00:03:54,019 --> 00:03:55,539
+six therefore there was only a six
+percent chance of receiving exactly
+
+162
+00:03:55,539 --> 00:03:55,549
+percent chance of receiving exactly
+ 
+
+163
+00:03:55,549 --> 00:04:00,630
+percent chance of receiving exactly
+seven questions so far so good
+
+164
+00:04:00,630 --> 00:04:00,640
+seven questions so far so good
+ 
+
+165
+00:04:00,640 --> 00:04:02,979
+seven questions so far so good
+knowing the probability function we can
+
+166
+00:04:02,979 --> 00:04:02,989
+knowing the probability function we can
+ 
+
+167
+00:04:02,989 --> 00:04:05,140
+knowing the probability function we can
+calculate the expected value by
+
+168
+00:04:05,140 --> 00:04:05,150
+calculate the expected value by
+ 
+
+169
+00:04:05,150 --> 00:04:07,150
+calculate the expected value by
+definition the expected value of y
+
+170
+00:04:07,150 --> 00:04:07,160
+definition the expected value of y
+ 
+
+171
+00:04:07,160 --> 00:04:09,699
+definition the expected value of y
+equals the sum of all the products of a
+
+172
+00:04:09,699 --> 00:04:09,709
+equals the sum of all the products of a
+ 
+
+173
+00:04:09,709 --> 00:04:11,710
+equals the sum of all the products of a
+distinct value in the sample space and
+
+174
+00:04:11,710 --> 00:04:11,720
+distinct value in the sample space and
+ 
+
+175
+00:04:11,720 --> 00:04:15,070
+distinct value in the sample space and
+it's probability by plugging in we get
+
+176
+00:04:15,070 --> 00:04:15,080
+it's probability by plugging in we get
+ 
+
+177
+00:04:15,080 --> 00:04:18,099
+it's probability by plugging in we get
+this complicated expression eventually
+
+178
+00:04:18,099 --> 00:04:18,109
+this complicated expression eventually
+ 
+
+179
+00:04:18,109 --> 00:04:19,599
+this complicated expression eventually
+we find that the
+
+180
+00:04:19,599 --> 00:04:19,609
+we find that the
+ 
+
+181
+00:04:19,609 --> 00:04:23,890
+we find that the
+value is simply lambda similarly by
+
+182
+00:04:23,890 --> 00:04:23,900
+value is simply lambda similarly by
+ 
+
+183
+00:04:23,900 --> 00:04:25,570
+value is simply lambda similarly by
+applying the formulas we already know
+
+184
+00:04:25,570 --> 00:04:25,580
+applying the formulas we already know
+ 
+
+185
+00:04:25,580 --> 00:04:28,089
+applying the formulas we already know
+the variance also ends up being equal to
+
+186
+00:04:28,089 --> 00:04:28,099
+the variance also ends up being equal to
+ 
+
+187
+00:04:28,099 --> 00:04:30,760
+the variance also ends up being equal to
+lambda both the mean and the variance
+
+188
+00:04:30,760 --> 00:04:30,770
+lambda both the mean and the variance
+ 
+
+189
+00:04:30,770 --> 00:04:33,249
+lambda both the mean and the variance
+being equal to lambda serve as yet
+
+190
+00:04:33,249 --> 00:04:33,259
+being equal to lambda serve as yet
+ 
+
+191
+00:04:33,259 --> 00:04:34,959
+being equal to lambda serve as yet
+another example of the elegant
+
+192
+00:04:34,959 --> 00:04:34,969
+another example of the elegant
+ 
+
+193
+00:04:34,969 --> 00:04:36,939
+another example of the elegant
+statistics these distributions possess
+
+194
+00:04:36,939 --> 00:04:36,949
+statistics these distributions possess
+ 
+
+195
+00:04:36,949 --> 00:04:40,260
+statistics these distributions possess
+and why we can take advantage of them
+
+196
+00:04:40,260 --> 00:04:40,270
+and why we can take advantage of them
+ 
+
+197
+00:04:40,270 --> 00:04:43,570
+and why we can take advantage of them
+great job everyone now if we wish to
+
+198
+00:04:43,570 --> 00:04:43,580
+great job everyone now if we wish to
+ 
+
+199
+00:04:43,580 --> 00:04:45,399
+great job everyone now if we wish to
+compute the probability of an interval
+
+200
+00:04:45,399 --> 00:04:45,409
+compute the probability of an interval
+ 
+
+201
+00:04:45,409 --> 00:04:48,100
+compute the probability of an interval
+of a Poisson distribution we will take
+
+202
+00:04:48,100 --> 00:04:48,110
+of a Poisson distribution we will take
+ 
+
+203
+00:04:48,110 --> 00:04:49,779
+of a Poisson distribution we will take
+the same steps we usually do for
+
+204
+00:04:49,779 --> 00:04:49,789
+the same steps we usually do for
+ 
+
+205
+00:04:49,789 --> 00:04:53,350
+the same steps we usually do for
+discrete distributions we find the joint
+
+206
+00:04:53,350 --> 00:04:53,360
+discrete distributions we find the joint
+ 
+
+207
+00:04:53,360 --> 00:04:55,420
+discrete distributions we find the joint
+probability of all individual elements
+
+208
+00:04:55,420 --> 00:04:55,430
+probability of all individual elements
+ 
+
+209
+00:04:55,430 --> 00:04:57,550
+probability of all individual elements
+within it if you found this video
+
+210
+00:04:57,550 --> 00:04:57,560
+within it if you found this video
+ 
+
+211
+00:04:57,560 --> 00:04:59,170
+within it if you found this video
+interesting and want to gain an edge in
+
+212
+00:04:59,170 --> 00:04:59,180
+interesting and want to gain an edge in
+ 
+
+213
+00:04:59,180 --> 00:05:01,240
+interesting and want to gain an edge in
+your career make sure to LIKE comment
+
+214
+00:05:01,240 --> 00:05:01,250
+your career make sure to LIKE comment
+ 
+
+215
+00:05:01,250 --> 00:05:03,760
+your career make sure to LIKE comment
+and subscribe and don't forget to check
+
+216
+00:05:03,760 --> 00:05:03,770
+and subscribe and don't forget to check
+ 
+
+217
+00:05:03,770 --> 00:05:05,290
+and subscribe and don't forget to check
+out some of our other videos for another
+
+218
+00:05:05,290 --> 00:05:05,300
+out some of our other videos for another
+ 
+
+219
+00:05:05,300 --> 00:05:07,089
+out some of our other videos for another
+quick win in the data science skills
+
+220
+00:05:07,089 --> 00:05:07,099
+quick win in the data science skills
+ 
+
+221
+00:05:07,099 --> 00:05:09,639
+quick win in the data science skills
+department
+

@@ -45,10 +45,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `fill_value` | The value `SimpleImputer` uses with `strategy="constant"`. | [Note 36](36-imputing-numerical-data/note.md) |
 | `fillna` | The pandas method that replaces every `NaN` with a given value. | [Note 36](36-imputing-numerical-data/note.md) |
 | `find`, `find_all` | Return the first matching tag, or a list of all matching tags. | [Note 18](18-web-scraping/note.md) |
+| `fit` | Trains the model on given inputs and outputs for a number of epochs. | [DL Note 1011](1011-customer-churn-ann/note.md) |
+| `get_weights()` | Returns a layer's weight matrix and bias vector. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | `GridSearchCV` | The scikit-learn class that cross-validates every combination of settings in a grid and keeps the best. | [Note 29](29-pipelines/note.md) |
 | `ignore_index` | Setting of `pd.concat` that renumbers the joined rows from 0. | [Note 17](17-fetching-data-from-api/note.md) |
 | `IterativeImputer` | scikit-learn's class for MICE; still experimental. | [Note 40](40-iterative-imputer-mice/note.md) |
 | `json_normalize` | pandas function that turns nested JSON into flat columns. | [Note 17](17-fetching-data-from-api/note.md) |
+| `keras.datasets.mnist` | Keras's built-in copy of MNIST, already split 60,000 / 10,000. | [DL Note 1012](1012-mnist-ann/note.md) |
+| `keras.Input` | The first item of a Sequential model; gives the shape of one input row. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | `KernelDensity` | scikit-learn's KDE; `score_samples` returns log densities. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | `KNNImputer` | scikit-learn's class for KNN imputation. | [Note 39](39-knn-imputer/note.md) |
 | `max_iter` (IterativeImputer) | The largest number of rounds `IterativeImputer` runs; default 10. | [Note 40](40-iterative-imputer-mice/note.md) |
@@ -57,6 +61,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `max_iter` (SGDRegressor) | The maximum number of epochs in `SGDRegressor`. | [Note 59](59-stochastic-gradient-descent/note.md) |
 | `min_child_weight` | Smallest allowed sum of $p(1-p)$ (in regression: number of rows) in a leaf; default 1. | [Note 125](125-xgboost-classification/note.md) |
 | `MissingIndicator` | The scikit-learn class that builds missing indicator columns; `features_` lists the columns with gaps. | [Note 38](38-missing-indicator-random-sample/note.md) |
+| `model.summary()` | Prints each layer's output shape and number of trainable parameters. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | `n_neighbors` (k) | The number of nearest rows the KNN imputer averages; default 5. | [Note 39](39-knn-imputer/note.md) |
 | `normalize` (`pd.crosstab`) | Turns counts into probabilities: `"all"` joint, `"index"` per row, `"columns"` per column. | [Maths Note 341](341-joint-marginal-conditional-probability/note.md) |
 | `np.where` | NumPy function that picks one value where a condition is true and another where it is false. | [Note 42](42-outliers-zscore/note.md) |
@@ -73,7 +78,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `strategy="most_frequent"` (SimpleImputer) | The `SimpleImputer` setting for mode imputation. | [Note 37](37-missing-categorical-data/note.md) |
 | `strategy` (KBinsDiscretizer) | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans binning. | [Note 32](32-binning-binarization/note.md) |
 | `strategy` (SimpleImputer) | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant. | [Note 36](36-imputing-numerical-data/note.md) |
+| `to_categorical` | Keras function that one-hot encodes integer labels. | [DL Note 1012](1012-mnist-ann/note.md) |
 | `tol` | The size of change below which `IterativeImputer` stops early; default 0.001. | [Note 40](40-iterative-imputer-mice/note.md) |
+| `validation_split` | The share of the training rows Keras holds back as a validation set. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | A/B testing | Comparing an old and a new version on two random groups of users. | [Note 9](09-mldlc/note.md) |
 | Absolute value | A number's size without its sign. | [Note 25](25-normalization/note.md) |
 | absolute_error | A criterion that splits by mean absolute error; leaves predict the median. | [Note 99](99-regression-trees/note.md) |
@@ -83,6 +90,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Activation function | The function that turns $z$ into the output, bringing it into a fixed range. | [DL Note 1004](1004-perceptron/note.md) |
 | Active constraint | An inequality constraint that holds with equality at the answer; its multiplier can be positive. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote. | [Note 115](115-adaboost-intuition/note.md) |
+| Adam | The optimizer used in these projects; optimizers are taught later. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Note 84](84-mutually-exclusive-events/note.md) |
 | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
 | Adjusted Rand score | A number that is 1.0 when two labelings group the points identically, whatever the label numbers. | [Note 130](130-kmeans-from-scratch/note.md) |
@@ -116,6 +124,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Architecture (of a neural network) | How the nodes are arranged in layers and connected by weights. | [DL Note 1009](1009-mlp-intuition/note.md) |
 | arg max | The value of the variable that makes an expression largest. | [Note 88](88-naive-bayes-maths/note.md) |
 | Arg min | The value of a variable that makes an expression smallest, written $\arg\min$. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
+| argmax | The position of the largest value; on 10 class probabilities, the predicted class. | [DL Note 1012](1012-mnist-ann/note.md) |
 | argmin | The values of the variables that make an expression smallest. | [DL Note 1006](1006-perceptron-loss/note.md) |
 | Array | The programming name for a tensor (as in NumPy). | [Note 11](11-tensors/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -158,6 +167,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Note 58](58-batch-gradient-descent/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Note 4](04-batch-learning/note.md) |
 | Batch size | The number of rows in each batch; a hyperparameter. | [Note 60](60-mini-batch-gradient-descent/note.md) |
+| Batch | The rows used for one weight update; Keras uses 32 by default. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Bayes' theorem | $P(A \mid B) = P(B \mid A) P(A) / P(B)$: the rule that reverses a conditional probability. | [Note 85](85-bayes-theorem/note.md) |
 | Bayesian optimisation | Tuning that models the score as a function of the hyperparameters and uses all earlier trials to choose the next one. | [Note 134](134-optuna/note.md) |
 | Bayesian statistics | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. | [Note 85](85-bayes-theorem/note.md) |
@@ -281,6 +291,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Combined sampling | Giving each base model random rows and random columns together. | [Note 108](108-random-forest-intro/note.md) |
 | Combining perceptrons | Feeding several perceptrons' outputs, weighted and with a bias, into another perceptron. | [DL Note 1009](1009-mlp-intuition/note.md) |
 | Commutative law | $a \cdot b = b \cdot a$. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
+| Compile | Choosing the loss, the optimizer and the metrics before training. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Complement ($A^c$) | The event that $A$ does not happen: every outcome not in $A$. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Complement rule | $P(A^c) = 1 - P(A)$. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Complementary slackness | For each inequality constraint, the multiplier or the constraint value is 0. | [Maths Note 620](620-lagrange-multipliers/note.md) |
@@ -411,6 +422,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Demand forecasting | Predicting how much of something will be needed, where and when. | [Note 8](08-applications-of-ml/note.md) |
 | Dendrites, nucleus, axon | The input branches, the processing centre and the output fibre of a neuron. | [DL Note 1004](1004-perceptron/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
+| Dense (fully connected) layer | A layer whose every node receives the output of every node in the layer before. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Dense region, sparse region | An area with many points close together; an area with few points. | [Note 132](132-dbscan/note.md) |
 | Density estimation | Estimating the PDF of a random variable from observed data. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Density plot | A histogram with a smooth KDE curve on top. | [Note 20](20-univariate-analysis/note.md) |
@@ -576,6 +588,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | fit_predict | Trains a clustering model and returns the cluster of every row. | [Note 129](129-kmeans-code/note.md) |
 | fit_transform | Fit and transform in one call; used on the training set only. | [Note 28](28-column-transformer/note.md) |
 | Five-number summary | Minimum, Q1, median, Q3 and maximum. | [Note 20](20-univariate-analysis/note.md) |
+| Flatten layer | A layer that reshapes a multi-dimensional input into one dimension; no parameters. | [DL Note 1012](1012-mnist-ann/note.md) |
 | Flattening | Reshaping a matrix into one long vector so that derivatives stay matrices. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | For loop | Code that repeats once for each item of a collection. | [Note 15](15-working-with-csv/note.md) |
 | Forest-level hyperparameters | The settings that shape the forest itself: n_estimators, max_features, bootstrap, max_samples. | [Note 111](111-random-forest-hyperparameters/note.md) |
@@ -631,6 +644,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Grand mean | The mean of all values from all groups together. | [Maths Note 572](572-one-way-anova/note.md) |
 | Grand total | The sum of every cell of a contingency table: the size of the whole sample. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
 | Graphviz | The graph-drawing program (`dot`) that lays out tree diagrams for dtreeviz and export_graphviz. | [Note 100](100-dtreeviz/note.md) |
+| GRE, TOEFL | Exams taken by students applying to graduate programmes abroad; the first two inputs of the admission data. | [DL Note 1013](1013-graduate-admission-ann/note.md) |
 | Greedy search | Taking the best split at each node without looking ahead. | [Note 97](97-decision-trees-intuition/note.md) |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation. | [Note 29](29-pipelines/note.md) |
 | Grouping effect | Elastic Net's tendency to give correlated inputs similar coefficients instead of keeping only one. | [Note 69](69-elastic-net/note.md) |
@@ -653,6 +667,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | High-dimensional data | Data with a very large number of columns. | [Note 46](46-curse-of-dimensionality/note.md) |
 | Hinge loss | $\max(0, 1 - y(w^T x + b))$ per point: the error term of the soft-margin SVM. | [Note 94](94-svm-soft-margin/note.md) |
 | Histogram | A bar chart of how many values fall in each equal range (bin) of a numerical column. | [Note 20](20-univariate-analysis/note.md) |
+| History object | What `fit` returns: the loss and metrics of every epoch. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Hold-out set | Rows set aside before training, used only to produce honest predictions or scores. | [Note 127](127-stacking-blending/note.md) |
 | Homoscedasticity | The residuals have the same spread for all predicted values. | [Note 56](56-linear-regression-assumptions/note.md) |
 | HTML | The language web pages are written in: a tree of nested tags. | [Note 18](18-web-scraping/note.md) |
@@ -732,6 +747,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | K-nearest neighbours (KNN) | Predicting from the answers of the k closest stored points. | [Note 6](06-instance-vs-model-based/note.md) |
 | Kaggle | A website for sharing datasets and notebooks and for ML competitions. | [Note 17](17-fetching-data-from-api/note.md) |
 | KBinsDiscretizer | scikit-learn's class for equal width, equal frequency and k-means binning. | [Note 32](32-binning-binarization/note.md) |
+| Keras workflow | Build, compile, fit, predict: the four steps of every Keras model. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Keras | The high-level interface built into TensorFlow for defining and training networks. | [DL Note 1001](1001-dl-scope-and-prerequisites/note.md) |
 | Kernel (SVM) | The function that maps the data to the higher-dimensional space (not the Jupyter kernel). | [Note 95](95-kernel-trick-intuition/note.md) |
 | Kernel density estimate (KDE) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. | [Note 20](20-univariate-analysis/note.md) |
@@ -754,6 +770,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | L2 norm | The usual magnitude: square root of the sum of squared components. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | L2 regularisation | Another name for the squared-coefficient penalty used by Ridge. | [Note 63](63-ridge-regression-intuition/note.md) |
 | Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. | [Note 26](26-ordinal-label-encoding/note.md) |
+| Label | The true class of an example, here the digit an image shows. | [DL Note 1012](1012-mnist-ann/note.md) |
 | LabelEncoder | scikit-learn's class for label encoding the target. | [Note 26](26-ordinal-label-encoding/note.md) |
 | Labelled data | Data that includes the output column. | [Note 3](03-types-of-ml/note.md) |
 | labels_ | The cluster number of every training row, after fitting. | [Note 129](129-kmeans-code/note.md) |
@@ -794,6 +811,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Note 73](73-log-loss/note.md) |
 | Limit | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0). | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
+| Linear activation | $f(z) = z$: the node outputs its weighted sum unchanged; used in the output layer for regression. | [DL Note 1013](1013-graduate-admission-ann/note.md) |
 | Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Linear combination | A sum of scaled vectors, $a_1\mathbf{v}_1 + \dots + a_k\mathbf{v}_k$. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Note 44](44-outliers-percentile/note.md) |
@@ -1238,6 +1256,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros. | [Note 27](27-one-hot-encoding/note.md) |
 | Reflection | An orthogonal transformation that mirrors space; determinant $-1$. | [Maths Note 610](610-svd-geometry/note.md) |
 | Regression metric | A number that summarises how close a regression model's predictions are to the true values. | [Note 52](52-regression-metrics/note.md) |
+| Regression output layer | One node per predicted number, with the linear activation. | [DL Note 1013](1013-graduate-admission-ann/note.md) |
 | Regression tree | A decision tree whose leaves predict numbers: the mean output of their training rows. | [Note 99](99-regression-trees/note.md) |
 | Regression | Supervised learning with a numerical output. | [Note 3](03-types-of-ml/note.md) |
 | Regular expression | A short pattern that describes text, such as `\d+` for "one or more digits". | [Note 33](33-mixed-variables/note.md) |
@@ -1325,6 +1344,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Separator | The character between values on a line, such as `,` or a tab. | [Note 15](15-working-with-csv/note.md) |
 | Sequential data | Data fed one piece after another, in order. | [Note 5](05-online-learning/note.md) |
 | Sequential learning | Training the base models one after another, each depending on the previous ones (boosting). | [Note 119](119-bagging-vs-boosting/note.md) |
+| Sequential model | A Keras model whose layers form one stack, each feeding the next. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Series | pandas' one-column structure: values with an index. | [Note 15](15-working-with-csv/note.md) |
 | Server | A computer that is always on and that users reach over the internet. | [Note 4](04-batch-learning/note.md) |
 | set_output | Method that makes a transformer return a pandas DataFrame with `transform="pandas"`. | [Note 28](28-column-transformer/note.md) |
@@ -1369,12 +1389,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Soft voting | Predicting the class with the highest average predicted probability across the base models. | [Note 103](103-voting-classifier/note.md) |
 | Soft-margin SVM | The SVM that allows points inside the margin or on the wrong side, at a cost controlled by C. | [Note 94](94-svm-soft-margin/note.md) |
 | Softmax function | Turns a list of scores into probabilities: $e^{z_k} / \sum_j e^{z_j}$. | [Note 79](79-softmax-regression/note.md) |
+| Softmax output layer | An output layer with one node per class whose outputs are probabilities adding up to 1. | [DL Note 1012](1012-mnist-ann/note.md) |
 | Softmax regression | Logistic regression extended to any number of classes using the softmax function. | [Note 79](79-softmax-regression/note.md) |
 | Softplus | The function $\ln(1 + e^z)$, a smooth convex curve whose derivative is the sigmoid. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | Software integration | Building a model into the software that users use. | [Note 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Note 24](24-standardization/note.md) |
 | Spam classifier | A program that decides whether an email is spam or not. | [Note 1](01-what-is-ml/note.md) |
 | Span | The set of all linear combinations of some vectors. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
+| Sparse categorical cross-entropy | Categorical cross-entropy for labels written as integers. | [DL Note 1012](1012-mnist-ann/note.md) |
 | Sparse data | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. | [Note 25](25-normalization/note.md) |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory. | [Note 27](27-one-hot-encoding/note.md) |
 | Sparse model | A model in which many coefficients are exactly 0. | [Note 67](67-lasso-regression/note.md) |
@@ -1479,6 +1501,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Theoretical distribution | The known distribution that data is compared with, for example on a Q-Q plot. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). | [Note 30](30-function-transformer/note.md) |
 | Thin (reduced) SVD | The SVD with only the columns of $U$ that meet the diagonal of $\Sigma$. | [Maths Note 610](610-svd-geometry/note.md) |
+| Threshold (classification) | The probability above which a prediction counts as class 1. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Threshold | The value that separates 0 from 1 in binarization. | [Note 32](32-binning-binarization/note.md) |
 | Tidy data | Data with one observation per row and one atomic value per cell. | [Note 45](45-feature-construction-splitting/note.md) |
 | Time series | Data recorded at regular time intervals. | [Note 11](11-tensors/note.md) |
@@ -1493,6 +1516,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Train-test split | Dividing the data into training and test sets. | [Note 13](13-toy-project/note.md) |
 | Trainable parameter | A weight or bias whose value training must find. | [DL Note 1008](1008-mlp-notation/note.md) |
 | Training (a perceptron) | Finding its weights and bias from labelled data. | [DL Note 1005](1005-perceptron-trick/note.md) |
+| Training curves (learning curves) | Loss or accuracy plotted against the epoch, for the training and validation sets. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | Training set | The part of the data the model learns from. | [Note 13](13-toy-project/note.md) |
 | Training | The step in which an algorithm learns the pattern from data. | [Note 1](01-what-is-ml/note.md) |
 | Transfer learning | Reusing a network trained by others on a big dataset for our own problem. | [DL Note 1002](1002-what-is-deep-learning/note.md) |

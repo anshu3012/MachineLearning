@@ -8,6 +8,7 @@ title: "Multi-Layer Perceptron: Why Stacking Perceptrons Bends the Boundary"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Neural networks ([Note 1002](../1002-what-is-deep-learning/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)); Problem with the perceptron (XOR) ([Note 1007](../1007-problem-with-perceptron/note.md)); MLP notation and parameter count ([Note 1008](../1008-mlp-notation/note.md)).
+> - **Leads to:** Keras workflow ([Note 1011](../1011-customer-churn-ann/note.md)); ANN for classification ([Note 1011](../1011-customer-churn-ann/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

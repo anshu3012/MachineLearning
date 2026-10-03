@@ -9,6 +9,7 @@ title: "Multiple Linear Regression: Geometric Intuition and Code"
 >
 > - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Dot product ([Note 48](../48-pca-step-by-step/note.md)); Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)).
 > - **Leads to:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)); Perceptron trick ([Note 70](../70-perceptron-trick/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); Perceptron ([Note 1004](../1004-perceptron/note.md)).
+> - **Compare with:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

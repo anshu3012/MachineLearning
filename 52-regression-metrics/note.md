@@ -8,7 +8,7 @@ title: "Regression Metrics: MAE, MSE, RMSE, R² and Adjusted R²"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Best-fit line and squared error ([Note 51](../51-linear-regression-maths/note.md)).
-> - **Leads to:** Regression trees ([Note 99](../99-regression-trees/note.md)).
+> - **Leads to:** Regression trees ([Note 99](../99-regression-trees/note.md)); ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
