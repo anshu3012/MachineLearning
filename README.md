@@ -94,3 +94,10 @@ Symbols like ⊃ or → go in Markdown as maths (`$\supset$`, `$\rightarrow$`): 
 ## Workflow
 
 Write one Note → you review → fix → next. Video 2 first (locks the style), then the Course map (Video 1), then onward.
+
+## Deferred
+
+Videos skipped for now, to come back to later:
+
+- Video 1: Course map (what the course covers, all Videos grouped into modules)
+- Video 8: Applications of Machine Learning
