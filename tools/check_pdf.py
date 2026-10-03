@@ -14,9 +14,17 @@ def words(text):
 def probes(md):
     """First 5 plain words of every prose line (skips images, tables, front matter and maths)."""
     out = []
+    in_code = False
     for line in md.split("\n"):
-        line = re.sub(r"^\s*(>|[-*]|\d+\.|#+)\s*", "", line.strip())
-        line = re.sub(r"\*\*?|`|\$[^$]*\$", "", line)
+        line = re.sub(r"^\s*(>\s*)*", "", line)          # drop block-quote markers
+        if line.startswith("```"):
+            in_code = not in_code                          # skip code blocks: not prose
+            continue
+        if in_code:
+            continue
+        line = re.sub(r"^\s*([-*]|\d+\.|#+)\s*", "", line.strip())
+        line = line.split("$")[0]                          # stop at maths: the PDF renders it differently
+        line = re.sub(r"\*\*?|`", "", line)
         if not line or line.startswith(("![", "|", "---", "title:")):
             continue
         w = words(line)

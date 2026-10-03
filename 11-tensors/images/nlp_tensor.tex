@@ -1,0 +1,26 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\usetikzlibrary{matrix}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{oh/.style={matrix of nodes, ampersand replacement=\&, column sep=-\pgflinewidth, row sep=-\pgflinewidth,
+      nodes={minimum size=0.6cm, anchor=center, draw=cblue, fill=cblue!8, font=\small}}}
+  % vocabulary
+  \node[box=cgrey, align=left, anchor=north west] (vocab) at (-0.3,3.4) {\textbf{Vocabulary} (every unique word)\\
+    hi $\rightarrow$ [1 0 0 0]\quad nitish $\rightarrow$ [0 1 0 0]\quad rahul $\rightarrow$ [0 0 1 0]\quad ankit $\rightarrow$ [0 0 0 1]};
+  \foreach \s/\w/\c [count=\i] in {Hi Nitish/nitish/2, Hi Rahul/rahul/3, Hi Ankit/ankit/4} {
+    \pgfmathsetmacro{\x}{(\i-1)*4.3}
+    \node[font=\bfseries] at (\x+1.2,1.3) {``\s''};
+    \matrix (m\i) [oh] at (\x+1.2,0.2) {
+      |[fill=cgreen!40]| 1 \& 0 \& 0 \& 0 \\
+      0 \& 0 \& 0 \& 0 \\ };
+    \node[note] at (\x+1.2,-0.8) {shape (2, 4)};
+  }
+  \node[fill=cgreen!40, draw=cblue, minimum size=0.6cm, font=\small] at (m1-2-2) {1};
+  \node[fill=cgreen!40, draw=cblue, minimum size=0.6cm, font=\small] at (m2-2-3) {1};
+  \node[fill=cgreen!40, draw=cblue, minimum size=0.6cm, font=\small] at (m3-2-4) {1};
+  \node[note, text=black, align=center] at (0.1,-1.6) {row 1 = ``hi'',\\row 2 = the name};
+  \draw[decorate, decoration={brace, amplitude=7pt, mirror}, cgrey] (-0.2,-2.3) -- (10.0,-2.3)
+    node[midway, below=10pt, font=\small\bfseries] {3 sentences together: a 3D tensor of shape (3, 2, 4), size $3 \times 2 \times 4 = 24$};
+\end{tikzpicture}
+\end{document}

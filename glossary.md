@@ -8,15 +8,19 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Anomaly detection | Finding rows that do not fit the pattern of the rest. | [Video 3](03-types-of-ml/note.md) |
 | API | A service that returns data when our code asks for it. | [Video 7](07-challenges-in-ml/note.md) |
+| Array | The programming name for a tensor (as in NumPy). | [Video 11](11-tensors/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
+| Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data. | [Video 5](05-online-learning/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
+| Channel | One colour layer of an image (red, green or blue). | [Video 11](11-tensors/note.md) |
 | Classification | Supervised learning with a categorical output. | [Video 3](03-types-of-ml/note.md) |
 | Cluster | One group found by clustering. | [Video 3](03-types-of-ml/note.md) |
 | Clustering | Splitting data into groups of similar rows. | [Video 3](03-types-of-ml/note.md) |
+| Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
 | Data cleaning | Fixing errors, gaps and inconsistencies in data. | [Video 7](07-challenges-in-ml/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -34,6 +38,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Feature engineering | Choosing, removing and creating features. | [Video 7](07-challenges-in-ml/note.md) |
 | Feature extraction | Creating a new column from existing ones. | [Video 3](03-types-of-ml/note.md) |
 | Feature scaling | Putting columns on the same scale, so no column dominates distances. | [Video 6](06-instance-vs-model-based/note.md) |
+| Frame | One image in a video. | [Video 11](11-tensors/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
 | Good fit | Capturing the pattern while ignoring the noise. | [Video 7](07-challenges-in-ml/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
@@ -49,6 +54,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
 | Missing values | Empty cells in the data. | [Video 7](07-challenges-in-ml/note.md) |
 | MLOps | Running and maintaining ML models in production. | [Video 7](07-challenges-in-ml/note.md) |
@@ -58,6 +64,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Numerical data | Data made of numbers. | [Video 3](03-types-of-ml/note.md) |
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
+| One-hot encoding | Representing each word or category by a vector with a single 1. | [Video 11](11-tensors/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Video 5](05-online-learning/note.md) |
 | Outliers | Values far from the rest, often mistakes. | [Video 7](07-challenges-in-ml/note.md) |
@@ -66,9 +73,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | partial_fit | A scikit-learn method that continues training from where the model left off. | [Video 5](05-online-learning/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
 | Perceptron | The smallest building block of a neural network; one artificial neuron. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Pixel | One dot of an image, stored as one or more numbers. | [Video 11](11-tensors/note.md) |
 | Policy | The agent's rules for which action to take. | [Video 3](03-types-of-ml/note.md) |
 | Predict | Use a trained model to give an answer for new data it has not seen. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Production environment | The server where a model serves real users. | [Video 4](04-batch-learning/note.md) |
+| Rank | The number of axes of a tensor (ndim in NumPy). | [Video 11](11-tensors/note.md) |
 | Recommendation engine | A model that suggests items, such as movies, to users. | [Video 4](04-batch-learning/note.md) |
 | Regression | Supervised learning with a numerical output. | [Video 3](03-types-of-ml/note.md) |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments. | [Video 3](03-types-of-ml/note.md) |
@@ -80,20 +89,29 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sample | The part of the real world that our data covers. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |
+| Scalar | A single number: a 0D tensor. | [Video 11](11-tensors/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Video 3](03-types-of-ml/note.md) |
 | Sequential data | Data fed one piece after another, in order. | [Video 5](05-online-learning/note.md) |
 | Server | A computer that is always on and that users reach over the internet. | [Video 4](04-batch-learning/note.md) |
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Video 5](05-online-learning/note.md) |
+| Shape | The number of items along each axis. | [Video 11](11-tensors/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
+| Size | The total number of items: the product of the shape. | [Video 11](11-tensors/note.md) |
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Static model | A model that learns nothing new after deployment. | [Video 4](04-batch-learning/note.md) |
 | Supervised learning | Learning from data with inputs and outputs, to predict outputs. | [Video 3](03-types-of-ml/note.md) |
 | Supervision | Correct answers that guide an algorithm while it learns. | [Video 3](03-types-of-ml/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Target, label | Other names for the output column. | [Video 3](03-types-of-ml/note.md) |
+| Tensor | A container of numbers arranged along one or more axes. | [Video 11](11-tensors/note.md) |
+| Time series | Data recorded at regular time intervals. | [Video 11](11-tensors/note.md) |
 | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same. | [Video 7](07-challenges-in-ml/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |
+| Vector | A list of numbers: a 1D tensor. | [Video 11](11-tensors/note.md) |
+| Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |
+| Vocabulary | The list of unique words in a set of texts. | [Video 11](11-tensors/note.md) |
 | Vowpal Wabbit | A fast learning library that supports online learning. | [Video 5](05-online-learning/note.md) |
 | Web scraping | Writing code that extracts data from web pages. | [Video 7](07-challenges-in-ml/note.md) |
+| X, y | Usual names for the input table and the output column. | [Video 11](11-tensors/note.md) |
