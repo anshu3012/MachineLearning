@@ -1,0 +1,193 @@
+---
+title: "Why Lasso Creates Sparsity"
+---
+
+## 1. Overview
+
+> **Key point:** In the one-input Lasso formula, λ is subtracted from the top of the fraction, so a large enough λ makes the slope exactly 0. In Ridge, λ is added to the bottom, which can only make the slope small.
+
+The Lasso Note showed that Lasso sets coefficients to exactly 0, while Ridge only shrinks them. A model in which many coefficients are exactly 0 is called **sparse**, so the effect is called **sparsity**.
+
+"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on regularisation. This Note answers it with the formula for the slope when there is one input. The same idea carries over to many inputs.
+
+## 2. Reminder: the Ridge slope
+
+> **Key point:** Ridge: m = S / (D + λ). λ sits in the denominator.
+
+To keep the formulas short, write
+
+$$S = \sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y}) \qquad D = \sum_{i=1}^{n}(x_i - \bar{x})^2$$
+
+$D$ is always positive. $S$ is positive when $y$ tends to rise with $x$, and negative when it tends to fall.
+
+- **Linear regression** (OLS Note): $m = S / D$ and $b = \bar{y} - m\bar{x}$.
+- **Ridge** (Ridge maths Note): $m = S / (D + \lambda)$, with the same $b$.
+
+## 3. The Lasso slope
+
+> **Key point:** Because of the absolute value, the derivative is different for m > 0 and m < 0, so the formula comes in cases.
+
+### 3.1 The loss
+
+> **Key point:** The loss is the squared error plus 2λ|m|; the 2 only keeps the result tidy.
+
+With one input, the Lasso loss is
+
+$$L = \sum_{i=1}^{n}(y_i - m x_i - b)^2 + 2\lambda|m|$$
+
+The factor 2 does not change the idea: it only rescales $\lambda$, and it makes the final formula simpler.
+
+The penalty does not contain $b$, so differentiating with respect to $b$ gives the OLS result again: $b = \bar{y} - m\bar{x}$. Substituting it, each error becomes $(y_i - \bar{y}) - m(x_i - \bar{x})$.
+
+### 3.2 Why cases are needed
+
+> **Key point:** |m| has no derivative at m = 0, but on each side of 0 it is a simple line.
+
+The absolute value $|m|$ has a sharp corner at $m = 0$ (the Lasso Note's loss curves), so it cannot be differentiated there. On either side, though, it is simple:
+
+- if $m > 0$, then $|m| = m$;
+- if $m < 0$, then $|m| = -m$.
+
+So we solve the two cases separately.
+
+### 3.3 Case m > 0
+
+> **Key point:** For a positive slope, m = (S − λ) / D.
+
+With $|m| = m$, setting the derivative to zero:
+
+$$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n}(x_i - \bar{x})\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right] + 2\lambda = -2S + 2mD + 2\lambda = 0$$
+
+$$m = \frac{S - \lambda}{D}$$
+
+### 3.4 Case m < 0
+
+> **Key point:** For a negative slope, m = (S + λ) / D.
+
+With $|m| = -m$, the penalty term's derivative is $-2\lambda$ instead of $+2\lambda$, so
+
+$$m = \frac{S + \lambda}{D}$$
+
+### 3.5 Case m = 0
+
+> **Key point:** When neither formula gives an answer with the right sign, the slope is 0.
+
+The result of case 3.3 is only valid if it really is positive, which needs $S > \lambda$. The result of case 3.4 is only valid if it really is negative, which needs $S < -\lambda$. When $S$ is between $-\lambda$ and $\lambda$, neither case applies, and the lowest point of the loss is the corner itself: $m = 0$.
+
+| Condition | Lasso slope |
+|---|---|
+| $S > \lambda$ | $m = (S - \lambda) / D$ |
+| $-\lambda \leq S \leq \lambda$ | $m = 0$ |
+| $S < -\lambda$ | $m = (S + \lambda) / D$ |
+
+## 4. Watching the slope reach 0
+
+> **Key point:** Subtracting λ from S brings the top of the fraction down to exactly 0. After that, the slope stays at 0.
+
+Take simple numbers: $S = 100$ and $D = 50$, so the linear regression slope is $100 / 50 = 2$. Figure 1 follows both slopes as $\lambda$ grows.
+
+![Slope against λ for Lasso and Ridge, with S = 100 and D = 50](images/slope_vs_lambda.png){height=45%}
+
+| λ | Lasso: $(100 - \lambda) / 50$ | Ridge: $100 / (50 + \lambda)$ |
+|---|---|---|
+| 0 | 2 | 2 |
+| 25 | 1.5 | 1.33 |
+| 50 | 1 | 1 |
+| 100 | **0** | 0.67 |
+| 150 | **0** | 0.5 |
+| 1000 | **0** | 0.095 |
+
+### 4.1 Why Lasso reaches 0
+
+> **Key point:** λ grows until it equals S; then the numerator is 0.
+
+At $\lambda = 100$, the numerator $S - \lambda$ is 0, so the slope is exactly 0.
+
+### 4.2 Why Lasso stops at 0
+
+> **Key point:** Going past 0 would need the other case's formula, which pushes the slope back to the positive side.
+
+At $\lambda = 150$, the positive-case formula gives $(100 - 150)/50 = -1$. That is negative, so that formula no longer applies (Figure 1, dashed). The negative-case formula would give $(100 + 150)/50 = 5$, which is positive, so it does not apply either (dotted).
+
+Neither side has a valid answer, so the slope stays at $m = 0$. The same happens for every larger $\lambda$.
+
+> **Extra:** The same holds with a negative $S$. With $S = -100$ and $D = 50$, the slope starts at $-2$, rises to $-1$ at $\lambda = 50$ and reaches 0 at $\lambda = 100$. At $\lambda = 150$ the negative-case formula would give $(-100 + 150)/50 = 1$, positive, so it does not apply, and the slope stays at 0.
+
+### 4.3 Why Ridge never reaches 0
+
+> **Key point:** With λ only in the denominator, the fraction gets smaller but its top never changes.
+
+In Ridge's $S / (D + \lambda)$, the numerator stays at 100 however large $\lambda$ gets. Even with $\lambda = 10{,}000{,}000$, the slope is $100 / 10{,}000{,}050$, tiny but not 0.
+
+In short:
+
+- **Lasso:** $\lambda$ is in the **numerator**, so it can make the slope exactly 0.
+- **Ridge:** $\lambda$ is in the **denominator**, so it can only make the slope small.
+
+## 5. The dead zone
+
+> **Key point:** For a fixed λ, every input whose S lies between −λ and λ gets a slope of exactly 0.
+
+Figure 2 turns the view around: $\lambda$ is fixed at 100, and the slope is drawn for every value of $S$.
+
+![The slope against S for linear regression, Ridge and Lasso](images/dead_zone.png){height=45%}
+
+- **Linear regression** (grey dashed): the slope is proportional to $S$.
+- **Ridge** (blue): also proportional to $S$, just flatter. It is 0 only when $S$ is exactly 0.
+- **Lasso** (red): flat at 0 for every $S$ between $-100$ and 100, the shaded **dead zone**. Outside it, Lasso follows the linear regression line moved $\lambda / D = 2$ towards 0.
+
+$S$ measures how strongly the input and output move together. So an input with only a weak relationship falls into the dead zone and is dropped. That is the feature selection of the Lasso Note.
+
+> **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding**. With several inputs, Lasso has no single formula, but scikit-learn's method (coordinate descent) applies this same soft-threshold step to one coefficient at a time, over and over. That is why many coefficients land exactly on 0.
+
+## 6. Checking with scikit-learn
+
+> **Key point:** On the 100-point example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
+
+For the 100-point example of the earlier Notes, $S = 2416.73$ and $D = 86.85$. So the slope reaches 0 at $\lambda = 2416.73$.
+
+| λ | Formula | scikit-learn `Lasso` |
+|---|---|---|
+| 500 | 22.071 | 22.071 |
+| 1000 | 16.313 | 16.313 |
+| 2000 | 4.799 | 4.799 |
+| 2416.73 | 0 | 0 |
+| 3000 | 0 | 0 |
+
+scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals $\lambda / n$. With $n = 100$, the slope reaches 0 at alpha $= 24.17$: the value found in the Lasso Note.
+
+> **Python:** The one-input Lasso slope.
+>
+> ```python
+> def lasso_slope(S, D, lam):
+>     if S > lam:
+>         return (S - lam) / D
+>     if S < -lam:
+>         return (S + lam) / D
+>     return 0.0
+>
+> lasso_slope(100, 50, 25)       # 1.5
+> lasso_slope(100, 50, 150)      # 0.0
+> ```
+
+## 7. Summary
+
+| | Ridge | Lasso |
+|---|---|---|
+| Slope, one input | $S / (D + \lambda)$ | $(S - \lambda)/D$, 0, or $(S + \lambda)/D$ |
+| Where λ appears | denominator | numerator |
+| Large λ | slope small, never 0 | slope exactly 0 |
+| Weak inputs | kept with small coefficients | dropped (dead zone) |
+
+- Sparsity means many coefficients exactly 0.
+- The absolute value forces the Lasso formula into cases, and λ ends up subtracted from the numerator.
+- Once $\lambda \geq |S|$, the slope is 0 and stays there.
+
+## 8. Key terms
+
+| Term | Meaning |
+|---|---|
+| Sparsity | Having many coefficients exactly equal to 0 |
+| Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0 |
+| Dead zone | The range of S for which the Lasso slope is exactly 0 |
+| Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso |

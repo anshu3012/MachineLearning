@@ -83,6 +83,7 @@ notes:
   64: 64-ridge-regression-maths
   65: 65-ridge-gradient-descent
   66: 66-ridge-key-points
+  67: 67-lasso-regression
 
 concepts:
   # 0 Foundations
@@ -202,7 +203,7 @@ concepts:
   - {id: polynomial_regression, name: Polynomial regression, step: 8, videos: [61], status: confirmed}
   - {id: regularisation, name: Regularisation, step: 8, videos: [63], status: confirmed}
   - {id: ridge, name: Ridge regression, step: 8, videos: [63, 64, 65, 66], status: confirmed}
-  - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: draft}
+  - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: confirmed}
   - {id: elasticnet, name: ElasticNet, step: 8, videos: [69], status: draft}
   - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: draft}
   - {id: sigmoid, name: Sigmoid function, step: 8, videos: [74], status: draft}
@@ -441,10 +442,10 @@ links:
   - [polynomial_regression, needs, polynomial_features, confirmed]
   - [polynomial_regression, compared with, overfitting, confirmed]
   - [ridge, is a kind of, regularisation, confirmed]
-  - [lasso, is a kind of, regularisation, draft]
+  - [lasso, is a kind of, regularisation, confirmed]
   - [elasticnet, is a kind of, regularisation, draft]
-  - [lasso, compared with, ridge, draft]
-  - [lasso, used in, feature_selection, draft]
+  - [lasso, compared with, ridge, confirmed]
+  - [lasso, used in, feature_selection, confirmed]
   - [ridge, needs, multiple_lr, confirmed]
   - [ridge, needs, normal_equation, confirmed]
   - [ridge, needs, gradient_descent, confirmed]
