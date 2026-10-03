@@ -103,6 +103,7 @@ notes:
   84: 84-mutually-exclusive-events
   85: 85-bayes-theorem
   86: 86-bayes-problem
+  87: 87-naive-bayes-intuition
 
 concepts:
   # 0 Foundations

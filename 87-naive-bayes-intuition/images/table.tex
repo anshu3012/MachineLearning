@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\usepackage{colortbl}
+\begin{document}
+\begin{tikzpicture}
+  \node {\renewcommand{\arraystretch}{1.25}%
+  \begin{tabular}{rllll}
+    \textbf{match} & \textbf{toss} & \textbf{venue} & \textbf{outlook} & \textbf{result} \\ \hline
+    \rowcolor{cgreen!15} 1 & won & Chennai & sunny & win \\
+    \rowcolor{cgreen!15} 2 & won & Mumbai & sunny & win \\
+    \rowcolor{cgreen!15} 3 & lost & Chennai & sunny & win \\
+    \rowcolor{cgreen!15} 4 & won & Mumbai & overcast & win \\
+    \rowcolor{cgreen!15} 5 & won & Chennai & sunny & win \\
+    \rowcolor{cred!15} 6 & lost & Mumbai & sunny & loss \\
+    \rowcolor{cred!15} 7 & lost & Chennai & rainy & loss \\
+    \rowcolor{cred!15} 8 & won & Mumbai & rainy & loss \\ \hline
+    \rowcolor{corange!20} new & lost & Mumbai & sunny & \textbf{?} \\
+  \end{tabular}};
+\end{tikzpicture}
+\end{document}

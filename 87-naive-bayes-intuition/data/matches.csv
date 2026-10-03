@@ -1,0 +1,9 @@
+toss,venue,outlook,result
+won,Chennai,sunny,win
+won,Mumbai,sunny,win
+lost,Chennai,sunny,win
+won,Mumbai,overcast,win
+won,Chennai,sunny,win
+lost,Mumbai,sunny,loss
+lost,Chennai,rainy,loss
+won,Mumbai,rainy,loss

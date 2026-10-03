@@ -7,7 +7,7 @@ title: "Naive Bayes Foundations: Mutually Exclusive Events"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Naive Bayes (Video 87, coming).
+> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

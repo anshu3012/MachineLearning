@@ -8,7 +8,7 @@ title: "Naive Bayes Foundations: Bayes' Theorem"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Conditional probability ([Note 82](../82-conditional-probability/note.md)).
-> - **Leads to:** Naive Bayes (Video 87, coming).
+> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

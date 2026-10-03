@@ -109,6 +109,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Chi-squared test (chi2) | A test scoring how strongly a column is linked to the target; needs values of 0 or more. | [Video 29](29-pipelines/note.md) |
 | Cholesky solver | A scikit-learn Ridge solver that solves the closed-form equation directly. | [Video 64](64-ridge-regression-maths/note.md) |
 | Chunk | A piece of a file, read as a small DataFrame. | [Video 15](15-working-with-csv/note.md) |
+| Class prior | The share of training rows in a class. | [Video 87](87-naive-bayes-intuition/note.md) |
 | Class | An attribute that labels tags; used to select the right ones. | [Video 18](18-web-scraping/note.md) |
 | class_sep | make_classification setting for how far apart the classes are. | [Video 71](71-perceptron-code/note.md) |
 | class_weight | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes. | [Video 81](81-logistic-hyperparameters/note.md) |
@@ -425,6 +426,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mutually exclusive events | Events that cannot happen at the same time; their intersection has probability 0. | [Video 84](84-mutually-exclusive-events/note.md) |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins. | [Video 32](32-binning-binarization/note.md) |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. | [Video 49](49-pca-mnist/note.md) |
+| Naive assumption | The assumption that the inputs are conditionally independent given the class. | [Video 87](87-naive-bayes-intuition/note.md) |
+| Naive Bayes classifier | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. | [Video 87](87-naive-bayes-intuition/note.md) |
 | Naive Bayes | A classification algorithm based on Bayes' theorem (later Notes). | [Video 82](82-conditional-probability/note.md) |
 | named_steps | Dictionary of a pipeline's steps, from each name to its object. | [Video 29](29-pipelines/note.md) |
 | nan-Euclidean distance | The Euclidean distance over the columns both rows have, scaled by (all columns / used columns). | [Video 39](39-knn-imputer/note.md) |
@@ -579,6 +582,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Scaling | Bringing input columns to similar ranges. | [Video 13](13-toy-project/note.md) |
 | Scatter plot | One dot per row, with one numerical column on each axis. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | scikit-learn | Python's main library for classical ML. | [Video 13](13-toy-project/note.md) |
+| Score | Likelihood × prior for a class; proportional to the posterior. | [Video 87](87-naive-bayes-intuition/note.md) |
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Video 29](29-pipelines/note.md) |
 | Semester | One of two six-month halves of a year. | [Video 34](34-date-and-time/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Video 3](03-types-of-ml/note.md) |
