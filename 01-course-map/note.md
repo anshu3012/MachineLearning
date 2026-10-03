@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 217 of 217 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 221 of 221 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -106,6 +106,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | One-sample proportion test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | One-way ANOVA | [Note 572](../572-one-way-anova/note.md) | confirmed |
 | Jacobian and matrix gradients | [Note 602](../602-jacobian-and-matrix-gradients/note.md) | confirmed |
+| Singular value decomposition | [Note 610](../610-svd-geometry/note.md), [Note 611](../611-computing-the-svd/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -207,6 +208,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | PCA | [Note 3](../03-types-of-ml/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md), [Note 49](../49-pca-mnist/note.md) | confirmed |
 | Feature extraction | [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 | Curse of dimensionality | [Note 46](../46-curse-of-dimensionality/note.md), [Note 91](../91-knn/note.md) | confirmed |
+| Low-rank approximation (truncated SVD) | [Note 612](../612-low-rank-approximation/note.md) | confirmed |
+| Latent semantic analysis | [Note 613](../613-svd-in-machine-learning/note.md) | confirmed |
 
 ### 2.8 Step 7: Split
 
@@ -268,6 +271,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Balanced random forest | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Cost-sensitive learning | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Cosine similarity | [Note 362](../362-dot-product-and-cosine-similarity/note.md) | confirmed |
+| Moore-Penrose pseudo-inverse | [Note 613](../613-svd-in-machine-learning/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -332,7 +336,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 217 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 221 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -541,6 +545,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 601 | Partial derivatives and gradients | [Note 600](../600-derivatives-of-one-variable/note.md) | written |
 | 602 | Jacobian and matrix gradients | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
 | 603 | Hessian and multivariate Taylor, Taylor series | [Note 530](../530-eigenvectors-and-eigenvalues/note.md), [Note 600](../600-derivatives-of-one-variable/note.md) | written |
+| 610 | Singular value decomposition | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | written |
+| 611 | Singular value decomposition | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | written |
+| 612 | Low-rank approximation (truncated SVD) | [Note 611](../611-computing-the-svd/note.md) | written |
+| 613 | Latent semantic analysis, Moore-Penrose pseudo-inverse | [Note 27](../27-one-hot-encoding/note.md), [Note 360](../360-vectors-and-feature-vectors/note.md), [Note 611](../611-computing-the-svd/note.md) | written |
 
 ## 5. The Algorithm chooser
 

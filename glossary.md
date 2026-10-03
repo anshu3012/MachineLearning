@@ -13,6 +13,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | $\Phi(z)$ | The CDF of the standard normal distribution: the area to the left of $z$. | [Maths Note 251](251-standard-normal-and-z-table/note.md) |
 | $\phi(z)$ | The PDF of the standard normal distribution. | [Maths Note 251](251-standard-normal-and-z-table/note.md) |
 | $\text{Lognormal}(\mu, \sigma^2)$ | The distribution of $X$ when $\ln X \sim N(\mu, \sigma^2)$. | [Maths Note 261](261-uniform-and-log-normal/note.md) |
+| $A^{\mathsf T}A$ | The symmetric, positive semi-definite matrix whose eigenvectors are the right singular vectors and whose eigenvalues are the squared singular values. | [Maths Note 611](611-computing-the-svd/note.md) |
 | $N(\mu, \sigma^2)$ | A normal distribution with mean $\mu$ and variance $\sigma^2$. | [Maths Note 250](250-normal-distribution/note.md) |
 | $P(X = x)$ | The probability that the random variable $X$ takes the value $x$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | $P(X = x, Y = y)$ | The joint probability that $X$ takes the value $x$ and $Y$ the value $y$ together. | [Maths Note 341](341-joint-marginal-conditional-probability/note.md) |
@@ -270,6 +271,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Computation graph | A function broken into elementary steps, each a node, with arrows for the flow of values. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | conda | A package and environment manager for Python and other software. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | conda-forge | A free, community-run conda channel. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Condition number | $\sigma_1 / \sigma_n$: how much a matrix can magnify errors when we solve with it. | [Maths Note 611](611-computing-the-svd/note.md) |
 | Conditional independence | Independence that holds once a third variable (here the class) is known. | [Note 88](88-naive-bayes-maths/note.md) |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$. | [Note 82](82-conditional-probability/note.md) |
 | Condorcet's jury theorem | A majority of independent voters, each right with probability above 0.5, is right more often than any one voter, and more so as voters are added. | [Note 102](102-voting-ensemble/note.md) |
@@ -429,6 +431,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Dynamic search space | A search space in which some hyperparameters exist only for some values of another, such as the algorithm. | [Note 134](134-optuna/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Note 6](06-instance-vs-model-based/note.md) |
 | Early stopping | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. | [Note 58](58-batch-gradient-descent/note.md) |
+| Eckart–Young theorem | The truncated SVD is the closest rank-$k$ matrix to $A$; its spectral error is $\sigma_{k+1}$. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | Economy rate | A bowler's runs conceded per over. | [Note 45](45-feature-construction-splitting/note.md) |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Note 48](48-pca-step-by-step/note.md) |
 | Eigenbasis | A basis made of eigenvectors of a matrix. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
@@ -532,12 +535,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Forest-level hyperparameters | The settings that shape the forest itself: n_estimators, max_features, bootstrap, max_samples. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | Format string | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. | [Note 34](34-date-and-time/note.md) |
 | Forward selection | Feature selection that starts empty and adds the best column at a time. | [Note 23](23-what-is-feature-engineering/note.md) |
+| Four fundamental subspaces | Row space, null space, column space and left null space of a matrix. | [Maths Note 611](611-computing-the-svd/note.md) |
 | Frame | One image in a video. | [Note 11](11-tensors/note.md) |
 | Framing an ML problem | Turning a business problem into a precise ML task that can be built and measured. | [Note 14](14-framing-ml-problem/note.md) |
 | Framing the problem | Deciding the goal, users, cost, team and approach before any work starts. | [Note 9](09-mldlc/note.md) |
 | Fraud detection | Spotting dishonest transactions; here the outliers are what we want to find. | [Note 41](41-what-are-outliers/note.md) |
 | Frequency distribution table | A table of each value or category with the number of times it occurs. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
 | Frequency | How many times a value or category occurs. | [Note 20](20-univariate-analysis/note.md) |
+| Frobenius norm | The square root of the sum of all squared entries of a matrix, $\sqrt{\sum\sigma_i^2}$. | [Maths Note 612](612-low-rank-approximation/note.md) |
+| Full SVD | The SVD with square $U$ and $V$, and $\Sigma$ the same shape as $A$. | [Maths Note 610](610-svd-geometry/note.md) |
 | Fully grown tree | A tree split until every leaf is pure; usually overfits. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | func | The `FunctionTransformer` parameter that holds the function to apply. | [Note 30](30-function-transformer/note.md) |
 | Function of several variables | $f: \mathbb{R}^n \to \mathbb{R}$: a vector of $n$ numbers in, one number out. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
@@ -700,6 +706,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0. | [Note 89](89-naive-bayes-code/note.md) |
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1). | [Note 63](63-ridge-regression-intuition/note.md) |
 | Latency | The delay between a request and its answer; high for KNN on large data. | [Note 91](91-knn/note.md) |
+| Latent semantic analysis (LSA) | Describing documents by their top-$k$ singular directions of the document-word matrix, so that texts on one topic align. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | Law of large numbers | The more trials, the closer a share of trials gets to the true probability. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | Law of total probability | $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the $A_i$ are mutually exclusive and cover every case. | [Note 86](86-bayes-problem/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -716,6 +723,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Note 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | Least-squares loss | $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
+| Left null space | The output directions perpendicular to every column; spanned by the remaining $\mathbf{u}_i$. | [Maths Note 611](611-computing-the-svd/note.md) |
+| Left singular vector ($\mathbf{u}_i$) | An output direction of the SVD; a column of $U$. | [Maths Note 610](610-svd-geometry/note.md) |
 | Leptokurtic | Excess kurtosis above 0: fatter tails than normal. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Levene's test | A hypothesis test with $H_0$: the groups have equal variances. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use. | [Note 123](123-xgboost-intro/note.md) |
@@ -784,6 +793,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Matrix (of a transformation) | The grid of numbers whose columns are where the basis vectors land. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Matrix calculus | Rules for differentiating expressions with vectors and matrices. | [Note 54](54-multiple-lr-maths/note.md) |
 | Matrix factorisation (decomposition) | Writing a matrix as a product of simpler matrices. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
+| Matrix factorisation (recommenders) | Predicting ratings as a viewer vector times a film vector, fitted on the known ratings only. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | Matrix product | The matrix $BA$ of the composition "apply $A$, then $B$". | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Note 11](11-tensors/note.md) |
 | Matrix-vector multiplication | $A\mathbf{x}$: the linear combination of the columns of $A$ with the coordinates of $\mathbf{x}$ as scalars. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
@@ -826,6 +836,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mini-batch gradient descent | Gradient descent that uses a small random group of rows for every update. | [Note 58](58-batch-gradient-descent/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Note 5](05-online-learning/note.md) |
 | Miniforge | A small installer with only conda and Python, using conda-forge. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Minimum-norm solution | Among all equally good least-squares solutions, the one with the smallest length; what $A^{+}\mathbf{b}$ returns. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | Minkowski distance | A family of distances: p = 2 is Euclidean, p = 1 is Manhattan. | [Note 91](91-knn/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Note 25](25-normalization/note.md) |
 | Minority class | The rare class in imbalanced data, usually the one we need to find. | [Note 133](133-imbalanced-data/note.md) |
@@ -850,7 +861,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Note 6](06-instance-vs-model-based/note.md) |
 | monotonic_cst | Setting that forces predictions to only rise or only fall as a column grows. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Note 22](22-pandas-profiling/note.md) |
-| Moore-Penrose pseudo-inverse | A generalised inverse for matrices that are not square or have no inverse. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
+| Moore–Penrose pseudo-inverse ($A^{+}$) | $V\Sigma^{+}U^{\mathsf T}$: the SVD inverted with zero singular values left at zero. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | More extreme | Having as much or more evidence against $H_0$, in the direction(s) of $H_1$. | [Maths Note 300](300-p-values/note.md) |
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Note 37](37-missing-categorical-data/note.md) |
 | Multi-layer stacking | Stacking with more than one layer of base models below the meta-model. | [Note 127](127-stacking-blending/note.md) |
@@ -895,6 +906,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root. | [Note 100](100-dtreeviz/note.md) |
 | Node-level column sampling | Drawing a new random set of columns before every split (random forest). | [Note 110](110-bagging-vs-random-forest/note.md) |
 | Noise (irreducible error) | Randomness in the data that no model can predict. | [Note 62](62-bias-variance/note.md) |
+| Noise floor | The flat run of small singular values that random noise produces. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | Noise point | A point that is neither core nor border; DBSCAN labels it -1. | [Note 132](132-dbscan/note.md) |
 | Nominal data | Categorical data whose categories have no order, such as states. | [Note 26](26-ordinal-label-encoding/note.md) |
 | Non-closed-form solution | An answer reached by improving a guess step by step. | [Note 51](51-linear-regression-maths/note.md) |
@@ -918,6 +930,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | np.linalg.inv | NumPy function that computes the inverse of a square matrix. | [Note 55](55-multiple-lr-code/note.md) |
 | np.linalg.lstsq | NumPy function that finds the least-squares solution of a linear system. | [Note 55](55-multiple-lr-code/note.md) |
 | Null hypothesis ($H_0$) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
+| Null space | All vectors a matrix sends to $\mathbf{0}$; spanned by the $\mathbf{v}_i$ with $\sigma_i = 0$. | [Maths Note 611](611-computing-the-svd/note.md) |
 | Nullable integer (Int64) | The pandas integer type that can also hold a missing value, `<NA>`. | [Note 33](33-mixed-variables/note.md) |
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Note 22](22-pandas-profiling/note.md) |
 | Number of samples ($k$) | How many samples are drawn; different from the sample size $n$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
@@ -956,7 +969,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Note 26](26-ordinal-label-encoding/note.md) |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Note 26](26-ordinal-label-encoding/note.md) |
 | Ordinary least squares (OLS) | The closed-form method for linear regression: the line with the smallest sum of squared errors. | [Note 51](51-linear-regression-maths/note.md) |
+| Orthogonal matrix | A square matrix with orthonormal columns; it rotates or flips, and its inverse is its transpose. | [Maths Note 610](610-svd-geometry/note.md) |
 | Orthogonal | Perpendicular; for non-zero vectors, dot product 0. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
+| Orthonormal | Vectors of length 1 that are all perpendicular to each other. | [Maths Note 610](610-svd-geometry/note.md) |
 | Out-of-bag (OOB) evaluation, OOB score | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. | [Note 113](113-oob-score/note.md) |
 | Out-of-bag rows | The rows a base model never saw because its bootstrap sample missed them (about 37%). | [Note 105](105-bagging-intuition/note.md) |
 | Out-of-core computing | Training on data bigger than the RAM by loading it chunk by chunk. | [Note 123](123-xgboost-intro/note.md) |
@@ -999,6 +1014,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Past defaulters | Past borrowers who did not repay their loan. | [Note 8](08-applications-of-ml/note.md) |
 | Pasting | Bagging with rows sampled without replacement. | [Note 105](105-bagging-intuition/note.md) |
 | Pattern | The relationship between input and output that the algorithm discovers. | [Note 1](01-what-is-ml/note.md) |
+| PCA through the SVD | Taking the principal components from $V$ of the centred data, with variances $\sigma_i^2/n$ and scores $U\Sigma$. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Note 3](03-types-of-ml/note.md) |
 | pd.crosstab | pandas function that counts how often each pair of values from two columns occurs. | [Note 89](89-naive-bayes-code/note.md) |
 | pd.cut | The pandas function that puts values into intervals we give it. | [Note 32](32-binning-binarization/note.md) |
@@ -1046,6 +1062,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Population | The entire group of individuals or objects we want to study. | [Maths Note 220](220-what-is-statistics/note.md) |
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0. | [Note 70](70-perceptron-trick/note.md) |
 | Positive hyperplane ($\pi^+$) | The copy of the separating hyperplane moved out until it touches the first positive point. | [Note 92](92-svm-intuition/note.md) |
+| Positive semi-definite | A symmetric matrix whose eigenvalues are all 0 or positive. | [Maths Note 610](610-svd-geometry/note.md) |
 | Positive skew (right skew) | A long tail on the right: a few very large values. | [Note 20](20-univariate-analysis/note.md) |
 | Post-hoc test | A test run after ANOVA rejects, to find which groups differ. | [Maths Note 572](572-one-way-anova/note.md) |
 | Posterior | The probability of an event after the evidence is taken into account. | [Note 85](85-bayes-theorem/note.md) |
@@ -1114,10 +1131,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | RandomForestClassifier | scikit-learn's random forest for classification. | [Note 108](108-random-forest-intro/note.md) |
 | RandomForestRegressor | scikit-learn's random forest for regression. | [Note 108](108-random-forest-intro/note.md) |
 | Randomised controlled trial | An experiment that assigns a treatment at random, to test causation. | [Maths Note 231](231-covariance-and-correlation/note.md) |
+| Randomized SVD | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations. | [Note 99](99-regression-trees/note.md) |
 | Range | The largest value minus the smallest. | [Maths Note 222](222-measures-of-dispersion/note.md) |
 | Rank (of a matrix) | The number of linearly independent columns. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Rank | The number of axes of a tensor (ndim in NumPy). | [Note 11](11-tensors/note.md) |
+| Rank-$k$ approximation (truncated SVD) | The sum of the first $k$ layers, $\hat{A}_k = U_k\Sigma_kV_k^{\mathsf T}$. | [Maths Note 612](612-low-rank-approximation/note.md) |
+| Rank-1 layer | One term $\sigma_i\mathbf{u}_i\mathbf{v}_i^{\mathsf T}$ of the SVD written as a sum. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | RapidAPI | A website listing many APIs, including free ones. | [Note 17](17-fetching-data-from-api/note.md) |
 | Rate $\lambda$ | The average number of events per interval; the only parameter of the Poisson distribution. | [Maths Note 560](560-poisson-distribution/note.md) |
 | Rate limit | The most requests an API accepts in a given time. | [Note 17](17-fetching-data-from-api/note.md) |
@@ -1131,6 +1151,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Recommender system | A system that suggests items a user is likely to like. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Reduced sample space | The outcomes that remain possible once the condition is known. | [Note 82](82-conditional-probability/note.md) |
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros. | [Note 27](27-one-hot-encoding/note.md) |
+| Reflection | An orthogonal transformation that mirrors space; determinant $-1$. | [Maths Note 610](610-svd-geometry/note.md) |
 | Regression metric | A number that summarises how close a regression model's predictions are to the true values. | [Note 52](52-regression-metrics/note.md) |
 | Regression tree | A decision tree whose leaves predict numbers: the mean output of their training rows. | [Note 99](99-regression-trees/note.md) |
 | Regression | Supervised learning with a numerical output. | [Note 3](03-types-of-ml/note.md) |
@@ -1156,6 +1177,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Retrain | Train a model again, here from scratch on old + new data. | [Note 4](04-batch-learning/note.md) |
 | Reward / punishment | Good / bad feedback after an action. | [Note 3](03-types-of-ml/note.md) |
 | Ridge regression | Linear regression with a penalty on the sum of squared coefficients. | [Note 63](63-ridge-regression-intuition/note.md) |
+| Right singular vector ($\mathbf{v}_i$) | An input direction of the SVD; a column of $V$. | [Maths Note 610](610-svd-geometry/note.md) |
 | Right-tailed and left-tailed test | One-tailed tests for $H_1: \mu > \mu_0$ and $H_1: \mu < \mu_0$. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | River | A Python library for online machine learning. | [Note 5](05-online-learning/note.md) |
 | robots.txt | A file at a site's root listing what bots are asked not to visit. | [Note 18](18-web-scraping/note.md) |
@@ -1167,8 +1189,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Root mean squared error (RMSE) | The square root of MSE, in the output's units. | [Note 52](52-regression-metrics/note.md) |
 | Root node | The first node of a tree, holding all the training rows. | [Note 97](97-decision-trees-intuition/note.md) |
 | Rotation matrix | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
+| Rotation | An orthogonal matrix with determinant $+1$: turns space without stretching or flipping. | [Maths Note 610](610-svd-geometry/note.md) |
 | Row and column totals | The sums in the margins of a contingency table; each counts one whole event. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
 | Row sampling | Giving each base model a random subset of the rows. | [Note 108](108-random-forest-intro/note.md) |
+| Row space | The span of the rows of a matrix; spanned by the $\mathbf{v}_i$ with $\sigma_i > 0$. | [Maths Note 611](611-computing-the-svd/note.md) |
 | Row vector | A vector written as one row, shape $1 \times n$. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | RPM | Revolutions per minute: how fast a motor turns. | [Note 8](08-applications-of-ml/note.md) |
 | Runge's phenomenon | The large swings of a high-degree polynomial near the ends of the interval it is fitted on. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
@@ -1240,6 +1264,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Note 28](28-column-transformer/note.md) |
 | Simulated annealing | Lowering the learning rate gradually so the search settles down. | [Note 59](59-stochastic-gradient-descent/note.md) |
 | Single linkage | Cluster distance = distance of the closest pair of points. | [Note 131](131-hierarchical-clustering/note.md) |
+| Singular value ($\sigma_i$) | A stretch factor of a matrix: the length of $A\mathbf{v}_i$; never negative, listed largest first. | [Maths Note 610](610-svd-geometry/note.md) |
+| Singular value decomposition (SVD) | Writing any matrix as $A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal. | [Maths Note 610](610-svd-geometry/note.md) |
+| Singular value equation | $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$. | [Maths Note 610](610-svd-geometry/note.md) |
 | Size | The total number of items: the product of the shape. | [Note 11](11-tensors/note.md) |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Note 20](20-univariate-analysis/note.md) |
 | Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane; 0 if it is on the correct side. | [Note 94](94-svm-soft-margin/note.md) |
@@ -1261,6 +1288,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | sparse_output | `OneHotEncoder` parameter; `False` returns a normal NumPy array. | [Note 27](27-one-hot-encoding/note.md) |
 | Sparsity | Having many coefficients exactly equal to 0. | [Note 68](68-lasso-sparsity/note.md) |
 | Sparsity-aware split finding | Choosing, at each split, the side (left or right) for missing values by comparing the gain of both. | [Note 123](123-xgboost-intro/note.md) |
+| Spectral norm | The largest stretch of a matrix, $\lVert M\rVert_2 = \sigma_1$. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | splitter | "best" searches every threshold; "random" draws thresholds at random. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | Splitting criterion (threshold) | The value a numerical question compares against, such as petal length $\le$ 2.45. | [Note 97](97-decision-trees-intuition/note.md) |
 | Splitting | Dividing a node's rows into parts according to a question. | [Note 97](97-decision-trees-intuition/note.md) |
@@ -1324,6 +1352,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Survival function | One minus the CDF: the probability of a value above $x$; `sf` in scipy. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
 | SVD (singular value decomposition) | A factorisation that works for any matrix, square or not. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
+| Symmetric matrix | A square matrix equal to its own transpose. | [Maths Note 610](610-svd-geometry/note.md) |
 | Synthetic data | Rows created by an algorithm rather than collected. | [Note 133](133-imbalanced-data/note.md) |
 | T critical value | $t_{\alpha/2,\,n-1}$: the t value leaving $\alpha/2$ in each tail; 2.045 for 95% and $n = 30$. | [Maths Note 282](282-t-procedure/note.md) |
 | T statistic | The value of $t$ computed from the sample in a t-test. | [Maths Note 301](301-one-sample-t-test/note.md) |
@@ -1348,6 +1377,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Theoretical (classical) probability | Favourable outcomes divided by all outcomes, for equally likely outcomes. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Theoretical distribution | The known distribution that data is compared with, for example on a Q-Q plot. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). | [Note 30](30-function-transformer/note.md) |
+| Thin (reduced) SVD | The SVD with only the columns of $U$ that meet the diagonal of $\Sigma$. | [Maths Note 610](610-svd-geometry/note.md) |
 | Threshold | The value that separates 0 from 1 in binarization. | [Note 32](32-binning-binarization/note.md) |
 | Tidy data | Data with one observation per row and one atomic value per cell. | [Note 45](45-feature-construction-splitting/note.md) |
 | Time series | Data recorded at regular time intervals. | [Note 11](11-tensors/note.md) |
@@ -1376,6 +1406,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | True negative (TN) | Predicted negative, and actually negative. | [Note 76](76-accuracy-confusion-matrix/note.md) |
 | True positive (TP) | Predicted positive, and actually positive. | [Note 76](76-accuracy-confusion-matrix/note.md) |
 | True positive rate (TPR) | The fraction of real positives the model flags; the same as recall. | [Note 78](78-roc-auc/note.md) |
+| TruncatedSVD | scikit-learn's rank-$k$ SVD without centring; works on sparse matrices. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | TSV file | Like a CSV file, with tabs between values. | [Note 15](15-working-with-csv/note.md) |
 | Tukey's HSD | A post-hoc test comparing every pair of groups with the overall Type I error held at $\alpha$. | [Maths Note 572](572-one-way-anova/note.md) |
 | Two-tailed p-value | The tail areas beyond $-\lvert z \rvert$ and $+\lvert z \rvert$ together: $2\,\Phi(-\lvert z \rvert)$ for a z-test. | [Maths Note 300](300-p-values/note.md) |

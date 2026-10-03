@@ -9,7 +9,7 @@ title: "Types of Machine Learning"
 >
 > - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
 > - **Leads to:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Applications of ML ([Note 8](../08-applications-of-ml/note.md)); Framing an ML problem ([Note 9](../09-mldlc/note.md)); Feature selection ([Note 9](../09-mldlc/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Compare with:** Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Compare with:** Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Low-rank approximation (truncated SVD) ([Note 612](../612-low-rank-approximation/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

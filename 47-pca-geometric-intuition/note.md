@@ -9,7 +9,7 @@ title: "PCA: Geometric Intuition"
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Dimensionality reduction ([Note 46](../46-curse-of-dimensionality/note.md)).
 > - **Leads to:** Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)); One-way ANOVA ([Note 572](../572-one-way-anova/note.md)).
-> - **Compare with:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)).
+> - **Compare with:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)); Low-rank approximation (truncated SVD) ([Note 612](../612-low-rank-approximation/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. What PCA is

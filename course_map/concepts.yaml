@@ -209,6 +209,10 @@ notes:
   601: 601-partial-derivatives-and-gradients
   602: 602-jacobian-and-matrix-gradients
   603: 603-hessian-and-multivariate-taylor
+  610: 610-svd-geometry
+  611: 611-computing-the-svd
+  612: 612-low-rank-approximation
+  613: 613-svd-in-machine-learning
 
 concepts:
   # 0 Foundations
@@ -298,6 +302,10 @@ concepts:
   - {id: gradient, name: Partial derivatives and gradients, step: 0, videos: [57, 601], status: confirmed}
   - {id: jacobian, name: Jacobian and matrix gradients, step: 0, videos: [602], status: confirmed}
   - {id: hessian, name: Hessian and multivariate Taylor, step: 0, videos: [126, 603], status: confirmed}
+  - {id: svd, name: Singular value decomposition, step: 0, videos: [610, 611], status: confirmed}
+  - {id: low_rank_approx, name: Low-rank approximation (truncated SVD), step: 6, videos: [612], status: confirmed}
+  - {id: lsa, name: Latent semantic analysis, step: 6, videos: [613], status: confirmed}
+  - {id: pseudo_inverse, name: Moore-Penrose pseudo-inverse, step: 8, videos: [613], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -812,6 +820,17 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [svd, needs, linear_transformation, confirmed]
+  - [svd, needs, eigen, confirmed]
+  - [svd, compared with, eigen, confirmed]
+  - [svd, used in, pca, confirmed]
+  - [low_rank_approx, needs, svd, confirmed]
+  - [low_rank_approx, compared with, pca, confirmed]
+  - [lsa, needs, svd, confirmed]
+  - [lsa, needs, bag_of_words, confirmed]
+  - [pseudo_inverse, needs, svd, confirmed]
+  - [pseudo_inverse, compared with, normal_equation, confirmed]
+  - [pseudo_inverse, fixes, multicollinearity, confirmed]
   - [gradient_descent, needs, derivative, confirmed]
   - [taylor_series, needs, derivative, confirmed]
   - [gradient, needs, derivative, confirmed]

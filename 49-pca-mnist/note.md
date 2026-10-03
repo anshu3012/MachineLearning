@@ -8,6 +8,7 @@ title: "PCA in Practice: MNIST"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)); Feature extraction ([Note 47](../47-pca-geometric-intuition/note.md)); Variance ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Compare with:** Low-rank approximation (truncated SVD) ([Note 612](../612-low-rank-approximation/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

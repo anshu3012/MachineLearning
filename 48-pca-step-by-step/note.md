@@ -9,7 +9,7 @@ title: "PCA: Problem Formulation and Step-by-Step Solution"
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)); Feature extraction ([Note 47](../47-pca-geometric-intuition/note.md)); Variance ([Note 47](../47-pca-geometric-intuition/note.md)).
 > - **Leads to:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Equation of a hyperplane ([Note 53](../53-multiple-linear-regression/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); Hessian and multivariate Taylor ([Note 126](../126-xgboost-maths/note.md)); Cosine similarity ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)).
-> - **Compare with:** Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)).
+> - **Compare with:** Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Singular value decomposition ([Note 610](../610-svd-geometry/note.md)); Low-rank approximation (truncated SVD) ([Note 612](../612-low-rank-approximation/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

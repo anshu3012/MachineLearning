@@ -8,7 +8,8 @@ title: "Eigenvectors and Eigenvalues in Depth"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Linear transformations and matrices ([Note 500](../500-linear-transformations-and-matrices/note.md)).
-> - **Leads to:** Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)).
+> - **Leads to:** Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)); Singular value decomposition ([Note 610](../610-svd-geometry/note.md)).
+> - **Compare with:** Singular value decomposition ([Note 610](../610-svd-geometry/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

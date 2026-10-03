@@ -8,7 +8,7 @@ title: "Vectors and Feature Vectors"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Tensors ([Note 11](../11-tensors/note.md)).
-> - **Leads to:** Vector magnitude, distance and scalar operations ([Note 361](../361-magnitude-distance-and-scalar-operations/note.md)); Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Linear combinations, span and basis ([Note 490](../490-linear-combinations-span-and-basis/note.md)).
+> - **Leads to:** Vector magnitude, distance and scalar operations ([Note 361](../361-magnitude-distance-and-scalar-operations/note.md)); Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Linear combinations, span and basis ([Note 490](../490-linear-combinations-span-and-basis/note.md)); Latent semantic analysis ([Note 613](../613-svd-in-machine-learning/note.md)).
 > - **Compare with:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)).
 <!-- /where-this-fits -->
 
