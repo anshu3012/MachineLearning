@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 153 of 154 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 159 of 159 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -88,7 +88,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Exploratory data analysis | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md) | confirmed |
 | Univariate analysis | [Note 9](../09-mldlc/note.md), [Note 20](../20-univariate-analysis/note.md) | confirmed |
 | Bivariate and multivariate analysis | [Note 9](../09-mldlc/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
-| Imbalanced data | [Note 9](../09-mldlc/note.md), Video 133, coming | confirmed |
+| Imbalanced data | [Note 9](../09-mldlc/note.md), [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Variance | [Note 19](../19-understanding-your-data/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 | Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
 | Descriptive statistics | [Note 19](../19-understanding-your-data/note.md) | confirmed |
@@ -139,6 +139,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Date and time features | [Note 34](../34-date-and-time/note.md) | confirmed |
 | Feature importance | [Note 99](../99-regression-trees/note.md), [Note 100](../100-dtreeviz/note.md), [Note 114](../114-feature-importance/note.md) | confirmed |
 | Permutation importance | [Note 114](../114-feature-importance/note.md) | confirmed |
+| Random under- and oversampling | [Note 133](../133-imbalanced-data/note.md) | confirmed |
+| SMOTE | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 
 ### 2.7 Step 6: Reduce dimensions
 
@@ -206,6 +208,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Stacking and blending | [Note 127](../127-stacking-blending/note.md) | confirmed |
 | Hierarchical clustering | [Note 131](../131-hierarchical-clustering/note.md) | confirmed |
 | DBSCAN | [Note 132](../132-dbscan/note.md) | confirmed |
+| Balanced random forest | [Note 133](../133-imbalanced-data/note.md) | confirmed |
+| Cost-sensitive learning | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -231,7 +235,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Learning rate | [Note 57](../57-gradient-descent/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 120](../120-gradient-boosting-intuition/note.md) | confirmed |
 | Elbow method and WCSS | [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md) | confirmed |
-| Optuna | Video 134, coming | draft |
+| Bayesian optimisation | [Note 134](../134-optuna/note.md) | confirmed |
+| Optuna | [Note 134](../134-optuna/note.md) | confirmed |
 
 ### 2.12 Step 11: Deploy
 
@@ -269,7 +274,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 154 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 159 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -422,8 +427,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 130 | Clustering, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 129](../129-kmeans-code/note.md) | written |
 | 131 | Clustering, Hierarchical clustering | [Note 3](../03-types-of-ml/note.md) | written |
 | 132 | Anomaly detection, Clustering, DBSCAN | [Note 3](../03-types-of-ml/note.md) | written |
-| 133 | Imbalanced data | nothing | coming |
-| 134 | Optuna | [Note 118](../118-adaboost-hyperparameters/note.md) | coming |
+| 133 | Balanced random forest, Cost-sensitive learning, Imbalanced data, Random under- and oversampling, SMOTE | [Note 78](../78-roc-auc/note.md), [Note 91](../91-knn/note.md), [Note 114](../114-feature-importance/note.md), [Note 127](../127-stacking-blending/note.md) | written |
+| 134 | Bayesian optimisation, Optuna | [Note 118](../118-adaboost-hyperparameters/note.md), [Note 127](../127-stacking-blending/note.md) | written |
 
 ## 5. The Algorithm chooser
 

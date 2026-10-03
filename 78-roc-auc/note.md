@@ -8,6 +8,7 @@ title: "Classification Metrics: The ROC Curve and AUC"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Precision, recall and F1 ([Note 77](../77-precision-recall-f1/note.md)).
+> - **Leads to:** Imbalanced data ([Note 133](../133-imbalanced-data/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

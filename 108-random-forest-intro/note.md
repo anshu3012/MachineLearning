@@ -8,6 +8,7 @@ title: "Introduction to Random Forest"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)).
+> - **Leads to:** Balanced random forest ([Note 133](../133-imbalanced-data/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)).
 <!-- /where-this-fits -->
 

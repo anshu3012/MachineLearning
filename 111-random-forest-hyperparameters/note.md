@@ -8,7 +8,7 @@ title: "Random Forest Hyperparameters"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)); Grid and random search ([Note 107](../107-bagging-regressor/note.md)).
-> - **Leads to:** Grid and random search ([Note 112](../112-random-forest-tuning/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Optuna (Video 134, coming).
+> - **Leads to:** Grid and random search ([Note 112](../112-random-forest-tuning/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Balanced random forest ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)).
 > - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)).
 <!-- /where-this-fits -->
 

@@ -8,7 +8,7 @@ title: "Logistic Regression: Maximum Likelihood and the Log Loss"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)); Sigmoid function ([Note 72](../72-sigmoid-function/note.md)).
-> - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
+> - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Cost-sensitive learning ([Note 133](../133-imbalanced-data/note.md)).
 > - **Compare with:** Support vector machines ([Note 92](../92-svm-intuition/note.md)); Hinge loss and soft margin ([Note 94](../94-svm-soft-margin/note.md)); Entropy, information gain and Gini ([Note 97](../97-decision-trees-intuition/note.md)).
 <!-- /where-this-fits -->
 

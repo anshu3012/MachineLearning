@@ -46,6 +46,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Absolute value | A number's size without its sign. | [Video 25](25-normalization/note.md) |
 | absolute_error | A criterion that splits by mean absolute error; leaves predict the median. | [Video 99](99-regression-trees/note.md) |
 | Accuracy | The fraction of predictions that are correct. | [Video 13](13-toy-project/note.md) |
+| Acquisition function | The rule that picks the next trial from the surrogate, such as expected improvement. | [Video 134](134-optuna/note.md) |
 | AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote. | [Video 115](115-adaboost-intuition/note.md) |
 | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Video 84](84-mutually-exclusive-events/note.md) |
 | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
@@ -88,6 +89,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Video 62](62-bias-variance/note.md) |
 | BaggingClassifier | scikit-learn class for bagging, pasting, random subspaces and random patches in classification. | [Video 106](106-bagging-classifier/note.md) |
 | BaggingRegressor | scikit-learn class for bagging, pasting, random subspaces and random patches in regression. | [Video 107](107-bagging-regressor/note.md) |
+| Balanced random forest | A random forest in which every tree is trained on a balanced sample. | [Video 133](133-imbalanced-data/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | base environment | The environment the installer creates, holding conda itself. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Base model | One of the models inside an ensemble. | [Video 101](101-ensemble-learning/note.md) |
@@ -97,6 +99,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | Batch size | The number of rows in each batch; a hyperparameter. | [Video 60](60-mini-batch-gradient-descent/note.md) |
 | Bayes' theorem | $P(A \mid B) = P(B \mid A) P(A) / P(B)$: the rule that reverses a conditional probability. | [Video 85](85-bayes-theorem/note.md) |
+| Bayesian optimisation | Tuning that models the score as a function of the hyperparameters and uses all earlier trials to choose the next one. | [Video 134](134-optuna/note.md) |
 | Bayesian statistics | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. | [Video 85](85-bayes-theorem/note.md) |
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
@@ -220,6 +223,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Core point | A point with at least MinPts points within eps. | [Video 132](132-dbscan/note.md) |
 | Correlation between base models | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance. | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
+| Cost-sensitive learning | Changing the learning so that mistakes on some classes cost more. | [Video 133](133-imbalanced-data/note.md) |
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Video 20](20-univariate-analysis/note.md) |
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
 | Covariance | How two columns move together: positive if they rise together, negative if not. | [Video 48](48-pca-step-by-step/note.md) |
@@ -236,6 +240,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Cumulative sum | The running total of a list of numbers; it turns weights into ranges on the line from 0 to 1. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning. | [Video 32](32-binning-binarization/note.md) |
+| Custom loss function | A loss written by the user, passed to libraries such as XGBoost with its gradient and Hessian. | [Video 133](133-imbalanced-data/note.md) |
 | Customer profile | A summary of what kind of buyer a customer is, built from their purchases. | [Video 8](08-applications-of-ml/note.md) |
 | Customer segmentation | Grouping customers by their buying behaviour. | [Video 8](08-applications-of-ml/note.md) |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95. | [Video 44](44-outliers-percentile/note.md) |
@@ -268,6 +273,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | DecisionTreeRegressor | scikit-learn's regression tree. | [Video 99](99-regression-trees/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Default direction | The side of a split that rows with a missing value follow. | [Video 123](123-xgboost-intro/note.md) |
+| Define-by-run | Building the search space while the objective function runs, so it can depend on earlier choices. | [Video 134](134-optuna/note.md) |
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
 | Delivery routing | Planning the most efficient route for deliveries. | [Video 8](08-applications-of-ml/note.md) |
 | Demand forecasting | Predicting how much of something will be needed, where and when. | [Video 8](08-applications-of-ml/note.md) |
@@ -311,6 +317,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Dummy variable | One of the 0/1 columns created by one-hot encoding. | [Video 27](27-one-hot-encoding/note.md) |
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
 | Durbin-Watson statistic | A number from 0 to 4 measuring autocorrelation of residuals; about 2 means none. | [Video 56](56-linear-regression-assumptions/note.md) |
+| Dynamic search space | A search space in which some hyperparameters exist only for some values of another, such as the algorithm. | [Video 134](134-optuna/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Video 6](06-instance-vs-model-based/note.md) |
 | Early stopping | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. | [Video 58](58-batch-gradient-descent/note.md) |
 | Economy rate | A bowler's runs conceded per over. | [Video 45](45-feature-construction-splitting/note.md) |
@@ -351,6 +358,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Event | A set of outcomes, such as "the sum is at most 10". | [Video 82](82-conditional-probability/note.md) |
 | Evidence | The overall probability of the observed evidence. | [Video 85](85-bayes-theorem/note.md) |
 | Exact greedy algorithm | Finding a split by trying the midpoint between every pair of neighbouring sorted values. | [Video 123](123-xgboost-intro/note.md) |
+| Expected improvement | How much better than the best score so far a point is expected to be, given the surrogate's mean and uncertainty. | [Video 134](134-optuna/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all. | [Video 49](49-pca-mnist/note.md) |
 | Explained variance | The variance along a principal component; its eigenvalue. | [Video 48](48-pca-step-by-step/note.md) |
@@ -401,6 +409,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | gamma | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. | [Video 96](96-kernel-trick-code/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
 | Gaussian Naive Bayes | Naive Bayes that models each numerical input as normally distributed within each class. | [Video 90](90-gaussian-naive-bayes/note.md) |
+| Gaussian process | A model that predicts a value and its uncertainty at every point; a common surrogate. | [Video 134](134-optuna/note.md) |
 | GaussianNB | scikit-learn's Gaussian Naive Bayes. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Generalisation | How well a model performs on new data it was not trained on. | [Video 71](71-perceptron-code/note.md) |
 | get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$. | [Video 27](27-one-hot-encoding/note.md) |
@@ -439,6 +448,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | HTML | The language web pages are written in: a tree of nested tags. | [Video 18](18-web-scraping/note.md) |
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Hyper-cuboid | A box in many dimensions: the region a tree's cuts carve out. | [Video 97](97-decision-trees-intuition/note.md) |
+| Hyperparameter importance | How much each hyperparameter affected the score in a study; the values add up to 1. | [Video 134](134-optuna/note.md) |
 | Hyperparameter tuning | Trying several hyperparameter values and keeping the best. | [Video 29](29-pipelines/note.md) |
 | Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth`. | [Video 29](29-pipelines/note.md) |
 | Hyperplane | A flat surface in more than three dimensions; the model for three or more input columns. | [Video 53](53-multiple-linear-regression/note.md) |
@@ -447,6 +457,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | If-else ladder | A long chain of hand-written conditions, one per case. | [Video 1](01-what-is-ml/note.md) |
 | Image classification | Deciding what a picture contains, e.g. dog or not dog. | [Video 1](01-what-is-ml/note.md) |
 | Imbalanced data | Data in which one class is much rarer than another. | [Video 76](76-accuracy-confusion-matrix/note.md) |
+| imbalanced-learn | A Python library (`imblearn`) of resampling techniques and balanced ensembles, with a `fit_resample` method. | [Video 133](133-imbalanced-data/note.md) |
 | Imputation | Filling in missing values, for example with the mean, median or mode. | [Video 23](23-what-is-feature-engineering/note.md) |
 | include_bias | PolynomialFeatures setting that adds a column of 1s. | [Video 61](61-polynomial-regression/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
@@ -467,6 +478,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Interaction term | A product of two inputs, such as $xy$, that lets one input's effect depend on another. | [Video 61](61-polynomial-regression/note.md) |
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | intercept_ | The fitted intercept in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
+| Interpolation | Placing a new point on the segment between two existing points. | [Video 133](133-imbalanced-data/note.md) |
 | Interpretability | How well people can understand why a model makes its decisions. | [Video 114](114-feature-importance/note.md) |
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data. | [Video 20](20-univariate-analysis/note.md) |
 | Intersection (A ∩ B) | The event that both A and B happen. | [Video 82](82-conditional-probability/note.md) |
@@ -561,6 +573,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 1](01-what-is-ml/note.md) |
 | Macro average | The plain mean of a metric over all classes. | [Video 77](77-precision-recall-f1/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
+| Majority class | The class with the most rows in imbalanced data. | [Video 133](133-imbalanced-data/note.md) |
 | Majority vote | Predicting the class that most of the neighbours have. | [Video 91](91-knn/note.md) |
 | make_blobs | scikit-learn function that generates points around chosen centres. | [Video 129](129-kmeans-code/note.md) |
 | make_circles | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset. | [Video 96](96-kernel-trick-code/note.md) |
@@ -617,6 +630,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Miniforge | A small installer with only conda and Python, using conda-forge. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Minkowski distance | A family of distances: p = 2 is Euclidean, p = 1 is Manhattan. | [Video 91](91-knn/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
+| Minority class | The rare class in imbalanced data, usually the one we need to find. | [Video 133](133-imbalanced-data/note.md) |
 | MinPts (min_samples) | The number of points an eps-neighbourhood needs for the point to be a core point. | [Video 132](132-dbscan/note.md) |
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing". | [Video 37](37-missing-categorical-data/note.md) |
 | Missing indicator | A 0/1 column recording whether a value was missing. | [Video 35](35-complete-case-analysis/note.md) |
@@ -708,6 +722,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | OPTICS | Another density-based clustering algorithm. | [Video 132](132-dbscan/note.md) |
 | Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Optimisation algorithm | A method for finding the parameter values that make a function as small (or large) as possible. | [Video 57](57-gradient-descent/note.md) |
+| Optuna | A Python framework for hyperparameter tuning built around Bayesian optimisation. | [Video 134](134-optuna/note.md) |
 | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Video 26](26-ordinal-label-encoding/note.md) |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -815,10 +830,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Query point | The new point whose class we want to predict. | [Video 91](91-knn/note.md) |
 | Query | A request for data, written in SQL. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Random forest | Bagging with decision trees as the base models. | [Video 101](101-ensemble-learning/note.md) |
+| Random oversampling | Copying randomly chosen minority rows until the classes are equal. | [Video 133](133-imbalanced-data/note.md) |
 | Random patches | Bagging in which each model gets random rows and random columns. | [Video 105](105-bagging-intuition/note.md) |
 | Random sample imputation | Filling each gap with a value drawn at random from the column's known values. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | Random seed | A number that fixes a random number generator so that a run can be repeated exactly. | [Video 117](117-adaboost-from-scratch/note.md) |
 | Random subspaces | Bagging in which each model gets all rows but a random subset of columns. | [Video 105](105-bagging-intuition/note.md) |
+| Random undersampling | Dropping randomly chosen majority rows until the classes are equal. | [Video 133](133-imbalanced-data/note.md) |
 | RandomForestClassifier | scikit-learn's random forest for classification. | [Video 108](108-random-forest-intro/note.md) |
 | RandomForestRegressor | scikit-learn's random forest for regression. | [Video 108](108-random-forest-intro/note.md) |
 | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations. | [Video 99](99-regression-trees/note.md) |
@@ -846,6 +863,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Representative sample | A sample that reflects the whole situation fairly. | [Video 7](07-challenges-in-ml/note.md) |
 | Request, response | What we send to a server, and what it sends back. | [Video 18](18-web-scraping/note.md) |
 | requests | Python library that sends web requests. | [Video 17](17-fetching-data-from-api/note.md) |
+| Resampling | Changing the number of rows per class to balance the data. | [Video 133](133-imbalanced-data/note.md) |
 | Residual sum of squares | The total squared error of the model's predictions. | [Video 52](52-regression-metrics/note.md) |
 | Residual | The error on one data point: actual minus predicted value. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Response | What `requests.get` returns: the status code plus the reply. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -873,6 +891,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sample weight | A number attached to each row saying how important it is; AdaBoost starts every row at 1/n. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Sample | The part of the real world that our data covers. | [Video 7](07-challenges-in-ml/note.md) |
 | sample_weight | The argument of `fit` that tells a scikit-learn model how much each row counts. | [Video 117](117-adaboost-from-scratch/note.md) |
+| Sampler | In Optuna, the algorithm that suggests the next trial's hyperparameter values. | [Video 134](134-optuna/note.md) |
 | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |
 | Scalar | A single number: a 0D tensor. | [Video 11](11-tensors/note.md) |
@@ -881,6 +900,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | scikit-learn | Python's main library for classical ML. | [Video 13](13-toy-project/note.md) |
 | Score | Likelihood × prior for a class; proportional to the posterior. | [Video 87](87-naive-bayes-intuition/note.md) |
 | SDLC | Software development life cycle: the standard process for building ordinary software. | [Video 9](09-mldlc/note.md) |
+| Search space | The ranges or lists of values each hyperparameter may take during tuning. | [Video 134](134-optuna/note.md) |
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Video 29](29-pipelines/note.md) |
 | Semester | One of two six-month halves of a year. | [Video 34](34-date-and-time/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Video 3](03-types-of-ml/note.md) |
@@ -913,6 +933,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane; 0 if it is on the correct side. | [Video 94](94-svm-soft-margin/note.md) |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Video 29](29-pipelines/note.md) |
 | Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
+| SMOTE | Synthetic Minority Over-sampling Technique: new minority rows by interpolation between minority neighbours. | [Video 133](133-imbalanced-data/note.md) |
 | Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0. | [Video 68](68-lasso-sparsity/note.md) |
 | Soft voting | Predicting the class with the highest average predicted probability across the base models. | [Video 103](103-voting-classifier/note.md) |
 | Soft-margin SVM | The SVM that allows points inside the margin or on the wrong side, at a cost controlled by C. | [Video 94](94-svm-soft-margin/note.md) |
@@ -959,6 +980,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Strike rate | A batter's runs per 100 balls faced. | [Video 45](45-feature-construction-splitting/note.md) |
 | Strong learner | A model with high accuracy. | [Video 115](115-adaboost-intuition/note.md) |
 | Structure score | The best objective of a tree, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better. | [Video 126](126-xgboost-maths/note.md) |
+| Study | In Optuna, one optimisation session: a collection of trials aimed at optimising the objective function. | [Video 134](134-optuna/note.md) |
 | Subscription | A model where customers pay a fixed amount every month (or year). | [Video 14](14-framing-ml-problem/note.md) |
 | Sum of squared errors (SSE) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest. | [Video 99](99-regression-trees/note.md) |
 | Sum of squared errors | The squares of all the errors added up; the quantity the best-fit line makes smallest. | [Video 50](50-simple-linear-regression/note.md) |
@@ -970,7 +992,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Support vectors | The training points that lie on $\pi^+$ or $\pi^-$; they alone fix the SVM line. | [Video 92](92-svm-intuition/note.md) |
 | Support | The number of items that really belong to a class. | [Video 77](77-precision-recall-f1/note.md) |
 | Surge pricing | Raising fares when demand is much higher than supply. | [Video 8](08-applications-of-ml/note.md) |
+| Surrogate model | The model of the unknown score function that Bayesian optimisation builds from the trials. | [Video 134](134-optuna/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Synthetic data | Rows created by an algorithm rather than collected. | [Video 133](133-imbalanced-data/note.md) |
 | Tag | One element of HTML, such as `<h2>TCS</h2>`. | [Video 18](18-web-scraping/note.md) |
 | Target leakage | Building an input column from the answer itself, so the model sees information it would not have in real use. | [Video 52](52-regression-metrics/note.md) |
 | Target, label | Other names for the output column. | [Video 3](03-types-of-ml/note.md) |
@@ -988,6 +1012,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Title | The word before a name, such as Mr, Mrs, Miss or Master. | [Video 45](45-feature-construction-splitting/note.md) |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category. | [Video 27](27-one-hot-encoding/note.md) |
 | Total sum of squares | The total squared error of always predicting the mean. | [Video 52](52-regression-metrics/note.md) |
+| TPE | Tree-structured Parzen Estimator, Optuna's default Bayesian sampler. | [Video 134](134-optuna/note.md) |
 | TPU | Google's chip built only for deep learning maths. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Train-test split | Dividing the data into training and test sets. | [Video 13](13-toy-project/note.md) |
@@ -998,6 +1023,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Transpose | A matrix or vector with rows and columns swapped. | [Video 48](48-pca-step-by-step/note.md) |
 | Tree-based algorithm | An algorithm that splits the data with simple conditions; hardly affected by outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Tree-level column sampling | Drawing one random set of columns per tree, before the tree is grown; every split of that tree uses only those columns (bagging). | [Video 110](110-bagging-vs-random-forest/note.md) |
+| Trial | In Optuna, one run of the objective function with one set of hyperparameter values. | [Video 134](134-optuna/note.md) |
 | Trimming | Removing the rows that hold outliers. | [Video 41](41-what-are-outliers/note.md) |
 | True negative (TN) | Predicted negative, and actually negative. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | True positive (TP) | Predicted positive, and actually positive. | [Video 76](76-accuracy-confusion-matrix/note.md) |

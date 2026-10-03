@@ -8,8 +8,8 @@ title: "Tuning a Random Forest: GridSearchCV and RandomizedSearchCV"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)).
-> - **Leads to:** Stacking and blending ([Note 127](../127-stacking-blending/note.md)).
-> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)); Optuna (Video 134, coming).
+> - **Leads to:** Stacking and blending ([Note 127](../127-stacking-blending/note.md)); Random under- and oversampling ([Note 133](../133-imbalanced-data/note.md)); Balanced random forest ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)).
+> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); OOB score ([Note 107](../107-bagging-regressor/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Bayesian optimisation ([Note 134](../134-optuna/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

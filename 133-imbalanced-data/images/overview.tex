@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.6cm,
+  leaf/.style={box=#1, text width=3.9cm, font=\sffamily\small},
+  head/.style={box=#1, text width=3.9cm, font=\sffamily\bfseries}]
+  \node[box=cgrey, font=\sffamily\bfseries\large, text width=7cm] (top) {Handling imbalanced data\\[-1pt]\normalfont\small one class has far more rows than another};
+  \node[head=cblue, anchor=north] (rs) at ($(top.south)+(-5,-1.2)$) {Change the data\\[-1pt]\normalfont\small resampling};
+  \node[head=cgreen, anchor=north] (en) at ($(top.south)+(0,-1.2)$) {Change the ensemble\\[-1pt]\normalfont\small balanced samples};
+  \node[head=corange, anchor=north] (cs) at ($(top.south)+(5,-1.2)$) {Change the learning\\[-1pt]\normalfont\small cost-sensitive learning};
+  \foreach \n in {rs,en,cs} \draw[arrow] (top.south) -- (\n.north);
+  \node[leaf=cblue, below=0.5cm of rs] (u) {1. Random undersampling\\[-1pt]\footnotesize drop majority rows};
+  \node[leaf=cblue, below=0.3cm of u] (o) {2. Random oversampling\\[-1pt]\footnotesize copy minority rows};
+  \node[leaf=cblue, below=0.3cm of o] (s) {3. SMOTE\\[-1pt]\footnotesize create new minority rows};
+  \node[leaf=cgreen, below=0.5cm of en] (b) {4. Balanced random forest\\[-1pt]\footnotesize every tree sees a balanced sample};
+  \node[leaf=corange, below=0.5cm of cs] (w) {5a. Class weights\\[-1pt]\footnotesize mistakes on the rare class cost more};
+  \node[leaf=corange, below=0.3cm of w] (l) {5b. Custom loss function\\[-1pt]\footnotesize write the cost of each mistake};
+  \draw[arrow] (rs) -- (u); \draw[arrow] (en) -- (b); \draw[arrow] (cs) -- (w);
+\end{tikzpicture}
+\end{document}

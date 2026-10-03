@@ -153,6 +153,8 @@ notes:
   130: 130-kmeans-from-scratch
   131: 131-hierarchical-clustering
   132: 132-dbscan
+  133: 133-imbalanced-data
+  134: 134-optuna
 
 concepts:
   # 0 Foundations
@@ -322,7 +324,12 @@ concepts:
   # 10 Tune
   - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118], status: confirmed}
   - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112, 118], status: confirmed}
-  - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
+  - {id: resampling, name: Random under- and oversampling, step: 5, videos: [133], status: confirmed}
+  - {id: smote, name: SMOTE, step: 5, videos: [133], status: confirmed}
+  - {id: balanced_random_forest, name: Balanced random forest, step: 8, videos: [133], status: confirmed}
+  - {id: cost_sensitive_learning, name: Cost-sensitive learning, step: 8, videos: [133], status: confirmed}
+  - {id: bayesian_optimisation, name: Bayesian optimisation, step: 10, videos: [134], status: confirmed}
+  - {id: optuna, name: Optuna, step: 10, videos: [134], status: confirmed}
 
   # 11 Deploy
   - {id: deployment, name: Deployment, step: 11, videos: [4, 7, 9, 13, 29], status: confirmed}
@@ -659,8 +666,20 @@ links:
   - [hyperparameters, used in, model_based, draft]
   - [grid_search, needs, cross_validation, confirmed]
   - [grid_search, is a kind of, hyperparameters, confirmed]
-  - [optuna, is a kind of, hyperparameters, draft]
-  - [optuna, compared with, grid_search, draft]
+  - [optuna, is a kind of, hyperparameters, confirmed]
+  - [optuna, compared with, grid_search, confirmed]
+  - [optuna, needs, bayesian_optimisation, confirmed]
+  - [bayesian_optimisation, compared with, grid_search, confirmed]
+  - [optuna, needs, cross_validation, confirmed]
+  - [resampling, fixes, imbalanced_data, confirmed]
+  - [resampling, needs, cross_validation, confirmed]
+  - [smote, is a kind of, resampling, confirmed]
+  - [smote, needs, knn, confirmed]
+  - [balanced_random_forest, is a kind of, random_forest, confirmed]
+  - [balanced_random_forest, fixes, imbalanced_data, confirmed]
+  - [cost_sensitive_learning, fixes, imbalanced_data, confirmed]
+  - [cost_sensitive_learning, needs, log_loss, confirmed]
+  - [roc, used in, imbalanced_data, confirmed]
   # Production
   - [deployment, needs, pickle, confirmed]
   - [software_integration, used in, deployment, confirmed]

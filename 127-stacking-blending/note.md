@@ -8,6 +8,7 @@ title: "Stacking and Blending"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
+> - **Leads to:** Random under- and oversampling ([Note 133](../133-imbalanced-data/note.md)); Optuna ([Note 134](../134-optuna/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Voting ensembles ([Note 104](../104-voting-regressor/note.md)); OOB score ([Note 113](../113-oob-score/note.md)); Boosting ([Note 119](../119-bagging-vs-boosting/note.md)).
 <!-- /where-this-fits -->
 
