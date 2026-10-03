@@ -27,7 +27,7 @@ The Notebook (`notebook.ipynb`) runs every Optuna study in this Note, and saves 
 
 > **Key point:** Grid search trains every combination, which becomes too slow; random search trains a few, which can miss the best one. Neither learns from its earlier trials.
 
-Hyperparameter tuning (the [pipelines Note](../29-pipelines/note.md)) tries several hyperparameter values and keeps the best. So far we have done it with `GridSearchCV` (the [KNN Note](../91-knn/note.md), section 4.2) and `RandomizedSearchCV` (the [regression trees Note](../99-regression-trees/note.md), section 7.2); the [random forest tuning Note](../112-random-forest-tuning/note.md) compares them on a forest.
+Hyperparameter tuning (the [pipelines Note](../29-pipelines/note.md)) tries several hyperparameter values and keeps the best. So far we have done it with `GridSearchCV` (the [pipelines Note](../29-pipelines/note.md), section 9) and `RandomizedSearchCV` (the [regression trees Note](../99-regression-trees/note.md), section 7.2); the [random forest tuning Note](../112-random-forest-tuning/note.md) compares them on a forest.
 
 ### 2.1 The problem: a random forest for placement
 
@@ -40,23 +40,11 @@ Take the placement data: predict from a student's CGPA and IQ whether they will 
 
 First we choose a **search space**, the values to try, from intuition and domain knowledge: `max_depth` from 1 to 5, and `n_estimators` 50, 100, 150, 200 and 250. That makes a grid of 5 × 5 = 25 combinations.
 
-### 2.2 Grid search is expensive
+### 2.2 Both searches are blind
 
-> **Key point:** The number of models to train is the product of the number of values, so it explodes as we add values or hyperparameters.
+> **Key point:** Grid search pays for every combination; random search can miss the best one; neither learns from its earlier trials.
 
-Grid search trains a model for every one of the 25 combinations, scores each, and keeps the best. Given enough time it finds the best combination in the grid, but the cost grows fast:
-
-- 20 values of `n_estimators` instead of 5: 20 × 5 = 100 models.
-- A third hyperparameter, such as `min_samples_split` with 5 values: 500 models.
-- A large dataset or a neural network that takes an hour to train: 500 hours.
-
-### 2.3 Random search can miss the best combination
-
-> **Key point:** Random search trains only a fixed number of random combinations: cheap, but the best one may never be drawn.
-
-Random search trains, say, 5 random combinations out of the 25 and keeps the best of those. It saves most of the computation. The price is that the best combination may simply not be among the 5 drawn, so we settle for a worse one.
-
-Both searches share a deeper weakness: they are "blind". The score of one trial never influences which combination is tried next.
+Grid search would train all 25 models, and the count multiplies with every added value or hyperparameter; random search trains a few, such as 5, and may never draw the best one (the trade-off of the [regression trees Note](../99-regression-trees/note.md), section 7.2, measured on a forest in the [random forest tuning Note](../112-random-forest-tuning/note.md)). Both are "blind": the score of one trial never influences which combination is tried next.
 
 ## 3. Bayesian search
 
@@ -363,7 +351,7 @@ In Optuna, the search space is not fixed in advance: it is created by the `sugge
 > #  'n_estimators': 134, 'max_depth': 8}
 > ```
 >
-> Each `if` branch suggests only its own algorithm's hyperparameters, so an SVC trial never draws a `max_depth`. The SVM gets a `StandardScaler` in a pipeline because it measures distances ([KNN Note](../91-knn/note.md), section 7.4). Building the model in its own function, `make_model`, lets us rebuild the winner later (section 8.3).
+> Each `if` branch suggests only its own algorithm's hyperparameters, so an SVC trial never draws a `max_depth`. The SVM gets a `StandardScaler` in a pipeline because it measures distances ([KNN Note](../91-knn/note.md), section 3.2). Building the model in its own function, `make_model`, lets us rebuild the winner later (section 8.3).
 
 The TPE sampler chooses the classifier like any other hyperparameter. After 100 trials, the best is a random forest with 134 trees of depth 8: cross-validated accuracy **0.788**, test accuracy **0.749**. One study replaced three.
 

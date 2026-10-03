@@ -165,7 +165,7 @@ The red line in Figure 1 shows the result. The best test accuracy is at **k = 3:
 
 > **Extra:** Choosing k by its test-set score has a flaw: the test set is no longer unseen. We tried 15 models on the same 114 test rows and kept the luckiest, so the 99.1% is an optimistic score, not an honest estimate for new patients. This is the same kind of leak as fitting the scaler on the test set.
 >
-> The right way is **cross-validation** on the training set only (the [pipelines Note](../29-pipelines/note.md), sections 8 and 9). For each k, the 455 training rows are cut into 5 parts; the model is trained on 4 and scored on the fifth, five times, and the scores are averaged. We keep the k with the best average, then score the test set **once**.
+> The right way is cross-validation on the training set only (the [pipelines Note](../29-pipelines/note.md), section 8): for each k we average the scores over 5 folds of the 455 training rows, keep the k with the best average, then score the test set **once**.
 >
 > The blue line in Figure 1 is this cross-validation accuracy. It picks **k = 10** (97.1% average), not 3. The final, honest test accuracy with k = 10 is **97.4%**.
 >
@@ -283,7 +283,7 @@ Things to try:
 
 > **Key point:** Six weak spots: big datasets, many columns, outliers, unscaled columns, imbalanced classes, and questions about which input matters.
 
-Knowing when not to use an algorithm matters as much as knowing how it works. KNN has six common failure cases.
+Knowing when not to use an algorithm matters as much as knowing how it works. KNN has six common failure cases. Unscaled columns were handled in section 3.2: a column in big numbers decides the distance alone, so we scale first. The other five follow.
 
 ### 7.1 Large datasets: slow predictions
 
@@ -315,15 +315,7 @@ Suppose two pink points sit deep inside the blue region: noise or outliers. With
 
 This is the k = 1 picture of Figure 3 again: KNN is sensitive to outliers, and a k that is too small leads to overfitting. A larger, well-chosen k outvotes them.
 
-### 7.4 Columns on different scales
-
-> **Key point:** If one column's numbers are much larger, it decides the distance alone; scale first.
-
-Take employees with years of experience (0 to 25), salary (20 thousand to 1 crore rupees, where 1 crore = 10 million) and whether they were fired. In a raw Euclidean distance, a salary gap of thousands of rupees swamps an experience gap of a few years, so the distance is effectively the salary alone.
-
-This is why section 3.2 scaled the data first. On the breast cancer data, scaling raised the test accuracy from 91.2% to 97.4%.
-
-### 7.5 Imbalanced data
+### 7.4 Imbalanced data
 
 > **Key point:** If one class is rare, its points are usually outvoted, so predictions lean towards the common class.
 
@@ -331,7 +323,7 @@ In imbalanced data ([Note 76](../76-accuracy-confusion-matrix/note.md), section 
 
 > **Extra:** A quick test on synthetic data with 98% of rows in class 0 and 2% in class 1 (5,000 rows, 10 columns). KNN with k = 5 scores 98% accuracy on the test set, yet finds only 1 of the 30 rare-class rows (recall 0.03). The accuracy looks excellent because almost everything is predicted as the common class.
 
-### 7.6 Inference: which input mattered?
+### 7.5 Inference: which input mattered?
 
 > **Key point:** KNN predicts well but does not say how much each input contributes; it acts like a black box.
 
@@ -361,7 +353,6 @@ KNN cannot answer this. It labels a query point by its neighbours, but it never 
 
 | Term | Meaning |
 |---|---|
-| K-nearest neighbours (KNN) | A classifier that predicts the majority class among the k training points nearest to the query point |
 | k (n_neighbors) | The number of neighbours that vote; KNN's main hyperparameter |
 | Query point | The new point whose class we want to predict |
 | Neighbours | The k training points closest to the query point |

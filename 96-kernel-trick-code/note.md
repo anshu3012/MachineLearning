@@ -70,20 +70,16 @@ The accuracy is 0.55, little better than guessing, which was bound to happen wit
 
 > **Key point:** $z = e^{-x_1^2} + e^{-x_2^2}$: large near the centre, small far from it.
 
-To see what a kernel does, we first transform the data ourselves. For every point we compute a third coordinate $z$, using the bump function $e^{-x^2}$ of the intuition Note on each coordinate:
+The [kernel trick intuition Note](../95-kernel-trick-intuition/note.md), section 4, lifts these circles with $z = e^{-(x_1^2 + x_2^2)}$, so the centre rises and a flat plane splits the classes. In code we use a per-coordinate variant: the bump $e^{-x^2}$ applied to each coordinate, then added.
 
 $$z = e^{-x_1^2} + e^{-x_2^2}$$
 
-The function is largest at 0 and falls on both sides, so points near the centre, where both coordinates are small, get the largest $z$.
+It behaves the same way: points near the centre, where both coordinates are small, get the largest $z$.
 
 - A centre point, $(0.1, 0.05)$: $z = e^{-0.01} + e^{-0.0025} = 0.990 + 0.998 = 1.99$.
 - A ring point, $(1, 0)$: $z = e^{-1} + e^{0} = 0.368 + 1 = 1.37$.
 
-On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the ring points between 1.01 and 1.56.
-
-![Left: the two new columns $e^{-x_1^2}$ and $e^{-x_2^2}$. Right: their sum as a height; a flat plane at z = 1.75 separates the classes](images/lift.png){height=38%}
-
-Figure 2 (right) plots each point at height $z$: the red centre points are lifted above the blue ring. In 3D a flat plane, here $z = 1.75$, separates them, so a linear classifier now works. Figure 2 (left) shows the same transformation in 2D, before adding the two columns: the red points gather in the corner where both values are near 1.
+On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the ring points between 1.01 and 1.56. So a flat plane at $z = 1.75$ separates them, and a linear classifier now works.
 
 > **Python:** The transformation and the 3D plot.
 >
@@ -177,7 +173,7 @@ The kernel needed one 2D dot product and a square; the explicit route needed thr
 
 > **Key point:** app.py lets you change the dataset, kernel, C, gamma and degree and watch the decision regions and support vectors update.
 
-The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Figure 3 shows it with its default settings.
+The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Figure 2 shows it with its default settings.
 
 ![The playground on the circles data with the RBF kernel, C = 1 and gamma = 1](images/app_preview.png){height=42%}
 

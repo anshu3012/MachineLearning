@@ -38,17 +38,9 @@ Given a new student's CGPA, the model must say whether they will be placed. The 
 
 > **Key point:** The base model predicts the log-odds of placement, $\ln(3/2) = 0.405$, for everyone. As a probability that is 0.6.
 
-The mean makes no sense as a starting point for a 0/1 output. As in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), we start from the **log-odds** of class 1.
+As in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), sections 4 and 5, stage 1 predicts the log-odds of class 1, $\ln(p/(1-p))$, and the sigmoid turns it back into a probability. Here 3 of the 5 students were placed, so $p = 3/5$:
 
-1. **In words:** the log of (probability of class 1 divided by probability of class 0).
-2. **Formula:**
-   $$f_0 = \ln\frac{p}{1-p}$$
-3. **Example:** 3 of the 5 students were placed, so $p = 3/5$:
-   $$f_0 = \ln\frac{3/5}{2/5} = \ln 1.5 = 0.405$$
-
-The log-odds is turned back into a probability with the sigmoid ([sigmoid function Note](../72-sigmoid-function/note.md)):
-
-$$p = \frac{e^{0.405}}{1 + e^{0.405}} = \frac{1.5}{2.5} = 0.6$$
+$$f_0 = \ln\frac{3/5}{2/5} = \ln 1.5 = 0.405, \qquad p = \frac{e^{0.405}}{1 + e^{0.405}} = \frac{1.5}{2.5} = 0.6$$
 
 So stage 1 says "probability 0.6" for every student, whatever the CGPA. With a threshold of 0.5 it predicts "placed" for all five, which is wrong for students 1 and 3.
 

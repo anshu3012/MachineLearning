@@ -20,7 +20,7 @@ title: "Tuning a Random Forest: GridSearchCV and RandomizedSearchCV"
 
 This Note applies a random forest to a real dataset, heart disease, and compares it with other algorithms. Then it tunes the forest's hyperparameters (the [random forest hyperparameters Note](../111-random-forest-hyperparameters/note.md)) with the two search methods of Figure 1.
 
-Both searches were introduced earlier: `GridSearchCV` in the [KNN Note](../91-knn/note.md), section 4.2, and `RandomizedSearchCV` in the [regression trees Note](../99-regression-trees/note.md), section 7.2. Here we see what a random forest grid looks like, how long it takes, and one trap specific to forests.
+Both searches were introduced earlier: `GridSearchCV` in the [pipelines Note](../29-pipelines/note.md), section 9, and `RandomizedSearchCV` in the [regression trees Note](../99-regression-trees/note.md), section 7.2. Here we see what a random forest grid looks like, how long it takes, and one trap specific to forests.
 
 The Notebook (`notebook.ipynb`) runs every step.
 
@@ -51,7 +51,7 @@ Gradient boosting is another tree ensemble, covered in later Notes; it is used h
 
 The point is not that the random forest always wins. It is that, on almost any problem, an untuned random forest lands among the top two or three algorithms.
 
-> **Extra:** The SVM's poor score is not a fair verdict on SVMs. An SVM measures distances, so it needs scaled inputs (the [KNN Note](../91-knn/note.md), section 7.4, shows the same for KNN), and cholesterol, in the hundreds, swamps the 0/1 columns. With a `StandardScaler` in a pipeline, the SVM scores 0.869 on the split and 0.828 with cross-validation (Figure 2, right). A random forest needs no scaling: a tree compares one column at a time with a threshold.
+> **Extra:** The SVM's poor score is not a fair verdict on SVMs. An SVM measures distances, so it needs scaled inputs (the [KNN Note](../91-knn/note.md), section 3.2, shows the same for KNN), and cholesterol, in the hundreds, swamps the 0/1 columns. With a `StandardScaler` in a pipeline, the SVM scores 0.869 on the split and 0.828 with cross-validation (Figure 2, right). A random forest needs no scaling: a tree compares one column at a time with a threshold.
 >
 > Logistic regression on unscaled data needs `max_iter=5000` to converge; with the default 100 iterations, scikit-learn warns that it stopped early.
 
@@ -59,7 +59,7 @@ The point is not that the random forest always wins. It is that, on almost any p
 
 > **Key point:** 61 test rows give a noisy score; 10-fold cross-validation trains and tests 10 times and averages, a more reliable number.
 
-A single split of 61 rows can be lucky or unlucky. **Cross-validation** (the [pipelines Note](../29-pipelines/note.md), section 8) cuts the data into 10 parts, trains on 9 and tests on the tenth, 10 times, and averages the 10 scores.
+A single split of 61 rows can be lucky or unlucky. Cross-validation (the [pipelines Note](../29-pipelines/note.md), section 8) averages the scores of 10 train-and-test rounds, so it gives a steadier number.
 
 With cross-validation (Figure 2, orange), logistic regression drops from 0.885 to **0.818**, while the random forest stays at **0.832**. The two are in fact close, and the forest is slightly ahead.
 
@@ -113,7 +113,7 @@ The search tries every combination, so the number of forests is the product of t
 
 $$4 \times 3 \times 3 \times 3 = 108 \text{ forests}$$
 
-With 4 hyperparameters, the combinations form a 4-dimensional table (Figure 1 shows 2 of the dimensions); every cell becomes one forest. Hence the name **grid search**.
+With 4 hyperparameters, the combinations form a 4-dimensional table (Figure 1 shows 2 of the dimensions); every cell becomes one forest.
 
 ### 6.2 Running the search
 
@@ -160,7 +160,7 @@ The table lists the top five, from `rf_grid.cv_results_` (the [missing indicator
 
 > **Key point:** Three more hyperparameters turn 108 combinations into 864; randomized search tries 10 of them, 50 fits.
 
-We add `bootstrap`, `min_samples_split` and `min_samples_leaf`, with two values each. That gives $108 \times 2 \times 2 \times 2 = 864$ combinations, or 4,320 fits in a grid search. `RandomizedSearchCV` instead draws `n_iter` combinations at random, 10 by default: $10 \times 5 = 50$ fits (Figure 1, right).
+We add `bootstrap`, `min_samples_split` and `min_samples_leaf`, with two values each. That gives $108 \times 2 \times 2 \times 2 = 864$ combinations, or 4,320 fits in a grid search. `RandomizedSearchCV` tries only `n_iter` of them (the [regression trees Note](../99-regression-trees/note.md), section 7.2), 10 by default: $10 \times 5 = 50$ fits (Figure 1, right).
 
 ### 7.2 A trap: bootstrap and max_samples
 
@@ -197,18 +197,9 @@ The fix is to pass a **list of grids**: the search picks one of the grids at ran
 
 The best of the 10 combinations: 20 trees, 60% of the columns, fully grown, `min_samples_split=5`, `min_samples_leaf=2`, all the rows with replacement. Its cross-validated accuracy is **0.826**, and its test accuracy 0.836.
 
-The randomized search trained 50 forests instead of 540 (and instead of 4,320 for a grid over its larger space). It found a good forest, not the best one: that is the trade it makes.
+The randomized search trained 50 forests instead of 540 (and instead of 4,320 for a grid over its larger space). It found a good forest, not the best one: the speed-for-accuracy trade of the [regression trees Note](../99-regression-trees/note.md), section 7.2. A common approach combines the two: a randomized search over a wide grid finds the promising region, then a grid search over a narrow grid around it.
 
-## 8. Which search to use
-
-> **Key point:** Small data or few hyperparameters: grid search. Large data or many hyperparameters: randomized search.
-
-- **`GridSearchCV`** tries everything, so it finds the best combination in the grid. Use it when the data is small or there are few values to try.
-- **`RandomizedSearchCV`** tries a sample. Use it when the data is large or there are many hyperparameters, where a full grid would take too long. Raising `n_iter` buys a better chance of a top combination at the cost of more time.
-
-A common approach combines them: a randomized search over a wide grid to find the promising region, then a grid search over a narrow grid around it.
-
-## 9. Summary
+## 8. Summary
 
 | | Grid search | Randomized search |
 |---|---|---|
@@ -224,11 +215,9 @@ A common approach combines them: a randomized search over a wide grid to find th
 - A grid over 4 hyperparameters needed 108 forests and 540 fits; the best forest scored 0.843.
 - `bootstrap=False` cannot be combined with `max_samples`: use a list of grids.
 
-## 10. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
 | Parameter grid | A dictionary of hyperparameter names and the values to try for each |
 | List of grids | Several parameter grids passed together, so incompatible values never meet |
-| best_score_ | The best mean cross-validated score found by a search |
-| n_iter | The number of random combinations RandomizedSearchCV tries (default 10) |

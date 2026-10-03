@@ -165,16 +165,7 @@ As section 5 showed, combining models usually improves accuracy (classification)
 
 > **Key point:** Ensembles can reach low bias and low variance together, which a single model rarely can.
 
-Recall the [bias-variance Note](../62-bias-variance/note.md): **bias** is error from a model too simple to fit even its training data, and **variance** is how much the model changes when the training data changes. The goal is low bias and low variance, but in a single model, lowering one usually raises the other.
-
-Ensembles break this trade-off:
-
-- A **decision tree** is low bias, high variance: it fits the training data closely but changes a lot with new data. An ensemble of trees keeps the low bias and brings the variance down.
-- **Linear and logistic regression** are high bias, low variance. An ensemble of them can bring the bias down while keeping the variance low.
-
-Either way, the result is the combination we want: **low bias, low variance**.
-
-> **Extra:** Not every type does both. Bagging (and random forests) mainly cuts **variance**, so it suits low-bias, high-variance models such as deep trees. Boosting mainly cuts **bias**, so it suits simple, high-bias models. The [bias-variance Note](../62-bias-variance/note.md), section 6, lists both as remedies.
+A single model usually trades bias against variance (the [bias-variance Note](../62-bias-variance/note.md)). Ensembles escape the trade-off: bagging takes low-bias models such as deep trees and cuts their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3), while boosting takes simple high-bias models and cuts their bias (the [bagging vs boosting Note](../119-bagging-vs-boosting/note.md)).
 
 ### 6.4 Benefit 3: robustness
 
@@ -210,12 +201,7 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 
 | Term | Meaning |
 |---|---|
-| Ensemble learning | Combining several models into one stronger model |
 | Wisdom of the crowd | The combined judgement of many is often more accurate than any one member's |
 | Base model | One of the models inside an ensemble |
-| Stacking | An ensemble in which a meta-model learns how to weight the base models' outputs |
 | Meta-model | The model in stacking that is trained on the base models' predictions |
-| Bagging (bootstrap aggregation) | Averaging many models trained on different samples of the data to reduce variance |
-| Random forest | Bagging with decision trees as the base models |
-| Boosting | Models trained in series, each focusing on the previous one's mistakes |
 | Robustness | Performing well even when the data changes somewhat |

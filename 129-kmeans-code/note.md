@@ -49,7 +49,7 @@ CGPA runs from 4.6 to 9.3 and IQ from 83 to 121. Plotted (Figure 1, left), the s
 
 > **Key point:** Fit one `KMeans` per k from 1 to 10, store each model's `inertia_` (its WCSS), and plot them: the curve flattens at k = 4.
 
-`KMeans` lives in `sklearn.cluster`. After fitting, its attribute **`inertia_`** holds the WCSS of the clusters it found (WCSS: the [k-means Note](../128-kmeans-intuition/note.md), section 6.1).
+`KMeans` lives in `sklearn.cluster`. After fitting, its attribute **`inertia_`** holds the WCSS of the clusters it found (WCSS: the [k-means Note](../128-kmeans-intuition/note.md), section 5.1).
 
 > **Python:** The elbow loop.
 >

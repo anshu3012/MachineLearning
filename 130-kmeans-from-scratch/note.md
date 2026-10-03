@@ -91,14 +91,11 @@ The constructor takes two settings:
 
 > **Key point:** The squared Euclidean distance is the dot product of the difference vector with itself, so `np.sqrt(np.dot(a - b, a - b))` works for 2, 3 or 100 columns.
 
-The Euclidean distance (the [KNN imputer Note](../39-knn-imputer/note.md), section 4.1) gains one term per column. Written term by term, the code would have to change whenever the number of columns changes. A vector form avoids that.
+The Euclidean distance (the [KNN imputer Note](../39-knn-imputer/note.md), section 4.1) gains one term per column, so code written term by term would change with the number of columns. The sum of squared differences is the dot product (the [PCA step-by-step Note](../48-pca-step-by-step/note.md)) of the difference vector with itself, which needs no change:
 
-1. **In words:** subtract the two points to get the difference vector. Multiply it by itself element by element and add up: that is the dot product, the sum of the squared differences. Take the square root.
-2. **Formula:** for points $a$ and $b$,
-   $$d(a, b) = \sqrt{(b - a) \cdot (b - a)} = \sqrt{\sum_i (b_i - a_i)^2}$$
-3. **Example:** $a = (1, 2)$, $b = (4, 5)$. Then $b - a = (3, 3)$ and $(3, 3) \cdot (3, 3) = 9 + 9 = 18$, so
-   $$d = \sqrt{18} \approx 4.24.$$
-   Add a third column, $a = (1, 2, 3)$ and $b = (4, 5, 6)$: $b - a = (3, 3, 3)$, the dot product is 27, and $d = \sqrt{27} \approx 5.196$. The code did not change.
+$$d(a, b) = \sqrt{(b - a) \cdot (b - a)}$$
+
+For $a = (1, 2)$, $b = (4, 5)$: $b - a = (3, 3)$, $(3, 3) \cdot (3, 3) = 18$ and $d = \sqrt{18} \approx 4.24$. With a third column, $(1, 2, 3)$ and $(4, 5, 6)$, the dot product is 27 and $d = \sqrt{27} \approx 5.196$, from the same code.
 
 > **Python:** The distance in NumPy.
 >
@@ -132,7 +129,7 @@ A nested loop visits every row and, inside, every centroid. With 100 rows and 2 
 
 > **Key point:** For each cluster k, select its rows with `X[cluster_group == k]` and take the mean of each column with `mean(axis=0)`.
 
-The cluster numbers tell us which rows belong to which cluster. The new centroid of a cluster is the mean of each column over its rows (the [k-means Note](../128-kmeans-intuition/note.md), section 4.4).
+The cluster numbers tell us which rows belong to which cluster. The new centroid of a cluster is the mean of each column over its rows (the [k-means Note](../128-kmeans-intuition/note.md), section 4.3).
 
 Take five rows and their clusters:
 
@@ -213,7 +210,7 @@ Figure 3 shows the real cause on the students. With one random start (left), two
 
 ![The same students and k = 4 from two random starts: stuck in poor clusters (left) and the right clusters (right)](images/bad_start.png)
 
-The two runs can be compared by their WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 6.1): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple:
+The two runs can be compared by their WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple:
 
 1. run k-means from several random starts;
 2. keep the run with the lowest WCSS.
@@ -249,7 +246,6 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 |---|---|
 | Constructor (`__init__`) | The method that runs when an object is created and stores its settings |
 | max_iter | The largest number of assign-and-move rounds k-means may run |
-| Dot product | The sum of the products of matching elements of two vectors |
 | np.argmin | NumPy function returning the position of the smallest value |
 | mean(axis=0) | The mean of each column of an array |
 | Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start |

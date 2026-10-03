@@ -206,11 +206,9 @@ Figure 4 continues further, with learning rate 1. One tree already captures the 
 
 ## 12. Learning rate against number of trees
 
-> **Key point:** A smaller learning rate needs more trees to reach the same fit, but reaches a lower test error and overfits more slowly.
+> **Key point:** As in AdaBoost, a smaller learning rate needs more trees but reaches a lower test error and overfits more slowly.
 
-![Training error (dotted) and test error (solid) after each tree, for learning rates 1, 0.5 and 0.1](images/learning_rate.png){height=42%}
-
-Figure 5 compares three learning rates on the curve:
+The trade-off is the one of the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md), section 4.3, so the two are tuned together. On the curve, with 8 leaves per tree:
 
 | Learning rate | Lowest test error | Reached after | Test error after 200 trees |
 |---|---|---|---|
@@ -218,7 +216,7 @@ Figure 5 compares three learning rates on the curve:
 | 0.5 | 0.00280 | 4 trees | 0.00378 |
 | 0.1 | 0.00259 | 33 trees | 0.00349 |
 
-With learning rate 1 the training error drops fastest and reaches 0 after about 50 trees, while the test error climbs back up. With 0.1 the model needs many more trees, but its best test error is the lowest of the three, and it overfits more slowly. So the learning rate and the number of trees are tuned together, as in AdaBoost.
+With learning rate 1 the training error reaches 0 after about 50 trees, while the test error climbs back up. Learning rate 0.1 needs more trees, but its best test error is the lowest of the three.
 
 The Notebook's playground (`app.py`, a Dash app) lets us change the number of trees, the learning rate and the leaves per tree, and watch the curve and both errors change.
 

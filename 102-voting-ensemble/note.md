@@ -29,10 +29,7 @@ Take a few models, say M1, M2 and M3. They can be different algorithms or the sa
 
 **Training:** each model is trained on the **same** dataset, independently of the others.
 
-**Prediction:** a new query point $x_q$ goes to every trained model, through its `predict` method.
-
-- **Classification:** say M1 predicts 1, M2 predicts 0 and M3 predicts 0. Most models say 0, so the voting ensemble answers **0**.
-- **Regression:** say the models predict 0.5, 0.8 and 2. The ensemble answers their mean, $(0.5 + 0.8 + 2)/3 = 1.1$.
+**Prediction:** a new query point $x_q$ goes to every trained model, and the ensemble returns the majority vote (classification) or the mean (regression), as in the [ensemble learning Note](../101-ensemble-learning/note.md), section 3.
 
 That is the whole algorithm. It works like an election, which is where the name comes from.
 
@@ -48,19 +45,11 @@ The answer needs two assumptions and a little probability.
 
 > **Key point:** (1) The models must be independent: the more different, the better. (2) Each model must be right more than 50% of the time.
 
-**Assumption 1: the base models are independent.** Their mistakes should not be related: when one model is wrong, the others should not be wrong for the same reason. The more different the models are, the better the vote works; if they are very similar, voting gains little.
+**Assumption 1: the base models are independent.** Their mistakes should not be related: when one model is wrong, the others should not be wrong for the same reason. The more different the models are, the better the vote works, just as a mixed quiz-show audience covers more topics than one of programmers only (the [ensemble learning Note](../101-ensemble-learning/note.md), section 3.1); if they are very similar, voting gains little.
 
 **Assumption 2: every model's accuracy is above 50%.** A model that is right less than half the time does harm: a vote of such models is **worse than the worst of them**.
 
 For two classes, 50% accuracy is what random guessing gives. Beating a coin toss is not hard, so in practice voting is a safe technique that usually helps.
-
-### 4.1 Why independence matters: a diverse audience
-
-> **Key point:** In a mixed crowd, what one member does not know, another does.
-
-Democracy relies on voting because people come from different backgrounds with different knowledge. When one person does not know something, someone else does, and the group covers the gap.
-
-On a quiz show, an audience made only of programmers helps with a computer science question and with little else. An audience of an accountant, an engineer, a doctor, a painter and a poet can help with far more. Models are the same: models that make the **same** mistakes cannot correct each other.
 
 ## 5. Why voting works: the probability
 

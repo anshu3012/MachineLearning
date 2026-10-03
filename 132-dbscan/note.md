@@ -15,9 +15,9 @@ title: "DBSCAN: Density-Based Clustering"
 
 > **Key point:** DBSCAN grows clusters through dense regions of points and labels points in sparse regions as noise. It finds the number of clusters by itself and handles any shape, but needs two well-chosen settings: eps and MinPts.
 
-**DBSCAN** (density-based spatial clustering of applications with noise) is a clustering algorithm that groups points lying in dense regions and marks lonely points as noise. Figure 1 shows why it matters: on two moons and two circles, k-means cuts straight across the shapes, while DBSCAN finds them exactly.
+**DBSCAN** (density-based spatial clustering of applications with noise) is a clustering algorithm that groups points lying in dense regions and marks lonely points as noise. Figure 1 shows why it matters: on two moons and two circles, where k-means cuts straight across the shapes (the [hierarchical clustering Note](../131-hierarchical-clustering/note.md), Figure 2), DBSCAN finds them exactly.
 
-![k-means (left) and DBSCAN (right) on two moons and two circles](images/dbscan_vs_kmeans.png){height=50%}
+![DBSCAN (eps = 0.3, MinPts = 5) on two moons and two circles: one colour per cluster found](images/dbscan_vs_kmeans.png){height=28%}
 
 This Note covers why k-means is not enough, the two settings eps and MinPts, the three kinds of points, the algorithm step by step, DBSCAN in scikit-learn, and its strengths and weaknesses. The Notebook (`notebook.ipynb`) runs every example, and `app.py` lets us move eps and MinPts with sliders.
 
@@ -37,7 +37,7 @@ k-means is a good algorithm, but it has three flaws serious enough to need anoth
 
 > **Key point:** In high dimensions we cannot see the clusters, and the elbow curve is often ambiguous.
 
-k-means must be told the number of clusters before it starts. With 10 columns we cannot plot the data to count them. The elbow method helps (the [k-means Note](../128-kmeans-intuition/note.md), section 6), but on real data the elbow curve often has no clear bend, and then we are guessing.
+k-means must be told the number of clusters before it starts. With 10 columns we cannot plot the data to count them. The elbow method helps (the [k-means Note](../128-kmeans-intuition/note.md), section 5), but on real data the elbow curve often has no clear bend, and then we are guessing.
 
 ### 3.2 Outliers pull the centroids
 
@@ -51,7 +51,7 @@ Every point must also belong to some cluster, so the outlier itself is forced in
 
 > **Key point:** k-means is centroid-based, so it finds spherical groups and fails on rings, crescents and other shapes.
 
-k-means is a **centroid-based** clustering algorithm: everything revolves around centroids. Such an algorithm finds compact, round groups. On non-spherical data it fails completely, as the hierarchical clustering Note showed on circles, moons and stretched groups (its section 3), and as Figure 1 shows here.
+k-means is a **centroid-based** clustering algorithm: everything revolves around centroids. Such an algorithm finds compact, round groups. On non-spherical data it fails completely, as the hierarchical clustering Note shows on circles, moons and stretched groups (its section 3, Figure 2).
 
 So k-means works well on some datasets and badly on many others. DBSCAN addresses all three flaws.
 
@@ -165,7 +165,7 @@ The first three points form cluster 0, the next two cluster 1, and the far-away 
 
 > **Key point:** On the circles DBSCAN recovers both rings exactly; k-means does no better than chance.
 
-Figure 1 compares k-means and DBSCAN (eps = 0.3, min_samples = 5, on standardized data). We can score each result by how well it matches the true groups, with the adjusted Rand score (1 = identical, 0 = no better than chance):
+Figure 1 shows DBSCAN (eps = 0.3, min_samples = 5, on standardized data) on the two shapes where k-means fails (the hierarchical clustering Note, Figure 2). We can score each result by how well it matches the true groups, with the adjusted Rand score (1 = identical, 0 = no better than chance):
 
 | Data | k-means | DBSCAN |
 |---|---|---|

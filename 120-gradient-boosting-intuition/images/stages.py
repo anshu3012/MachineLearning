@@ -1,6 +1,6 @@
 """Gradient boosting on the noisy quadratic data (Plotly):
-stages.png         - the ensemble after 0, 1, 2, 3, 10 and 50 trees (learning rate 1, 8 leaves per tree);
-learning_rate.png  - training and test MSE after each added tree, for three learning rates."""
+stages.png  - the ensemble after 0, 1, 2, 3, 10 and 50 trees (learning rate 1, 8 leaves per tree);
+also prints the training and test MSE after each added tree for three learning rates (the table of section 12)."""
 import sys
 from pathlib import Path
 
@@ -34,19 +34,10 @@ fig.update_layout(template="simple_white", width=1500, height=850, font=FONT, ma
 fig.write_image(HERE / "stages.png", scale=2)
 fig.write_image(HERE / "stages.pdf")
 
-fig = go.Figure()
 n = np.arange(1, 201)
-for lr, col in [(1.0, RED), (0.5, GREEN), (0.1, BLUE)]:
+for lr in (1.0, 0.5, 0.1):
     f0, trees = boost(200, lr, 8)
     tr = [mse(y, predict(f0, trees[:m], lr, X)) for m in n]
     te = [mse(y_test, predict(f0, trees[:m], lr, X_test)) for m in n]
-    fig.add_trace(go.Scatter(x=n, y=te, name=f"learning rate {lr}: test", line=dict(color=col, width=3)))
-    fig.add_trace(go.Scatter(x=n, y=tr, name=f"learning rate {lr}: train", line=dict(color=col, width=2, dash="dot")))
     print(lr, "best test", round(min(te), 5), "after", int(np.argmin(te)) + 1, "trees; test after 200:", round(te[-1], 5),
           "train after 200:", round(tr[-1], 6))
-fig.update_xaxes(title="number of trees (log scale)", type="log")
-fig.update_yaxes(title="mean squared error", range=[0, 0.012])
-fig.update_layout(template="simple_white", width=1100, height=700, font=FONT, margin=dict(l=80, r=20, t=20, b=70),
-                  legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.17, yanchor="top", font_size=17))
-fig.write_image(HERE / "learning_rate.png", scale=2)
-fig.write_image(HERE / "learning_rate.pdf")

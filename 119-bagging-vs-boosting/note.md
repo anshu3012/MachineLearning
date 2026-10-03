@@ -26,29 +26,9 @@ We have now seen both: bagging in the [bagging Note](../105-bagging-intuition/no
 
 > **Key point:** Bagging starts from low-bias, high-variance models and lowers their variance; boosting starts from high-bias, low-variance models and lowers their bias.
 
-### 2.1 The goal: low bias and low variance
+We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). Bagging takes **low-bias, high-variance** models, such as fully grown trees or KNN with a small k, and averages away much of their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Boosting attacks the trade-off from the opposite end.
 
-> **Key point:** We want both low, but in a single model lowering one usually raises the other; regularisation, bagging and boosting are three ways around this.
-
-Recall the [bias-variance Note](../62-bias-variance/note.md):
-
-- **low bias** means the model does well on its training data;
-- **low variance** means its performance barely changes when the training data changes.
-
-We want both, but in a single model one usually rises as the other falls. The bias-variance Note, section 6, lists three standard techniques against this trade-off: regularisation, bagging and boosting. The last two do it from opposite ends.
-
-### 2.2 Bagging: low bias, high variance models
-
-> **Key point:** Bagging uses models that fit the training data very well but are unstable, such as fully grown decision trees.
-
-Bagging needs base models with **low bias and high variance** (the [random forest bias-variance Note](../109-random-forest-bias-variance/note.md), section 2):
-
-- a **fully grown decision tree**: it makes very few mistakes on its training data, but a small change in the data reshapes it;
-- **KNN with a small k**, for the same reason.
-
-Averaging many of them, each trained on a different random sample, keeps the low bias and cancels much of the variance.
-
-### 2.3 Boosting: high bias, low variance models
+### 2.1 Boosting: high bias, low variance models
 
 > **Key point:** Boosting uses models that are too simple to fit the data well but are stable, such as shallow trees and decision stumps.
 
@@ -59,7 +39,7 @@ Boosting needs base models with **high bias and low variance**:
 
 A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays low.
 
-### 2.4 The rule of thumb
+### 2.2 The rule of thumb
 
 > **Key point:** A model that is very good on the training data but unstable calls for bagging; a model that is stable but weak calls for boosting.
 

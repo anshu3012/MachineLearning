@@ -1,13 +1,14 @@
 """Random forest against one fully grown tree (Plotly):
 circles.png  - decision surfaces on the concentric-circles data (500 points, 400 for training);
-curves.png   - fitted curves on the two-bumps regression data (150 training points, 1,000 test points)."""
+curves.png   - one tree, bagged trees and a random forest on the two-bumps regression data
+               (150 training points, 1,000 test points)."""
 from pathlib import Path
 
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from sklearn.datasets import make_circles
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import BaggingRegressor, RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
@@ -60,13 +61,15 @@ Xr_test, yr_test = generate(1000)
 X_line = np.linspace(-5, 5, 800)[:, None]
 truth = np.exp(-X_line.ravel() ** 2) + 1.5 * np.exp(-(X_line.ravel() - 2) ** 2)
 dtr = DecisionTreeRegressor(random_state=0).fit(Xr_train, yr_train)
+bgr = BaggingRegressor(DecisionTreeRegressor(), n_estimators=1000, random_state=0, n_jobs=-1).fit(Xr_train, yr_train)
 rfr = RandomForestRegressor(n_estimators=1000, random_state=0, n_jobs=-1).fit(Xr_train, yr_train)
 panels = []
-for name, model, colour in [("(a) one fully grown tree", dtr, "#E45756"), ("(b) random forest, 1,000 trees", rfr, "#4C78A8")]:
+for name, model, colour in [("(a) one fully grown tree", dtr, "#E45756"), ("(b) bagged trees, 1,000", bgr, "#54A24B"),
+                            ("(c) random forest, 1,000 trees", rfr, "#4C78A8")]:
     m = mean_squared_error(yr_test, model.predict(Xr_test))
-    panels.append((f"{name}: test MSE {m:.4f}", model, colour))
+    panels.append((f"{name}<br>test MSE {m:.4f}", model, colour))
 print([p[0] for p in panels])
-fig = make_subplots(1, 2, shared_yaxes=True, horizontal_spacing=0.04, subplot_titles=[p[0] for p in panels])
+fig = make_subplots(1, 3, shared_yaxes=True, horizontal_spacing=0.03, subplot_titles=[p[0] for p in panels])
 for i, (_, model, colour) in enumerate(panels, start=1):
     fig.add_trace(go.Scatter(x=Xr_train.ravel(), y=yr_train, mode="markers", name="training points", showlegend=(i == 1),
                              marker=dict(color="#FFD24C", size=7, line=dict(color="black", width=1))), 1, i)
@@ -77,7 +80,7 @@ for i, (_, model, colour) in enumerate(panels, start=1):
 fig.update_xaxes(title="x")
 fig.update_yaxes(title="y", col=1)
 fig.update_annotations(font_size=21)
-fig.update_layout(template="simple_white", width=1300, height=560, font=FONT, margin=dict(l=60, r=20, t=60, b=110),
+fig.update_layout(template="simple_white", width=1500, height=560, font=FONT, margin=dict(l=60, r=20, t=90, b=110),
                   legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.2, font_size=20))
 fig.write_image(HERE / "curves.png", scale=2)
 fig.write_image(HERE / "curves.pdf")

@@ -28,9 +28,7 @@ The Notebook (`notebook.ipynb`) runs every step.
 
 > **Key point:** Drawing with replacement means some rows are drawn several times for a tree and others not at all; the rows a tree missed are out-of-bag for that tree.
 
-Take 1,000 rows and a forest of 5 trees, each trained on 1,000 rows drawn **with replacement** (`bootstrap=True`). For tree 1 we draw row 21, put it back, draw row 32, then 43, then row 21 again, and so on. Some rows, like 21, end up in the sample several times; others are never drawn.
-
-The rows a tree never drew are its **out-of-bag (OOB) rows**: the tree has never seen them, so they can serve as test data for that tree. On average, about 63.2% of the rows are drawn and **36.8%** are out-of-bag (the [bagging Note](../105-bagging-intuition/note.md), section 2.3, derives the number).
+Each tree is trained on a bootstrap sample, drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct rows (the [bagging Note](../105-bagging-intuition/note.md), section 2.3). The other **36.8%**, the rows a tree never drew, are its **out-of-bag (OOB) rows**: the tree has never seen them, so they can serve as test data for that tree.
 
 Careful: being out-of-bag is a property of a row **for one tree**, not for the whole forest. A row missed by tree 1 is almost certainly seen by other trees. The chance that one row is missed by all 100 trees is
 
@@ -135,9 +133,9 @@ The OOB score tends to be a little pessimistic: each OOB prediction comes from o
 
 > **Key point:** Only with `bootstrap=True`; it works for classifiers, regressors and bagging ensembles alike.
 
-- **It needs bootstrapping.** With `bootstrap=False`, every tree sees every row, so there are no OOB rows; scikit-learn raises `ValueError: Out of bag estimation only available if bootstrap=True`.
-- **It works for regression.** On a 5,000-row sample of the California housing data (the [regression trees Note](../99-regression-trees/note.md)), a `RandomForestRegressor` gives an OOB $R^2$ of 0.764 against a test $R^2$ of 0.741. Its per-row OOB predictions are in `oob_prediction_`.
-- **It works for any bagging ensemble**, not only random forests: `BaggingClassifier` and `BaggingRegressor` have the same `oob_score` setting.
+- **It needs bootstrapping.** With `bootstrap=False` (pasting, the [bagging Note](../105-bagging-intuition/note.md), section 6.2) there are no OOB rows, and scikit-learn raises `ValueError: Out of bag estimation only available if bootstrap=True`.
+- **It works for regression.** On a 5,000-row sample of the California housing data (`fetch_california_housing` in scikit-learn: districts of California, 8 input columns, the median house value as output), a `RandomForestRegressor` gives an OOB $R^2$ of 0.764 against a test $R^2$ of 0.741. Its per-row OOB predictions are in `oob_prediction_`.
+- **It works for any bagging ensemble**: `BaggingClassifier` and `BaggingRegressor` take the same `oob_score` (the [bagging classifier Note](../106-bagging-classifier/note.md) and the [bagging regressor Note](../107-bagging-regressor/note.md)).
 
 > **Extra:** `oob_score` can also be a function instead of `True`, to use another metric than accuracy or $R^2$. For example, `oob_score=balanced_accuracy_score` (imported from `sklearn.metrics`) reports the balanced accuracy of the OOB predictions.
 

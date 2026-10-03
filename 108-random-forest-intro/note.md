@@ -49,30 +49,12 @@ So a random forest is a special case of bagging: bagging lets the base model be 
 
 > **Key point:** Step 1, bootstrapping: give each tree a random subset of the rows, columns or both, and train it. Step 2, aggregation: send a new point to every tree and take the vote or the mean.
 
-The two steps are exactly the two steps of bagging. Here they are with trees.
+The two steps are those of bagging (the [bagging Note](../105-bagging-intuition/note.md), sections 2 and 6), here with trees:
 
-### 4.1 Bootstrapping: a different subset for every tree
-
-> **Key point:** Each tree gets its own random subset, so each tree grows differently.
-
-Suppose our data has 1,000 rows and 10 columns, and we decide on 100 trees. Each tree gets a subset of the data, made in one of three ways:
-
-1. **Row sampling:** each tree gets, say, 500 randomly chosen rows and all the columns. Tree 1 might get rows 1, 18, 32, 43, 103, ... and tree 2 a different 500.
-2. **Column sampling** (also called **feature sampling**): each tree gets all the rows but, say, 5 randomly chosen columns out of the 10.
-3. **Combined sampling:** each tree gets random rows **and** random columns.
-
-These are the bagging types of the [bagging Note](../105-bagging-intuition/note.md), section 6: bagging, random subspaces and random patches. Rows can be drawn **with replacement** (a row is put back after drawing and can be drawn again, so a subset can hold duplicates) or **without replacement** (no duplicates).
+1. **Bootstrapping:** each tree is trained on its own random subset of the data, made by **row sampling** (random rows, all columns), **column sampling**, also called **feature sampling** (all rows, random columns), or **combined sampling** (both). These are the bagging, random subspaces and random patches types of the bagging Note, section 6.
+2. **Aggregation:** a new query point goes to every tree, and the forest returns the majority vote (classification) or the mean (regression), as every ensemble does (the [ensemble learning Note](../101-ensemble-learning/note.md), section 3).
 
 Because every tree sees different data, every tree learns a different structure: one splits first on column 3, another on column 7, and they grow to different shapes (Figure 1, middle).
-
-### 4.2 Aggregation: the vote or the mean
-
-> **Key point:** Classification takes the most common answer; regression takes the mean.
-
-Once the 100 trees are trained, a new query point is sent to every tree, and each tree makes its own prediction.
-
-- **Classification:** we count the answers. If 43 trees say 0 and 57 say 1, the forest predicts **1**, the most common answer. This is the majority vote, like a democracy.
-- **Regression:** each tree returns a number, and the forest returns their **mean**.
 
 ## 5. A random forest by hand
 

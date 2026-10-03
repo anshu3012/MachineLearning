@@ -146,9 +146,7 @@ Every variant is the same class with different settings:
 
 > **Key point:** About 37% of the rows are never drawn for a given tree; scoring each tree on its unseen rows gives a free estimate of test accuracy.
 
-When rows are drawn with replacement, some rows come up again and again, and some never come up for a given tree. On average about 63% of the rows are drawn and 37% are not (the [bagging Note](../105-bagging-intuition/note.md), section 2.3, derives this). The rows a tree never saw are its **out-of-bag** (OOB) rows.
-
-Rows a tree did not see during training are like a test set for that tree. So scikit-learn can score the ensemble on them, without a separate test set:
+The rows a tree never drew, about 37% of them (the [bagging Note](../105-bagging-intuition/note.md), section 2.3), are its out-of-bag (OOB) rows. With `oob_score=True` (it needs `bootstrap=True`), scikit-learn scores the ensemble on them, so no separate test set is needed:
 
 > **Python:** The out-of-bag score.
 >
@@ -160,10 +158,8 @@ Rows a tree did not see during training are like a test set for that tree. So sc
 > bag.fit(X_train, y_train)
 > bag.oob_score_      # 0.9429
 > ```
->
-> `oob_score=True` (default `False`) needs `bootstrap=True`: without replacement there is no fixed out-of-bag set.
 
-The OOB score, **0.943**, is close to the real test accuracy, **0.945**: a good estimate of how the model will do on new data. The [OOB score Note](../113-oob-score/note.md) covers it in full.
+The OOB score, **0.943**, is close to the real test accuracy, **0.945**. The [OOB score Note](../113-oob-score/note.md) explains how it is computed and when it can be trusted.
 
 ## 5. What works in practice
 
@@ -223,5 +219,4 @@ Here pasting wins: the rules are a starting point; the search decides.
 | bootstrap_features | BaggingClassifier setting: draw columns with replacement or without |
 | estimators_samples_ | The row numbers each trained base model was given |
 | estimators_features_ | The column numbers each trained base model was given |
-| Out-of-bag (OOB) score | The ensemble's accuracy measured on the rows each model never saw |
 | verbose | scikit-learn setting that prints progress messages during training |

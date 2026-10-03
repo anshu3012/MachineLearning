@@ -45,7 +45,7 @@ Drawing random samples from data is called **bootstrapping**: it is a statistics
 
 > **Key point:** Send the query point to every model and combine their answers: the mode for classification, the mean for regression.
 
-For a new query point $x_q$, every trained model predicts. For classification, the bagging classifier returns the most common answer, the **mode**: in Figure 1, most models say 1, so the answer is 1. For regression it returns the mean. This combining step is the **aggregation**.
+For a new query point $x_q$, every trained model predicts, and the answers are combined as in every ensemble (the [ensemble learning Note](../101-ensemble-learning/note.md), section 3): the most common answer, the **mode**, for classification (in Figure 1, most models say 1, so the answer is 1) and the mean for regression. This combining step is the **aggregation**.
 
 So the only difference from voting (the [voting ensemble Note](../102-voting-ensemble/note.md)) is where the variety comes from:
 

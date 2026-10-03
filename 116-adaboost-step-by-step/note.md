@@ -176,7 +176,7 @@ The new dataset is rows 1, 3, 3, 3 and 4. Row 3, a mistake, appears three times;
 
 The next stump trains on this new dataset, so it pays most attention to the rows the first stump got wrong.
 
-> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each row in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (the from-scratch Note, section 9).
+> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each row in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md), section 10).
 
 ## 10. Repeat, then vote
 

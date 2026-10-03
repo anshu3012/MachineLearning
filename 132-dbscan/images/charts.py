@@ -1,4 +1,4 @@
-"""Plotly figures for the DBSCAN Note: k-means against DBSCAN on moons and circles, the 6-point scikit-learn example
+"""Plotly figures for the DBSCAN Note: DBSCAN on moons and circles (k-means on them: Note 131, Figure 2), the 6-point scikit-learn example
 with three settings, a dataset with two densities, and the k-distance plot."""
 from pathlib import Path
 
@@ -34,12 +34,10 @@ def save(fig, name, w, h, ticks=False):
 # 1. k-means against DBSCAN
 moons = StandardScaler().fit_transform(datasets.make_moons(500, noise=0.05, random_state=170)[0])
 circles = StandardScaler().fit_transform(datasets.make_circles(500, factor=0.5, noise=0.05, random_state=170)[0])
-fig = make_subplots(rows=2, cols=2, column_titles=["k-means, k = 2", "DBSCAN, eps = 0.3, MinPts = 5"],
-                    vertical_spacing=0.06, horizontal_spacing=0.05)
+fig = make_subplots(rows=1, cols=2, column_titles=["two moons", "two circles"], horizontal_spacing=0.05)
 for i, X in enumerate([moons, circles]):
-    scatter(fig, X, KMeans(n_clusters=2, random_state=0).fit_predict(X), i + 1, 1)
-    scatter(fig, X, DBSCAN(eps=0.3, min_samples=5).fit_predict(X), i + 1, 2)
-save(fig, "dbscan_vs_kmeans", 1000, 900)
+    scatter(fig, X, DBSCAN(eps=0.3, min_samples=5).fit_predict(X), 1, i + 1)
+save(fig, "dbscan_vs_kmeans", 1000, 470)
 
 # 2. The 6-point example with three settings
 X6 = np.array([[1, 2], [2, 2], [2, 3], [8, 7], [8, 8], [25, 80]])

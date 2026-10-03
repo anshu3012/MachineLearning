@@ -298,9 +298,7 @@ The usual way to find a split, used in the [regression trees Note](../99-regress
 
 Where should the bin edges go? Equal-width bins ignore the data. XGBoost places them at **quantiles** instead (the method is called the **weighted quantile sketch**): where many values crowd together the bins are narrow, and where values are rare they are wide. The bins then describe the data more accurately, and the trees built on them are more accurate too.
 
-![Titanic fares cut into 8 bins: equal-width bins put 773 of 891 passengers in the first bin; quantile bins hold about 110 passengers each](images/bins.png){height=34%}
-
-Figure 5 shows this on the Titanic fares, a very skewed column (most fares below 31, a few up to 512). Eight equal-width bins, each 64 wide, put 773 of the 891 passengers in the first bin and leave two bins empty: a split could not separate a fare of 8 from a fare of 60. Eight quantile bins hold between 106 and 117 passengers each, with narrow bins among the many cheap fares.
+On the Titanic fares, a very skewed column, Figure 4 of the [binning Note](../32-binning-binarization/note.md) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
 
 > **Extra:** "Weighted" means the quantiles are not counted in rows. Each row counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from the [XGBoost maths Note](../126-xgboost-maths/note.md)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For classification, rows the model is still unsure about weigh more, so the bins are finer where the model needs them. "Sketch" means the quantiles are estimated from a compact summary of the data, which also works when the data is split over many machines.
 

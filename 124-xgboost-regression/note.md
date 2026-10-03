@@ -170,7 +170,7 @@ and the residuals shrink again, to $-1.79$, 1.78, $-0.29$ and 0.31. The number o
 
 > **Key point:** Trying every midpoint is the exact greedy algorithm, good for small data. On large data XGBoost tries only bin edges, the approximate algorithm.
 
-What we did in sections 5 to 7, sorting the values and testing every midpoint, is the **exact greedy algorithm**. It finds the best split but checks every value, which is slow on millions of rows.
+What we did in sections 5 to 7, sorting the values and testing every midpoint, is the exact greedy algorithm of the [XGBoost introduction Note](../123-xgboost-intro/note.md), section 8.4. It finds the best split but checks every value, which is slow on millions of rows.
 
 For large data XGBoost first groups each column into bins and only tests the bin edges: the **approximate algorithm**, introduced in the [XGBoost introduction Note](../123-xgboost-intro/note.md).
 
@@ -263,4 +263,3 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 | Eta ($\eta$) | XGBoost's name for the learning rate; default 0.3 |
 | Lambda ($\lambda$, `reg_lambda`) | Regularisation parameter added to the denominators; shrinks scores and outputs; default 1 |
 | Gamma ($\gamma$, `min_split_loss`) | Minimum gain a split must exceed to be kept; default 0 |
-| Exact greedy algorithm | Split search that tries every midpoint of the sorted values |

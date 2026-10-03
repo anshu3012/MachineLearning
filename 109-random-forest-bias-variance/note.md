@@ -22,32 +22,15 @@ Figure 1 shows the whole story. One fully grown tree (a) carves out thin strips 
 
 This Note explains why, using the bias-variance trade-off, and shows the same effect on a regression problem. The Notebook (`notebook.ipynb`) computes every number; `images/figs.py` draws the figures.
 
-## 2. Two kinds of algorithm
+## 2. Why a forest lowers the variance
 
-> **Key point:** Most algorithms are either low bias, high variance (they overfit) or high bias, low variance (they underfit); we want low bias and low variance.
+> **Key point:** A random forest is bagging with fully grown trees: each tree keeps the bias low, and averaging many of them removes most of the variance.
 
-From the [bias-variance Note](../62-bias-variance/note.md): **bias** is a model's inability to fit even its training data, and **variance** is how much its predictions change when the training data changes. We want both low, but in a single model lowering one usually raises the other.
+We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). Bagging escapes this by averaging low-bias, high-variance models, each trained on its own random sample, so a change in the data is spread across many models (the [bagging Note](../105-bagging-intuition/note.md), section 3.2).
 
-So most algorithms fall into one of two groups:
+A random forest applies this to **fully grown** trees (no `max_depth`). Each tree fits its training data almost perfectly, so the forest starts with low bias; averaging hundreds of them keeps the bias low and cuts the variance. The next two sections measure the effect.
 
-| Group | Behaviour | Examples |
-|---|---|---|
-| Low bias, high variance | very good on the training data, much worse on new data (overfitting) | a fully grown decision tree (no `max_depth`); an SVM with a very flexible boundary; KNN with a small k |
-| High bias, low variance | mediocre on the training data, about the same on new data (underfitting) | linear regression; logistic regression, in some cases |
-
-Neither group gives what we want: low bias **and** low variance. A random forest gets there by starting from the first group.
-
-## 3. How a random forest lowers the variance
-
-> **Key point:** Each tree is fully grown, so bias stays low; each tree sees a different random sample, so the effect of any noisy rows is spread out and averaged away.
-
-A random forest is built from **fully grown** trees: every base model fits its training data almost perfectly, so every one has low bias and high variance. Averaging them leaves the bias low.
-
-The variance falls for the reason given in the [bagging Note](../105-bagging-intuition/note.md), section 3.2. Suppose 100 of 10,000 rows are replaced by noisy outliers. A single tree trained on all the data must absorb all 100 and changes its logic; in a forest, each tree draws its own random sample, so one tree gets 10 of the noisy rows, another 5, another none.
-
-No tree bears the full impact, and the vote or mean dilutes what each tree did absorb. The forest's predictions barely change when the data changes: **low variance**. That is how the forest escapes the trade-off: it lowers the variance while keeping the bias low.
-
-## 4. Seeing it in classification
+## 3. Seeing it in classification
 
 > **Key point:** On noisy concentric circles, one tree scores 0.86 on the test set and a forest of 500 trees 0.91.
 
@@ -81,23 +64,23 @@ The data is made with `make_circles` (the [kernel trick code Note](../96-kernel-
 
 > **Extra:** One might expect the forest to give up a little training accuracy in exchange for the lower variance. Here it does not: each fully grown tree sees about 63% of the training rows, and for every training point the many trees that did see it outvote the rest. On noisier data the forest's training accuracy can fall slightly below 1, a small rise in bias.
 
-## 5. Seeing it in regression
+## 4. Seeing it in regression
 
-> **Key point:** On a noisy curve, one tree chases every point (test MSE 0.0192); a forest of 1,000 trees stays closer to the true pattern (test MSE 0.0140).
+> **Key point:** On a noisy curve, one tree chases every point (test MSE 0.0192); a forest of 1,000 trees stays closer to the true pattern (test MSE 0.0140), exactly like bagging, since one input column leaves no columns to sample.
 
-![Two bumps plus noise: (a) one fully grown regression tree; (b) a random forest of 1,000 trees. The dashed curve is the true pattern](images/curves.png){height=40%}
+![Two bumps plus noise: (a) one fully grown regression tree; (b) bagging with 1,000 fully grown trees; (c) a random forest of 1,000 trees. The dashed curve is the true pattern](images/curves.png){height=36%}
 
-The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-regressor/note.md): one input column, an output made of two Gaussian bumps plus noise. The dashed curve in Figure 2 is the true pattern; we train on 150 points and test on 1,000.
+The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-regressor/note.md), which compares one tree with bagging. Here we add the random forest. We train on 150 points and test on 1,000; the dashed curve in Figure 2 is the true pattern.
 
-**One fully grown tree** (Figure 2a, red) tries to pass through every training point, outliers included. Its training error is 0: low bias. But it jumps up and down to reach every extreme point, so it is wrong on new points: high variance. Test **mean squared error (MSE)** (the [regression metrics Note](../52-regression-metrics/note.md)): **0.0192**.
+- **(a) One fully grown tree** (red) passes through every training point: training error 0, test **mean squared error (MSE)** (the [regression metrics Note](../52-regression-metrics/note.md)) **0.0192**.
+- **(b) Bagging with 1,000 fully grown trees** (green) no longer reaches every outlier and stays closer to the dashed curve: test MSE **0.0140**.
+- **(c) A random forest of 1,000 trees** (blue) draws almost the same curve, with the same test MSE. Its training MSE rises a little, from 0 to 0.0018, while its test MSE falls about 27% below the single tree's.
 
-**A random forest of 1,000 trees** (Figure 2b, blue) is smoother. It no longer reaches every outlier and stays closer to the dashed curve. Its training MSE rises a little, from 0 to 0.0018, while its test MSE falls to **0.0140**, about 27% lower.
+Panels (b) and (c) match because the data has a single input column. A random forest differs from bagging only in sampling columns at each split (the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md)); with one column there is nothing to sample, and `RandomForestRegressor` uses every column at every split by default anyway. The forest's extra gain shows only on data with many columns.
 
-> **Extra:** With a single input column, a random forest regressor is the same as bagging trees on full-size bootstrap samples: there are no columns to sample, and `RandomForestRegressor` uses every column at every split by default anyway. So Figure 2 shows the same effect as the bagging regressor Note.
->
-> Older code often prints `np.sum((y_test - pred) ** 2)` and calls it MSE. That is the **sum** of squared errors (19.2 and 14.0 here, over 1,000 test points); the mean divides by the number of points. The comparison between models comes out the same, but only the mean can be compared across test sets of different sizes.
+> **Extra:** Older code often prints `np.sum((y_test - pred) ** 2)` and calls it MSE. That is the **sum** of squared errors (19.2 and 14.0 here, over 1,000 test points); the mean divides by the number of points. The comparison between models comes out the same, but only the mean can be compared across test sets of different sizes.
 
-## 6. Summary
+## 5. Summary
 
 | | One fully grown tree | Random forest |
 |---|---|---|
@@ -111,9 +94,6 @@ The data is the two-bumps curve of the [bagging regressor Note](../107-bagging-r
 - A random forest averages many such trees, each trained on a different random sample, so noisy rows are spread out and their effect averages away.
 - The result keeps the low bias and cuts the variance: smoother boundaries and curves, better scores on new data.
 
-## 7. Key terms
+## 6. Key terms
 
-| Term | Meaning |
-|---|---|
-| Low bias, high variance algorithm | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits |
-| High bias, low variance algorithm | An algorithm too simple to fit the training data well but stable across samples, such as linear regression; it underfits |
+No new terms. Bias and variance are defined in the [bias-variance Note](../62-bias-variance/note.md); low-bias, high-variance base models in the [bagging Note](../105-bagging-intuition/note.md), section 3.

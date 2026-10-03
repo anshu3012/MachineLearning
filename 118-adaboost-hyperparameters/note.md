@@ -47,7 +47,7 @@ Other algorithms are allowed, such as logistic regression or an SVM, with one co
 
 In practice, decision trees are used almost every time, and stumps give the best results with AdaBoost. This is a setting we rarely change.
 
-> **Extra:** Older code and older documentation call this parameter `base_estimator`. scikit-learn renamed it to `estimator` in version 1.2 and removed the old name in 1.4, so `AdaBoostClassifier(base_estimator=...)` now fails. Passing the model as the first argument, `AdaBoostClassifier(DecisionTreeClassifier(max_depth=1))`, works in every version.
+> **Extra:** Older code calls this parameter `base_estimator`, a name since removed (the [bagging classifier Note](../106-bagging-classifier/note.md), section 3.2), so `AdaBoostClassifier(base_estimator=...)` now fails; passing the model as the first argument works in every version.
 
 ### 2.2 n_estimators: the number of stages
 

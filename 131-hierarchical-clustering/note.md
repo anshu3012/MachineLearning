@@ -177,7 +177,7 @@ The average lies between the minimum and the maximum, so average linkage behaves
 3. **Example:** $A = \{P_3, P_4\}$, $B = \{P_5\}$. The merged centroid is $(17/3, 14/3) \approx (5.67, 4.67)$, and the squared distances to it are 0.89, 0.56 and 1.89, together 3.33. A's centroid is (5.5, 4), with squared distances 0.25 and 0.25, together 0.5; B is one point, so 0. Then
    $$\Delta = 3.33 - 0.5 - 0 = 2.83.$$
 
-Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 6.1). Like average linkage, Ward sits between single and complete linkage.
+Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1). Like average linkage, Ward sits between single and complete linkage.
 
 > **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$, here $\sqrt{2 \times 2.83} = 2.38$. The square root does not change which pair is smallest, so the merges are the same.
 

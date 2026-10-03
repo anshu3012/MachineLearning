@@ -39,7 +39,7 @@ In a random forest, the base model is always a decision tree. scikit-learn's cla
 
 > **Key point:** Bagging fixes each tree's columns before the tree is grown; a random forest picks a fresh random set of columns before every split.
 
-So is a bagging ensemble of decision trees a random forest? **No.** The remaining difference is in how the columns are sampled (column sampling: the [random forest introduction Note](../108-random-forest-intro/note.md), section 4.1).
+So is a bagging ensemble of decision trees a random forest? **No.** The remaining difference is in how the columns are sampled (column sampling: the [random forest introduction Note](../108-random-forest-intro/note.md), section 4).
 
 Take a dataset with 5 columns, and suppose each tree may use 2 of them (`max_features=2` in both classes).
 
