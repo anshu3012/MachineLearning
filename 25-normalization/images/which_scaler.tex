@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[q/.style={box=cgrey, fill=white, text width=4.6cm}, a/.style={box=#1, text width=3.4cm, font=\sffamily\bfseries}]
+  \node[q] (q1) at (0,0) {Is the algorithm tree-based?\\[1pt]\small (decision tree, random forest)};
+  \node[q] (q2) at (0,-2.3) {Does the column have outliers?};
+  \node[q] (q3) at (0,-4.6) {Are its min and max fixed and known?\\[1pt]\small (pixels: 0 to 255)};
+  \node[q] (q4) at (0,-6.9) {Is the data sparse?\\[1pt]\small (mostly zeros)};
+  \node[a=cpurple, anchor=north] (std) at (0,-8.7) {Standardization\\[-1pt]\normalfont\small the usual default};
+  \node[a=cgrey] (no) at (6,0) {No scaling needed};
+  \node[a=cred] (rob) at (6,-2.3) {Robust scaling};
+  \node[a=cblue] (mm) at (6,-4.6) {Min-max scaling};
+  \node[a=corange] (ma) at (6,-6.9) {Max-abs scaling};
+  \foreach \f/\t in {q1/no, q2/rob, q3/mm, q4/ma}
+    \draw[arrow] (\f.east) -- node[above, font=\sffamily\small] {yes} (\t.west);
+  \foreach \f/\t in {q1/q2, q2/q3, q3/q4, q4/std}
+    \draw[arrow] (\f.south) -- node[right, font=\sffamily\small] {no} (\t.north);
+  \node[note, anchor=north] at (3,-10.4) {Not sure? Try several scalers and compare the results.};
+\end{tikzpicture}
+\end{document}

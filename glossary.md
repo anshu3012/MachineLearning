@@ -10,6 +10,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `pd.concat` | pandas function that joins several DataFrames into one. | [Video 17](17-fetching-data-from-api/note.md) |
 | `read_json` | pandas function that reads JSON from a file or a URL into a DataFrame. | [Video 16](16-working-with-json-and-sql/note.md) |
 | `read_sql_query` | pandas function that runs an SQL query and returns a DataFrame. | [Video 16](16-working-with-json-and-sql/note.md) |
+| Absolute value | A number's size without its sign. | [Video 25](25-normalization/note.md) |
 | Accuracy | The fraction of predictions that are correct. | [Video 13](13-toy-project/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -39,6 +40,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
+| Centred data | Data whose mean is 0. | [Video 25](25-normalization/note.md) |
 | Channel | One colour layer of an image (red, green or blue). | [Video 11](11-tensors/note.md) |
 | Chunk | A piece of a file, read as a small DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Class | An attribute that labels tags; used to select the right ones. | [Video 18](18-web-scraping/note.md) |
@@ -151,14 +153,19 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Video 15](15-working-with-csv/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
+| Max-abs scaling | Divide by the largest absolute value in the column, giving values from -1 to 1. | [Video 25](25-normalization/note.md) |
+| MaxAbsScaler | scikit-learn's class for max-abs scaling. | [Video 25](25-normalization/note.md) |
 | Mean absolute deviation | The average absolute distance of the points from their mean. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Mean centring | Subtracting the mean from every value, so the column's mean becomes 0. | [Video 24](24-standardization/note.md) |
+| Mean normalization | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. | [Video 25](25-normalization/note.md) |
 | Mean | The average of the values; the centre of the data. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Median absolute deviation (MAD) | The median distance of the values from their median. | [Video 22](22-pandas-profiling/note.md) |
 | Median | The middle value of sorted data; the 50% percentile. | [Video 19](19-understanding-your-data/note.md) |
 | Min-max scaling | The main normalization technique. | [Video 24](24-standardization/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
+| MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
 | Missing value | An empty entry, shown by pandas as `NaN`. | [Video 15](15-working-with-csv/note.md) |
 | Missing values | Empty cells in the data. | [Video 7](07-challenges-in-ml/note.md) |
 | MLOps | Running and maintaining ML models in production. | [Video 7](07-challenges-in-ml/note.md) |
@@ -238,6 +245,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | River | A Python library for online machine learning. | [Video 5](05-online-learning/note.md) |
 | robots.txt | A file at a site's root listing what bots are asked not to visit. | [Video 18](18-web-scraping/note.md) |
 | Robust scaler | A normalization technique that copes well with outliers. | [Video 24](24-standardization/note.md) |
+| Robust scaling | Subtract the median and divide by the interquartile range; copes well with outliers. | [Video 25](25-normalization/note.md) |
+| RobustScaler | scikit-learn's class for robust scaling. | [Video 25](25-normalization/note.md) |
 | Rollback | Restoring a model to an earlier, good version. | [Video 5](05-online-learning/note.md) |
 | Sample | The part of the real world that our data covers. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
@@ -281,6 +290,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | TSV file | Like a CSV file, with tabs between values. | [Video 15](15-working-with-csv/note.md) |
 | Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling. | [Video 19](19-understanding-your-data/note.md) |
+| Unit hypercube | The same box in three or more dimensions (a unit cube in three). | [Video 25](25-normalization/note.md) |
+| Unit square | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns. | [Video 25](25-normalization/note.md) |
 | Univariate analysis | Studying one variable on its own. | [Video 20](20-univariate-analysis/note.md) |
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same. | [Video 7](07-challenges-in-ml/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |

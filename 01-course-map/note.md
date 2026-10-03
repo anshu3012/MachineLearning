@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 61 of 131 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 62 of 131 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -120,7 +120,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), Video 32, coming | draft |
 | Feature transformation | [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
-| Normalization | Video 25, coming | draft |
+| Normalization | [Note 25](../25-normalization/note.md) | confirmed |
 | Ordinal and label encoding | [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
 | Column transformer | Video 28, coming | draft |
 | Function transformer | Video 30, coming | draft |
@@ -291,7 +291,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 22 | Pandas Profiling | nothing | written |
 | 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md), [Note 11](../11-tensors/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
 | 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
-| 25 | Normalization | [Note 24](../24-standardization/note.md) | coming |
+| 25 | Normalization | [Note 24](../24-standardization/note.md) | written |
 | 26 | Encoding categorical data, Ordinal and label encoding | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 27 | One-hot encoding | [Note 26](../26-ordinal-label-encoding/note.md) | coming |
 | 28 | Column transformer | [Note 26](../26-ordinal-label-encoding/note.md) | coming |

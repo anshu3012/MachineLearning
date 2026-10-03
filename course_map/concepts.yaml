@@ -41,6 +41,7 @@ notes:
   22: 22-pandas-profiling
   23: 23-what-is-feature-engineering
   24: 24-standardization
+  25: 25-normalization
   26: 26-ordinal-label-encoding
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
@@ -111,7 +112,7 @@ concepts:
   - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13, 23, 46], status: confirmed}
   - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 13, 23, 24], status: confirmed}
   - {id: standardization, name: Standardization, step: 5, videos: [13, 24], status: confirmed}
-  - {id: normalization, name: Normalization, step: 5, videos: [25], status: draft}
+  - {id: normalization, name: Normalization, step: 5, videos: [25], status: confirmed}
   - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: confirmed}
   - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: confirmed}
   - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 23, 27], status: confirmed}

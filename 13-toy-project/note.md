@@ -8,8 +8,8 @@ title: "End-to-End Toy Project: Predicting Placement"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Software integration ([Note 7](../07-challenges-in-ml/note.md)); Framing an ML problem (Video 9, coming).
-> - **Leads to:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours (Video 91, coming).
-> - **Compare with:** Web scraping ([Note 7](../07-challenges-in-ml/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization (Video 25, coming); Decision trees (Video 97, coming); Cross-validation (Video 112, coming).
+> - **Leads to:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Compare with:** Web scraping ([Note 7](../07-challenges-in-ml/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Decision trees (Video 97, coming); Cross-validation (Video 112, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview
