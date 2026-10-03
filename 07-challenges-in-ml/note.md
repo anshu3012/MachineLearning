@@ -110,8 +110,10 @@ Data often contains features (columns) that have nothing to do with what we want
 **BMI**, step by step:
 
 1. **In words:** weight compared with height, squared. A higher BMI means more weight for the same height.
-2. **Formula:** $\text{BMI} = \dfrac{\text{weight (kg)}}{\text{height (m)}^2}$
-3. **Example:** a person who weighs 62 kg and is 1.70 m tall has $\text{BMI} = \dfrac{62}{1.70^2} = \dfrac{62}{2.89} \approx 21.5$.
+2. **Formula:**
+   $$\text{BMI} = \frac{\text{weight (kg)}}{\text{height (m)}^2}$$
+3. **Example:** a person who weighs 62 kg and is 1.70 m tall has
+   $$\text{BMI} = \frac{62}{1.70^2} = \frac{62}{2.89} \approx 21.5.$$
 
 ![Dropping an irrelevant feature and combining two others](images/feature_selection.png)
 

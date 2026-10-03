@@ -8,3 +8,4 @@ media/
 transcripts/*.vtt
 transcripts/fetch.err
 reference/
+*.pkl

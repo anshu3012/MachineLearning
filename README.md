@@ -39,6 +39,7 @@ Professional teaching material, written for a reader with ADHD. Every sentence t
 - Paragraphs: at most 3 sentences. Use a list wherever a paragraph would only enumerate. **Split, never cut**: long ideas become more paragraphs, lists or subsections; no detail is dropped.
 - One Note per Video, whatever its length. Notes are never split into parts.
 - Bold only a term at the point it is first defined. Key phrases go in Key point boxes.
+- Formulas in the 3-step boxes go on their own line as display maths (`$$...$$`), never as tall inline fractions: those collide with the next line in the PDF.
 - Text stays black; colour is only used in diagrams.
 - Title page: title only (no reading time). No video link anywhere in the Note.
 
