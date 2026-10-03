@@ -8,6 +8,7 @@ title: "Lasso Regression"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
+> - **Leads to:** Elastic Net ([Note 69](../69-elastic-net/note.md)).
 > - **Compare with:** Ridge regression ([Note 66](../66-ridge-key-points/note.md)).
 <!-- /where-this-fits -->
 

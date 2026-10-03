@@ -189,7 +189,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Video 48](48-pca-step-by-step/note.md) |
 | Eigenvalue | The factor by which a matrix stretches its eigenvector. | [Video 48](48-pca-step-by-step/note.md) |
 | Eigenvector | A vector that a matrix only stretches or shrinks, without turning it. | [Video 48](48-pca-step-by-step/note.md) |
+| Elastic Net regression | Linear regression with both the L1 and the L2 penalty. | [Video 69](69-elastic-net/note.md) |
 | Elastic Net | Linear regression with a mix of the L1 and L2 penalties. | [Video 63](63-ridge-regression-intuition/note.md) |
+| ElasticNetCV | scikit-learn's Elastic Net that picks alpha and l1_ratio by cross-validation. | [Video 69](69-elastic-net/note.md) |
 | encode | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output. | [Video 32](32-binning-binarization/note.md) |
 | Encoding | The rulebook that maps text characters to stored bytes. | [Video 15](15-working-with-csv/note.md) |
 | End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\,\text{IQR}$. | [Video 36](36-imputing-numerical-data/note.md) |
@@ -244,6 +246,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase. | [Video 57](57-gradient-descent/note.md) |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | GridSearchCV | scikit-learn class that cross-validates every value in a grid and keeps the best. | [Video 29](29-pipelines/note.md) |
+| Grouping effect | Elastic Net's tendency to give correlated inputs similar coefficients instead of keeping only one. | [Video 69](69-elastic-net/note.md) |
 | handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training. | [Video 27](27-one-hot-encoding/note.md) |
 | handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training. | [Video 29](29-pipelines/note.md) |
 | Header | The line of a file that holds the column names. | [Video 15](15-working-with-csv/note.md) |
@@ -297,6 +300,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Knowledge base | The collection of rules inside an expert system. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve. | [Video 22](22-pandas-profiling/note.md) |
 | L1 regularisation | Another name for the absolute-value penalty used by Lasso. | [Video 67](67-lasso-regression/note.md) |
+| l1_ratio | The share of the total penalty given to the L1 (Lasso) part. | [Video 69](69-elastic-net/note.md) |
 | L2 regularisation | Another name for the squared-coefficient penalty used by Ridge. | [Video 63](63-ridge-regression-intuition/note.md) |
 | Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. | [Video 26](26-ordinal-label-encoding/note.md) |
 | LabelEncoder | scikit-learn's class for label encoding the target. | [Video 26](26-ordinal-label-encoding/note.md) |

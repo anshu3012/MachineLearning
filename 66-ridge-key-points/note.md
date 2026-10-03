@@ -8,6 +8,7 @@ title: "Ridge Regression: Five Key Points"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
+> - **Leads to:** Elastic Net ([Note 69](../69-elastic-net/note.md)).
 > - **Compare with:** Lasso regression ([Note 67](../67-lasso-regression/note.md)).
 <!-- /where-this-fits -->
 
