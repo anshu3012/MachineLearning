@@ -8,7 +8,7 @@ title: "Graduate Admission Prediction with an ANN in Keras"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Normalization ([Note 25](../25-normalization/note.md)); Regression metrics ([Note 52](../52-regression-metrics/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Multi-layer perceptron (MLP) ([Note 1009](../1009-mlp-intuition/note.md)).
-> - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
+> - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Early stopping ([Note 1021](../1021-improving-a-neural-network/note.md)).
 > - **Compare with:** Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); ANN for classification ([Note 1012](../1012-mnist-ann/note.md)).
 <!-- /where-this-fits -->
 

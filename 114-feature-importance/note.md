@@ -9,7 +9,7 @@ title: "Feature Importance with Decision Trees and Random Forests"
 >
 > - **Builds on:** Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)); Hyperparameter tuning ([Note 111](../111-random-forest-hyperparameters/note.md)); Grid and random search ([Note 112](../112-random-forest-tuning/note.md)); OOB score ([Note 113](../113-oob-score/note.md)).
 > - **Leads to:** Balanced random forest ([Note 133](../133-imbalanced-data/note.md)).
-> - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)).
+> - **Compare with:** Bagging ([Note 107](../107-bagging-regressor/note.md)); Dropout ([Note 1024](../1024-dropout/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

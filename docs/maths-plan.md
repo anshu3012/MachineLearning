@@ -48,5 +48,7 @@ The user chose: CampusX first; the textbook and MIT lecture only for what Campus
 | M40 | *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong; free PDF at mml-book.github.io), ch. 5 Vector Calculus | 600+ | derivatives, partial derivatives, gradients, Jacobian, chain rule, Hessian, Taylor |
 | M41 | same book §4.5–4.6, plus MIT OCW 18.06 Lecture 29 (Gilbert Strang, SVD) transcript | 610+ | SVD, low-rank approximation |
 | M42 | same book ch. 7 (§7.2–7.3) | 620+ | constrained optimisation, Lagrange multipliers, convex optimisation |
+| M43–M48 | CampusX "Probability vs Likelihood" (free; the CampusX MLE session is members-only), StatQuest: probability is not likelihood, MLE clearly explained, MLE for binomial, exponential, normal; MML book §8.3, §9.2 | 630–633 | likelihood, MLE, MLE for common distributions, MSE and log loss as MLE, MAP |
+| M49 | MML book ch. 11 (no CampusX, StatQuest or 3Blue1Brown video) | 640–641 | Gaussian mixture models, the EM algorithm |
 
 Local copies: `reference/maths-sources/` (book PDF and its text extracts are not committed).

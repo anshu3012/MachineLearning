@@ -8,7 +8,7 @@ title: "Logistic Regression Hyperparameters"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 61](../61-polynomial-regression/note.md)).
-> - **Leads to:** Grid and random search ([Note 91](../91-knn/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)).
+> - **Leads to:** Grid and random search ([Note 91](../91-knn/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Optuna ([Note 134](../134-optuna/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

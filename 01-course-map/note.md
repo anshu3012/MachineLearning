@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 249 of 249 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 254 of 254 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -187,10 +187,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Feature construction and splitting | [Note 3](../03-types-of-ml/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 45](../45-feature-construction-splitting/note.md) | confirmed |
-| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md) | confirmed |
+| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 1023](../1023-data-scaling-in-ann/note.md) | confirmed |
 | Feature engineering | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
 | Feature selection | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
-| Standardization | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
+| Standardization | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md), [Note 1023](../1023-data-scaling-in-ann/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 27](../27-one-hot-encoding/note.md) | confirmed |
 | ML pipelines | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
@@ -208,6 +208,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Random under- and oversampling | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | SMOTE | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Bag of words | [Note 360](../360-vectors-and-feature-vectors/note.md) | confirmed |
+| Scaling inputs for neural networks | [Note 1023](../1023-data-scaling-in-ann/note.md) | confirmed |
 
 ### 2.7 Step 6: Reduce dimensions
 
@@ -252,7 +253,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
 | Polynomial regression | [Note 61](../61-polynomial-regression/note.md) | confirmed |
 | Polynomial features | [Note 61](../61-polynomial-regression/note.md), [Note 80](../80-polynomial-logistic-regression/note.md) | confirmed |
-| Regularisation | [Note 63](../63-ridge-regression-intuition/note.md) | confirmed |
+| Regularisation | [Note 63](../63-ridge-regression-intuition/note.md), [Note 1026](../1026-regularization-in-dl/note.md) | confirmed |
 | Ridge regression | [Note 63](../63-ridge-regression-intuition/note.md), [Note 64](../64-ridge-regression-maths/note.md), [Note 65](../65-ridge-gradient-descent/note.md), [Note 66](../66-ridge-key-points/note.md) | confirmed |
 | Lasso regression | [Note 67](../67-lasso-regression/note.md), [Note 68](../68-lasso-sparsity/note.md) | confirmed |
 | Elastic Net | [Note 69](../69-elastic-net/note.md) | confirmed |
@@ -288,7 +289,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Problem with the perceptron (XOR) | [Note 1007](../1007-problem-with-perceptron/note.md) | confirmed |
 | MLP notation and parameter count | [Note 1008](../1008-mlp-notation/note.md) | confirmed |
 | Forward propagation | [Note 1010](../1010-forward-propagation/note.md) | confirmed |
-| Keras workflow | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
+| Keras workflow | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md), [Note 1022](../1022-early-stopping/note.md), [Note 1025](../1025-dropout-code/note.md), [Note 1026](../1026-regularization-in-dl/note.md) | confirmed |
 | ANN for classification | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md) | confirmed |
 | Categorical and sparse categorical cross-entropy | [Note 1012](../1012-mnist-ann/note.md), [Note 1014](../1014-dl-loss-functions/note.md) | confirmed |
 | ANN for regression | [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
@@ -299,12 +300,14 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Exploding gradient and gradient clipping | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
 | ReLU | [Note 1018](../1018-vanishing-exploding-gradients/note.md) | confirmed |
 | Batch size in Keras | [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | confirmed |
+| Dropout | [Note 1024](../1024-dropout/note.md), [Note 1025](../1025-dropout-code/note.md) | confirmed |
+| L1 and L2 regularisation in neural networks | [Note 1026](../1026-regularization-in-dl/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Overfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
+| Overfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md), [Note 1026](../1026-regularization-in-dl/note.md) | confirmed |
 | Underfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Accuracy | [Note 13](../13-toy-project/note.md), [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 91](../91-knn/note.md), [Note 103](../103-voting-classifier/note.md), [Note 104](../104-voting-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 127](../127-stacking-blending/note.md) | confirmed |
@@ -315,18 +318,20 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | ROC curve and AUC | [Note 78](../78-roc-auc/note.md) | confirmed |
 | Decision surface and boundary | [Note 91](../91-knn/note.md) | confirmed |
 | OOB score | [Note 105](../105-bagging-intuition/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 113](../113-oob-score/note.md) | confirmed |
-| Training curves (History) | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md) | confirmed |
+| Training curves (History) | [Note 1011](../1011-customer-churn-ann/note.md), [Note 1012](../1012-mnist-ann/note.md), [Note 1013](../1013-graduate-admission-ann/note.md), [Note 1022](../1022-early-stopping/note.md) | confirmed |
 
 ### 2.11 Step 10: Tune
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
+| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 1021](../1021-improving-a-neural-network/note.md) | confirmed |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Learning rate | [Note 57](../57-gradient-descent/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 120](../120-gradient-boosting-intuition/note.md), [Note 1017](../1017-backpropagation-why/note.md) | confirmed |
 | Elbow method and WCSS | [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md) | confirmed |
 | Bayesian optimisation | [Note 134](../134-optuna/note.md) | confirmed |
 | Optuna | [Note 134](../134-optuna/note.md) | confirmed |
+| Improving a neural network | [Note 1021](../1021-improving-a-neural-network/note.md) | confirmed |
+| Early stopping | [Note 1021](../1021-improving-a-neural-network/note.md), [Note 1022](../1022-early-stopping/note.md) | confirmed |
 
 ### 2.12 Step 11: Deploy
 
@@ -364,7 +369,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 249 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 254 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -602,6 +607,12 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 1018 | Exploding gradient and gradient clipping, ReLU, Sigmoid function, Vanishing gradient | [Note 1013](../1013-graduate-admission-ann/note.md), [Note 1017](../1017-backpropagation-why/note.md) | written |
 | 1019 | Backpropagation, Memoization | [Note 1010](../1010-forward-propagation/note.md), [Note 1014](../1014-dl-loss-functions/note.md), [Note 1017](../1017-backpropagation-why/note.md), [Note 1018](../1018-vanishing-exploding-gradients/note.md) | written |
 | 1020 | Batch gradient descent, Batch size in Keras, Gradient descent, Mini-batch gradient descent, Stochastic gradient descent | [Note 51](../51-linear-regression-maths/note.md), [Note 600](../600-derivatives-of-one-variable/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md), [Note 1017](../1017-backpropagation-why/note.md) | written |
+| 1021 | Early stopping, Hyperparameter tuning, Improving a neural network | [Note 91](../91-knn/note.md), [Note 1013](../1013-graduate-admission-ann/note.md), [Note 1018](../1018-vanishing-exploding-gradients/note.md), [Note 1019](../1019-mlp-memoization/note.md) | written |
+| 1022 | Early stopping, Keras workflow, Training curves (History) | [Note 91](../91-knn/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1023 | Feature scaling, Scaling inputs for neural networks, Standardization | [Note 23](../23-what-is-feature-engineering/note.md), [Note 25](../25-normalization/note.md), [Note 230](../230-percentiles-and-box-plots/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | written |
+| 1024 | Dropout | [Note 63](../63-ridge-regression-intuition/note.md), [Note 91](../91-knn/note.md) | written |
+| 1025 | Dropout, Keras workflow | [Note 63](../63-ridge-regression-intuition/note.md), [Note 91](../91-knn/note.md), [Note 1009](../1009-mlp-intuition/note.md) | written |
+| 1026 | Keras workflow, L1 and L2 regularisation in neural networks, Overfitting, Regularisation | [Note 13](../13-toy-project/note.md), [Note 361](../361-magnitude-distance-and-scalar-operations/note.md), [Note 1009](../1009-mlp-intuition/note.md), [Note 1020](../1020-gradient-descent-in-neural-networks/note.md) | written |
 
 ## 5. The Algorithm chooser
 

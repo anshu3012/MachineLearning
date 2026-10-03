@@ -37,3 +37,9 @@ M36|BbLfV0wOeyc|The Poisson Distribution (365 Data Science)
 M37|YrhlQB3mQFI|Tutorial 32 - All About P Value, T test, Chi Square Test, Anova Test
 M38|o4g4OTyCyDM|How to Overcome the Fear of Maths in Data Science? | Maths Roadmap for Machine Learning
 M39|TXVtbgaEyms|Difference between convex & non-convex cost function
+M43|QBFVcBXRzu4|Probability vs Likelihood | Machine Learning Interview Question
+M44|pYxNSUDSFH4|In Statistics, Probability is not Likelihood (StatQuest)
+M45|XepXtl9YKwc|Maximum Likelihood, clearly explained (StatQuest)
+M46|4KKV9yZCoM4|Maximum Likelihood for the Binomial Distribution (StatQuest)
+M47|p3T-_LMrvBc|Maximum Likelihood for the Exponential Distribution (StatQuest)
+M48|Dn6b9fCIUpM|Maximum Likelihood For the Normal Distribution (StatQuest)

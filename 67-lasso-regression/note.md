@@ -9,7 +9,7 @@ title: "Lasso Regression"
 >
 > - **Builds on:** Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Leads to:** Elastic Net ([Note 69](../69-elastic-net/note.md)).
-> - **Compare with:** Ridge regression ([Note 66](../66-ridge-key-points/note.md)).
+> - **Compare with:** Ridge regression ([Note 66](../66-ridge-key-points/note.md)); L1 and L2 regularisation in neural networks ([Note 1026](../1026-regularization-in-dl/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

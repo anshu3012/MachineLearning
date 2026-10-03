@@ -8,7 +8,7 @@ title: "Vanishing and Exploding Gradients"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Training curves (History) ([Note 1013](../1013-graduate-admission-ann/note.md)); Backpropagation ([Note 1017](../1017-backpropagation-why/note.md)).
-> - **Leads to:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)).
+> - **Leads to:** Backpropagation ([Note 1019](../1019-mlp-memoization/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -8,7 +8,7 @@ title: "Backpropagation, Part 3: Why the Update Works"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)); Best-fit line and squared error ([Note 51](../51-linear-regression-maths/note.md)); Sigmoid function ([Note 74](../74-sigmoid-derivative/note.md)); Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Hessian and multivariate Taylor ([Note 603](../603-hessian-and-multivariate-taylor/note.md)).
-> - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Batch gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Stochastic gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Mini-batch gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)).
+> - **Leads to:** Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Batch gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Stochastic gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Mini-batch gradient descent ([Note 1020](../1020-gradient-descent-in-neural-networks/note.md)); Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)); Scaling inputs for neural networks ([Note 1023](../1023-data-scaling-in-ann/note.md)).
 > - **Compare with:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)).
 <!-- /where-this-fits -->
 

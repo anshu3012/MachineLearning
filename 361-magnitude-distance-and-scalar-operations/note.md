@@ -8,6 +8,7 @@ title: "Magnitude, Distance and Scalar Operations on Vectors"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)).
+> - **Leads to:** Regularisation ([Note 1026](../1026-regularization-in-dl/note.md)).
 > - **Compare with:** Cosine similarity ([Note 362](../362-dot-product-and-cosine-similarity/note.md)).
 <!-- /where-this-fits -->
 

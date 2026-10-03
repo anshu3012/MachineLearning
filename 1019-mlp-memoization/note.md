@@ -8,6 +8,7 @@ title: "Memoization in Backpropagation"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Derivatives of one variable ([Note 600](../600-derivatives-of-one-variable/note.md)); Partial derivatives and gradients ([Note 601](../601-partial-derivatives-and-gradients/note.md)); Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)); Forward propagation ([Note 1010](../1010-forward-propagation/note.md)); Loss functions in deep learning ([Note 1014](../1014-dl-loss-functions/note.md)); Gradient descent ([Note 1017](../1017-backpropagation-why/note.md)).
+> - **Leads to:** Improving a neural network ([Note 1021](../1021-improving-a-neural-network/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -8,7 +8,7 @@ title: "Handwritten Digit Classification (MNIST) with an ANN in Keras"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)).
-> - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)).
+> - **Leads to:** ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)); Vanishing gradient ([Note 1018](../1018-vanishing-exploding-gradients/note.md)); Early stopping ([Note 1021](../1021-improving-a-neural-network/note.md)).
 > - **Compare with:** K-nearest neighbours ([Note 91](../91-knn/note.md)); ANN for regression ([Note 1013](../1013-graduate-admission-ann/note.md)).
 <!-- /where-this-fits -->
 
