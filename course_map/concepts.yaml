@@ -40,6 +40,7 @@ notes:
   21: 21-bivariate-multivariate-analysis
   22: 22-pandas-profiling
   23: 23-what-is-feature-engineering
+  24: 24-standardization
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
 
@@ -265,10 +266,10 @@ links:
   - [feature_engineering, needs, feature, confirmed]
   - [feature_scaling, is a kind of, feature_engineering, confirmed]
   - [standardization, is a kind of, feature_scaling, confirmed]
-  - [normalization, is a kind of, feature_scaling, draft]
-  - [normalization, compared with, standardization, draft]
+  - [normalization, is a kind of, feature_scaling, confirmed]
+  - [normalization, compared with, standardization, confirmed]
   - [feature_scaling, used in, knn, confirmed]
-  - [feature_scaling, used in, gradient_descent, draft]
+  - [feature_scaling, used in, gradient_descent, confirmed]
   - [encoding, is a kind of, feature_engineering, draft]
   - [ordinal_encoding, is a kind of, encoding, draft]
   - [one_hot, is a kind of, encoding, draft]
@@ -301,7 +302,9 @@ links:
   - [pca, is a kind of, unsupervised, confirmed]
   - [pca, needs, variance, confirmed]
   - [variance, is a kind of, descriptive_stats, confirmed]
-  - [pca, needs, standardization, draft]
+  - [pca, needs, standardization, confirmed]
+  - [standardization, needs, descriptive_stats, confirmed]
+  - [feature_scaling, used in, pca, confirmed]
   # Split
   - [overfitting, needs, train_test_split, confirmed]
   - [data_leakage, compared with, train_test_split, confirmed]

@@ -8,7 +8,7 @@ title: "What is Feature Engineering"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Features ([Note 11](../11-tensors/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)).
-> - **Leads to:** Standardization (Video 24, coming); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours (Video 91, coming); Normalization (Video 25, coming); Ordinal and label encoding (Video 26, coming); Column transformer (Video 28, coming).
+> - **Leads to:** Standardization ([Note 24](../24-standardization/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); K-nearest neighbours (Video 91, coming); Normalization (Video 25, coming); Ordinal and label encoding (Video 26, coming); Column transformer (Video 28, coming).
 > - **Compare with:** Ordinal and label encoding (Video 26, coming).
 <!-- /where-this-fits -->
 

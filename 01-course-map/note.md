@@ -110,12 +110,12 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 24, coming | confirmed |
+| Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md) | confirmed |
 | Feature engineering | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
 | Feature construction and splitting | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 45, coming | draft |
 | Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 27, coming | confirmed |
-| Standardization | [Note 13](../13-toy-project/note.md), Video 24, coming | confirmed |
+| Standardization | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
 | ML pipelines | [Note 13](../13-toy-project/note.md), Video 29, coming | draft |
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), Video 26, coming | draft |
 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), Video 32, coming | draft |
@@ -290,8 +290,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
 | 22 | Pandas Profiling | nothing | written |
 | 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md), [Note 11](../11-tensors/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
-| 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | coming |
-| 25 | Normalization | Video 24, coming | coming |
+| 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
+| 25 | Normalization | [Note 24](../24-standardization/note.md) | coming |
 | 26 | Encoding categorical data, Ordinal and label encoding | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 27 | One-hot encoding | Video 26, coming | coming |
 | 28 | Column transformer | Video 26, coming | coming |
@@ -313,9 +313,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 44 | Percentile outlier method | Video 41, coming | coming |
 | 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
-| 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | written |
-| 48 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
-| 49 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
+| 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | written |
+| 48 | PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
+| 49 | PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
 | 50 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |
 | 51 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |
 | 52 | Regression metrics | nothing | coming |
@@ -323,7 +323,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 54 | Multiple linear regression | Video 51, coming | coming |
 | 55 | Multiple linear regression | Video 51, coming | coming |
 | 56 | Assumptions of linear regression | nothing | coming |
-| 57 | Gradient descent | Video 24, coming | coming |
+| 57 | Gradient descent | [Note 24](../24-standardization/note.md) | coming |
 | 58 | Batch gradient descent | Video 57, coming | coming |
 | 59 | Stochastic gradient descent | Video 57, coming | coming |
 | 60 | Mini-batch gradient descent | Video 57, coming | coming |
@@ -357,7 +357,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
 | 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
 | 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 91 | K-nearest neighbours | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), Video 24, coming | coming |
+| 91 | K-nearest neighbours | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 24](../24-standardization/note.md) | coming |
 | 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
 | 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
 | 94 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
@@ -394,9 +394,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 125 | XGBoost | Video 122, coming | coming |
 | 126 | XGBoost | Video 122, coming | coming |
 | 127 | Stacking and blending | Video 101, coming | coming |
-| 128 | Clustering, K-means | [Note 3](../03-types-of-ml/note.md), Video 24, coming | coming |
-| 129 | K-means | Video 24, coming, Video 128, coming | coming |
-| 130 | K-means | Video 24, coming, Video 128, coming | coming |
+| 128 | Clustering, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | coming |
+| 129 | K-means | [Note 24](../24-standardization/note.md), Video 128, coming | coming |
+| 130 | K-means | [Note 24](../24-standardization/note.md), Video 128, coming | coming |
 | 131 | Hierarchical clustering | Video 128, coming | coming |
 | 132 | DBSCAN | Video 128, coming | coming |
 | 133 | Imbalanced data | nothing | coming |
