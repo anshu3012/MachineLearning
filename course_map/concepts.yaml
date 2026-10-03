@@ -84,6 +84,7 @@ notes:
   65: 65-ridge-gradient-descent
   66: 66-ridge-key-points
   67: 67-lasso-regression
+  68: 68-lasso-sparsity
 
 concepts:
   # 0 Foundations

@@ -129,6 +129,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Converge | To settle at a minimum, with steps becoming negligible. | [Video 57](57-gradient-descent/note.md) |
 | Convergence | The point where the fills hardly change between two iterations. | [Video 40](40-iterative-imputer-mice/note.md) |
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. | [Video 57](57-gradient-descent/note.md) |
+| Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. | [Video 68](68-lasso-sparsity/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Video 20](20-univariate-analysis/note.md) |
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
@@ -150,6 +151,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Datetime | A value pandas understands as a point in time, with date and time parts. | [Video 34](34-date-and-time/note.md) |
 | datetime64 | The pandas column type for datetimes; `[us]` means microsecond resolution. | [Video 34](34-date-and-time/note.md) |
 | Day of week | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`). | [Video 34](34-date-and-time/note.md) |
+| Dead zone | The range of S for which the Lasso slope is exactly 0. | [Video 68](68-lasso-sparsity/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
@@ -529,12 +531,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Video 20](20-univariate-analysis/note.md) |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Video 29](29-pipelines/note.md) |
 | Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
+| Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0. | [Video 68](68-lasso-sparsity/note.md) |
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Video 24](24-standardization/note.md) |
 | Sparse data | Data where most of the space holds no points. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory. | [Video 27](27-one-hot-encoding/note.md) |
 | Sparse model | A model in which many coefficients are exactly 0. | [Video 67](67-lasso-regression/note.md) |
 | sparse_output | `OneHotEncoder` parameter; `False` returns a normal NumPy array. | [Video 27](27-one-hot-encoding/note.md) |
+| Sparsity | Having many coefficients exactly equal to 0. | [Video 68](68-lasso-sparsity/note.md) |
 | SQL (Structured Query Language) | The language for asking a database for data. | [Video 16](16-working-with-json-and-sql/note.md) |
 | SQLAlchemy | A Python library that connects to many kinds of database; pandas supports it fully. | [Video 16](16-working-with-json-and-sql/note.md) |
 | SQLite | A database stored in a single file, built into Python, needing no server. | [Video 16](16-working-with-json-and-sql/note.md) |

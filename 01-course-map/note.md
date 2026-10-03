@@ -176,7 +176,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Polynomial features | [Note 61](../61-polynomial-regression/note.md), Video 80, coming | confirmed |
 | Regularisation | [Note 63](../63-ridge-regression-intuition/note.md) | confirmed |
 | Ridge regression | [Note 63](../63-ridge-regression-intuition/note.md), [Note 64](../64-ridge-regression-maths/note.md), [Note 65](../65-ridge-gradient-descent/note.md), [Note 66](../66-ridge-key-points/note.md) | confirmed |
-| Lasso regression | [Note 67](../67-lasso-regression/note.md), Video 68, coming | confirmed |
+| Lasso regression | [Note 67](../67-lasso-regression/note.md), [Note 68](../68-lasso-sparsity/note.md) | confirmed |
 | ElasticNet | Video 69, coming | draft |
 | Sigmoid function | Video 74, coming | draft |
 | Softmax regression | Video 79, coming | draft |
@@ -346,7 +346,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 65 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 62](../62-bias-variance/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | written |
 | 66 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 62](../62-bias-variance/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | written |
 | 67 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | written |
-| 68 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | coming |
+| 68 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | written |
 | 69 | ElasticNet | [Note 63](../63-ridge-regression-intuition/note.md) | coming |
 | 70 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
 | 71 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
