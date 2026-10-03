@@ -78,6 +78,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Adjusted Rand score | A number that is 1.0 when two labelings group the points identically, whatever the label numbers. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Adjusted R² | R² with a penalty for the number of input columns. | [Video 52](52-regression-metrics/note.md) |
+| Affine transformation | A linear transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
 | Agglomerative clustering | Bottom-up hierarchical clustering: start with one cluster per point and merge the closest pair repeatedly. | [Video 131](131-hierarchical-clustering/note.md) |
 | AgglomerativeClustering | scikit-learn's class for agglomerative clustering. | [Video 131](131-hierarchical-clustering/note.md) |
@@ -103,6 +104,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Array | The programming name for a tensor (as in NumPy). | [Video 11](11-tensors/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
+| Associativity | $(AB)C = A(BC)$: the grouping of a product does not matter. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Assumption (of a model) | A condition the data must meet for the model's results to be reliable. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Asymptotic | Coming ever closer to a line without touching it, like the normal curve's tails and the x axis. | [Maths Note 250](250-normal-distribution/note.md) |
 | Atomic value | A single piece of information in a cell, not several combined. | [Video 45](45-feature-construction-splitting/note.md) |
@@ -112,6 +114,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Average linkage | Cluster distance = mean of all distances between the two clusters' points. | [Video 131](131-hierarchical-clustering/note.md) |
 | Average record size | The memory one row takes, on average. | [Video 22](22-pandas-profiling/note.md) |
 | Axioms of probability | The three rules every probability obeys: non-negative, $P(S) = 1$, mutually exclusive events add. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
+| Axis of rotation | The line a 3D rotation leaves in place: an eigenvector with eigenvalue 1. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
 | Axis-parallel split | A cut that tests one column, so it is a line, plane or hyperplane parallel to the other axes. | [Video 97](97-decision-trees-intuition/note.md) |
 | B2B | Business to business: a product that helps a company run its business. | [Video 8](08-applications-of-ml/note.md) |
@@ -129,6 +132,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | base environment | The environment the installer creates, holding conda itself. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Base model | One of the models inside an ensemble. | [Video 101](101-ensemble-learning/note.md) |
 | Base prediction ($F_0$) | The first model of gradient boosting; for regression, the mean of the target. | [Video 120](120-gradient-boosting-intuition/note.md) |
+| Basis | A linearly independent set of vectors that spans the whole space. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Batch (mini-batch) | A small group of training rows used for one update. | [Video 60](60-mini-batch-gradient-descent/note.md) |
 | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
@@ -207,7 +211,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Chain rule | To differentiate a function of a function, multiply the outer derivative by the inner derivative. | [Video 74](74-sigmoid-derivative/note.md) |
 | Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3. | [Video 45](45-feature-construction-splitting/note.md) |
 | Chained equations | One prediction model per column, each using the latest fills of the others. | [Video 40](40-iterative-imputer-mice/note.md) |
+| Change of basis matrix | A matrix $P$ whose columns are the new basis vectors. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Channel | One colour layer of an image (red, green or blue). | [Video 11](11-tensors/note.md) |
+| Characteristic polynomial | $\det(A - \lambda I)$; its roots are the eigenvalues. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Chi-square distribution | The distribution of $\chi^2$ under $H_0$: positive, right-skewed, with one parameter, the degrees of freedom. | [Maths Note 571](571-chi-square-tests/note.md) |
 | Chi-square statistic $\chi^2$ | $\sum (O - E)^2 / E$: the total mismatch between observed and expected counts. | [Maths Note 571](571-chi-square-tests/note.md) |
 | Chi-square test of independence | A chi-square test of whether two categorical columns are related; $df = (r - 1)(c - 1)$. | [Maths Note 571](571-chi-square-tests/note.md) |
@@ -239,6 +245,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Coefficient vector ($\beta$) | All the coefficients of the model, $\beta_0$ to $\beta_m$, as one column. | [Video 54](54-multiple-lr-maths/note.md) |
 | Column block | XGBoost's storage of the data one sorted column per block, so each core can work on one feature. | [Video 123](123-xgboost-intro/note.md) |
 | Column sampling (feature sampling) | Giving each base model a random subset of the columns. | [Video 108](108-random-forest-intro/note.md) |
+| Column space | The span of the columns of a matrix: every output it can produce. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later). | [Video 26](26-ordinal-label-encoding/note.md) |
 | Column vector | A vector written as one column, shape $n \times 1$; the default meaning of "vector". | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. | [Video 28](28-column-transformer/note.md) |
@@ -251,6 +258,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Complete linkage | Cluster distance = distance of the farthest pair of points. | [Video 131](131-hierarchical-clustering/note.md) |
 | Component | One number of a vector, its position along one axis. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | components_ | The eigenvectors of the fitted PCA, one per row. | [Video 49](49-pca-mnist/note.md) |
+| Composition | Applying one transformation and then another, seen as one overall transformation. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Compound event | An event with two or more outcomes. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
 | conda | A package and environment manager for Python and other software. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -322,6 +330,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Data cleaning | Fixing errors, gaps and inconsistencies in data. | [Video 7](07-challenges-in-ml/note.md) |
 | Data engineer | The specialist who collects and organises data from company systems. | [Video 14](14-framing-ml-problem/note.md) |
 | Data leakage | Information from the test set leaking into training. | [Video 13](13-toy-project/note.md) |
+| Data matrix | The feature vectors of a dataset stacked as rows. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Data mining | Using ML on data to extract patterns too hidden for graphs. | [Video 1](01-what-is-ml/note.md) |
 | Data pipeline | A channel that carries data from one point to another. | [Video 17](17-fetching-data-from-api/note.md) |
 | Data preprocessing | Changes made to the data before training, so an algorithm can use it. | [Video 9](09-mldlc/note.md) |
@@ -367,8 +376,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Derivative | The slope of a function at a point. | [Video 51](51-linear-regression-maths/note.md) |
 | Descriptive statistics | Numbers that summarise data, such as count, mean, spread and percentiles. | [Video 19](19-understanding-your-data/note.md) |
 | Design matrix ($X$) | The data as a matrix, one row per data point, with a first column of 1s for the intercept. | [Video 54](54-multiple-lr-maths/note.md) |
+| Determinant | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Development environment | Our own machine, where we build and train a model. | [Video 4](04-batch-learning/note.md) |
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised inputs, and disease progression one year later. | [Video 55](55-multiple-lr-code/note.md) |
+| Diagonal matrix | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
+| Diagonalisation | Writing $A = PDP^{-1}$ with $D$ diagonal, using an eigenbasis. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution. | [Video 97](97-decision-trees-intuition/note.md) |
 | Differentiation | Finding the slope of a curve at each point; the derivative of the CDF is the PDF. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
@@ -396,6 +408,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | dropna | The pandas method that drops rows (or columns) with missing values. | [Video 35](35-complete-case-analysis/note.md) |
 | dtreeviz | A Python library that draws decision trees with the training data shown at every node. | [Video 100](100-dtreeviz/note.md) |
 | dtype | The data type of a column, such as `int64`, `float64` or `str`. | [Video 15](15-working-with-csv/note.md) |
+| Dual vector | The vector whose dot product computes a given linear transformation to numbers. | [Maths Note 520](520-dot-product-and-duality/note.md) |
+| Duality | The correspondence between vectors and linear transformations to numbers: each is a dot product with exactly one vector. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1. | [Video 27](27-one-hot-encoding/note.md) |
 | Dummy variable | One of the 0/1 columns created by one-hot encoding. | [Video 27](27-one-hot-encoding/note.md) |
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
@@ -405,6 +419,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Early stopping | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. | [Video 58](58-batch-gradient-descent/note.md) |
 | Economy rate | A bowler's runs conceded per over. | [Video 45](45-feature-construction-splitting/note.md) |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Video 48](48-pca-step-by-step/note.md) |
+| Eigenbasis | A basis made of eigenvectors of a matrix. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Eigenvalue | The factor by which a matrix stretches its eigenvector. | [Video 48](48-pca-step-by-step/note.md) |
 | Eigenvector | A vector that a matrix only stretches or shrinks, without turning it. | [Video 48](48-pca-step-by-step/note.md) |
 | Elastic Net regression | Linear regression with both the L1 and the L2 penalty. | [Video 69](69-elastic-net/note.md) |
@@ -413,6 +428,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Elbow curve | A plot of WCSS against the number of clusters k. | [Video 128](128-kmeans-intuition/note.md) |
 | Elbow method | Choosing k at the point where the elbow curve bends from steep to flat. | [Video 128](128-kmeans-intuition/note.md) |
 | Elbow point | The k after which adding clusters barely lowers WCSS. | [Video 128](128-kmeans-intuition/note.md) |
+| Embedding | A learned vector representing a user, item or word, compared with others by dot products. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | Empirical (experimental) probability | The share of trials in which an event happened. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Empirical CDF (ECDF) | The share of a sample's values at or below $x$; a step-function estimate of the CDF. | [Maths Note 253](253-pdf-and-cdf-in-practice/note.md) |
 | encode | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output. | [Video 32](32-binning-binarization/note.md) |
@@ -686,11 +702,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Video 73](73-log-loss/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
+| Linear combination | A sum of scaled vectors, $a_1\mathbf{v}_1 + \dots + a_k\mathbf{v}_k$. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Video 44](44-outliers-percentile/note.md) |
 | Linear regression | An algorithm that fits the straight line closest to all the points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Linear relationship | A relationship between two columns that follows a straight line. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Linear transformation to the number line | A function from vectors to numbers that keeps evenly spaced dots evenly spaced; its matrix is $1 \times n$. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced. | [Video 48](48-pca-step-by-step/note.md) |
 | Linearity of expectation | $E[aX + bY + c] = a\,E[X] + b\,E[Y] + c$, for any random variables. | [Maths Note 332](332-expected-value-and-variance/note.md) |
+| Linearly dependent | At least one vector is a linear combination of the others, so it adds nothing to the span. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
+| Linearly independent | Every vector adds a new direction to the span. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Linearly separable | Data whose classes a straight line, plane or hyperplane can split. | [Video 70](70-perceptron-trick/note.md) |
 | Linkage | The rule for the distance between two clusters. | [Video 131](131-hierarchical-clustering/note.md) |
 | List of grids | Several parameter grids passed together, so incompatible values never meet. | [Video 112](112-random-forest-tuning/note.md) |
@@ -738,9 +758,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Markdown | A simple way to format text with symbols such as `#` and `**`. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Mathematical problem | A business goal restated as a measurable target, such as a churn rate to reach. | [Video 14](14-framing-ml-problem/note.md) |
 | Mathematical transformation | Applying one mathematical formula to every value of a column. | [Video 30](30-function-transformer/note.md) |
+| Matrix (of a transformation) | The grid of numbers whose columns are where the basis vectors land. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Matrix calculus | Rules for differentiating expressions with vectors and matrices. | [Video 54](54-multiple-lr-maths/note.md) |
 | Matrix factorisation (decomposition) | Writing a matrix as a product of simpler matrices. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
+| Matrix product | The matrix $BA$ of the composition "apply $A$, then $B$". | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
+| Matrix-vector multiplication | $A\mathbf{x}$: the linear combination of the columns of $A$ with the coordinates of $\mathbf{x}$ as scalars. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Max-abs scaling | Divide by the largest absolute value in the column, giving values from -1 to 1. | [Video 25](25-normalization/note.md) |
 | max_depth | The cap on a tree's depth; None lets it grow until every leaf is pure. | [Video 98](98-decision-tree-hyperparameters/note.md) |
 | max_features | The number of randomly chosen columns a tree considers at each split. | [Video 98](98-decision-tree-hyperparameters/note.md) |
@@ -858,6 +881,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Normalisation (of weights) | Dividing every weight by their sum so they add up to 1. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Normalization | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. | [Video 25](25-normalization/note.md) |
 | Normalized importances | Importances divided by their total, so they add up to 1. | [Video 114](114-feature-importance/note.md) |
+| Not commutative | The order of the factors matters: $AB \neq BA$ in general. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Notebook | A `.ipynb` file of cells, each with its output underneath. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | np.argmin | NumPy function returning the position of the smallest value. | [Video 130](130-kmeans-from-scratch/note.md) |
 | np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side. | [Video 28](28-column-transformer/note.md) |
@@ -993,6 +1017,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Positive skew (right skew) | A long tail on the right: a few very large values. | [Maths Note 252](252-skewness/note.md) |
 | Post-hoc test | A test run after ANOVA rejects, to find which groups differ. | [Maths Note 572](572-one-way-anova/note.md) |
 | Posterior | The probability of an event after the evidence is taken into account. | [Video 85](85-bayes-theorem/note.md) |
+| Power iteration | Finding the top eigenvector by multiplying a vector by the matrix again and again. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Power law | A relationship $y = k\,x^{a}$: one variable proportional to a power of the other. | [Maths Note 262](262-pareto-and-power-law/note.md) |
 | Power of a test | $1 - \beta$: the probability of rejecting $H_0$ when it is false. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
@@ -1020,6 +1045,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Production environment | The server where a model serves real users. | [Video 4](04-batch-learning/note.md) |
 | Profiling report | An automatic EDA report describing every column and pair of columns of a dataset. | [Video 22](22-pandas-profiling/note.md) |
 | Program | Logic written by us that turns an input into an output. | [Video 1](01-what-is-ml/note.md) |
+| Projection (onto a vector) | The shadow of a vector dropped straight onto the line through another vector. | [Maths Note 520](520-dot-product-and-duality/note.md) |
+| Projection view of the dot product | $\mathbf{v} \cdot \mathbf{w}$ = signed length of the projection of $\mathbf{w}$ onto $\mathbf{v}$, times $\lVert \mathbf{v} \rVert$. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | Projection | Dropping each point onto an axis or line, like casting a shadow. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Proportional to (∝) | Equal up to a constant factor that is the same for every class. | [Video 88](88-naive-bayes-maths/note.md) |
 | Proximity matrix | An n × n table of the distances between every pair of points or clusters. | [Video 131](131-hierarchical-clustering/note.md) |
@@ -1055,6 +1082,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Randomised controlled trial | An experiment that assigns a treatment at random, to test causation. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations. | [Video 99](99-regression-trees/note.md) |
 | Range | The largest value minus the smallest. | [Maths Note 222](222-measures-of-dispersion/note.md) |
+| Rank (of a matrix) | The number of linearly independent columns. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Rank | The number of axes of a tensor (ndim in NumPy). | [Video 11](11-tensors/note.md) |
 | RapidAPI | A website listing many APIs, including free ones. | [Video 17](17-fetching-data-from-api/note.md) |
 | Rate $\lambda$ | The average number of events per interval; the only parameter of the Poisson distribution. | [Maths Note 560](560-poisson-distribution/note.md) |
@@ -1104,6 +1132,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Rollback | Restoring a model to an earlier, good version. | [Video 5](05-online-learning/note.md) |
 | Root mean squared error (RMSE) | The square root of MSE, in the output's units. | [Video 52](52-regression-metrics/note.md) |
 | Root node | The first node of a tree, holding all the training rows. | [Video 97](97-decision-trees-intuition/note.md) |
+| Rotation matrix | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Row and column totals | The sums in the margins of a contingency table; each counts one whole event. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
 | Row sampling | Giving each base model a random subset of the rows. | [Video 108](108-random-forest-intro/note.md) |
 | Row vector | A vector written as one row, shape $1 \times n$. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
@@ -1153,8 +1182,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | set_params | Method that changes a model's settings after it is created. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Video 5](05-online-learning/note.md) |
 | Shallow decision tree | A decision tree with a small maximum depth; high bias, low variance. | [Video 119](119-bagging-vs-boosting/note.md) |
+| Shape rule | $(m \times n)(n \times p) = m \times p$; the inner sizes must match. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Shape | The number of items along each axis. | [Video 11](11-tensors/note.md) |
 | Shapiro-Wilk test | A statistical test of whether data follows a normal distribution. | [Video 56](56-linear-regression-assumptions/note.md) |
+| Shear | A transformation that keeps $\hat{\imath}$ fixed and slants $\hat{\jmath}$, sliding horizontal lines sideways. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Shifting | Adding or subtracting a scalar to every component of a vector. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | Shortcut variance formula | $\mathrm{Var}(X) = E[X^2] - (E[X])^2$. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | Shrinkage (boosting) | Scaling down each base model's contribution so the ensemble learns in small steps and overfits less. | [Video 118](118-adaboost-hyperparameters/note.md) |
@@ -1187,6 +1218,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Video 24](24-standardization/note.md) |
 | Spam classifier | A program that decides whether an email is spam or not. | [Video 1](01-what-is-ml/note.md) |
+| Span | The set of all linear combinations of some vectors. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Sparse data | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. | [Video 25](25-normalization/note.md) |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory. | [Video 27](27-one-hot-encoding/note.md) |
 | Sparse model | A model in which many coefficients are exactly 0. | [Video 67](67-lasso-regression/note.md) |
@@ -1207,6 +1239,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Stacking | An ensemble in which a meta-model learns how to weight the base models' outputs. | [Video 127](127-stacking-blending/note.md) |
 | Stage-wise additive model | A model built as a sum of base models added one at a time. | [Video 115](115-adaboost-intuition/note.md) |
 | staged_score | A method that gives an ensemble's score after each added stage. | [Video 118](118-adaboost-hyperparameters/note.md) |
+| Standard basis ($\hat{\imath}$, $\hat{\jmath}$) | The unit vectors along the axes, $[1, 0]$ and $[0, 1]$ in 2D. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Standard deviation of a random variable | The square root of its variance, in the units of $X$. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | Standard deviation | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). | [Video 19](19-understanding-your-data/note.md) |
 | Standard error | The standard deviation of a sampling distribution; for the mean, $\sigma/\sqrt{n}$. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
@@ -1290,6 +1323,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Train-test split | Dividing the data into training and test sets. | [Video 13](13-toy-project/note.md) |
 | Training set | The part of the data the model learns from. | [Video 13](13-toy-project/note.md) |
 | Training | The step in which an algorithm learns the pattern from data. | [Video 1](01-what-is-ml/note.md) |
+| Transformation | A function that takes a vector in and gives a vector out. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples. | [Video 28](28-column-transformer/note.md) |
 | transformers_ | List of a fitted column transformer's (name, transformer, columns) tuples. | [Video 29](29-pipelines/note.md) |
 | Transpose | A matrix or vector with rows and columns swapped. | [Video 48](48-pca-step-by-step/note.md) |
@@ -1343,6 +1377,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Variance of a random variable | $\mathrm{Var}(X) = E[(X - E[X])^2]$: the expected squared distance from the expected value. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | Variance reduction | The drop in mean squared error from a node to its children; the regression version of information gain. | [Video 99](99-regression-trees/note.md) |
 | Vector (geometric view) | A point in a coordinate system, drawn as an arrow from the origin. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
+| Vector addition | Adding matching components; geometrically, placing the second arrow's tail at the first arrow's tip. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Vector | A list of numbers: a 1D tensor. | [Video 11](11-tensors/note.md) |
 | Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Video 58](58-batch-gradient-descent/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |

@@ -8,7 +8,7 @@ title: "Dot Product and Cosine Similarity"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)).
-> - **Leads to:** Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)).
+> - **Leads to:** Equation of a hyperplane ([Note 363](../363-equation-of-a-hyperplane/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)).
 > - **Compare with:** Vector magnitude, distance and scalar operations ([Note 361](../361-magnitude-distance-and-scalar-operations/note.md)).
 <!-- /where-this-fits -->
 

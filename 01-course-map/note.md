@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 209 of 209 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 213 of 213 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -60,8 +60,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Chi-square tests | [Note 29](../29-pipelines/note.md), [Note 571](../571-chi-square-tests/note.md) | confirmed |
 | Vector magnitude, distance and scalar operations | [Note 39](../39-knn-imputer/note.md), [Note 361](../361-magnitude-distance-and-scalar-operations/note.md) | confirmed |
 | Normal distribution | [Note 42](../42-outliers-zscore/note.md), [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md), [Note 250](../250-normal-distribution/note.md) | confirmed |
-| Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
-| Dot product | [Note 48](../48-pca-step-by-step/note.md), [Note 362](../362-dot-product-and-cosine-similarity/note.md) | confirmed |
+| Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | confirmed |
+| Dot product | [Note 48](../48-pca-step-by-step/note.md), [Note 362](../362-dot-product-and-cosine-similarity/note.md), [Note 520](../520-dot-product-and-duality/note.md) | confirmed |
+| Linear transformations and matrices | [Note 48](../48-pca-step-by-step/note.md), [Note 500](../500-linear-transformations-and-matrices/note.md) | confirmed |
 | Equation of a hyperplane | [Note 53](../53-multiple-linear-regression/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 363](../363-equation-of-a-hyperplane/note.md) | confirmed |
 | Conditional probability | [Note 82](../82-conditional-probability/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
@@ -95,6 +96,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Linear algebra roadmap | [Note 350](../350-linear-algebra-roadmap/note.md) | confirmed |
 | Vectors and feature vectors | [Note 360](../360-vectors-and-feature-vectors/note.md) | confirmed |
 | Role of mathematics in ML | [Note 440](../440-role-of-maths-in-ml/note.md) | confirmed |
+| Linear combinations, span and basis | [Note 490](../490-linear-combinations-span-and-basis/note.md) | confirmed |
+| Matrix multiplication as composition | [Note 510](../510-matrix-multiplication-as-composition/note.md) | confirmed |
+| Determinant | [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | confirmed |
 | Choosing a hypothesis test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | One-sample proportion test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | One-way ANOVA | [Note 572](../572-one-way-anova/note.md) | confirmed |
@@ -324,7 +328,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 209 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 213 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -392,7 +396,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md), [Note 32](../32-binning-binarization/note.md) | written |
 | 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 29](../29-pipelines/note.md) | written |
 | 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | written |
-| 48 | Covariance and covariance matrix, Dot product, Eigenvectors and eigenvalues, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
+| 48 | Covariance and covariance matrix, Dot product, Eigenvectors and eigenvalues, Linear transformations and matrices, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
 | 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 50 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | written |
 | 51 | Best-fit line and squared error, Ordinary least squares (closed form), Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
@@ -520,6 +524,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 362 | Cosine similarity, Dot product | [Note 360](../360-vectors-and-feature-vectors/note.md) | written |
 | 363 | Equation of a hyperplane | [Note 362](../362-dot-product-and-cosine-similarity/note.md) | written |
 | 440 | Role of mathematics in ML | nothing | written |
+| 490 | Linear combinations, span and basis | [Note 360](../360-vectors-and-feature-vectors/note.md) | written |
+| 500 | Linear transformations and matrices | [Note 490](../490-linear-combinations-span-and-basis/note.md) | written |
+| 510 | Matrix multiplication as composition | [Note 362](../362-dot-product-and-cosine-similarity/note.md), [Note 500](../500-linear-transformations-and-matrices/note.md) | written |
+| 520 | Dot product | [Note 360](../360-vectors-and-feature-vectors/note.md) | written |
+| 530 | Determinant, Eigenvectors and eigenvalues | [Note 500](../500-linear-transformations-and-matrices/note.md) | written |
 | 560 | Poisson distribution | [Note 241](../241-pmf-and-discrete-cdf/note.md), [Note 332](../332-expected-value-and-variance/note.md) | written |
 | 570 | Choosing a hypothesis test, Correlation significance test, One-sample proportion test, T-tests: one-sample, two-sample, paired | [Note 231](../231-covariance-and-correlation/note.md), [Note 282](../282-t-procedure/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
 | 571 | Chi-square tests | [Note 291](../291-rejection-region-and-z-test/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | written |

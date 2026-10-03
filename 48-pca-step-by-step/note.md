@@ -8,7 +8,7 @@ title: "PCA: Problem Formulation and Step-by-Step Solution"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)); Feature extraction ([Note 47](../47-pca-geometric-intuition/note.md)); Variance ([Note 47](../47-pca-geometric-intuition/note.md)).
-> - **Leads to:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Equation of a hyperplane ([Note 53](../53-multiple-linear-regression/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); Cosine similarity ([Note 362](../362-dot-product-and-cosine-similarity/note.md)).
+> - **Leads to:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Equation of a hyperplane ([Note 53](../53-multiple-linear-regression/note.md)); Support vector machines ([Note 92](../92-svm-intuition/note.md)); Cosine similarity ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)); Determinant ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)).
 > - **Compare with:** Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)).
 <!-- /where-this-fits -->
 
