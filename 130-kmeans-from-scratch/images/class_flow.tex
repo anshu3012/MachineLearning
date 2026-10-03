@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.9cm and 1.2cm]
+  \node[box=cgrey, minimum width=6.4cm] (init) {\texttt{\_\_init\_\_(n\_clusters, max\_iter)}\\[2pt]\small step 1: store k and the round limit};
+  \node[box=cblue, minimum width=6.4cm, below=of init] (start) {\texttt{fit\_predict(X)}\\[2pt]\small step 2: k random rows become the centroids};
+  \node[box=corange, minimum width=6.4cm, below=of start] (assign) {\texttt{assign\_clusters(X)}\\[2pt]\small step 3: each row gets the index of its nearest centroid};
+  \node[box=cgreen, minimum width=6.4cm, below=of assign] (move) {\texttt{move\_centroids(X, cluster\_group)}\\[2pt]\small step 4: each centroid = mean of its rows};
+  \node[box=cpurple, shape=diamond, aspect=2.6, inner sep=2pt, below=of move, align=center] (check) {\small step 5: centroids\\[-1pt]\small unchanged?};
+  \node[box=cgrey, minimum width=4.2cm, below=of check] (ret) {return \texttt{cluster\_group}};
+  \draw[arrow] (init) -- (start);
+  \draw[arrow] (start) -- (assign);
+  \draw[arrow] (assign) -- (move);
+  \draw[arrow] (move) -- (check);
+  \draw[arrow] (check) -- node[right, font=\small] {yes} (ret);
+  \draw[arrow] (check.east) -- ++(1.9,0) |- node[pos=0.25, right, font=\small, align=left] {no, and fewer\\than \texttt{max\_iter}\\rounds so far} (assign.east);
+\end{tikzpicture}
+\end{document}

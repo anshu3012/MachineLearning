@@ -46,8 +46,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Accuracy | The fraction of predictions that are correct. | [Video 13](13-toy-project/note.md) |
 | AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote. | [Video 115](115-adaboost-intuition/note.md) |
 | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Video 84](84-mutually-exclusive-events/note.md) |
+| Adjusted Rand score | A number that is 1.0 when two labelings group the points identically, whatever the label numbers. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Adjusted R² | R² with a penalty for the number of input columns. | [Video 52](52-regression-metrics/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
+| Agglomerative clustering | Bottom-up hierarchical clustering: start with one cluster per point and merge the closest pair repeatedly. | [Video 131](131-hierarchical-clustering/note.md) |
+| AgglomerativeClustering | scikit-learn's class for agglomerative clustering. | [Video 131](131-hierarchical-clustering/note.md) |
 | Aggregation | Combining the base models' predictions into one: mode for classes, mean for numbers. | [Video 105](105-bagging-intuition/note.md) |
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Alert | A warning in the report about a column that may need attention. | [Video 22](22-pandas-profiling/note.md) |
@@ -68,6 +71,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Attribute | A `name="value"` setting inside an opening tag. | [Video 18](18-web-scraping/note.md) |
 | AUC | The area under the ROC curve; a single score from 0.5 (random) to 1 (perfect). | [Video 78](78-roc-auc/note.md) |
 | Autocorrelation | Each residual is related to the one before it in row order. | [Video 56](56-linear-regression-assumptions/note.md) |
+| Average linkage | Cluster distance = mean of all distances between the two clusters' points. | [Video 131](131-hierarchical-clustering/note.md) |
 | Average record size | The memory one row takes, on average. | [Video 22](22-pandas-profiling/note.md) |
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
 | Axis-parallel split | A cut that tests one column, so it is a line, plane or hyperplane parallel to the other axes. | [Video 97](97-decision-trees-intuition/note.md) |
@@ -111,11 +115,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | Black box model | A model that gives predictions without showing how each input contributed. | [Video 91](91-knn/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
+| Boolean indexing | Selecting rows with an array of True/False values, e.g. `X[y_means == 0]`. | [Video 129](129-kmeans-code/note.md) |
 | Boosting | Combining many simple models in sequence to reduce bias. | [Video 62](62-bias-variance/note.md) |
 | Bootstrap sample | A sample of the same size drawn from the data with replacement. | [Video 66](66-ridge-key-points/note.md) |
 | bootstrap | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). | [Video 106](106-bagging-classifier/note.md) |
 | bootstrap_features | BaggingClassifier setting: draw columns with replacement or without. | [Video 106](106-bagging-classifier/note.md) |
 | Bootstrapping | Drawing random samples of the data to train each base model. | [Video 105](105-bagging-intuition/note.md) |
+| Border point | A point with fewer than MinPts points within eps, but with a core point among them. | [Video 132](132-dbscan/note.md) |
 | Boston housing data | 506 Boston districts, 13 inputs and the median home value; removed from scikit-learn in version 1.2. | [Video 99](99-regression-trees/note.md) |
 | Bot | A program that visits websites automatically. | [Video 18](18-web-scraping/note.md) |
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
@@ -137,7 +143,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | ccp_alpha | Cost-complexity pruning strength: the penalty per leaf when a grown tree is pruned back. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | Cell | One block of a notebook, holding either code or Markdown. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Centred data | Data whose mean is 0. | [Video 25](25-normalization/note.md) |
+| Centroid initialization | Picking the first k centroids, here at random from the data. | [Video 128](128-kmeans-intuition/note.md) |
 | Centroid | The centre of one group in k-means. | [Video 32](32-binning-binarization/note.md) |
+| Centroid-based clustering | Clustering built around centroids, such as k-means. | [Video 132](132-dbscan/note.md) |
 | Chain rule of probability | Writing a joint probability as a product of conditional probabilities, one variable at a time. | [Video 88](88-naive-bayes-maths/note.md) |
 | Chain rule | To differentiate a function of a function, multiply the outer derivative by the inner derivative. | [Video 74](74-sigmoid-derivative/note.md) |
 | Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3. | [Video 45](45-feature-construction-splitting/note.md) |
@@ -160,6 +168,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Client, server | The program that asks, and the computer that answers. | [Video 17](17-fetching-data-from-api/note.md) |
 | Closed-form solution | An answer given directly by a formula of ordinary operations. | [Video 51](51-linear-regression-maths/note.md) |
 | Cluster | One group found by clustering. | [Video 3](03-types-of-ml/note.md) |
+| cluster_centers_ | The coordinates of the final centroids of a fitted `KMeans`. | [Video 129](129-kmeans-code/note.md) |
 | Clustering | Splitting data into groups of similar rows. | [Video 3](03-types-of-ml/note.md) |
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | coef_ | The fitted slope (one per input column) in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
@@ -173,6 +182,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Combined sampling | Giving each base model random rows and random columns together. | [Video 108](108-random-forest-intro/note.md) |
 | Complete case analysis (CCA) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. | [Video 35](35-complete-case-analysis/note.md) |
 | Complete case | A row with a value in every column used. | [Video 35](35-complete-case-analysis/note.md) |
+| Complete linkage | Cluster distance = distance of the farthest pair of points. | [Video 131](131-hierarchical-clustering/note.md) |
 | components_ | The eigenvectors of the fitted PCA, one per row. | [Video 49](49-pca-mnist/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
 | conda | A package and environment manager for Python and other software. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -187,14 +197,17 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Constrained form | Writing regularisation as a hard limit on the size of the coefficients. | [Video 66](66-ridge-key-points/note.md) |
 | Constrained optimisation | Maximising or minimising a function while keeping one or more constraints true. | [Video 93](93-svm-maths/note.md) |
 | Constraint | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point. | [Video 93](93-svm-maths/note.md) |
+| Constructor (`__init__`) | The method that runs when an object is created and stores its settings. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Container | A tag (often a `div`) that holds everything about one item, such as one company. | [Video 18](18-web-scraping/note.md) |
 | Contour plot | A map of a surface seen from above, with lines joining points of equal height. | [Video 57](57-gradient-descent/note.md) |
 | Converge | To settle at a minimum, with steps becoming negligible. | [Video 57](57-gradient-descent/note.md) |
+| Convergence (k-means) | The point where the centroids stop moving between rounds, so the algorithm stops. | [Video 128](128-kmeans-intuition/note.md) |
 | Convergence | The point where the fills hardly change between two iterations. | [Video 40](40-iterative-imputer-mice/note.md) |
 | ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Conversion rate | The share of people reached who become customers. | [Video 8](08-applications-of-ml/note.md) |
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. | [Video 57](57-gradient-descent/note.md) |
 | Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. | [Video 68](68-lasso-sparsity/note.md) |
+| Core point | A point with at least MinPts points within eps. | [Video 132](132-dbscan/note.md) |
 | Correlation between base models | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance. | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Video 20](20-univariate-analysis/note.md) |
@@ -215,6 +228,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Customer profile | A summary of what kind of buyer a customer is, built from their purchases. | [Video 8](08-applications-of-ml/note.md) |
 | Customer segmentation | Grouping customers by their buying behaviour. | [Video 8](08-applications-of-ml/note.md) |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95. | [Video 44](44-outliers-percentile/note.md) |
+| Cutting the dendrogram | Drawing a horizontal line through the dendrogram; the lines it crosses are the clusters. | [Video 131](131-hierarchical-clustering/note.md) |
 | Dash | A Python library for building interactive web apps with Plotly charts. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Data analysis | Finding patterns and hidden information in data, mainly by plotting graphs. | [Video 1](01-what-is-ml/note.md) |
 | Data cleaning | Fixing errors, gaps and inconsistencies in data. | [Video 7](07-challenges-in-ml/note.md) |
@@ -231,6 +245,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Datetime | A value pandas understands as a point in time, with date and time parts. | [Video 34](34-date-and-time/note.md) |
 | datetime64 | The pandas column type for datetimes; `[us]` means microsecond resolution. | [Video 34](34-date-and-time/note.md) |
 | Day of week | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`). | [Video 34](34-date-and-time/note.md) |
+| DBSCAN | Density-based spatial clustering of applications with noise: clusters dense regions and labels lonely points as noise. | [Video 132](132-dbscan/note.md) |
 | Dead zone | The range of S for which the Lasso slope is exactly 0. | [Video 68](68-lasso-sparsity/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
 | Decision node | A node in the middle of a tree that asks a question and splits again. | [Video 97](97-decision-trees-intuition/note.md) |
@@ -245,7 +260,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Delivery routing | Planning the most efficient route for deliveries. | [Video 8](08-applications-of-ml/note.md) |
 | Demand forecasting | Predicting how much of something will be needed, where and when. | [Video 8](08-applications-of-ml/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Dense region, sparse region | An area with many points close together; an area with few points. | [Video 132](132-dbscan/note.md) |
 | Density plot | A histogram with a smooth KDE curve on top. | [Video 20](20-univariate-analysis/note.md) |
+| Density-based clustering | Clustering that finds dense regions of points separated by sparse regions. | [Video 132](132-dbscan/note.md) |
+| Density-connected | Linked by a chain of core points with every step at most eps. | [Video 132](132-dbscan/note.md) |
 | Dependent events | Events that are not independent: knowing one changes the probability of the other. | [Video 83](83-independent-events/note.md) |
 | Dependent variable | The output column (y). | [Video 13](13-toy-project/note.md) |
 | Deploy | Move a model from development to production. | [Video 4](04-batch-learning/note.md) |
@@ -265,8 +283,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Distance weight (nan-Euclidean) | All columns divided by the columns present in both rows; makes up for the skipped columns. | [Video 39](39-knn-imputer/note.md) |
 | Distance weighting | Each neighbour counts in proportion to 1 / its distance, so nearer rows count more. | [Video 39](39-knn-imputer/note.md) |
 | Distance | A number measuring how far apart two points are; small distance = similar. | [Video 6](06-instance-vs-model-based/note.md) |
+| distance_threshold | Height at which `AgglomerativeClustering` stops merging, instead of a fixed number of clusters. | [Video 131](131-hierarchical-clustering/note.md) |
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
 | Diverge | To move further away with each step, the loss growing instead of shrinking. | [Video 57](57-gradient-descent/note.md) |
+| Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly. | [Video 131](131-hierarchical-clustering/note.md) |
 | Domain knowledge | Knowledge of the field the data comes from. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Donor | A row that has a value in the column being filled, so it can be a neighbour. | [Video 39](39-knn-imputer/note.md) |
 | Dot product | Multiply matching components of two vectors and add; $u^{\mathsf T}x$. | [Video 48](48-pca-step-by-step/note.md) |
@@ -286,6 +306,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Elastic Net regression | Linear regression with both the L1 and the L2 penalty. | [Video 69](69-elastic-net/note.md) |
 | Elastic Net | Linear regression with a mix of the L1 and L2 penalties. | [Video 63](63-ridge-regression-intuition/note.md) |
 | ElasticNetCV | scikit-learn's Elastic Net that picks alpha and l1_ratio by cross-validation. | [Video 69](69-elastic-net/note.md) |
+| Elbow curve | A plot of WCSS against the number of clusters k. | [Video 128](128-kmeans-intuition/note.md) |
+| Elbow method | Choosing k at the point where the elbow curve bends from steep to flat. | [Video 128](128-kmeans-intuition/note.md) |
+| Elbow point | The k after which adding clusters barely lowers WCSS. | [Video 128](128-kmeans-intuition/note.md) |
 | encode | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output. | [Video 32](32-binning-binarization/note.md) |
 | Encoding | Two senses: the rulebook that maps text characters to stored bytes (Video 15); or turning categories into numbers (categorical encoding, Video 26). | [Video 15](15-working-with-csv/note.md) |
 | End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\,\text{IQR}$. | [Video 36](36-imputing-numerical-data/note.md) |
@@ -297,6 +320,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Environment variable | A named value stored on the computer, outside the code, read with `os.environ`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment | The world the agent acts in. | [Video 3](03-types-of-ml/note.md) |
 | Epoch | One full update of the parameters using the whole training set. | [Video 57](57-gradient-descent/note.md) |
+| eps (epsilon) | The radius of the neighbourhood DBSCAN examines around each point. | [Video 132](132-dbscan/note.md) |
+| eps-neighbourhood | All points within distance eps of a point. | [Video 132](132-dbscan/note.md) |
 | Equal frequency binning | Binning into bins holding the same number of rows, with the quantiles as edges; also called quantile binning. | [Video 32](32-binning-binarization/note.md) |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning. | [Video 32](32-binning-binarization/note.md) |
 | Error (residual) | The gap between an actual value and the model's prediction. | [Video 50](50-simple-linear-regression/note.md) |
@@ -339,6 +364,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | feature_importances_ | The fitted attribute holding the feature importance of every column. | [Video 99](99-regression-trees/note.md) |
 | Fence | A limit 1.5 IQR beyond the box; values past it are possible outliers. | [Video 20](20-univariate-analysis/note.md) |
 | fit / transform | Learn the scaler's numbers from the training set / apply them to any data. | [Video 24](24-standardization/note.md) |
+| fit_predict | Trains a clustering model and returns the cluster of every row. | [Video 129](129-kmeans-code/note.md) |
 | fit_transform | Fit and transform in one call; used on the training set only. | [Video 28](28-column-transformer/note.md) |
 | Five-number summary | Minimum, Q1, median, Q3 and maximum. | [Video 20](20-univariate-analysis/note.md) |
 | For loop | Code that repeats once for each item of a collection. | [Video 15](15-working-with-csv/note.md) |
@@ -381,6 +407,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Headers | Extra information sent with a request, such as the User-Agent. | [Video 18](18-web-scraping/note.md) |
 | Heatmap | A table drawn as coloured cells, darker for larger values. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Heteroscedasticity | The spread of the residuals changes with the predicted value, often as a funnel. | [Video 56](56-linear-regression-assumptions/note.md) |
+| Hierarchical clustering | Clustering that builds a hierarchy of clusters, from single points up to one cluster. | [Video 131](131-hierarchical-clustering/note.md) |
 | High bias, low variance algorithm | An algorithm too simple to fit the training data well but stable across samples, such as linear regression; it underfits. | [Video 109](109-random-forest-bias-variance/note.md) |
 | High cardinality | A categorical column with very many different categories. | [Video 22](22-pandas-profiling/note.md) |
 | High-dimensional data | Data with a very large number of columns. | [Video 46](46-curse-of-dimensionality/note.md) |
@@ -407,6 +434,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
 | Index | The row labels of a DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Inertia | A big organisation's resistance to changing direction once it has started. | [Video 14](14-framing-ml-problem/note.md) |
+| inertia_ | The WCSS of a fitted `KMeans` model. | [Video 129](129-kmeans-code/note.md) |
 | Inference engine | The part of an expert system that applies the rules to answer a question. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Inference | Learning how the inputs affect the output, rather than only predicting it. | [Video 91](91-knn/note.md) |
 | Information gain | The drop in entropy from a parent to its weighted children; the tree splits on the highest. | [Video 97](97-decision-trees-intuition/note.md) |
@@ -435,8 +463,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Jupyter | Tool for notebooks that mix code, output and text. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | JupyterLab | The program that runs Jupyter notebooks in a web browser. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | k (n_neighbors) | The number of neighbours that vote; KNN's main hyperparameter. | [Video 91](91-knn/note.md) |
+| k | The number of clusters k-means makes; chosen by us. | [Video 128](128-kmeans-intuition/note.md) |
+| k-distance plot | Sorted distances from every point to its k-th nearest point, used to choose eps. | [Video 132](132-dbscan/note.md) |
 | k-means binning | Binning whose edges lie halfway between the centres of the groups found by k-means. | [Video 32](32-binning-binarization/note.md) |
 | k-means | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. | [Video 32](32-binning-binarization/note.md) |
+| k-means++ | The default start of `KMeans`: centroids picked one by one, far-away points more likely. | [Video 129](129-kmeans-code/note.md) |
 | K-nearest neighbours (KNN) | Predicting from the answers of the k closest stored points. | [Video 6](06-instance-vs-model-based/note.md) |
 | Kaggle | A website for sharing datasets and notebooks and for ML competitions. | [Video 17](17-fetching-data-from-api/note.md) |
 | KBinsDiscretizer | scikit-learn's class for equal width, equal frequency and k-means binning. | [Video 32](32-binning-binarization/note.md) |
@@ -447,6 +478,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Kernel transformation | Applying a kernel to the data. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Kernel trick | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Kernel | The running Python process behind a notebook. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| KMeans | scikit-learn's k-means class, in `sklearn.cluster`. | [Video 129](129-kmeans-code/note.md) |
 | KNeighborsClassifier | scikit-learn's KNN classifier; `n_neighbors=5` by default. | [Video 91](91-knn/note.md) |
 | KNN imputer | Multivariate imputation from the most similar rows (`KNNImputer`). | [Video 35](35-complete-case-analysis/note.md) |
 | Knowledge base | The collection of rules inside an expert system. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -457,6 +489,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. | [Video 26](26-ordinal-label-encoding/note.md) |
 | LabelEncoder | scikit-learn's class for label encoding the target. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Labelled data | Data that includes the output column. | [Video 3](03-types-of-ml/note.md) |
+| labels_ | The cluster number of every training row, after fitting. | [Video 129](129-kmeans-code/note.md) |
 | Lambda ($\lambda$) | The power used by a power transform, learned separately for each column. | [Video 31](31-power-transformer/note.md) |
 | Lambda | A one-line Python function without a name, such as `lambda x: x**2`. | [Video 30](30-function-transformer/note.md) |
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. | [Video 31](31-power-transformer/note.md) |
@@ -480,10 +513,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Linear relationship | A relationship between two columns that follows a straight line. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced. | [Video 48](48-pca-step-by-step/note.md) |
 | Linearly separable | Data whose classes a straight line, plane or hyperplane can split. | [Video 70](70-perceptron-trick/note.md) |
+| Linkage | The rule for the distance between two clusters. | [Video 131](131-hierarchical-clustering/note.md) |
 | List of grids | Several parameter grids passed together, so incompatible values never meet. | [Video 112](112-random-forest-tuning/note.md) |
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Video 15](15-working-with-csv/note.md) |
 | Load balancing | Spreading requests across servers so all users are served quickly. | [Video 9](09-mldlc/note.md) |
 | Local minimum | A point lower than everything around it, but not the lowest overall. | [Video 57](57-gradient-descent/note.md) |
+| Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Video 30](30-function-transformer/note.md) |
 | Log-likelihood | The log of the likelihood: the sum of the log probabilities. | [Video 73](73-log-loss/note.md) |
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0. | [Video 30](30-function-transformer/note.md) |
@@ -497,6 +532,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Macro average | The plain mean of a metric over all classes. | [Video 77](77-precision-recall-f1/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | Majority vote | Predicting the class that most of the neighbours have. | [Video 91](91-knn/note.md) |
+| make_blobs | scikit-learn function that generates points around chosen centres. | [Video 129](129-kmeans-code/note.md) |
 | make_circles | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset. | [Video 96](96-kernel-trick-code/note.md) |
 | make_classification | scikit-learn function that creates random classification data. | [Video 71](71-perceptron-code/note.md) |
 | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names. | [Video 29](29-pipelines/note.md) |
@@ -532,6 +568,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mean squared error (MSE) | The average squared difference between actual and predicted values. | [Video 52](52-regression-metrics/note.md) |
 | Mean squared error loss | The average squared error; its derivatives do not grow with the number of rows. | [Video 58](58-batch-gradient-descent/note.md) |
 | Mean | The average of the values; the centre of the data. | [Video 19](19-understanding-your-data/note.md) |
+| mean(axis=0) | The mean of each column of an array. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Median absolute deviation (MAD) | The median distance of the values from their median. | [Video 22](22-pandas-profiling/note.md) |
 | Median imputation | Filling every gap with the median of the column's known values; better for skewed columns. | [Video 36](36-imputing-numerical-data/note.md) |
 | Median | The middle value of sorted data; the 50% percentile. | [Video 19](19-understanding-your-data/note.md) |
@@ -550,6 +587,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Miniforge | A small installer with only conda and Python, using conda-forge. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Minkowski distance | A family of distances: p = 2 is Euclidean, p = 1 is Manhattan. | [Video 91](91-knn/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
+| MinPts (min_samples) | The number of points an eps-neighbourhood needs for the point to be a core point. | [Video 132](132-dbscan/note.md) |
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing". | [Video 37](37-missing-categorical-data/note.md) |
 | Missing indicator | A 0/1 column recording whether a value was missing. | [Video 35](35-complete-case-analysis/note.md) |
 | Missing value | An empty entry, shown by pandas as `NaN`. | [Video 15](15-working-with-csv/note.md) |
@@ -582,6 +620,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. | [Video 49](49-pca-mnist/note.md) |
 | n_estimators (AdaBoost) | The maximum number of weak learners, one per boosting stage. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | n_estimators | The number of base models in an ensemble. | [Video 106](106-bagging-classifier/note.md) |
+| n_init | How many times `KMeans` restarts from new centroids; the run with the lowest inertia is kept. | [Video 129](129-kmeans-code/note.md) |
 | n_iter | The number of random combinations RandomizedSearchCV tries (default 10). | [Video 112](112-random-forest-tuning/note.md) |
 | n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all. | [Video 104](104-voting-regressor/note.md) |
 | Naive assumption | The assumption that the inputs are conditionally independent given the class. | [Video 87](87-naive-bayes-intuition/note.md) |
@@ -599,6 +638,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root. | [Video 100](100-dtreeviz/note.md) |
 | Node-level column sampling | Drawing a new random set of columns before every split (random forest). | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Noise (irreducible error) | Randomness in the data that no model can predict. | [Video 62](62-bias-variance/note.md) |
+| Noise point | A point that is neither core nor border; DBSCAN labels it -1. | [Video 132](132-dbscan/note.md) |
 | Nominal data | Categorical data whose categories have no order, such as states. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Non-closed-form solution | An answer reached by improving a guess step by step. | [Video 51](51-linear-regression-maths/note.md) |
 | Non-linear data | Data whose classes no straight line, plane or hyperplane can separate. | [Video 95](95-kernel-trick-intuition/note.md) |
@@ -611,6 +651,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Normalization | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. | [Video 25](25-normalization/note.md) |
 | Normalized importances | Importances divided by their total, so they add up to 1. | [Video 114](114-feature-importance/note.md) |
 | Notebook | A `.ipynb` file of cells, each with its output underneath. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| np.argmin | NumPy function returning the position of the smallest value. | [Video 130](130-kmeans-from-scratch/note.md) |
 | np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side. | [Video 28](28-column-transformer/note.md) |
 | np.insert | NumPy function that inserts values into an array at a given position. | [Video 55](55-multiple-lr-code/note.md) |
 | np.linalg.inv | NumPy function that computes the inverse of a square matrix. | [Video 55](55-multiple-lr-code/note.md) |
@@ -630,6 +671,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | oob_decision_function_ | Each training row's class probabilities from its OOB trees. | [Video 113](113-oob-score/note.md) |
 | oob_prediction_ | Each training row's OOB prediction, for a regressor. | [Video 113](113-oob-score/note.md) |
 | oob_score_ | The accuracy (classifier) or $R^2$ (regressor) of the OOB predictions. | [Video 113](113-oob-score/note.md) |
+| OPTICS | Another density-based clustering algorithm. | [Video 132](132-dbscan/note.md) |
 | Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Optimisation algorithm | A method for finding the parameter values that make a function as small (or large) as possible. | [Video 57](57-gradient-descent/note.md) |
 | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -720,6 +762,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Program | Logic written by us that turns an input into an output. | [Video 1](01-what-is-ml/note.md) |
 | Projection | Dropping each point onto an axis or line, like casting a shadow. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Proportional to (∝) | Equal up to a constant factor that is the same for every class. | [Video 88](88-naive-bayes-maths/note.md) |
+| Proximity matrix | An n × n table of the distances between every pair of points or clusters. | [Video 131](131-hierarchical-clustering/note.md) |
 | Pruning | Stopping a tree early or cutting it back so it does not overfit. | [Video 98](98-decision-tree-hyperparameters/note.md) |
 | Pure leaf | A leaf whose training rows all belong to one class. | [Video 100](100-dtreeviz/note.md) |
 | Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one. | [Video 72](72-sigmoid-function/note.md) |
@@ -820,6 +863,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Simple linear regression | Linear regression with one input column. | [Video 50](50-simple-linear-regression/note.md) |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Video 28](28-column-transformer/note.md) |
 | Simulated annealing | Lowering the learning rate gradually so the search settles down. | [Video 59](59-stochastic-gradient-descent/note.md) |
+| Single linkage | Cluster distance = distance of the closest pair of points. | [Video 131](131-hierarchical-clustering/note.md) |
 | Size | The total number of items: the product of the shape. | [Video 11](11-tensors/note.md) |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Video 20](20-univariate-analysis/note.md) |
 | Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane; 0 if it is on the correct side. | [Video 94](94-svm-soft-margin/note.md) |
@@ -949,8 +993,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Voting ensemble | Several models trained on the same data, combined by majority vote (classification) or mean (regression). | [Video 102](102-voting-ensemble/note.md) |
 | Voting regressor | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions. | [Video 104](104-voting-regressor/note.md) |
 | Vowpal Wabbit | A fast learning library that supports online learning. | [Video 5](05-online-learning/note.md) |
+| Ward linkage | Cluster distance = increase in total squared distance to the centroids caused by merging. | [Video 131](131-hierarchical-clustering/note.md) |
 | warm_start | Setting that keeps already-trained trees and adds new ones on the next fit. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | Wayback Machine | A web archive that keeps copies of web pages as they were. | [Video 18](18-web-scraping/note.md) |
+| WCSS (inertia) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid. | [Video 128](128-kmeans-intuition/note.md) |
 | Weak learner | A model whose accuracy is only a little better than random guessing. | [Video 115](115-adaboost-intuition/note.md) |
 | Web scraping | Writing code that extracts data from web pages. | [Video 7](07-challenges-in-ml/note.md) |
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor. | [Video 65](65-ridge-gradient-descent/note.md) |

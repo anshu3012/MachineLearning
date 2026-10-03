@@ -140,6 +140,11 @@ notes:
   117: 117-adaboost-from-scratch
   118: 118-adaboost-hyperparameters
   119: 119-bagging-vs-boosting
+  128: 128-kmeans-intuition
+  129: 129-kmeans-code
+  130: 130-kmeans-from-scratch
+  131: 131-hierarchical-clustering
+  132: 132-dbscan
 
 concepts:
   # 0 Foundations
@@ -240,8 +245,8 @@ concepts:
   - {id: data_leakage, name: Data leakage, step: 7, videos: [13, 91], status: confirmed}
 
   # 8 Model
-  - {id: clustering, name: Clustering, step: 8, videos: [3, 128], status: confirmed}
-  - {id: anomaly_detection, name: Anomaly detection, step: 8, videos: [3], status: confirmed}
+  - {id: clustering, name: Clustering, step: 8, videos: [3, 128, 129, 130, 131, 132], status: confirmed}
+  - {id: anomaly_detection, name: Anomaly detection, step: 8, videos: [3, 132], status: confirmed}
   - {id: association_rules, name: Association rule learning, step: 8, videos: [3], status: confirmed}
   - {id: knn, name: K-nearest neighbours, step: 8, videos: [6, 91], status: confirmed}
   - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: confirmed}
@@ -286,9 +291,10 @@ concepts:
   - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: draft}
   - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: draft}
   - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: draft}
-  - {id: kmeans, name: K-means, step: 8, videos: [128, 129, 130], status: draft}
-  - {id: hierarchical, name: Hierarchical clustering, step: 8, videos: [131], status: draft}
-  - {id: dbscan, name: DBSCAN, step: 8, videos: [132], status: draft}
+  - {id: kmeans, name: K-means, step: 8, videos: [32, 128, 129, 130], status: confirmed}
+  - {id: elbow_method, name: Elbow method and WCSS, step: 10, videos: [128, 129], status: confirmed}
+  - {id: hierarchical, name: Hierarchical clustering, step: 8, videos: [131], status: confirmed}
+  - {id: dbscan, name: DBSCAN, step: 8, videos: [132], status: confirmed}
 
   # 9 Evaluate
   - {id: decision_surface, name: Decision surface and boundary, step: 9, videos: [91], status: confirmed}
@@ -589,11 +595,15 @@ links:
   - [clustering, is a kind of, unsupervised, confirmed]
   - [anomaly_detection, is a kind of, unsupervised, confirmed]
   - [association_rules, is a kind of, unsupervised, confirmed]
-  - [kmeans, is a kind of, clustering, draft]
-  - [hierarchical, is a kind of, clustering, draft]
-  - [dbscan, is a kind of, clustering, draft]
-  - [kmeans, compared with, dbscan, draft]
-  - [kmeans, needs, feature_scaling, draft]
+  - [kmeans, is a kind of, clustering, confirmed]
+  - [hierarchical, is a kind of, clustering, confirmed]
+  - [dbscan, is a kind of, clustering, confirmed]
+  - [kmeans, compared with, dbscan, confirmed]
+  - [kmeans, needs, feature_scaling, confirmed]
+  - [elbow_method, used in, kmeans, confirmed]
+  - [hierarchical, compared with, kmeans, confirmed]
+  - [hierarchical, compared with, dbscan, confirmed]
+  - [dbscan, used in, anomaly_detection, confirmed]
   # Evaluate
   - [overfitting, compared with, underfitting, confirmed]
   - [bias_variance, needs, overfitting, confirmed]

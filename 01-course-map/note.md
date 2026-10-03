@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 145 of 152 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 149 of 153 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -159,14 +159,15 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Clustering | [Note 3](../03-types-of-ml/note.md), Video 128, coming | confirmed |
-| Anomaly detection | [Note 3](../03-types-of-ml/note.md) | confirmed |
+| Clustering | [Note 3](../03-types-of-ml/note.md), [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md), [Note 130](../130-kmeans-from-scratch/note.md), [Note 131](../131-hierarchical-clustering/note.md), [Note 132](../132-dbscan/note.md) | confirmed |
+| Anomaly detection | [Note 3](../03-types-of-ml/note.md), [Note 132](../132-dbscan/note.md) | confirmed |
 | Association rule learning | [Note 3](../03-types-of-ml/note.md) | confirmed |
 | Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md) | confirmed |
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Ensemble learning | [Note 9](../09-mldlc/note.md), [Note 101](../101-ensemble-learning/note.md) | confirmed |
 | Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | confirmed |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
+| K-means | [Note 32](../32-binning-binarization/note.md), [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md), [Note 130](../130-kmeans-from-scratch/note.md) | confirmed |
 | Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Ordinary least squares (closed form) | [Note 51](../51-linear-regression-maths/note.md) | confirmed |
@@ -202,9 +203,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Gradient boosting | Video 120, coming, Video 121, coming, Video 122, coming | draft |
 | XGBoost | Video 123, coming, Video 124, coming, Video 125, coming, Video 126, coming | draft |
 | Stacking and blending | Video 127, coming | draft |
-| K-means | Video 128, coming, Video 129, coming, Video 130, coming | draft |
-| Hierarchical clustering | Video 131, coming | draft |
-| DBSCAN | Video 132, coming | draft |
+| Hierarchical clustering | [Note 131](../131-hierarchical-clustering/note.md) | confirmed |
+| DBSCAN | [Note 132](../132-dbscan/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -229,6 +229,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
+| Elbow method and WCSS | [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
 
 ### 2.12 Step 11: Deploy
@@ -267,7 +268,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 152 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 153 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -319,7 +320,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 13](../13-toy-project/note.md), [Note 17](../17-fetching-data-from-api/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 28](../28-column-transformer/note.md) | written |
 | 30 | Cross-validation, Function transformer, Q-Q plot | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 31 | Power transformer | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md) | written |
-| 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | written |
+| 32 | Binning and binarization, K-means | [Note 3](../03-types-of-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md) | written |
 | 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 34 | Date and time features | [Note 15](../15-working-with-csv/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 35 | Complete case analysis, Missing values | [Note 9](../09-mldlc/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
@@ -415,11 +416,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 125 | XGBoost | Video 122, coming | coming |
 | 126 | XGBoost | Video 122, coming | coming |
 | 127 | Stacking and blending | [Note 101](../101-ensemble-learning/note.md) | coming |
-| 128 | Clustering, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | coming |
-| 129 | K-means | [Note 24](../24-standardization/note.md), Video 128, coming | coming |
-| 130 | K-means | [Note 24](../24-standardization/note.md), Video 128, coming | coming |
-| 131 | Hierarchical clustering | Video 128, coming | coming |
-| 132 | DBSCAN | Video 128, coming | coming |
+| 128 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
+| 129 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
+| 130 | Clustering, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 129](../129-kmeans-code/note.md) | written |
+| 131 | Clustering, Hierarchical clustering | [Note 3](../03-types-of-ml/note.md) | written |
+| 132 | Anomaly detection, Clustering, DBSCAN | [Note 3](../03-types-of-ml/note.md) | written |
 | 133 | Imbalanced data | nothing | coming |
 | 134 | Optuna | [Note 118](../118-adaboost-hyperparameters/note.md) | coming |
 
