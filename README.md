@@ -101,3 +101,4 @@ Videos skipped for now, to come back to later:
 
 - Video 1: Course map (what the course covers, all Videos grouped into modules)
 - Video 8: Applications of Machine Learning
+- Video 9: Machine Learning Development Life Cycle (MLDLC)
