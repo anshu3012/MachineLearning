@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 118 of 148 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 119 of 148 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -35,8 +35,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Machine learning | Video 1, coming, [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
-| Data mining | Video 1, coming | draft |
+| Machine learning | [Note 1](../01-what-is-ml/note.md), [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
+| Data mining | [Note 1](../01-what-is-ml/note.md) | confirmed |
 | Artificial intelligence | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
 | Symbolic AI and expert systems | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
 | Deep learning | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |

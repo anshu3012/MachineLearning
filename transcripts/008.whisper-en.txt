@@ -1,0 +1,1270 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 8.
+Today we are going to read some important applications of machine learning.
+So we have read a lot of things till now. What I want is that before the coding part starts,
+before the mathematics part starts, I can inspire you that you should really study machine learning.
+So if you see around yourself, you will already get a lot of such examples of software products
+where machine learning is already integrated.
+Means friend recommendation on Facebook, product recommendation, video recommendation on YouTube, Amazon,
+I don't know chatbots and 50 more things. I can't even remember right now.
+But I am confident that if I start thinking sitting at this point,
+I can write down hundreds of examples where machine learning is being used in a product.
+So it is something which is not about the future. It is already in our life.
+We are already using it and we are using it in such a normal way that we are not even able to realize it.
+But generally as students, what we think of machine learning is, it is in terms of consumer products.
+Whenever we start studying something,
+we start thinking where machine learning is being used.
+So our mind always gives us an example of such products which are used by very straightforward users like WhatsApp, YouTube and all.
+What I want is that I want to tell you some B2B applications.
+B2B means business to business where machine learning enters a product and is helping a business to run its business.
+And trust me B2C, business to customer.
+Which are normal applications.
+B2B is something which makes a lot of money.
+So I would like to show you how machine learning is helping companies in B2B and how it is helping to earn more profit.
+Because B2C examples, to be honest, if you do a little bit of YouTube, you will get a lot.
+That is why I want to give you a B2B example.
+So I want to talk about 5 different sectors.
+Because machine learning is such a technology.
+It is such a technology which is impacting different sectors.
+So I will talk about retail.
+I will talk about transportation, manufacturing, banking and social media.
+Which is very famous today.
+But trust me, apart from these 5 examples, you will get a lot of such examples.
+Where machine learning is helping companies in B2B to earn profit.
+It could be space exploration or medical field or defense.
+Machine learning is being used in all these places.
+But these 5 examples which I am giving are very interesting.
+You will enjoy listening to them.
+So let's start.
+So I will start my discussion with the retail sector.
+Machine learning is used a lot in retail.
+In fact, if machine learning is not used in retail, it would be quite difficult for these companies to run properly.
+I will give you some examples.
+In retail, we can take an example of Amazon.
+Which is a very big e-commerce website.
+Where they say that they sell more than 6 crore products.
+Now I will show a few scenarios where machine learning can be used.
+Now I don't know how exactly they are using it.
+Let's say every year there is a sale of Amazon.
+Called Great Indian Festival.
+Now you think about this.
+That if you were the head of Amazon.
+At least of operations.
+So the sale of your products increases.
+Everyone knows this.
+That is the reason why people conduct sales.
+So if you have 6 crore products.
+So will you increase the stock of 6 crore products?
+Or will you not increase?
+Obviously increasing the stock of all products is stupid.
+It will cost a lot of money.
+And there is no guarantee that all your products will sell more.
+So it is very very important.
+That you should know this before the sale.
+That which products will sell more.
+And in this kind of scenarios.
+Data analysts like you are made to sit.
+The data of the sales of the past few years is given.
+The data of the sale of the Great Indian festival is given to you.
+And your work is to run machine learning algorithms.
+By doing data mining.
+By giving such insights.
+That this product should be stocked up.
+This product should not be stocked up.
+Okay.
+And trust me.
+Think if you make any mistake in this.
+Then there can be a loss of crores.
+Okay.
+So e-commerce.
+All the websites.
+Myntra, Flipkart.
+Whatever websites you use.
+If sales are being conducted there.
+So before the sales are conducted.
+Engineers like you do the decision making.
+That which things should be stocked up.
+Which things should not be stocked up.
+Okay.
+I will give you one more example.
+Where machine learning is used a lot in retail.
+I hope.
+You must have gone to the grocery store.
+Or you must have gone to Spencer's.
+You must have noticed that.
+As soon as you buy the things there.
+You go to deduct your bill.
+Or you go to make payment.
+So the first thing that they ask you is.
+Your phone number.
+Right.
+This is so weird.
+Right.
+If I am buying vegetables from a roadside stall.
+So after buying vegetables.
+If I give him money.
+And before he takes the money.
+He asks me what is your phone number.
+Then I will get angry.
+Right.
+I will never buy vegetables from him.
+But these companies.
+They ask for our phone number.
+And we give it to them.
+Right.
+Now you might be thinking.
+Yes.
+Because they send SMS to us.
+That there is a new sale.
+Or there is an offer going on.
+No.
+This is not the reason for that.
+The reason for that is.
+That they track your buying behaviour.
+Okay.
+So what they do is.
+Whatever you are buying.
+Let's say you are.
+I don't know.
+You are buying a lot of milk products.
+You are buying a lot of health related things.
+Okay.
+So what they do is.
+Whatever you are buying.
+Let's say you are.
+I don't know.
+You are buying a lot of milk products.
+You are buying a lot of health related things.
+So what they do is.
+There is this buying pattern.
+That you are.
+Health conscious.
+Similarly if someone else is.
+Buying a lot of spicy things.
+Or then.
+I don't know.
+Buying a lot of sports related things.
+Or buying a lot of cosmetics related things.
+So what they do is.
+They create profiles.
+Of their customers.
+Since there are big markets in India.
+There are Spencers.
+So your.
+A profile is made.
+On the basis of your phone number.
+Where.
+A kind of.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+Uh.
+these people ask more money from advertisers because they have very important and crucial data about you
+that this person for sure needs gym membership because it is health oriented
+because think about it, if gym members randomly send 1 lakh people sms then conversion will be very less
+same if they are buying data from big bazaar and big bazaar is giving phone number of 100 people
+who are really interested in health related products then their conversion rate would be great
+so the results they were going to get from 1 lakh sms they will get only from 100 sms
+so basically for targeted marketing they are creating your profile
+same work is being done by google and facebook in fact if you are using any product for which you are not paying
+most of the internet products
+we use but we don't pay for
+so a famous thing has been said about that
+if you are not paying for the product then you are the product
+so this thing is also true here
+your data is really sold
+this is the second scenario where machine learning is used a lot in retail
+to see your buying pattern
+third scenario is this
+see this photo on your screen
+here you would see that some products are kept in shelves
+in aisles
+now when I went for the first time
+not the first time but I used to go 3-4 years ago
+in Spencer's or big bazaar
+so I used to get a curiosity
+that who decides that what will be the positioning of all the products
+means how do I know that this product should be next to this product
+apparently machine learning is used a lot to decide this thing
+there is a thing called association rule based learning
+whose exact work is to do this and show
+the correlation between two products
+if the correlation is very high
+you keep those two products together
+few days ago I gave you an example
+of baby diapers and beer
+that was the exact same example
+so you can see
+if you remove machine learning from these three things
+then you will go back to the time of Adi Manav
+and these companies will not be able to function as well
+as they can do
+so machine learning is a very key component
+in e-commerce retail sector
+now let's move on to the next sector
+that is banking and finance
+so in banking I don't know
+if you have ever applied for a loan
+then you would know that not everyone gets a loan
+if you want a loan
+then first you have to submit your profile
+and above that profile
+there is an analysis
+so there are two levels of analysis generally
+one is through machine learning algorithm
+and then through a manual loan officer
+so in the machine learning algorithm stage
+what happens is
+your profile is compared with
+past defaulters
+who haven't paid the loan
+if your profile and
+past defaulters profile
+have a very strong correlation
+similarity is very high
+let's say 80 out of 100
+so then this
+you are telling machine learning
+that this person
+there is a 80% chance
+that he will not pay back the loan
+so in that case
+it is a red alarm
+and your bank
+will not give you a loan
+your profile will be rejected
+same if your similarity is very less
+10, 15, 20
+then that application is passed
+to the loan officer
+where after doing a manual processing
+they sanction the loan
+so in banking there are many more things
+where machine learning is used
+where branches should be opened
+where there is a promotion for customers
+where plans should be started
+what kind of plans
+we can start in cities
+on many such things
+machine learning is implemented
+so finance is again one thing
+there are many more things in finance
+there is insurance
+there is share market
+in all these sectors
+in today's day and age
+machine learning
+trading and all
+in all these things
+machine learning is used a lot in today's day and age
+let's move on to the next sector
+that is transportation
+and I will give you an example of Ola
+again there are many examples in this too
+but I will give you one example
+so when I used to live in Kolkata
+at that time only Ola started in Kolkata
+it was I guess 2015 I guess
+then there was a concept of search pricing
+which is still there
+that at some specific time space
+morning or evening
+your pricing
+which is fair
+it is more than normal
+sometimes it is double
+sometimes it is triple
+weirdly more
+right
+so I used to feel very surprising
+I used to get angry at Ola
+at Uber
+that how can you do this kind of pricing
+if I have to go from point A to point B
+and its actual fare is 100 rupees
+how can you ask for 300 rupees
+that is so unfair
+right
+then one day I got the answer of this thing
+why does Ola do this
+or why does Uber do this
+so I was sitting with this driver
+and in his phone
+of Uber
+it was of Uber or Ola
+I don't remember
+but it had its own driver app
+you have two apps in Ola and Uber
+one is the user app
+which we use
+and the other is the driver app
+which the driver uses
+so
+in his driver app
+I saw such a map
+of Kolkata
+from that
+some regions
+were red like this
+so
+out of curiosity
+I asked
+brother this
+means
+Dada
+I said Dada
+in Kolkata
+we call Dada
+so Dada
+what are these red regions telling
+so
+he said
+that
+Uber
+if I
+in next 10 minutes
+will reach this red region
+then if I take any pickup from there
+then Uber will give me 2 times money
+right
+then I clicked in my mind
+that how this thing works
+I guess you must have understood
+now let's say this area is the office area
+and now it's evening
+means people are leaving the office
+now at this point there are only 3 cabs
+let's say
+but there are a lot of customers
+they are coming to the app
+and want to book
+so suddenly it became such a region
+where
+demand is too much
+supply is too less
+right
+so now Uber
+if he wants to maintain his supply
+then he will have to call the nearby cab drivers here
+but why will the nearby cab drivers come
+right
+why will they come by traveling extra distance
+so the only way to call them by giving them greed
+that they should be given extra money
+but that extra money
+if Uber will give from his pocket
+then the company will be closed very soon
+so that is why
+that extra money
+which is given to the driver
+to give greed
+what Uber gives
+that extra money
+that is actually charged by you
+right
+and that is why they say this
+that prices are higher
+because of increased demand
+right
+so what is happening
+to maintain that supply
+Uber is doing this
+that nearby
+all the drivers
+are given this notification
+see here
+it is saying that
+if you reach this region
+then you will get 3.2x
+if you reach this region
+then you will get 1.8x
+right
+so that is how this entire thing is created
+right
+demand forecasting is done here
+like in Kolkata
+in Durga Puja
+there is a lot of demand of cabs
+so at which point
+at which place
+how many cabs should be there
+and according to that
+how to do redirection
+in this kind of things
+machine learning is used a lot
+right
+in today's day and age
+in logistics
+all the startups
+delivery routing and all
+for all this
+machine learning is used a lot
+right
+Swiggy
+is sending one person
+by catching three orders
+now
+how can those three orders
+be delivered in the most optimized way
+right
+so in this way
+we can do a lot of work
+in Google maps
+so in transportation sector
+in logistics
+a lot of work is going on
+in machine learning
+right
+the next one is
+manufacturing
+so in manufacturing
+I will give you an example of Tesla
+although this example
+is applicable on anyone
+I will give you this example
+because
+Tesla is one of the
+most advanced
+companies
+which in their automation
+means in their manufacturing
+they use a lot of automation
+means
+this is an image of Tesla's factory
+where a lot of automated arms
+robotic arms
+are manufacturing cars
+right
+now
+in this kind of scenario
+what happens is
+like if you know about Tesla
+Tesla's fan following
+like this
+like
+Apple's
+in phones
+so Tesla's car doesn't come
+because the booking starts
+before that
+means
+Tesla's booking
+you will do today
+probably after six months
+you will get the delivery
+that is how Tesla works
+so
+Tesla
+since you have taken money
+from a lot of people
+so you are always
+manufacturing cars
+on a tight schedule
+now let's say
+one of these robots
+gets spoiled
+let's say
+whose work is to
+put the engine
+in the car
+that robot gets spoiled
+so
+on that day
+how many cars
+will be made
+in Tesla's factory
+not even one
+because
+engine is needed
+in the car
+right
+so
+not even one car
+will be made
+and you will go
+behind the schedule for a day
+and as Tesla
+who has taken money
+from six months
+can't delay
+the delivery
+because
+it will be abused
+and the feedback
+will be spoiled
+and
+bad word of mouth
+publicity
+will scare
+any company
+ok
+so
+companies like Tesla
+what they do
+in their
+automated
+robotic arms
+they put
+IOT based sensors
+internet of things
+based sensors
+which constantly
+monitors your
+devices
+its temperature
+RPM
+pressure
+I don't know
+all the metrics
+are captured all the time
+and come on the server
+now let's say
+fault is occurring
+in a device
+so fault
+does not occur
+immediately
+fault
+occurs gradually
+so let's say
+your RPM is decreasing
+from 300 to 299
+then 2
+98
+2
+95
+so this is a signal
+that fault is occurring
+in that device
+so
+as soon as
+you detect
+that fault is occurring
+you will immediately
+send your engineers
+to repair
+that particular
+robotic arm
+so this is called
+predictive maintenance
+maintenance
+when do you generally do
+maintenance
+after things get damaged
+predictive maintenance
+means
+before things get damaged
+you predicted
+that something
+can get damaged
+and you
+maintained it
+right
+so this is again
+one example
+where machine learning
+is kind of
+transforming
+the entire sector
+this manufacturing
+sector
+is working
+very well
+ok
+and
+this probably is
+the most interesting
+example of
+all of these
+consumer internet
+and
+the example is
+twitter
+ok
+so twitter is
+one of those companies
+which
+started
+in 2008
+from many years
+and
+but
+it was one of those
+companies which
+was not very profitable
+means
+it was not earning
+much money
+in fact
+it was not earning
+much money
+for many years
+so the investors of twitter
+they were a little
+scared
+that facebook
+started earning money
+in 3-4 years
+google started earning money
+in 2 years
+why twitter is not earning
+money
+and
+at one point
+people were scared
+that twitter will be closed
+because
+there is no active
+source of revenue
+so at that point
+whatever
+were the heads
+of twitter
+i don't know
+exactly
+i read this in a blog
+in some blog
+at this point
+i don't have
+the details
+of that blog
+as in
+but
+i have read
+the whole thing
+that all the
+heads of twitter
+together
+they churn out
+a plan
+that
+what they will do
+is
+they will
+start
+utilizing
+their tweets
+they will
+do sentiment
+analysis
+on their tweets
+and
+then
+they will
+you know
+use a plan
+to earn revenue
+from that sentiment
+analysis
+now
+if you are a beginner
+what is sentiment analysis?
+if you don't know
+then what i will do is
+i will first show you
+what is sentiment analysis?
+and then i will tell you
+what is the plan
+made around sentiment analysis
+in twitter
+that it is
+very profitable
+in today's date
+let me show you
+so if i go
+to
+my browser
+this is a
+website
+which was made
+by my student
+i gave him a project
+so he built this website
+in this website
+if you search
+the name of any movie
+then
+what this website does is
+that
+he goes to that movie
+and collects all the reviews
+of that movie
+and brings them
+to us
+and then
+after reading
+each review
+he decides
+that the content
+of that review
+is positive
+or negative
+means
+the sentiment
+of that review
+whoever wrote that review
+is writing positive
+or negative
+now this is
+very important
+thing in itself
+when you will read
+natural language processing
+there you would understand
+that sentiment analysis
+is something
+which is used a lot
+in today's date
+in chatbots
+etc
+now what i will do
+i will show you
+a movie
+let's say
+a movie
+called dunkirk
+by Christopher Nolan
+it came in 2017
+i searched
+this movie
+now apparently
+there are two
+different movies
+in IMDB
+one came in 1958
+and one
+came in 2017
+i am talking
+about 2017
+so i clicked
+on 2017
+now it is taking
+some time
+because i am fetching
+all the reviews
+and then
+i am processing
+whether its sentiment
+or not
+and then
+i did
+a rating
+number of
+bad reviews
+divided by
+number of
+bad reviews
+plus number of
+good reviews
+so my
+rating score
+is coming out
+to be 2.8
+although
+dunkirk's rating
+is 7.8 on IMDB
+now see here
+whatever green text
+is visible
+my
+system
+is feeling
+that
+it is a positive
+review
+and like
+see the first one
+brilliant cinematography
+the most real
+as the most real
+as possible
+whatever it is
+after reading it feels
+that the person
+is trying to praise
+and my algorithm
+also detected
+that it is
+positive sentiment
+ok
+these are all positive
+sentiments
+now see here
+if i read this one
+i was very disappointed
+with this movie
+i have liked
+previous nolan movies
+but this one
+left me feeling
+cheated
+that i had spent
+that much money
+to see it
+now after reading it
+feels that the person
+is sad
+and i am telling
+that my algorithm
+understood that
+the person's
+sentiment is bad
+right
+similarly
+this one
+put down the kool aid
+ok
+this one
+this is still ok
+Christopher Nolan
+is a visual genius
+the film is just stunning
+to look at
+positive
+this is negative
+negative
+and so on
+ok
+so
+this is called
+sentiment analysis
+and twitter
+by using
+sentiment analysis
+made a very
+cool plan
+which i will
+discuss later
+so i will take
+an example
+i am not saying
+that exactly
+twitter did this
+but i am just giving
+an example
+that by using
+sentiment analysis
+twitter made a plan
+to earn profit
+so let's take
+an example
+that
+elections are
+happening
+ok
+elections are happening
+in India
+let's say
+elections are happening
+in West Bengal
+and
+let's say
+a trend
+is happening
+on twitter
+there is this
+trend
+so now
+in that
+many people
+will tweet
+right
+people will tweet
+about it
+right
+everyone has given
+the same hashtag
+WPElection21
+by doing this
+there is a hashtag
+now
+what will twitter do
+twitter
+will collect
+all the tweets
+in that hashtag
+will collect
+all
+and
+bring them
+on one side
+like we
+brought all the reviews
+on one side
+now
+let's see
+whether mamta manoj
+will win
+or narendra modi
+will win
+question will be
+for narendra modi
+tweet
+with positive sentiment
+or negative sentiment
+ok
+now
+assume
+you did
+sentiment analysis
+suppose you have
+50,000 tweets
+and
+in 50,000 tweets
+your
+40,000 tweets
+are saying
+that
+narendra modi
+will win
+let's say
+ok
+or
+narendra modi
+will win
+now
+you have
+a real
+sort of
+data
+that
+70% people are saying
+narendra modi will win
+30% are saying
+he won't win
+now
+this data is very real
+because
+think about it
+twitter is a platform
+where
+if users
+are tweeting something
+then
+those who are tweeting
+they really believe
+that's why
+they are tweeting
+you go to social platform
+whenever you
+write or say something
+you
+extrapolate your
+personality
+but
+if you go to twitter
+you will be praised
+this will never happen
+so you have
+this data
+that 50% tweets
+are
+60% tweets
+are supporting
+narendra modi
+this is kind of
+an opinion poll
+before election
+you have
+a data
+that
+what people are thinking
+about election
+right
+now
+there is a great chance
+that this is the actual result
+right
+so now
+if you are on twitter
+and you already have this data
+that narendra modi
+winning probability
+is 70%
+then
+to whom
+you can sell this data
+so that
+you get maximum profit
+when I ask this question
+in class
+students always
+say media houses
+till today
+India today
+and
+I always say
+it's wrong
+because the right answer is
+you will sell
+stock brokers
+or stock broking
+companies
+like
+Morgan Stanley
+JP Morgan
+you will sell
+such companies
+who invest in stock market
+from rich people
+so
+you will approach
+these companies
+and tell them
+that
+see boss
+I have a proof
+data based
+proof
+that in India
+government of Narendra Modi
+is going to be formed
+now these stock broking companies
+will take data from you
+and then
+will take money
+from rich people
+and then
+in stock market
+will start investing money
+on those companies
+which companies
+already
+support BJP
+let's say
+Reliance
+or whatever
+right
+so
+at this point
+let's say
+20 rupees
+I don't know
+20 rupees
+and
+I bought a lot of shares
+ok
+now election happened
+really BJP government was formed
+so now people
+got a sentiment
+that boss
+BJP government is formed
+so now Reliance
+will go up
+so the people
+who trade in stock market
+all of them
+will go and
+buy whose share
+of Reliance
+now since
+a lot of people
+will go to buy shares
+so the price of shares
+will increase
+to 80, 100, 120
+I don't have any idea
+what will happen
+now as soon as
+the price starts increasing
+then who has the share
+I have it
+because I have already
+bought it
+so now what will I do
+I will sell those shares
+at higher prices
+ok
+and what did I get
+from the ballot
+profit
+now I will take this profit
+and give it to that person
+with whom I took money
+to invest in the share market
+and I will give
+a small part of it
+to Twitter
+because my
+whatever
+data intelligence
+is coming
+that is coming
+from Twitter
+right
+so
+I don't know
+by the way
+this happens in crores
+probably in billions
+I have no idea
+but this was a very smart
+technique
+that you have
+a lot of data
+of the whole world
+on that
+you put sentiment
+on it
+by asking
+right questions
+you can actually
+create
+very good repository
+of human intelligence
+which you can sell
+to different companies
+I gave you
+only the example
+of politics
+this same example
+can be extended
+in sports
+in entertainment
+in anything
+and this is only
+in the world
+there are more than
+200 countries
+so imagine
+if Twitter
+intelligently uses
+its data
+then at what level
+can it achieve
+things
+and that is
+actually true
+as soon as
+I get the link
+of this blog
+I will share it
+with you
+at this point
+I don't have any proof
+that something like this
+happened
+but yeah
+by using sentiment analysis
+today
+consumer internet companies
+they are actually
+earning a lot of money
+ok
+so
+I wanted to inspire you
+that this is
+a technology
+which
+is changing
+the future
+of companies
+so
+if you think about yourself
+then
+it can bring
+some kind of
+transformation
+in your life
+right
+so
+now since
+we will move forward
+and get into
+actual parts
+in mathematics
+in codes
+so
+what happens there
+sometimes
+something looks difficult
+so
+you start losing
+motivation
+so you will feel
+that if I learn
+properly
+then I will be a very
+valuable professional
+to any company
+or if I am opening
+my own company
+then I have a very
+powerful tool
+by using which
+I can actually
+build products
+which can change
+the life of the other person
+so yeah
+that was the whole idea
+behind this video
+I hope
+you are liking
+this entire playlist
+we have reached
+the eighth day
+and
+I will
+I will
+just try
+slowly
+to complete
+the whole playlist
+and
+guys if you find
+this playlist
+informative
+and you are
+enjoying it
+you are learning
+please consider
+subscribing
+liking
+if possible
+share it
+with someone
+I will like it
+okay
+so yeah
+that's it
+that's it for the video
+thanks for watching

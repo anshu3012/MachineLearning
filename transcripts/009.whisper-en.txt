@@ -1,0 +1,866 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 9.
+And today we are going to cover a very important topic which is Machine Learning Development Life Cycle.
+And this is a very important topic. Let me tell you why.
+Till now all the topics we have covered were either focusing on why or what.
+Why and what. We were focusing on these two questions till now.
+This will be the first video which will focus on the question how.
+So from here, to be honest, we are entering into the how part of machine learning.
+And guess what, this particular video is also important because the things we will discuss here will be based on these.
+So this is like a road map for the next videos.
+The next 91 videos.
+So trust me, it's very important.
+So let's focus on this video. Let's start the discussion.
+Okay. So before starting, let me give you some background.
+Why are we studying this topic?
+So if you are a computer science student or if you ever pick up a book in computer science,
+then you have to study a topic there.
+It's called Software Engineering. It's a subject.
+It's probably in your 6th or 7th semester.
+And people find it very boring.
+Honestly.
+But there is a topic there which you have to study and you should also study.
+It's called SDLC.
+You might have heard the name.
+SDLC stands for Software Development Life Cycle.
+So if you are in a company as a software developer and you are making a software product for that company,
+then you have to follow that SDLC.
+How a software product is made from the start to the end.
+The guideline for that is SDLC.
+Okay.
+Now since machine learning is new,
+and across industry, different people, different companies are making machine learning based software products.
+So researchers felt that there should be a common pattern, procedure, process
+by which everyone gets a guideline that okay, machine learning software is made like this.
+And then came this concept.
+It's called MLDLC.
+Which stands for Machine Learning Development Life Cycle.
+Just like there is a software development life cycle,
+machine learning development life cycle is just like that.
+So what is machine learning development life cycle?
+It's a set of guidelines which you have to follow whenever you make a machine learning based software product.
+Okay.
+Here you will get every guideline which will guide you from idea to product.
+It will tell you the complete process.
+Okay.
+And that is why this video is extremely important.
+Because we students, as beginners, what we do is we make a mistake.
+What is our mistake?
+That we just train the model, remove the accuracy and leave it.
+We feel that our work is done.
+But when you sit in interviews,
+then it is known that such candidates are being found
+who have experience of making end-to-end product.
+And whoever wants to make end-to-end products,
+he should know this topic.
+Okay.
+And that is why this topic is important.
+Whatever we will cover in this topic,
+in fact, we are going to cover 9 different steps in total.
+So from these 9 steps, we are going to make 90 videos.
+So that is why this is a very important video.
+We will focus on it a little.
+So I am going to discuss 9 steps which comes in MLDLC.
+It is a little tongue twister type name.
+But there are 9 steps.
+If you refer to any other video or refer to any textbook,
+then the number of steps may be a little less or a little more.
+Because it is not properly defined yet.
+Because now machine learning is a new technology.
+So everyone is not agreeing on a very common thing.
+But try to understand the core idea.
+You will get the same core idea everywhere.
+So if I am telling 9 and someone else is telling 10,
+it means the same.
+Okay.
+So let's start with MLDLC.
+Okay.
+We will read all the steps one by one.
+Okay.
+So the idea is very simple.
+That you have to make a software product
+which has machine learning.
+It could be anything.
+It could be a recommender system for your website.
+It could be a loan prediction model for your bank.
+It could be how many user marks will come.
+In a school.
+Anything can happen.
+You are making any kind of software product
+in which machine learning is going to be used.
+So how will you proceed?
+We are starting the discussion of this only.
+Step 1.
+Step 1 is framing the problem.
+It means if you have to make one thing,
+then first of all you have to decide some things.
+Okay.
+Only then you move forward.
+Because you are not making a school project.
+You are not making a college project.
+You are working for a company.
+And that company is serving its clients.
+Or it is serving its customers.
+There you cannot do like this.
+That you just started.
+Midway you realized that
+we had thought something wrong.
+Let's start again.
+You cannot do so.
+Because there is a cost there.
+So while starting,
+it is your responsibility
+that you frame your problem correctly.
+Okay.
+Here you decide that
+there is exactly a problem.
+What exactly is the problem?
+What to solve?
+Who are your customers?
+How much will the cost be?
+How many people's team do you need?
+How will the end product look like?
+The machine learning model you want to implement
+is it supervised or unsupervised?
+The machine learning model you want to implement
+will it work in offline mode
+or in batch mode?
+What kind of algorithms will help you?
+Where will your data come from?
+All such questions
+you try to answer at this stage.
+So that you get a mental idea that
+okay, what do I have to do next?
+When you do all this properly,
+framing the problem,
+when you do it properly,
+then only you proceed
+on to the second stage
+which is gathering the data.
+See, if you are working on a machine learning project,
+then you need data.
+Without data,
+machine learning is not possible.
+Now data,
+like in our case,
+it is very easy
+when we are doing projects
+at college level or school level,
+we get our data from Kaggle
+or someone gives it to us
+or someone gives it to us
+or we download it from somewhere on the internet.
+But in the case of companies,
+it is not like that.
+Data could be very specific
+and it is not easily available.
+So I might have discussed with you
+that data can come from different sources.
+Either you get CSV files directly,
+then there is no problem.
+But sometimes what happens is that
+you have to pick up data from some API.
+Means you hit on some API,
+write Python code,
+fetch data in JSON format
+and you convert that JSON format
+in your preferred format
+which is generally CSV file.
+Sometimes what happens is that
+your data is not publicly available.
+It is in some website.
+So in that case what you do is
+you do web scraping.
+You scrape the data of that website.
+Like there is a website trivago.com
+where you get the details of hotels.
+So what they do is
+they web scrape the data.
+They fetch data from different hotel websites.
+They fetch data.
+By running web scraper through Python code.
+Or you might have seen all this.
+There are many websites
+which show the price of the product
+on different e-commerce websites.
+They always dynamically fetch and show it to you.
+So there too web scraping is happening.
+Sometimes what happens is that
+your data is in your database.
+But you cannot run machine learning models
+directly on this database.
+Because it is a running database.
+If something goes wrong here,
+then your website can be down.
+So what you do is
+you make a data warehouse with this.
+You might have heard of this name.
+Here ETL is used.
+Extract, Transform, Load.
+We will read all this later.
+And what you do with these data warehouse is
+you fetch data and do your work.
+Sometimes your data is in
+Spark type tool.
+It is in clusters.
+Big data basically.
+It is very big data.
+So it is in different clusters.
+So you fetch data through those clusters.
+And you do your work.
+In short,
+fetching your data is a very important stage.
+Because without it,
+there will be no work.
+So fetching data
+and storing it in the correct form
+so that you can start your work.
+That is stage number 2.
+Step number 2.
+Okay.
+So we just discussed data gathering.
+Okay.
+Then comes the third stage.
+Data pre-processing.
+Now take it by writing.
+If you are fetching data from external sources,
+then data is bound to be unclean
+or dirty data.
+Which you cannot directly use.
+In machine learning model,
+you cannot directly pass on that kind of data.
+Because results are not good.
+There can be a lot of problems in data.
+There can be structural issues.
+There can be missing data.
+There can be outliers.
+There can be noisy data.
+There can be data coming from different places.
+And
+they are not compatible with each other.
+Number of columns is different.
+There can be a lot of data problems.
+So what you have to do here is
+you have to pre-process.
+Pre-processing means
+the changes before processing.
+Okay.
+Now there are many things here.
+Here what you do first is
+you remove duplicates.
+You remove duplicates.
+Right.
+You remove
+missing values.
+You remove missing values.
+You remove outliers.
+Okay.
+You scale values.
+Sometimes what happens is
+the value in your input columns,
+the value in one column is a very big number.
+The value in the second column is a very small number.
+So your machine learning algorithm
+is all about mathematics.
+It can happen that you have to calculate distances.
+So there will be no logic of distances
+if one number is in crores
+and one number is in decimals.
+Right.
+So you bring values by scaling down.
+This is called standardization.
+Okay.
+You do a lot of tasks like this.
+The key idea is
+that you have to
+bring data in such a format
+which your machine learning algorithm
+can easily consume.
+That is the core idea of this step.
+Okay.
+This step is known as data pre-processing.
+Okay.
+After that comes
+a very important step
+which we call exploratory data analysis
+or it is called EDA.
+So what is the funda of EDA?
+You can understand from the name.
+Here data analysis word is attached.
+It means you analyze the data here.
+Okay.
+It means you try to study the relationship
+between input and output.
+Okay.
+The whole idea is that
+since you have to make a prediction
+or some software based on machine learning
+then before that you should know
+what is in your data.
+If you don't know that
+then you won't be able to make the model properly.
+So this whole stage
+here you just have to do a lot of experiments with data.
+You have to extract the relationships hidden in the data.
+Okay.
+So what do you do here?
+Here you plot graphs etc.
+You do visualization.
+You plot graphs etc.
+Here you do analysis of different types.
+Here you do univariate analysis.
+Univariate analysis means
+you do independent analysis on every column.
+How much is the mean in every column?
+How much is the standard deviation?
+What kind of curve is following?
+Okay.
+Then you do bivariate analysis.
+It means you keep two columns together and analyze
+that what is the relationship between them.
+Sometimes you do multivariate analysis
+where you analyze 3-4 columns together.
+Okay.
+So that you understand the relationship between them.
+Okay.
+What do you do here?
+Here also you write the code of outlier detection.
+Here also you do outlier detection.
+Okay.
+And here if you have imbalanced data
+then try to convert it into a balanced dataset.
+Imbalanced dataset means
+if you are solving the image classification problem.
+Dog versus cat.
+You have to classify the image.
+So you have a lot of images of cats.
+The images of dogs are very less.
+So this is imbalanced dataset.
+So you handle this.
+Okay.
+So the whole idea is that
+you put a concrete idea in your mind about your data in this stage.
+So that it will be easy for you in the next steps.
+Because it is a simple thing.
+If you are going to do something,
+then first you should have a fundamental understanding of it.
+So this EDA step becomes very important for this.
+And a lot of people spend time on it.
+A lot.
+Because the more time you spend here,
+the easier your work in the future becomes.
+You might have heard that proverb.
+That if you have to cut a tree in 6 hours,
+then you have to spend your 4 hours
+on sharpening your cutting tool.
+Because the more time you spend there,
+the less effort you will take to cut the tree.
+Right.
+So here is the same fund.
+If you want to make a machine learning based model,
+then the first thing you have to do is
+to know as much data as you want.
+So that when you have to do decision making in the future,
+then it will be easy for you.
+Because you have a very good understanding of data.
+Okay.
+So I hope you are also understanding this fourth step.
+Next step is feature engineering and selection.
+So features means input columns.
+Okay.
+I have told you this thing earlier also.
+That two things are there.
+Input and output.
+So the input is called feature.
+And features are very important.
+Because your output depends on the input only.
+Right.
+So the idea of feature engineering is
+that sometimes you create some new columns
+according to yourself.
+So that it becomes a little easy in your analysis.
+For example,
+let's say you are making a machine learning model
+of house price detection.
+And you have area in input,
+area in square feet,
+number of rooms,
+number of bathrooms,
+and let's say there is no square feet.
+Only you have number of rooms,
+number of washrooms,
+locality and such kind of data.
+So what you will do is
+you will remove the number of rooms and number of washrooms.
+And in return,
+you will create a single new column
+called square feet.
+Which is actually the representation of these two.
+But what will be the benefit?
+Now you have only one column in return of two columns.
+So this is called feature engineering.
+Where you create new features.
+Okay.
+Or you do some intelligent changes in existing features.
+So that your analysis becomes very easy.
+We will shoot 3-4 videos on this whole thing.
+Because this is one of the most important techniques
+that people use in this entire world.
+In this entire workflow.
+Okay.
+Then there is something called feature selection.
+So sometimes what happens is
+that you have a lot of features.
+Like 100, 200 type of features.
+What you have to do there is
+that you can't go ahead with all the features.
+Because there are two reasons for that.
+The first reason is that
+so many features are not helpful at all.
+It is not necessary that every input impacts the output.
+So what you have to do is
+that those things which are not impacting your output,
+you have to remove those types of features.
+And you select the features.
+And the second reason is also to remove that
+the more columns there are,
+the more time it takes to train your model.
+Okay.
+So you want to reduce that time too.
+So feature engineering and feature selection
+is something that is very very crucial,
+very very important in this flow.
+And we will cover some 5-6 videos on this in the future.
+Okay.
+There are different techniques.
+I will tell you different techniques.
+At this point, just understand that
+to change the input columns in a different way
+or to remove some important columns from them,
+that is known as feature engineering ads
+and feature selection.
+Okay.
+Okay.
+Now, once you are sure about your data,
+you have cleaned your data completely,
+you have made all your good features,
+so now you are ready to train your model.
+Okay.
+So now what you do is
+you bring different algorithms.
+There are different algorithms in machine learning.
+You bring different types of algorithms
+and start training them.
+You train those algorithms by giving your data to everyone.
+Okay.
+Generally, no one does that
+that he is training only one algorithm.
+Because to be honest,
+everyone knows that one algorithm is good for one type of data.
+But you never know actually
+which algorithm is good for a particular data.
+What I am saying is
+there is an algorithm called Naive Bayes
+which performs very well on text data.
+But then it is possible that
+some other algorithm also performs well.
+So you never know.
+You have all these tools available.
+Your job is to run them all and see
+and then decide which one to use.
+Okay.
+So in the model training phase,
+what you do is
+you bring different algorithms.
+Generally, you bring algorithms of different families.
+You are applying neural network,
+you are applying ensemble techniques,
+you are applying linear techniques,
+you are applying kernel based methods
+and you bring all the results to you
+so that you can finally decide
+which model you want to use.
+Okay.
+So in this,
+the second stage is called evaluation.
+Here you have to ignore spelling mistakes.
+In the evaluation stage,
+what you do is
+you evaluate all the models.
+Now there are different ways to evaluate.
+You have some metrics,
+they are called performance metrics.
+On the basis of which you decide
+which model is performing well.
+Now there are different metrics.
+In the case of classification,
+there is an accuracy score.
+In the case of regression,
+there is a mean squared error.
+In the case of clustering,
+there is a dunce index.
+We will read all these metrics slowly.
+The work of all these metrics is that
+they tell us that
+how well your models are working.
+So this whole evaluation
+becomes very important.
+And with this evaluation,
+we understand which model
+we have to use in the end.
+After that,
+finally what you do is
+you do model selection.
+In model selection,
+what you do is
+you pick one or multiple algorithms
+and then tune their parameters.
+Every algorithm has parameters.
+What are the parameters?
+Their settings.
+You tune their settings.
+Like if you are watching TV,
+you tune the settings according to you.
+Like if you are watching a late night movie,
+then you will change the picture mode,
+you will change the sound mode,
+you will probably increase the volume a little.
+So when you are selecting a final model,
+then you tune its best parameters
+so that its performance improves even more.
+This is called hyperparameter tuning.
+We will shoot 2-3 videos on this too.
+Then sometimes what you do is
+there is a thing called
+ensemble learning.
+If you go to my channel,
+then I have made a lot of videos
+on this in detail.
+What happens in ensemble learning is
+that sometimes,
+not sometimes actually,
+what you do frequently is
+you connect multiple machine learning algorithms
+and make a new powerful method,
+make a new powerful algorithm.
+There are different techniques in this.
+Bagging,
+boosting,
+stacking,
+cascading,
+there are different techniques.
+And the core funda of these different techniques is
+that you have multiple models
+and you make a big powerful model by combining them.
+So generally what happens is
+when you use ensemble learning,
+then your performance improves.
+So trust me,
+this is one of the steps
+which you always do.
+You train a lot of models,
+evaluate everyone,
+tune everyone's hyperparameters
+and then put ensemble learning.
+So what happens is
+that in the end,
+you get a very big powerful model.
+Okay.
+Now,
+when you have this much,
+then now you have
+a machine learning model
+which can do prediction.
+Now,
+it doesn't end here.
+Now,
+your main work starts.
+Now,
+you have to convert it into a software
+so that users can use it.
+Now,
+that software can be a website,
+can be a mobile app,
+can be a desktop app.
+Okay.
+So,
+what do you generally do?
+You make a file
+from that model
+which is generally a binary file.
+Okay.
+Binary file means
+it's not a text file.
+Okay.
+Different tools are used for this
+like there is a tool called pickle.
+Now,
+what do you do by picking up this file?
+You convert it into an API.
+I hope you know what an API is.
+API is a URL
+where if you give the right inputs,
+it gives you JSON data in reverse.
+Okay.
+So,
+what will happen is
+that the user will give an input through a form
+in your website.
+This input
+will be given to your Python app
+on your server.
+And that Python app
+will send that input
+to this API.
+Here,
+you have this binary file
+which you will give all the correct inputs.
+It will make a prediction.
+Okay.
+And you will show this prediction
+to the user
+in the format of JSON.
+Okay.
+Now,
+this might sound a little complex
+but trust me,
+it's not that difficult.
+We will do this too.
+We will make some end-to-end websites.
+Okay.
+So,
+we will make some end-to-end websites.
+So,
+we will make some end-to-end websites.
+We will make some end-to-end websites.
+Okay.
+We will make some end-to-end websites.
+We will make some end-to-end websites.
+Where you would see
+that the machine learning model
+that you are making
+will answer the user
+as a website.
+Okay.
+So,
+this is called model deployment.
+Here,
+what you do is
+you pick up these models
+and put them on the server.
+Either you use Heroku
+or you use AWS
+or you use AWS
+or GCP
+Google Cloud Platform.
+Google Cloud Platform.
+We are going to use all these.
+So,
+your model is online.
+And now,
+it is serving
+the user's request.
+Okay.
+After doing this,
+what do you do?
+You do testing.
+What does testing mean?
+Generally,
+beta testing.
+Beta testing means
+if you have a lot of users,
+then from that,
+a set of users
+who are your loyal customers
+with whom you have
+the hope of getting good feedback,
+you roll out
+the changes
+to them first.
+What would you have noticed?
+Whenever there is an upgrade
+in any software,
+then not everyone
+gets it at the same time.
+So,
+it comes gradually.
+Right.
+So,
+what you will do is
+you send this new feature
+to some trusted customers
+and
+you take feedback from them.
+Okay.
+Or
+you take feedback from them.
+Okay.
+Here,
+a very interesting technique is used
+which is called
+A-B testing.
+It is very famous.
+We will make a video
+on this as well.
+What is A-B testing?
+And
+after doing A-B testing,
+you decide
+that
+the model
+you have just made
+is working properly.
+Okay.
+If it is working very well,
+then
+it is a very good thing.
+If something goes wrong,
+then you repeat
+the steps at the back.
+Okay.
+Obviously,
+you may have bad data
+or
+you have not done it properly
+or your feature selection is bad
+or
+the algorithm you have implemented
+has some issues.
+So,
+there can be issues at any stage.
+You go back
+and do all the steps again.
+But,
+if your model is right,
+you are getting the right feedback
+from your customers,
+then you move forward.
+And moving forward means
+to optimize
+your entire process.
+Okay.
+What do you do?
+Next step,
+the last step is to optimize.
+What do you do there?
+On the server,
+you launch your model
+at scale
+for all the customers.
+And
+before doing this,
+you do a series of steps.
+For example,
+you take backup of your model,
+which is quite important.
+You take backup of your data,
+which is again quite important.
+You do this,
+that if your model is broken
+or something goes wrong,
+then you roll back
+and do it live again.
+You set up
+such automation
+on your server.
+You handle load balancing,
+that if a lot of people are coming,
+then how do I divide them
+and be able to serve requests
+in the same or very less time.
+Then you decide
+how frequently
+I have to retrain the model.
+Because if you don't retrain the model,
+then it is possible that your model
+may start performing badly.
+This happens a lot.
+This is called rotting.
+R-O-T-T-I-N-G
+It means
+as time passes,
+your model's performance gets spoiled
+because your data
+starts evolving.
+Let's say you have made
+a mask detection system.
+So,
+you just have to detect
+whether the person in front
+has worn a mask or not.
+Now different types of masks
+have started coming.
+For example,
+one mask has started coming
+in which the lower part
+looks exactly like a face.
+So, obviously,
+our classification will fail
+on it.
+So, we need new data
+and we have to train
+our model again.
+So,
+how frequently
+this training will be,
+you have to decide
+the frequency of this.
+You have to do it weekly,
+you have to do it per month.
+And this whole thing
+has to be automated
+because you can't do this
+that you go every time
+and repeat
+the whole thing
+every week.
+Okay.
+So,
+you have to optimize
+every place
+where there is
+a little extra expense
+and make the whole process
+perfect.
+Okay.
+So,
+this is the entire flow,
+guys.
+You do this only
+when you are working
+on a machine learning
+project.
+We have told you
+9 steps.
+You have to follow
+these 9 steps
+roughly.
+And
+in this
+whole 100 days,
+I will make you work
+on these 9 steps
+in detail.
+Yeah.
+So,
+that's it.
+That's it about
+today's video.
+I hope you understood
+this.
+I will share
+some more links
+along with
+this video
+so that you
+can read it
+in more detail
+so that you
+get some perspective.
+So,
+yeah.
+I hope
+you liked the video.
+If so,
+guys,
+please consider subscribing.
+Thanks for watching.

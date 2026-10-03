@@ -1,0 +1,923 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 14.
+In the last video, we did an end-to-end machine learning project which was made on a very simple toy data set.
+And now we will break down those steps in today's video and read them one by one.
+So today we are going to focus on the first step that is framing the problem.
+So what happens is that when you join a company as a junior data scientist, you are a part of a big team.
+Now in that big team, let's say that big team is making a big project, anything can happen,
+like a recommender system or a predictive modeling system.
+So there you get some small work because you have 10-15-20 data scientists and since you have just joined,
+you will get some small work like data pre-processing or you train by holding a particular model.
+So you will get some small work like data pre-processing or you train by holding a particular model.
+So you will get some small work like data pre-processing or you train by holding a particular model.
+But once you grow up, like when you spend more time in the company and attain leadership positions,
+then what happens is that you plan the problems end-to-end that how it will be solved.
+Because now you are the leader, so you have to decide the exact steps.
+So that's why today's video is important because even if you don't get to do it from the first day,
+but your progress depends on this thing in that company.
+But your progress depends on this thing in that company.
+So in today's video, I am just going to tell you that if you are given a business problem,
+means if a business is having a problem, if you are told about it,
+then can you convert it into a machine learning problem or not?
+And then can you solve it or not?
+So that is the whole idea for today's video that if I am getting a business problem today,
+then how will I convert it into a machine learning problem?
+So let me share the screen first.
+Okay.
+So I have written a series of steps which you will do first if you are given a scenario like this.
+Okay.
+Now if I start teaching this series of steps like books, then it will be a little boring.
+So I have decided that I will talk about an actual case study.
+I will take an actual example of an actual company and by entering that company,
+we will work as a data scientist.
+Okay.
+So let's take an example of Netflix.
+We all know about Netflix.
+It is a great company and today it is probably the number one OTT platform
+and it is growing very fast.
+Okay.
+Let's assume that we are in a very good data science position in Netflix.
+Like we are very good data scientists.
+We can be the lead data scientist.
+Okay.
+Now there is a meeting going on in Netflix at this point that how can the revenue of Netflix be increased?
+And all the important personalities are still in the company.
+CEO has become, CTO has become, your operating officers have become and you are also in this meeting.
+Okay.
+It is a big meeting and a very important meeting.
+It is being discussed there that how can the revenue of Netflix be increased?
+Right.
+Now you are sitting in that meeting and you were also asked that tell me,
+you are the head of the data science team.
+What do you think?
+How can the revenue of Netflix be increased?
+So it clicked in your mind that there are two ways to increase the revenue.
+One way is this.
+The first way is that we can bring more new customers by doing good marketing.
+Okay.
+The second way is that you start charging more than your existing customers.
+Okay.
+And the third solution is that you somehow stop those customers who are leaving the platform.
+Okay.
+So it is difficult to bring new customers.
+It is wrong to take more than existing.
+So it clicked in your mind that why don't we bring existing customers,
+who are leaving the platform and somehow stop them.
+So I can see the profit.
+Okay.
+So you put the same thing.
+You said that what if boss we reduce the churn rate.
+Now if you don't know the churn rate,
+then I will quickly define it and tell you.
+How is the churn rate taken out on any platform?
+That now all your active users,
+in fact all your users,
+out of them in a given period,
+let's say on a monthly or yearly basis,
+how many customers are leaving the platform.
+I will give you an example.
+Let's say,
+there are 100 users in Netflix.
+And Netflix's monthly churn rate is 2%.
+Okay.
+So this means that after a month,
+only 98 customers will be left.
+Okay.
+And then after a month,
+2% of 98 will be left.
+Sorry,
+98% of 98 will be left.
+Okay.
+After that,
+you remove 2% from existing.
+That is churn rate.
+Okay.
+So if this churn rate is very high,
+then obviously,
+your company is going to suffer a loss.
+Okay.
+Now,
+when I used to get a doubt
+when I used to read about churn rate,
+that by doing 2% like this,
+the company will end.
+It doesn't happen like that.
+Your new customers also keep coming.
+And generally,
+the rate of new customers coming
+is more than churn rate.
+That is why your customers grow
+over a period of time.
+It's like being born and dying.
+Like birth rate and death rate.
+If your death rate is greater than birth rate,
+then your population will end.
+If your birth rate is higher than death rate,
+then your population will grow.
+Okay.
+So,
+the same thing is here.
+Churn rate,
+as much as I have studied in Netflix,
+is around 4%
+in today's date.
+Okay.
+Now,
+your target is to bring 4% down.
+Probably,
+3.75%
+or 3.5%.
+This will be very high.
+I mean,
+if you can bring this 0.25% change,
+on the scale of Netflix,
+in crores of customers,
+this is a very big thing.
+So,
+I have said a little more here.
+3.75% is very high.
+But let's say,
+the problem statement came out in the end,
+that I have to somehow reduce the churn rate.
+Because if the churn rate will decrease,
+then the percentage of people who have stopped on my platform,
+that much more people are giving me money on a monthly basis.
+Because Netflix has a subscription model.
+You charge on a monthly basis.
+So, if the customer stops,
+then he will pay.
+Right.
+So, this is the same thing.
+Okay.
+Now, what did you do?
+A business problem.
+What was your business problem?
+Increase revenue.
+You brought it on this thing.
+You brought it in a mathematical problem,
+that you have to reduce this metric from 4% to 3.75.
+This is my work.
+When you left that meeting,
+then in your mind,
+it is not that I have to increase the revenue.
+In your mind,
+it is that I have to bring churn rate from 4 to 3.75.
+This is step 1.
+Whenever you get any business problem,
+your first instinct,
+as a good data scientist should be,
+that how can I convert it into a mathematical problem.
+A problem which I can say,
+how can I tell my team.
+Now, I will enter my office,
+and I will call my teammates,
+and I will directly say,
+see, our next 6 months target is
+to bring churn rate from 4 to 3.75.
+That should be our end goal.
+For this, we will go mad.
+That is the idea.
+Okay.
+So, this is the first thing.
+You have converted a business problem
+into a mathematical problem.
+Now, comes the second step.
+Now, in the second step,
+what do you do?
+You talk to yourself.
+First of all, you identify,
+what type of problem are you solving?
+What type of problem are you solving?
+Means, are you supervised or unsupervised?
+If you are supervised,
+then there is regression or classification.
+Right.
+Now, what you have to do here is,
+you have to see the big picture.
+You have to see the big picture.
+Big picture means,
+there can be many things.
+First,
+what will be the end product?
+What will be the end product?
+Right.
+See, what you have to do is,
+you have to reduce churn rate.
+Right.
+You have to reduce churn rate.
+How will churn rate be reduced?
+Churn rate will be reduced when
+you can stop those customers
+who are going to leave.
+So, you don't have to do churn rate prediction.
+Don't get confused here.
+You don't have to do churn rate prediction.
+This is a different work.
+This is someone else's work.
+To do churn rate prediction is someone else's work.
+That how many percent customers will leave.
+This is someone else's work.
+Your work is to reduce it.
+Your work is to stop those people
+who are going to leave.
+So, here you have to first find out
+who are going to leave.
+This is your main task.
+If you have to reduce the churn rate,
+then your main task is to identify the customers
+who are going to leave the platform.
+Right.
+So, my task is this first of all.
+That I have to identify those customers
+who are going to leave the platform.
+Is any customer going to leave?
+Yes or No.
+Okay.
+Now, the question is,
+what will be the end product?
+What am I going to make?
+I have to stop them.
+Right.
+So, to stop them,
+I have to do something.
+Let's say I have identified
+that this person is going to leave the platform.
+Right.
+So, what am I doing to stop him?
+I have to do this decision making.
+Now, things can be a little complex here
+because you are working for a big organization.
+You can do multiple things to stop someone.
+One immediate thing you can do is
+that give him a little discount next month.
+You say that here is a discount for you 50%.
+So, it is possible that he may stop
+by paying less than 50%.
+You can adopt this one way.
+Right.
+So, you have to identify what is the problem for him.
+Right.
+Is he not getting the content of your choice?
+Or he is a little older user
+and is not able to navigate our UI.
+Or there is an internet problem in his area.
+Find out anything that is happening with him.
+Okay.
+Only then you will be able to solve his problem.
+But now, what is your immediate plan?
+My immediate plan is that
+since it may take one or two months
+for me to identify the problem of the customer.
+But the customer will leave immediately.
+So, my immediate plan of action is
+that as soon as I identify that
+a customer is leaving,
+I will immediately offer him an instant discount
+on his next month's subscription.
+Let's hope it stops.
+So, if you see at this point,
+then it seems that
+the problem that you are solving
+is actually a supervised
+machine learning problem.
+And you are getting a classification problem.
+You are getting a classification problem.
+Where you have to make a prediction for every incoming customer
+that will he leave the platform this month or not.
+Right.
+Till now, this picture has been created in your mind
+that I have to make a prediction for every customer
+that will he leave the platform or not.
+But suddenly,
+there was a discussion with your colleague.
+He said that tell me one thing.
+Everyone who is going to leave the platform,
+why are we considering everyone equally?
+There will be some people
+who will be more interested in leaving the platform.
+There will be some people
+who will be more interested in leaving the platform.
+Right.
+It will not be the same for everyone
+that I have to leave Netflix.
+Some people will be a little more pissed off.
+Some people will be a little less pissed off.
+So, why to give equal discount to everyone?
+Because the discount you are giving on the scale
+can be very expensive.
+So, what if I identify that
+I have to leave it a little bit.
+So, I give it less discount.
+And I have to leave it a lot of money.
+So, I give it more discount.
+Right.
+You can do this, right?
+So, then you thought that
+yes, this is right.
+Why not identify the amount
+with which they want to leave the platform.
+That is, you want to bring out that sentiment
+that how much in percent
+means, what is the probability
+of a guy leaving the platform.
+You are 90% sure that
+this guy will leave the platform.
+You are 100% sure that
+this guy will leave the platform.
+You are 50% sure that
+this guy will leave the platform.
+So, you want to generate a score for every customer
+between 0 to 100
+that how much percent we are sure
+that this guy will leave the platform.
+The higher the percentage,
+the more discount you give to him
+and the lesser the discount,
+the less discount you give to him.
+Right.
+So, suddenly you realized
+that you are making a mistake.
+This is not a classification problem.
+This is a regression problem.
+This is a regression problem.
+Right.
+So, this is what I am telling you.
+See, we are not actually working in Netflix.
+I am just telling you
+how our thought process is.
+So, at this point,
+you know the type of problem
+that I am solving regression problem
+which will be the output for every customer
+that how much percent is the chance
+that he will leave the platform
+and according to that,
+he will get a discount next month.
+And apart from this,
+I will do more work
+by sitting with other teams.
+I will identify the problems
+that how can we improve the content?
+How can we improve the UI?
+Are our subscription prices high?
+Can we bring them down?
+You can think something like this.
+That is long term planning.
+I am talking about short term.
+Okay.
+So, this was the second step.
+The third step is
+you should always think
+that what current solutions
+are available to you.
+Right.
+So, what do you do in this case?
+You talk to your CTO
+who knows about everything.
+You talk to them.
+So, you got to know
+that yes,
+there is an existing solution
+which tells the overall churn rate.
+The overall churn rate of Netflix
+that next month
+it will be around 5%
+or around 6%.
+He gives this prediction.
+You have such a model.
+Right.
+And this is
+plus or minus 10% accurate.
+So, you said that
+okay, someone has done some work.
+We can draw some inspiration
+from his work
+that what factors
+he had considered
+to make this platform.
+So, this will help you a little bit.
+That some work has been done
+in the same direction.
+So, you don't need to start
+from scratch.
+You can talk to that team
+if you want
+that what were the exact factors
+that you had considered
+in calculating
+this churn rate
+or in predicting.
+Okay.
+So, you get a head start
+from this
+while solving your problem.
+Okay.
+So, this is also a method.
+This is also a step
+to find out about current solution.
+Next step is
+a very important step
+that
+where will the data come from?
+And what will be the data?
+Right.
+Now, here you have to sit
+and think very clearly
+that what kind of data do you need?
+What columns should be there in that data?
+So, here you have to spend
+a lot of time
+to exactly think
+that what kind of data
+you have to bring with you.
+Okay.
+Now, if you have to find out
+that how many percent probability
+a person will leave the platform
+then what will you have to do
+by turning it?
+You have to study
+people's watch time
+that month
+that how many hours
+he spent on Netflix.
+How much time
+he spent on browsing.
+How much time
+he actually
+watched a movie.
+Obviously, if he is
+spending a lot of time
+on browsing
+then he is not getting
+the content of his choice
+that's why he is searching so much.
+And if he is
+spending a lot of time
+on streaming
+then it seems
+that he is also involved
+and is watching something
+which is a good thing.
+Okay.
+Then you will find out
+that in a particular month
+how many searches
+that person did
+on your platform
+and from that
+how many searches
+you got the exact result.
+Right.
+Means let's say
+I searched a movie
+Matrix.
+I didn't get Matrix.
+Then I searched
+another movie
+and I got
+300 searches
+in a month
+and I didn't get
+300 things
+which I was searching.
+So obviously
+this is a bad thing.
+It shows that
+your customer
+is not getting
+what he wants.
+So you can find out this thing.
+Right.
+You can also find out
+how many times
+your customer
+in a particular
+given month
+left a movie
+or a show
+in between.
+It is telling that
+your content
+is not that tempting
+or interesting
+that it is not able
+to keep your customer
+so this is also a factor.
+Right.
+You can also see
+how many recommendations
+you are giving
+and how many recommendations
+it is clicking on.
+Right.
+So I am telling you that
+you have to sit here
+and think
+what factors
+you can think about.
+What factors
+can be there.
+Right.
+And eventually
+what you have to do is
+you have to go and
+catch a data
+engineer.
+You have to catch
+a data engineer
+who will do
+from Netflix's
+actual database
+which I might have
+told you
+from OLTP
+you will get
+a data
+warehouse
+in which
+all these
+columns
+will be
+there
+for
+given customers
+and
+then you will work
+on that data set.
+So here you are understanding
+that you need
+a data engineer
+because
+getting this data
+from that given data
+is not my thing
+I don't know
+I will need
+someone else's expertise.
+Right.
+So here you will go to
+your data engineering team
+and
+you will go there
+and talk that
+see what data we have
+and from that
+give me this data
+so this is
+our fourth step.
+Next is
+matrix to measure.
+How will you know
+that the model
+you have made
+is successful or not?
+Right.
+So here you will
+obviously check
+that
+the churn rate
+you were predicting
+and eventually
+the number of people
+who left the platform
+what is the difference
+let's say
+the difference is
+only 0.25
+so
+you will be
+like
+yes it is right
+I was predicting
+that so many people
+will leave
+so I am moving
+in the right direction.
+You can also
+find out
+that the customers
+you told
+that they will leave
+are you leaving
+the same customers
+or are you leaving
+some other customers
+right.
+This will also tell
+that you are moving
+in the right direction
+or not.
+So basically
+in this step
+you will have to define
+some metrics
+for your team
+for yourself
+that whatever
+you are doing
+how can you be sure
+that it is right
+or not.
+Right.
+So metrics are
+also very important
+so let's read
+what you are doing
+from the last 6 months
+whether it is right or not.
+Okay.
+So in metrics also
+you will have to spend
+a lot of time.
+Okay.
+Next
+you have to think
+one more consideration
+in the beginning
+that are you going
+for online learning
+or batch learning.
+I had told you
+what do you do in batch learning
+you train on your machine
+and put it on the server
+and then
+whenever you have to
+do retraining
+you unload from the server
+and bring it back
+train with new data
+and upload the model
+and do this periodically.
+Right.
+So from streaming data
+you learn continuously
+right.
+On the go
+learning continues on the server.
+Right.
+Now here
+if I was at that place
+at that person's place
+then
+I would have preferred
+online learning
+because
+Netflix
+how much time
+people will spend
+this is actually
+a very volatile concept.
+It will affect a lot of things.
+Now lockdown has started.
+Obviously
+people will spend
+more time
+in fact
+more people will come
+it is possible
+that the churn rate
+may be higher.
+They don't change things
+but they had time
+so they came
+but then
+gradually they will realize
+no man
+I will do something else
+and left it.
+So your churn rate
+will be higher in that case.
+So such volatile changes
+like holidays
+obviously
+more customers
+will come
+and
+churn rate
+may be up or down
+so a better approach
+would be
+that if you
+do online learning
+that would be great
+that incoming data
+is coming to you
+on Netflix
+and your data warehouse
+is set up in such a way
+that new data
+is set up in such a way
+that basically
+the whole flow will be like this
+that data is coming in your OLTP
+and this data is continuously
+flowing through your data warehouse
+and this is going through
+your model
+and it is continuously
+being trained
+and along with that
+output is given to you
+so you will try to establish
+this whole flow.
+Now obviously
+there will be considerations
+that online is very difficult
+the kind of data we have
+from there
+it is difficult to do
+online training
+then you will say
+ok let's do batch learning
+after one week
+we will do the model
+offline
+again train it
+and do it online
+so again
+here also you have to take
+this consideration
+ok
+the last thing
+that you have to do
+as a data scientist
+that is
+you check your assumptions
+ok
+now in assumptions
+you have to think
+a lot of things
+first you have to think
+that the columns
+that you have decided
+the features
+that you have decided
+whatever features
+you have decided
+watch time
+or
+searched
+or not
+whatever features
+you have decided
+is it available
+or not
+your assumption is that
+it is available
+but you have to go
+and talk to your data engineering team
+and you have to ask
+that the factors
+that I am thinking
+is it really available
+or not
+this is your first assumption
+that you will check
+second assumption is
+that you will check
+that
+means
+Netflix is a multinational company
+right
+so your assumption is that
+I will make a single model
+and
+Netflix
+will run on that only
+means
+that same model will be applicable
+on people all over the world
+but is this right
+the factors that you have considered
+are you sure
+that it will work
+as well on US
+as it will work
+on India
+so you have to check
+these assumptions
+that
+should you make changes
+in models
+on the basis of geography
+or not
+and you check
+a lot of such assumptions
+ok
+now see
+this is what you do
+means
+I was telling you
+in this video
+that how you think
+there is no set procedure
+that
+you have to think
+after companies
+I am just telling you
+that if you are going to
+become a data scientist
+if you are going to
+become a data scientist
+then
+you will
+have to
+think a lot
+right
+problem
+like
+you will not start coding directly
+you will have to
+sit first
+and think about it
+then only
+you will start
+because what happens
+if you are working for a big organization
+and you are the lead
+then
+you cannot start working
+without thinking
+because
+inertia of big companies
+is very high
+so if you start
+working in one direction
+then
+you will know
+that you made a mistake
+and then come back
+and work in another direction
+is very difficult
+and costly
+right
+because you are charging people
+on a per hour basis
+means you are paying money
+so that much work
+will be wasted
+and then
+it does not reflect good
+on your leadership
+ok
+so one more thing
+I would like to tell you
+that
+you can think
+that I am a beginner
+I will be caught
+in small tasks
+so why should I watch this video
+or why should I follow
+what is being told
+in this video
+the reason is
+that
+see
+at one point
+in any company
+many freshers enter
+let's say
+thousands of freshers enter
+after 5 years
+does everyone become a manager
+no
+not all managers
+probably 10 people
+or 25 people
+become managers
+who are these people
+they are those people
+who show this kind of leadership skill
+this kind of
+think
+thought process
+so I want
+those people
+who are following this whole playlist
+they should learn machine learning
+but
+they should also learn
+to become a good data scientist
+so that's why
+today's video is important
+and
+if you are watching
+then great
+and
+if you are not watching
+then
+what can we do
+then watch the next videos
+ok
+so anyways guys
+that's it for today's video
+I hope you liked it
+if so
+please consider subscribing
+and sharing
+ok
+so yeah
+thanks for watching
+bye

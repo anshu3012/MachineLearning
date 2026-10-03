@@ -20,9 +20,9 @@ steps:
   12: Test
   13: Monitor and maintain
 
-# Folder of each written Note, by Video number. Deferred and skipped Videos are listed in README.
+# Folder of each written Note, by Video number (Video 1 also has 01-course-map). Deferred and skipped Videos are listed in README.
 notes:
-  1: 01-course-map
+  1: 01-what-is-ml
   2: 02-ai-vs-ml-vs-dl
   3: 03-types-of-ml
   4: 04-batch-learning
@@ -129,7 +129,7 @@ concepts:
   - {id: model_based, name: Model-based learning, step: 0, videos: [6], status: confirmed}
   - {id: tensor, name: Tensors, step: 0, videos: [11], status: confirmed}
   - {id: applications, name: Applications of ML, step: 0, videos: [8], status: draft}
-  - {id: data_mining, name: Data mining, step: 0, videos: [1], status: draft}
+  - {id: data_mining, name: Data mining, step: 0, videos: [1], status: confirmed}
   - {id: mldlc, name: ML development life cycle, step: 0, videos: [9, 13], status: draft}
   - {id: dev_setup, name: "Anaconda, Jupyter and Colab", step: 0, videos: [12], status: draft}
 
@@ -309,7 +309,8 @@ links:
   - [tensor, used in, ml, confirmed]
   - [problem_framing, used in, mldlc, draft]
   - [applications, needs, ml, draft]
-  - [data_mining, needs, ml, draft]
+  - [data_mining, needs, ml, confirmed]
+  - [data_mining, compared with, eda, confirmed]
   - [dev_setup, used in, ml, draft]
   # Data
   - [sampling_bias, compared with, data_quantity, confirmed]

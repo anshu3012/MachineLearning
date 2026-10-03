@@ -66,7 +66,7 @@ def validate():
 
 def note_ref(video, md_dir):
     """'Note 7' with a link if written, else 'Video 7 (coming)'."""
-    if video in NOTES and video != 1:
+    if video in NOTES:
         return f"[Note {video}]({md_dir}{NOTES[video]}/note.md)"
     return f"Video {video}, coming"
 
@@ -253,7 +253,7 @@ def learning_path_rows():
         names = ", ".join(sorted(CONCEPTS[c]["name"] for c in own))
         first = sorted(set(before.values()))
         reads = ", ".join(note_ref(x, "../") for x in first[-4:]) or "nothing"
-        status = "written" if v in NOTES else ("deferred" if v in (1, 8, 9, 12, 14) else "coming")
+        status = "written" if v in NOTES else ("deferred" if v in (8, 9, 12, 14) else "coming")
         rows.append(f"| {v} | {names} | {reads} | {status} |")
     return rows
 
@@ -366,6 +366,5 @@ if __name__ == "__main__":
     validate()
     course_map_note()
     for video in NOTES:
-        if video != 1:
-            update_note(video)
-    print(f"Course map built: {len(CONCEPTS)} concepts, {len(LINKS)} links, {len(NOTES) - 1} Notes updated.")
+        update_note(video)
+    print(f"Course map built: {len(CONCEPTS)} concepts, {len(LINKS)} links, {len(NOTES)} Notes updated.")

@@ -1,0 +1,1399 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 12.
+I guess yeah it is day 12. So we have studied a lot till now and now we have started practical machine learning after the last video.
+And I had planned that in this video I will make an end-to-end machine learning project.
+But before that I thought that once I will teach you how to install all the tools quickly.
+So what I am going to do in this video is that all the ways to work in machine learning, all the tools you can use,
+we will discuss the three most famous tools from them in this video.
+So after this video, you should not have any problem in using any tool. That is the whole idea of this video.
+So we will discuss these six things in this video. First of all, we will install a software named Anaconda.
+So if you want to do machine learning,
+you have to do this.
+You can do it on Windows or if you want to do other operating systems also.
+So Anaconda is the best platform at this point. It is the best software.
+Because what Anaconda does is that all your data science packages that you will use.
+See in data science, you have to use a lot of packages and libraries.
+So to install everything by yourself could be hectic.
+So what Anaconda does is that it gives you all the installations in one place.
+And then what you can do is that you can start doing your work directly.
+So that is the whole idea behind Anaconda.
+And at this point, this is the most popular platform of data science.
+Let me show you.
+So if you Google Anaconda, then this is the website Anaconda.com.
+They have also written the most popular data science platform.
+From here, you just have to go and download the individual edition in products.
+See, clicked on download.
+You have to select your operating system.
+In my case, it is 64-bit Windows.
+And that's it, guys.
+You just have to download it.
+It is a little big software.
+It would take around 450 MBs.
+It is a little big.
+But yeah, you have to download it and then install it.
+I'll just pause this video.
+So yeah, as you can see, it has been downloaded.
+Now you just have to install it.
+And installation is very simple.
+You have to finish next, next, next.
+See, you have to keep everything default.
+In my case, this software is already installed.
+So I'm not installing it again.
+But you just have to simply install it with custom settings.
+That's it.
+So I'll cancel the installation.
+And I'll tell you the work after this.
+So Anaconda is installed.
+In Anaconda, you have multiple things on which you can work.
+One of them is Spyder.
+So Spyder is one of the tools that comes with Anaconda.
+By using it, you can directly run machine learning or Python codes.
+So Spyder is one of the tools that comes with Anaconda.
+By using it, you can directly run machine learning or Python codes.
+Okay?
+I'll just let it open.
+Here it is.
+Okay?
+Here what you can do is you can directly run machine learning related code.
+A lot of people prefer Anaconda.
+Although I prefer Anaconda, I'm sorry, a lot of people prefer Spyder.
+But I'm not one of those.
+I like another tool more.
+You can see, it's very simple.
+This entire interface.
+The advantage of this particular interface is that this tool can show the data that you have.
+But I don't prefer it. If you want, you can use Spyder.
+What I personally use is Jupyter which I think is more famous.
+You have to search Jupyter Notebook as you have installed it.
+And once you open it, you will see a black color console.
+And after that you will see this window in your browser.
+And from here you work.
+So let me show you how we are doing this work.
+What I will do is, I will just minimize this window.
+And see, what you have to do first, whenever you are starting a project, you create a new folder.
+Now you can't see if anything has happened or not.
+But if you go down, here an untitled folder has been created.
+I am checking it and I am renaming it.
+100 days of work.
+In the name of ML.
+And now this folder has been renamed.
+Now I have gone inside it and there is nothing here.
+Now what you can do here is that you can create a new Python notebook.
+Notebook means Jupyter Notebook.
+So if you create a Python 3 notebook here, you will get something like this.
+This is what we call Jupyter Notebook.
+It is very strong and very useful.
+This is the reason why I don't prefer Spyder.
+Instead, I love using Jupyter Notebook because here you get an interface like a notebook.
+Now what you can do here, you can do two things here.
+Either you can run your Python code.
+When a code mode is selected here, then you can run the code in Python here.
+Like this.
+I pressed shift enter here and I got the output.
+If you press enter here, then you will go to the next line.
+You have to press shift enter.
+And if you want, then you can write markdown here.
+So what is markdown?
+Markdown is a way of writing text.
+Like let's say you want to make a notebook for yourself.
+Like you are covering the first topic.
+Import data set.
+Okay.
+Import data set.
+And as soon as you press enter.
+Sorry.
+Here I have to select markdown.
+See.
+And now I have run it.
+You can see.
+Here.
+A kind of textual.
+A good web page has been made.
+Right.
+If I select markdown again here.
+And what can I do here?
+I can simply write something.
+Like over here we will import the data set.
+Okay.
+And here the text will come like this.
+Okay.
+So if you want to run code, then you have to select code here.
+If you want to put this kind of text in your notebook.
+Then you have to select markdown.
+Okay.
+You can also select heading.
+But heading to be honest you can also do it with markdown.
+If your markdown is selected.
+So if you put a single hash.
+Then it will become your first level heading.
+If you put two hash.
+Then it will become a little small subheading.
+I hope you understand this thing.
+Okay.
+If you write normally, then paragraph will come.
+If you want, then you can also write html here.
+Okay.
+If you want, you can also write html here.
+If you want, then you can also write html here.
+Okay.
+If I write hello here.
+And here I write style is equal to color red.
+See.
+It came in red color.
+Okay.
+So this means that you can put videos here.
+If you want, then you can put images here.
+And I have seen these people very well.
+By using this feature, people make very good notebooks.
+And you will get many such notebooks on GitHub.
+Okay.
+So this is the best part about Jupyter Notebook that I love personally.
+First of all, you can run code cell by cell.
+This is the best thing.
+Then you can write a lot of markdown to describe it.
+Okay.
+Apart from this, there are many more features here.
+You can add interactive widgets if you want.
+Okay.
+If you want, then.
+Now in another video, I will teach you how to add widgets.
+With which your user can interact.
+Like you can put a button.
+You can put a rain slider.
+You can put a form field.
+So you can do a lot of things like this in your Jupyter Notebook.
+In short, this is a very powerful thing.
+And today, people who work in data science,
+they prefer Jupyter Notebook a lot.
+They like it a lot.
+And by writing in this, people have a good culture of knowledge sharing.
+So what I would suggest is that if you are seeing all this for the first time,
+then once go and use this tool without any fear.
+Okay.
+There are many more options here.
+To run.
+To shut down the kernel.
+Or to add new cells.
+Okay.
+There are many different features.
+I am not going into the basics of it.
+Because this video is not about Jupyter Notebook.
+This video is about setting up your tools.
+Okay.
+I will show you one thing quickly.
+That you have to import a data set.
+So how will you do that?
+Okay.
+So 99% of the time, the data set you have will be from Kaggle.
+Okay.
+So I will go to Kaggle.
+And I will just download a data set.
+I will download any data set.
+Let's say this one.
+I am downloading this data set.
+It is a 2 MB data set.
+This is the data set.
+Called AEG Train.
+Now I have downloaded it.
+Obviously, you have to log in to Kaggle before downloading.
+And this is done.
+And now what I have to do is,
+I am extracting this.
+I am extracting this on the desktop.
+So you can see at this point on the desktop,
+This is my data set.
+Okay.
+Now what I have to do is,
+First of all,
+I will go back to this folder.
+Which I have just created.
+100 days of ML.
+Now here I will click on upload.
+And from here,
+I will go to desktop.
+And from there,
+I will select this data set.
+And I will open it.
+Here the upload option will come.
+And see here it is uploaded.
+So that is how you upload data sets to your folder.
+If you want to see this data set,
+How it looks like.
+So it looks something like this.
+Okay.
+But if you want to bring it in your Jupyter Notebook,
+Then you have to learn a little bit of Pandas here.
+I will suggest you at this point,
+That you learn NumPy and Pandas.
+Both the playlists are on my channel.
+I will put the link of both the playlists in the description of this video.
+This weekend if you want,
+You can learn Pandas and NumPy quickly.
+Meanwhile,
+I will quickly show you that,
+You can import Pandas and bring that data set here.
+So what you do is,
+You just write pd.
+There is a function called readcsv.
+And there what you do is,
+Since both the files are in the same folder,
+I will just copy the name of this file.
+Like this.
+And I will run it here.
+And here is our data.
+So there are 19000 rows,
+14 columns.
+And if I want,
+I can store it in a variable.
+Generally,
+We call this variable df.
+df means data frame.
+Which is an object of Pandas.
+So yeah.
+Okay.
+So that is how you use Anaconda and Jupiter.
+Now here there are many small tips and tricks,
+Which I have learned over the years.
+If you want,
+You can also learn by experimenting.
+But I have taught you as much as basic as you need.
+Now let's say you have to download this notebook.
+So you can download it too.
+Okay.
+You can download it in any way.
+As python,
+As HTML,
+As PDF,
+If you want.
+As ipynb notebook.
+Which is in its own format.
+And by downloading it,
+You can easily upload it in your Github account.
+Okay.
+So that's it.
+We had to cover the first part in this video.
+First and second.
+Anaconda gets installed like this.
+And I had to give you a small introduction of Jupiter notebook.
+Okay.
+Now I will tell you a new thing.
+And that is creating a virtual environment.
+And I will also tell you why creating a virtual environment is important.
+Okay.
+So now let's go to the next part.
+Let's go to the next part.
+Let's go to the next part.
+Let's go to the next part.
+Let's go to the next part.
+Let's go to the next part.
+Let's go to the next part.
+Let's go to the next part.
+That is creating a virtual environment.
+And I will tell you why creating a virtual environment is important.
+Okay.
+So now guys let's discuss what is a virtual environment.
+So if you normally go to your start menu,
+Search for Jupiter and start.
+So what happens is that,
+There is a common installation from where Jupiter runs.
+From there all the libraries are installed.
+Okay.
+In fact I will show you.
+So what I will do is.
+And what I will do is.
+I'll just go to over here and I'll search for Anaconda, okay.
+So here you will get Anaconda Navigator, you have to start it.
+So guys, this is Anaconda Navigator on your screen.
+This is like the control panel of Anaconda, okay.
+Here you will be able to see which softwares you have,
+if you want you can add more applications.
+As you can see here, we have Jupiter Notebook,
+we have Spider too, we have VS Code feature,
+we have PyCharm too and you can install these things too.
+In fact, if you want to do programming in R language in data science,
+you can install that too, okay.
+So this is your main prompt from where you control everything.
+Now here there is a tab of home and below that there is a tab of environments.
+Now in the tab of environments, there are two environments on my machine,
+one is base which is automatically created as soon as you install it
+and I have created this second tensorflow myself
+a few days ago because I was working on deep learning
+and I had to use my GPU.
+So ignore this tensorflow, you will only see this base on your machine.
+Now if you go to this base one,
+then here you will see all the libraries which are already installed.
+That's why I was telling you that what Anaconda does is
+that it pre-installs all the most useful or most used data science libraries
+and gives them to you.
+That's why it becomes very big, it is around 450 MB install.
+But there is a problem in this,
+if you work in the base one,
+like a few days ago when I started Jupyter Notebook in this way,
+then this base one was opened,
+you can open it from here also,
+open with Jupyter Notebook,
+then the same thing would have been opened
+and you would have got all the libraries pre-installed.
+But there is a problem in this approach,
+the problem is this,
+that if let's say you have created a project
+and you want to deploy it on a server,
+then what will be the problem in that deployment,
+that all these libraries will also have to be installed on the server,
+because in the environment in which you have created this project,
+in that environment you needed all these libraries or there was a requirement,
+then that requirement will also be asked on the server
+and it will be installed.
+So your application will be very big,
+in size.
+So generally what is done is that if you are working on any project,
+then you create a new environment of your own.
+So I am going to show you that how can we create a new environment
+and when you create that environment in the beginning,
+then in the beginning no packages are installed there.
+You install the same packages freshly
+which your project needs
+and then when you move that project to the server,
+then the same libraries are installed
+which you had installed in that environment.
+So you are creating a kind of a safe box
+in which you create a project
+and then you deploy it on the website.
+Now to be honest in the beginning,
+even if you don't read this concept of creating a virtual environment,
+then also there is no problem,
+the work is done.
+But if you want to deploy any project in the future,
+then you will have to use virtual environments.
+I mean you can do without it,
+but this is the right practice.
+So now since you are starting
+and we want everyone to study well,
+then I will quickly cover this thing too.
+So let me first show you
+how can you create a new environment.
+Now to be honest,
+you can also make it with your GUI,
+but this GUI seems a bit sluggish to me.
+I don't use their GUI.
+Like there is an option of create here,
+from where you can create a new environment by clicking.
+Okay.
+But I will show you this thing with command prompt.
+Okay.
+So what you have to do is
+you have to search Anaconda
+and you will get Anaconda prompt.
+You have to open it.
+This is Anaconda prompt.
+And this is the environment
+in which we are working right now.
+The base one.
+Okay.
+I can show you this one.
+We are in the base one right now.
+Okay.
+Now what I have to do is
+I have to create a new environment.
+So for that you have to write a command.
+You will have to write
+conda create hyphen hyphen name
+and the name of your new environment.
+Okay.
+The name of your new environment is campus X.
+I have entered.
+And in this step you will be asked
+that would you like to confirm or not.
+I said yes.
+And my environment is created.
+And see here it is written.
+To activate this environment,
+use this command.
+Because we are still working in the base.
+Okay.
+So what I am doing is
+I am activating my conda environment.
+So I would write conda activate
+and the name of my environment is campus X.
+Generally you keep the name
+which is related to your project.
+Okay.
+But since I am showing you now
+I have kept campus X.
+So you can see here the name has changed.
+Now it is campus X.
+So now we are in a box
+in which no library is installed right now.
+In fact if I come back
+here you see
+an environment called campus X
+has been created automatically.
+If I click on it
+then you can see
+now no library is installed in the installed libraries.
+Okay.
+So if you click on this point
+then you will not get these options.
+Open with Jupyter Notebook.
+You will not get these options.
+The reason for that is
+that Jupyter Notebook is also a library
+which is not installed.
+So what I have to do first is
+I will go back to Google Chrome
+and I will search conda install Jupyter Notebook
+and I have to copy this command.
+This is the command.
+conda install anaconda Jupyter
+I will copy this command.
+I will go back
+and over here I will paste this command.
+I will just copy it one more time.
+It has been pasted.
+Enter is coming.
+And now what will happen is
+that this command
+will install Jupyter Notebook
+in this particular environment
+and will also install its dependencies.
+And everything is downloading.
+So it takes some time.
+I will just wait.
+So you can see guys
+we have completed all the installations.
+Now if you want
+then from here
+by typing Jupyter Notebook
+you can open
+Jupyter Notebook.
+Ok.
+Enter.
+And this Jupyter Notebook is opened guys.
+Ok.
+Now here you will get the same files and folders.
+But this time what you can do is
+if you make a new file let's say
+and if you run the commands here
+then this is actually running inside
+your own environment
+that is campus.
+The problem with this environment right now is
+that your libraries
+are not installed.
+See.
+It is not working properly.
+Ok.
+Because you have not installed it.
+Now you have two options.
+Either you can go back
+you can halt this machine right now
+by pressing control C.
+Not a machine actually.
+This prompt.
+And here what you can do is
+you can install conda
+in numpy.
+Ok.
+Like this.
+You will get this conda install command of every package.
+Ok.
+I put a yes.
+And now I will install the first library
+which I need in my project.
+I am installing that.
+Similarly you install more libraries.
+I will show you one more way to install.
+You don't have to go here again and again.
+Because to do this you have to
+break the flow of Jupyter notebook.
+So you can see now
+it is saying
+dead kernel.
+The kernel has died.
+So see.
+It is installed.
+I will write again
+Jupyter notebook
+and I will start.
+See.
+It started again.
+I can
+go back to this.
+Now I had just created this notebook.
+And now if I write here
+import numpy
+then they should work.
+See.
+Now it is working.
+Ok.
+So again and again if you don't want to go there and install
+then you can write the command directly here.
+pip install
+let's say numpy
+If you run this
+then you can install things in this environment from here too.
+Like it is saying here
+requirement already satisfied.
+Because we have also just installed it.
+Ok.
+So yeah guys.
+This is it.
+Now
+if you want
+if you want
+you can close this too.
+You can close this environment.
+So I will press control C.
+And if you want to
+deactivate
+you have to just write this command.
+deactivate
+You will hit enter.
+See you have come back to base.
+Ok.
+And if you
+go back
+in anaconda navigator
+and
+if you
+click on your campus x environment again.
+So there you will see all the libraries that you have installed now.
+So if I click on campus x again.
+Here
+UI is a little sluggish.
+But you can see
+here you will have numpy
+and its dependencies.
+See numpy is there.
+And you will have jupiter and its dependencies too.
+See.
+These are all the dependencies of jupiter.
+Ok.
+So now if you want
+then from here too you can add
+new
+libraries.
+If you go to not installed.
+From here let's say you want pandas.
+So you will search pandas.
+And you can click on pandas
+and from here
+you can apply.
+So what will it do?
+It will download pandas automatically.
+So you have both the options.
+You can do it through GUI too.
+And you can do it through command prompt too.
+It's just that their command prompt is a little sluggish.
+Their GUI is a little sluggish.
+So I prefer using command prompt.
+Ok.
+Now I will show you quickly
+how can you
+delete this environment.
+Because generally what happens is
+if you complete a project
+then after that you remove its environment from your machine.
+You put it on github.
+Ok.
+So there are two ways.
+One is by clicking on remove.
+Or you can go to command prompt
+and write this.
+You will write
+conda
+remove
+name
+campusX
+all
+All means you are removing all the dependencies.
+You are removing everything.
+And you press on yes.
+Hit enter.
+And
+these prompts are coming out.
+After some time if you notice
+this thing will be removed.
+I will just wait.
+So you can see
+we have removed everything.
+So at this point
+if you write
+conda activate
+campusX
+It would give you
+I guess it didn't remove.
+Now it is removed.
+It takes some time to update.
+As you can see
+it is removed.
+So first of all
+I will deactivate.
+And now I will write here
+conda activate
+campusX
+I guess the folder is not deleted.
+The campusX folder is not deleted.
+But if you want to install anything
+then it shouldn't happen.
+Let's see.
+Oh!
+It is still there.
+I guess I should close it once.
+And should try again.
+Because it is taking some time.
+So I will just wait.
+And now I will run
+conda
+And here I would write
+conda
+activate
+campusX
+It is switching again and again.
+I don't know why.
+conda
+install
+numpy
+I guess I will have to
+restart once.
+You guys try and see.
+It is removed from here.
+It shouldn't have come there too.
+But somehow it is coming.
+So anyways
+this was the whole concept of
+virtual environments.
+The whole idea is
+that you want to make a new project
+in a completely blank
+new
+setup.
+So that
+there is no mess on the server.
+That is the whole idea.
+Okay?
+So this is done.
+Now I will tell you two more things quickly.
+How to work on Kaggle
+and how to work on Google Colab.
+And lastly I will tell you a trick
+that how you can run Kaggle's data on Google Colab.
+Okay?
+Okay now guys
+I will show you
+that where I personally work.
+I
+used to
+work on Anaconda
+1-2 years ago
+whenever I had a project.
+Actually not a project.
+In general
+if I was working on some things
+or was studying
+or was studying
+then I used to
+use Anaconda.
+But then
+in the last 1-2 years
+whenever I have any small work related to data science
+then I
+don't code on my machine
+in local environment.
+Instead I either use Kaggle
+or I use Google Colab.
+Okay?
+So if you are a beginner
+and
+if you don't want to install Anaconda
+then you can directly go to Kaggle.
+Because like this
+most of the times
+you will get the data set
+on Kaggle only.
+So you just have to
+search any data set on Kaggle.
+Like Titanic.
+And
+you just have to
+go there
+like here
+you will go to code
+and
+here you will see
+the option
+called
+new notebook.
+When you go to any data set
+you will see
+the option
+of new notebook.
+Like
+let's say
+I am going to Twitter.
+So after searching a lot
+here
+data sets came
+and
+let's say
+I entered on this data set
+and
+now what I have to do
+I have to
+do any code related to this.
+So I will click on
+new notebook.
+What will it do?
+It
+will create a notebook
+in Kaggle.
+Jupiter notebook.
+Okay?
+This is the Jupiter notebook.
+I can rename it from here.
+You can write anything.
+Test
+Run
+And
+that's it.
+This is exactly the same thing.
+Here you have two options
+of code and markdown.
+If you want a data set
+then you just have to
+run this first cell.
+You have to
+run this first cell.
+This first cell will give you
+the path of the file.
+Like this is the path of your
+csv file.
+And
+it will also give you
+numpy and pandas
+by calling.
+Here you can simply write
+pd.readcsv
+And here you can
+paste this path.
+And
+you can run it.
+And
+see guys
+your
+data set
+came here.
+Okay?
+You can store it in a variable.
+And
+here also
+you can do all those things.
+Markdown
+Like
+you want to write something.
+Hello world
+Hello world
+Okay?
+You want to bold it.
+To bold it
+in markdown
+you use
+the combination of
+two asterisks.
+See.
+And
+now
+all those things
+that you were able to do
+on your machine
+by using anaconda
+you can do that in Kaggle too.
+So personally
+most of the times
+what I do is
+that I
+search the data set
+on Kaggle.
+And here only
+I run it.
+So
+a lot of time is left.
+If you want
+you can share it with others immediately.
+You just have to
+publish it.
+Okay?
+Second
+you have to save it.
+You can save it.
+And
+as soon as you save it
+in Kaggle
+other people also start seeing it.
+So in Kaggle
+if you get upvotes
+your profile is also enhanced in Kaggle.
+So that's why I prefer
+writing these kind of codes
+in Kaggle.
+But if you are working on projects
+then obviously you won't use Kaggle.
+Okay?
+Second
+if you have
+your own data set
+and you want to upload that.
+So you go here
+what you can do is
+what you can do is
+by going here
+you can
+in the input
+actually I don't remember
+plus
+I guess I used it somewhere.
+Yes
+add data.
+From here what I can do is
+I can use my personal data set.
+See
+uploader data set
+browse files
+and
+there is a data set called cars
+on my machine.
+Let's name it
+cars.csv
+or cars123
+it needs some unique URL.
+And I have created it.
+See it says
+we are processing your data.
+Processed.
+And
+now if you run it
+see here it is.
+If
+I run it again
+then I also have the cars one.
+So I can copy this path
+and I will paste it over here.
+Like this.
+And if I run it
+and if I write df here
+then this is my car data.
+Okay.
+So even if you have
+your data is not available on Kaggle
+but you want to use this UI interface
+of Kaggle
+then you can do it
+by uploading data in this way.
+Okay.
+One more good thing is
+you can download
+from here.
+Okay.
+This notebook
+as I am doing
+see
+it is run
+it is downloaded.
+Now if you want
+you can upload it on github
+or keep it on your machine
+or share it with someone
+it is up to you.
+Here if you generate something
+if you generate something
+then how it is generated?
+Like let's say
+I want to generate this df
+as in
+generate in output
+then I can do that too.
+I can write df dot
+two underscore csv
+file name
+cars dot csv
+and run it.
+And if I go to output
+and refresh it
+see
+here is cars dot csv
+and I can download it from here.
+And it will be downloaded.
+So during
+the execution
+if you are generating something
+which you want
+then
+any files can be like this.
+So you can download it like this.
+Okay.
+So this kaggle interface
+is very good.
+It has only one problem
+that here
+you don't have
+GPU
+graphics card.
+So if you are working
+in deep learning
+then
+you will have
+very slowly
+execution here.
+And its solution is
+google collab
+which we will read next.
+So
+we have one more tool
+which is
+google collab.
+It is of google obviously.
+Everything is the same.
+It has only one benefit.
+Actually there are two benefits.
+The first benefit is
+that
+your
+this tool
+is directly linked
+to your drive account.
+So whatever you code
+it automatically
+gets saved in your drive account.
+Like
+all my notebooks
+are saved.
+Okay.
+If you want
+you can make a new notebook
+which is again
+a jupiter notebook.
+Nothing
+different.
+This is the online version
+of jupiter notebook
+in kaggle
+or google collab.
+See.
+Here if you want
+you can again
+type your name
+test run.
+Okay.
+And again you have
+the same options
+of code and text.
+The same features
+which you had.
+Here also
+you run
+by doing the same things.
+By hitting shift enter
+you get the output.
+The second benefit
+of using google collab is
+that
+here you have
+the power of
+GPU.
+So if you
+are studying
+deep learning
+and
+you don't have
+a very good machine
+let's say
+you don't have
+a very good graphics card
+machine
+you can use
+google collab.
+Okay.
+Here you go to
+run time
+hmm
+where did I go
+I keep forgetting the settings.
+And
+by going to
+change run time type
+in hardware accelerator
+you can select
+GPU.
+Okay.
+Like this.
+Now
+your deep learning code
+obviously your machine learning
+code will not use
+GPU.
+Your deep learning code
+runs very fast
+in comparison
+to CPU.
+Okay.
+In fact
+you can also use
+TPU here.
+So your code runs
+even faster.
+The only problem here is
+that you don't have
+data sets directly
+like Kaggle.
+So you have to
+upload data sets.
+Okay.
+How to upload?
+It's very simple.
+Run.
+Here is the
+cars data set.
+And
+it is uploaded.
+I just have to
+copy its path.
+And here
+I will have to
+import
+pandas
+as pd.
+All these libraries
+are already installed
+as we have seen
+in pandas.
+I would write
+df.pd.readcsv
+And here
+I will just
+paste the path.
+And now
+if I run df
+then I will get
+the same.
+Okay.
+So if your machine
+has any data set
+then you can
+bring it directly here.
+Okay.
+Here also
+all the features
+are available.
+You can go to
+file and
+download it.
+Where is the
+download option?
+This is download.
+As a python file
+or in jupyter notebook
+format you can download.
+Okay.
+You have
+GPU support.
+All your
+options are
+good.
+Google collab.
+So either I use
+google collab
+or I use
+Kaggle.
+Till the time
+I am not making
+a project
+I work on
+these two.
+And I never had
+any problem
+as such.
+Okay.
+So now
+I will tell you
+one last thing
+in this video.
+After that
+we will close
+this video.
+That is
+if you are
+working in
+deep learning
+and let's say
+you don't have
+any
+knowledge
+in
+any
+field
+then
+you can
+download
+Google
+cloud
+or
+Google
+cloud
+app.
+And
+if you
+want to
+download
+Google cloud
+or
+Google cloud
+app
+this is the
+data set.
+It has all
+the images.
+Here are
+all the images.
+Okay.
+These are all
+the images.
+Now what
+I have to do
+if I am using
+google collab
+then I have to
+download all
+the images
+and then
+upload them.
+Okay.
+Which is very hectic
+work.
+You won't be able to
+do this.
+So I will tell you
+a quick trick
+with which you can
+bring the data
+of Kaggle
+no matter how big it is.
+The trick is that
+you have
+the power of
+GPU
+in Google collab
+and the data set
+of Kaggle.
+So in short
+you don't need to buy
+a very expensive computer
+for deep learning.
+You can run your work
+in Google collab.
+Yes, that's a different thing.
+If you are making
+projects then
+there is a little
+problem.
+But if you are doing
+things in the normal
+learning process
+then your purpose
+can be easily solved.
+Okay.
+So let's see this thing next.
+Okay guys.
+So let's start.
+What we have to do is
+this data set
+we have to bring
+here
+at this place.
+Okay.
+So first of all
+what you have to do
+guys,
+you have to go to
+your account
+on Kaggle.
+That is step one.
+You will go to
+your account
+and from there
+you have to download
+an API token.
+See.
+You have to create
+a new API token.
+So once you click on this
+a file will be
+automatically
+downloaded
+in your machine.
+All you have to do
+is go here
+and upload this file.
+Okay.
+Kaggle
+See.
+This is the file.
+So yeah.
+Guys,
+our file has been
+uploaded.
+Now what we have to do is
+we have to copy
+these two lines'
+code
+and run it here.
+Basically we are making
+a directory
+by calling it
+Kaggle
+and inside that
+we are copying
+this file
+Kaggle.json.
+So if I run it
+you won't see anything
+in the output
+but this step is very
+important.
+After that
+what you have to do is
+whatever data set
+you have to use
+you will go to that data set's
+and click on
+copy API command
+and
+after coming here
+you will paste
+that API command.
+Just make sure
+that you put an
+exclamation mark
+because it is a command.
+Okay.
+Now as soon as you
+run it
+that data will be
+downloaded
+in this folder
+of your
+collab.
+Okay.
+So you can see
+it is very fast.
+Around 100
+more than 100
+MBPS is being downloaded.
+So this data will be
+downloaded very fast
+and will come here.
+Okay.
+If you go to do this manually
+then it takes a lot of time.
+If you upload something
+and there are small files
+then it would take a lot of time.
+Here you would see
+that it is so fast.
+Right.
+If I refresh it
+so you can see
+this is my data.
+Okay.
+The only problem with this data is
+that this data
+is in zip format
+and what you will need is
+every file is different.
+So for that also
+there is a custom code.
+You have a module
+called zip file.
+You just have to paste
+this code here.
+Where
+at this place
+you just have to
+enter the name of this file.
+Okay.
+That's it.
+And now as soon as you run it
+what it will do
+it will unzip
+this whole zip file
+and bring all the files.
+It may take a little time.
+And guys
+this step is done.
+If I refresh it again
+so you can see
+this is my medical mask data.
+If I click on it
+here is that folder.
+Here is that folder.
+And here are all the images.
+It takes a little time.
+See.
+These are all the images.
+Now you can use
+a library like Keras
+and use it immediately.
+But that is not our concern.
+I just wanted to show you
+that how you can import
+such big data sets
+on Google Colab
+and we can create
+this kind of
+machine.
+Why were we doing this?
+Because here I have
+the power of GPU.
+So that
+if I don't have
+a very powerful machine
+then I can always use
+Google Colab.
+Okay.
+So
+yeah guys
+I have told you
+a lot of things
+in this video.
+Trust me
+to learn all these things
+or to solve these problems
+it took me a lot of time.
+So that's why I thought
+that I will tell you
+all this
+in a single video
+so that it works
+as a reference for you.
+If you are ever
+trying any of these things
+in the future
+then you can refer
+this video.
+You will not face
+any problem related to
+tools in machine learning
+most likely.
+Okay.
+So yeah that's it
+for today.
+Tomorrow we will see
+an example of
+an end to end
+machine learning project
+to have a bird eyes view.
+So yeah
+if you like this video guys
+please consider subscribing.
+Also share it.
+So yeah
+see you tomorrow.
+Bye.

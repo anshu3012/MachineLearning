@@ -166,10 +166,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning. | [Video 32](32-binning-binarization/note.md) |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95. | [Video 44](44-outliers-percentile/note.md) |
 | Dash | A Python library for building interactive web apps with Plotly charts. | [Video 81](81-logistic-hyperparameters/note.md) |
+| Data analysis | Finding patterns and hidden information in data, mainly by plotting graphs. | [Video 1](01-what-is-ml/note.md) |
 | Data cleaning | Fixing errors, gaps and inconsistencies in data. | [Video 7](07-challenges-in-ml/note.md) |
 | Data leakage | Information from the test set leaking into training. | [Video 13](13-toy-project/note.md) |
+| Data mining | Using ML on data to extract patterns too hidden for graphs. | [Video 1](01-what-is-ml/note.md) |
 | Data pipeline | A channel that carries data from one point to another. | [Video 17](17-fetching-data-from-api/note.md) |
 | Data type (dtype) | The kind of values a column holds, such as `int64`, `float64` or `str`. | [Video 19](19-understanding-your-data/note.md) |
+| Data | Examples of inputs together with their outputs. | [Video 1](01-what-is-ml/note.md) |
 | Database server | A program that holds databases and answers queries, such as MySQL. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Database | A program that stores data as tables and answers queries. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Datetime | A value pandas understands as a point in time, with date and time parts. | [Video 34](34-date-and-time/note.md) |
@@ -299,6 +302,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth`. | [Video 29](29-pipelines/note.md) |
 | Hyperplane | A flat surface in more than three dimensions; the model for three or more input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Identity matrix | The matrix that leaves every vector unchanged. | [Video 48](48-pca-step-by-step/note.md) |
+| If-else ladder | A long chain of hand-written conditions, one per case. | [Video 1](01-what-is-ml/note.md) |
+| Image classification | Deciding what a picture contains, e.g. dog or not dog. | [Video 1](01-what-is-ml/note.md) |
 | Imbalanced data | Data in which one class is much rarer than another. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | Imputation | Filling in missing values, for example with the mean, median or mode. | [Video 23](23-what-is-feature-engineering/note.md) |
 | include_bias | PolynomialFeatures setting that adds a column of 1s. | [Video 61](61-polynomial-regression/note.md) |
@@ -418,12 +423,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Missing value | An empty entry, shown by pandas as `NaN`. | [Video 15](15-working-with-csv/note.md) |
 | Missing values | Empty cells in the data. | [Video 7](07-challenges-in-ml/note.md) |
 | Mixed variable | A column holding both numerical and categorical data. | [Video 33](33-mixed-variables/note.md) |
+| ML algorithm | A general method that finds the pattern between inputs and outputs in data. | [Video 1](01-what-is-ml/note.md) |
 | MLOps | Running and maintaining ML models in production. | [Video 7](07-challenges-in-ml/note.md) |
 | MNAR | Missing not at random: the gaps depend on the missing value itself. | [Video 35](35-complete-case-analysis/note.md) |
 | MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Mode | The most common value of a column. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Model drift / concept drift | A model's accuracy dropping as the real world changes. | [Video 4](04-batch-learning/note.md) |
 | Model selection | Training several algorithms and keeping the best. | [Video 13](13-toy-project/note.md) |
+| Model | The logic produced by training, used to give outputs for new inputs. | [Video 1](01-what-is-ml/note.md) |
 | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Video 6](06-instance-vs-model-based/note.md) |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Video 22](22-pandas-profiling/note.md) |
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Video 37](37-missing-categorical-data/note.md) |
@@ -489,6 +496,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Partial derivative | The slope of a function of several variables in one variable, holding the others fixed. | [Video 51](51-linear-regression-maths/note.md) |
 | partial_fit | A scikit-learn method that continues training from where the model left off. | [Video 5](05-online-learning/note.md) |
 | passthrough | The `remainder` option that keeps untouched columns unchanged. | [Video 28](28-column-transformer/note.md) |
+| Pattern | The relationship between input and output that the algorithm discovers. | [Video 1](01-what-is-ml/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
 | pd.crosstab | pandas function that counts how often each pair of values from two columns occurs. | [Video 89](89-naive-bayes-code/note.md) |
 | pd.cut | The pandas function that puts values into intervals we give it. | [Video 32](32-binning-binarization/note.md) |
@@ -538,6 +546,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Production code | The code that runs the deployed model on a server, for example behind a website. | [Video 29](29-pipelines/note.md) |
 | Production environment | The server where a model serves real users. | [Video 4](04-batch-learning/note.md) |
 | Profiling report | An automatic EDA report describing every column and pair of columns of a dataset. | [Video 22](22-pandas-profiling/note.md) |
+| Program | Logic written by us that turns an input into an output. | [Video 1](01-what-is-ml/note.md) |
 | Projection | Dropping each point onto an axis or line, like casting a shadow. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Proportional to (∝) | Equal up to a constant factor that is the same for every class. | [Video 88](88-naive-bayes-maths/note.md) |
 | Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one. | [Video 72](72-sigmoid-function/note.md) |
@@ -624,6 +633,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Softmax regression | Logistic regression extended to any number of classes using the softmax function. | [Video 79](79-softmax-regression/note.md) |
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Video 24](24-standardization/note.md) |
+| Spam classifier | A program that decides whether an email is spam or not. | [Video 1](01-what-is-ml/note.md) |
 | Sparse data | Data where most of the space holds no points. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory. | [Video 27](27-one-hot-encoding/note.md) |
 | Sparse model | A model in which many coefficients are exactly 0. | [Video 67](67-lasso-regression/note.md) |
@@ -673,6 +683,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Train-test split | Dividing the data into training and test sets. | [Video 13](13-toy-project/note.md) |
 | Training set | The part of the data the model learns from. | [Video 13](13-toy-project/note.md) |
+| Training | The step in which an algorithm learns the pattern from data. | [Video 1](01-what-is-ml/note.md) |
 | transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples. | [Video 28](28-column-transformer/note.md) |
 | transformers_ | List of a fitted column transformer's (name, transformer, columns) tuples. | [Video 29](29-pipelines/note.md) |
 | Transpose | A matrix or vector with rows and columns swapped. | [Video 48](48-pca-step-by-step/note.md) |
