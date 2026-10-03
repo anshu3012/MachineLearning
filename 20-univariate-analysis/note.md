@@ -8,7 +8,7 @@ title: "Univariate Analysis: Exploring One Column at a Time"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)).
-> - **Leads to:** Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)); Z-score outlier method (Video 42, coming); IQR outlier method (Video 43, coming); Percentile outlier method (Video 44, coming).
+> - **Leads to:** Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)); Z-score outlier method (Video 42, coming); IQR outlier method (Video 43, coming).
 > - **Compare with:** Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)).
 <!-- /where-this-fits -->
 

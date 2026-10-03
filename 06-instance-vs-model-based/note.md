@@ -8,7 +8,7 @@ title: "Instance-Based vs Model-Based Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)).
-> - **Leads to:** Standardization ([Note 13](../13-toy-project/note.md)); Normalization ([Note 25](../25-normalization/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)); KNN imputer (Video 39, coming); Simple linear regression (Video 50, coming).
+> - **Leads to:** Standardization ([Note 13](../13-toy-project/note.md)); Normalization ([Note 25](../25-normalization/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)); KNN imputer (Video 39, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview

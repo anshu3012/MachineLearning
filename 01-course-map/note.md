@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 72 of 135 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 78 of 136 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -98,10 +98,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Poor-quality data | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 35, coming, Video 36, coming | draft |
+| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 35](../35-complete-case-analysis/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md) | confirmed |
 | Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 41, coming | draft |
-| Simple imputation (mean, median, mode) | [Note 23](../23-what-is-feature-engineering/note.md), Video 36, coming, Video 37, coming | draft |
-| Complete case analysis | Video 35, coming | draft |
+| Simple imputation (mean, median, mode, constant) | [Note 23](../23-what-is-feature-engineering/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md) | confirmed |
+| Complete case analysis | [Note 35](../35-complete-case-analysis/note.md) | confirmed |
 | Missing indicator | Video 38, coming | draft |
 | KNN imputer | Video 39, coming | draft |
 | Iterative imputation (MICE) | Video 40, coming | draft |
@@ -129,7 +129,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Function transformer | [Note 30](../30-function-transformer/note.md) | confirmed |
 | Power transformer | [Note 31](../31-power-transformer/note.md) | confirmed |
 | Mixed variables | [Note 33](../33-mixed-variables/note.md) | confirmed |
-| Date and time features | Video 34, coming | draft |
+| Date and time features | [Note 34](../34-date-and-time/note.md) | confirmed |
 | Feature importance | Video 114, coming | draft |
 
 ### 2.7 Step 6: Reduce dimensions
@@ -159,7 +159,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), Video 91, coming | confirmed |
 | Logistic regression | [Note 13](../13-toy-project/note.md), Video 70, coming, Video 71, coming, Video 72, coming, Video 73, coming, Video 75, coming | draft |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
-| Simple linear regression | Video 50, coming, Video 51, coming | draft |
+| Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), Video 51, coming | confirmed |
+| Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), Video 51, coming | confirmed |
 | Multiple linear regression | Video 53, coming, Video 54, coming, Video 55, coming | draft |
 | Assumptions of linear regression | Video 56, coming | draft |
 | Gradient descent | Video 57, coming | draft |
@@ -250,7 +251,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 135 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 136 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -293,7 +294,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 20 | Outliers, Skewness, Univariate analysis | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
 | 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
 | 22 | Pandas Profiling | nothing | written |
-| 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md), [Note 11](../11-tensors/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
+| 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode, constant) | [Note 11](../11-tensors/note.md), [Note 13](../13-toy-project/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
 | 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 25 | Normalization | [Note 24](../24-standardization/note.md) | written |
 | 26 | Encoding categorical data, Ordinal and label encoding | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
@@ -304,13 +305,13 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 31 | Power transformer | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md) | written |
 | 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | written |
-| 34 | Date and time features | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
-| 35 | Complete case analysis, Missing values | [Note 7](../07-challenges-in-ml/note.md) | coming |
-| 36 | Missing values, Simple imputation (mean, median, mode) | [Note 7](../07-challenges-in-ml/note.md) | coming |
-| 37 | Simple imputation (mean, median, mode) | Video 36, coming | coming |
-| 38 | Missing indicator | Video 36, coming | coming |
-| 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), Video 36, coming | coming |
-| 40 | Iterative imputation (MICE) | Video 36, coming | coming |
+| 34 | Date and time features | [Note 15](../15-working-with-csv/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
+| 35 | Complete case analysis, Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
+| 36 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md) | written |
+| 37 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md) | written |
+| 38 | Missing indicator | [Note 37](../37-missing-categorical-data/note.md) | coming |
+| 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), [Note 37](../37-missing-categorical-data/note.md) | coming |
+| 40 | Iterative imputation (MICE) | [Note 37](../37-missing-categorical-data/note.md) | coming |
 | 41 | Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md) | coming |
 | 42 | Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
 | 43 | IQR outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
@@ -320,8 +321,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | written |
 | 48 | Covariance and covariance matrix, Eigenvectors and eigenvalues, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
 | 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
-| 50 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | coming |
-| 51 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | coming |
+| 50 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | written |
+| 51 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | coming |
 | 52 | Regression metrics | nothing | coming |
 | 53 | Multiple linear regression | Video 51, coming | coming |
 | 54 | Multiple linear regression | Video 51, coming | coming |

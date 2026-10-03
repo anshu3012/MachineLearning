@@ -1,0 +1,25 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, text width=4.2cm] (in) at (0,0) {\textbf{column with missing values}\\[-1pt]\small NaN in some rows};
+  % two options
+  \node[box=cred, text width=4.4cm] (rem) at (-5.1,-2.5) {\textbf{Remove}\\[-1pt]\small drop the incomplete data};
+  \node[box=cgreen, text width=4.4cm] (imp) at (5,-2.5) {\textbf{Impute}\\[-1pt]\small fill in the gaps};
+  \draw[arrow] (in) -- (rem);
+  \draw[arrow] (in) -- (imp);
+  % remove
+  \node[box=cgrey, fill=white, text width=3.6cm] (cca) at (-7.3,-5.1) {\textbf{rows}\\[-1pt]\small complete case analysis\\ \textit{this Note}};
+  \node[box=cgrey, fill=white, text width=3.0cm] (col) at (-2.9,-5.1) {\textbf{a column}\\[-1pt]\small when most of it\\ is missing};
+  \draw[arrow] (rem) -- (cca);
+  \draw[arrow] (rem) -- (col);
+  % impute
+  \node[box=cgrey, fill=white, text width=3.6cm] (uni) at (2.6,-5.1) {\textbf{univariate}\\[-1pt]\small uses only the\\ column itself};
+  \node[box=cgrey, fill=white, text width=3.6cm] (mul) at (7.4,-5.1) {\textbf{multivariate}\\[-1pt]\small uses the other\\ columns too};
+  \draw[arrow] (imp) -- (uni);
+  \draw[arrow] (imp) -- (mul);
+  \node[note, below=0.25cm of uni, text width=4.6cm, align=left] {\textbf{numerical:} mean, median,\\ arbitrary value, end of\\ distribution, random value\\[2pt] \textbf{categorical:} mode, the\\ label ``Missing''\\[2pt] scikit-learn: \texttt{SimpleImputer}};
+  \node[note, below=0.25cm of mul, text width=3.9cm, align=left] {KNN imputer\\ (\texttt{KNNImputer})\\[2pt] iterative imputer, MICE\\ (\texttt{IterativeImputer})};
+  \node[note, font=\sffamily\small\itshape, text width=9.5cm] at (5,-9.4) {added alongside imputation: a missing indicator column (1 if the value was missing, else 0)};
+\end{tikzpicture}
+\end{document}

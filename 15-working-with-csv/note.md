@@ -7,7 +7,7 @@ title: "Working with CSV Files"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
+> - **Leads to:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Date and time features ([Note 34](../34-date-and-time/note.md)).
 > - **Compare with:** Web scraping ([Note 7](../07-challenges-in-ml/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)).
 <!-- /where-this-fits -->
 

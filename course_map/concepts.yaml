@@ -50,10 +50,15 @@ notes:
   31: 31-power-transformer
   32: 32-binning-binarization
   33: 33-mixed-variables
+  34: 34-date-and-time
+  35: 35-complete-case-analysis
+  36: 36-imputing-numerical-data
+  37: 37-missing-categorical-data
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
   49: 49-pca-mnist
+  50: 50-simple-linear-regression
 
 concepts:
   # 0 Foundations
@@ -108,9 +113,9 @@ concepts:
 
   # 4 Clean
   - {id: data_quality, name: Poor-quality data, step: 4, videos: [7], status: confirmed}
-  - {id: missing_values, name: Missing values, step: 4, videos: [7, 23, 35, 36], status: draft}
-  - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: draft}
-  - {id: simple_imputation, name: "Simple imputation (mean, median, mode)", step: 4, videos: [23, 36, 37], status: draft}
+  - {id: missing_values, name: Missing values, step: 4, videos: [7, 23, 35, 36, 37], status: confirmed}
+  - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: confirmed}
+  - {id: simple_imputation, name: "Simple imputation (mean, median, mode, constant)", step: 4, videos: [23, 36, 37], status: confirmed}
   - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: draft}
   - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: draft}
   - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: draft}
@@ -135,7 +140,7 @@ concepts:
   - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: confirmed}
   - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: confirmed}
   - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: confirmed}
-  - {id: datetime, name: Date and time features, step: 5, videos: [34], status: draft}
+  - {id: datetime, name: Date and time features, step: 5, videos: [34], status: confirmed}
   - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
   - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 23, 45], status: draft}
   - {id: feature_importance, name: Feature importance, step: 5, videos: [114], status: draft}
@@ -155,7 +160,8 @@ concepts:
   - {id: anomaly_detection, name: Anomaly detection, step: 8, videos: [3], status: confirmed}
   - {id: association_rules, name: Association rule learning, step: 8, videos: [3], status: confirmed}
   - {id: knn, name: K-nearest neighbours, step: 8, videos: [6, 91], status: confirmed}
-  - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: draft}
+  - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: confirmed}
+  - {id: best_fit_line, name: Best-fit line and squared error, step: 8, videos: [50, 51], status: confirmed}
   - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: draft}
   - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: draft}
   - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57], status: draft}
@@ -264,10 +270,14 @@ links:
   - [pandas_profiling, used in, eda, confirmed]
   - [pandas_profiling, compared with, univariate, confirmed]
   - [pandas_profiling, compared with, bivariate, confirmed]
-  - [missing_values, is a kind of, data_quality, draft]
+  - [missing_values, is a kind of, data_quality, confirmed]
   - [outliers, is a kind of, data_quality, draft]
-  - [complete_case, fixes, missing_values, draft]
-  - [simple_imputation, fixes, missing_values, draft]
+  - [complete_case, fixes, missing_values, confirmed]
+  - [complete_case, compared with, simple_imputation, confirmed]
+  - [complete_case, needs, univariate, confirmed]
+  - [simple_imputation, needs, train_test_split, confirmed]
+  - [datetime, needs, csv, confirmed]
+  - [simple_imputation, fixes, missing_values, confirmed]
   - [missing_indicator, fixes, missing_values, draft]
   - [knn_imputer, fixes, missing_values, draft]
   - [knn_imputer, needs, knn, draft]
@@ -308,7 +318,7 @@ links:
   - [power_transformer, is a kind of, feature_transformation, confirmed]
   - [binning, is a kind of, feature_engineering, draft]
   - [mixed_variables, is a kind of, feature_engineering, confirmed]
-  - [datetime, is a kind of, feature_engineering, draft]
+  - [datetime, is a kind of, feature_engineering, confirmed]
   - [feature_construction, is a kind of, feature_engineering, confirmed]
   - [feature_transformation, is a kind of, feature_engineering, confirmed]
   - [encoding, is a kind of, feature_transformation, confirmed]
@@ -345,12 +355,14 @@ links:
   - [data_leakage, compared with, train_test_split, confirmed]
   - [standardization, needs, train_test_split, confirmed]
   # Model: regression
-  - [linear_regression, is a kind of, model_based, draft]
-  - [linear_regression, is a kind of, regression_task, draft]
-  - [multiple_lr, needs, linear_regression, draft]
+  - [linear_regression, is a kind of, model_based, confirmed]
+  - [linear_regression, is a kind of, regression_task, confirmed]
+  - [multiple_lr, needs, linear_regression, confirmed]
   - [lr_assumptions, used in, linear_regression, draft]
   - [regression_metrics, used in, linear_regression, draft]
   - [gradient_descent, used in, linear_regression, draft]
+  - [linear_regression, needs, best_fit_line, confirmed]
+  - [linear_regression, is a kind of, supervised, confirmed]
   - [batch_gd, is a kind of, gradient_descent, draft]
   - [sgd, is a kind of, gradient_descent, draft]
   - [minibatch_gd, is a kind of, gradient_descent, draft]

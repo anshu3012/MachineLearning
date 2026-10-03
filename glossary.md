@@ -4,13 +4,21 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 
 | Term | Meaning | First explained |
 |---|---|---|
+| .dt accessor | The pandas tool that applies date and time methods to every value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | .str accessor | The pandas tool that applies a text method to every value of a column. | [Video 33](33-mixed-variables/note.md) |
+| 5% rule of thumb | Apply CCA only to columns missing less than about 5% of their values. | [Video 35](35-complete-case-analysis/note.md) |
+| `fill_value` | The value `SimpleImputer` uses with `strategy="constant"`. | [Video 36](36-imputing-numerical-data/note.md) |
+| `fillna` | The pandas method that replaces every `NaN` with a given value. | [Video 36](36-imputing-numerical-data/note.md) |
 | `find`, `find_all` | Return the first matching tag, or a list of all matching tags. | [Video 18](18-web-scraping/note.md) |
 | `ignore_index` | Setting of `pd.concat` that renumbers the joined rows from 0. | [Video 17](17-fetching-data-from-api/note.md) |
 | `json_normalize` | pandas function that turns nested JSON into flat columns. | [Video 17](17-fetching-data-from-api/note.md) |
 | `pd.concat` | pandas function that joins several DataFrames into one. | [Video 17](17-fetching-data-from-api/note.md) |
 | `read_json` | pandas function that reads JSON from a file or a URL into a DataFrame. | [Video 16](16-working-with-json-and-sql/note.md) |
 | `read_sql_query` | pandas function that runs an SQL query and returns a DataFrame. | [Video 16](16-working-with-json-and-sql/note.md) |
+| `statistics_` | The fill values a fitted `SimpleImputer` has learned, one per column. | [Video 36](36-imputing-numerical-data/note.md) |
+| `strategy="constant"` | The `SimpleImputer` setting that fills every gap with `fill_value`. | [Video 37](37-missing-categorical-data/note.md) |
+| `strategy="most_frequent"` | The `SimpleImputer` setting for mode imputation. | [Video 37](37-missing-categorical-data/note.md) |
+| `strategy` | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant. | [Video 36](36-imputing-numerical-data/note.md) |
 | Absolute value | A number's size without its sign. | [Video 25](25-normalization/note.md) |
 | Accuracy | The fraction of predictions that are correct. | [Video 13](13-toy-project/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
@@ -20,6 +28,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | API (Application Programming Interface) | A way for two programs to talk; a website's API hands out its data on request. | [Video 17](17-fetching-data-from-api/note.md) |
 | API key | A secret code that tells the API who is asking. | [Video 17](17-fetching-data-from-api/note.md) |
 | API | A service that returns data when our code asks for it. | [Video 7](07-challenges-in-ml/note.md) |
+| Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. | [Video 36](36-imputing-numerical-data/note.md) |
 | Array | The programming name for a tensor (as in NumPy). | [Video 11](11-tensors/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
@@ -30,6 +39,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
+| Best-fit line | The line with the smallest total error over all the training points. | [Video 50](50-simple-linear-regression/note.md) |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data. | [Video 5](05-online-learning/note.md) |
 | Bimodal | A distribution with two peaks. | [Video 31](31-power-transformer/note.md) |
 | Bin edge | A boundary between two neighbouring bins. | [Video 32](32-binning-binarization/note.md) |
@@ -46,6 +56,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
+| Category share | The rows in one category divided by the rows that have a value. | [Video 37](37-missing-categorical-data/note.md) |
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
 | Centred data | Data whose mean is 0. | [Video 25](25-normalization/note.md) |
 | Centroid | The centre of one group in k-means. | [Video 32](32-binning-binarization/note.md) |
@@ -59,9 +70,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Cluster | One group found by clustering. | [Video 3](03-types-of-ml/note.md) |
 | Clustering | Splitting data into groups of similar rows. | [Video 3](03-types-of-ml/note.md) |
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| coef_ | The fitted slope (one per input column) in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
 | Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average. | [Video 22](22-pandas-profiling/note.md) |
 | Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later). | [Video 26](26-ordinal-label-encoding/note.md) |
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. | [Video 28](28-column-transformer/note.md) |
+| Complete case analysis (CCA) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. | [Video 35](35-complete-case-analysis/note.md) |
+| Complete case | A row with a value in every column used. | [Video 35](35-complete-case-analysis/note.md) |
 | components_ | The eigenvectors of the fitted PCA, one per row. | [Video 49](49-pca-mnist/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
 | Confidence interval | A range in which the true mean most likely lies. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -85,6 +99,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Data type (dtype) | The kind of values a column holds, such as `int64`, `float64` or `str`. | [Video 19](19-understanding-your-data/note.md) |
 | Database server | A program that holds databases and answers queries, such as MySQL. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Database | A program that stores data as tables and answers queries. | [Video 16](16-working-with-json-and-sql/note.md) |
+| Datetime | A value pandas understands as a point in time, with date and time parts. | [Video 34](34-date-and-time/note.md) |
+| datetime64 | The pandas column type for datetimes; `[us]` means microsecond resolution. | [Video 34](34-date-and-time/note.md) |
+| Day of week | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`). | [Video 34](34-date-and-time/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -102,6 +119,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
 | Domain knowledge | Knowledge of the field the data comes from. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Dot product | Multiply matching components of two vectors and add; $u^{\mathsf T}x$. | [Video 48](48-pca-step-by-step/note.md) |
+| dropna | The pandas method that drops rows (or columns) with missing values. | [Video 35](35-complete-case-analysis/note.md) |
 | dtype | The data type of a column, such as `int64`, `float64` or `str`. | [Video 15](15-working-with-csv/note.md) |
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1. | [Video 27](27-one-hot-encoding/note.md) |
 | Dummy variable | One of the 0/1 columns created by one-hot encoding. | [Video 27](27-one-hot-encoding/note.md) |
@@ -112,11 +130,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Eigenvector | A vector that a matrix only stretches or shrinks, without turning it. | [Video 48](48-pca-step-by-step/note.md) |
 | encode | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output. | [Video 32](32-binning-binarization/note.md) |
 | Encoding | The rulebook that maps text characters to stored bytes. | [Video 15](15-working-with-csv/note.md) |
+| End of distribution imputation | Filling every gap with a value at the edge of the distribution: $\mu \pm 3\sigma$ or $Q_3 + 1.5\,\text{IQR}$. | [Video 36](36-imputing-numerical-data/note.md) |
 | Endpoint | One address of an API that returns one kind of data. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment variable | A named value stored on the computer, outside the code, read with `os.environ`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment | The world the agent acts in. | [Video 3](03-types-of-ml/note.md) |
 | Equal frequency binning | Binning into bins holding the same number of rows, with the quantiles as edges; also called quantile binning. | [Video 32](32-binning-binarization/note.md) |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning. | [Video 32](32-binning-binarization/note.md) |
+| Error (residual) | The gap between an actual value and the model's prediction. | [Video 50](50-simple-linear-regression/note.md) |
 | errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. | [Video 33](33-mixed-variables/note.md) |
 | Euclidean distance | The straight-line distance between two points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -125,6 +145,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | explained_variance_ | The eigenvalues of the fitted PCA, largest first. | [Video 49](49-pca-mnist/note.md) |
 | Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns. | [Video 13](13-toy-project/note.md) |
+| Extrapolation | Predicting for inputs outside the range of the training data. | [Video 50](50-simple-linear-regression/note.md) |
 | f-string | Text starting with `f` in which `{name}` is replaced by a value. | [Video 17](17-fetching-data-from-api/note.md) |
 | Feature construction | Creating a new column by hand from existing ones. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature engineering | Choosing, removing and creating features. | [Video 7](07-challenges-in-ml/note.md) |
@@ -138,6 +159,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | fit_transform | Fit and transform in one call; used on the training set only. | [Video 28](28-column-transformer/note.md) |
 | Five-number summary | Minimum, Q1, median, Q3 and maximum. | [Video 20](20-univariate-analysis/note.md) |
 | For loop | Code that repeats once for each item of a collection. | [Video 15](15-working-with-csv/note.md) |
+| Format string | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. | [Video 34](34-date-and-time/note.md) |
 | Forward selection | Feature selection that starts empty and adds the best column at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Frame | One image in a video. | [Video 11](11-tensors/note.md) |
 | Frequency | How many times a value or category occurs. | [Video 20](20-univariate-analysis/note.md) |
@@ -172,7 +194,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Input / output | The columns we know / the column we want to predict. | [Video 3](03-types-of-ml/note.md) |
 | Inspect | Browser tool that shows which tag draws each part of a page. | [Video 18](18-web-scraping/note.md) |
 | Instance-based learning | Learning by storing the training data and comparing new points with it. | [Video 6](06-instance-vs-model-based/note.md) |
+| Intercept | The line's value when the input is 0; $b$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
+| intercept_ | The fitted intercept in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data. | [Video 20](20-univariate-analysis/note.md) |
+| isnull | The pandas method that marks each missing cell `True`. | [Video 35](35-complete-case-analysis/note.md) |
+| ISO week | The week number of the ISO calendar, from `.dt.isocalendar().week`; week 1 holds the year's first Thursday. | [Video 34](34-date-and-time/note.md) |
+| Iterative imputer | Multivariate imputation that predicts each column from the others, repeatedly; its algorithm is MICE. | [Video 35](35-complete-case-analysis/note.md) |
 | joblib | A library that saves and loads Python objects like pickle, better suited to large arrays. | [Video 29](29-pipelines/note.md) |
 | JSON (JavaScript Object Notation) | A plain-text data format of objects and arrays that almost every language can read. | [Video 16](16-working-with-json-and-sql/note.md) |
 | JSON Lines | A JSON file with one object per line, read with `lines=True`. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -184,6 +211,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | KBinsDiscretizer | scikit-learn's class for equal width, equal frequency and k-means binning. | [Video 32](32-binning-binarization/note.md) |
 | KDE plot | A smooth estimate of a column's PDF, built from the data. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Kernel density estimate (KDE) | A smooth curve that estimates a column's distribution from its values. | [Video 20](20-univariate-analysis/note.md) |
+| KNN imputer | Multivariate imputation from the most similar rows (`KNNImputer`). | [Video 35](35-complete-case-analysis/note.md) |
 | Knowledge base | The collection of rules inside an expert system. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve. | [Video 22](22-pandas-profiling/note.md) |
 | Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -205,42 +233,54 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Video 30](30-function-transformer/note.md) |
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0. | [Video 30](30-function-transformer/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
+| LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Video 50](50-simple-linear-regression/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names. | [Video 29](29-pipelines/note.md) |
 | make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class. | [Video 29](29-pipelines/note.md) |
+| MAR | Missing at random: the gaps depend on another, recorded column. | [Video 35](35-complete-case-analysis/note.md) |
 | Mathematical transformation | Applying one mathematical formula to every value of a column. | [Video 30](30-function-transformer/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
 | Max-abs scaling | Divide by the largest absolute value in the column, giving values from -1 to 1. | [Video 25](25-normalization/note.md) |
 | MaxAbsScaler | scikit-learn's class for max-abs scaling. | [Video 25](25-normalization/note.md) |
 | Maximum likelihood | Choosing the parameter value under which the observed data is most likely; used to find $\lambda$. | [Video 31](31-power-transformer/note.md) |
+| MCAR | Missing completely at random: the gaps have no relation to any value in the data. | [Video 35](35-complete-case-analysis/note.md) |
 | Mean absolute deviation | The average absolute distance of the points from their mean. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Mean centring | Subtracting the mean from every value, so the column's mean becomes 0. | [Video 24](24-standardization/note.md) |
+| Mean imputation | Filling every gap with the mean of the column's known values. | [Video 36](36-imputing-numerical-data/note.md) |
 | Mean normalization | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. | [Video 25](25-normalization/note.md) |
 | Mean | The average of the values; the centre of the data. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Median absolute deviation (MAD) | The median distance of the values from their median. | [Video 22](22-pandas-profiling/note.md) |
+| Median imputation | Filling every gap with the median of the column's known values; better for skewed columns. | [Video 36](36-imputing-numerical-data/note.md) |
 | Median | The middle value of sorted data; the 50% percentile. | [Video 19](19-understanding-your-data/note.md) |
 | method | The `PowerTransformer` parameter that picks `"box-cox"` or `"yeo-johnson"`. | [Video 31](31-power-transformer/note.md) |
 | Min-max scaling | The main normalization technique. | [Video 24](24-standardization/note.md) |
 | min_frequency | `OneHotEncoder` parameter that merges rare categories into one column. | [Video 27](27-one-hot-encoding/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
+| Missing category imputation | Filling every gap in a categorical column with a new category, "Missing". | [Video 37](37-missing-categorical-data/note.md) |
+| Missing indicator | A 0/1 column recording whether a value was missing. | [Video 35](35-complete-case-analysis/note.md) |
 | Missing value | An empty entry, shown by pandas as `NaN`. | [Video 15](15-working-with-csv/note.md) |
 | Missing values | Empty cells in the data. | [Video 7](07-challenges-in-ml/note.md) |
 | Mixed variable | A column holding both numerical and categorical data. | [Video 33](33-mixed-variables/note.md) |
 | MLOps | Running and maintaining ML models in production. | [Video 7](07-challenges-in-ml/note.md) |
+| MNAR | Missing not at random: the gaps depend on the missing value itself. | [Video 35](35-complete-case-analysis/note.md) |
 | MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Mode | The most common value of a column. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Model drift / concept drift | A model's accuracy dropping as the real world changes. | [Video 4](04-batch-learning/note.md) |
 | Model selection | Training several algorithms and keeping the best. | [Video 13](13-toy-project/note.md) |
 | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Video 6](06-instance-vs-model-based/note.md) |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Video 22](22-pandas-profiling/note.md) |
+| Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Video 37](37-missing-categorical-data/note.md) |
 | Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others. | [Video 27](27-one-hot-encoding/note.md) |
+| Multiple linear regression | Linear regression with several input columns. | [Video 50](50-simple-linear-regression/note.md) |
 | Multivariate analysis | Studying more than two variables together. | [Video 20](20-univariate-analysis/note.md) |
+| Multivariate imputation | Imputation that also uses the other columns. | [Video 35](35-complete-case-analysis/note.md) |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins. | [Video 32](32-binning-binarization/note.md) |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. | [Video 49](49-pca-mnist/note.md) |
 | named_steps | Dictionary of a pipeline's steps, from each name to its object. | [Video 29](29-pipelines/note.md) |
 | Narrow AI | AI that does one specific task. All AI today is narrow. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| NaT | "Not a time": the missing value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Nominal data | Categorical data whose categories have no order, such as states. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Non-null | Not missing. | [Video 19](19-understanding-your-data/note.md) |
@@ -275,6 +315,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | passthrough | The `remainder` option that keeps untouched columns unchanged. | [Video 28](28-column-transformer/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
 | pd.cut | The pandas function that puts values into intervals we give it. | [Video 32](32-binning-binarization/note.md) |
+| pd.to_datetime | The pandas function that converts text to datetime values. | [Video 34](34-date-and-time/note.md) |
 | pd.to_numeric | The pandas function that converts values to numbers. | [Video 33](33-mixed-variables/note.md) |
 | Pearson correlation coefficient | The usual measure of correlation, written $r$; the one `df.corr()` computes. | [Video 19](19-understanding-your-data/note.md) |
 | Pearson's r | The correlation coefficient for straight-line relationships between two numerical columns. | [Video 22](22-pandas-profiling/note.md) |
@@ -301,6 +342,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Projection | Dropping each point onto an axis or line, like casting a shadow. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Q-Q plot | A plot of a column's sorted values against the values a normal distribution would have; points on the line mean normal. | [Video 30](30-function-transformer/note.md) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Video 30](30-function-transformer/note.md) |
+| Quarter | One of four three-month parts of a year. | [Video 34](34-date-and-time/note.md) |
 | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. | [Video 19](19-understanding-your-data/note.md) |
 | Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Query | A request for data, written in SQL. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -339,6 +381,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Scatter plot | One dot per row, with one numerical column on each axis. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | scikit-learn | Python's main library for classical ML. | [Video 13](13-toy-project/note.md) |
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Video 29](29-pipelines/note.md) |
+| Semester | One of two six-month halves of a year. | [Video 34](34-date-and-time/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Video 3](03-types-of-ml/note.md) |
 | Separator | The character between values on a line, such as `,` or a tab. | [Video 15](15-working-with-csv/note.md) |
 | Sequential data | Data fed one piece after another, in order. | [Video 5](05-online-learning/note.md) |
@@ -348,10 +391,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Video 5](05-online-learning/note.md) |
 | Shape | The number of items along each axis. | [Video 11](11-tensors/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
+| Simple linear regression | Linear regression with one input column. | [Video 50](50-simple-linear-regression/note.md) |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Video 28](28-column-transformer/note.md) |
 | Size | The total number of items: the product of the shape. | [Video 11](11-tensors/note.md) |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Video 20](20-univariate-analysis/note.md) |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Video 29](29-pipelines/note.md) |
+| Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Video 24](24-standardization/note.md) |
 | Sparse data | Data where most of the space holds no points. | [Video 46](46-curse-of-dimensionality/note.md) |
@@ -369,9 +414,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Static model | A model that learns nothing new after deployment. | [Video 4](04-batch-learning/note.md) |
 | Status code | A number saying how a request went: 200 OK, 401, 404, 500. | [Video 17](17-fetching-data-from-api/note.md) |
 | step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name. | [Video 29](29-pipelines/note.md) |
+| Stochastic error | A random, unmeasurable influence that scatters data around its trend. | [Video 50](50-simple-linear-regression/note.md) |
 | str dtype | The pandas 3 type for text columns, replacing `object`. | [Video 33](33-mixed-variables/note.md) |
 | str.extract | The pandas method that returns the part of each value matching a regular expression. | [Video 33](33-mixed-variables/note.md) |
 | strategy | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans. | [Video 32](32-binning-binarization/note.md) |
+| Sum of squared errors | The squares of all the errors added up; the quantity the best-fit line makes smallest. | [Video 50](50-simple-linear-regression/note.md) |
 | Supervised binning | Binning that also uses the target, such as decision tree binning. | [Video 32](32-binning-binarization/note.md) |
 | Supervised learning | Learning from data with inputs and outputs, to predict outputs. | [Video 3](03-types-of-ml/note.md) |
 | Supervision | Correct answers that guide an algorithm while it learns. | [Video 3](03-types-of-ml/note.md) |
@@ -383,6 +430,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). | [Video 30](30-function-transformer/note.md) |
 | Threshold | The value that separates 0 from 1 in binarization. | [Video 32](32-binning-binarization/note.md) |
 | Time series | Data recorded at regular time intervals. | [Video 11](11-tensors/note.md) |
+| Timedelta | A length of time, the result of subtracting two datetimes. | [Video 34](34-date-and-time/note.md) |
+| Timestamp | pandas' type for a single point in time. | [Video 34](34-date-and-time/note.md) |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category. | [Video 27](27-one-hot-encoding/note.md) |
 | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Train-test split | Dividing the data into training and test sets. | [Video 13](13-toy-project/note.md) |
@@ -399,6 +448,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Unit square | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns. | [Video 25](25-normalization/note.md) |
 | Unit vector | A vector of length 1, used to describe a direction. | [Video 48](48-pca-step-by-step/note.md) |
 | Univariate analysis | Studying one variable on its own. | [Video 20](20-univariate-analysis/note.md) |
+| Univariate imputation | Imputation that uses only the column with the gap. | [Video 35](35-complete-case-analysis/note.md) |
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same. | [Video 7](07-challenges-in-ml/note.md) |
 | Unsupervised binning | Binning that uses only the column's own values. | [Video 32](32-binning-binarization/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |

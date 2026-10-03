@@ -8,7 +8,7 @@ title: "One-Hot Encoding: Handling Nominal Categorical Data"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)).
-> - **Leads to:** Simple linear regression (Video 50, coming).
+> - **Leads to:** Simple linear regression ([Note 50](../50-simple-linear-regression/note.md)).
 > - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)).
 <!-- /where-this-fits -->
 
