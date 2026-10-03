@@ -96,6 +96,7 @@ notes:
   77: 77-precision-recall-f1
   78: 78-roc-auc
   79: 79-softmax-regression
+  80: 80-polynomial-logistic-regression
 
 concepts:
   # 0 Foundations
@@ -478,7 +479,7 @@ links:
   - [logistic_regression, needs, gradient_descent, draft]
   - [softmax, is a kind of, logistic_regression, confirmed]
   - [softmax, needs, one_hot, confirmed]
-  - [polynomial_features, used in, logistic_regression, draft]
+  - [polynomial_features, used in, logistic_regression, confirmed]
   - [naive_bayes, is a kind of, classification_task, draft]
   - [knn, is a kind of, classification_task, draft]
   - [svm, is a kind of, classification_task, draft]

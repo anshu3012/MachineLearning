@@ -144,6 +144,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Covariance | How two columns move together: positive if they rise together, negative if not. | [Video 48](48-pca-step-by-step/note.md) |
 | Cramér's V | A measure of the link between two categorical columns, from 0 to 1. | [Video 22](22-pandas-profiling/note.md) |
 | Cross entropy | The negative log-likelihood; smaller is better. | [Video 73](73-log-loss/note.md) |
+| Cross-validated accuracy | Accuracy averaged over several train-test splits of the data, an estimate of performance on new data. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data. | [Video 29](29-pipelines/note.md) |
 | Crosstab | A table counting the rows for every pair of categories of two columns. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | CSV file | A text file holding a table, with commas between values. | [Video 13](13-toy-project/note.md) |
@@ -354,6 +355,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | make_classification | scikit-learn function that creates random classification data. | [Video 71](71-perceptron-code/note.md) |
 | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names. | [Video 29](29-pipelines/note.md) |
+| make_moons | scikit-learn function that creates two interlocking half-moon classes. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class. | [Video 29](29-pipelines/note.md) |
 | make_regression | scikit-learn function that generates data following a linear pattern plus noise. | [Video 53](53-multiple-linear-regression/note.md) |
 | MAR | Missing at random: the gaps depend on another, recorded column. | [Video 35](35-complete-case-analysis/note.md) |
@@ -480,6 +482,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Plane | A flat surface in 3D; the model for two input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Plateau | A nearly flat region of the loss, where steps become very small. | [Video 57](57-gradient-descent/note.md) |
 | Policy | The agent's rules for which action to take. | [Video 3](03-types-of-ml/note.md) |
+| Polynomial features | New input columns made from powers and products of the original inputs. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | Polynomial regression | Linear regression on powers (and products) of the inputs, to fit curves. | [Video 61](61-polynomial-regression/note.md) |
 | PolynomialFeatures | scikit-learn transformer that creates the power and product columns. | [Video 61](61-polynomial-regression/note.md) |
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0. | [Video 70](70-perceptron-trick/note.md) |

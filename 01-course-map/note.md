@@ -173,7 +173,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Batch gradient descent | [Note 58](../58-batch-gradient-descent/note.md) | confirmed |
 | Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md) | confirmed |
 | Polynomial regression | [Note 61](../61-polynomial-regression/note.md) | confirmed |
-| Polynomial features | [Note 61](../61-polynomial-regression/note.md), Video 80, coming | confirmed |
+| Polynomial features | [Note 61](../61-polynomial-regression/note.md), [Note 80](../80-polynomial-logistic-regression/note.md) | confirmed |
 | Regularisation | [Note 63](../63-ridge-regression-intuition/note.md) | confirmed |
 | Ridge regression | [Note 63](../63-ridge-regression-intuition/note.md), [Note 64](../64-ridge-regression-maths/note.md), [Note 65](../65-ridge-gradient-descent/note.md), [Note 66](../66-ridge-key-points/note.md) | confirmed |
 | Lasso regression | [Note 67](../67-lasso-regression/note.md), [Note 68](../68-lasso-sparsity/note.md) | confirmed |
@@ -360,7 +360,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 77 | Precision, recall and F1 | Video 9, coming, [Note 76](../76-accuracy-confusion-matrix/note.md) | written |
 | 78 | ROC curve and AUC | [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 77](../77-precision-recall-f1/note.md) | written |
 | 79 | Softmax regression | [Note 27](../27-one-hot-encoding/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | written |
-| 80 | Polynomial features | nothing | coming |
+| 80 | Polynomial features | nothing | written |
 | 81 | Hyperparameter tuning | nothing | coming |
 | 82 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
 | 83 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
