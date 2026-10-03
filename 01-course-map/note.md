@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 143 of 152 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 145 of 152 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -194,11 +194,11 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Entropy, information gain and Gini | [Note 97](../97-decision-trees-intuition/note.md) | confirmed |
 | Decision trees | [Note 97](../97-decision-trees-intuition/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 100](../100-dtreeviz/note.md) | confirmed |
 | Regression trees | [Note 99](../99-regression-trees/note.md) | confirmed |
-| Boosting | [Note 101](../101-ensemble-learning/note.md), Video 119, coming | draft |
+| Boosting | [Note 101](../101-ensemble-learning/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | confirmed |
 | Voting ensembles | [Note 102](../102-voting-ensemble/note.md), [Note 103](../103-voting-classifier/note.md), [Note 104](../104-voting-regressor/note.md) | confirmed |
 | Bagging | [Note 105](../105-bagging-intuition/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md) | confirmed |
 | Random forest | [Note 108](../108-random-forest-intro/note.md), [Note 109](../109-random-forest-bias-variance/note.md), [Note 110](../110-bagging-vs-random-forest/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 113](../113-oob-score/note.md), [Note 114](../114-feature-importance/note.md) | confirmed |
-| AdaBoost | Video 115, coming, Video 116, coming, Video 117, coming, Video 118, coming | draft |
+| AdaBoost | [Note 115](../115-adaboost-intuition/note.md), [Note 116](../116-adaboost-step-by-step/note.md), [Note 117](../117-adaboost-from-scratch/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Gradient boosting | Video 120, coming, Video 121, coming, Video 122, coming | draft |
 | XGBoost | Video 123, coming, Video 124, coming, Video 125, coming, Video 126, coming | draft |
 | Stacking and blending | Video 127, coming | draft |
@@ -213,7 +213,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Overfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Underfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Accuracy | [Note 13](../13-toy-project/note.md), [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 91](../91-knn/note.md) | confirmed |
-| Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 91](../91-knn/note.md), [Note 103](../103-voting-classifier/note.md), [Note 104](../104-voting-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md) | confirmed |
+| Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 91](../91-knn/note.md), [Note 103](../103-voting-classifier/note.md), [Note 104](../104-voting-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Regression metrics | [Note 52](../52-regression-metrics/note.md) | confirmed |
 | Bias-variance trade-off | [Note 62](../62-bias-variance/note.md), [Note 109](../109-random-forest-bias-variance/note.md) | confirmed |
 | Confusion matrix | [Note 76](../76-accuracy-confusion-matrix/note.md) | confirmed |
@@ -226,8 +226,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), Video 118, coming | confirmed |
-| Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md) | confirmed |
+| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
+| Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
 
@@ -388,7 +388,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 98 | Decision trees, Hyperparameter tuning | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md), [Note 97](../97-decision-trees-intuition/note.md) | written |
 | 99 | Feature importance, Grid and random search, Regression trees | [Note 38](../38-missing-indicator-random-sample/note.md), [Note 52](../52-regression-metrics/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md) | written |
 | 100 | Decision trees, Feature importance | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md), [Note 97](../97-decision-trees-intuition/note.md) | written |
-| 101 | Boosting, Ensemble learning | [Note 62](../62-bias-variance/note.md), [Note 100](../100-dtreeviz/note.md) | written |
+| 101 | Boosting, Ensemble learning | [Note 62](../62-bias-variance/note.md), [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md) | written |
 | 102 | Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 91](../91-knn/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
 | 103 | Cross-validation, Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
 | 104 | Cross-validation, Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
@@ -402,14 +402,14 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 112 | Cross-validation, Grid and random search, Random forest | [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 111](../111-random-forest-hyperparameters/note.md) | written |
 | 113 | OOB score, Random forest | [Note 100](../100-dtreeviz/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 112](../112-random-forest-tuning/note.md) | written |
 | 114 | Feature importance, Permutation importance, Random forest | [Note 107](../107-bagging-regressor/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 113](../113-oob-score/note.md) | written |
-| 115 | AdaBoost | [Note 101](../101-ensemble-learning/note.md) | coming |
-| 116 | AdaBoost | [Note 101](../101-ensemble-learning/note.md) | coming |
-| 117 | AdaBoost | [Note 101](../101-ensemble-learning/note.md) | coming |
-| 118 | AdaBoost, Hyperparameter tuning | [Note 91](../91-knn/note.md), [Note 101](../101-ensemble-learning/note.md) | coming |
-| 119 | Boosting | [Note 101](../101-ensemble-learning/note.md) | coming |
-| 120 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |
-| 121 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |
-| 122 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |
+| 115 | AdaBoost | [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 111](../111-random-forest-hyperparameters/note.md) | written |
+| 116 | AdaBoost | [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 111](../111-random-forest-hyperparameters/note.md) | written |
+| 117 | AdaBoost | [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 111](../111-random-forest-hyperparameters/note.md) | written |
+| 118 | AdaBoost, Cross-validation, Grid and random search, Hyperparameter tuning | [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
+| 119 | Boosting | [Note 91](../91-knn/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 109](../109-random-forest-bias-variance/note.md) | written |
+| 120 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | coming |
+| 121 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | coming |
+| 122 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | coming |
 | 123 | XGBoost | Video 122, coming | coming |
 | 124 | XGBoost | Video 122, coming | coming |
 | 125 | XGBoost | Video 122, coming | coming |
@@ -421,7 +421,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 131 | Hierarchical clustering | Video 128, coming | coming |
 | 132 | DBSCAN | Video 128, coming | coming |
 | 133 | Imbalanced data | nothing | coming |
-| 134 | Optuna | Video 118, coming | coming |
+| 134 | Optuna | [Note 118](../118-adaboost-hyperparameters/note.md) | coming |
 
 ## 5. The Algorithm chooser
 

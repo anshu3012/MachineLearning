@@ -135,6 +135,11 @@ notes:
   112: 112-random-forest-tuning
   113: 113-oob-score
   114: 114-feature-importance
+  115: 115-adaboost-intuition
+  116: 116-adaboost-step-by-step
+  117: 117-adaboost-from-scratch
+  118: 118-adaboost-hyperparameters
+  119: 119-bagging-vs-boosting
 
 concepts:
   # 0 Foundations
@@ -276,8 +281,8 @@ concepts:
   - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: confirmed}
   - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: confirmed}
   - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111, 112, 113, 114], status: confirmed}
-  - {id: boosting, name: Boosting, step: 8, videos: [101, 119], status: draft}
-  - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: draft}
+  - {id: boosting, name: Boosting, step: 8, videos: [101, 119], status: confirmed}
+  - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: confirmed}
   - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: draft}
   - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: draft}
   - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: draft}
@@ -295,13 +300,13 @@ concepts:
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: confirmed}
   - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: confirmed}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: confirmed}
-  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112], status: confirmed}
+  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112, 118], status: confirmed}
   - {id: permutation_importance, name: Permutation importance, step: 5, videos: [114], status: confirmed}
   - {id: oob_score, name: OOB score, step: 9, videos: [105, 106, 107, 113], status: confirmed}
 
   # 10 Tune
   - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118], status: confirmed}
-  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112], status: confirmed}
+  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112, 118], status: confirmed}
   - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
 
   # 11 Deploy
@@ -567,11 +572,15 @@ links:
   - [bagging, is a kind of, ensemble, confirmed]
   - [boosting, is a kind of, ensemble, confirmed]
   - [stacking, is a kind of, ensemble, confirmed]
-  - [bagging, compared with, boosting, draft]
+  - [bagging, compared with, boosting, confirmed]
   - [random_forest, is a kind of, bagging, confirmed]
   - [random_forest, needs, decision_tree, confirmed]
   - [bagging, fixes, overfitting, confirmed]
-  - [adaboost, is a kind of, boosting, draft]
+  - [adaboost, is a kind of, boosting, confirmed]
+  - [adaboost, needs, decision_tree, confirmed]
+  - [hyperparameters, used in, adaboost, confirmed]
+  - [boosting, needs, bias_variance, confirmed]
+  - [boosting, fixes, underfitting, confirmed]
   - [gradient_boosting, is a kind of, boosting, draft]
   - [xgboost, is a kind of, gradient_boosting, draft]
   - [gradient_boosting, needs, gradient_descent, draft]

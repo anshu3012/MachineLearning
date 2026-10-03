@@ -8,7 +8,7 @@ title: "K-Nearest Neighbours (KNN)"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Instance-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)).
-> - **Leads to:** Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Bias-variance trade-off ([Note 109](../109-random-forest-bias-variance/note.md)); Optuna (Video 134, coming).
+> - **Leads to:** Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Bias-variance trade-off ([Note 109](../109-random-forest-bias-variance/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 

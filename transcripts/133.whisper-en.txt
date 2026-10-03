@@ -1,0 +1,2057 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video, we are going to cover a very important machine learning topic.
+The name of the topic is Imbalanced Data.
+If you have spent some time in machine learning, then you might know that Imbalanced Data is a crucial topic.
+Both in terms of when you work in industry or when you prepare for interviews.
+Somehow, I had not covered this topic on this channel and I was getting multiple requests.
+So, I thought let's make a video on this topic.
+So, in this video, we will first discuss what is Imbalanced Data?
+What problems can be caused by Imbalanced Data?
+Why should you study Imbalanced Data?
+And after that, we have discussed 5 techniques in this video.
+Where you will learn that if you have Imbalanced Data, then how can you effectively handle it?
+So, let's start the video.
+So, in the beginning of the video, first of all, let's answer this question that
+What is Imbalanced Data?
+What is Imbalanced Data in machine learning?
+So, let's understand through an example.
+Suppose, you are solving a classification problem.
+What is a classification problem?
+You have a data of a college where you have some students.
+And you have the data of CGPA and IQ of those students.
+And you have the data of placement or not.
+And now you want to train a model on this.
+And you want to train this model.
+So, whenever you give a CGPA and IQ of a new student in the future.
+So, this model will be able to correctly predict whether his placement will be there or not.
+Right?
+Now, let's assume for a while that this data belongs to a very good college.
+Suppose, it belongs to an IIT.
+And IIT means that most of the students are placed here.
+There are some students whose placement is not there.
+So, suppose we have the data of 4th year students.
+And we have data of some 500 students.
+So, there is a chance that the placement of 450 students would have been done.
+And the placement of 50 students would not have been done.
+Now, in this kind of situation, the data that we got is called Imbalanced Data.
+Why?
+Because the two classes here, placement or not.
+There is an imbalance between these two classes.
+Right?
+Your placement will be in a majority.
+Right?
+The placement will be in a minority.
+And the placement will not be in a minority.
+Now, if you plot this.
+Then you will see a graph like this.
+Where you have placed CGPA on the X-axis.
+IQ is placed on the Y-axis.
+And you can see that the points here.
+Every point represents the data of one student.
+And you can see there are a lot of blue points.
+Which represents the students whose placement is done.
+And the red points represent the students whose placement is done.
+Which represents the students whose placement is not done.
+So, you can see.
+The density of blue and the number is very high.
+In comparison to the red students.
+So, if you ever see this kind of scenario in machine learning.
+Then this is called Imbalanced Data in Machine Learning.
+This example that I gave you.
+This was an example of a binary classification problem.
+But trust me.
+This same problem can also happen in multi-class classification.
+It can also happen.
+That in this same college.
+There is another group of students.
+Who did not participate in the placement.
+So, let's assume those students.
+Not much.
+There are only 10 students.
+And they are here.
+So, now this is a multi-class classification problem.
+But in this one class.
+The blue class.
+The other two classes are dominating it.
+The blue class is in the majority.
+The green class.
+The red class.
+Is in the minority.
+And this is an example of Imbalanced Data.
+So, I really hope.
+That you have understood.
+That what is Imbalanced Data in Machine Learning.
+If you have understood this.
+Then now you should have a curiosity in your mind.
+That what happened.
+If I have Imbalanced Data.
+Then what is the problem in it.
+I would like to explain this to you first.
+Now the Imbalanced Data.
+It has two problems.
+And both these problems are very big.
+Let's talk about the first problem.
+The first problem is.
+Bias.
+Let me explain.
+What does this mean.
+In Machine Learning.
+Everything is about data.
+You give data to any machine learning model.
+Machine learning model.
+Searches patterns in it.
+Learns.
+And then once it learns.
+Then it can do predictions.
+But if you don't give it data.
+Then it can't learn.
+This problem is applied in Imbalanced Data.
+In Imbalanced Data.
+You have two classes.
+One is your majority class.
+Which you have a lot of instances.
+And one is your minority class.
+Which is a little rare in your data.
+So what will happen.
+When you send these two.
+To any.
+Machine Learning Algorithm.
+Then.
+Machine Learning Algorithm.
+Will show more data.
+Of majority class.
+And since it will show more data.
+Of majority class.
+Then it will learn more.
+About majority class.
+Will focus more.
+About majority class.
+And since.
+Minority class.
+Obviously.
+Is in minority.
+Means it doesn't have much data.
+So this algorithm.
+Won't focus more on this class.
+And won't value it more.
+Won't give importance.
+And what will happen.
+Your model train.
+Will be biased.
+Towards the majority class.
+And its results.
+Will be good for majority class.
+But your results on minority class.
+Will be very bad.
+So this is the biggest problem.
+With Imbalanced Data.
+Second problem.
+Second problem is.
+That certain metrics.
+Are not reliable.
+Let me explain the meaning of this.
+So if you talk about classification problem.
+Then generally.
+Who do you consider the most reliable metric.
+Or who do you trust the most.
+Who do you talk about.
+I guess you will say accuracy.
+Classification problem.
+Means it will be about accuracy.
+But guess what.
+If you have Imbalanced Data.
+Then accuracy.
+Is not a reliable metric.
+I will try to explain you with a small example.
+Let's take the same example.
+Let's take 450.
+In fact let's do one thing.
+Let's take it on scale of 1000.
+Calculation will be easy.
+900 students have been placed.
+And
+100 students have not been placed.
+In your training data.
+Now if you.
+On this data.
+Train a dumb model.
+Dumb model means.
+Which is not very intelligent.
+We have just written one line of code in it.
+That if you get data of any student.
+Simply say that it will be placed.
+Don't think too much.
+Now if you train this model.
+On this data.
+Any guesses.
+How much will be your accuracy.
+Your accuracy will be 90%.
+Right.
+You showed it to 1000 students.
+Without thinking.
+What did he say in that 1000.
+That it will be placed.
+How many times it was wrong.
+Only 100 times.
+And how many times it was right.
+900 times.
+How much was the accuracy.
+90%.
+Now how is 90% accuracy.
+It is very good.
+We die for 90% accuracy.
+And just like that.
+We achieved 90% accuracy.
+But is it beneficial.
+No.
+The students who have not been placed.
+Your certain metrics.
+Like accuracy.
+They are unreliable.
+You can't rely on them.
+I will prove these two points practically.
+So I took this data set.
+This is exactly the same data.
+Which I showed you earlier.
+So in this data you can see imbalance.
+Blue class is dominating.
+Red class is very less.
+Now what I did.
+I trained a logistic regression model on this data.
+Right.
+After training this model.
+I did 2-3 things.
+First I calculated accuracy.
+Second I plotted decision boundary.
+First I will show you decision boundary.
+See this guys.
+This is the decision boundary.
+Since we are using logistic regression.
+So decision boundary will be a line.
+You can see this line.
+Where is this line passing.
+This line is passing from very low.
+And if you try to understand this line.
+Then you will realize.
+That somehow this line.
+Is trying very hard.
+That your yellow instances.
+Which is your majority class.
+Don't make any mistake on it.
+Even if there is a mistake in the purple class.
+It doesn't matter.
+But it has a very high focus.
+That there should be no mistake on yellow class.
+And this is an example of bias.
+Right.
+You are seeing how your model.
+Is trying to predict your majority class.
+Correctly.
+Whereas it is not making much difference.
+From minority class.
+When you work with imbalanced data.
+A bias develops in your model.
+Towards the majority class.
+Let me show you another problem.
+See here.
+I have printed classification report.
+Can you see the accuracy of this model.
+The accuracy is 96%.
+Come on.
+96% is so good.
+Right.
+If you build any machine learning model.
+And you achieve 96% accuracy.
+You will be happy.
+But if you pay attention.
+And you focus on this point.
+And specifically on this number.
+Then you will be shocked.
+That your minority class.
+The recall score on it.
+That is just 29%.
+Do you know what it means?
+It means that.
+When your model.
+When your logistic regression model.
+When 100 instances were shown.
+Of minority class.
+It was able to classify only 29.
+And it made a mistake on 71.
+But guess what.
+Since minority class is in minority.
+So it doesn't matter.
+Accuracy is very high.
+But imagine.
+If you had made this model.
+To correctly predict minority class.
+Then this model is very bad.
+I hope you are able to understand me.
+So these are the two biggest problems.
+In imbalanced data.
+Let me summarize it again.
+The first problem is.
+There is a bias towards the majority class.
+Because of which.
+Your results will not be good.
+On minority class.
+And the second problem is.
+Your accuracy matrix.
+Will show you a very different picture.
+But reality.
+Is worse than that.
+And you understand that.
+When you go to other metrics.
+Like precision, recall.
+ROC, AUC score.
+When you try to understand them.
+Then you will know.
+That things are going very badly.
+So you understood.
+What is imbalanced data.
+And what are the problems.
+And obviously.
+The logical step will be.
+How to handle imbalanced data.
+But before that.
+I think you might have one more curiosity.
+And I want to answer that first.
+And that curiosity is.
+You might have a question.
+Why should I focus on imbalanced data.
+Why should I study.
+About imbalanced data.
+So let me answer this question first.
+Because I want to motivate you.
+So that you can watch this video better.
+So I will give you two reasons.
+Why should you study imbalanced data.
+If you are.
+A data science aspirant.
+So reason number one.
+Is that.
+Imbalance data is.
+Omnipresent.
+You will get imbalanced data.
+Everywhere.
+In today's date.
+If you talk about industries.
+Where classical machine learning is applied.
+I will tell you some domains.
+Where in today's date.
+Machine learning is fully applied.
+The first domain is.
+Finance.
+Financial companies need machine learning.
+Maybe not that much.
+Their every decision making.
+Depends on machine learning.
+Second is health care.
+In health care also machine learning is used a lot.
+Manufacturing.
+Consumer internet companies like.
+Netflix, Amazon prime, Facebook etc.
+Environmental sciences.
+Here also machine learning is used a lot.
+If I give you an example.
+What are some applications.
+Under each domain.
+If you talk about finance.
+In finance fraud detection.
+Is an application.
+On which machine learning is being applied for years.
+That there are a lot of.
+Credit card transactions.
+You have to find those transactions.
+Which are fraudulent.
+Right.
+Or credit.
+Risk assessment.
+Which banks do.
+Before giving loan.
+Is there a chance that our loan.
+Which we have given.
+It will drown.
+This is a very important application.
+In health care.
+Rare disease prediction.
+Right.
+It is a rare disease.
+And it happens to only 1% of people.
+So we have to predict.
+By looking at the data.
+Who can have that disease.
+Before any machine.
+Is damaged.
+That machine can be damaged.
+Right.
+For consumer internet companies.
+Churn prediction.
+Is a very important problem statement.
+Take Netflix.
+Or Amazon prime.
+This data is very important for them.
+How many people will leave their platform.
+Next month.
+So that they can find out.
+And offer them some discounts.
+Right.
+This is a very important application.
+To predict.
+When an earthquake can come.
+When a volcano can come.
+This is a very important application.
+And in all these places.
+If you notice.
+First of all.
+All of these are ML problems.
+Where you can apply machine learning.
+And the second thing that you have to notice is.
+All of these are nothing but.
+Imbalanced data problem.
+See for yourself.
+One of the main problems.
+Is the control of the internet.
+This is a problem.
+You have to be careful.
+You have to know.
+That you can.
+Okay.
+This is a problem.
+This is a problem.
+You have to know.
+This is a problem.
+When an earthquake comes.
+What to do?
+It is not a problem.
+Earthquake doesn't occur daily, it can occur on some days.
+All of these are very important machine learning problems and the common thing between them is that all of these are imbalanced data problems.
+And if you pay attention to that too, then these are such imbalanced data problems where it is more important to predict minority class.
+In fraud detection, it is more important to find that person who will do fraudulent activity.
+In credit risk assessment, it is more important to find that person who will do loan default.
+In rare disease, it is more important to find that person who has that disease.
+And you can see in all these examples that the prediction of minority class is super important.
+So this is reason number one that in today's industry, if 100 people are working, then there is a chance that 90 people will be working on an imbalanced data problem.
+So in that sense, it is very important if you are a data science aspirant.
+Tomorrow, you will work in the industry for a company.
+So there is a huge chance that you can also work on an imbalanced data problem.
+And from there, reason number two comes out.
+Reason number two is that from an interview point of view, this topic is very important.
+You always ask me which topics we should read from an interview point of view.
+This is one such topic on which I have seen that many interviewers ask questions.
+Because they think that look, everyone knows algorithms etc.
+But guess what?
+At the end, you should have an idea of imbalanced data.
+Because you will work on this only when you work in a company.
+So you should have a good idea of this.
+And that is why people ask a lot of questions around this topic.
+So these are two reasons due to which I think that if you are someone who is learning machine learning now, then you should give this topic a little high priority.
+So guys, we have understood a lot about imbalanced data.
+What is imbalanced data?
+What can be the problem if there is imbalanced data?
+And the most important thing.
+Why should we study imbalanced data?
+Now we will have to study how to solve the problem of imbalanced data.
+And I will teach you five most important techniques which you get to see everywhere.
+So let's start with the first technique.
+The first technique is under sampling.
+So what is the funda of under sampling?
+It is very easy to explain actually.
+So if you have imbalanced data, then what is the problem?
+There is a big difference between your majority class and your minority class.
+Right?
+So the simple way to solve this problem is that you make your imbalanced data balanced.
+Balanced means somehow.
+Your majority and minority.
+Both should have equal number of data points.
+So one way to achieve this is under sampling.
+What do you do in under sampling?
+You take your majority class and perform sampling on it.
+And by doing sampling, you get exactly the same data points as the data points in the minority class.
+And the new data set you get from this, you use it to train your model.
+Here it has a diagrammatic representation.
+The orange one is our minority class.
+The blue one is our majority class.
+And you can clearly see that in the majority class, there are a lot of data points in comparison to the minority.
+We have to achieve the balance.
+So what will we do?
+We will take our majority class.
+And perform sampling on it.
+Random sampling.
+We will randomly take out data points from it.
+How long will we take out?
+Until we have exactly the same data points as the data points in our minority class.
+So if here we have 100 and here we have 900.
+So in these 900, we are randomly taking out 100 data points.
+And here we have already 100.
+So in this new data set, rather than having 1000 rows, we will have 2000 rows or data points.
+And with this simple technique, we have achieved balance.
+And we expect that by doing this, our result will improve.
+Now if you want to see this in action, then I have written a code in Python.
+Let me show it to you.
+So we are going to work with this data set.
+In this data set, there is imbalance.
+The blue class is in majority.
+The red class is in minority.
+We are applying random under sampling on it.
+You can write this code by yourself very easily.
+But why do we need to do this when we already have a built-in class.
+Which we get from a very famous library.
+The name of the library is Imbalanced Learn.
+It is a very beautiful library.
+All the techniques that you have to apply on Imbalanced data, all these people have implemented it.
+So you can use it very easily.
+We have just imported the random under sampler class.
+We have split the data into two parts.
+And then we have applied random under sampling by writing this code.
+There is a method called fit resample.
+Here we have sent our x-train and y-train.
+From this we have got our x-resampled and y-resampled.
+And you can see this is the result.
+This is our original data.
+And this is our transformed data.
+Here you can see that first of all the number of data points have reduced.
+Second, the number of blue points and the number of red points will be seen equally.
+I can prove this in another way.
+If you see the shape of the x-train, then it had 320 data points.
+If you see the shape of the resampled data, then there are just 42 data points.
+Similarly, if I show you one more interesting thing.
+In the original data, the distribution between your classes was this.
+The positive class was 299 and the negative class was 21.
+You can see there is a lot of imbalance.
+But as soon as I did resampling or applied under sampling, my 0 class is also 21 and my 1 class is also 21.
+So you can see.
+What we did in this way?
+Removed the imbalance and achieved the balance.
+After this, I did not stop.
+I trained a logistic regression model on this resampled data.
+Just to see whether there was improvement in performance or not.
+And after applying the whole thing, these are the results.
+So this is my F1 score.
+This is my recall value if you remember.
+A little while ago when I showed you the recall.
+The recall was not very good.
+But.
+After applying the undersampling, the recall has improved.
+The difference is that the precision has gone bad.
+Because maybe the result is not that good.
+The ROC AUC score is good.
+You will get to see the main thing here.
+You can see.
+Earlier my decision boundary was completely ignoring the minority class.
+And all its attention was only on classifying the yellow points correctly.
+Because they were the majority data points.
+But as soon as we reduced the majority data points.
+Now you will notice in a way.
+That even though this is not the best decision boundary.
+But.
+You will see this thing.
+That it is giving equal importance to both.
+Right.
+It is also giving importance to the blue points.
+And also giving importance to the yellow points.
+In that sense.
+We achieved the balance.
+The results are not coming so good because.
+Inherently the data is not linear.
+Maybe if you apply some other algorithm here.
+Like imbalanced.
+I am sorry.
+If you apply any algorithm of ensemble learning.
+Let's say random forest.
+Or some boosting algorithm.
+Then those non-linear boundaries are created.
+And maybe you will get better results.
+But logistic regression will only draw a line.
+That is why the results are not that good.
+But you have to understand the main idea.
+The main idea was that our data was imbalanced.
+Because of which it was getting more focused.
+On the majority class.
+But as soon as we applied this technique.
+What was the benefit?
+What was the benefit?
+That now.
+Our algorithm is respecting both.
+It is respecting the minority as well.
+It is respecting the majority as well.
+Because.
+The number of those two.
+Has become same now.
+Right.
+If I tell you.
+Some of its advantages and disadvantages.
+Of this technique.
+So.
+The first advantage is.
+Reduction in bias.
+We saw this with our own eyes.
+That by ignoring the majority class.
+Not ignoring.
+But valuing both equally.
+We noticed this.
+Second benefit is.
+If you have a very big data set.
+We had a small data set.
+But suppose you have a very big data set.
+10 lakh majority points.
+And 1 lakh minority points.
+And 1 lakh minority points.
+So when you do under sampling on this.
+So you have 1 lakh majority points.
+And 1 lakh minority points.
+And 1 lakh minority points.
+So the data you have.
+Will be smaller.
+And by being smaller.
+Your training will be fast.
+So that is one of the benefits.
+Disadvantage.
+Is also there.
+Disadvantage.
+So you must be thinking in front of you.
+That.
+We are losing a lot of data.
+Right.
+Earlier we had around 320.
+Rows.
+How many were left?
+42 were left.
+So obviously.
+So much data which we are ignoring.
+We are leaving it.
+It is possible that.
+Some important information is hidden in it.
+Which would help our algorithm.
+So we are missing that.
+So that is one of the problems.
+Okay.
+And also.
+Since we.
+From 10 lakh to.
+1 lakh.
+To go.
+We are doing.
+Sampling.
+So.
+In sampling.
+There can be a bias.
+It can happen.
+The sampling you did.
+So you kept one type of points.
+Ignored the other type of points.
+So in that sense.
+Bias can develop.
+So you have to be very careful.
+By the way.
+If you do random sampling.
+So.
+In that way.
+There is not much bias.
+But you have to be careful.
+Because.
+By sampling.
+Bias can develop.
+So these are.
+Like.
+Some advantages.
+And disadvantages.
+Of this technique.
+This is a very very.
+Useful technique.
+Which.
+People use a lot.
+While.
+Doing their projects.
+Let's move on.
+To the second technique.
+Which you use.
+To handle.
+Imbalanced data.
+The technique is called.
+Oversampling.
+Again.
+A very simple concept.
+We have.
+Imbalanced data.
+We have.
+In the majority.
+900 data points.
+In the minority.
+Only.
+100 data points.
+And.
+In the data.
+There is an imbalance.
+And.
+We have to.
+Remove this imbalance.
+And.
+Achieve.
+Balance.
+So.
+One way.
+Is.
+That.
+You.
+Reduce.
+Your.
+Majority.
+Class.
+As.
+We.
+Saw.
+A little.
+Before.
+The second.
+Way.
+Is.
+That.
+You.
+Increase.
+Your.
+Minority.
+Class.
+Now.
+It is.
+100.
+You.
+Randomly.
+In.
+100.
+Data.
+Points.
+And.
+Duplicate.
+How.
+Long.
+Until.
+You.
+These.
+Two.
+Numbers.
+Not.
+Equal.
+And.
+This.
+Is.
+The.
+Main.
+Idea.
+Behind.
+Oversampling.
+Or.
+Random.
+Oversampling.
+You.
+Are.
+Upsampling.
+Our.
+Minority.
+Class.
+With.
+The.
+Help.
+Of.
+Random.
+Oversampling.
+Till.
+Both.
+Are.
+Not.
+Equal.
+Very.
+Simple.
+Concept.
+Duplication.
+Of.
+Data.
+To.
+Achieve.
+Balance.
+Okay.
+For.
+This.
+I.
+Need.
+To.
+Think.
+Of.
+What.
+Is.
+What.
+Is.
+That.
+Is.
+This.
+Is.
+To.
+To.
+What.
+Is.
+The.
+Match.
+Is.
+To.
+What.
+Is.
+Is.
+The.
+Is.
+That.
+Is.
+This.
+Is.
+then what is the benefit of using random oversampling, I guess you must have figured it out
+so what happened is that in the second diagram, the number of red data points is more
+the only problem is that they have overlapped because of duplication
+so what you are seeing here, there is a good chance that it is not a single data point
+it may be 8-10 data points, it is just that they have stacked up on each other
+due to which we are not able to understand the distinction, so the technique has been applied
+you will not be able to understand in the visualization, the better way would be that I would use the opacity of the graph
+I would make some transparent type data points and here the opacity increases if there are many points
+but it is ok, you can do it, after that just to cross check, in x-train there were 320 data points
+in x-resample, the number of data points increased to 598
+if you talk about class imbalance, then earlier it was 291, now it is 299, now it is 221
+after applying this technique, it is 299, now it is 299
+I did not stop again, I moved ahead and applied logistic regression
+on transformed data and these are the results
+so you can see, recall has improved, precision is also taking a hit here
+ROCAUC curve is also ok, and the main thing is this decision boundary
+you can see it is respecting the minority
+class as well, which shows that our technique is working at some level
+right, if we go back and discuss the advantages and disadvantages of this technique
+then again the advantage is same, that bias is being reduced
+which means now more focus is coming on minority class as well
+equal focus is coming on both, which is a good thing
+if you talk about disadvantage, then the first disadvantage is that the size of the data set increases
+it almost doubles, right
+because you are up-sampling
+so if you are dealing with very big data, already 1GB of data was there
+it will become 2GB, that is a problem right
+and second is a bigger problem
+that what you are doing is, you are creating new data with the help of duplication
+now duplication is not good
+if the same point is created again and again
+then if you apply any machine learning algorithm
+then this data point will seem very important to it
+and this data point will seem very important to it
+and due to this data point, over-fitting can happen
+specially in certain algorithms like decision tree
+with decision tree, if you do random over-sampling
+you get to see over-fitting many times
+and your result is not good
+so these are the two disadvantages of this technique
+the third technique which we are going to study, its name is SMOTE
+and according to me, this is the most popular technique
+in data science community, if you ever get to hear about imbalanced data
+then you will also get to read about SMOTE
+the full form of SMOTE is Synthetic Minority Over-Sampling Technique
+okay
+Synthetic Minority Over-Sampling Technique
+so essentially, SMOTE is an over-sampling technique
+over-sampling means, where to achieve balance
+you have to up-sample minority class
+i.e. you have to increase its number
+so here also you do the same work
+but there is one big difference
+earlier we had studied random over-sampling
+there you take help of duplication to up-sample minority class
+right
+you have duplicated it 4 times
+you have duplicated it 10 times
+you have duplicated it 15 times
+you have duplicated it 3 times
+you have duplicated it 6 times
+by doing this, you have exactly the same data points
+as in your majority class
+we saw this earlier
+SMOTE says that
+there is a problem with duplication of data
+it can be over-fitting
+what if
+instead of duplicating
+we generate new data points
+and by generating new data points
+it will be beneficial
+that your balance will be achieved first of all
+and second
+there will be no problem of over-fitting
+so this is the main idea behind SMOTE
+now
+the point is
+how to generate new data points
+so here SMOTE uses a smart technique
+which we call interpolation
+interpolation
+it is a very simple technique
+but with the help of interpolation
+what you do is
+you
+between your two existing minority data points
+you generate new data points
+you can see
+right
+so let me explain to you step by step
+algorithm
+how this algorithm works
+ok
+it is very simple
+so what you do in step 1
+you take your minority class
+which in our case is blue samples
+and on top of that
+you train a KNN
+5
+neighbor KNN
+ok
+which means
+what we are doing
+we are looking for 5 nearest neighbors of our every minority data point
+ok
+so as soon as this step is done
+I will get to know
+which are the 5 closest neighbors of my every minority data point
+if you get to know this
+then after this
+the main work starts
+where you do synthetic data generation
+ok
+so what is the process of this
+it is very simple
+first of all
+what you do is
+out of all your minority class examples
+you randomly choose one
+let's say
+you randomly choose this
+ok
+you randomly choose this
+after that
+what you will do
+the point which you have selected
+it will have 5 neighbors
+this point will have 5 neighbors
+so from those 5 neighbors
+you will randomly select one neighbor
+so it is possible
+that you have randomly selected this
+ok
+now what you have to do
+in between your original data point and its neighbor
+you have to generate a new synthetic data point
+and the formula to generate that is
+original sample
+minus
+a factor
+multiplied by
+original minus
+or sample minus
+neighbor
+this is the formula
+I will explain you this formula through an example
+suppose your original sample is 11
+and your neighbor is 22
+and we have to generate a new data point in between
+so first of all
+you have to choose a factor
+factor
+you randomly choose
+between 0 to 1
+let's assume for some time
+that we have chosen 0.5
+ok
+now what will happen
+here you have
+1,1
+minus
+0.5
+times
+1,1
+minus
+2,2
+so here we have
+1,1
+minus
+0.5
+times
+inside
+minus 1
+comma minus 1
+1,1
+minus
+minus 0.5
+minus 0.5
+and when you finally add this
+then this will come
+this will be minus
+and this will be minus plus
+so this will be 1.5
+1.5
+so this new data point will be generated
+exactly in the middle
+1.5
+1.5
+ok
+and that is how
+you calculate
+the new example
+ok
+and how long will you do this
+until your
+balance is achieved
+so what will you do
+now
+you will repeat this step again
+you will choose a random sample again
+ok
+then you will choose a random neighbor
+and between them
+again
+you will put this formula
+interpolate it
+and generate a new synthetic sample
+and you will keep doing this
+until your majority class
+and minority class
+are equal
+I really hope
+you have understood this algorithm
+very simple
+but
+very very useful
+now again
+I will show you through code
+so again
+we will take the help of imblearn
+there is a class called SMODE
+we have again split the train test
+and from SMODE.fit sample
+we have sent x-train and y-train
+and generated x-resampled SMODE
+and y-resampled SMODE
+and you can see
+this is the result
+this is our original data
+and this is our resampled data
+you can see
+because of linear interpolation
+the data points of red
+have increased a lot
+ok
+and the same thing is being proved here
+598 data points
+and 299
+and we achieved the balance of 299
+and when I applied this
+our data points
+on our data
+by applying logistic regression
+we improved recall
+there is problem in precision
+ROC AUC score is ok
+again
+the thing which is guiding us
+is decision boundary
+decision boundary again shows
+that logistic regression is valuing
+minority class a little
+so
+this is how you apply SMODE
+on a data set
+now if we talk about
+its benefit and loss
+then the biggest benefit is that
+you are able to reduce bias
+second
+there is no duplication of data
+so there is no problem of overfitting
+but this technique
+has a lot of disadvantages as well
+you should also know this
+it is a very popular technique
+but there is a lot of debate
+between people
+that it should be applied
+or not
+debate is going on
+because
+there are some disadvantages
+in this technique
+ok
+the first disadvantage is
+that this technique
+cannot handle categorical data
+it is obvious
+suppose you have
+this kind of data
+where on x-axis
+you have
+categorical data
+0
+1
+2
+and on y-axis
+you have
+normal numerical data
+so
+obviously
+your scatter plot
+will look like this
+right
+something like this
+will be seen
+now in this
+suppose
+this data point
+this data point
+this data point
+this data point
+this data point
+and this data point
+this is your
+minority class
+now suppose
+what you have to do
+you have to
+randomly
+you have to select
+one data point
+suppose you have selected
+it
+and you have selected
+one of its neighbors
+suppose this is that neighbor
+and now what you have to do
+by applying linear interpolation
+you have to generate
+a synthetic data point
+between these two
+for some time
+suppose
+your data point
+is generated here
+now
+if it is generated here
+then the problem is
+what will be its y-axis value
+may be 0.7
+but guess what
+0.7
+cannot be our
+because it is
+a categorical data
+its value
+will be either 0
+or 1
+or 2
+0.7 cannot be
+so that is the main problem
+you cannot apply this
+on categorical data
+second is
+the computational complexity
+you are applying
+K and N
+on this data
+first of all
+you should know
+about K and N
+if your data
+is very big
+and of very high
+dimension
+then applying
+K and N
+is always problematic
+because it is a slow
+algorithm
+you take
+distance
+with every point
+you do a lot of things
+there will be problem
+in high dimensional data
+next
+this is
+very interesting
+that
+the performance
+of this algorithm
+depends on
+how many neighbors
+of every minority point
+you are taking
+if you take
+very few neighbors
+suppose
+you take
+K equal to 1
+then the problem
+will be
+that
+of every data point
+if you take
+only one neighbor
+and generate
+data points
+then on this line
+many points
+will be generated
+there will be no
+variety
+right
+whereas
+if you
+consider
+these points
+as neighbors
+then what will happen
+that
+there will be
+a lot of variety
+means in your
+entire feature space
+you will see points
+everywhere
+which is not good
+so
+you have to be
+in the middle
+somewhere
+and it is difficult
+to find that middle
+generally people
+take K equal to 5
+but again
+it depends on the data
+next point is also
+very interesting
+it is sensitive
+to outliers
+what if
+I have
+this way
+my minority class
+and one data point
+is here
+this is also
+of minority class
+so randomly
+this will also be selected
+this will be selected
+so it will have
+some nearest neighbor
+suppose this is
+its nearest neighbor
+now what did you do
+put linear interpolation
+so your one data point
+is generated here
+then
+this is the second
+nearest neighbor
+so one data point
+is generated here
+can you see
+one single
+outlier noisy
+data point
+due to which
+more
+outlier noisy
+data points
+are coming
+in your data
+and performance
+will not be good
+this is point number 4
+point number 5
+that
+the biggest
+criticism of this technique
+is that
+if tomorrow
+you have generated
+a lot of data points
+like this
+then
+what is the guarantee
+that these data points
+generated
+are really
+representing
+the distribution
+of your data
+what if
+this is not reality
+you have generated
+with your will
+but in reality
+data was not like this
+right
+I am talking about
+population data
+true distribution
+you can see
+in results
+so
+this
+in synthetic
+data generation
+this is a big problem
+that the data
+you have generated
+there is no guarantee
+that it
+will follow
+the original distribution
+of your data
+so these are the
+five major drawbacks
+of applying
+SMOTE
+but again
+it is very popular
+people use it
+and people
+complain about it
+but it is an interesting technique
+and it has
+many variants
+I will show you
+at the end of the video
+the fourth technique
+which is also
+very interesting
+and that is
+ensemble methods
+you must have read
+ensemble methods
+bagging
+boosting
+random forest
+all these things
+so
+what we can do
+we can tweak
+ensemble methods
+we can change
+their behavior
+in order to handle
+imbalanced data
+so
+I am giving you
+an example
+of that
+there is an algorithm
+balanced
+random forest
+random forest
+you may know
+this is
+a slightly
+different
+version
+which works
+very well
+with imbalanced data
+I will tell you
+very quickly
+in a simple way
+how balanced
+random forest works
+and how it
+handles imbalanced data
+so suppose
+you have this imbalanced data
+where the majority
+class has
+900 data points
+and
+your minority
+class has
+300 data points
+ok
+so
+you can see
+there is imbalance
+now what you do
+in random forest
+you train multiple
+decision trees
+you do sampling
+of data
+you train a separate
+decision tree
+on every sample
+after that
+you do aggregation
+simple right
+so what you will do here
+when you make
+a new sample
+then you
+make sure
+that the sample
+that is coming
+is a balanced
+sample
+even if
+the data
+is imbalanced
+but
+when you do sampling
+then you will try
+to achieve
+balance
+so
+what you did
+you had
+1200 data points
+the whole
+data set
+then you made
+the first sample
+of 600 data points
+in that 600 data points
+300 will be
+of your
+minority
+class
+and
+300 will be
+of your
+majority class
+which will be
+achieved
+by sampling
+by random sampling
+and on this
+you will train
+a decision tree model
+then
+you will make
+second sample
+in the same way
+your 300 minority
+points
+and then
+you did sampling
+300 majority
+data points
+so
+we trained
+second decision tree
+and similarly
+we made
+third sample
+which is again
+balanced
+and on this
+you trained
+your third decision tree
+and
+after that
+during prediction
+you will ask
+same question
+from these
+three models
+and
+let's say
+first one
+said 1
+second one
+said 0
+second one
+said 1
+so
+the output
+will be
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+33
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+100
+100
+100
+100
+100
+120
+100
+700
+18
+21
+22
+23
+24
+25
+26
+27
+28
+29
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+44
+38
+49
+that you make some changes in learning process of machine learning algorithm
+due to which your machine learning algorithm can handle imbalanced data in better way
+that's the whole idea
+you are making changes in learning process
+there are two ways to achieve this
+I will give you an idea of both
+first technique is class weights
+the concept of class weights is very simple
+during training of machine learning model
+you assign weight to both your classes
+one example
+suppose your class 1 is in majority
+and it has 900 data points
+and your class 0 is in minority
+and it has only 100 data points
+so what you will do is
+you will assign weights like this
+that the weight of your minority class will be more
+let's say you have given weight of class 10
+and you have given weight of class 1
+so what you are doing is
+you are providing this information to your machine learning algorithm
+that focus more on this class
+on class 0
+because it is in minority
+which means
+if you make any error
+then your error will come on class 0
+so you have to take it more seriously
+and tweak your learning process in such a way
+that whenever there will be error on 0
+then you have to penalize your learning process more
+so that from next time
+you pay more attention
+and you don't make mistakes of 0
+ok
+so if you talk about optimization based algorithm
+then internally
+if gradient descent
+like algorithm is being applied
+let's assume
+so if you are giving more weight to 0
+then the weight update of 0
+the weight update
+the parameter update
+which is the formula in gradient descent
+that will be significantly large
+because of which
+for the errors of 0
+you will move in the right direction
+these were some technical talks
+if you have read gradient descent
+then you might be able to understand
+otherwise you have to read gradient descent
+in a nutshell
+let me explain the main thing
+the main thing is
+that you are telling the algorithm
+in some way
+that this 0 one is also important
+even though
+you can't see it in the data
+but it is important
+give it more weight
+so whenever you make mistakes on 0
+take it seriously
+and tweak your learning process in such a way
+that the mistakes on 0
+are minimized
+that's the whole idea
+and many classification algorithms
+give you this class weight feature
+in fact
+if you go to scikit-learn
+then
+I will show you
+some famous classification algorithms
+like
+logistic regression
+there you will see this class weight
+if you go to SVM
+there also you will see
+if you go to decision tree
+then
+there also you should see
+for now I can't see
+there are many parameters
+here is the class weight
+ok
+same with boosting algorithms as well
+there are some algorithms
+where you can't see this parameter
+like
+KNN
+because in KNN
+essentially
+you are not working on any loss function
+same with naive base
+there also you won't see
+but
+other than that
+you mostly
+all
+all
+algorithms
+which work on any form
+on loss function
+on optimization
+there you will see
+the functionality of class weight
+if we talk about code
+then
+it is very easy to implement class weights
+because
+all your algorithms
+directly provide you
+parameters
+as you can see here
+what we did
+we split the data
+we are applying logistic regression
+and
+here by saying class weights
+we have a parameter
+we have said
+to give more weight to 0
+5 times
+to 1
+1 times
+ok
+and normally
+we train the data
+we train the model
+we trained the model
+everything is same
+and you can see
+this is the result
+right
+now
+the interesting thing is
+if you
+suppose
+here
+instead of 5 times
+you want to give weightage
+25 times
+so
+see what will be the result
+you can see
+your decision boundary
+has shifted a little more
+and
+it is valuing more
+on your minority data points
+and
+that is why
+to classify them correctly
+there is a lot of pressure
+on it
+right
+if I make it 50
+then
+this pressure
+will increase more
+here
+you can see
+that
+you can see
+and
+this decision boundary
+is moving forward
+so class weights
+is also
+a very interesting technique
+and the best part is
+very easy to implement
+almost all
+scikit learn interfaces
+you get this
+built in
+and you can
+vary it
+according to you
+that
+where you are getting
+the best results
+so this was
+the first technique
+that you use
+in cost sensitive learning
+the second technique
+is
+kind of similar
+in the second technique
+what you do
+is
+you use
+a
+custom
+loss
+function
+till now
+in your
+machine learning
+whatever
+work you have done
+with loss functions
+those are
+the famous ones
+mean squared error
+log loss
+etc
+but
+what if
+according to
+my requirement
+I
+change
+a little
+in my
+loss function
+so there are certain
+machine learning
+algorithms
+like
+gradient
+boosting
+xg
+boost
+light
+gbm
+here I have
+this feature
+that
+I can pass
+my custom objective
+or custom loss function
+now
+suppose
+we have
+a scenario
+where our
+false
+negative
+error
+is
+more
+critical
+in comparison
+to false positive
+let's say
+so we
+can define
+a custom
+log loss
+function
+where we
+value
+false
+negative
+more
+in comparison
+to false
+positive
+and since
+we have
+modified
+in our
+cost
+function
+automatically
+results
+will be
+balanced
+in that
+way
+let me
+show
+you
+an example
+so if
+we define
+a custom
+loss
+here we
+will use
+xg
+boost
+and you can
+see
+we have
+increased
+the penalty
+of false
+positive
+3.5
+and
+decreased
+the penalty
+of false
+negative
+because
+we have
+this kind
+of problem
+where false
+positive
+is more
+critical
+suppose
+you
+will do
+all the
+calculations
+with
+these enhanced
+values
+so your
+gradient
+and Hessian
+calculation
+is based
+on these
+values
+right
+and
+after that
+the next
+work is
+very simple
+we are
+applying
+normal
+xg
+boost
+and
+we can
+see
+this is
+a
+very
+simple
+way
+to
+calculate
+the
+value
+of
+false
+positive
+so
+this is
+also
+a
+technique
+it is
+a
+little
+more
+technical
+to
+use
+it
+because
+making
+custom
+loss
+functions
+so we
+have seen
+five ways
+under sampling
+over sampling
+over sampling
+one more technique
+smooth ensemble
+method and
+cost sensitive
+learning
+now if
+you are interested
+to know
+which
+other
+techniques
+we have not
+studied
+then I
+give you
+a list
+so that
+you can
+read it
+if you
+want to
+read
+imbalance
+you will
+get
+many
+options
+like
+in under
+sampling
+we
+just read
+random
+under
+sampler
+but here
+you can
+see
+there are
+many
+more
+techniques
+right
+similarly
+for
+over
+sampling
+methods
+what
+did we
+read
+we
+read
+ensemble
+method
+we
+read
+balanced
+random
+forest
+classifier
+bagging
+classifier
+boosting
+classifier
+so these
+are all
+options
+I would
+recommend
+you to
+check
+this
+library
+API
+reference
+you will
+get
+a lot
+of
+knowledge
+if you
+have not
+subscribed to
+my channel
+please do
+subscribe
+see you
+in the
+next video
+bye

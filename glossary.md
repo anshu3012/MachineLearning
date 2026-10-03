@@ -44,12 +44,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Absolute value | A number's size without its sign. | [Video 25](25-normalization/note.md) |
 | absolute_error | A criterion that splits by mean absolute error; leaves predict the median. | [Video 99](99-regression-trees/note.md) |
 | Accuracy | The fraction of predictions that are correct. | [Video 13](13-toy-project/note.md) |
+| AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote. | [Video 115](115-adaboost-intuition/note.md) |
 | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Video 84](84-mutually-exclusive-events/note.md) |
 | Adjusted R² | R² with a penalty for the number of input columns. | [Video 52](52-regression-metrics/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
 | Aggregation | Combining the base models' predictions into one: mode for classes, mean for numbers. | [Video 105](105-bagging-intuition/note.md) |
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Alert | A warning in the report about a column that may need attention. | [Video 22](22-pandas-profiling/note.md) |
+| Alpha (model weight) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes. | [Video 115](115-adaboost-intuition/note.md) |
 | Anaconda Navigator | Anaconda's point-and-click window for environments and packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anaconda | The best-known data science distribution, with Navigator and Spyder. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anomaly detection | Finding rows that do not fit the pattern of the rest. | [Video 3](03-types-of-ml/note.md) |
@@ -207,6 +209,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Crosstab | A table counting the rows for every pair of categories of two columns. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | CSV file | A text file holding a table, with commas between values. | [Video 13](13-toy-project/note.md) |
 | Cumulative explained variance | The share of the variance kept by the first k components together. | [Video 49](49-pca-mnist/note.md) |
+| Cumulative sum | The running total of a list of numbers; it turns weights into ranges on the line from 0 to 1. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning. | [Video 32](32-binning-binarization/note.md) |
 | Customer profile | A summary of what kind of buyer a customer is, built from their purchases. | [Video 8](08-applications-of-ml/note.md) |
@@ -233,6 +236,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Decision node | A node in the middle of a tree that asks a question and splits again. | [Video 97](97-decision-trees-intuition/note.md) |
 | Decision region | The part of the input space in which a model predicts a given class. | [Video 79](79-softmax-regression/note.md) |
 | Decision rule (SVM) | Predict +1 if $w \cdot u + b \geq 0$ and −1 otherwise. | [Video 93](93-svm-maths/note.md) |
+| Decision stump | A decision tree with maximum depth 1: one split, two regions. | [Video 115](115-adaboost-intuition/note.md) |
 | Decision surface | A plot colouring every point of the input space by the class the model would predict there. | [Video 91](91-knn/note.md) |
 | Decision tree | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. | [Video 97](97-decision-trees-intuition/note.md) |
 | DecisionTreeRegressor | scikit-learn's regression tree. | [Video 99](99-regression-trees/note.md) |
@@ -389,6 +393,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Hyperparameter tuning | Trying several hyperparameter values and keeping the best. | [Video 29](29-pipelines/note.md) |
 | Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth`. | [Video 29](29-pipelines/note.md) |
 | Hyperplane | A flat surface in more than three dimensions; the model for three or more input columns. | [Video 53](53-multiple-linear-regression/note.md) |
+| Hypothesis function | A model written as a function $h(x)$ that maps an input to a prediction. | [Video 115](115-adaboost-intuition/note.md) |
 | Identity matrix | The matrix that leaves every vector unchanged. | [Video 48](48-pca-step-by-step/note.md) |
 | If-else ladder | A long chain of hand-written conditions, one per case. | [Video 1](01-what-is-ml/note.md) |
 | Image classification | Deciding what a picture contains, e.g. dog or not dog. | [Video 1](01-what-is-ml/note.md) |
@@ -465,6 +470,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes. | [Video 49](49-pca-mnist/note.md) |
 | Leaf node | A node that is not split; it gives the prediction. | [Video 97](97-decision-trees-intuition/note.md) |
 | Learning rate ($\eta$) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. | [Video 5](05-online-learning/note.md) |
+| Learning rate (AdaBoost) | A multiplier on every weak learner's alpha; values below 1 slow learning. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Video 73](73-log-loss/note.md) |
@@ -574,6 +580,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mutually exclusive events | Events that cannot happen at the same time; their intersection has probability 0. | [Video 84](84-mutually-exclusive-events/note.md) |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins. | [Video 32](32-binning-binarization/note.md) |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. | [Video 49](49-pca-mnist/note.md) |
+| n_estimators (AdaBoost) | The maximum number of weak learners, one per boosting stage. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | n_estimators | The number of base models in an ensemble. | [Video 106](106-bagging-classifier/note.md) |
 | n_iter | The number of random combinations RandomizedSearchCV tries (default 10). | [Video 112](112-random-forest-tuning/note.md) |
 | n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all. | [Video 104](104-voting-regressor/note.md) |
@@ -600,6 +607,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Normal distribution | A symmetric, bell-shaped distribution. | [Video 20](20-univariate-analysis/note.md) |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression. | [Video 54](54-multiple-lr-maths/note.md) |
 | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy. | [Video 54](54-multiple-lr-maths/note.md) |
+| Normalisation (of weights) | Dividing every weight by their sum so they add up to 1. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Normalization | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. | [Video 25](25-normalization/note.md) |
 | Normalized importances | Importances divided by their total, so they add up to 1. | [Video 114](114-feature-importance/note.md) |
 | Notebook | A `.ipynb` file of cells, each with its output underneath. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -641,6 +649,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Pair plot | A grid of scatter plots of every pair of numerical columns, with histograms on the diagonal. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Pandas Profiling | The library that builds a profiling report from a DataFrame, now named `fg-data-profiling`. | [Video 22](22-pandas-profiling/note.md) |
 | pandas, DataFrame | Python's main table library, and its name for a table. | [Video 13](13-toy-project/note.md) |
+| Parallel learning | Training the base models independently, so they can all be trained at once (bagging). | [Video 119](119-bagging-vs-boosting/note.md) |
 | Parameter grid | A dictionary of hyperparameter names and the values to try for each. | [Video 112](112-random-forest-tuning/note.md) |
 | Parameter | A named setting passed to a function, like `sep=";"`. | [Video 15](15-working-with-csv/note.md) |
 | Parameters | The numbers that describe a learned model, e.g. slope and intercept. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -725,6 +734,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Random forest | Bagging with decision trees as the base models. | [Video 101](101-ensemble-learning/note.md) |
 | Random patches | Bagging in which each model gets random rows and random columns. | [Video 105](105-bagging-intuition/note.md) |
 | Random sample imputation | Filling each gap with a value drawn at random from the column's known values. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| Random seed | A number that fixes a random number generator so that a run can be repeated exactly. | [Video 117](117-adaboost-from-scratch/note.md) |
 | Random subspaces | Bagging in which each model gets all rows but a random subset of columns. | [Video 105](105-bagging-intuition/note.md) |
 | RandomForestClassifier | scikit-learn's random forest for classification. | [Video 108](108-random-forest-intro/note.md) |
 | RandomForestRegressor | scikit-learn's random forest for regression. | [Video 108](108-random-forest-intro/note.md) |
@@ -772,8 +782,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
 | Saddle point | A flat point that curves up in one direction and down in another. | [Video 57](57-gradient-descent/note.md) |
 | saga | A stochastic solver that supports every penalty, including Elastic Net. | [Video 81](81-logistic-hyperparameters/note.md) |
+| SAMME | The AdaBoost variant in scikit-learn: alpha without the factor 1/2, only misclassified rows reweighted; same decisions. | [Video 117](117-adaboost-from-scratch/note.md) |
+| SAMME.R | An AdaBoost variant that used predicted probabilities; removed from scikit-learn. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | Sample space | The set of all possible outcomes of an experiment. | [Video 82](82-conditional-probability/note.md) |
+| Sample weight | A number attached to each row saying how important it is; AdaBoost starts every row at 1/n. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Sample | The part of the real world that our data covers. | [Video 7](07-challenges-in-ml/note.md) |
+| sample_weight | The argument of `fit` that tells a scikit-learn model how much each row counts. | [Video 117](117-adaboost-from-scratch/note.md) |
 | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |
 | Scalar | A single number: a 0D tensor. | [Video 11](11-tensors/note.md) |
@@ -788,17 +802,20 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sentiment analysis | Deciding whether a text expresses a positive or negative opinion. | [Video 8](08-applications-of-ml/note.md) |
 | Separator | The character between values on a line, such as `,` or a tab. | [Video 15](15-working-with-csv/note.md) |
 | Sequential data | Data fed one piece after another, in order. | [Video 5](05-online-learning/note.md) |
+| Sequential learning | Training the base models one after another, each depending on the previous ones (boosting). | [Video 119](119-bagging-vs-boosting/note.md) |
 | Series | pandas' one-column structure: values with an index. | [Video 15](15-working-with-csv/note.md) |
 | Server | A computer that is always on and that users reach over the internet. | [Video 4](04-batch-learning/note.md) |
 | set_output | Method that makes a transformer return a pandas DataFrame with `transform="pandas"`. | [Video 28](28-column-transformer/note.md) |
 | set_params | Method that changes a model's settings after it is created. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Video 5](05-online-learning/note.md) |
+| Shallow decision tree | A decision tree with a small maximum depth; high bias, low variance. | [Video 119](119-bagging-vs-boosting/note.md) |
 | Shape | The number of items along each axis. | [Video 11](11-tensors/note.md) |
 | Shapiro-Wilk test | A statistical test of whether data follows a normal distribution. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Shrinkage | The pulling of coefficients towards 0 by a penalty. | [Video 63](63-ridge-regression-intuition/note.md) |
 | Shuffling | Putting the rows in a new random order before each epoch. | [Video 60](60-mini-batch-gradient-descent/note.md) |
 | Sigmoid function | $\sigma(z) = 1/(1 + e^{-z})$; an S-shaped curve that maps any number into the range 0 to 1. | [Video 72](72-sigmoid-function/note.md) |
 | Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\, x \cdot x' + r)$. | [Video 95](95-kernel-trick-intuition/note.md) |
+| Sign function | Returns +1 for a positive number and -1 for a negative one. | [Video 115](115-adaboost-intuition/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
 | Simple linear regression | Linear regression with one input column. | [Video 50](50-simple-linear-regression/note.md) |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Video 28](28-column-transformer/note.md) |
@@ -833,6 +850,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Square-root rule | A rough starting value for k: about $\sqrt{n}$, made odd. | [Video 91](91-knn/note.md) |
 | squared_error | DecisionTreeRegressor's default criterion: split by mean squared error, leaves predict the mean. | [Video 99](99-regression-trees/note.md) |
 | Stacking | An ensemble in which a meta-model learns how to weight the base models' outputs. | [Video 101](101-ensemble-learning/note.md) |
+| Stage-wise additive model | A model built as a sum of base models added one at a time. | [Video 115](115-adaboost-intuition/note.md) |
+| staged_score | A method that gives an ensemble's score after each added stage. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | Standard deviation | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). | [Video 19](19-understanding-your-data/note.md) |
 | Standardization | Scaling a column to mean 0 and standard deviation 1. | [Video 13](13-toy-project/note.md) |
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. | [Video 31](31-power-transformer/note.md) |
@@ -849,6 +868,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | str.extract | The pandas method that returns the part of each value matching a regular expression. | [Video 33](33-mixed-variables/note.md) |
 | strategy | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans. | [Video 32](32-binning-binarization/note.md) |
 | Strike rate | A batter's runs per 100 balls faced. | [Video 45](45-feature-construction-splitting/note.md) |
+| Strong learner | A model with high accuracy. | [Video 115](115-adaboost-intuition/note.md) |
 | Subscription | A model where customers pay a fixed amount every month (or year). | [Video 14](14-framing-ml-problem/note.md) |
 | Sum of squared errors (SSE) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest. | [Video 99](99-regression-trees/note.md) |
 | Sum of squared errors | The squares of all the errors added up; the quantity the best-fit line makes smallest. | [Video 50](50-simple-linear-regression/note.md) |
@@ -907,6 +927,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Unsupervised binning | Binning that uses only the column's own values. | [Video 32](32-binning-binarization/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |
 | Upper / lower limit | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers. | [Video 42](42-outliers-zscore/note.md) |
+| Upsampling (resampling by weight) | Drawing a new dataset in which each row is picked with probability equal to its weight. | [Video 116](116-adaboost-step-by-step/note.md) |
 | User-Agent | A short text a browser sends to say what it is. | [Video 15](15-working-with-csv/note.md) |
 | UTF-8 | The most common encoding, and `read_csv`'s default. | [Video 15](15-working-with-csv/note.md) |
 | Validation set | Data held back from training to check and tune a model before the final test. | [Video 113](113-oob-score/note.md) |
@@ -930,10 +951,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Vowpal Wabbit | A fast learning library that supports online learning. | [Video 5](05-online-learning/note.md) |
 | warm_start | Setting that keeps already-trained trees and adds new ones on the next fit. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | Wayback Machine | A web archive that keeps copies of web pages as they were. | [Video 18](18-web-scraping/note.md) |
+| Weak learner | A model whose accuracy is only a little better than random guessing. | [Video 115](115-adaboost-intuition/note.md) |
 | Web scraping | Writing code that extracts data from web pages. | [Video 7](07-challenges-in-ml/note.md) |
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor. | [Video 65](65-ridge-gradient-descent/note.md) |
+| Weight update | Multiplying misclassified rows' weights by $e^{\alpha}$ and correct rows' weights by $e^{-\alpha}$. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Weight-based algorithm | An algorithm that learns one number per input column from all the points; sensitive to outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Weighted average | The mean of a metric over classes, weighted by each class's support. | [Video 77](77-precision-recall-f1/note.md) |
+| Weighted error | The total sample weight of the rows a model misclassifies. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Weighted impurity decrease | A split's impurity drop, weighted by the share of rows reaching the node: the $\Delta$ of `min_impurity_decrease`. | [Video 114](114-feature-importance/note.md) |
 | weights | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance. | [Video 103](103-voting-classifier/note.md) |
 | Winsorization | Capping with limits set by percentiles. | [Video 41](41-what-are-outliers/note.md) |

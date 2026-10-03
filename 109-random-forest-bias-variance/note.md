@@ -8,6 +8,7 @@ title: "Why Random Forests Work: Bias and Variance"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Underfitting ([Note 91](../91-knn/note.md)); Hyperparameter tuning ([Note 98](../98-decision-tree-hyperparameters/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Feature importance ([Note 100](../100-dtreeviz/note.md)).
+> - **Leads to:** Boosting ([Note 119](../119-bagging-vs-boosting/note.md)).
 > - **Compare with:** K-nearest neighbours ([Note 91](../91-knn/note.md)); Bagging ([Note 107](../107-bagging-regressor/note.md)).
 <!-- /where-this-fits -->
 

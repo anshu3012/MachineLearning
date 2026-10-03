@@ -1,0 +1,22 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+  d/.style={box=cgrey, minimum width=3.0cm},
+  s/.style={box=cblue, minimum width=3.0cm},
+  a/.style={box=corange, minimum width=3.0cm, minimum height=0.9cm},
+  o/.style={box=cgreen, minimum width=12.5cm}]
+  \foreach \t/\x/\lab in {1/0/{data\\equal weights}, 2/5.4/{data\\mistakes weigh more}, 3/10.8/{data\\mistakes weigh more}} {
+    \node[title] at (\x,2.1) {stage \t};
+    \node[d] (d\t) at (\x,0.8) {\lab};
+    \node[s] (s\t) at (\x,-1.0) {stump $h_\t$};
+    \node[a] (a\t) at (\x,-2.6) {say $\alpha_\t$};
+    \draw[arrow] (d\t) -- (s\t);
+    \draw[arrow] (s\t) -- (a\t);
+  }
+  \draw[arrow] (s1.east) -- ++(1.2,0) node[note, below, midway, yshift=-2pt] {its\\mistakes} |- (d2.west);
+  \draw[arrow] (s2.east) -- ++(1.2,0) node[note, below, midway, yshift=-2pt] {its\\mistakes} |- (d3.west);
+  \node[o] (out) at (5.4,-4.6) {$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \alpha_3 h_3(x)\big)$};
+  \foreach \t in {1,2,3} \draw[arrow] (a\t) -- (out.north -| a\t);
+\end{tikzpicture}
+\end{document}

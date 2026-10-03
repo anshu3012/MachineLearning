@@ -9,7 +9,7 @@ title: "Bagging: Bootstrap Aggregation"
 >
 > - **Builds on:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Grid and random search ([Note 99](../99-regression-trees/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
 > - **Leads to:** Random forest ([Note 108](../108-random-forest-intro/note.md)).
-> - **Compare with:** Voting ensembles ([Note 104](../104-voting-regressor/note.md)); Cross-validation ([Note 104](../104-voting-regressor/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
+> - **Compare with:** Boosting ([Note 101](../101-ensemble-learning/note.md)); Voting ensembles ([Note 104](../104-voting-regressor/note.md)); Cross-validation ([Note 104](../104-voting-regressor/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

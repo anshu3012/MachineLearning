@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[b/.style={box=cblue, minimum width=4.6cm}, g/.style={box=cgrey, minimum width=4.6cm},
+  o/.style={box=corange, minimum width=4.6cm}]
+  \node[g] (w) at (0,0) {1. every row gets weight $1/n$};
+  \node[b] (fit) at (0,-1.7) {2. fit a decision stump};
+  \node[o] (err) at (0,-3.4) {3. error = sum of the weights\\of the misclassified rows};
+  \node[o] (a) at (0,-5.3) {4. say: $\alpha = \dfrac{1}{2}\ln \dfrac{1-\text{error}}{\text{error}}$};
+  \node[g] (up) at (7,-5.3) {5. update the weights:\\mistakes $\times e^{\alpha}$, correct $\times e^{-\alpha}$};
+  \node[g] (norm) at (7,-3.4) {6. normalise: divide by the sum};
+  \node[g] (res) at (7,-1.7) {7. upsample: draw $n$ rows\\with these weights};
+  \node[g] (new) at (7,0) {new dataset for the next stage};
+  \draw[arrow] (w) -- (fit); \draw[arrow] (fit) -- (err); \draw[arrow] (err) -- (a);
+  \draw[arrow] (a) -- (up); \draw[arrow] (up) -- (norm); \draw[arrow] (norm) -- (res); \draw[arrow] (res) -- (new);
+  \draw[arrow, dashed] (new) -- node[note, above] {repeat} (w);
+\end{tikzpicture}
+\end{document}
