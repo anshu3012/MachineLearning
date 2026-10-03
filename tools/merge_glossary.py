@@ -14,7 +14,7 @@ gloss = root / "glossary.md"
 head, table = gloss.read_text().split("|---|---|---|\n")
 rows = [r for r in table.splitlines() if r.startswith("| ")]
 have = {r.split(" | ")[0][2:].lower() for r in rows}
-added = [f"| {t} | {m.rstrip('.')}. | [{"Video" if int(video) < 200 else "Maths Note"} {video}]({folder}/note.md) |" for t, m in new if t.lower() not in have]
+added = [f"| {t} | {m.rstrip('.')}. | [{"Note" if int(video) < 200 else "Maths Note"} {video}]({folder}/note.md) |" for t, m in new if t.lower() not in have]
 rows = sorted(rows + added, key=lambda r: r[2:].lower())
 gloss.write_text(head + "|---|---|---|\n" + "\n".join(rows) + "\n")
 print(f"added {len(added)} of {len(new)} terms")
