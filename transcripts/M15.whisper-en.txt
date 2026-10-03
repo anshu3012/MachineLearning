@@ -1,0 +1,639 @@
+Hi guys, my name is Nitish and you're welcome to my YouTube channel.
+So if you remember, the last video I uploaded on my channel,
+the topic was Statistic Roadmap for Machine Learning and Deep Learning.
+And the response was very good from your side.
+You guys appreciated that roadmap very much.
+And from some people's side, there was a request that
+Sir, can you make a similar roadmap for Linear Algebra also?
+And guess what, I was already working on this thing.
+In fact, I was working side by side on both.
+The roadmap for Statistics was completed earlier.
+That's why I made its video earlier.
+And now, I have made the complete roadmap for Linear Algebra.
+And in this video, I am going to share the roadmap for Linear Algebra with you.
+Not only I will share the roadmap,
+I will also share my resource list,
+which I preferred and used while learning Linear Algebra.
+Why should we learn Linear Algebra?
+If this question is coming in your mind,
+let me tell you why.
+Two fundamental pillars of Machine Learning and Deep Learning
+are Statistics and Linear Algebra.
+Statistics, in a way, are your eyes when you work in Machine Learning and Deep Learning.
+And Linear Algebra does all the heavy lifting.
+So, you can say that it works like your hands and feet.
+Super important.
+And especially in today's day and age,
+where Deep Learning is creating a new magic every next day,
+if you are going to study Deep Learning there,
+then you will have to study Linear Algebra.
+So, trust me when I say this,
+that as a Data Scientist or as a Deep Learning Machine Learning Engineer,
+if you are going to work,
+it is very important to have complete control over Linear Algebra.
+So, I have spent a lot of time and resources on this whole roadmap.
+In the last 6 months, I took a batch on Data Science.
+Almost everyone knows this.
+In the process of teaching Linear Algebra to that batch,
+I also tried to compile all the topics.
+And since then, I have been working on this roadmap.
+So, the goal is very simple.
+If anyone sees this roadmap in the future,
+then he should get a direct direction
+on what topics to study and from where to study,
+so that I can be 100% ready
+to handle Linear Algebra anywhere in Machine Learning and Deep Learning.
+So, yeah, that's the plan for this roadmap.
+I really hope you like this roadmap.
+Let's start with the video.
+So, guys, let me show you the roadmap
+that I have prepared for Linear Algebra.
+So, I have made the whole roadmap in Google Sheets.
+And you can see, I have created 3 columns.
+One is for module,
+second is for topic,
+and I will tell you about the third in a while.
+So, the modules are basically scalars,
+vectors,
+matrices,
+tensors,
+eigenvalue and eigenvectors,
+matrix factorization,
+advanced topics,
+and tools and libraries.
+So, I have divided the things in these modules
+and I have organized all the topics accordingly.
+Before starting, before going through the topics,
+let me tell you 2-3 things about this roadmap.
+Just like my statistics roadmap,
+here also,
+I have encoded all the topics in color.
+You can see,
+some topics are in white color,
+some are in red,
+some are in yellow.
+So, I can tell you,
+the yellow cells,
+they represent that the topic is important.
+And the meaning of important is that
+you will get to see this topic in multiple places
+when you are studying machine learning or deep learning.
+Okay?
+Then comes the red cell.
+Red cell represents very important topic.
+What does this mean?
+These are the topics that you can see everywhere.
+So, you have to read them very well.
+Okay?
+White cells represent normal topics,
+but still you have to read them.
+Okay?
+Then you will see one more thing in this roadmap,
+that I have put L in a bracket in front of some topics.
+Okay?
+This L represents that
+you can read these topics later also.
+So, it is not necessary that
+you complete yourself in this whole roadmap first,
+then start studying machine learning.
+So, here,
+the topics which have L in front of their names,
+they are very very specific topics
+which you have to use only for some things
+in machine learning.
+So, until you are not reaching those topics,
+you are not reaching those special topics,
+you do not need to touch these things.
+And you will notice that
+mostly at the end,
+you will see more of these types of topics.
+Because these are really specialized topics
+which are applied in specific areas.
+Okay?
+So, wherever there is no L,
+there are such topics which I am recommending
+that you should cover in one flow on the go
+before starting machine learning and deep learning.
+Okay?
+Now, one more very good thing about this roadmap is that
+I have spent a lot of time and research
+and also told that,
+what is a particular topic
+and where it is used in machine learning and deep learning.
+I have written different for machine learning
+and different for deep learning
+because as you know,
+linear algebra is very important for both of them.
+So, any topic you pick up,
+like, what are vectors?
+So, you can see,
+it is written here that
+in machine learning,
+vectors can represent data points
+while in deep learning,
+they can represent features,
+weights and biases.
+So, any topic,
+which you will get in this roadmap,
+in that,
+first, you will be explained in one line
+that what is that topic?
+One line introduction.
+Then, you will be told that
+where it is used in machine learning
+and then, you will be told
+where it is used in deep learning
+because I firmly believe that
+what happens if you don't tell
+is that
+it feels like
+why are you reading?
+Okay?
+But, just one line should be added
+that no,
+this is used a lot in these topics.
+So, then you have an inspiration,
+a motivation
+that you should read that topic.
+So, that is why
+for each topic,
+it took me some time to do this,
+but for each topic,
+I have written this description
+and I feel that
+it will help you a lot.
+In fact,
+those who have a lot of idea
+about linear algebra,
+if they also read this roadmap once,
+then they will get a revision kind of
+that okay, this topic is used here.
+So, anyways,
+you should see this once.
+Okay?
+So, now I will tell you once that
+how I have written all the topics
+that I have brought in a roadmap.
+So, scalars are important
+basically numbers,
+arithmetic numbers
+which you use,
+you should have an idea about them.
+Vectors are pretty important.
+First of all,
+you start with vectors.
+So, about vectors,
+we have tried to cover almost everything.
+What are vectors?
+Types of vectors,
+distance from origin,
+Euclidean distance,
+operation between two vectors,
+operation between one vector and one scalar.
+We have covered all this.
+In the last,
+there are some advanced topics.
+Like,
+equation of line in ND
+because this is super useful in linear models.
+What are vector norms?
+It is used a lot in regularization.
+And what are vector spaces?
+So, if you read these topics completely,
+then your whole command will be on vectors.
+And then at least,
+you will not be worried according to this.
+After that,
+in matrices,
+I have put things in the roadmap in two ways.
+First,
+you have to read once
+that what is used where.
+And then,
+what is their intuition.
+That is the second part.
+So, you can see here,
+you will see the syllabus of 11th and 12th class.
+What are matrices?
+What are types of matrices?
+Scalar operations on matrices.
+Vector operation on matrices.
+How inverse is taken out?
+What is determinant?
+These are like school level stuff.
+And then,
+in the second part,
+you will notice that
+I have put some conceptual things.
+Like,
+what is rank of a matrix?
+What is column space?
+What are column spaces?
+How is change of basis done?
+How is linear system of equations solved?
+What are linear transformations?
+This topic is very important.
+Means,
+you have to read it very well.
+What is dot product concept?
+We have covered all this.
+Okay.
+After that,
+comes tensors.
+In tensors,
+you can see,
+super important,
+from the point of view of deep learning,
+it is very important.
+And how you represent different types of data in tensors.
+That is also very important.
+So,
+eigenvectors,
+eigenvalues,
+are also useful.
+Especially,
+if you have studied machine learning,
+if you have studied PCA,
+then you must have heard the name of eigenvalues,
+eigenvectors.
+It is very important from that point of view.
+Then comes matrix factorization or decomposition.
+Here,
+some techniques are added,
+which you will get to see at different places.
+LU decomposition,
+QR decomposition,
+SVD eigen decomposition.
+These are like really important.
+I have marked them.
+In advanced topics,
+you should read some topics.
+Like,
+quadratic forms are used a lot,
+to solve SVMs,
+Moore-Penrose pseudo-inverse,
+to find the inverse of non-square matrices.
+So,
+yeah,
+I mean,
+these are some things.
+And in the last,
+I have added two libraries in tools for you.
+The first library is,
+NumPy,
+obviously,
+because,
+NumPy,
+is applied in the whole machine learning,
+deep learning universe,
+through NumPy.
+I am sorry,
+if I said it wrong.
+Linear,
+Algebra,
+in the whole,
+in the universe of machine learning and deep learning,
+is applied through NumPy.
+So, you should have a lot of command on it.
+And there is one more library,
+you might have heard its name.
+It is the brother of NumPy,
+SciPy.
+And,
+this is also used a lot.
+So,
+not as much as NumPy,
+but, yeah,
+you should have an idea of this too.
+Okay?
+So, this is the roadmap.
+Your whole experience,
+knowledge,
+and,
+in the last six months,
+the batch I have taught,
+of data science,
+in that,
+after doing full research,
+I have made this roadmap.
+So, I really hope,
+I have covered almost,
+90-95% topics here.
+May be,
+some specific topics would have been left.
+But, you can cover them from somewhere else.
+Okay?
+Now, let me show you,
+what are the resources that I have compiled.
+So,
+the first resource,
+which is,
+which I always recommend to people,
+that is,
+3Blue1Ground's,
+lecture series on,
+linear algebra.
+This is,
+hands down,
+the best,
+lecture series on,
+linear algebra.
+The only problem is,
+that,
+a little bit,
+when you watch these videos,
+there are a lot of beautiful videos,
+but,
+there is a little bit,
+problem in understanding.
+So,
+I would recommend you,
+to watch these videos,
+multiple times.
+These videos,
+are very dense,
+means,
+the amount of information,
+put in per minute,
+that is very high.
+So,
+you should watch it multiple times.
+But, yeah,
+this is the best one,
+that I have seen.
+Second,
+I would say,
+there is a playlist,
+by,
+Gilbert Strang,
+who,
+was a professor,
+of,
+linear algebra.
+And,
+he has a,
+playlist,
+on YouTube.
+It's called,
+Gilbert Strang,
+lectures on,
+linear algebra.
+There are around,
+35 lectures.
+Okay?
+And,
+this is like,
+too much content.
+A lot of things,
+have been taught here.
+Many of these things,
+are not that useful,
+in machine learning.
+But,
+if you,
+want to study,
+then,
+this is the lecture.
+He is a very good professor.
+And,
+he has covered,
+very well,
+linear algebra.
+Okay?
+So,
+I will recommend,
+these two playlists to you.
+Okay?
+If we talk about books,
+then,
+Gilbert Strang,
+has a book,
+Introduction to Linear Algebra.
+You,
+can read this.
+I have attached,
+its PDF.
+Which is,
+his course,
+online course,
+on YouTube.
+Mostly,
+this book,
+I have also,
+added,
+NCRT's,
+textbook.
+Because,
+trust me,
+when I say this,
+I have prepared,
+a lot of linear algebra,
+from NCRT's,
+textbook.
+At least,
+intuition part,
+may not be that good,
+in NCRT books.
+But,
+the topic,
+is well covered.
+So,
+you can go through,
+this also.
+Okay?
+This is also nice.
+Then,
+one more book,
+which I will recommend to you,
+is,
+the book called,
+Deep Learning.
+This is,
+a very famous book,
+on Deep Learning.
+The name of the book is,
+Deep Learning.
+And,
+your,
+in this,
+chapter 2,
+is a chapter of Linear Algebra.
+And,
+they have explained,
+very nicely,
+in a summary kind of,
+all the topics,
+which you should know.
+Specially,
+for Deep Learning.
+But,
+this is pretty useful.
+I had read this chapter,
+at least,
+twice.
+And,
+it helped me a lot.
+Okay?
+And,
+apart from this,
+I have added,
+one more book,
+which you can go and see.
+It is a book of,
+Cornell University.
+You can also,
+go and see that.
+If you talk about,
+online courses,
+then,
+I have attached,
+two courses.
+One is,
+Khan Academy's,
+Linear Algebra.
+Khan Academy,
+I guess,
+you must know.
+They make,
+very good content.
+And,
+they have a course,
+on Linear Algebra.
+So,
+you can check out,
+this course.
+And,
+the second one is,
+this Coursera's course,
+on Linear Algebra.
+You must have seen,
+its videos,
+somewhere on YouTube,
+or somewhere else.
+This is also,
+a good course,
+which you can go and see.
+I am not really sure,
+at this point,
+if it is free or not.
+But,
+you can check it out.
+Okay?
+Also,
+I have attached,
+my,
+playlist,
+for Linear Algebra.
+So,
+I have also,
+made a playlist,
+on Linear Algebra.
+In fact,
+there is a playlist on my channel,
+I had told you.
+Maths for Machine Learning.
+In this,
+there are five lectures,
+on Linear Algebra.
+Vector,
+Matrices,
+there are two lectures.
+On Eigen Vector,
+and Eigen Spaces.
+And,
+on Eigen Decomposition.
+And,
+on SVD.
+So,
+in these five topics,
+what I have done is,
+I have,
+this playlist,
+of 3Blue1Brown,
+I have learnt a lot,
+from there.
+And,
+I have tried to simplify,
+their content,
+in my style.
+So,
+you can go through,
+this playlist as well.
+And,
+lastly,
+I have attached,
+some blogs.
+And,
+I have attached,
+some cheat sheets.
+Okay.
+So, what you can do is,
+you can go and,
+check out these resources.
+I have added this,
+in the description section,
+of the video.
+So,
+go check it out.
+Okay.
+So, I hope,
+you liked this roadmap,
+because,
+it has been made with a lot of hard work.
+And,
+the goal was,
+that,
+there are only two pillars,
+of Machine Learning,
+and Deep Learning.
+That is,
+Statistics,
+and Linear Algebra.
+I have made a very comprehensive,
+roadmap on Statistics.
+And,
+now,
+Linear Algebra was left.
+So,
+there was a plan to make a roadmap,
+which,
+if someone comes in the future,
+and looks at it,
+then,
+it will help him,
+he will get a direction,
+on how to read Linear Algebra.
+Okay.
+So,
+if you see any shortcomings,
+in this roadmap,
+or,
+you want to give feedback,
+then,
+please write in the comments.
+I will definitely,
+make changes.
+Also,
+if you think that,
+I have missed some topics,
+then,
+please tell me.
+I will add it.
+And,
+there is a resource,
+which I don't know.
+I didn't put it in my resource list.
+You can tell me that too.
+I will add it here too.
+Okay.
+So,
+yeah,
+that's it from my side.
+I hope you liked the video.
+If so,
+please press the like button.
+Also,
+please subscribe,
+if you haven't subscribed.
+See you in the next video.
+Bye.

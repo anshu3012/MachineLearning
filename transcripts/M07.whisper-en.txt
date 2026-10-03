@@ -1,0 +1,2950 @@
+Hi guys, good evening. How are you all?
+I hope I am audible.
+So guys, we will start at 8 o'clock.
+Till then, if you have any doubts, you can ask.
+Let me know if you have any doubts.
+We will start in 2 minutes.
+Sir, I think stats will be till mid-April, right?
+No, it will be till first week of April.
+This week, we are studying Central Limit Theorem.
+In next class, we will study confidence intervals.
+After that, in 2 classes, we will cover some interview questions.
+And next week, we will completely study hypothesis testing.
+So, it will be till next week.
+And then, we will start machine learning from 2nd week of April.
+When will we study case statement in SQL?
+Yes.
+I have not studied it formally.
+But, I have used it many times during the sessions.
+I guess, I have used it 10-12 times.
+So, I guess, you must have understood.
+If you don't understand, then we will teach you.
+Usain distribution.
+We will teach.
+We will teach this Friday in paid session.
+Sir, apart from your course, can I follow statistics Khan Academy videos also?
+Yes.
+I have heard that their videos are very good.
+You can follow them.
+Will there be any interesting paid session on stats?
+Yes.
+There will be 4 sessions.
+There will be 2 sessions this week and 2 sessions next week.
+I don't know the definition of interesting.
+We will try to cover topics.
+We will try to cover topics in a practical way.
+Let's hope you will find it interesting.
+No, Mihir.
+It won't have any impact on you.
+When will you complete it?
+Okay, guys.
+Let's start today's session.
+Let's start today's session.
+So, what have we done till now?
+Let's discuss that.
+Till now, we have studied descriptive statistics.
+We have studied many statistical measures.
+Then, we have started studying probability distribution.
+We have studied PDF, CDF, PMF.
+And then, we have studied something.
+We have studied normal distribution in a full session.
+Then, we have studied non-Gaussian distributions.
+In the last video, we shared with you.
+There, we did log-normal distribution.
+We did Pareto distribution.
+We did uniform distribution.
+We have done all these distributions.
+Today's class is on a very interesting topic.
+The name of the topic is Central Limit Theorem.
+We are going to cover the next 2 important topics in statistics.
+One is Confidence Intervals.
+And second one is Hypothesis Testing.
+In both of them, you will get to use Central Limit Theorem.
+So, that is a very important topic.
+So, today we are going to study Central Limit Theorem.
+Practically, we will do it and see its implications.
+But before that, we are going to cover 2 more probability distributions.
+Which you will get to see in machine learning in many places.
+Okay.
+So, the first one that we are going to do today is Bernoulli Distribution.
+Bernoulli Distribution.
+And the second one is Binomial Distribution.
+We are going to do both of them today.
+Both of these distributions are discrete distributions.
+Okay.
+The distributions that we studied in the last class were all continuous distributions.
+These two are discrete.
+Okay.
+Apart from this, we have to study some more discrete distributions.
+Like we have to study Poisson.
+We have to study discrete of uniform.
+So, we will study that in Friday and Saturday class.
+Because according to the flow of today's course, we have to study only Bernoulli and Binomial.
+Okay.
+So, first of all we will start with Bernoulli and Binomial.
+And then we will move into Central Limit Theorem.
+Okay.
+So, today's class is divided in these two parts.
+Okay.
+So, I hope you understood.
+So, let's start our discussion around Bernoulli Distribution.
+Okay.
+It is a very simple concept.
+But it is useful.
+Okay.
+More than being independently useful, it is used in other distributions.
+That's why it is useful.
+Okay.
+So, look carefully.
+There is a definition written here.
+So, Bernoulli Distribution is a probability distribution that models a binary outcome.
+This is very important.
+Whenever you are talking about Bernoulli Distribution, it is applicable only above the binary outcome.
+Let me explain what it means.
+Where the outcome can either be success or failure.
+Either be success represented by a value of 1 or failure represented by a value of 0.
+Okay.
+Bernoulli Distribution is named after the Swiss mathematician, this guy, who introduced
+it in late 1600s.
+It is a very old distribution.
+Now see, what happens is that you consider any experiment, any random experiment.
+Okay.
+A very simple example, which is always said in respect of Bernoulli Distribution is
+coin toss.
+Right.
+In coin toss, you have only two possibilities.
+Either head or tail.
+Now, if you consider head as success and denote it as 1 and tail as failure and denote
+it as 0.
+So, you can consider this experiment as Bernoulli Distribution because in this, you have Bernoulli
+Distribution.
+You have binary outcome.
+It is very simple.
+Okay.
+Let us take one more example in the domain of machine learning.
+Suppose, you want to make an email spam classifier and you have two possibilities.
+A new email will either be spam or it will not be spam.
+Right.
+This is also a random experiment and it has two outcomes.
+Spam or not spam.
+If we consider spam to be success.
+By the way, success does not necessarily mean that it is a good thing.
+It depends.
+Okay.
+Like, you want to find spam here.
+So, here you are considering spam to be success and you are denoting it as 1 and not spam
+as failure and you are denoting it as 0.
+So, again this can also be a scenario where you have Bernoulli Distribution or where you
+will have Bernoulli Distribution.
+So, you have Bernoulli Distribution and you will have Bernoulli Distribution.
+So, you will have Bernoulli Distribution.
+Okay.
+One more example could be rolling a dice, rolling a dice and getting a 5.
+Okay.
+Getting a 5.
+So, in this case also you can treat it as Bernoulli Distribution.
+What will be the success in this?
+Coming of 5 which is a probability of 1 by 6.
+And what will be the failure?
+Anything other than 5.
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+22, 23, 24, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 38, 39,
+39, 40, 41, 42, 41, 42, 41, 42, 42, 43, 42, 43, 44, 44, 44, 45, 45, 45, 46, 46,
+46, 44, 45, 46.
+Basically its probability is 5 by 6.
+So, I guess you can understand roughly that whenever you have random experiments of binary
+outcomes then you can treat it like Bernoulli distribution.
+That's the main thing.
+Now, since it is a distribution and this is discrete distribution then it will have
+a PMF.
+It is Probability Mass Function.
+Let's talk about it once.
+So, its Probability Mass Function is 5 by 6.
+So, it will have a PMF.
+It is Probability Mass Function.
+function is represented like this. Let's say you are writing like this. Probability of x to be equal to small x.
+How is the probability of random variable x taking the value of small x? There is a simple formula which governs the outcome.
+And what is the outcome? Outcome is p as in small p to the power of x 1-p to the power of 1-x.
+This is your equation for PMF. Now it is very simple. What is p? Here p is probability of success.
+And since it is a binary experiment,
+it is going to be a binary outcome. So what is 1-p automatically? Probability of failure.
+So if you talk about the example of coin toss. So in the example of coin toss, if you consider the head as success and consider it as 1,
+then what will be the probability of x equal to 1? p as in success probability. You know the probability of success would be 1 by 2.
+It is half. And what will be x? The value of x here is 1. And what will be 1-p?
+Again half. Basically the probability of tail coming. And what will be 1-x here? 0.
+So what will be 1 by 2 raised to the power of 0? 1. And when you multiply it by 1 by 2, then the answer will be 1 by 2.
+And if you want to find out the probability of x being 0, then what will you write again?
+What will be p this time? P will be your success as in tail probability.
+1 by 2 raised to the power of 0. And 1 minus 1 by 2, 1 minus 0.
+So basically this time it will be 1 and here it will be 1 by 2.
+So basically this is it. It is a simple thing. That you have a random experiment with a binary outcome.
+Where p denotes the probability of success. So this formula px.
+Multiply it by 1 minus p raised to the power of 1 minus x.
+Where x is the value of the random variable. This gives you the PMF.
+If you talk about how its graph looks, then you can see this is the graph.
+It is simple. You know since there are only two outcomes and one of them is 0 and the other is always 1.
+So basically on this axis, here you will be shown the probability of 0 and here you will be shown the probability of 1.
+That's it.
+Any time your graph will be PMF of Bernoulli, it will always look like this.
+So you can see here you can see three different Bernoulli distributions.
+First of all, focus on the red one.
+In the red one, the probability of x being 0 is 0.2.
+So obviously the probability of 1 being 0 is 0.8.
+So you can see this is 0.2 for 0 and this is 0.8 for 1.
+Then talk about the blue one.
+So the probability of 0 being 0 is 0.8.
+And you can see the probability of success is 0.2.
+And this is the green one.
+So basically three different distributions are plotted in one graph.
+Just to show you.
+Its graph will always look like this.
+So honestly there is nothing special about this distribution.
+Except for the fact that you should know that this distribution occurs a lot in machine learning.
+If you talk about machine learning,
+then in machine learning, this distribution occurs in many places.
+In fact, whenever you are working on any classification problem,
+where your outcome is a class.
+Yes, No, 1, 2, Delhi, Bombay.
+So that basically becomes the case of Bernoulli distribution.
+Here it is written.
+The Bernoulli distribution is commonly used in machine learning for modeling binary outcomes
+such as whether a customer will make a purchase or not,
+whether an email is spam or not,
+or whether a patient will have a certain disease or not.
+So whenever you are studying any machine learning algorithm in the future,
+whether you are studying logistic regression or SVM or decision trees or whatever you are studying,
+there we can always treat the data that you have internally as a Bernoulli distribution.
+A lot of algorithms do this.
+I know one example very well.
+Naive Bayes takes this assumption completely.
+That Bernoulli.
+You are working on your experiment.
+It may not be that useful in itself.
+But the good part about Bernoulli is that it is used in other distributions.
+Specifically in a distribution called binomial distribution.
+Which we are going to study next.
+Okay.
+So yes, there was nothing special in Bernoulli.
+I will open chat.
+Let me know if you have any questions.
+If not, then write clearly.
+We will move ahead.
+We will move on to the second one.
+Yes, Bernoulli will be valid only on discrete variables.
+It will not be valid on continuous.
+Because success and failure should be defined like this.
+It cannot be arranged.
+Yes, you can say that it is finding class as per probability.
+It is like that.
+Yes, Aditya.
+Binomial is a general case.
+Let's discuss.
+Okay.
+There is actually nothing much in Bernoulli.
+The simple definition of Bernoulli is that
+You have a random experiment whose outcome can be either 1 or 0.
+That's it.
+This is what Bernoulli is.
+Okay.
+The interesting thing is binomial.
+Let's discuss binomial.
+And the good part is that Bernoulli is a special case of binomial.
+So if you get binomial, then you will automatically understand Bernoulli.
+Okay.
+Although, I forgot to say one thing explicitly.
+But I guess you must have understood.
+That there is only one parameter in Bernoulli.
+And that is P.
+The probability of success.
+If you know the probability of success, then you know everything.
+You also know about failure.
+And these are the two things.
+Okay.
+I hope you understood.
+Okay.
+Let's discuss binomial distribution.
+Okay.
+This is an interesting kind of distribution.
+And this is also very important from the point of view of machine learning.
+Let's discuss it once.
+So binomial distribution is a probability distribution that describes
+the number of successes in a fixed number of independent Bernoulli trials.
+With two possible outcomes often called as success and failure.
+This is the definition.
+Where the probability of success is constant for each trial.
+The binomial distribution is characterized by two parameters.
+The number of trials N and the probability of success P.
+I will tell you in very simple words.
+Now you have read Bernoulli.
+Bernoulli distribution is such a distribution where you are performing a random experiment once.
+And in that random experiment either there can be success or there can be failure.
+Right.
+There can be coin toss.
+There can be email spam.
+There can be patient disease.
+All of these are Bernoulli experiments.
+Where there can be some outcome by performing that experiment once.
+Positive and negative.
+Binomial is just its general case.
+Where you are performing that Bernoulli experiment or that Bernoulli trial N times.
+Like taking the example of coin toss.
+So if you are performing coin toss once then it is Bernoulli.
+But if you are performing it five times.
+I did it once.
+Then I did it once.
+Then I did it once.
+Then I did it once.
+Then I did it once.
+Then I did it once.
+Then it becomes binomial.
+Okay.
+If I am just reading one email and deciding whether it is spam or not.
+That is Bernoulli.
+But if I am opening five emails and deciding whether this email is spam or not.
+Then it becomes binomial.
+Okay.
+To find out about one patient whether he has disease or not is Bernoulli.
+But to find out about five patients becomes binomial.
+So basically you can say that.
+If you consider N equal to one.
+If you consider number of trials one.
+Then binomial becomes.
+Then binomial becomes Bernoulli.
+I hope you are understanding.
+It is a simple fund.
+Okay.
+So let us repeat it once.
+Binomial distribution is a probability distribution that describes the number of successes.
+Every Bernoulli trial can have success or failure.
+So what happens here is that you are measuring number of success.
+In a fixed number of independent.
+This is a very important thing.
+That your Bernoulli trials should be independent in each other.
+Okay.
+Let me give you an example.
+Suppose we are taking feedback from every child in this course.
+Suppose.
+We are taking feedback from every child.
+And there are total ten students.
+If there was only one student.
+Then this would have been a Bernoulli experiment.
+This would have been a Bernoulli distribution.
+That either one student will say that the course is good or the course is bad.
+Right.
+But I have ten.
+So basically I am asking ten people whether the course is good or bad.
+Now this becomes binomial.
+But there is a strict assumption.
+That each of these students.
+They don't talk to each other.
+Now if the first student says to the other one.
+I didn't like it.
+It is a useless course.
+You also say that it is useless.
+So if this communication happens.
+In any way they relate.
+The experiments between each other.
+If those trials relate between each other.
+Or if there is any relation between them.
+Then it is not binomial.
+They have to be strictly independent of each other.
+Right.
+Once you are doing coin toss.
+Then you are doing it again.
+So by doing it again.
+There is no difference.
+Right.
+Of the first result.
+Right.
+The first time head came.
+It does not mean that the second time head will come or tails will come.
+They are independent events.
+Right.
+So you have to always remember this thing.
+The good part about binomial distribution is.
+That it gives you answers of very interesting questions.
+Right.
+I will explain it to you with a small example.
+And then we will study it a little better.
+That which type of questions binomial distribution helps in answering.
+So suppose we have a simple problem.
+The problem is that.
+Right now you are watching this lecture.
+Right.
+Now.
+Whoever is watching this lecture.
+The probability of them liking this lecture.
+As in the probability of pressing the like button on YouTube is 0.5.
+You are watching it now.
+You can press the like button or not.
+Right.
+So the probability of pressing the like button is 0.5.
+1 by 2.
+This means half of the people press it and half of the people do not press the like button.
+Right.
+So what is the probability that.
+No one out of 3 people will like the video.
+Understand the question.
+That suppose 3 people are watching this video.
+The probability of pressing the like button of every person is 1 by 2.
+So then no one should press the like button.
+What will be the probability of this?
+Out of 3 people.
+Who can give me the answer to this question?
+Binomial theorem.
+Binomial distribution.
+I am sorry.
+Right.
+Or someone can ask you.
+1 out of 3 people will like it.
+What is the probability of this?
+2 out of 3 people will like it.
+What is the probability of this?
+3 out of 3 people will like it.
+What is the probability of this?
+Understand.
+You can ask this question in many ways.
+I have launched a course.
+Generally when I launch a course.
+If a child enrolls in it.
+Its probability is.
+1 by 10.
+Let's say.
+Right.
+If I show 1000 children.
+Then 50 people enroll.
+What is the probability of this?
+If I show 1000 children.
+Then at least 70 children enroll.
+What is the probability of this?
+So whatever such questions are possible.
+You can answer such questions very easily.
+With the help of binomial theorem.
+Distribution.
+I am really sorry.
+I studied binomial theorem in my childhood.
+And it is coming in my mind again and again.
+It is not binomial theorem.
+It is a different thing.
+This is called binomial distribution.
+It is called binomial distribution.
+Right.
+So.
+This thing.
+We do it step by step by ourselves.
+Intuition will develop with that.
+Then I will share a formula with you.
+And you will be able to solve all the problems with that formula very quickly.
+Right.
+So look carefully.
+First of all let's solve this question.
+Where we want to find out that.
+If one person has a probability of liking the video 1 by 2.
+So if I show it to 3 people
+So none of them will like it
+What will be the probability of it?
+So it is very simple
+If you want to do it very intuitively
+Then you can do it very easily
+Suppose you showed it to the first person
+First person
+Can do two things
+Can do yes or no
+Means he can like the video
+Or can not like
+Then second person came
+Second person also can do yes
+Or can do no
+Can do like or can not like
+Second person
+If he came in the no case
+Then he can do yes or no
+And then third person came
+So he also has
+These possibilities
+That he can do yes or no
+I hope you understand
+So basically if you want to see
+What are the different possibilities that occur
+So yes yes yes
+First possibility is
+That all three have liked
+What is the second possibility
+That the first two did
+The third did not
+Then the first did
+The second did not
+Then the first did
+And
+Next
+We did this
+We did this
+The next two did not
+Then the first did not
+The second did
+The third did
+I will write once
+Now the last one
+Is some confusion
+These were 8 cases
+Overall you have
+8 cases
+8 cases
+You can even create a tree
+Or simply ask
+You have three possibilities
+And
+You can get in two things
+Two things
+Things
+Yes or no
+maximum possibilities.
+So this is my entire sample space.
+Now I can very easily answer
+such questions. The first question is
+that out of 3
+if no one likes,
+then there is only one case where no one is liking.
+So what is the probability of this?
+The total is 8 and
+how many cases are there where no one is liking?
+This one. 1 by 8.
+Now if someone asks you that 1 out of 3 people will like it.
+What is the probability of this?
+So you have to see which are the cases where only one
+person is liking. Now one person is liking that there will be 3 cases.
+You can think and see that only the first one will like,
+only the second one will like and only the third one will like.
+You have to see all the combinations. So this is
+sorry this is not there.
+This is one case, this is one case
+and this is one case.
+So basically 3 by 8.
+Next question is that 2 out of 3 people will like it.
+Means 2 people will like it.
+So now those 2 people can be the first 2,
+those 2 people can be the last 2 and
+those 2 people can be the middle 2.
+Basically this combination and
+I made a mistake in the last one.
+This combination.
+Okay there is a little confusion but whatever it is.
+3 by 8. And someone says that 3 out of 3 people will like it.
+So basically
+3 out of 3 people will like it. This is just one case.
+So it would be 1 by 8.
+So you can see how easily you solved these questions
+when you made this sample space.
+But think and see that is it always possible
+to make this sample space?
+Or is it always possible to figure out these combinations?
+No it is not.
+What if I tell you that
+let's assume that
+this is it. Probability is 0.5
+to like it.
+And I showed 10,000 people
+what is the probability that out of them 500 people will like it.
+Suddenly this problem will become difficult.
+So if you want this same problem
+then you can solve it very easily
+through binomial distribution.
+Using its equation for PD.
+So the equation is this.
+Look carefully.
+The equation is
+X equal to X
+Random variable X will take a value of small x.
+Its value is
+N C X
+This is C permutation combination.
+After that
+P to the power X
+1 minus P to the power
+N minus X.
+This is the formula guys.
+This is the formula.
+Now I will tell you one by one
+that what is N in this?
+N is your
+number of trials.
+Okay?
+What is P?
+Probability of
+success.
+And what is X?
+Your desired
+result.
+That how many times you want.
+Here it is being said.
+1 out of 3
+or 2 out of 3
+or 3 out of 3
+or 0 out of 3
+So that is your X.
+Okay?
+So this same work
+you can do very easily
+with this formula also.
+You can see.
+Suppose we have to find out
+the probability of 2 out of 3.
+So what will you do?
+What will come in N?
+What were the total trials?
+3.
+I will find out here.
+Total trials were 3.
+C.
+And what do you want?
+What is the X?
+How much success do you want?
+2.
+Then what is your probability of success?
+It is defined above.
+0.5
+So here it comes.
+1 by 2
+And what is X?
+It is 2.
+And then comes the probability of failure.
+Which is again 1 by 2.
+And what will be N minus X?
+N minus X will be
+1.
+As in 3 minus 2.
+Okay?
+So 3 factorial
+divided by
+2 factorial
+and 3 minus 2 factorial
+1 factorial.
+You must have read this in your childhood.
+Multiplied by
+1 by 8.
+Okay?
+So this 3 factorial and 2 factorial
+are cancelled out.
+So this is 3 multiplied by
+1 by 8.
+And the answer is
+3 by 8.
+Okay?
+So the work we did manually
+by writing all the sample spaces
+you can do that same work
+very easily
+by using this formula also.
+Okay?
+And if you pay attention to this formula
+then this part here
+is exactly
+the same part
+which you saw a while ago
+in Bernoulli.
+What is different?
+This factor
+by which you are multiplying.
+And what is this factor actually telling?
+Number of combinations.
+Right?
+2 out of 3.
+So all the combinations
+you have to consider
+and multiply all of them.
+Right?
+2 out of 8.
+So all the possibilities
+that
+you can get in 2 out of 8 positions
+you have to consider all these possibilities.
+So this part of your formula
+is basically giving you
+all the combinations
+that how many combinations
+are being made
+of 2 out of 3
+or 1 out of 5.
+Okay?
+And then you are multiplying
+the same probability
+of success
+and the probability
+of failure
+and you are getting
+your desired
+probability
+output.
+Okay?
+So I hope
+you understood.
+If you are
+trying to
+calculate
+from the point of view
+of the graph
+then
+the graph
+of your PDF
+is
+of binomial distribution.
+It looks something like this.
+You can say
+that it looks
+like a normal distribution.
+So this
+is
+the graph
+of the same PDF.
+But there are
+3 different graphs.
+Actually,
+what you have changed is
+you have changed
+the probability of success.
+Okay?
+So if you increase
+the probability of success
+like
+0.9
+then
+your graph
+moves to the right side.
+If you
+reduce the probability
+of success
+a lot
+then
+your graph
+moves to the left side.
+And if you
+keep it
+somewhere around 0.5
+in the middle
+then
+it looks like
+a normal distribution
+to you.
+Okay?
+I will run this
+in Python
+and show you.
+But from this
+you might understand
+why this graph
+is moving like this.
+Because
+if
+the probability
+of success
+is high
+Right?
+If the probability
+of success
+is high
+then
+basically
+it is difficult
+for you
+to understand
+this.
+Let's do one thing.
+Let's run
+a Python code
+and through that
+we will try to understand.
+Okay?
+Let me show you
+a code.
+Here
+I have written
+a code.
+Okay?
+So look carefully
+what we do.
+We
+By the way
+I forgot to tell you again.
+The binary
+the binomial distribution
+has two parameters.
+One is
+n
+and one is
+p.
+Okay?
+Like in Bernoulli
+there was only p
+here n and p
+are there.
+p represents
+the probability of success
+and n represents
+the number of trials.
+Like in our question
+three people
+like it
+that
+three people
+are watching the video
+so number of trials
+is three.
+Okay?
+If you are checking ten emails
+then the number of trials
+is ten.
+So here
+you have to tell two things.
+To plot
+this graph
+and that is
+n and p.
+Okay?
+In this formula
+you can see
+you need three things.
+x
+you need in every formula
+but
+apart from that
+if you see
+there is only n
+and only p.
+These two things
+are required
+in binomial distribution.
+Okay?
+So see what we are doing.
+We
+are taking
+such
+binomial distribution
+or such
+binomial experiment
+where
+the number of trials
+is ten.
+Take an example
+of coin toss.
+In coin toss
+what we are doing is
+we are throwing the coin
+ten times.
+Okay?
+Probability of success
+is point five.
+In coin toss
+probability of success
+is point five only
+if it is an unbiased coin.
+Okay?
+And then what we are doing is
+that
+this binomial experiment
+we are doing it
+thousand times.
+Understand this.
+This is very important.
+Don't get confused.
+This is a little confusing.
+I will tell you
+once
+after writing.
+So what we are doing is
+our experiment is
+to throw
+the coin ten times.
+To throw
+a single coin
+ten times.
+Okay?
+But
+this
+whole activity
+the activity
+which is
+to throw
+ten times
+how many times
+are we doing this?
+We are doing this
+thousand times.
+Okay?
+So
+now
+see
+what will happen
+that
+first time
+head
+tail
+head
+tail
+head
+tail
+this way
+anything will come.
+Then
+second time
+also
+something will come.
+Third time also
+something will come.
+Thousand times
+some or the other
+values of head
+and tail
+will come.
+Right?
+What we did is
+we
+made
+a binomial distribution
+around it.
+Okay?
+How did we make it?
+By calling
+the binomial function.
+Here we sent three things.
+First
+our two parameters
+which is
+n and p
+and then
+we told the size
+that how many times
+we are conducting
+this whole binomial experiment.
+And then
+what did I do?
+I plotted a histogram
+of
+this
+binomial distribution.
+So let me first show you
+how binomial distribution
+looks like.
+So
+what I will do is
+I will show you
+binomial
+distribution
+if I run it
+then
+you can easily imagine
+that this will be a big
+two dimensional array
+whose shape will be
+what will be
+its shape will be
+thousand comma ten.
+Oh
+okay.
+Just one second guys.
+So basically
+what is happening
+if we remove
+then this output is coming.
+Let me explain to you
+once.
+So
+in total
+there are thousand numbers.
+Now
+what are these thousand numbers
+representing?
+Let me tell you.
+What is this five
+representing?
+When we
+first
+threw the coin
+ten times
+then how many times
+did the head come?
+Five times.
+Okay.
+What is this six
+representing?
+That when we
+performed this experiment
+for the fourth time
+then
+how many times
+did the head come
+after
+throwing the coin ten times?
+It is six.
+Okay.
+Then if you go down a little
+then what is this seven
+representing?
+That when
+this particular time
+we threw
+ten coins
+or
+ten times
+then how many times
+did the head come?
+Seven.
+So you can see
+most of the numbers
+that you will see
+will be around
+five,
+four,
+six.
+And the reason for that is
+that
+your
+probability
+is around
+half.
+So generally
+if you throw the coin ten times
+then half
+time
+the head will come
+and half time
+the tail will come.
+Sometimes
+four times
+the head will come
+and six times
+the tail will come.
+Sometimes
+two times
+the head will come
+and eight times
+the tail will come.
+But obviously
+the probability
+of these things
+will be less.
+Right.
+The probability
+of eight times
+the head coming
+will be less
+in comparison to
+five times
+the tail coming.
+Because our probability
+is 0.5.
+So now
+when you
+plot the graph
+of this thing
+let me show you.
+As you
+plot
+its histogram
+so you can see
+the histogram
+looks like a
+square.
+So you can see
+that
+the
+probability of
+the head
+coming
+is
+less than
+the probability
+of the tail
+coming.
+Now
+if you
+increase
+the probability
+of the head
+coming
+let's say
+let's say
+0.8
+right.
+It means
+that
+it is a biased coin
+and the probability
+of the head
+coming
+is more
+towards 8,9,10 type of values, you can see
+first time when we played the coin 10 times, then head came 9 times
+why this happened? because the probability of head is high
+then here 9, then 8, 9, 7, in many places head came 10 times
+so that is why, now when you plot this graph again
+it will move towards right and
+you can see the result like this
+let's run it again, it looks a bit weird
+somehow the values between 7 and 8, this time
+not between 8 and 9, but whatever it is, you can see it shifted towards right
+now what if we do this, 0.1
+this means the probability of head coming is very less
+so now again the graph will shift, it will move towards left
+and left values will dominate more
+so I was showing you the same thing here
+that when your probability of success
+increases and goes towards 1
+then your graph shifts towards right
+if it is around 0.5 or 0.6, then your graph stays at the center
+and if you take your probability of success very less, then it moves towards left
+I guess you understood this intuition from this example
+now run this code once
+see, I will provide you the code
+and yeah
+one thing you have to remember
+that there will be 3-4 important things
+only then binomial distribution is considered
+first, the process consists of
+n trials, there are more than
+1 trials, this is an important thing
+second, only 2 exclusive
+outcomes are possible, a success
+and a failure
+third is, you are calling the probability of success
+as p and the probability of failure
+as 1-p and it is fixed
+from trial to trial
+in the second trial also, the probability
+should be fixed, it is not like
+the first time the probability of 0.5 was head
+and the second time it became 0.6, it should be fixed
+and the last one is
+the trials are independent
+I have already told you that
+the trials should not be related to each other
+otherwise all these assumptions will fail
+and you will not be able to apply this formula
+ok
+so this is
+binomial distribution
+now if you are thinking that
+where is binomial distribution used
+in machine learning or where will we study
+so I am giving you 3-4 examples
+which are actually very important examples
+obviously we will not be able to go into details
+because we have not covered these topics
+but when we will cover in the future
+I will remind you
+that we had touched this
+so the first thing where you will
+see this
+binomial distribution is binary classification problem
+I had told you earlier
+in the case of Bernoulli that whenever
+you deal with binary classification problems
+you would find
+Bernoulli and binomial both
+so it is written here
+in binary classification problems
+we often model the probability of an event
+happening as a binomial distribution
+for example
+in a spam detection system
+we may model the probability of an email being spam
+or not spam
+using a binomial distribution
+maybe you have read
+Naive Bayes
+Binomial Naive Bayes Multinomial Naive Bayes
+Gaussian Naive Bayes
+Naive Bayes
+this column shows characteristics
+or way does it show the
+characteristics of
+a binomial distribution
+or a multinomial distribution
+or a Gaussian distribution
+so we will study that
+we will discuss this
+in hypothesis testing
+we use the binomial distribution
+to calculate the probability
+number of successes in a given number of trials assuming a null hypothesis is true.
+Next week we will cover this, there again I will remind that this is something which
+is related to binomial distribution. I have just put this here so that when you will be
+using this pdf for revising then you will remember that. It is also used in logistic
+regression at some level and there is a concept called AB testing, there also you will notice
+that there is a concept of binomial distribution. So in short if you are conducting a Bernoulli
+experiment n times then it becomes binomial distribution and the probability of the mass
+function is this, ncx p to the power x 1-p n-x. The important thing which you have to
+remember is that if your probability of success increases and goes towards 1 then your graph
+shifts towards right and if it decreases then it shifts towards left. If the point
+is around 0.5 then it comes towards the center and looks like a normal distribution.
+So yeah that's it for the binomial for now. I will open the chart and let me know if you
+have any doubts. It will look like a combination Utkarsh, it will look like a combination ncx
+it is a combination formula. Let me know guys if you have any more questions. If you don't
+then write clearly.
+Will go to the main topic of this session which is Central Limit Theorem.
+Yes Akshay, we will discuss Poisson distribution in our next to next class. We will discuss
+it in Friday's class. But I am not understanding the name of this session, Central Limit Theorem.
+How are they related to this? I will understand it in a short while. Don't worry.
+The funda of this graph is that you are keeping your x values on x-axis, you are keeping the
+probabilities on y-axis.
+So that arbitrary distribution is the so called central limit theorem.
+We will listen to this animation and I will give you a short and short explanation to the
+By increasing the probability of success, your graph shifts to the right.
+You will understand how to run this code.
+Print this binomial distribution.
+You will see that you will get more big values if you increase this probability.
+And you will get more small values if you decrease the probabilities.
+And if you keep 0.5, you will get all the values of mid-range.
+And this graph behaves accordingly.
+You just have to run this code once.
+You will understand.
+Okay.
+There is skewness.
+This is not a symmetric distribution.
+There is skewness in this.
+There is no use in remembering the formula of skewness.
+You just have to remember this for any distribution.
+That it is naturally skewed or not.
+In this case, there can be skewness.
+If it is moving in right and left, then there is skewness.
+Okay.
+Whereas if you talk about uniform or normal.
+They are basically completely symmetric.
+So there is no skewness in it.
+So you decide that by yourself.
+Okay.
+If you have any more questions, then ask.
+Let's move on to the next thing, guys.
+And you can say that today's class is starting from this point.
+So we have to study Central Limit Theorem.
+Which is said to be one of the most beautiful theorems of mathematics.
+And by the end of the class, you will understand why it is such an important and powerful theorem.
+But Central Limit Theorem.
+Before studying it, you should know a small concept.
+Which is called Sampling Distribution.
+Okay.
+So we will study Sampling Distribution.
+Because Central Limit Theorem is based on Sampling Distribution.
+Okay.
+So let's discuss what is Sampling Distribution.
+So Sampling Distribution is a probability distribution.
+That describes the statistical properties of a sample statistic.
+Such as mean and proportion.
+It could be a variance.
+Computed from multiple independent samples of the same size from a population.
+It is a little confusing definition.
+I will explain it to you in simple words.
+Okay.
+So you must remember that in the first class of statistics, we discussed a concept.
+Population vs Sample.
+Okay.
+So let's revise it once.
+Because Sampling Distribution is based on the same concept.
+So in statistics, population is the entire data that you have.
+Right.
+Let's say you have to find out what is the average salary of people in India.
+So to find this out, ideally what you have to do is
+that you have to go to every individual in India.
+You have to go to every individual and find out their salary.
+So ideally in this case, what is your population?
+1.4 billion or 140 crore people.
+That is your population.
+The entire data.
+Right.
+But what is the sample?
+You will say that how can I go to every individual?
+It is not possible.
+What if I go to every state?
+What if I go to every district?
+And only reach 50,000 people?
+And ask for their salary?
+And try to predict from that salary.
+Try to infer.
+What will be the average salary of the whole of India?
+So this 50,000 people that you have randomly taken out from the whole of India.
+This is called Sample.
+So in statistics, population and sample become very important.
+Because generally the information that you need.
+That is required of the entire population.
+But it is never possible that you can reach the entire population.
+So generally in statistics, what is done is that you pick up the sample.
+As in randomly you select things from the population.
+Which is called Sample.
+Right.
+Now we will discuss.
+Now that we know what is population and what is sample.
+Let's discuss.
+What is sampling distribution?
+Right.
+So look carefully.
+Funda is very simple.
+Assume that there is a population.
+Let's say.
+All the people of India.
+I will write it here.
+All the people.
+This is our population.
+Right.
+Or the salary of all the people is our population.
+Because we are trying to get the salary.
+We are trying to get the average salary.
+So basically.
+All the people in India.
+Their salary is our population.
+Right.
+Now since.
+This is basically a set of numbers.
+Someone will have a salary of 25000 per month.
+Someone will have 1 lakh.
+Someone will have 2 lakh.
+Someone will have 15000.
+Someone will have nothing.
+So basically all these are numbers.
+Right.
+So these are numbers.
+So obviously.
+They must be following some distribution.
+Think about it.
+If these are a set of numbers.
+Then they must be following some distribution.
+Now in my common sense I can tell you.
+That there is a good chance.
+That this.
+Salary data.
+Follows some such distribution.
+Where a lot of people.
+Are earning less money.
+And a lot of people.
+Are earning a lot of money.
+Let's assume for some time.
+That in our India.
+The salary of all the people.
+The salary of the population.
+That.
+Its distribution looks like this.
+This is the distribution.
+Now in sampling distribution.
+What do you do?
+That you randomly.
+From this whole distribution.
+Samples.
+You start collecting samples.
+Basically randomly.
+You start selecting people.
+So you decide first of all.
+That your.
+Sample.
+That will be.
+How many people will be there.
+Let's say you have decided.
+That there will be 50 people.
+So what you are doing.
+Randomly from this distribution.
+For the first time.
+You are taking out 50 people.
+So this is your first sample.
+How many people are there?
+50 people.
+50 people as in 50 people's salary.
+Then you went again.
+And again.
+You took out 50 more people.
+You took out 50 more people.
+Okay.
+Then you went.
+And again you took out 50 more people.
+And assume you did this.
+100 times.
+You did this.
+100 times.
+Okay.
+So basically I am summarizing again.
+You have the whole country of India.
+Every person has the salary data.
+What did you do?
+100 times.
+Started taking out 50 people.
+Started taking out 50 people.
+Means started taking out 50 people's salary.
+And you can see.
+Now you have.
+50.
+100 sets of 50 numbers.
+Now in the next step.
+What did you do?
+That you.
+Of these 100 sets.
+Start taking out all the mean.
+Start taking out the mean.
+Since this is a sample.
+So taking out the mean of the sample.
+The sample became the mean.
+Then you took out the mean of the second sample.
+Then you took out the mean of the third sample.
+And by doing this.
+You took out the mean of 100 samples.
+So basically now you have.
+100 means.
+You have 100 sample means.
+Now these are numbers.
+Obviously.
+These are the numbers.
+So.
+This is called.
+Sampling distribution.
+Okay.
+This is called.
+Sampling.
+Distribution.
+Of.
+What is this sampling distribution?
+Of sample mean.
+So what is the full name of this?
+This thing you took out.
+What is the full name of this?
+That it is.
+The sampling distribution.
+Of sample mean.
+Now let's say.
+You can also do this.
+That you.
+Instead of taking out the mean of these 100 sets.
+You take out the variance.
+So basically you have.
+Now like.
+100 sample means.
+You have 100.
+Sample variance.
+So in that case too.
+You have sampling distribution.
+But of what?
+Sampling distribution of.
+Sample variance.
+Same thing.
+You can also do it on standard deviation.
+You can also do it on coefficient of variation.
+So here it is written.
+That sampling distribution.
+Is a probability distribution.
+That describes the statistical property.
+Of a sample statistic.
+Here mean.
+Variance.
+All this is not written.
+Anything can happen.
+Computed from.
+Multiple independent samples.
+Of same size.
+We took the size of 50.
+From a population.
+Okay.
+So let me summarize it once.
+From inside the population.
+Samples of same size.
+Are drawn.
+Multiple times.
+How many times can be done.
+100 times.
+2000 times.
+1 lakh times.
+How many times can be done.
+All the samples.
+Generated.
+Or the sets of samples.
+Generated.
+All of them.
+You take out the mean.
+Or you take out the variance.
+Or any summary.
+You take out the statistic.
+And.
+Their set.
+It is called.
+Sampling distribution.
+If it is a set of mean.
+Then it is called.
+Sampling distribution of.
+Sample mean.
+Will be called.
+If it is.
+Variance.
+Distribution.
+Then.
+Sampling distribution of.
+Sample mean.
+Will be called.
+So.
+It is confusing to think.
+Or to read.
+But.
+It is very simple.
+That.
+What is sampling distribution.
+Okay.
+Now.
+If you feel.
+Why are we doing.
+Such a weird thing.
+So.
+See here.
+It is written.
+Why sampling distribution.
+Is important.
+See here.
+So.
+Sampling distribution.
+Is important.
+In statistics.
+And machine learning.
+Because.
+It is called.
+Variability.
+Of.
+Sample statistic.
+You are thinking.
+You are taking data from.
+One population.
+In different sets.
+Of fifty fifty.
+And calculating the mean.
+Of all.
+The mean is different.
+So.
+Basically.
+You.
+Of population mean.
+A kind of.
+Variance.
+Or.
+Variability.
+That you try to take out.
+Okay.
+Which is useful.
+For making.
+Inferences about.
+The population.
+Means.
+If I get all these.
+Means.
+By analyzing the properties of sampling distribution, we can compute confidence intervals, which is the topic of our next class, perform hypothesis testing, which is the topic of our next week, and make predictions about population based on sample data, which is the topic of our today's class, Central Limit Theorem.
+So far, sampling distribution may not seem like a big deal, but trust me, in 10 minutes, you are going to see a mathematical magic, and that will not be possible without sampling distribution.
+So just clear your mind once, who is called sampling distribution. I will open the chart, let me know if you have any questions.
+Sample size will be 50.
+Number of samples is 50.
+The number of times you are performing sampling is 100.
+Sample size is 50.
+If you have any more questions, please ask.
+Then we will discuss Central Limit Theorem.
+If there is no doubt, just write clear and we will move forward.
+Let's discuss Central Limit Theorem.
+It is a very powerful and amazing thing.
+And you would understand the beauty of maths after studying it.
+There is a lot of respect for this theorem in mathematical circuits.
+And it is kind of surprising.
+The result you get is kind of surprising.
+So let's discuss it properly.
+So the Central Limit Theorem states that the distribution of sample means
+of a large number of independent and identically distributed random variables
+will approach a normal distribution regardless of the underlying distribution of the variables.
+This is the theorem.
+Okay.
+Now if you want to understand this in simple words,
+then let's take the same example.
+The example that will calculate the average of all the people in India.
+Assume that the salary of all the people in India,
+if you plot the distribution of that entire population,
+if you plot the distribution of that entire population,
+we don't know,
+but it is possible that the distribution will be something like this.
+Where a lot of people are earning less money
+and a lot of people are earning a lot of money.
+Now what you are doing is,
+from this population,
+this is the population,
+from this population,
+you are taking out samples,
+taking out people randomly.
+And what you are doing is,
+you are deciding a sample size.
+Let's say the sample size is 100.
+You randomly took out 100 people.
+Obviously a lot of people will come from this side,
+a few people will come from this side
+because our distribution is like this.
+So you got the salary of 100 people randomly.
+Okay.
+Then you repeated the same thing.
+You took out 100 people again
+and you put their salary here.
+You did this work 1000 times.
+You did this first time,
+you did this second time
+and you did this 1000th time.
+1000th time also you took out 100 people
+and took out their salary.
+Okay.
+Now what you did is,
+the 1000 times you have done this work,
+every time you took out the mean of all these samples.
+Okay.
+Here you will get 1000.
+Then you got a sampling distribution.
+This is a sampling distribution of sample mean.
+We just discussed it now.
+Right.
+Now what Central Limit Theorem says is,
+when you take the sampling distribution of sample mean,
+basically when you take 1000 numbers
+and you plot them,
+if you plot their distribution,
+then it will be a normal distribution.
+It will be a normal distribution.
+And the beauty of this theorem is,
+it says that it does not matter
+what is the distribution of your population.
+What is the distribution of your population,
+it does not matter.
+Now this log was of normal type,
+then also it will be normal.
+If it would be uniform,
+that everyone's salary is equal,
+then also the sampling distribution of sample mean,
+the sampling distribution of sample mean would be normal.
+If it would follow Pareto distribution,
+then also it would be normal.
+If it would follow,
+I don't know,
+if it would follow exponential,
+or if it would follow binomial,
+or any distribution,
+any mathematical distribution,
+or even if there is no mathematical distribution,
+something like that,
+then also,
+when you repeat this same process on it,
+that you took out different samples every time,
+100 samples,
+and you took out its mean,
+and you did this 1000 times,
+and then the distribution you will get,
+it will always,
+it will always be normal distribution.
+Okay.
+But there are certain assumptions.
+The first assumption is,
+that your sample size,
+like we are taking out 100 people in every sample,
+it is said that it should be equal or more than 30.
+If you keep the sample size below 30,
+then it cannot be normal.
+This is the first assumption.
+Second,
+the sample is drawn from a finite population,
+or an infinite population with finite variance.
+Okay.
+The basic thing is,
+that your distribution,
+it should be finite.
+And its variance should also be finite.
+Otherwise,
+it will not work.
+Third,
+the random variables in the samples are independent and identically distributed.
+The samples you are taking out,
+they should be identical.
+And,
+the meaning of identically distributed is,
+that the range of probability of everyone being there,
+should always be the same.
+Which generally follows a distribution.
+Okay.
+So, if these three criteria are fulfilled,
+then this will always be true.
+It will not matter,
+which distribution is here.
+Sampling distribution of the sample mean,
+would always follow normal distribution.
+And one more thing,
+if the mean of your population was mu,
+and the standard deviation,
+or let's say variance,
+was sigma square,
+then this,
+the normal distribution form,
+its mean will be exactly the same.
+Mu.
+And its variance will be,
+sigma square by n.
+Where n represents,
+the sample size,
+which in our case is 100.
+And you can see,
+we are taking out 100 people.
+And now this is a big thing.
+If you think about it,
+let's say someone tells you,
+that we don't know,
+what is the average salary of everyone in India.
+We don't know.
+But if you want to take it out,
+then how easily can you take it out from the central limit theorem?
+You can't take it out easily,
+but how easy will the work be,
+what you have to do is,
+you can't go to 1.4 billion people.
+You don't even know,
+how the distribution of 1.4 billion people's salary will be.
+Otherwise, you would have been able to find out something.
+But you don't even know that.
+So what you can do is,
+you make a sampling distribution.
+Basically you,
+let's say,
+pick up 100 people at a time,
+in India,
+in different types of people,
+go and draw samples of 100 people.
+Find out everyone's salary,
+and do this 100 times.
+And then,
+you calculate the mean of those 100 trials.
+You know that,
+it will be a normal distribution.
+Now, if you have that normal distribution,
+then you can take out its mu,
+and you can take out its variance.
+Once you have mu and variance,
+you know how the central limit theorem works.
+If you can take out this mu,
+then you will know,
+what is the mu of your population.
+And if you know this variance,
+then you will know the variance of your population.
+So basically,
+using this theorem,
+what you can do is,
+if you have samples,
+then you can infer the mean and variance of the population.
+You can predict it.
+I hope you can understand it roughly.
+Here it is written that,
+the CLT,
+the central limit theorem is important in statistics,
+and machine learning,
+because it allows us,
+to make probabilistic inferences,
+about a population,
+based on samples.
+For example,
+we can use the CLT,
+to construct confidence intervals,
+for now, ignore this word,
+perform hypothesis testing,
+and make predictions about the population mean,
+based on sample data.
+The CLT also provides a theoretical justification,
+for many commonly used statistical techniques,
+such as t-test,
+ANOVA,
+and even linear regression.
+Okay.
+So,
+now,
+if you haven't hit this point,
+how magical it is,
+that you don't have to go to 140 crore people,
+you have to pick up 50 people from all over India,
+in one go,
+then you have to do this 100 times.
+So,
+basically,
+rather than 140 crore people,
+you just need 50 x 100,
+5000 people,
+who are truly representing,
+the entire population.
+If you find out the salary of these 5000 people,
+then you can make a very close inference,
+on the average salary of the entire country.
+And this is just one example,
+you can apply this anywhere.
+If I don't know the height of all my customers,
+let's say,
+I am a t-shirt selling company,
+I don't know the height of all my customers,
+even then what I can do is,
+by drawing random samples,
+by applying CLT theorem,
+I can easily figure out,
+on an average,
+what will be the average height of all my customers.
+Right?
+This is a big deal.
+I don't need to go to my 100 crore customers,
+probably,
+my work will be done by 5000 customers.
+And I will prove this thing to you,
+with an example.
+Before that,
+just would like to show you some graphs,
+and some codes,
+so that you develop your intuition a little more.
+Just see here,
+what I have done.
+This is a code,
+where what we have done is,
+we have taken a uniform distribution.
+You can think that,
+the population data you have,
+is following a uniform distribution.
+Uniform distribution means,
+something like this.
+Between A and B,
+every value,
+will be existing on the same probability.
+So what we have done is,
+we have,
+I will show you what I have done.
+That,
+we have taken a uniform distribution.
+There is a population,
+which follows a uniform distribution.
+We have,
+between 0 and 1,
+30 sample size,
+1000 samples,
+have been created.
+Let me show you.
+If I can show you,
+how the samples are being shown,
+then you would see,
+that the entire population,
+about which I have no idea,
+from that,
+I have,
+drawn out these samples.
+If you take out its shape,
+then you will know,
+that we have,
+basically,
+drawn out 30 people.
+And how many times have we done this?
+1000 times.
+So basically,
+we have,
+data of 30,000 people.
+Now see,
+what I have done.
+That,
+I had,
+all these people.
+I have,
+of all those people,
+basically,
+the 1000 sets,
+of every 1000 sets,
+I have,
+calculated the mean.
+You can see.
+I have calculated the mean.
+And when I will run this,
+then you would see,
+that the sample,
+means,
+will be shown.
+You can see.
+If you take out its shape,
+then this will be,
+1000.
+Because,
+of every set,
+we have,
+the mean.
+So,
+this is basically,
+our,
+this sample means,
+this is our,
+sampling distribution.
+Okay?
+And now see,
+what have we done?
+We have plotted,
+this sampling distribution,
+with the help of,
+a histogram.
+And you can see,
+this is the result.
+So,
+this is the result.
+It looks like,
+a,
+it looks like,
+a,
+normal distribution.
+Not perfectly,
+a normal distribution,
+but very,
+very similar,
+to normal distribution.
+And guess what?
+The more,
+you increase,
+the sample size,
+let's say,
+you increase,
+the sample size,
+300,
+then,
+you will see,
+it more,
+properly.
+You can see,
+you will see,
+it more,
+properly.
+Obviously,
+you can increase,
+it's fine,
+you can increase,
+and increase,
+but the difference,
+you can get.
+The difference,
+is just a coincidence.
+Okay?
+With this,
+our,
+sampling distribution,
+is moving,
+towards,
+a,
+normal distribution.
+Okay?
+And this is not true,
+only,
+for uniform distribution.
+Take any,
+distribution,
+for example,
+here,
+we have used,
+exponential distribution,
+which looks,
+like this.
+Okay?
+And,
+again you would see that it looks like a normal distribution
+so I just want to prove this point to you that if you take population of any distribution
+till now we have taken of uniform and exponential
+in both the cases when we put CLT
+then the outcome that we are seeing, the distribution of our sampling distribution
+that is normally distributed
+here I have taken three more examples
+one distribution is Poisson
+another distribution is gamma
+and another distribution is binomial
+which we have just studied
+so you can see these are all the parameters of our respective distributions
+and we have done the same work in all of them
+we have generated samples
+and every time the size of samples is 50
+and the number of samples we have taken is 1000
+so you can see these are our samples
+then we have made the sampling distribution of all those samples
+and then we have plotted all of them one by one
+and you would see
+this is the sampling distribution of Poisson
+sample mean looking like a normal distribution
+this is the sampling distribution of gamma
+and this is the sampling distribution of binomial
+all of these are showing normal distribution
+till now we have just proved this point
+that if you start from any population distribution
+it does not matter
+sampling distribution of sample means would always look like a normal distribution
+this is point number one
+what was point number two
+if you remember that
+if your population's mean is mu
+and variance is sigma square
+then your normal distribution of sampling distribution
+it's mean is also same
+and it's variance is divided by n
+where n is the number of samples that you are taking
+sample size 50 in our case
+so to prove this point to you
+this time we have taken gamma distribution of sample size 50 in our case
+which is the existing distribution
+then what we have done
+by taking gamma distribution
+we have calculated its theoretical mean and theoretical variance
+from the beginning
+then what we have done
+we have repeated the same work
+we have generated samples
+how many by how many
+the same 50 sample size
+and 10,000 this time
+we have drawn more number of samples
+again we have calculated sample means
+this is our sampling distribution of sample means
+and then we have calculated
+np.mean of sample means
+and np.var of sample means
+ok
+we have calculated mean and variance
+and see the results
+if you run this
+you would see theoretical mean was 2.0
+and empirical mean
+which is this mean
+this mean
+of normal distribution
+it is coming out to be 2.0
+0.0009
+and if you talk about theoretical variance
+then it is also 2
+and our empirical variance
+is 0.003
+and if you multiply it by 50
+because
+it comes on dividing by 50
+so if you
+let's say
+theoretical
+variance
+divide by 50
+then you can see it is coming around 0.04
+and our
+theoretical variance is 0.0395
+very close to
+the result
+so we have proved two things
+that not only sampling distribution
+will look like a normal distribution
+for any kind of distribution
+but this property also
+holds true
+means population mean is same as
+sampling distribution mean
+and its variance is 1 by n
+and this is a big deal
+ok
+now let me show you one thing
+a small
+case study
+ok
+we are going to do a small case study
+so that you can understand
+power of central limit theorem
+ok
+so we all have worked on
+titanic data set
+let's go to titanic data set
+and let me show you
+by applying CLT
+some
+data set
+so that you can learn something new
+that's why we have not taken new data set
+we have to use titanic data set
+ok
+so what i will do is
+first of all i will run this piece of code
+now if you know
+in titanic data set
+there are two files
+one is train file and other is test file
+ok
+in train file there are people who
+we know that they died or survived
+in test file there are passengers about whom
+we don't know
+we have to do prediction
+but if you add these two
+then this is your total population of titanic
+no one was traveling in titanic
+so what i am doing is
+i am considering the whole population
+that's why
+i will add train and test
+ok
+let me show you what i am saying
+so we have train df
+which we are making
+using
+this code
+i have received this
+just one second
+and
+in test dot df
+pd dot
+read csv
+i have added this second file
+so let me show you the difference
+if you talk about
+train underscore df
+then you have done a lot of work
+on this
+here there is only one extra thing
+that you have been told that this particular passenger
+survived or died
+but if you talk about test dot df
+then you would find
+there is no survived column
+we don't know whether these passengers survived or died
+but what we are going to do
+we are actually
+going to apply central limit theorem
+on the fare column
+ok
+so my plan of action is
+we will assume for some time
+that we don't have
+data of all passengers
+which is wrong
+but we will assume
+that we don't have data of all passengers
+and then we will draw
+samples from this population
+ok
+after drawing samples
+i will apply clt
+and after applying clt
+i will find mean of the average
+and then i will
+original population
+since we have population
+we will find mean of population
+and i will show you side by side
+that how similar they are coming
+ok
+so plan of action is
+that we will add train and test
+so that we get total population
+so what i will do is
+i will write this code
+i would write pd dot concat
+pd dot concat
+and in this
+i am passing
+train underscore df dot
+drop
+or
+drop
+columns
+survived
+and
+test df
+ok
+i have added both
+and removed survived column
+so total number of passengers
+who were travelling was 1309
+those who have worked on titanic
+would know that train has only 891
+also i will just do a shuffling
+so i will just do sample
+1309
+ok
+i have basically done sampling
+ok
+and this is my df
+this is my total population
+ok
+so now we are going to work on
+column with fair
+we don't care about other columns
+so if i wanted
+i would directly
+remove this and show
+directly remove this and show
+so i have
+you understand that
+the average fair of the entire population
+if you understand the case of india
+then you will understand that
+we have actually
+salary data of every indian citizen
+and i can quickly calculate mean but i won't
+instead what i will do is
+i will just show you
+how is the distribution
+it will be fun
+so if i write here
+kind equals kde
+so you would see
+this is the distribution
+of fair of the entire population
+i am just showing you
+i am showing you this
+this is the distribution
+you can see this is the distribution
+from any angle you won't call it
+normal distribution
+this is right skewed
+many passengers
+fair is less
+and some passengers fair
+is very high
+you can see in the data
+there is no difference
+in the distribution of population
+ok
+so now
+from our entire population
+we will draw samples
+ok and what we will do is
+we will
+keep a sample size of let's say 50
+there are 1309 passengers
+we will randomly extract 50 people
+and we will extract their fair
+and how many times we will do this
+100 times
+number of samples
+will be 100
+so look carefully what i will do is
+first let me show you how 50 people
+will come randomly
+it is very simple
+you have to catch the fair of df
+and put a sample on it
+and put 50 here
+and you can see
+i have randomly extracted 50 people's fair
+let's do one thing
+let's convert it
+in python list
+it will be convenient
+you can see
+first time 50 people came
+second time
+50 people came
+you never know
+everything is random
+all i have to do is
+100 times
+i have to do it 100 times
+ok
+and what i am doing every time
+i am making a 2d list
+and in that 2d list
+i am appending
+every sample
+see
+now if i extract the samples
+it will be a 2d list
+where there would be
+50 samples
+every sample size would be
+50 passengers
+you can see the length
+the length would be 100
+100 samples
+and if we convert it
+to numpy array
+then i will be able to show you better
+that we have
+100 samples
+and every sample size is 50 people
+ok
+so basically this is our sample
+right
+samples
+here it is
+now what we have to do next
+to make sampling distribution
+we have to extract the mean of every sample
+so what i would do is
+i would write
+sample.mean
+and i have to extract it for every row
+so i will do x is equal to 1
+you can see
+if i write its shape
+i have 100 means
+so this
+lets call it sampling means
+so this sampling means
+i have
+this is my sampling distribution
+this guy
+this guy
+this guy
+ok
+now i will show you
+lets say for some time
+if you import seaborn
+if you import seaborn as sns
+and you write
+sns.kdeplot
+and
+put sampling means
+any guesses
+what graph will you see
+see this
+normal distribution
+and why this happened
+because this follows
+what
+this follows central limit theorem
+ok
+start this work with any distribution
+always after repeating this process
+you will see a normal distribution
+or
+very close to normal distribution
+here we have taken sample size 50
+so the threshold of 30
+is crossed
+so it will look quite
+similar to a normal distribution
+this is the first proof
+second
+more important thing
+what we were going to do
+we were going to extract the fair of all passengers
+because we don't know
+so what will you do
+its very simple
+you don't have to do anything
+you just have to calculate
+its mean
+and
+this mean
+is a nan value
+because in data there is nan somewhere
+so what i would do is
+what i would do is
+in df.fair
+i will just write
+drop any
+to remove all the nan values
+and i am recalculating the whole thing
+everything will be same
+you can see a slight
+difference in the graph
+but it could be because we took different values
+if you run it again
+because of the randomness
+next time it may be some other type of graph
+but again you can see
+there is a normal element
+and now i have taken mean
+this is the mean guys
+this is the mean
+32.584 is coming
+so by law
+according to central limit theorem
+our
+population mean
+how much should it be
+if the mean of sampling distribution
+is 32.584
+then our population
+as in
+the mean of all passengers fare
+how much should it be
+32.584
+but actually
+what happens is
+it is not exactly same
+it is close by
+or near by
+this is not a perfect equality
+this is an estimate
+so you can say
+this mean
+will be very close to this mean
+right
+so generally a good strategy
+is to directly say
+since this is the mean of sampling distribution
+then
+this will be the mean of population
+instead of saying this
+generally people prefer
+they want to give an interval
+a range
+rather than
+saying that
+mean is exactly 32. something
+i would say
+population mean is between 32 and 34
+i would like to say this
+so this is called confidence interval
+we will study this in next class
+but how to find this interval
+how to find this mean interval
+i will give you a rough intuition
+this is very very important
+so the funda is very simple
+what you will do is
+you know that
+your sampling distribution is
+following normal distribution
+whose mean
+is coming out to be
+32.94
+or whatever it is
+58
+so you know that this is normal distribution
+so here
+empirical rule will be applied
+empirical rule will be applied
+right
+what was the empirical rule
+that 68%
+of the population
+will lie within
+1 standard deviation
+and
+95%
+of the population
+will lie within
+2 standard deviation
+so generally for confidence interval
+95% confidence interval
+is considered to be correct
+so generally what is done
+that you
+take out these values
+in this range
+probability of
+population mean
+is 95%
+so if you
+give this range too
+then your
+probability of population mean
+being correct is 95% which is very very high
+so you don't go for 3 standard deviation
+generally you go for 2 standard deviation
+so basically what you have to do
+you know that
+you just have to take out this value
+and this value
+and rather than saying that
+32.94 will be the population mean
+you will say that
+in between this
+the probability of
+your population mean
+is 95%
+that is how confidence interval works
+so basically what I have to do
+that I have got the mean
+I have to take out
+standard deviation
+or variance
+let's take out standard deviation
+standard deviation
+is 7.85
+but remember
+what was the relation
+the relation was
+that if
+if its standard deviation
+is sigma
+then its standard deviation
+will be sigma by root over of n
+isn't it right
+think about it
+if its standard deviation is sigma
+then how much will it be
+root over of n
+because variance is being divided by n
+so standard deviation will be divided by root over of n
+so basically if you have to take out
+actual standard deviation
+then what will you do
+np.sqrt
+will be divided by 50
+because what is our sample size
+our sample size is 50
+so if I take it out
+then it is
+1.11
+so now what will I do
+I will calculate lower limit
+what will be the lower limit
+my mean
+minus
+this thing
+2 times
+this thing
+ok
+and what will be my upper limit
+because I am taking 2 standard deviation
+my upper limit will be
+plus
+ok and I have run both of them
+and you can see
+my lower limit is
+I will just print
+the range is
+comma lower
+underscore limit
+comma hyphen
+upper underscore limit
+and you can see
+from 30.36 to
+34.80
+the probability of
+being between
+that is 95%
+and now I will show you
+how much was our actual population mean
+so if you remember
+our entire population mean
+is in this
+so if I copy this
+and paste it here
+and put mean here
+what did we do
+and you can see
+this is the result
+this was the population mean
+and this is the output of central limit theorem
+and you can see
+that 33.29
+will come under this range
+ok although
+in the calculation
+it seems like a slight mistake
+because I had pre-calculated
+some values are different
+but whatever it is
+this is the demonstration
+of central limit theorem
+where we didn't know
+that it is 33.29
+but with the help of
+central limit theorem
+we calculated a range
+and we said that there is a 95% chance
+that the population mean
+will be in this range
+and in the end it came out
+so this is the power of central limit theorem
+that it does not matter
+that what kind of distribution
+you are starting
+you can tell a lot about it
+with the help of
+central limit theorem
+so let me know guys
+if you understood this
+drop
+so let's
+let's
+drop
+it is 33.29
+am I right
+in lower limit and upper limit
+put bracket after 2
+oh
+maybe this could be
+a population mistake
+no there is no difference
+but whatever it is
+look
+some people are doubting
+why we did this 95% part
+what I said was
+you had two options
+either you would have said
+that the mean of your sampling distribution
+is the mean of population
+but that is not generally correct
+that is like
+it can be close
+but not perfect
+so you are giving a point estimate
+it is called point estimate
+that you are telling exactly one number
+you try to give an interval
+that this is the range which will be somewhere in between
+so now I have to tell the range
+so I know that this is a normal distribution
+which is my sampling distribution
+it means it will follow the rules of normal distribution
+which is
+68,95,97,99 rule
+so it means
+if I take the values of two standard deviations
+this much
+then it will have 95%
+values
+right
+so there is a 95% chance
+that the population mean
+will be in this range
+so that is why
+I took out lower range and upper range
+and I said that
+95% chance it will be in this range
+and 5% chance it will be out of this range
+so 95 in itself is a big number
+and that is why it is
+taken as a very standard
+confidence interval
+so that is why I took
+95 range
+you can take 3 standard deviations
+but the range would have been bigger
+but as the range will be bigger
+then your work will be less
+let's say
+you are asked to tell the salary of a company
+I will tell you that
+average salary is between 10,000 to 15,000
+I have 95% confidence
+this will be more useful
+in comparison to let's say
+between 45,000 and 10,000
+I am 99% confident
+think about it
+I could have also taken one
+standard deviation
+but in one standard deviation
+my confidence level would have decreased
+it would have been only 60%
+chances of being wrong would have been more
+that is why the 2 standard deviation period
+it is giving us 95%
+and it is also giving me a close range
+in which actually
+I am getting some insight
+that okay it is between 30 to 34
+rather than saying it is between 26 to 40
+I hope you are able to understand
+why 2 standard deviation was taken
+let me know
+what is the logical calculation
+behind this theorem
+there is no logical calculation
+that is the beauty of this theorem
+that nature works like this
+means if you sit and think
+in some places
+then nature really gives you a hint
+that some big power
+maybe god or something exists
+because there are such small clues
+that if you take any distribution
+of that
+if you make a sampling distribution
+then it will be normal
+this is what god has said
+this is written by god
+this is in nature's code
+there is no logic here
+it exists that way
+why is the value of e 2 point something
+or why is pi 3.14 e
+or why is there a constant
+in so many calculations of physics
+what is that constant representing
+nature's interference
+this is nature's interference
+there is no logic
+people experimented
+and found out
+that this happens
+so we cannot say anything
+about this
+why this happened
+it just happens
+there is no logic
+or if you find out
+then let me know
+population standard deviation
+should be root n times
+statistical standard deviation
+hmm
+you are saying the opposite
+like you gave an example
+that is a natural thing
+it is just that
+we are able to model it
+with the help of mathematics and physics
+but we don't have reasons
+we don't have a why
+it is just what and how
+come on
+now in this whole thing
+you just have to take care of one thing
+that
+the
+samples you are drawing
+should be random
+should be representative
+if you take the example of India
+then you can't do that
+if you want to get the average salary of India
+then you are just going to cities
+and getting people's salaries
+that would give you wrong results
+so your sampling process
+it has to be very very good
+that it should represent
+all the kind of values
+that are present in your population
+that is a very very big if
+it won't work without that
+ok
+here I have added one more theoretical case study
+you can see
+this is a theoretical case study
+what is the average income of Indians
+how will you get it out?
+step by step process is written here
+collect multiple random sample of salaries
+from a representative group of Indians
+each sample
+should be large enough
+usually n greater than 30
+this is an important point of the
+central limit theorem
+to ensure the CLT holds
+make sure the samples are representative
+first to avoid skewed result
+which I just told you
+you won't do that that you take out all the data from the same state
+or take it out from cities only
+or take it out from villages only
+or take it out from a particular age group
+you cannot do that
+it should be representative
+second is calculate the sample mean
+and sample standard deviation for each sample
+ok
+to form a sampling distribution
+calculate the average of all the sample means
+this value will be your
+best estimate of the population mean
+which we just calculated
+calculate the standard error of
+sample means which is standard deviation
+of the sample means divided by
+square root of the number of samples
+we did this too
+and then finally you can calculate
+the confidence interval around the average
+of sample means to get a range within the
+true population mean likely falls
+for a 95% confidence interval
+now here we have multiplied
+from 1.96
+we did it from 2
+they did it from 1.96 because they
+have used standard normal
+variant
+basically our normal distribution
+they have standardized it
+mean 0 and standard deviation 1
+so the value of 2
+its corresponding z table
+value is minus 1.96
+and 1.96 that is why
+upper limit and lower limit is calculated
+like this we will study this tomorrow
+when we will study confidence interval in next class
+there i will show you
+how this process works exactly
+today i have done it in another way
+and finally once you get the lower and upper limit
+you have to report the estimated
+salary and confidence interval
+just remember that the
+validity of your result depends on the
+quality of the data and the
+representativeness of your samples
+to obtain accurate results its crucial
+to ensure that your samples are unbiased
+and representative
+this is super important
+for this also i have written a python code
+here you can see
+for this same
+example
+what we have done
+we have assumed
+that the salaries of india
+will follow log normal distribution
+its mean is this
+and sigma is this
+and we have repeated the same process
+we have formed sampling distribution
+and from there
+we have taken out average
+and standard error
+and you can see here
+you can understand roughly
+you can see this code
+that the salary was 124.74
+basically
+it was 1,24,000
+and to get 95 confidence interval
+this was coming
+121. and 128.26
+ok
+so basically i have added
+a case study
+you can just use it
+obviously this data is not correct
+we have generated it by ourselves
+but if you have the salary data of indian people
+let's say from a government website
+or from somewhere else
+you can actually figure out
+what is the range
+within which india's
+average person's salary would come
+but we don't have the data
+this is just a template code
+which can find out and give you
+but it will depend on the data
+so yeah that's it
+this is the central limit theorem
+just wanted to show you
+how powerful it is
+i really hope
+i could make you understand
+i am opening the chat let me know
+if you have
+any questions
+yes anjali
+it is a base of
+rationalist to prove the existence
+of god's ontology
+maybe
+i think the mistake is while calculating
+the limit you are subtracting the population
+standard deviation instead of
+sample standard deviation
+is it like that let me see
+no i am taking out the mean of sampling means
+and taking out the standard deviation
+of sampling means
+i don't think so
+what is margin of error
+we will study that abhishek
+this is the part of our interview questions
+the part of identically
+distributed means
+that each sample
+probability
+will occur in the same
+range
+it cannot have a very different
+probability
+means
+like in coin toss 0.5
+half is the probability of getting head or
+tail so it cannot have
+1.7 this is 1 by 3
+or something different
+same type of probability
+will occur which will allow
+that distribution
+you will get
+np dot square root 100
+why 100
+i have taken 50
+sample size
+sample size is 50
+here
+sample size is small n
+number of samples is not there
+this is the size
+no man
+i don't know
+central limit theorem
+why i am dividing ayush
+because central limit theorem
+says that
+the sampling distribution
+it's
+variance will be
+population variance
+divided by n
+so when variance
+will be divided by n
+standard deviation will be divided by
+That is why the sample standard deviation is samplingmeans.std but why are you dividing by 50?
+I have just told you that if the variance of your population is sigma square
+then the variance of your sampling distribution will be sigma square by n
+where n is the number of sample size, n is the sample size, 50.
+So if this is your variance then what will be the standard deviation?
+What will be the root of this whole thing?
+Sigma by root over of n.
+That is why x-axis was representing fair values in dollars
+and y-axis was representing probability density.
+Yes, we will give you the code and pdf.
+Don't worry.
+If you have any other questions then ask.
+There might be some confusion.
+If you try it by yourself then it will be better.
+You saw me doing it so you might not be able to understand some things.
+But if you watch the video and perform it by yourself in any other data set
+then you will be able to understand it better.
+So that's all for today guys.
+I gave a separate class to Central Limit Theorem because I really feel it is a very very powerful theorem.
+Just to appreciate the value of the theorem.
+I gave a separate class.
+In the next class we will do confidence interval.
+You can get practical questions from this.
+Pick any data set and try to find population parameter of any data set.
+We found Titanic.
+You can find any other data set.
+It will be better if you have population data.
+If not then consider the whole data set as population.
+Treat it that way.
+So yeah guys.
+How was the class?
+Did you enjoy it?
+Did you see the magic of Maths?
+Sir, here you have divided the sample standard from square root 100.
+But I have not divided it from square root 100.
+I have divided it from 50.
+Because sample size is 50.
+I have 2 more minutes guys.
+If you have any other questions then ask.
+Yes, I have videos on k-means.
+You can check my playlist.
+But in the last lecture,
+LogNormal's graph has mean 0.
+It should be 1 on Wikipedia.
+Tell me this.
+Is it necessary to have 1?
+Let me check that.
+I will tell you in the next class.
+Why is it necessary to have 1?
+I am not able to think.
+Sir, will Keras, PyTorch, PySpark also study?
+No, no.
+It is not a part of this course.
+Okay guys, then let's go.
+I guess there are no more doubts.
+See you the day after tomorrow.
+The day after tomorrow, we will again do an interesting topic.
+Consider it as a continuation from this point.
+We will study about point estimates and confidence intervals.
+Okay?
+Now we have entered in inferential statistics.
+And next week we will study hypothesis testing and all the statistical tests.
+Okay?
+Ayush, do the lecture backwards once.
+The distribution that we are getting.
+Oh, got it.
+What are you saying?
+Okay.
+Let me see this.
+I will discuss it in the next lecture.
+I understood your point.
+Okay guys, then I will close the session.
+See you in the next class.
+Bye.

@@ -1,0 +1,3360 @@
+Hi guys, good evening. How are you all?
+So, let's start the session at 8 o'clock.
+Till then, if anyone has any doubts, you can ask.
+There is a course on DSMP, all its lectures are in the DSMP playlist.
+Yes, you will get all the lectures in that playlist.
+Sir, I have mailed but no reply yet.
+It's taking some time, I haven't checked the mails.
+I will reply now.
+Sir, will you cover calculus?
+Yes, we will not cover calculus in the way that we teach you to do differentiation and integration.
+We will cover calculus topics in optimization.
+Like the main ideas.
+Slopes, maxima, minima.
+And how you use optimization to calculate approximate solutions.
+We will read such things.
+So, we will have two lectures.
+Paid lectures.
+In that, we will cover so much that whatever is required in machine learning, you will get it.
+Sir, thank you.
+Sir, how much level of Linux needed in order to work data science in AWS?
+Pretty basic, I guess.
+The basics of command line.
+A little bit of OS idea.
+I don't think more than that is required.
+At least, the projects that I have deployed in AWS, I didn't see much expertise in them.
+I didn't feel the need of Linux.
+Sir, the last two classes missed something.
+So, this will be understood little by little.
+Yes, I mean.
+It will be understood.
+Joint distributions are basically 2D PDFs.
+I had taught in one session.
+The PDF that was covered in the session.
+See the next session.
+I had told in that.
+Sir, will you cover freelancing?
+See, I am not a freelancer.
+Actually, I don't know.
+I am actually searching for someone who has done freelancing in the field of data science.
+So, I am thinking of bringing him on the channel.
+If I find such a person, I will bring him.
+If there is someone in your contact, please get him connected.
+Till when will ML get completed before project?
+I guess,
+2.5 months.
+From the time it will start.
+Okay, guys. Let's start today's session.
+I am doing one thing.
+Let's pop out the chat.
+So that we can keep talking to you.
+And let's move on to OneNote.
+So, guys.
+Today's lecture is
+on hypothesis testing.
+It is a very important topic.
+From the interview point of view.
+Like if you are sitting for data science
+or data analyst interviews.
+So, let's assume
+that you will be asked questions from this topic.
+Also,
+if you are talking in day to day life.
+As a data scientist,
+you are working in a company.
+So, this is something
+which can act as a very powerful tool
+in your analysis.
+And can help you in many ways.
+The only problem is
+this topic is slightly confusing.
+Slightly technical.
+Or rather I should say mathematical.
+So, to understand a little.
+Intuition is less.
+Means, we don't understand
+why things are being done.
+And why things are being done in this way.
+So, my plan is that we will cover this topic
+in 3 or 4 classes.
+And we will try to cover
+almost everything which is required
+for data science.
+So, understand today's class
+as introduction to
+hypothesis testing.
+So, first of all,
+in today's class, we will be told
+why hypothesis testing is done.
+First of all, we should discuss this.
+After that, we will discuss
+what happens.
+After that, we will discuss some basic terms
+without which you cannot perform hypothesis testing.
+Then, we will cover
+a statistical test.
+And we will also
+study where in machine learning
+hypothesis testing is used.
+So, take this first lecture
+as an introductory lecture.
+We will not go too deep.
+Because I don't want to be scared.
+In subsequent lectures,
+we will cover some more
+difficult topics.
+So, I hope you understood
+this introduction.
+Now, we are starting today's class.
+So, the first question
+should be
+what problem
+does hypothesis testing solve?
+I can directly tell you
+what happens.
+I can directly throw some formulas on you.
+But, I think
+to build an intuition,
+first of all, you should know
+why this thing exists.
+Okay?
+So, let's answer that question.
+And to answer that question,
+I will take a relatable example.
+At least, relatable to me.
+So, the idea is very simple.
+I have a
+YouTube channel.
+Okay?
+I have a YouTube channel.
+Where, what I do till now is
+I upload such videos.
+You can see.
+In fact, the video which you are watching
+is shot in this way.
+Where I share my screen.
+There, I use a digital
+writing pad
+and write something.
+Like this.
+Okay?
+And on the side, this small
+I show you.
+So, this is how I shoot my videos.
+Okay?
+So, when I checked the analytics of my YouTube channel,
+I came to know that
+on an average,
+all my videos
+on an average,
+are viewed for 6 minutes.
+Meaning,
+if you add all my videos,
+then the average view duration
+of all my videos
+is 6 minutes.
+Okay?
+This should be increased.
+Okay?
+So, I started following other educators
+on YouTube.
+And I realized that
+those successful content creators
+what they do is
+they don't shoot videos in my way.
+By the way, this is all hypothetical.
+I am giving an example.
+There is nothing like this in reality.
+But, just to give you an example.
+When I researched, I came to know that
+successful creators make videos in this way.
+Instead of using a digital whiteboard,
+digital writing pad,
+they use a whiteboard
+where they stand in front of the screen
+and explain everything
+on the whiteboard.
+Okay?
+So, my intuition is that
+if I start shooting videos
+in this way,
+then my average view time
+will increase.
+Okay?
+This is my intuition.
+I mean,
+if I start shooting videos
+in this way,
+then it will be beneficial.
+It is very simple.
+You will say that
+there is only one way to test it.
+That you should make videos
+in this way.
+I said fine.
+What did I do?
+I made one video.
+I made one video.
+And the view duration
+of that video
+was 30 minutes.
+30 minutes.
+I was happy.
+That I was right.
+This means that
+people watch such videos
+for a long time.
+But can we really
+reach this conclusion?
+Will it be right to reach this conclusion
+so soon?
+The answer is no.
+You cannot make this decision
+on the basis of just one video.
+Because many things can happen.
+It is possible that
+I made this video on ChatGPT.
+So,
+people all over the world
+want to watch content on ChatGPT.
+So, obviously,
+people will watch more.
+Or it is possible that
+I was looking very smart that day.
+So, people will keep watching me.
+I mean,
+there can be any random reason.
+It is not at all necessary
+that the shooting technique I used
+was wrong.
+So, one more way is that
+let's shoot 5 more videos.
+Let's shoot 5 more videos.
+So,
+I shot 5 more videos in this way.
+Now,
+my average view duration
+per video was
+7, 9,
+5, 11,
+and 13.
+So, again the question is the same.
+Are these
+5
+videos
+right?
+Or
+are these
+5
+videos
+right?
+So,
+the answer is
+still
+no.
+So,
+on the basis of
+samples,
+I will tell you
+that
+if you
+take the example of
+Lays.
+Now, in Lays,
+they started selling green color Lays
+due to which some revenue is coming.
+So, then they made a new product
+of purple color Lays.
+How would they know
+that replacing
+green with purple
+will give them more revenue?
+How will you reach this decision?
+You will have to take feedback from them.
+Suppose, the feedback is good.
+So, how many people will you take feedback from?
+So, you will be able to conclude that
+the purple one is better than the green one.
+Or the green one was better,
+leave the purple one.
+So, you can actually imagine.
+I am a small YouTube channel.
+This may not be a big deal for me.
+I can try it out and see.
+I may not get that much loss.
+But imagine a big organization,
+let's say Amazon or Flipkart,
+and they want to do decision making.
+So, for them,
+the solution is hypothesis testing.
+So, what is hypothesis testing?
+It is written here.
+A statistical hypothesis test
+is a method
+of statistical inference
+used to decide
+whether the data at hand
+sufficiently supports
+a particular hypothesis.
+It means,
+I have this data.
+On the basis of this,
+I can say that
+the method of shooting this video
+will give me more average view duration.
+I hope you are able to understand.
+Hypothesis testing allows us
+to make probabilistic statements
+about population parameters.
+Okay?
+This average
+view duration,
+which is my population mean,
+I want to make a prediction about this
+with the help of these samples.
+So, in a nutshell, if someone asks you
+what is hypothesis testing?
+Hypothesis testing is used
+for many other things.
+But, the main task
+of hypothesis testing is
+that on the basis of
+the data you have,
+you prove your hypothesis
+right or wrong.
+And it is
+a very very important task
+in like business and
+finance and economics.
+And that is why,
+statisticians are told that
+hypothesis testing should come out well.
+So, the 10 minutes I spent here,
+I just wanted to
+tell you, show you
+why we are studying hypothesis testing?
+What is the requirement?
+I hope you got the answer
+to this question.
+So, I am opening the chat.
+Let me know if you have any doubts.
+If you don't have any doubts,
+then you can write clear.
+Just write clear if you understand.
+Otherwise, we will take your doubts.
+Okay.
+So,
+we understood why
+and why we have to perform
+hypothesis testing.
+Now, we will move to
+what and how.
+What happens and how it happens.
+So,
+the story of hypothesis testing
+starts with
+two important terms.
+If you want to perform hypothesis testing,
+then you should know about
+these two things.
+What are these two things?
+One is null hypothesis
+which we represent
+as H0.
+And the other is alternate hypothesis
+which you represent as
+H1 or Ha.
+If you perform any hypothesis test,
+you will use these two things.
+So, you should have a good idea
+about this.
+The good part is, it is a very simple concept.
+We just have to understand it once.
+Okay.
+So, what is null hypothesis?
+Let me first read the definition
+and then I will give you intuition and examples.
+So, in simple terms,
+the null hypothesis
+is a statement.
+What is it? It is a statement
+that assumes
+there is no significant
+effect or relationship
+between the variables
+being studied.
+It serves as a starting point
+for hypothesis testing and represents
+the status quo
+or the assumption
+of no effect
+until proven otherwise.
+Now, I know
+it sounds a little difficult
+but it is a very simple thing.
+So, what happens is that
+in hypothesis testing,
+there are multiple steps.
+The first step
+is that
+you choose
+a null hypothesis.
+What is a null hypothesis?
+It is basically
+a statement.
+You basically choose a statement.
+Let us take an example of our YouTube channel.
+In our YouTube channel,
+what we wanted to test
+is that the new shooting style
+of video shooting
+it can give us
+more
+average
+view duration.
+This was my hypothesis.
+I have to test this only.
+So, what I will do is
+to test this hypothesis,
+I will choose a null hypothesis.
+What is a null hypothesis?
+I will assume that
+the old technique
+of video shooting
+and the new technique
+of video shooting
+have no difference.
+In simple words,
+whether you shoot video with
+the old technique
+or the new technique,
+the average view duration
+will be equal in both.
+This is a null hypothesis.
+Let us take one more example.
+Let us assume that
+the chips of Lays
+I don't know why I am giving the example of Lays
+but it is okay.
+The chips of Lays
+have a weight written at the back.
+Let us assume that
+the weight is written as 100 grams.
+We want to challenge this
+and we want to say
+that this is not 100 grams.
+Either it is more or
+less. This is not 100 grams.
+Okay.
+For example,
+you want to test the hypothesis
+that the weight of the packet of chips
+is different from 100 grams.
+In this case also,
+you will make a null hypothesis
+and the null hypothesis will be
+that the weight of the packet of chips
+is exactly 100 grams.
+Okay.
+Basically,
+you take an assumption
+in the beginning of hypothesis testing
+and your assumption is
+that
+here it is written that
+there is no effect
+until proven otherwise.
+Okay.
+You always assume that
+there is no difference.
+Everything is equal.
+What was before and what is after is equal.
+Okay.
+And then you try to make it wrong.
+So null hypothesis is
+basically a statement which
+serves as a
+starting point for hypothesis testing.
+Okay. I hope
+you understood this point.
+Now with this,
+a second thing comes.
+Which we call alternate hypothesis.
+Which you can say is
+the opposite of null hypothesis.
+See what is written here.
+The alternate hypothesis is a statement
+that contradicts
+the null hypothesis and claims
+there is a significant effect
+or relationship between
+the variables being studied.
+This will speak the opposite
+of null hypothesis.
+And both statements are mutually exclusive.
+Both things cannot be together.
+Either in the end,
+after performing the test,
+the null hypothesis will be correct
+or the alternate hypothesis will be correct.
+Like if I take the example of YouTube again.
+So in the example of YouTube,
+what was the null hypothesis?
+That the old technique and the new technique
+does not make any difference.
+The average view duration will remain the same.
+This is my null hypothesis.
+The alternate hypothesis will be
+that the new technique
+of video shooting
+increases the average duration.
+Similarly,
+in the case of Chips,
+what will be the null hypothesis?
+In the case of Chips,
+what was the null hypothesis?
+That the weight is exactly 100 grams.
+What will be your alternate hypothesis?
+It will say that
+your weight is not
+equal to 100 grams.
+So if you understand this
+and want to see how it is written,
+then in the case of YouTube,
+you will write like this.
+h0
+mu as in average
+view duration
+is equal to 6 minutes.
+And in h1,
+you will write that
+mu would be greater than
+6 minutes.
+Because when you are changing your technique,
+then the average view duration will increase by 6.
+This is your alternate hypothesis.
+Now in the end,
+if you perform the test,
+only one thing will come out right.
+Either this will come out right
+or this will come out right.
+Similarly, in the case of Chips,
+you will say that the average weight
+of all the layers
+is 100 grams.
+And your alternate hypothesis
+is that
+whatever happens,
+it is not 100 grams.
+Now again, either this will be right
+or this will be right.
+This is a statistical test.
+So in a nutshell,
+when you are doing hypothesis testing,
+when you are trying to check an idea,
+you start with a null hypothesis.
+That everything is fine,
+there is no difference in doing anything.
+Let it be as it is.
+That is a null hypothesis.
+What is an alternate hypothesis?
+Where you challenge the null hypothesis.
+So here
+two terms are written.
+Sometimes the null hypothesis is called
+status quo.
+It can be in some questions or books.
+And alternate hypothesis
+is called research hypothesis.
+Because after some research
+you come up with this hypothesis.
+Like I researched,
+I saw other people's YouTube videos
+and then I realized or concluded
+that maybe by changing the video style
+the view duration will increase.
+So this is called research hypothesis.
+Now you have to remember some important points.
+Precisely
+I am telling you three points.
+They will help you further.
+One is that
+there can be a question in your mind
+if you are going to solve a new type of problem
+that how will you decide
+which statement will be
+null hypothesis
+and which statement will be alternate hypothesis.
+So here you have to
+catch this rule of thumb
+that null hypothesis always says
+that nothing new is happening.
+Whatever was going on is the same.
+You changed the way of shooting the video.
+Nothing has changed from that.
+Even now the average view duration
+is the same.
+You opened the packet of chips
+and checked the weight.
+Always the weight was 100 grams.
+So basically if nothing new is happening
+that will come under null hypothesis.
+This will help you
+understand a little.
+And then the whole hypothesis testing
+its goal is
+that you try to collect
+evidence against null hypothesis
+so that
+you can deny it.
+This is what happens in hypothesis testing.
+You are taking a null hypothesis
+an alternate hypothesis
+and you are trying to collect evidence
+through data which can tell
+that null hypothesis is not right.
+You want to reject it.
+Third
+an important thing
+here some people get confused
+you have to keep this in mind.
+Its important to note that
+failing to reject the null hypothesis
+doesn't necessarily mean
+that the null hypothesis
+is true.
+This is a very important point.
+Assume the result of the test
+is that null hypothesis
+won.
+It means that you couldn't
+bring evidence against it.
+In the end
+null hypothesis turned out to be right.
+This doesn't mean that
+what is said in null hypothesis
+is right.
+It basically means that
+you couldn't do it wrong.
+This is an example
+which will be given to you
+in many types of books
+and videos.
+Imagine hypothesis testing
+as a court
+where a convict is standing
+and a prosecutor
+is standing
+who wants to punish him
+for a crime.
+Here your null hypothesis
+says that
+this person didn't commit any crime.
+And your
+alternate hypothesis
+which is a lawyer
+is saying that
+this person committed a crime.
+Lawyer's job is to
+produce enough evidence
+in the court
+which will prove
+in front of the judge
+that this person committed a crime
+and will be punished.
+But let's say
+that lawyer didn't bring enough evidence
+in front of the judge
+then this doesn't prove
+that the criminal
+didn't commit a crime.
+Understand this.
+Lawyer couldn't prove
+it doesn't mean that
+crime didn't happen.
+So always remember
+that failing to reject
+the null hypothesis
+doesn't necessarily mean
+that the null hypothesis is true.
+Tomorrow if I start
+uploading videos in a new style
+let's say
+average view duration
+increases
+then this doesn't prove
+that my current method
+is the best.
+I hope you understand.
+So this is very important
+and you have to remember this
+because many times
+people make mistakes in this detail.
+So what we did till now
+we understood
+why hypothesis testing is done
+then we understood
+what hypothesis testing is
+it's basically a technique
+to test some hypothesis
+with the help of some statistical test
+and we learnt two concepts
+about null hypothesis
+and alternate hypothesis
+which are like integral
+to every hypothesis test.
+Now I'll take you to
+how part
+that exactly
+what is the step by step flow
+of a hypothesis testing.
+Let's understand that once.
+Now the step by step technique
+is actually
+a technique which varies.
+We will study two techniques.
+The technique we are studying today
+is called rejection region approach.
+You can consider it
+as a basic level technique.
+And there are some disadvantages
+which we will discuss later.
+And then
+from the next session
+we will study a separate technique
+which is very similar
+it's called p-value approach.
+p-value approach
+Okay
+I want to teach you both
+so that you should know
+what was the problem in this
+that this one is used.
+So today's topic will be
+rejection region approach
+and next class onwards
+whenever we will perform hypothesis testing
+we will use the p-value approach.
+So let's focus
+on
+the step by step process
+to perform hypothesis testing.
+There are eight steps
+we will discuss all the steps one by one
+and I will show you through example.
+So first of all
+let's say you have an idea
+about anything
+let's take our youtube example
+so in our youtube example
+I have an idea that if I change
+my shooting technique
+then my average view duration will increase.
+How can we test this?
+By performing hypothesis testing.
+So now we have to perform hypothesis testing.
+What will be step one?
+Step one will be
+to formulate our null and alternate hypothesis.
+So in this case
+our null hypothesis will be
+that
+there is no difference
+between the old shooting technique
+and the new shooting technique
+and the average view duration
+will stay
+to be equal to 6 minutes.
+This is my null hypothesis.
+What will be the alternate hypothesis?
+Alternate hypothesis will say
+that
+by shooting with new technique
+the average view duration
+will be more than 6 minutes.
+I have formulated this
+my null and alternate hypothesis.
+Now the second point
+is a bit tricky
+because I haven't discussed it much.
+So what you have to do is
+you have to decide a significance level.
+You have to decide
+a significance level.
+Now I haven't told you
+what is significance level
+but think like this
+significance level is used
+generally.
+It is either 0.05
+or 0.01
+or if you talk in
+percentage terms
+it will be either 5% or 1%.
+Now I haven't told you
+what is significance value.
+If you want to read one line description
+then one line description is written here.
+So this is the probability
+what is significance level
+that it is a probability
+of rejecting
+the null hypothesis
+when it is actually true.
+So in simple words
+significance level is a
+probability of
+rejecting the null hypothesis
+when it is actually true.
+This means that
+suppose if you have taken 5%
+then what will happen
+if you are performing test 100 times
+then it is possible
+that 5 times
+although null hypothesis was correct
+you tell it wrong.
+This is significance value.
+What is the importance of this
+we will discuss it later but this is step 2.
+You decide a significance level
+significance value
+generally it is 5%
+sometimes it is 1%.
+One of these two remains.
+Third, you have to check
+certain assumptions
+about your data
+that what are the
+different things in your data.
+For example
+you always have to check
+how is your
+data distribution
+is it normally distributed
+or non-normally distributed
+then you have to find out
+whether you have
+population standard deviation
+or not
+then you have to find out
+what kind of data you are working with
+are you working with categorical data
+or numerical data
+are you working with one single column
+or multiple columns
+then you have to form these assumptions
+and when these assumptions are formed
+then on the basis of that
+in step 4
+you decide a test
+the test
+you will perform
+now you will see
+that we will study
+many statistical tests
+like today we will study
+Z test
+T test, chi-square test
+ANOVA test
+there are many such tests
+we will study
+6-8 tests we will study
+but this test is decided
+after the assumptions
+that you are making about your data
+let me give you an example
+suppose
+our data
+is normally distributed
+let's say
+it is normally distributed
+and second assumption is
+that our
+population standard deviation
+sigma
+is given
+so in this case
+you can easily apply one sample
+Z test
+ok
+if let's say
+sigma is not given
+then you can apply T test
+ok
+if you are working with categorical data
+then you can apply chi-square test
+so we will study this
+today I am just telling you a generic flow
+we will study specific flows
+which are slightly different
+after that
+you state the relevant
+test statistic
+ok, what is test statistic
+like if you are conducting Z test
+then you will calculate
+Z score in it
+so the value of Z
+which is calculated is called Z statistic
+or let's say
+you are performing T test
+we have studied all these in confidence interval
+so if you are performing T test
+then the value of T is calculated
+we call it T statistic
+so your test has different statistic
+after that what you do is
+you perform the test, you conduct the test
+ok, by conducting test
+you get the value of your test
+statistic
+and on the basis of
+that value
+you move to step number 7
+and you decide
+whether to reject
+or not reject
+the null hypothesis
+ok, and lastly
+once you have rejected
+or not rejected the null hypothesis
+the last step is
+you interpret the results
+ok, let's say
+in my youtube video
+I proved that
+alternate hypothesis is correct
+means null hypothesis is wrong
+I rejected it
+so my interpretation of result will be
+if I start shooting video
+in a new way
+then my average duration
+will be improved, ok
+so this is a generic flow
+through which you perform hypothesis testing
+I am telling you again
+this is rejection region approach
+but in future
+we will study an even more
+refined approach
+where we will study p-value approach
+so that is our
+next class topic
+for now I will do one thing
+that in front of you
+I will perform a small test
+ok, in fact
+I will give you two examples
+which will be clear
+till then let's do one thing
+let's open the chat
+and let's see
+if you have any doubts
+let me know
+if you understand
+then write clear
+and then we will
+start
+significance level is same as confidence level
+no, actually
+there is a relation between both
+there is one minus
+but both are related
+they are not same
+ok, let's do one thing
+let's take one small example
+through which we can understand
+how hypothesis testing is performed
+let's take two examples
+this will clear the picture
+so here is an example
+suppose
+a company is evaluating
+the impact of a new training
+program on the productivity
+of its employees
+the company has data
+on average productivity of its employee
+before implementing the training program
+the average productivity
+was 50 units per day
+with a known population
+standard deviation of
+5 units
+after implementing the training program
+the company measures
+the productivity of a random sample
+of 30 employees
+the sample has
+an average productivity of
+53 units per day
+the company wants to know
+whether the training program
+has significantly increased productivity
+let me explain the question
+so suppose you are
+the owner of a car manufacturing
+company
+where you have a factory
+where cars are made
+ok, so now
+per day basis
+50 cars are made in your company
+on an average
+per day basis
+so you can say that your population
+mean is 50
+every day on an average
+50 cars are made
+so then you realized
+by the way one more thing
+you have the standard deviation
+of the population
+and that is 5
+it varies a little
+suppose some day 45 cars are made
+some day 55 cars are made
+on an average 50 cars are made
+standard deviation is 5
+now one day you decided
+we have to upgrade
+we have to produce more cars on a daily basis
+so what you did
+simple logic
+you have to upskill your employees
+you have to teach them better
+so you conducted a training program
+now the training program is over
+so how will you know
+whether your training program
+really helped you
+or not
+so what you did
+you took out 30 employees
+productivity sample
+you want to measure
+the productivity of a random
+sample of 30 employees
+and the sample has an average productivity
+of 53 units per day
+so when you took out 30 employees
+sample size
+how much was given
+30
+and the sample had a
+sample mean
+of 53
+units
+now you have to tell
+whether the training program helped you
+or not
+what we have to apply here
+is hypothesis testing
+and through hypothesis testing
+we have to reach the conclusion
+that the training program was beneficial
+so look carefully
+how will you do step by step
+what was step 1
+let's see here
+step 1 was formulate a null
+and alternate hypothesis
+our
+null hypothesis will be
+that
+there was no benefit from
+training program
+the number of cars
+is increasing
+so in simple words
+mu is 50
+this is our null hypothesis
+and our alternate hypothesis
+will be
+that
+after the training program
+there is improvement
+which means greater than 50
+that there will be more than 50 cars
+after the training program
+so we have completed step 1
+in step 2
+we have to take significance level
+so what we are doing
+significance level is denoted by alpha
+we are taking alpha
+0.05
+or you can also call it 5%
+in step 3
+we have to take data assumptions
+so here
+you can take two assumptions
+first assumption is
+since your sample size is
+greater than equal to 30
+so under central limit theorem
+you can say that normality
+this assumption
+is valid
+you can say that
+second
+you have population standard deviation
+which is sigma
+that is also known
+so if you have done
+confidence interval class
+then you would know
+that for sigma known
+you can apply z test
+so that is what we will do
+in step 4 we have decided
+that we will apply
+single sample z test
+on this particular
+data
+to conduct the hypothesis testing
+we have reached the fourth step
+what step number 5
+is saying
+just one second
+what step number 5 is saying
+that we will select a
+test statistic in our case
+since we are performing a z test
+our test statistic
+will be to calculate the
+value of z
+we will do that now
+after that we have to conduct the test
+so what is simple funda
+i will tell you
+in z test atleast
+but i will conduct z test
+so what do you have
+you have
+mu
+sigma
+x bar
+n
+so since normality
+assumption is valid
+you can say that
+the sample head will follow
+a normal distribution
+so what can you do
+you can convert it to
+standard normal variant
+how by doing this
+what will you do
+you will find the value of z
+so you will write
+x bar minus mu
+divided by
+your population standard deviation
+root over of slash n
+and how much will it be
+53 minus
+50 divided by
+your population standard deviation
+is 5
+root over of
+30
+this is the value
+this is your z statistic
+if you try to calculate
+then
+it will be
+3 divided by 5
+divided by root over of 30
+so if we calculate it
+then it would be
+3
+multiplied by
+square root of
+30
+divided by
+5
+3.28
+how much is the value of z statistic
+3.28
+ok
+now the main thing starts here
+what we will do since we know
+we have converted it to standard normal variant
+so it will look like this
+where this will be
+0 now note here
+what we have to do
+is
+our alternate hypothesis
+says that
+mu should be greater than
+50
+that was our
+alternate hypothesis
+and the confidence
+level alpha
+is 5%
+so
+basically what you will do
+since you have to
+do mu greater than 50
+what you will do is
+on this curve
+you will try to
+calculate the value of z
+whose
+this area
+will be
+5%
+or you can say
+0.05
+ok
+and obviously this area would be
+0.95
+ok
+so we have to find out
+this value of
+small z
+ok
+I am sorry this value of capital z
+so how will this value come out
+very simple
+you will go to z table
+this is the z table
+ok we have to find out
+for which value
+the area under the graph
+is 0.95
+so if you see
+so these two values are coming
+9495 and 9505
+you can take any of these
+let say I am taking 9505
+so which value is this 1.6
+and here 0.5
+so basically this is
+1.65
+1.65
+1.65
+ok
+this is the value
+on this side
+95%
+is your data
+and on this side 5% is data
+ok
+now the main thing starts here
+you will take out this value
+and this value
+is 3.28
+now think yourself
+on this curve 3.28 will lie here
+ok
+so what happens
+what is basic funda
+there is a concept here
+which is called rejection region
+and this is decided from your significance level
+so since
+you have your alternate hypothesis
+made in such a way
+that on mu greater than 50
+alternate hypothesis will be correct
+so what happened automatically
+that your
+this region
+this whole region
+this is your rejection region
+means at this place
+if your data falls
+then you will reject null hypothesis
+whereas this data
+this region
+this is your
+rejection region
+means if your value of z
+would have come like this
+that it would have been here
+or here or here
+then if it would have fallen in these regions
+then we would not have been able to reject our null hypothesis
+but since
+this is 3.28
+and our is falling in rejection region
+then we can say
+that we have got strong evidence
+against the
+null hypothesis
+in favor of alternate hypothesis
+and because of this
+we can
+reject
+the null hypothesis
+and what was our null hypothesis
+our null hypothesis was saying
+that by doing this training program
+there was no benefit
+so this
+is proving wrong
+ok and if this is proving wrong
+then what is coming out
+right is our alternate hypothesis
+that
+by doing this training
+there will be benefit
+and benefit means
+your daily average output
+that will be greater than
+50
+and this will be your conclusion
+ok so now
+I have given you an end to end example
+where
+we picked up a data from scratch
+and around it
+we made a decision
+that our alternate hypothesis
+from hypothesis testing
+turned out to be correct
+so we rejected the null hypothesis
+ok
+lets do one more example
+to make things clear
+so look here
+suppose a snack food
+company claims that their
+lays packet contains
+an average weight of
+50 grams
+so we write it here
+our average weight
+is given to be 50
+to verify this claim
+a consumer watchdog organization
+decides to do
+a random sample of
+lays wafer packet
+ok so these consumer watchdog
+companies I guess
+are there who case waste
+like this on other companies
+so they said we will study
+because we are facing some problem
+they don't have 50 grams
+the organization wants to determine
+whether the actual average weight
+differs significantly
+from the claimed 50 grams
+the organization collects
+a random sample of
+40 lays wafer
+sample size is 40
+and measures their weight
+they find that the sample has
+an average weight of 49 grams
+sample weight is
+49 grams
+with a known population standard deviation
+of 4 grams
+population standard deviation is
+4 grams
+now you have to do a hypothesis testing
+and you have to prove
+that there is no 50 grams
+in the packet of lays
+it will work more or less
+but there is no 50 grams
+so again if you do step by step
+so what will be your work in step 1
+to formulate
+a null hypothesis
+and an alternate hypothesis
+so your null hypothesis will be
+that your
+packet of lays
+its weight
+is exactly 50
+that is your null hypothesis
+and your alternate hypothesis
+in this case will be
+not equal to 50
+it can be less or more
+but it is not 50
+we have to prove this
+in step 2
+what we will do is
+in step 2
+you will choose
+a significance level
+again we have chosen
+alpha equal to 0.05
+because this is the most common one
+we will have a discussion about this
+in step 3
+you will take assumptions
+around data
+again the assumption is in front of you
+since your sample size is 40
+which is significantly greater than 30
+again you can take
+normality assumption
+and
+you have population
+standard deviation
+so you can very easily
+apply single sample
+z test
+lets say you do not have
+z test
+so you apply t test
+as i have shown you in last class
+so for now we are applying z test
+fourth
+what we have to do is
+we have decided to apply z test
+so we have to apply z test
+our statistic will be
+to calculate the value of
+z
+now in 6th step
+we have to conduct our test
+so again you will do the same
+you will calculate the value of z
+what will be the value of z
+z will be
+your x bar
+that is 49
+minus
+mu that is 50
+divided by population standard deviation
+that is 4
+divided by root over of
+40
+so this will be
+minus root over of
+40 divided by
+4
+lets see once
+so this would be
+ah
+minus
+square root of
+40
+divided by 4
+minus 1.58
+what is this value
+minus 1.58
+ok
+now since we have normality assumption
+what can we do
+we can convert it to standard normal
+and now what can we do
+again our rejection region
+we can plot it
+ok
+so this time what is the difference
+last time our assumption was
+mu greater than 50
+this time our assumption is
+mu not equal to
+50
+so this time what we have to do
+we have to apply two tailed test
+two tailed test means
+we have to divide
+equal area of
+alpha
+which was 5%
+so what we were doing
+last time we were taking
+95% on one side
+and 5% on the other side
+since this time we are using not equal to
+we have to
+draw two points
+on z axis
+this area
+this is also your rejection area
+with alpha by 2
+and this is also your rejection area
+alpha by 2
+so basically here is
+0.025
+and here is 0.025
+ok
+and what we have to do
+we have to find its value
+and we have to find its value
+so basically z alpha by 2 minus
+and z alpha by 2
+positive
+and we have to find
+where it lies
+ok
+now if it lies somewhere in the middle
+then our
+null hypothesis
+we will not be able to reject
+but if from these two
+it lies in any area
+then since this is the rejection region
+what we can do
+we can reject our null hypothesis
+ok
+so this is the plan
+so what we have to do
+we have to find these two values
+so this is 0.025
+this is 0.95
+this is also 0.025
+so I guess you know
+we calculated this in last class
+that around this
+your values
+this one will be 1.96
+and this one will be
+minus 1.96
+we calculated this in last class
+and your
+this value
+it will lie somewhere here
+which is
+this white region
+which is not the rejection region
+then what you can say
+that we cannot
+reject
+reject
+the null
+hypothesis
+ok
+we could not reject the null hypothesis
+our data could not give enough evidence
+that
+null hypothesis
+is wrong
+ok
+so what was our null hypothesis
+that our chips packet
+has exactly
+50 gram chips
+so we
+we have to believe
+we could not
+reject that
+we could not prove
+from the 40 packets we bought
+that from 50 grams
+there are chips here and there
+we cannot prove that
+so basically we cannot
+case on them
+so this was the second example
+where we applied z test
+and did hypothesis testing
+ok
+so going forward
+in the next lectures
+what we will do
+these were very basic examples
+we will conduct some more
+different types of tests
+we will perform t test
+because generally you do not have population standard deviation
+we will perform t test
+we will perform chi-square test
+for categorical variables
+we will also perform ANOVA
+there are some more tests
+here you do correlation analysis
+so we will study all that in the next lectures
+so today i just gave you an introduction
+that how
+step by step you perform hypothesis testing
+ok
+so let me know
+if you have any questions
+in case of normal distribution
+shouldn't the rejection region
+lie in both tails of the distribution
+yes that is what we did
+both tails
+both tails
+if significant
+significance level is taken as 1%
+then it can't be rejected
+then your calculation will change
+so basically if you take 1%
+then both values
+will move here
+it will move further
+white region will increase
+black region will decrease
+so we will discuss that in a while
+we are dividing by square root of n
+because we are calculating z value of
+for sample
+yes you will use central limit theorem
+if you remember
+we are taking assumptions till now
+we have to apply standard error concept
+when to apply two tails
+how to know
+it is very simple
+if it is not equal to
+then there is no direction
+so you have to divide both sides
+now if there is any direction
+greater than or less than
+then apply single tail
+don't worry
+we will discuss when to apply one sided or two sided
+but it is simple
+if you have direction sense
+if your hypothesis testing is saying
+that
+there will be benefit by doing this
+or there will be loss by doing this
+then you have to apply
+one sided test
+ok
+if you don't know
+and you are being told
+that there will be benefit or loss
+but this will not happen
+not equal to
+then you will apply two sided test
+if you have any other question then ask
+Sir significance region is decided by domain expert
+or by us
+domain expert
+for most of the problems
+95% value
+5% value
+it works perfectly fine
+now we will discuss
+what is the difference from significance level
+but yeah
+if any specific problem is being solved
+then it is domain expert's work
+but at the same time
+95% is treated as standard
+in the first example
+H0 U equal to
+50 minutes
+and HA should be
+equal to 50
+and maybe
+H0 can never be less than equal to
+last one was
+employees
+which was this
+last one was employees
+I hope you are understanding
+what is P value
+P value
+is the topic of our next class
+now I will teach you one thing
+that the rejection region
+approach we have used
+what is the problem in this
+so to solve the same problem
+P value approach comes
+or P values comes
+so we will discuss that in the next class
+so yeah guys if you have any other question
+then ask otherwise we will move ahead
+so till now we have performed statistical test
+we have applied hypothesis testing
+now around this
+we will do some post-mortem
+some doubts which are coming to you
+we will discuss that
+okay
+why significance value is decided
+before testing
+because without that
+you cannot operate
+you have to make a decision
+right that you have to
+select the null hypothesis
+or reject it
+or reject it or not
+so if you don't have any significance level
+then how would you decide that boundary
+on the basis of which you are deciding
+that it is falling in the null region
+or in the alternate region
+so let's move ahead guys
+Aditya took only 40 packets
+there was no multiple time sampling
+this is not sampling distribution
+Significance level with T test
+example please
+we will do that in the next class
+today's class is not the topic
+see today's class I am intentionally
+not showing you more tests
+because in different tests
+the procedure changes slightly
+so today we are taking only one test
+and that is Z test
+and after learning that
+we will learn all the concepts
+like we have to learn 2-3 concepts
+like what is type 1 and type 2 error
+or what is one-sided test
+versus two-sided test
+so we have to teach you all these concepts
+today we are focusing on this
+so we are not doing multiple tests
+in the next class we will perform
+parametric test
+and in the next class we will perform
+non-parametric test
+so today's class is all about
+introduction to hypothesis testing
+that is why we are not discussing
+other tests today
+I hope you understand
+now let's do one thing
+let's do discussion around this
+rejection region approach
+also let's have a slight discussion
+about significance level
+about these two things
+just to build up your intuition
+so first of all let's have a discussion
+about significance level
+as I said it is denoted by alpha
+and this is very important
+you must be able to understand
+because from this only it is being decided
+that any value is falling in null region
+or is falling in alternate region
+so it is significant
+significance level is very important
+so it is denoted by alpha
+and it is a pre-determined
+threshold
+used in hypothesis testing
+to determine whether the null hypothesis
+should be rejected
+or not
+it represents the probability of
+rejecting the null hypothesis
+when it is actually true
+sometimes this is also known as
+type 1 error
+let's just focus on significance level
+so significance level
+is said to be
+it represents the probability of
+rejecting the null hypothesis
+when it is actually true
+now this might seem like a confusing statement
+but try to understand it
+suppose
+you have taken significance level of 5%
+or 0.05
+and
+we are performing two tailed test
+suppose we want to prove
+mu not equal to 50
+so
+what happened is that
+if we take 0.05
+this rejection region
+this is
+0.025
+and
+this rejection region
+this is also 0.025
+in both
+half divided
+and this
+is the region
+where you can't reject null hypothesis
+you can do it here
+and here
+now think for yourself
+reduce it
+make it 1%
+so now what will happen
+if you
+redraw the same graph
+so now
+how much area will be left here
+0.005
+and
+how much area will be left here
+0.005
+ok
+so basically what you did
+as you are reducing alpha
+as you are reducing alpha
+let's say you are reducing it to 1%
+so this region
+white region
+null hypothesis region is increasing
+ok
+and as you increase alpha
+let's say you said
+30%
+so now 15% will come here
+and 15% will come here
+so basically this region
+will increase more
+now if this region increases
+then it can happen
+that even though
+null hypothesis was true
+but since this region increased
+then value fell somewhere here
+or here
+and since it fell here
+then you rejected null hypothesis
+ok
+see here it is written
+it represents the probability of rejecting
+the null hypothesis
+when it is actually true
+so if you increase alpha
+then the white region will shrink
+if the white region will shrink
+which means
+the probability of null hypothesis
+is decreasing
+so even though
+null hypothesis will be true
+but if you
+increase alpha value
+then the probability of
+it being wrong increases
+so basically it is written here
+it represents the probability of rejecting
+the null hypothesis when it is actually true
+and this is called type 1 error
+now we will go further and read
+so that is why
+a standard value is 5%
+sometimes 1% is also taken
+other than that
+sometimes
+this value is decided by
+some domain expert
+based on his or her knowledge
+about the domain
+but you just have to understand
+what is the difference between
+increasing or decreasing alpha
+you just have to understand that
+the alpha region will shrink
+by increasing alpha
+and by decreasing alpha
+you just have to keep this intuition
+in your mind
+now let's go further
+and let's discuss about
+the critical region
+it can be called rejection region
+so the rejection region is the
+region of values that corresponds
+to the rejection of null hypothesis
+at some chosen
+probability level
+so basically
+this region is called
+critical value
+because
+the null hypothesis is correct
+and the alternate hypothesis is correct
+so this region is called
+critical value
+this region is called
+null hypothesis
+and this region is called
+alternate hypothesis
+so basically
+you have to remember this chart
+that you take an
+alpha value
+and on that basis you draw
+these rejection regions
+and then whatever z value you
+have calculated
+where it is falling in this chart
+on that basis you decide
+whether the null hypothesis
+will be rejected or not
+this is the basic funda
+now let's discuss an important point
+why did I tell you
+that this
+rejection region approach
+which we have just studied
+is not that good
+why did we have to use
+another approach
+which we call p-value approach
+so the same problem
+I want to explain to you
+what is the problem
+with rejection region approach
+which we have just studied
+it is a very simple problem
+let's assume
+that the z that you have calculated
+came here
+let's say
+it came here
+it came here
+1.97
+now
+just because
+0.01 is more
+you said
+to reject the null hypothesis
+do you understand
+how fine it is
+suppose if it had come here
+and it was 1.95
+then for such a small number
+0.01
+you say
+that you cannot reject the null hypothesis
+like this is
+like this critical point
+becomes very important
+in rejection region approach
+there is a second problem
+suppose your z value came
+15
+now think for yourself
+if there is any value here
+its probability is very less
+right
+it is a very very rare event
+and the value here
+suppose this is 2.00
+there is no difference between
+0.01 and 0.01
+if you are taking rejection region approach
+this number
+as in z equal to 2.00
+and z equal to
+let's say 15
+cannot differentiate between these two
+both are in rejection region
+and what are you doing for both
+you are rejecting the null hypothesis
+but
+by using rejection region
+you cannot differentiate between these two numbers
+you cannot tell
+that you have brought evidence
+through data
+that reject the null hypothesis
+what is the strength of that evidence
+clearly
+if z equal to 15
+and data is lying here
+then I have very strong evidence
+to reject
+the null hypothesis
+in comparison to let's say
+this z value where z value is only 2
+I don't have that strong evidence
+so the basic problem
+in rejection region approach
+was that
+the evidence
+which you are bringing
+through data
+cannot tell its strength
+and that is
+why people don't use
+the rejection region approach
+instead what they do is
+they use a p value
+approach where you
+calculate an additional thing
+which is called
+p value
+and what is p value
+for now
+it is a number
+through which
+you can measure the strength
+of the evidence
+through p value
+you can tell
+that if 15 is there
+then there is a bigger reason
+to reject the null hypothesis
+whereas if 2 was there
+then it would have been a smaller reason
+so I hope you
+understood this problem
+of rejection region
+you are able to decide
+which one to keep
+null or not
+but you are not able to tell
+that the evidence
+which you have brought
+how strong it is
+and to solve that problem
+p value approach is used
+and going forward
+we will perform all our tests
+through p value approach
+and there I will show you
+that whenever you will calculate
+a test statistic
+through p value
+you will be able to calculate
+a p value
+and that p value
+will be a very very important number
+by which you can do
+a lot of decision making
+but again that is our next class topic
+today we have to keep it simple
+so I hope you understood
+so I will open chat
+and let me know
+if you have any questions
+Sir the concept of normality
+is not clear
+in statistics whenever
+you have a sample size
+greater than
+30
+greater than equal to 30
+you can assume that your sample
+variable
+as in the x bar
+it will follow a normal distribution
+because central limit theorem is applied
+you take out one sample
+1000 sample and it will follow normal distribution
+problem occurs when
+it is not explicitly mentioned
+that it is normally distributed
+that is also very small
+for example if it is 5 or 10
+in that case you cannot prove
+that it is normal
+then you will have to use something else
+or you will have to use t-statistic
+now let's do one thing
+let's discuss one more
+important topic
+which will be useful
+for us in future
+and the name of this topic is
+type 1 vs type 2 error
+ok
+a very very famous topic
+and a very very famous interview question
+means
+as i understood
+there is a 80% chance
+that a question can be asked in an interview
+means if you give 100 interviews
+then it will be asked in 80
+that is the probability
+so let's discuss type 1 vs type 2 error
+so
+let's read the definition first
+then i will explain
+what is the difference between both
+so in hypothesis testing
+there are two types of errors
+when making a decision
+about the null hypothesis
+it is very simple
+what we do is
+we perform hypothesis testing
+now there can be only two results
+of hypothesis testing
+first is that you say
+that
+your null hypothesis
+you are rejecting it
+and second
+is that
+your null hypothesis
+you are not able to reject it
+there are two possibilities
+but in both these possibilities
+there is a chance of error
+like what is the first error
+that you said
+that null hypothesis is wrong
+reject it
+but actually it was right
+this is one type of error
+what is the second type of error
+that you said
+you can't reject null hypothesis
+because we don't have enough proof
+but actually
+null hypothesis was wrong
+this can be two errors
+what are the other two cases
+that you said it is wrong
+and it turned out to be wrong
+so you are correct
+you said it is right
+and it turned out to be right
+so you are correct
+so there are only two possible errors
+and these errors are called
+type 1 error and type 2 error
+so let's discuss type 1 error
+type 1 error is also called
+false positive
+so type 1 error occurs
+when the sample results
+lead to the rejection
+of null hypothesis
+when it is in fact
+true
+what does it mean
+take the same court room example
+where a person is standing in the court
+what did we say in null hypothesis
+that he didn't commit any crime
+no crime
+no crime
+now
+what will be type 1 error
+that he didn't commit any crime
+but in the court it is proved
+that he committed a crime
+so the poor man
+without any mistake
+got jailed
+got punished
+this is type 1 error
+ok
+so see here it is written
+in other words
+it is the mistake of finding a significant effect
+or relationship when there is none
+by force we found out
+that he committed a crime
+when he didn't commit anything
+this is type 1 error
+ok
+it is denoted by alpha
+alpha is what
+significance level
+ok
+see here it is written
+by choosing a significance level
+researcher can control
+the risk of making type 1 error
+this is in your control
+alpha's value
+you can choose like this
+that null hypothesis
+ah
+by force you can't prove wrong
+means i will give you an example
+how
+let's take the same example
+ah
+see here is our normal distribution
+if you take alpha
+5
+so what is this
+2.5
+this is 2.5
+this is 95
+so in this
+if your z value falls then it is correct
+but if it falls in this
+then it is wrong
+right
+means this happened
+if you take the example of jail
+if you take the example of prisoner
+if the value of z falls here
+then our guy can be saved
+assuming we know
+that he didn't commit a crime
+but if the value of z falls here
+then assuming we know
+that he didn't commit a crime
+then what you can do
+you can decrease the value of alpha
+let's say you can take 1
+so what will happen
+this will go here
+this will go here
+so you are giving more breathing space
+that atleast you can be saved
+so this is written
+that your researcher
+who is conducting the test
+he can decide an alpha value
+in such a way
+that type 1 error
+can be reduced
+this is in our control
+second type 2 error
+we call it false negative
+this error occurs
+when based on the sample result
+the hypothesis testing
+is not rejected
+when it is in fact false
+when it is in fact false
+same example if you take
+so that guy has committed a crime
+but we couldn't prove
+that he has committed a crime
+so this is also a second type of error
+see here it is written
+truth about the population
+H0 true
+and
+you can write this
+H0 false
+and this is our
+result
+reject H0
+accept H0
+so you can see
+when null hypothesis is true
+and you rejected it
+ok
+null hypothesis is true
+but you rejected it
+this is type 1 error
+null hypothesis
+is false and you rejected it
+that is a correct decision
+you accepted null hypothesis
+when it was actually true
+that is also a correct decision
+and you accepted null hypothesis
+when it was actually false
+then it is a type 2 error
+ok
+so it is written here
+type 2 error occurs
+when based on sample result
+the null hypothesis is not rejected
+when it is in fact false
+researcher fails to detect
+a significant effect or relationship
+when one actually exists
+in simple words
+that person committed a crime
+we couldn't punish him
+we couldn't bring enough evidence
+in court
+that he should be punished
+and see here it is written
+the probability of committing
+a type 2 error is denoted by
+beta
+it is called beta
+and there is another concept which is called
+power of the test
+it is calculated using 1-beta
+I gave you a side note
+we will read it in next class
+but for now
+you just have to understand
+that there is a trade off
+between type 1 and type 2 error
+think about it
+if you
+alpha value
+let's say
+you are reducing
+alpha value
+if you are reducing
+then this white area
+will increase
+right
+you are decreasing alpha value
+white area will increase
+which means the z value
+which will be calculated in future
+its probability of falling in white region is increasing
+ok
+now as its probability of falling in white region
+is increasing
+then its probability of falling in rejection region
+is decreasing
+and
+in rejection region
+its probability of falling in rejection region
+is increasing
+think about it
+so basically
+there is a trade off
+between type 1 and type 2 error
+so if you
+if you don't have
+type 1 error
+by saying this
+you are decreasing alpha value
+by increasing white region
+then by default
+your rejection region will shrink
+if rejection region starts shrinking
+then in future if any z value is calculated
+and falls in rejection region
+this value
+these chances will reduce
+and as these chances will reduce
+your type 2 error will increase
+what type 2 error says
+that it did crime but
+didn't catch
+so if it is falling in white region then it is getting saved
+so whenever you
+try to save type 1 error
+try to reduce it
+automatically type 2 error
+will increase
+as you leave type 1 error
+open
+then your type 2 error moves in opposite direction
+there is a trade off
+so you have to strike a balance
+and that is why
+in most of the cases
+you simply work with alpha value
+of 0.05
+whatever has to happen
+happens
+but again in certain scenarios
+domain experts and researchers
+based on data
+based on the test
+they decide some value
+but in our case you have to understand
+there is a trade off
+and
+type 1 error and type 2 error
+so i hope
+this point is clear
+let me know
+if you have any doubts
+does p represent some probability
+yes p represents a probability
+we will discuss that in the next class
+how to interpret
+p is equal to 2.0
+is it like about
+100 times 95
+we did not meet
+average value 1
+Rajesh i don't understand your question
+no aritya it is not necessary
+that you have to do sampling distribution
+you can do one sample test
+since you know
+that your sample size is greater than
+30
+central limit theorem says
+that sample size above 30
+your sample
+size above 30
+is equal to
+the normal distribution
+so you don't have to do that
+you can do it
+it will improve your point estimate
+but here it is not required
+that is why we are just conducting
+one sample z test
+so yeah guys
+let me know if you have any problem
+in type 2 or type 1 error
+if not
+then
+i will move forward
+committing type 2 error
+like alpha is the probability
+of committing type 1 error
+let's go
+so let's do one thing guys
+let's discuss next topic
+which is
+one sided vs
+two sided test
+ok
+this is also called
+single tailed or double tailed
+or one tailed or two tailed test
+ok
+so let's discuss it once
+what does it mean
+which one should be used
+and what are the advantages and disadvantages
+of both
+so let's start with
+one sided test
+or one tailed test
+so a one tailed test is used
+when the researcher is interested
+in testing the effect
+in a specific direction
+this is very important
+when you have to
+check the effect
+in one direction
+then you use single
+or one sided test
+so either greater than
+or less than the value specified
+in the null hypothesis
+the alternative hypothesis is
+one sided test
+it contains an inequality sign
+means
+if your hypothesis is
+more than the previous one
+or less than the previous one
+then that is a very strong sign
+that you will use
+one sided test
+one sided test
+is of two types
+one is right tail test
+and the other is left tail test
+so if your alternate hypothesis
+says that
+mu will be greater than the value
+means my new shooting method
+will increase
+the average view duration
+then you are doing
+right tail test
+and whenever you say
+that it will decrease
+the average time
+then you will do
+left tail test
+the basic funda is
+that if your hypothesis
+is that the previous one
+will be greater than the previous one
+then that is a sign
+that you have to perform
+one sided or one tailed test
+ok
+here it is written
+a researcher wants to test
+whether a new medication increases
+the average recovery rate
+compared to the existing medication
+so you know that
+you are talking about the increasing one
+so this will be the test
+ok
+what is the funda of two sided test
+what happens in two sided test
+a two sided test is used
+when the researcher is interested
+in testing the effect
+in both the directions
+whether the value specified in the null hypothesis
+is different
+either greater or lesser
+this chips packet
+does not contain 100 grams
+this I can tell you
+either less or more
+so whenever there is inequality
+whenever this sign is used
+then you perform this test
+two tailed test
+this is the simple
+so this is the simplest way
+to understand
+that your test
+will be one sided or two sided
+ok
+I hope you are understanding
+you just have to propose
+your alternate hypothesis
+then only it will be decided
+whether it will be one sided or two sided
+or one tailed or two tailed
+now the main point of discussion
+is that
+what are the advantages
+and disadvantages
+of using one tailed and two tailed
+you should know this
+so first let us discuss
+that if you are performing
+two tailed test
+suppose
+if you are performing
+two tailed test
+then what is the benefit
+and what is the disadvantage
+you should know this
+see here it is written
+first we are discussing advantages
+first advantage is that
+you can detect effect
+in both directions
+here
+or here
+wherever your z is falling
+you are able to detect that
+two tailed test can detect effect
+in both directions
+which makes them suitable for situations
+where the direction of the effect
+is uncertain
+or when researchers want to test
+for any difference between the groups
+or variables
+you are getting detection of both sides
+which you will not get in one sided test
+second
+it is more conservative
+two tailed test are more
+conservative because
+the significance level alpha
+is split between both the tails
+this reduces the risk of
+type 1 errors in cases
+where the direction of the effect
+is uncertain
+so what i mean to say is
+you said alpha is 0.05
+so since this is two tailed test
+and you don't know the direction
+then you will have to make two rejection regions
+on both tails
+so how much you are giving to this
+alpha by 2 and how much you are giving to this
+alpha by 2
+so basically what is happening
+is that this area
+you are getting more
+which basically means
+your type 1 error chance
+is reducing
+because obviously
+most of your values
+will fall in this region
+so the more you are going towards the tail
+the probability of that event
+is reducing
+because of splitting of the two halves
+if you talk about disadvantages
+then
+here is a term
+less powerful
+what is less powerful
+two tailed test are generally less powerful
+than one tailed test because
+the significance level alpha
+is divided between both the tails
+of the distribution
+this means that the test requires
+a larger effect size
+to reject the null hypothesis
+which we discussed in the previous point
+that it becomes more conservative
+and reduces the type 1 error
+but this can also be a disadvantage
+if let's say
+if the test is wrong
+then to be able to reject it
+you will have to bring more evidence
+basically in your sample
+you will have to bring more extreme results
+only then
+you will be able to get out of that particular region
+which is the white region
+and to go to the rejection region
+you will have to work extra hard
+and that is why
+it is less powerful
+it is related to the concept of power
+which I told you
+what is power? 1 minus beta
+is the probability of type 2 error
+so the power of the test
+is less
+which is your two tailed test
+and next disadvantage is
+no appropriate
+for direction
+sorry there is a grammatical mistake
+no it is correct
+not appropriate for directional hypothesis
+means even if you conduct this test
+then what did you understand
+that the chips packet of Lays
+does not contain
+100 gram chips
+but if someone asks
+whether it is less or more
+you cannot say that
+because you do not have directional sense
+you cannot say that
+it is less or more
+you can only say that
+it is not 100 gram
+so this is also a drawback
+of double tailed test
+of two tailed test
+now if you talk about single tailed test
+of one tailed test
+then what is its advantage
+let me draw it
+suppose this is your
+this is your
+alpha
+so now the whole 5%
+is concentrated at this point
+the whole is concentrated at this point
+so first of all
+it is more powerful
+more powerful means
+if you know that whatever is wrong
+is going to happen on this side
+whatever is wrong
+is going to happen on this side
+so since it is a one sided
+one tailed test
+it is significantly larger
+right it is significantly larger
+so that is why it is more powerful
+which means that on this side
+it has more power to detect
+anything wrong
+because automatically
+if you take half
+then rejection region is taking more area
+right
+and if it is taking more area
+then it is easier to reject
+your null hypothesis
+ok
+so what is the advantage of this
+since
+the area is divided in both sides
+and let's say
+you are saying that
+there was more chance of something going wrong on this side
+so obviously the rejection area
+on this side where there is more chance of something going wrong
+that area has shrunk
+so then there
+the chance of type 2 error increases
+ok i hope you are getting it
+second
+the benefit is directional hypothesis
+one tailed tests are appropriate when there is a strong theoretical
+or practical reason
+to test for an effect in specific direction
+like i know that
+i am changing anything
+the way i am shooting my video
+so more chances are there
+that my average duration will increase
+so i know that
+whatever is going to happen is going to happen in this direction
+so then
+it becomes easy to do directional hypothesis
+with the help of this test
+if you talk about disadvantages
+then missed effects
+simple thing is that
+i will never know
+if in future
+the new technique that i have used
+actually my average duration
+is going to decrease
+i will never know
+with a one sided test
+because my focus is on this side
+right
+now if a z value is falling here
+what am i thinking about that
+that my null hypothesis is correct
+but actually it is not
+it is possible that it fell on this side
+and there is a chance that it will decrease
+so that my average view duration
+will decrease
+but i can't track this event
+if i am doing a one sided test
+second
+increased risk of type 1 error
+it is correct
+if you are focusing on this side
+and this area has increased
+then automatically white area has decreased
+if white area has decreased
+then your type 1 error chance increases
+because white region has decreased
+now there is a bigger chance
+that you fall in rejection region
+if you fall in this rejection region
+then your null hypothesis will be rejected
+what if null hypothesis was correct
+then type 1 error
+risk increases
+so these are your advantages
+and disadvantages
+of one sided or two sided test
+but again
+you cannot do anything
+the way you are planning your alternate hypothesis
+according to that
+you have to operate
+ok
+let me know if you have any doubt related to this
+type 2 error is simple
+that your null hypothesis
+was wrong
+but you could not reject it
+it is as if
+that person committed a crime
+and you could not punish him
+that is type 2 error
+please take real life example
+like sales profit of company
+when i am talking about
+my youtube channel
+and if i am talking about
+average view duration
+you can easily match it with
+my view duration
+then my sale and profit will increase
+i can give you a company example
+i just gave you a more relevant example
+which is more related to me
+i hope you are able to understand
+to find best critical region
+which error should be minimized
+type 1 or type 2
+first of all it is not critical region
+critical point is rejection region
+now there is no way
+to find rejection region
+that is what i told you
+that type 1 error
+will increase type 2 error
+if you increase type 2 error
+then type 1 error will decrease
+so you have a trade off
+that is why researchers have
+used a value
+where they have set alpha value
+as 5%
+then you work with that
+unless there is
+a very specific need to change it
+in H0
+u is less than or equal to
+no in H0 it is always equal to
+in conservative
+conservative one's funda is simple
+if you
+you are saying this point
+that it is more conservative
+so two tail tests are more
+conservative because the significance
+level alpha is split between both the tails
+this reduces the risk of type 1 error
+you understand this way
+that you
+had total rejection area
+of 5%
+what you did
+you halved it and threw it on both the sides
+now suppose
+your error
+is more on this side
+on one side
+ok
+so now on that side
+you have only half of rejection area
+left
+so in this half
+the white region will dominate
+so white region
+will dominate which means
+null hypothesis
+will not be rejected
+region will dominate
+so if
+let's say null hypothesis was correct
+then we reduced
+type 1 error
+what is type 1 error
+that null hypothesis was correct but we rejected it
+so that will not happen if white region will dominate
+i hope
+you are understanding
+once you take a copy pen and write
+then you will understand
+how to decide which one to take one or two
+tail test for our variables for hypothesis
+testing
+there is a very simple rule of thumb
+that whenever in your alternate hypothesis
+there is a sign of greater than or less than
+whenever you are saying that
+by doing this thing will increase or decrease
+then you have to use
+single tail test
+whenever you are saying that
+i don't know
+will increase or decrease but will change
+then it is double sided
+or two sided test
+i hope you are understanding
+so
+yeah this
+was some basics which we covered today
+now obviously
+we will go deep in it
+i told you today
+in today's class we are not going deep
+we are just understanding the world of hypothesis testing
+what is it
+what are the terms
+conduct a small test and see the basics
+so i know all concepts
+will not be clear but going forward
+they will be clear
+now let's discuss one more thing
+why hypothesis testing is so important
+where it can be applied
+so i will tell you two things
+first i will tell you where hypothesis testing
+can be applied
+in which scenarios in which applications
+and then i will tell you a very specific
+where it can be applied in machine learning
+i will tell you that too
+and this pdf will be with you
+so you can refer it in future
+when we will read machine learning
+whenever we will do hypothesis testing
+i will show you and remind you
+what i told you earlier
+so first let's discuss
+where can be
+hypothesis testing applied
+so there are 4-5 places
+so the first
+place is testing
+the effectiveness of interventions
+or treatments
+simple thing we have taken this example today
+that we
+are doing some change
+and what is the effectiveness of that change
+we want to know that
+my youtube channel example
+was the same
+if a company has made a new drug
+then take it in the market
+what changes will come
+we have to study that
+so in this type of scenarios
+you perform hypothesis testing
+so we took the example of Z test
+if you don't have population parameter
+you can apply T test
+second is comparing
+means and proportions
+means and proportions
+means and proportions
+proportions means percentage
+means what percentage
+is proportion
+so hypothesis testing can be used
+to compare means and proportions
+between two or more groups
+to determine
+if there is a significant difference
+to compare two groups
+you can use hypothesis testing
+this can be applied
+to compare average customer satisfaction
+scores
+conversion rates
+and employee performance across different groups
+you want to see
+i have two classes section A and section B
+so
+average scores of both
+you want to compare
+let's say something like that
+so in this type of scenario
+you can apply T test
+let's say
+you can apply T test
+you can also apply ANOVA
+in this case
+analysis
+relationship between variables
+let's say you have two numerical columns
+you want to find relationship
+between them
+so you can do that
+using hypothesis testing
+so i have taught you
+Pearson
+correlation coefficient
+is minus one to one
+through this you can find relationship
+between two numerical columns
+here there is one more
+Spearman rank coefficient
+we will read that
+so it also comes in that work
+evaluating the goodness of fit
+hypothesis testing can help assess
+if a particular theoretical
+distribution such as normal binomial
+or Poisson
+is a good fit for observed data
+i have a data set
+i want to know which distribution it is
+so in this type of scenario
+you can do hypothesis testing
+there is a very good test for this
+chi-square test
+we will read this
+so this can be applied in this type of scenario
+testing the independence
+of categorical variables
+hypothesis testing can be used to determine
+if two categorical variables
+are independent
+or if there is a significant
+association between them
+let's say you take an example of titanic
+in titanic there are two categorical
+variables one is gender
+and one is survive
+ok gender has male and female
+survive has one and zero
+so you want to know
+between these two categorical
+variables
+is there any relationship
+or both are independent
+so you can test this too
+here you can apply this test
+it is used with categorical variables
+so here it is written
+for example it can be used to test
+if there is a relationship between
+the type of product and the likelihood
+of it being returned by a customer
+will it be returned or not
+type of product
+and the last one is A-B testing
+you might have heard this a lot
+so in marketing product development
+and website design hypothesis testing
+is often used to compare
+the performance of two different versions
+one is called A
+and the other is called B
+to determine which one is more effective
+in terms of conversion rates
+user engagement and other metrics
+this happens a lot
+like youtubers do
+now I am giving you the example of youtube
+because I myself am on youtube
+so they are showing two thumbnails
+and in both the thumbnails
+one is called A
+and the other is called B
+and they are trying to figure out
+who will give the best click through rate
+in which people will click more
+so we will study A-B testing
+it is a very important topic
+from an interview point of view
+similarly when you work in companies
+A-B testing is something
+that internet based companies
+or tech companies perform well
+the basics are same
+it is a form of hypothesis testing
+it is just that
+it is standardized
+according to
+this thing
+like marketing product development
+and website design
+so it is a very very common technique
+which is used in different domains
+in different industries
+in different areas
+now I will tell you that in machine learning
+you will get to see hypothesis testing
+so
+I am telling you in four precise areas
+and maybe you have some idea
+if you have studied machine learning
+if not then no problem
+going forward we will discuss
+so one of them is model comparison
+you are making multiple models
+same data
+because in machine learning
+it is done that you are
+applying XG boost on the same data
+random forest
+linear regression
+now you have to figure out
+which model will perform
+best on your population data
+so you can perform
+hypothesis testing there
+it is written here
+hypothesis testing can be used to compare
+the performance of different machine learning models
+or algorithms on a given data set
+for example you can use
+a paired t-test
+we will study this in next class
+to compare the accuracy or error rate
+of two models on multiple
+cross validation folds
+basically you are creating multiple sets
+of your data
+and on top of that you are
+running both your models
+to determine if one model performs
+significantly better than others
+we will do this
+there is a thing called cross val score
+when I will teach you that
+I will also show you
+how can you do that
+using hypothesis testing
+the second is feature selection
+so feature selection is
+when you have multiple features
+which you call columns
+and you cannot use all of them
+to make your prediction
+so you have to decide
+which features are useful
+and which are not
+so there are many techniques in feature selection
+hypothesis testing can also be used
+to select features
+hypothesis testing can be used to identify
+which features are specifically related
+to the target variable
+or contribute meaningfully
+to the model's performance
+for example you can use a t-test
+chi-square test or ANOVA test
+to test the relationship between
+individual features and the target variable
+feature selection is our topic
+for this month
+we will do this thing
+in fact chi-square test is also there
+I will do that for you
+next is hyperparameter tuning
+there are many parameters in machine learning
+to find the right value
+for that you do hypothesis testing
+so hypothesis testing can be used
+to evaluate the performance
+of a model trained
+with different hyperparameter settings
+by comparing the performance of models
+with different hyperparameters
+you can determine
+if one set of parameters
+leads to significantly better performance
+ok
+next we will read
+I forgot the name
+grid search cv
+randomized search cv
+when we will read all these topics
+model selection basically
+we will learn about hyperparameter tuning
+we will learn about certain tools
+which are used in hyperparameter tuning
+and there we will discuss
+how you can use hypothesis testing
+and the last one
+is also important
+to assessing model assumptions
+so there are some algorithms
+which have assumptions
+like there are assumptions in linear regression
+so to test those assumptions
+you use hypothesis testing
+so in some cases
+machine learning models rely
+on certain statistical assumptions
+such as linearity or normality
+of residuals in linear regression
+hypothesis testing can be
+it can be used
+to assess whether these assumptions
+are met allowing you to determine
+if the model is appropriate for the data
+like now we will read
+the first algorithm
+linear regression
+there assumptions
+of linear regression
+we will read that
+there I will show you
+how you are using hypothesis testing
+to check
+whether the assumptions
+are correct or not
+if those assumptions are not correct
+then you cannot apply that algorithm
+on your data
+it will not give you good results
+so these are some of the places
+these are not all the cases
+where you use hypothesis testing
+so there are resampling techniques
+like bootstrapping
+hypothesis testing
+is used in many other places
+but generally
+we use tools directly
+like scikit learn
+so we don't pay much attention
+to what is happening behind the scenes
+but what scikit learn is doing
+if you study its code
+you would see behind the scenes
+it is using such statistical techniques
+like hypothesis testing
+so the more you understand
+what is happening behind the scenes
+the more you can use those tools
+on your data
+so that is why we are studying this topic
+it is highly theoretical
+most of the times
+because practically you don't have to do anything
+you have to use libraries
+but if someone has a good idea
+about these topics
+he will be able to make
+better educated guesses
+that is the main idea behind
+studying this topic
+that is why it is asked a lot in interviews
+so whatever it is
+this class was all about
+introduction to hypothesis testing
+I hope you got an introduction
+now in the next class
+we will do some parametric tests
+I have told you
+the difference between parametric and non-parametric
+so we will start with some parametric tests
+and
+we will cover t-tests
+we will cover
+maybe
+ANOVA
+let's do
+and in the next session
+non-parametric tests etc
+so yeah
+that's the plan
+let me know
+if you have any doubts
+I am here for like 5 more minutes
+when will the bias variance trade-off be?
+not this month
+you have to study regularization
+bias variance will be studied
+before regularization
+so let's assume
+we will study in the first week of May
+I didn't understand your question
+the whole chi-square test
+somehow related to chi-square distribution
+wait a little
+we will discuss everything about that
+what happened guys?
+I didn't understand
+it was very difficult
+I planned it intentionally
+I didn't go too deep
+and mostly we discussed theory
+apart from those two numerical examples
+most of the things we discussed
+were basically theoretical
+and I did it intentionally
+I could have shown you more tests
+if you have
+bird's eye view
+then you will be able to understand
+better in the next classes
+in 2.5 months
+will there be MLOps in ML?
+or will it take more months?
+no, in 2.5 months
+MLOps are not included
+now April is going on
+April, May
+June, July
+hmm
+so we will try
+to wrap ML
+by June
+and the last month
+we will do
+projects with MLops
+means
+we will do projects
+and in the process of deploying it
+we will learn the concepts around MLops
+so yeah guys
+if you have any more questions
+then do ask
+don't worry too much
+if you don't understand everything
+what is the basic flow
+that is enough to understand
+I will show you
+how to run codes in Python
+don't worry
+we will take some practical examples
+so you will understand
+and in the future
+we have to do all this
+we have to do feature selection
+in this month
+so you will see
+how to use it
+you don't do all the steps
+you call function
+you get results
+we will discuss all of them
+don't worry
+we will discuss 4
+all the variants of ANOVA
+all the variants of T-Test
+all the variants of chi-square
+we will discuss
+and apart from this
+we will discuss some non-parametric tests
+which you are saying
+and apart from this
+there are 2 more
+which are useful to test normality
+we will discuss all of them
+we will discuss about
+yearly plan now
+so it will continue
+the deep learning classes till Feb
+there is no deep learning in this course
+this course is only about
+machine learning
+when applying a machine learning model
+from sklearn
+do we need to separately apply gradient descent
+or regularization
+or does sklearn models have these in them
+it happens from the beginning
+why is it less powerful
+use instead of weak
+instead of accept
+we will discuss about it in the next class
+when we will study power of test
+today I didn't teach you power of test
+we didn't have enough discussion
+about beta
+more important than beta is 1-beta
+which we call power of test
+we will discuss that in the next class
+is hypothesis testing important
+for data analyst
+umm
+see sometimes
+you have to
+do predictive analysis
+so it helps
+but I am not able to
+think of
+scenarios where it will be used
+umm
+I will let you know
+in the next class
+will A-B testing be done while studying ML
+no we will try to wrap it up
+this week only
+because it is a related topic
+till machine learning starts
+what do you think
+what skill we should master more
+we don't have much time left
+so what will you study in a week
+ok then guys
+see you in the next class
+in the next class we will discuss
+more deeply
+about parametric test and hypothesis testing
+ok
+umm
+something like
+I don't know
+task will not be made in today's class
+so I will ask the team
+to create a quiz around this session
+so that atleast
+you give quiz then your concepts
+will be clear
+if possible please provide
+one data analyst project
+so
+we have done that
+in the past we have done multiple data analyst projects
+means
+once you see old lectures
+also on my channel
+there are certain
+projects
+basically data analyst projects
+olympics
+whatsapp
+or any other
+when is your next class
+you should see the deal on the website
+its day after tomorrow
+put the notes
+yes you will get the notes by tomorrow morning
+ok then guys I will close the session
+bye good night

@@ -1,0 +1,2557 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+So, 2-3 days ago, I uploaded a video on my YouTube channel.
+The name of the video was Crash Course on Probability for Machine Learning.
+And in that video, I said that I will complete the topic of Probability for Machine Learning in 2 sessions.
+So, the video that I uploaded that day was the first session.
+And this video is going to be the second session on the same topic.
+So, the goal is the same. We have to learn Probability for Machine Learning.
+So that in the future, whenever you study anything in Machine Learning,
+if you see any concept related to Probability, then you will not face any problem.
+So, in the previous video, we covered the basics like basic terminologies, random variables.
+We covered all these topics. In this video, we will go a little deeper.
+And we will cover very important topics. We will cover types of probabilities.
+We will cover choices.
+We will cover joint probability.
+We will cover marginal probability.
+We will cover conditional probability.
+Then, we will read a very important theorem which we call as base theorem.
+And then, we will also cover some other small topics like Venn diagrams or contingency tables.
+So, if you have watched this video and if you have watched the previous video,
+then I am pretty sure that you will not face any probability related confusion in the future when you are studying Machine Learning.
+So, yeah, that's it. Let's start the video.
+So, let's take a little revision of what we did in the first part.
+And then, I will tell you what is our plan of attack today.
+What are we going to study today.
+Okay.
+So, in the last session, we were basically doing basics.
+Whatever are the basics of probability.
+We read some important terms like what is random experiment?
+What is trial?
+What is outcome?
+What is sample space?
+And lastly, what are events?
+Then, we saw types of events.
+Then, we discussed about probability.
+Then, we discussed types of probability.
+And then, we turned towards random variable.
+We read random variable in detail.
+And then, we read some things related to random variable like probability distribution of a random variable.
+Then, we learned to calculate mean of random variable.
+And then, we learned to calculate variance.
+Okay.
+So, we have done this much till now.
+Now, what are we going to do in today's class?
+Let me tell you.
+So, we have done basics.
+Today, I will teach you types of probability.
+Okay.
+And in this, we will majorly study three types.
+So, the first type would be your joint probability.
+Then, we will study marginal probability.
+And then, we will study your conditional probability.
+And then, after studying these three, we will study a very important theorem.
+Which we call base theorem.
+Okay.
+And after doing this much, we would be ready.
+Going forward, wherever you will see probability in data science, you will be ready.
+Okay.
+So, this is the plan of attack for today's class.
+In today's class, we have to study types of probability.
+And to study types of probability, I am teaching you two things.
+These two things are kind of important.
+You might know it.
+But once we are revising in context of probability.
+So, there are two things.
+First is Venn diagram.
+And second is your contingency tables.
+You should know these two.
+So, first, we will discuss Venn diagram.
+Okay.
+So, you must have studied set theory in school.
+I guess in 11th class.
+There you must have learnt to make Venn diagrams.
+So, there you used to make these types of diagrams.
+There were circles inside it.
+These are called Venn diagrams.
+The good part is that Venn diagrams are actually quite usable in probability.
+You can easily use Venn diagrams in probability.
+Okay.
+So, I will give you a quick revision of Venn diagrams.
+So, that you don't have any problem till further.
+So, what happens in Venn diagram?
+Basically, you start with a rectangular box.
+There is a rectangular box like this.
+And you call this as universal set.
+And you denote it with U.
+Okay.
+So, what is this U denoting?
+Basically, everything is there in this U.
+If we say in terms of probability,
+then this represents your sample set.
+Like if you are doing a die roll.
+In which,
+there is a probability of these numbers coming.
+So,
+for this event,
+your box will represent this sample space.
+Okay.
+Always remember,
+whenever you take out P of U,
+it always becomes 1.
+You always have to remember this.
+The probability of this rectangular box to exist will always be 1.
+Because this is the sample space of your experiment.
+Okay.
+So, let's take one more example.
+This rolling a die one.
+So, rolling a die is our experiment.
+And let's say our event is,
+let's call it event A.
+And what is event A?
+Let's say getting a number greater than equal to 4.
+Let's say.
+This is our event.
+Okay.
+So, how do you represent event in Venn diagram?
+First of all, you make this box.
+This represents your universal set.
+Or in your case, sample space.
+Everything will come here.
+1, 2, 3, 4, 5 and 6.
+Now, if you want to represent this event,
+then you make a circle here.
+Okay.
+What is this circle representing?
+This circle is representing your event A.
+And what are the outcomes in this event?
+It can be 4.
+It can be 5.
+And it can be 6.
+Okay.
+Now, if someone asks you what is P of A?
+Then you know that 3 items,
+3 outcomes can come out of 6.
+So, that is why this would be 1 by 2.
+Okay.
+If someone asks you what is P A dash?
+What is P A dash?
+Complement of P A.
+Probability of A's complement.
+So, basically you can represent it like this.
+P U minus P A.
+This is P A dash.
+Basically, this region.
+What will come in this region?
+This region will be 1, 2 and 3.
+And what will be its probability?
+1 by 2.
+Okay.
+I hope you are able to understand.
+You have studied all this in set theory.
+Let's make it a little more complex.
+Instead of 1 event, let's have 2 events.
+So, suppose the first event is the same.
+Getting a number greater than or equal to 4.
+And let's take one more event.
+Let's say the event is getting an even number.
+Suppose.
+Okay.
+So, what will happen now?
+Since you have 2 events.
+First of all, you will make this box.
+And what will you do in this box?
+You will make 2 circles.
+So, this will be the first circle.
+And this will be the second circle.
+This is event A.
+This is event B.
+Now, what will you do?
+Carefully.
+This whole sample space.
+First, you will write.
+This is the sample space.
+What will come in event A?
+In event A, you will get 4, 5 and 6.
+And in the even number, you will get 2, 4 and 6.
+So, you can see.
+What is common in both of them?
+4.
+So, you can write it here.
+In the common region.
+Okay.
+Here will come 5 and 6.
+And here will come.
+Actually, even number.
+Here 6 will also come.
+Sorry.
+6 and 4 will come here.
+Number greater than 4.
+4, 5, 6.
+Even number 2, 4, 6.
+So, 4 and 6 will come in the common region.
+5 will come here.
+And here will come 2.
+Okay.
+And this region outside.
+Here will come 1 and 3.
+Yeah.
+This is your Venn diagram.
+Now, what can you do here?
+You can calculate all these things quickly.
+So, you can see.
+If someone asks you.
+What will be P A intersection B?
+Basically, what will be the probability of this region?
+So, since two outcomes are falling in this.
+So, it would be 2 by 6.
+If someone asks you.
+What will be P A?
+Basically, this circle.
+So, it has three outcomes.
+So, it will be 3 by 6.
+Means 1 by 2.
+Similarly, what will be P B?
+This circle.
+It has three outcomes.
+So, it will also be 1 by 2.
+Obviously, what will be P by U?
+Probability of U will be 1 only.
+Okay.
+Apart from this, if someone asks you.
+What will be P A union B?
+What will be P A union B?
+This whole region.
+This whole region.
+This entire region will be P A union B.
+Okay.
+So, you can take it out in two ways.
+The first way is that you can see directly.
+How many items are coming in it.
+So, your four items are coming in it.
+Out of six.
+So, this would be the probability.
+Or the second way of doing this is.
+There is a formula.
+Which you might have studied in your childhood.
+And you might remember it.
+That if you want to take out P A union B.
+So, what will be this?
+P A.
+P B minus P A intersection B.
+And you can directly put the formula here.
+P A was coming.
+1 by 3.
+1 by 3.
+Minus.
+Uh.
+Whatever it is.
+You just have to calculate.
+Here I have caused a lot of mess here.
+So, I will have to see it now.
+But whatever it is.
+You can take it out from this formula also.
+And you can take it out after checking it directly.
+Uh.
+This work can be done in both ways.
+Okay.
+Similarly, someone can ask you this too.
+That what will be the probability of.
+P A union B.
+P A union B.
+Union B complement, basically it is asking about this area, about this area, this whole area, what will be this,
+so in this case also you can see that only 1 and 3 are there, so you can directly say that it will be 2 by 6,
+or the other way is that you take it out like this, from inside the universal set if you subtract this,
+so you will get this result, so P universal set will be 1 minus this one would be, now we have taken it out, 2 by 3,
+so it would be 1 by 3, so basically I am giving you a quick revision that how you can represent events through Venn diagram,
+and you can take out their probabilities, what you have studied in set theory, it is applicable in probability,
+but it is not applicable in set theory, it is applicable in probability, but it is applicable in set theory, it is applicable in probability,
+so there is no difference, so many times you will notice that going forward we will use Venn diagram in order to understand
+how 2 events are overlapping, how their outcomes are overlapping, for all these things Venn diagram is used,
+so in a way I just want to say that you should have an idea what is Venn diagram, so this was the first concept which I wanted to tell you,
+now let's discuss one more concept which we call contingency tables, so you have already seen contingency tables,
+when you were working in data analysis, then also I will show you one more time,
+and the good part is that you can switch between contingency table and Venn diagram,
+the information which you are showing through Venn diagram, that same information you can show in contingency table,
+the information which you are showing in contingency table, that you can show in Venn diagram,
+but contingency table is very important because these tables you will use in going forward in 3 probabilities,
+you can use it in joint probability, marginal probability and conditional probability, so let's see it once,
+so again let's assume that the experiment we have is rolling a die, and event A is getting a number greater than 4,
+and event B is getting an even number, these are 2 events, so how you can put this in contingency table, I will tell you,
+So basically you take 2 random variables
+one that will tackles event A and one that will tackle event B.
+You have taken 2 random variables , so what you are doing is you are making table like this,
+so you will say greater than of 4 , or less than of 4,
+Okay.
+And here you are making an even,
+not.
+even
+Now what you have to do is, you have to fill the numbers here.
+Fill the numbers like this.
+Here you have to put the numbers which are greater than 4 and will be even.
+So here it will be 4 and 6.
+Two numbers will come.
+Here you have to put the numbers which are greater than 4 but will be odd.
+Here it will be 5 which means one number.
+Then you have to put even number in less than 4.
+Here if 2 will come then this will be 1.
+And then you have to put not even in less than 4 which means odd.
+So here it will be 1 and 3.
+So this will be 2.
+And you can see what you have just done.
+This Venn diagram which you had made earlier.
+This Venn diagram which you had made earlier.
+You have represented it here.
+Okay.
+So this is called a contingency table.
+Now obviously it does not seem so useful.
+But it is very useful in many types of scenarios.
+Like I am showing you.
+Suppose we have a data.
+Suppose we have this data.
+That we have a class which has 100 students.
+Okay.
+Now from these 100 students.
+Suppose 40 students have chosen only Bio as their major.
+30 students have chosen only Maths as their major.
+And then 10 students have
+both chosen as their major.
+So how can you show this information in contingency table?
+It is very simple.
+Again what you will do is.
+You will take 2 random variables.
+One representing Maths to take event.
+Second one representing Bio to take event.
+So you will write it like this.
+Math
+Not Math
+Bio
+Not Bio
+So you can see.
+Here what we need.
+In the first cell we want.
+In the first cell we want.
+Count of such students.
+Who are taking both Maths and Bio.
+So you can see.
+It is this one.
+So you will put 10 here.
+Then what you have to put here.
+Number of such students.
+Who are taking only Bio and not Maths.
+Basically this 40 will come.
+Then what will come here.
+So this 40 students who are taking only Maths and not Bio.
+So here 30 will come.
+And since 100 students are here.
+Neither taking Bio nor Maths.
+How many will be like this?
+20.
+Subtracted from 100.
+And you can see.
+Again we are getting a contingency table.
+This is the contingency table.
+Okay.
+The good part is.
+As I told you.
+You can convert it to Venn diagram immediately.
+How?
+It is very simple.
+You make this.
+There are 2 events.
+Take one Bio.
+Take one Maths.
+Take A as Maths.
+And take B as Bio.
+So.
+Both are common.
+Means.
+How many people took both?
+There are 10 people like this.
+Only took Maths and not Bio.
+How many people are there?
+30 people are there.
+Only took Bio and not Maths.
+How many people are there?
+40 people are there.
+And the rest.
+This big area is visible.
+What happened to you?
+Those who did not take anything from both.
+So you can see.
+These two contingency table and Venn diagram.
+Both are representing the same thing.
+Okay.
+So I know at this point.
+Maybe your mind is not clicking.
+That why we are reading Venn diagram.
+Or we are reading contingency table.
+But don't worry.
+In some time.
+As soon as we start reading types of probabilities.
+You would see.
+It will automatically click.
+But right now.
+Just wanted to give you some foundation.
+What are these two things.
+Because going forward.
+We are going to use this a lot.
+Okay.
+So.
+As I said.
+We have to read types of probabilities.
+And we will focus on three types of probabilities.
+So the first type of probability.
+That we are going to study is called joint probability.
+Okay.
+And the good part is.
+That you have already read joint probability in one or two places.
+So you will feel.
+That somewhere or the other.
+We have read it somewhere or the other.
+Today we will read it in detail.
+Okay.
+So let's go.
+Let's read about joint probability.
+There is a definition given here.
+And the definition says.
+Let's say.
+We have two random variables.
+X and Y.
+The joint probabilities of X and Y.
+Denoted as.
+This.
+Is.
+The probability that.
+X takes the value.
+X.
+As in small x.
+And.
+Y takes the value.
+Small x.
+And.
+Y takes the value.
+Small x.
+And.
+Y takes the value.
+Small x.
+And.
+Y takes the value.
+X.
+And.
+Y.
+At the same time.
+This is the definition.
+Okay.
+The meaning of joint probability.
+In simple words.
+You can understand.
+What is the probability of two events being together.
+Okay.
+This definition.
+This is on the basis of random variables.
+Because in machine learning.
+You will see more in this way.
+But in normal probability books.
+You will see this definition on the basis of events.
+It is written there.
+That joint probability is the probability of.
+Two events.
+Two events.
+Happening.
+Simultaneously.
+This is the joint probability.
+Okay.
+So.
+To understand this well.
+Let's take an example.
+And.
+Let's take a relevant example.
+Which we use a lot.
+So.
+See.
+We will use the Titanic data set.
+We will use the Titanic data set.
+To understand joint probability.
+So.
+Let's assume for some time.
+That we have.
+Two random variables.
+We have.
+Two random variables.
+X.
+And.
+Y.
+What does X represent?
+X represents.
+P class of the passenger.
+So.
+You will remember the Titanic data set.
+It had P class.
+P class 1.
+P class 2.
+P class 3.
+Okay.
+So.
+Now.
+X.
+Is representing P class.
+So.
+The value of X.
+Can be 1.
+The value of X.
+Can be 2.
+The value of X.
+Can be 3.
+Depending on.
+Which passenger.
+You have.
+Okay.
+So.
+We have two random variables.
+Which we are calling.
+Y.
+And.
+Y.
+Represents.
+Survival status of the passenger.
+So.
+Passenger.
+Either.
+Saved.
+Or.
+Died.
+So.
+Going by that logic.
+Either.
+It is 0.
+Or.
+It is 1.
+It means.
+Y.
+Can take a value of 0.
+Or.
+Y.
+Can take a value of.
+1.
+Okay.
+So.
+We have made.
+Contingency table.
+How to make?
+You already know this code.
+Still.
+I will show you.
+Here.
+This code is written.
+I have done nothing.
+I have.
+Imported the data.
+And.
+After that.
+Called.
+PD.
+Cross tab function.
+And.
+Here.
+I have passed the name of my two columns.
+And.
+You can see.
+We have.
+This.
+Contingency table.
+This is the contingency table.
+So.
+Here.
+You can say.
+This is my X.
+And.
+This is the table.
+Okay.
+And.
+This is the table.
+Which represents.
+All the possibilities.
+Okay.
+What is one possibility?
+That.
+The value of X is 1.
+And.
+The value of Y is 0.
+Which is this one.
+Then.
+What is one more possibility?
+The value of X is 2.
+And.
+The value of Y is still 1.
+This one.
+The value of X is 3.
+And.
+The value of Y is still 1.
+This one.
+And.
+So on.
+In this way.
+We have put all the possibilities.
+In this contingency table.
+Okay.
+If you read the terms.
+So.
+What is this contingency table telling?
+What is this number telling?
+This number.
+What is this 80 telling?
+That.
+We had 80 passengers.
+In P class 1.
+Who died.
+What is this telling?
+This is telling.
+That.
+We had 87 passengers.
+In P class 2.
+Who survived.
+So.
+You already know all this.
+Okay.
+Now.
+The question comes.
+What is joint probability?
+So.
+Joint probability.
+Is basically.
+The probability of two events being together.
+So.
+Joint probability.
+Is basically.
+The probability.
+So.
+Let's say.
+If I ask you.
+That.
+Tell.
+Tell.
+That.
+X.
+Is 1.
+And.
+And.
+It will be wrong to write.
+Actually.
+And.
+Will not be.
+X.
+Is 1.
+And.
+Y.
+Is 0.
+What is the probability of this thing?
+In your data.
+So.
+How will you find out?
+It is very simple.
+You.
+Will make contingency table.
+Contingency.
+In contingency table.
+This.
+Is.
+That.
+Cell.
+Which.
+Represents.
+This.
+Scenario.
+Here.
+X.
+Is 1.
+Y.
+Is 0.
+Right.
+But.
+This.
+Is not a probability.
+This.
+Is the count.
+What is this telling?
+That.
+There are 80.
+Passengers.
+Who.
+Are.
+Falling.
+In this.
+Situation.
+By.
+8.
+91.
+What is.
+8.
+91?
+Total number of.
+Passengers.
+So.
+You.
+Divided.
+80.
+From.
+8.
+91.
+And.
+You.
+Got.
+This.
+Number.
+And.
+What.
+This.
+Number.
+Is.
+Representing.
+This.
+Number.
+Is.
+1.
+And.
+Simultaneously.
+He.
+Is.
+Dead.
+Both.
+Things.
+Are.
+Together.
+Right.
+Similarly.
+What.
+This.
+Probability.
+Is.
+Telling.
+That.
+Passenger.
+Was.
+In.
+Class.
+3.
+And.
+Died.
+Both.
+Are.
+Together.
+Probability.
+Is.
+Our.
+Joint.
+Probability.
+This.
+Is.
+The.
+Joint.
+Probability.
+Where.
+You.
+Take.
+More.
+Events.
+And.
+Calculate.
+The.
+Probability.
+To.
+Be.
+Together.
+That.
+Set.
+To.
+Your.
+Step.
+By.
+Step.
+Process.
+And.
+This.
+Work.
+Divided.
+So.
+What.
+We.
+Do.
+Is.
+All.
+Talk.
+About.
+What.
+Do.
+Is.
+To.
+Drink.
+How.
+To.
+Take.
+This.
+To.
+Go.
+And.
+Find.
+This.
+We.
+Take.
+Out.
+get this joint distribution table. So this is called joint distribution. Now see one more thing in this.
+So there is a concept called joint distribution or joint probability distribution. What is joint probability
+distribution? You take out the probability of all your combinations. So you can see what we did here.
+We took out the probability of all our combinations. And when you add all of them. You would always get one.
+And that is why this is known as joint probability distribution. So one time I got a little confusion, let us clear it.
+So here you are seeing the individual numbers, any number. We will call it joint probability, and all
+We will call all these numbers as joint probability distribution.
+I had taught you in the last class, what is probability distribution?
+When you calculate the probability of all possible outcomes of your random variable.
+Do you remember what I said?
+When you did die roll, probability of 1, probability of 2, probability of 6.
+When you made this table, what were you calling this table?
+Probability distribution of your random variable.
+Going by the same logic, what are the possibilities here?
+The first possibility is that x is 1 and y is 0.
+The second possibility is that x is 2 and y is 0.
+There are 6 possibilities like this.
+x is 3 and y is 1.
+When you calculate the probabilities of all these possibilities,
+what do you call all these probabilities?
+Joint probability distribution.
+Joint probability distribution.
+It is very simple.
+You have seen it many times in the past.
+When we studied feature selection, we calculated joint probabilities there.
+If I remember correctly, when we studied chi-square test, we also calculated joint probabilities there.
+We also calculated joint probabilities at one or two places.
+It is a very simple concept.
+You just have to remember that whenever you calculate the probability of two events being together,
+it is called joint probability.
+That's it.
+This is the concept.
+Okay.
+So, the next probability that we are going to study, we call it marginal probability.
+In some places, you also call it simple probability.
+And in some places, you also call it unconditional probability.
+These three names are of this only.
+Marginal, simple or unconditional.
+All three are of this only.
+Okay.
+Let's see once.
+What is marginal?
+Marginal probability refers to the probability of an event occurring irrespective of the outcome of some other event.
+It is simple.
+What was joint probability?
+The probability of two events being together.
+What is marginal probability?
+That you calculate the probability of one event being together and you forget for some time that another event is also happening together.
+This is called marginal probability.
+Okay.
+And that is why it is also called unconditional probability because you are not relying on any condition.
+You are not depending.
+You are saying that you just want the probability of your own event.
+Okay.
+So, when dealing with random variables, the marginal probability of a random variable is simply the probability of that variable taking a certain value regardless of the value of the other variables.
+Now, if you did not understand this thing, then I will explain it to you through the same example once again.
+So, you can see.
+We are taking the same example from this.
+X represents P class and Y represents survival.
+Okay.
+It is the same example.
+And you can see what I did this time.
+This time, I picked up this table.
+I picked up this table where I had taken out the count that how many passengers who travelled in 1 died, how many passengers who travelled in 1 survived.
+In this way, I made the contingency table.
+I made the same table.
+This time, you will notice that I have added some additional information.
+So, basically, I have added margins.
+So, what is this 549 representing?
+That how many people died.
+Irrespective of whether they were travelling in P class 1, 2 or 3.
+What is this number representing?
+342.
+This represents how many people survived.
+Irrespective of where they were travelling.
+In 1, 2 or 3.
+Similarly, if you see this number.
+What is this number representing?
+How many people were travelling in 1?
+Irrespective of whether they survived or died.
+What is this number representing?
+It represents how many people were travelling in 2.
+Irrespective of whether they survived or died.
+And this number represents the number of passengers who were travelling in 3.
+Irrespective of whether they survived or died.
+Okay.
+Now.
+The symmetry of this table is so good that when you add these two numbers then you will get this and when you add these three numbers then also you will get this.
+In this way you will see these numbers.
+Now what you have to do is very simply these five numbers which I have shown which we call as margins.
+If you divide these numbers by 891 which is the total number of passengers then you can see what we have done.
+We have converted these numbers into probabilities and we call these probabilities as marginal probabilities.
+These are called marginal probabilities.
+How to read these?
+It is very simple.
+What does this number represent?
+0.61.
+0.61 represents the probability of passengers who have died.
+So 61% passengers died.
+What does this probability represent?
+It represents the number of passengers who survived.
+Irrespective of whether they were travelling in 1, 2 or 3.
+What does this number represent?
+This number represents the probability of passengers travelling in P class 1 irrespective of whether they have died or survived.
+This probability represents the number of passengers travelling in P class 2.
+And this number represents the number of passengers travelling in P class 3.
+So this is called as marginal probability where you are taking out one particular random variable.
+You are taking out the total probability of X.
+Whatever is the value of Y, it does not matter.
+Similarly, you are taking out the probability of Y.
+Whatever is the value of X, it does not matter.
+And this is what is written here.
+Marginal probability refers to the probability of an event occurring irrespective of the outcome of some other event.
+It does not matter whether you died in 1, 2 or 3.
+The probability of dying is 0.61.
+And this is what marginal probability is.
+And that is why it is called as unconditional probability.
+Because we are not giving any importance to the event in front of us.
+Now here also, you have the concept of marginal probability distribution.
+When does the distribution come?
+When you try out all the possibilities of a random variable.
+So suppose you are calling this as Y and this as X.
+So what are the possibilities in Y?
+Y will either be 0 or 1.
+So you took out PY equal to 0.
+And what was that?
+This number.
+0.61.
+And you took out PY equal to 1.
+What is that?
+0.38.
+So what you took out, you can call this as
+Marginal probability distribution of Y.
+And when you add these two, you will get 1.
+Similarly, you
+Similarly, you
+If you are taking out the value of X with 1,
+then you are getting 0.24.
+Which is this number.
+Then if you are taking out the value of X with 2,
+then you are getting this.
+And if you are taking out the value of X with 3,
+then you are getting this.
+Okay?
+You have taken out the probability of all the values of X.
+So here you will call this as
+Marginal probability of
+Marginal probability distribution of Y.
+X.
+And when you add these three,
+then you will get 1.
+Because the sum of distribution should always be 1.
+Okay?
+So this is called Marginal probability.
+So we have read two concepts.
+Both are kind of related.
+Sometimes you will also use them together.
+And once I will show you how you take it out in pandas.
+It is very simple.
+You just have to do this.
+You have to add margins equal to true.
+As soon as you add margins equal to true,
+you will get this.
+See this.
+This is the output.
+Okay?
+This is the output.
+And I have shown you exactly this thing here.
+This thing and this thing.
+Okay?
+So always remember,
+in pd.CrossTab,
+if you do normalize equal to all,
+then what probability will you get?
+Joint probability.
+And as soon as you do margins equal to true,
+if you do both things,
+then what will you get?
+You will get both things.
+You will also get joint probability.
+And you will also get your marginal probabilities.
+Okay?
+So yeah.
+These two things work together.
+During analysis.
+You always have to keep this in mind.
+Okay?
+So yeah.
+This was the second kind of probability
+which we had to read today.
+Let's move on to the third kind of probability
+which according to me is the most important.
+And the two probabilities which you have read till now,
+joint probability and marginal probability,
+both of them are also used.
+Okay?
+So the third probability that we are going to study is
+conditional probability.
+Okay?
+Conditional probability.
+It is a very logical thing.
+But sometimes there is a little bit of confusion.
+That's why we will read it properly once.
+We will also do one or two questions.
+So that there is no confusion.
+And we will also run the Titanic example.
+Okay?
+So let's read its definition first.
+So conditional probability is a measure
+of the probability of an event occurring
+given that another event has already occurred.
+This is conditional probability.
+What happens in conditional probability?
+That both events are not happening together.
+Suppose you have two events.
+A and B.
+So what was happening in joint probability?
+That both were happening together.
+Right?
+What happens in conditional probability?
+B has already occurred.
+And by its occurrence,
+what difference will there be in the probability of A?
+This is called conditional probability.
+And it is represented like this.
+It is represented from outside.
+And how is it read?
+Probability of A given B.
+This is how you represent conditional probability.
+Probability of A given B.
+Means B has already occurred.
+Now what will be the probability of A?
+Or if it is written like this.
+So you will say this.
+Probability of B given A.
+A has already occurred.
+Now what will be the probability of B?
+Okay?
+I hope you are understanding.
+So this is what we call conditional probability.
+Now conditional probability gets a little confusing.
+That's why we will see some examples.
+We will see simple examples.
+We will see difficult examples.
+So that we can understand.
+What is the funda of conditional probability?
+Okay?
+So here I have added 2-3 questions.
+They are simple simple questions.
+But you will understand what I am saying.
+So this is the first question.
+So the question is.
+That there are 3 unbiased coins.
+And 3 were tossed.
+Okay?
+So what is the conditional probability that at least 2 coins show heads?
+Given that at least 1 coin shows heads.
+It is a little confusing.
+So whenever you have to solve such kind of questions.
+Then you should write your sample space first.
+Okay?
+Like here 3 coins are being tossed.
+So what will be the sample space?
+Sample space will be that 3 heads come.
+Or 2 heads and tails come.
+Or it should come like this.
+These are 4.
+What else can be there?
+And yours can be.
+Head, tail, tail.
+And.
+Tail, head, tail.
+And.
+Tail, tail, head.
+And.
+Tail, tail, tail.
+Assume that this is your sample space.
+It has 8 possible outcomes.
+Okay?
+Now let's read once.
+What are your 2 events?
+There will always be 2 events.
+So what is event A?
+That you have to get at least 2 heads.
+This is event A.
+And what is event B?
+That you have to get at least 1 head.
+Okay?
+Now what will always happen in conditional probability?
+That B has already happened.
+Okay?
+And according to that you have to get the probability of A.
+Okay?
+So what will we do?
+We will first make our sample space small.
+On the basis of B.
+So if B has already happened.
+So obviously which outcomes are not possible from this?
+Let's see that.
+What is B saying?
+That at least 1 head should be there.
+So which outcomes are not possible?
+It is very simple.
+Wherever there is no head.
+Even 1.
+That outcome is not possible.
+Which is basically this one.
+It has 3 tails.
+This outcome is not possible at all.
+In the rest you will notice that there is at least 1 head.
+So now the sample space which is left.
+It does not have 8 outcomes.
+It has 7 outcomes.
+So this means now the probability of there being A will come from the inside of the 7.
+It will not come from the inside of the 8 but from the inside of the 7.
+Alright.
+Now we have to find what to do in the rest of the 7 left ones.
+We have to find those outcomes where there are at least 2 heads.
+See this is happening at different places.
+It is getting done here.
+It is happening here.
+It is happening here.
+And happening here.
+It is not happening there.
+And happening here.
+And happening here.
+This one is not happening here.
+It is not happening here, it is not happening here, it is not happening here.
+So basically there are four cases where A is happening given B has already happened.
+So what will be your probability?
+This is your probability.
+4 by 7.
+That is how you calculate conditional probability.
+Let's do one more example.
+Look here.
+Two fair six-sided dice are rolled.
+What is the conditional probability that the sum of the number rolled is 7
+given the first die shows an odd number?
+Two dice are rolled together and then this question is being asked.
+So what did I always tell you?
+The first thing that you should do is you should draw the sample space.
+So I have already copied and pasted the sample space from the internet.
+You can see this is die 1 and this is die 2.
+So you can see according to die's face value, we have written the whole sum.
+When one will come in both, then the sum will be 2.
+If one will come in this, then two will come in this, then the sum will be 3.
+If one will come in this, then three will come in this, then four will come in this.
+In this way, I have written all my 36 possible combinations.
+Now what we have to do is we have to write our events.
+So what is the first event saying?
+So we have to find out the probability that the sum of the numbers is the sum of the number coming in both the dice is 7.
+This is event A.
+And what is the event B?
+That the first die, die 1, has an odd number on it.
+So now see what we have to do, we have to do the same thing again.
+First we have to run B.
+So where is the odd in die 1 happening?
+It is happening here, it is happening here and it is happening here.
+We can't take this.
+We can't take this.
+We can't take this.
+And we can't take this because these are odd numbers.
+Sorry, even numbers.
+So basically we have this cell, all these cells and all these cells are available.
+So basically we have out of 36 possible outcomes, only 18 are eligible.
+Only 18 are left.
+Right?
+So what does this mean?
+Now the probability of being A will be found in these 18 cells.
+So basically what we will do, now we will go around in these 18 cells and see how many of them have 7.
+So you can see here a 7 is coming, here a 7 is coming and here a 7 is coming.
+So we will say that probability of A given B is equal to 3 by 18 or 1 by 6.
+This is the output.
+This is the output.
+Okay?
+We are doing one more question.
+It is similar.
+So look here.
+Two fair six-sided dice are rolled.
+And D1 and D2 are there.
+Like we have taken here.
+Same thing.
+Same setup.
+What is the conditional probability that D1 equals 2 given that the sum of D1 and D2 is less than or equal to 5?
+Let's do one thing once.
+Let's copy this.
+And now let's solve this question.
+Okay?
+We are practicing a little conditional probability because it is a little confusing.
+So what will we do again?
+First, we will make a sample space.
+It is already made.
+After that, what will we do?
+We will write our event A.
+What is our event A?
+That 2 is coming above dice 1.
+This is dice 1 and this is dice 2.
+Okay?
+And what does event B say?
+That the sum of D1 plus D2 should be less than or equal to 5.
+Okay?
+So what do we have to do again?
+We have to run B first and see whether the event B is already done.
+So out of 36, we have to see which outcomes are there where the sum of both is less than or equal to 5.
+So you can see.
+It is here.
+It is here.
+It is here.
+It is here.
+It is here.
+It is here.
+It is here.
+It is here.
+And here.
+In the rest of them, you see, the sum is greater than 5.
+So we cannot take it.
+So basically if you count, then 4, 3, 7 and 3.
+Okay?
+And 3.
+10.
+So we have a total of 10 possible outcomes where A can be.
+Okay?
+Now we will find out where A will come in these.
+So what is A?
+That D1 is 2.
+So you can see that these are the only three outcomes where D1's value is 2.
+In the rest of them, D1's value is either 1 or 3 or 4.
+So we cannot take them.
+So the answer would be 3 by 10.
+This is the output.
+This is the output of this question.
+So this is how you calculate conditional probability.
+First of all, you draw the sample space.
+According to event B, reduce the sample space.
+And then in that reduced sample space, you find A.
+That where A is possible.
+And then the probability you get is your conditional probability.
+So the method I have told you, I will explain it to you in the next video.
+Okay?
+See you in the next video.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Bye.
+Aye.
+Aye.
+Wow!
+Wow!
+It was really very difficult and addicting.
+Now, there is another way.
+So from the previous 나온 and wanted method which we have used a lot of analysis by
+then you can get the key which is the first method.
+The method was actually 방식 laboratory technique March 17th, 2013.
+The first method was manual.
+The method can not help you in main some way.
+Basically, it will be difficult.
+So, a further way is, there is a direct formula.
+There is a direct formula for calculating conditional probabilities and it is a very famous
+formula.
+One step that I willę give into the bombing and then I will explain it to you.
+So if you want to calculate .
+The probability of A.
+.
+B has already happened is equal to probability of A intersection B divided by probability
+of P. Now if you remember the last two concepts then you can actually call this joint probability
+because think that A and B are happening together so what can you call it joint probability
+and what can you call it? You can call it marginal probability of B, if you want to
+get out what is the conditional probability of A given B then how do you get it out? By
+dividing the joint probability of A and B by the marginal probability of B. This is
+the formula.
+This is the formula.
+And this is the statement of the day.
+And this is the statement of the day.
+And this is the statement of the day.
+This is a direct formula to calculate conditional probability.
+So, let's do one more thing.
+Let's go back to the Titanic example and answer an interesting question there.
+Let's say someone shows you this contingency table and asks you
+what is the probability of X
+Let's say someone asks you
+what is the probability of Y equal to 0
+given X is equal to 3
+Let's say someone is traveling in P class 3
+what is the probability of his death?
+Let's say someone is traveling in P class 3
+what is the probability of his death?
+This is the meaning.
+If someone asks you this
+then you will not be able to do it manually because you have a big data set.
+But you can do it easily through this formula.
+How will you do it?
+It is very simple.
+You have to calculate the probability of X
+probability of Y equal to 0
+intersection X
+X equal to 3
+divided by
+probability of X equal to 3
+This is what you have to do.
+So, what will you do?
+You will not take X equal to 3
+You will take the full probability of X
+You will take the full probability of X
+Marginal probability
+You will take 1, 2, 3
+You will take 1, 2, 3
+So, what will you do?
+First of all
+You will divide this by 891
+and this will give you
+the joint probability of
+0 and 3
+This will come in your numerator
+Basically, this number will come
+I am talking about this number
+You will take this number
+0.41
+I will write it here
+so that there is no confusion
+0.41 will come here
+when you divide this number
+0.41
+and then you have to divide
+You have to divide
+by
+probability of
+X
+So, basically
+you will add these two
+You will add these two
+So, this will give you
+0.54
+0.54
+0.54
+and when you
+do this division
+you will get 0.41
+divided by 0.54
+Just one second
+0.41 divided by
+0.54
+This is the output
+0.75 will come
+This is the probability
+This is the answer
+This is the answer
+If someone asks you
+If you are traveling in P class 3
+then what is the probability of your death
+This is the answer
+This is the answer
+This is the answer
+Similarly, if someone asks you
+What is the probability of your death in P class 2
+So, what you will do
+You will take out this probability
+You will take out this probability
+These are all joint probabilities
+These are all joint probabilities
+That is why I got confused
+These are all joint probabilities
+These are all joint probabilities
+I can directly use them
+Basically, you will take out 0.10
+0.10 is the joint probability
+and then to get the marginal you will add these two
+so this would be
+0.19
+so if you see then you will get by dividing it again
+0.10 divided by 0.19
+52% or 0.52
+this is the probability of you dying in P class 2
+if you are travelling in P class 2 then what is the probability of dying
+and similarly if someone asks what is in 1
+then what you will do is you will take this number
+and divide it by the sum of these two
+so this would be 0.08 divided by
+if you will add these two then it would be 0.23
+so this should be 0.08 divided by 0.23
+34%
+0.34
+so you can see in P class 3
+75%
+75%
+75%
+75%
+75%
+and P class 2 is 52%
+and in P class 1 is 34%
+and if you have to use python, you don't have to
+it's a very simple code
+you have to do this
+see here
+you just have to normalize
+where you had to add all above
+by adding all what did you get
+joint probabilities
+if you than get it in columns
+then you will get
+conditional probability
+It is 70, 50, 37. We made some mistake. We will divide it again.
+But yeah, this is your conditional probability. Similarly, what is this number telling?
+It is telling that if you are traveling in P class 3 then what is the probability of your survival?
+If you are traveling in P class 2 then what is the probability of your survival?
+If you are traveling in P class 1 then what is the probability of your survival?
+I hope you are understanding. You can also do the opposite of this.
+Think about it. If you index instead of columns then you will see something different.
+By the way, if you add these two then you will get 1.
+If you add these two then you will get 1.
+If you add these two then you will get 1.
+Now see here. This time it is opposite. Here it is 0.67.
+What does this represent?
+It is representing the probability of people dying to be in P class 3.
+It is opposite. What are we finding this time?
+This time we are finding the probability of x equal to 3 given y equal to 0.
+What does this mean?
+We have already seen that the passenger has died.
+Now what is the probability of him to be in P class 3?
+This is the reverse.
+This is the reverse.
+And that is why when you add these three then you will get 1.
+Similarly when you add these three then you will get 1.
+This is the reverse.
+This is the reverse.
+And that is why we have placed the index here.
+I hope you are understanding.
+So out of all the passengers who have died, 67% went to P class 3.
+17% went to P class 2.
+And 14% went to P class 1.
+So basically this pd.Crosstab function is a very very special function.
+Because it can calculate and give you all three types of probabilities.
+Let me revise it for you.
+If you do normalize equal to all then you will get all the joint probabilities.
+If you do margins true then you will get joint probabilities and marginal probabilities.
+If you do normalize equal to columns then you will get conditional probabilities according to the columns.
+If you do normalize equal to index then you will get row probabilities.
+If you do normalize equal to index then you will get row probabilities.
+you will get conditional probability according to the rows
+but yeah this is the concept behind conditional probability
+one event is done
+what difference does it make on another event
+this is called conditional probability
+ok
+one more thing I am discussing with you
+see
+so now I told you
+that the formula of conditional probability
+is this
+ok
+now this formula is not derived from anywhere
+ok this relation
+comes by definition
+there is no derivation involved
+this formula comes from definition
+ok
+so here I have added a small note
+you will get it in pdf
+intuition behind conditional probability formula
+ok
+so here you have to read it once
+it is very well written
+so the intuition behind the formula for conditional probability
+is based
+on the concept of reducing our sample space
+so if you remember how we were getting conditional probability
+we were reducing our sample space on the basis of B event
+right
+the formula is based on that
+so you can see
+the denominator PB
+is the probability of event B occurring
+this is the marginal probability of B
+when we say
+we want to know the probability of A given B
+we are effectively saying
+that B has occurred
+and therefore B is our new universe or sample space
+do you understand this
+if B has already occurred
+then our sample space
+is not the old one
+according to B
+that will be considered
+ok
+so we are not considering cases
+when B didn't occur anymore
+we are not taking those cases
+where B did not occur
+ok
+and we are normalizing by probability of B
+and that is why
+what we are doing is
+we are normalizing
+we are dividing
+by the probability of B
+the numerator PA
+intersection B
+which is our joint probability
+what is it telling
+that it is in our new universe
+this is where
+this is where B has occurred
+and PA intersection B represents the cases where A also occurs
+right
+so in our reduced sample space
+what is A intersection B telling us
+that A also occurred
+and B also occurred
+understand this
+first we have assumed that B has occurred
+so as soon as B has occurred
+now our sample space
+which was earlier
+that is not there
+our sample space
+is according to B
+and in that also
+what is A union B telling
+those outcomes
+where A also occurred
+and B also occurred
+right
+so
+as soon as you are dividing
+so basically what you are doing
+that the proportion of A
+with respect to B
+you are taking out that
+and that is what this formula says
+this formula simply gives you the proportion
+that in the universe of B
+how many times has A occurred
+this is the meaning of this
+this is our definition of conditional probability
+listen again
+in the universe of B
+means
+now when your sample space has been reduced
+to B
+in the universe of B
+how many times has A occurred
+the same proportion
+you are taking out this
+and that is why
+this formula is there
+right
+you will sit and think a little
+you will draw with a copy pen
+you will understand
+nothing special
+I just wanted to tell you so much
+that sometimes
+a question comes in the mind
+that from where did this formula come
+is there any derivation
+or has it come out in some other way
+there is nothing like that
+this is a formula
+which has come out directly from the definition
+right
+so in this
+you will not find any derivation
+it is very very
+on spot
+the definition was
+written in the formula only
+right
+so just sit and see
+after the class
+you would understand
+it is a very simple concept
+since B has occurred
+the sample space has reduced
+the universe is B
+in that B
+where A is happening
+we are calculating that proportion
+and that proportion is giving me
+P A given B
+that's it
+this is the concept behind
+conditional probability
+right
+come on
+now
+we will discuss an important
+and confusing topic
+so
+the topic is
+types of events
+we discussed this in the last video
+right
+where we studied types of events
+here
+but I didn't explain much here
+I told you that we will discuss it further
+so let's discuss
+that independent events
+dependent events
+and mutually exclusive events
+what are they
+so that you have a clarity
+because some people were asking questions right now
+so it's good that you get clear
+so let's start with independent events
+what are independent events
+so independent events are events
+where
+the occurrence of one event
+does not affect
+the occurrence of another
+it's a simple thing
+two events are independent when
+when one event
+does not affect the other
+right
+so
+examples are
+that you are throwing a coin
+and rolling a die
+and you are being asked
+tell me
+if
+if
+there is a head in the coin
+then
+what is the probability of a three in the die
+it's obvious that
+these two events
+are independent events
+so
+even if
+there is a head in the coin
+or a tail
+the probability of a three in the die
+will always be one by six
+right
+it's right
+it's a simple thing
+so the second example is
+drawing a card with replacement
+if
+you are removing the card
+and putting it back
+then
+the next card
+that you are removing
+so these two events
+are also independent events
+think for yourself
+for example
+you have
+removed one
+ace
+which is
+maybe four
+my concept is a little weak
+but
+I think it is four
+so
+if you
+try to remove one for the first time
+then what will be its probability
+four by fifty two
+right
+but
+you have removed that card
+and put it back
+now you are removing it again
+then what will be the possibility
+of removing one again
+what will be the probability
+again
+four by fifty two
+because
+there are the same cards
+in the pack
+these are some examples
+which are
+independent events
+where
+one
+does not make a difference
+to the other
+right
+now always remember
+that
+for
+independent events
+if
+you
+go to remove
+conditional probability
+what is conditional probability
+probability of
+a
+given b
+it will always be
+equal to
+probability of
+a
+or
+if you reverse it
+b
+given
+a
+then
+it will always be
+probability of
+b
+right
+and
+what is its reason
+its reason is
+that
+for independent events
+a intersection b
+is nothing but
+this
+you have to
+always remember
+this
+you have to
+always remember
+this is a very important
+relationship
+that
+for independent events
+for
+independent events
+the
+probability
+of
+the
+probability of
+or rather
+the joint probability of
+a
+intersection b
+is equal to
+probability of
+a
+times
+probability of
+b
+so that is why
+when you
+remove conditional probability
+which
+tells you
+that
+this is the formula
+so
+you
+can basically
+replace it
+like this
+it will be cancelled
+and that is why
+probability of
+a
+given b
+will come out to be
+the probability of
+a
+it is simple
+it is visible
+and it is logical
+that
+what is the difference
+between
+b and a
+there is no difference
+the probability of
+a
+is the same
+so
+you have to
+remember
+these
+three
+relationships
+for
+independent
+events
+first
+conditional probability
+is equal to
+unconditional probability
+which is
+marginal probability
+and
+joint probability
+which is
+set of
+marginal probabilities
+pa and pb
+that's it
+you just have to remember this
+if you remember these relationships
+you will not make a mistake
+ok
+I have explained
+the opposite of this
+here
+what are dependent events
+dependent events are
+events
+where
+the
+occurrence of
+one event
+does not
+affect
+the occurrence of
+another
+sorry
+I have copied the same definition
+here
+there should be an effect
+so I would just
+oh sorry
+it's ok
+it does not
+I thought
+where
+there is an effect
+there is a difference
+between
+one and the other
+so till now
+all the formulas
+you were reading
+will be applicable
+so basically
+this will be
+the formula
+ok
+this is a
+general formula
+its
+special type
+is independent probability
+but
+yeah
+in dependent
+you will see this
+ok
+example is
+drawing a card
+with replacement
+suppose
+for the first time
+you are
+taking out
+one
+then the probability
+is 4 by 52
+now you did not
+take out one
+and put it back
+so now you have
+51 cards
+instead of 52
+so now
+what will be the probability
+of taking out one
+4 by 51
+is there a difference
+so this is
+dependent events
+when
+one
+makes a difference
+to the other
+ok
+one confusing thing
+which
+happens
+is
+mutually exclusive
+events
+this
+sounds like
+independent
+events
+but
+it is different
+so
+see here
+mutually exclusive
+events
+are events
+that cannot
+both
+occur
+at the same time
+in other words
+if one
+event
+occurs
+the other
+cannot
+this is
+like
+if
+you
+have
+probability of
+having head
+and tail
+both cannot
+occur at the same time
+if head
+occurs
+then tail
+cannot occur
+and if tail
+occurs
+then head
+cannot occur
+if you
+roll a die
+probability of
+having even
+number
+and odd
+number
+probability
+these two are
+mutually exclusive
+events
+either
+even
+number
+or odd
+number
+first of all
+a
+union b
+will be equal to
+zero
+because
+there is nothing
+common between
+both
+so
+a union b
+equal to zero
+and because of this
+when you
+go to
+find a
+given b
+it will be
+zero
+because
+conditional
+probability
+is this
+definition
+so
+when
+this
+becomes
+zero
+then
+your
+intersection
+of both
+will be
+zero
+means
+in
+venn diagram
+it will look like this
+there will be no
+intersection area
+and
+a
+given b
+will be zero
+because
+there is no
+intersection area
+so you cannot
+calculate
+conditional
+probability
+so basically
+you have to remember
+this table
+this table
+will help you
+and
+you will get
+the
+answer
+in
+the
+next
+class
+so
+let's
+discuss
+base theorem
+so
+base theorem
+is
+probably
+one of
+the
+most
+important
+beautiful
+significant
+theorems
+in mathematics
+like
+central limit
+theorem
+we had
+studied
+in
+many places
+and
+it is applicable
+in machine learning
+in fact
+the next algorithm
+we are going to study
+is named
+naive base
+it is on this
+theorem only
+so
+base theorem
+is basically
+thomas
+base
+there was
+this guy
+and
+he
+coined
+this theorem
+in 1700
+means
+500 years
+it is very
+old theorem
+and
+it is very
+fundamental theorem
+you will see
+that base theorem
+is being used
+in fact
+on youtube
+you would find
+certain very
+interesting
+videos on
+base theorem
+which for
+very weird
+weird things
+you will notice
+that base theorem
+is being applied
+like
+for gaming
+not gaming
+casino and all
+gambling
+gambling
+in some other
+interesting domains
+you will see
+that base theorem
+is used a lot
+we will study
+base theorem
+from the perspective of
+if you
+study base theorem
+in some more
+depth
+then that would be
+a great thing
+ok
+whatever it is
+let us study
+its definition
+its formula
+its mathematical
+proof
+and then i will tell you
+how you can use it
+in machine learning
+ok
+so
+base theorem
+is a fundamental
+concept
+in the field
+of probability
+and statistics
+that describes
+how to update
+the probabilities
+of hypothesis
+when given
+evidence
+it is used
+in a wide
+variety of fields
+including
+machine learning
+statistics
+and game theory
+the theorem
+is named
+after thomas base
+who introduced
+an early version
+of the rule
+in his work
+on probability
+theory
+base theorem
+provides a way
+to revise
+existing predictions
+or theories
+given new evidence
+ok
+so
+see
+if you
+study
+base theorem
+there is a lot
+to study
+and it is
+very confusing
+i will tell you
+a very simplistic
+version
+which will help
+you a lot
+from the point of view
+of machine learning
+ok
+in simple terms
+base theorem
+is this
+the formula
+is this
+p
+a
+given b
+is equal
+to
+probability
+of a
+multiplied
+by
+p
+b
+given
+now here
+all these terms
+have a name
+and there is a lot
+of study
+about them
+so
+this is called
+likelihood
+which someone
+just said
+this is called
+prior
+and this is called
+marginal
+or in some places
+you will read
+evidence
+it is also called
+evidence
+ok
+and all these terms
+have a meaning
+when you read
+the base theorem
+in a proper
+hardcore way
+then you would find
+the meaning
+of all these words
+this formula
+is not that important
+these terms
+are not that important
+this formula is important
+what this formula
+is representing
+that is very important
+ok
+so basically
+you have to focus
+on the formula
+formula is saying
+a
+given b
+is equal
+to
+probability
+of b
+given a
+multiplied
+by
+probability
+of a
+divided
+by
+probability
+of b
+this
+I will show you
+two things
+first I will show you
+a small derivation
+that from where
+this formula comes
+and then
+I will show you
+its connection
+with machine learning
+that in machine learning
+how do you use
+base theorem
+ok
+so mathematical proof
+is very simple
+and that is why
+this theorem
+is so elegant
+that it comes out
+very easily
+it comes out
+from conditional
+probability
+the proof
+of this
+is hidden
+in conditional
+probability
+so if you remember
+conditional probability
+says
+that probability
+of a
+given b
+is nothing
+but probability
+of a
+intersection b
+divided
+by probability
+of b
+from here
+you can remove
+base theorem
+how
+it is very simple
+let's say
+we remove
+probability
+of b
+given a
+in that case
+you will write
+this
+b
+intersection
+a
+divided
+by
+b
+intersection
+a
+ok
+so
+we are writing
+this
+probability
+of b
+intersection
+a
+is equal
+to
+probability
+of a
+intersection
+b
+is equal
+to
+probability
+of b
+given a
+multiplied
+by
+p
+a
+ok
+now
+here
+probability
+of b
+given
+a
+multiplied
+by probability
+of a
+divided
+by probability
+of b
+and that's it
+this is your
+base theorem
+this is your
+base theorem
+that's it
+in two steps
+you extracted
+base theorem
+from
+conditional
+probability
+definition
+ok
+now
+here
+the main
+question
+for now
+is
+what is the
+mathematical
+semester
+and
+the
+scientific
+science
+that
+we
+are
+doing
+you
+know
+that
+we
+have
+these
+very
+complex
+alphabet
+that
+we
+have
+written
+this
+experiment
+and
+we
+have
+there is one male, one female and one male
+this male died, this male died, this female survived, this male died, this female and this male survived
+this is the data, very simple data
+and you are being told that on the basis of this data you have to tell that if there is a new male
+means there is a query point which is male
+then tell whether it will survive or die
+this you have to find out
+so if you see then you can frame this question like this
+that you are being told to find out
+the probability of death
+the probability of this male dying given he is a male
+this is what you are being told to find out
+or you can say that the probability of him surviving given he is a male
+this is what you are being told to find out
+so how can you find out this
+to find out this you can use Bayes theorem
+what does Bayes theorem say
+to find out a given b you find out b given a
+you multiply it with a
+and you divide it with b
+right
+so if we put this formula here
+so what we can do is
+we can find out probability of male given zero in our data
+multiplied by probability of people dying in our data
+divided by probability of male in our data
+and the good part is
+that you can extract these three probabilities from this data set
+first of all let me show you this
+what is this asking
+this is marginal probability of people dying
+so in total we have 5 people and 3 of them died
+so what is this
+3 by 5
+now what is marginal probability of m
+this is also 3 by 5
+ok
+now what we have to find out
+m given zero
+means
+how many male were among those who died
+so what we will do is
+we will take this
+we will take this
+and we will take this
+and in these three reduced sample space we will see how many males there are
+you can see there are 2 males out of 3
+so what is this telling us
+2 by 3
+so basically this got cancelled and this got cancelled
+what is this probability
+2 by 3
+so basically we have just calculated
+probability of dying given male
+based on this data
+and we have extracted it
+similarly we have to extract probability of surviving given male
+so what we will do for this
+we will extract this
+probability of male we have just extracted
+3 by 5
+probability of one surviving what is
+2 by 5
+and what is male given one
+there are two places where
+people are left
+one of them is female and one is male
+so this is 1 by 2
+so this came out
+1 by 2 multiplied by 2 by 5
+divided by 3 by 5
+this 2 got cancelled
+this got cancelled
+this is 1 by 3
+so probability of dying given male
+came out 2 by 3
+and probability of surviving given male
+came out 1 by 3
+so since 2 by 3 is greater than 1 by 3
+I can say
+that the probability of this person dying is higher than the probability of surviving
+so I can say
+that he will die
+because he is a male
+and how we have extracted this
+we have extracted this using
+Bayes theorem
+ok
+so in this way you
+use Bayes theorem in machine learning
+we will read
+now we have only read for one input column
+next when we will read naive Bayes
+we will do the same logic
+based on multiple input columns
+and you would see there Bayes theorem is being applied
+and through this formula
+we are able to extract such probabilities
+and through those probabilities
+we are able to tell
+what will be the output
+ok
+so that is how you use Bayes theorem in machine learning
+ok
+apart from this
+again as I told you
+it is a fundamental theorem in machine learning
+I am sorry
+mathematics and probability
+you have to do some research
+you have to read about it
+there is a whole branch of statistics
+which has come out of this theorem
+which we call Bayesian statistics
+which I had taught you
+not taught
+I had told you
+when we were doing hyperparameter tuning
+it comes out from here only
+so trust me
+this is like the origin
+of a very very powerful
+field of mathematics
+so if you want to go and study in this direction
+then that would be great
+ok
+so yeah
+this was an introduction to
+Bayes theorem
+ok
+and yeah
+with that
+we completed a complete crash course
+on probability
+I feel that
+if you know all these concepts of probability
+then whatever you will see in machine learning of probability
+then at least you will be able to understand
+what is going on
+otherwise there is always a little confusion
+that bro
+the concepts of probability
+are not brush up
+ok
+so that was the goal
+I hope
+you understood all these things
+so yeah
+that was the session guys
+write in the comments
+how did you like it
+after watching these two sessions
+did you benefit
+do you feel more confident in probability
+or not
+ok
+if you have not liked the video
+then please like it
+and if you have not subscribed to the channel
+please do subscribe
+see you in the next video
+bye

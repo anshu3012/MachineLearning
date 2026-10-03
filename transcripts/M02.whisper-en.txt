@@ -1,0 +1,2941 @@
+Hi guys, good evening. How are you all?
+Let me know if you can hear me. Just type yes.
+Okay. Thanks.
+So, a very good evening guys. Sorry I couldn't finish my class yesterday.
+I was travelling and my flight got delayed.
+So, it's okay. We will cover tomorrow's class.
+Today onwards we are going to start statistics.
+It's an important topic. So, yeah, pretty excited.
+Before starting, if you have any questions for me
+or any doubts, you can ask. We will start at 8.
+When start placement?
+Placement is the same. We will try to invite 4-5 companies.
+So, that will be after June-July, I guess.
+When we will complete the course.
+Can I join mentorship program now?
+Yes, you can do that Gagan. You can register on our website.
+So, you can join from start.
+Regular expression video is not possible right now.
+I could not get the time. I made all the task solutions in the holidays.
+So,
+I need more time. Which book we should follow for
+statistics with Python?
+I am not able to remember the name of the book.
+There is a book called Practical Statistics for Data Scientist.
+I am not sure if it is in R or Python.
+You can check it once.
+Is the use of stats only in ML or
+is it useful while doing analysis?
+Yes, it is very useful while doing analysis.
+You are already seeing that.
+Okay, guys.
+So, let's start the session.
+Okay, guys. Let's start the session.
+In today's session, we are going to use a small data set.
+We will use the Titanic data set.
+I have put its link in the description.
+You can open the data set from there.
+Okay.
+Let's start the session.
+What I will do is
+What I will do is
+What I will do is
+I will
+go to OneNote
+and we will start from here.
+So,
+what is the plan? I will tell you.
+What is the plan? I will tell you.
+A plan is we need to cover statistics most of the time in 8-10 classes.
+Plan is we need to cover statistics most of the time in 8-10 classes.
+That means
+It is drums of Mathematics.
+And it is a huge field whatever it
+People work whole life on statistics.
+People work whole life on statistics.
+We will go to learn everything from no other regions.
+Let's say 80% of the most Most common syllabus.
+Let's say 80% of the most Most common syllabus.
+And we will study statistics from the point of view of machine learning and data science.
+So we have to cover up maximum statistics in 8-10 lectures.
+And we have to do it in such a way that we can apply it in machine learning and data science.
+So that is going to be my motto.
+That how you can practically apply statistics in machine learning and data science.
+You have to learn this.
+So today's class is kind of an introductory class.
+And we will start in today's class about statistics.
+In the beginning we will study what is statistics and what are its types.
+And then we will start to study descriptive statistics.
+Now what is descriptive statistics?
+You will understand it in some time.
+So I have made this one note notebook.
+And after class you will get this notebook as PDF.
+So we will follow this.
+So here are some list of topics given.
+Today we will cover all these topics.
+Generally our plan in these 10 classes is that
+In first 2-3 lectures we will cover descriptive statistics.
+Which is one type of statistics.
+And then 4th lecture onwards we will cover inferential statistics.
+Which is like advanced level statistics.
+So that is the plan.
+So today's session we will start.
+First of all let's answer this question.
+What is statistics?
+Okay.
+This is a subject which we have studied in school also.
+Probably you have studied in college also.
+And now you are studying again in data science.
+So what is this?
+Why is statistics so important?
+Let's discuss it once.
+So here I have copied and pasted some theory.
+Statistics is a branch of mathematics that involves collecting, analyzing, interpreting and presenting data.
+It provides tools and methods to understand and make sense of large amounts of data.
+To draw conclusion and make decision based on data.
+In simple words, statistics is a branch of mathematics.
+Using which you process, organize and summarize data.
+Okay.
+Basically it is a way to get insights from data.
+So sometimes you use statistics to get insights.
+Sometimes you use it to make predictions.
+So basically it is a very very important branch of mathematics.
+In practice, statistics is used in a wide range of fields.
+Such as business, economics, social sciences, medicine and engineering.
+It is used to conduct research studies, analyze market trends, evaluate the effectiveness of treatments and interventions and make forecasts and predictions.
+Okay.
+So if you ask me, there are many other branches in mathematics.
+So algebra is there.
+Calculus is there.
+There are many different types of branches.
+But I feel that the benefit that statistics has brought to business,
+maybe no one else has brought that much.
+It is one of those branches of mathematics which is easily applied in many different domains including businesses.
+So statistics plays a huge role in driving your financial world.
+Let me give you some examples of where statistics plays an important role.
+So here are some domains written.
+Business and finance.
+So many companies, in fact I think 100% of the companies, they perform data analysis based on the data.
+They keep getting data about their customers.
+And what they do is they use statistics to do data analysis on top of that data.
+We have also been doing it for many days.
+What you try to do is you try to find out customer behavior and patterns.
+According to which you can do many things.
+You can decide your prices.
+You can decide your stock.
+You can decide your market.
+You can analyze your competitors.
+You can do a lot of things with the help of statistics.
+It is written here in demand forecasting etc.
+You use statistics.
+In the field of medical sciences, statistics is used a lot.
+For example, let's say we have made a new medicine by our company.
+So you can't take it directly to the market.
+What you have to do first is clinical trials.
+That the effectiveness of the medicine that we have made,
+is better than the previous medicine.
+Or it is operating above the threshold level that the government has given us.
+So to conduct all these types of tests, again you take the help of statistics.
+Okay.
+Statistics is also used a lot in government and politics.
+Like to conduct surveys etc.
+Like imagine a country of India level where 1.4 billion people live.
+If someone tells you to bring information on a particular parameter.
+Let's say I don't know.
+Average.
+Salary of a family.
+So to be able to do this is an impossible task without statistics.
+So you use statistics in such scenarios.
+Polling is done.
+Like opinion polls are done before elections.
+In those types of things also you use statistics.
+Okay.
+In places like environmental science,
+you would find that statistics is being used a lot.
+Like climate research.
+Based on the past data, you try to figure out what will happen in the future.
+How will the climate shift be?
+And accordingly you plan things.
+So basically in 5 minutes I won't be able to justify and tell you where statistics is being used.
+You look at any domain and I am very sure that at some level statistics is being used.
+But it doesn't make much difference to us.
+What makes difference to us is that somehow statistics is very very important.
+When you talk about machine learning and data science.
+Okay.
+Going forward.
+We will study a lot of such algorithms in machine learning.
+Like linear regression, logistic regression, SVM, Naive base.
+You will study a lot of algorithms.
+The fundamentals of which you will notice that they are coming out of statistics.
+So somehow in machine learning also it plays a very important role.
+And that is why for us statistics as a subject becomes very very important.
+Okay.
+So I just tried to give you some intuition that how important statistics is and where it is used.
+I really hope you understood a little bit.
+Now what we will do.
+We will try to study statistics very carefully.
+Very basically.
+First of all I would like to tell you about the types of statistics.
+So statistics is a very big field in itself.
+You can make or say two sub fields in it.
+So the first sub field is called descriptive statistics.
+So what is descriptive statistics?
+Descriptive statistics.
+Descriptive statistics.
+Just one second.
+Is that descriptive statistics deals with the collection, organization, analysis, interpretation and presentation of data.
+It focuses on summarizing and describing the main features of a set of data without making inferences or predictions about the larger population.
+Let me explain it to you in a simple way.
+One big problem of statistics is that English is used a lot.
+It is very verbose.
+Like to explain a little bit.
+To explain a little bit you have to write a lot of English.
+So we will not do that.
+It gets a little boring.
+Let me explain it to you in simple words.
+There are two parts of statistics.
+One is called descriptive and the other is called inferential.
+And we are also going to study these two.
+What does descriptive mean in simple words?
+That data is given to you and you are generating a description of that data with the help of statistics.
+Description means you are generating details.
+You are generating a summary.
+And that is called descriptive statistics.
+Till today you were already doing a lot of things which is a part of descriptive statistics.
+Some data has been given to you.
+You are taking out its mean, median, standard deviation, five number summary.
+You are plotting some graphs on top of it.
+All these things come under descriptive statistics.
+So basically you call descriptive statistics to study the data of the past.
+The second which is a little more advanced level is called inferential statistics.
+Now if you want to understand inferential statistics in simple words.
+Then you should understand it like this.
+The statistics which you use to do prediction are called inferential statistics.
+Now if you want to understand it properly.
+Then you have to understand a concept.
+Of population and sample.
+Again a very famous concept which you will be taught in the first class.
+You can study statistics anywhere.
+What is population and sample?
+I will explain it to you in simple words.
+So imagine what you have to do.
+You are working for the government of India.
+And you are being told that you have to calculate the average salary of India as a country.
+What is the average salary of India?
+Now just imagine how difficult this work is.
+There are 140 crore people in India.
+Okay.
+140 crore people.
+You imagine on what a large scale.
+You have to do this work on such a large scale.
+Then only you will be able to find out.
+What is the average salary of all the people in India.
+You have to go to every person.
+You have to ask for his salary.
+You have to add all those salaries.
+And you have to divide it by 140 crore.
+And that will be the number which will give you the number.
+What is the average salary of India.
+Do you really think it is possible?
+It is not at all possible.
+That you can reach every person.
+Okay.
+So what will you do?
+You will draw a small sample.
+Let's say you have drawn a sample of 50,000 people.
+From different states.
+From different regions.
+Say male, female.
+Different age groups.
+You will take a representation of every type.
+And you will draw a sample of 50,000 people.
+And you will find out the salary of those 50,000 people.
+You will find out their average.
+And on the basis of that average.
+What you will do is.
+You will try to predict.
+Or you will try to infer.
+Or you will try to infer.
+What is the average salary of India.
+And this is the funda of population and sample.
+What is population?
+That the thing which you want to study.
+All the individuals related to that thing.
+The group of all those people is called population.
+So in our case.
+If you consider every person of India.
+That is the population.
+And what is sample?
+Sample is basically a subset of the population.
+So what did we decide?
+That it cannot be complete.
+Pick up 50,000 people.
+So the set of 50,000 people which we made.
+This is called sample.
+So what is inferential statistics?
+Inferential statistics is a branch of statistics.
+Where you try to do an impossible task.
+With a lot of understanding.
+You are told to tell something about a whole population.
+But that is not possible.
+So what do you do?
+You create a sample.
+From that population.
+And then on the basis of that sample.
+You try to predict or infer.
+That what will be the number of the whole population.
+So this is inferential statistics.
+So inferential statistics is all about making inferences.
+Or predictions about the population.
+So we will discuss about population and sample in detail.
+When we will go ahead.
+First we will read descriptive statistics.
+Then 2-3 classes.
+Then we will read inferential statistics.
+Then also I will give you some examples.
+Like if you want the example of population and sample.
+So all the cricket fans in India.
+Who watch the match.
+That becomes the population.
+Now those who watch the match in the stadium.
+That is the sample.
+Means subset of the population.
+All the students who study in a college.
+Which will include everyone.
+Who is studying after going to college.
+Who is studying online from home.
+Who is studying in distance program.
+All these students should be included.
+Who is studying currently.
+Who has passed out.
+All these should be included.
+That is the overall population.
+Who comes under that college.
+And then if you talk about those students.
+Who actually physically attend lectures in college.
+That is a sample out of that population.
+So you can never take a sample from any population.
+You can imagine how it will look like.
+It is a very simple concept.
+But it is a very important concept.
+Because if you don't create the sample properly.
+Then you won't be able to do the proper predictions about your population.
+That is why it is said that you have to take care of 2-3 things.
+When you are creating the samples.
+And statisticians have this in their mind.
+You have to take care of 3 important things.
+First.
+The size of the sample should be big enough.
+So that you can do proper inferences.
+Second.
+It should be random.
+There shouldn't be any biases.
+That you are told to get a salary.
+And you are somehow biased towards rich individuals.
+So there shouldn't be any bias.
+It should be completely random.
+And it should be representative.
+Whatever variations are there in your data.
+There should be a representation of every variation.
+Like now we are talking about India.
+That we have to get the average salary of India.
+So we need a person from every state.
+We also need a male.
+We also need a female.
+We need a person of every age group.
+We also need a business class.
+We also need a service class.
+So basically.
+You will bring a person of every representation.
+Only then he will be able to make the right sample.
+And will be able to give you the right result.
+So I have explained this at the basic level.
+We will discuss a complete topic.
+Where we will study sampling techniques.
+How samples are created from population.
+There are different techniques.
+This was just an introduction.
+To actually make you understand.
+What is inferential statistics.
+I will summarize inferential statistics again.
+Inferential statistics is a technique.
+Where what you do is.
+You take up a sample from a population.
+And using that sample.
+You make predictions about the population.
+Because otherwise it is not possible.
+Think about it.
+What is the IQ level of the whole world.
+How can I know?
+There are so many crores of people in the whole world.
+I cannot go to each one of them.
+So what can I do?
+I can make out a sample.
+And I can do prediction.
+So statistics solves a big problem.
+By providing you tools and techniques.
+By using them.
+You can actually do this work.
+In fact.
+In the next slide.
+You will see.
+What are the different things.
+That you can do.
+With the help of inferential statistics.
+What all things you have to study.
+So a very important concept is.
+Hypothesis testing.
+This involves testing a hypothesis.
+About a population parameter.
+Based on a sample of data.
+For example.
+Testing whether the mean height of a population.
+Is different from a given value.
+So we will study this in detail.
+There are many tests in it.
+They are called statistical tests.
+By using them.
+What you do is.
+You take an inference.
+You take an assumption about your population.
+And you prove whether it is right or wrong.
+Okay.
+One more thing.
+Which is very important.
+And comes under this topic.
+It is called confidence interval.
+Here what you do is.
+By using a sample.
+You calculate the estimate of the population.
+Estimate means.
+You make an estimate about it.
+And then you figure out.
+With how much confidence.
+That thing came out.
+Okay.
+Then there are other techniques.
+Like ANOVA.
+It is called analysis of variance.
+It is called regression.
+Which we have studied linear regression.
+Algorithms.
+They also come under this particular thing.
+After that.
+Chi-square test is done.
+This is the test specifically designed.
+For categorical variables.
+There are different sampling techniques.
+Which I am saying.
+We will study further.
+And there is a.
+Another branch of statistics.
+Called Bayesian statistics.
+All this.
+Which is.
+This comes to you.
+In inferential statistics.
+So.
+Till now.
+Kind of.
+I have taught you.
+The road map.
+That statistics.
+Is a very big branch of.
+Mathematics.
+Which.
+Is used in many places.
+And it has two sub branches.
+One is descriptive.
+One is inferential.
+Descriptive means.
+To do analysis of past data.
+And inferential means.
+Based on the given data.
+You do prediction.
+About the larger population.
+Okay.
+So.
+Till now.
+Till now.
+We have kind of.
+Studied a road map.
+About statistics.
+Now.
+We are going to talk.
+About.
+Descriptive statistics.
+Now.
+We will.
+Focus.
+Totally.
+Towards.
+Descriptive statistics.
+Today's class.
+Next class.
+And probably.
+His next class.
+Three classes.
+We are going to dedicate.
+To descriptive statistics.
+And we will.
+Learn.
+All the things.
+That comes under.
+Descriptive statistics.
+Okay.
+So.
+Yeah.
+It was pretty theoretical.
+I hope.
+You understood.
+I will open chat.
+Just let me know.
+If you have.
+Some questions.
+Or issues.
+If you understood.
+Then.
+Just write.
+Clear.
+Yes.
+Aditya.
+Will try to.
+Figure out.
+Maths.
+Well done.
+Yes.
+Nikit.
+It's.
+Sufficient.
+We will cover some more things.
+In SQL.
+Okay.
+Let's move on.
+Guys.
+Look.
+Let's.
+Start.
+Slowly.
+Descriptive.
+Statistics.
+To read.
+Descriptive.
+Statistics.
+In fact.
+Let's.
+Say.
+Starts.
+Okay.
+Starts.
+Is the short form.
+And.
+I understand the meaning.
+So.
+Descriptive.
+Starts.
+Starts.
+From.
+Types.
+Of.
+Data.
+Study.
+So.
+In fact.
+Starts.
+Starts.
+From.
+Types.
+Of.
+Data.
+Study.
+So.
+In fact.
+Starts.
+From.
+Types.
+Of.
+Data.
+So.
+If.
+You.
+Have.
+Any.
+Data.
+So.
+Whenever.
+You.
+Have.
+Any.
+Data.
+Data.
+Means.
+Any.
+Like.
+Data.
+Generally.
+We.
+Take.
+Meaning.
+Tabular.
+Data.
+Tabular.
+Data.
+Data.
+People.
+Do.
+What.
+We.
+Have.
+To.
+For.
+To.
+You.
+Do.
+To.
+What.
+Do.
+To.
+What.
+Do.
+To.
+What.
+To.
+What.
+Do.
+Do.
+What.
+To.
+What.
+To.
+To.
+What.
+nationality, religion, your college branch, which team you follow in IPL, all this is categorical data.
+In categorical, there is categorization again.
+One of the categorization is called, this is wrong, it is not normal, it is nominal.
+Nominal data.
+Nominal data means that there is no order between your categories.
+Like if you talk about gender, then what will be the gender?
+Either it would be male or it would be female.
+Right.
+So there is no order, it is not that someone is more or someone is less.
+So then this is called nominal data.
+Okay.
+One more example can be that which state are you from?
+Haryana, West Bengal, Bihar, Maharashtra.
+Again there is no order.
+Okay.
+So this is called nominal data.
+Next is ordinal data.
+Ordinal data is such categorical data.
+Where there is an order between your categories.
+Means one thing is more or less than the other.
+Like there is an example that you are taking feedback of the course.
+So what will be the feedback?
+Bad, average, good.
+So you know that bad is like in terms of, means mentally if you think bad is less, average is in between and good is the most.
+So this is called ordinal data.
+Okay.
+If you talk about numerical data then it also has two types.
+So one is discrete data.
+Discrete data is such a data where you take only integer values.
+They are numbers.
+But they just can hold integer values.
+One example could be age.
+Age, generally 26, 27, 35 will remain like this.
+37.3 will not remain.
+In this way no one represents age.
+Okay.
+Or one more example would be.
+Rank.
+Rank will be 1 or 2 or 3.
+Not 1.5.
+Okay.
+Then second categorization is continuous data.
+So continuous data is such numerical data which can take any value.
+It can take any decimal values in between.
+Like weight.
+Weight could be 35.3.
+Height.
+Okay.
+So such data is called continuous data.
+So this is kind of a small flow chart.
+It is a diagram which you have to keep in your mind.
+Whenever you will go to read descriptive statistics.
+Or you will go to apply it on any data set.
+You should always have an idea that the data with which you are working.
+The type of the column with which you are working.
+Okay.
+First of all is it categorical or numerical.
+If it is categorical then is it nominal or ordinal.
+If it is numerical then how is it?
+Is it discrete or continuous?
+You should always know this.
+Then you will be able to do a little better decision making.
+That what kind of concept we can apply.
+What kind of graphs we can apply on this particular data.
+Okay.
+So I guess you are understanding till here.
+Now when you go to read descriptive statistics.
+So you have to read two things.
+And that is actually very important.
+Without that you will not be able to see what you have to do in descriptive stats.
+Those two things are.
+One is measure of central tendency.
+And second is measure of dispersion.
+Okay.
+So we will cover these two things in today's class.
+Because these are like very very fundamental.
+And most likely you have studied it in your childhood.
+Today we will see it from the lens of machine learning data analysis.
+That how these things are applied.
+Where which thing is applied.
+We will try to understand this.
+Okay.
+So the first thing is measure of central tendency.
+Let us read its definition once.
+A measure of central tendency is a statistical measure.
+That represents a typical or central value of a data set.
+It provides a summary of the data by identifying a single value.
+That is most representative of the data set as a whole.
+If we talk in simple words.
+So you are given a column from inside a table.
+And you.
+Since there is a column there means there are multiple values.
+Let us say you have taken the column of age.
+So in age every passenger is given an age.
+Let us say 1000 passengers.
+Now what you have to do is.
+You have to find the centrality of this data.
+Centrality means where does the center lie.
+Okay.
+So to study this thing.
+You call it measure of central tendency.
+And in this you read multiple things.
+You must have heard the name.
+So the first thing is mean.
+Which you call average.
+Second is median.
+Third is mode.
+And apart from this there are some other things.
+Which you might have read in your childhood.
+Geometric mean.
+Harmonic mean.
+Weighted average.
+Trimmed average.
+There are many types of things.
+There is no need to read everything.
+But still you should know about the main things.
+What they are.
+And when and what to use.
+Okay.
+So we will start with our first thing.
+And that is mean.
+What is mean?
+Mean is simple average.
+How is it taken out?
+The mean is the sum of all values in the data set.
+Divided by the number of values.
+Okay.
+It is a simple thing.
+Means if you have this data.
+That.
+I don't know.
+Whatever it is.
+Let's say.
+This is the data.
+Three.
+Four.
+One.
+Two.
+And five.
+You have to take out the mean of this data.
+So what do you do?
+Basically you sum all these values.
+Three plus four plus one plus two plus five.
+And the sum is fifteen.
+And you divide it by the number of values.
+Which is five.
+So what is the mean?
+Three.
+Okay.
+So mean or average.
+Basically gives you this idea.
+That where the center of the data given to you lies.
+Okay.
+I guess you are understanding.
+You will notice in many places.
+The average word is used a lot.
+How much is the average salary.
+How much is the average package.
+How much is the average of the batsman.
+So it will always give you this summary.
+That there is so much data.
+One lakh people's data.
+One crore people's data.
+But it will just give you one number.
+And that one number will give you the idea.
+About those one lakh or ten lakh data points.
+Okay.
+I hope you are understanding.
+Now here.
+You have to remember one thing.
+Although we will not discuss this in detail today.
+I had taught you a little while ago.
+About population.
+And about sample.
+What is population?
+That whatever you are studying.
+All the individuals in that thing.
+You call the group of all of them.
+Population.
+See here I had written.
+What was written?
+Population refers to the entire group of individuals or objects.
+That we are interested in studying.
+The whole group is called population.
+So.
+What happens is.
+There are certain statistical measures.
+Where.
+For population.
+The value of that measure will be different.
+And for sample it will be different.
+So mean is one such thing.
+Where population mean.
+Is different from sample mean.
+Okay.
+So this.
+Now you will see this in some other places.
+I will just tell you once.
+So this is the formula.
+Of population mean.
+Okay.
+So let's say you are talking about.
+Average salary of India.
+So basically the population.
+The entire population will come.
+Under this.
+Scenario.
+So whenever you write population mean.
+It is represented by mu.
+First of all.
+Okay.
+After that see here.
+What are you doing?
+You are doing sigma.
+Which is summation.
+I is equal to 1 to capital N.
+What is capital N?
+Number of items in the population.
+Okay.
+And then you are doing xi.
+Which is basically.
+Every observation inside the population.
+Divided by.
+Total number of.
+Items in the population.
+This is the.
+Population mean.
+And when you write sample mean.
+You represent it like this.
+X bar.
+Okay.
+X bar.
+The formula is same.
+The formula is same.
+So here xi will be there.
+And here small n will be there.
+What is small n representing?
+Number of items.
+In the sample.
+See.
+Mathematically.
+There is no difference in the formula.
+But.
+In the future.
+We will discuss about this.
+That.
+This formula.
+Is different.
+From.
+From.
+From.
+From.
+From.
+From.
+The other.
+Differences.
+It.
+Now.
+This formula.
+But.
+Platt with this.
+State.
+As.
+Now.
+Now.
+Which data.
+We are.
+Working with.
+Is.
+Popular.
+Data.
+Or.
+Sample.
+Data.
+From.
+The.
+Simples.
+From.
+The.
+Simple.
+Opening.
+Of.
+This.
+Although there is not much difference in the formula, but you have to be mindful of the fact that these are two different things and these can give you two different results.
+And this is logical, think about it.
+Now if I ask the salary of every person in the whole of India and take out its mean, it will give me one number.
+Or if I randomly ask from 50,000 people what is your salary and I take out your average.
+So there is no guarantee that these two will be the same.
+It can be the same, you never know, but it could be very different as well.
+So you will have to be mindful of the fact that we are working with the population or with the sample.
+So remember that the population mean is represented by mu and the sample mean is represented by X bar.
+I had to show you one thing, I have put it separately here.
+Now what is a very big flaw in mean?
+Mean is one measure, a statistical measure which you will use a lot.
+Like probably you will use it every time to describe the centrality of a data.
+But there is a very big flaw in it.
+And that is very important.
+The very big flaw is that if there are outliers in your data, then the value of the mean does not give the correct representation of your data.
+Let me show you an example.
+Or let's understand it from an example.
+Suppose you are sitting in a particular classroom.
+And you want to take out the average of the placement of every child in that classroom.
+Or how much salary you will get per month, you want to take out its average.
+So this salary would be somewhere around 30,000 let's say.
+Right.
+In any typical engineering college in India, this would be the number.
+But what if suddenly say a guy comes, who did not take a job, he did his startup, he raised funding and he is earning a lot.
+Let's say he earns crores of rupees per month.
+Right.
+Now if you go to take out the average salary of that classroom, the monthly salary.
+Because of that one guy, the mean would be very high.
+Let's say he will go to lakhs.
+Right.
+Only because of one guy.
+Or it can be multiple people also.
+So basically what is the problem with mean is that it is prone to outliers.
+Like if there is an outlier in your data, then it kind of shifts the mean towards the outlier.
+Due to which the number you will get will not be the correct representation.
+Now lakhs is not the correct representation of my class.
+Because everyone is earning in 30,000s, 40,000s.
+One guy is earning in lakhs due to which the whole mean shifts.
+That is the biggest problem with mean.
+So going forward you have to be super careful when you are doing descriptive statistics.
+When you are applying on any column.
+You have to be very very careful that whether there are outliers in my data or not.
+You should always know this.
+And if there are, then mean is not a good statistical measure to apply on that column.
+Right.
+In that scenario, the thing which will help you is median.
+Right.
+What is median?
+It is the middle value in the data set when the data is arranged in order.
+So if we take the same example.
+We have 3, 4, 1, 2 and 5.
+These are 5 numbers and we have to find their median.
+So what do you do in step 1?
+You arrange them in any order.
+In ascending order or descending order.
+Let's say I arrange it in ascending order.
+After arranging it in ascending order, the middle value.
+That is yours.
+It is median.
+Right.
+This is the case of odd number of items.
+If there are even number of items.
+Let's say here 6 would also be there.
+So what would happen?
+Here 6 would be there.
+And now what would you do?
+You would take the two numbers in the middle.
+And calculate the mean of both of them.
+And this would be your median.
+But in any case, I guess you would be able to understand by looking at it.
+That how it can save you from outliers.
+Suppose if it was 60,000 instead of 6.
+Which is like very high in comparison to other numbers.
+Even then when you sort it.
+Either it goes in the beginning or in the end.
+The value of the middle is never made.
+And if the value of the middle is never made.
+Then it can never come in the median.
+So that is why you use median when there are outliers in your data.
+It is a simple fund.
+Bill Gates is sitting in your class.
+Obviously his salary will spoil the mean.
+What did you say?
+Brother.
+Salary.
+In increasing order.
+Stand up.
+Automatically Bill Gates will stand up at the end.
+The middle person can't be made yet.
+So the middle person.
+Will tell me his salary.
+What is the median average of that class.
+That is why I always say.
+Many students ask me.
+Brother.
+How is this college?
+How is this company?
+What is the average salary?
+I always say.
+Don't focus on average salary.
+Because one person has a package of 1 crore.
+The average salary of the whole college will increase.
+Always focus on median salary.
+That will tell you the correct representation.
+Okay.
+I hope you are understanding.
+Two things we have discussed till now.
+Mean and median.
+Next is mode.
+What is mode?
+Mode is basically the value that appears most frequently in the data set.
+Right.
+Suppose you have this data.
+Okay.
+Now what is mode?
+Mode is like the most frequent value in your data set.
+So here you can see.
+One.
+It came once.
+It came twice.
+It came thrice.
+It came four times.
+It came more than all.
+So what will be the mode here?
+Mode is 1.
+Okay.
+Where is mode useful?
+Generally in my experience.
+I have mostly used mode.
+When I am dealing with a categorical column.
+Okay.
+If I am dealing with categorical data.
+There mode is useful.
+You tell me.
+Which category is most frequent.
+In my data.
+Like I have many students.
+You all come from some state.
+Right.
+So what will I do?
+I will ask everyone.
+Which state do you come from?
+And then I will calculate the count of each state.
+That how many times it came in the data.
+Let's say Maharashtra came the most times.
+So then it became the most important category for me.
+So generally speaking.
+You use mode with categorical data more.
+Or you use it in discrete type of data.
+In continuous you have seen that mode is not that useful.
+Okay.
+So let's summarize once.
+We have read 3 things.
+Mean, median and mode.
+Mean is basically the central value.
+The average value.
+But it is prone to outliers.
+And due to outliers.
+It does not give the correct value.
+To avoid that.
+We have taken out a second thing.
+Which is called median.
+What does median do?
+It organizes the data.
+It orders it.
+And then it picks up the middle value.
+So with this automatically.
+Outlier goes to the last.
+So you are saved from outliers.
+And the third one is mode.
+Which is specifically designed for.
+Categorical and discrete numerical variables.
+Okay.
+I hope you understood.
+Fourth.
+There is a thing called weighted mean.
+This is also used in some places.
+So.
+What do we do in mean?
+Let's say we have 3 items in mean.
+Let's say we have 3 items in mean.
+And what are we doing?
+We are doing this.
+1 plus 2 plus 3.
+Divided by number of items.
+Which is 3.
+Right.
+So.
+This is called mean.
+What happens in weighted mean.
+You do not consider these 3 equal.
+As in.
+You assign these 3 different weights.
+Means you assign these 3 different importance.
+Okay.
+And due to this.
+Mean changes.
+Let me give you an example.
+I am not able to explain it now.
+So.
+Let's take an example.
+What did we do?
+We thought.
+That we.
+Have to make a machine learning model.
+Which will work.
+To do prediction on our data.
+Let's say.
+We want to do.
+House price prediction.
+So.
+We thought.
+It will be better than one model.
+If we train 3 models.
+So.
+What did I do?
+I made one.
+Linear regression model.
+One.
+I made.
+Random forest model.
+And one.
+I made.
+XD boost model.
+And what I came to know.
+That.
+The importance of.
+Linear regression.
+Is 0.2.
+Random forest model.
+The importance of.
+Random forest.
+Is 0.3.
+And.
+The importance of.
+XD boost.
+Is 0.5.
+I came to know.
+That.
+Its prediction.
+Is much better.
+Than.
+This prediction.
+Is much better.
+Than.
+This prediction.
+So.
+Now.
+What happened.
+When.
+I asked.
+For a new.
+House.
+Prediction.
+From.
+Three.
+Algorithms.
+So.
+It said.
+According to.
+The weighted.
+Mean.
+What will be the output.
+That.
+You.
+0.2.
+Times.
+10 lakhs.
+Plus.
+0.3.
+Times.
+15 lakhs.
+Plus.
+0.5.
+Times.
+12 lakhs.
+Divided.
+By.
+You.
+0.2.
+Plus.
+0.3.
+Plus.
+0.5.
+Okay.
+See.
+It is written here.
+The weighted.
+Mean.
+Is calculated.
+By.
+The.
+Sum.
+Of.
+The.
+Weights.
+This.
+Value.
+This.
+Value.
+And.
+This.
+Value.
+And.
+This.
+Will.
+Give.
+You.
+The.
+Weighted.
+Output.
+Okay.
+So.
+In.
+Some.
+Scenarios.
+You.
+Again.
+It.
+Is.
+A.
+Technique.
+Where.
+You.
+Want.
+To.
+Show.
+Results.
+By.
+Removing.
+A.
+Certain.
+Percentage.
+Of.
+Smallest.
+And.
+Largest.
+Values.
+From.
+The.
+Data.
+Set.
+And.
+Then.
+Taking.
+The.
+Value.
+Of.
+The.
+Value.
+Of.
+The.
+Value.
+And.
+In.
+The.
+Data.
+You.
+Have.
+To.
+Take.
+Results.
+From.
+The.
+Value.
+Of.
+The.
+Value.
+Of.
+The.
+Value.
+And.
+The.
+Value.
+Of.
+The.
+Value.
+Of.
+The.
+Value.
+And.
+The.
+Value.
+Results.
+From.
+The.
+Value.
+Of.
+The.
+Value.
+And.
+From.
+The.
+Value.
+Which.
+Means.
+That.
+Means.
+Is.
+Any.
+Other.
+Value.
+From.
+The.
+which is like more accurate representation of your data.
+So sometimes trimmed mean is used.
+Again why is it used?
+To reduce the impact of outliers.
+Because what you are doing is you are basically removing outlier data from both the sides
+by deciding a trimming percentage.
+So this is the fifth measure which we have studied in measure of central tendency.
+We have studied mean, median, mode, weighted mean, trimmed mean.
+Apart from this there are many more things.
+But I feel we will face this more in machine learning and data science.
+That is why I have taught you this.
+So this was the first important thing that we did in descriptive stats.
+We just studied measure of central tendency.
+Now we will study a very important and interesting concept.
+And that is measure of dispersion.
+Before that I will just open chat.
+Let me know if you have any questions.
+What is best for replacing null values?
+Mean or median?
+You can't say anything like this.
+Until you study data there is no rule that median is good or mean is good.
+How much percentage to remove in trimmed mean?
+How will you know this?
+Again you will have to perform some sort of study.
+Maybe by plotting box plot or some other way.
+It is basically you have to see the distribution of the data.
+And then you have to decide where are the outliers.
+According to that you decide.
+Yes all of these are central tendencies.
+Measure of central tendencies.
+Measure of central tendency actually.
+An example where mean is better than median.
+In all other places mean is a better measure.
+It is giving you a summary of the overall data.
+If outliers are not there then mean is better than median.
+Sir what if two values have equal frequency?
+Which to select as mode?
+Both.
+Both of them will be selected.
+Santosh there are many techniques of outlier detection.
+We will study further.
+We will study 5 number summary.
+Where you can remove through box plot.
+If the data is not normally distributed.
+If it is normally distributed then you can know through standard deviation.
+We will study further.
+We are talking at basic level only.
+Let's move ahead.
+Let's discuss measure of dispersion.
+What is measure of dispersion?
+Measure of dispersion.
+Measure of dispersion tells you the spread of your data.
+How much it is spread.
+I will give you simple intuition.
+Measure of central tendency tells you the center of your data.
+But this information is not sufficient to understand everything about your data.
+Imagine a scenario where you have 3 data points.
+So one of them is this.
+One of them is this.
+One of them is this.
+Minus 5 is 0.
+One of them is 5.
+What will be the mean of this data?
+The mean of this data will be minus 5 plus 0 plus 5 divided by 3 which is 0.
+Suppose you have one more data.
+Basically this is one column.
+And now you have one more column.
+And this column has 3 points.
+But it has these numbers.
+Minus 10, 0 and 10.
+What will be the mean of this?
+Minus 10 plus 0 plus 10 divided by 3.
+What will be the mean of this?
+0.
+So basically you are taking this and this.
+In both cases you are noticing that your mean or central tendency is giving the same type of answer.
+Right?
+But these two distributions are different.
+These two columns are of different types.
+So you will have to read some more things to understand the difference between such columns.
+And that is measure of dispersion.
+Here what you want to study is how much is spread in your data.
+What is the spread of data?
+And to tell the spread, the techniques you study are called measure of dispersion.
+So here it is written that a measure of dispersion is a statistical measure that describes the spread or variability of a data set.
+It provides information about how the data is distributed around the central tendency of the data set.
+Basically how your data is spread around the center.
+To find this out, you study measure of dispersion.
+So here we will study four things.
+So the first thing is range.
+Range is very simple.
+What is range?
+That you find out the minimum value of your data.
+You find out the maximum value of your data.
+And that will give you the range.
+Right.
+In the old example, if you see.
+What will be the range of this one?
+Its range will be 5 minus minus 5.
+Because this is the maximum.
+This is the minimum.
+Subtract both of them.
+That is my range.
+It would be 10.
+And in this case, how much will it be?
+20.
+So even though the mean of both of them is same.
+But by using the range, I can differentiate between them.
+I can say that the range of this data is less than the range of this data.
+Right.
+So how did I do this?
+With the help of range.
+Right.
+But range has a very big flaw.
+And if you think logically, you will understand it.
+That it is affected by outliers.
+Right.
+Yesterday, all the data was here.
+Suppose all the data was here.
+All the data is in this range.
+But one data is here.
+And suppose this is at 250.
+So just because of this guy, this range will increase a lot.
+It should have been this much.
+How much it increased?
+Just because of one point.
+So again, range is prone to outliers.
+Because of which you do not use range generally to find out the spread of your data.
+In very simple terms, it is telling you the spread of your data.
+But it is not reliable.
+Because if there are outliers in your data, it does not mean anything.
+Right.
+It does not mean anything.
+So if you take India.
+In India, there are so many rich people who are on the second or third number in the world.
+And at the same time, there are also very poor people in India who earn very little.
+So if you find out that difference, that range, it would be very high.
+But that is not the true representation.
+Not everyone is that rich.
+Not everyone is that poor.
+Right.
+So range in case of India will not be a good measure to find out the spread of the salary.
+Because of the outliers that are present.
+Right.
+Maybe in Europe, it would be a better representation.
+But again, there will be a lot of billionaires in Europe as well.
+And there will be poor people there as well.
+But you get the idea what I am trying to explain.
+Okay.
+So one second thing that we use.
+And this is a little more used.
+You must have heard the name.
+You must have read it.
+It is called variance.
+Okay.
+What is variance?
+So variance is the average of the squared difference between each data point and the mean.
+It measures the average distance of each data point from the mean.
+And is useful in comparing the dispersions of data set with different means.
+See.
+Basically what happens is.
+This is the formula of variance.
+You denote variance from sigma square.
+Okay.
+I have written the formula here.
+But let's write it again.
+Your formula is this.
+i is equal to 1 to n.
+xi minus x bar.
+We are talking about sample variance.
+Square divided by n.
+This is the formula.
+Okay.
+So basically what you are doing.
+Suppose you have three data points.
+So this will expand and become.
+This will become.
+x1 minus mean square plus x2 minus mean square plus x3 minus mean square divided by 3.
+So basically what you are doing.
+Suppose you have three points.
+Suppose you have three points.
+So you are taking out this thing for every point.
+What are you taking out first?
+What is the average?
+Which is 0.
+And then what are you doing?
+You are taking out every point.
+Square minus 5 plus square of 0 plus square of 5.
+Okay.
+Divided by 3.
+And this is your variance.
+Okay.
+See here.
+I have done it with another data set.
+So this is our data.
+3, 2, 1, 5 and 4.
+There are five points.
+So basically what you are doing.
+First of all you are calculating mean.
+Mean would be.
+Mean would be 3.
+Mean of 3, 2, 1, 5, 4 would be 3.
+Then what you are doing.
+You are taking out x minus mean.
+Basically you are taking out xi minus x bar.
+So 3 minus 3.
+2 minus 3.
+1 minus 3.
+5 minus 3.
+4 minus 3.
+And then you are making it square.
+After making it square.
+You are adding all these values.
+And the number that is coming.
+You are dividing it by 5.
+So basically.
+You are adding all this.
+1 plus 4 plus 4 plus 1.
+10.
+Divided by total number of values.
+5.
+So your variance would be 2.
+For this data.
+Okay.
+So the basic thing is.
+That variance also tells you the spread.
+But it is not exactly spread.
+Okay.
+It is proportional to the spread.
+What I am trying to say is.
+Suppose you have the same two distributions.
+Two columns.
+So one of them is.
+Minus 5.
+0.
+Or 5.
+Right.
+And the second one is.
+Minus 10.
+10.
+Or 0.
+Right.
+So when you take out the variance of these two.
+So variance will be proportional to the spread.
+Since.
+Its spread.
+Is small.
+So its variance.
+Would be smaller than.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+This.
+So it was possible that some values of difference would be positive and some values of difference would be positive and some values of difference would be negative.
+Like this is negative and this is positive.
+So basically when you add them, they get cancelled out.
+So spread should not be cancelled. It should always be added.
+That is why you square it here.
+Now in the interview, a question is asked that then you could have used mod.
+Actually you can also use mod.
+There is a different quantity which you call mean absolute deviation.
+If you notice there, it is basically the same formula.
+But here instead of square, it is mod.
+It is basically the same thing.
+But here it is mod.
+So this is also a statistical measure.
+But it is not used that much.
+The reason for that is that by using this, you are not able to do inference.
+Inference as in if you have a sample.
+The mean of the sample is absolute deviation.
+You will not be able to get the population out of it.
+Why you will not be able to get it out, we will study in the next class.
+But for now, just understand that it is not used in inference.
+But its positive is that it is not as prone to outliers as it is prone to variance.
+Variance is highly prone to outliers.
+Because you are doing square.
+Suppose there is a very big number, outlier, which is at the very end.
+So when you will get the difference from its mean.
+It is a very big number itself.
+When you will square it, then it will be a very big number.
+So the main absolute deviation.
+Its one benefit is that it is less prone to outliers.
+In comparison to variance.
+But its downside is that you cannot use it to do inference.
+As in you know the mad of the sample.
+You will not be able to get the mad of the population.
+Why you will not be able to get it out?
+You will know it tomorrow or in the next class.
+For now I will point out one more thing.
+Which is again a very important interview question.
+Although I am not telling you its answer today.
+But you have to remember that just like mean.
+You calculate the variance of both population and sample in a different way.
+And here in fact the formula is also different.
+If you talk about population variance.
+In population variance everything is same.
+Here capital N is present.
+What does capital N represent?
+Number of items present in the population.
+And what does mu represent?
+Population mean.
+When you talk about sample variance.
+You are representing it with S.
+Here you are writing X bar.
+But here you are writing N-1 instead of n.
+So this is a very important interview question.
+That why in the formula of the sample.
+When we take out the variance.
+It is N-1 instead of N.
+So this question we will derive it mathematically.
+And will learn it in the next class.
+But at this point you have to be very very careful.
+That in future whenever you go to calculate variance.
+So you should have the answer of this question.
+That you are taking out the variance of population.
+Or you are taking out the variance of sample.
+And accordingly you have to apply the formula.
+So whatever it is.
+We did a discussion around variance.
+What is variance?
+What is the intuition of variance?
+So basically what is variance?
+Simply if you think sitting.
+So what you are doing is.
+You have taken out the mean of your data.
+Then you are taking out the distance of every point from the mean.
+You are making it square.
+And for all the points you are adding those distances.
+And then you are taking out its average.
+So in a way you are trying to find out the spread of your data.
+Or rather proportional to spread.
+The value which you are trying to take out.
+Okay.
+Outliers are prone to this.
+Because if your outlier is sitting at a distance.
+The difference between mean and difference will be a big number and its square will be an even bigger number.
+So it is prone to outlier.
+So one more thing that you can remove is mean absolute deviation which is removed by mod.
+But its problem is that when you try to use it in inferential statistics that you have sample mean absolute deviation
+and you are going to remove the population from it.
+It cannot be removed because of this mod thing.
+I will tell you why this happens in the next class.
+But yeah this is variance and mean absolute deviation.
+It has a brother which is standard deviation.
+Standard deviation is the square root of variance.
+Now what is standard deviation?
+Simply the variance that you have taken out.
+Let's say your variance is 2.
+So standard deviation will be square root of 2.
+Basically 1.41.
+Now in thinking it is not possible to understand that
+why does standard deviation exist?
+When there is variance then what is the need to keep standard deviation?
+So the simple reason why standard deviation exists is that
+the unit of standard deviation is the same as the unit of data.
+Try to understand.
+Suppose you are taking out variance of salary of 10 people.
+Here the salary of 10 people is in lakhs.
+So when you are going to take out its variance.
+So what are you doing?
+First you are taking out the mean.
+Suppose the mean is 15.
+So what you are doing is for every data point you are calculating this.
+Its square plus 17-15 square plus 13-15 square plus 14-15 square divided by 4.
+Right.
+Now this is LPA.
+So when you are doing its square then what is it becoming?
+It is becoming LPA square.
+So whenever variance is coming out.
+What is its unit?
+LPA square.
+Suppose variance is 5.
+So when anyone will say that what is the variance?
+Then what will he say?
+5 LPA square.
+So it is a little difficult to understand that what is 5 LPA square?
+That is why standard deviation exists.
+Which will take out its root.
+Since LPA is square.
+What will be its root?
+LPA.
+So the result of standard deviation is always in the same units.
+That is why standard deviation exists.
+So basically the formula of standard deviation is very simple.
+You remove this square.
+Remove this square.
+And put square root on this whole thing.
+And that is standard deviation.
+This is the formula for standard deviation.
+What you do is you calculate variance.
+And you take out its square root.
+And that is your standard deviation.
+The single reason for standard deviation to exist is.
+That its unit is same as that of the data that you have.
+I hope you understood this thing.
+So we discussed 3 things.
+We did range and variance.
+In variance we also discussed mean absolute deviation.
+And we also discussed standard deviation.
+One last thing is coefficient of variation.
+This is also an important thing.
+And sometimes it can be useful for you.
+So coefficient of variation is called CV.
+The CV is the ratio of standard deviation.
+To the mean expressed as a percentage.
+In simple words.
+Suppose you have a column called salary.
+The salary of different people is given.
+So if you want to take out the coefficient of variation of this column.
+So what you will do is.
+First you will take out its standard deviation.
+And then you will take out its mean.
+And when you divide the standard deviation by mean.
+And multiply it by 100.
+Then you will get your coefficient of variation.
+See this is the formula.
+Now you will think.
+What is the reason for this thing to exist?
+So this exists because.
+The reason for this is.
+Suppose you have two columns.
+One is your salary column.
+And one is your experience column.
+There are two different columns.
+Completely different columns.
+So you.
+Take out its mean.
+And you take out its mean.
+You cannot compare these two means.
+Right.
+The mean of salary cannot be compared.
+To the mean of experience.
+Similarly.
+If you take out the standard deviation of salary.
+And take out the standard deviation of experience.
+Again you cannot compare both of them.
+Because these are like apples and oranges.
+Completely different quantities.
+But I want to know.
+In both of these columns.
+Which column's data.
+Is closer to the mean.
+That means it is closer to the mean.
+Or it is more concentrated towards the mean.
+It is not more spread.
+I want to know this.
+Basically I want to do a comparison between these two.
+Of the variability of these two.
+So who gives me that comparison?
+Coefficient of variation.
+So what I do is.
+I basically divide the standard deviation of each column.
+By the mean of that column.
+And multiply it by 100.
+So now.
+What I get is.
+A normalized score.
+With which I can compare two columns.
+I can show you this.
+Suppose I have a data.
+This is the data.
+This is the data of Titanic.
+Right.
+Now here there are two numerical columns.
+One is age.
+And one is fare.
+Both are completely different columns.
+There is no relation between these two.
+But I want to see the variability of both.
+Which is spread.
+That is.
+Which column's data.
+Is closer to the mean.
+Or which column's data.
+Is more concentrated towards the mean.
+Or which column's data.
+Is more concentrated towards the mean.
+So I want to know.
+In both of these columns.
+Which column's data.
+Is more concentrated towards the mean.
+Or which column's data.
+Is more concentrated towards the mean.
+Or which column's data.
+Is more concentrated towards the mean.
+Or which column's data.
+Is more concentrated towards the mean.
+I want to find this.
+So what I will do.
+I will independently.
+Find the coefficient of variation.
+Of both the columns.
+And I will compare them.
+See.
+What I will do.
+First of all.
+I am focusing on age.
+So I am going to an empty cell.
+I am just writing.
+Equal to.
+Standard deviation.
+And.
+Standard deviation of.
+Column is.
+F.
+To.
+Say.
+F.
+And.
+F.
+To.
+F.
+Okay.
+I have taken the whole column.
+This is the standard deviation.
+Of the column of age.
+Okay.
+Now what I am doing.
+I am removing.
+Average.
+So I am writing.
+Equal to.
+Average.
+And.
+Average.
+Of.
+F.
+To.
+F.
+This is the average.
+Okay.
+This is the standard deviation.
+And this is the average.
+Now what I am going to do.
+I have to divide both of them.
+So I have taken the whole column.
+This is the standard deviation.
+Of.
+Age.
+Of.
+Column.
+So I am saying equal to this divided by this multiplied by 100.
+This is the coefficient of variation for age column.
+And now I would repeat this for fair column.
+So I would write equal to standard deviation j to j.
+This is the standard deviation of fair column equal to average j to this is the average fair 32.
+And now what I have to do is divide mean by standard deviation and I have to do a 100 multiplication.
+And this is the output.
+So you can see coefficient of variation of
+j to j.
+Fair is thrice as much of age column.
+You can say that the spread in your fair column is more in comparison to age column.
+You can study this side by side between two numerical columns.
+So I hope you understood that when and how to use coefficient of variation.
+It is not that much used.
+But you should know.
+Sometimes it may be useful.
+So now we have studied two measures.
+One is measure of central tendency which gives the idea of center.
+And second we have studied measure of dispersion.
+Which gives us the idea of spread.
+The idea of spread of data from mean to center.
+So yeah we have studied these two important things.
+Now what we will study next.
+That
+based on
+Based on what kind of data you have.
+What kind of graphs you can plot on it.
+Although we have already done this thing.
+But now we will do a little more detailed discussion around this thing.
+Because descriptive statistics is all about finding summary of your data.
+Visualizing it and presenting it in a more meaningful way.
+So you should have this idea.
+What kind of columns or what kind of graphs you can plot on what kind of data.
+Okay.
+So yeah.
+Once I am opening the chat.
+Let me know.
+I will wait.
+Yes.
+Mean absolute deviation will also be in the same unit.
+While calculating variance.
+Mean is involved.
+Would not.
+Outcome is affected by outliers here.
+Yes.
+It is there.
+I told you.
+Variance is highly affected by outliers.
+Is coefficient of variation anyhow related to correlation?
+No.
+Tell me about CV once from another example.
+Basically you have two numerical columns.
+You want to study the spread of the distribution of both of them.
+How much has spread.
+This is what you want to study.
+The bigger the number, the more data is hidden from mean.
+Has gone far.
+Whereas the smaller the number, the closer it is.
+The data is compact.
+Condensed towards mean.
+This is what happens.
+CV is to compare two distributions.
+What does mean do till now?
+It is telling you about the same thing independently.
+It is telling you about the same column.
+It is telling you about the same column.
+What if I want to compare two people?
+Suppose one person's CAT has this much marks.
+And one person's UPSC has this much marks.
+Like they have given two different exams.
+How can I compare which one is better?
+Which one is more prudent?
+So to do that kind of work, you use coefficient of variation.
+No.
+Standard deviation will also have the same problem.
+You are taking out the square root of variance.
+Okay.
+Okay guys.
+Now what are we going to do?
+We will study this for some time.
+That you.
+Given on the base of.
+Given the type of data that you have.
+What kind of graphs can you plot?
+Okay.
+So first we will study univariate analysis.
+Univariate analysis means.
+We have to plot a graph about a single column at a time.
+Age column,
+Fair column,
+Salary column,
+Experience column,
+State column,
+IQ column.
+We have to plot a graph about all these.
+So.
+Which graph will be plotted will depend on this.
+That the column you have.
+Is it categorical?
+Or is it numerical?
+Okay.
+So first we will study.
+If you have a categorical column.
+Then what can you do?
+We have studied all these things once.
+But we will study formally again.
+And today to give you a little flavor.
+We will plot all the graphs in excel.
+Okay.
+Just to give you some flavor.
+That how it works in excel.
+You will do all the work in python quickly.
+Using pandas.
+Sql.
+Sorry.
+Seaborn.
+Matplotlib.
+You already know all this.
+Just to give you some flavor.
+How it works in excel.
+We want to show you a little.
+How excel is used.
+Okay.
+So first of all let's study.
+If you have a categorical column.
+Then what kind of study can you do on it?
+What kind of graphs can you plot?
+So here you should know a concept.
+And this concept is called.
+Frequency distribution table.
+You must have studied in school.
+A frequency distribution table is a table.
+That summarizes the number of times.
+That each value occurs in a data set.
+Let's take a simple thing.
+There is an example here.
+Let's say we have a survey of 200 people.
+And we ask them about their favorite type of vacation.
+Which could be one of the six categories.
+Beach.
+City.
+Adventure.
+Nature.
+Cruise.
+And other.
+Suppose we have this data.
+What data do we have?
+We made two columns.
+One is the name of the person.
+And his preference.
+Where he wants to take a vacation.
+So Nitesh.
+Beach.
+Someone else.
+Something else.
+In this way we have data of 200 people.
+Okay.
+Now what does frequency distribution table do?
+That it holds your categorical column.
+Here your preference.
+That is a categorical column.
+Because there are six categories.
+Beach.
+City.
+Adventure.
+Nature.
+Cruise.
+And other.
+So what are you doing?
+You are taking out its frequency count in the data.
+That how many times that category has come.
+Like suppose in 200 people.
+60 people said that we want to take a vacation on beach.
+40 people said in city.
+30 people said they want to do adventure trip.
+35 people want to do nature.
+20 people want to go on cruise.
+And remaining 15 people want to go on some other form of vacation.
+Now this is called a frequency distribution table.
+And you must have made this a lot in your childhood.
+You don't have to do anything.
+You have to pick up every category.
+And you have to count it.
+Okay.
+So that is called frequency distribution table.
+This is the first thing that you can do with a categorical column.
+The second thing that you do is.
+By the way.
+Once you do this.
+What you can do is.
+You can easily plot a bar chart.
+Right.
+What you will do is.
+You will quickly bring all the categories on x axis.
+Like beach.
+And what you will do on y axis.
+You will plot a bar.
+What does bar represent?
+Frequency count of that category.
+Okay.
+Then you will write city.
+What does this city building represent?
+How many people have chosen city?
+And in this way.
+For different categories.
+You can plot a bar chart.
+So in simple words.
+If you have a categorical column.
+So first of all you make a frequency distribution table.
+Which you used to do in pandas with value count.
+And then what can you plot on it?
+You can plot a bar chart.
+Right.
+Here comes another concept.
+Which is called relative frequency.
+So relative frequency is the proportion.
+Or percentage of a category in a data set or sample.
+It is a simple thing.
+60 people said out of 200 people.
+That we have to go to beach.
+So what is the percentage of total data?
+30%.
+40 people said we have to go to city.
+What is the percentage?
+20%.
+So basically for every category.
+Its relative frequency.
+Or percentage in data.
+This is called relative frequency.
+And by using this.
+What can you do?
+You can make a pie chart.
+Right.
+Because what does pie chart represent?
+Percentage of.
+Percentage contribution of each category.
+Okay.
+And the third thing is.
+That you can do with categorical column is.
+Cumulative frequency.
+What is cumulative frequency?
+Cumulative frequency is the running total of frequencies.
+Of a variable.
+Or category.
+In a data set or sample.
+It is calculated by adding up the frequencies.
+Of the current category.
+And all previous categories.
+In the data set or sample.
+It is a simple thing.
+Here it was 60.
+Here it is 60.
+Here it is 40.
+So this is 100.
+60 plus 40.
+Here 30 more came.
+So this is 130.
+35 came.
+165 came.
+20 came.
+185 came.
+15 came.
+200 came.
+This is called cumulative frequency.
+Okay.
+You can do the same thing here also.
+On relative frequency also.
+If you would add these two.
+It would be 0.5.
+Then if you would add these two.
+Then by moving forward like this.
+Eventually it would reach 100%.
+Okay.
+So if you have a categorical column.
+Then you can do these three things.
+You can take out frequency distribution.
+You can take out relative frequency.
+You can take out cumulative frequency.
+Okay.
+I can show you by doing this thing.
+So see this.
+We have one data.
+You can see.
+where we have done the same thing
+this chart is generated from GPT
+so we have different categories
+their frequency, their relative frequency and their cumulative frequency
+now if you want you can plot all three types of graphs
+first of all I will plot the graph of frequency distribution
+bar chart, what you will do is very simple
+select this column
+go to insert, go to chart
+and here is your bar chart
+which represents the frequency distribution of each category
+I hope you understand
+now I will show you how to make a pie chart
+we will take every category and its relative frequency
+go to chart
+it has automatically deduced that since it is percentages we have to make a pie chart
+you can see these are the percentages
+30% beach, 20% city and other categories
+and lastly what you can do is you can plot cumulative frequency
+so if you copy this
+and go to insert chart
+go to chart chart
+we don't need this kind of chart
+we need this kind of chart
+why is it coming like this
+let's do one thing
+let's delete
+somehow it is not picking
+generally what happens is
+above your bar chart
+that cumulative frequency
+becomes a line chart
+I am just trying to pick the right type of chart
+why is it happening like this
+if someone is seeing something wrong
+tell me once
+those who have worked on excel
+have you selected 3 also
+sorry sorry sorry
+just one second
+it should reach 200
+why is it coming like this
+have I done any aggregation operation
+also in adventure
+nothing is coming at all
+it should be 30
+others
+if someone is understanding tell me once
+data is missing
+data is not missing
+oh yes
+data is missing
+60 plus 40
+100
+130
+165
+185
+data was missing
+I am trying again
+yes
+it is a line chart
+yeah
+this is 60 this is 100
+this is
+130
+and yeah
+I had to select line chart
+I was selecting combo chart again and again
+so here are your 3 graphs
+which you can plot on top of
+a categorical column
+so if you have
+frequency
+as in frequency distribution
+you can plot a bar chart
+otherwise for relative frequency
+you can plot a pie chart
+and for cumulative frequency
+you can plot a line chart
+which will look like this
+I hope you understood
+let me know
+if you have any doubts
+let me know
+ok
+let's move forward
+let's study numerical columns
+in numerical columns
+what happens is
+you have data like this
+let's say you have a column called age
+and you have age of different people
+like this
+suppose you have age of 500 people
+now what will you do
+here you don't have categories
+but still what you can do is
+you can create a frequency distribution table
+like you did with categorical data
+you can do same thing here
+what you have to do here
+you have to
+make categories by yourself
+ok
+which you call bins
+or you call buckets
+so let's say
+you have decided
+from 0 to 10
+1 bucket
+from 11 to 20
+from 21 to 30
+1 bucket
+from 31 to 40
+1 bucket and so on
+and then what you do is
+you basically go to every person
+and put them in a bucket
+like 32 is in this bucket
+28 is in this bucket
+41 is in this bucket
+42 is in this bucket
+and in this way
+what you are doing is
+basically you are going to every person
+and pick them up
+and put them in a bucket
+like this
+so here there were no categories
+you created them yourself
+ok so what did you make here
+you only made frequency distribution table
+but
+you didn't make it on categories
+you made it on bins and buckets
+and this plot
+this plot
+is called
+histogram
+this is called
+histogram
+this is very similar to
+bar chart
+this is very similar to
+bar chart
+but one major difference
+that you will always see
+is that all your buildings
+are connected to each other
+whereas in bar chart
+it is like this
+they are different
+because they are different categories
+whereas the categories here
+they are like continuous categories
+one is 20 and the other 21
+so that's why they are
+continuous
+so you can do the same thing
+if you want to
+what you can do is
+in your titanic data select any numerical column
+and go to insert
+go to chart
+and from here
+instead of line chart
+select histogram
+and you can see this is the histogram
+so this is the histogram
+of titanic data
+now here
+the most challenging thing
+in making histogram is
+that you have to decide
+what will be the bucket size
+what will be the bucket size
+if you make your bucket size
+very big
+like you said in age
+that there will be only two buckets
+one will be 0 to 30
+and one will be 30 to 100
+so basically your histogram
+will look like this
+you will see buildings
+so here you are not able to
+get much information whereas
+if you say that I will make buckets
+on the difference of two
+let's say 1 to 3
+4 to 5
+so basically your very thin bars will be made
+very thin
+so this is also not good
+so you have to find the right middle ground
+like this number of buckets
+is little more
+so what you can do is
+go to customize
+or in setup
+from where
+I have also read
+a long time ago
+to plot charts
+in excel I am forgetting
+chart style histogram
+auto
+outlier percentile
+it will be in horizontal axis
+setup
+histogram
+from where anyone knows
+it should be customized
+chart style is fine
+histogram bucket size
+is here
+let's say I said
+I need 10 buckets
+so as I said 10 buckets
+you can see number of buckets
+reduced because now I am keeping only 10 buckets
+so you can see the difference is like
+0 to 10, 10 to 20, 20 to 30
+this way buckets are made
+bucket size is of 10
+if I increase the bucket size
+let's say I said 50 bucket size
+so from 0 to 50
+till 100
+1 bucket
+so number of bins reduced
+if you increase to 1
+it would be like this
+so you have to find your balance
+by changing the bin size
+the shape of your histogram
+changes
+you can see
+number of bins is more
+so it looks like this
+number of bins reduced
+so it looks like this
+reduced a lot
+so it looks like this
+so shape varies
+and it depends on
+how many number of bins you have taken
+so there can be different shapes of histogram
+I am showing you some shapes
+we will study it in detail
+if you ever see such a histogram
+it is called symmetrical histogram
+you can assume that
+there are more number of values in the middle
+and if you go to both sides
+then the number of values is less
+so here there are more values
+in this region
+and in this region
+and in this region
+the number of values is reduced
+this is called bimodal
+you can assume that there are two different set of values
+where
+there is a lot of density of points
+and this is called bimodal
+it can be trimodal
+its distribution looks like this
+this is called bimodal
+then you have skewed data
+one side is more
+like you can see
+this is the distribution
+on one side
+there is more density of points
+this is called left skew
+although the data is more on the right side
+but you see the tail
+tail is on the left side
+so you call it left skew
+you can assume that
+this is a very easy test
+so many people have more marks
+very few people have less marks
+right skew is the opposite
+where
+left side has more data
+and left side has less data
+right side has less data
+this is an example of
+very difficult test marks
+or
+people's salary
+in this world
+very few people
+will have
+very high salary
+this is called right skew
+there is one more
+uniform skew
+where every bin has
+the same number of points
+so this generally happens
+when you reduce the number of bins
+like you take only two
+like
+when you reduce the number of bins
+the possibility of being uniform
+increases
+and the last one is
+no pattern
+this generally happens when you increase the number of bins
+like if you make the number of bins very small
+then generally you would see
+that your histogram
+does not take any shape
+these are the various shapes
+we have to study more about these
+when we will study probability distributions
+but yeah
+this is a good introduction
+these are the various shapes
+that you would find
+in the future we will study normal distributions
+in which we will study
+bimodal, left skew, right skew
+uniform distribution
+so you will see different types of distributions
+in data
+but yeah
+so how do you plot histograms
+you should have this idea
+so
+I am opening the chat
+let me know if you
+have any doubt
+if you don't have any doubt then you can write clear
+and then we will study next
+that
+what we are studying till now
+that
+we are studying one column alone
+we are seeing which graphs should be plotted on it
+now we will see in combination
+as in two columns together
+what is the difference between
+KDE and Histogram
+so KDE is a density plot
+what you do is
+you calculate probabilities
+and make KDE
+so there is this process called
+Kernel Density Estimation
+which we will study in future
+probably we will study two classes in future
+so it is similar
+but it is a different use case
+at this point they can't explain it
+so till now
+we have studied univariate analysis
+we have seen
+how categorical column
+is studied alone
+how numerical column is studied alone
+now we will study
+bivariate analysis
+bivariate analysis means
+how two columns will be analyzed together
+in that kind of situation
+which graphs will be plotted
+we are going to see all this
+so there are three scenarios
+again I have told you multiple times
+one of the scenarios is
+when both your columns
+are categorical
+so you are basically studying categorical
+second scenario is
+when both your columns are numerical
+and the third one is
+when one is numerical
+and the second one is
+categorical
+in all three scenarios
+what kind of graphs
+you will plot
+we are going to understand this
+let's focus on the first category
+that is categorical categorical
+you have two columns
+which are categorical
+so in this kind of scenario
+what you plot
+is called contingency table
+contingency table
+or it is also called cross tab
+we have seen this in pandas
+so a contingency table
+also known as cross tab
+is a type of table
+used in statistics
+to summarize the relationship
+between two categorical variables
+a contingency table
+displays the frequencies or relative frequencies
+observed values of the two variables
+organized into rows and columns
+simple funda is this
+suppose you have titanic data
+in which one column is
+survived
+which tells whether your passenger
+is dead or alive
+and then you have
+another column p class
+which tells which class the passenger was traveling
+it has 1,2 and 3
+you have to plot graphs between these two
+so what can you do
+you can basically make a cross tab
+where rows will contain the survived column
+like this
+and columns will contain
+p class column
+and you will have a table
+like this
+this is the table
+now here
+this table
+how many cells will be there
+2 x 3
+means 6
+why 6
+because survived has 2 categories
+and p class has 3 categories
+this is the cross joint
+and what you will do here
+you will make a count
+like this is 42
+this is 31
+this is 63
+this is 71
+this is 118
+this is 13
+what these numbers represent
+like this number represents
+that in p class 1
+how many passengers were there
+who died
+42
+so basically you plot a contingency table
+like this
+so let me show you again
+if i can do it correctly
+if i remember
+what you can do is
+to do this kind of thing
+you plot a pivot table
+in excel
+so let's say
+we are doing
+sex
+and
+we are doing
+this
+p class
+these two
+or let's talk about this
+survived
+p class
+and passenger id
+we caught these three columns
+we went to insert
+and we made a pivot table
+we are creating a new pivot table
+now what you have to do here
+you have to tell what will go in row
+what will go in row
+maybe it is not selected correctly
+just one second
+by the way you can do all these things
+very easily with python
+we have done all this through python
+p class
+insert
+i didn't want chart
+sorry
+i didn't want chart
+insert
+pivot table
+why is this happening
+i am doing one thing
+i am misbehaving a little
+google sheets
+we want the survived and
+p class columns
+need passenger id to just count the values
+let's see
+let's say we put survived
+on our
+y axis
+and here we put p class
+ok
+and here
+we put
+survived
+count
+and you can see
+why these
+zero values are coming
+right row
+right column
+yeah
+see these are the values
+you will understand what i was saying
+so in p class 1
+the number of dead is 80
+the number of survivors is 136
+and total number of people in p class 1
+216
+ok then see here
+the people who died
+80 people were in p class 1
+97 people were in p class 2
+and 372 people
+were in p class 3
+and total number of people who died
+549
+so this is giving you total
+now what you can do
+on this type of cross tab
+if you want
+you can make
+bar chart
+like this
+you can select this much data
+and you can go to insert chart
+and
+you can see
+this is like side by side bar chart
+you can see for
+dead people
+the highest number of people that have died
+have died in p class 3
+ok and survivors have similar composition
+if you want you can change the chart
+and you can make a
+stacked chart
+so you can see
+the biggest contribution of the dead
+is of p class 3
+and the biggest contribution of the survivors
+is of p class 1
+ok so you can do this quickly
+with the help of a
+contingency table
+ok with the help of contingency table
+what you can do is
+you can quickly figure out
+what is going on between two categories
+ok i hope you are understanding
+that whenever there is categorical data
+then what you have to do
+you have to plot a contingency table
+which you call cross tab
+next is numerical numerical
+you know this since childhood
+since the first day we are plotting charts
+we know that if we have two numerical columns
+then what is a scatter plot
+ok so basically let's say you have
+these two numerical columns
+we have got
+age and we have got
+fare
+and as soon as you
+run the chart on them
+see this is the
+scatter plot ok
+so this basically
+tells the relationship between
+your two numerical columns
+although here there is no relationship
+but many times
+you will see a relationship
+like something like that
+something like this
+if you see data like this
+then this is called
+positively correlated data
+that if this quantity is increasing
+then this quantity is increasing
+then it can be like
+if you see data like this
+that if this quantity is increasing
+then this quantity is decreasing
+negatively correlated data
+or you can see something like this
+where data is not correlated
+So we will study this in the next class, we will study about covariance, we will study about correlations and all.
+Now I just showed you that if you have one numerical column and another numerical column, then the graph you will plot is a scatter plot.
+And the last one is categorical numerical. So in categorical numerical you have a lot of options.
+So one of the options is that you compare the distributions.
+For example, we want to do a comparison between two columns.
+So one of them is sex and one of them is age. Sex is categorical, age is numerical.
+So what kind of charts can you plot between them?
+You can plot a bar chart where there will be categories on x-axis, male, female.
+And what can you do on y-axis?
+You can do any level of aggregation.
+Let's say you plot the mean of age.
+So you are comparing side by side that how much is the average age of male and how much is the average age of female.
+So you can plot any kind of aggregation.
+Let me show you.
+If you catch these two, go to insert, go to chart.
+If we select from here, we just want a normal, this is a histogram, we need a bar chart.
+And what we want is, we want to aggregate.
+We don't want to sum, we want to average.
+So you can see, this chart is showing you the average age of male passengers and average age of female passengers.
+So what you can do is, you can make a bar chart.
+But what will happen on y-axis?
+Instead of count, there will be an aggregate operation.
+When we were taking a normal categorical column, what was there on y-axis in the bar chart?
+It was count.
+That how many times this category has come.
+Here it is not.
+Here it is not count.
+Here it is aggregate.
+So aggregate could be mean, it could be standard deviation.
+There can be a lot.
+Here you can see, options are given.
+Apart from this, it can also be.
+From here, you can select some other thing also.
+Like you want to know what is the maximum age.
+So there is a maximum age of 80 years in male passenger and 61-62 in female.
+Okay.
+So you can do such operations.
+The second is.
+If you want here also, then you can make a contingency table.
+Or you can make a cross tab.
+How?
+What you do is, you divide your age in buckets.
+Okay.
+Suppose you divide your age in buckets.
+From 0 to 10, 11 to 20, 21 to 30 and so on.
+And here you write male.
+And here you write female.
+And here you start putting numbers.
+32, 41, 15.
+18.
+110.
+120.
+So what are these numbers representing?
+That there are 110 people who are between 21 to 30 years and male.
+What does this number represent?
+That there are 18 people who are between 11 to 20 and female.
+So you can plot a contingency table here also.
+So here you have both types of options.
+You can make a bar chart if you want.
+You can perform aggregate operations as well.
+And you can also do such contingency tables.
+Where you convert the numerical column into categories.
+By creating buckets or bins.
+Okay.
+So this was a rough introduction.
+That how you can plot graphs on your given data and generate a summary.
+Obviously this was not everything.
+Now we have read some new things.
+In the next class we will study about five numbers summary.
+Where we will study percentiles etc.
+So we will learn how to make a box plot.
+We will also learn about density plots.
+And we will also learn about covariance, correlation etc.
+And in the next class we will also study this important question.
+That what is the fund of n-1.
+You have to tell this too.
+So yeah.
+Today's class was just an introductory class.
+Where we learned what statistics are.
+What are its two main branches.
+What is multiplication?
+What is sample?
+We learned measure of central tendency.
+We learned measure of dispersion.
+And in the last class we covered that given the type of data.
+What kind of graph you can plot on it.
+Okay.
+So yeah.
+That's all we are doing today.
+Let me know if you have any questions.
+Sir when will we complete SQL?
+There are four classes left.
+Next week or next week.
+See the schedule.
+I have told you in the schedule.
+So after that we will study.
+Symmetric left skew, right skew, mean, median, mode.
+How is all this?
+We will study all these.
+When we will study density plots.
+When we will study kd etc.
+That time we will discuss.
+When we will study normal distribution.
+We will study all of it.
+Now I just wanted to show you.
+What types of histogram are there.
+So Aditya.
+Cross tab basically tells the count.
+Between two categories.
+In pivot table you can add a third column.
+A numerical column.
+Like.
+For example, you want to find out the average age between two categorical columns.
+For example, you want to find out the average age of those passengers who are male and were traveling in P class 1.
+So this work will be done by Pivot Table, you will not be able to do this work by cross tab.
+All the questions you are asking are on the next sessions.
+We will cover it slowly, today was the starting point.
+Today it was boring, sorry if it was boring then what to do.
+It is also possible that you will find the next classes boring because this is going to be pure Maths.
+I will try to connect it with what we are going to study.
+But it could be boring, statistics is not treated like an interesting subject especially the next topics.
+So that could be a scenario, be ready for that.
+Yes, I will explain p-value.
+It is used on statistical tests and how to apply them in machine learning.
+Yes, you will use Python this month.
+I was just showing you how to plot charts using Excel.
+If you have data in Google Sheet, just plot some charts and use it.
+Okay, so we will give a break.
+It is a two hour class.
+Okay, we can do it.
+Mihir, I guess there is some issue with the settings.
+Just Google it.
+You can tweak the settings and import it I guess.
+What happened guys, how was it?
+Did you not like the class?
+Was it boring? What was the scene?
+Did you feel dull after the class?
+Is it so?
+We could not do anything now.
+The first class was basic.
+Most of the things you might have studied in school.
+It was a revision kind of class.
+But don't worry.
+Going forward, in the next class,
+we will cover some advanced topics.
+Starting from the next class,
+we will learn about correlation, covariance,
+we will learn about the N-1 concept.
+It will be fun.
+I will try to connect you and show you.
+I brought this Titanic data because
+I wanted you to look at it from that direction.
+I got you to do Excel so that you get something new.
+Otherwise, I would have got you to do it from Python.
+It would have been boring.
+I will try to make it more interesting.
+If nothing else happens,
+I will dance in the middle and show you.
+Which book of statistics should I follow?
+Google it.
+The top books are the main books.
+I don't have any other book.
+Okay guys,
+tomorrow there is a paid session
+on SQL.
+See you tomorrow.
+Next free session
+will be on Monday.
+See you tomorrow.
+See you tomorrow.
+See you tomorrow.
+This PDF
+will be shared with you
+by tomorrow morning.
+I don't think we will be able to do any task.
+Most likely
+we will just create a quiz.
+We will make a quiz on whatever we have read.
+So that you can attempt the quiz
+and get a revision of the class.
+Okay.
+I will close the session.
+See you in the next class.
+Good night.

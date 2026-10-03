@@ -1,0 +1,3849 @@
+Hi guys, good evening
+Tell me if you can hear me
+Can you hear me?
+Okay
+So yeah guys, we'll start in 2 minutes
+Till then if you have any questions, you can ask
+Kaushik, please mail me
+This is my mail id
+Yeah, finally I had a haircut
+So yesterday I had a haircut
+And I had a hair cut
+When I was coming back, a dog bit me
+So that was funny
+So yesterday I was in a lot of pain
+So thanks to you guys
+You guys were insisting
+If you have any more questions, ask me
+What's your view on GPT-4?
+I haven't explored much so far
+Thought I'll sit here on Sunday and explore
+Sir, entry level says that 3 plus years is the minimum experience
+It's not like that
+I've seen certain job profiles where
+Freshers are hired
+Some people do that
+I consider 1 plus years as freshers only
+3 plus years is a bit more
+Sir, suggest a book for statistics
+Or a better way to enhance learning
+Especially stats
+There is a book called
+Practical statistics for data scientists
+That is a good starting point
+There is one more book called
+Think stats, you can use that too
+When will you apply statistical concept on real data?
+In every lecture
+In today's lecture as well
+So guys
+Let's start
+Today's class
+So today's class
+Will be a bit difficult
+Let me tell you
+You will have to be
+A bit more attentive
+And
+I guarantee that if you watch the whole lecture
+Then you will understand
+But
+It would be slightly difficult
+Last two classes were easy
+We were studying basic statistical measures
+Mean, median, mode
+Standard deviation, variance, etc
+You already knew that
+So it wouldn't have been that difficult
+Today we are going to study some concepts
+Which you might have read for the first time
+And we will practically implement it
+So today's lecture will be slightly difficult
+I told you this in the beginning
+So what I will do is
+First of all
+I will just
+Pop out this chat
+So that we can keep talking
+And after that
+I will open up
+This
+OneNote notebook
+Okay?
+So what is the plan?
+That today we are going to
+Read probability distributions
+Which is a very very important topic
+It is something
+Which lies on the boundary of
+Statistics and probability
+Means you should know
+Statistics and probability
+So I will try
+To explain it in basics
+Just understand that today's topic
+It is very very important
+Okay? Especially if you are going to
+Become a data analyst or data scientist
+Okay? So
+Let's start
+Let's start
+We have to study
+Probability distributions
+But to understand probability distributions
+You should know
+A small concept
+Which we call
+Random variables
+Now if you have studied
+Mathematics in high school
+Or you have studied in college
+The concept of statistics or probability
+There you must have heard about random variables
+I will repeat it once
+Okay?
+So variables
+For the first time we might have heard
+In algebra
+I had heard about variables for the first time
+In algebra
+So what used to happen there
+We used to have these types of equations
+X plus 5 equal to 10
+What is the value?
+So what you used to do?
+You used to do simplification
+And you used to get this
+That the value of X is 5
+So what was the basic concept
+In algebra variables
+That the variables of algebra
+Basically hold an unknown value
+But in statistics and probability
+There is another type of variable
+Which we call random variable
+Okay? And this random variable
+Is different from the variables of algebra
+Okay?
+So let's read the definition
+So a random variable is a set of
+Possible values from a random experiment
+It is a very simple definition
+A random variable is a set of
+Possible values from a random experiment
+Now first of all
+Let's see what is random experiment
+So random experiment is
+Basically any kind of experiment
+Whose outcome is random
+Okay? Like you are doing coin toss
+Now in coin toss
+Either head will come
+Or tail will come
+Assuming it is a random
+Assuming it is an unbiased coin
+Okay? If you are doing a dice roll
+So either 1 will come or 2 will come
+Or 3 will come or 4 will come
+Or 5 will come or 6 will come
+But whatever will come will come randomly
+Okay? So basically
+What you can do is
+Hold any of these experiments
+Let's say we are holding a coin toss experiment
+And we want to create
+Its random variable
+So its random variable will be
+Capital X equal to
+We are denoting the tail to be 1
+And tail to be 0
+We are denoting
+So basically the possible outcomes of this random variable
+That has 1
+And 0
+Okay? And this 1 and 0 will come randomly
+Means 1 can come and 0 can come
+Similarly if you take another
+Random experiment
+To roll a die
+So you can write its random
+Variable like this
+Capital Y equal to
+1, 2, 3, 4
+5 and 6
+So here X
+Can take the value of 1
+Can take the value of 0
+And here Y
+Can take the value of 1, 2, 3, 4, 5, 6
+And the main point is
+Randomly
+And that is why
+We call this random variable
+So the biggest difference between algebra variables
+And random variable is
+That random variable can hold multiple values
+And whatever value comes
+It comes randomly. Okay?
+So there is one more thing
+This is notation
+That you denote random variables
+With capital letters
+And you denote algebra variables
+With small letters
+This is to make a distinction
+That you will always denote your random variables
+With capital letters
+Okay? I hope you understood
+By the way all these possible outcomes
+In probability
+Are called sample space
+Okay? So sample space is basically
+All the values that
+A random variable can have
+Okay? So I guess you understood
+Now there are two types of random variables
+The first one is
+Discrete
+Random variable
+And the second one is
+Continuous
+Random variable
+Okay? So the examples
+That we saw
+Where we took the example of coin toss
+That the head is coming or the tail is coming
+Or we took this example
+That when we roll the die
+Something is coming out of 6
+These are actually examples of discrete random variables
+Because here
+The values that you have are discrete values
+When you roll the die
+1.5 can never come
+1.6 can never come
+Either 1 will come or 2 will come
+Or 3 will come or 4 will come
+Or 5 will come or 6 will come
+So these are discrete random variables
+That hold discrete values
+On the other hand
+You have continuous random variables
+Where your random variable
+It can hold a range of values
+Okay?
+Let's take an example
+That I went to college
+I entered a classroom
+And I randomly picked up a child
+And asked what is your CGPA
+Now I know that CGPA
+Will be between 0 to 10
+But anything can happen between 0 to 10
+It could be 8.5
+It could be 8.52
+It could be 8.527
+It could be 6.532
+Right? So if you have any such experiment
+Where your outcome
+Can be anything from a range of values
+Then what do you call
+That kind of random variable
+Continuous random variable
+Okay?
+So these two types of random variables
+Exist in probability
+And reading these two
+Is very important
+In order to understand probability distributions
+Which is our next topic
+Okay? So let's move ahead
+And let's discuss
+That probability distributions
+What are they?
+Before that let me open the chat
+And just let me know
+If you have understood everything
+Just write clear and then we will move forward
+And we will understand what is probability distribution
+Okay?
+Let's move ahead
+Now
+From here our main topic of today's class starts
+We have to study probability distribution
+So let's first understand
+What is probability distribution
+Okay?
+So here a definition is written
+What is probability distribution?
+So a probability distribution
+Is a list of all the possible outcomes
+Of a random variable
+Along with
+Their corresponding
+Possible values
+Okay?
+What is probability distribution?
+Where you write all your possible outcomes
+And
+And write the probability associated with them
+Okay?
+Let me give you 2-3 examples
+Let's say we are conducting a random experiment
+Where we are tossing a coin
+Now in coin toss
+What are the possible outcomes?
+Either 1 will come or 0 will come
+1 means head
+0 means tail
+Okay?
+Now what is the probability of both the events?
+The probability of head is
+1 by 2
+And the probability of tail is also
+1 by 2
+So this table which you have formed
+This table is called
+This table is called
+Probability distribution
+Just like frequency distribution
+Okay?
+Now let's take one more example
+Suppose you have rolled a dice
+Now in rolling a dice
+What are the possibilities?
+These are the possibilities
+Either 1 will come
+Either 2 will come
+Either 3 will come
+Either 4 will come
+Either 5 or 6
+Okay?
+Either 5 or 6
+All of them are equi-probable
+So that is why
+Your frequency
+I am sorry, your probability distribution
+Will look like this
+Okay?
+So these are 2 cases where all of your
+Outcomes
+All have equal probability
+Let's take an example where probability varies
+Okay?
+So let's take one example
+Suppose we are rolling
+2 dice
+Okay?
+And we have to
+Take out the probability of
+The sum which will be formed
+By combining both of them
+Or take out the probability distribution
+So think about it
+If you are rolling 2 dice
+Then what are the possible numbers
+Which you can get after adding both
+What is the minimum in both?
+1 and 1
+So by combining both, the minimum value
+Will be 2
+Okay?
+3 can also be
+4 can also be
+5 can also be
+6 can also be
+7 can also be
+8 can also be
+9 can also be
+And 10, 11, 12
+12 will be the maximum
+Think about it
+The maximum sum that you can get
+Is 12
+Right?
+So you will make a table
+Basically you will make a grid
+So in your first die
+1 can come, 2 can come, 3 can come
+4 can come, 5 can come
+And 6 can come
+In the second one too
+1 can come, 2 can come, 3 can come
+4 can come, 5 can come
+And 6 can come
+I am quickly forming a table
+So that I can draw and show you
+Just give me
+10 seconds
+Okay?
+So this is the table
+Now see
+If 1 comes in both
+Then what will be the sum?
+2
+If 1 comes in this, 2 comes in this
+Then 3, 4, 5, 6, 7
+Right?
+These are the possibilities
+If 2 comes here and 1 comes here
+Then 3, 4, 5, 6, 7, 8
+4, 5, 6, 7, 8, 9
+5, 6, 7, 8, 9
+5, 6, 7, 8, 9
+5, 6, 7, 8
+5, 6, 7, 8, 9
+5, 6, 7, 8, 9
+5, 6, 7, 8, 9
+5, 6, 7, 8, 9, 10, 11
+And here will come
+7, 8, 9, 10, 11
+And 12
+Okay?
+Now we will write the probabilities
+What is the probability of 2?
+There are total 36 possibilities
+The sample space is 36
+Not the sample space
+Like total outcomes are 36
+Out of that how many times 2 is coming?
+So the probability of 2 is 1 by 36
+Okay?
+How many times is 3 coming?
+2 times
+So the probability of 3 is 2 by 36
+How many times is 4 coming?
+3 times
+How many times is 5 coming?
+4 times
+How many times is 6 coming?
+6 by 36
+How many times is 7 coming?
+5 by 36
+How many times is 8 coming?
+8 is coming again
+5 times
+Let's count
+1, 2, 3, 4, 5
+5 times
+1, 2, 3, 4, 5
+1, 2, 3, 4, 5
+1, 2, 3, 4, 5
+6 should come
+And how many times is 8 coming?
+5 by 36
+How many times is 9 coming?
+1, 2, 3, 4
+10
+3 by 36
+11
+2 by 36
+And how many times is 12 coming?
+1 by 36
+So whatever it is guys
+This is another event
+Where you were rolling 2 dice together
+This is its frequency
+Probability distribution table
+That how much is the probability of each outcome
+Okay?
+So here you can see that all the outcomes
+Their probability is not equal
+The highest probability is 7
+And the lowest probability is
+2 and 12
+So I guess you understood
+Okay?
+Now let's understand one thing
+That the distribution that we are making
+Which is basically creating a table
+Where we are writing all the possible outcomes on one side
+And on the other side
+We are writing its probability
+What is the problem in this?
+So the problem is
+In many scenarios
+The number of outcomes can be much larger
+And hence
+A table would be tedious to write down
+Right?
+So let's say
+1,2,3,4,5,6,7,8,9,10
+11,12 outcomes were there
+So we made them
+But what if the number of outcomes increases a lot
+For example
+Let's say you are rolling 10 dice together
+So now what will be your sample space?
+Minimum will be 10
+Maximum will be 60
+So all the values can occur from 10 to 60
+So then
+Making its distribution table
+Would be a little difficult
+Okay you can make this too
+Because the random variable that you have
+Is not discrete
+Let's say it is continuous
+Let's say in your class
+You are asking your child
+What are the marks
+So the marks can be anything from 0 to 10
+8.5,8.52,8.73
+Anything
+So do you really think
+That you will be able to make this distribution table
+After that?
+No
+So now what we have learnt
+Is that
+In one column
+You write all the possible outcomes
+In the other column
+You calculate the probability of that possible outcome
+Right
+But the problem with this approach is
+That if you have a very large
+Sample space
+Or let's say you are working with a
+Continuous random variable
+Where anything can occur from a range of values
+Then you won't be able to
+Make a table like this
+I guess you are able to understand
+Then what is the possibility
+What is the possibility
+What can you do
+To show the distribution of your data
+To show the distribution of your probability
+What can be done
+So here a solution is suggested
+That can we make a function
+So
+Basically the question is
+What if we use a mathematical function
+To model the relationship
+Between outcomes and probability
+Think about it
+What were we doing till now
+We were writing the name of the outcome
+That it is 1
+It is 2, it is 3, it is 4
+It is 5 or it is 6
+And on the other side we were writing
+What is the probability
+In probability it was 1 by 6
+1 by 6, 1 by 6, 1 by 6
+1 by 6 and 1 by 6
+Now for some time
+You assume this as x
+And this as y
+So don't you think
+Between these two
+You can create a mathematical relationship
+You can basically
+Create a function f which
+Which will model a relationship
+Between x and y
+And as soon as you get the equation
+As soon as you understand this function
+Then what is the benefit
+You can plug in any x
+Plug in any x
+And you will get the y value
+So the basic
+Is that rather than
+Creating this distribution table
+What we should focus upon is
+Let's create a mathematical
+Function in which our
+Outcome which we are calling x
+And its probability
+Which we are calling y
+Establish a mathematical relationship
+Between them
+Once we get this equation
+Then what is its benefit
+There are two benefits
+First is that I will put x in that equation
+Let's say I want to know
+What is the probability for 1.5
+So I will just put 1.5 here
+Since I have the equation
+It will calculate y for me
+This is the first benefit
+The second benefit is
+Since it is a mathematical equation
+I can actually
+Plot its graph
+And once I plot its graph
+I will be able to see
+What is the shape of the
+Probability distribution of this data
+Okay
+So this is what happens
+When you work in statistics
+With any random variable
+So instead of doing table plot
+What you want to do is
+You want to find a mathematical equation
+Between all the possible outcomes
+Which is your x and
+The y which is your probabilities
+And this function is called
+This function is called
+Probability
+Distribution function
+Which is the topic of our today's class
+The topic of our today's class
+Is probability distribution function
+What is it
+It is a mathematical relationship between
+All the possible outcomes
+Of a random variable
+With the possible probabilities
+Of the outcomes
+With the possible probabilities
+Of the outcomes
+Basically a mathematical relationship
+And we call it probability distribution function
+And we call it probability distribution function
+I hope you understood
+Now remember one thing
+Going forward you will see
+In many books and videos
+That probability distribution
+Which we were making table
+And probability distribution function
+Which we were making table
+And probability distribution is
+Both the same
+The probability distribution function
+Which you have a mathematical function
+Is used interchangeably
+And basically both of them
+Means your mathematical function
+But I deliberately created another distinction
+That distribution means table
+And function means proper function
+But in other books and other videos
+You may get that
+Both the same thing
+when both of them are being said, then the same thing is being said.
+So, let's discuss further that what are the types of probability distributions?
+When I am saying probability distributions, I actually mean PDF.
+What are the different types of probability distribution functions?
+So, there are two types. I guess you must have understood.
+Since we are working with two types of data, one of them is
+random discrete variable and one of them is
+continuous
+sorry, what did I write?
+Discrete random variable and continuous random variable.
+We have read these two data types. So, basically for both of them
+there is one type of PDF. If you talk about discrete
+random variable of PDF, then it looks like this.
+You can see it is not continuous because think about it. You don't have
+all the points on x-axis.
+So, for all the points which come in your sample space,
+you have probabilities for that.
+This graph is showing you this. This is not continuous. And why it is not continuous?
+Because we don't have those values in x in our sample space.
+Right. Now, if you plot your die roll graph,
+then obviously only one, two, three,
+four, five and six. For these six values,
+you will have values of y.
+You don't have any value of 1.5. So, whenever you plot
+discrete random variable of PDF, it looks like this.
+It is a discrete graph. Whereas,
+when you plot continuous graph, since it is a range
+of values, then that graph looks continuous like this.
+You can see. In between, you won't see any gaps.
+You will get a value of y for every point.
+Here, by going to any point of x,
+you can pick up its value of y.
+I hope you are able to understand. So, you understood the funda of PDF.
+Now, what happens is that, what does PDF represent?
+PDF represents the probability of a particular value
+in an experiment. Right.
+In nature, it is seen that when different types of random experiments
+were considered in different domains, in the domain of statistics,
+in the domain of maths, in the domain of science, in the domain of technology, medical, healthcare,
+I don't know, civil engineering, electrical engineering, when people started working
+in different domains, then they realized that some
+common types of PDFs are found in nature a lot.
+A lot. And you call them famous
+probability distributions. Right. So, I have made a chart here.
+This is like a chart of around 10-20
+different kinds of probability distributions which are found in nature a lot.
+Which means that whenever you
+plot a graph for your data, where on x-axis, you are keeping all your possible
+outcomes, on y-axis, you are keeping all your probabilities, there is a huge chance
+that the graph that comes out, the PDF that comes out,
+matches with any one of these. Right.
+You might have heard of some of these names. Like normal
+distribution. This is a very very famous distribution. We will cover this in detail
+later. But it is one of the most famous and
+most common probability distributions out there. Right.
+Then your uniform. This is also very famous. Beta.
+Bernoulli. Right. I am seeing something here.
+So, binomial. Wherever you are seeing a histogram like this,
+these are discrete ones. And wherever you are seeing a continuous one,
+these are continuous ones. I guess you are able to understand this. Right.
+Poisson. Chi-square. Exponential.
+Apart from this, I am saying a lot of the most common ones.
+Log normal. Pareto.
+Yeah. These are like super common.
+We are going to study a lot about them in the future lectures. But these are
+some such probability distributions which are like super common.
+So, there is a big chance that when you make a PDF on your data,
+then it matches with any one of these. Right. I hope
+you are able to understand this point. Now, I guess you must be having a question
+in your mind. Because it should be. That why are we giving
+so much importance to probability distributions. Because after all, what is it?
+After all, it is basically a graph between X
+which is your possible outcomes of a random variable
+and Y which is the probabilities that each outcome
+will have. So, why is it so important? Because this
+gives you two things. First, this graph gives you a
+little idea about the shape or distribution of your
+data. That how your data is spread. Which values are more and which are
+less. Like, I entered the class and I saw a graph like this.
+For example, like this. This is 0
+and this is 10. So, here I can see
+that around 0 to 6 and 5
+are the highest marks of children. So, I will immediately
+understand that there are some weak children in this class.
+Whereas, if I see a graph like this, where this is
+7, this is 10. And most of the children's marks are around 8.
+So, I will immediately understand that in this class, most of the children are really smart.
+Right. The same thing can be applied in different places. If you plot the data of
+salaries of a country and that data looks like this. A lot of
+people are earning a lot of money. So, you will understand that maybe this
+country is a developed nation. Whereas, if its graph is like this,
+then it will come to your mind that maybe this country has some poverty. Right.
+So, these distributions give you an idea about
+the shape of your data. About the distribution of your data.
+That where the data is lying. And that is a very very insightful thing to have.
+Whenever you are going to do some analysis, if you get this kind of
+picture about your data, then your mind opens up that
+you can do many things about it or figure it out. That is point number 1.
+Point number 2 is that if your distribution
+that you have plotted on your data, if it matches with some famous
+distribution, like on any of these, then what you can do is
+that you can automatically find out a lot more about your data.
+Now, suppose that your distribution matches with normal.
+It is possible. So, now whatever you know about
+normal distribution, you can automatically apply
+all of that on your data. Right. If your distribution is uniform,
+then whatever you know about uniform, you can apply
+that on your data. So, this is a very big benefit because
+these famous distributions, people have been studying about them for years.
+They know a lot about it. Take the example of normal distribution.
+How much do they know about it that
+people feel very comfortable when they find out that their data is normal distribution.
+Because you know everything about normal distribution. Its entire math
+is figured out. Right.
+So, these are the two benefits of plotting and creating probability distribution.
+That you get to know the shape of your data.
+And once you are similar to some famous probability distribution,
+then you can do a lot more things with your data. Right. I hope you
+understand. Here, I would like to discuss one last thing with you.
+About probability distribution function. About PDFs.
+In PDFs, there is one thing which we call parameter.
+If you pay attention, you will notice that there is something written
+next to every distribution. Mu, Sigma,
+L, H, A, B,
+Alpha, Beta, Lambda, K.
+So, basically what happens is that in every probability distribution,
+there are some parameters. Right. You can understand the parameters
+as tuning knobs. By changing them, your graph
+shape changes a little. Right. So, see what is written here.
+Parameters in probability distributions are numerical values
+that determine the shape, location and scale of the distribution.
+Right. By changing those values, your graph shape
+changes a little. Right. So, different probability distributions
+have different set of parameters that determine their shape and characteristics.
+And understanding these parameters is essential in
+statistical analysis and inference. So, going forward, when we will
+study different types of probability distributions, we will always focus on
+the parameters of those probability distributions.
+Right. I am saying this now because
+in today's class also, it will happen that I will work with parameters once or twice.
+Now, if you will not know what are the parameters,
+you will feel a little clueless. So, just understand that every probability
+distribution has got a tuning knob, which we call parameters.
+And for different distributions, that knob is different. Just like we will cover
+different probability distributions, we will discuss different parameters as well.
+Right. So, this was a brief discussion
+about probability distributions first of all and probability distribution
+functions. Right. So, let me know if you understood everything till here.
+And if you have any doubts, then you can ask.
+Let me know guys.
+Just write clear if you understood. If you have any doubts, then you can ask.
+I will just take a 30 seconds break and then we will proceed.
+Okay. Yes Rahul, for every graph, there is a mathematical function.
+If you are able to plot a graph, then what do you plot?
+You will be able to plot only if there is a mathematical equation. Right.
+Y is equal to f is basically a mathematical function.
+It could be anything. The value of f is x square plus 5.
+Right. So, basically what is the relationship between y and x?
+Y is equal to x square plus 5.
+It is simple. I have written fx to represent any function.
+Come on. Let us move ahead. Now, we will cover
+the probability distribution functions in more detail.
+Right. And from here, we are going to go deep in mathematics.
+So, be ready. Right. So, we have just discussed
+what is a pdf. So, a probability distribution
+function, pdf, is a mathematical function that describes the
+probability of obtaining different values of a random variable
+in a particular probability distribution. It is a simple thing.
+We have just read that pdf is a mathematical function
+between y and x, where
+x is all the possible outcomes of a random variable.
+1, 2, 3, 4, 5, 6. And y is their probabilities.
+We have just read this. Now, we will read that how many of the pdf's
+types are there.
+Right. How many types of pdf's are there.
+So, pdf has two types.
+One is
+probability
+mass function.
+And one is
+probability
+density function.
+Right.
+Now, what is confusing is that
+many times you will see that
+probability distribution function
+is called pdf.
+Right.
+Probability mass function is called
+pmf, which is fine.
+But then, probability density function
+is also called pdf
+because both have d.
+So, I personally prefer this that
+I call probability density function
+as pdf.
+And I don't call probability distribution function
+as pdf.
+I always try this out.
+So, for me,
+pdf means density function.
+Right.
+Probability distribution function
+is the umbrella term.
+And it contains two types of functions.
+One is mass function
+and one is density function.
+What is the difference between both?
+I will explain it to you quickly.
+So, if you are plotting
+probability distribution function
+of a discrete random variable.
+Listen.
+It is getting confusing.
+If you are plotting a discrete random variable
+like dice
+1,2,3,4,5,6.
+If you are plotting
+probability distribution function
+of a discrete random variable
+for this particular experiment
+then it will be called
+pmf.
+Probability mass function.
+And if you are plotting
+pdf of a continuous random variable
+as in probability distribution
+function
+then it will be called
+probability density function.
+For example,
+we are asking the marks of children
+and we are making a
+probability density function for that.
+So, that is known as
+pdf.
+I hope you are understanding.
+And then there is one more type of function
+which you can make using both of them.
+It is called cdf.
+And its full form is
+cumulative
+distribution
+function.
+Okay.
+So, I know that
+the khichdi is cooked.
+Let us summarize it once again.
+At the top, the main person
+is probability distribution function.
+It has
+team type functions.
+First is mass function.
+When is mass function?
+When you are working with discrete random variable.
+Second is
+density function.
+This is used when you are working with
+continuous random variable.
+And then with both of them
+you can make cdf.
+So, now going forward
+in today's class, we are going to do this.
+First, we will discuss
+about pmf, mass function.
+And then we will discuss
+about pdf, density function.
+And then, how to make
+cdf using both of them.
+So, first we will read
+how to make cdf using
+pmf.
+Then we will read
+how to make cdf using pdf.
+Okay. So, today's class is
+all about this. But,
+we are going to discuss
+deep mathematics. Okay.
+So, I hope you understood this categorization.
+Now, let's start our discussion
+around mass function.
+Probability mass function.
+Okay. So, look carefully.
+PMF stands for
+probability mass function.
+This is cleared. It is a mathematical
+function that describes the
+probability distribution of a discrete
+random variable. This is super important.
+Right. This discrete random
+variable works on a discrete random variable.
+Okay. The
+PMF of a discrete random variable
+assigns a probability to each
+possible value of
+the random variable.
+Right. The possibilities
+assigned by PMF must satisfy
+two conditions. This is very important.
+Whenever you assign a probability,
+there will be two
+conditions. First,
+the probability should
+be greater than or equal
+to zero. Right.
+It cannot be negative. It is very simple.
+If you are rolling the dice,
+one, two, three, four, five, and six
+can be the probability.
+So, the probability of all these
+can be either zero or greater than zero.
+It cannot be negative. This is point number one.
+And point number two is
+that the sum of all the probabilities
+would be equal to one.
+Meaning, when you add the
+probability of all these,
+then it should always be equal to
+one. You have to always remember
+these two points. Right.
+So, let me show you
+some examples again.
+These are the same examples, but this time
+we will write an equation. Right. So, suppose
+this is your experiment
+where you are rolling the dice.
+So, to roll the dice,
+you basically have one, two,
+three, four, five, and six.
+These are the six possibilities and
+the probability of each one is
+one by six because it is equi-probable.
+So, what you have to do is
+you have to make PMF.
+PMF means you have to
+write a mathematical equation
+in the form of y is equal to fx.
+So, think about it.
+For this event, for this experiment,
+what will be your equation?
+It is very simple. Your equation will be
+this. You will say
+y is equal to
+one by six
+if
+x belongs to
+one, two, three,
+four, five, and six.
+Zero
+otherwise.
+This is the equation.
+By looking at this equation,
+you can quickly understand
+how your probability
+distribution will be.
+Right. And since you have
+this graph,
+you can quickly plot
+this graph.
+Since you have this equation,
+you can quickly plot this graph.
+Let me quickly show it to you.
+I am going to work on graphs.
+So, just to show you.
+This is nothing special.
+The next one is interesting.
+I will do one thing. I will import pandas.
+And what I will do is
+I will just quickly
+do this experiment
+where we are
+rolling a dice.
+Let's say 10,000 times.
+So, we don't have anything like this.
+We can just use random.
+So, what we
+are doing is we are running a loop
+for i in the
+range of
+10,000. After 10,000,
+we are rolling the dice. And every time
+what we are doing is we are calling
+random.randint
+and randomly
+choosing a number
+between 1 and 6.
+Whatever number is coming,
+what we can do is we can store it
+in a list.
+So, I am writing
+l.append
+this.
+So, as soon as I will run this code,
+what will happen now is
+in l,
+I will have
+10,000 different values
+between 1 and 6.
+Let me show you the first 5 values.
+So, you can see that
+when we rolled the dice for the first time,
+we got 3. The second time, we got 2.
+Then, we got 1. Then, we got 4.
+Then, we got 5.
+By doing this, we rolled the dice
+10,000 times.
+Now, what we can do is
+we can easily plot a graph to see
+how our PMF looks like.
+Right. So, what we will do is
+we will
+simply do this.
+We will convert
+l
+into a series.
+This is the series.
+And I will put the value counts
+on it which will tell me
+how many times 1, 2 and 3 came.
+And this whole
+value, what I will do is
+I will
+divide by
+the total number of
+values that I have.
+And once I do this, now I have got
+probabilities for each
+of the
+outcomes. So, let's call it
+s. In fact,
+let's do one thing.
+Let's do sort index so that we can see
+1 first. Okay.
+So, you can see
+this is s. So, you will see
+that roughly
+1, 2, 3, 4, 5, 6
+the probability of all of them
+is more or less
+around 0.16 or 0.17.
+If you calculate,
+that is basically 1 by 6.
+If you do 1 by 6,
+you would find that
+it is the same probability around 0.16.
+Okay. Now, if you want,
+you can plot it.
+Kind equals
+bar.
+And you would see
+that this is the
+PMF of this random
+experiment. Where 1, 2,
+3, 4, 5, or 6
+the probability of all of them
+is roughly
+equal. Theoretically,
+it should be exactly equal. But since
+it is a random experiment,
+it is not completely equal.
+It is slightly above or below. Okay.
+By the way, you call this
+uniform probability distribution.
+Discrete uniform probability distribution.
+We will study about this in the next class.
+But you get the idea.
+Now, I will show you this case
+by making it a little interesting.
+What if we roll 2 dice together?
+Do you remember?
+Minimum will be 2.
+Sum will be maximum 12.
+So, what I will do is
+I am rolling 2 dice together.
+This is the second one.
+And it will also
+spit out the values
+between 1 and 6.
+So, we call its output
+as B.
+And what we are doing is
+after rolling both the dice,
+we are connecting A and B
+and storing them at one place.
+Right?
+And we are doing this 10,000 times.
+So, when we did this 10,000 times,
+we got 10,000
+data points.
+Now, these 10,000 data points
+will look something like this.
+When we did it for the first time,
+the sum was 7.
+The second time, 10. The third time, 2. Then 10. Then 6.
+But the sum will never cross 12
+or 2. It will stay between 2 and 12.
+Let's do the same thing now.
+I am running the same code.
+And after running the same code,
+now basically
+I got the probabilities.
+Like this.
+Let me show you.
+So, look at this.
+Probability of 2. Probability of 3.
+Probability of 4. Probability of 5.
+And last, probability of 12.
+I got the probabilities for all.
+And now I can do the same thing.
+I got the graph.
+And you can see, this is the PMF
+of our second event.
+Since here, all the probabilities
+were not the same.
+That's why I made a different type of graph.
+Okay? I guess you
+are getting it. So, in this way,
+what you can do is, you can conduct any random experiment.
+Then you can
+calculate the probability
+of every
+outcome.
+And after calculating the probability,
+you can easily
+plot it.
+What you could do here is,
+you could form an equation.
+For the second case, your equation would look like this.
+That
+the probability will be 1 by 36
+when x belongs to
+2 or 12.
+2 by 36
+when x belongs to
+3 or 11.
+In this way, you will write it differently.
+And in the end, 0 will come for otherwise.
+So, this is your PMF
+for this
+second case.
+Okay? So, that is how you construct
+PMF. Okay? Now,
+there can be a more complex type of event.
+There, you can use permutation combinations
+to make these
+equations. Okay?
+So, I will show you two such probability
+distributions which
+are discrete in nature.
+And what will we call their probability distribution?
+We will call it probability mass function.
+So, one of them is
+one of them is
+Bernoulli distribution.
+Let's copy.
+So, this is a very famous
+discrete probability distribution.
+We will discuss this in the next class.
+Its name is Bernoulli distribution.
+And it looks like this.
+This is the graph.
+And its PMF is this.
+What is PMF?
+Q is equal to 1 minus P
+if K is equal to 0.
+P is equal to
+P if K is equal to 1.
+And here, there are two parameters.
+In this particular distribution, there are two parameters.
+One is called P
+which lies between 0 and 1.
+And the second is Q which is 1 minus P.
+So, we will study about this.
+But I just wanted to show you that this is a very famous distribution.
+Okay?
+There is one more which we call binomial.
+This is actually related.
+It looks like this.
+So, this is
+binomial distribution.
+Now, you saw something like this.
+Here, you have
+the parameters which are N,
+P and Q.
+And this is your PMF.
+Through this equation,
+you find out
+that for any particular input
+or for any particular outcome,
+what will be its probability.
+Okay? I hope you are able to understand.
+So, we just did a small discussion
+around probability
+mass function. Let me summarize it.
+So, probability mass function
+is the probability
+distribution function of
+a discrete random variable.
+On the x-axis, you have all the possible outcomes.
+And on the y-axis, you calculate
+its probabilities.
+Right? And then you take out its mathematical equation.
+And the mathematical equation looks something like this.
+As you can see here.
+Okay? In our case,
+it was simpler. Okay?
+So, yeah. We just covered
+probability mass function.
+Let me know if you understood it.
+If you understood it,
+then write it clearly. Otherwise,
+you can tell
+what is the problem.
+Who did that division?
+This division
+was done
+by the total number of
+outcomes.
+What did I get by doing this?
+How many times did 1 come? How many times did 2 come?
+How many times did 3 come? How many times did 4 come?
+Right? So, when I put the sum
+on the value counts,
+the sum is 10,000. I divided it by 10,000
+because how many cases do we have in total?
+10,000 times
+you did die roll.
+Yes, Aditya, it will happen. But not today.
+Today, we are just taking an idea
+about what is PDF and PMF.
+We are taking its geometric intuition.
+Next class onwards,
+we will cover all the famous ones.
+So, there,
+I will show you what the equations are.
+It is just that we don't have
+its requirement today. Okay?
+Let's go.
+I guess,
+you understood till here.
+Let's move ahead.
+Now, we will discuss
+CDF.
+Okay? Till now, we have not taken out CDF.
+Let's take out CDF.
+So,
+you can take out
+CDF of PMF
+and also of PDF.
+But what we will do now is
+since we have just studied PMF,
+we will calculate CDF of PMF.
+Okay? We are going to
+calculate the cumulative distribution
+function of
+probability mass function.
+Okay? So,
+let's understand what CDF is.
+So, the cumulative
+distribution function describes
+the probability that
+a random variable x
+with a given probability distribution
+will be found at
+a value less than
+or equal to x. Okay?
+Now, if you didn't understand this mathematically,
+then let me explain
+what it means.
+It means very simply that
+this equation is also
+a function. CDF is also a function.
+So, basically, it will also be in the form of f of x.
+But what does it
+take out? For example,
+when you were taking out PMF,
+then in PMF also, you were taking out f of x.
+Right?
+But there, you were
+taking out f of x
+for some particular value.
+For example,
+in the example of die-roll, you could say
+what is the probability of x being 5?
+You will say 1 by 6.
+The probability of
+f of x being equal to 6
+is 1 by 6.
+Did you take this out in PMF?
+In CDF,
+what do you take out?
+In CDF, you take out this.
+You take out this.
+You never take out equal to 4.
+You take out x greater than equal to a particular value.
+So, this means
+that what is the probability
+of x being 4
+or more than 4?
+It is very simple.
+If you want to take out
+x greater than 4,
+then what is the probability
+of x being more than 4?
+So, basically,
+you will have to do
+f of x equal to 4
+plus f of x equal to 5
+plus f of x equal to 6.
+So, basically,
+you are doing 1 by 6 plus 1 by 6
+plus 1 by 6.
+Actually, I said greater than wrongly.
+It is not greater than.
+It is less than.
+x less than 4.
+So, what will you do?
+You will take out x for 4, x for 3, x for 2, x for 1
+and you will add them all.
+So, the basic idea is
+that when you are plotting a graph,
+now you have just plotted a graph
+and
+in the previous case,
+all the probabilities were equal.
+Right.
+This was our graph
+of PMF.
+Here, what is on y-axis?
+Probability. And what is on x-axis?
+x.
+So, what is the probability of x being 2?
+1 by 6.
+Right.
+How is CDF different?
+What do you do in CDF?
+If you are asking
+what is y at this point?
+So, the y at this point
+is telling
+what is the probability
+of being less than 4?
+What is the probability of being less than 4?
+This is very important.
+When you are talking about PMF,
+when you are selecting 4 in x-axis,
+then what is y telling?
+The probability of being 4.
+Listen carefully.
+When you are talking about PMF,
+then when you are selecting 4 in x-axis,
+then what is y telling?
+The probability of being 4.
+But when you are talking about CDF
+and in CDF,
+you have kept x equal to 4,
+then what is y telling?
+The probability of being less than 4.
+If you have selected 5 in PMF,
+then what is x telling?
+What is y telling?
+The probability of being 5.
+But what is CDF telling?
+CDF is telling you
+the probability of being less than 5.
+That is,
+1, 2, 3, 4, 5.
+And that is why
+it is called cumulative.
+You can think of it like this.
+You have the probability of 1,
+2, 3, 4, 5, 6.
+So, the probability of being less than 4
+is counted.
+And the probability of every one is 1 by 6.
+1 by 6.
+So, this is the PMF outcome.
+What will be the outcome of CDF?
+How much will be this outcome
+when it is less than 1 or 1?
+1 by 6.
+Less than 1 or 2?
+2 by 6.
+3 or 3?
+3 by 6.
+4 or 4?
+4 by 6.
+start from 0 or more than 0 and go to max. 1
+so this is the difference between CDF
+and PMF
+so basically the value S
+if I put on it
+np.
+cumulative sum
+I am importing numpy
+import numpy as np
+and if I put S
+ok
+see what I will get
+it starts from here and ends at 1
+and now what I am doing
+I am plotting a graph by going down
+I am writing
+as this.plot
+kind equals
+bar and you would see this graph
+will give you cumulative sum
+you can see
+side by side
+and see this
+here you can see immediately
+that 9
+as you select
+so what is its y-axis telling
+around 90%
+so basically
+the probability of being less than 9 is 90%
+if you choose 5
+so what is 5 telling around 0.3
+so what does it mean
+the probability of being less than 5 or 5 in data is 0.3
+ok whereas here when you choose 4
+so what is it telling exactly
+the probability of being 4
+but what is the graph below telling
+the probability of being less than x
+and that is the main difference between
+your pdf
+I am sorry
+PMF and CDF
+so the graph above
+is the graph of your probability of mass function
+and this graph
+is of your CDF
+ok so whenever you go for any distribution
+and see
+there you will get a query of PMF as well
+and CDF
+and you can plot both of them
+as we did
+in binomial you can see
+you will get PMF and CDF
+so whenever we will study any distribution
+in the next class
+we will see its pdf
+and CDF
+we will try to plot them
+so whatever it is we just discussed
+that CDF of a PMF
+how does it look
+and what is its interpretation
+I will summarize it once
+so CDF gives you the probability
+at a particular point
+x whereas CDF
+gives you the probability of
+all the points up to x
+it tells the probability of all the points
+till x
+so this is the main difference
+I guess you must have understood
+let me know in the chat
+hence the name cumulative distribution function
+because you calculate it
+by taking out the cumulative sum
+if you have any more questions
+you can ask me
+Sandeep has a very minute difference
+in probability and likelihood
+we will cover this topic
+when we will be studying
+logistic regression in machine learning
+we will cover that
+don't worry
+guys if you have understood
+then write clear
+and if you have any doubt
+then you can ask
+now we will study
+probability density function
+now we have studied mass function
+there is no term for CMF
+there is no terminology
+it would be more logical to say CMF
+or not actually
+you have to think
+but it doesn't exist
+ok
+now
+now
+let's discuss
+PDF
+probability density function
+this topic is going to be difficult
+probably today's class
+most difficult topic
+but trust me
+if you understand this well
+then you will be able to understand
+many things
+in statistics
+so just like
+PMF
+mass function
+density function is also
+a distribution function
+we know this
+it is written here
+PDF stands for probability density function
+it is a mathematical function
+that describes
+the probability distribution
+of a continuous random variable
+this is very important
+ok
+what is the difference with mass function
+there is only one difference
+here you are making an equation
+for continuous random variable
+whereas in mass function
+you make an equation for discrete random variable
+ok
+so
+there is some problem in this
+in the sense there are some
+complexities
+we will try to understand this
+so now on your screen
+I have kept a sample
+PDF
+this is a sample PDF
+ok
+it looks like this
+basically it is a continuous line
+I have filled the area below
+but you can ignore this
+this is basically this line
+this is the line which matters
+this line is continuous
+it is a continuous line
+I hope you are understanding this
+so here
+what is the first point of difference
+that
+in x-axis there is still x
+like if you
+enter a college
+and want to make the probability
+density function
+of all students
+then x is still marks
+ok
+marks can be anything
+suppose it starts from 0
+and ends at 10
+so this is 1 this is 2 this is 3
+there are different values
+the only difference this time is
+that there can be any value in the middle
+unlike discrete variable
+there can be any value in the middle
+because it is continuous
+the major point of difference is
+that your y-axis
+does not represent the probability
+like I told you
+that what happens in mass function
+that your
+what happens in mass function
+I have not given any example
+sorry
+in mass function
+this y-axis
+denotes the probability
+what we have made
+all of them
+all of them on x-axis
+on y-axis are probabilities
+this is also probability
+like this is a mass function
+this is a probability
+but in pdf
+this is not probability
+in fact
+the thing here is called
+probability density
+this is not probability
+this is probability density
+and that is why the name of this function is pdf
+very important
+point of distinction
+if someone asks you
+what is the difference between
+pdf and pmf
+the first difference you will say
+that pmf is on discrete
+pdf is on continuous
+that is the first point of difference
+but the educated person will say
+one more point of difference is
+the probability
+but in pdf
+the y-axis represents
+the probability density
+so our next 10 minutes
+will go on this
+what is the probability density
+and the bigger question is
+why there is no probability
+right
+if there was probability it would have been easy
+but there is no probability
+there is probability density
+so I have written 4-5 questions
+which I think will come to your mind
+so we will discuss these questions one by one
+and trust me
+after covering 5 questions
+a lot of picture will be clear
+about pdf
+so the first question
+which will come to your mind
+that why there is no probability
+on y-axis
+why there is probability density
+so first I will answer this question
+what if I tell you
+that probability
+cannot be on y-axis
+probability
+cannot be on y-axis
+in fact what if I tell you
+that if you pick any particular x
+like here all the children have marks
+suppose you picked a child
+his mark is
+his cgpa is
+7.91
+2
+I asked him till 3 decimal places
+so I said
+this is the mark
+I want to know
+what is the probability of this mark in the data
+now if you think carefully
+there are infinite values on x-axis
+between 0 and 10
+how many possible values are there
+infinite
+how much can it be
+so then think
+7.912
+exactly 7.912
+what will be the probability
+it is close to 0
+so
+this is the reason
+why we don't use
+probability on our y-axis
+think it is a very simple reason
+since we have infinite values on x-axis
+so
+what will be the probability of
+any particular x
+0 or very close to 0
+right I have data of 100 children
+so in those 100 children
+a particular person
+7.912 is coming
+what will be the probability
+of this in the data
+either 0 or very close to 0
+or suppose it comes
+but a lot of values
+suppose 7.912 belongs to someone
+so 7.912
+959
+then who will be the probability
+so obviously
+if you go to such a minute level
+you won't be able to see the people
+so what I am trying to tell
+because on the y-axis
+there is no probability
+because there can't be probability
+since you are dealing with infinite
+number of values
+you can' calculate the probability
+for each one of them
+if you will you will find out that at the particular value nobody is there
+and that probability will become zero.
+That is why you don't keep probability there.
+So what you do is,
+instead you keep a different kind of thing
+called probability density.
+So now you understand why probability is not possible.
+Now let's understand what is probability density
+and how it solves this problem.
+So the second question is this
+and this is a very interesting question
+and you will get a lot of perspective.
+What does the area of this graph represent?
+What does the whole area of this graph represent?
+It is good if you can think about it.
+If you can't think about it, I will help you.
+It represents that in your data,
+the marks of a child
+from 0 to 10
+what is the probability of that?
+Think about it.
+What does this area represent?
+That in your data,
+the marks of a particular child
+from 0 to 10
+what is the probability of that?
+I have 100 children.
+If I pick up any child,
+what is the probability of that child
+from 0 to 10?
+It is 1.
+Don't you think what this whole chart represents?
+All the probabilities lie between 0 to 10.
+So when you add up everything,
+that is this area.
+This area is actually giving me the entire probability
+of all the possible outcomes
+which is basically any value between 0 and 10.
+Right?
+So now I will tell you
+what does probability density signify?
+So what does probability density do?
+It calculates the probability
+between two values or between two numbers.
+Listen again if it is a little confusing.
+Probability density will give you this value
+that between two numbers
+what is the probability that your value will lie?
+For example, I asked this question
+that tell me
+what is the probability of
+marks coming between 8 and 9?
+So you can calculate this value
+through probability density.
+How?
+Suppose this is 8 and this is 9.
+So what you can do is
+you can cut out this area.
+Cut out this much area.
+Right?
+And then what you can do is
+you can calculate this area.
+What will this area tell?
+If this whole area
+was telling the probability between 0 and 10
+then what will this black area tell?
+It will tell the probability between 8 and 9.
+Now since the shape of this graph is changing
+you will have to apply integration here.
+And your integration will look something like this
+that you will integrate this function
+between 8 and 9.
+This is your PDF.
+You will integrate it.
+And when you will integrate this
+basically you are calculating the area.
+You are calculating this area.
+This area will give you the probability
+between 8 and 9.
+Now if I can take out 8 and 9
+then I can actually thin this rectangle
+and take out 8 and 8.1 as well.
+I can take out 8 and 8.01 as well.
+I can take out 8 and 8.001 as well.
+So for all practical purposes
+you can say that
+by looking here
+you are telling the probability roughly.
+Roughly.
+But actually what you are doing is
+you are using the probability distribution
+in a very small area
+and by calculating the area through integration
+you are telling the probability.
+So in this curve
+y-axis is not the probability.
+Area under the graph is probability.
+And with the help of which you are calculating that?
+With the help of probability density.
+Okay.
+I hope you understood this point.
+That how do you calculate probability
+with the help of probability density.
+You basically calculate the area inside the graph.
+Okay.
+So we have answered the third question also.
+How to calculate probability
+with the help of probability density.
+Okay.
+I hope you have understood this point.
+Listen again.
+We are summarizing.
+In pdf,
+in probability density function
+there is no probability on y-axis.
+There is a very simple reason for that.
+Since the values of x are infinite
+you cannot have a probability value
+for each of the values.
+Because mostly that would be 0.
+So the solution is that
+instead of probability
+you have put the probability density on y-axis.
+And by putting the probability density
+now your area of the graph
+is telling the probability.
+Which means
+that now you can cut any two points on x-axis.
+And in that range
+you can calculate the probability.
+Now if you keep reducing that range
+then in a way
+you can ask about a particular point.
+Like if I want to know about 8
+then I will calculate between 8 and 8.0001.
+So roughly you can say
+for all practical purposes
+this thing
+this y-axis can be considered as a probability
+but technically, mathematically it is not.
+Okay.
+So I hope you have understood this point.
+I am opening the chat.
+Let me know if you have understood.
+And if you have any doubt then you can ask.
+If you have understood then write clearly.
+Yes Sandeep.
+That is what I have been saying since then.
+For discrete values there is PMF.
+For continuous values there is PDF.
+Guys let me know.
+I don't know.
+It can be a little difficult to consume this.
+At least tell me
+whether you have understood or not.
+Try to implement it.
+You will understand.
+What is 0?
+What are you saying about 0?
+Okay.
+Don't worry.
+Let's do it practically now.
+Okay.
+Let's do it practically now.
+Before that I will show you some famous PDFs
+which you will see mostly in nature.
+So the most common one
+you might have heard its name.
+That is your normal distribution.
+Which is the most common.
+Like a lot of data which is in nature
+follows normal distribution.
+This is the graph.
+In fact the graph which we have shown you here
+is also of normal distribution.
+So here you can see its parameters are
+mu which is called mean or location.
+And sigma square which you call variance
+or you call scale.
+Okay.
+See this is PDF of normal distribution.
+So this is the equation of PDF.
+1 sigma root over of 2 pi e minus half
+x minus mu divided by sigma square.
+Okay.
+This is its CDF.
+We will talk about CDF later.
+But this is its PDF.
+Okay.
+There are some more famous ones.
+Like one of them is log normal.
+We will read this too.
+So log normal looks like this.
+This is log normal.
+Okay.
+It looks a bit skewed.
+It looks like normal but it is a bit skewed.
+And its parameters are same again.
+mu and sigma.
+And this is its PDF.
+Which you can see on your screen.
+Okay.
+One more is Poisson or Poisson whatever you call it.
+But this is also a famous one.
+We will also study about this.
+So this is Poisson.
+And its parameters are lambda.
+And this is its PMF.
+Okay.
+So these are all.
+All of these three they are PDFs.
+Continuous random variable distribution function.
+Okay.
+We will study all of these.
+Now.
+Main question.
+The main question is.
+How this graph is made?
+Right.
+How this probability density is calculated?
+We have to discuss this.
+Okay.
+PMF was very simple.
+What were we doing in PMF?
+We were simply calculating all the probabilities.
+Right.
+We wrote a simple code.
+And all the probabilities were calculated.
+For 2, 3, 4, 12.
+For 12, for 12.
+And this graph got plotted.
+Because what are we doing in Y axis?
+We are adding probability.
+But.
+It is very difficult to calculate PDF.
+Because.
+In PDF.
+The quantity in Y axis is not probability.
+That probability is density.
+Okay.
+So now we are going to learn.
+That this graph.
+PDF.
+How is it made?
+Okay.
+So how is it made?
+I will tell you its answer now.
+So.
+There is a thing called.
+Density Estimate.
+Or Density Estimation.
+So.
+From a given data.
+To make PDF.
+You have to do Density Estimation.
+Okay.
+What is Density Estimation?
+This is a little difficult thing.
+We will read it well once.
+This is going to be the most difficult topic of today's class.
+Okay.
+So.
+Focus once.
+See.
+There are some things written here.
+From which you will understand a little.
+Rest.
+I will show you by coding.
+So.
+Density Estimation is a statistical technique.
+Used to estimate the probability density function.
+To make PDF.
+You use it.
+Of a random variable based on a set of observations or data.
+In simpler terms.
+It involves estimating the underlying distribution of a set of data points.
+Okay.
+Same thing.
+From here the main thing starts.
+That Density Estimation can be used.
+For a variety of purposes.
+Such as.
+Hypothesis testing.
+Data analysis.
+And data visualization.
+By the way.
+We are talking about data visualization.
+Because we have to plot a graph.
+It is particularly useful in areas.
+Such as machine learning.
+Where it is often used.
+To estimate the probability distribution of input data.
+Or to model the likelihood of certain events or outcomes.
+Okay.
+So.
+What are the techniques of Density Estimation?
+We will see both today.
+So.
+The first technique is called Parametric Density Estimation.
+And the second one is called Non-Parametric Density Estimation.
+Okay.
+See.
+It is written here.
+There are various methods for Density Estimation.
+Including Parametric and Non-Parametric approaches.
+Parametric methods assume that the data follows a specific probability distribution.
+Such as the normal distribution.
+While non-parametric distribution or non-parametric methods.
+Do not make any assumptions about the distribution.
+And instead estimate it directly from data.
+So.
+I will teach you both one by one.
+But understand one thing.
+What happens in Parametric Density Estimation?
+That the data you have.
+You assume from the beginning.
+That it looks like a particular type of distribution.
+Let's say.
+Like a uniform.
+Or like a normal.
+Or like a log normal.
+It looks like any one.
+And then you work accordingly.
+And the second thing is.
+That you do not take any assumption.
+You say.
+I do not know how is my data.
+But I still have to calculate PDF.
+Okay.
+So these are two different techniques.
+Commonly used techniques for Density Estimation includes.
+Kernel Density Estimation.
+Which is called KD.
+We will read it now.
+Histogram Estimation.
+Again a famous technique.
+And there is a very famous machine learning model.
+Which does the same work.
+Which we call Gaussian Mixture Model.
+We will read it further.
+Okay.
+The choice of method depends on the specific characteristics of data.
+And the intended use of Density Estimator.
+Simple summary is.
+That what we have to do is.
+That we have some data.
+And that data is a continuous random variable.
+And we have to make its PDF.
+But to make PDF.
+We have to calculate the Y-axis quantity.
+Which is.
+Density.
+Probability Density.
+We have to calculate that.
+But we do not know how to calculate that.
+It is not as direct as calculating the probability.
+Right.
+So here.
+What we have to do is.
+We have to use a technique called Density Estimation.
+In which there are two types of techniques.
+First.
+Parametric techniques.
+Second.
+Non-parametric techniques.
+Okay.
+In Parametric techniques.
+You take an assumption.
+That my data looks like this.
+And you predict accordingly.
+Second.
+Non-parametric techniques.
+Where you do not have any assumption.
+No matter how your data is.
+It does not matter.
+You still calculate the probability density.
+Okay.
+So now.
+The next 20-25 minutes would be about.
+Both of these techniques.
+First we will study the parametric technique.
+Then we will study the non-parametric technique.
+Where we will study KDE.
+Kernel Density Estimation.
+It is a very famous technique.
+You must have heard of it in many places.
+We will study that.
+Okay.
+So.
+Let's move on to.
+Parametric Density Estimation.
+Okay.
+Look carefully.
+Here I have written some definition.
+So that you can refer it in the future.
+But mostly it is a very practical thing.
+So we are going to do it through coding.
+So.
+Parametric Density Estimation.
+Is a method of estimating the probability density function.
+Of a random variable.
+By assuming.
+That the underlying value.
+Of a random variable.
+Is equal to the probability density function.
+So.
+Parametric Density Estimation.
+Is a method of estimating.
+The probability density function.
+Of a random variable.
+By assuming.
+That the underlying value.
+Of a random variable.
+Is equal to the probability density function.
+So.
+We are assuming.
+That the underlying distribution.
+Belongs to a specific parametric family.
+Of probability distribution.
+Such as Normal.
+Exponential.
+Or Poisson.
+Distribution.
+So.
+Basically.
+What happens here.
+That you have a data.
+Okay.
+What you do is.
+That you.
+Consider any data.
+You have.
+Consider that.
+Every student of your college.
+Has a data of CGPA.
+Of 1000 students.
+Right.
+What you have to do is.
+You have to make a PDF.
+Right.
+A PDF.
+Right.
+How will you make a PDF.
+Until.
+You don't know.
+The probability density.
+So.
+What you do is.
+You first.
+Take an assumption.
+That.
+What is.
+The shape.
+Of your data.
+Okay.
+It could be anything.
+But.
+How will you know.
+That.
+You have taken.
+The marks.
+Of all the students.
+Let's say.
+26.
+It can't be 26.
+Sorry.
+4.3.
+9.1.
+6.5.
+In this way.
+You have the marks.
+Of 1000 students.
+So.
+What you have to do is.
+You will plot a histogram.
+You will plot a histogram.
+You made a histogram.
+And.
+As you made a histogram.
+By looking at the histogram.
+You understood.
+A little.
+That.
+The distribution.
+Of my data.
+Seems like.
+A.
+Normal.
+Distribution.
+It looks like a normal curve.
+I am not sure.
+But.
+Seems like.
+Normal distribution.
+So.
+Once you are sure.
+That.
+Your.
+Data.
+Is.
+Like.
+Some.
+Other.
+Distribution.
+Now.
+What you will do.
+You.
+Will.
+Work.
+According.
+To.
+That.
+Distribution.
+So.
+Since.
+This.
+Is.
+A.
+Normal.
+Distribution.
+Type.
+Graph.
+Now.
+You.
+Will.
+Work.
+According.
+To.
+Normal.
+Distribution.
+This.
+Is.
+A.
+Normal.
+Distribution.
+So.
+What.
+You.
+Will.
+Do.
+Is.
+A.
+Normal.
+Distribution.
+So.
+What.
+You.
+Will.
+Do.
+Is.
+A.
+Normal.
+Distribution.
+So.
+You.
+Will.
+Work.
+According.
+To.
+This.
+Graph.
+Now.
+What.
+You.
+Can.
+Do.
+Is.
+You.
+Can.
+Use.
+This.
+Pdf.
+Equation.
+To.
+Actually.
+Calculate.
+Value.
+Or.
+Probability.
+For.
+Each.
+Of.
+These.
+Values.
+What.
+Is.
+The.
+Probability.
+Of.
+These.
+Marks.
+And.
+For.
+Every.
+Mark.
+You.
+Will.
+Get.
+A.
+Probability.
+Value.
+You.
+Will.
+Get.
+A.
+Probability.
+Density.
+Value.
+And.
+Then.
+You.
+Will.
+Plot.
+Now.
+If.
+You.
+Don't.
+Understand.
+This.
+Data.
+Distribution.
+So.
+In.
+A.
+Way.
+I.
+Know.
+Already.
+That.
+My.
+Data.
+Distribution.
+Is.
+Normal.
+Distribution.
+Okay.
+So.
+I.
+Used.
+Numpy.
+Normal.
+Function.
+And.
+1000.
+Data.
+Points.
+Generated.
+then it will not be 50 because we have samples we don't have the entire population so this is my
+data by the way so if I can show you this is my data there are thousand samples okay now what we
+have to do is that we have to put it in histogram this is the data by the way since it is a
+continuous data if you take out its mean so you would find out that it would not be close to it
+would be close to 50 but it would not be exactly 50 you can see 49.88 because this is sample mean
+okay same goes for standard deviation it would not be close to 5 it would be close to 5 it would
+not be exactly equal to 5 because sample is a little less or more now what we will do we
+don't know what is the distribution we have just got the data so what we will do we will plot a
+histogram which will give us an idea that is it normal or not
+the data is in uniform what kind of distribution is it so what I will do is I would write plt.hist
+and in this I will put my sample data let's take the value of bins which is 10 and you can see
+by looking at this histogram I am getting the understanding that the data that I have can be
+a little normal right so now what we will do that the data we have that is sample data that is
+We will use that to calculate the sample mean and sample standard deviation.
+I had calculated above. Sample mean is equal to sample.mean and sample standard deviation is equal to sample.std.
+We will calculate both these things.
+This will obviously not be exactly equal to 50 and 5 which is the main population parameters.
+But it would be close to that.
+But in an ideal scenario, you could have inferred or tried to go close.
+But for now, we have not studied all that.
+We are just calculating sample mean and sample standard deviation and we are happy with this.
+Now the main thing starts here.
+What we are doing is we are fitting the distribution with the above parameters.
+So basically what I am saying is that I am taking the equation of this normal distribution.
+And what I am putting in the parameter of mu?
+I am putting this sample mean in that.
+And I am putting standard deviation in this parameter of sigma.
+So now what unknown is left here?
+What is the only unknown left? This x.
+So now I will provide x.
+And what will this equation pdf do?
+It will start giving me the probability density.
+Now you are understanding.
+So this is what I have done.
+I have created a normal distribution with this sample mean and this sample standard deviation.
+I have made this.
+Now what am I doing?
+I am taking the minimum value of my data.
+The minimum value of my data is 33.48.
+And the maximum value is 68.57.
+Now what am I doing?
+In this range, in the range of min and max, I am generating 100 data points using np.linspace.
+And I am sending all these data points one by one in this function, in pdf.
+So basically for every x value, a probability density will be calculated.
+So you can see what I am doing here.
+I am doing this.
+So for every value in this value, I am running a loop.
+And for every value, in my normal distribution, there is a function called pdf.
+In that I am passing x.
+That x is going and sitting in this x.
+And then this pdf, as in y value is being calculated for every x.
+And I am storing it in probabilities.
+Actually it is not probabilities, it is probabilities densities.
+And I am running this.
+And now I have,
+For these 100 points, there is a probability density.
+Which means what I can do is, I can plot a graph.
+So you can see, now what I will do is, I will write plt.hist to plot the original histogram.
+Where I am passing my sample data.
+I am doing bins equal to 10.
+And density equals,
+Let me show you first.
+And here I am plotting plt.
+Where I am sending all my generated values on x axis.
+Plt. values.
+And I am sending it on y axis.
+All these probabilities that have been calculated.
+And as soon as I will run this.
+The graph will be a bit messed up.
+You can see the graph is messed up.
+The reason for that is that your scale is different.
+The scale of the histogram is different.
+And the scale of the graph below is different.
+So what I will do is,
+I will,
+True the density.
+This will equalize the scale of both.
+And you can see,
+Uh,
+Something is messed up.
+So far it is doing the right thing.
+Then why is it suddenly ending abruptly.
+Let's run the whole thing once again.
+Maybe something is messed up.
+So we run this.
+plt.hist
+This is our graph.
+Sample mean and sample standard deviation is calculated.
+Everything is fine.
+Here we have,
+Fit our normal distribution.
+Here we have,
+Max value,
+Can be increased if something is messed up.
+So,
+In the sample,
+Max value is,
+68 point something.
+Then we are calculating for everyone.
+Yeah.
+I don't know if something is messed up.
+But yeah.
+You can see in this whole range,
+Now we are able to,
+Get a,
+Probability distribution.
+Probability density function.
+We were able to make this.
+Although you could have done the same thing very easily.
+If you had,
+Used cbon.
+Import,
+Cbon,
+As sns.
+And you put sns.
+In distplot.
+Put samples.
+Not samples.
+It's a sample.
+Just one second.
+Put the sample.
+Even then,
+You would have seen the same thing.
+What you are seeing here.
+There is a little variation.
+And that is because our population,
+The estimates we took,
+Mean and standard deviation,
+They were not that close.
+Of the population parameter,
+Which was 50 and 5.
+We were not that close.
+Because of which,
+We are seeing this.
+Is it better or not?
+We cannot say.
+But yeah.
+We basically did the same thing.
+Okay.
+And,
+This whole technique,
+Is called parametric.
+Because,
+The graph that is being plotted,
+The graph that is being plotted,
+It depends on two things.
+It depends on two things.
+What is your mu?
+And what is your sigma?
+If you change it.
+Let's say,
+When you are making this graph.
+Here,
+If you make mean 60.
+And standard deviation,
+Let's say,
+Make it 12.
+Which is way off.
+It is very different.
+Okay.
+So what will happen?
+You would see,
+You will have a completely different kind of PDF.
+See this.
+It disappeared suddenly.
+Something else came suddenly.
+Because you have moved the parameters.
+So your parameter,
+It should be very close to,
+The population parameters.
+In our case,
+We were still a little close.
+It was 50.
+Population means,
+We had 49 point something.
+That is why,
+You still got the right data.
+Now,
+If you have very less data,
+Then,
+Your PDF will not be good.
+The more data you have,
+The better you will be able to estimate.
+Population parameters.
+The better your graph plot will be.
+Okay.
+So,
+Why is it called parametric?
+Because,
+The whole game is,
+To estimate the parameters.
+The closer you estimate the parameters,
+The better you will get the result.
+Otherwise,
+You will get,
+Bad results.
+As you can see here.
+Okay.
+So,
+Let me know,
+If you understood.
+This was the first technique.
+Let me know,
+If you understood.
+Tell me,
+Someone,
+Something,
+What happened?
+Does it look difficult?
+So,
+We have to study all that now.
+We have to study all that,
+Going forward.
+When we will study all this,
+Confidence interval,
+Etc.
+So,
+We will understand,
+How all this is done.
+Inferences.
+We have not done any inference.
+But,
+It would be 1,
+I guess.
+No,
+There is no deployment in Heroku.
+Let's go,
+Guys.
+So,
+We have started,
+Studying density estimation.
+And,
+What have we studied?
+We have done,
+The parametric one.
+So,
+In the parametric one,
+The simple thing is,
+That you have to,
+Take an assumption,
+From the beginning.
+That,
+How is the distribution of your data.
+It has to match,
+Some kind of distribution.
+Like in our case,
+It matched with normal.
+Sometimes,
+It has to match with uniform.
+Or,
+It has to match with log normal.
+It has to match,
+With someone or the other.
+If it matches,
+Then,
+You will be able to do it.
+But,
+What if,
+What if,
+You have some kind of data,
+Which does not match,
+With any type of distribution.
+This can also happen.
+In that case,
+You will not be able to apply,
+Parametric,
+Density estimation.
+And then,
+You will have to apply,
+The second technique.
+Which is called,
+Non-parametric.
+Okay.
+See,
+There is something written here.
+Let us read it once.
+So,
+Pay attention.
+Sometimes,
+The distribution is not clear.
+Or,
+It is not one of the famous distributions.
+It is possible.
+Normal did not come out.
+Beta did not come out.
+Binomial did not come out.
+Bernoulli.
+Nothing came out.
+It is of a completely different type.
+Our data is something different.
+Then,
+You cannot apply parametric.
+Because,
+That whole process,
+Will not work.
+So,
+In that scenario,
+Non-parametric,
+Density estimation,
+Is used.
+Non-parametric,
+Density estimation,
+What is it?
+It is a statistical technique,
+Used to estimate,
+The probability,
+Density function,
+Of a random variable,
+Without making any assumptions,
+About the underlying distribution.
+Here,
+We do not take any assumptions,
+That it is normal,
+Or not.
+We do not take any assumptions.
+Okay.
+It is also referred to as,
+Non-parametric,
+Density estimation,
+Because,
+It does not require,
+The use of,
+A predefined,
+Probability,
+Distribution function.
+Okay.
+Now,
+Let us see,
+What is non-parametric,
+Density estimation.
+What is it?
+It is the probability,
+Distribution function,
+As opposed to,
+Parametric methods,
+Such as,
+Gaussian distribution.
+Which we have just done.
+Okay.
+The non-parametric,
+Density estimation technique,
+Involves,
+Constructing an estimate,
+Of the probability,
+Density function,
+Using available data.
+Here,
+You do not go behind,
+Parameters.
+You do not go behind,
+Mu and Sigma.
+You use,
+Every data point.
+What have we done till now?
+We did not use,
+Our data points.
+We,
+What we did in the sample,
+Was,
+In our sample,
+We did not use this.
+We used,
+The mean of the sample.
+We used,
+The standard deviation of the sample.
+We used,
+Parameters.
+In non-parametric,
+You use,
+Points.
+Okay.
+This is typically done,
+By creating,
+A kernel density estimate.
+Which we will read,
+Next.
+Here,
+Learn one or two more things.
+That the biggest advantage,
+Is,
+Using a,
+Non-parametric,
+Density estimation,
+That it does not require,
+The assumption,
+Of a specific distribution.
+So,
+Basically,
+You can plot,
+Any type of data,
+As a PDF.
+This is the biggest advantage.
+Second,
+The disadvantage,
+With non-parametric is,
+That it is,
+Computationally,
+Intensive,
+And may require,
+More data,
+To achieve,
+Accurate estimates.
+It is,
+Computationally,
+Difficult.
+It will take,
+A lot of time.
+And,
+The results may not be,
+Right.
+If you do not have,
+A lot of data points.
+Okay.
+So,
+Here,
+The non-parametric,
+KDE,
+Which is,
+Full form.
+Kernel density estimation,
+Is very famous.
+It is asked a lot,
+In interviews.
+We will discuss,
+KDE.
+Okay.
+So,
+Let's discuss,
+KDE.
+How KDE,
+Calculates,
+Probability,
+Density.
+Okay.
+Watch carefully.
+So,
+The KDE technique,
+Involves,
+Using a,
+Kernel function,
+To smooth out,
+The data,
+And create,
+A continuous estimate,
+Of the underlying,
+Density function.
+Okay.
+You will not understand,
+With this.
+I will explain you,
+Simply.
+Watch carefully.
+Assume that,
+We have,
+Five data points.
+One,
+Two,
+Three,
+Four,
+Five,
+Six data points.
+We have got,
+Six data points.
+Okay.
+Six data points.
+And,
+Here is,
+Its histogram.
+If there are six,
+You can make,
+Its histogram.
+Since,
+These three were,
+Near,
+Here,
+In this range,
+There was nothing.
+So,
+Here,
+There is nothing.
+And,
+Here,
+There were two points.
+So,
+It looks like this.
+The shape of the histogram,
+Is understood.
+Now,
+After seeing this,
+It is understood that,
+This is a,
+Bi-modal distribution.
+Something like this.
+Right.
+So,
+It is not matching,
+With any normal,
+Or any other,
+Famous distribution.
+So,
+Here,
+You will apply,
+KDE.
+This is basically,
+A probability distribution.
+You can take,
+Any one.
+But,
+Generally,
+What is taken is,
+Gaussian.
+Gaussian means,
+Normal distribution.
+This one.
+Okay.
+There are many more.
+I will show you.
+That,
+You can take,
+More kernels from,
+Corn God.
+But,
+Gaussian,
+Is the most used,
+Kernel.
+Now,
+Look carefully,
+What you do.
+What you do is,
+You hold,
+Every data point.
+And,
+You make,
+A normal distribution.
+So,
+Basically,
+You understand,
+That,
+You,
+What is the mean,
+Of this normal distribution.
+This data point.
+Then,
+What you do is,
+You,
+Hold,
+Your next data point.
+And,
+You make it,
+Mean.
+Make it center.
+And,
+You plot,
+Another Gaussian distribution.
+Or,
+Gaussian kernel.
+Then,
+You hold the third one.
+And,
+For that,
+You make it center.
+And,
+You make it,
+Mean.
+And,
+You make another,
+Gaussian kernel.
+Then,
+For,
+The next one.
+Then,
+For,
+The next one.
+And,
+For,
+The next one.
+So,
+Basically,
+All the points,
+In your data,
+Every point,
+By,
+Making it,
+Center.
+As in,
+Making it,
+Mean.
+You,
+Create,
+Those,
+Gaussian kernels.
+And,
+For,
+Every point,
+What you do is,
+That,
+You,
+Move in,
+Y direction.
+And,
+All the,
+Perpendicular,
+Move,
+Above,
+That point,
+All the,
+Gaussian,
+Curves,
+You can see,
+One,
+This,
+And,
+This.
+There are,
+Two,
+On this point.
+Now,
+Both of them,
+Have,
+Their own,
+Density.
+What you will do is,
+You will,
+Add,
+These,
+Densities.
+And,
+That,
+Will,
+Be,
+Your,
+Density.
+Okay.
+Then,
+You,
+Are,
+Holding,
+The,
+Next,
+Point,
+There are,
+Three,
+Curves,
+On it.
+You,
+Are,
+Holding,
+The,
+Y,
+Of,
+These,
+Four,
+Y,
+And,
+You,
+Are,
+Getting,
+Your,
+Overall,
+Y.
+And,
+This,
+Is,
+Your,
+Overall,
+Y.
+And,
+This,
+Way,
+You,
+Calculate,
+The,
+Density,
+For,
+Every,
+Point.
+And,
+Eventually,
+If,
+You,
+Use,
+Normal,
+Distribution,
+Or,
+Gaussian,
+Distribution,
+Then,
+There,
+Are,
+Two,
+Important,
+Parameters.
+First,
+Is,
+Mu.
+Which,
+Is,
+Mean.
+And,
+Second,
+Is,
+Your,
+Standard,
+Deviation.
+So,
+When,
+I,
+Distribute,
+How,
+Thick,
+Or,
+Thin,
+This,
+Depends,
+On,
+Standard,
+Deviation.
+So,
+You,
+Always,
+Have,
+To,
+Provide,
+A,
+Standard,
+Deviation,
+For,
+All,
+Kernels.
+What,
+Is,
+Mean,
+Every,
+Point,
+Standard,
+Deviation,
+Is,
+Very,
+Important.
+Now,
+What,
+Happens,
+If,
+You,
+Decrease,
+The,
+Bandwidth,
+A,
+Lot,
+So,
+Since,
+You,
+Decreased,
+The,
+Standard,
+Deviation,
+So,
+What,
+Will,
+Happen,
+That,
+This,
+Was,
+Your,
+Normal,
+Distribution,
+Now, When,
+It,
+Will,
+Be,
+Higher,
+All,
+Points,
+Are,
+Higher,
+All,
+Mountains,
+Are,
+Higher,
+Then,
+When,
+You,
+Add,
+Their,
+Y's,
+Then,
+Basically,
+Your,
+Overall,
+Blue,
+Curve,
+Will,
+Have,
+Spikes,
+Right,
+Your,
+Graph,
+Will,
+Be,
+More,
+Smooth,
+So,
+The, Basic,
+Fundament,
+Is,
+That,
+What,
+You,
+Are,
+Doing,
+By,
+Grabbing,
+Your,
+Every,
+Point,
+A,
+Gaussian,
+Kernel,
+And,
+Then,
+All,
+The,
+Gaussian,
+Kernels,
+So, Your,
+Gaussian,
+Kernels,
+Will,
+Sit,
+Will,
+Spread,
+And,
+Because,
+Of That,
+Your,
+Overall,
+Graph,
+Will,
+Be,
+More,
+Smooth,
+And,
+If,
+You,
+Decrease,
+The,
+Peaked,
+Mountains,
+And,
+Their,
+Y,
+Will,
+Increase,
+The,
+Current,
+Density,
+Estimation,
+And,
+I,
+Will,
+Show,
+You,
+How,
+The,
+Kernel,
+Density,
+Estimation,
+Is,
+Calculated,
+So,
+This,
+Time,
+We,
+Are,
+Taking,
+A,
+Different,
+Kind,
+Of,
+Data,
+And,
+Different,
+You, Would, See,
+That,
+There,
+Are,
+Thousand,
+Points,
+Just,
+Wait,
+A,
+Little,
+Yeah,
+So,
+These,
+Are,
+Thousand,
+Points,
+Okay,
+Now,
+I,
+Plot,
+Histogram,
+To,
+Show,
+How,
+Our,
+Data,
+Distribution,
+Is,
+So,
+This,
+Particular,
+Distribution,
+Following,
+This,
+Is,
+Not,
+Normal,
+Distribution,
+This,
+Is,
+Not,
+Normal,
+Distribution,
+This,
+Is,
+Not,
+Normal,
+Distribution,
+This,
+Is,
+Not,
+Some,
+Other,
+Distribution,
+This,
+Is,
+Like,
+Our,
+Density,
+Is,
+A,
+Class,
+You,
+Have,
+To,
+Make,
+An,
+Object,
+Of,
+Kernel,
+Density,
+In,
+This,
+You,
+Have,
+To,
+Tell,
+Two,
+Things,
+First,
+You,
+Have,
+To,
+Keep,
+The,
+Bandwidth,
+Of,
+Exponential,
+Linear,
+Cosines,
+So,
+These,
+Are,
+The,
+Various,
+Gownls,
+That,
+Are,
+Available,
+But Trust,
+Me,
+Most,
+Times,
+You,
+Use,
+Goshine,
+And,
+egg,
+Mandalith,
+Also,
+You,
+Have,
+To,
+Convert Your,
+Data,
+model.fit to my sample
+ok, i am running it
+so model is fit
+model fit means it has basically calculated
+these y values
+it has made these kernels and by adding them
+it has calculated y values
+now what i am doing is
+i am generating 100 points from my minimum to maximum
+by using linspace
+i am converting these 100 points to 2d
+because my algorithm will always work in 2d
+now what i am doing is calling model.scoresamples
+and passing values in it
+for this new data i am calculating all the probabilities
+probabilities means these y values
+and now i have
+this is basically probability density
+now one additional step is
+whatever probability densities you get
+you have to calculate its exponential value
+why you have to do this?
+here it is written that score sample function
+which is basically calculating y values
+it returns the log density estimate of the input samples
+basically you have to understand that it is not giving the values it should give
+it is giving the log of that value
+so to normalize the log you have to calculate the exponents
+who cuts the log? exponents
+so to normalize the log i am calculating the exponents
+that is why to calculate the probabilities
+i have added np.exp
+and now when i have plotted the graph
+you can see
+again the same issue
+let me run the data
+just give me one second
+this is my data
+you don't have to plot it
+you understood
+i have fitted the model
+i have generated new data
+i have reshaped it
+and here i have calculated all the values
+and i have run it
+so you can see
+it is able to model
+that relationship
+now the interesting thing here is
+if i reduce the bandwidth
+let's say i reduce it to 0.5
+then all my kernels will become thin
+and because of that
+you would see
+that your
+pdf will be
+that will be
+peaked
+or irregular type
+like this
+and if you increase the bandwidth
+by 5 instead of 3
+then it will be more smooth
+the more you increase the bandwidth
+the smoother it will be
+you can see
+it is smoother now
+which is not good
+so basically you have to experiment
+what should be the right
+value for bandwidth
+what you could do
+is the same thing
+by the way
+you could do with cbon
+if you write this code
+let me show you
+sns.
+kdplot
+if you remember
+i taught you in data visualization
+kdplot
+so it will give you
+kdplot
+so
+let's
+reshape it
+to 2000
+because we are expecting one dimensional data
+we have made it two dimensional
+you can see
+and here you have the option of bandwidth
+let me show you
+it also has
+the option of bandwidth
+if you go to documentation
+here you would find out
+where is the option of bandwidth
+bwadjust
+here it is
+you copy it
+default value is 1
+if you
+let's say if you make it 5
+like us
+then it will be more smooth
+it has become more smooth
+i am not considering this
+ok let's reduce it
+3 obviously internally i guess
+it is using some other method
+3 is also more
+let's say 2
+hmmm
+it is using 2
+if you reduce it to 0.02
+then the peakedness will come
+you can see
+ok
+this method is more sensitive
+what we are doing is
+not that much sensitive
+but yeah you get the idea
+how kd is performed
+ok now we have just
+discussed
+how can you calculate
+probability densities
+from your
+x
+so we have covered both the techniques
+we have seen parametric and non parametric
+let me know if you understand
+yes in last class
+we didn't tell about sample variance
+we will tell in the interview session
+don't worry
+when we say distribution of a feature
+in data is it the probability
+distribution of that feature are they same
+yes you can say
+uh
+what is the benefit of doing this
+we are able to plot
+the pdf
+by which you can understand the shape of the data
+that's the main benefit
+let me know guys
+if you have any doubt
+will distribution be affected by outlier
+yes it will
+ok
+let's move forward
+and now we are
+discussing how can we
+plot cdf
+for pdf
+ok till now we have made cdf
+but for what
+for pmf
+ok
+now we will discuss
+how can we plot
+cdf
+as in cumulative distribution function
+for pdf
+ok so you can see
+this was our graph
+uh
+when we rolled one single dice
+this is its pmf
+and when we
+made cdf
+so it was looking like this
+ok
+same thing you can do
+if you are
+working on continuous random variable
+continuous random
+variable
+this is pdf
+where on x axis
+sorry on y axis you have
+probability density not probability
+this is like normal
+this is normal curve
+you can easily make
+cdf with this
+this is the cdf
+ok
+so when you have pdf
+you can easily make cdf
+ok
+now how to interpret cdf
+again it is very simple
+uh for example here
+roughly speaking
+i am doing one thing
+i am changing the colour
+roughly speaking
+if you are holding this point
+so in a way i said
+roughly you can say
+this is telling you
+probability density or probability
+that how much is the probability of 165 in data
+roughly you can say
+.04 it is not exactly
+probability it is probability density
+but you can say that
+here what is
+when you are holding
+165 and
+you are going on x axis
+sorry on y axis
+it is telling you probability
+ok
+always remember in cumulative
+this is your cumulative probability
+what does this mean
+that you are saying
+if x is 165 then
+what is y
+y is 0.5
+and what is 0.5 representing
+it is representing
+px less than
+165
+what is it
+representing here
+px exactly equal to 165
+means what is the probability of 165
+and
+what is it representing
+what is the probability of 165 or less than 165
+so you can see
+50%
+people are below 165
+ok
+if you pick any point here
+let's say 150
+so you can plot here
+and say that
+20% people height
+150 or 150
+below 150
+what is it saying here
+if you had taken 150 here
+then you would have calculated
+probability of being exactly 150
+or probability density
+what does cdf do
+cdf tells you the probability of
+everything happening
+till that point
+I hope you understood
+now if you pay more attention
+then you will understand
+one more beautiful thing
+that
+if you
+calculate the area of
+this particular graph
+then you get
+cdf
+and if you
+calculate the slope of cdf
+for every point
+then you get pdf
+this point
+if you are watching this video in future
+then pause and think
+how this graph was made
+from the area of this graph
+and
+you can make this graph
+through this graph
+how?
+here you calculate slopes
+and through that slope
+you can make pdf graph
+so in simple terms
+actually not simple terms
+when you
+perform integration
+on this graph
+those who have read calculus
+will understand more
+that when you are
+taking area of the curve
+you are able to find out
+the cumulative probability graph
+and when you are
+doing differentiation on this graph
+and taking the slope
+then you are able to find out this graph
+this is a beautiful relationship
+between pdf and cdf
+of
+continuous random variable
+that when you do
+pdf integration
+that gives you
+cdf
+think about it
+if you are taking this much area
+then basically what you are doing
+you are taking this probability
+and when you are taking
+slope here
+then basically at that particular point
+what will be your probability density
+you are taking this
+so this is a beautiful relationship
+that exists between these two functions
+that by doing pdf integration
+you get cdf
+and by doing cdf differentiation
+you get pdf
+since we have not read calculus
+that is why we are not
+exploring this relationship
+but if you read calculus in future
+if you know calculus
+if you pause this video and think
+you will be able to find out
+this relationship
+this is a very simple to see relationship
+so yeah guys
+this is what we had to read
+we have covered random variables
+probability distribution function
+we have read all three types
+now let's see
+the time is 10 o'clock
+so let's do one thing
+I had to teach two more things
+that practically speaking
+how do you use pdf and cdf
+in data analysis
+we have read everything about it mathematically
+let's apply it on some data set
+and then you had to
+teach one more thing
+till now whatever distribution plots
+we are reading
+they are all one dimensional distribution plots
+where we are talking about one single column
+just
+you are talking about data of college students
+or one dice output
+but if you want
+you can make 2D density plots
+that is also possible
+so let's do one thing
+since today is a little more
+I guess in one day
+we have read very complex things
+so we will cover these two topics
+in the next lecture
+where I will show you
+practically on some data set
+pdf and cdf
+how results are interpreted
+I will tell you
+and then we will discuss
+how 2D density plots are plotted
+how they are interpreted
+we will discuss that once
+so yeah that's all for today
+I am opening the chat
+let me know
+so Nikhil is asking
+why we are plotting probability distribution
+simply we can plot our data
+and can understand our data
+isn't it
+so I am assuming your question is
+what is the need to make pdf
+if we can plot histogram
+obviously you have data
+so you will plot histogram
+so the problem is this
+it is possible that you don't have sufficient data
+or you have
+such data which actually
+doesn't represent your population properly
+in that case
+what will happen is
+your histogram will not give you the true shape
+of your data
+true distribution of your data
+things will fail there
+so pdf helps you there
+gives you the correct
+distribution of your data
+I am assuming that the pdf you are calculating
+is being calculated correctly
+I hope you understood
+what will we study next week
+next week we will cover all distributions
+today we understood
+overall what are distributions
+now we will study specific distributions
+and study them
+like normal distribution
+we will understand in and out
+you got to know distribution
+how it is created
+now we will focus on normal distribution
+and will work on rest of your
+distributions
+ok
+no
+not long term results
+your
+your data is properly represented
+you have histogram or sample data
+what is the
+main purpose of statistics
+that the sample
+which you have
+you get inferences about population
+so you made the histogram of the data
+which you had
+now it can be anything
+so that is why
+histogram is not that reliable
+so if you can calculate pdf correctly
+if you can go close to population
+if you can go close to reality
+you will get better estimate of things
+so yeah
+this is today's class
+sir you look great with this new haircut
+yeah I said
+do as small as you can
+because now 4 months
+you won't get time
+so yeah
+simple instruction great execution
+sir please make a video
+on stock market using
+LSTM model
+yeah deep learning
+got stuck
+will bin size
+affect distribution
+like for small bin size and large bin size
+no that's the point
+your bin size
+in visualization
+can show you different things
+but when you are calculating pdf
+there is no role of bin size
+that is what I am saying
+histogram is not reliable
+but when you are computing pdf
+or you are reaching
+close to the population estimates
+then
+you have better representation of data
+so I will be there for 2 minutes
+if you have any other question you can ask
+what is QQ plot
+we will study in next class
+it is a statistical plot
+just normal distribution
+we will study in next class
+yes Biraj I will share
+the one note pdf
+don't worry
+you will check the description of this video
+by tomorrow or day after
+ok then I guess
+no more questions
+ok guys
+see you tomorrow
+we have a paid class
+on SQL
+tomorrow or day after
+then next week
+we will resume statistics
+ok then I will close the session
+bye

@@ -1,0 +1,211 @@
+So hi, now we are moving into the mathematics part of the course
+So we'll start with statistics, which is the first thing and then we'll gradually move on to the other parts
+Okay, so you must have heard people keep saying that machine learning is not magic
+It's mathematics because they want to convey this message that if you want to be a good machine learning engineer
+You should understand how the underlying mathematics works. Okay. So in this video what I'm going to do is
+I'm just going to give you a feel of how mathematics is used in machine learning
+Okay, but deep information is not going to be conveyed, but you will get a little idea. So majorly speaking
+There are four branches or parts of mathematics, which are heavily used in machine learning
+So the first one is I guess you must have heard about this
+linear algebra
+right
+specifically
+matrix and
+vectors
+second
+Calculus
+both single variable and
+Multivariable
+Third is stats as in statistics and
+the last one is probability or
+To be honest, sometimes it's only said along with statistics
+But I personally feel
+Probability has more of that
+So anyways, these are the four major branches of mathematics which are heavily used in machine learning. Okay
+Now I will give you a rough idea why all these are used
+So let's talk about Linear Algebra
+So Linear Algebra is very very important
+To be honest I think the most important role of Linear Algebra is in these four
+But it's not like that, other people also have a very important role
+But what exactly does Linear Algebra do?
+It helps you to represent your data through matrices and vectors
+Meaning if you have a tabular data like this
+You can actually represent this thing in a matrix
+If you have only one column
+You can actually represent that value using a vector
+If you have image data, let's say a colour photograph
+So what you do is, you make three matrices
+One is for red pixels, one is for blue pixels
+Green pixels
+If you have video related data
+You can store that too effectively using Linear Algebra
+And all our mathematical algorithms on machine learning
+They all work on these linear algebra based data structures
+And then it becomes very easy to do manipulations on this
+Multiply all the rows by 2
+Or apply some other transformation
+All these things are possible because
+The underlying concept of this entire theory
+Is Linear Algebra
+We will study this in more detail when we learn the concepts of Linear Algebra
+But for now just understand that
+If you have to represent data in machine learning
+You are going to use these concepts of Linear Algebra
+Now comes Calculus
+So Calculus basically means Integration and Differentiation
+The most difficult part to understand as a beginner is Calculus
+So I'll just give you a rough example
+Whenever you apply Machine Learning Algorithm
+You actually apply it to predict something
+You want to predict something
+Now prediction can't always be perfect
+Because if prediction starts getting 100% correct
+Then you will become God
+In machine learning you can never have 100% correct prediction
+In fact it is said that if you are getting 100% accuracy
+Go and check your output
+Because there is some error or some mistake is happening
+So mistakes happen in prediction
+And let's call it Error
+So what you want is
+To reduce this error
+And it can be said that
+You can optimize the performance of your algorithm
+And these optimization techniques mostly
+Concentrate on the domain of Calculus
+So when an algorithm is working
+You are fine tuning or optimizing its performance
+You do all that using Calculus
+Again when we will study we will go in detail about it
+Now comes the third part Probability
+Probability I guess you already know that
+You have a grey zone
+Grey zone in the sense
+I don't know you have
+In the range of 4 to 5
+I don't know let's say this is
+Some salary range
+You can say 4 to 5 lakhs
+In this range the chance of having men
+Is 60%
+The chance of having women
+Is 70%
+Something like this data
+So you will say that since I am not able to take one decision conclusively
+So what I will do is
+I will go with probability
+And I will say that okay
+There is a new point
+The probability of having women is more
+In comparison to men
+So what will you say in the end
+Okay this will be women
+Okay
+So this is the role play of probability
+When the end result is coming
+And there is a grey area
+What should be done
+You use these concepts
+Of probability
+Okay
+Now comes the final one
+Statistics
+Statistics to be honest
+Is used the most in all four
+The most used means
+That since you picked up the data
+And until you optimize it
+And use the result finally
+In this whole process
+Statistics comes a lot
+Statistics I guess you already know
+Statistics is this branch of mathematics
+Where you collect and analyze
+Huge amount of data
+So that you can give some conclusion
+On that data
+Right
+So statistics
+Is used a lot in machine learning
+I mean
+Till now as you might have noticed
+Whenever you used to get a data set
+I used to ask you a question
+You used to remove it
+And answer me
+But generally speaking
+This will not happen in future
+In future you will be given a data set
+And you will be asked
+To draw a conclusion
+It means
+That you have to answer
+Or you have to find such questions
+Which are logical
+Which are describing the data
+Which have some meaning
+Okay
+And you do all this
+With statistics
+Second
+The field of data analysis
+Which helps machine learning a lot
+As in helps
+This is completely relied on
+Statistics
+So that you can
+Find out
+What is the meaning
+Of the data
+What is the meaning
+Of the data
+What is the meaning
+Of the data
+What is the meaning
+Of the data
+What is the meaning
+Of the data
+What is the meaning
+Of the data
+What is the meaning
+Of the data
+What is the meaning
+Of the data
+So what does the data
+Everything affects
+On the statistics
+Think about it
+If you want to analyze
+The data
+So you are going to use
+Statistical techniques
+Meaning
+Think about it
+There can be many questions
+Like
+Is there any outlier in data
+Meaning
+All the data
+Is of one type
+And one data
+Is completely out of the box
+And other
+Noisy data
+So we will not take this
+Algorithm
+which algorithm to use, this also I am getting to know
+from statistics, one particular column with my output
+does it have any relation or not
+if not then why should I send it to algorithm
+if not then how will I get to know using statistics
+how will I get to know the relation of two columns
+so trust me I can give many examples
+like this but the best thing to do would be
+that we see that thing practically
+so I hope
+whatever I have said in this video is clear
+these are the four major branches of mathematics used heavily in machine learning
+and we are going to start with statistics
+and probability in the course
+and in the subsequent videos I will share the concept of statistics
+so thanks for watching

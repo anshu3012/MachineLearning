@@ -1,0 +1,471 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+So if you have 10-15 minutes, then I will request you to watch this video end to end.
+Because this video will cover a topic which can help you a lot.
+So you all know that if you want to become a data scientist or a data analyst,
+then you should have good knowledge of statistics.
+So that is why I have decided to share a statistics roadmap with you in this video.
+Which will teach you statistics at such a level in just 30 days,
+that you will not face any problem in future in data science or data analysis around statistics.
+I have made this whole roadmap with a lot of time and a lot of knowledge and experience in making this roadmap.
+And I can proudly say that it covers almost all the topics.
+That are required for statistics.
+And not only that, I have also shared some resources in this video.
+Which are my favorite to learn statistics.
+So I guess you are interested. Let's start the video.
+So yeah guys, let me show you the roadmap.
+This is the roadmap which is on your screen.
+I have made this whole roadmap on Google Sheets so that it can be shared easily.
+So before telling you the technicalities of the roadmap,
+I will tell you some good things.
+About this roadmap.
+So first of all, this whole roadmap which I have designed,
+the curriculum which I have designed for statistics,
+I have designed it with a lot of time.
+So I have been studying statistics for the last 5 years.
+Like multiple times I have studied statistics.
+But recently when I was studying my first data science mentorship batch,
+I spent a lot of time there on statistics.
+And after that I got a lot of knowledge about statistics.
+And with that whole thing, I have made this roadmap.
+So I can say with 100% confidence,
+that if you cover this whole roadmap end to end,
+then you will not be left with anything in statistics.
+Maybe some specialized topics will be left here and there.
+But the common topics which are asked in interviews,
+which you should have knowledge of,
+all those topics are covered here.
+Okay.
+Second good thing.
+Here I have not only written the topics,
+I have also provided a description,
+as you can see here.
+So what is in the description?
+I have tried to tell that particular topic,
+in machine learning, in data science, in data analysis,
+where it is used.
+So I personally feel that we should not just study,
+we should also know why we are studying.
+Right.
+So if you scroll this whole roadmap end to end,
+then you would find,
+for all the topics,
+I have already told you,
+that particular topic,
+in machine learning, in data science, in data analysis,
+where it will be used.
+So that you have a complete idea.
+Okay.
+Second good thing,
+I have encoded some topics here in color.
+So you can see that some topics are in yellow color,
+and some topics are in red color.
+And all other topics are in white background.
+So let me tell you once,
+here I have told you,
+that whatever yellow cells are here,
+I have marked them as important.
+Means these are like important topics,
+and you should definitely know this.
+And the red topics,
+they are like extremely important topics,
+and they are used everywhere.
+So you should definitely know this.
+Okay.
+And the other topics,
+they are normal topics,
+but still you should have knowledge about them.
+Along with that,
+I have done one more thing,
+if you will notice,
+then in front of some topics,
+I have put L in a bracket.
+So that L means later.
+What does it mean?
+That when you are reading this road map,
+then you can skip some of these topics,
+for later.
+These are the topics,
+which you should study,
+when you have their requirement.
+Like if you are reading an algorithm,
+and there is a requirement for that particular topic,
+then you can come back,
+and you can study the topic.
+But you can skip it for now.
+This is the option you have.
+If you are covering this whole road map in a short time,
+then you can skip these topics.
+But the topics,
+which don't have L in front of them,
+cover them now,
+cover them with a line,
+only then you will get more benefit.
+So I have done this little hard work,
+additional hard work,
+apart from giving you the topics.
+Now let's move to the road map.
+So road map is like any other statistic road map.
+It is just a little more detailed.
+So if you see,
+there is a module here,
+and there are topics in each module.
+So if I tell you about modules first,
+then generally,
+as it is generally,
+we have descriptive statistics,
+and we have inferential statistics.
+And both of these are very useful,
+you should know.
+So in descriptive statistics,
+we are covering all these basic topics,
+which help you a lot in data analysis and all.
+Population versus sample,
+types of data,
+measures of central tendency,
+dispersion,
+quantiles and percentiles,
+skewness,
+cytosis,
+and then univariate,
+bivariate,
+multivariate analysis.
+These are all the topics
+which come under descriptive.
+You can also say all these in descriptive,
+like this is the gray area,
+covariance, etc.
+And after that,
+the part of probability distribution has started,
+which is extremely important.
+The whole hypothesis testing depends on this.
+So what are random variables,
+what are probability distributions,
+what is PMF,
+what is PDF,
+what is CDF,
+what is kernel density estimation,
+how do 2D density plots look,
+after that,
+we are coming to types of probability distribution,
+and all the various types of distributions available,
+they are all listed here.
+Normal distribution,
+uniform,
+Bernoulli,
+binomial,
+log normal,
+etc.
+I have told you in detail about all these distributions.
+Okay.
+After that,
+we enter the main inferential statistics,
+where we are covering confidence interval,
+and along with that,
+we are covering central limit theorem.
+And then,
+we are covering the main hypothesis test.
+So,
+first,
+the entire introduction of hypothesis test,
+and then,
+the different types of hypothesis tests,
+which are the most important ones,
+there are a lot of them.
+So,
+I have down the list of all of them here,
+along with that,
+I have also told you,
+when and which hypothesis test you should use.
+Okay.
+After that,
+in the last,
+there are certain miscellaneous topics,
+which I thought,
+do not come in any particular module.
+So,
+I have written it separately,
+like,
+partnerships,
+inequality,
+QQ plot,
+sampling,
+resampling techniques,
+your statistical moments,
+and a little introduction of Bayesian statistics.
+Because,
+going very deep,
+like,
+it would be a separate thing.
+But,
+yeah,
+you should have some introduction,
+you should have an idea,
+around Bayesian statistics.
+Okay.
+So,
+this is the entire roadmap.
+If you ask me,
+it will take you one month to cover this roadmap.
+Assuming,
+you are spending 2-2.5 hours daily.
+Okay.
+So,
+roughly around,
+you need 60 hours
+to complete this roadmap,
+according to me.
+But,
+if you dedicate those 60 hours properly,
+I promise you,
+you will understand statistics at a very good level.
+Okay.
+So,
+this is what you have to study.
+Now,
+let's answer this question,
+how to study.
+So,
+I have made a resource list for you.
+And,
+you can follow this resource list,
+in order to complete this roadmap.
+Okay.
+So,
+I will give you an idea,
+how to study this course.
+So,
+I have categorized it very well.
+I have put my course,
+on statistics,
+I have put my notes,
+I have put YouTube playlists of others,
+I have provided books to you,
+I have put the name of the online courses,
+which I liked.
+I have put the name of some blogs,
+which are very good.
+And,
+at last,
+I have put some things for revision.
+So,
+you can see,
+I have put my course at the top,
+because,
+I feel that,
+this is my roadmap.
+So,
+if you will study through my course,
+then,
+you will understand.
+I think so.
+But,
+again,
+you can follow other resources also.
+So,
+you will get this playlist on my YouTube channel.
+The name of the playlist is,
+Maths for Machine Learning.
+Right now,
+there are 21 lectures in it.
+Lectures means,
+these are not small videos,
+they are lectures of 2-2 hours.
+But,
+do not be afraid of duration.
+It has been taught very well,
+in simple terms.
+If you complete one lecture,
+in one or two days,
+it would take around,
+30-35 days,
+to complete all of this.
+But,
+you do not have to cover everything.
+Here,
+there are only 10 lectures.
+So,
+if you complete one lecture in one or two days,
+then,
+there are 10 lectures,
+on statistics.
+The first 10 lectures,
+that you are seeing.
+If you cover these 10 lectures,
+then,
+you will cover around 90% of this roadmap.
+Okay.
+For the remaining 10%,
+you can use the remaining resources.
+Next resource is,
+my own statistics notes.
+So,
+this is a PDF of 150 pages,
+where I have made notes about statistics.
+These notes will also help you.
+And,
+for my video lectures,
+I have made a kind of backup.
+Okay.
+So,
+you can go through the notes as well.
+Apart from this,
+I have added two YouTube playlists here.
+So,
+one of them is,
+Statistics Fundamentals by StatQuest.
+I guess,
+you must know it.
+It is an awesome channel to learn statistics and machine learning.
+Second,
+IIT Madras,
+I guess,
+has a playlist,
+where,
+their lecturers have taught statistics in great detail.
+So,
+I liked this lecture as much as I saw it.
+So,
+you can watch it.
+If you talk about books,
+then,
+I have added 2-3 books here.
+So,
+the first book is,
+ISLR,
+Introduction to Statistical Learning.
+It is a very famous book.
+And,
+although,
+it does not have the topics of statistics specifically,
+but,
+you will get a lot of statistics related.
+Apart from this,
+there is one more book,
+Practical Statistics for Data Scientists.
+This is also a good book.
+I have read it a lot,
+and,
+you will get a lot of practical things in it,
+around statistics for data science.
+Okay.
+So,
+you can watch it once.
+And,
+there is one more book called,
+Think Starts.
+Okay.
+It is a small book of 150 pages.
+You can try it out.
+Here,
+I have added 3 courses of Udemy.
+These are paid courses.
+But,
+I had taken 2 courses from them.
+And,
+I liked the third one's review very much.
+So,
+you can go and watch it once.
+These are good courses.
+They are not very costly.
+If you think that,
+you want to learn through paid resources,
+then,
+these are the options.
+And,
+after that,
+here,
+I have added a link of 4-5 websites,
+who are teaching statistics on their website.
+One of them,
+this website is very famous.
+Maybe,
+you might have heard of it.
+Machine Learning Mastery.
+And,
+it has a lot of statistics related blogs.
+So,
+I follow this website a lot.
+It is a good website.
+You can follow it.
+Okay.
+And,
+lastly,
+I have provided some cheat sheets.
+That,
+let's say,
+you have completed your studies.
+So,
+you have,
+for revision,
+a little,
+something should be there.
+So,
+these are cheat sheets.
+I have added 3-4 cheat sheets.
+You can use them for revision.
+Okay.
+So,
+yeah.
+This is the roadmap.
+And,
+these are the resources.
+Both of these,
+you will get in the description of the video.
+And,
+I would like,
+first of all,
+if you think that,
+any topic is missing here,
+please,
+write it in the comments.
+I will update it immediately.
+And,
+if you think that,
+there are some resources,
+which I missed,
+then,
+you also write that in the comments.
+I will add it to this file immediately.
+The goal is very simple.
+That,
+in the future,
+whenever anyone watches this video,
+then,
+he will get a very organized form of content,
+to learn statistics.
+Because,
+statistics,
+are very important in today's day and age.
+If you are talking about data science,
+it is also used there.
+If you are talking about data analysis,
+it is also used there.
+So, that is why,
+it is extremely important for you,
+to learn statistics.
+So, please,
+let's create a very good resource,
+so that,
+whenever someone comes in the future,
+he will get a very powerful,
+resource of statistics.
+Okay?
+But,
+if you like the hard work,
+which I have done,
+then,
+please,
+like the video.
+And,
+if you have not subscribed to the channel,
+please, subscribe.
+We are going to hit the 100K mark.
+And,
+it's a big milestone for me.
+Help me a little,
+to reach there quickly.
+Okay?
+So,
+that's it from my side.
+See you in the next video.
+Bye.

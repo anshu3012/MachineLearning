@@ -1,0 +1,4345 @@
+hi guys good evening how are you let me know if you can hear me
+guys can you hear me ok so let me start for a while
+if you have any questions then you can ask me
+sir what projects will you do in ML
+I haven't decided it yet it's about 2-2.5 months
+whatever projects we will do we will do end to end
+end to end means from getting data to deploying and monitoring
+we will cover all this
+I haven't decided the topics yet
+if you have any interesting topics then you can mail me
+good evening sir I have a career gap from 2019
+tell me some good reason so that I can explain to the recruiter
+hmm what to tell about this
+generally I believe that I should speak the truth
+rest you tell me
+so that I can impress him in the interview
+so that he can take you in compulsion
+rest I don't know
+you can show me something here and there
+hi sir is it like gate level to enter ISI Kolkata
+I have never given exam but I have heard that it is difficult
+so connect with someone on LinkedIn
+who is in ISI or is a graduate
+so you will get to know better than that
+sir we will cover ML Ops
+yes we will cover ML Ops
+we will not cover topic by topic
+what we will do is that we will do 3 case studies
+we will do projects
+so in the process of deploying those projects
+we will use ML Ops concepts
+so we will cover docker etc
+sir I have done this month's payment in YouTube by mistake
+will it be considered as full fee
+yes yes
+you are paying on YouTube or website
+you are paying on website
+we will count it in the final amount
+if there is any other question then ask
+this is a little profile question
+I am not taking it now
+because
+we can take this in our paid session
+we will talk to you there
+now if there is any technical doubt
+the topic we are doing now
+if there is any doubt related to that
+then you can ask
+otherwise we can start the session
+ok then let's start the session
+sir what if we have missing values in data
+then how do we go about hypothesis testing
+we can do it after imputing
+we will read that
+when we will do machine learning
+we will work on missing value imputation
+I will tell you there
+ok guys let's start today's session
+so today is our session 2
+what is happening
+just one second
+session 2 on hypothesis testing
+ok
+the last session we read
+two days ago
+in that we read
+why hypothesis testing is needed
+what exactly is hypothesis testing
+then we read
+null and alternative hypothesis
+then we learned to conduct z test
+where we did step by step hypothesis testing
+after that we read some more concepts
+like one tailed vs two tailed test
+then we read type 1 vs type 2 errors
+and we read one more concept
+called significance level
+which we call alpha
+we covered so many topics in last class
+so that was like an introduction to
+hypothesis testing
+along with that we also read
+where hypothesis testing is used
+where it is used in machine learning
+so this is the summary of last class
+now I will tell you what is the topic of today's class
+so in today's class
+we will cover two topics
+in session 2
+we will cover two topics
+first a very important topic
+called p-values
+so if you remember
+I taught you to do hypothesis testing in last class
+but the approach that we did in last class
+is called rejection region approach
+but today we will use a second approach
+which is called p-value approach
+and today we will learn to conduct
+another type of statistical test
+which is called t-test
+you have already read this in confidence interval
+this test is on t-distribution
+so there are three tests in this
+we will read all three
+and in last class
+I will show you
+hypothesis testing on a real world data set
+so you will get more clarification
+that when and in what type of scenarios
+you can do hypothesis testing
+so that's the plan for today's session
+ok
+so let me know
+if you have any doubt related to this
+if you don't have any doubt
+then just write clear
+we will start our today's session
+come on
+let's start guys
+so first
+let's cover p-values
+ok
+before teaching you about p-values
+I want to tell you one thing
+that
+not only conceptually
+it is a very important topic
+you should know about this
+if you are working in statistics
+or inferential statistics
+but at the same time
+this topic is extremely important
+if you are
+let's say considering interviews
+in interviews somehow I have seen
+interviewers
+one of the favorite topics is
+if you are asked a question on statistics
+then there is a high probability
+that you will be asked a question
+on p-values
+so from both the point of view
+this topic is extremely important
+the good part is
+if you have studied last class properly
+then you won't have much problem in understanding
+ok
+it's actually very simple
+it's a simple thing
+ok
+so first I will give you a formal definition
+then I will try to explain you through an example
+what is p-value?
+and then we will do one or two more numerical examples
+so basically in 20 minutes
+we will understand what are p-values
+ok
+so let's go
+let me first give you a definition
+by which you will get a little idea
+what is p-value
+here is a small definition written
+that p-value is the probability
+p-value is the probability
+of getting a sample
+as or more extreme
+than our own sample
+given the null hypothesis is true
+ok
+let me read it again
+p-value is the probability
+we know that what is p-value
+it is the probability
+ok
+p-value is the probability
+of getting a sample
+as or more extreme
+by the way how is extreme defined?
+the definition of extreme is
+having more evidence
+against null hypothesis
+so if you have
+more evidence against null hypothesis
+then it is called extreme
+ok
+so let me read it again
+p-value is the probability
+of getting a sample
+as or more extreme
+than our own sample
+given the null hypothesis is true
+ok
+now I know
+in the beginning
+you will not understand it well
+but I will explain it to you
+through a simple
+very common example
+what is p-value
+and then we will come back
+to this definition
+ok
+so suppose
+we are conducting an experiment
+we are conducting an experiment
+what is experiment?
+we have a coin
+and we are tossing this coin
+hundred times
+there is a coin
+we are throwing the coin 100 times
+to throw 100 times
+we are calling our experiment
+ok
+and after throwing 100 times
+what are we noting down?
+what is the number of heads?
+this is our experiment
+experiment is very simple
+we have a coin
+we have to throw it 100 times
+and we have to tell
+how many times
+there will be heads in it
+now if you have seen
+some of the last classes
+then you should know
+that this experiment
+will actually
+follow binomial distribution
+it will follow
+binomial distribution
+why am I saying this?
+because here
+you are working on
+a Bernoulli trial
+a Bernoulli trial
+in which there are two outcomes
+yes and no type
+here there is a coin
+in which either a head
+or a tail will come
+so this is a Bernoulli trial
+and you are performing it
+n times
+how many times are you throwing it?
+you are throwing it 100 times
+so you have
+the probability of
+getting a head
+and n is 100
+so basically
+this will follow a binomial distribution
+ok
+in fact
+if you want
+then you can
+use this binomial distribution
+and you can plot
+the distribution's
+PMF
+since binomial distribution
+is a discrete distribution
+then you can plot
+its mass function
+and its mass function
+looks like this
+like a normal distribution
+but it is discrete
+ok
+now if you see
+this distribution
+then you will understand
+that
+what I am trying to say
+by the way
+for now
+ignore the colors
+ignore the colors
+here you will see
+two colors
+one will be red
+one will be blue
+ignore that
+ok
+it has no meaning
+so whatever it is
+I will teach you
+how to interpret this distribution
+so think for yourself
+that
+if you are throwing
+the coin
+100 times
+then
+the probability of getting a head
+don't you think
+should be more than 50
+and that is why
+you can see
+this 50
+its probability
+is highest
+right
+now
+50 will not come every time
+I have experimented again
+I have thrown the coin 100 times
+so it is not necessary
+that 50 heads will come
+51 can also come
+52 can also come
+47 can also come
+so by looking at this graph
+you will understand
+that you can see
+that between 40 and 60
+your number of heads
+will come
+out of 100
+its probability
+you will see
+more
+but as soon as
+you move towards more than 60
+you are saying
+that I have thrown the coin 100 times
+and let's say
+65 times head came
+so its probability
+is less
+right
+and if you say
+that head has come
+less than 40 times
+let's say
+head has come 30 times
+its probability is also less
+I hope you are understanding
+this thing
+you are able to interpret
+with this simple graph
+ok
+now from here
+the main thing starts
+so what do we say
+that
+we are doing
+a hypothesis testing
+and we have taken
+a null hypothesis
+that
+our coin
+is
+a fair coin
+fair coin means
+that
+head or tail
+probability is equal
+so basically
+what is my null hypothesis saying
+that
+probability of head
+is
+probability of
+tails
+but
+the researcher
+is giving
+an alternate hypothesis
+and he is saying
+that no
+this coin
+is
+rigged
+rigged means
+there is something wrong
+and that is why
+in this coin
+probability of head
+is greater than
+probability of tail
+ok
+so basically
+we have
+a coin
+and we are
+asking a question
+on it
+that there is a
+problem in this coin
+in this coin
+head comes more
+tail comes less
+ok
+now
+as a researcher
+what you can do
+you can do a hypothesis
+testing
+so in hypothesis testing
+what is step one
+that
+you make your
+null hypothesis
+what null hypothesis
+you have made
+that
+coin is fair
+probability of head
+and tail
+is equal
+what is your
+alternate hypothesis
+which you want to prove
+that no
+probability of head
+is greater than
+probability of tail
+ok
+i guess you understand
+the setup
+what we have come to learn
+p value
+ok
+so now look carefully
+we
+once
+we
+again
+jumped
+not once
+we jumped
+100 times
+basically
+i did this experiment
+once more
+i jumped
+100 times
+the coin
+and this time
+the sample
+i created
+by jumping 100 times
+i got 53 heads
+i got 53 heads
+so think for yourself
+can i
+on the basis of
+this single
+experiment
+can i conclude
+that
+this head
+gives more
+no i can't
+so
+what we will do
+we will do hypothesis testing
+with the help of
+p value
+so look carefully
+so
+i will show you
+that
+here
+if you see
+53
+will be somewhere
+here
+right
+this value would be
+like 53
+this probability
+this is
+not even
+just one second
+this is 50
+so this is 53
+so this is
+the probability of
+53
+if you
+go here
+then
+this is
+0.072
+types
+you
+think
+like
+7.2%
+times
+of
+rs
+ok
+now
+see here
+the main discussion
+what is p value
+what is p value
+written here
+p value
+is the probability
+of getting a sample
+as
+or more
+extreme
+than
+our own sample
+what was our own sample
+in which
+53 heads
+came
+and
+what was its probability
+0.07
+something
+right
+so basically
+more than this
+head
+coming
+the combined
+probability
+is
+your p value
+so basically
+you can say
+that
+probability of
+heads
+coming
+greater than
+53
+this will be
+your p value
+so in terms of
+region
+you will say
+that
+in front of this
+this whole
+region
+overall area
+will be
+1
+from that
+this area
+of
+this region
+the area
+which you will
+take out
+this region
+this is
+your p value
+this is
+your p value
+because
+think for yourself
+now more than 53
+you are talking
+more against
+null hypothesis
+because null hypothesis
+what it was saying
+that head and tail
+should be equal
+your already 53
+came
+now if you go
+further than 53
+let's say you go
+to 55
+60
+70
+so 70 heads
+are coming
+so this is against
+that your tail
+your coin
+is fair
+so this graph
+was made
+on which assumption
+it was made
+on your null hypothesis
+assumption
+but as you
+move in this area
+70 is coming
+80 is coming
+90 is going
+so that area
+that area
+till 80
+the whole area
+that is called
+p value
+ok
+if you don't understand
+like this
+then let me plot
+the graph
+I have made
+a small tool
+so see here
+you can see
+when you
+53
+is your sample
+then for
+53 sample
+you can see
+the probability
+of getting
+exactly 53 heads
+is
+this
+now
+what is
+p value
+p value is
+0.30
+what is 0.30
+this red color
+you can see
+in your graph
+this red color
+which is
+basically
+the area of
+this red region
+that is
+0.30
+and what is
+this area
+this area
+is telling
+your p value
+which basically
+means
+it is the probability
+read it again
+it is the probability
+of getting
+a sample
+as
+or more
+extreme
+than our
+own sample
+of
+53
+so you can see
+53
+54
+55
+56
+100
+the probability
+of getting
+all these
+their sum
+this whole area
+you call
+this
+p value
+ok
+and
+definition of
+more extreme
+is
+having more evidence
+than h0
+ok
+in this case
+you can see
+how to interpret
+this p value
+like
+53
+when we have
+a sample
+so what is the p value
+0.30
+so what does this mean
+this means
+that
+if
+you
+do this experiment
+100 times
+listen
+this is a confusing point
+suppose
+you do your experiment
+100 times
+what is the experiment
+to throw the coin
+100 times
+ok
+experiment is
+to throw the coin
+100 times
+and
+how many times
+are you doing this experiment
+100 times
+basically in every experiment
+you are doing this experiment
+100 times
+so if your p value
+is
+0.3
+then
+this means
+out of these
+100 times
+30 times
+your
+53 head
+can come
+this means
+basically
+you are
+able to
+tell
+that
+your
+evidence
+against
+your null hypothesis
+is
+how strong
+now
+I will show you
+one more example
+we did experiment
+again
+and this time
+you got 60 heads
+60 heads
+so you can see
+that
+in 60 heads
+the p value
+is now
+0.02
+ok
+0.02
+so
+basically
+now
+what you can say
+that
+if
+you do
+100 times
+experiment
+to throw
+the coin
+then
+2 times
+will happen
+that
+your
+60 heads
+will come
+out of 100 times
+60 heads
+will come
+ok
+2 times
+ok
+now if you
+increase it more
+let's say
+my 80 heads
+my 80 heads
+have come
+so you can see
+here
+you can't see
+any area
+like in 60
+you can still see
+an area
+in 60
+you can see a small area
+because
+it is decreasing
+the probability of getting 60 heads
+is very low
+the probability of getting 60 or more heads
+is very low
+if you do that
+then
+it is actually
+such an unlikely event
+given
+null hypothesis
+that your coin
+is unbiased
+if your coin
+is unbiased
+then 80 heads will come
+its probability is
+so unlikely
+that
+it is not visible
+in your graph
+it is a very small area
+and this is the p value
+so what it means to say
+that
+if
+your
+null hypothesis
+is true
+which basically means
+that
+your coin
+is correct
+so if you
+perform experiment
+100 times
+then
+80 times
+head
+probability
+is
+zero
+basically
+even once
+it won't happen
+that you
+performed experiment
+100 times
+and you got 80 heads
+even once
+if you get 80 heads
+then
+it means
+that
+your null hypothesis
+is not true
+what was the null hypothesis
+the coin
+is fair
+if the null hypothesis
+fails
+then what did we prove
+the coin
+is unfair
+and heads
+I hope
+I could
+explain
+you
+what is p value
+read it again
+p value
+is the probability
+of getting a sample
+as or
+more extreme
+than our
+own sample
+given the
+null hypothesis
+is true
+ok
+in simple words
+p value
+is a measure
+of strength
+of evidence
+against
+the null hypothesis
+that is
+provided
+by our
+sample data
+ok
+so
+this is what
+p value is
+ok
+so now I have explained
+you what
+p value
+is
+now
+if you want to
+interpret
+I have told you
+what is interpretation
+now
+I will tell you
+in which scenario
+you
+reject
+the null hypothesis
+ok
+I will tell you
+this
+so if you remember
+whenever you go to solve
+a problem
+in hypothesis testing
+you take an alpha value
+generally
+it is
+0.05
+or
+0.01
+so
+going forward
+we will study
+many tests
+today we will study
+three tests
+a general
+thumb of rule
+is that
+if
+your p value
+is
+less than
+alpha
+less than
+equal to
+alpha
+then
+you can
+reject
+your
+null hypothesis
+this is the
+rule
+which you
+generally
+follow
+it is less than 0.05
+or equal to 0.05
+so you can reject
+null hypothesis
+as you can see
+here
+when it is 80
+what is my p value
+0.0000
+very small number
+so since this is
+less than 0.05
+I can reject
+my null hypothesis
+and what was my null hypothesis
+that
+my coin
+is fair
+we have proved
+that our coin
+is not fair
+because
+80 heads can't come
+ok
+now if I go back
+and take it
+to 60
+so what is our
+p value
+at 60
+0.02
+this is also
+so much
+that
+you can reject
+your null hypothesis
+and you can see
+say
+that the coin
+is not fair
+but if it is
+53
+if it is
+53
+just one second
+if it is
+53
+then it is
+0.3
+which is
+greater than
+0.05
+you have failed
+to reject
+the null hypothesis
+so you are saying
+there is not enough evidence
+to conclude
+that the coin
+is not fair
+you have to believe
+that it is
+fair
+you cannot
+conclusively say that
+but
+you cannot say
+it is not fair
+ok
+if you
+understand
+you get the idea
+right
+so that is how
+you use
+p values
+to accept
+sorry
+to reject
+or not reject
+null hypothesis
+now in some scenarios
+what will happen
+you will not have
+the value of alpha
+in some scenarios
+you will not have
+the value of alpha
+this happens
+specially
+when you are working
+in machine learning
+you are working
+on an independent
+data set
+there is no value of alpha
+so in that case
+you can follow
+this rule of thumb
+that if
+your p value
+is very small
+less than 0.01
+then you have
+very strong
+evidence
+against
+the null hypothesis
+and you can
+reject it
+if you are
+in the range
+of 0.1 to 0.05
+then also
+you have
+moderate evidence
+you can reject it
+if you have
+between 0.05 to 0.1
+then you have
+weak evidence
+you may have
+to investigate
+a little more
+you may have
+to take
+a little more
+domain knowledge
+you may have
+to talk to
+stakeholders
+and then
+you can decide
+if p is
+more than 0.1
+then it
+shows
+no evidence
+against
+alpha
+so this is
+a rule of thumb
+when you have
+no alpha value
+generally
+people
+hold
+alpha value
+at 0.05
+we will do
+the same
+further
+so this is
+an introduction
+about
+p value
+ok
+at this point
+I have not
+told you
+how to
+calculate
+p value
+I have not
+taught you
+this yet
+now I will
+teach you
+how to
+calculate
+p value
+so if
+you have understood
+everything
+let me know
+if not
+then you can ask
+level of significance
+was explained
+in the last class
+chi square
+and anova
+will be
+in the next
+two sessions
+tomorrow
+and day after
+alpha is
+always predetermined
+yes
+p value
+is only used
+for discrete random
+variables
+no no
+it is used
+in both
+now I will show
+how to calculate
+p value
+at 0.05
+alpha by default
+because it is
+a good value
+means
+there is
+a trade-off
+between type 1
+type 2
+error
+that is why
+0.05 is considered
+to be a good value
+otherwise
+if you go to
+reduce it
+or increase it
+then the second error
+accordingly
+starts to increase
+and decrease
+in which
+situation
+we calculate
+p value
+in real example
+now we will talk
+about multiple
+data sets
+so
+we will
+discuss
+sir
+in definition
+what is then
+our own sample
+our own sample
+is basically
+we are basically
+drawing some sample
+whatever sample
+you have
+you call it
+own sample
+one more example
+okay
+I will show you
+one more
+let's do
+one more
+let's study
+p value
+in the context
+of
+z test
+z test
+okay
+in the last class
+we performed
+z test
+and
+at that time
+we did not use
+p value
+to conduct
+the hypothesis
+testing
+instead
+we used
+rejection
+region
+approach
+rejection
+region
+approach
+today
+we will
+perform
+z test
+again
+and today
+instead of
+rejection
+region
+approach
+we will use
+p value
+to calculate
+p value
+in the case
+of normal
+distribution
+or continuous
+probability
+distribution
+because
+the example
+I showed you
+was of binomial
+okay
+so
+this question
+guys
+is exactly
+the last
+class question
+just
+in this
+I have
+done
+a small
+change
+I should not
+have done
+that change
+and that change
+is that
+this is not
+sample standard
+deviation
+this is
+population
+standard
+deviation
+okay
+because
+to perform
+z test
+you need
+population
+standard
+deviation
+okay
+let me
+read the
+question
+this is
+actually
+a repeat
+of last
+class
+we will
+change
+the approach
+in the
+last
+class
+okay
+so
+this is
+the
+sample
+of
+the
+average
+productivity
+of
+the
+employee
+before
+implementing
+the
+training
+program
+the average
+productivity
+was
+50 units
+per day
+so
+the
+population
+mean
+is
+50
+and
+the population
+standard deviation
+is
+4
+okay
+the company
+wants to know
+if the new
+training program
+has significantly
+increased
+productivity
+okay
+so we have to do
+a hypothesis testing
+now in this hypothesis
+testing
+your
+null hypothesis
+will be
+that
+mu
+is
+still
+equal to
+50
+means
+there is no
+increase in
+productivity
+50 units
+used to be
+50 units
+this is my
+null hypothesis
+and my
+alternate hypothesis
+is
+that
+mu
+is not
+equal to
+50
+okay
+so
+you would
+say
+that
+mu
+has
+increased
+it's greater
+than 50
+this is our
+null hypothesis
+okay
+let's also
+take
+a look at
+the
+new
+hypothesis
+the
+new
+hypothesis
+is
+that
+mu
+is
+equal to
+0.05
+okay
+because
+this is
+the
+general
+hypothesis
+you can
+conduct
+your
+tests
+of normality
+but since
+we have
+30 samples
+sample size
+is 30
+okay
+so
+in step 1
+what you have to do
+you have to
+basically
+calculate your
+z statistic
+okay
+how
+it's very simple
+the formula
+will be
+x bar
+minus
+mu
+divided by
+standard error
+standard error
+formula is
+population standard
+deviation
+divided by
+root over
+sample size
+okay
+and
+this will be
+how much
+this will be
+53
+minus
+50
+divided by
+standard deviation
+is 4
+divided by
+root over of
+30
+okay
+now what we did in
+rejection region approach
+that
+we know
+this z
+is
+normal distribution
+standard normal
+variant
+will follow
+so
+basically
+if your alpha value
+is 0.05
+then
+what you have to do
+is
+you have to
+calculate
+this value
+at
+this place
+area will be
+0.05
+and
+at this place
+your area will be
+0.95
+okay
+and
+this z value
+maybe
+1.64
+types
+something came in last class
+if you remember
+okay
+now
+what we have to do
+we have to calculate
+this z value
+and
+we have to know
+in which region
+this z value
+falls
+in this black region
+in this shaded region
+or in this white region
+this region is
+of null hypothesis
+and this is
+of alternate hypothesis
+right
+so
+if you calculate this
+then
+this will be
+3 divided by
+4
+multiplied by
+root over of 30
+okay
+umm
+5
+point
+something
+let's say
+this is 5.5
+or
+let's do one thing
+let's google
+if i write
+3
+multiplied by
+square
+root of
+30
+so
+this is
+divided by
+4
+4.10
+was coming
+i am not sure
+4.10
+is coming
+once
+cross check
+whatever
+4.10
+is coming
+okay
+now
+what rejection region approach
+is saying
+since
+your z
+statistic
+is coming out to be
+4.10
+and
+this is your critical value
+1.64
+so
+if you
+write
+4.10
+1.94
+1.9
+1.7
+1.8
+1.9
+1.10
+1.10
+1.11
+1.12
+1.13
+1.14
+1.15
+1.15
+1.16
+1.17
+1.18
+1.19
+1.21
+1.23
+1.24
+1.25
+1.27
+1.29
+1.30
+1.30
+1.24
+1.25
+If this value is 4.10, then I have said to reject the null hypothesis.
+Suppose if this value is 1.7, then also it would have fallen in this region.
+And if it would have fallen in this region, then also I would have said to reject the null hypothesis.
+Means wherever this value would have fallen, then I would have said to reject the null hypothesis.
+But I cannot compare these two values.
+I cannot say what is the difference between 1.7 and 4.10.
+Because I do not have the strength of evidence.
+And that was the problem with rejection region approach.
+In rejection region approach, you are just drawing a boundary and checking where you have fallen.
+In null or in alternate.
+But how far we have fallen, we cannot calculate or quantify its impact.
+And that was the problem.
+As you can see here.
+In this, we can actually say that the probability of 80 is less in comparison to the probability of 60.
+I cannot say this here.
+And that is why we do not use rejection region approach.
+We use p-value approach.
+So now what we will do is, we will redo this entire thing using p-value approach.
+Okay.
+Everything will remain the same.
+And we will use the p-value approach.
+Okay.
+In p-value approach, you do not draw this critical point.
+You do not need to draw this critical point.
+Okay.
+So what you do is, you do this.
+Look carefully.
+You have calculated this Z.
+Z statistic.
+How much did this come?
+4.10.
+You will take this out just like that.
+And now you will make this graph.
+Okay.
+And in this graph, what you will do is,
+that you will find out that how much is the area on the right side from 4.10.
+So basically, let's say somewhere here, it is 4.10.
+What I will do is, I will catch this point.
+And in its left, sorry in its right, how much is the area?
+I will take this out.
+Okay.
+Listen again.
+I have calculated my Z statistic.
+And I have taken out the area on its right side.
+Because by definition, what we have to do is, we have to take out the probability of being more extreme than the current sample value.
+So your extreme will be on the right side.
+Okay.
+Because we are talking about greater than.
+Here we talked about greater than.
+So to break the null hypothesis, we will have to go to the right side.
+So we will take out this area.
+Okay.
+So if I come here.
+In my Z table.
+And what I want to do in the Z table is,
+I want to calculate my area against the point 4.10 to the right.
+But you must be knowing that what the Z table always does is,
+it tells you the area on the left side.
+For example, if you go to the Z table and search for 4.10,
+then it will give you this area.
+So basically, to find this area, I have to do 1 minus.
+Okay.
+So look carefully.
+I am searching here.
+In the positive one, 4.10.
+So 4.09 is only visible.
+So let's assume this is the point.
+Point.
+999.
+Okay.
+So this is this area.
+Point 999.
+Let's do this in a different color.
+The area on this side of 4.10 is point 999.
+So now if you want to find this area,
+what you have to do is,
+you have to subtract it from 1.
+And this area will be point 0001.
+Or something like that.
+Okay.
+And this is your p-value.
+This is your p-value.
+This is your p-value.
+This is your p-value.
+Okay.
+And now,
+what you will do is,
+you will compare your p-value with your alpha value.
+And since your p-value is less than your alpha value,
+you can say that I can reject my null hypothesis.
+I can reject my null hypothesis.
+And you can say that there is a difference in the training program.
+And the average capacity has increased.
+Okay.
+I hope you understood.
+That how do you calculate p-value.
+In the case of z-test.
+Okay.
+Here you don't need to find this critical point.
+You can directly find the area to the right of your z-value.
+And the same area to the right is your p-value.
+And once you have p-value,
+you can compare it with your significance level.
+And if it is less,
+then you can reject the null hypothesis.
+And that is how you do it.
+Okay.
+So,
+the only advantage in this is that
+if this number changes,
+let's say it is 1.7.
+So, what would happen against 1.7?
+I would go here.
+Here is 1.7.
+So, my p-value would be 0.95.
+It would be 0.95.
+And in this case,
+it would not be 0.95.
+It would be 1.95.
+So, it would be 0.05.
+Then you can decide.
+And you can see, you can compare
+that 1.7 is a little less extreme
+in comparison to 4.10.
+Right.
+In 4.10, you are more sure
+that I will reject the null hypothesis.
+Whereas in 1.7, you will be a little confused
+because you have come to exactly 0.05.
+Right.
+So, your z-statistic that is being calculated,
+with its value,
+you can actually decide strength of evidence
+in terms of p-value.
+And you were not getting this benefit
+in the last approach,
+which was rejection region approach.
+Let me know if you understood.
+Although, I will ask you one more question.
+But let me know if you still have any doubt.
+If you don't have any doubt,
+then write it clearly.
+Mihir, p-value less than alpha
+is equal to reject HO.
+Its concept is very simple.
+This is a rule of thumb.
+You cannot explain it in this way.
+If you are asking about its geometric intuition,
+then give me some time.
+I will give you some time in the next class.
+Now, we have some discussion left
+around alpha, beta, power of test.
+This discussion is still pending.
+So, now let's take it as a rule of thumb.
+If you want geometric intuition
+as to why this happens,
+then in the next two classes,
+I will plot a graph
+or make some kind of visualization tool
+and show it to you.
+For now, just take it as a rule of thumb.
+Yes, if p is greater than significance value,
+then it will be rejected as fail.
+It is a simple rule.
+Yes, Mittal, it is correct.
+Let me know guys,
+did you understand till now?
+I will give you one more example.
+This was a single-tailed test.
+Right?
+Now, I will give you an example of two-tailed.
+Don't worry.
+You will understand.
+p-value is actually easy.
+Now, we are doing it in z-test.
+After some time, we will do it in p-test.
+Tomorrow, we will do it in chi-square.
+We will do it in ANOVA.
+You will understand.
+It is very easy.
+Yes, p-value gives the magnitude of the strength
+for rejecting null hypothesis.
+In simple words,
+it tells the strength of the evidence against your null hypothesis.
+You are right.
+Let's do one more example.
+We did this example in the last class.
+And I will tell you.
+This is the example of Lays.
+Suppose a snack food company claims
+that their Lays wafer packet contains
+an average weight of 50 grams per packet.
+Here, there is one mistake again.
+I have not written by mistake
+that this is a population standard deviation.
+Let's read the question again.
+A snack food company claims that
+their Lays wafer packet contains
+an average weight of 50 grams per packet.
+So, basically,
+your population mean is 50 grams.
+To verify this claim,
+a consumer watchdog organization decides
+to test a random sample of Lays wafer packet.
+The organization wants to determine
+whether the actual average weight
+differs significantly from the claimed 50 grams.
+Not less, not more.
+If it is different, then it is gone.
+The organization collects a random sample of 40 Lays wafer.
+So, N will be 40.
+Measure their weight.
+They find the average weight.
+The sample mean is 49.
+And the population standard deviation is given 5.
+Let's check the alpha again.
+It is 0.05.
+So, this is the problem.
+What is our null hypothesis saying?
+That the average weight is 50 grams.
+And my alternate hypothesis is saying that
+the average weight is not 50 grams.
+We will prove this.
+The alpha is 0.05.
+Here again, you can check the normality assumption.
+These 40 samples,
+I mean,
+it has been proved that
+if it is more than 30,
+then it will be followed by the central limit theorem.
+Otherwise,
+you can plot a graph and make a Q-Q plot.
+You can detect that
+it is following the normality.
+Now, what are we going to do?
+We will use the p-value approach
+to conduct the hypothesis.
+Hypothesis testing.
+So, it is very simple.
+You have to find out versus Z.
+Now, how will Z be found?
+You will find out
+X bar minus mu
+divided by standard deviation
+divided by root over of 40.
+So, this would come out to be
+minus 1
+or you can say it directly
+40 divided by 5.
+So, let's see how much it is.
+SQRT of 40 divided by 5
+1.26
+minus 1.26 is coming.
+This is it.
+Now, look carefully.
+This time, this is a two-tailed test.
+You have to remember this
+because you do not know
+what is the direction of this.
+It is not given as greater than or less than.
+So, what will you do again?
+You will make your normal distribution.
+Okay.
+Now, this value is coming here.
+Minus 1.26.
+Okay.
+Now, look, there are two cases here.
+What we have to do is
+we have to go to the area
+against the null hypothesis.
+So, obviously,
+the area against the null hypothesis
+is this one.
+If my sample is 1.26,
+minus 1.26,
+then what will be more extreme than this?
+More negative values.
+Right.
+What will be more extreme than this?
+More negative values than this.
+But at the same time,
+since we do not know the direction,
+what you have to do is
+you have to catch 1.26 as well.
+And even if it goes more than this,
+then you are going to the extreme in the other direction.
+You cannot go to the extreme in both directions
+if you want to keep the null hypothesis correct.
+If you go to the extreme in both directions,
+then your null hypothesis
+against the evidence
+is getting stronger.
+So, basically,
+when you have not equal to,
+then your z-statistic,
+whether it is positive or negative,
+you will create its mirror image here.
+And you have to remove both these areas.
+You have to remove both these areas.
+Let's call this area 1.
+Let's call this area 2.
+And now your p-value will be
+area 1 plus area 2.
+Okay.
+So, it is very simple.
+What will we do?
+We will remove this area.
+It is easy to remove this area
+because we can remove it directly from z-table.
+Because z-table tells you the area of left side.
+So, from this point,
+we need the area of left side.
+Whatever area will come,
+we will multiply it with 2.
+So, basically,
+we need minus 1.26.
+So, it is basically 0.103.
+This area is,
+a1 is,
+0.103.
+So, what will be a1 plus a2?
+When you multiply it with 2,
+it will be 0.206.
+This is your p-value.
+This is your p-value.
+0.206.
+And since,
+it is greater than 0.05,
+then you cannot reject your null hypothesis.
+So, your company is safe.
+You cannot file a lawsuit on it.
+You cannot claim that
+in their packet,
+there are 50 chips.
+Okay?
+And that is how you work with two-tailed test.
+We did nothing.
+We took out z-statistic.
+We divided it symmetrically.
+We calculated both the areas.
+That was our p-value.
+Now, if p-value is greater than 0.05,
+you cannot reject your null hypothesis.
+If it is less, you can do it.
+In this case,
+it is more.
+Okay?
+So, yeah.
+I hope you understood
+how p-value is calculated
+in the case of z-test.
+And how it is interpreted.
+Let me know if you have any doubts.
+This was the second example.
+Sir, tomorrow and day after tomorrow,
+there will be paid sessions.
+Yes.
+Tomorrow and day after tomorrow,
+there will be paid sessions.
+And if z is greater than 5,
+how to get area under the graph?
+Because in z-table,
+the value is up to 4.9.
+There are many tools.
+You can consider it practically.
+That is like a very high value.
+You can go up to 0.99999.
+Rest, there are software tools.
+There are z-table calculators.
+There are z-value calculators.
+You will insert the value there.
+They will give you the result.
+There is no need to see the table manually.
+So, guys, we spent half an hour.
+We actually spent 45 minutes.
+And we understood
+what are the p-values.
+How they are calculated.
+How they are interpreted.
+So, let me know if you have any doubts.
+If there are no doubts,
+then write clearly.
+Then we will move forward.
+And now we will read our second topic today.
+That is t-test.
+The timing of paid session.
+Paid session is always at 8.
+All our sessions are at 8.
+So, that means,
+when it will be not equal to,
+there will be two-tailed graph.
+And when it will be greater than,
+then there will be one-tailed graph.
+Greater than or less than.
+In both the cases, there will be one-tailed.
+We discussed this in the last class.
+If you will see the last session,
+you will understand.
+In which case we have to take p-value by 2.
+In this case,
+in two-tailed one,
+when you are talking about some python package,
+you are talking about scipy,
+then it is actually calculating both.
+So, in that case,
+if you want one side,
+then you divide by 2.
+Or not.
+In one case, maybe.
+We will have to see what is left.
+Is p-value calculation different in t-test?
+Yes.
+It is slightly different.
+We will do t-test now.
+You will understand.
+Come on, guys.
+Let's move ahead.
+And let's discuss t-test.
+Although we have already covered t-test
+while reading confidence interval.
+But now we will use t-test for hypothesis testing.
+So, what is t-test?
+Basically, it is very similar to z-test.
+z-test and t-test are the same.
+There is only one big difference.
+Those who have seen confidence interval class,
+they would know what is that main big difference.
+The big difference is that
+for z-test,
+you need population standard deviation.
+Right?
+So, if you have population standard deviation,
+then you apply z-test.
+But let's say,
+you don't have population standard deviation.
+If you have population standard deviation,
+then you use t-test.
+Right?
+You can say one more rule of thumb that
+t-test works well for smaller sample sizes.
+For smaller sample sizes.
+Although you can use it like a rule of thumb.
+It is not like a proper mathematical fact.
+It was known through experiment.
+So, the biggest difference is
+you will use t-test there
+where you don't have population standard deviation.
+Right?
+You have sample standard deviation.
+And honestly,
+in most of the scenarios,
+in most of the scenarios,
+it will be the same.
+That you don't have population standard deviation.
+So, mostly,
+you will notice that you are applying t-test.
+z-test is not applied that much.
+And the biggest difference is
+that in z-test,
+to calculate z-statistic,
+you use normal distribution.
+Whereas for t-test,
+you use t-distribution.
+Student's t-distribution.
+If you go to the confidence interval class,
+I have explained it in detail.
+I have explained what is t-distribution
+and how it is related to your normal distribution.
+Okay?
+So, you may have to go back and cover it.
+So, let's discuss t-test.
+Okay?
+So, let's discuss t-test.
+So, first let's see the definition.
+Then I will tell you what are the types of it
+and where you can use them.
+And in today's class,
+we are going to cover all the types of it.
+And we will check the p-value in all of them.
+Okay?
+So, watch carefully.
+A t-test is a statistical test
+used in hypothesis testing
+to compare the means
+of two samples
+or to compare a sample mean
+to a known population mean.
+The t-test is based on
+the t-distribution which is used
+when the population standard deviation is unknown
+and the sample size is small.
+Okay?
+Which I have told you till now.
+There are three types of t-test.
+Okay?
+Let's see what are the three types.
+So, the first one is one-sample t-test
+which we will read first.
+What happens in one-sample t-test is that
+you basically work on one sample.
+Okay?
+And what you do is,
+the mean of this sample,
+using that,
+you perform hypothesis testing
+about the population mean.
+Which we have done till now.
+We have done the same in z-test.
+We had one sample.
+Based on that,
+we used to do hypothesis testing.
+So, it is written here.
+The one-sample t-test is used
+to compare the mean
+of a single sample
+to a known population mean.
+The null hypothesis states
+that there is no significant difference
+between the sample mean
+and the population mean.
+While the alternative hypothesis states
+that there is a significant difference.
+Now, in z-test,
+we have done exactly the same thing.
+But this time,
+what is the difference?
+That here,
+the standard deviation of the population
+will not be there.
+That's the only difference.
+Okay?
+Then, what is the second type of t-test?
+This is called independent two-sample t-test.
+In this, you take two samples.
+Till now, you were working on one sample.
+But,
+you can also work on two samples.
+See, it is written here.
+The independent two-sample t-test
+is used to compare
+the means
+of two independent samples.
+Let's say, I have two classes.
+Class 1 and Class 2.
+Section A and Section B.
+And, I am drawing a sample from both of them.
+And, I am calculating the mean.
+And, I am giving a hypothesis that
+the average marks of the students of Section B
+are better than those of Section A.
+So, here, you are not working with one sample.
+You are actually working with two samples.
+Or, you can say that
+you are working with two populations.
+Okay?
+And, you compare both of them.
+You compare their mean with each other.
+Okay?
+So, here, your null hypothesis is that
+there is no difference in the mean of both the populations.
+That means,
+there is no difference in the average marks of both the sections.
+That is the null hypothesis.
+And, in the alternate hypothesis,
+you say that
+there is some difference in the marks of both the sections.
+It can be more or less.
+Okay?
+So, this is the independent two-sample test.
+And, the last one is
+paired t-test.
+In this, you call it
+dependent two-sample test.
+And, by the way,
+it is independent.
+Independent means
+the two populations here
+do not interact with each other.
+There will not be any child
+who will be in Section A and Section B.
+Right?
+So, that is independent.
+And, here, the third one is called
+dependent two-sample t-test.
+Okay?
+Read it and see what is written here.
+The paired t-test is used to compare
+the means of two samples.
+Here also, you are comparing two samples
+that are dependent and paired.
+Here, there is no independence.
+These two are dependent.
+They are associated with each other.
+Okay?
+Such as pre-test and post-test.
+Suppose, you have only one class.
+Only one class.
+Now, in that class,
+you conducted a test
+before a training program.
+You thought that
+you will conduct a training program.
+But, to quantify that,
+you took a test before a training program.
+You called it Test A.
+So, in Test A, all the children
+are Population 1.
+Then, you conducted a training program
+and again took a test,
+which is Test B.
+Now, in this Test B,
+the population is the same children
+who were before the test,
+before the training.
+Right?
+But, you still have two samples.
+One is the sample before the test.
+The other is the sample after the test.
+Right?
+So, basically,
+the funda is this,
+that in the paired t-test,
+you do pre- and post-type things.
+That we did something.
+After that, this happened.
+So, we need a comparison
+between the previous and the present.
+So, in this kind of scenario,
+what do you do?
+You do paired t-test.
+Right?
+So, these three types of tests
+are available in t-test.
+And today, we will study these three.
+Right?
+So, let me know
+if there is any doubt in this.
+If there is no doubt,
+then just write clear.
+And we will start
+from the previous t-test,
+which is one sample t-test.
+Right?
+So, if there is no doubt,
+then just write clear.
+Guys, am I audible?
+What happened?
+No one is typing.
+Okay.
+Rohan is our brother.
+He also did not write clear.
+But okay.
+Brothers do not have much friendship.
+Okay.
+Let's do single sample t-test.
+Okay?
+So, let's see the definition.
+A one sample t-test checks
+whether a sample mean
+differs from the population mean.
+It is a simple formula.
+And you will perform this
+when you will not have
+population standard deviation.
+It will not be.
+Sample standard deviation will be.
+Okay?
+Because if population standard deviation
+would have been there,
+then I would not have performed t-test.
+I would have performed z-test.
+I hope you are able to understand.
+So, let's see the assumptions once.
+What are the assumptions
+for a single sample t-test?
+Okay.
+Let's see once.
+First of all is normality.
+Population from which the sample is drawn
+is normally distributed.
+Okay?
+If you are not able to prove this,
+then you can prove this.
+You can prove that
+your sample is normally distributed.
+If this is also proved,
+then you can assume that
+the population from which
+the sample is drawn
+is normally distributed.
+Okay?
+So, this is your first assumption.
+Second assumption is independence.
+What does this mean?
+The observations in the sample
+must be independent.
+Which means that
+the value of one observation
+should not influence
+the value of another observation.
+So, let's say we were talking about
+the same thing
+where we were talking about
+one
+Lays
+chips
+that whether
+there is 50 grams or not.
+So, what we did was
+we picked up packets of 40 Lays.
+So, these are independent
+these 40 packets.
+The weight of one packet
+does not affect
+the weight of the other packet.
+So, independence should be there.
+Okay?
+Third is random sampling.
+The sample must be random
+and representative subset
+of the population.
+This you have to always
+keep in mind
+that the sampling you are doing
+it should be random
+and representative.
+You can't just pick up
+packets of chips
+from the same place.
+It should be random.
+Right?
+And the last one is
+there should be no
+population standard deviation.
+The population standard deviation
+is not known.
+If you have these four conditions
+then only
+you can apply
+the t-test.
+This is super important.
+Okay?
+So, let's do one thing.
+We will
+through a question
+we will
+try to understand
+that t-test
+Guys, am I
+still connected?
+Just let me know.
+There is some notification
+from OBS studio.
+Can you hear me?
+Is the video running?
+Just write yes.
+Then I will resume.
+Okay.
+Let's go.
+There was a lag in the middle.
+Okay.
+Let's start.
+So, this is the question.
+Suppose a manufacturer claims
+that the average weight
+of their new chocolate bar
+is 50 grams.
+We highly doubt that
+and we want to check this.
+So, we drew out a sample
+of 25 chocolate bars.
+Okay?
+And measured their weights.
+The sample mean came out
+to be 49.7 grams
+and the sample standard deviation
+is 1.2 grams.
+Consider the significance level
+of 0.05.
+It is the same question.
+It is just chocolate
+in place of the lase.
+So, what are we doing?
+Our population mean
+is 50.
+We are going to
+measure the weight
+of the new chocolate bar.
+We are going to
+measure the weight
+of the new chocolate bar.
+We are going to
+measure the weight
+of the new chocolate bar.
+Our sample size is 25.
+Our sample mean is 49.7.
+And our standard deviation,
+sample standard deviation
+is 1.2.
+And our alpha is 0.05.
+Okay?
+Again, we have to perform
+the hypothesis testing.
+What is our null hypothesis saying?
+That brother,
+the average weight
+of our chocolates
+is 50 grams.
+Okay?
+We are fixed
+on this.
+Our alternate hypothesis
+is saying that
+50 grams is not there.
+You are lying.
+Okay?
+At this point,
+what do you do?
+You check your assumptions.
+So, since we do not have
+the values of the sample,
+we cannot check
+whether it is normal
+or not.
+Because if it is,
+then it is 30.7 grams.
+So, we are going to
+measure the weight
+of the new chocolate bar.
+We are going to
+measure the weight
+of the new chocolate bar.
+We are going to
+measure the weight
+of the new chocolate bar.
+Because if it is,
+then it is less than 30.
+So, here,
+the central limit theorem
+is also not being applied.
+So, we cannot say exactly
+whether it is normal or not.
+But if I were given
+these 25 values,
+right?
+Here,
+there are 25 chocolate bars.
+If I were given
+the weight of these 25 chocolate bars,
+then I would have tested
+the normality.
+Now, I cannot do it.
+So, I am assuming,
+I am assuming
+that
+it is
+normal.
+It is my compulsion
+for now
+to teach you.
+I am telling you.
+Okay?
+Other assumptions
+will be checked automatically.
+All the chocolate bars
+are independent from each other.
+I have randomly sampled.
+Again,
+we are assuming.
+And we do not have
+population standard deviation.
+So, we have checked
+all the assumptions.
+Okay?
+Now,
+what you have to do here is
+that you have to choose
+your test statistic.
+Which this time
+will be T
+instead of Z.
+And
+how will you
+calculate T?
+To calculate T,
+your formula
+changes a little.
+You write
+X bar
+minus
+mu
+divided by
+population
+standard deviation.
+If population standard deviation
+is not there,
+then you use
+sample standard deviation
+root over of
+N.
+Okay?
+And since
+now
+it is not a
+standard normal
+variant,
+it actually
+became a different
+distribution
+because of
+this S.
+This distribution
+is called
+student's
+distribution.
+Okay?
+This is student's
+distribution.
+This is not
+a
+standard
+normal
+distribution.
+So,
+we have to calculate
+T once.
+And as we
+calculate T,
+then we have to use
+it to calculate
+P value.
+So,
+what will be
+T value?
+Our
+X bar
+is
+49.7
+and
+this is
+50
+divided
+by
+1.2
+divided
+by
+25.
+So,
+your
+this
+will come
+minus
+0.3
+divided
+by
+1.2
+multiplied
+by
+5.
+This will come
+minus
+1.5
+divided
+by
+1.2.
+So,
+if I take
+this out,
+then this
+will come
+1.5
+divided
+by
+1.2.
+Minus
+1.25
+is there?
+I did not
+pay attention.
+Yeah.
+Minus
+1.25.
+So,
+this is
+minus
+1.25.
+So,
+you have
+plotted
+minus
+1.25
+on your
+T distribution.
+This is not
+Z distribution.
+This is
+T distribution.
+Also,
+since
+it is
+not equal to,
+you will get
+extreme values
+on both
+sides.
+Right?
+Now,
+you have
+to
+calculate
+this area.
+This time,
+you cannot
+see Z
+table.
+This time,
+you have to
+see T
+table.
+Okay?
+So,
+I am not
+seeing T
+table.
+Because,
+you can see
+T table.
+It is not
+a big
+thing.
+Let me
+show you
+how to
+see T
+table.
+So,
+we are
+going to
+T
+table.
+You need
+two things.
+One is
+degree of
+freedom.
+For T
+table,
+you need
+degree of
+freedom.
+Degree of
+freedom is
+n-1.
+n-1
+is
+24.
+Okay?
+Since,
+we are not
+using
+rejection
+region
+approach,
+that is
+why,
+I cannot
+calculate
+area
+in
+the left
+side of
+this
+point.
+It is
+very easy to
+calculate
+if I
+use
+its
+CDF.
+I have
+taught you
+what is
+CDF.
+To calculate
+area in
+the left
+side of
+any
+point,
+what can
+we do?
+Rather than
+using
+T
+table,
+I can
+calculate
+the area
+in
+which
+I want
+to
+calculate
+area.
+What is
+our area?
+It is
+minus
+1.25.
+We want
+to calculate
+area in
+the left side.
+And,
+what is
+degree of
+freedom?
+n-1
+is
+24.
+And,
+what will
+this do?
+It will
+calculate
+0.11
+and this will also be 0.11
+so your p value
+is 0.22
+and since
+this is greater than 0.05
+you can say
+that your
+null hypothesis
+you can't
+reject it
+which basically means
+chocolate bars are correct
+there is a gram around 50
+there is no significant difference
+and yeah
+that is how you do
+a single sample t test
+the only difference was
+that this time you
+took out t instead of z
+and what was the difference?
+s instead of sigma
+and as soon as you got this t statistic
+you did the same thing
+which you did in z table
+here instead of using
+t table we used this function
+and in this function
+we had to tell
+which is the point
+and what is your degree of freedom
+because by changing your degree of freedom
+the shape of your t distribution changes
+so we had to tell our degree of freedom
+so we asked the cdf directly
+that tell me
+what is the area on this side
+and as soon as I got the area on this side
+I multiplied it by 2
+and I got the area on the other side
+and added both of them
+this is our p value
+so let me know if you have any doubt
+in the chat
+but why did we take population standard deviation
+we didn't take population standard deviation
+confidence level will be
+less than 1-alpha
+but why are we not using it
+because there is no requirement of confidence interval
+it is not required
+we have to do it with p value approach
+we don't have to do it with rejection region approach
+why did we take out the area on both sides
+because we were told
+that
+we don't have 50 g
+which means
+if it is less than 50 g
+then also my null hypothesis will fail
+and if it is more than 50 g
+then also my null hypothesis will fail
+so I took the extreme values
+of both sides
+I hope you are understanding
+yes because the t distribution
+the t table
+did not have that feature
+although you can take it out
+but this is a much better approach
+you can take out the area to the left
+through CDF
+so you can do it programmatically
+we didn't use table
+we didn't use table
+we used CDF function
+sir the sample standard deviation
+is it called
+point estimate
+no we won't say in this case
+because we
+yes you can say
+we are actually
+we are not
+trying to predict
+population standard deviation
+we are using it as a replacement
+so exactly point estimate is said
+when you are inferring
+about that particular thing
+since we are not inferring about it
+I am not sure it should be called
+point estimate
+did you understand guys
+yes in the first one
+we had to take it
+because we have population standard deviation
+if you don't understand this concept
+why it was taken
+then do the central limit theorem class
+where sigma by root over of NQ
+is taken
+that is the concept of the previous class
+basically it depends on sampling distribution
+guys write clear
+and we will move forward
+I will show you a practical example
+of this thing
+on the titanic data set
+it will be interesting
+just write clear
+and we will move forward
+I am waiting
+is there some lag
+because I am saying
+that you are reacting after 1 second
+I don't know something is wrong
+let's go
+so
+you must remember titanic data set
+ok
+we have worked on titanic data set many times
+what we are going to do
+what we have read
+single sample t test
+we are going to use this
+on titanic data set
+let me explain you problem statement
+so my problem statement is
+that I have
+data of 1309 passengers
+ok
+and I am talking about
+age column
+ok I have data of 1309
+people
+now
+what is the thing
+that I have to say
+that
+the mean age
+of passengers on titanic
+is
+less than 35 years
+ok
+on titanic 1309 passengers
+are travelling
+I don't know everyone's age
+but I have
+a guess
+that the average age
+of all passengers
+that is less than 35
+ok
+that is my conclusion
+so we have to perform a hypothesis test
+ok
+so first of all
+you have to place your null hypothesis
+so what is null hypothesis
+that your
+population mean
+null hypothesis says
+that your
+population mean
+is 35
+and what I want to prove
+that
+mu is
+less than 35
+I want to prove this
+now what all I have been given
+let me tell you
+first of all
+I have been given
+to conduct hypothesis test
+mu
+as in population mean
+35
+ok by the way this is not the actual value
+we are taking this for hypothesis testing
+we
+what we have done
+we have extracted
+this population from all the population
+this is the population
+this has the age of 1300 people
+I have randomly
+extracted the age of 25 people
+from it
+I know their age
+now if I know their age
+then this means
+I have X bar
+and I have
+sample standard deviation
+ok and what I have
+alpha is 0.05
+ok
+population standard deviation is not there
+which means
+I will use t test
+this is also understood
+so
+now see what will happen here
+it is very simple
+first of all you have to check your assumptions
+so if you remember
+I had told you that
+there are only 25 samples
+or the sample size is only 25
+so you cannot say directly
+that this normal distribution
+will follow
+so you have to prove
+that this normality will follow
+these 25 samples
+how will you do it
+in the previous case we had accepted
+that since I have
+the age of these 25 people
+I will actually perform
+a test on it
+the name of this test is
+Shapiro
+Wilk
+test
+what is the feature of this test
+that if you
+give some numbers in it
+like we are giving the age of 25 people
+so it
+tells you
+that these 25 numbers
+will follow the normal distribution
+or not
+this is the beauty of this test
+so see carefully what we did
+we called a function
+by saying
+Shapiro from scipy.stat
+and in Shapiro
+we passed the sample age
+basically we passed these 25 numbers
+and
+after that it gives us some information
+it gives you two things
+one is statistic which is not that important
+second is p value
+by which we get to know
+how to interpret the result
+see carefully how to interpret the result
+how to interpret
+that if the p value
+comes from here
+if it is less
+than 0.05
+then you can say
+that the data you have sent
+it is not normal
+but if the p value
+is greater than
+0.05
+then you can say that it is
+not normal
+and since
+when I run this data
+this value was 0.399
+which is much greater than 0.05
+I can actually conclude
+that the sample data that I have
+is normally distributed
+and since the sample data
+is normally distributed
+I can say the same about the population
+from where I have drawn it
+so basically our check is done
+randomness check is done
+all ages are independent
+population standard deviation is not there
+so basically all these assumptions
+we have checked
+now see the main thing starts from here
+what we have to do is we have to get this t value
+and by using this t value
+you basically
+have to get this p value
+so we have to get this t value and p value
+the good part is
+till now we were doing this manually
+but you have
+directly
+in scipy.stats
+there is a function
+sqrt underscore one sample
+here you just have to
+send your sample age
+which is basically your entire sample
+of 25 people and you have to
+send your population mean because
+think for yourself what you need in the formula
+sample mean
+you will get that from all the samples
+sample standard deviation you will also get that
+from all the samples
+root over of n you will get that from the number of samples
+and mu which is your population mean
+so basically what we did
+we caught the population mean
+what was it 35
+right we took 35
+where is it
+we took 35
+so here I sent 35 in population mean
+and what I sent in sample age
+these 25 numbers
+from here internally it will calculate
+sample mean
+sample standard deviation and n value
+and it will give you two things in reverse
+first it will give you
+t statistic value
+sorry here
+first it will give you t statistic value
+which we took out
+this number
+this number
+and second
+it will give you corresponding
+p value
+now look carefully since
+this test we are performing
+is one tailed test
+greater than less than
+so whatever p value will come
+you will divide it by 2
+so you can see whatever p value
+will come as soon as I divide it by 2
+this was the number
+and you know that when p value
+is less than 0.005
+then you can reject
+the null hypothesis
+and since this p value
+is much less than 0.005
+you are saying
+I reject the null hypothesis
+and what was your null hypothesis
+your null hypothesis was
+that mean age
+is 35
+and in whose favor did you reject
+your null hypothesis
+in the favor of alternate hypothesis
+what is the alternate hypothesis saying
+that mean age is less than 35
+so now comes the moment of truth
+let's check
+that our actual population
+once again I have to
+run the code
+see this
+I have run the code
+this is my population
+and let me show you
+this is basically our entire population
+all the people who were traveling in titanic
+all of them
+this is the age
+it is coming out to be 29.88
+and it is less than 35
+and our test proved this
+ok
+I hope you understood
+so we just did a hypothesis testing
+on a real world test
+here we don't have to do all this by ourselves
+you can do it by yourself
+you have to write your own functions
+but you have this direct function
+this one
+you can use it
+it will do the same thing
+it will calculate the area from CDF
+that's it
+so yeah
+this was the example
+let me know if you have any doubts
+Rahul we don't discuss the test inside
+because
+we haven't read anything about it
+for now just assume it is a rule of thumb
+it always works
+the result of Shapiro test
+if its p-value is greater than 0.005
+then
+it is normal distribution
+remember this as a rule
+it is a non-parametric test
+so we are not discussing it
+because we are discussing parametric test
+ok
+in this case I think we are assuming
+population mean
+see we were told
+we will never have
+real data
+so you will always have
+an idea
+yes you are right
+Shapiro will test is also doing
+hypothesis testing
+so the final hypothesis is
+that the data you have
+the distribution is normal
+yes you are right
+no if you have to see
+you don't have CDF
+through CDF you will get the same information
+it does not matter actually
+so guys let me know if you understood
+so
+we have done the first type T test
+now we will move to the second type T test
+and that is
+two sample test
+we will move to two sample test
+independent two sample test
+let me know if you have any doubts
+if you don't have any doubts
+write clear
+yes mithkal just to take one extreme
+because it is a one tail test
+p by two because it is a
+single tail test by default
+by default it gives the value of both sides
+you can do it
+you can run internally KD
+we will read the test internals
+but you can do that
+Madhu it is because
+the function is internally two tailed
+it is made for tailed test
+so it gives the value of both sides
+by default
+its internal working is same
+whenever you want single tailed
+you have to divide it from two
+let's move ahead
+let us do independent two sample test
+ok
+so let's revise it
+independent two sample test
+what kind of scenarios can be used
+so an independent two sample test
+also known as
+unpaired T test
+is a statistical method used to compare
+the means of two independent groups
+to determine
+if there is a
+significant difference between them
+there is a way to study two different groups
+there is a way to study two different groups
+let me give you an example
+we are talking about titanic
+let's take the example of titanic
+let's say
+what we want to do in titanic
+i told you
+let's say i told you
+that in titanic
+the average age of
+the male passengers
+their average age
+or mean age
+is
+greater than
+the average age of
+females
+this is my hypothesis
+so to test this
+we will do independent two sample test
+because here you have
+two independent groups
+male and female
+and both have age
+so this kind of scenario
+also comes
+so you use two sample test
+i hope you understand
+so
+let's discuss the assumptions for the test
+because if the assumptions fail
+then the tests are not reliable
+so you should know
+so there are four main assumptions
+first is
+independence of observations
+the two samples must be independent
+meaning there is no relationship
+between the observations
+in one group and the observations
+in the other group
+do you understand
+my two groups are clearly defined
+and they should be mutually exclusive
+not mutually exclusive they should be different
+independent of each other
+so we have male's age and female's age
+so there will be no passenger
+who can come in both
+so it should be independent
+always
+ok
+when can it fail
+i will tell you this
+suppose you
+what you want to do
+i am a company
+my python course
+and my machine learning course
+i want to compare the marks of these two
+i want to compare the mean of their marks
+suppose there are some students
+who have enrolled in both courses
+now that is not independence
+those students are in both courses
+so this is not independence
+so in that case
+you will not be able to apply this test
+i have given this example
+second is normality
+in this you have to tell that
+the data in each of the two groups
+should be approximately normally distributed
+ok
+but if the sample size is more than 30
+then chill
+central limit theorem will be applied
+and normality is not necessary to be proved separately
+but if the sample size is less than 30
+then you have to prove in both
+that there is normality
+there are many ways to prove normality
+you can plot qq test
+you will get idea from histogram
+now i have told you Shapiro-Wilk test
+you can use that too
+ok
+i hope you are able to understand
+this is a new
+and interesting
+thing
+there should be equal variance
+so basically if there are two groups
+a and b
+then variance of
+a should be equal
+to variance of b
+this is important
+in some places
+i have noticed that people
+work without this test
+but trust me if this is proved
+that your
+males average age variance
+and females average age variance
+is same
+or almost equal
+then when you will apply this test
+then you will get better results
+ok
+and how will you do this?
+we will use one more test
+there can be two tests
+one is F test
+we have not studied this yet
+and one is Levine test
+we will use Levine test
+it is a very simple test
+all tests are simple
+because you have to run a python code
+then you can understand
+so here it is written
+if this assumption is not met
+then you cannot apply this test
+its replacement is
+this t test
+it is a variation
+and it is basically a non-parametric test
+you can apply that
+but we will not need it
+because today's data I have set
+that we will get this
+and the fourth one is obviously
+random sampling
+if you are bringing 25 males
+and 25 females
+then sampling should be random
+people should come from P class 1
+P class 2
+P class 3
+P class 4
+they should be there randomly
+now we will understand
+how this test is performed
+how this test is performed
+we are going to understand
+how this test is performed
+so watch carefully
+so this is our
+question
+through this test we will conduct
+this test
+suppose a website owner claims
+that there is no difference
+in the average cost
+time spent on their website between desktop and mobile users.
+A website can be accessed in two ways, on a laptop and on a phone.
+So the owner of the website says that the average time spent on our
+desktop and mobile is very similar.
+There is no significant difference. To test this claim,
+we collect data from 30 desktop users and 30 mobile users.
+So here it is written that N1 is 30
+and N2 is 30. By the way, this can be different.
+There can be different numbers in both groups. You can take 30 and 25.
+That is also allowed. Variance should be same. Sample size can be different.
+The sample statistics are as follows. So here are those 30 people.
+And their average time spent on the desktop.
+And this is the 30 people who spent time on the phone. So this is their average time.
+Now look here, summary stats are written. Sample size is 30
+of the desktop users. Sample mean we took out from here. How much did it come?
+18.5. And sample standard deviation we took out from here.
+And how much did it come? 3.5 minutes. And we did the same thing
+for mobile users. How much did the sample mean of mobile users come? 14.3.
+And how much did their sample standard deviation come? 2.7.
+Now what you have to do is operate at this significance level.
+And you have to prove that both things are not equal.
+So see what will happen here. When you start, your null hypothesis will say
+that mu of desktop minus
+mu of mobile is 0. Right?
+This is what happened. Average time spent by users on
+desktop and average time spent on mobile is same. By the way, you could have written it
+like this. You could have kept it simple. And your
+alternative hypothesis is saying that these two are
+not same. Okay? So this is done.
+You have set the hypothesis. Now what you have to do is check
+your assumptions. You have to check your assumptions.
+Okay? So here let's assume that this is correct.
+Independence of observation. Although you can't directly accept this because it is possible that
+only one user uses a phone or a mobile. But since we are questioning, let's assume that
+both are independent. I mean people don't go to both places. Someone has a phone and someone has a desktop. Both are not the same.
+Okay? And let's assume random sampling as well. Things are random.
+We will test normality first. So let's see what I did.
+Here the code is written. I again used Shapiro-Wilk test. So you can see
+I used Shapiro-Wilk test. Here all the desktop users are here. And here all the mobile
+users are here. And I called Shapiro function for both. And
+I printed both. So you can see for desktop users it is 0.77.
+Which proves that normal distribution is being followed. And for this it is 0.57 for the
+mobile users. Again it is proving that they are following normal distribution. Okay? Now
+what do I have to test? This test is done. We have accepted this. This test is done. This is also done.
+Only this is left. Is the variance of both equal? For this we are going to use a test
+called Levene. Okay? Levene. Now what do you have to do in Levene?
+Basically you have to call the Levene function for the Levene test. And you have to call both of your
+samples. And this again gives you a p-value.
+Now what is simple funda again? That if the p-value of Levene test
+is less than 0.05. Then
+your variance of group A is not equal to variance
+of group B. But if the p-value is greater than 0.05
+which in our case it is 0.09. So we can say
+that the population variance of A is equal to population variance of B.
+And that is why we can actually go ahead and we can say that this assumption
+is also true. Okay? All four assumptions are true. Now from here
+the main thing starts. When we used to test single sample then how we used to calculate
+our t-statistic? x-bar minus mu divided by
+s divided by root power of n. This was the formula.
+In this case since there are two samples. This is not the formula. The formula is this.
+t equal to x1 minus x2 divided by
+root over of. Here the formula of standard error changes.
+And the formula is this. S1 square divided by
+n1 plus S2 square divided by n2.
+This is the formula. You don't use this formula. You use
+this formula in the case of two sample test. Okay? So we have all these things.
+If you pay attention. What is x1? 18.5.
+What is x2? 14.3.
+And what is root over of? Standard deviation of
+first one is 3.5. So this would be 3.5 square
+divided by. What is n1? Both n1 and n2 are 30.
+So here it is 30. Plus your second standard deviation
+is 2.7. And below it is 30. So this is
+0.2 4.2 divided by
+root over of 30
+3.5 times 3.5 plus
+2.7 times 2.7. 19.5.
+19.54. So we want
+to find out square root of 19.54
+divided by 30.80.
+So 4.2 divided by
+0.80. 5.25. So yeah guys.
+This is the t value. This is the 2t value.
+What is it? I forgot. 5.25. This is the t statistic.
+Okay? Now what you have to do?
+You have to do the same thing again. You will make your t distribution.
+And in that you will keep
+5.25 here. And you will have to remove this area.
+Okay? And it will be right here. 5.25. Because this is the t
+test. If you pay attention, we have to tell that
+the owner's claim that there is no difference. We have to tell that there is a difference.
+We don't know who spends more and who spends less. We will remove
+these two areas and that will be our t value. So what can we do again? We can remove this area.
+So what I can do is I can actually go here and I can write minus
+what is this thing? 5.25. Okay?
+Now we need degree of freedom. So what was the degree of freedom in the single one?
+n-1. What happens here? n1 plus n2
+minus 2. Just one second.
+Degree of freedom
+in two sample t tests. Just one second. There is a formula.
+n1 plus n2 minus 2. So n1 plus n2 minus 2.
+So this becomes 30. This becomes 30. Minus 2 becomes 58.
+So you will put it here. You will put 58 here.
+This is 58. Okay? And what will it calculate
+for you? It will calculate for you this area. Okay?
+So basically if you multiply it by 2, then you will get your
+t value. And your t value is very much
+smaller. Like very very close to 0.
+So you can say that I can
+reject my null hypothesis.
+And what was our null hypothesis saying? That the desktop and mobile
+users are equal. They spend equal time. This is wrong.
+We are rejecting that. We don't know whether the desktop one does more or the phone one does more.
+But we know for sure that they are not equal. Okay?
+So yeah. That is how you perform two sample independent
+t tests. Okay? Let me know if you understood. I am opening the chat.
+If you have any doubts, then ask. If you don't have any doubts, then write clearly. Then I will show you
+one more Titanic in a practical way. On the Titanic data set.
+It depends on you where you need it.
+We can use. Yes, you don't need to perform it physically.
+Physically means step by step. You don't need to do it. Functions are available.
+Is there any way to find out who spends more? Yes. You
+perform this test by taking greater than or less than. Perform one tailed
+test. Let's do an interesting example. Okay? This one is interesting.
+You will understand a good thing. See.
+What are we going to do? We are going to perform
+two sample t tests. Okay? On our Titanic data set.
+So what is my hypothesis? My hypothesis is that
+average age of males
+is significantly greater than
+average age of females. This is my hypothesis.
+Okay? Listen again. I haven't seen the whole data.
+But I am claiming this. That the average
+age of males. Let me write it down. That
+average age for males is significantly greater than.
+It will be said significantly because you won't talk about exact. Greater than
+average age of females. This is my claim. Right? So
+this will prove that there is a correlation
+between these two columns. Age and
+gender. Think about it. If
+there is a difference in age between both the categories. Then
+there is a relationship between these two. If let's say
+average age of male is similar to.
+Average age of female. So there is no relationship between these two columns.
+Right? Because with both the categories. Your numerical column is not varying much.
+Your graph will look like this. This is male. This is female.
+And this is your average age. So what will you say after seeing this graph?
+That age and gender don't have much of a relationship. If your graph looks like this.
+That your male looks like this. And female looks like this.
+So you can say that there is a big difference. Right? So
+we can say this by plotting this graph.
+Right? You must be thinking that we can say this by plotting this graph.
+Why are we conducting a test for this? The reason is that the data we have is a sample.
+We have to say this about the population. We have to do inference.
+Right? So when you plot the graph. Then the graph of the sample will be plotted. The amount of data you have will be plotted.
+Then the graph of the sample will be plotted. The amount of data you have will be plotted.
+We have to predict about the population. Whether there is a relationship between age and gender or not.
+Right? So listen again. The question is that I am saying. This is my claim.
+That the average age of male is significantly higher than the average age of female.
+I have to prove this. So if we go step by step. So let me show you the code first.
+So let me show you the code first. So what I have done is.
+I have taken the train file and the test file. I have concatenated both of them.
+This is my total population. And I have 1309 passengers in total.
+I have extracted the male age from all of them.
+I have extracted the female age from all of them. Basically I have separated all the males.
+I mean I have separated the age of all the males. I have separated the age of all the females.
+I have done this much. Right?
+In fact I can show you this. Just one second.
+Let me show you. Just one second.
+So this is the male population. This is the population by the way.
+We have only this many males. Right?
+There are 658 males in total. And this is our female. Right? 388.
+By the way we don't have this data. We have it so that we can test it.
+Now what I have done is. I have drawn a sample in both the populations.
+I have drawn 25 random males and 25 random females. Right?
+So I have got the samples.
+Now pay attention. The main thing starts from here.
+So first we will catch our null hypothesis.
+Our null hypothesis will be that the average age of males is actually equal to the average age of females.
+This is our null hypothesis.
+Whereas our alternate hypothesis is that
+the average age of males is greater than the average age of females.
+This will be a single-tailed test. Right?
+Our significance value is 0.05.
+And now we have to do some tests.
+We have to do two tests. One for normality.
+And one for variance.
+So if I go ahead. Let me show you.
+Here I have written H0 and H1.
+We are performing the Sharpener test first.
+Sample on males. Sample on females.
+The p-value you can see is greater than 0.05.
+Which means the population of both of them will follow the normal distribution.
+Right?
+So check 1.
+Second we have applied the Levene test to check the relation between the variants.
+And you can see I have passed the sample on males and females.
+This is the p-value which again says that the variance of both of them is similar or same.
+Right? So now we can apply our t-test.
+Right?
+Now here again what you have to do is apply this formula.
+Apply this formula.
+But you don't have to apply this formula yourself.
+Because here also you have a function of t-test independent goal.
+Here you have to send both of your populations.
+Both the male and the female.
+And since it is a single-tailed test.
+So you will have to divide the p-value from 2.
+And you can see this is the p-value.
+0.40
+So if the p-value is 0.40.
+It means you cannot reject the null hypothesis.
+And what is the null hypothesis?
+That the mean age of male and female are same or similar.
+It is not significantly different.
+What was this?
+It should be significantly different.
+So now we are not able to nullify this.
+We are not able to reject this.
+But since we are in this position that we have the whole population data.
+I will really show you that is it correct.
+See here.
+Population of male.
+This was it.
+All the males.
+If I take out the mean of this.
+See how much is coming.
+30.58
+And I am taking out here.
+Population of female.
+And if I take out the mean of that.
+So how much is coming?
+28.68
+Ok.
+So.
+Yeah means.
+We can say it is not significantly different.
+What will be the difference?
+I really don't know what to call it.
+But yeah it is not a significant difference.
+Because our scale is from 0 to 80.
+So on that scale.
+There is a difference of 1.5.
+Maybe it is not a significant difference.
+Or you have to draw more samples.
+You have to increase the sample size.
+Then you will be able to say something more accurate.
+But whatever it is.
+At this point.
+We can prove.
+Actually we cannot reject.
+Ok by the way.
+When you reject the null hypothesis.
+I had told you in the last class.
+It does not mean.
+That the null hypothesis is correct.
+You are understanding this.
+This is not a proof.
+That the mean age of a male is similar to the mean age of a female.
+This is not a proof.
+This is not the case.
+This is the proof.
+That the mean age of a male is not significantly greater than the mean age of a female.
+So yeah I can say it is not significantly greater.
+Maybe if we were 35.
+Then it would have been significant.
+Whatever it is.
+You will have to do more tests.
+Or you will have to test your hypothesis in another way.
+But yeah.
+Whatever it is.
+That is how you perform.
+Two sample t-test.
+Independent two sample t-test.
+Let me know.
+If you understood.
+What if we want to test hypothesis testing between one numerical and categorical variable.
+That is what we did.
+Age is your numerical column.
+Gender is your categorical column.
+That is what you did.
+Rahul normality.
+If it is more than n.
+If it is more than 30.
+Then you do not need to test.
+If it is less than 30.
+If it is less than 30.
+Then you will test.
+If it is less than 30.
+Then it can be normal.
+If it is more than 30.
+Then central limit theorem kicks in.
+And then it says.
+If it is more than 30.
+Then it will be normal.
+It is handling the central limit theorem.
+If it is less than 30.
+Then central limit theorem does not kick in.
+So we have to test and prove.
+That it is normal or not.
+If you have any other question.
+Then ask.
+If not.
+Then we will go to the third test.
+That is.
+Paired to sample t-test.
+Tell me guys.
+Write it clearly.
+Then we will move ahead.
+This is the last topic of the day.
+As soon as you read the third one.
+Then it will be completed.
+T-test is not more than this.
+These are the three t-tests.
+Come on.
+We are reading the last test.
+In t-test.
+Okay.
+This is also interesting.
+So.
+Now.
+Paired.
+To sample t-test.
+Also known as dependent or paired sample.
+Guys.
+Let me know.
+Am I audible?
+Visible.
+Screen is moving.
+Because again.
+Reconnection notification came.
+Of OBS.
+Please tell me once.
+Am I audible?
+Then I will read.
+Okay.
+Come on.
+So.
+Now.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+So.
+H3
+So.
+H3
+H8
+H6
+H7
+H6
+5
+H8
+H7
+H9
+H10
+H12
+H10
+H12
+H13
+H15
+H18
+H20
+H24
+H25
+H26
+H27
+H25
+H26
+H28
+before the training program, what were the marks of the children, after the training program, what were the marks of the children
+so here it is written that what are the common scenarios where you use paired
+t-test so one of them is before and after studies comparing the performance of a
+group before and after an intervention or treatment which I have given you as an example
+second is matched or correlated groups comparing the performance of two groups that are matched
+or correlated in some way such as siblings or pairs of individuals with similar characteristics
+generally this first one is more, here also there are some assumptions
+you have to follow these three assumptions, first is paired observations
+means the two set of observations must be related or paired in some way
+such as before and after measurements on the same subjects or observations
+from matched or correlated groups, let me explain this point after some time
+the individuals should be in both the samples
+this is the meaning of this, second is normality, the difference between the
+paired observations should be approximately normally distributed
+here you are not testing on both the samples, you are testing between their differences
+let me explain this point to you and the third one is independence of pair, each pair of
+observation should be independent of other pairs, let me explain this through an example
+suppose we have a class, let's call it class data science
+and there are five students in it, one is A, B, C, D, E
+what did we do, we took a test of them, listen carefully
+we took a test of them and we stored the marks of their test
+so first one is 50, second one is 60, third one is 70
+this one is 40 and this one is 25
+we said these marks are very bad, so we took some extra classes of them
+we taught them, and when the extra classes were over, we took their test again
+so now we know that this one has 55, this one has 60, this one has 60, this one has 60
+and this one has 100, ok
+so these are the same individuals who are making the part of both the samples
+sample 1, this is sample 2
+now what are these assumptions saying, that the two set of observations must be related
+so you can see this observation and this observation is related
+because both of these are of A
+this observation and this observation is related because both of these are of B
+right, what is normality, in this case what you will do
+you will find the difference between these two numbers
+you will find the difference like this
+and then this difference
+this should be normal
+this is written here
+ok, and the third one is independence of pair
+basically these pairs should not be related to each other
+basically A and B marks should not be related to each other
+cheating meeting should not be done, this kind of finding is there
+ok, so these are our three assumptions
+now to do this too, we will take a question
+we will solve it through the question, ok
+so let's assume that a fitness center is evaluating
+the effectiveness of a new 8 week weight loss program
+they enroll 15 participants in the program
+and measure their weights before and after the program
+the goal is to test whether the new weight loss program
+leads to a significant reduction in the participant's weight
+ok
+this is the weight of 15 people before the program
+and this is the weight of 15 people after the program
+and this is your significance level
+ok
+so what you will do here
+you will write like this
+name of the participant
+A, B, C, there are 15 people like this
+assume it is up to K
+and then you will write their weight before
+what will be the weight before
+80 will be there
+92 will be there
+75 will be there
+dot dot dot
+91 will be there
+then you will write
+weight after
+here you will write 78
+here you will write 93
+dot dot dot
+here you will write 88
+ok
+now what is your null hypothesis saying
+that
+your mu as in average weight
+before
+is equal to
+is equal to
+average weight
+after
+it is a simple thing
+what you are saying is that
+there is no benefit of training program
+the average weight which was earlier
+is the same average weight later
+and then what is your alternate hypothesis saying
+what is your alternate hypothesis saying
+that
+average weight of before
+is greater than
+average weight of after
+because there is weight loss program
+so we are talking about reduction
+so after
+should be less
+in comparison of before
+this is your hypothesis
+ok
+now see what you do step by step
+first of all you find the difference
+this is subtracted from this
+this is subtracted from this
+this is subtracted from this
+and you keep getting all these numbers
+X1
+X2
+X3
+X15
+this is your difference
+now what you do
+of this difference
+first of all
+is there normal distribution or not
+you check this
+ok
+you have to check this first
+if it is normally distributed
+then what you do
+of all these numbers
+you find the sample mean
+and
+you find the sample standard deviation
+of difference
+this is difference
+ok
+and then
+how do you calculate t-statistic
+here you write
+X
+diff
+minus
+mu
+diff
+and
+what is mu-diff
+mu-diff is
+before
+minus
+after
+so basically mu-diff is
+mu
+before
+minus
+mu
+after
+which is zero
+because what is the assumption
+before training
+after training
+there is no difference in weights
+so automatically
+what will be the mu-diff
+zero
+so basically you can say
+that
+you
+do
+minus zero
+and
+if you do minus zero
+then
+remove it
+right
+and then
+what you do
+you write
+here
+standard deviation
+of this
+divided by
+root over of
+n
+which is
+15
+that's it
+so
+look carefully
+I did the same thing
+in the code
+and show you
+here is the code
+so
+see this
+this is
+the weight before
+and this is
+the weight after
+first of all
+what I did
+I took out
+the differences
+of these two
+so basically
+80-78
+92-93
+75-81
+so you can see
+the weight of most people
+has increased
+I have taken data in this way
+that the weight has actually increased
+just to show you
+that null hypothesis
+is wrong
+ok
+I don't know
+if it is more or not
+we will have to see
+whatever it is
+it doesn't make any difference
+what difference does it make to us
+so
+here is the difference
+what I did
+I did
+Shapiro test
+on difference
+ok
+and
+plotted histogram
+so
+you can see
+the p value
+is coming out to be
+0.207
+which basically means
+that when you calculated this
+and
+you sent these numbers
+in Shapiro Wilk test
+so the number is
+0.207
+so the number is
+greater than
+0.05
+which means
+they are following normal distribution
+so now
+we will apply our test
+so what we did first
+the differences
+these numbers
+we took out the mean
+which is basically
+this guy
+and
+we took out
+standard deviation
+which is basically
+this guy
+ok
+and
+we took out n
+length of differences
+is basically 15
+and
+then how we calculated
+t statistic
+mean difference
+divided by
+standard deviation
+divided by
+np square
+root n
+and this is the
+t statistic
+0.104
+our alpha value is
+0.05
+how we calculated
+p value
+see
+this was
+our
+t statistic
+ok
+I could have
+done this directly
+by the way
+how much
+this t statistic
+came out
+0.1
+means
+that
+suppose
+this came
+0.1
+ok
+what we are saying
+that
+there is a reduction
+so we
+are trying to
+take out this area
+ok
+so we again
+applied that cdf funda
+and
+here
+there was no need
+to do 1 minus
+there is no need
+to do 1 minus
+you do 1 minus
+when you have to take out
+the right area
+and
+we calculated this
+just one second
+let's run
+the whole code
+again
+we have run this
+we have run this
+we have run this
+0.207
+we have taken out
+mean and standard deviation
+we have taken out
+length
+we have to take out
+this
+because
+without degree of freedom
+you can't take out
+t statistic
+area
+so we took out
+that
+t statistic
+came
+0.104
+and
+this is
+our p value
+ok
+and
+this is
+our p value
+0.54
+so
+since
+this 0.54
+is greater than
+0.05
+we
+could not
+reject
+our
+null hypothesis
+what was
+our null hypothesis
+that
+there was
+no
+significant
+difference
+and
+what was
+our
+alternate hypothesis
+that
+the weights
+before
+are more
+than the weights
+after
+and actually
+we could not
+prove this
+because
+we had done
+the test
+and
+we had done
+the test
+intentionally
+now i remember
+here you see
+that
+i have increased
+the weights
+of most people
+92 to 93
+75 to 81
+85 to 88
+73 to 74
+90 to 91
+so
+i have increased
+the weights
+so
+if you
+increased the weights
+then
+obviously
+this
+we could not
+prove
+which means
+we could not
+reject this
+but
+we could not
+reject this
+it does not mean
+that it is correct
+actually the weights
+are increased
+but we could not
+do the null hypothesis
+wrong
+so
+i hope you
+understood
+what i am saying
+so whatever it is
+that is how
+you
+find out
+t statistic
+in the case of
+paired
+two sample
+test
+ok
+so
+i have done
+the test
+with examples
+let me know
+if you have any doubts
+is t test valid
+if we have
+more than
+two categories
+in our
+one category
+no
+it is not valid
+in that case
+you have to
+do the test
+called
+ANOVA
+we cannot
+do t test
+t test
+will work on
+those categorical
+columns
+where
+number of
+categories
+is 2
+and
+number of
+categories
+is 2
+so
+we can
+do t test
+in that case
+if there is
+any case study
+i will show
+you
+here we are
+not able
+to tell
+the direction
+of the hypothesis
+no
+we are able
+to tell
+the direction
+of the hypothesis
+what we said
+reduction
+of weight
+so that is
+why we
+took the
+left side
+area
+this is not
+a part of
+deep learning
+i am
+two minutes
+more
+let me know
+if you have
+any doubts
+otherwise
+that was
+the session
+let me know
+how was
+it
+was it
+fun
+or
+was it
+difficult
+is there
+code
+of
+pair
+t test
+i have
+not done
+any case
+study
+and then
+i was showing
+you the formula
+on case study
+so it was
+your homework
+go and
+see
+sir if i buy
+membership
+from website
+will it reflect
+on youtube
+also no
+both are
+different
+both are
+different
+it was fun
+how was the
+session
+after start
+will you
+do eda case
+study
+yes
+when we will
+do projects
+we will
+do test
+tomorrow
+and if
+we have
+time
+then
+we will
+do something
+else
+tomorrow plan is
+chi square test
+day after tomorrow plan is
+anova
+these two test
+are used
+and t test
+are used
+these are
+three main
+test
+one is f test
+which is
+for variances
+like
+lavine test
+so
+let's see
+if we get time
+we will cover that
+otherwise
+yes yes
+i told about f test
+so f test
+is for
+comparing variances
+so
+it depends on
+time
+if we get time
+then we will do it
+in these two classes
+if not
+then we will do it
+wherever it will be used
+don't worry
+i don't remember
+everything
+hmm
+this is a valid
+problem
+the good part
+is that
+your competitors
+also have
+this problem
+so
+the one who
+can handle it
+better
+so
+you have to figure out
+this
+i don't understand
+your question
+mihir
+after reading
+stats 95%
+in ML
+will it be easy
+or
+more tough
+it should be easy
+otherwise
+what's the use
+it should be easy
+you can visualize
+things
+better
+so
+it's a good feeling
+ok then
+let's go guys
+i will close the session
+see you tomorrow
+in paid session
+ok
+bye
+good night

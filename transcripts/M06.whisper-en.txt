@@ -1,0 +1,5617 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+So, in this video we are going to cover the session 42 of our Data Science Mentorship Program.
+Unfortunately, this session was not live because I couldn't prepare the content on time.
+So, it's okay. I have recorded all the content and I have put it in this video.
+So, kindly watch this video. I have first of all covered all the topics that we are going to cover.
+And then I have covered one thing. This video will start exactly from where our last session ended.
+That is normal distribution. We did normal distribution in the last class.
+So, this video will start exactly from that place.
+And we are going to cover non-normal as in non-Gaussian distributions in this video.
+So, again sorry for the delay. Since the video is long, it took some time to edit it.
+But yeah, let's start the video.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview. So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+So, guys let me give you a brief overview.
+In the last lecture, we had studied a very specific and very important probability distribution
+which was normal distribution.
+So, we had studied everything about normal distribution that how is its pdf, cdf,
+how is its skewness, then we had studied a special type of normal distribution
+which we call standard normal variate.
+So, we had also studied where normal distribution is used in data science or in real life.
+Now, our next discussion is about the rest of the distributions
+because there are hundreds of distributions.
+So, we are going to study about some more important non-Gaussian distributions.
+Non-Gaussian means non-normal distributions.
+So, I have studied this whole study.
+I am dividing it into two parts again.
+First, in today's lecture, we will study about continuous non-Gaussian distribution.
+And then, in the next lecture, we will study about discrete non-Gaussian distributions.
+Okay?
+And everything will still not be covered.
+So, the plan is that whenever we see any distribution in the future,
+we will study about it there.
+In today's lecture, we will talk about three very famous non-Gaussian continuous distributions.
+First of all, we will talk about uniform distribution.
+Then, we will talk about log normal distribution.
+And then, we will talk about Pareto distribution.
+These are three very famous and very occurring distributions.
+Apart from this, we have to study some more continuous distributions in the upcoming weeks.
+For example, T distribution.
+Students' T distribution.
+Chi-square distribution.
+We have to study all these.
+But today, we are going to focus on these three things.
+Apart from this, we will discuss some more things in today's class.
+First, we will discuss that given a distribution,
+given a distribution,
+how can we tell
+if it is a normal distribution.
+Okay?
+And to do this, we will plot a graph which is called a Q-Q plot.
+So, we are going to learn this Q-Q plot in detail.
+Also, we will also study about transformations today.
+That suppose you have some non-Gaussian distribution,
+but you have to convert it into Gaussian or normal distribution.
+Then, how can you apply transformations?
+So, here we will study some transformations.
+Like log transformation,
+reciprocal transformation,
+square root transformation,
+and then a very interesting box-cox transformation.
+So, we have to study all these things today.
+And trust me, today's lecture will help you a lot in machine learning.
+Okay?
+So, that's the plan for this lecture.
+So, guys, let's discuss about kurtosis.
+This was a topic left in the last lecture.
+Okay?
+What is kurtosis?
+Let me explain it to you in detail.
+So, here a definition is written.
+Let's read it out once.
+Then we will understand it easily.
+So, kurtosis is the fourth statistical moment.
+I have told you that there are moments in statistics.
+The first moment is your mean.
+The second moment is your standard deviation.
+The third moment is your skewness.
+And the fourth moment is kurtosis.
+Okay?
+There are more moments.
+But these are the most important ones.
+So, in probability theory and statistics,
+kurtosis, whose meaning is curved or arcing,
+is a measure of tailedness of the probability distribution
+of a real valued,
+random variable.
+Okay?
+Like skewness, kurtosis describes
+a particular aspect of probability distribution.
+So, basically,
+one line description is that
+in your probability distribution,
+what is the tailedness?
+This is what kurtosis tells.
+Now, it must be coming to your mind
+what is tailedness?
+Okay?
+So, to explain kurtosis,
+let me give you an example.
+And through that example,
+we will also do a kind of revision
+about mean, standard deviation, skewness and kurtosis.
+Okay?
+So, let's go.
+I will give you one example.
+Let's say, I am giving an example of cricket
+because I generally give examples around cricket.
+I have huge interest in cricket.
+So, I understand the examples of cricket a little easily.
+So, suppose we have a batsman.
+Okay?
+So, suppose the batsman is Sachin Tendulkar.
+Okay?
+Now, suppose this is happening in 2007.
+So, in 2007, Sachin played 100 matches.
+Okay?
+Everything is hypothetical.
+He played 100 matches.
+And Sachin made an average of 40 runs in all those matches.
+Means, he made 40 runs per match.
+And it was said that Sachin did not play that well.
+So, in 2008, Sachin made some adjustments in his technique.
+Okay?
+He made some adjustments.
+And in 2008, he played only 100 matches.
+And it was known that in the end of these 100 matches,
+the average was 40 only.
+Now, if you talk about the mean,
+then according to the mean,
+there are two distributions.
+After all, both of these are distributions.
+Right?
+So, according to the mean,
+these two distributions are exactly same.
+Because, you can see.
+I mean, see, something like this will happen.
+Suppose we are talking about 2008.
+We are talking about 2007.
+This is 2007.
+So, in 2007, suppose,
+there will be a graph like this.
+That here,
+there is a value of around 40.
+Here, suppose, there is a value of around 120.
+Here, let's say, there is a value of around 0.
+Something like that.
+That in this range,
+in many matches, Sachin made a run.
+In a few matches, he made a run around 100.
+In very few matches, he got out even at 0.
+Right?
+So, if you just talk about the mean,
+then according to the mean,
+there is no distinction between 2008 and 2007.
+Because the mean is the same.
+Right?
+But, if you want to see another story,
+or if you want to see another perspective,
+then what you can do is,
+you can plot the PDF of both.
+Of both 2007 and 2008.
+So, suppose, you have plotted the PDF.
+And your PDF came out something like this.
+Okay?
+Something like this.
+This is your 2007.
+And for 2008, let me take some other color.
+Suppose,
+this is 2008.
+Now, if you pay attention,
+then the mean of both these distributions is the same.
+But, you can see,
+that the standard deviation is a little different.
+I mean, I am not getting it right.
+Suppose, the standard deviation looks like this.
+Something like this.
+So, the mean is the same.
+But, the spread of the data,
+is different.
+So, from this, you will get a different perspective
+on this same data.
+That, what happened in 2008,
+that,
+in your
+most of the innings,
+like, you can say that,
+in 2008, Sachin has been more consistent.
+Because,
+more values are around the mean.
+And the values of the outside, the values of the distance,
+have decreased a little.
+So, in a way, you can say that,
+maybe, in 2008, Sachin didn't kill that many centuries.
+But, he didn't get out even at 0 that many times.
+And he has been more consistent in this region.
+So, this is the benefit of standard deviation.
+That, on the same problem,
+you are given an extra kind of layer of information.
+Okay.
+Now,
+let's see this scenario in a little different way.
+What if, suppose, our
+graph of both the years looks something like this.
+Looks something like this.
+Something like this.
+So, now, if you notice here,
+then,
+the mean is still, let's say, 40.
+So, the mean is still the same.
+And the spread
+is also the same.
+But,
+what is the difference this time?
+This time, the difference is skew.
+So, you can, in a way, say that,
+in this,
+most of the times, Sachin has
+made big runs.
+And here, most of the times,
+he has made less runs.
+But, still, eventually, the average is the same.
+But, in the data, there is a skew.
+So, you are getting this kind of third perspective
+with the help of skew.
+Right.
+I hope you are able to understand.
+Now,
+I can give you one more perspective.
+Let's say,
+now, it is a little difficult to draw this.
+But, let's say,
+something looks like this.
+And,
+then,
+something looks like this.
+Right.
+Now, in this case,
+if you see,
+the mean is still the same.
+The standard deviation is also the same.
+Actually,
+you won't understand this graph.
+When we will plot it properly,
+you will understand it better.
+The mean is the same.
+The standard deviation is also the same.
+And,
+in this case, the skew is also the same.
+Skew is also the same.
+But, still,
+where is the difference coming?
+The difference is coming in the fatness of your tail.
+You can see that,
+the curve in pink,
+it has got fatter tails.
+Right.
+What does this mean?
+You can say that,
+the graph in pink,
+or the 2008 performance of Sachin,
+has a lot of outliers.
+Both sides.
+So, basically,
+many times,
+Sachin,
+has been out at 0.
+But, at the same time,
+to compensate,
+he has played a lot of centuries,
+in comparison to 2007.
+And,
+the same,
+density of outliers,
+you are telling,
+with the help of
+fatness of tails,
+this is called,
+kurtosis.
+Okay.
+So, I know,
+I gave you a long answer.
+But, just wanted to show you,
+that,
+what different perspectives,
+you get,
+from these different,
+summary stats.
+So, what kurtosis does is,
+it tells you,
+the intensity,
+of,
+tailedness.
+Okay.
+That,
+how much,
+your distribution,
+of,
+outliers,
+is,
+fat-tailed.
+Okay.
+Fat-tailed,
+means,
+that,
+your,
+far away,
+values,
+how much,
+dense,
+or how much,
+frequency,
+they are occurring.
+So, if,
+tail is fat,
+it means,
+it will go,
+a little late,
+and merge,
+at 0.
+So,
+it means,
+there,
+probability of tail events,
+that is,
+higher than,
+let's say,
+this black curve.
+Okay.
+So,
+what is kurtosis?
+Okay.
+Honestly,
+it is not that,
+useful,
+in a lot of scenarios.
+But,
+now,
+going forward,
+I'll give you some examples,
+where you would find,
+kurtosis to be,
+very,
+very useful.
+Okay.
+Now,
+related to,
+kurtosis,
+one,
+little,
+you can say,
+that,
+a misunderstanding,
+or,
+a misinformation,
+has spread,
+that,
+kurtosis,
+how high,
+is a curve.
+So,
+I would like to,
+clarify this once,
+if you,
+are seeing this,
+in any video,
+that,
+kurtosis is about,
+peakedness,
+then,
+it is wrong.
+Kurtosis is about,
+tailedness.
+Here,
+if you,
+look at the interpretation,
+on Wikipedia article,
+then,
+it will be written here,
+that,
+the exact interpretation of,
+Pearson measure of,
+kurtosis,
+used to be,
+disputed,
+but now,
+it is settled.
+So,
+there is this,
+researcher,
+Westfall,
+he said,
+its only,
+unambiguous,
+interpretation is,
+in terms of,
+tail extremity,
+which I told you,
+that is,
+either,
+existing outliers,
+or,
+propensity,
+to produce,
+outliers.
+So,
+what we talk about,
+is about,
+tailedness.
+The logic is simple,
+kurtosis is,
+the average,
+of the standardized data,
+raised to the fourth power,
+this is about,
+fourth moment.
+The main thing,
+is,
+that,
+this is,
+just one second,
+here,
+it is written,
+many incorrect interpretations,
+of kurtosis,
+that involve,
+notions of,
+peakedness,
+have been given,
+which I am telling you,
+that this is wrong,
+written in some places.
+One is that,
+kurtosis,
+measures both,
+the peakedness,
+of the distribution,
+and heaviness,
+of the tail.
+This is also wrong.
+If anywhere,
+it is written,
+that,
+this is wrong.
+If this is also said,
+that,
+peakedness,
+and heaviness,
+of the tail,
+is also wrong.
+The correct interpretation,
+of kurtosis,
+is,
+tailedness.
+Means,
+how heavy,
+is your tail.
+This,
+kurtosis,
+tells.
+So,
+I just wanted to clear this,
+that's why,
+I showed you this article.
+So,
+till now,
+on the basis of the discussion,
+if someone asks you,
+what is kurtosis,
+then,
+in simple words,
+that,
+how fat is the tail,
+of any distribution.
+This,
+kurtosis,
+tells you.
+Okay.
+And,
+fatness of the tail,
+means,
+the presence of outliers.
+The fatter the tail,
+the more,
+chances of having outliers.
+Okay.
+So,
+if you talk about the formula,
+then,
+it is a very scary formula.
+This is the formula,
+for,
+sample kurtosis.
+Okay.
+Again,
+to the,
+raise to the power,
+four,
+because,
+I said,
+that,
+it's a mistake.
+So,
+it's okay,
+means,
+you don't need to go deep,
+in the formula.
+We have,
+statistical tools,
+Python,
+which,
+will give you,
+kurtosis,
+by calculating,
+quickly.
+I,
+tell you,
+its practical,
+use cases,
+that,
+in what kind of scenarios,
+you want to,
+remove kurtosis,
+of any distribution.
+Okay.
+So,
+the best,
+use case,
+of kurtosis,
+let's read,
+what's written here.
+In finance,
+there is a term called,
+kurtosis,
+risk.
+It's a very famous term.
+It refers to the risk,
+associated with the,
+possibility of,
+extreme outcomes,
+or fat tails,
+in the distribution,
+of returns,
+of a particular,
+asset,
+or portfolio.
+And,
+I don't know,
+if you have ever,
+invested money,
+in mutual funds,
+or not.
+But,
+if you have ever,
+invested money,
+in mutual funds,
+then,
+you are told,
+which is very,
+volatile.
+Volatile,
+means,
+if you invest money,
+then,
+you can earn a lot of money,
+but,
+you can also,
+lose money.
+So,
+this is an example,
+of kurtosis.
+So,
+if there is a,
+mutual fund,
+whose,
+profit,
+distribution,
+whose,
+profit distribution,
+whose,
+tail,
+if it is,
+very fat,
+then,
+what does it mean?
+It means,
+that,
+its,
+profit,
+distribution,
+has a lot of outliers.
+Means,
+many people,
+earned a lot of money,
+and,
+many people,
+lost a lot of money.
+Okay?
+So,
+this is always done,
+that whenever,
+you talk about,
+any kind of,
+assets,
+in finance,
+or,
+portfolios,
+then,
+kurtosis risk,
+is studied,
+this graph,
+is plotted,
+and,
+kurtosis,
+is taken out,
+and,
+if,
+kurtosis risk,
+is very high,
+then,
+customers are told,
+that,
+see,
+where,
+you are investing,
+there,
+there is a lot of volatility,
+and,
+your money,
+can sink,
+but,
+at the same time,
+you can earn money.
+Okay?
+See,
+it is written here,
+if a distribution,
+has high kurtosis,
+it means,
+that,
+there is a,
+higher likelihood,
+of extreme events,
+occurring,
+either,
+because,
+it indicates that,
+there is a,
+greater possibility,
+of larger losses,
+or gains,
+occurring,
+which can have a,
+significant implication,
+for investors.
+As a result,
+investor may want to,
+adjust,
+their investment strategies,
+to account for,
+kurtosis risk.
+Okay?
+If,
+it is known,
+then,
+poor person,
+will think,
+and,
+invest money.
+Okay?
+I hope,
+you understood,
+with a simple example,
+where,
+excess kurtosis,
+is mentioned.
+Okay?
+What is,
+excess kurtosis?
+Let me,
+tell you.
+So,
+excess kurtosis,
+is a measure,
+of how much,
+more peaked,
+or flat,
+a distribution,
+is,
+compared to,
+normal distribution.
+So,
+basically,
+it is a relative measure,
+which indicates,
+that,
+your distribution,
+in comparison,
+to a given,
+normal distribution,
+how much,
+it is,
+tailed,
+or,
+thinner,
+or,
+thinner,
+tailed.
+Okay?
+So,
+what happens is that,
+generally,
+the kurtosis of normal distribution,
+excess kurtosis,
+is considered,
+as,
+zero.
+And,
+basically,
+what happens is that,
+you,
+take out,
+sample kurtosis,
+from,
+the above formula.
+And,
+to take out,
+excess kurtosis,
+what you do is,
+you subtract,
+3 from it.
+Okay?
+And,
+you have,
+3 types of,
+probability distributions.
+So,
+the first type is called,
+leptokurtic.
+Okay?
+So,
+a distribution with,
+positive excess kurtosis,
+is called,
+leptokurtic.
+So, basically,
+you took out,
+sample kurtosis,
+from that,
+subtracted 3.
+Now,
+if this number,
+is greater than 0,
+then,
+you will call it,
+leptokurtic.
+Lepto,
+means,
+slender,
+or,
+I guess.
+So, in terms of shape,
+a leptokurtic distribution has,
+fatter tails.
+So, you can see in this graph,
+here,
+the black one,
+you can call it,
+normal distribution.
+Or, you can say that,
+its excess,
+kurtosis,
+is 0.
+So, in comparison to this,
+the blue one,
+is your leptokurtic.
+So, you can see,
+not only,
+it is tall,
+but,
+its tail,
+it is,
+fatter,
+in comparison to,
+this black one.
+Now, in this graph,
+you can see one thing,
+that,
+its mean,
+is same.
+Its standard deviation,
+as in,
+spread is also same.
+And,
+its skewness is also same.
+But,
+what is the difference?
+That,
+the fatness of the tail,
+how much is it?
+Okay,
+I could not draw this,
+properly,
+when I,
+was making this thing.
+So, I would,
+actually,
+would have lied,
+that I could have made this drawing.
+But,
+okay,
+you will understand,
+what is leptokurtic.
+Okay?
+So,
+its example,
+if you want to see,
+by the way,
+leptokurtic indicates,
+that there are more,
+extreme values,
+or outliers,
+in the distribution.
+It is simple.
+Example,
+is the same,
+what I told you.
+A mutual fund,
+which,
+has sudden price movements,
+and,
+because of that,
+suddenly,
+you may face loss,
+or profit.
+Okay?
+So, it is called,
+leptokurtic.
+Next is,
+platicurtic.
+Distribution with,
+negative,
+excess,
+kurtosis.
+So, if you subtract,
+3 from the sample,
+kurtosis,
+if this number,
+is less than 0,
+then,
+it is called,
+platicurtic.
+Platic means,
+broad.
+This,
+red one,
+below,
+is platicurtic.
+And,
+you can see,
+its,
+fatness of tail,
+is less,
+than the black one.
+Okay?
+So,
+I hope,
+you are understanding.
+It means,
+there are fewer,
+extreme values,
+or outliers,
+in the distribution.
+So,
+the balanced,
+mutual funds,
+not balanced,
+the stable,
+mutual funds,
+where,
+there is not much movement,
+of the price,
+you can put them,
+in this category.
+Okay?
+The last one is,
+mesokurtic.
+Mesokurtic,
+basically,
+your,
+distribution,
+whose,
+excess kurtosis,
+is 0.
+Okay?
+The most prominent example of,
+mesokurtic distribution,
+is,
+normal distribution family,
+regardless of the,
+values of its,
+parameter.
+Whatever is mu,
+whatever is sigma,
+if,
+it's a normal distribution,
+you can call it,
+mesokurtic.
+And,
+it means,
+that,
+its excess kurtosis,
+is 0.
+Okay?
+Indicating that,
+it has same degree of,
+peakedness,
+or flatness,
+as a normal distribution.
+Okay?
+Example is,
+a,
+balanced,
+mutual fund,
+where,
+you,
+are,
+balanced,
+means,
+basically,
+neither more,
+nor less.
+Okay?
+I hope,
+you understand.
+So,
+this was a discussion,
+around kurtosis.
+We should have done this,
+in the last class,
+but,
+we couldn't.
+But,
+yeah,
+I hope,
+you understood,
+what is kurtosis,
+and,
+how it is,
+different from,
+mean,
+standard deviation,
+and,
+skewness.
+And,
+you are studying,
+distributions.
+So, guys,
+in,
+statistics interviews,
+you are asked,
+one question,
+many times,
+and,
+it is a very important question,
+honestly.
+So, the question is,
+how to find,
+if a given distribution,
+is normal,
+or not?
+Means,
+if you have,
+any random variable,
+or,
+for that matter,
+any data set,
+or any column,
+then,
+how can you tell,
+that the data,
+in that column,
+or in that random variable,
+is normal,
+or not?
+Okay?
+So, if you are asked,
+this question,
+then,
+there are 3-4 ways,
+I have written,
+the most important,
+3 ways,
+here.
+So, the first one is,
+visual inspection.
+Which means,
+simply,
+plot a graph,
+and see.
+What you can do is,
+either,
+you make a histogram,
+or,
+you make a density plot.
+If,
+histogram,
+is showing,
+something like this,
+then,
+there is a possibility,
+that the data,
+that you have,
+is normally distributed.
+Or,
+if you are getting,
+a normal type,
+density plot,
+then also,
+you can tell,
+a little bit,
+that,
+the data,
+that you have,
+is normally distributed,
+or not?
+So, the first is,
+visual inspection.
+The second method,
+that,
+we will cover,
+in detail.
+And,
+the second method is,
+Q-Q plot.
+So,
+Q-Q's full form is,
+Quantile-Quantile plot.
+And,
+this is a special plot,
+which,
+is used,
+to identify,
+distributions.
+Okay?
+And,
+the third technique is,
+Statistical tests.
+That,
+what you do,
+there are different,
+different tests,
+like,
+Anderson-Darling test,
+there are some other tests,
+as well,
+which,
+you use,
+with the help,
+of p-values,
+you figure out,
+that,
+the distribution,
+you have,
+is it normal,
+or not?
+Okay?
+But, now,
+we'll focus more,
+on Q-Q plots.
+Okay?
+Q-Q plots are,
+very important,
+very useful,
+and,
+you would find them,
+in a lot of places,
+when you,
+study further.
+So, that is why,
+it's a good point,
+that you,
+understand Q-Q plot,
+properly.
+So, now,
+I'll teach you,
+what Q-Q plot,
+is,
+how it looks,
+and,
+how it is created.
+I'll teach you this.
+And then,
+I'll also,
+teach you,
+how the output,
+of Q-Q plots,
+is interpreted.
+I'll teach you this too.
+Okay?
+So, let's go.
+Let's start,
+first of all,
+what is Q-Q plot,
+and,
+how it is plotted.
+So, here,
+a small definition,
+is written.
+A Q-Q plot,
+also known as,
+quantile-quantile plot,
+is a graphical tool,
+used,
+to assess,
+the similarity,
+of,
+the distribution,
+of,
+two sets of data.
+Okay?
+It is particularly useful,
+for determining,
+whether,
+a set of data follows,
+a normal distribution,
+or not.
+Okay?
+And,
+this,
+on your screen,
+is a typical,
+Q-Q plot.
+This is how,
+Q-Q plot looks.
+Okay?
+So, let me,
+simplify,
+the definition,
+and tell you.
+So, what happens is,
+in Q-Q plot,
+you take,
+basically,
+two set of distributions.
+Let's say,
+capital X,
+capital Y.
+And,
+you compare,
+the similarity,
+of,
+your data,
+or,
+your random variable.
+And, this Y,
+is a,
+theoretical distribution.
+Theoretical distribution,
+means,
+you already know,
+what is its type.
+Let's say,
+you already know,
+that it is,
+normally distributed.
+So, now,
+you are comparing,
+your data,
+with,
+this normal,
+distribution.
+And, Q-Q plot,
+will tell you,
+whether,
+these two,
+are comparable,
+or, not.
+If, they are not comparable,
+then, we understood,
+that,
+X,
+is not,
+normally distributed.
+If, they are comparable,
+then, we understood,
+that,
+X,
+is normally distributed.
+So, that's the basic,
+funda.
+What do you do?
+You,
+work,
+step by step.
+The first step is,
+that,
+you take up,
+a,
+theoretical,
+data,
+or,
+distribution.
+You,
+take up,
+data.
+So, let's say,
+you have,
+normally distributed,
+data,
+generated.
+Okay?
+I will show you,
+that is step 1.
+In step 2,
+what do you do?
+That, your,
+own data,
+let's call it,
+X,
+capital X.
+First,
+you sort it.
+Then,
+what do you do?
+You,
+calculate,
+its,
+quantiles.
+Okay?
+Let's say,
+if you are,
+taking out,
+100 quantiles,
+then,
+you calculate,
+so,
+so,
+and so forth.
+What is 100 percentile?
+Okay?
+And then,
+you do the same,
+work,
+on this theoretical data also.
+You,
+sort it also.
+And,
+you calculate,
+its,
+quantiles also.
+Let's say,
+you have calculated,
+100 quantiles.
+So,
+now,
+you have,
+quantiles of,
+both.
+You have,
+quantiles of,
+Y.
+Which,
+is 100.
+Because,
+there are,
+quantiles of,
+X.
+Which,
+again,
+are 100 points.
+So,
+what you do is,
+you,
+take,
+first,
+point of,
+Y.
+And,
+you,
+take,
+first,
+point of,
+X.
+And,
+you,
+pick it up,
+and,
+plot it on this graph.
+Then,
+you,
+take,
+second,
+point of,
+Y.
+And,
+you,
+plot it.
+And,
+if,
+after,
+plotting,
+100 points,
+if,
+all,
+points,
+come,
+on,
+a,
+single,
+line,
+segment,
+then,
+it,
+proves,
+that,
+X,
+and,
+Y,
+both,
+distributions,
+are,
+same.
+I,
+hope,
+you,
+understand.
+Basic,
+funda,
+is,
+that,
+you,
+take,
+a,
+theoretical,
+distribution,
+whose,
+distribution,
+you,
+already,
+know.
+You,
+calculate,
+its,
+quantiles.
+Then,
+you,
+your,
+data,
+X,
+you,
+calculate,
+and,
+the,
+data,
+on,
+this,
+X,
+and,
+Y,
+the,
+distribution,
+are,
+relative,
+to,
+your,
+data,
+data.
+You,
+have,
+your,
+data,
+in,
+your,
+data,
+may,
+be,
+less,
+than,
+the,
+in python, I will show you that. So, what I have done here is, I have taken iris data set, I have shown you this data set many times
+and I have plotted kdplot on its sepal length column and you can see this is the distribution, by looking at it you can understand
+that it is looking like a normal distribution. Now, how will we know? So, what I have done is, I have removed all the values of sepal length
+and I have sorted it and then what I have done is, I have run a loop from 1 to 100 and I have calculated all the percentiles
+1st percentile, 2nd percentile, 3rd percentile. So, I have calculated 100 percentile of sepal length and put it in y-quant.
+y-quant is a variable. Then what I have done is, I have generated a data for myself which is normally distributed.
+You can see.
+And its meaning is,
+mean is 0, standard deviation is 1 and there are 1000 data points.
+And now, on this new distribution, I have run a loop again 100 times and calculated percentiles.
+1st percentile, 2nd percentile, 100th percentile and I have stored all the percentiles in x-quant.
+So, now I have both set of quantiles. Now, what I have to do is, I have to plot scatterplot between these two.
+So, I have called the scatterplot function of this one.
+I have put x-quant in x-quant and y-quant in y-quant.
+And you can see, this is the graph.
+So, you can see perfectly, all the points are not coming on one line.
+But still, you will see sort of normal distribution.
+Now, honestly, you don't have to do so much hard work.
+So, there is a library called stats model.
+In that, you have to directly plot qq.
+There is a code to plot qq.
+So, you don't have to do anything.
+You have to import sm.qqplot.
+In that, you have to directly send your column.
+It will do the sorting.
+It will take out the percentiles.
+And here, you just have to tell how you have to draw the line.
+Okay.
+I will show you what are the options here.
+So, if you search sm.qqplot, then you will get this documentation.
+In this documentation, you can see,
+that you have these are the options.
+45 degree line, standardized line, regression line,
+line to fit quartile.
+These are different options.
+Generally, it works with 45.
+Otherwise, you can change and see.
+And what will it do?
+By default, it will automatically take a theoretical normal data.
+And with that, it will give you qqplot by plotting.
+So, you can see, we have made the same graph here.
+This same graph.
+It is being generated here.
+The good part about this graph is,
+that it itself is fitting a line and giving you 45 degree.
+And you can see, not every point is touching this line.
+So, you cannot say that this is like a full-fledged normal distribution.
+This is sort of normal.
+But not a perfect normal distribution.
+Okay.
+So, yes guys.
+This is qqplot.
+Okay.
+Now, let's discuss one or two more things around qqplot.
+That, first of all,
+that,
+here, I have written exactly the same things that we have discussed just now.
+You can read this later.
+I have given you the example of python.
+Now, I will show you how to interpret qqplot.
+Now, to interpret qqplot, actually,
+it is not very difficult.
+It is just that you should know how the qqplot of different distributions look like.
+Otherwise, you will learn to interpret.
+If you will get a perfectly normal distributed data,
+then its qqplot looks something like this.
+You can see, almost every point is on this line.
+Maybe, one or two will be missed.
+But it would look like this.
+Okay.
+If the data is too peaked in the middle,
+then you will see the points in the middle on the line.
+But the points on both the sides of the line deviate from the line.
+Okay.
+If there is skewed data,
+then,
+basically,
+where you can see the normal distribution,
+till there,
+it will be associated with the line.
+After that, it will deviate.
+Okay.
+In skewed data,
+in left skewed,
+it will be like this.
+From the left side,
+the points will leave the line.
+In skewed,
+from the right side,
+the points will leave the line.
+If you have got fat tail,
+then,
+in that case,
+from both sides of the tail,
+you will leave the line.
+In the case of thin tail,
+it will stick around.
+But still,
+there will be a slight deviation.
+Okay.
+So,
+I have kept these images in front of you.
+You will get them in the form of PDF.
+So,
+just go through them
+and just build some intuition.
+This is more about intuition.
+But,
+you should know.
+Okay.
+Now,
+let's discuss one last question around Q-Q plots.
+So,
+some people have a doubt that
+Q-Q plots can detect only normal distribution.
+This is not correct.
+By definition,
+I had told you that
+Q-Q plot tells the distribution of two random variables by comparing them.
+Right.
+So,
+your Y,
+I am sorry,
+your X theoretical distribution,
+it can be anything.
+It can be normal.
+It can be uniform.
+It can be Pareto.
+It can be log-normal.
+It can be anything.
+Right.
+So, I will give you an example,
+where we will use Q-Q plot
+and detect that
+one given
+distribution
+is it uniform or not.
+Now,
+I have not taught you uniform yet.
+I will teach you now.
+So,
+uniform looks something like this.
+Like this.
+This is uniform.
+Okay.
+So,
+we have this kind of data.
+We have to find out
+whether it is uniform or not.
+So,
+I have written its code.
+I will share its code.
+So,
+you can see
+here I have generated a uniform distribution
+with 1000 points.
+Which are all points between 0 and 1.
+And you can see
+I have also plotted the histogram.
+Just to check
+whether it is uniform or not.
+So, obviously,
+it will not generate a perfect uniform.
+But you can see
+that it looks like a uniform distribution.
+Okay.
+Now, what you have to do is
+you have to fit a theoretical uniform distribution
+in your stats model library.
+And you have to create that distribution.
+And you can see
+here also,
+we have created this distribution
+in the range of 0 and 1.
+And now,
+you don't have to do anything.
+Again,
+you have to call qqplot.
+You have to pass x.
+And here,
+this time,
+you have to send this distribution
+in the distribution
+which you had created for yourself.
+Last time,
+we had not sent anything here.
+Because,
+in default,
+normal distribution
+is passed automatically.
+Here,
+what we have done is
+externally,
+we have made another
+theoretical uniform distribution.
+And we have passed it here.
+We have still kept the line at 45 degrees.
+And you can see,
+as we have plotted the graph,
+this is the qqplot.
+Almost every point is
+on the graph itself.
+Okay.
+On the line itself.
+Which shows
+that
+we have
+this distribution
+which is uniform.
+Okay.
+So, in this way,
+you can use qqplot
+to compare any two distributions.
+Generally,
+it is used more
+to check the normal distribution.
+But whatever it is,
+it is very important
+to check
+the normality of the data.
+You should know about it.
+This is how it is plotted.
+And what is its inner mechanics?
+You should have an idea about it.
+I really hope
+you understood.
+So, guys,
+let me
+talk about
+a very simple
+probability distribution
+called
+uniform distribution.
+You might have heard
+the name.
+So,
+what is uniform distribution?
+Let's discuss it once.
+In probability theory
+and statistics,
+uniform distribution
+is a probability distribution
+where all outcomes
+are equally likely
+within a given range.
+This is the definition.
+This means
+that
+if you were to
+select a random value
+from this range,
+any value
+would be
+as likely
+as
+any other value.
+Okay.
+If you remember,
+I told you
+some classes earlier
+about
+rolling dice.
+So,
+if you have
+a fair dice
+and
+you want to
+roll it,
+you can roll it
+like this.
+Right?
+One,
+two,
+three,
+like this.
+So,
+when you roll it,
+you can get
+one,
+two,
+three,
+four,
+five,
+and six.
+But,
+if someone asks you
+what is the probability
+of getting
+one,
+you know
+it's 1 by 6.
+What about
+getting two?
+That is also
+1 by 6.
+If you
+put all
+your
+x values
+and
+let's say
+you put
+the probability
+on y-axis,
+then
+the height
+of all
+bars
+will be
+the same.
+And that
+it would be
+equal to
+1 by 6.
+Right.
+So,
+this is
+uniform distribution.
+So,
+there are
+two types of
+this.
+This is
+an important
+thing.
+One is
+uniform
+which is
+where
+you have
+your random variable
+which is
+a discrete random variable.
+But, at the same time,
+you can also have
+a continuous
+uniform distribution
+as well.
+Right.
+If your
+random variable
+if it is
+a continuous
+random variable
+then your
+distribution
+will be
+uniform continuous
+distribution.
+Right.
+If you
+talk about
+notation
+then,
+it is
+denoted
+like this.
+Right.
+X
+is a
+uniform
+distribution.
+A and B
+are your
+parameters.
+These are
+the parameters
+where A
+is the
+lower value
+and B
+is the
+higher value
+as in
+range.
+We are talking
+about range.
+So,
+range starts
+from A
+and goes
+to B.
+In this example,
+we are talking
+about
+A and B.
+So,
+let's
+discuss
+what are
+some of the
+examples
+where you
+will get
+continuous
+uniform distribution.
+We will
+discuss
+continuous
+uniform distribution
+in next class.
+So,
+I will
+tell you
+some
+examples of
+continuous.
+So,
+generally,
+if you
+make
+a range
+then it
+generally forms
+uniform distribution.
+As you can see here,
+the height of a
+person randomly
+selected from
+a group of
+individuals whose
+heights range
+from 5.6
+to 6.
+You did not
+say that
+call anyone
+of any height
+then it will
+become normal
+distribution.
+You restricted it
+and brought it
+in a range.
+Generally,
+when you bring
+a continuous
+variable in a range,
+the probability
+of picking
+any value
+will be
+very high.
+So,
+this is
+the
+case
+in
+the
+case
+of
+continuous
+distribution.
+So,
+the
+time
+it
+takes
+for
+a machine
+to produce
+a product
+where
+the
+production
+time
+ranges
+from
+5 to
+6 hours.
+So,
+if you
+have a
+continuous
+variable,
+then you
+will get
+a continuous
+distribution.
+I know
+these are not
+interesting examples.
+Don't worry.
+I will give
+you some
+examples of
+continuous
+distribution
+in machine
+learning
+later.
+Before that,
+let's do
+a mathematical
+study of
+the distribution
+and its
+equation.
+If you
+focus on
+the first
+graph,
+then this
+is the
+graph of
+PDF.
+Since it
+is continuous,
+you can see
+the graph of
+PDF.
+It is
+very simple.
+You can see
+the range
+of A
+and B.
+So,
+in the
+given range
+between
+A
+and B,
+the
+probability
+density
+is
+constant
+1 by
+B minus
+A.
+Also,
+if you
+apply
+simple
+mathematics,
+you will
+understand
+that the
+probability density
+value is
+1 by
+B minus
+A.
+The reason
+is that
+this distance
+is B minus
+A.
+This distance
+is B and
+this distance
+is A.
+So,
+automatically
+this distance
+is B minus
+A.
+So,
+the probability
+density
+of
+B minus
+A
+is 1
+divided
+by
+B minus
+A.
+So,
+in this
+given
+range,
+if
+you
+take
+any
+X,
+its
+probability
+density
+would
+come
+1 by
+B minus
+A.
+So,
+the probability
+density
+value
+is 0
+for
+every
+X between
+B and
+A.
+Obviously,
+B will be
+greater than
+A.
+0
+for
+otherwise.
+Otherwise
+means
+whenever
+you are
+taking
+a smaller
+value
+than
+A or
+X is
+greater than
+B,
+then
+B is
+greater than
+B.
+So,
+you can
+calculate
+the probability
+density
+of
+B minus
+A.
+So,
+the probability
+density
+of
+B minus
+A is
+0.
+So,
+the probability
+density
+of
+B minus
+A is
+0.
+So,
+the probability
+density
+of
+B minus
+A is
+0.
+What
+can
+you
+do?
+I have
+provided
+a link
+here.
+And
+I would
+recommend
+that
+you
+can
+go and
+read
+the Wikipedia
+page of
+Continuous
+Uniform
+Distribution
+because
+they have
+provided
+me
+a good
+amount
+of
+information
+in
+this
+Continuous Uniform Distribution is Symmetric
+Like what?
+Like Normal Distribution
+Ok
+You have to remember this
+Now
+Uniform Distribution is
+I call it as Head End Distribution
+Because it is generally hidden
+Operates behind the scenes
+So I will give you some
+Examples in Machine Learning Domain
+Because we have to do this discussion related to Machine Learning
+I will give you some examples
+Where you can see Uniform Distribution
+Ok
+So I have given 3-4 examples
+So
+The first example is
+Again
+You will understand this when you have studied Machine Learning
+And if you have not studied Machine Learning
+Then listen
+No problem
+When we will study Machine Learning Algorithms in future
+Then I will remind you there
+These are some of the use cases where
+You are seeing Uniform Distribution
+Or using it
+Ok
+So the first one is Random Initialization
+So
+There are many algorithms in Machine Learning
+Where your parameters
+Of that algorithm
+They start with a random value
+And then slowly optimize
+To the correct value
+Like the whole Neural Network works like this
+Even K means Clustering
+All these examples
+These are such examples
+Where algorithm starts from some random value
+So in random value
+The initialization you do
+That you do
+With the help of Uniform Distribution
+See here it is written
+In many Machine Learning Algorithms
+Such as Neural Networks
+And K means Clustering
+The initial value of the parameters
+Can have a significant impact
+On the final result
+In Neural Network
+If your weight initialization is not good
+Then your results are also not good
+So Uniform Distribution is often used
+To randomly initialize the parameters
+As it ensures
+That all values in the range
+Have an equal probability of
+Being selected
+Ok
+One more example is Sampling
+So again you must know
+That when you train your data
+You divide it into two parts
+Train set, test set
+Training is on train
+Prediction is on test
+So this also works
+Of Sampling
+Here also Uniform Distribution
+Is working
+So Uniform Distribution can also be used
+For Sampling
+For example
+If you have a data set
+With an equal number of samples
+From each class
+Then you can use
+The Uniform Distribution
+To randomly select
+A subset of data
+That is representative
+Of all the classes
+Yes and No
+Both have data
+So you will do Sampling in this way
+That your Yes points are also there
+And your No points are also there
+So that when you train
+Then both types of classes
+Should have representation
+In your sample
+Ok
+So again internally
+Whatever functions you use
+They use Uniform Distribution
+Ok
+Basically
+It is used a lot
+In Data Augmentation
+In Uniform Distribution
+In Pseudo Numbers
+In Pseudo Random Numbers
+Generators
+It is used a lot
+Ok
+Data Augmentation
+Is also a technique
+You will read this
+When you will read
+Deep Learning
+So in Deep Learning
+It is CNN
+And in CNN
+I have also taught a topic
+Called Data Augmentation
+In Data Augmentation
+What you do
+That you have
+The data set
+That is not sufficient
+Or sufficiently large
+To train a model
+So
+In that case
+What you do is
+You take
+You basically
+Create new data
+Out of old data
+Suppose
+You have
+This one image
+In which
+There is a
+Dog
+Means
+I don't know
+It doesn't look like a dog
+But ok
+This is a dog
+So you
+With this
+You will make four more images
+Where
+In one image
+It will be a little zoomed
+This dog
+In one
+It will be a little small
+In one
+It will go a little to the side
+It will go
+Like this
+Right
+This is called
+Data Augmentation
+So
+In this process
+You internally
+Use uniform distribution
+To create
+This randomness
+In your data set
+Ok
+And the last one is
+Hyper Parameter Tuning
+In machine learning
+Whenever
+You train a model
+After that
+To get
+The best values
+For your parameter
+You use a technique
+Called
+Hyper Parameter Tuning
+There too
+Internally
+You
+Best combination
+Of parameters
+Is used
+To create
+Uniform distribution
+So like
+It is one of the
+Uniform
+One of the distributions
+Which
+Actually
+Used in many places
+In machine learning
+It's just that
+It's behind the scenes
+So it doesn't look that much
+But
+It's very useful
+So you
+Should have an idea
+That
+What is uniform distribution
+How does it look
+How is its PDF
+How is the equation
+You should know all this
+So that
+In future
+Whenever you
+Use uniform distribution
+In machine learning
+You
+Can do
+Decision making
+In an educated way
+Okay
+So I hope
+You
+Understand
+Uniform distribution
+The continuous
+Uniform distribution
+In the next lecture
+We will also discuss
+Discrete
+Uniform distribution
+So guys
+The next
+Continuous
+Probability
+Distribution
+We are going to read
+Its name is
+Log Normal Distribution
+And
+Trust me
+When I say
+This distribution
+You will see
+Very commonly
+While
+Building
+Internet applications
+Somehow
+In internet applications
+This distribution
+Is very common
+And
+Whenever
+You
+Make such
+Applications
+On any
+Internet
+Application
+Company
+You would find
+That
+Somewhere
+You will see
+This distribution
+Okay
+Why
+Let me explain
+So
+What happens
+Log Normal Distribution
+Let's read its definition
+So
+The definition
+Is
+In
+Probability
+Theory
+And
+Statistics
+A
+Log Normal Distribution
+Is a
+Heavy
+Tailed
+Continuous
+Probability
+Distribution
+Of
+A
+Random
+Variable
+Whose
+Logarithm
+Is
+Normally
+Distributed
+So
+The first
+Thing
+To See
+Is
+It
+Is
+Outlier
+At This
+Place
+Okay
+But
+All
+Right
+Skew
+Distributions
+Can't
+Be
+Log Normal
+You
+Can
+Only
+Say
+Those
+Distributions
+Log Normal
+Which
+On
+Log
+You
+Get
+Distribution
+That
+Is
+Normally
+Distributed
+If
+X
+Is
+Log
+Normally
+Distributed
+Then
+Log Of
+X
+Would Be
+Normally
+Distributed
+Okay
+If
+You Have
+A Column
+Say
+Column
+Where
+You Have
+Different
+Values
+In
+This
+Way
+And
+If
+This
+Log
+Is
+Natural
+Log
+Of
+All
+Values
+Then
+You
+Will
+Get New
+Values
+When
+You
+Plot
+PDF
+Of
+These
+New
+Values
+It
+Will
+Be
+Normally
+Distributed
+Okay
+So
+All
+Right
+Skewed
+Distributions
+I
+Hope You
+Understand
+So You
+Can See
+This Is
+The
+PDF
+Multiple
+Examples
+Given
+So
+Here
+You
+Have
+Two
+Parameters
+In
+Fact
+It
+Is
+Very
+Similar
+To
+Normal
+Distribution
+Here
+You
+Have
+Two
+Minus
+Zero
+And
+Different
+Different
+Standard
+Deviation
+Okay
+And
+Standard
+Deviation
+Is
+Increasing
+This
+Spread
+Is
+Increasing
+Okay
+I
+Hope
+You
+Understand
+This
+Thing
+So
+Let's
+Discuss
+Why
+And
+This
+Directly
+From wikipedia
+The
+Length
+Of
+Comments
+Posted
+In Internet
+Discussion
+Forums
+Follows
+A
+Log Normal
+Distribution
+Means
+Websites
+Are
+Instagram
+Now
+People
+Write Comments
+On Instagram
+Reddit
+Or
+Facebook
+These
+Are
+All
+Comments
+If
+You
+Comments
+The
+Number Of
+Words
+Make
+Distribution
+Of
+Its
+Probability
+Assume
+One
+Video
+Famous
+Video
+On YouTube
+Millions
+Of
+Views
+And
+You
+Pick
+Every
+Comment
+Comment
+One
+Comment
+here
+On
+My
+endar
+AMP
+App
+Link
+Down
+Share
+Post
+Your
+View
+If
+You
+Are
+In
+infrastructure
+Usually
+Strategic
+Log
+Ol
+And
+zy
+Content
+Based
+Here
+On
+4000
+procent
+Early
+People
+Buch
+Time
+On
+Online
+Art
+articles follows a log-normal distribution.
+For example, if there is a blog.
+So, how much time is someone spending on that blog?
+This is also an example of log-normal distribution.
+Many people spend very less time on it.
+But then some people will stay till the end.
+They will write comments and read other people's comments.
+So, that is also an example of log-normal.
+One more example.
+The length of chess games tend to follow a log-normal distribution.
+That means there will be a lot of games that will end quickly.
+But then there are some games that go on for a long time.
+And they go on and on.
+So, that is one more example.
+In economics also, there is evidence that
+income of 97-99% of the population is distributed log-normally.
+And this is correct.
+You would know that there are many people in the world who earn less.
+Right.
+And then there are very few people who earn a lot.
+Right.
+So, this distribution is also log-normal.
+So, you have to remember two things in the basic definition.
+First, data is right skewed.
+Second, when you calculate the log of your random variable.
+So, the distribution formed by those log values is normally distributed.
+This is your definition of log-normal.
+Right.
+How is it denoted?
+To denote it, you write the whole log-normal word.
+And you signify it with mu and sigma.
+And the condition is that
+log of x is normal with a different mu.
+And different standard deviation.
+Obviously, when you transform and put a log.
+So, this mu and sigma changes.
+Right.
+If you talk about PDF equation.
+So, its PDF equation is also very very similar to the normal distribution.
+I am telling you by writing.
+And if you have seen the normal distribution video, then you will remember.
+It is this.
+E to the power minus log of x mu square divided by 2 sigma square.
+And here there is an additional x.
+So, basically the x in the normal distribution.
+In return, log of x came.
+And here an additional x came.
+Which basically came due to 1 by x log transformation.
+So, it is very very similar to the normal distribution.
+So, for all practical purposes.
+You can call it as normal distribution.
+Right.
+If you talk about CDF, then CDF is also very similar.
+It looks like normal distribution.
+You can see this is the mean.
+And as you increase the standard deviation.
+You go far away.
+You start going far away from the vertical line of the mean.
+And again this behavior is very very similar to normal distribution.
+Right.
+So, I would recommend.
+Once you check out the Wikipedia article of log normal distribution.
+Here you will get all the details.
+What are the parameters.
+You will get the equation of PDF.
+You will also get the equation of CDF.
+You will get the equation of mean, median, mode.
+You will get the information of variance and skewness.
+I remembered again from skewness.
+That this is skewed.
+Right.
+This is not symmetric.
+This distribution is skewed.
+Right.
+So, if you go down a little bit.
+Then you will get some interesting applications.
+Where you can use log normal.
+Or where it is seen naturally.
+Right.
+So, you can see human behavior.
+I took those examples from here.
+You will also see in biology and medicine in many places.
+Chemistry, hydrology.
+It is a very very common kind of distribution.
+And that is why it is studied so much.
+Because.
+It has a lot of closeness.
+With normal distribution.
+Right.
+Lastly.
+This is asked in an interview question.
+Sometimes.
+That how would you check if a random variable is log normally distributed.
+It is very simple.
+If you have a random variable X.
+And you have to prove that this log is normally distributed.
+So, what will you do?
+First of all, you will take its log.
+As soon as you take the log.
+Then it should become normal.
+And how will you check if it is normal or not.
+It is very simple.
+Just a little while ago.
+I had taught you to make a Q-Q plot.
+This transformed X.
+Let's call it Y.
+You make a Q-Q plot on it.
+If your graph.
+If all the points are coming on a line.
+This proves that Y is normal.
+If Y is normal.
+This proves that X is log normal.
+Right.
+So, this is like.
+Very very simple distribution.
+And its best part is that.
+Once you know it is log normal.
+You can easily transform it into normal.
+And then you can do all those things.
+Which you can do with any normal distribution.
+Right.
+I hope you understood.
+So, guys.
+Our next continuous probability distribution.
+That is Pareto distribution.
+Again.
+A very famous distribution.
+Which you will get to see a lot.
+In financial data.
+And in economics based data sets.
+So, what is Pareto distribution.
+I will tell you.
+Here the definition is written.
+The Pareto distribution is a type of probability distribution.
+That is commonly used.
+To model the distribution of wealth.
+Income.
+And other quantities that exhibit a similar power law behavior.
+So, basically.
+There is a thing called power law.
+Right.
+And Pareto distribution.
+Is basically a special case.
+Of power law.
+Right.
+What is power law?
+Let me tell you once.
+In mathematics.
+A power law is a functional relationship between two variables.
+Where one variable is proportional to the power of other.
+Specifically.
+If Y and X are two variables related by power law.
+Then the relationship can be written as.
+Y is equal to.
+Y is equal to.
+Some constant.
+K times.
+X to the power alpha.
+This is called power law.
+Now, what is its interpretation.
+The graph of power law looks something like this.
+X.
+Y.
+Now, there is a very famous rule.
+Which follows power law.
+This is called 80-20 rule.
+So, what does 80-20 rule say.
+Whenever something is following power law.
+Then.
+Only 20 percent.
+Of that thing.
+Will.
+Have.
+80 percent.
+Of.
+Occupancy.
+Or result.
+Like this graph.
+If you talk about the area.
+Then.
+You can see.
+In just this interval.
+The X.
+The area of those people.
+Under the curve.
+80 percent of the entire area.
+Rest.
+This.
+The yellow one.
+This is only 20 percent.
+So, this is the implication of power law.
+Power law says this.
+That.
+80 percent.
+20 percent of the thing.
+Will control.
+The 80 percent of the.
+In this case.
+The area.
+But.
+I will explain it further through examples.
+That.
+How.
+This rule.
+Is applied.
+On other places.
+So.
+Coming.
+Back.
+To.
+Price.
+So.
+If.
+You.
+Have.
+20 percent.
+Of wealth.
+In this.
+Area.
+This.
+Area.
+Is.
+A.
+Part.
+Of.
+The.
+Area.
+Of.
+Wealth.
+And.
+The.
+Area.
+Of.
+Wealth.
+In.
+This.
+Area.
+So.
+If.
+You.
+Have.
+20 percent.
+Of.
+Wealth.
+In.
+Here it is written that Pareto principle or 80-20 rule says that 20% of the population controls 80% of the wealth.
+This is what I was going to say here.
+It was just that I did not have any quantity, it was just the area of the curve.
+So if you talk about purely income and wealth, then 20% of X as in 20% of the individuals will have 80% of entire wealth.
+And you might have heard that 80% of all the money in the world is probably only 20% of the people.
+And the remaining 20% of the money is the remaining 80%.
+So this is Pareto principle or 80-20 rule and it is based on power law.
+So far we have understood that Pareto distribution is a distribution which is based on a mathematical law called power law.
+And in power law, basically one variable is related to the power of the other variable.
+Like this equation.
+And Wilfred Pareto created this Pareto distribution or invented it or found it out mostly while studying the financial data.
+And then he gave the 80-20 rule which describes this thing.
+Although this 80-20 rule is not always applicable on your Pareto distribution.
+I will also tell you.
+Let's work for that.
+Let's see for the first time.
+Let's see how the PDF of the Pareto distribution looks like.
+Okay.
+So you can see this is the PDF of Pareto distribution.
+And the Pareto distribution has only one parameter.
+Okay.
+The Pareto distribution has only one parameter which is alpha.
+Okay.
+Let me explain to you what alpha is.
+So if you talk about alpha.
+Like look at this graph.
+In this graph, we have three different Pareto distributions.
+Green one, blue one and red one.
+And this is x.
+And your probability density is on y.
+Okay.
+So here alpha values are given.
+So like if you see the red one.
+So the alpha value of the red one is 3.
+So when your alpha value is high.
+So basically your height on y-axis will be more.
+When it is blue, then alpha 2 is a little lower.
+And for alpha 1, it is lower.
+Okay.
+Now see one thing.
+The higher your alpha value, the thinner your tail will be.
+And the lower the alpha value.
+Then your tail will be fatter.
+Okay.
+You understand it like this.
+That the variation is less in alpha equal to 1.
+Okay.
+Means here the money is less.
+So here automatically the money will increase.
+But if there will be a lot of money here.
+Then automatically the money will be reduced here.
+Okay.
+Here you will get to see an interesting thing.
+That if you.
+Make alpha to infinity.
+Then you get this black line.
+This is your Pareto curve.
+Pareto distribution.
+It does not have any tail.
+It is just a single vertical line.
+Parallel to y-axis.
+Which corresponds to alpha equal to infinity.
+There is no such area for this curve.
+Okay.
+I hope you are understanding.
+Also.
+This.
+Is a curve.
+This is skewed.
+I guess you can see this.
+This is skewed.
+Just like.
+Log normal.
+The only difference is.
+Log normal is something like this.
+This is starting straight like this.
+So.
+This point.
+From where this graph starts.
+And where it is found on x-axis.
+This is called x-m.
+Or x-minimum.
+So here the m.
+This one.
+It represents x-m.
+Or minimum value of x.
+Okay.
+So.
+Alpha means.
+Your y.
+That.
+Will be maximum.
+At x-m.
+You have to keep this in mind.
+Okay.
+So the basic thing is.
+If alpha.
+Will be more.
+Then.
+The peak on x-m.
+Will be higher.
+But your tail.
+Will be thinner.
+But if your alpha reduces.
+Then your peak will also reduce.
+But your thin.
+Your.
+Your tail.
+It will get.
+Fatter.
+Okay.
+You have to always remember this.
+About Pareto distribution.
+If you want to see some examples.
+So.
+In examples.
+Your.
+One is this example.
+Human settlement.
+So basically.
+In a city.
+The houses that are built.
+So many houses are built in very small areas.
+And then.
+Some houses are built in some remote areas.
+So basically.
+20% of the area.
+Will contain.
+80% of the population.
+Not exactly.
+But.
+You can understand.
+That.
+What I am trying to say.
+This.
+Pareto distribution follows.
+Okay.
+File.
+Size.
+Distribution.
+Of.
+Internet traffic.
+So.
+The files downloaded in the whole world.
+In that.
+What is the major chunk.
+Let's say.
+20%.
+Of.
+The.
+Entire.
+GB.
+Of.
+The.
+Area.
+Actually.
+80%.
+Of.
+The.
+Entire.
+GB.
+Comes from.
+Let's say.
+20%.
+Of.
+Files.
+And.
+Rest.
+20%.
+GB.
+Where is it coming from.
+Rest.
+80%.
+Files.
+Basically.
+Many.
+Smaller files.
+And.
+Some.
+Larger.
+Files.
+Okay.
+Now.
+Remember.
+That.
+If.
+You.
+Go.
+To.
+Wikipedia.
+Page.
+So.
+You.
+Would.
+Actually.
+See.
+Here.
+It's.
+Written.
+That.
+80.
+20.
+Rule.
+Is.
+Not.
+Always.
+Applicable.
+It.
+Generally.
+Alpha.
+Equals.
+To.
+1.
+2.
+Alpha.
+2.
+3.
+4.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+11.
+12.
+13.
+13.
+14.
+15.
+16.
+17.
+18.
+19.
+20.
+21.
+22.
+21.
+23.
+24.
+25.
+alpha multiplied by xm minimum value of x to the power alpha divided by x alpha plus 1
+ok this is your pdf you can represent it with y ok if you talk about cdf then this is the cdf
+you can see in cdf as your alpha is reducing you are taking more time to reach 1 and it is logical right
+as you are saying that alpha value is reducing so your disparity difference between rich and poor people is decreasing
+so automatically it would take more time to reach 1 whereas as alpha is increasing
+you can see you are reaching 1 with that much speed meaning you are getting a lot of money from very few individuals
+and when alpha is infinity then at the same point you are reaching 100 as in 1
+ok so this is a little bit interesting Pareto distribution and the best part is that you get to see this in many real life scenarios
+so you have to be careful and study a little bit if you talk about skewness then it is skewed for sure
+if you want to see how much skewness there is then this is a difficult formula
+obviously you don't have to find it out you can directly calculate it using some package ok
+now one interview question which is asked a lot around Pareto distribution that given a distribution
+how would you know that it is Pareto distribution how will you know so there are two ways in this
+first way is log
+log plot
+ok
+what is log log plot
+that you have this equation which I have written above
+y is equal to alpha times xm alpha divided by x to the power alpha plus 1
+this equation
+what you do is basically you have this Pareto distribution right
+this is your x
+this is your y
+right
+so what you do is that you take out the log of all the values of your x
+and then you calculate y and also take out the log of that
+and you plot a graph between log of x and log of y
+and if that graph looks something like this
+so this proves that this distribution is Pareto distribution
+ok
+let me show you
+I have coded this
+so you can see
+what I have done here
+that alpha equal to 3 and x minimum equal to 1
+I have made an array by saying x
+where I have put normal x values between 0.1 to 10 thousand values
+and I have put these thousand values in y
+and the formula of y you can see
+alpha times xm raise to the power alpha x raise to the power alpha plus 1
+ok
+I have calculated this
+so basically with this
+let me show you one by one
+if I cut this
+and if I paste it here
+so here what I can do is
+I can show you
+plt.plot
+and you can see this is the Pareto distribution
+ok
+alpha is very high
+and then what I have done
+that I have made one more plot
+where I have taken log of x and log of y
+and I have plotted both
+and you can see
+since that was Pareto distribution
+you are getting a straight line like this
+which signifies
+that the distribution you have in y
+I am sorry in x
+it follows Pareto distribution
+ok
+so the second way is
+to use qqplot
+I had told you that qqplot
+is useful to compare two plots
+it is useful to compare two distributions
+x and y
+so you first take an x
+which is Pareto
+you know
+and you can compare one with the other
+if it is compared
+then you know
+all your points
+will come on a single line
+or it will look similar
+so you can see what I have done again
+here
+I generated
+a random data
+from a Pareto distribution
+using stats.paretto.rvs function
+this is its histogram
+you can see
+in the beginning there is a lot of data
+and slowly it has become very less
+and then I have
+fitted a Pareto distribution
+where I have created this distribution
+and you can see
+I have put x in sm.qqplot
+and I have put distribution in distribution
+and I have put line 45
+and this was the result
+a lot of values were on the line
+in this Pareto distribution
+you would see that
+some of your last points
+go out a little
+but again
+if there is a graph like this
+then roughly you can say
+that the distribution that you have
+is Pareto
+ok
+so yeah
+that's it
+this was Pareto distribution
+I hope
+you understood
+what is Pareto distribution
+and how it works
+and what is its use case
+so guys till now we have seen some
+continuous probability density functions
+and
+now
+we will discuss an important topic
+still we will see some more
+probability density functions in the future
+but that will be in the next videos
+till now I guess
+this is enough
+so I was saying that
+one question
+which becomes very important
+that
+as I have told you that
+if you have normal distribution
+then it will be very helpful
+in any work
+because normal distribution is so well studied
+that we know everything about it
+but the problem is that
+the real world data that you will get
+in machine learning
+that
+will not be normally distributed
+it could be of similar kind of shape
+it will not be perfectly normal distribution
+it may be of some other type
+so
+in this kind of scenario
+you should know that
+that you
+your
+normal
+distribution
+which looks like normal
+how can you convert it into normal
+so
+that is why
+we will study
+transformations
+so
+transformations are nothing but
+mathematical transforms
+where you put any mathematical operation
+and try to convert your distribution
+into normal distribution
+ok
+so
+there are certain transforms
+which we have to study
+precisely
+we have to study two transforms
+one is log transform
+which
+log converts normal type data
+into normal distribution
+and
+second one is
+box
+cox
+transform
+which is
+a little
+general
+which
+can convert different types
+of
+distributions
+into normal distribution
+ok
+so
+we have to study these two
+the good part is
+that
+I have already made videos
+on both of them
+so
+what I am doing
+I am linking
+those two videos
+here
+the only problem
+in those videos
+I would not say
+it is a problem
+that
+there
+after doing transformations
+I have tried to prove
+by applying
+machine learning algorithm
+that
+in normal
+distribution
+results get improved
+after
+converting into
+normal distribution
+so
+we have used
+a little machine learning
+but
+you don't have to worry
+you just
+have to understand
+the core idea
+going forward
+when we will study
+machine learning
+you will
+understand
+other things
+ok
+so I hope
+you understood
+we are going to learn about
+mathematical transformations
+which
+try to convert
+another type
+of distribution
+into normal distribution
+and
+these are the
+two major
+transforms
+that we are going to learn
+so guys
+we are doing
+feature engineering
+and in feature engineering
+we are
+like
+you saw that
+there are multiple things
+what we are doing is
+feature
+means till now
+we are doing
+feature transformation
+means
+you are doing
+different types
+of transformations
+in your columns
+right
+you are encoding them
+if you have
+categorical data
+you are filling
+missing values
+you are scaling
+right
+so today
+we will learn
+a new thing
+and this is called
+mathematical
+transformation
+ok
+if I tell you
+in very simple terms
+so the idea
+is very simple
+that you
+on your
+columns
+which you have
+data
+on its columns
+you are applying
+any mathematical
+formula
+and you are transforming
+it into
+something else
+now
+there are different
+types of
+transformations
+but we are going to
+read
+first one is
+log
+transform
+and
+reciprocal
+transform
+and
+power
+transform
+in which we will read
+square
+and
+square
+root
+transform
+and
+apart from this
+there are some more
+complex
+transforms
+like
+which we will read
+in the next video
+one of them is
+box
+cox
+transform
+it is very famous
+and second
+one is
+transform
+so
+the idea is very simple
+that we have
+some data
+on that data
+we will apply
+these transformations
+and we will see
+that the
+performance of
+model is improving
+or not
+now
+the question is this
+that
+after applying
+these transformations
+what happens
+exactly
+what happens
+that the
+performance of
+model improves
+the answer is
+that
+the distribution
+of your data
+is converted
+in a normal
+function
+or in a normal
+distribution
+so
+I hope
+you know
+the normal distribution
+if you
+find
+any
+numerical
+quantity
+distribution
+and it is something like this
+then we call it
+normal distribution
+right
+like
+this is
+not a normal distribution
+means
+this is the pdf
+right
+means
+every number
+has probability on y-axis
+and
+x-axis
+how much is the probability
+of being 7
+in this distribution
+how much is the probability
+of being 10
+in this distribution
+ok
+so this is normal
+distribution
+now
+generally
+the data you will get
+will not be
+distributed normally
+so
+the end goal
+of all these
+transformations
+is
+that
+it will distribute
+your data
+normally
+now
+the question is
+why to distribute
+normally
+what is the benefit
+so
+you know
+machine learning
+is the mother field
+whenever
+any statistician
+works
+no matter how complex
+he is working on the problem
+if he
+ever sees
+normal distribution
+then he
+becomes happy
+normal distribution
+is such an important thing
+in the field of
+statistics
+ok
+as soon as
+normal distribution
+is seen
+the statistician
+sees the way
+that ok
+now I can solve
+this problem
+right
+why is normal distribution
+so important
+because
+in this way
+calculations
+get easy around it
+problem solving
+gets easy
+and if you talk about
+machine learning
+specifically
+so in machine learning
+your statistical algorithms
+like
+linear
+regression
+logistic
+regression
+in this type of
+algorithms
+you take this assumption
+that
+the data you have
+is normal
+if not
+then you want to make it
+there are some algorithms
+like decision tree
+or random forest
+they don't care
+that
+the distribution
+of your data
+is normal
+or not
+but
+if you are working with
+these kind of algorithms
+then it makes a difference
+that the distribution
+of your data
+is normal
+or not
+so if you have
+different type of
+distribution
+then you
+have to do
+that
+you have to bring
+its distribution
+in normal
+distribution
+right
+and who does that
+they do
+all these transformations
+so let me
+summarize
+some machine learning
+algorithms
+perform well
+on normal data
+and perform better
+so if you are working
+with those machine learning
+algorithms
+then you have to
+convert your data
+in normal distribution
+and how will you do that
+you will do that
+with these transformations
+which I have told you
+4-5 transformations
+apart from this
+there are more
+transformations
+in fact
+if you want
+you can do
+your own
+custom transformation
+you can apply
+any formula
+x square
+plus 2x
+this is your
+transformation
+right
+but the end goal
+is that
+what you should get
+by converting
+normal distribution
+at least close
+to normal distribution
+is your target
+that is what
+you have to achieve
+right
+so I guess
+till now
+you have understood
+the why part
+of this video
+that why
+we are doing
+all this
+right
+now
+let me tell you
+in the title of this video
+function transformer
+what is function
+transformer
+so our
+machine learning
+library
+in this
+if you will notice
+if you will read
+then you will know
+that 3 different
+mathematical
+transformers
+are given
+out of which
+the most used
+is function
+transformer
+which we will
+read in this video
+right
+then
+one more is
+power
+transformer
+right
+and
+a third
+which I had read
+earlier
+that was
+quantile
+transformer
+now
+I will
+tell you
+how to use
+power
+transformer
+in this series
+because I have not
+used it much
+in this video
+I will teach you
+function
+transformer
+and in the next video
+I will teach you
+power
+transformer
+by using
+function
+transformer
+you can
+transform
+log
+you can
+transform
+reciprocal
+you can
+transform
+square
+and square
+root
+in fact
+we will learn
+two transformers
+one is
+boxcox
+and
+the other
+is
+eojohnson
+we will do
+these two
+tomorrow
+right
+so today's
+focus is
+on
+this
+scikit learn
+functionality
+function
+transformer
+by using
+this
+we will
+distribute
+the data
+normally
+right
+so I hope
+everything is clear
+is the distribution
+currently normal
+or not
+that I need
+to convert it
+to normal
+how will I know this
+there are 2-3 ways
+first way is
+that you
+scikit learn
+I am sorry
+call
+seaborn
+distplot
+visualization
+so what
+it will do
+it will give
+your
+distribution
+plot
+by this
+you can
+guess
+how much
+is normally
+distributed
+like this is skewed
+skewed
+another way
+is that
+you
+call
+pandas
+skew
+function
+if it is
+0
+then it is
+correct
+if it is negative
+or positive
+then it is skewed
+third
+is a very good
+way
+box
+cock
+I am sorry
+many terms
+I am getting confused
+another way
+which is used
+the most
+we call
+qqplot
+qqplot
+is actually
+the most reliable
+qqplot
+is normally
+distributed
+or not
+ok
+now
+I will make
+another video
+on qqplot
+in future
+because
+it is a
+must thing
+and we should
+read it
+well
+obviously
+it comes
+in statistics
+how it works
+but in today's
+video
+I give you
+a rough
+intuition
+that if
+you want
+to
+plot
+qqplot
+so
+here
+if you notice
+then this
+this is
+your qqplot
+and this is
+your pdf
+ok
+this is qqplot
+and this is pdf
+ok
+so
+in qqplot
+on x axis
+theoretical quantiles
+and
+on y axis
+data sample quantiles
+now
+we are not
+going into
+technicalities
+I will teach you
+how to read
+how do you know
+that your data
+is
+normally distributed
+or not
+like
+see this data
+its pdf
+is telling us
+that it is
+normally distributed
+so
+its qqplot
+will come
+on this
+45 degree line
+all the points
+like these are all
+the points
+will come
+on this line
+so if you
+can see this
+then you should
+understand
+that this data
+this is
+normally distributed
+like
+in this case
+data
+two peaked
+in the middle
+so in that case
+your qqplot
+will move away
+from that line
+and line will also
+deviate a little
+angle will reduce
+ok
+if we go ahead
+so
+this is skewed data
+this is skewed data
+one side is skewed
+so in that case
+your qqplot
+will also
+leave
+line
+from one side
+ok
+it will rise up
+ok
+I will show you
+one or two more examples
+like
+this is skewed left
+this data is skewed left
+in this case
+you can see
+your data
+means
+the points
+are leaving
+that line
+ok
+if you talk about
+right skewed data
+which is this one
+here you see
+from above
+you are leaving
+that line
+ok
+and if you see
+some more examples
+if you have
+fat tail data
+then from both sides
+you will leave
+the line
+ok
+and if you have
+thin tails
+then
+this is very close
+to normal distribution
+so this most of the times
+stays above that line
+how to see
+it is very simple
+the more you are above
+this line
+the more
+your distribution
+is close to normal distribution
+the more you are running
+from this line
+and the slope
+of this line
+is changing
+the more
+you are away
+from normal distribution
+so in today's video
+we will use qqplot
+to see
+whether
+a given distribution
+is normal
+or not
+ok
+so I guess
+you understood
+everything
+now
+let's discuss quickly
+in today's video
+we are going to cover
+log transform
+and that is
+log transform
+funda of log transform
+is very simple
+if you ever want
+to apply
+log transform
+on any data
+suppose you have
+titanic age data
+where you have
+different age
+of all passengers
+if you want
+to apply
+log transform
+on it
+then
+basically
+what you do
+you take log of
+every value
+that's it
+take base 2
+or 10
+it depends
+on you
+you just
+take log
+what happens
+that this data
+gets normally
+distributed
+not completely
+generally
+but
+as it is
+the current state
+it gets
+more
+normally
+distributed
+ok
+now
+generally
+when you should
+use log transform
+I will tell you
+first of all
+log transform
+will not apply
+on your
+negative values
+because
+you cannot take
+log of negative values
+second
+if you have
+negative values
+then
+it is not
+possible
+to take
+log transform
+on this type of data
+when you apply
+log transform
+then it
+comes to the center
+means
+if someone asks you
+in the interview
+what type of data
+should be applied
+then you will say
+on right skewed data
+ok
+and log transform
+means you must be
+understanding
+what is the benefit
+of doing log
+that your
+very big values
+like I will give you
+an example
+like suppose
+you have
+10
+here somewhere
+you have
+100
+and here somewhere
+you have
+1000
+suppose
+obviously
+I have not made this scale properly
+and this is a linear scale
+by the way
+it is a linear scale
+I should have made it
+better
+but
+when you take
+its log
+then what will happen
+that 1
+10
+100
+and 1000
+and 10000
+all this
+will come on
+equivalent scale
+right
+if you take
+the log
+which is bigger
+than others
+you will plot
+it on equal scale
+so that is why
+this normal value
+starts coming
+and as this normal value
+starts coming
+and all this
+looks linear
+then your linear models
+like linear regression
+and logistic regression
+they start performing
+better
+I hope
+you got
+some intuition
+of this
+we will discuss
+this in detail
+when we will read
+linear regression
+in this playlist
+but now just understand
+that what does log do
+it converts your
+additive scale
+into multiplicative scale
+1
+10
+very far
+100
+and very far
+1000
+if you bring it
+on log scale
+then everything
+comes equidistant
+so these values
+which are far
+they also come
+near
+and looks
+like
+distributed
+so in this kind
+of case
+your linear models
+performance
+improves
+that is why
+you use
+log transform
+right
+ok
+now we will
+discuss
+these three
+transformations
+with you
+one of them
+is the
+reciprocal
+transform
+the second
+one
+is
+the
+square
+transform
+and the
+third one
+is
+square
+root
+transform
+ok
+means
+1 by x
+x
+square
+and
+root
+over x
+ok
+now you
+understand
+all your
+big values
+will be
+small values
+and small values
+will be
+big values
+so it is a
+very different
+type of
+transform
+sometimes it
+works
+sometimes
+if you
+apply certain
+values
+in one
+kind of
+data
+then you
+can get
+normally
+distributed
+data
+second
+is x
+its
+name is
+left
+at
+x
+and
+its
+root
+so
+this
+set
+you
+is
+right
+so
+you
+keep
+you
+in
+control
+this
+places
+in
+best result you are getting, you have to use that only. So, in today's video, I will show you four different transforms using function transformer class.
+That is the goal of today's video. So, I have taken an example for this video. Again, I will use the Titanic data set but this time I will use only three columns.
+One will be age, one will be fair and one will be survived. Survived means whether it is saved or not. I am ignoring the other columns.
+And I will show you that initially when you apply machine learning algorithm without any transform, then the accuracy will not be that good.
+And when you apply transform, then the accuracy will be good. So, let's dive into the example.
+So guys, this is the code.
+I have already written the code.
+I will just go through the code and I will explain you line by line.
+So, these are all the libraries that I needed.
+So, NumPy and Pandas are there.
+We are using a new library called scipy.stats.
+We will use this to plot QQplot.
+After that, PLT as in Matplotlib and Seaborn is there.
+We keep using it.
+Train test split is there.
+Accuracy score is there.
+And cross valve score is there from model selection.
+To do cross validation.
+And from linear model, I have used logistic regression and decision tree.
+I will run two different algorithms together and show you.
+And lastly, I have function transformer class and column transformer class.
+Which we will use.
+So, this is the first cell.
+Now, first of all, I am using the same train.csv titanic data.
+And you can notice that I am using only three columns.
+So, if I run it.
+So, at this point, if I run df, df.head is basically this.
+Now, if you have worked on titanic data before, then you would know that there are some missing values in the age column.
+And whenever we do transformations, we don't need missing values there.
+So, we have to remove them from there.
+I will quickly show you that there are some missing values here.
+So, if I run it.
+So, you can see in our age column, there are 177 missing values.
+So, I haven't done anything special.
+I have called the fillna function of pandas.
+And replaced all the missing values with the mean of age.
+And after doing this, if I run this upper code again.
+So, I don't have any missing value now.
+So, I have solved that problem.
+Now, first of all, I have extracted x and y.
+What will be x?
+x will be age and fair.
+That's why I wrote 1 to 3.
+And survived will be my output column.
+So, this is x and y extract.
+Like every feature engineering technique, here also we will split the train test first.
+Which I have done here.
+Okay.
+And now I will show you that the two numerical columns you have.
+Age and fair.
+Are those two normally distributed or not?
+Okay.
+And I had told you two or three ways.
+We will use two of them.
+One, we will plot pdf.
+Second, we will plot qq plot.
+So, first I have taken the age from x train.
+Okay.
+And the distribution of age is here in front of you.
+Okay.
+Why is the distribution of age coming like this?
+Okay.
+It is up here.
+I am sorry.
+I got confused.
+This is the distribution of age.
+So, you can see.
+You can see.
+It is normally distributed.
+Not completely.
+And the same thing is reflected in qq plot.
+Most of the times you are near the line.
+And then you are deviating at one or two places.
+Right.
+So, I would say that it is not perfect normally distributed.
+But it is close to normal distribution.
+Okay.
+Now let's see the fair column quickly.
+So, when I am running the fair column.
+So, what did I realize?
+That it is not normally distributed at all.
+In fact.
+It is right skewed.
+And it is actually.
+It is like this.
+If you have worked on the Titanic data set.
+Then you would know.
+That some passengers had spent a lot of money.
+To purchase the ticket.
+And many people had spent very less money.
+So, it is not normally distributed.
+And you can see that in the qq plot as well.
+Okay.
+This is not normally distributed.
+Age is close.
+It is not fair at all.
+Okay.
+And since it is right distributed.
+I am sorry.
+It is right skewed.
+If you know that.
+Okay.
+You can go for the log transformation.
+Okay.
+So, the first thing I am really going to do.
+What I am doing is.
+I am not applying any transformation right now.
+I am simply making two objects from logistic regression and decision tree classifier.
+Okay.
+And what am I doing simply is.
+I am fitting this on x train and y train.
+Taking out the Y print.
+And I am calculating the accuracy.
+For both the algorithms.
+And by doing this.
+I am getting the.
+64% accuracy.
+Logistic regression.
+And when I am doing that.
+Then I am getting.
+That 64% accuracy.
+And last one.
+That, I am getting.
+3,ublack.
+And another 2% accuracy.
+in logistic regression and 68% accuracy in decision tree. Now the question arises that what if I apply log transform
+on both of my columns. So what will be the benefit? I did the same thing. I called function transformer class
+and the first parameter that you give in this class is function. Which mathematical function you want to apply
+So here you can give your own function or you can give any built-in function like I gave here
+np.log . What is the difference between np.log and np.log ? I will tell you quickly. So what is log?
+np.log simply applies log. But if you have 0 then it will be wrong. What does np.log do?
+In your value, in x,
+it adds 1 first. So there will never be anything 0. So this is the benefit. That's why generally people do
+np.log . But if there is nothing 0 in your data then you can use log as well. Anyways, I used log
+and this is my function transformer object. And keep in mind that I am applying it on both of my columns.
+I am doing transformation on age as well as on fair. And after doing this, what did I do?
+I calculated x-train-transformed which came out as trf.fit-transform after passing x-train.
+And I also applied transform on test like this. So I got x-train-transformed on which I will train now.
+And x-test-transformed on which I will do prediction. So I again made object of logistic regression and decision tree.
+I trained both of them. But this time I trained on x-train-transformed which I created here and on y-train.
+To calculate y-prime, I am sorry, here it should be x-test-transformed like this. Right?
+And then I calculated accuracy, same to same. And after doing this, the results are coming like this.
+So you can see after applying transformation, there was not much difference on decision tree.
+Because I had told you that there are certain algorithms,
+which don't care about the distribution of your data.
+Decision tree is one of those algorithms. But in your logistic regression, you can see improvement.
+Because you transformed the data. Right?
+Now what happens is that whenever I see such improvements, I get a little scared.
+And I try to cross-validate to check whether it is really correct or not.
+Because if you just do train-test split, you don't get perfectly validated results
+as much as you do cross-validation.
+So what I did is that I transformed the whole x in this new variable, x-transformed.
+Again I made two objects of CLF and decision tree.
+And this time I did cross-validation score.
+You haven't read the cross-validation score yet.
+But simply I am doing train-test split 10 times.
+Every time I am taking out accuracy and calculating mean.
+So I will have more reliable results than once. Right?
+And after doing this work, I got this result.
+You can see that decision tree.
+Decision tree is around 65.
+And logistic regression is around 67.
+So even after taking out mean 10 times, if 67 is coming,
+then I can say that there is improvement. Right?
+Now let's do one thing.
+Let's see whether there is really improvement or not.
+So what I am doing is that I will show you QQ plot of age before log transformation.
+And I will show you QQ plot of age after log transformation.
+So I did the same.
+By the way, first I am showing you the fare of X-train.
+The fare of X-train.
+That is, let me write it here.
+Fare before log.
+And I am showing you the fare after log.
+And when I plotted it.
+So you can see guys.
+The fare which was very far from the normal distribution.
+It was looking like this earlier.
+It has come very close.
+And this is one of the reasons due to which your improvement happened.
+In full accuracy. Right?
+Let's see what is the scene in age.
+So in age, I applied the same logic.
+The before and after one.
+And when I run it.
+So I realized one thing.
+That earlier it was very good.
+Later it got a little bad.
+After applying this transformation.
+So sometimes it happens that your result gets spoiled.
+As it is happening in this case.
+Because this data was not right skewed.
+We forced a log transform on it.
+So then what did I do?
+I thought let's do one thing.
+Rather than applying log transform on both of the columns.
+Age and fare.
+Let's just apply it on the fare.
+Let's leave the age.
+So then what did I do?
+I made a column transformer.
+I am doing the whole thing again.
+I made a column transformer.
+In that I just passed the function transformer.
+This is my function.
+And the column is just a fare.
+And I am passing through the remainder.
+Meaning I am keeping the age column as it is.
+Right?
+And then I made a new x-train transform.
+Made a new x-test transform.
+And again I repeated the whole thing.
+Logistic regression.
+Decision tree.
+And this time I trained on the new x.
+And I did prediction on the new x-test.
+And now I got the result.
+So there was not much difference.
+Meaning it was the same as it was in 67.
+Now I am not sure if I have done any mistake here.
+Or something.
+You should see this code once.
+There should have been some improvement.
+But I am not sure why it didn't happen now.
+But yeah.
+The right decision was this.
+That we don't do the age.
+But we do the fair.
+Because the accuracy is the same.
+So to transform an extra.
+Your computation logic will go.
+Power will go.
+So it's okay.
+Even after transforming a less.
+Our same accuracy is coming.
+Right?
+And again just to get sure.
+We put a cross-valve score.
+On this transformation.
+And the cross-valve score is still giving the same result.
+Logistic regression 67%.
+Decision tree 65%.
+Right?
+So in a nutshell we understood.
+That the data here.
+In that data.
+The age was already.
+Normally distributed.
+Almost.
+Fair.
+Right skewed.
+So when I put log transform on fair.
+And again put logistic regression.
+Then our result improved.
+What is the second observation?
+We were also taking one more algorithm.
+That was decision tree.
+And there was no difference on decision tree.
+The result of decision tree was as it was in the beginning.
+It was after the transformation.
+Because decision tree is one of those algorithms.
+Which doesn't matter.
+What is the distribution of its data.
+Right?
+Linear regression.
+Logistic regression.
+Is those algorithms.
+Which makes a difference.
+So I guess.
+You have understood this point.
+Now I will quickly show you.
+The other transformations.
+Which is.
+The reciprocal one.
+And.
+The square one.
+The square root one.
+So I have written a function.
+Apply transform.
+In which I will pass the function.
+And inside.
+The same logic is complete.
+It will make you two things.
+First.
+It will calculate your accuracy.
+And then.
+It will give you.
+It will give you.
+It will give you.
+It will give you.
+It will calculate your accuracy.
+Second.
+It will tell you.
+That.
+That.
+Your.
+QQ plot.
+How was it.
+Before and after.
+Right?
+So.
+Let's try this.
+So.
+First of all.
+What am I doing?
+I am showing you.
+That.
+If I.
+Apply.
+In transform.
+I am sending.
+X is to x.
+Means.
+No transformation.
+Is applied.
+So.
+The accuracy.
+Is the same.
+65 is coming.
+And.
+Basically.
+I am showing you fair.
+Both are same.
+Because.
+We haven't applied any transformation.
+X is sending.
+And.
+X is coming.
+So.
+This is the first thing.
+Now.
+I am showing you.
+Square.
+Right?
+So.
+Return.
+X square.
+Right?
+And.
+If we run this.
+So.
+It is 64.
+In fact.
+The accuracy.
+Decreased a bit.
+And.
+Here.
+You can see.
+That.
+The.
+Transform.
+Fair.
+Is worse.
+Okay.
+And.
+This is also valid.
+Because.
+You have applied it.
+On right skewed data.
+If it was left skewed data.
+Then.
+The result would have been better.
+Okay.
+Similarly.
+You can also apply cube.
+If you want.
+So.
+By applying cube.
+It decreased a lot.
+So.
+You can see.
+That.
+This power.
+Like.
+By applying polynomial.
+Is not beneficial.
+I am showing you.
+By applying square root.
+Although.
+Here.
+There is no significant improvement.
+In fact.
+It is not good.
+In fact.
+It is the same.
+Which was initially.
+So.
+There is no significant difference.
+By applying square root.
+On this particular distribution.
+Okay.
+Now.
+I am showing you.
+Reciprocal.
+So.
+Reciprocal is.
+Fun by x.
+And.
+By applying this.
+Okay.
+There is some error.
+And.
+Let's.
+Read.
+What is the error.
+Okay.
+One reason.
+It may be.
+That.
+If.
+We.
+Run.
+This.
+So.
+If.
+We.
+Run.
+This.
+Is.
+Still.
+Doing.
+The.
+Same.
+Error.
+What.
+If.
+I.
+Do.
+Point.
+One.
+There.
+Is.
+Some.
+Error.
+Let's.
+Do.
+One.
+This.
+Is.
+Is.
+Okay.
+Okay.
+Well.
+Now.
+We.
+Are.
+Going.
+To.
+Find.
+Another.
+Thing.
+Right.
+So.
+We.
+We.
+Find.
+Here.
+A.
+Part.
+Of.
+The.
+Y.
+Question.
+Is.
+The.
+Question Is.
+but you can see here is your fair distribution, it became like a sign curve, so you can send any function,
+custom, you can send your logic too, but you should try, whatever is your main one, you can try them,
+you just don't have to do anything, you have to give function transformer in a different function input,
+and you can try the rest of the flow, so what you should do after watching this video is,
+take any other data set and apply transformations on it and see what kind of transformation is helping on what kind of data,
+then your knowledge will increase a little, so this is the matter of our function transformer,
+now in the next video we will do power transformer and there we will read boxcocks and eo johnson,
+so guys just to summarize again, we started reading mathematical transformations,
+and
+basically there are three classes in scikit-learn to support these mathematical transformations,
+one was function transformer, which we did yesterday, through which we read log transform,
+read square transform and read square root transform, and today we are going to do second,
+which we call power transformer, this is also a class, and in this we will read two different transforms,
+one is called boxcocks and the other one is called eo johnson,
+there is one more, I had told you in the last video, we call it quantile transformer,
+but we will not discuss this because it is not that important,
+so today's entire focus would be on this part,
+so let's start a discussion around,
+let's start a discussion around boxcocks transform,
+so first of all its name is very nice, it is boxcocks,
+it is actually two computer scientists, one was named box and the other was named cocks,
+probably their surname, in fact they collaborated because their name is very nice,
+it was sounding better, and eventually they gave this transform,
+it is a very very important transform, and again what happens after using this transform,
+you know that you can convert any given distribution, if you have any data and it has any distribution,
+you can convert it to normal distribution using this transform,
+in fact this transform is a general transform, in fact its special case is log transform and square root transform,
+so what happens here is that this is the formula, this is your input variable, any column,
+and you put these transformations on it, depending on what is the value of your lambda,
+and what is lambda basically, lambda is the power,
+so what you actually do here, you try to calculate this power,
+that how much the power of x will be correct, x square will be correct, x cube will be correct, x 1.5 will be correct,
+how much power will be correct, this is what you have to find out here,
+so if you read here, then it is written, the exponent here is a variable called lambda,
+that varies over the range of minus 5 to 5, whenever you will put box-cox transform,
+then your highest value will be 5, lowest will be minus 5, in fact it is very less than that,
+and in the process of searching, we examine all the values of lambda,
+so you try all the values, you try 1.5, you try 1.6, you try 1.7, you try all the values,
+and finally we choose the optimal value, which results in the best approximation to a normal distribution for your variable,
+for the value for which the best normal distribution is created,
+you take the same value of lambda, that is how you do it,
+now exactly what is internal working, this is a little difficult and is beyond the scope of this video,
+but I can tell you, there are two techniques to find out this thing,
+one of them is maximum likelihood, which you will read sometime or the other,
+especially when you will read logistic regression, and second is Bayesian statistics,
+this is a completely different field of statistics,
+where there are many tools and formulas to solve this kind of problem,
+this comes under inferential statistics, but trust me, at this point as a machine learning engineer,
+as a data scientist, you should just understand what is happening, rather than how it is happening,
+at this point it would be sufficient, so this was box-cox transform,
+in this you have to remember one important thing, that box-cox transform is strictly applicable
+to only non-negative variables,
+numbers that are greater than zero,
+zero will not work, and negative will not work at all,
+so these are the two restrictions of box-cox,
+and who solves these two restrictions,
+U.O. Johnson transform,
+and this transform, again two computer scientists came out together,
+and this is a kind of variation of box-cox transform,
+and whatever the variation is, it comes only from this thing,
+that it can work on the values of negative and zero,
+so if you write here,
+so it is written here,
+this transformation is somewhat of an adjustment to the box-cox transformation,
+by which we can apply it to negative numbers,
+that's it,
+so funda is very simple guys,
+what you have to do is,
+you have to use the power transformer class of scikit-learn,
+in which you will get both these implementations,
+and wherever you feel that I have such a distribution,
+which is not normal,
+and you are using such an algorithm,
+which works well on normal distributed data,
+like linear regression, logistic regression,
+KNN,
+all these algorithms,
+then what you have to do is,
+you have to apply these two transformations and see,
+because at the end you just have to do parameter tuning,
+and from that you will get to know,
+whether you should apply box-cox,
+or you should go with U.O. Johnson,
+okay,
+so what I am doing now,
+I am showing you an example,
+a concrete material data set,
+which I have taken from Kaggle,
+and on that data set,
+I will again,
+this is basically a regression problem,
+I will predict the strength of concrete,
+and I will use linear regression as my model,
+and I will show you that,
+without transformation,
+results are not as good as,
+when you will apply box-cox and U.O. Johnson,
+okay,
+and along with that I will also show you distributions,
+so let's start,
+so guys,
+this is the notebook,
+first of all I have taken all the imports,
+these are all very simple imports,
+you already know,
+and I have taken this import for plotting QQ plot,
+by which we can understand that,
+how normal is the distribution of any particular column,
+okay,
+so I have run them,
+apart from this,
+I have imported train test split,
+cross valve score,
+linear regression,
+R2 score,
+and this is my power transformer,
+which you will get in this processing,
+you have to import these many things,
+after that,
+I have taken this data set,
+and downloaded it,
+or imported it,
+and this is my data set guys,
+this is a slightly different type of data set,
+I have taken this data set because,
+in this,
+some columns,
+are not at all normal,
+are not normally distributed,
+so,
+I will be able to show you clearly,
+that here you will need,
+to convert it to normal distribution,
+so you can see,
+this is basically a data set related to concrete,
+these are your input columns,
+cement,
+blast furnace,
+slag,
+fly ash,
+water,
+if you have ever studied physical chemistry,
+then you might be remembering,
+super plasticizer,
+and many other things,
+age of the concrete material,
+and lastly,
+its strength has been predicted,
+now,
+I don't know the units,
+but this is the data that we have,
+so now,
+for all this given data,
+I have to do prediction,
+that how much is the strength,
+it's a regression problem,
+okay,
+now,
+let me tell you the shape,
+the shape is very simple,
+there are 1000 rows,
+roughly,
+and 9 columns,
+okay,
+and after that,
+I checked,
+whether there are missing values,
+or not,
+because there is a problem,
+when there are missing values,
+when transforming,
+fortunately,
+there is no missing value here,
+it's a very good data set,
+and one more thing,
+I tried to figure out,
+whether the values,
+are negative,
+and zero,
+because if it is negative,
+and zero,
+then it won't look like a box,
+and unfortunately,
+here,
+there are some columns,
+like,
+in blast furnace mag,
+the minimum value is zero,
+fly ash,
+super plasticizer,
+and that's it,
+there is no negative value anywhere,
+but the minimum value is zero,
+so,
+he was doing this problem,
+I have found a solution for it,
+I will share it with you,
+so,
+first of all,
+I extracted x and y,
+this is simple,
+after that,
+I did train test split,
+again,
+it's simple,
+and now,
+what did I do,
+now,
+without applying any information,
+I created a model of linear regression,
+and trained it on this data,
+and I calculated R2 score,
+and by calculating R2 score,
+I can see R2 score of 62,
+now,
+if I want to be sure,
+I did cross-validation,
+10 times,
+and after doing that,
+I came to know that,
+no,
+no,
+the condition is worse than that,
+in fact,
+it is 46,
+when you are doing it 10 times,
+then actually,
+the result is a little worse,
+okay,
+now,
+what am I doing,
+all the columns,
+in my input,
+except the column with strength,
+how is the distribution of all the other columns,
+I will show its displot,
+and I will show its qqplot,
+and you will see,
+that there is a lot of mess here,
+so,
+you can see,
+this is taking time to be plotted,
+so,
+you can see,
+the cement one,
+is still fine,
+and you can understand this from your qqplot,
+most of the times,
+you are above that line of 45 degree,
+blast furnace snag,
+is right skewed,
+fly ash,
+is bimodal,
+and,
+water,
+is fine,
+super plasticizer,
+is right skewed,
+is bimodal,
+coarse aggregate,
+this is looking the best till now,
+fine aggregate,
+is also looking fine,
+the worst condition is of age,
+so,
+apparently,
+there are many,
+concrete materials,
+whose age is less,
+so,
+you can see,
+that the age of the material,
+is very low,
+so,
+you can see,
+that the age of the material,
+is very low,
+so,
+you can see,
+that the age of the material,
+is very low,
+and then,
+some concrete materials,
+are less,
+whose age is very high,
+and you can see that,
+in qqplot too,
+so,
+the condition is not good,
+of age,
+and 1-2 columns,
+and because of this,
+your result,
+is not that good,
+one more thing,
+I have not done scaling here,
+you should have done scaling,
+but now,
+I forcefully,
+because,
+I will scale both times,
+without transformation,
+with transformation too,
+so,
+the impact of scaling,
+will be equal in both,
+so,
+you can see,
+by scaling,
+for sure,
+your result will improve,
+this is for sure,
+ok,
+now,
+what I have done,
+now,
+I have thought,
+of applying,
+box-cox transform,
+ok,
+so,
+it is very simple,
+you have to import,
+power transformer class,
+this is the class,
+this is the power transformer class,
+it is very simple,
+it is written here,
+apply a power transform,
+feature wise,
+to make data,
+more gaussian like,
+gaussian means,
+normally distributed,
+ok,
+power transforms,
+are a family of,
+applications that are applied,
+to make data,
+more gaussian like,
+this is useful,
+for modeling issues,
+related to,
+you will read this term,
+when you will do,
+linear regression,
+in linear regression,
+it is one of the,
+main assumptions,
+we will discuss this,
+don't worry about this,
+or,
+other situations,
+where normality is desired,
+ok,
+currently,
+power transformer supports,
+the box-cox,
+and geojohnson transform,
+the optimal parameter,
+for stabilizing variance,
+and minimizing skewness,
+is estimated,
+through maximum likelihood,
+which I told you,
+that,
+is calculated,
+in two ways,
+either,
+in the way of,
+maximum likelihood,
+or,
+in the way of,
+Bayesian statistics,
+here,
+the implementation,
+since it is,
+machine learning based,
+implementation,
+here,
+your maximum likelihood,
+is being done,
+ok,
+box-cox requires,
+input data,
+to be strictly positive,
+not even zero,
+not even negative,
+while,
+geojohnson supports,
+both positive,
+and negative data,
+by default,
+zero mean unit variance,
+normalization is applied,
+which means,
+there is a parameter,
+called standardized,
+whose default value,
+is true,
+which means,
+when this transformation,
+will be applied,
+then, by default,
+standardization,
+will be done automatically,
+so, actually,
+no need to scale,
+ok,
+internally,
+standard scaler,
+is being applied,
+ok,
+so,
+now,
+I am doing one thing,
+I made power transformer,
+by the way,
+here,
+the method,
+is by default,
+geojohnson,
+because,
+what I have noticed,
+geojohnson,
+gives better result,
+in comparison to,
+boxcox,
+and second benefit is,
+that,
+it also considers,
+negative data,
+so,
+that's why,
+they have said,
+default geojohnson,
+but,
+first,
+I used boxcox,
+now,
+in boxcox,
+what was my problem,
+I had zero data,
+so,
+I put my mind,
+that,
+I added a very small value,
+in x-train,
+so,
+if I have zero anywhere,
+then,
+it becomes 0.00001,
+ok,
+I had read somewhere,
+in some blog,
+they had said,
+if you have zero,
+then,
+you add a small value,
+that's what I did here,
+I transformed my x-train,
+I transformed my x-test,
+now,
+one more thing,
+what happens is,
+you have 8 columns here,
+if you notice,
+in your input,
+there are 8 columns,
+you are transforming,
+8 of 8 columns,
+right,
+means,
+for every column,
+you calculate,
+one lambda value,
+ok,
+which you have seen,
+this,
+for every input,
+for every input column,
+you are calculating,
+one lambda,
+basically,
+for every column,
+one lambda is coming out,
+with the power of which,
+you are raising it,
+and transforming it,
+so,
+I did the same,
+that,
+when I applied,
+transformation,
+here,
+after that,
+this,
+pt,
+which was my object,
+in that,
+I marked a dot,
+and fetched,
+lambda's underscore,
+it will give me,
+all the lambdas,
+of every column,
+and,
+I converted it,
+into a data frame,
+and,
+you would see,
+that,
+for cement,
+it's basically,
+0.177,
+it means,
+if in cement,
+suppose,
+if in your cement,
+there is a value,
+like this,
+I would show you,
+like in cement,
+suppose,
+you have 540,
+so,
+what you are actually doing,
+you are raising 540,
+by the power of,
+whatever is here,
+hmm,
+0.177,
+this will be your transformation,
+similarly,
+blast furnace snack,
+whatever is the number,
+suppose, it is 30,
+so, you will raise it,
+by the power of,
+0.02,
+that is what you are doing,
+internally,
+after calculating these lambdas,
+transformation,
+is applied like this,
+you are taking every x,
+and raising it,
+with the power of lambda,
+so, that is what is happening here,
+so, just clear this in your mind,
+I hope,
+you understood,
+now,
+now that,
+I have,
+transformed,
+x-train,
+and x-test,
+I again,
+made an object of linear regression,
+and,
+x-train,
+transformed,
+and y-train,
+I trained,
+and I did prediction,
+put it in vibrate 2,
+and run it,
+so,
+this is my 80,
+like,
+how much was coming up,
+coming up,
+62,
+although,
+after cross-validation,
+it became 46,
+but,
+here,
+instead of 62,
+it became 80,
+our R2 score,
+now,
+I,
+didn't want to be too happy,
+that's why,
+I,
+fit transform,
+I am sorry,
+cross-valid score applied,
+did it 10 times,
+and,
+after doing that,
+I came to know,
+that,
+it is not a matter of happiness,
+0.66 is happening,
+and,
+0.66 is actually good,
+because,
+our 0.46 was happening,
+cross-valid score,
+without transformation,
+and,
+now,
+it is 0.66,
+so,
+it is an improvement of 0.2,
+that is,
+a very good improvement,
+now,
+I will show you,
+one last thing,
+now,
+again,
+by doing side-by-side comparison,
+I am showing you,
+before transformation,
+and,
+after transformation,
+this plot,
+okay,
+I have run this,
+and,
+before that,
+I will have to run this,
+also,
+just one second,
+there itself,
+I had converted,
+in that data frame,
+I guess,
+oh,
+I haven't converted anywhere in the data frame,
+I will have to do it,
+just one second,
+yup,
+this is the code,
+so,
+I will just copy it,
+over here,
+what I am doing is,
+that,
+my x is transformed,
+that is,
+numpy array,
+I am converting it,
+in the data frame,
+so that,
+I can show you,
+by plotting a graph,
+so,
+see this,
+guys,
+I have plotted graphs,
+before and after,
+so,
+on the left side,
+you can see,
+that,
+this is,
+this is,
+this is,
+this is,
+on the left side,
+you have a graph of,
+before transformation,
+of each column,
+on the right side,
+of after transformation,
+so, in cement,
+you can see,
+there is a slight transformation,
+which was slightly right skewed,
+it is making it,
+slightly normal,
+which is good,
+see here,
+this was,
+quite right skewed,
+this,
+this,
+it could not,
+properly,
+normally distribute,
+but,
+by model,
+and both models,
+are normally distributed,
+same goes,
+with this one,
+fly ash,
+water,
+as it was,
+looks the same,
+super plasticizer,
+also,
+slightly improved,
+coarse aggregate,
+looks the same,
+fine aggregate,
+looks the same,
+age,
+in age,
+the biggest improvement,
+has come,
+by taking,
+right skewed data,
+by standardizing,
+by making it,
+totally,
+normally distributed,
+ok,
+so,
+you can see,
+how your transformation,
+is being applied,
+ok,
+now,
+one last thing,
+what I did,
+that,
+this time,
+I applied UO Johnson,
+so,
+I made a new object,
+PT1,
+and in power transformer,
+I did not give any value,
+so,
+by default,
+value is UO Johnson,
+and again,
+I repeated the whole work,
+and after repeating the whole work,
+this time,
+my R2 score,
+was 81,
+last time,
+80 was coming,
+this time,
+81,
+so,
+I saw a little improvement,
+ok,
+and here also,
+I have,
+all these lambdas,
+these are all my lambdas,
+so,
+there are some changes,
+which,
+our UO Johnson,
+is doing differently,
+ok,
+and again,
+instead of not being confident,
+by applying cross valve score,
+you can see the actual results,
+and that actual result,
+was this,
+0.66 was happening last time,
+this time,
+0.68 is happening,
+ok,
+so,
+you can see,
+we started with 0.46,
+after that,
+by applying box box,
+0.66,
+and applying UO Johnson,
+we are able to reach 0.68,
+ok,
+now,
+one last thing,
+I did this,
+that,
+I have,
+side by side,
+plotted,
+your,
+before,
+transformation,
+and after,
+UO Johnson,
+transformation,
+and,
+mostly,
+you will not see any difference,
+in the result,
+it will be,
+very similar,
+to your,
+box box,
+all the differences,
+are very,
+minute,
+because,
+there are not many negative values,
+here,
+if there are negative values,
+then,
+box box,
+will not work,
+ok,
+and lastly,
+I made a data frame,
+where,
+I compared,
+both,
+the lambdas,
+so,
+you can see,
+in box box,
+I don't know,
+it is a little old,
+I will run it again,
+I don't know,
+some slight changes,
+in the value,
+but,
+whatever it is,
+0.169,
+box box,
+cement,
+0.174,
+more difference,
+we are getting,
+in fly ash,
+we are getting,
+some difference,
+in water,
+super plasticizer,
+is ok,
+this is,
+slightly different,
+and,
+there is a lot of difference in age,
+like,
+there is a difference of 10k factor,
+almost,
+ok,
+so,
+that is how this thing works,
+means,
+you just have to do this guys,
+that you have to call,
+this power transformer class,
+I will simply tell you,
+I will summarize it,
+if you are using,
+linear regression,
+or,
+those types of algorithms,
+which rely on,
+normally distributed data,
+then,
+you have to check,
+first of all,
+that the columns,
+that you have,
+are they normally distributed,
+or not,
+mostly,
+you will not get,
+if you are working,
+on normal data,
+there is a big chance,
+that you will not get,
+normally distributed data,
+then,
+what you have to do,
+you have to apply,
+power transformer class,
+ok,
+if you want,
+you can also apply,
+function transformer,
+but,
+mostly,
+what I have noticed,
+the performance of power transformer,
+mostly,
+it performs,
+better than,
+function transformer,
+log transform,
+square,
+square root,
+performs better,
+but,
+you can try both things,
+in which,
+you will get the best result,
+so,
+with that,
+our mathematical,
+transformation part,
+is complete.

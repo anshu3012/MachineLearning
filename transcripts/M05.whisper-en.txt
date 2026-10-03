@@ -1,0 +1,3276 @@
+Hi guys, good evening. How are you all?
+Let me know if you can hear me.
+Can you hear me?
+Just let me know once.
+Okay.
+Alright.
+So guys, let's start at 8 o'clock.
+And
+before that, if you have any questions
+you can ask.
+If you have any questions, you can ask.
+Sir, how we predict
+stocks?
+To predict stock prices
+there are many models.
+In time series prediction,
+in deep learning,
+LSTM etc. they perform very well.
+How sir, have you completed the dose of injection?
+No, man.
+Two are still left.
+One has to be applied tomorrow.
+Bad time is going on.
+Is trigger important?
+I don't think it is that
+important if you are applying for
+data analyst or data scientist
+job role. Data based
+administrator type job role
+or data based architect
+role. So maybe
+trigger is important there.
+Sir, how to go about a capstone
+project? So capstone
+project is basically such a project
+which you can call
+major project. And
+generally, after a full course
+you make a capstone project.
+So pick something
+where whatever you have learned
+can be applied.
+Many things
+can be done. From
+recommender system to predictive models
+anything can be done. But choose
+in such a way that you start
+from stage 1.
+You bring the data. You clean it.
+You do feature engineering.
+You do model building. You do deployment.
+Do all this.
+By picking any project
+you can call it a capstone project.
+Okay?
+Sir, my interview of one hour was over
+in 20 minutes
+technical round.
+In round 2, everyone's definition
+was not given but I was able to explain.
+Is it a bad sign?
+Ending the interview early
+is generally a bad sign.
+Continuing the interview for longer
+is generally a good sign.
+They were not able to give definition
+but were able to explain.
+It depends
+how the other person perceives it.
+Generally, I have seen that
+more aged people need
+very strict copy book style definitions.
+They feel that okay,
+I am able to explain. So it really depends
+what happens.
+Oops is important
+for data analysis.
+There should be an idea. There should be an understanding.
+It will help.
+By the way, it is not very important.
+You will be able to do many things without it.
+Tell me a free website of ML project
+where the model can be deployed.
+There is a website called
+Python Anywhere.
+You can go there and do it.
+Yes, NTile is used for
+bucketing in SQL.
+Yes, Anurag, you can say that.
+I want to make a payment.
+From where should I make a payment?
+I would recommend you
+to make a payment on the website.
+Learnwith.campusx.in
+Okay?
+Let's start today's session.
+It is 8 o'clock.
+If you remember
+our last YouTube session
+was on a very important
+and interesting topic.
+The name of the topic was
+probability distributions.
+Okay?
+There I had taught you
+what are random variables?
+What are random variables?
+Okay?
+What are the types of random variables?
+Are they discrete?
+Are they continuous?
+Then we learned to make probability
+distribution plots
+of discrete and continuous random variables.
+In the case of discrete,
+we used to call it PMF.
+In the case of probability mass function,
+we used to call it PDF.
+Density function.
+Then we used these two
+and learned to calculate CDF.
+Then to calculate PDF,
+we had studied techniques of density estimation.
+We had studied two techniques.
+One was parametric
+and the other was non-parametric.
+Okay?
+So we had covered all these
+in the last class.
+Today's class, you can say
+that it is going to be
+the second part of this last lecture.
+Even then,
+you will understand today's class.
+But if you watch this last lecture,
+you will understand it better.
+Okay?
+So what are we going to do in today's class?
+In fact, in today's class and the next class,
+in these two classes, our plan is
+that since we have
+studied the basics of probability distribution,
+now we will study about
+some important and interesting
+probability distributions
+which exist in nature.
+Okay?
+One of those is
+a very famous probability distribution
+called normal distribution.
+You might have heard of it.
+It is so famous that
+it is taught in schools as well.
+So today's video will be
+all about normal distribution.
+We are dedicating
+this whole lecture
+because it is kind of important.
+Going forward in machine learning,
+you would find this thing
+in many places.
+If your basics are not clear,
+then you have to read it again.
+So today we will focus on this.
+And then in the next class,
+in the next class,
+we will study the remaining
+important distributions.
+The most important
+is normal distribution.
+There are some other distributions
+which you will see in machine learning.
+We will study them.
+Okay?
+After the next class,
+our topic of probability distribution
+will be explained.
+And then we will move to
+inferential statistics.
+So that's the plan.
+So write it clearly in the chat
+if you understand it.
+If you have any doubt,
+then let me know.
+Sir, will it be completed by June?
+We will try to complete it by June.
+Okay then.
+Let's start today's class.
+So before starting today's class,
+there are two topics
+left from the last class.
+We will quickly cover them.
+So as I told you that
+we had studied about PDFs in the last class.
+Okay?
+So I just want to show you
+how you use PDF
+in data science
+and data analysis.
+We will discuss that once.
+Okay?
+I had to study this in the last class,
+but then the time was over.
+So let me show you one or two examples
+that you use
+in your day-to-day life
+as a data scientist
+or data analyst.
+So I will show you two examples.
+Both of them are very common
+on the data sets.
+But you can work on any data set.
+The principles will remain the same.
+So what I have done is
+I have imported the Seaborn library.
+And in Seaborn,
+we have loaded the Iris data set.
+You can see this is the data set.
+So I am very sure
+that I might have told you
+about the Iris data set in the past.
+Iris data set is a data set
+about Iris flower.
+It is a flower data set
+where we have data of 150 different flowers.
+Okay?
+What is the data?
+We have its sepal length,
+sepal width,
+petal length and petal width.
+If you have studied a little bit of botany,
+then you would know what is sepal and petal.
+Their length is given to us.
+And we have to predict
+based on these four values
+that what is the type of flower
+that we have.
+So there are three types.
+Setosa, virginica and versicolor.
+So this is a small machine learning problem
+which is very famous.
+That given these four measurements
+can you predict
+what will be the type of flower?
+So in this type of scenario
+or in this type of problem
+you do feature selection.
+What does feature selection mean?
+Here each of the columns
+is called sepal length, sepal width,
+petal length and petal width.
+These are called features.
+On the basis of these
+we want to predict the type of flower.
+So what happens in feature selection
+is that you select those features
+which will help you
+to predict
+and you remove those features
+which will not help you
+to predict.
+So how will we know
+which of these four features
+and which of these features
+are telling us
+what is the type of flower
+setosa, virginica or versicolor
+and which of these features
+are not telling us
+which will be non-important features
+and we will remove them.
+So if you ever have to do this kind of work
+then pdf can actually help you.
+So see here what code I have written.
+I have written sns.kdeplot
+and what I have done in kdeplot
+I have written the column of petal length
+Let me do one thing
+I have written saple length
+I have written saple length
+and what I am saying is
+that I want to see
+the pdf of
+saple length.
+Why pdf?
+Because saple length is a continuous variable.
+So you can see this is the pdf
+of saple length.
+But now what I want is
+that I want to add
+hue parameter in this
+and I am saying that
+on the basis of which flower
+or virginia or versicolor
+I want to plot different pdf
+for all of them
+for the column saple length.
+Okay
+What happened?
+Just one second
+Let's do one thing
+Let's write this
+data equal to df
+x equal to
+saple length
+and
+hue equal to
+species
+Okay there was an error
+and you can see
+what I did now
+I basically caught this column
+but divided it into three categories
+those data points
+which are of setosa
+those data points which are of virginia
+and those data points which are of versicolor
+and by doing all three
+I have plotted three pdfs
+on the same graph
+and you can see
+this is the pdf
+Now what I will do is
+I will repeat this code
+three more times
+once for the saple width
+you can see this is for the saple width
+once for the petal length
+and once
+for the petal width
+See
+this is the code
+I did the same thing for all four
+Now let's say
+someone shows you these four graphs in the interview
+and asks you
+if you had to keep only two columns
+and remove two
+okay
+means you have to keep two useful columns
+and remove two non-useful columns
+so by looking at this graph
+how do you decide
+which two columns are more useful
+now I will tell you how you will see this
+if you pay attention
+then you will immediately understand
+that the most useful columns for you
+are petal width
+and petal length
+why
+because what is your task
+you have to divide the flowers
+in three categories
+on the basis of a given input
+so if your input
+is petal length
+then by plotting the graph
+of the petal length
+you can easily understand
+that it can easily
+separate your three species
+as you can see here
+you can see this pdf
+of only setosa flowers
+it is very different
+in comparison to this orange and green curve
+which are of versicolor and virginica
+so basically what I can do is
+I can easily create this boundary condition
+that if the petal length
+is 2.3
+let's say this point is 2.3
+if the petal length is less than 2.3
+then I can very easily say
+that I am very sure
+that it is setosa
+and if it is more than 2.3
+then it can be
+either virginica or versicolor
+okay
+so in that also what I can do is
+I will just cut this
+and I will just cut
+and I will just cut
+and I will just cut
+and I will paste it here
+so that we can draw on it
+yeah
+so look carefully
+now if someone tells me
+that on the basis of petal length
+I have to differentiate
+between the three flower types
+then I can easily create this boundary condition
+let's say it is 2.3
+so I will say that if the petal length is greater than 2.3
+sorry
+if the petal length is less than 2.3
+then I can very confidently say
+that the flower we have
+is setosa
+right and if
+it is greater than 2.3
+then it comes in this direction
+and it can be versicolor or virginica
+now here what I can do is
+I can easily create this point
+let's say this point is 5
+so what can I say with a little confidence
+that if PL is
+less than 5
+and greater than 2.3
+basically this region
+so in this region
+I can easily say
+that the flower is
+versicolor
+why I am saying this
+because in this region if you see
+these probabilities
+they are dominating this probability
+right
+and at the same time I can say
+that if it is more than 5
+if PL is greater than 5
+then I can say that it will be virginica because
+this green curve is dominating
+the probability density of
+this orange curve
+so you can see that if you think
+and see in this way
+then PL is a good indicator
+and it is able to differentiate
+between all the three types of flowers
+right same goes with
+PL width
+here also you are able to do the same work
+it is similar but if you go
+to sepal length or sepal width
+you can see
+the probability of all three flowers
+is very much
+mixed with each other
+so you cannot make
+points or boundaries like that
+to do decision making
+so even a machine learning algorithm
+will face problem
+to differentiate the three flowers
+on the basis of sepal width
+and the same problem will happen
+it will be slightly better but
+there is a similar problem in sepal length
+that setosa is not different
+and the orange and green probability curves
+are of very similar type
+so that is why on this basis
+you can make this decision
+that sepal length
+and sepal width
+these two columns are better indicator
+of the distinction
+between the three flowers
+so in this way you use PDF
+I will show you one more example
+so you might remember
+the titanic data set
+on this we performed EDA
+this is the titanic data set
+now here
+there is a column called survived
+and here there is a column
+called age
+now what I am going to do is
+I will plot a graph
+where I will plot two pdfs
+both of them will be on age column
+but the first pdf
+will show the age of those passengers
+who survived
+and the second pdf
+will show the age of those passengers
+who died
+and then you will be able to
+get some interesting points
+so if I write this code
+sns.
+what was the code
+I am copying this code
+and I will just use this code only
+so I will just
+paste it there
+this time our data is titanic
+and
+we are using age
+and
+in titanic also
+our data this time
+is survived
+equal to
+zero
+just one second
+I am basically just filtering
+we are giving the data of those people
+who are not alive
+and
+below
+I will give data of
+people who survived
+so basically one will come here
+ok
+and here
+ok
+I could have given hue directly
+why did I work so hard
+just one second guys
+just one second
+x is age
+and hue is
+survived
+this is the code
+so you can see
+you can see
+this graph will also
+give you a story
+so you can see
+here blue curve represents
+the age of people
+who could not survive
+whereas orange curve represents
+age of people who survived
+ok
+so here you can see
+that when age is very less
+let's say this point
+this point is
+8 years point
+so it is being said that
+if your age is
+from 0 to 8 years
+then your probability of survival
+or you can say probability density
+is higher
+than
+the probability density of
+dying
+means if you are a child
+then your chance of survival is more
+in comparison to death
+but once you cross 8 years age
+then till a long distance
+like even till 80 years
+your chance of death
+is more in comparison to
+your chance of survival
+so you are able to understand
+that age could be a factor
+on the basis of which
+we can decide
+or any machine learning model can decide
+whether the child will survive
+or die
+so just wanted to show you some examples
+that how you can use pdf
+in your analysis
+you can decide whether some feature
+is important for my analysis
+or not
+so I hope you are able to understand
+we have already done this kind of use case
+in the past
+it is just that we were studying
+probability density functions in detail
+so just wanted to show you
+how to use it practically
+if you have any doubt you can ask
+if you don't have any doubt
+then just write it clearly
+then I will show you
+how you can use CDF
+ok
+I will show you how to use CDF
+yes
+you can also use gender
+on the basis of gender
+you can have a discussion
+so you can see
+pretty much
+this
+gender
+ok we have found out
+which age group has more males
+and which age group has more females
+but if you want to do this analysis
+that what is the relationship
+between gender and survival
+then that cannot be done through pdf
+because both of the variables
+are categorical variables
+so you will have to make contingency table
+cross tab I hope you are able to understand
+ok
+ok
+now I will show you
+cumulative distribution function
+ok
+I had taught you
+cumulative distribution function
+what does cumulative density function do
+what does pdf do
+pdf tells you
+probability density
+of a particular point
+whereas
+your
+CDF
+tells you
+probability density of that point
+I hope you are able to understand
+so if I talk about this pdf
+then at this point
+if I am taking out
+then I am taking out of this specific point
+whereas if I talk about CDF
+then CDF
+till this point
+all the probability
+is given to you
+what is the probability of being till x
+ok I hope you remember
+we discussed in last class
+so I will show you a use case
+how you interpret CDF
+we have taken petal width
+which we discussed
+around iris
+dataset so what I have done
+first of all
+I have plotted KD plot
+which I have shown you earlier
+basically this plot
+this is exact plot
+but above that what I have done
+SNS library
+has a function ECDF plot
+basically you can call it
+it is
+CDF plot
+it is not exactly CDF
+but for all practical purposes
+you can treat it as CDF plot
+so what I have done
+I have again made CDF plot above same column
+so you can see
+now I have not only pdf
+of every type of flower
+I also have CDF
+ok so now let's see
+how you can analyze CDF
+ok look carefully
+I have pasted
+this same image here
+now suppose
+on the basis of pdf
+you have made this rule
+that if
+if
+petal width
+is greater than
+let's say this point is
+0.7
+and less than
+this point
+is let's say
+1.7
+so what rule I have made
+by looking at pdf only
+I have made this rule
+that if in this range
+petal width
+then I will call it
+versicolor
+why I have said this
+because setosa cannot be there
+and the green curve
+is dominated by
+the orange curve in this given range
+ok and then
+I have said that if
+petal width is greater than 1.7
+then it is virginica
+why I have said this
+because setosa cannot be there
+and in this given range
+green curve is dominating
+the orange curve
+ok I hope you are able to understand
+now what can CDF help you
+CDF can tell you
+that the rule you have made
+in this
+how right you will be
+or how wrong you will be
+this can be told to you
+so what I will do is
+that the point we have made
+we will take it here
+and connect it here
+ok and same
+I will do with this green curve
+ok so this
+green curve is coming here
+and this
+orange curve is coming here
+ok
+let's consider this value as 0.1
+and this value as
+0.95
+ok now see
+how you can interpret this
+so
+what is the meaning of 0.95
+and let's assume this point
+is 1.7
+this point is 1.7
+ok
+so how to read this
+so if you talk about
+versicolor
+talk about this curve
+so according to this curve
+95%
+the versicolor
+flowers
+you will get below 1.7
+this is the meaning
+now if you talk about
+the green curve
+so according to the green curve
+only 10%
+of virginica flowers
+you will get below 1.7
+listen again
+from CDF we can understand
+that 1.7 where both
+these curves are intersecting
+if you talk there
+then 95%
+versicolor flowers will be
+less than the value of 1.7
+whereas
+only 10% flowers
+virginica flowers
+will be less than 1.7
+so this means that
+the rule that you have made
+that if you are between 0.7
+and 1.7
+means if you are in this range
+then what did you say
+that it will be versicolor
+so if someone asks you
+how much you can be right
+and how much you can be wrong
+then you can easily say
+95% of the times
+why
+because 95% flowers
+are falling in that range
+right and
+what you said
+in this you will be 90%
+correct in this range
+what did you say
+that it is virginica
+so you will be 90% correct
+why because 10% flowers
+are in this range
+so in this way
+you can use pdf to quantify
+your decision making
+what was the decision making
+that it is below 1.7
+and above 0.7
+so it is versicolor
+and if it is greater than 1.7
+then it is virginica
+we did this decision making on the basis of pdf
+right but
+how much is this decision right and wrong
+how are you taking this
+on the basis of cdf
+where you are getting a quantity
+a term which is telling you how much you are right and wrong
+so the range you decided
+in this range
+there are 95% versicolor flowers
+so you will be 95% correct
+and 5% you can make a mistake
+and the range you decided
+for virginica
+in this 90% flowers are falling
+and 10% flowers are not falling
+so you can make a mistake 10% times
+and 90% you will be correct
+so in this way what you can do
+that the decision making you did on the basis of pdf
+you can give it a quantitative
+label that
+I can be right this much
+and I can be wrong this much
+this thing pdf was not able to tell you
+to tell you this you will need cdf
+ok so I hope you
+understood this point
+we just discussed
+how you can use pdf in your analysis
+how you can use cdf
+ok
+so let me know guys
+I am opening the chat
+and
+if you have any doubt you can ask
+how to calculate probability between
+two points in python for pdf
+it depends on the probability distribution
+like today we will learn
+how to do normal
+ok and we will discuss the rest later
+milind depends on the formula
+but today I will give you
+a little idea of normal
+ok
+let's move ahead guys
+till now
+whatever pdf you have seen
+ok whatever density
+plots you have seen
+they were all 1D
+in one time
+whether it was discrete
+or continuous
+but in one time they were holding
+one column and were analyzing on it
+so till now whatever plots we have seen
+they are all 1D
+distribution plots
+whether it is
+pmf
+or pdf
+but it is not necessary
+that it is only 1D
+if you want you can do it in 2D
+or in 3D
+in 4D
+it will not be visible
+but in 2D and 3D it is possible
+in 3D people do not prefer
+because it gets very complex
+but you will get to see 2D plots
+2D joint plots
+or 2D density plots
+you will get to see that
+I will just give you a flavor
+so here I have
+run a code
+just give me one second
+this is the code
+I had taught you in CBON
+what I have done here
+I have put df in data
+which is my iris data set
+in x I have put petal length
+in y I have put sepal length
+this time I have caught 2 columns
+both are numerical columns
+I have done kind as kd
+filled as true and cbar as true
+these are all settings
+as I have run it
+I am seeing this kind of graph
+if you see this graph
+I will copy it
+so if I
+plot it here
+paste it
+so we can have a discussion around this
+see guys
+this is called 2D density plot
+where
+you are studying
+two columns
+together
+so it is a joint plot
+you can see 1D pdf of
+petal length
+this is the pdf of petal length
+and this is
+pdf of petal length
+you already know
+how it works
+now we will discuss about this plot
+this weird thing
+focus on it
+this is 2D density plot
+how these two numerical columns
+are related to each other
+or
+how they are distributed
+this is its graph
+how to study it
+I will tell you
+imagine it
+like a mountain
+which you have taken a snapshot from above
+you are going up from the flight
+and you have taken a snapshot from above
+of the mountain
+so how will the mountain look like
+it will look like a 2D object
+so actually this thing
+is also a 3D object
+which is being represented in 2D
+but its 3D component
+is actually color
+so the more you see
+dense shade of blue
+you can think of it as
+it is lifted from the screen
+towards you
+so as you can see
+if it is so dense
+then you can consider it
+on this height
+if it is too light
+then you can consider it on a lower height
+so you can see
+this area is lifted too much
+then the area next to it
+is lifted a little less
+so you can imagine
+it is coming towards you as a mountain
+where the center part is
+like the top of the mountain
+it is small
+same goes with the second mountain
+and the further you go
+the closer it is to the ground
+so you can see
+that this range
+this range
+you can see
+this range
+in this given range
+for both
+petal length
+and sepal length
+the density of the combination
+is highest
+similarly if you talk about
+this range
+this range
+in this range also
+the density of the combination
+of sepal length and petal length
+is highest
+so basically when you plot 2D plots
+you are trying to find out
+which combination
+has highest probability
+probability density actually
+but again loosely speaking
+the probability density is highest
+so in this way
+you are finding out
+the paired probability density
+about 2 columns
+you can do the same thing
+with the help of 3 columns as well
+but again interpretability gets loose
+so maximum what people do is
+they plot 2D graphs
+in 3D you won't get to see this much
+by the way this is called contour plot
+and we have plotted many graphs
+about this
+so this is basically a 2D contour plot
+which is actually representing
+the third dimension
+so just wanted to show you
+in future when we will use it
+I will just give you a call back
+that we had studied it
+and then we will do a discussion around it
+but just wanted to show you
+till now we were studying 1D
+so it shouldn't be like
+density plot means 1D
+you can also have 2D density plots
+you can also have 3D density plots
+this is an example
+where you have a 2D density plot
+so now you understood
+about 2D density plot
+so I will just open chat
+let me know
+if you just understood
+what is 2D density plot
+just wanted to show you
+we haven't gone too deep
+so okay guys
+now we will move towards
+our today's class
+our today's class is about
+normal distribution
+so let me tell you again
+in our last class
+we started studying probability distributions
+we did a general study
+what is probability distribution
+now we will cover
+the famous probability distributions
+one by one
+and in that list
+the topmost distribution
+is your normal distribution
+I am very sure
+if you have ever taken a mathematics class
+you must have heard the name
+of normal distribution
+so in next 1-1.5 hours
+we will study normal distribution
+and the goal would be
+to learn it in a way
+that if you ever need
+any concept of normal distribution
+in data science or data analysis
+you can revise this class
+so let's start our discussion
+first of all
+basic question
+what is normal distribution
+I have written the definition
+let's go through the definition
+normal distribution also known as
+Gaussian distribution
+or bell curve
+remember this
+so normal distribution
+also known as Gaussian distribution
+is a probability distribution
+that is commonly used
+in statistical analysis
+it is a continuous probability distribution
+it means it is a pdf
+that is
+symmetrical around the mean
+with a bell shaped curve
+so basically
+its graph looks like this
+this is the graph of normal distribution
+you see
+this point
+this is mean
+this is the mean point
+it is like a beautiful bell
+like a bell
+it has that kind of shape
+ok
+and
+let me tell you one or two things
+so this is your mean value
+it is obviously
+representing probability density
+on x-axis
+you have normal x values
+this part
+where it is sitting down
+this is called tail
+this is called tail
+ok
+second
+this tail never touches x-axis
+you see
+this light blue curve
+it never touches x-axis
+it is asymptotic in nature
+which means it will touch infinity
+this is an important point
+third
+of this graph is
+that many points
+in your data
+are near the center
+and some points
+are far from the center
+this is the basic summary
+of this graph
+this is what normal distribution says
+normal distribution is such a distribution
+where many points
+are near the center
+you can see
+what is y-axis representing
+probability density
+in a range
+so this is high
+means there are more points in this area
+and this is low
+means there are less points in this area
+so basically what is the gist of normal distribution
+what is the summary
+that many points will be found in the center
+some points will be found at a very low value
+and some points will be found at a very high value
+that is the mathematical summary
+of normal distribution
+I hope you understood till here
+now
+let us see one or two more things about this
+so in normal distribution
+there are two parameters
+means normal distribution
+is recognized on the basis of two parameters
+first is mean
+and second is
+standard deviation
+it means
+that if you have
+mean and standard deviation
+and if it is a normal distribution
+then you can make a graph
+of it
+the mean represents
+the center of the distribution
+and standard deviation
+represents the spread of the distribution
+means
+mean shows the center of your data
+and standard deviation
+shows the spread of your data
+how much is spread
+and your normal distribution
+is basically decided on the basis of
+these two parameters
+in fact
+if you read in books
+then in literature
+normal distribution is denoted like this
+this is the
+notation
+here x represents a random
+variable
+this belongs to
+n means a normal distribution
+and in normal distribution
+there are two parameters
+mu stands for mean
+and sigma denotes
+standard deviation
+so this is like
+absolutely important to understand
+that the entire normal distribution
+actually depends on only two parameters
+and that is mean of the
+data that you have
+random variable and the standard deviation
+of the data that you have
+now the biggest question is
+why is normal distribution so important
+why do we value
+normal distribution so much
+in statistics
+the biggest reason is
+commonality in nature
+the answer is very simple
+its name is normal because
+it is actually very common
+or normal in nature
+many natural things
+many natural phenomena
+in fact many manmade things
+also follow normal distribution
+right
+many natural phenomena
+follow normal distribution
+such as heights of the people
+weights of the objects
+IQ scores of a population
+and many more
+and that is why normal distribution
+provides a convenient way to model
+and analyze such data
+for many years in statistics
+when people
+collected data from different domains
+and started making their pdf
+so they realized
+that when they were drawing pdf
+then this graph was being made again and again
+and then
+they decided that now this is
+something important
+it means it is important
+that is why they started calling it normal distribution
+and then a lot of study was done about it
+and today
+so much study has been done about it
+and I know everything
+and that is why in today's date
+whenever you are working on a new data
+then you always want
+that somehow it reaches near normal distribution
+because
+I know everything about normal distribution
+ok
+so normal distribution is absolutely important
+and fundamental to the branch of statistics
+and that is why
+studying about it is
+very very important
+ok so let us study it in detail
+so now I have shown you graph
+this is basically a graph
+here is x-axis and here is y-axis
+now since this is a graph
+then it will have some mathematical equation
+right
+so let me show you its equation
+its equation is this
+you will feel a little scared in first go
+but actually it is not that scary
+this is the equation
+you can also call it as
+y is equal to f
+which basically says
+y which you can call
+probability density
+which is a function of x
+ok and what is this
+1 divided by standard deviation times
+root 2 by pi
+e to the power
+minus half x
+this x and this x is same
+this is like
+which random variable is taking which value
+then mu which is your mean
+and again sigma
+which is your standard deviation whole square
+ok now this looks very weird
+and feels like where did this equation come from
+I will tell you
+why this equation is like this
+but here you will get to see
+one thing clearly
+that in this whole equation
+there are two parameters
+one is mu and the second one is
+sigma
+pi is not a parameter
+its a constant 3.14
+and this x is your
+dependent variable
+I hope you are able to understand
+sorry independent variable
+so I guess you are able to understand
+now let me show you
+these two parameters
+mu and sigma
+what is their impact on
+normal distribution
+what I mean to say is
+if you change mu
+then what changes will come in this graph
+if you change sigma
+then what changes will come in this graph
+I will show you that
+so we have made a tool
+I will show you
+we will share this with you
+this is a small tool
+which our team made
+so basically there is nothing in this
+you can see we have a graph
+where we have
+pdf
+where we have set mean
+in the beginning
+0
+it is not set
+and standard deviation
+we have set as 1
+so you can see
+we have two distributions
+you focus on one
+we have kept the other for comparison
+so see carefully
+as soon as I increase mean
+so what happens with this
+your graph shifting on x axis
+so if I take mean
+from 0 to positive
+then you start moving on positive x axis
+see this
+see the orange graph
+blue graph is constant
+it is for comparison
+orange graph moved forward
+if I increase more
+then it will move forward
+height and shape are same
+if I take it in negative direction
+then it will go in negative direction
+so you must be understanding
+what is the benefit of mean
+because of mean
+you can shift
+on your x axis
+if you make mean negative
+then you will go in negative direction
+where you are now
+and if you take it in positive direction
+then you will go in positive direction
+now I will show you
+what happens with standard deviation
+if you increase standard deviation
+like now it is 1
+see I am increasing it
+so your curve
+its height becomes low
+and it becomes fat
+you can see
+if I increase it more
+see it is getting thicker
+spread is increasing
+and if I decrease it
+then it is getting thinner
+and its peakedness
+is increasing
+spread is decreasing
+and it is getting longer
+so this is the solution
+of this whole thing
+if you increase mean
+then you shift in positive x direction
+shape of the curve does not matter
+you shift in positive x direction
+and if you decrease mean
+then you shift in negative x direction
+whereas
+if you increase standard deviation
+then the shape of your graph
+starts changing
+and it becomes fat
+height decreases
+spread spreads
+spread reduces
+due to which height starts increasing
+so this tool will be shared with you
+in the description of this video
+so if you are watching in future
+then you can play with it
+just to develop some intuition
+but just wanted to show you
+what is the difference
+between these two parameters
+so I am telling you again
+that if you know
+that your data
+is following normal distribution
+then
+and you know its mean
+and you know its standard deviation
+then you can
+plot its graph
+because you will have this formula
+so basically you just need
+these two things
+after knowing this fact
+that it is normal distribution
+to draw this graph
+now that is a different thing
+that different means and different standard deviation
+will make different graphs
+any graph can be made
+but it will be normal distribution
+because I just showed you
+the impact of parameters on graph
+so if you have any doubt related to this
+then you can ask
+I am opening chat
+sir standard normal distribution
+and normal distribution are same
+no there is little difference
+we will discuss it
+if you have any other question
+then write clearly
+then we will move ahead
+let me know if you understood
+what is the meaning of data file rise
+because most of the points are far from mean
+this is the meaning of data file rise
+SNS's ECDF was so
+stepy
+that is why I said it is not exactly same
+but for all practical purposes
+you can use it
+ok
+ok guys
+now I will give you
+some intuition
+about
+this equation
+ok
+how this equation came
+we are not going to
+derive the equation
+but I will give you an intuition
+that what every term is doing
+you will get some idea
+why this equation is like this
+because it is a little scary equation
+so see the main thing in this equation
+actually
+you can build the equation from scratch
+actually if you write it like this
+so basically
+the equation is something like this
+it starts with this
+actually it starts with this
+e to the power x
+does anyone know
+what is the graph of e to the power x
+let me show you
+we have used decimals in past in this course
+it is a very powerful tool to plot graphs
+so I will show you
+what is the graph of y is equal to e to the power x
+this is the graph of e to the power x
+right
+what if I put minus in front of this
+if I
+put minus in front of this
+so this is exponential decay graph
+e to the power x is exponential growth graph
+this is exponential decay
+what if
+I
+square over this
+as soon as you do this
+so now
+you are getting a graph like
+normal distribution
+already right
+now what you can do is
+to accommodate these parameters
+first of all what you can do is
+you can change this
+and you can write it this way
+x minus
+mu
+whole square
+why did we do this
+so that we can accommodate
+any type of normal distribution
+shifting
+see what I am saying
+suppose
+if I put bracket here
+now what will happen
+if I put minus 2
+see it shifted
+if I put plus 2
+it shifted
+so basically this term
+we put it here
+so that we can accommodate
+any type of normal distribution
+which is at center
+which is in x axis positive
+and which is in negative
+then what we did
+we divided below
+with variance
+so that we can scale
+and then we multiplied it with 2
+so that we can scale in both directions
+understand
+I am saying this
+so for some time
+we will do x minus 0
+so it will be at center
+I am dividing it with variance
+and in fact with variance of both sides
+because it is made up of two graphs
+one is of positive d and other is of negative d
+so we multiplied it with 2
+so that in this direction
+in positive x direction also
+variance will be impacted
+and in negative x direction also
+variance will be impacted
+so basically this term is coming from here
+so what you did
+you divided
+2 times
+some value
+let's say variance is 1
+so 1 square is 1
+so multiplied by 1
+variance is to scale
+so if you increase it
+let's say 4
+or 8
+so you can see what is happening
+peakedness
+you can see
+sorry
+as I am increasing the value
+you can see I am able to model
+normal distribution of different heights
+so if I did 5 then it is like this
+did 6 then it is spreading more
+did 7 then it is spreading more
+did 9 then it is spreading more
+so basically the term below is to accommodate
+variance or you can say standard deviation
+so this 2 sigma square
+is coming from this
+so how did you write this by modeling
+e minus half
+x
+minus mu
+whole square
+I guess you are able to understand
+now let's see where did this term come from
+where did this term come from
+simple
+I told you in last class
+that whenever there is any pdf
+its area
+under the graph
+its area under the graph
+should always be 1
+simple
+because it is representing probabilities
+from here to here
+total probability will be 1
+so what happens is
+when you do
+integration of this equation
+and calculate the area
+now I am not doing it
+but if you do integration and calculate its area
+then its area is
+this
+sigma times root over of 2 by pi
+but how much
+area do we need
+1
+so that is why how will we divide this term
+by this
+so what is y
+this is a weird term
+but the basic funda is coming from here
+the basic funda is coming from here
+if you ask what is the essence of this equation
+then the essence of this equation
+is basically this
+what is the relationship
+between y and x
+this is the relationship
+you can simply see
+if you increase the value of x
+then the value of y will be reduced
+because x is square
+in both directions
+if you increase the value of x
+or decrease the value of x
+because of this square term
+because what will happen
+y is equal to 1 divided by e power x square
+so basically it is talking about dk
+so if you increase the value of x
+then also
+y will be reduced
+and if you decrease the value
+then also y will be reduced
+it will never be zero
+it is asymptotic
+but if you make x zero
+then it will come here
+but you get the idea
+you get the idea how this whole thing is working
+this is the mechanics behind
+the equation of
+normal distribution
+that from where these terms are coming
+so although even if you don't tell
+it will work
+just wanted to give you a mathematical background
+how this equation got constructed
+ok
+so let me know if you understood
+I am opening the chat
+let me know if you understood
+and if you have any doubts you can ask
+ok then let's move on
+so till now we
+understood what is normal distribution
+why it is so important
+we saw its graph
+and its
+pdf equation
+we tried to study it
+we didn't go too deep
+just gave you a flavor
+how this equation came
+how it was thought
+then I also showed you
+your parameters
+how your
+normal distribution
+is affected
+till here we discussed
+now let's move ahead
+now I am going to teach you
+a very important topic
+it is called
+standard normal
+or in some places
+you call it
+standard
+normal
+distribution
+so you understand it
+this standard normal
+by the way sometimes it is called
+Z
+so this is
+normal distribution
+but this is a special case
+of normal distribution
+and a very important case
+so now I have told you
+how normal distribution is denoted
+like this
+now anytime
+if your mu
+value is zero
+which means
+your normal
+and if your standard
+deviation is one
+then
+this is called
+standard normal
+and it is denoted by Z
+so basically Z is this value
+sorry I wrote it wrong
+zero comma one
+anytime if you see
+a normal distribution
+whose mean
+is zero and standard
+deviation is one
+it is not a normal distribution
+but it is a special normal distribution
+which you call
+standard normal
+so here you can see
+this graph is
+a graph of standard normal
+and here you can see
+that its central value
+that is
+zero
+and all its standard deviations
+are of one
+one standard deviation positive side
+one standard deviation negative side
+two standard deviation positive side
+two standard deviation negative side
+three standard deviation positive side
+three standard deviation negative side
+so this is
+your standard normal distribution curve
+ok
+why is it so important
+I will explain it to you
+here it is written
+standardizing a normal distribution
+allows us to
+compare different distributions
+with each other
+this is the first benefit
+that using
+a normal distribution which is standardized
+mean zero standard deviation one
+you can calculate probabilities
+using standardized
+tables or softwares
+there are two benefits
+first is that you can
+standardize two different
+normal distributions
+by making them standard normal
+you can compare them side by side
+second is that
+you can calculate the probabilities of any
+between because
+for standard normal variation
+you already have all the probability values
+how they are
+I will explain it to you
+what will be the equation of this
+if someone asks you
+what will be the equation of
+standard normal variation
+it is very simple
+this equation is of
+a simple normal distribution
+but if you make the value of mu
+zero and
+standard deviation one
+you get standard normal variation
+which is simplified
+and this is the equation
+this is the equation
+how did we reach this equation
+we did nothing
+we removed mu from zero
+and removed standard deviation
+from one
+so this is your simplified form
+or standard normal distribution
+how did it come
+it came from the previous equation
+now the question is
+suppose I have
+a simple normal distribution
+which is not
+standard normal variant
+suppose its mean is five
+and its standard deviation is
+2.5
+so this is not standard normal
+this is another normal distribution
+it is a normal distribution
+but his mean is five
+and its standard deviation is 2.5
+it will look like this
+this value will be five
+this value will be seven point five
+this value will be ten
+and this value will be 12.5
+this value will be 2.5
+this value will be 0
+and this value will be minus 2.5
+right, it looks like this
+how can I make it a standard
+normal variant
+how will it be a standard normal variant
+when it looks like this
+that
+where will its mean be
+its mean will be at 1
+I am sorry, its mean will be at 0
+and all its standard deviations
+will be at 1
+so the question is
+how can you make any normal distribution
+a standard normal variant
+right
+we will discuss that
+its very simple
+what you do is
+suppose you have an age column
+in which there are different age values
+suppose like this
+there are different age values
+so what you will do is
+you will find its mean
+and you will find its standard deviation
+and to standardize it
+what you have to do is
+you have to catch every point
+and apply this operation on it
+apply this simple equation
+so you catch the 27 point
+from that subtract the mean
+basically mean centering
+and then you divide it by standard deviation
+you scale it
+so as soon as you apply this operation
+on a normal distribution
+automatically
+its graph becomes this
+its mean
+becomes 0
+and its standard deviation becomes 1
+I will show you an example
+so here we have
+a code
+we were working on titanic data
+so in titanic data
+our age column
+let me show you that
+in titanic data
+if you print our age column
+so here are all the age values
+right
+what I do is
+I will show you by making a graph
+A D E plot
+and I am
+plotting it
+so you can see
+it is not a completely normal distribution
+it is not perfect
+I will show you further in the class
+that for all practical purposes
+you can consider it as a normal distribution
+it is not perfect but you can consider it
+so for some time we will assume
+that it is a normal distribution
+so what is its mean
+how will its mean come out
+you will simply catch it
+you will put a mean on it
+and it will
+give you the
+mean age 29
+and you can see that the peak
+which you can see here
+will be around 29
+not exactly but roughly
+similarly you can calculate
+the standard deviation
+you can calculate the standard deviation
+S T D
+and you can see
+the standard deviation is
+14 years
+so for now we have a normal
+variable
+which can be written like this
+mean is
+29
+and standard deviation
+is 14
+now in which I have to convert it
+into this
+how will I do it
+it is very simple
+I will catch every age value
+and I will subtract
+from it
+your age
+I will divide this whole
+by
+standard deviation
+and standardization is done
+ok
+you can see I will call it x
+ok now see what is the benefit
+when I will plot
+SNS dot KDE
+on x
+so you would see
+that you can see a similar graph
+but this time you can see
+where is the age
+you can see the mean
+and your minus 1,1,2,3
+because you have standardized
+you can actually see
+the mean of x should be close to 0
+perfect 0 will not come
+because we did not go with
+perfect normal distribution
+so perfect 0 is not there
+but you can see it is very close to 0
+you can see e to the power minus 16
+it is a very small number close to 0
+similarly if you subtract the mean of x
+sorry if you subtract the standard deviation of x
+then it is 1
+so this is very close to 0
+and this is exactly 1
+so that is how you
+standardize any normal distribution
+to standard normal
+variate standard normal variate
+is a special kind of normal distribution
+whose mean is 0
+and standard deviation is
+1 ok
+now I know what is coming in your mind
+what is coming in your mind
+what is the benefit
+by standardizing
+this is the big question right
+earlier I had written something
+that by standardizing
+one benefit is that
+you can compare 2 different normal distributions
+or else you have the option
+to calculate all the values in between
+what is the meaning of this
+I will explain it to you
+let us do 1 or 2 questions
+from that you will understand
+by converting to standard normal variate
+or by standardizing
+what is the benefit
+so I will show you 2 questions
+so that you will understand
+what is the benefit
+so see the first question
+suppose the heights of adult males
+in a certain population
+follows normal distribution
+we were already told
+that don't think too much
+that is a normal distribution
+with a mean of 68 inches
+and a standard deviation of
+3 inches
+which means
+this is our normal distribution
+this is the normal distribution
+now we are being asked
+what is the probability
+that a randomly selected
+adult male from this
+population is taller
+than 72 inches
+we have to find this
+so what is basic funda
+to solve any such question
+first of all
+you can draw the normal diagram
+so you can see
+this is 68
+and then
+this is 71
+this is 74
+and this is 77
+and if you talk here
+this is 65
+this is 62
+and this is 59
+this is our normal distribution
+we have to find out
+that 72 inches
+which is somewhere here
+somewhere here
+what is the probability
+of being taller than this
+according to our population
+we have to find this
+so you can solve
+these questions very easily
+if you convert this
+into a
+standard normal variant
+ok
+so what we will do is
+we will convert this
+or we will assume
+that we have converted it into
+standard normal variant
+and what we will do is
+we will find out the
+standardized value of
+72 inches
+72 minus
+whatever is the mean
+of your original population
+68
+divided by standard deviation
+3
+and you got this
+this is called z score
+or you can say
+this new
+standard normal variant
+which will be 0
+you are taking out
+this z value
+that 72 is
+where in this graph
+you are taking out this
+so what is 72 minus 68
+4
+what is 4 divided by 3
+0.7
+no 4 divided by 3
+1.33
+so basically
+this new graph
+in this graph
+you want to find out
+what is the probability
+of being taller than 1.33
+ok
+so how will it come out
+very simple
+so there is a very nice thing
+which we call z tables
+what is z tables
+so apparently
+your
+standard normal variant
+for every
+x value
+probability density
+is already calculated
+and stored
+in these kind of tables
+in these kind of
+tables
+ok
+so basically
+the z score
+which you got
+what you can do
+by using this
+you can find out
+what is the probability
+of having data
+before that score
+or it means
+in this normal distribution
+the probability of
+being less than 1.33
+I can easily find out
+using a z table
+so what I will do is
+from here
+there are 2 types of z tables
+this is negative z table
+and this is positive z table
+so since our z score is 1.33
+it is a positive value
+so we will go to positive z table
+and what you do there
+the first 2 digits
+like in 1.33
+the first 2 digits is 1.3
+if you search on x axis
+you can see 1.3 is here
+and then
+the next digit
+0.03
+if you search on y axis
+it is 0.03
+so basically we need this value
+0.90824
+so this means
+0.90824
+0.90824
+this means
+in this standard normal
+variation
+the probability of
+being less than 1.33
+or equal to 1.33
+is 0.90
+if you talk about percentages
+then it will be
+90.8
+so you can simply say
+that the data
+with which we started the work
+in that data
+the probability of being
+equal to or less than
+72 inches
+is 90.8
+we need the probability of
+being more than that
+so what we will do
+here the total is 100
+if we subtract 90.8 from 100
+then what will we get
+9.02 or something
+so this is your percentage
+if we ask you
+what is the probability
+that a randomly selected adult male
+from this population is taller than 72 inches
+your answer would be
+0.092
+or 9%
+so how did we calculate
+what we did in step 1
+we converted our normal distribution
+into standard normal variant
+now by converting it into standard normal variant
+there is a benefit
+that for any z value
+I have got
+the y value
+which we can calculate from this table
+and then on the basis of this table
+we can give you the answer
+so this is the best part about normal distribution
+that you bring any normal distribution
+just that normal distribution
+and what you have to do
+you just have to convert it
+into standard normal variant
+which simply means
+standardize it
+do mean 0 and standard deviation 1
+and then whatever question you are being asked
+72 inches 52 inches
+you have to find the z value
+and by going to that z value
+you will find it in this table
+that is your answer
+I hope you understood
+I will give you one more example
+because one example is not sufficient
+so in this example
+what we have to do
+suppose we have a normal distribution
+whose mean
+is mu
+and standard deviation is sigma
+no values are being given
+only this much is being given
+and we are being asked
+what percent of population
+lie between
+mean and one
+standard deviation
+try to understand this question
+this is our
+graph
+this is the graph
+and we are not given anything
+we are just told that
+mean is mu
+and standard deviation
+you can consider it
+mu plus
+one sigma
+this is one standard deviation
+this is mu
+so what will be the point
+mu plus sigma
+we are being asked
+in this region
+how much data
+means
+what is the probability
+or in simple words
+how much percent data
+will come in this range
+we have to find this
+so look carefully
+how will you do this question
+again you will do the same steps
+first of all you will convert this
+into standard normal variation
+what is its function
+its function is very simple
+basically you standardize
+every point
+we are being asked to focus on this point
+on these two points
+because we have to find the area
+between these two points
+so we have to focus on these two points
+so what will I do
+the first mu
+I will calculate its z
+so what is the formula
+to calculate z
+you take x value
+subtract mu from it
+and divide it by standard deviation
+what is the x value of this point
+mu
+so what will we put in return of this x
+mu
+how will we subtract it
+mu and how will we divide it
+z
+so what is this
+zero
+this means
+when you make standard normal variant
+then what will be the mu
+zero
+now we will focus on this point
+we will standardize it
+you again have to do
+x minus mu
+and then you have to divide it by sigma
+what is the value of x
+mu plus sigma minus mu
+divided by sigma
+this mu and this mu
+is cut
+so what is left
+sigma by sigma which is one
+so basically the mu plus sigma
+in our standard normal variant
+what is the value
+one
+two
+three
+four
+five
+six
+seven
+eight
+nine
+ten
+ten
+one
+two
+three
+two
+Means from minus infinity to zero there are 50% points which is logical and symmetrical graph.
+And then we have to find out that 1 as in from here to here how many percent points are there.
+So we took 1 which is this 1 and took 0 which is 84.13 points.
+So basically 50% in this and 84.13% in this.
+So now you have to find out this.
+What will you do? You will subtract.
+You will say 84.13 minus 50 how much is it?
+34.13
+So you can say very easily that our normal distribution is
+which was on mu here and one standard deviation which was on mu plus standard deviation
+here 34.13 points come.
+34.13% points of the whole population come here.
+Now if you put a little mind then you will understand that since this graph is symmetrical
+then mu minus 1 sigma will be on the back side.
+And since this is symmetrical.
+So how many percent points will come here also?
+Here also 34.13 points will come.
+Which means that if you take one standard deviation from negative and go to one standard deviation from positive.
+In between this in your normal distribution 64.28% points come.
+Okay.
+Going by the same logic you can find out that if here mu plus
+two standard deviation then how many percent points will come.
+It is very simple.
+You will subtract z of this point.
+What will be z?
+mu plus two standard deviation minus mu divided by sigma.
+This cancel, this cancel.
+Two came.
+So basically in our graph this value is on two.
+So what will we do again?
+We will go to see two.
+And what is two?
+0.9772.
+Or you can say 97%.
+Okay.
+So now what will I do?
+If I draw again.
+We just found out that if mean was 0.
+So till here 50% people were there.
+And now we just saw that when you are coming on two sigma.
+So here 94% people are there.
+Or something like that.
+97.7 people are there.
+So if you again subtract.
+Or you do one thing.
+You came to know on one.
+That here 64 point something people were there.
+So if you basically divide.
+So you will be able to find out that how many percent people will come here.
+And similarly then you can also find out for minus two.
+That how many percent people will come here.
+Basically I have just shown you by proof.
+A very simple way.
+That how many percent people will come here.
+And you can also find out.
+How many percent people will come here.
+This is a very interesting thing.
+Which is called as.
+Empirical rule.
+What does empirical rule say?
+The normal distribution has a well known empirical rule.
+Also called as.
+68, 95 and 99.7% rule.
+Which states.
+That approximately.
+68% of the data falls within one standard deviation.
+Which we have just found which.
+Between mu-sigma and mu-sigma.
+Come 68% points.
+We have calculated the same thing here.
+You can see.
+It came somewhere.
+34 points. 13 points came.
+If you add these two, then 34 plus 34 will be how much?
+34 plus 34 will be 68.
+Okay. So, we have just taken this out.
+Then when you come in the range of 2 standard deviations,
+then already 95% points
+are in this range.
+And as soon as you come on 3 standard deviations,
+then 99.73% points come in this range.
+So, basically, you can derive all these things from yourself using Z tables.
+And how did you do it?
+Using standard normal variate.
+You can derive this empirical rule from yourself.
+We just did it. I showed you by taking out one standard deviation and guided the second one.
+You can take out the third one.
+But yeah, that is the main benefit of standard normal variate.
+First benefit is,
+since you have the value of y-axis for every x-axis value,
+not y-axis,
+from negative infinity to that x,
+the value of the area under the graph,
+then you can use it to calculate probabilities or percentages very easily.
+That is point number 1.
+Point number 2 is you can compare two different normal distributions
+and you can see what is going on between them.
+And that is the main benefit of using standard normal variate.
+And by doing this,
+we came to know a very interesting thing,
+which is actually a common knowledge,
+that if you take any normal distribution of the world,
+its 68% points
+is between 1 standard deviation and minus 1 standard deviation.
+95% points is between 2 standard deviations and minus 2 standard deviations.
+And 99.73% points
+is between 3 standard deviations and minus 3 standard deviations.
+Like this is
+a very very important knowledge.
+Means,
+if tomorrow I am given a data set
+and I don't know anything about it,
+just know that it follows normal distribution,
+then I can say such a powerful thing about it,
+that whatever happens in that data,
+I can say one thing with guarantee,
+that its 99.73% data
+is between minus 3 standard deviations and 3 standard deviations.
+That is such a powerful prediction,
+which you can see without data,
+just because you know that it is a normal distribution.
+So, I hope you understood this whole discussion
+around standard normal variate.
+And you also understood this very important property,
+which we call empirical rule,
+which we also call 68, 95, 99.7 rule.
+Okay.
+So, I am opening the chat.
+Let me know if you understood.
+Yes, because we are not taking out the probability.
+This Z table is not giving us the probability.
+It is giving us the area under the curve.
+See, it is written here.
+See, it is written here.
+That this gray region is calculating and giving you.
+It is not giving you the Y at this point.
+Up till that point,
+it is giving the area under the curve from the left side.
+So, Z score does this.
+I hope you understood.
+See, this is what Z score does.
+Whatever point you give it,
+whatever Z score you give it,
+from minus infinity to that Z score,
+it gives you the area under the graph.
+Which is basically your probability or percentage.
+Let me know guys if you understood.
+Yes, Aditya.
+That is what it is.
+Any impact from skewness?
+Yes, there is an impact from skewness.
+If skewness comes, then it is not a normal distribution.
+Then you can't rely on all these things.
+Just by looking at the graph,
+can we conclude that data is normal?
+No.
+You have to understand this in multiple ways.
+First,
+you have to plot a histogram or a PDF.
+You will get an idea from it.
+Then there are other things like I will tell you.
+You can test skewness.
+Then there are two plots.
+There is a thing called Q-Q plot.
+We will read it in the next lecture.
+That is a very good indicator that your data is normally distributed or not.
+Okay.
+I hope you understood.
+Yes.
+So let's go.
+Now let's do one thing.
+We have discussed a lot around normal distribution.
+I will tell you some properties of normal distribution.
+Because these properties make normal distribution so important.
+So the first property is symmetricity.
+Which basically means that your normal distribution is symmetric around the mean.
+Okay.
+This is your mean value.
+Your graph on this side and on this side will be mirror image.
+Absolutely same.
+So if you calculate the probability of one side,
+then you can easily calculate the probability of the other side.
+Okay.
+So basically the graph is symmetric.
+Okay.
+This is point number one.
+Point number two is that the measure of central tendencies,
+which is mean,
+median,
+and mode.
+These three are exactly same.
+For a proper normal distribution,
+the mean,
+the median,
+the mode.
+All three values will be exactly same.
+Okay.
+You have to always remember this.
+They will be equal.
+Okay.
+We have just discussed the empirical rule.
+This is the most important thing about normal distribution.
+Always remember this.
+64% plus 68% data will be in the middle.
+One standard deviation will be in the middle of minus and plus.
+95% data will be in the middle of two standard deviations.
+99.73% data will be in the middle of two standard deviations.
+That is like almost everything will be inside three standard deviations.
+Okay.
+So there are very interesting studies.
+A few days ago,
+I was reading on ESPN Crick Info.
+I don't know how many of you follow cricket.
+But those who follow will know about Don Bradman.
+He is considered to be the greatest batsman ever.
+Even better than Sachin Tendulkar.
+And his average in the test match was 99%.
+His average was 99 point something.
+So someone did an analysis today.
+By taking out all his scores.
+And he realized that when you make the normal distribution of batsmen.
+When you make the normal distribution of batsmen.
+Then most of your common batsmen will come in this range.
+The most common batsmen.
+Whichever batsman you pick.
+Mohamed Kaif, Suresh Raina, the current batsmen.
+They will all come in this range.
+Okay.
+This is very common.
+Right.
+But as soon as you pick a special batsman.
+Like you picked Rohit Sharma.
+So Rohit Sharma might have come somewhere between one standard deviation and two standard deviation.
+Because he is going towards the outlier.
+Maybe Sachin should come around three standard deviations.
+Because he is very different from the rest of the data.
+I read that Bradman was around five standard deviations.
+Five standard deviations.
+That is like.
+He is like the outlier's father.
+Okay.
+So this is how you study things.
+That if there is an outlier in your data.
+Then how far is the standard deviation.
+Right.
+So just wanted to give you an example.
+Because I follow cricket a lot.
+And I also follow cricket a lot analytically.
+So I just saw this and I was like.
+My mind was blown.
+That someone is so good in his field.
+That he is five standard deviations away from the entire population.
+Imagine that.
+Like outlier's proper definition.
+So yeah.
+Just wanted to show.
+Give you this.
+A small example.
+So that you can understand.
+How this empirical rule is understood.
+Okay.
+The last point is.
+That the area under the curve is one.
+And this is not only true for normal distribution.
+This is true for any PDF.
+We will see further.
+But it is obviously applied to normal distribution too.
+Okay.
+So you have to remember these four properties.
+Your graph is symmetric.
+Mean and median mode is equal.
+You have to remember the empirical rule.
+Up to three standard deviations.
+The entire data is covered.
+Apart from that.
+You can consider it as an outlier.
+And lastly.
+The area under the graph is one.
+Exactly one.
+Okay.
+So let me know.
+If you have any doubt related to this.
+Let me know.
+If you have understood.
+Then just write it clear.
+And then we will move on to the next topic.
+And that is skewness.
+Yeah.
+Chitraan Chauzai is saying.
+29th century and 1350s in 80 innings of 52 tests.
+Your last question.
+What is skewness?
+What is skewness?
+What is skewness?
+What is skewness?
+What is skewness?
+What is skewness?
+So on the other hand Chitraan Chauzai is saying.
+28th century and 1350s in 80 innings of 52 tests.
+Your last question.
+That it fell out on a very low score.
+Otherwise it is having an average of 100.
+Like insane.
+Great.
+Hopefully somebody in your field would do the same.
+So that would be amazing.
+Okay.
+Then we will discuss one more interesting thing.
+And that is skewness.
+A normal distribution is basically a bell-shaped symmetrical distribution with a specific mathematical formula
+that describes how the data is spread out. We know all this.
+Skewness indicates that the data is not symmetrical, which means it is not normally distributed.
+Normal distribution is symmetric and skewness indicates that the data is non-symmetric, which means it is tilted.
+So always remember that if the skewness increases, then your data will not remain normally distributed.
+If you want to see the formal definition, then it is written here.
+Skewness is a measure of asymmetry.
+Okay?
+This is the measure of asymmetry of a probability distribution.
+It is a statistical measure that describes the degree to which a data set deviates from normal distribution.
+How much it deviates from normal distribution, this information will give you by skewness.
+Okay?
+So in a symmetrical distribution, the mean, median and mode are all equal.
+I told you what happens in normal distribution.
+Mean, median and mode are all equal.
+But in a skewed distribution,
+the mean, median and mode are not equal because they are skewed.
+And the distribution tends to have a longer tail on one side than the other.
+So I told you that in normal distribution, this part is called the tail.
+It never touches the x-axis.
+But in a skewed distribution, the tail of one side is longer than the tail of the other side.
+The same point is written here.
+Okay?
+Let's move ahead.
+Skewness can be positive, negative or zero.
+A positive skewness means that the tail of the distribution is longer on the right side.
+See this example.
+It looks like a normal distribution but it is not.
+The tail of this side is longer on the right side.
+That is why it is called positively skewed.
+Or in some places, it is also called right skewed.
+This is a little...
+counter-intuitive.
+The more data is on the left side.
+But the tail is on the right side.
+So you will always catch the tail.
+Okay?
+Because tail represents outliers.
+And in finance, outliers are given a lot of respect.
+I mean, maybe you know.
+These are the investors.
+Maybe you have seen Shark Tank.
+What is the work of the investors who come to the Shark Tank?
+They invest their money in the companies.
+Now if you see the portfolio of any investor,
+then you will know that if he invests in 50 companies,
+then only 45-48 companies fail out of them.
+Which means his money is lost.
+But one or two companies break so hard that all his money is recovered.
+So basically what happened is that he invested money and all these companies lost their money.
+But some company here took out so much money that basically his work was justified.
+So this is called a tail event.
+In finance or in statistics,
+a tail event is basically an event which has a very low probability of happening.
+But when it happens, it happens in a very rough manner.
+So in finance, a lot of things depend on the tail event.
+So I think this name is called right skewed because the tail is on the right side.
+Okay?
+Then in the middle, look at this.
+This is your symmetric distribution.
+Which is basically your normal distribution.
+There is no skewness in it.
+Both the tails are equal.
+And this is your negative skew.
+Because your tail.
+The tail is on the left side.
+You can also call it left skewed.
+I hope you are understanding.
+Okay?
+So I guess you understood.
+Now here you have to keep one more thing in mind.
+That in your positive skewed distribution, the mode will be the smallest.
+Then there will be a bigger median.
+And there will be a bigger mean.
+You will understand this by looking at this graph.
+Okay?
+The highest thing is the mode.
+The mean is somewhere here.
+And it shifted a little this way because there are outliers in your data.
+The median is here in the middle.
+Okay?
+Its opposite is in the left skewed data.
+That your biggest is the mode.
+Smaller than that is the median.
+And the smallest is the mean.
+And again the mean is on this side because there are outliers here.
+Okay?
+And also keep this line in mind.
+That the greater the skew.
+The more skewed your data is.
+The more distance there will be between the mode, median and the mean.
+This is incorrect.
+Here it will be the mean.
+It means that the more skewed your data is.
+The more distance there will be between the mean and the median mode.
+Okay?
+And the less skewed it is, the closer it will be between each other.
+If it is not completely skewed.
+Then they will be on top of each other.
+Just like in the normal distribution.
+Okay?
+If someone asks you.
+What is the formula of skewness?
+So.
+Two or three ways skewness is calculated.
+One is Pearson skewness.
+Which is actually simple.
+But not that much useful.
+This is the formula of statistical moment.
+So there is a concept in statistics.
+Which is called moment.
+So basically.
+There are many moments in statistics.
+Like the first moment.
+It is called mean.
+The second moment.
+It is called variance.
+The third moment.
+It is called skew.
+Okay?
+And the fourth moment.
+It is called kurtosis.
+Maybe you have heard its name.
+So there are different moments.
+So this formula.
+This is the formula of statistical moment.
+And this is basically the formula of sample skew.
+Okay?
+You can see.
+Here.
+There is a cube.
+What is there in mean?
+There is one in mean.
+What is there in variance?
+There is a square.
+What is there in skew?
+There is a cube.
+Because this is the third moment.
+Okay?
+So you can see.
+This is your formula.
+Of skewness.
+The skew function in pandas.
+Or in excel.
+The skew functions.
+They use this formula.
+Here.
+X bar represents your sample mean.
+S represents sample standard deviation.
+And N represents the number of points in your sample.
+Okay?
+Again.
+Why is N-1 and N-2 coming?
+This point we have not discussed yet.
+It is still there in variance.
+It is still there in here.
+Although this formula.
+Rarely someone will ask you.
+The interpretation of skew is more important.
+I will show you one thing.
+I will show you.
+How skew is calculated in python.
+So.
+Again.
+Let's take the same example.
+This column of age.
+What I told you.
+That.
+That.
+That.
+That.
+That.
+That.
+That.
+That.
+That.
+That.
+That.
+That.
+This kind of skew is marked as a banana tree.
+It will be marked earlier.
+Let's see.
+Alexander found this skew at 3.
+So that.
+Ok.
+Is it a normal distribution?
+This is not.
+This is a skeu.
+This skeu is a normal distribution.
+Is this on disagreeable basis?
+This value.
+You have to make these atrocities remember.
+And again.
+This value.
+That value.
+That value.
+The range of the skew.
+How can you write this it?
+How can you write it?
+This is three point square.
+Finally.
+normal distribution
+this is slightly positive skew
+this is slightly more positive skew
+and this is very much positive skew
+so these are different numbers
+this skew is 0, this is 0.5
+our one is less than this, it is 0.38
+skew is 1, skew is 1.5
+always remember, I will make a scale
+and show you
+this is 0, if it is 0
+then this is great, this is not
+skewed data
+this is your 0.5
+this is your minus 0.5
+this is your 1
+this is your minus 1
+and these are the values on both sides
+so this is perfectly symmetrical
+if it is 0
+but if you are in this range
+then for all practical purposes
+you can consider it as symmetric
+and that is why I took that assumption
+that just like normal distribution
+your skew is 0.38
+so let's assume that this is a
+normally distributed, for all practical purposes
+there will not be much error
+but this is called
+almost symmetrical
+almost symmetrical
+then the range of
+minus 1 to 1 is called
+moderately symmetrical
+here you
+you cannot assume that
+this data is normally distributed
+then you have to take the skewness
+and if it is more than 1
+and less than minus 1
+then it is highly skewed
+then you cannot
+assume that it is normally distributed
+or it is symmetric
+so this you have to remember practically
+this is more important knowledge
+you will not use the formula
+you will just run the skew function
+and you will get the number
+you should know the interpretation of that number
+in real data it is very impossible
+to get exactly 0
+but if it is between minus 0.5 to 0.5
+then you can consider it as symmetric
+and if it is looking like normal distribution
+then assume that it is normal distribution
+minus 1 to minus 0.5
+or if it is between
+0.5 to 1
+then it is moderately symmetric
+you cannot take that assumption
+and if it is outside the range of minus 1 to 1
+then there is no chance
+so this is skewness
+and it is not only applied
+on normal distribution
+it is applied on all distributions
+means
+this graph
+suppose you have such a graph
+this is not normal distribution
+but it is symmetric
+its skew will be
+very close to 0
+because this is symmetric
+so do not keep wrong idea in your mind
+that only normal distribution
+is symmetric
+that is why I am saying again and again
+that I am seeing skewness and shape
+that it is looking like normal distribution
+so just be mindful of that fact
+so yeah
+that was the discussion around skewness
+let me know if you understood
+I will open the chat
+this mean median and
+how this node is shifted
+with skewness
+no we cannot understand this today
+we will read some non Gaussian distributions
+in the next class
+where you will see skewness
+there we will have a discussion around that
+ok
+two topics are left
+let us do it quickly
+so our next topic is
+CDF of normal distribution
+so we had read PDF and CDF in last class
+in today's class we are reading
+same thing in normal distribution
+we have studied only about PDF
+CDF is also of normal distribution
+it is obvious
+if there is PDF then there will be CDF
+so it is very simple
+this is your CDF
+this is your normal distribution
+when you make its CDF
+then it looks like this
+you can see
+these are different CDFs
+I have picked this picture from Wikipedia
+so you can see
+if you focus on these three
+the standard deviation is different
+this blue one is 0.2
+this one is 1.0 and this one is 5.0
+so you can see
+as your standard deviation increases
+then your
+CDF curve
+starts to go away from the center
+ok
+the less your standard deviation
+the closer you are to the center
+by the way this is the center
+you can see this is the center
+which is mean x equal to 0
+and if you go here
+then what is coming here
+0.5 which is correct
+its corresponding
+will be this type of graph
+here your x axis will be
+sorry x equal to 0
+so you can see what it is telling
+here x axis is telling
+that till this point
+what is the probability of happening
+so you can see
+the probability of happening till here
+is 0.5 which is half
+you can take out the probability of
+going ahead from here
+CDF always tells
+probability
+up till that point
+ok up till that point
+probability of x being 0
+or less than 0
+what is there in the data 50%
+and obviously the probability of being more than that
+is also 50% because it is symmetric
+if you see this graph the green one
+then here mu is minus 2
+so you can see here minus 2
+what is the probability of being less or equal
+50%
+and what is the probability of being more than that
+50%
+if you talk about the formula then it is very simple
+it looks scary to see
+but conceptually it is very simple
+I had told you in the last class
+that when you do integration
+on the pdf
+when you perform
+integration on the pdf
+basically you take out the area under the curve
+then you get CDF
+so here we have done the same
+if we want to take out
+CDF till a particular point
+like
+if we want to take out CDF till this point
+then we take out
+minus infinity
+from the last point
+till that point
+the area under the graph
+we are taking out
+and there is only one way to take out
+integration
+so basically what we did
+this formula which I had shown you
+this scary formula
+we are basically applying
+integration on this formula
+in the range of
+minus infinity to x
+x being that particular point
+where you want to take out CDF
+like in this case
+x is 0
+in this case x is minus 2
+so basically what you do
+you take out the area under the graph
+from minus infinity till that point
+that is x
+in this case x would be 0
+in this case x would be minus 2
+so again just conceptually
+remember that if you have
+pdf equation
+of a particular point
+let's call that point x
+you have to take out CDF of that point
+so basically from minus infinity
+you have to take out the area
+of pdf between that point
+and to take out the area you do integration
+so here basically that term is written
+this snake symbol
+is representing integration
+minus infinity is representing lower range
+x is representing higher range
+this is your formula
+this is a constant term that is why it came out
+ok
+so you don't even need to know the basics of integration
+just this common sense and this knowledge is important
+that when you integrate pdf
+you get CDF
+and when you differentiate cdf you get pdf
+I had explained this in detail in the last class
+just remember that this is the shape of
+the CDF of
+normal distribution
+this much you should know
+so this is enough
+so let me know if you understood CDF
+I am opening the chart
+yes this looks like
+a sigmoid function
+it looks like a sigmoid function
+you can study a little more about this
+what is highly skewed
+let's say your
+skewness is 5
+when you are putting column dot skew
+and that 5 is coming
+now that is highly skewed
+or minus 5 is coming that is highly skewed
+ok then
+today's last topic
+that normal distribution
+we have studied in detail
+what is the use in data science
+what is the use in data science
+and where it is useful
+it is useful in many places
+I have written in 4 places
+but you will see in many places in future
+first is outlier detection
+it is very simple
+here we have discussed properties of
+normal distribution
+where we have studied empirical rule
+so what was written here
+if any point is outside
+minus 3 standard deviation
+then it is coming in 0.03 range
+so for all practical purposes
+consider it as outlier
+ok
+so what many people do
+as soon as they come to know
+that their column is
+normally distributed
+as soon as they come to know
+that age column is almost normally distributed
+what I can do is
+I can easily find out the outliers
+how?
+I will write
+titanic
+I would write copy
+titanic's age
+dot mean
+plus
+standard deviation
+I have taken out this
+this is the value
+what is this value?
+this is the value of mean plus 3 standard deviation
+and now what I am doing
+I am doing minus
+so now I am taking out
+mean minus 3 standard deviation
+that is minus 13
+so now what I can do is
+I can easily say
+in titanic
+age
+greater than
+greater than
+73
+and
+age
+is less than 13
+so there is no logic to write
+but let us write
+we wrote this
+we wrote this
+and we put it here
+this
+as I wrote
+now what will happen
+we will see
+what can be considered as outliers
+in our case
+there is not even one
+how?
+the maximum value is
+80
+it should have come
+let us do one thing
+let us remove this for some time
+because no one is going to have minus 13
+let us just do this
+so these two people
+you can consider them as outliers
+because
+step 1 you know
+age is following normal distribution
+and step 2 you got to know
+from empirical rule
+that if something is greater than 73
+then it does not come in 99.7% of the population
+so you can consider it
+as outlier
+for practical purposes
+ok
+so I hope you understood this first use case
+second use case is
+that there are many machine learning algorithms
+like linear regression
+logistic regression
+or Gaussian mixture models
+they take an assumption
+that the data you are giving
+is normally distributed
+in linear regression
+data is not directly distributed
+but the data's residual
+error is normally distributed
+this assumption is taken
+you might have read it
+so many machine learning models
+take this assumption
+that the data is being fed
+is normally distributed
+or you can say that their performance gives better results
+when you provide normal distribution
+when you don't provide a normal distribution
+the result is not that great
+so you have to be mindful of this
+third is hypothesis testing
+whatever inference you have done
+about a population
+and many statistical tests
+they assume that
+the data should be normally distributed
+ok
+and one more interesting and important thing
+is central limit theorem
+which we will study in next class
+there it means
+the central thing
+the main thing
+of normal distribution
+that you take any type of
+non-Gaussian distribution
+and you do sampling
+and the distribution that comes out
+is normally distributed
+so these are some of the use cases
+but trust me
+you will see many more use cases
+while performing data analysis
+or working in data science
+so yeah
+that was an introduction
+we have studied it in detail
+tried to cover everything
+let's hope
+in future you will see normal distribution
+you are comfortable you know
+and you are able to apply your knowledge
+so yeah
+that's all for today
+let me know if you have any questions
+gaussian mixture model
+is basically a method of density estimation
+we had studied KD in last class
+it is kind of similar
+but since it is a proper machine learning
+algorithm it is not to be explained in 5 minutes
+Nikhil is the same
+then you will have to
+do this
+you will have to study confidence interval
+you will have to study point estimates
+you will have to study hypothesis testing
+to do all that
+ok
+how did you like it
+we are studying hardcore math nowadays
+how do you feel
+those who are from non-tech background
+or non-mathematical background
+are you able to understand
+hmm
+will you explain more on hypothesis testing
+yes there will be proper lectures of that
+in future
+you will get OP project video
+it is already in this playlist
+check the playlist of data science mentorship program
+it has OP project video
+what value consider for skewness
+you cannot consider any value
+whatever is coming out
+you have that value
+you cannot decide yourself
+ok
+so yeah
+you have studied normal distribution
+in future we will do non gaussian
+non-normal distributions
+which are famous
+not all will be able to study
+there are hundreds of distributions
+everything is not possible
+I will decide
+as I have seen in my experience
+which are famous distributions
+we will cover that
+ok
+and further if any distribution will be seen
+in any data set or something
+then we will
+study separately
+fundamental is clear
+see in last class
+reading pdf and cdf well
+in future when you will read any distribution
+pdf or pmf
+work will be easy
+because your basics will be clear
+in last lecture
+I was not going for that
+generally people do all distributions
+pdf and cdf in one video
+I always feel
+if you put all the concept in one video
+then it will be easy to study further
+will you be teaching computer vision
+no in this course
+there is no computer vision
+maybe in the future we can have a
+course on that
+so yeah guys
+that's all for today's plan
+tomorrow you will be given a task
+on normal distribution
+do it
+and
+yeah
+if you have no doubt
+then go
+see you
+day after tomorrow
+if you have any doubt
+then I will be there in 2 minutes
+you can ask your questions
+standardization vs normalization
+there is a video of this
+in 100 days of machine learning
+there is a difference between
+standardization and normalization
+you can say that
+although we will study
+log normal and other properties
+in next class
+log normal and pareto
+so you will understand
+in next class
+I have not taken
+batches of
+programming and NLP
+which means I don't have
+more videos
+whatever videos I have
+I have already uploaded on youtube
+Rupesh is asking
+how to handle highly skewed data
+there are transformations
+you can apply different types of
+transformations
+to convert your non gaussian data
+or skewed data
+to normal distribution
+so you apply these
+we will study
+in next class
+how to apply
+one best resource to learn tableau
+I have no idea
+when you ask me
+best resource
+till I am not 100% sure
+I cannot say anything
+because
+then I will tell you
+then you will abuse me
+yeah Mihir
+because
+I wanted to show you
+how to plot a graph
+you can do both
+you can do both
+you can do both
+you can do both
+ok then
+see you day after tomorrow
+I will close the session
+bye good night
+sir please smile you are looking so serious
+he smiled
+after speaking for 2 hours
+my energy gets low
+so that's why
