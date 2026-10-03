@@ -89,7 +89,7 @@ Computing each derivative in a loop over rows and columns works but is slow in P
 
 $$\frac{\partial L}{\partial \beta} = -\frac{2}{n} X^{\mathsf T}(y - \hat{y})$$
 
-$X^{\mathsf T}$ has one row per input column; multiplying it by the vector of $n$ errors gives one number per column. Writing a computation as matrix operations instead of Python loops is called **vectorisation**. In the Notebook the vectorised derivative is about 13 times faster than the loop, even on this small dataset.
+$X^{\mathsf T}$ has one row per input column; multiplying it by the vector of $n$ errors gives one number per column. Writing a computation as matrix operations instead of Python loops is called **vectorisation**. In the Notebook the vectorised derivative is many times faster than the loop even on this small dataset: between about 13 and 80 times in our runs, depending on the machine and the run.
 
 ## 4. Batch gradient descent in code
 
@@ -118,27 +118,41 @@ $X^{\mathsf T}$ has one row per input column; multiplying it by the vector of $n
 >         return X @ self.coef_ + self.intercept_
 > ```
 
-On the diabetes data (10 inputs, 353 training patients), with learning rate 0.5 and 1,000 epochs, training takes 0.02 seconds:
+On the diabetes data (10 inputs, 353 training patients), with learning rate 0.5 and 1,000 epochs, training takes a few hundredths of a second, and the result is close to the exact OLS answer:
 
 | | Intercept | Test R² |
 |---|---|---|
 | OLS (`LinearRegression`) | 151.88 | 0.440 |
 | Batch gradient descent, 1,000 epochs | 152.01 | 0.453 |
 
-## 5. How the result develops over epochs
+## 5. Early stopping
 
-> **Key point:** Training R² climbs towards the OLS value. Test R² peaks around epoch 1,000 slightly above OLS, then settles back towards it.
+> **Key point:** Stopping gradient descent early keeps the coefficients small. When a model has many input variables (features) for few records (observations), those small coefficients predict new data much better than the fully fitted OLS line.
 
-Figure 3 follows R² over 10,000 epochs.
+**The idea.** We start every coefficient at zero. Each epoch moves the coefficients a little further from zero, towards the OLS answer. If we stop early, the coefficients stay small. Small coefficients cannot chase the noise in the training data, so stopping early acts like a brake on overfitting. For linear regression, stopping early does almost the same job as L2 (ridge) regularisation ([Note 63](../63-ridge-regression-intuition/note.md)), which pulls the coefficients towards zero (Goodfellow §7.8). Stopping on purpose when the score on held-out data is best is called **early stopping**.
 
-![R² on training and test data over the epochs](images/training_curve.png)
+**When the brake matters.** A brake only helps when the model would otherwise overfit. OLS overfits when there are many features for each observation and the target is noisy: the coefficients become badly determined and jump around from sample to sample (ESL §3.4.1). Here a **feature** is an input variable (one column of the data table), the **target** is the output we predict, and an **observation** is one record (one row).
 
-- **Training R²** (blue) rises steeply between epochs 10 and 500, then levels off just under the OLS value of 0.532. OLS gives the lowest possible training error, so gradient descent can approach it but never beat it.
-- **Test R²** (orange) peaks at 0.454 around epoch 1,000, slightly better than OLS's 0.440, then drifts back to 0.443 as the coefficients keep moving towards the OLS solution.
+**The picture.** Figure 3 changes one thing only: the number of features. Both panels use 200 diabetes patients for training and the rest for testing.
 
-That gradient descent stopped early can do better on new data is not luck. Stopping before full convergence keeps the coefficients smaller and less tuned to the training data, which acts against overfitting. Stopping deliberately when the test score is best is called **early stopping**.
+- **Left, 10 features:** the original 10 measurements. Test R² rises and then levels off at the OLS value. With 20 observations for every feature, OLS does not overfit, so there is nothing for the brake to fix.
+- **Right, 65 features:** the same 10 measurements plus the square of each one and the product of every pair (the idea behind polynomial regression, [Note 61](../61-polynomial-regression/note.md)). The target is noisy and there are now only about 3 observations per feature. Training R² keeps rising, but test R² peaks after about 40 epochs and then falls towards the poor OLS value.
 
-> **Extra:** Even after 50,000 epochs the coefficients are still far from OLS's (the largest gap is 319), although R² is almost identical. Two blood measurements, s1 and s2, are strongly related (multicollinearity, from the assumptions Note), so the loss is a very long, flat valley along which many combinations of their coefficients are almost equally good. Gradient descent creeps along this valley, the same effect as with unscaled inputs in the previous Note.
+![Training and test R² over the epochs, averaged over 50 random splits. Left: 10 features, where gradient descent ends at the OLS value. Right: 65 features, where test R² peaks early and then falls towards OLS.](images/training_curve.png)
+
+**The number.** With 65 features, early stopping gives a test R² of 0.40 on average, against 0.06 for OLS. With the original 10 features, the two are equal (0.47).
+
+> **Extra:** How we measured this fairly (notebook, "Early stopping"). For each of 50 random train/test splits, we choose the stopping epoch on a validation part of the training data only, retrain on the whole training set for that many epochs, and then score once on the test set. The learning rate is 0.04 and the features are standardised.
+>
+> | Features | OLS test R² | Early stopping test R² | Early stopping better |
+> |---|---|---|---|
+> | 10 | 0.468 | 0.467 | 26 of 50 splits |
+> | 65 | 0.063 | 0.401 | 50 of 50 splits |
+> | 65, with 350 training observations | 0.332 | 0.432 | 48 of 50 splits |
+>
+> Early stopping keeps the coefficients short: with 65 features their length (the square root of the sum of their squares) is about 49 at the stopping epoch, against about 2,968 for OLS. More observations shrink the gain (last row), as expected: with more data OLS overfits less. Figure 3's peak of 0.418 is a little higher than 0.401 because the curve picks its best epoch with the test data itself; 0.401 is the honest figure.
+
+> **Extra:** Back to the 10-feature fit of section 4. Even after 50,000 epochs its coefficients are still far from OLS's (the largest gap is 319), although R² is almost identical. The largest gap is in the coefficient of s1, a blood measurement strongly related to another one, s2 (correlation 0.895; multicollinearity, from the assumptions Note). With related features, the loss has a long, narrow valley along which many pairs of coefficients give almost the same loss (ISL §3.3.3, Figure 3.15). The notebook confirms the valley here: the flattest direction of the loss points mostly along s1, s2 and s3 (weights 0.71, $-0.56$, $-0.32$), and the loss curves 447 times more steeply in its steepest direction than in this flattest one. A step size small enough for the steep direction makes slow progress in the flat one (Goodfellow §4.3.1), the same effect as with unscaled inputs in the previous Note.
 
 ## 6. Advantages and disadvantages
 
@@ -164,12 +178,19 @@ These two problems are what stochastic and mini-batch gradient descent solve, in
 | Derivative of intercept | $-\frac{2}{n}\sum (y_i - \hat{y}_i)$ |
 | Derivative of coefficient $j$ | $-\frac{2}{n}\sum (y_i - \hat{y}_i)\,x_{ij}$ |
 | All at once | $-\frac{2}{n} X^{\mathsf T}(y - \hat{y})$ |
-| Diabetes data, 1,000 epochs | test R² 0.453 (OLS 0.440) |
+| Early stopping, 65 features | test R² 0.40 (OLS 0.06), average of 50 splits |
 
 - The three types of gradient descent differ only in how many rows feed each update.
 - Each coefficient's derivative weights the errors by its own input column.
 - Vectorised code computes every derivative with one matrix product.
+- Stopping early keeps the coefficients small; with many features per observation, it predicts new data far better than OLS.
 - Batch gradient descent is stable but needs the whole dataset for every step.
+
+## Sources
+
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org).
+- **ESL**: Hastie, Tibshirani, Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009.
+- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021.
 
 ## 8. Key terms
 

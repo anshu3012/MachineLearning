@@ -155,7 +155,7 @@ So a categorical column has two graphs: the count plot for counts, the pie chart
 >
 > `normalize=True` makes `value_counts` give shares (0 to 1) instead of counts.
 
-> **Extra:** Pie charts are hard to read when there are many categories or the slices are similar in size: our eyes compare bar heights much better than angles. Keep pies for a few categories, and use a count plot otherwise.
+> **Extra:** Pie charts are hard to read when there are many categories or the slices are similar in size: our eyes compare bar heights much better than angles (Cleveland and McGill 1984). Keep pies for a few categories, and use a count plot otherwise.
 
 ## 6. Histogram
 
@@ -343,6 +343,10 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 - A box plot flags values beyond 1.5 IQR from the box as possible outliers.
 - Skewness of 0 means symmetric; positive means a long right tail, negative a long left tail.
 - Every graph should lead to a finding, and every finding to its likely reason.
+
+## Sources
+
+- Cleveland, W. and McGill, R. (1984). Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods. *Journal of the American Statistical Association* 79(387).
 
 ## 12. Key terms
 

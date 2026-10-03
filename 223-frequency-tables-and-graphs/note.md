@@ -102,7 +102,7 @@ Figure 2 shows six typical shapes.
 ![Six shapes a histogram can take](images/hist_shapes.png)
 
 - **Symmetric:** most values in the middle, fewer and fewer towards both sides.
-- **Bimodal:** two separate peaks, two groups of values where points are dense. With three peaks it is trimodal. Two peaks often mean two kinds of data mixed together, such as the heights of children and adults.
+- **Bimodal:** two separate peaks, two groups of values where points are dense. With three peaks it is trimodal. Two peaks often mean two groups mixed together, each with its own centre, such as the heights of children and adults (NIST Handbook §1.3.3.14.5).
 - **Right or left skew:** a long tail on one side; the shapes and the skewness number are taught in section 10 of the [univariate analysis Note](../20-univariate-analysis/note.md).
 - **Uniform:** every bin holds about the same number of values. Too few bins also make data look uniform.
 - **No pattern:** the bars jump up and down. Usually there are too many bins for the amount of data, here 30 bins for 60 values.
@@ -222,6 +222,11 @@ Figure 4 shows four columns at once: bill, tip, meal time (the panels) and smoke
 - Relative frequency = frequency / total; cumulative frequency = running total.
 - Histogram bars touch because bins are continuous ranges.
 - Histogram shapes: symmetric, bimodal, right skew, left skew, uniform, no pattern.
+
+
+## Sources
+
+- NIST/SEMATECH. *e-Handbook of Statistical Methods*, section 1.3.3.14.5, Histogram Interpretation: Bimodal Mixture of 2 Normals. https://www.itl.nist.gov/div898/handbook/eda/section3/histogr5.htm
 
 ## 7. Key terms
 

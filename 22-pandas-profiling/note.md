@@ -44,7 +44,7 @@ Pandas Profiling is not part of pandas; it is a separate library. We install it 
 
 > **Extra:** Version clash (October 2026). The library still requires pandas older than 3.0. In a setup that already has pandas 3, a plain `pip install fg-data-profiling` quietly downgrades pandas (and NumPy, SciPy) to older versions. To keep pandas 3, install it with `pip install --no-deps fg-data-profiling` and then install the few small helper libraries it asks for when imported. The report then works with the one-line fix in Section 2.2. In a fresh setup made just for profiling, the plain command is fine.
 
-> **Extra:** The library has changed its name twice. It began as `pandas-profiling` (import `pandas_profiling`). In 2023 it became `ydata-profiling` (import `ydata_profiling`), and in 2026 `fg-data-profiling` (import `data_profiling`). The old names still appear in many tutorials; `pip install pandas-profiling` now installs only an empty package that says to use the new name, and `import ydata_profiling` warns that it gets no more updates. The report itself and the `ProfileReport` call are the same under all three names.
+> **Extra:** The library has changed its name twice. It began as `pandas-profiling` (import `pandas_profiling`). In 2023 it became `ydata-profiling` (import `ydata_profiling`), and in 2026 `fg-data-profiling` (import `data_profiling`). The old names still appear in many tutorials; `pip install pandas-profiling` now installs only an empty package that says to use the new name, and `import ydata_profiling` warns that it gets no more updates (PyPI pages of the three packages). The report itself and the `ProfileReport` call are the same under all three names.
 
 ### 2.2 Three lines of code
 
@@ -284,11 +284,11 @@ So at a glance we learn which inputs relate to the output (`Survived`), and whic
 
 > **Extra:** Pearson's r only works for two numerical columns, and only sees straight-line links. Other coefficients cover the other cases:
 >
-> - **Spearman's** and **Kendall's** coefficients measure whether two columns rise together at all, even along a curve, by comparing the ranks of the values instead of the values.
-> - **Cramér's V** measures the link between two categorical columns, from 0 (none) to 1 (complete).
-> - **Phik** ($\phi_k$) works for any mix of numerical and categorical columns.
+> - **Spearman's** and **Kendall's** coefficients measure whether two columns rise together at all, even along a curve, by comparing the ranks of the values instead of the values (Spearman 1904; Kendall 1938).
+> - **Cramér's V** measures the link between two categorical columns, from 0 (none) to 1 (complete) (Cramér 1946).
+> - **Phik** ($\phi_k$) works for any mix of numerical and categorical columns (Baak et al. 2020).
 >
-> The default "Auto" heatmap picks a suitable coefficient for each pair: Spearman's for two numerical columns, and Cramér's V when a categorical column is involved. That is how it found the strong link between `Sex` and `Survived` in the alerts: `Sex` is text, so Pearson's r cannot include it at all. Every pair above 0.5 on the Auto heatmap gets a "High correlation" alert.
+> The default "Auto" heatmap picks a suitable coefficient for each pair: Spearman's for two numerical columns, and Cramér's V when a categorical column is involved. That is how it found the strong link between `Sex` and `Survived` in the alerts: `Sex` is text, so Pearson's r cannot include it at all. Every pair above 0.5 on the Auto heatmap gets a "High correlation" alert (0.5 is the library's default `threshold`).
 
 > **Extra:** Next to each Heatmap tab is a Table tab with the exact numbers behind the colours. Older versions of the library also had a button that showed a short explanation of each coefficient.
 
@@ -353,6 +353,14 @@ Reading reports becomes faster with practice. Running the library on three or fo
 - "Auto" correlations cover categorical columns too; Pearson's r only covers numbers.
 - `minimal=True` keeps the report fast on big data.
 - The report lists facts; we still read it, write down observations and decide what to do.
+
+## Sources
+
+- Baak, M., Koopman, R., Snoek, H. and Klous, S. (2020). A new correlation coefficient between categorical, ordinal and interval variables with Pearson characteristics. *Computational Statistics & Data Analysis* 152.
+- Cramér, H. (1946). *Mathematical Methods of Statistics*. Princeton University Press.
+- Kendall, M. (1938). A New Measure of Rank Correlation. *Biometrika* 30(1/2).
+- PyPI. pandas-profiling, ydata-profiling and fg-data-profiling project pages. pypi.org.
+- Spearman, C. (1904). The Proof and Measurement of Association between Two Things. *American Journal of Psychology* 15(1).
 
 ## 11. Key terms
 

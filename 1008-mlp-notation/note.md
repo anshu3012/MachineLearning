@@ -79,7 +79,7 @@ Counting layer by layer in Figure 1:
 
 Training this network means finding good values for these 26 numbers.
 
-> **Extra:** The count grows fast. A network for 28 × 28 pixel images (784 inputs) with one hidden layer of 128 nodes and 10 outputs already has $784 \times 128 + 128 + 128 \times 10 + 10 = 101{,}770$ parameters. Libraries such as Keras print this count for every layer, so it is worth being able to check it by hand.
+> **Extra:** The count grows fast. A network for 28 × 28 pixel images (784 inputs) with one hidden layer of 128 nodes and 10 outputs already has $784 \times 128 + 128 + 128 \times 10 + 10 = 101{,}770$ parameters. Keras prints this count for every layer with `model.summary()` (see the [customer churn Note](../1011-customer-churn-ann/note.md)), so it is worth being able to check it by hand.
 
 ## 4. Naming biases and outputs
 
@@ -129,7 +129,7 @@ So $W^{k}_{ij}$ reads "into layer $k$, from node $i$ to node $j$". The four high
 
 The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W^{1}_{11}, W^{1}_{21}, W^{1}_{31}, W^{1}_{41}$, all entering node 1 of layer 1. These are the weights that node uses in its weighted sum, together with its bias $b_{11}$.
 
-> **Extra:** Books do not all agree on this order. Many write the weight from node $i$ to node $j$ as $w_{ji}$ (destination first), because that matches the rows of the weight matrix in $W\mathbf{x}$. The meaning is the same; only the order of the indices changes. Whichever we use, we keep it fixed, so that a symbol never has two meanings.
+> **Extra:** Books do not all agree on this order. Some write the weight from node $i$ to node $j$ as $w_{ji}$ (destination first), because then row $j$ of the weight matrix holds the weights entering node $j$, and a layer's weighted sums are simply $W\mathbf{x}$ (Nielsen, Ch. 2). The meaning is the same; only the order of the indices changes. Whichever we use, we keep it fixed, so that a symbol never has two meanings.
 
 > **Python:** The same parameters as NumPy arrays.
 >
@@ -160,7 +160,11 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 - Parameters $= \sum_l (n_{l-1} n_l + n_l)$; the 4-3-2-1 network has 26.
 - Biases and outputs use (layer, node); weights add the layer they enter on top.
 
-## 7. Key terms
+## 7. Sources
+
+- Nielsen, *Neural Networks and Deep Learning*, Determination Press, 2015, Chapter 2.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

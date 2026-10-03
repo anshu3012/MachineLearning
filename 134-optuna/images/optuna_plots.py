@@ -49,3 +49,20 @@ fig = plot_param_importances(tpe)
 fig.update_traces(marker_color="#4C78A8")
 save(fig, "importances", "Hyperparameter importances (TPE study)", w=800, h=340,
      margin=dict(l=140, r=40, t=70, b=60))
+
+# Best score so far, averaged over 20 seeds of each sampler (SVM search, from the Notebook)
+import pandas as pd
+import plotly.graph_objects as go
+
+cur = pd.read_csv(here.parent / "data" / "best_so_far.csv")
+fig = go.Figure()
+for name, c in [("random", colours["random"]), ("TPE", colours["tpe"])]:
+    m, se = cur[f"{name}_mean"], cur[f"{name}_se"]
+    fig.add_trace(go.Scatter(x=list(cur.trial) + list(cur.trial[::-1]), y=list(m + se) + list((m - se)[::-1]),
+                             fill="toself", fillcolor=c, opacity=0.2, line=dict(width=0), hoverinfo="skip",
+                             showlegend=False))
+    fig.add_trace(go.Scatter(x=cur.trial, y=m, mode="lines", line=dict(color=c, width=3),
+                             name=f"{name if name == 'TPE' else 'random'}: mean best so far"))
+save(fig, "best_so_far", "Best score so far, mean of 20 runs per sampler", w=900,
+     yaxis=dict(title="5-fold CV accuracy", tickformat=".3f", range=[0.765, 0.785]), xaxis=dict(title="trial"),
+     legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.2), margin=dict(l=70, r=20, t=60, b=130))

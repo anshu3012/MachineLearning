@@ -1,0 +1,524 @@
+Hi guys, my name is Nitish and you are welcome to my youtube channel
+In this video we will continue our deep learning playlist
+and in today's video we will cover a very important topic
+Weight Initialization Techniques
+So we are learning how to improve our neural network
+and there is a very solid way to improve the neural network
+if you initialize the weights correctly
+so this topic is very important
+and that is why I have made a very detailed video on it
+while recording I realized that the video is a bit long so I have divided the video into two parts
+in the first part I am going to explain you very nicely
+that what should not be done
+what type of weight initialization technique should not be used
+this is the topic of our today's video
+and in the next video
+when we will learn what should not be done
+I will tell you those techniques which are used in today's date and you should follow
+Along with that, I will also run their Keras code.
+So that's the plan. Let's start the video.
+So guys, we will start the discussion of weight initialization technique from scratch because it is a very important topic.
+First of all, we will discuss why weight initialization is important?
+Why should we read about it?
+Now to understand this, you will have to go back a little where I had explained to you how a neural network works.
+So we have a neural network and here is the series of steps which will follow to predict the neural network.
+So in step 1, you initialize all your parameters.
+Parameters means all your weights and biases.
+You give them an initial value.
+Then you choose an optimization algorithm and repeat these 4 steps.
+the first step is forward propagation where you get an input, you send that input to this
+network and use forward propagation to calculate y hat, basically for a given input you calculate
+the output, then you calculate the loss from that output, on the basis of loss you calculate
+you calculate its gradient, which you send in gradient descent step, where you update all your parameters.
+I told you all this in detail. But if you notice, the first step in this whole thing is very important.
+Because here itself it is being decided how the neural network will perform. Trust me, if you take your initial parameter values wrongly,
+There can be many types of problems. I will tell you about some problems.
+The first problem is vanishing gradient problem.
+The second problem is exploding gradient problem.
+The third problem is slow convergence.
+It means you will reach the correct answer after a long time.
+You can face these three problems if the weights you have initialized are not correct.
+In fact, this is such an important point that around 2000, deep learning research had stopped because of this problem, vanishing gradient problem.
+And when people came up with the solution, they came to know that there are two big culprits.
+First, sigmoid activation function and second was wrong weight initialization technique.
+due to these two reasons weight was having a vanishing gradient problem and its solution was not coming out in 2000s
+so after that continuously a lot of research is going on on weight initialization technique
+so in today's video my plan is that first I will tell you about some wrong weight initialization techniques
+the things which you should not do
+and with this we will learn what we should not do
+and then we will read what to do
+basically in today's date the correct weight initialization techniques
+we will read them
+and then we will implement them using Keras
+so guys let's start with some weight initialization techniques
+which we should not follow
+the first case is of zero initialization
+zero initialization means that you are setting the value of all your weights as zero
+honestly you don't have to do this, I will give you the reason in some time
+and you should know this, in fact this is a very famous interview question on deep learning
+where it is asked that why your weights initial value should not be zero
+of all the weights, this is what we are going to discuss, before discussion I will explain you the whole setup
+we are working on a regression problem, imagine a small regression problem
+where you have two inputs and one output, like on the basis of CGPA and IQ we have to find out
+how many lakhs did the student's package cost, our neural network is very simple, there are two neurons
+in hidden layer and there is this single neuron in the output layer
+here is your linear activation function because we are solving regression problem
+now we will discuss three cases
+first case will be when we will talk holding ReLU
+means activation function of this neuron and this neuron would be ReLU
+then in second case we will talk holding tanh
+and in 3rd case we will talk about sigmoid
+and through all three we have to know
+why weights should not be zero in the beginning
+so let's start our discussion
+for some time we assume that
+this activation function is ReLU
+and this is also ReLU
+now assume you gave input
+of x1 and x2 so first of all we will find out
+what will be the activation of this neuron and this neuron.
+Activation is A11 and A12.
+So, simple thing is A11 will be equal to max of 0,Z11
+where Z11 is equal to
+this weight multiplied by this W11 X1 plus this weight multiplied by W1 21 multiplied
+by X2 plus its own bias right similarly if you take out its activation then A12 will be
+max of 0, z12 where z12 will be equal to this weight w1, 12 multiplied by x1 plus w1 multiplied
+by x2 plus its own bias. Now what we assumed was that all our weights are 0 and we have
+and let's assume that the biases are also zero
+so what will happen with this logic is that this term will become zero
+and similarly this term will also become zero
+and due to these two being zero, this will also become zero and this will also become zero
+in short you can say that in this neuron, in this layer
+both your nodes
+their activation as in their output is zero
+and more than that equal and zero now here you can easily understand that what you want to do
+you want to apply back propagation in back propagation what you do is you catch any particular weight
+suppose you catch this weight you want to update it using this update rule and in the same way
+this is how you are going to do this with all of them
+but if you think about it
+that when you will go to
+remove this particular derivative
+then what you have to do
+is that you have to go to one point
+and remove the derivative of this activation
+but since
+this thing is zero then its derivative
+will also be zero due to which this whole term
+will become zero itself
+it means W11
+will remain same
+basically it will be a case of no update
+In short, I want to tell you that if you take ReLU activation function and set all your weights to 0, then no training will take place.
+Think about it. Because while calculating the derivative, it will become 0.
+then W11 will not update, W11 is still 0
+then you will remove Z11, since everything is 0
+your term will remain the same
+and it will be constantly 0, no training will be done
+and forever your weights value will be stuck in 0
+so that is why if you are using a relu activation function
+So you should not initialize the weight of 0.
+Now let's talk about tanh.
+The same thing will happen in tanh and the values will always stop at 0.
+The reason for that is that in case of tanh the formula will not be this.
+In case of tanh the formula will be a11 is equal to e to the power z11 minus e to the power minus z11
+divided by e to the power z11 plus e to the power z11 minus z11
+now z11 is 0 so above this term will be 1 and this will also be 1
+1 minus 1 is 0 so basically a11 will be 0 again
+and a22 will be 0 again so their derivative will be 0 again
+this term will be 0 again
+and all your weights will not be updated again
+and during the entire training
+your weights will remain zero
+basically there will be no training
+now I will show you both these scenarios in code
+so guys to prove this small point
+I have made a notebook
+in which I have taken this small data set
+in which there are two input columns
+and we are working on a binary classification problem
+for now our data set looks like this
+there are two classes
+you must be knowing from all these toy data sets
+I have extracted x and y
+then I have built the model
+I have made the model exactly the same as I showed you
+suppose there are two layers
+in hidden layer
+and one output layer and these two are relu
+and this is my model
+now what I am doing is
+I am showing you the default weights that Kera sets.
+These are the default weights and biases.
+What I have done is, I have changed all the default weights and biases and made this.
+See, I will not do np.1s, we will do 0s.
+I was testing some things for the next codes.
+So I will replace this entire thing with 0s.
+what will happen is that all our weights and biases will be set equal to zero
+see this was the default values we overwrite them and make everything zero
+now I am training my model 100 epochs
+and let's train it in front of you
+so model is getting trained
+So, the model is trained and now I am doing model.getWeights, after the model is trained, I am finding the value of the weights and you can see that everything is still zero, nothing has changed, it is the same as it was and see guys, obviously our model will perform terribly, see this, everyone is saying 1, so there is 50% accuracy but it is a very bad model, obviously, now I will quickly show you another example,
+So what I will do is, I will keep tanh for ReLU, everything will be the same.
+Now the initial weights are set by Keras, I am making everything zero.
+And you can see everything is zero.
+And I am compiling the model and running it.
+And see the model is trained, I did model.getWeights, still zero, nothing changed.
+And if I plot the performance of the model again, see nothing.
+In the case of sigmoid, this discussion becomes a bit interesting. Let me tell you why.
+So, everything is the same. Setup is the same. We just made the activation function of hidden layer as sigmoid.
+Now what we will do is, we will calculate the output or activation of both the nodes of hidden layer.
+So A11 will be sigmoid of Z11, where Z11 is the same which was above, this thing, and since weight is 0, it will be 0, but this time what will happen is that sigmoid of Z11 will be 0.5, because if you have seen sigmoid, it remains like this, so sigmoid value on 0 is 0.5, ok.
+going by the same logic, value of a12 will also be 0.5, so this time your activations are not 0, this is the first point of difference
+so now we will discuss that if activation is not 0 then what will happen, but one thing you will notice here that the value of activations is still same
+So tomorrow if there is one more node here, its value would be 0.5 only.
+Now see what we have to do, we have to update the value of these 4 weights.
+And to update, we apply the update rule.
+Weight's new value is equal to weight's old value minus learning rate times this.
+so we will calculate the derivative for all these 4 weights
+so I will do it for you
+first I am showing del L
+del W11
+of this weight
+what will be the derivative of this weight
+if you apply chain rule
+then the derivative of loss with respect to y hat
+Y hat's derivative with respect to
+this activation
+this activation's derivative with respect to
+Z11
+and Z11's derivative with respect to
+this weight
+ok
+similarly if we take out this weight's derivative
+this weight is 1, 1, 2
+so everything will be same
+till here, no, in fact
+these two terms will be same
+del L by del y hat
+del y hat
+del A11
+it will not be A11, I guess it will be A12
+because we are coming back from this way
+A12
+A12 will depend on Z12
+and Z12 will depend on W1,1,2
+now we will take out for this weight
+del L W1 this weight is 2,1
+in this case these three things will be same
+but in the last Z11 will depend on W1,2,1
+and lastly we have to find the value of del w1 2 2
+three things will be same
+in the last del 1 z2, z1 2 will depend on
+now see here, the thing to understand is that when you are finding the derivatives
+then this term is same in all
+this term is same in all
+we are taking some observations
+ok
+now one more thing
+a11 is equal to a12, also z11 is equal to z12 and basically your a11 is equal to a12 and z11 is equal to z12
+so basically I want to say that the derivative of this term will also be same
+So these three terms are common in all four weights.
+What is different is the last one.
+Now we can remove the last one.
+When you will derive z11 according to w11,
+see this, z11 is here.
+When you will differentiate it according to w11,
+then x1 comes.
+So what can we do in a way?
+We can write in return of this,
+x1.
+This is the first input.
+if you will differentiate z12 according to 1,2 then again x1 will be there
+so what we can do is we can write x1 here and going by the same logic
+x2 and x2 will be there in both the places
+if you want you can go back and see
+So in short I just want to tell you that this derivative and this derivative will always be the same and this derivative and this derivative will always be the same.
+you have to understand this, so in short what I am trying to say, see it again
+I will take some other color
+so W11 this weight and W12 these two weights
+their derivatives will always be same
+and their and their derivatives will always be same
+this means that if these two weights, this weight and this weight
+it started from 0 then their derivative will also be same
+so when you will differentiate and subtract then the new value of these two weights will also be same
+it means that these two weights will always increase together and the value of these two weights will always be same
+similarly the value of these two weights will also be same
+this set will have different value and this set will have different value because you are multiplying by x2 and x1 but
+what you have to understand is that these two sets will behave as if they are one single weight
+so you can assume that from here there are no two weights, it is a single weight
+means this is your first input, from here there are no two weights, only one weight is coming out
+similarly this second input, from here also there are no two weights, only one weight is coming out
+and in a way it is being added to one single neuron
+Basically, your two neurons will not remain the same, they will behave like a single neuron only.
+If you extrapolate this, suppose if there was one more neuron here,
+then one more weight would be coming out from this input and one more weight would be coming out from this input as well.
+But, this weight, this weight and this weight behave exactly the same.
+similarly this weight, this weight and this weight behave same
+so in short if you have used sigmoid and you have initialized all your values from 0
+then what will happen is that in your hidden layer no matter how many nodes you add it will act as a single node
+so in short it will not be able to capture non-linearity
+because it will behave like a perceptron
+that's the whole idea
+I am simplifying here
+that you can add any number of neurons from here
+if you have given all of them sigmoid and initialized all of them from 0
+So all of them will behave like this as if it is a single node and it will become a linear model and this is a very important concept, I hope I could explain it to you.
+So to show my point, I have again made a notebook, you can see the same data that I showed you earlier, but this time our model is different because the activation function is sigmoid.
+Now we are moving ahead, we fetched the get weights again, so we showed you the weights that Kheraaz gave, now we will set all the weights to zero, see this, like this, okay, here we compiled the model, here we trained the model, and after training the model, when I did get weights, then see what is happening this time, I will run it one more time, sorry,
+I have done this with three neurons, once I am running this code again, see this is the two weights coming out of the first input,
+which are going to two different nodes and this is the one coming out of the second input, you are seeing that the value of all the weights coming out of the first input is the same
+and all the weights coming out of other inputs are also same
+but both are different
+to prove this point better
+let me do one thing
+I am adding 10 nodes in hidden layer
+now our model will look like this
+that in total
+30 parameters are there
+20 weights are there
+2 cross 10
+and 10 biases are there
+We did get weights, here are all our weights, this time it will be a little more weights and again we set the initial weight of all to zero.
+We made everything zero, trained the model again, see our weights, notice that the 10 weights coming out of the first input,
+which are entering 10 different nodes, are all exactly the same and the second set of weights coming out of the second input for all the nodes are exactly the same.
+So, as if all these weights are tied up and working as one single weight and all these are also working as one single weight.
+It means, even if you have added 10 nodes in our hidden layer, but they are acting as a single node.
+Okay. It became a linear model.
+And to prove this point, if I plot the decision boundary for you,
+then you can see, this is the decision boundary which is a line.
+Line means linear model, even if you have added so many nodes, but no non-linearity was captured.
+It is acting like a linear model, working like a perceptron.
+I hope you understood the point.
+It is understood that we can't initialize our weights from zero.
+So let's do one thing, let's initialize from a non-zero value.
+And still we will give the same value to all the weights, but it will not be zero.
+For a while, let's assume that we give the value of 0.5 to our weights and biases.
+The value of all weights and biases is 0.5.
+Now, let me give you a hint.
+It will behave in the same way as we studied in sigmoid.
+Sigmoid, where we were taking 0, will behave in the same way.
+it will remain as a linear model
+let me give you an example
+suppose here is ReLU
+tanh and ReLU
+and in fact in sigmoid also
+same result will come
+let's see quickly
+a11 will be max of
+0
+z11 where
+z11 is
+w11
+x1 plus w
+1
+2 1 X 2 plus B 1 1 and this value depending on the input some non-zero value will come
+this will not be equal to 0 some positive value will come if X 1 X 2 is positive then
+this also some value will come this will also be non-zero ok similarly A 1 2 will be max
+of 0, z12 where z12 is equal to w112x1 plus w122x2 plus b12 this will again be not equal
+to 0 and similarly this will not be equal to 0 but one thing to notice is that since
+all these weights are equal and x1 and x2 are in both and b1 and b12 value is also same
+so z12 will be equal to z11 due to which a11 will be equal to a12
+means in this layer all the nodes activation will be same
+Now when activation will be same, you can see again that the derivative of all the weights coming out of one particular input will again be same.
+This means that all the weights coming out of one input will be updated with equal value.
+so this means like last time, even if 3 things are coming out from one input or 2 things are coming out, they will act as if it is a single weight
+so even if you add 3 nodes, it will act as if there is a single neuron, it will be the same thing which happened earlier
+In short, we learned that neither you can initialize your values from zero nor you can do it from non-zero constant value.
+You have only one option that you can randomly initialize your values.
+Now we understood this.
+Now I will show you one thing which I discussed with you in code.
+We will move forward with the same example.
+I am separating one thing, here is ReLU
+and
+I removed initial weights from GetWeights
+and I multiplied NP1 by 0.5
+so now the value of all my weights
+is 0.5
+I have compiled the model and trained it
+and after training, when I removed GetWeights
+you can see all the weights from one input
+all the weights are the same and all the weights coming out of the other input are the same.
+And now your model is working like a linear model.
+And when I did it again with tanh,
+the result is the same with tanh, although the numbers are different,
+but you can see that all the weights coming out of one input are the same
+and all the weights coming out of the other input are the same.
+And lastly, I also tested with sigmoid, everything is same and see here again the weights coming out of one input are same and the weights coming out of the other input are same.
+In short, we have understood two things till now. First, you cannot zero the weights, the model will not be trained in the case of ReLU and TANH and you cannot initialize the weights with all the same non-zero values.
+Because even if we do this, the model will be trained but it will act as a linear model, it will not be able to capture non-linearity.
+Okay, I have told you the reason.
+So guys, we have understood two things.
+First, we cannot initialize our weights from zero.
+Second, we cannot initialize from any non-zero constant value.
+This means we have to give a different value to each of our weights.
+so here we will discuss case 3 where we will read random initialization
+we will randomly initialize our weights
+here I will teach you two cases
+first will be small random values
+and second will be large random values
+first we will discuss case of small random values
+and let's discuss first about tanh and sigmoid
+and then we will discuss ReLU
+let me explain you the setup
+suppose we have a data where we have 500 columns in input
+and in output there is a single column, target column
+and suppose we have 1000 rows
+so our input shape is 1000x500
+also in every row these 500 numbers
+which are forming a single row
+for some time let's assume that we have taken all these numbers from a gaussian distribution
+basically this is normal, if you plot these 500 numbers then you will see a curve like this
+this is our setup
+Now what we did is we added some hidden layers and added 3 hidden layers and all of them have 500 nodes
+Now we will discuss what will happen if you send rows one by one
+Suppose you pick the numbers of this first row and insert 500 values from here in this network
+and one more thing, the weight initialization we have done is random
+and let me tell you how random it is, we have initialized in this way, np.random.randn
+here I have given the shape 500 by 500, here there will be 2500 weights so 500 by 500
+and we have multiplied all these weights from 0.01 so in a way these are all small values
+we have set all the biases from 0 this is the setup
+now try to understand what will happen
+we will focus on the output of this neuron what will be its activation
+its activation will be sigma wi xi
+all these weights which are entering 500 weights
+and the weighted sum of these inputs
+so since our xi's are in between 0 and 1
+they are normalized
+because your mean is 0
+and standard deviation is 1
+consider it as 0 or minus 1 to 1, we are arranging between minus 1 to 1 and our weights are very small, these types of numbers
+so when you multiply these types of numbers and add them, then you can understand that this number will also be a small number
+So our z is a small number, now for a while let's assume that the activation function here is tanh
+I guess you know the graph of tanh, it looks like this, if the value of x is 0 then the value of y is also 0
+And if the value of x is a little more than 0 then it will be somewhere here which is again very small
+in this layer, all the 500 nodes will have an activation
+all these activation will be very close to 0
+think about it
+because this number is small, when you will send it in tanh
+you can understand from this graph that the output will also be very close to 0
+I have plotted the histogram, this is the input of our histogram
+the input we took from the normal Gaussian distribution
+when the input was there, it was looking like this
+then what I did, in this layer, there will be 500 activations
+when I plotted the histogram of these 500 activations
+it is looking like this
+because most of the values are around 0
+and same when you will send these values forward because here also the weights are very small
+so when you will send these values forward then going by the same logic your histogram will look like this
+because most of the values would be very very close to 0
+so now understand what will happen
+if the activation of all your layers is very close to 0
+so when you will differentiate and calculate the gradient
+will also be very very small and close to 0 and as you will increase these layers
+during back propagation when many small numbers will be multiplied with many other small numbers
+then your gradient will be very small
+or you can assume it will be close to 0
+and because of that when you will update weights
+so since this derivative is very small or close to 0
+there will not be any update, in a way you can say that your vanishing gradient problem is being applied
+vanishing gradient problem is being applied here, so simple thing is that if you initialize with very small weights
+like multiplied from 0.01 and when you initialize with very small weights
+So tanh will give you vanishing gradient problem, if you do analysis of sigmoid then it will be almost same
+In case of sigmoid, when value of x is 0 then value of y is 0.5
+so its histogram will not be that deep, there will be more values, but there also you will have same to same vanishing gradient problem
+if your neural network is very deep, means it has many layers, shallow neural network will not have problem
+because all the gradients will not multiply, but deep will have problem, so I am telling you summarizing
+In summary, if you use very small weights as your initial weights, suppose you are taking weights of this unit
+If you take tanh, then there is a very strong vanishing gradient problem, it is possible that your weights are not updated, training is not done
+in case of sigmoid also vanishing gradient problem will be applied
+it will not be same as in tanh but in sigmoid also training will be very slow or not
+in case of ReLU still small values will be saved
+so vanishing gradient problem will be there but not that much because it is ReLU
+things are not zero
+So the advantage here is that the vanishing gradient problem will not come that much but the training will be very slow.
+The training will be very slow. The convergence will be very very slow.
+So you will see the results after a lot of epochs. I will show you a demonstration of this.
+So guys, let me show you a small example, if you initialize weights with a very small number, then what will happen?
+We are working on the same data, but this time what I have done is that I have made a deep neural network in which you have four hidden layers
+and I have given the support tanh activation function and this input will not be here, right?
+So, this is the neural network. I have fetched all the current weights from get weights and I have changed everything.
+Here you can see that the weights that I have initialized, I have multiplied them from 0.01 with randn.
+And I have left the biases as 0, it doesn't make any difference. And I have set new weights from set weights.
+you can see these are my new weights all the weights are very very small
+biases are zero all the weights are very small
+now what I did is I trained model for 100 epochs
+and after doing this I fetched all the weights on get weights after training
+you can see you can compare side by side and see your weights are not updated
+See, the same 007, there are some changes in decimal places which shows that there is a vanishing gradient problem here.
+If you go down a bit, I have plotted a graph, you can see the performance is very very bad.
+Everyone is saying 1, our model is working on 50% accuracy.
+Now I will show you what happens in the case of ReLU.
+So, this is a very good visualization tool.
+Here we have selected this type of data and selected two small weights.
+As soon as we started the training, you would see that different labels are there.
+Now what will happen is that if there is a value, then the vanishing gradient problem will not come that strongly.
+But you would notice that it will take a lot of time for this network to converge.
+Around 1000 epochs will be applied.
+If you would have used any other weight initialization technique which I will show you later,
+this network would have converged very quickly.
+Let me wait.
+And you can see guys, after waiting for almost 5 minutes and after running 1500 epochs,
+now our error is reducing and our model is converging.
+And you can see a decision boundary.
+So in the case of ReLU, your convergence would be extremely slow if you initialize your weights with very small values.
+Now we will discuss random initialization but with large values.
+Large values means how many large values?
+Suppose it is the same setup, we have 500 inputs and there are 3 hidden layers.
+All of them have 500 neurons.
+It is the same previous setup.
+so this time our weight initialization will be big as in big numbers
+so numbers could be in the range of 0 to 1
+and yes this is called big in deep learning
+if you are doing initialization in the range of 0 to 1 then this is a big number
+here you can see that if you calculate the activation of a particular neuron then that will be sigma wi xi
+now if every x and every w is in the range of 0 to 1 and if you are adding 500 values like this
+then it can be any number in the range of 100 to 500 which is quite big
+So if we talk about tanh or sigmoid and if we randomly initialize the numbers in this range between 0 and 1
+then what will happen is that saturation will start happening.
+Saturation means that sigma wi xi for every node will be very big like it can be in the range of 100.
+now think yourself if you put 100 in sigmoid or tanh then it will saturate
+saturate means either it will take highest value or if it will be negative then it will take highest negative value
+so you can see when i plot the histogram again input is normal
+but when i plot the histogram of activations for tanh
+then your biggest values are more like minus 1 and 1
+You can see in all the layers. Similarly, when you do the same work for sigmoid, then again the same thing is happening.
+Saturating values are coming. In the case of sigmoid, the output is 0 to 1 because sigmoid's output is between 0 to 1 and tanh's output is between minus 1 to 1.
+so basically because of this saturation there can be 2 things either slow training means convergence would be slow
+and in worst scenario again vanishing gradient problem can be there we read this when we made video of vanishing gradient problem
+so if someone ask you that if weights are big and your activation function is tanh or sigmoid
+then you have to say that saturation will happen because of these big values
+this term will be big and when you will send it in your activation function
+then saturating values will come like this and because of that either slow convergence will happen
+or in worst case scenario, there can be vanishing gradient problem also.
+ReLU case is a bit different because ReLU is a non-saturating function in the positive direction.
+This is the graph.
+So there is no stop here.
+So the bigger wi xi will be in the positive direction, the bigger the output of ReLU will be.
+Assume its output was 250, then ReLU's output will also be 250.
+and if these numbers are big then your gradients will also be big
+if gradients are big then when you will go to update
+then you will make big changes in your weights
+because of which in gradient descent you will take big jumps
+like this and basically you will get unstable gradient
+and again you will not be able to reach the right solution
+I hope you are able to understand this discussion
+in summary
+you
+you cannot initialize from 0
+you cannot initialize from non-zero
+same value also
+you cannot initialize from small random values
+and you cannot initialize from large
+can't be initialized even with random value, you can't do these four things, this is what we have learned so far, now we have just
+discussed that your training would be very unstable, right, you can see here it is happening, some weights are coming a lot and
+there will be a lot of fluctuations in them because your gradient will take a very big value due to which training would be
+and you will not be able to reach the right result
+you can see here it is trying hard
+but it is not able to reach the right result
+so that was the video guys
+I know it was big and many concepts were hidden
+I hope you liked it and you understood things
+if you liked the video then please like it
+and if you have not subscribed to my channel then please do subscribe
+thanks for watching bye

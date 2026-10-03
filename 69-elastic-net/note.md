@@ -54,9 +54,9 @@ In words: `alpha` is the total penalty, and `l1_ratio` is the fraction of it tha
 
 With numbers: alpha 1 and l1_ratio 0.5 give $a = 0.5$ and $b = 0.5$. Going back is easy too: $b = \text{alpha} \times \text{l1\_ratio}$ and $a = \text{alpha} - b$.
 
-> **Extra:** A common slip is to read l1_ratio 0.9 as "90% Ridge". The name says what it measures: the L1 share. So 0.9 means 90% Lasso.
+> **Extra:** A common slip is to read l1_ratio 0.9 as "90% Ridge". The name says what it measures: the L1 share. So 0.9 means 90% Lasso (scikit-learn docs, `ElasticNet`).
 
-> **Extra:** As with `Lasso`, scikit-learn scales the terms a little differently: it minimises $\frac{1}{2n}\sum(y_i - \hat{y}_i)^2 + \text{alpha} \cdot \text{l1\_ratio}\sum|\beta_j| + \frac{1}{2}\text{alpha}(1 - \text{l1\_ratio})\sum\beta_j^2$. The idea is the same; only the scale of alpha differs.
+> **Extra:** As with `Lasso`, scikit-learn scales the terms a little differently: it minimises $\frac{1}{2n}\sum(y_i - \hat{y}_i)^2 + \text{alpha} \cdot \text{l1\_ratio}\sum|\beta_j| + \frac{1}{2}\text{alpha}(1 - \text{l1\_ratio})\sum\beta_j^2$. The idea is the same; only the scale of alpha differs (scikit-learn docs, `ElasticNet`).
 
 ## 4. The shape of the penalty
 
@@ -68,7 +68,7 @@ For two coefficients, Figure 1 draws all the points where each penalty equals 1.
 
 - **Ridge** gives a circle: smooth everywhere.
 - **Lasso** gives a diamond with sharp corners on the axes, where one coefficient is 0. Those corners are why Lasso answers often land exactly on 0 (the Lasso sparsity Note).
-- **Elastic Net** is between the two. Its sides bulge outwards like the circle, but it keeps the corners, so it can still produce exact zeros.
+- **Elastic Net** is between the two. Its sides bulge outwards like the circle, but it keeps the corners, so it can still produce exact zeros (Zou and Hastie 2005, Fig. 1).
 
 ## 5. Correlated inputs: the grouping effect
 
@@ -87,12 +87,12 @@ Figure 2 uses 200 rows with six inputs. $x_1$, $x_2$ and $x_3$ are three almost 
 | Lasso (alpha 0.1) | 0 | 1.27 | 1.68 | 0 |
 | Elastic Net (alpha 0.1, l1_ratio 0.5) | 0.89 | 1.02 | 1.04 | 0 |
 
-- **Linear regression** gives the three copies wild, unstable values; $x_1$ even gets a negative sign. Only their sum, about 3, is meaningful.
+- **Linear regression** gives the three copies wild, unstable values; $x_1$ even gets a negative sign. Only their sum, about 3, is meaningful. With correlated inputs, a large coefficient on one copy can be cancelled by an opposite one on another (ESL §3.4.1).
 - **Ridge** shares the weight evenly, about 1 each, but keeps small coefficients on the noise inputs.
-- **Lasso** drops the noise, but also drops $x_1$, which is just as useful as the others. Which copy it drops is close to arbitrary.
+- **Lasso** drops the noise, but also drops $x_1$, which is just as useful as the others. Which copy it drops is close to arbitrary: from a group of highly correlated inputs, Lasso tends to keep one and does not care which (Zou and Hastie 2005, §1). Here it kept two of the three.
 - **Elastic Net** does both: it shares the weight evenly among the three copies, like Ridge, and sets the noise inputs to 0, like Lasso.
 
-This sharing of weight among correlated inputs is called the **grouping effect**.
+This sharing of weight among correlated inputs is called the **grouping effect**. For identical inputs, the Elastic Net penalty provably gives identical coefficients, while the Lasso penalty does not (Zou and Hastie 2005, §2.3).
 
 ## 6. Elastic Net on the diabetes data
 
@@ -132,7 +132,7 @@ The fair way is to tune both hyperparameters with cross-validation on the traini
 > cv.alpha_, cv.l1_ratio_            # 0.06, 1.0
 > ```
 
-> **Extra:** `SGDRegressor(penalty="elasticnet", alpha=..., l1_ratio=...)` trains the same kind of model with stochastic gradient descent (the SGD Note). `ElasticNet` is built specifically for this problem and is usually the better choice; SGD helps when the data is too large for memory.
+> **Extra:** `SGDRegressor(penalty="elasticnet", alpha=..., l1_ratio=...)` trains the same kind of model with stochastic gradient descent (the SGD Note). scikit-learn recommends `SGDRegressor` for large datasets (more than 10,000 observations, that is, rows) and `ElasticNet` otherwise (scikit-learn user guide §1.5.2).
 
 ## 7. When to use which
 
@@ -145,6 +145,8 @@ The fair way is to tune both hyperparameters with cross-validation on the traini
 | Many columns, unclear which kind | Elastic Net |
 | Strongly correlated inputs | Elastic Net (or Ridge) |
 
+The first two rows follow ISL §6.2.2; the last follows the grouping effect above (Zou and Hastie 2005).
+
 In practice, Elastic Net with l1_ratio tuned by cross-validation covers all three cases: the search can land on Ridge-like or Lasso-like settings if those fit best.
 
 ## 8. Summary
@@ -154,7 +156,14 @@ In practice, Elastic Net with l1_ratio tuned by cross-validation covers all thre
 - It can still set coefficients to 0, but shares weight among correlated inputs (the grouping effect).
 - Tune alpha and l1_ratio with cross-validation, for example with `ElasticNetCV`.
 
-## 9. Key terms
+## 9. Sources
+
+- **Zou and Hastie 2005:** Zou, H. and Hastie, T. "Regularization and Variable Selection via the Elastic Net." *Journal of the Royal Statistical Society B* 67(2), 301–320, 2005. Sections 1, 2.1 (Fig. 1) and 2.3.
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.2, p. 246.
+- **scikit-learn docs:** `sklearn.linear_model.ElasticNet`; user guide Section 1.5.2 (SGD regression), scikit-learn 1.9.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

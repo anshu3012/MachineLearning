@@ -29,7 +29,7 @@ Figure 1 shows the two routes. The left one assumes the data follows a famous di
 It is used in:
 
 - **Data analysis and visualisation:** plotting the PDF shows the shape of the data.
-- **Hypothesis testing:** many tests compare data against a distribution.
+- **Hypothesis testing:** some tests compare data against a distribution, such as the Kolmogorov-Smirnov test (SciPy `kstest` docs).
 - **Machine learning:** to estimate the distribution of the input data, or how likely certain events or outcomes are. Gaussian Naive Bayes, for example, estimates one normal density per class and column (see the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
 
 The methods come in two families, the two routes of Figure 1:
@@ -39,7 +39,7 @@ The methods come in two families, the two routes of Figure 1:
 
 Common techniques include kernel density estimation (Section 5), histogram-based estimation, and the Gaussian mixture model. The choice depends on the data and on what the estimate is for.
 
-> **Extra:** A **Gaussian mixture model** sits between the two families. It assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. It is used for clustering as well as density estimation.
+> **Extra:** A **Gaussian mixture model** assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (MML §11.1, §11.5).
 
 ## 3. Parametric density estimation
 
@@ -105,7 +105,7 @@ So the whole game is estimating the parameters well. The more data we have, the 
 
 > **Extra:** `sample.std()` in NumPy divides by $n$, not $n - 1$. With 1,000 values the difference is tiny (4.944 against 4.946); see Bessel's correction in the [measures of dispersion Note](../222-measures-of-dispersion/note.md).
 
-> **Extra:** Older code fits this kind of curve with `sns.distplot`, which seaborn has removed. `distplot` drew a KDE (Section 5) by default, not a fitted normal, so its curve can differ slightly from the parametric one even on the same data. Today we use `sns.histplot(x, stat="density", kde=True)` for a histogram with a KDE, and compute a fitted normal with `scipy.stats.norm` as above.
+> **Extra:** Older code fits this kind of curve with `sns.distplot`, which seaborn has deprecated (seaborn 0.13 docs). `distplot` drew a KDE (Section 5) by default (`kde=True`, `fit=None`), not a fitted normal, so its curve can differ slightly from the parametric one even on the same data. Today we use `sns.histplot(x, stat="density", kde=True)` for a histogram with a KDE, and compute a fitted normal with `scipy.stats.norm` as above.
 
 ## 4. Non-parametric density estimation
 
@@ -175,7 +175,7 @@ Figure 4 shows this on 1,000 values with two peaks: 300 values around 20 and 700
 
 There is no single correct bandwidth. We try a few values and keep the one that shows the shape without the noise, as with the number of bins of a histogram.
 
-> **Extra:** The Gaussian is not the only kernel. scikit-learn also offers `"tophat"` (a flat box), `"epanechnikov"` (a downward parabola), `"exponential"`, `"linear"` (a triangle) and `"cosine"`. With enough data the choice of kernel matters much less than the bandwidth, and the Gaussian is the usual default.
+> **Extra:** The Gaussian is not the only kernel. scikit-learn also offers `"tophat"` (a flat box), `"epanechnikov"` (a downward parabola), `"exponential"`, `"linear"` (a triangle) and `"cosine"`. The choice of kernel matters much less than the bandwidth: the common kernels are all close in quality, the Gaussian reaching about 95% of the best one, Epanechnikov (Silverman 1986, Table 3.1). The Gaussian is scikit-learn's default.
 
 ### 5.3 KDE in scikit-learn
 
@@ -199,7 +199,7 @@ Three details matter:
 
 - **Two settings:** the `kernel` (default `"gaussian"`) and the `bandwidth` (default 1.0).
 - **2D input:** scikit-learn models expect a table, one row per sample and one column per feature, so a single column must be reshaped with `reshape(-1, 1)`.
-- **Log densities:** `score_samples` returns the **logarithm** of the density, not the density. Densities can be extremely small numbers, and their logs are safer to compute with. Applying `np.exp`, which undoes a logarithm, gives the densities. For the six points, the KDE at 3 comes back as $\log(0.206) = -1.58$, and $e^{-1.58} = 0.206$.
+- **Log densities:** `score_samples` returns the **logarithm** of the density, not the density. Far from the data a density can be too small for the computer to store, while its log stays an ordinary number: for the six points, the log density at 60 is $-1328.8$, but $e^{-1328.8}$ comes back as exactly 0 (the Notebook shows it). Applying `np.exp`, which undoes a logarithm, gives the densities. For the six points, the KDE at 3 comes back as $\log(0.206) = -1.58$, and $e^{-1.58} = 0.206$.
 
 ### 5.4 KDE in seaborn
 
@@ -207,7 +207,7 @@ Three details matter:
 
 seaborn draws a KDE with `sns.kdeplot(x=data)`, or `so.KDE()` in the objects interface. Its smoothness setting is `bw_adjust`, with default 1.
 
-`bw_adjust` is a **multiplier**, not a bandwidth. seaborn first picks a bandwidth with a rule of thumb (Scott's rule, based on the standard deviation and the number of points), then multiplies it by `bw_adjust`. For the two-peaked data the rule gives a bandwidth of 2.58. So:
+`bw_adjust` is a **multiplier**, not a bandwidth. seaborn first picks a bandwidth with a rule of thumb (Scott's rule, based on the standard deviation and the number of points), then multiplies it by `bw_adjust` (seaborn `kdeplot` docs). For the two-peaked data the rule gives a bandwidth of 2.58. So:
 
 - `bw_adjust=1` means a bandwidth of 2.58, close to scikit-learn's 3.
 - `bw_adjust=2` means 5.17; `bw_adjust=5` means 12.9, far smoother than scikit-learn's `bandwidth=5`.
@@ -217,7 +217,7 @@ That is why the same number gives different curves in the two libraries.
 
 > **Extra:** Scott's rule sets the bandwidth to $h = s \times n^{-1/5}$. For the two-peaked data, $s = 10.29$ and $n = 1000$:
 > $$h = 10.29 \times 1000^{-1/5} = 10.29 \times 0.251 = 2.58$$
-> More data gives a smaller bandwidth: with many points, thin bumps no longer look spiky.
+> (SciPy `gaussian_kde` docs.) More data gives a smaller bandwidth: with many points, neighbouring thin bumps overlap and fill the gaps, so the curve is no longer spiky. The Notebook checks this with the bandwidth fixed at 0.5: the KDE has about 16 local peaks with 1,000 points but only 3 with 100,000 (the true density has 2).
 
 ## 6. PDF, histogram and the population
 
@@ -249,6 +249,13 @@ If the sample does not represent the population, for example because of sampling
 - KDE: a kernel on every point, bandwidth = kernel width, add and divide by $n$.
 - Small bandwidth: spiky; large bandwidth: smooth, may hide peaks.
 - scikit-learn: `score_samples` returns log densities. seaborn: `bw_adjust` multiplies a default bandwidth.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 11.1 and 11.5 (Gaussian mixture models).
+- Silverman, B. W. (1986). *Density Estimation for Statistics and Data Analysis*. Chapman and Hall. Section 3.3.2, Table 3.1 (kernel efficiencies).
+- seaborn documentation, `distplot` (deprecated in 0.13) and `kdeplot` (`bw_method`, `bw_adjust`).
+- SciPy documentation, `scipy.stats.kstest` and `scipy.stats.gaussian_kde` (Scott's rule).
 
 ## 8. Key terms
 

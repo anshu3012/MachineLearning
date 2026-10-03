@@ -125,7 +125,7 @@ The function in Figure 2 has exactly that shape.
 
 So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 2, red point). The checks: an error of 0.5 gives $0.5 \times \ln 1 = 0$, and an error of 0.98 gives $0.5 \times \ln(0.02/0.98) = -1.95$, the mirror image of an error of 0.02.
 
-> **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more (the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md)).
+> **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more on two classes (scikit-learn source; the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md)).
 
 ## 7. Step 5: update the row weights
 
@@ -158,7 +158,7 @@ After the update the weights no longer add up to 1.
 
 Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. The two mistakes now carry half of the total weight between them, against 40% before.
 
-> **Extra:** Here the misclassified rows end up with exactly half the total weight. That is always so after a normalised AdaBoost update: the old stump, judged on the new weights, has an error of exactly 0.5, no better than guessing. So the next stump cannot simply repeat the last one; it is forced to learn something new.
+> **Extra:** Here the misclassified rows end up with exactly half the total weight. That is always so after a normalised AdaBoost update. Before normalising, the mistakes weigh $\text{error} \cdot e^{\alpha}$ in total and the correct rows $(1-\text{error}) \cdot e^{-\alpha}$. With $e^{\alpha} = \sqrt{(1-\text{error})/\text{error}}$ from step 4, both totals equal $\sqrt{\text{error}\,(1-\text{error})}$: in our example $\sqrt{0.4 \times 0.6} = 0.4899$, the two equal halves of the sum above. So the old stump, judged on the new weights, has an error of exactly 0.5 and would get $\alpha = 0$: repeating it adds nothing to the vote, and the next stump only earns a say by doing better on the reweighted rows.
 
 ## 9. Step 7: upsampling, a new dataset drawn by weight
 
@@ -176,7 +176,7 @@ The new dataset is rows 1, 3, 3, 3 and 4. Row 3, a mistake, appears three times;
 
 The next stump trains on this new dataset, so it pays most attention to the rows the first stump got wrong.
 
-> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each row in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md), section 10).
+> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each row in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (scikit-learn source; the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md), section 10).
 
 ## 10. Repeat, then vote
 
@@ -210,7 +210,11 @@ $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \dots + \al
 - The weights of the mistakes grow, the others shrink, and all are rescaled to add up to 1.
 - Upsampling turns weights into a new dataset in which heavy rows appear more often.
 
-## 12. Key terms
+## 12. Sources
+
+- scikit-learn source: `sklearn/ensemble/_weight_boosting.py`, method `_boost` of `AdaBoostClassifier` (it fits each stump with `sample_weight` and stops when the error reaches $1 - 1/K$, which is 0.5 for two classes).
+
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|

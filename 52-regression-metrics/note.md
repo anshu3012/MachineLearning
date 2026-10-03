@@ -84,7 +84,13 @@ With numbers:
 
 $$\text{RMSE} = \sqrt{0.121} = 0.348 \text{ LPA}$$
 
-RMSE is in LPA again, like MAE, so it is easy to report. It is always at least as large as MAE (here 0.35 against 0.29), because the squares give extra weight to the larger errors.
+RMSE is in LPA again, like MAE, so it is easy to report. RMSE is always at least as large as MAE (here 0.35 against 0.29), because the squares give extra weight to the larger errors. The two are equal only when every error has the same size.
+
+> **Extra:** The proof. Write $a_i = |y_i - \hat{y}_i|$, so MAE is the average of the $a_i$. Then
+>
+> $$\text{MSE} - \text{MAE}^2 = \frac{1}{n}\sum a_i^2 - \text{MAE}^2 = \frac{1}{n}\sum (a_i - \text{MAE})^2 \ge 0$$
+>
+> so $\text{RMSE} = \sqrt{\text{MSE}} \ge \text{MAE}$. The gap is the spread of the error sizes.
 
 > **Python:** The three error metrics.
 >
@@ -169,7 +175,7 @@ R² is also called the **coefficient of determination**.
 
 > **Key point:** On the training data, R² never goes down when a column is added, even a column of random numbers.
 
-Suppose we add a column of random numbers to the placement data, a column that has nothing to do with packages. On the training data, R² still creeps up: with more columns, the model can always bend a little closer to the training points, even by chance.
+Suppose we add a column of random numbers to the placement data, a column that has nothing to do with packages. On the training data, R² still creeps up. The new column gives the model one more number to tune, and setting that number to 0 gives back the old model, so the fit on the training data can never get worse. A random column almost always matches the leftover errors a little by chance, so R² usually rises.
 
 Figure 3 adds 0 to 20 columns of random numbers next to CGPA.
 
@@ -203,7 +209,7 @@ How it behaves:
 
 In Figure 3, adjusted R² on the training data stays flat at about 0.77 however many random columns are added: it is not fooled. On the small test set (40 rows), the penalty is strong, and adjusted R² falls from 0.775 to 0.486 with 20 random columns.
 
-> **Extra:** A version of this demonstration sometimes builds a "useful" column, such as an IQ score, by adding small noise to the package itself. Such a column is made from the answer, so it would never exist in real data: it is target leakage. The honest version of the lesson is the one above: useless columns raise R² on the training data, and adjusted R² exposes them. It is most useful with multiple linear regression, the next Note.
+> **Extra:** A version of this demonstration sometimes builds a "useful" column, such as an IQ score, by adding small noise to the package itself. Such a column is made from the answer, so it would never exist in real data: it is target leakage: information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless columns raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression, the next Note.
 
 > **Extra:** scikit-learn has no function for adjusted R²; we compute it from `r2_score` with the formula above. Note that $n$ is the number of rows in the set being scored (40 for the test set) and $k$ the number of input columns.
 
@@ -221,6 +227,10 @@ In Figure 3, adjusted R² on the training data stays flat at about 0.77 however 
 - MSE is the usual loss for training, because it can be differentiated.
 - R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse.
 - R² never falls on the training data when columns are added; adjusted R² penalises each column and so detects useless ones.
+
+## Sources
+
+- Kaufman, S., Rosset, S., Perlich, C. and Stitelman, O. (2012). Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM Transactions on Knowledge Discovery from Data* 6(4).
 
 ## 9. Key terms
 

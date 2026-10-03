@@ -35,7 +35,7 @@ The data has four input columns and the output column *placed*. One row enters t
 
 Before it enters, we scale the row into the range 0 to 1: CGPA divided by 10, the others by 100. So the input is $a^{0} = (0.72,\ 0.72,\ 0.69,\ 0.81)$.
 
-> **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme, and small changes to the weights hardly change the output, which makes training very slow. Real projects standardize the inputs instead (see the [standardization Note](../24-standardization/note.md)); dividing by 10 and 100 keeps the numbers here easy to follow.
+> **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme. The sigmoid's slope there, $\sigma(z)(1 - \sigma(z))$ (see the [sigmoid derivative Note](../74-sigmoid-derivative/note.md)), is only $1.9 \times 10^{-9}$, $1.1 \times 10^{-6}$ and $3.7 \times 10^{-6}$, so a small change to a weight hardly changes the node's output. Backpropagation multiplies every gradient through a node by this slope, so these weights would barely move in training. The [data scaling Note](../1023-data-scaling-in-ann/note.md) standardizes the inputs instead (see the [standardization Note](../24-standardization/note.md)); dividing by 10 and 100 keeps the numbers here easy to follow.
 
 The weights are not trained here: we set them by hand to one decimal, so that every step can be checked with a calculator. Training would find better values; forward propagation works the same either way.
 
@@ -142,7 +142,7 @@ This is what a neural network is, as a function: a chain of matrix products, eac
 >
 > `W1` is the $4 \times 3$ array of Section 4.1 and `b1` the bias of length 3; `W.T` is the transpose and `@` the matrix product. The same three-line loop works for any number of layers.
 
-> **Extra:** Libraries predict many rows at once. Stacking $n$ rows into an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors Note](../11-tensors/note.md)), the first layer becomes $\sigma(XW^{1} + b^{1})$: an $(n \times 4)(4 \times 3) = n \times 3$ matrix, one row of activations per student. With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations Note](../500-linear-transformations-and-matrices/note.md)). This is why scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$. The Notebook loads our hand-set weights into both and gets the same 0.594.
+> **Extra:** Libraries predict many rows at once. Stacking $n$ rows into an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors Note](../11-tensors/note.md)), the first layer becomes $\sigma(XW^{1} + b^{1})$: an $(n \times 4)(4 \times 3) = n \times 3$ matrix, one row of activations per student. With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations Note](../500-linear-transformations-and-matrices/note.md)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
 
 ## 7. Summary
 
@@ -158,7 +158,11 @@ This is what a neural network is, as a function: a chain of matrix products, eac
 - The whole network is the nested formula $\sigma(W^{3\mathsf T}\sigma(W^{2\mathsf T}\sigma(W^{1\mathsf T}a^{0} + b^{1}) + b^{2}) + b^{3})$.
 - Backpropagation, next, uses this forward pass to compute the error and update the 26 parameters.
 
-## 8. Key terms
+## 8. Sources
+
+- Keras documentation, `keras.layers.Dense`.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -61,7 +61,7 @@ The probability of a Type II error is written $\beta$.
 | **Reject $H_0$** | Type I error (probability $\alpha$) | correct (probability $1 - \beta$) |
 | **Fail to reject $H_0$** | correct (probability $1 - \alpha$) | Type II error (probability $\beta$) |
 
-Many books label the second row "accept $H_0$". As the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
+The second row is sometimes labelled "accept $H_0$". As the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
 
 The same two errors appear in classification. In the confusion matrix of the [accuracy and confusion matrix Note](../76-accuracy-confusion-matrix/note.md), a false positive is a Type I error and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
 
@@ -161,9 +161,9 @@ Disadvantages:
 ### 6.2 In machine learning
 
 1. **Model comparison.** We train XGBoost, a random forest and linear regression on the same data. Is one really better, or did it win by chance on this split? A paired t-test on the scores of the same cross-validation folds (see the [pipelines Note](../29-pipelines/note.md) for cross-validation) answers it; the [two-sample t-tests Note](../302-two-sample-and-paired-t-tests/note.md) runs one.
-2. **Feature selection.** Which features are related to the target, and which can we drop (see the [what is feature engineering Note](../23-what-is-feature-engineering/note.md))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `SelectKBest` with `f_classif` (ANOVA) or `chi2` does exactly this.
+2. **Feature selection.** Which features are related to the target, and which can we drop (see the [what is feature engineering Note](../23-what-is-feature-engineering/note.md))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `f_classif` computes the ANOVA F statistic and its p-value for each feature, and `chi2` the chi-square statistic; `SelectKBest` keeps the $k$ features with the highest scores (scikit-learn documentation, `sklearn.feature_selection`).
 3. **Hyperparameter tuning.** Two settings of a model give different cross-validation scores (see the [random forest tuning Note](../112-random-forest-tuning/note.md)). A test says whether one setting is significantly better.
-4. **Checking model assumptions.** Linear regression assumes, among other things, normally distributed residuals (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). The Shapiro-Wilk test checks this; if the assumptions fail, the model may not suit the data.
+4. **Checking model assumptions.** Linear regression assumes, among other things, normally distributed residuals (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). The Shapiro-Wilk test checks normality (S. S. Shapiro and M. B. Wilk, "An analysis of variance test for normality (complete samples)", *Biometrika* 52, 1965); if the assumptions fail, the model may not suit the data.
 
 Libraries such as scikit-learn usually run these tests for us. Knowing what happens behind the scenes lets us use those tools better and make better-educated decisions.
 

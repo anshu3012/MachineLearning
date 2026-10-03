@@ -53,7 +53,7 @@ Linear algebra solves this. Its ideas are written so that whatever is true in 2D
 
 ML meets many kinds of data: tables, text, images, even video. An algorithm can only learn from numbers, so each kind must first be written as a vector, matrix or tensor. Linear algebra is what makes this representation possible; once the data is in that form, any ML algorithm can take it in and make predictions.
 
-Linear algebra also suits the hardware. Its operations apply the same step to many numbers at once, which is exactly what CPUs and especially GPUs do well. This is why deep learning, which runs almost entirely on GPUs, is built on linear algebra.
+Linear algebra also suits the hardware. Its operations apply the same step to many numbers at once, which is what GPUs are built for: Goodfellow, Bengio and Courville (*Deep Learning*, 2016, section 12.1.2) explain that graphics cards are designed for a high degree of parallelism, for example multiplying many vertices by the same matrix at once, and that neural networks need the same performance characteristics. Most modern neural network implementations run on GPUs for this reason.
 
 ## 4. What a vector is
 
@@ -106,7 +106,7 @@ a vector in 4-dimensional space. To ask a model for this flower's species, we ha
 
 ![The iris flowers as feature vectors, using three of the four input columns](images/iris_vectors.png){height=48%}
 
-We cannot draw 4D, so Figure 2 drops petal width and plots the other three columns. Each of the 150 flowers is now a point in 3D, that is, a vector; two of them are drawn as arrows from the origin. Flowers of the same species sit close together, which is what lets a model tell the species apart.
+We cannot draw 4D, so Figure 2 drops petal width and plots the other three columns. Each of the 150 flowers is now a point in 3D, that is, a vector; two of them are drawn as arrows from the origin. Flowers of the same species sit close together, and that closeness alone is enough to tell the species apart. The Notebook tests this: predicting each flower's species as that of its nearest other flower (in all four dimensions) is right for 96.0% of the 150 flowers. With the species shuffled at random, so that closeness says nothing about species, the same rule is right only 34.7% of the time, about the one in three of a blind guess.
 
 ### 5.2 Feature vectors hold only numbers
 
@@ -120,7 +120,7 @@ $$x = [17,\ 52,\ 0,\ 1,\ 2]$$
 
 The encodings themselves are taught in the [ordinal and label encoding Note](../26-ordinal-label-encoding/note.md) and the [one-hot encoding Note](../27-one-hot-encoding/note.md).
 
-> **Extra:** Coding Q, C and S as 0, 1 and 2 tells a model that S is "twice" C, which means nothing. For a column with no natural order, one-hot encoding is usually the safer choice.
+> **Extra:** Coding Q, C and S as 0, 1 and 2 tells a model that S is "twice" C, which means nothing. The scikit-learn user guide (section 8.3.4, "Encoding categorical features") warns that estimators would read such integer codes "as being ordered, which is often not desired", and offers one-hot encoding as the alternative for a column with no natural order.
 
 ## 6. Text as vectors: a movie recommender
 

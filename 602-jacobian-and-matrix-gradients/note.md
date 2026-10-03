@@ -65,7 +65,7 @@ The gradient of the previous Note is the special case of one output: a Jacobian 
 
 ![The shape of the derivative $d\mathbf{f}/d\mathbf{x}$: one row per output, one column per input](images/derivative_shapes.png){height=32%}
 
-Before computing any derivative, writing down its shape first catches most mistakes.
+Before computing any derivative, we write down its shape: a chain-rule product whose shapes do not fit is certainly wrong.
 
 ## 4. The Jacobian as the best local linear map
 
@@ -111,7 +111,7 @@ The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note
 
 So polar coordinates stretch cells more the further they are from the origin: in Figure 1, cells on the outer arcs are bigger. For a linear map, $\det J = \det A$ everywhere: $A$ above has $\det A = 1 \cdot 0 - 3 \cdot (-2) = 6$, so every area grows 6 times.
 
-> **Extra:** The Jacobian determinant is how probability densities change under a change of variables. If $\mathbf{y} = \mathbf{f}(\mathbf{x})$, probability in a small region must be kept, so the density of $\mathbf{y}$ is the density of $\mathbf{x}$ divided by $|\det J|$: where $\mathbf{f}$ stretches area, the same probability is spread thinner. Its one-dimensional form, "density is a derivative", appears in the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md). Generative models called normalizing flows are built on exactly this rule.
+> **Extra:** The Jacobian determinant is how probability densities change under a change of variables. If $\mathbf{y} = \mathbf{f}(\mathbf{x})$, probability in a small region must be kept, so the density of $\mathbf{y}$ is the density of $\mathbf{x}$ divided by $|\det J|$: where $\mathbf{f}$ stretches area, the same probability is spread thinner (MML §6.7). Its one-dimensional form, "density is a derivative", appears in the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md). Generative models called normalizing flows are built on exactly this rule (Rezende and Mohamed 2015).
 
 ## 6. The chain rule with Jacobians
 
@@ -216,7 +216,7 @@ The bowl of the [partial derivatives and gradients Note](../601-partial-derivati
 >
 > $$\frac{\partial}{\partial X}\det(X) = \det(X)\,(X^{-1})^{\mathsf T}, \qquad \frac{\partial}{\partial X}\,\mathbf{a}^{\mathsf T}X^{-1}\mathbf{b} = -(X^{-1})^{\mathsf T}\mathbf{a}\mathbf{b}^{\mathsf T}(X^{-1})^{\mathsf T}$$
 >
-> They appear when fitting covariance matrices, as in Gaussian models. The standard collection is *The Matrix Cookbook* (Petersen and Pedersen).
+> They appear when fitting covariance matrices, as in the maximum likelihood fit of a Gaussian (Bishop §2.3.4). The standard collection is *The Matrix Cookbook* (Petersen and Pedersen 2012).
 
 ## 10. Preview: backpropagation and automatic differentiation
 
@@ -233,9 +233,9 @@ The practical method breaks the function into elementary steps, a **computation 
    $$\frac{\partial f}{\partial b} = 1, \qquad \frac{\partial f}{\partial a} = 1 + \frac{\partial f}{\partial b}\,e^{a}, \qquad \frac{\partial f}{\partial x} = \frac{\partial f}{\partial a}\,2x$$
 3. **Example:** at $x = 1$: forward, $a = 1$, $b = e = 2.718$, $f = 3.718$. Backward, $\partial f/\partial b = 1$, $\partial f/\partial a = 1 + 2.718 = 3.718$, $\partial f/\partial x = 3.718 \times 2 = 7.437$. The formula $f'(x) = 2x + 2x\,e^{x^2}$ gives $2 + 2e = 7.437$.
 
-Each backward step costs about as much as the forward step it mirrors, so the whole gradient costs about as much as computing $f$ once. This backward pass is **backpropagation**; done automatically by software for any program, it is **automatic differentiation** (reverse mode). Backpropagation is taught in full with neural networks, in the Deep Learning Notes.
+The backward pass has one step per forward step, each a multiplication by a local derivative, so computing the gradient takes work of the same order as computing $f$ itself (MML §5.6). This backward pass is **backpropagation**; done automatically by software for any program, it is **automatic differentiation** (reverse mode). Backpropagation is taught in full with neural networks, in the Deep Learning Notes.
 
-> **Extra:** Automatic differentiation is neither symbolic differentiation (which writes out a formula for $f'$) nor a numerical difference quotient (which only estimates it). It gives the exact derivative, up to rounding, by applying the chain rule to the actual operations a program runs. It has a **forward mode**, which multiplies the Jacobians from the input side, and a **reverse mode**, which starts from the output. With millions of inputs (weights) and one output (the loss), the reverse mode is far cheaper, which is why every deep learning library uses it.
+> **Extra:** Automatic differentiation is neither symbolic differentiation (which writes out a formula for $f'$) nor a numerical difference quotient (which only estimates it). It gives the exact derivative, up to rounding, by applying the chain rule to the actual operations a program runs. It has a **forward mode**, which multiplies the Jacobians from the input side, and a **reverse mode**, which starts from the output. With far more inputs (weights) than outputs (the loss), the reverse mode is significantly cheaper (MML §5.6; Baydin et al. 2018), which is why deep learning libraries use it for training.
 
 ## 11. Summary
 
@@ -253,6 +253,14 @@ Each backward step costs about as much as the forward step it mirrors, so the wh
 - $|\det J|$ is the local area (volume) scaling factor.
 - The chain rule multiplies Jacobians; checking shapes first prevents most mistakes.
 - Backpropagation applies this chain rule backward through a computation graph.
+
+## Sources
+
+- Baydin, A. G., Pearlmutter, B. A., Radul, A. A. and Siskind, J. M. (2018). "Automatic Differentiation in Machine Learning: a Survey". *Journal of Machine Learning Research* 18(153).
+- Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer. Section 2.3.4, maximum likelihood for the Gaussian.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 5.3–5.6 and 6.7 (MML).
+- Petersen, K. B. and Pedersen, M. S. (2012). *The Matrix Cookbook*. Technical University of Denmark.
+- Rezende, D. J. and Mohamed, S. (2015). "Variational Inference with Normalizing Flows". *ICML*.
 
 ## 12. Key terms
 

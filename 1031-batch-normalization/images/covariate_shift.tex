@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[dot/.style={circle, inner sep=0pt, minimum size=5pt}]
+  \pgfmathsetseed{7}
+  \foreach \dx/\bx/\by/\ox/\oy/\ttl in {0/0.9/2.5/1.9/3.9/{training data}, 6.2/2.6/0.8/3.9/1.9/{data seen later}} {
+    \begin{scope}[xshift=\dx cm]
+      \draw[cgrey, -{Stealth}] (0,0) -- (4.8,0) node[right] {$x_1$};
+      \draw[cgrey, -{Stealth}] (0,0) -- (0,4.8) node[above] {$x_2$};
+      \draw[black, line width=1.6pt] (0.2,4.4) -- (4.4,0.2);
+      \foreach \k in {1,...,12} {
+        \node[dot, fill=cblue] at ({\bx + 0.4*rand}, {\by + 0.4*rand}) {};
+        \node[dot, fill=corange] at ({\ox + 0.4*rand}, {\oy + 0.4*rand}) {};
+      }
+      \node[title] at (2.3,5.5) {\ttl};
+    \end{scope}
+  }
+  \node[note, text width=11cm] at (5.4,-0.8) {the same boundary (black) separates the two classes in both;\\only where the inputs lie has moved};
+\end{tikzpicture}
+\end{document}

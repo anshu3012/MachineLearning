@@ -74,7 +74,7 @@ The meaning carries over from the slope $m$:
 
 So the coefficients act as **weights**: in Figure 1, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ.
 
-> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. Standardising the inputs first puts all coefficients on the same footing.
+> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. Standardising the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 1 the comparison is fair: both inputs from `make_regression` already have a standard deviation of about 1.
 
 ## 4. Multiple linear regression in scikit-learn
 
@@ -101,7 +101,7 @@ The example data has 100 rows, 2 input columns and some noise, made with scikit-
 >
 > `make_regression` invents data that follows a linear pattern plus random noise; `random_state` fixes it so the numbers repeat.
 
-On the 20 test rows: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be.
+On the 20 test rows: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook).
 
 > **Extra:** To draw the plane, we predict on a grid of $(x_1, x_2)$ points and plot the predictions as a surface. The Notebook does this with Plotly, and the 3D plot can be turned with the mouse to see the points above and below the plane.
 
@@ -118,6 +118,10 @@ On the 20 test rows: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to t
 - Real data almost always has several inputs, so multiple linear regression is the version used in practice.
 - Each coefficient is the change in the output per unit of its input, with the other inputs fixed: a weight.
 - The intercept $\beta_0$ is the prediction when every input is 0.
+
+## Sources
+
+- Gelman, A. (2008). Scaling regression inputs by dividing by two standard deviations. *Statistics in Medicine* 27(15): 2865–2873.
 
 ## 6. Key terms
 

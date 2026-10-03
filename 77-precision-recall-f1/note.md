@@ -89,7 +89,7 @@ In words: of everything that **really** is positive, how much did the model catc
 
 Model A has the higher recall, matching the choice above.
 
-> **Extra:** Recall is also called **sensitivity** or the **true positive rate**, names common in medicine.
+> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (Fawcett 2006, §2); "sensitivity" is the usual name in medicine.
 
 ### 3.3 Choosing between them
 
@@ -102,7 +102,7 @@ Model A has the higher recall, matching the choice above.
 | Fraud alerts that block cards | FP: blocking honest customers | precision |
 | Airport threat screening | FN: missing a threat | recall |
 
-Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). A later Note looks at this trade-off.
+Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). A later Note looks at this trade-off (scikit-learn docs, "Precision-Recall" example).
 
 ## 4. F1 score
 
@@ -157,7 +157,7 @@ On the heart-disease test set of the previous Note:
 
 Logistic regression misses fewer patients (higher recall), which matters most for a disease.
 
-> **Extra:** In a two-class problem, scikit-learn reports the scores of class 1. With `average=None` it shows both classes: for logistic regression, precision is 0.962 for class 0 and 0.800 for class 1. The positive class is usually the one we care about, so class 1 is the default.
+> **Extra:** In a two-class problem, scikit-learn reports the scores of class 1. With `average=None` it shows both classes: for logistic regression, precision is 0.962 for class 0 and 0.800 for class 1. The default comes from the setting `pos_label=1` (scikit-learn docs, `precision_score`).
 
 ## 6. More than two classes
 
@@ -218,7 +218,12 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 - F1 is the harmonic mean, so it stays near the weaker of the two.
 - With several classes, compute per class and combine with a macro or weighted average.
 
-## 8. Key terms
+## 8. Sources
+
+- **Fawcett 2006:** Fawcett, T. "An Introduction to ROC Analysis." *Pattern Recognition Letters* 27(8), 861–874, 2006. Section 2 and Figure 1.
+- **scikit-learn docs:** `sklearn.metrics.precision_score` (pos_label); example "Precision-Recall", scikit-learn 1.9.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

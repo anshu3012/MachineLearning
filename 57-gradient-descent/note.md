@@ -97,7 +97,17 @@ Figure 1 shows the loss curve $L(b)$ and the steps.
 3. **Step 3:** at $b = 29.11$ the slope is $23.6$. The step is $2.36$, so $b = 26.75$.
 4. **Steps 4 and 5:** $b = 26.28$, then $26.18$, almost exactly the OLS value 26.16.
 
-Each slope is about one fifth of the previous one, so each step shrinks too. Nothing in the rule tells the algorithm to slow down: the flattening curve does it.
+Each slope is about one fifth of the previous one, so each step shrinks too. Nothing in the rule tells the algorithm to slow down: the flattening curve does it. Here the distance to the bottom shrinks to exactly one fifth at every step (the Extra below shows why).
+
+> **Extra:** Why exactly one fifth? With $m$ fixed, call $b^*$ the best intercept, where the slope is zero: $\sum (y_i - m x_i - b^*) = 0$. Then
+>
+> $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n} (y_i - m x_i - b) = 2n\,(b - b^*)$$
+>
+> so the update becomes
+>
+> $$b_{\text{new}} - b^* = (1 - 2n\eta)\,(b_{\text{old}} - b^*)$$
+>
+> With $n = 4$ points and $\eta = 0.1$, the distance to $b^*$ is multiplied by $1 - 0.8 = 0.2$ at every step: $73.84$, then $14.77$, then $2.95$. With $\eta = 0.26$ (next section) the factor is $1 - 2.08 = -1.08$: the minus sign flips $b$ to the other side, and the distance grows by 8% each step. Any $\eta$ above $0.25$ diverges on this data.
 
 ## 5. The learning rate
 
@@ -109,9 +119,9 @@ The learning rate is a **hyperparameter**: a setting we choose, not a value the 
 
 - **0.01, too small:** after 10 steps $b$ has only moved from 100 to 58. It would get there eventually, but slowly.
 - **0.1, good:** the bottom is reached within about 5 steps.
-- **0.26, too large:** each step jumps over the bottom to the other side, landing higher than before: $100 \to -53.6 \to 112.3 \to -66.9 \to \dots$. The loss grows with every step, and the algorithm never converges.
+- **0.26, too large:** each step jumps over the bottom to the other side, landing higher than before: $100 \to -53.6 \to 112.3 \to -66.9 \to \dots$. The loss grows with every step, and the algorithm never converges. (The Extra in Section 4 shows why: above 0.25, every step overshoots by more than it gains.)
 
-A common approach is to try a few values, such as 0.001, 0.01 and 0.1, and keep the one where the loss falls fastest without jumping around.
+A common approach is to try a few values on a logarithmic scale, such as 0.1, 0.01 and 0.001 (Goodfellow §11.4.3), and keep the one where the loss falls fastest without jumping around.
 
 ## 6. Both parameters: m and b together
 
@@ -169,21 +179,21 @@ On 80 training points with learning rate 0.001 and 50 epochs:
 
 Gradient descent gets within 0.03 of the exact answer: an approximation, but a very close one.
 
-> **Extra:** Both slopes are computed from the old values before either is updated. Updating $b$ first and then using the new $b$ to compute the slope for $m$ is a different (and, here, slightly wrong) algorithm.
+> **Extra:** Both slopes are computed from the old values before either is updated. Updating $b$ first and then using the new $b$ for the slope of $m$ is a slightly different algorithm. On this data it gives almost the same answer ($m = 28.157$, notebook).
 
 ## 8. The shape of the loss function matters
 
-> **Key point:** Linear regression's loss is convex: one bowl, one minimum, and gradient descent always finds it. Other losses can trap it in a local minimum or slow it on a flat stretch.
+> **Key point:** Linear regression's loss is convex: one bowl with no false dips, and gradient descent with a small enough learning rate finds its bottom. Other losses can trap it in a local minimum or slow it on a flat stretch.
 
 Gradient descent only follows the local slope, so the shape of the loss function decides how well it works (Figure 4).
 
 ![Convex and non-convex loss functions](images/loss_shapes.png)
 
-- **Convex:** a function is **convex** when a straight line between any two points on its curve never goes below the curve. Such a function has exactly one minimum. The sum of squared errors of linear regression is convex, so gradient descent always reaches the best answer.
+- **Convex:** a function is **convex** when a straight line between any two points on its curve never goes below the curve. Such a function has no false dips: any local minimum is also the global one (Boyd and Vandenberghe §4.2.2). The sum of squared errors of linear regression is convex, so gradient descent with a small enough learning rate reaches the best answer (Section 5 shows what a too-large one does).
 - **Non-convex, with a local minimum:** a straight line between two points can cut through the curve. Then there can be several dips: a **local minimum** (lowest only in its neighbourhood) and a **global minimum** (lowest of all). Started near the local one, gradient descent settles there and stops, unaware that a better answer exists.
 - **A plateau:** a nearly flat stretch has a tiny slope, so the steps become tiny and progress almost stops. With too few epochs, the algorithm halts before leaving the plateau. In more dimensions, a related trouble spot is a **saddle point**, flat in one direction and curved in another.
 
-> **Extra:** Non-convex losses are the norm in deep learning. Techniques such as random restarts, momentum and adaptive learning rates are designed to escape local minima and plateaus; they come with neural networks.
+> **Extra:** Neural networks have non-convex losses (Goodfellow §8.2). One remedy is to start from several different points and keep the best result. Others, such as **momentum** (Goodfellow §8.3.2) and adaptive learning rates (Goodfellow §8.5), come with neural networks.
 
 ## 9. The effect of feature scaling
 
@@ -193,7 +203,7 @@ With two inputs, the shape of the loss depends on the scale of the inputs. Figur
 
 ![The effect of scaling the inputs on gradient descent](images/scaling_effect.png)
 
-- **Unscaled:** the contours are long, narrow ellipses. The learning rate must be small to avoid blowing up in the steep direction, which makes progress along the flat direction very slow. After 40 steps the weights are still 2.8 away from the best values.
+- **Unscaled:** the contours are long, narrow ellipses. The learning rate must be small enough to avoid overshooting in the steep direction, and that is usually too small to make real progress in the flat direction (Goodfellow §4.3.1). After 40 steps the weights are still 2.8 away from the best values.
 - **Standardised:** the contours are nearly circles, the slope points straight at the minimum, and 40 steps reach it.
 
 This is why inputs should be scaled (standardisation or normalisation, from the feature scaling Notes) before using gradient descent.
@@ -207,13 +217,18 @@ This is why inputs should be scaled (standardisation or normalisation, from the 
 | Slope for $m$ | $-2\sum (y_i - m x_i - b)\,x_i$ |
 | Learning rate $\eta$ | too small: slow; too large: overshoots and diverges |
 | Stopping | fixed number of epochs, or tiny steps |
-| Convex loss | one minimum, always found (linear regression) |
+| Convex loss | every local minimum is the global one (linear regression) |
 | Non-convex loss | local minima, plateaus, saddle points can trap it |
 | Feature scaling | round contours, faster convergence |
 
 - Gradient descent works for any differentiable loss, which is why it powers most of ML.
 - On linear regression it reproduces OLS closely: slope 28.16 against 28.13 here.
 - The steps shrink by themselves near the minimum, because the slope shrinks.
+
+## Sources
+
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org).
+- **Boyd and Vandenberghe**: S. Boyd and L. Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004.
 
 ## 11. Key terms
 

@@ -115,9 +115,11 @@ Stacking in the strict sense uses the idea of K-fold cross-validation ([pipeline
 
 Note the order: the meta-model is trained first (step 3), the final base models afterwards (step 4).
 
-Compared with blending, nothing is thrown away: every row of D_train trains the final base models, and every row also gives the meta-model one example. The price is K times more training. This is the approach most libraries implement.
+Compared with blending, nothing is thrown away: every row of D_train trains the final base models, and every row also gives the meta-model one example. The price is K times more training. This is the approach most libraries implement, and the one described in the textbooks: the meta-model learns from cross-validated predictions (ESL §8.8; Wolpert 1992).
 
-> **Extra:** The meta-model learns from predictions of models trained on 3/4 of the data, but at prediction time it receives predictions of models trained on all of it. Those are slightly better, so the meta-model's inputs are a little more reliable than the ones it learned from. In practice this mismatch is small, and it is the reason a larger K (5 or 10) is usually preferred.
+The intuition: blending is like a student who keeps 20 of 100 practice questions locked away for a mock test, while K-fold stacking lets every question serve both for practice and for a mock test, just at different times. When data is scarce, K-fold cross-validation makes better use of it than one hold-out set (ESL §7.10.1). Section 9.3 shows the gain on the heart data.
+
+> **Extra:** The meta-model learns from predictions of models trained on $(K-1)/K$ of the data, but at prediction time it receives predictions of models trained on all of it. A larger K trains each copy on more observations (rows), so the two kinds of prediction are closer. On 3,000 synthetic observations the Notebook (section 9) finds the difference small: the random forest's out-of-fold log loss is 0.238 with K = 2 and 0.215 with K = 10.
 
 ## 8. Stacking in several layers
 
@@ -160,7 +162,7 @@ With `passthrough=True`, the meta-model's input row would hold the three predict
 
 > **Key point:** 303 patients, 13 inputs, a target of 1 (heart disease) or 0 (none); 242 patients train the models and 61 test them.
 
-The data has 303 patients with 13 medical inputs (age, sex, chest-pain type, resting blood pressure, cholesterol and so on). The target is 1 for 165 patients with heart disease and 0 for 138 without. We split it 80/20 with `random_state=8`: 242 patients for training and 61 for testing.
+The data has 303 patients; each patient is one **observation** (one row of the table). Each patient has 13 medical **features**, the input variables (age, sex, chest-pain type, resting blood pressure, cholesterol and so on). The **target**, the output we predict, is 1 for 165 patients with heart disease and 0 for 138 without. We split it 80/20 with `random_state=8`: 242 patients for training and 61 for testing.
 
 ### 9.2 The stack
 
@@ -211,7 +213,7 @@ Figure 5 compares, with the scaled KNN:
 - **StackingClassifier** (10 folds): 0.869;
 - **StackingClassifier with `passthrough=True`** (16 inputs to the meta-model): 0.852.
 
-Blending is the weakest here: with only 242 training rows, holding 49 out hurts both the base models and the meta-model. On a test set this small, soft voting beating stacking by one patient says little. Stacking pays off most with many rows and base models that are good in different places.
+On a test set this small, one split cannot rank the methods: soft voting beating stacking by one patient says little. The blending versus stacking question needs many splits, which section 9.4 runs.
 
 > **Python:** Out-of-fold predictions by hand.
 >
@@ -229,6 +231,20 @@ Blending is the weakest here: with only 242 training rows, holding 49 out hurts 
 >
 > `cross_val_predict` returns, for every training row, the prediction of the copy of the model that did not train on that row's fold: exactly the column of Figure 3. `[:, 1]` keeps the probability of class 1.
 
+### 9.4 Stacking beats blending when data is limited
+
+> **Key point:** Averaged over 100 random splits, K-fold stacking beats blending on the heart data, and the gain is largest when we have the fewest patients: 3.5 points of accuracy with 60 training patients.
+
+Blending gives up data twice: its base models train on only 80% of the training rows, and its meta-model learns from only the other 20%. K-fold stacking uses every row for both. The less data we have, the more those lost rows hurt.
+
+To see it, we change only the training size: 60, 120 or 242 patients for training, the rest for testing. Both methods use the same three base models (with scaled KNN) and the same logistic regression meta-model; stacking uses 5 folds. We repeat each size on 100 random splits and average the test accuracy (Notebook, section 8).
+
+![Mean test accuracy of blending and K-fold stacking on the heart data, for 60, 120 and 242 training patients, averaged over 100 random splits](images/blend_vs_stack.png){height=40%}
+
+Figure 6 shows the result. With 60 training patients, stacking reaches 0.787 and blending 0.753, a gain of 3.5 points. With 120 patients the gain is 1.2 points (0.814 against 0.801). With all 242 patients both methods are close (0.815 against 0.812): with more data, the 20% that blending holds out matters less. The result matches the textbook advice: use cross-validation instead of a single hold-out set when data is scarce (ESL §7.10.1).
+
+> **Extra:** The gain is an average, not a guarantee on every split. With 60 training patients, stacking scores higher on 74 of the 100 splits, ties on 5 and loses on 21; the standard error of the mean gain is 0.6 points. With 242 patients the mean gain, 0.3 points, is no larger than its standard error (0.3 points), so on this data the two methods are level once the training set is that big.
+
 ## 10. Summary
 
 | | Basic recipe | Blending | Stacking (K-fold) |
@@ -237,14 +253,21 @@ Blending is the weakest here: with only 242 training rows, holding 49 out hurts 
 | Honest inputs for the meta-model | no: overfit models look perfect | yes | yes |
 | Rows used by the base models | all | only the training part | all (final refit) |
 | Training cost | one fit per base model | one fit per base model | K + 1 fits per base model |
-| Heart data, test accuracy | 0.852 | 0.820 | 0.869 |
+| Heart data, test accuracy (one split) | 0.852 | 0.820 | 0.869 |
+| Heart data, 60 training patients (mean of 100 splits) | | 0.753 | 0.787 |
 
 - Stacking feeds the base models' predictions to a meta-model, which learns how to combine them.
 - Unlike bagging and boosting, the base models are different algorithms, and the combiner is trained, not a fixed rule.
 - Predicting the training rows passes the base models' overfitting to the meta-model; a hold-out set (blending) or K-fold out-of-fold predictions (stacking) fix this.
 - In K-fold stacking the meta-model is trained first, then the base models are refitted on all of D_train.
+- K-fold stacking uses the data better than blending; on the heart data it beats blending by 3.5 points with 60 training patients, and the gain shrinks as data grows.
 - Stacks can have several layers; with blending, each layer needs its own hold-out set.
 - `StackingClassifier` and `StackingRegressor` take `estimators`, `final_estimator`, `cv`, `stack_method` (classifier) and `passthrough`.
+
+## Sources
+
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 7.10.1 (K-fold cross-validation when data is scarce) and section 8.8 (stacking with cross-validated predictions).
+- Wolpert, D. H. (1992). Stacked generalization. *Neural Networks*, 5(2), 241–259.
 
 ## 11. Key terms
 

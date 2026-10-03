@@ -42,7 +42,7 @@ A **TSV file** (tab-separated values) is the same thing with a tab between value
 
 Every CSV file in this Note is read with one function, `pd.read_csv`. Called with only a file name, it assumes a well-behaved file: commas between values, column names on the first line, UTF-8 text, and the same number of values on every line.
 
-Real files break these assumptions. The function's **parameters** (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation lists about fifty; this Note covers the fifteen or so that solve the common problems.
+Real files break these assumptions. The function's **parameters** (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation lists 44 of them in pandas 3.0; this Note covers the fifteen or so that solve the common problems.
 
 ![What each read_csv parameter controls](images/parameter_map.png)
 
@@ -310,7 +310,7 @@ When we see this error, we have two options:
 1. Find out the file's encoding and pass it in `encoding`.
 2. Open the file in a text editor (such as Sublime Text or VS Code) and save it again as UTF-8. Characters that cannot be converted may turn into blanks or odd symbols.
 
-> **Extra:** `latin-1` maps every possible byte to some character, so it never raises this error. That does not mean the text comes out right. In our file, a restaurant called "Café Daniel Briand" shows up as "Cafí© Daniel Briand", because the file's text was already garbled before it was saved. If letters look wrong after loading, try other common encodings such as `"cp1252"` (Windows) and compare.
+> **Extra:** `latin-1` maps every possible byte to some character (Python docs, `codecs`), so it never raises this error. That does not mean the text comes out right. In our file, a restaurant called "Café Daniel Briand" shows up as "Cafí© Daniel Briand", because the file's text was already garbled before it was saved: after "Caf" the file holds the bytes `ED A9`, which are neither the latin-1 "é" (`E9`) nor the UTF-8 "é" (`C3 A9`). If letters look wrong after loading, try other common encodings such as `"cp1252"` (Windows) and compare.
 
 ## 13. Skipping bad lines (on_bad_lines)
 
@@ -340,7 +340,7 @@ The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line spl
 
 The result has 4 books: the broken line is gone.
 
-> **Extra:** Older code writes `error_bad_lines=False`. That parameter was replaced by `on_bad_lines` in pandas 1.3 and removed in pandas 2, so it now raises a `TypeError`. Skipping is the quick fix; if many lines are bad, it is worth looking at them, because the real problem may be a wrong `sep`.
+> **Extra:** Older code writes `error_bad_lines=False`. That parameter was replaced by `on_bad_lines` in pandas 1.3 and removed in pandas 2 (pandas release notes), so it now raises a `TypeError`. Skipping is the quick fix; if many lines are bad, it is worth looking at them, because the real problem may be a wrong `sep`.
 
 ## 14. Choosing column types (dtype)
 
@@ -364,7 +364,7 @@ In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0`
 | Before | float64 | 8 | 8,000 bytes |
 | After | int8 | 1 | 1,000 bytes |
 
-> **Extra:** `dtype={"target": int}` also works, but on most computers `int` means `int64`, which takes the same 8 bytes as `float64`, so it saves nothing. `int8` holds whole numbers from -128 to 127, plenty for 0 and 1. The saving matters for files with millions of rows.
+> **Extra:** The plain Python type also works, as in `dtype={"target": int}`, but on most computers `int` means `int64`, which takes the same 8 bytes as `float64`, so it saves nothing. `int8` holds whole numbers from -128 to 127, plenty for 0 and 1. The saving matters for files with millions of rows.
 
 > **Extra:** In pandas 3, text columns get the dtype `str`. Older pandas (and older tutorials) show them as `object`.
 
@@ -402,7 +402,7 @@ Sometimes the day, month and year sit in three separate columns. Older pandas co
 >
 > `pd.to_datetime` builds dates from columns named `year`, `month` and `day`.
 
-> **Extra:** Combining columns inside `parse_dates` (a nested list or a dictionary) was deprecated in pandas 2.2 and removed in pandas 3.0. So was the `date_parser` parameter; to give a date layout such as day/month/year, use `date_format="%d/%m/%Y"`.
+> **Extra:** Combining columns inside `parse_dates` (a nested list or a dictionary) was deprecated in pandas 2.2 and removed in pandas 3.0. The `date_parser` parameter is gone too: deprecated in pandas 2.0, removed in 3.0 (pandas release notes). To give a date layout such as day/month/year, use `date_format="%d/%m/%Y"`.
 
 ## 16. Transforming values while reading (converters)
 
@@ -517,6 +517,11 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 - `pd.read_csv` reads it into a DataFrame; each parameter fixes one way a real file differs from that ideal.
 - Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the header line.
 - In pandas 3, `squeeze`, `error_bad_lines` and date-combining in `parse_dates` are gone; use `.squeeze("columns")`, `on_bad_lines` and `pd.to_datetime`.
+
+## Sources
+
+- pandas release notes. What's new in 1.3.0, 2.0.0, 2.2.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.
+- Python documentation. `codecs`: Standard Encodings. docs.python.org.
 
 ## 20. Key terms
 

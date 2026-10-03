@@ -108,7 +108,7 @@ When the inputs are independent, the naive product matches. When $x_2$ simply re
 
 Figure 2 shows the effect on the cricket prediction: each extra copy of the "toss" column pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
 
-In practice, Naive Bayes often still picks the right class even when its independence assumption is wrong, because only the **order** of the scores matters for the prediction. Its probabilities, however, tend to be too extreme, so they should not be trusted as exact.
+In practice, Naive Bayes often still picks the right class even when its independence assumption is wrong, because only the **order** of the scores matters for the prediction. Its probabilities, however, tend to be too extreme, so they should not be trusted as exact (Domingos and Pazzani 1997; scikit-learn user guide §1.9).
 
 > **Extra:** Multiplying many probabilities, each below 1, produces very small numbers (the log loss Note). Implementations therefore add logarithms instead: $\log P(C_k) + \sum_i \log P(x_i \mid C_k)$. The largest sum identifies the same class.
 
@@ -122,7 +122,12 @@ In practice, Naive Bayes often still picks the right class even when its indepen
 | Formula | $P(C_k) \prod_i P(x_i \mid C_k)$ |
 | MAP rule | predict $\arg\max_k$ of the formula |
 
-## 9. Key terms
+## 9. Sources
+
+- **Domingos and Pazzani 1997:** Domingos, P. and Pazzani, M. "On the Optimality of the Simple Bayesian Classifier under Zero-One Loss." *Machine Learning* 29, 103–130, 1997.
+- **scikit-learn user guide:** Section 1.9, "Naive Bayes", scikit-learn 1.9.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

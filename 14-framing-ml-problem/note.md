@@ -82,7 +82,7 @@ more customers stay, and keep paying, every month.
 
 So we leave the meeting with a clear goal. In our mind, the task is no longer "increase revenue"; it is "churn rate from 4% to 3.75%".
 
-> **Extra:** Netflix does not publish its churn rate. The 4% here is an assumed figure for the example. Outside estimates exist, but they vary with the country, the year and the method.
+> **Extra:** Netflix does not publish its churn rate (Shapiro 2023). The 4% here is an assumed figure for the example. Outside estimates come from analytics firms such as Antenna, which put the average monthly churn of the big US streaming services at about 5 to 6% in 2022 and 2023 (Antenna, reported in Shapiro 2023).
 
 ## 5. Step 2: Type of problem
 
@@ -129,7 +129,7 @@ Then a colleague asks: why treat everyone who might leave the same? Some custome
 
 So instead of yes or no, we predict, for each customer, **how likely they are to leave**, as a score from 0 to 100%. The higher the score, the larger the discount. Because the output is now a number, we treat this as a **regression** problem.
 
-> **Extra:** In practice, this task is usually still built as **binary classification** (leaves or stays). Most classifiers, such as logistic regression (Note 13), can output a probability for each class instead of only a label. That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
+> **Extra:** In practice, this task is usually still built as **binary classification** (leaves or stays). Most classifiers, such as logistic regression (Note 13), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn's `predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
 
 The framing changed as we thought more about the end product. This is normal: framing is a thinking process, not a fixed formula.
 
@@ -245,6 +245,11 @@ The same habit is what separates people over time. Of the thousands of freshers 
 - The **end product** decides the type of problem: here, a score that sets the size of a discount.
 - Find out what **already exists**, which **data** is needed, and how success will be **measured**, before building.
 - **Check assumptions** early: mistakes found late are expensive.
+
+## Sources
+
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer.
+- Shapiro, E. (2023). Churn, Baby, Churn. *Media War & Peace* (newsletter), eshap.substack.com.
 
 ## 13. Key terms
 

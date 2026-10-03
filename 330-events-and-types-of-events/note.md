@@ -209,7 +209,7 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 | $\{1, 2, 3, 4\}$, $\{3, 4, 5, 6\}$ | no (share 3, 4) | yes |
 | $\{1, 2, 3\}$, $\{3, 4, 5\}$ | no (share 3) | no (6 missing) |
 
-> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition, which is why the Bayes' theorem Notes can split a probability into one term per class.
+> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The **law of total probability** needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then $P(A) = \sum_i P(A \mid B_i)\,P(B_i)$ (Orloff and Bloom, MIT 18.05 *Introduction to Probability and Statistics*, Class 3 notes, Spring 2022, section "Law of total probability"). That is why the Bayes' theorem Notes can split a probability into one term per class. The card calculation of section 4.4 is one case: "spade first" and "not spade first" partition the first draw, and $\frac{13}{52} \cdot \frac{12}{51} + \frac{39}{52} \cdot \frac{13}{51} = \frac{1}{4}$.
 
 ### 4.7 Impossible and sure events
 

@@ -68,7 +68,7 @@ $$\text{find } u \text{ with } \lVert u \rVert = 1 \text{ that makes } \sigma^2(
 
 This is PCA's objective function. Solving it needs optimisation methods covered later; here we jump to the answer. To understand the answer, we need two ideas first: covariance and eigenvectors.
 
-> **Extra:** The standard derivation rewrites $\sigma^2(u)$ as $u^{\mathsf T} C u$, where $C$ is the covariance matrix of Section 3. Maximising $u^{\mathsf T} C u$ under the condition $u^{\mathsf T}u = 1$ (with a method called Lagrange multipliers) gives exactly $C u = \lambda u$: the eigenvector equation of Section 4.
+> **Extra:** The standard derivation rewrites $\sigma^2(u)$ as $u^{\mathsf T} C u$, where $C$ is the covariance matrix of Section 3. Maximising $u^{\mathsf T} C u$ under the condition $u^{\mathsf T}u = 1$ (with a method called Lagrange multipliers) gives exactly $C u = \lambda u$: the eigenvector equation of Section 4 (Bishop, §12.1.1).
 
 ## 3. Covariance and the covariance matrix
 
@@ -151,7 +151,7 @@ Figure 4 applies the matrix $A = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix}$ t
 2. $(1, 0)$ (green) becomes $(3, 0)$: same line, 3 times longer.
 3. $(-1, 1)$ (green) becomes $(-2, 2)$: same line, 2 times longer.
 
-Vectors that stay on their own line are the **eigenvectors** of the matrix. The factor by which each one is stretched is its **eigenvalue**: 3 for $(1, 0)$ and 2 for $(-1, 1)$. In two dimensions there are two eigenvector directions, in three dimensions three, and so on.
+Vectors that stay on their own line are the **eigenvectors** of the matrix. The factor by which each one is stretched is its **eigenvalue**: 3 for $(1, 0)$ and 2 for $(-1, 1)$. A $2 \times 2$ matrix has at most two eigenvector directions, a $3 \times 3$ matrix at most three, and so on. Some have fewer (a rotation turns every vector, so it has none), but a covariance matrix always has the full number (Section 4.3, Extra).
 
 In words: applying the matrix to an eigenvector is the same as multiplying it by a plain number, its eigenvalue.
 
@@ -167,7 +167,7 @@ so $\lambda = 2$. An eigenvalue can also be negative (the vector flips to point 
 
 > **Key point:** The eigenvector of the covariance matrix with the largest eigenvalue points along the greatest spread of the data. That eigenvector is PC1, and its eigenvalue is the variance along it.
 
-This is the result that solves PCA's objective from Section 2. Use the covariance matrix as the transformation and find its eigenvectors:
+The top eigenvector of the covariance matrix solves PCA's objective from Section 2 (Bishop, §12.1.1). Use the covariance matrix as the transformation and find its eigenvectors:
 
 - The eigenvector with the **largest eigenvalue** points in the direction of greatest variance. It is the first principal component.
 - Its **eigenvalue** equals the variance of the data projected onto it.
@@ -183,7 +183,7 @@ The first eigenvector points at 45°, exactly the direction the previous Note fo
 
 So instead of trying every angle, PCA computes the eigenvectors of one matrix. This works the same way with 3, 10 or 1,000 columns.
 
-> **Extra:** A covariance matrix is symmetric, which guarantees that its eigenvectors are at right angles to each other and that all its eigenvalues are 0 or positive. That is why the principal components form a proper new set of axes.
+> **Extra:** A covariance matrix is symmetric, and a symmetric $d \times d$ matrix always has $d$ eigenvectors at right angles to each other (Strang, §6.4). Its eigenvalues are never negative, because each one is a variance: for an eigenvector $u$, $\lambda = u^{\mathsf T} C u$, the variance of the projections onto $u$ (Section 2.3, Extra). These two facts make the principal components a proper new set of axes.
 
 ## 5. PCA in five steps
 
@@ -211,7 +211,7 @@ With shapes: $X$ has 40 rows and 3 columns; $W^{\mathsf T}$ has 3 rows and 2 col
 
 For 1D instead, $W$ has one row, $W^{\mathsf T}$ is $3 \times 1$ and $Z$ is $40 \times 1$. The output column, if there is one, is copied across unchanged: PCA only transforms the inputs.
 
-> **Extra:** Mean centring is sometimes called optional, but in practice it is needed. `np.cov` centres the data internally, so the covariance matrix and the principal components are the same either way. The projection $XW^{\mathsf T}$, though, only gives centred coordinates if $X$ itself was centred. scikit-learn's `PCA` always centres for us.
+> **Extra:** Mean centring matters for the projection, not for the components. `np.cov` centres the data internally, so the covariance matrix and the principal components are the same either way. The projection $XW^{\mathsf T}$, though, only gives centred coordinates if $X$ itself was centred. scikit-learn's `PCA` always centres for us.
 
 ## 6. PCA by hand in Python
 
@@ -270,7 +270,7 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 >
 > The columns of `Z_sk` equal those of `Z`, possibly with the sign flipped: an eigenvector and its negative lie on the same line.
 
-> **Extra:** Here the variances are computed by dividing by $n - 1$ (as `np.cov` and scikit-learn do), not by $n$ as in the formulas above. With 40 points the difference is small, and it never changes which direction is PC1.
+> **Extra:** Here the variances are computed by dividing by $n - 1$ (as `np.cov` and scikit-learn do), not by $n$ as in the formulas above. With 40 points the difference is small, and it never changes which direction is PC1: it only scales the whole covariance matrix by $n/(n-1)$, so every eigenvalue grows by the same factor and the eigenvectors stay the same.
 
 ## 7. Summary
 
@@ -289,7 +289,13 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 - The covariance matrix's top eigenvector is PC1; its eigenvalue is the variance along PC1.
 - Eigenvectors are the columns of NumPy's output: sort them and take `vectors[:, :k]`.
 
-## 8. Key terms
+
+## 8. Sources
+
+- Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*, Section 12.1.1, "Maximum variance formulation". Springer.
+- Strang, G. (2016). *Introduction to Linear Algebra*, 5th edition, Section 6.4, "Symmetric matrices". Wellesley-Cambridge Press.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -1,0 +1,437 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we will increase our deep learning playlist
+We have already done a lot of things
+In this video we will see one thing that
+The gradient descent we used to apply in back propagation algorithm
+It has three variants
+I guess you already know
+One is batch gradient descent, one is stochastic gradient descent
+And one is mini batch gradient descent
+We have not discussed about these three yet
+In this video, I will give you detailed information about these three so that you can understand what is the difference between these three and when and whom to use.
+I will also show you some examples through code.
+So let's start the video.
+So let's start our discussion about gradient descent.
+First of all, let's read what is gradient descent.
+I know you already know it but let's see a definition.
+so gradient descent is one of the most popular algorithms to perform optimization and by far the
+most common way to optimize neural networks so we already know that it is basically an
+optimization algorithm okay the most optimized solution is the way to find it okay now see how
+gradient descent works it is written here gradient descent is a way to minimize an objective function
+J theta is our loss function. It is written here that gradient descent is a way to minimize
+our loss function. We have to minimize our loss function. Parameterized by our model's
+parameter. If you are talking about neural network then loss function of all weights
+all the weights and biases. So it is written here. By updating the parameters in the opposite
+direction of the gradient of the objective function. I had told you in the last video
+that if this is your graph of the loss function with respect to let's say B which is a parameter
+of your algorithm then what you do is you move towards the negative of the slope to
+get to the minimum point. This is what you do. So it is written here. There is one more
+thing called the learning rate so what you do is you multiply by the learning rate sorry
+what did I draw? you multiply by the learning rate so learning rate is basically rate of
+its basically rate or step you can say towards the minimum ok here it is written the learning
+rate determines the size of the step we take to reach our minimum in other words we follow
+direction of the slope of the surface created by the objective function downhill until we reach a
+valley. I have told you all these things and I have just written it here in a very formal way.
+Now let's discuss once where gradient descent is used in the neural network. If you remember,
+I had shown you this algorithm in the back propagation videos. This is our back propagation
+algorithm where you decide the number of epochs, every time in epoch you pick up one point of your training data
+for that one point you do prediction using forward propagation, calculate loss and update your weights using this equation
+and when epoch completes then you calculate average loss over that epoch
+so this whole implementation is basically gradient descent
+gradient descent. This whole update rule is gradient descent. So gradient descent is extremely
+important and what we have to do in this video is that we have to understand that gradient
+descent has 3 flavors, 3 types. First is batch, second is stochastic and third is mini batch.
+we will read these three in detail and see how the back propagation algorithm changes
+so we will start our discussion with batch and stochastic
+and when we will understand this discussion then we will understand the third one mini batch
+because this is the thing between these two
+so after understanding these two you will be able to understand mini batch better
+So let's start our discussion around Batch and Stochastic Gradient Descent.
+Now before reading Batch and Stochastic, let's read this line.
+Here it is written that there are three variants of gradient descent which I just told you
+which differ in how much data we use to compute the gradient of the objective function.
+Here it is written that in all three gradient descent algorithms, you have to calculate these gradients.
+Derivatives have to be calculated, but on the basis of how much data you are using to calculate these derivatives, three types are formed.
+Here it is written that depending on the amount of data, we make a trade-off between the accuracy of the parameter update and the time it takes to perform an update.
+Accuracy and time is a trade-off of these three variants.
+If you are not able to understand it properly, then let me explain it to you.
+Let's first focus on batch gradient descent.
+It is also called vanilla gradient descent because it is the most normal gradient descent.
+Whenever someone says gradient descent, you have to understand batch gradient descent.
+Listen carefully.
+What happens in batch gradient descent is that you take the entire dataset and then you make an update.
+Let me explain this again on this algorithm.
+We ran it for 5 epochs and in each epoch we were taking 1 point at a time.
+then for that one point we were taking prediction and for that one point we were taking loss
+and then we were updating the weight
+so this means that if we have 50 points in our data
+then in a single epoch we are updating all our weights and biases 50 times
+this is the meaning of this
+But batch gradient descent doesn't work like this. This is not batch gradient descent.
+Let me tell you what will happen in batch gradient descent.
+So in batch gradient descent, suppose your epoch is 5.
+So you will run a loop. This outer loop will run. It will rotate 5 times.
+Now what will you do inside? You will not run this loop inside.
+In fact, what you will do is, you will do prediction on all your 50 points at the same time.
+You will take 50 points, you have current weights.
+You will use the value of current weight to calculate the value of 50 points at the same time using dot product.
+you will use dot product here so basically you will write np dot here all your x will be here all your weight will be here and bias will be here
+i hope you are getting it and at the same time you will get a complete array of y hat which will have 50 predictions
+and you already had y in which there was 50 actual data, actual outcome
+what you will do is, by using this y and this y hat you will calculate the loss
+and this time your loss will be this loss, sigma from 1 to 50
+you will calculate this loss and then on the basis of this loss
+you will update your weights and biases once and for all
+I hope you are able to understand this
+what will happen in batch gradient descent
+if you have 5 epochs
+then in these 5 epochs you will only update your weights and biases 5 times
+I will tell you once again
+I will tell you by writing pseudo code
+what will be the pseudocode
+look carefully
+this is for batch gradient descent
+you will take an epoch value
+suppose epoch value is 10
+now you will run a loop
+for i
+in range of
+10
+now what will you do inside
+you will take your entire data set
+and you will calculate y hat
+basically for every row
+you will take prediction together
+using dot product, here send your full x, here send w, here send b, this y hat will
+have 50 values, because in your data there are 50 rows, now you will also have y, in
+which again there will be 50 values, which are actual labels, now what you will do, this
+y hat and y will be calculated as loss, and this is cumulative loss of 50 points, now
+After that you will update all your weights and biases using this rule.
+w new is equal to w old minus learning rate times del l by del w.
+And then you will print the loss of this epoch.
+Then you will enter here and repeat the process.
+what will happen is that total 10 times you are updating your weights and biases
+so here you can simply say that how many times weight update will happen
+as much as your epochs
+this is the funda of this whole thing
+see here the pseudocode of this thing is written which I have just told you
+for i in the range of epochs
+what are you doing
+you are calculating all the gradients
+only once
+and then you are updating weight
+once
+so in total the number of epochs will be the number of updates
+so remember here that
+the number of epochs
+will be equal to the number of updates
+I hope you understand this
+now let's talk about
+stochastic gradient descent
+this is the gradient descent which I have told you
+here what I told you earlier is actually stochastic gradient descent
+let's discuss it
+So how Stochastic gradient descent works exactly is that you decide Epoch, suppose Epoch is 10
+Now you run a loop for i in the range of 10
+Now what you do here is that you shuffle your data
+shuffle and take one point randomly
+one point randomly
+for that point you calculate y hat
+and then for that point you calculate loss
+ok
+and after that what you do
+actually I made a small mistake
+let me show you what we do exactly
+once I am going back
+we decide an epoch value
+then we will run one more loop in it for i in the range of x to 0
+means if there are 50 rows in your data then the inner loop will run 50 times
+outer loop will run 10 times total it will be 15 to 10 500 times
+now what do you do every time? you do shuffling here
+then you take out one random point
+I guess you can do shuffling operation here also
+inside the outer loop
+outside the inner loop, here you can shuffle
+and because shuffling is a costly operation
+so it is difficult to shuffle 500 times every time
+So you draw one random point, take out its y-hat using forward propagation.
+After that you calculate its loss and then you update its weights and bias using this.
+And then you do this 50 times and then out of the inner loop, you print the loss, average loss for the epoch.
+This is stochastic gradient descent.
+So if someone asks you that if there are 10 epochs and you have 50 rows, then tell me how many times will the weight update happen?
+so the answer is 10x50 times 500 times weight is getting updated whereas here only number of epoch time is getting updated
+always remember in stochastic gradient descent the frequency of weight update is more this is the biggest difference
+I will write here that frequency of rate update is higher
+also you randomize things, you shuffle things
+the reason for that is that you want to eliminate any kind of bias
+that is why you do this
+So I hope you understood the biggest difference between these two.
+I am summarizing it once.
+What does batch gradient descent do?
+It calculates the gradient once for all the data points in each epoch.
+And updates the weight and bias.
+Whereas stochastic gradient descent updates the weight in each epoch in number of row times.
+So number of weight updates are more in stochastic gradient descent.
+So guys now we will try to understand the difference between batch gradient descent and stochastic gradient descent.
+And to understand that we will answer some questions.
+Like there is a question that who is fast in both.
+Like who will take less time given same number of epochs.
+Suppose you are running batch gradient descent for 10 epochs and stochastic gradient descent for 10 epochs.
+Who will do his work first? I guess you understand the answer that batch gradient descent will be done first.
+The reason is that you have to take number of updates. Suppose you have decided the value of epoch as 10.
+So in the case of batch gradient descent, you will have to take the number of updates as 10.
+But in the case of stochastic gradient descent, you will have to take 10n updates where n is the number of rows in your data.
+So the more updates, the more time it will take to convert the algorithm.
+I will show you this point with the help of a code.
+I have already written a code here, so this is a data set where there are two columns, these two columns are age and estimated salary
+and I have to tell whether that customer is buying that stuff or not, I have separated x and y here, also applied standard scaler
+it is always said that your inputs should be kept on the same scale, here the inputs are on a very different scale
+After that, I took out X train, X test, basically I split train test, here I made a model in which there are 4 layers, input 1, 2 hidden, and 1 output.
+And after that, I wrote this much code in model.compile. Binary cross entropy is my loss function because it is a classification problem, it is metric accuracy.
+and here in model.fit there is a parameter batch size
+in which I have kept 320, why I have kept 320, because here the shape of my x-train is 320
+so always remember in batch size if you are keeping 320 or if you are keeping n
+if the value of batch size is n, n is basically the number of rows in your data
+So, you are doing batch gradient descent. If you are putting 1 here, then it becomes stochastic gradient descent.
+If you put 320 in batch size, then you have to make only one batch which has 332 rows.
+And if you put 1 in batch size, then you are asking to make 320 batches of each row.
+So, I hope you are understanding. You have to remember this simple thing.
+If you give n in batch size, then that batch gradient will be descent
+And if you give 1, then that stochastic gradient will be descent
+So now this setup is of batch gradient descent
+What I did, I measured the time before training and after training
+And as soon as I run this code, I will run this code and show you
+This is my model summary
+And this is my model train
+See, train happened quickly
+In every epoch, weight has been updated once
+And how much time it took? 0.95 seconds. Now I will run this same model again but this time instead of batch gradient descent, I will use stochastic gradient descent.
+Everything is same. This time it is taking a little more time. It took around 10 seconds. Also notice that in every epoch 320 times weight was updated.
+Last time it was written 1 by 1, this time it is written 320 by 320 because internally you are updating the weights 320 times.
+So I hope you got the answer to this question that given same number of epochs, who is fast?
+Batch gradient descent.
+Let's try to answer one more question that if we run batch gradient descent and stochastic gradient descent for equal number of epochs,
+then which algorithm will converge towards the solution faster?
+Means, which algorithm will remove the correct values of weight and bias first?
+I hope you also know the answer to this.
+In this case, the answer will be stochastic.
+Why stochastic?
+Because stochastic takes more number of updates in same number of epochs.
+So by taking more number of updates, you will move towards solution very fast.
+Let me show you, I can show you this also.
+So same code, everything is same.
+This time what I have done is that I have not split train test.
+I am training whole x, everything is same.
+I am training whole x.
+I sent x scaled, I sent y complete.
+And I kept batch size 400.
+because the size of xScaled is 400 rows, if you see once, if you do xScaled.shape, you would get 400,2,
+so everything is same, here I have given a validation split that 20% of the data will be separated
+and on that we will take out validation accuracy, notice, as soon as I run this code, see,
+after last epoch your validation accuracy is 0.65
+this is batch gradient descent case
+now we go back and make this model again
+and this time we will keep batch size as 1
+we will make it stochastic
+now we run it for 10 epochs
+and see this guys validation accuracy is around 0.95
+so you can see that in same number of epochs
+the convergence is faster for stochastic
+stochastic will not require as many epochs as batch gradient descent requires
+so if we summarize then this whole thing means that
+if you are running for equal number of epochs
+then batch gradient descent will do its work quickly.
+But stochastic doesn't need that much number of epochs
+because number of updates are more,
+so it will do its work in less number of epochs.
+So that's why kids get a little confusion.
+In some places they get written that stochastic is the fastest.
+Then in some places it is said that no, batch is faster.
+So this is to be understood.
+that how much time it takes to complete epochs, in that batch is faster but to reach solution stochastic is faster
+I hope you understood this thing, so guys now I will tell you one more interesting point of difference
+between batch gradient descent and stochastic gradient descent, so what I did, I trained stochastic gradient descent
+you can see batch size 1 for 500 epochs for a long time and when I completed this training
+then I plotted the loss you can see loss eventually as the epochs are increasing it is decreasing
+which should happen but can you see there is this spiky nature there is this jaggedness
+it is going up and down, showing unstable behavior, so I got to see this in Stochastic Gradient Descent.
+But if I did the same thing when I kept batch size 400, means on batch gradient descent,
+so I plotted the same graph, so this was it. Here also loss is decreasing eventually, but there is no jaggedness,
+So this is one more point of difference that your loss function reduces in a very unstable way in stochastic gradient descent and in a very stable way in batch gradient descent.
+Now we will understand what is the reason behind this behavior.
+The reason behind this behavior is very easy to understand.
+If you remember, what do we do in Stochastic Gradient Descent?
+Every time, we randomly pick a point and update it according to that point.
+Whereas, if you talk about batch, you ask all the points and then update it once.
+so the decision making of where to go is done by just one random point
+whereas the whole data set is doing the decision making
+so if you want to visualize this behavior in a better way
+then let's assume that this is the graph of our loss function
+in 3D
+this is the minima
+what I have to do is if I am starting from any random point
+suppose I am starting from here, then I have to reach here eventually
+ok, so now what will happen
+that the batch gradient descent will come down in a very smooth way
+in this valley
+whereas your stochastic gradient descent
+will run as if someone has drunk alcohol
+I hope you are understanding
+and will try to reach this point in a very strange way
+I have shown the same thing by converting it to 1D
+this is basically projection
+this is your minimum center
+you have to reach here
+this is batch gradient descent
+you are starting from here
+and very smoothly
+you are reaching in every epoch
+whereas here
+you are showing this kind of nature
+and eventually you are reaching at point
+I hope you understand
+now a very interesting question arises
+that this
+is this jaggedness or spiky behaviour in case of SGD is it useful, the answer is yes and
+no means this random behaviour has a benefit and a loss, I will tell you both, so assume
+for a while that your loss function is not so simple, it is a bit complex, complex means
+like there is a single minima here, suppose we have a loss function in which there are multiple minimas,
+so how will this graph be seen that in this graph there will be spots in many places, okay, the smaller the circle,
+the smaller the circle the smaller the minima
+and the bigger the circle the bigger the minima
+and your goal is to reach the biggest minima
+but sometimes what can happen is that
+from where you are starting
+because of that
+sometimes you can get stuck in local minima
+ok
+but if you are using SGD
+then since
+SGD is so randomly
+up and down
+that it is possible that if it gets stuck in
+local minima
+so it will jump out and eventually reach the global minima
+whereas if your normal batch gradient descent is there
+since it is not taking this kind of jumps, it is moving in a very smooth manner
+if it gets stuck in your local minima, it will be stuck there
+so this is the benefit that in the case of SGD
+this jaggedness and spiky behaviour helps the alg to move out of local minimas
+this is the benefit
+and the disadvantage is that it does not converge at the right place
+it comes jumping from here and stops here
+there is no convergence at the exact point where it converges
+So here we don't get exact solution, we get approximate solution.
+This is the biggest difference.
+I hope you understood this point.
+We just discussed how both algorithms traverse loss function.
+Both have fundamental difference.
+But this point is very interesting and very important.
+Next point of difference is vectorization. To understand what is vectorization, we have to go back to the logic of batch gradient descent.
+if you notice, I told you about batch gradient descent that here you have to run only one loop
+of epox
+and in epox what you are doing is that you are calculating y hat of all the rows
+but why you didn't have to run loop here
+if you think if you want to calculate all the rows
+then you should have run loop on all the rows
+but you don't run loops
+The reason is that you use dot product and dot product is a smart replacement of loops.
+This is called vectorization.
+Where we run without loop, using dot product we are performing this operation and guess what?
+It is faster than loop.
+It is faster than loop because it is optimized.
+it is faster, so that is why batch gradient descent becomes faster, but there is a downside to this vectorization technique
+because what you are doing is, if you notice, you are removing dot product of all your rows with w and adding bias in it
+now imagine x is a data set with 10 crore rows
+to do this operation you have to load all your data together in ram
+and you will not be able to load such a big data
+so this means vectorization will not be possible if you have got a very big data set
+So the advantage of vectorization is that in one go, it is a faster replacement of loops, but the downside is that it will not work on a very big data set because you have to load all the data in memory at once.
+So I hope you understood the point of difference in vectorization.
+So guys so far we have seen two types, batch gradient descent and stochastic gradient descent.
+and after reading both of them, we understood that both of them have their own advantage and their own disadvantage
+so that is why a requirement came of third type which we call mini batch gradient descent
+and this is actually middle ground, the thing between both of them, best of both worlds
+so what do you do here, here first of all, suppose you have 320 rows
+You say that I want to make small batches and every batch size will be 32
+It basically means that you are making 10 batches
+Now in every epoch you will update 10 times because there are 10 batches
+so the algorithm will be like this
+for i in epox
+for
+j in
+number of batches
+every time you will take one batch
+for that batch
+you will take
+wipe rate
+using vectorization
+you will do dot product
+ok
+and after that you will do
+and update it and you will do this number of epoch times, here its pseudocode is written
+which I have just told you, you will decide the epoch value, shuffle the data every time
+and then you will pick every batch and for that you will calculate the gradient and update
+it, this is the pseudocode, so this is neither stochastic gradient descent nor this is batch
+and batch gradient descent is between these two
+and that's why in Keras
+you have batch
+size parameter
+in this whatever number you will give
+your number of rows will be divided
+suppose this is number x and this will be your number of
+batches, the number of batches
+will be the number of updates
+per epoch. I hope you are able to understand. So, this is middle ground in every way.
+The fastest is batch gradient descent, the slowest is mini batch gradient descent
+and the slowest is stochastic gradient descent. If you talk about convergence,
+then in convergence, the slowest is batch gradient descent, in the middle is mini batch gradient descent
+and it will convert to Stochastic Gradient Descent
+its loss function curve will be
+little less spiky
+in comparison to SGD
+and here you are using vectorization
+but since you are not taking the whole dataset, you are taking smaller batches
+so there is no chance of getting stuck in RAM
+so you can see in every way mini batch gradient descent is middle ground of batch gradient descent and stochastic gradient descent
+so in keras and in general deep learning the gradient descent you use is mini batch gradient descent
+mostly
+so now that we have understood batch, stochastic and mini batch
+we will discuss one or two more questions
+specially this is a small interview question
+which was asked by one of my student
+he was asked in the interview that the batch size parameter in Keras
+generally why its value is given in 2 multiple
+generally you will notice
+on any youtube tutorial
+so batch size is like this
+so the answer to this is
+it is actually used to effectively use the RAM
+our RAM is designed in a way to handle binary values
+and what Keras does is, if you send things in multiple of 2
+then it can use the RAM very effectively
+basically it is an optimization technique
+now honestly I don't know what exactly is happening in this
+but wherever I have read, it was written that
+that when you give on 2k multiple, you use the architecture of RAM effectively to optimize your code and make it faster.
+That is why you will see mostly that things are given in 2k multiple.
+By the way, it is not necessary that you can give 10, 15 or whatever, but this is recommended.
+Before ending this video, I am discussing one last question with you and this is also a very interesting question.
+Question is, what if batch size doesn't perfectly divide the number of rows?
+It means, if you have 400 rows in total in your data, but you said batch size is 150.
+Now think, how many batches will be made? Because this is not a perfect division.
+In this case, if you notice, 2.66 batches should be made according to the division.
+But that is not possible. So, what will happen?
+First batch will be of 150, second batch will be of 150 and third batch will be of 100.
+In this case, only 3 batches will be made.
+If it is not divided perfectly, then in the last batch, training will be done with less rows.
+Let me show you.
+If you see here, I have 400 rows but I have made batch size of 150 and run 10 epochs.
+Notice that your updates are happening three times.
+First time for 150, then for 150 and then for 100.
+If I do 250 here, then what will happen now? It will be updated twice.
+See, it was updated twice.
+So I hope you understood this point too.
+So that was the video guys. I hope you liked the video and understood the things.
+If you liked it, please do like the video and please do subscribe to my channel.
+Thanks for watching. Bye!

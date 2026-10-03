@@ -156,13 +156,13 @@ and a new student is predicted "placed" when $p$ is above the threshold, usually
 
 > **Extra:** With $\lambda = 1$ (XGBoost's default) the outputs shrink much more than in regression, because the denominators $0.72$ and $0.48$ are small next to 1: the leaves give $-0.8/1.72 = -0.47$ and $0.8/1.48 = 0.54$ instead of $-1.11$ and 1.67.
 
-> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight`, which is 1 by default. Here each row contributes 0.24 and all five together only 1.2, so every possible split leaves one child below 1 (the best case is 0.48). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. On real datasets with many rows the limit is easily met. To reproduce this Note, set `min_child_weight=0`.
+> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight`, which is 1 by default. Here each row contributes 0.24 and all five together only 1.2, so every possible split leaves one child below 1 (the best case is 0.48). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. Since $p(1-p)$ is at most $0.25$ (at $p = 0.5$), every leaf needs at least 4 observations (rows) to reach 1, and more once the predictions move towards 0 or 1. To reproduce this Note, set `min_child_weight=0`.
 
 ## 11. The same in code
 
 > **Key point:** The Notebook grows the tree with NumPy and checks it against the XGBoost library: same split, same gain, same stage-2 log-odds. scikit-learn's gradient boosting classifier agrees on this first tree.
 
-> **Extra:** `GradientBoostingClassifier(loss="log_loss", n_estimators=1, learning_rate=0.3, max_depth=1)` starts from the same log-odds, 0.405, and uses the same leaf outputs with $\lambda = 0$. Its tree picks splits by the squared error of the residuals rather than by XGBoost's gain. On this first tree every row has the same $p(1-p)$, so both pick CGPA < 7.625 and give exactly the log-odds 0.072 and 0.905. From the second tree on the $p(1-p)$ values differ, and the two methods can choose different splits.
+> **Extra:** `GradientBoostingClassifier(loss="log_loss", n_estimators=1, learning_rate=0.3, max_depth=1)` starts from the same log-odds, 0.405, and uses the same leaf outputs with $\lambda = 0$. Its tree picks splits by the squared error of the residuals rather than by XGBoost's gain. On this first tree every row has the same $p(1-p)$, so both pick CGPA < 7.625 and give exactly the log-odds 0.072 and 0.905. From the second tree on the $p(1-p)$ values differ, so the two can choose different splits: XGBoost divides each leaf's $(\sum r)^2$ by $\sum p(1-p)$, the squared-error split by the number of observations. On our second tree they still agree (both split at CGPA < 5.975).
 
 > **Python:** The first tree in XGBoost, with every setting matched to this Note.
 >
@@ -206,7 +206,11 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 - The similarity score and output use $\sum p(1-p) + \lambda$ in the denominator.
 - The sigmoid turns the summed log-odds into the final probability.
 
-## 13. Key terms
+## 13. Sources
+
+- Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
+
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|

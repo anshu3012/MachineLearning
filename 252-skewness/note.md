@@ -60,6 +60,8 @@ So the order depends on the side of the tail (Figure 1):
 
 The stronger the skew, the further the mean is from the median and the mode. With little skew the three almost coincide; for a perfect normal distribution they are equal.
 
+This order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005). The order does hold for the columns of Figure 1.
+
 ## 5. The sample skewness formula
 
 > **Key point:** Sample skewness is the third moment of the standardized values, with a small correction for sample size; pandas and Excel use this version.
@@ -75,11 +77,11 @@ We worked the population version, $g_1$, by hand in the [univariate analysis Not
    $$G_1 = \frac{5}{4 \times 3} \times 4.074 = 0.4167 \times 4.074 = 1.70$$
    This is the 1.70 that pandas gives, against $g_1 = 1.14$ without the correction.
 
-The $n - 1$ inside $s$ is Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)); the factor in front plays the same role for the third moment. With hundreds of rows, $G_1$ and $g_1$ are almost equal.
+The $n - 1$ inside $s$ is Bessel's correction (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). The two versions differ by a fixed factor, $G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$ (Joanes and Gill 1998): 1.49 for our 5 values, but only 1.002 for the 891 Titanic rows. So with hundreds of rows $G_1$ and $g_1$ are almost equal.
 
 In practice nobody computes this by hand: `df["Fare"].skew()` returns 4.79 at once. What matters is interpreting the number.
 
-> **Extra:** A simpler measure is **Pearson's skewness coefficient**, $3(\bar{x} - \text{median})/s$. It uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 it gives $3 \times (4 - 3)/3.536 = 0.85$: the same sign, a different size. It is quick to compute but less used than the moment version.
+> **Extra:** A simpler measure is **Pearson's skewness coefficient**, $3(\bar{x} - \text{median})/s$ (Doane and Seward 2011). It uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 it gives $3 \times (4 - 3)/3.536 = 0.85$: the same sign, a different size. It is quick to compute but less used than the moment version.
 
 ## 6. Reading a skewness value
 
@@ -100,7 +102,7 @@ Two Titanic columns show the two ends of the scale:
 - **Age**, skewness 0.39: approximately symmetric. Together with its roughly bell-shaped histogram, we may treat it as normal for practical purposes, as the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md) did.
 - **Fare**, skewness 4.79: highly skewed, far from normal. A column like this is a candidate for a log transform (see the [function transformer Note](../30-function-transformer/note.md)).
 
-These cut-offs are a rule of thumb, not a law. They are widely used because they work well in practice.
+These cut-offs are a rule of thumb, not a law; they come from Bulmer (1979).
 
 > **Python:** Skewness of every numerical column.
 >
@@ -134,6 +136,13 @@ So skewness is one check among several. We look at the shape as well (histogram,
 - Sample skewness (pandas, Excel) adds a small-sample correction to the third moment.
 - $|\text{skew}| < 0.5$: about symmetric; 0.5 to 1: moderate; above 1: high.
 - Symmetric is not the same as normal.
+
+## Sources
+
+- Bulmer, M. G. (1979). *Principles of Statistics*. Dover. (The three skewness bands.)
+- Doane, D. P. and Seward, L. E. (2011). "Measuring Skewness: A Forgotten Statistic?" *Journal of Statistics Education* 19(2).
+- Joanes, D. N. and Gill, C. A. (1998). "Comparing measures of sample skewness and kurtosis." *The Statistician* 47(1).
+- von Hippel, P. T. (2005). "Mean, Median, and Skew: Correcting a Textbook Rule." *Journal of Statistics Education* 13(2).
 
 ## 8. Key terms
 

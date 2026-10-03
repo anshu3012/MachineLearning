@@ -28,7 +28,7 @@ Two earlier Notes already cover parts of this topic. The [role of mathematics in
 
 The usual pattern is: open an algorithm, meet an equation, decide it is too hard, and stop. The habit to build is the opposite reaction: an equation is where the algorithm is actually explained.
 
-A practical trick is to picture a future version of ourselves who reads equations comfortably. Aiming at that picture makes it easier to stay with a formula for ten minutes instead of five, and to work through it with pen and paper. After a few weeks of this, most learners find the maths of ML far less hard than its reputation.
+A practical trick is to picture a future version of ourselves who reads equations comfortably. Aiming at that picture makes it easier to stay with a formula for ten minutes instead of five, and to work through it with pen and paper. After a month or so of this, the maths of ML turns out to be far less hard than its reputation.
 
 ### 2.1 Reason 1: we always know why
 
@@ -144,7 +144,7 @@ A roadmap fixes this. For each topic it lists the parts ML uses and where each p
 > | Convex sets, functions and problems | knowing when a minimum is the global one | [Note 621](../621-convex-sets-and-functions/note.md) |
 > | Linear and quadratic programming | SVM training, resource planning | [Note 622](../622-linear-and-quadratic-programming/note.md) |
 >
-> Integration is rarely needed by hand: it appears mainly as the area under a probability density (see the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md)).
+> In these Notes, integration appears mainly as the area under a probability density (see the [PDF and continuous CDF Note](../242-pdf-and-continuous-cdf/note.md)).
 
 ## 7. Summary
 

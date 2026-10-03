@@ -56,7 +56,7 @@ Because the answer is at a corner, checking the corners is enough for a small pr
 | $(1.5, 2.5)$ | 9.5 |
 | $(0, 3)$ | 6 |
 
-The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profit lines were parallel to an edge, every point of that edge would tie, but a corner would still be among the best points. Real solvers (the simplex method, interior-point methods) handle thousands of variables without listing corners.
+The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profit lines were parallel to an edge, every point of that edge would tie, but a corner would still be among the best points. Real solvers do not list corners; they use methods such as interior-point methods (Boyd and Vandenberghe, Ch. 11).
 
 ### 2.3 The dual of a linear program
 
@@ -71,7 +71,7 @@ We follow the recipe of the [Lagrange multipliers Note](../620-lagrange-multipli
    $$\max_{\boldsymbol{\lambda} \in \mathbb{R}^m} \ -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} \quad \text{subject to} \quad \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}, \quad \boldsymbol{\lambda} \ge \mathbf{0}$$
 3. **Example:** for the workshop, $\boldsymbol{\lambda} = [2, 0, 1, 0, 0]^{\mathsf T}$ (one value per constraint, in the order oven, flour, demand, $x_1 \ge 0$, $x_2 \ge 0$). Check the equality:
    $$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \\ -2 \end{bmatrix} + 2\begin{bmatrix} 1 \\ 1 \end{bmatrix} + 1\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
-   The dual value is $-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 3 \times 1) = -11$, the same as the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. Strong duality holds, as it does for every linear program that has a finite best value.
+   The dual value is $-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 3 \times 1) = -11$, the same as the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. Strong duality holds, as it does for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
 
 The primal has $d$ variables and $m$ constraints; the dual has $m$ variables and $d$ equality constraints. We can solve whichever is smaller. By convention the primal is minimised and the dual maximised.
 
@@ -89,7 +89,7 @@ The multipliers are the shadow prices of the [Lagrange multipliers Note](../620-
 
 Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. This is complementary slackness in action: the inactive constraint has multiplier 0.
 
-> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$ (least absolute deviations) becomes a linear program by giving each row an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves exactly this kind of linear program.
+> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$ (least absolute deviations) becomes a linear program by giving each row an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf{x}_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
 
 ## 3. Quadratic programming
 
@@ -134,15 +134,15 @@ The checks of the KKT conditions: both coordinates are positive, so the two sign
    $$\mathbf{x} = -\tfrac13 \begin{bmatrix} 2(-3.5) - (-2.5) \\ -(-3.5) + 2(-2.5) \end{bmatrix} = \begin{bmatrix} 1.5 \\ 0.5 \end{bmatrix}, \qquad D = -\tfrac12 \times 6.5 - 4.5 \times 2 = -12.25$$
    where $6.5 = \tfrac13(2 \times 12.25 - 2 \times 8.75 + 2 \times 6.25)$. The dual maximum equals the primal minimum $-12.25$.
 
-The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$, which many solvers handle more easily than general linear constraints.
+The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$. They are easy to keep: after a gradient step, setting every negative multiplier to 0 restores them.
 
 ### 3.4 Quadratic programs in ML
 
 > **Key point:** Training a support vector machine is a quadratic program, in its primal form and in its dual form.
 
 - **SVM, primal:** minimise $\tfrac12\lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf{x}_i + b) \ge 1$ (see the [SVM soft margin Note](../94-svm-soft-margin/note.md)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite, because $b$ has no squared term, so the dual is derived as in the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) (Section 7.2) rather than with $Q^{-1}$.
-- **SVM, dual:** maximise $\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf{x}_i^{\mathsf T}\mathbf{x}_j$ subject to $\alpha_i \ge 0$ and $\sum_i \alpha_i y_i = 0$: a quadratic program in the multipliers. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual.
-- **Lasso, constraint form:** least squares subject to $\sum_i |w_i| \le t$ is a quadratic program once each weight is split into a positive and a negative part.
+- **SVM, dual:** maximise $\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf{x}_i^{\mathsf T}\mathbf{x}_j$ subject to $\alpha_i \ge 0$ and $\sum_i \alpha_i y_i = 0$: a quadratic program in the multipliers. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
+- **Lasso, constraint form:** least squares subject to $\sum_i |w_i| \le t$ is a quadratic program once each weight is split into a positive and a negative part (Tibshirani 1996, §6).
 
 > **Python:** scipy's `linprog` solves linear programs and reports the multipliers in `ineqlin.marginals` (with scipy's sign, so negative here). `minimize` with `trust-constr` handles the quadratic program.
 >
@@ -183,7 +183,14 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$,
 - Both are convex problems, so the dual value equals the primal value.
 - Multipliers are shadow prices: an inactive constraint has multiplier 0.
 
-## 5. Key terms
+## 5. Sources
+
+- Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020, Chapter 7.
+- Boyd and Vandenberghe, *Convex Optimization*, Cambridge University Press, 2004. Chapter 5 (duality; strong duality for a feasible LP), Chapter 11 (interior-point methods).
+- Tibshirani, "Regression Shrinkage and Selection via the Lasso", *Journal of the Royal Statistical Society B*, 1996, Section 6.
+- scikit-learn documentation: `QuantileRegressor`; User Guide, Support Vector Machines, Mathematical formulation.
+
+## 6. Key terms
 
 | Term | Meaning |
 |---|---|

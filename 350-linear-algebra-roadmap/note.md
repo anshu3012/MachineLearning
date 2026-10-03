@@ -93,7 +93,7 @@ Anyone who has studied PCA has met eigenvalues and eigenvectors. They are taught
 
 **Matrix factorisation** (or **decomposition**) writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in the [PCA step by step Note](../48-pca-step-by-step/note.md); the others come in a later maths Note.
 
-> **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see the [Ridge gradient descent Note](../65-ridge-gradient-descent/note.md)). Least-squares solvers use QR, and recommender systems use SVD-like factorisations to fill in missing ratings.
+> **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see the [Ridge gradient descent Note](../65-ridge-gradient-descent/note.md)). Least-squares problems can be solved through a QR factorisation (Trefethen and Bau, *Numerical Linear Algebra*, 1997, Lecture 11, Algorithm 11.2), and recommender systems use SVD-like factorisations of the user-item rating matrix to predict missing ratings (Koren, Bell and Volinsky, "Matrix factorization techniques for recommender systems", *IEEE Computer* 42(8), 2009, 30–37).
 
 ### 4.7 Advanced topics
 
@@ -144,7 +144,7 @@ All linear algebra in the ML and DL world runs through **NumPy**, so a strong co
 
 The vectors Notes that follow this one cover the first module in depth; the rest of the matrix and eigen topics come in later maths Notes.
 
-> **Extra:** One more free book worth knowing: *Mathematics for Machine Learning* by Deisenroth, Faisal and Ong (mml-book.github.io). Its linear algebra and analytic geometry chapters match this roadmap closely.
+> **Extra:** One more free book worth knowing: *Mathematics for Machine Learning* by Deisenroth, Faisal and Ong (mml-book.github.io). Its chapters 2 to 4 (Linear Algebra, Analytic Geometry, Matrix Decompositions) cover the vectors, matrices, eigenvalues and factorisations of this roadmap, including SVD in section 4.5.
 
 ## 6. Summary
 

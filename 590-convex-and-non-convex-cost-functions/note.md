@@ -76,7 +76,9 @@ Optimisation looks for the parameter values where the loss is lowest. Convexity 
 - **Any convex function:** every local minimum is a global minimum. There is no dip that is lower only locally.
 - **Strictly convex:** there is at most one minimum point. A convex function that is not strict can have a flat bottom with many minimum points, but they all share the same lowest value.
 
-The first guarantee follows from the chord test. Suppose some point $c$ were a local minimum and some other point $d$ were lower. The chord from $c$ to $d$ slopes downward, and convexity keeps the curve at or below it, so just next to $c$ the curve already dips below $f(c)$. Then $c$ was not a local minimum after all.
+The first guarantee follows from the chord test. Suppose some point $c$ were a local minimum and some other point $d$ were lower. The chord from $c$ to $d$ slopes downward, and convexity keeps the curve at or below it, so just next to $c$ the curve already dips below $f(c)$. Then $c$ was not a local minimum after all (Boyd and Vandenberghe §4.2.2).
+
+The second guarantee follows the same way. If a strictly convex $f$ had two different minimum points $c$ and $d$ with the same lowest value $f^*$, the strict chord test at their midpoint would give $f\big(\tfrac{c + d}{2}\big) < \tfrac{1}{2}f^* + \tfrac{1}{2}f^* = f^*$, a value below the lowest one, which is impossible.
 
 A non-convex function gives no such promise. In Figure 2 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
 
@@ -107,7 +109,7 @@ Figure 3 runs gradient descent on $g$ from two starting points with the same lea
 
 The orange run is the worst case for a non-convex loss: it converges, but to a sub-optimal answer. The parameters it returns give a loss 2.82 higher than the best possible. On a convex loss this cannot happen: every start ends at the same lowest value.
 
-> **Extra:** Ways to reduce the risk: start from several random points and keep the best result, or use [stochastic gradient descent](../59-stochastic-gradient-descent/note.md), whose noisy steps can jump out of a shallow dip. Methods built for this (momentum, adaptive learning rates) are covered with neural networks.
+> **Extra:** Ways to reduce the risk: start from several random points and keep the best result, or use [stochastic gradient descent](../59-stochastic-gradient-descent/note.md), whose noisy steps can jump out of a shallow dip (Kleinberg et al. 2018). Methods built for this (momentum, adaptive learning rates) are covered with neural networks.
 
 ## 5. Two losses compared
 
@@ -119,7 +121,7 @@ Figure 1 fits the same data with two models. The data is 21 points $x = -2, -1.8
 
 > **Key point:** Over its slope and intercept, the squared-error loss of a straight line is a single bowl with one lowest point.
 
-For the line $y = mx + b$, the contours in Figure 1 (left) are closed rings around one point, $m = 1.02$, $b = 0$, with loss $0.18$. That loss is not 0 because no straight line fits an S-curve exactly, but it is the best a line can do, and gradient descent reaches it from any start.
+For the line $y = mx + b$, the contours in Figure 1 (left) are closed rings around one point, $m = 1.02$, $b = 0$, with loss $0.18$. That loss is not 0 because no straight line fits an S-curve exactly, but it is the best a line can do, and gradient descent with a small enough learning rate reaches it from any start (Boyd and Vandenberghe §9.3).
 
 The chord test confirms it. Between $(m, b) = (-1, 0)$ and $(3, 0)$, the midpoint is $(1, 0)$:
 
@@ -141,9 +143,9 @@ $$\text{curve: } L(0, 0) = 1.71, \qquad \text{chord: } 0.5 \times 0 + 0.5 \times
 
 $1.71 > 0$, so the loss is non-convex. A convex function could never have two separate lowest points with a higher point between them.
 
-Here both minima are equally good, so landing in either is fine. Real networks have millions of weights, many such symmetries, and also genuine local minima and flat stretches, so their losses are non-convex.
+Here both minima are equally good, so landing in either is fine. Real networks have millions of weights, many such symmetries, and also genuine local minima and flat stretches, so their losses are non-convex (Goodfellow et al. §8.2.2–8.2.3).
 
-> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. It is a **saddle point**: the loss rises along one diagonal and falls along the other (see the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md)). It is one reason why neural network weights are not all started at zero.
+> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. It is a **saddle point**: the loss rises along one diagonal and falls along the other (see the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
 
 > **Python:** a numerical chord test. We pick 10,000 random pairs of parameter points and random $\theta$, and record by how much the curve ever rises above the chord. A result above 0 proves the loss is non-convex; 0 is evidence (not proof) that it is convex.
 >
@@ -183,6 +185,12 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 - Convex: $f(\theta a + (1 - \theta) b) \le \theta f(a) + (1 - \theta) f(b)$ for all $a$, $b$ and $0 \le \theta \le 1$.
 - One failing pair of points is enough to show a function is non-convex.
 - On a non-convex loss, gradient descent can converge to a sub-optimal local minimum.
+
+## Sources
+
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 4.2.2 (local and global optima) and 9.3 (gradient descent).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Sections 8.2.2–8.2.3 (local minima, saddle points) and 8.4 (parameter initialisation).
+- Kleinberg, R., Li, Y. and Yuan, Y. (2018). "An Alternative View: When Does SGD Escape Local Minima?". *ICML*.
 
 ## 7. Key terms
 

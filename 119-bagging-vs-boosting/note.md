@@ -37,7 +37,7 @@ Boosting needs base models with **high bias and low variance**:
 - a **shallow decision tree**, whose depth is very small;
 - above all the **decision stump**, a tree of depth 1 (the AdaBoost intuition Note, section 2.2).
 
-A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays low.
+A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays fairly low: on noisy data it creeps up only with very many stumps (test accuracy 0.86 with 50 stumps, 0.85 with 1,500, in the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md), section 3).
 
 ### 2.2 The rule of thumb
 

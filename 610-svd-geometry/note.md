@@ -102,7 +102,7 @@ A square matrix whose columns are orthonormal is an **orthogonal matrix**. Putti
 
 $$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \\ 1 & 1 \end{bmatrix}, \qquad U = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \\ 3 & 1 \end{bmatrix}$$
 
-(The name is historical: "orthonormal matrix" would be more accurate, but "orthogonal matrix" is what everyone says.)
+("Orthonormal matrix" would be more accurate, but "orthogonal matrix" is the convention; MML Def. 3.8.)
 
 ### 3.2 What an orthogonal matrix does to space
 
@@ -176,7 +176,7 @@ The final ellipse is exactly the one $A$ makes in one step (the dashed red curve
 > **Key point:** We sort $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$; a sign flip of a matching $\mathbf{u}_i$ and $\mathbf{v}_i$ gives an equally valid SVD.
 
 - **Never negative.** A singular value is a length (of $A\mathbf{v}_i$), so $\sigma_i \ge 0$. If a stretch would need a negative number, we flip the sign of $\mathbf{u}_i$ instead.
-- **Largest first.** By convention $\sigma_1 \ge \sigma_2 \ge \dots$. Then $\Sigma$ is unique for every matrix.
+- **Largest first.** By convention $\sigma_1 \ge \sigma_2 \ge \dots$. Then $\Sigma$ is unique for every matrix (MML Thm 4.22).
 - **Signs of the vectors.** Changing both $\mathbf{u}_i$ and $\mathbf{v}_i$ to $-\mathbf{u}_i$ and $-\mathbf{v}_i$ keeps $A\mathbf{v}_i = \sigma_i\mathbf{u}_i$ true. So libraries may return vectors with signs opposite to ours, as NumPy does below. Flipping only one of the pair is wrong; the [computing the SVD Note](../611-computing-the-svd/note.md) shows what goes wrong.
 
 ### 5.2 Rank and the largest stretch
@@ -235,7 +235,7 @@ Geometrically the picture is the same as in 2D, with one more dimension in the o
 
 > **Key point:** Keep only the first $n$ columns of $U$ and the square top of $\Sigma$; the product is unchanged.
 
-In the full SVD, the zero rows of $\Sigma$ multiply the last $m - n$ columns of $U$ by zero. Those columns never affect $A$, so we can drop them. The result is the **thin SVD**, also called the **reduced SVD** (Figure 3, bottom):
+In the full SVD, the zero rows of $\Sigma$ multiply the last $m - n$ columns of $U$ by zero. Those columns never affect $A$, so we can drop them. The result is the **thin SVD**, also called the **reduced SVD** (MML §4.5; Figure 3, bottom):
 
 $$A = U_n \Sigma_n V^{\mathsf T}, \qquad U_n: m \times n, \quad \Sigma_n: n \times n, \quad V: n \times n$$
 
@@ -269,7 +269,7 @@ Both factorisations have the same three-step shape: change of basis, scale each 
 | Diagonal entries | eigenvalues: any sign, can be complex | singular values: real, $\ge 0$ |
 | For $A$ | 3 and 5 | 6.71 and 2.24 |
 
-The two agree for one important family. A **symmetric matrix** equals its own transpose. When it is also **positive semi-definite** (all its eigenvalues are 0 or positive), its eigenvectors are orthonormal and its eigenvalues are non-negative, so $P$ is orthogonal and $A = PDP^{\mathsf T}$ is already an SVD, with $U = V = P$. A covariance matrix is exactly such a matrix (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 4.3), so for it the eigenvalues and the singular values are the same numbers.
+The two agree for one important family. A **symmetric matrix** equals its own transpose. When it is also **positive semi-definite** (all its eigenvalues are 0 or positive), its eigenvectors are orthonormal and its eigenvalues are non-negative, so $P$ is orthogonal and $A = PDP^{\mathsf T}$ is already an SVD, with $U = V = P$. A covariance matrix is exactly such a matrix (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 4.3), so for it the eigenvalues and the singular values are the same numbers (MML §4.6).
 
 > **Extra:** Even for a symmetric matrix the two can differ when an eigenvalue is negative. The matrix with rows $[0, 1]$ and $[1, 0]$ swaps x and y: its eigenvalues are 1 and $-1$, but its singular values are 1 and 1, because singular values ignore the flip and report only the stretch.
 
@@ -288,6 +288,11 @@ The two agree for one important family. A **symmetric matrix** equals its own tr
 - Singular values are $\ge 0$; their count above zero is the rank; $\sigma_1$ is the largest stretch.
 - For tall data, the thin SVD keeps only the first $n$ columns of $U$.
 - For a covariance matrix, the SVD and the eigen-decomposition coincide.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Definition 3.8, Theorem 4.22, sections 4.5–4.6 (MML).
+- Strang, G. MIT OpenCourseWare 18.06 Linear Algebra, Lecture 29: Singular value decomposition.
 
 ## 9. Key terms
 

@@ -58,8 +58,8 @@ So XGBoost is two things together:
 
 The history falls into three stages.
 
-1. **The early days (2014).** Tianqi Chen started XGBoost as a research project. To test it, it was used in the Higgs Boson Machine Learning Challenge on Kaggle, a particle-physics competition. It did very well there, and Kaggle users began to notice a new tool.
-2. **The Kaggle years (2015-2016).** More and more winners used it. The XGBoost paper, "XGBoost: A Scalable Tree Boosting System" (Chen and Guestrin, 2016), reports that 17 of the 29 winning solutions published on Kaggle's blog in 2015 used XGBoost.
+1. **The early days (2014).** Tianqi Chen started XGBoost as a research project at the University of Washington (Wikipedia, "XGBoost"). To test it, it was used in the Higgs Boson Machine Learning Challenge on Kaggle, a particle-physics competition. It did very well there, and Kaggle users began to notice a new tool.
+2. **The Kaggle years (2015-2016).** More and more winners used it. The XGBoost paper (Chen and Guestrin 2016, §1) reports that 17 of the 29 winning solutions published on Kaggle's blog in 2015 used XGBoost.
 3. **Open source (from 2016).** With the code open, engineers worldwide added features and optimisations, support for more platforms and languages, documentation and tutorials. Today XGBoost is a default first try in most competitions and in much industry work.
 
 ## 5. Why gradient boosting was the starting point
@@ -187,7 +187,7 @@ The search over age does not depend on the search over marks. So one processor c
 
 > **Key point:** XGBoost stores the data column by column, pre-sorted, so each core can take one column and work on it alone.
 
-Most algorithms store data row by row: one block holds every column of row 1, the next every column of row 2. XGBoost stores it in **column blocks**: one block per feature, its values kept sorted. A core can pick up one whole column block and search its splits without touching the rest. This data structure is what makes the parallel split search of Figure 3 efficient.
+Most algorithms store data row by row: one block holds every column of row 1, the next every column of row 2. XGBoost stores it in **column blocks**: one block per feature, its values sorted once before training and reused for every tree (Chen and Guestrin 2016, §4.1). A core can pick up one whole column block and search its splits without touching the rest. Column blocks are what make the parallel split search of Figure 3 efficient.
 
 ### 7.4 Cache awareness
 
@@ -223,7 +223,7 @@ This needs outside tools: XGBoost connects to Dask, Spark and Kubernetes for it.
 
 A **GPU** (graphics processing unit, the graphics card) has many cores, each weaker than a CPU core but far more numerous. It is ideal for many small, similar calculations: drawing game graphics, training deep learning models. XGBoost's histogram building and split finding are exactly such work, so XGBoost can run on a GPU, and on large datasets it reaches a given test error much sooner than on a CPU.
 
-On our 10,000 rows the GPU (an RTX 3060 laptop card) took 1.17 seconds against 0.67 on the CPU. Copying the data to the graphics card and starting it up has a fixed cost, which only pays off on much bigger datasets.
+On our 10,000 rows the GPU (an RTX 3060 laptop card) took 1.17 seconds against 0.67 on the CPU, so here the GPU was slower. The speed-up described above is for large datasets.
 
 > **Python:** Training on a GPU.
 >
@@ -275,7 +275,7 @@ The Notebook shows this on the Titanic passengers, where Age is missing for 177 
 - `XGBClassifier` trains on the data as it is: 5-fold cross-validated accuracy **0.828** (Pclass, Sex, Age, Fare);
 - with the missing ages filled by the median first, it scores 0.834, about the same.
 
-We can read the learned default direction from the first tree. One of its nodes asks "Age < 13?", and passengers with no age are sent to the "no" side, with the adults: a sensible guess, since most passengers were adults.
+We can read the learned default direction from the first tree. One of its nodes asks "Age < 13?", and passengers with no age are sent to the "no" side, together with the passengers aged 13 or more. That side was chosen because it gave the larger gain (section 8.2).
 
 > **Python:** Missing values in XGBoost.
 >
@@ -300,9 +300,9 @@ Where should the bin edges go? Equal-width bins ignore the data. XGBoost places 
 
 On the Titanic fares, a very skewed column, Figure 4 of the [binning Note](../32-binning-binarization/note.md) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
 
-> **Extra:** "Weighted" means the quantiles are not counted in rows. Each row counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from the [XGBoost maths Note](../126-xgboost-maths/note.md)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For classification, rows the model is still unsure about weigh more, so the bins are finer where the model needs them. "Sketch" means the quantiles are estimated from a compact summary of the data, which also works when the data is split over many machines.
+> **Extra:** "Weighted" means the quantiles are not counted in rows. Each row counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from the [XGBoost maths Note](../126-xgboost-maths/note.md)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For log loss $h_i = p_i(1-p_i)$ ([XGBoost classification Note](../125-xgboost-classification/note.md)): largest (0.25) at $p_i = 0.5$, near 0 when $p_i$ is close to 0 or 1. So observations (rows) the model is still unsure about weigh more, and the bins are finer among them. "Sketch" means the quantiles are estimated from a compact summary that can be merged, which lets it work when the data is split over many machines (Chen and Guestrin 2016, §3.3).
 
-Which method to use: the exact greedy algorithm on small data; the approximate algorithm on big data.
+Which method to use: the exact greedy algorithm on small data; the approximate algorithm on big data, where scanning every value, especially when the data does not fit in memory, is too slow (Chen and Guestrin 2016, §3.2).
 
 ### 8.5 Tree pruning
 
@@ -319,9 +319,9 @@ XGBoost offers both kinds of settings, plus one more: $\gamma$ (`gamma`). A new 
 Two other libraries improve on gradient boosting in their own ways:
 
 - **LightGBM** (Light Gradient Boosting Machine, from Microsoft Research): aimed at faster training, lower memory use and sometimes better accuracy. It also offers parallel, distributed and GPU training and handles very large data. Its results are sometimes equal to XGBoost's and sometimes better.
-- **CatBoost** (from Yandex): an open-source gradient boosting library on decision trees whose best-known feature is built-in support for categorical columns, with no manual encoding.
+- **CatBoost** (from Yandex; Prokhorenkova et al. 2018): an open-source gradient boosting library on decision trees whose best-known feature is built-in support for categorical columns, with no manual encoding.
 
-scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` are modelled on LightGBM. In Figure 2, LightGBM and scikit-learn's version were the fastest of all on our data.
+scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegressor` are modelled on LightGBM (scikit-learn docs). In Figure 2, LightGBM and scikit-learn's version were the fastest of all on our data.
 
 ## 10. Summary
 
@@ -340,10 +340,18 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 - It became famous through Kaggle: 17 of the 29 winning solutions published on Kaggle's blog in 2015 used it.
 - On 10,000 by 200 rows, XGBoost trained in 0.67 seconds against 46.8 seconds for classic gradient boosting, with the same accuracy.
 - Missing values need no imputation: each split learns where to send them.
-- Quantile bins are narrow where data is dense, so a few hundred candidate splits describe a column well.
+- Quantile bins are narrow where data is dense; only the bin edges are tried as splits (at most `max_bin` bins per column, 256 by default; XGBoost docs).
 - LightGBM and CatBoost are the other major gradient boosting libraries.
 
-## 11. Key terms
+## 11. Sources
+
+- Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
+- Wikipedia, "XGBoost" (history section).
+- Prokhorenkova, L. et al. (2018). *CatBoost: unbiased boosting with categorical features*. NeurIPS 2018.
+- scikit-learn documentation, `HistGradientBoostingClassifier`: "This implementation is inspired by LightGBM."
+- XGBoost documentation, *XGBoost Parameters* (`max_bin`, `tree_method`).
+
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

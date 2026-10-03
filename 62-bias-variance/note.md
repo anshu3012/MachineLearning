@@ -14,7 +14,7 @@ title: "The Bias-Variance Trade-off"
 
 ## 1. Overview
 
-> **Key point:** A model's error on new data comes from two sources: bias (it is too simple to capture the pattern) and variance (it changes too much with the training data). Making one smaller usually makes the other larger.
+> **Key point:** A model's error on new data comes from two sources: bias (it is too simple to capture the pattern) and variance (it changes too much with the training data). Making one smaller usually makes the other larger (ISL §2.2.2).
 
 The polynomial regression Note showed that a degree too low underfits and a degree too high overfits. This Note gives the two problems their standard names, **bias** and **variance**, and explains why reducing one tends to increase the other. This tension is the **bias-variance trade-off**, one of the central ideas of ML.
 
@@ -51,18 +51,20 @@ This is a different meaning from the variance of a column, the average squared d
 
 > **Key point:** Train the same model on many training sets. The spread of the resulting curves is the variance; how far their average is from the truth is the bias.
 
-Figure 1 makes this concrete. The true relationship is a wave (dashed black). From it we draw 200 different training sets of 40 noisy points, train a model on each, and draw 20 of the resulting curves (orange) and their average (blue).
+Figure 1 makes this concrete. We use one **feature** $x$ (the input variable) and one **target** $y$ (the output we predict); each **observation** is one $(x, y)$ pair. The true relationship is a wave (dashed black).
 
-![The same model trained on 20 different training sets](images/many_fits.png)
+We build many training sets of 20 observations. Every set uses the same 20 values of $x$ (the grey ticks); only the random noise in $y$ is new each time, the standard setting for measuring bias and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
+
+![The same model trained on 20 different training sets. The grey ticks mark the 20 inputs shared by every training set.](images/many_fits.png)
 
 | Model | Curves | Bias² | Variance |
 |---|---|---|---|
-| Degree 1 | all similar, all wrong | 0.449 | 0.042 |
-| Degree 5 | similar and close to the truth | 0.001 | 0.042 |
-| Degree 11 | close on average, wildly different | 0.079 | 36.1 |
+| Degree 1 | all similar, all wrong | 0.4195 | 0.025 |
+| Degree 5 | similar and close to the truth | 0.0011 | 0.075 |
+| Degree 11 | right on average, very different from each other | 0.0000 | 0.150 |
 
 - **Degree 1** (a straight line) gives nearly the same line every time: low variance. But that line can never follow the wave: high bias.
-- **Degree 11** follows the wave on average (low bias in the middle) but every curve swings differently, wildly so near the edges: very high variance.
+- **Degree 11** follows the wave on average (its average curve sits on the truth) but every curve swings differently, wildly so between the inputs near the edges: high variance.
 - **Degree 5** has both low: the target.
 
 The dartboard in Figure 2 is a common way to picture the four combinations: bias is how far the throws land from the centre on average, variance is how scattered they are.
@@ -73,7 +75,7 @@ The dartboard in Figure 2 is a common way to picture the four combinations: bias
 
 > **Key point:** As a model becomes more complex, bias falls and variance rises. The best model is at the complexity where their sum is smallest.
 
-The expected squared error of a model on new data splits into three parts:
+The expected squared error of a model on new data splits into three parts (ISL §2.2.2, equation 2.7):
 
 $$\text{expected error} = \text{bias}^2 + \text{variance} + \text{noise}$$
 
@@ -81,19 +83,26 @@ $$\text{expected error} = \text{bias}^2 + \text{variance} + \text{noise}$$
 - **Variance:** error from the model depending too much on the particular training set.
 - **Noise:** randomness in the data itself. No model can remove it.
 
-With numbers, for degree 5: $0.001 + 0.042 + 0.25 = 0.293$. For degree 1: $0.449 + 0.042 + 0.25 = 0.741$.
+With numbers, for degree 5: $0.0011 + 0.075 + 0.25 = 0.326$. For degree 1: $0.4195 + 0.025 + 0.25 = 0.695$.
 
-Figure 3 measures all three for degrees 1 to 11.
+Figure 3 measures all three for degrees 1 to 11. The test error here is the error on a new noisy target at the same 20 inputs.
 
 ![Bias², variance and expected test error against the degree](images/tradeoff.png){height=48%}
 
 - On the left, simple models have high bias and low variance: **underfitting**.
 - On the right, complex models have low bias and high variance: **overfitting**.
-- The total error is smallest in between, here at degree 5, close to the noise floor of 0.25.
+- Bias² falls as the degree grows and never rises again: 0.42 at degree 1, 0.001 at degree 5, 0.0000 from degree 7 on.
+- Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11.
+- The total error is smallest in between, here at degree 5 (0.326), close to the noise floor of 0.25.
 
 Making a model more flexible buys lower bias at the price of higher variance, and the reverse. That is the trade-off. The goal is not zero bias or zero variance, but the lowest total error.
 
-> **Extra:** In Figure 3, bias² creeps up again at the highest degrees. That is a side effect of the wild swings near the edges of the data, which also move the average curve. The textbook picture, in which bias falls steadily with complexity, holds for the middle of the data.
+> **Extra:** The shapes in Figure 3 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
+>
+> - **Bias² never rises with the degree.** Every polynomial of degree 5 is also a polynomial of degree 6 (with a zero last coefficient), so a larger family can always fit the true curve at least as well as a smaller one.
+> - **Variance grows in a straight line:** it equals $\sigma^2 p / N$, where $\sigma^2 = 0.25$ is the noise, $p$ is the number of coefficients (degree + 1) and $N = 20$ is the number of observations. For degree 11: $0.25 \times 12 / 20 = 0.150$, the value we measured.
+>
+> The notebook checks both formulas against the 10,000 fits; they agree to three decimals. We use so many training sets because averaging $K$ curves keeps $1/K$ of their variance; with few sets, that leftover variance would look like bias.
 
 ## 6. What to do about it
 
@@ -106,11 +115,11 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 
 Three standard techniques, all covered later, target this trade-off directly:
 
-- **Regularisation** (Ridge, Lasso, Elastic Net, the next Notes): keeps a flexible model but penalises large coefficients, lowering variance for a small increase in bias.
-- **Bagging** (for example random forests): averages many high-variance models trained on different samples, which cancels much of the variance.
-- **Boosting**: builds a strong model from many simple, high-bias ones, lowering bias step by step.
+- **Regularisation** (Ridge, Lasso, Elastic Net, the next Notes): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
+- **Bagging** (for example random forests): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in Section 5 uses the same fact.
+- **Boosting**: builds a model in sequence from many small, simple models, each fitted to the errors left by the ones before, so the fit improves step by step where it was poor (ISL §8.2.3).
 
-> **Extra:** The terms come from statistics. The "bias" here is different from the bias (intercept) term of a model and from social bias in data; it means systematic error of the model's predictions.
+> **Extra:** The terms come from statistics, where the bias of an estimate is the difference between its average value and the true value, which is exactly what Section 4 measured with the average curve. The "bias" here is different from the bias (intercept) term of a model and from social bias in data; it means systematic error of the model's predictions.
 
 ## 7. Summary
 
@@ -124,7 +133,12 @@ Three standard techniques, all covered later, target this trade-off directly:
 
 - Expected error = bias² + variance + noise; the noise cannot be removed.
 - More complexity lowers bias and raises variance; the best model balances them.
-- On the wave example, degree 5 gives the lowest total error (0.29), against 0.74 for a line and 36 for degree 11.
+- On the wave example, degree 5 gives the lowest total error (0.33), against 0.70 for a line and 0.40 for degree 11.
+
+## Sources
+
+- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021.
+- **ESL**: Hastie, Tibshirani, Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 7.3, "The Bias-Variance Decomposition".
 
 ## 8. Key terms
 

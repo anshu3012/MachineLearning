@@ -110,7 +110,7 @@ In scikit-learn's layout, each **row** is an actual class and each **column** a 
 
 The decision tree makes the same 7 false positives but 3 false negatives. So most of its extra errors are of the more dangerous kind: missed patients.
 
-> **Extra:** Some books and websites draw the matrix the other way round, with predictions as rows. Always check the axis labels before reading one.
+> **Extra:** Some books and websites draw the matrix the other way round, with predictions as rows (for example Fawcett 2006, Fig. 1). Always check the axis labels before reading one.
 
 ### 4.3 The names
 
@@ -199,7 +199,11 @@ So on imbalanced data, accuracy alone is the wrong metric. The next Note introdu
 - The confusion matrix shows the kind of each mistake; rows are actual, columns predicted in scikit-learn.
 - On imbalanced data, accuracy can be near 100% for a useless model.
 
-## 8. Key terms
+## 8. Sources
+
+- **Fawcett 2006:** Fawcett, T. "An Introduction to ROC Analysis." *Pattern Recognition Letters* 27(8), 861–874, 2006. Figure 1.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

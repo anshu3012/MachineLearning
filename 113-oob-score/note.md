@@ -127,7 +127,7 @@ Figure 2 shows the effect on the heart disease data:
 - with **5 trees**, the OOB score is 0.711, far below the test accuracy of 0.787: 27 rows have no OOB prediction, and the rest are judged by only a few trees each;
 - from about **20 trees** on, the OOB score settles between 0.81 and 0.84, close to the test accuracy (0.84 to 0.87 on 61 noisy test rows).
 
-The OOB score tends to be a little pessimistic: each OOB prediction comes from only about a third of the forest, a smaller forest than the one that predicts new data.
+Here the OOB score sits a little below the test accuracy at every forest size from 20 trees on (for example 0.818 against 0.836 with 500 trees). The gap is a known effect: on two-class data the OOB score tends to underrate a forest, most of all with balanced classes and few rows, as here (Janitza and Hornung, 2018). The reason is that a bootstrap sample that misses observation $i$ holds slightly more observations of the *other* class, so the trees that judge observation $i$ lean a little towards the wrong class.
 
 ## 7. When the OOB score is available
 
@@ -151,6 +151,10 @@ The OOB score tends to be a little pessimistic: each OOB prediction comes from o
 - OOB is per tree: practically every row is seen by some trees and missed by others.
 - Each row is predicted only by its OOB trees; the share of correct predictions is the OOB score.
 - With enough trees (here about 20 or more), the OOB score is a close, free estimate of the test score.
+
+## Sources
+
+- Janitza, S. and Hornung, R. (2018). On the overestimation of random forest's out-of-bag error. *PLoS ONE* 13(8): e0201904.
 
 ## 9. Key terms
 

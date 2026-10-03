@@ -171,7 +171,7 @@ The boundary moves up much as with undersampling (Figure 3, middle). The minorit
 **Disadvantages:**
 
 - The data grows: here from 320 to 598 rows. A 1 GB dataset can become nearly 2 GB.
-- Copies are not new information. A row repeated 21 times looks very important to the algorithm, which can **overfit** to it. Decision trees suffer most: they can build a leaf around each repeated point.
+- Copies are not new information. A row repeated 21 times looks very important to the algorithm, which can **overfit** to it, especially decision trees: the tree carves out tiny regions around the repeated points, with more splits and more leaves (Chawla et al. 2002, §4.1).
 
 ## 7. SMOTE
 
@@ -243,7 +243,7 @@ Figure 4 shows the steps:
 > new = X_smote[len(X_train):]   # the 278 synthetic rows
 > ```
 >
-> imbalanced-learn builds each new point exactly as our function does: a random minority point, one of its `k_neighbors` nearest minority neighbours, and a random factor between 0 and 1. It returns the original rows first and the synthetic rows after them.
+> imbalanced-learn builds each new point exactly as our function does (imbalanced-learn source, `_smote/base.py`): a random minority point, one of its `k_neighbors` nearest minority neighbours, and a random factor between 0 and 1. It returns the original rows first and the synthetic rows after them.
 
 On our data, SMOTE creates 278 new rows: 320 rows become 598 (299 + 299). Figure 3, right, shows them in orange, lying on segments between red points. The boundary moves up again; the minority recall rises to **0.71** (5 of 7) and the precision falls to 0.29.
 
@@ -266,7 +266,7 @@ SMOTE is popular, but whether to use it is much debated, because of five disadva
 
 ![Two SMOTE failures: a new point between two categories, and an outlier that spreads new points into the majority](images/smote_problems.png){width=90%}
 
-> **Extra:** imbalanced-learn has variants that fix some of these problems. `SMOTENC` handles a mix of numeric and categorical columns (for a categorical column it takes the most common category among the neighbours instead of interpolating). `BorderlineSMOTE` creates points only near the class boundary, and `ADASYN` creates more points where the minority is hardest to learn.
+> **Extra:** imbalanced-learn has variants aimed at some of these problems (imbalanced-learn user guide, Over-sampling). `SMOTENC` handles a mix of numeric and categorical columns (for a categorical column it takes the most common category among the neighbours instead of interpolating). `BorderlineSMOTE` creates points only near the class boundary, and `ADASYN` creates more points where the minority is hardest to learn.
 
 ### 7.4 Resampling only the training data
 
@@ -274,7 +274,7 @@ SMOTE is popular, but whether to use it is much debated, because of five disadva
 
 We resample **only the training set**, after the train-test split. The test set must keep its real class balance, or the scores no longer describe real data. And SMOTE points made from test rows would leak test information into training (data leakage, the [toy project Note](../13-toy-project/note.md)).
 
-The same holds inside cross-validation ([pipelines Note](../29-pipelines/note.md)). If we run SMOTE on the whole training set and then cross-validate, a synthetic point and the two real points it was made from can land in different folds. The model is then validated on near-copies of rows it was trained on.
+The same holds inside cross-validation ([pipelines Note](../29-pipelines/note.md)). If we run SMOTE on the whole training set and then cross-validate, the validation folds are full of synthetic points built from the training folds' own minority rows, and they no longer have the real class balance (imbalanced-learn user guide, Common pitfalls).
 
 imbalanced-learn's own `Pipeline` fixes this: it runs the resampler only while fitting, so each fold resamples its own training part and validates on untouched rows. On our training set, with 5-fold cross-validation and the F1 score of class 0:
 
@@ -284,7 +284,7 @@ imbalanced-learn's own `Pipeline` fixes this: it runs the resampler only while f
 | SMOTE inside an imblearn `Pipeline` (correct) | **0.426** |
 | SMOTE on all rows, then cross-validation (leaky) | 0.885 |
 
-The leaky setup reports more than twice the honest score.
+The leaky setup reports more than twice the honest score, and almost all of the gap comes from the synthetic validation points: scoring only the real rows of the same leaky folds gives 0.398, close to the honest 0.426 (Notebook).
 
 > **Python:** SMOTE inside cross-validation.
 >
@@ -315,7 +315,7 @@ Ensemble methods ([ensemble learning Note](../101-ensemble-learning/note.md)) su
 
 In Figure 6, the training data has 900 majority and 300 minority rows. Each sample takes 300 minority rows and 300 majority rows drawn at random, 600 rows in all, and one tree is trained on it. To predict, every tree votes and the majority vote wins: here 1, 0 and 1 give 1.
 
-Undersampling (section 5) threw most majority rows away for good. Here each tree throws different rows away, so together the trees still see most of the majority class.
+Undersampling (section 5) threw most majority rows away for good. Here each tree throws different rows away, so together the trees still see most of the majority class. On our data, 100 trees each draw 21 of the 299 majority rows, so a given row is missed by every tree with probability $(1 - 1/299)^{2100} \approx 0.001$.
 
 > **Python:** A balanced random forest with imbalanced-learn.
 >
@@ -332,7 +332,7 @@ Undersampling (section 5) threw most majority rows away for good. Here each tree
 
 On our data, the balanced forest finds 5 of the 7 minority test rows (recall **0.71**, precision 0.28). An ordinary random forest finds 3 (recall 0.43, precision 0.50).
 
-> **Extra:** imbalanced-learn has other balanced ensembles: `BalancedBaggingClassifier` (bagging with a resampler on every sample), `EasyEnsembleClassifier` (boosted models on balanced samples) and `RUSBoostClassifier` (boosting with random undersampling at every round).
+> **Extra:** imbalanced-learn has other balanced ensembles (imbalanced-learn API reference): `BalancedBaggingClassifier` (bagging with a resampler on every sample), `EasyEnsembleClassifier` (boosted models on balanced samples) and `RUSBoostClassifier` (boosting with random undersampling at every round).
 
 ## 9. Cost-sensitive learning
 
@@ -372,7 +372,7 @@ The weight is a dial: raise it and recall rises while precision falls. We pick t
 
 Most scikit-learn classifiers that minimise a loss accept `class_weight`: `LogisticRegression`, `SVC` ([SVM Note](../92-svm-intuition/note.md)), `DecisionTreeClassifier`, `RandomForestClassifier` ([random forest hyperparameters Note](../111-random-forest-hyperparameters/note.md)). KNN and Naive Bayes do not, because they do not learn by minimising a loss.
 
-> **Extra:** Among scikit-learn's boosting models, `HistGradientBoostingClassifier` accepts `class_weight`, but `GradientBoostingClassifier` and `AdaBoostClassifier` do not. For those, pass weights per row through `fit(X, y, sample_weight=...)`, which almost every scikit-learn model accepts.
+> **Extra:** Among scikit-learn's boosting models, `HistGradientBoostingClassifier` accepts `class_weight`, but `GradientBoostingClassifier` and `AdaBoostClassifier` do not. For those, pass weights per row through `fit(X, y, sample_weight=...)`, which many scikit-learn models accept (`KNeighborsClassifier` does not).
 
 ### 9.2 A custom loss function
 
@@ -419,11 +419,11 @@ $$\frac{\partial L_i}{\partial z_i} = b\,(1 - y_i)\,p_i - a\,y_i\,(1 - p_i), \qq
 > y_pred = (p > 0.5).astype(int)
 > ```
 >
-> A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (first derivative) and **Hessian** (second derivative) of each row's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities, so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
+> A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (first derivative) and **Hessian** (second derivative) of each row's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities (XGBoost docs, Custom Objective), so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
 
 With $b = 1$ (the ordinary log loss), XGBoost finds 2 of the 7 minority test rows. With $b = 3.5$ it finds 3 (recall **0.43**, precision 0.38).
 
-> **Extra:** For logistic regression, this weighted log loss is exactly what `class_weight={0: b, 1: a}` does. A custom loss pays off when the cost is not one number per class (for example the focal loss, which down-weights rows the model already gets right) or in a library without a `class_weight` setting.
+> **Extra:** For logistic regression, this weighted log loss is exactly what `class_weight={0: b, 1: a}` does: scikit-learn multiplies each row's loss by the weight of its class (scikit-learn source, `_logistic.py`). A custom loss is needed when the cost is not one number per class, for example the focal loss (Lin et al. 2017), which down-weights rows the model already gets right, or in a library without a `class_weight` setting.
 
 ## 10. Comparing the techniques
 
@@ -445,7 +445,7 @@ On our data, with 7 minority rows in the test set:
 
 Accuracy fell for every technique, and that is expected: the models now flag some majority rows to catch more minority rows. ROC AUC, which does not depend on the threshold, barely moves; what changes is where the model draws the line.
 
-> **Extra:** With only 7 minority test rows, each one found or missed moves the recall by 0.14, so small differences in this table are noise. On real problems, compare techniques with cross-validation, keeping the resampling inside each fold (section 7.4).
+> **Extra:** With only 7 minority test rows, each one found or missed moves the recall by $1/7 \approx 0.14$, so a difference of one or two rows in this table rests on one or two test rows. On real problems, compare techniques with cross-validation, keeping the resampling inside each fold (section 7.4).
 
 ### 10.1 Other techniques
 
@@ -474,6 +474,16 @@ The techniques here are the most common. imbalanced-learn has many more, grouped
 - Resampling changes the data, balanced ensembles change each model's sample, and cost-sensitive learning changes the loss.
 - SMOTE creates $x + \lambda\,(n - x)$, a point between a minority row and one of its $k$ nearest minority neighbours.
 - Resample only the training data, and inside each cross-validation fold.
+
+## Sources
+
+- Chawla et al. 2002: N. V. Chawla, K. W. Bowyer, L. O. Hall and W. P. Kegelmeyer, *SMOTE: Synthetic Minority Over-sampling Technique*, Journal of Artificial Intelligence Research 16, 2002, 321–357, §4.1.
+- imbalanced-learn user guide: imbalanced-learn 0.14 documentation, sections "Over-sampling" and "Common pitfalls and recommended practices" (data leakage).
+- imbalanced-learn API reference: `imblearn.ensemble`, imbalanced-learn 0.14.
+- imbalanced-learn source, `_smote/base.py`: `imblearn/over_sampling/_smote/base.py`, new point = `X[rows] + steps * diffs` with `steps` uniform in [0, 1].
+- XGBoost docs, Custom Objective: XGBoost documentation, "Custom Objective and Evaluation Metric" ("XGBoost doesn't know its link function").
+- scikit-learn source, `_logistic.py`: `sklearn/linear_model/_logistic.py`, scikit-learn 1.9 (class weights multiply the sample weights).
+- Lin et al. 2017: T.-Y. Lin, P. Goyal, R. Girshick, K. He and P. Dollár, *Focal Loss for Dense Object Detection*, ICCV 2017.
 
 ## 12. Key terms
 

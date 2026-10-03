@@ -63,7 +63,7 @@ The sample sizes may differ: 30 desktop users and 25 mobile users is fine.
 
 The **F-test** is another test for comparing variances.
 
-> **Extra:** If the variances clearly differ, we use **Welch's t-test**, which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Many statisticians use Welch's test by default: when the variances are equal it loses almost nothing.
+> **Extra:** If the variances clearly differ, we use **Welch's t-test**, which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Delacre, Lakens and Leys (2017) recommend Welch's test as the default: it controls Type I errors when the variances differ and loses little when they are equal. This matches the website data of section 3, where the variances look equal: Welch's test gives $p = 3.0 \times 10^{-6}$, against $2.7 \times 10^{-6}$ for Student's.
 
 ### 2.3 The test statistic
 
@@ -166,7 +166,7 @@ The **paired t-test**, also called the **dependent two-sample t-test**, compares
 - **before and after studies:** the performance of the same group before and after an intervention or treatment, such as students' test marks before and after extra classes;
 - **matched or correlated groups:** two groups matched in pairs, such as siblings, or pairs of people chosen to be similar in age and health.
 
-Before-and-after studies are by far the most common.
+Before-and-after studies are the more common of the two.
 
 ### 5.2 Assumptions
 
@@ -252,26 +252,26 @@ The tail follows from $H_1$ and from how $d$ is defined, not from habit. With $d
 
 > **Key point:** Pairing removes the large differences between people, so the standard error is far smaller and a real effect is far easier to detect.
 
-People's weights range from 67 to 93 kg, but each person's weight changes by only a few kilograms. An independent two-sample test would treat the "before" and "after" columns as two unrelated groups, and that 26 kg spread between people would swamp a change of 1 or 2 kg. The paired test looks only at each person's own change.
+People's weights range from 67 to 93 kg, but each person's weight changes by only a few kilograms. An independent two-sample test would treat the "before" and "after" columns as two unrelated groups, and that 26 kg spread between people would swamp a change of 1 or 2 kg. The paired test looks only at each person's own change, so the spread between people drops out.
 
-> **Extra:** The standard errors make this concrete. For our 15 participants, the paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as independent gives $\sqrt{s_1^2/n + s_2^2/n} = 2.75$ kg, more than four times larger. Suppose every "after" weight were 2 kg lower (a real average loss of 1.53 kg). The paired t-test would give $t = 2.43$, $p = 0.015$: significant. The (wrong) independent test on the same numbers gives $t = 0.56$, $p = 0.29$: nothing. Analysing paired data as independent throws most of the power away.
+To see this, suppose every "after" weight in our table were 2 kg lower, a real average loss of 1.53 kg. On the same 30 numbers:
+
+| Test | $t$ | $p$ (right-tailed) |
+|---|---|---|
+| Paired t-test | 2.43 | **0.015**: significant |
+| Independent t-test (wrong here) | 0.56 | 0.29: nothing |
+
+The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as independent gives $\sqrt{s_1^2/n + s_2^2/n} = 2.75$ kg, more than four times larger. The result is typical, not a lucky table: averaged over 2000 simulated groups of 15 people like ours (weights spread by about 8 kg, a true loss of 1.5 kg), the median p-value is 0.017 for the paired test and 0.31 for the independent test. Analysing paired data as independent throws most of the power away (Rice §11.3; OpenIntro §7.2).
+
+> **Extra:** The variance of the mean difference shows when pairing pays off:
+> $$\operatorname{Var}(\bar{d}) = \frac{\sigma_1^2 + \sigma_2^2 - 2\rho\,\sigma_1\sigma_2}{n}$$
+> Here $\rho$ is the correlation between the two measurements of a pair. The independent test ignores the last term, as if $\rho = 0$. A heavy person stays heavy, so $\rho$ is close to 1 and the paired variance is far smaller. If the pairs were barely linked ($\rho$ near 0), pairing would gain little.
 
 ## 8. Comparing two machine learning models
 
-> **Key point:** Scores of two models on the same cross-validation folds are paired, so a paired t-test checks whether one model is really better.
+> **Key point:** Scores of two models on the same cross-validation folds are paired, so we compare them with a paired t-test.
 
-When two models are evaluated with k-fold cross-validation on the **same folds** (see the [pipelines Note](../29-pipelines/note.md)), each fold gives a pair of scores, one per model. The pairs are linked: a hard fold is hard for both models. So the fold-by-fold comparison is a paired t-test, one of the machine learning uses listed in the [errors, power and tails Note](../292-errors-power-and-tails/note.md).
-
-On scikit-learn's breast cancer dataset, with the same 10 stratified folds:
-
-| Model | Mean accuracy over 10 folds |
-|---|---|
-| Logistic regression (with scaling) | 0.977 |
-| Decision tree | 0.923 |
-
-The paired t-test on the 10 pairs of accuracies gives $t = 3.90$, $df = 9$, $p = 0.004$: logistic regression is significantly more accurate on this data.
-
-> **Extra:** The fold scores are not fully independent: any two training sets share 8 of the 10 folds. This makes the plain paired t-test overconfident (too many false positives). The **corrected resampled t-test** of Nadeau and Bengio (2003) inflates the variance by the factor $1/k + n_{\text{test}}/n_{\text{train}}$ ($1/10 + 1/9$ here). It gives $t = 2.68$, $p = 0.025$: still significant here, but with a much smaller margin. For important model choices, use the corrected test or repeated cross-validation.
+When two models are evaluated with k-fold cross-validation on the **same folds** (see the [pipelines Note](../29-pipelines/note.md)), each fold gives a pair of scores, one per model, measured on the same test data. A fold that is hard for one model tends to be hard for the other, just as a heavy person is heavy both before and after. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, one of the machine learning uses listed in the [errors, power and tails Note](../292-errors-power-and-tails/note.md).
 
 ## 9. Summary
 
@@ -288,7 +288,14 @@ The paired t-test on the 10 pairs of accuracies gives $t = 3.90$, $df = 9$, $p =
 - Desktop against mobile: $t = 5.20$, $p = 0.000003$, a clear difference.
 - Titanic men against women, 25 each: $p = 0.40$, a Type II error, since the true means differ by 1.9 years.
 - The paired t-test is a one-sample t-test on the differences; the tail follows from $H_1$ and the sign convention of $d$.
-- Pairing removes between-subject variation and greatly raises power; model scores on shared folds are paired.
+- Pairing removes between-subject variation and greatly raises power when the pairs are strongly linked.
+- Weights 2 kg lower after: paired $p = 0.015$, independent $p = 0.29$. Model scores on shared folds are paired too.
+
+## Sources
+
+- Rice, J. A. (2007). *Mathematical Statistics and Data Analysis*, 3rd ed. Duxbury. §11.3, Comparing paired samples.
+- Diez, D. M., Çetinkaya-Rundel, M. and Barr, C. D. (2019). *OpenIntro Statistics*, 4th ed. §7.2, Paired data.
+- Delacre, M., Lakens, D. and Leys, C. (2017). Why psychologists should by default use Welch's t-test instead of Student's t-test. *International Review of Social Psychology* 30(1), 92–101.
 
 ## 10. Key terms
 
@@ -301,4 +308,3 @@ The paired t-test on the 10 pairs of accuracies gives $t = 3.90$, $df = 9$, $p =
 | Welch's t-test | The two-sample t-test that does not assume equal variances |
 | Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test |
 | Paired observations | Two measurements that belong to the same subject or matched pair |
-| Corrected resampled t-test | A paired t-test for cross-validation scores that allows for the overlap between training sets |

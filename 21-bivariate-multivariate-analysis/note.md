@@ -112,7 +112,7 @@ On the Titanic, we can ask: what was the average age of the passengers in each c
 |---|---|---|---|
 | Mean age (years) | 38.2 | 29.9 | 25.1 |
 
-First-class passengers were the oldest on average, about 38. Second and third class were younger, and closer to each other. Older people were more likely to afford the expensive tickets.
+First-class passengers were the oldest on average, about 38. Second and third class were younger, and closer to each other.
 
 The hue setting splits each bar by a further column. Figure 3 splits each class by sex: in every class, the men were on average older than the women.
 
@@ -130,7 +130,7 @@ The hue setting splits each bar by a further column. Figure 3 splits each class 
 >
 > Plotly draws the bars we give it, so we compute the means first with `groupby`. seaborn computes them itself: `sns.barplot(data=titanic, x="Pclass", y="Age", hue="Sex")`.
 
-> **Extra:** The black line on each bar in Figure 3 is a **confidence interval**: a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default.
+> **Extra:** The black line on each bar in Figure 3 is a **confidence interval**: a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default (seaborn docs, `barplot`: `errorbar=("ci", 95)`).
 
 ## 5. Box plot: spread of a numerical column across categories
 
@@ -167,7 +167,7 @@ To compare groups, we split the rows by a category and draw one curve per group.
 
 Where one curve lies above the other, that group is more common at those ages:
 
-- **Under about 12:** the green curve is higher. Children were more likely to survive than to die; 61% of passengers under 10 survived. They were probably helped into the lifeboats first.
+- **Under about 12:** the green curve is higher. Children were more likely to survive than to die; 61% of passengers under 10 survived. The rule "women and children first" for the lifeboats is the usual explanation (Frey et al. 2011).
 - **About 15 to 30:** the red curve is higher. Young adults were more likely to die.
 - **Older ages:** the curves cross back and forth, with no clear winner.
 
@@ -184,9 +184,9 @@ Such a pattern is invisible in the raw table of 891 rows. A plot of two columns 
 >
 > `common_norm=False` scales each curve on its own, so both have area 1 and we compare their shapes. The Notebook builds the same curves with `scipy.stats.gaussian_kde` and plots them with Plotly.
 
-> **Extra:** Older code uses `sns.distplot(..., hist=False)`, once per group. `distplot` has been deprecated since seaborn 0.11 and is being removed; `sns.kdeplot` (curve only) and `sns.histplot` (bars) replace it.
+> **Extra:** Older code uses `sns.distplot(..., hist=False)`, once per group. `distplot` has been deprecated since seaborn 0.11 (seaborn release notes, v0.11.0); `sns.kdeplot` (curve only) and `sns.histplot` (bars) replace it.
 
-> **Extra:** A KDE curve is built by placing a small bell-shaped bump on every data value and adding the bumps up. Where many values sit close together, the bumps pile up into a peak. The total area under each curve is 1, so a curve shows the share of a group at each age, not the count.
+> **Extra:** A KDE curve is built by placing a small bell-shaped bump on every data value and adding the bumps up. Where many values sit close together, the bumps pile up into a peak (Silverman 1986, Ch. 2). The total area under each curve is 1, so a curve shows the share of a group at each age, not the count.
 
 ## 7. Heatmap: two categorical columns
 
@@ -248,9 +248,9 @@ Figure 7 shows the result for three columns:
 
 The ports raise a new question: why would the boarding port matter? A plot rarely ends the analysis; each finding suggests the next question to check.
 
-> **Extra:** The next question can be answered with another crosstab. Of the Cherbourg passengers, 51% travelled first class, against 20% at Southampton and 3% at Queenstown; Cherbourg also had a larger share of women (43%, against 32% at Southampton). The port itself probably did not save anyone: it stands in for class and sex.
+> **Extra:** The next question can be answered with another crosstab. Of the Cherbourg passengers, 51% travelled first class, against 20% at Southampton and 3% at Queenstown; Cherbourg also had a larger share of women (43%, against 32% at Southampton). Class and sex explain most of the port effect. Overall, 55% of Cherbourg passengers survived against 34% from Southampton, but within the same class and sex the gap mostly shrinks: first-class women 98% against 96%, first-class men 40% against 35%. Third-class women are the exception (65% against 38%).
 
-> **Extra:** Older code writes `titanic.groupby("Embarked").mean()["Survived"]`. In pandas 2 and later this raises an error, because `mean` cannot average text columns such as `Name`. Selecting the column first, `groupby("Embarked")["Survived"].mean()`, avoids the problem and is faster.
+> **Extra:** Older code writes `titanic.groupby("Embarked").mean()["Survived"]`. In pandas 2 and later this raises an error (pandas release notes, 2.0.0), because `mean` cannot average text columns such as `Name`. Selecting the column first, `groupby("Embarked")["Survived"].mean()`, avoids the problem and is faster.
 
 ## 8. Clustermap: grouping similar categories
 
@@ -349,7 +349,7 @@ A **pivot table** reshapes long data into a grid: one column's values become the
 >
 > `index` gives the rows and `columns` the columns. If several rows fall into one cell, `pivot_table` averages them; here each cell has exactly one.
 
-> **Extra:** The month names are text, so a CSV file loses their calendar order and the table comes out alphabetical (Apr, Aug, Dec...). `table.reindex(["Jan", "Feb", ..., "Dec"])` puts them back in order. The copy that seaborn downloads keeps the order, because it stores `month` as an ordered category.
+> **Extra:** The month names are text, so a CSV file loses their calendar order and the table comes out alphabetical (Apr, Aug, Dec...). `table.reindex(["Jan", "Feb", ..., "Dec"])` puts them back in order. The copy that seaborn downloads keeps the order, because `load_dataset` stores `month` as a category with the months in calendar order (seaborn source, `load_dataset`).
 
 As a heatmap (Figure 11), a 12 by 12 table of numbers becomes easy to read:
 
@@ -391,6 +391,13 @@ The column tree does the same for the years. Neighbouring years with similar tra
 - When groups differ in size, compare percentages, not counts: the mean of a 0/1 column is the share of 1s.
 - Each finding raises the next question, such as why Cherbourg passengers survived more often.
 - In current pandas and seaborn: pass columns by name (`x=`, `y=`, `hue=`), use `kdeplot` instead of `distplot`, and select the column before `groupby(...).mean()`.
+
+## Sources
+
+- Frey, B., Savage, D. and Torgler, B. (2011). Behavior under Extreme Conditions: The Titanic Disaster. *Journal of Economic Perspectives* 25(1).
+- seaborn documentation. `seaborn.barplot`; release notes v0.11.0; source of `seaborn.load_dataset`. seaborn.pydata.org.
+- Silverman, B. (1986). *Density Estimation for Statistics and Data Analysis*. Chapman and Hall.
+- pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 
 ## 13. Key terms
 

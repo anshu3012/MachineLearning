@@ -54,7 +54,7 @@ Figure 3 shows how approaches to AI changed over time. Serious work on AI began 
 
 The first approach was **symbolic AI**: humans write down the knowledge a machine needs, as explicit rules. The machine then follows those rules.
 
-> **Extra:** The start of AI is usually dated to Alan Turing's 1950 paper *Computing Machinery and Intelligence*, which asked "Can machines think?". The middle two eras in Figure 3 are approximate.
+> **Extra:** Two dates mark the start of AI. In 1950 Alan Turing asked "Can machines think?" (Turing 1950), and in 1956 a summer workshop at Dartmouth gave the field its name, *artificial intelligence* (Russell and Norvig 2020, §1.3.1). The middle two eras in Figure 3 are approximate.
 
 ### 3.1 How an expert system works
 
@@ -158,7 +158,7 @@ Figure 7 shows a network recognising a handwritten digit:
 2. The next layer combines edges into **shapes**: a horizontal bar and a slanted line.
 3. The next layer combines the shapes into the answer: 7.
 
-> **Extra:** Nobody tells the layers to look for "edges" or "shapes". When researchers inspected trained networks, they found that early layers tend to respond to edges and later layers to larger parts. Figure 7 is a simplified version of this.
+> **Extra:** Nobody tells the layers to look for "edges" or "shapes". When researchers looked inside trained image networks, they found that the first layers respond to edges and blobs of colour, and later layers to larger parts such as faces or wheels (Zeiler and Fergus 2014, Fig. 2). Figure 7 is a simplified version of this.
 
 ### 5.4 More data helps DL more
 
@@ -202,6 +202,12 @@ Many organisations, such as banks and insurance companies, do not have that much
 - DL learns its own features.
 - With more data, DL keeps improving while ML levels off.
 - With little data, use ML.
+
+## Sources
+
+- Russell, S. and Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*, 4th ed. Pearson.
+- Turing, A. (1950). Computing Machinery and Intelligence. *Mind* 59(236).
+- Zeiler, M. and Fergus, R. (2014). Visualizing and Understanding Convolutional Networks. *ECCV*.
 
 ## 8. Key terms
 

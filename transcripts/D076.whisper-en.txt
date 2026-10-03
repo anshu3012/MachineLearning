@@ -1,0 +1,261 @@
+Hi guys, my name is Ditesh and you are welcome to my YouTube channel.
+In this video also, we will continue our deep learning playlist.
+We have started to study Transformers and from the last 3-4 videos, we are studying a very important component of Transformers
+whose name is Self-Attention.
+And in this video also, we will study about Self-Attention.
+Today's video is very interesting because here we will try to answer a very interesting question.
+and the question is that why self attention is called self
+and trust me this is also a very good interview question
+so in that sense this video is very important
+now I know there are many of you who are a little impatient
+that sir let's quickly cover this and move to transformer architecture
+so I just want to give you a small advice
+that if you are given a task of cutting a tree and you are given 6 hours
+then you should sharpen your axe for 4 hours
+so we are also doing the same work
+reading transformer architecture is equivalent to cutting a tree
+and working hard on self attention is equivalent to sharpen your axe
+so trust me if I am making 4-5 videos here
+it will actually help you understand transformer architecture much better
+So don't get impatient, this is going to be the last video on self-attention, after this we will have one more video on multi-head attention, we will cover one more thing called positional encoding and after that we will move on to transformers architecture, so thank you for being patient, this video is also going to be very interesting, let's start the video.
+Why is self-attention called self?
+If you don't understand this, then you will have to first understand why self-attention is attention.
+If you compare it with other attentions that you have read so far,
+like Bardenau or Luong,
+then you will first realize that self-attention is quite different from these two.
+In fact, when I was studying self-attention for the first time, I had the same question in my mind.
+How did self-attention become attention?
+So first of all, we will answer this question that how is self-attention called attention mechanism?
+And then when you understand this thing, then we will answer this question that why do we call it self?
+So this is our plan of action.
+now to understand why self-attention is called attention, let's go back a bit and take a recap of the attention mechanism, which we had read 5-6 videos before
+now before giving a recap, I just want to tell you one thing, I really hope you are not bored when I give you a recap
+because my way of giving a recap is a little more detailed, I repeat a lot in the recap
+So I really hope you are not bored. I think that by giving a recap again and again, the student's mind gets stuck.
+The same mechanism is used in advertisements by marketing people that show ads so many times that it sticks to the mind.
+So I also try to do the same. So I really hope you are not bothered by it.
+So let's take a recap of the attention mechanism. How did the attention mechanism come in the picture?
+So, if you remember, we were trying to solve the task of language translation using neural networks, deep learning.
+Meaning, we have been given a sentence in English and we have to make its Hindi translation.
+And we discovered that to solve this type of task, to solve sequence to sequence task,
+we should be using something called Encoder-Decoder architecture.
+So, in Encoder-Decoder architecture, there is one encoder and one decoder.
+Both of them have LSTMs.
+Now, what happens is that you feed your sentence to the encoder on a word-by-word basis.
+Encoder processes your sentence and maintains a hidden state like here is H0, here is H1, here is H2, here is H3 and finally after seeing the whole sentence there is H4.
+So we also call this H4 as context vector and in this context vector we summarize all the information which was in this sentence.
+And then we send this summary to the decoder.
+Now what does the decoder do? It picks up this context vector and gives us the output in a step-by-step fashion.
+First light, then close, then do.
+Now this approach was good, but there was a very big problem in this approach.
+That you are putting the full responsibility of understanding your sentence on this context vector.
+This context vector is nothing but just a set of numbers.
+Right?
+But, if somehow your input sentence gets bigger,
+becomes more than 30 words,
+in that case,
+you can't effectively put your sentence in this context vector by summarizing it,
+because after all, how much information can these set of numbers handle?
+Right?
+So then,
+And then researchers noticed that if you are sending sentences with greater than 30 words in this system, then the quality of the translation is getting worse.
+So to solve this problem, the attention mechanism came.
+Attention mechanism says a simple thing that after looking at this whole sentence, it would be better to put its summary in only one vector and send it to the decoder.
+If you send different context vectors on each time step of the decoder.
+Here we are sending only one context vector and all these time steps are using the same context vector.
+Attention mechanism says that there is no need to load so much on the system.
+When you are going to print the first word, then the first word will have its own context vector.
+And this information will be hidden in the context vector that which of these input word will be useful in printing this word.
+So with the help of our hidden states, we make this context vector.
+For example, if we want to make c1, then the formula of c1 is alpha11h1 plus alpha12h2 plus alpha13h3 plus alpha14h4.
+Basically, what we are doing is taking out these four hidden states and assigning a weight to all of them.
+alpha11, alpha12, alpha13, alpha14
+and that will be our C1
+ok
+and these alphas are telling us
+that to print this current word
+which input hidden state will be most useful
+if alpha11 is the most
+then we are understanding that
+to print light
+This particular word is the most useful, similarly, when you go to print the closed, then its own context vector will be C2 and how will C2 come out?
+C2 will have their own weights.
+α21, h1, α22, h2, α23, h3, α24, h4.
+Then, crores will be their own and ends will be their own.
+Okay?
+Now, the biggest question that came was
+how will these alphas be calculated?
+By the way, how many alphas are there here?
+Alphas will be very simple.
+The number of words in your output sequence which is 4
+and the number of words in the input sequence is 4
+so there will be 16 alphas
+now the biggest question is how to calculate alphas
+so the way to calculate alpha ij is
+that you take softmax of eij
+so basically for every alpha there is a corresponding e
+for alpha12 there is e12
+and alpha22 there is e22
+now what is called as e22 or eijs
+they are called alignment score
+alignment score
+and how these alignment scores are calculated
+specially if you talk about long attention
+so maybe you remember in long attention
+there was a way to calculate eijs
+that you used to take the hidden state of decoder
+and used to product it with the hidden state of the encoder
+basically if the time step is i and the time step is j
+then basically you used to product the dot of S i H j
+with this you used to get E i j
+let me show you by doing it
+For example, if you want E11, then you will get it from the dot product of S1H1.
+If you want E12, then you will get it from S1H2.
+If you want E13, then you will get it from S1H3.
+If you want E14, then you will get it from S1H4.
+I hope you are able to understand.
+So, if I try to write all the equations here, then our CI is made up of Sigma, Alpha, IJ, and HJ.
+Basically, I have written this equation.
+Now, what are these Alpha, IJs? These are your weights.
+So, how are these weights calculated? These weights are calculated with the help of softmax function.
+And you apply this on EIJ.
+Now, what are these EIJs? These are your alignment scores and how do these alignment scores calculate?
+By performing the dot product between encoder hidden state and decoder hidden state.
+So, by combining these three equations, our Luong attention is made.
+I hope I gave you a quick revision.
+If you found this video fast paced, then I would recommend you to watch this video on my channel.
+Badanau Attention vs Luang Attention.
+It is 52 minutes long.
+I hope you have watched it.
+If you haven't watched it, then watch this video.
+I have explained everything.
+Watch it on 1.5 speed.
+But it is very important to understand this video.
+So whatever it is, I gave you a quick recap about how attention works.
+Now we will compare this whole process with self-attention and try to draw similarities.
+Now let's understand how self-attention is similar to bar-denow or long attention.
+Now the first thing in self-attention is that when we read self-attention, we didn't have a decoder or an encoder, we just had a sentence.
+Turn off the lights.
+That's it, and what we had to do, we had to make embedding vectors from this sentence, first of all, this is a very easy work, you can use word2vec or any other technique, and then we had to make contextual embeddings from it, this is what we had learned, okay, so what I am going to do now, I will compare this whole process side by side and show you.
+with the previous process, and you will notice that both are very similar, at least conceptually both are very similar, okay, so what did you do to generate these contextual embeddings, first of all, what did you do
+that you have formed three new vectors from your embedding vector for every word, first you made
+Q-turn, K-turn, V-turn
+for your word turn
+then you will make 3 vectors for off, for the and for lights
+now for every word you have to print its contextual embedding
+ok, so how will you do this work, see it is very simple, I write this whole thing in a way that everything will make sense
+turn off the lights, and I wrote the same sequence here, turn off the lights
+under every word, I am writing its query vector
+qturn, qoff, qthe, qlights
+and under every word, I am writing its key vector
+kTurn, kOff, kThe, kLights
+now my focus is on generating the contextual embedding of this first word
+you can understand that we are at the first time step of decoder
+and we have to generate this c1 for this
+Now how will this y-turn come?
+y-turn will be
+w11 times vturn plus w12 times voff plus w13 times vthe plus w14 times vlights
+Okay, kind of similar to this formula, so now our focus should be on removing W11, W12, W13 and W14.
+So where will this come from? This will come actually when you do softmax.
+S11, S12, S13, S14
+kind of like this
+now how will S11, S12, S13, S14 come?
+very simple
+when you dot product Qturn with Kturn
+you will get S11
+when you dot product Qturn with Koff
+you will get S12
+when you dot product Qturn with Sder
+you will get S13
+and when you will do it with this, you will get S14
+as soon as you get all these
+you will put softmax on them
+with this
+you will get W11, W12, W13, W14
+you had Vturn, Voff, Vthe
+Vlights, so you got
+Yturn, so in a way
+you got C1, now you will go to the next one
+you have to take out C2
+like here for you
+next goal will be
+take out Y off
+then what will you do
+you will repeat things
+what you have to do
+Q off
+take out K turn similarity
+you have to take out all these similarities
+with this you will get
+S21, S22
+S23, S24
+put softmax on it
+you will get W21, W22, W23, W24
+and by doing weighted sum of them
+multiply by Vturn, Voff, Vthe and Vlight
+you will get Yoff
+kind of like C2
+so in a way if you try to understand
+then exactly same thing is happening
+At this point, before your edges, the S1, S2, S3, S4 is your query.
+Because when you are reaching here, then only you are getting this requirement that you want to know which of these four is most useful to print the slide.
+so this thing is doing query
+so from here we are doing query
+and these are keys
+h1, h2, h3, h4
+these are keys
+like there are keys here
+there is dot product between these two
+we are getting alignment score from it
+here we are getting similarity score
+we are normalizing it by doing softmax
+and then we are removing weighted sum
+here we are removing weighted sum on the v vector
+let me draw the similarities
+in your long attention and self-attention
+the hidden states of your decoder
+they work as a query in self-attention
+because in a way you are asking a query
+your hidden state here
+hj
+it works as a key in self-attention
+it answers and tells that this is the similarity
+and finally these hjs
+also act as value
+here
+V vector and H vector are same
+but essentially these three operations are happening in self-attention also
+and that is why you call self-attention attention, that is the attention mechanism
+because essentially you are doing the same thing
+now the last thing, the topic of this video
+that why do we call ourselves
+I guess you must have understood by now
+This attention, long attention, you calculate it between two different sequences.
+Here is an English sentence or English sequence and here is a Hindi sentence or Hindi sequence.
+So basically, you are using an inter-sequence attention mechanism.
+You are calculating the attention mechanism between two sequences.
+But notice here, the sentence here and the sentence here are the same.
+So in a way, this is like intra sequence.
+You are calculating attention between the same sequence and that is why we call it self-attention.
+So, we talked a lot but we discussed two things in detail.
+First, why is self-attention an attention mechanism?
+When we are not talking about encoder or decoder, it looks very different from the architecture point of view
+if you compare it with Luang attention or Bandhanav attention.
+But this attention is there because the mathematical formulation is exactly same.
+we are reusing the same three equations in a different setting
+so this is attention
+now the question arises why do we call it self
+so we call it self because the other attentions that we had read till now
+those attentions used to calculate alignment scores between two different sequences
+attention mechanism used to apply
+whereas self attention is a form of attention where
+and you calculate the alignment scores or similarity scores in the same sequence
+and that is the reason why we call it self-attention
+so with that we have studied self-attention in detail in 5 videos
+and I truly believe that if you have watched these 5 videos
+then you will have a deep knowledge of self-attention
+and when we will do further topics like multi-head attention, positional encoding, transformer architecture
+this knowledge is going to be very useful for you at all those places
+so if you liked this video then please like it
+and if you haven't subscribed to this channel then please do subscribe
+see you in the next video, bye

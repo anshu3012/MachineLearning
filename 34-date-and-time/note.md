@@ -99,9 +99,9 @@ When pandas loads a CSV file, a date column arrives as plain text (dtype `str`).
 
 The table itself looks the same before and after: only `orders.info()` shows the new type. The same conversion can be done while reading the file, with `parse_dates=["date"]` in `read_csv` ([Note 15](../15-working-with-csv/note.md), Section 15).
 
-> **Extra:** The `[us]` in `datetime64[us]` is the **resolution**: the smallest step the column can store, here one microsecond. Older pandas always used nanoseconds and showed `datetime64[ns]`. Since pandas 3, text is parsed at microsecond resolution. The dates and every result in this Note are the same either way.
+> **Extra:** The `[us]` in `datetime64[us]` is the **resolution**: the smallest step the column can store, here one microsecond. Older pandas always used nanoseconds and showed `datetime64[ns]`. Since pandas 3, text is parsed at microsecond resolution (pandas release notes, 3.0.0). The dates and every result in this Note are the same either way.
 
-> **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row. That causes two surprises with day/month dates:
+> **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row (pandas release notes, 2.0.0, "Datetimes are now parsed with a consistent format"). That causes two surprises with day/month dates:
 >
 > - `"10/12/2019"` is read month first, as 12 October 2019.
 > - `["10/12/2019", "25/12/2019"]` stops with `ValueError: time data "25/12/2019" doesn't match format "%m/%d/%Y"`, because there is no month 25.
@@ -219,7 +219,7 @@ A year has 52 weeks, and sometimes 53. The week number tells us where in the yea
 
 Older code writes `orders["date"].dt.week`. It was deprecated in pandas 1.1 and removed in pandas 2, so it now fails with `AttributeError: 'DatetimeProperties' object has no attribute 'week'`. The new way gives exactly the same numbers.
 
-> **Extra:** The week numbers follow the **ISO calendar**: weeks run Monday to Sunday, and week 1 is the week that contains the year's first Thursday. So the last days of December can belong to week 1 of the next year. 29 December 2019 (a Sunday) is in week 52 of 2019, but 30 December 2019 (a Monday) is in week 1 of 2020. For such dates `isocalendar().year` differs from `.dt.year`.
+> **Extra:** The week numbers follow the **ISO calendar**: weeks run Monday to Sunday, and week 1 is the week that contains the year's first Thursday (ISO 8601). So the last days of December can belong to week 1 of the next year. 29 December 2019 (a Sunday) is in week 52 of 2019, but 30 December 2019 (a Monday) is in week 1 of 2020. For such dates `isocalendar().year` differs from `.dt.year`.
 
 ### 5.7 Quarter
 
@@ -450,6 +450,11 @@ The unit letters are case-sensitive:
 - A month has no fixed length: use an average month of 30.436875 days, or count calendar months.
 - Fix "today" as a constant so that results do not change between runs.
 - Give `pd.to_datetime` a `format` when dates are written day first.
+
+## Sources
+
+- ISO 8601. Date and time format, week dates. International Organization for Standardization.
+- pandas release notes. What's new in 2.0.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.
 
 ## 10. Key terms
 

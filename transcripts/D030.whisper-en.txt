@@ -1,0 +1,242 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also, we will continue our deep learning playlist
+In the last video, we started reading about weight initialization
+and I told you what things you should not do
+In this video, we will go ahead and discuss what techniques are used
+to initialize the weights of a neural network
+We will see two techniques
+Xavier initialization and Hay initialization
+And we will also see its Keras implementation in this video.
+So let's start the video.
+So guys let's summarize what we cannot do in a neural network while doing weight initialization.
+We discussed this in detail in the last video and there are 4 points in the summary.
+The first thing you cannot do is zero initialization.
+Means you cannot set the value of all your weights to zero.
+The reason for this is that as soon as you do this, there will be no training, the value of your weights will remain as it is, 0 to 0 will remain, at least in the case of tanh and ReLU, there is no benefit.
+Then we discussed the second option that what if we take non-zero constant values like 0.5 of all the weights.
+in this case also there was no benefit as I told you in the last video
+because what will happen is that your multiple weights will get updated at the same time
+so what happens is that if you are adding 10 nodes in a hidden layer then it will act as a single node
+so your model will not be able to capture non-linearity
+it will remain as a linear model which has no benefit
+after this we thought why not try random weights
+so we thought we will generate random weights using this function
+whatever shape we want to generate
+suppose if this is the structure
+then this will be the shape for 4 weights 2,2
+because we need 4 weights
+and we had multiplied it with 0.01
+we thought we will initialize with small weights
+but what was the problem with this?
+there were two problems with this
+first, vanishing gradient problem
+and second, slow convergence
+means
+the model was reaching its solution very late
+ok
+so then we thought let's do one thing
+let's initialize with some bigger weights
+so we
+means
+we stopped multiplying with 0.01
+and
+we simply applied this formula
+and these weights were generated between minus 3 to 3 roughly speaking
+the weights generated here were from minus 0.01 to minus 0.01
+very small weights
+so basically we understood that we have to initialize from random weights
+but in what range those numbers are, it matters a lot, you can't take it in such a small range and you can't take it in such a big range
+so you have to find an intermediate solution, this was our learning
+so now the question is what we can do
+fortunately we are living in such a day and age where this problem has already been solved
+brilliant minds in deep learning
+they have worked on this problem
+and they have found some heuristics
+heuristics means in simple words
+Jugaad
+means they have found some practical solution
+by experimentation
+which is working very well
+so today we will read those two practical solutions
+So there are two different solutions, the first one is Xavier or sometimes it is called Glorot, both are the same person's name.
+Initialization and second is He or whatever is said, He initialization.
+And in both of these we will read two types, one we will read Xavier's normal version.
+Where you will use normal distribution and second we will read uniform.
+and here also we will read normal and uniform
+in keras these two are implemented
+now the good part is that you should know that if you are working with tanh or sigmoid
+working with sigmoid. If you are working with tanh then you should use xavier initialization.
+It has been proven experimentally that xavier gives better results with tanh. And if you
+are working with relu then you should work with hay initialization. Again it is experimentally
+proven that hay results better with relu. So this is what we have to study in this video.
+So there is nothing, basically some formulas have come out through experiments, we will just look at those formulas and then implement them in Keras.
+But before that, I want to give you an intuition that why these formulas work.
+If you have understood the discussion till now, then you have understood that you have to initialize your weights with random values, this is for sure.
+But the variance of the weights that you will initialize can't be very small like this and can't be very big like this.
+because from both of these we get our own different problem
+by the way I may not have told you that if you work with large weights then also you get vanishing gradient problem
+if you are working with sigmoid and tanh and you can also get exploding gradient problem if you are working with ReLU
+so the only thing is that we need random weights but not too small or too big
+So according to our requirement, we have to do random weight initialization in a good range or with a good variance.
+This is what we have to understand now.
+Intuition is very simple. If you have followed everything till now, then you will understand.
+So we were doing two things in random weight initialization till now, if you remember.
+we were taking small weights and in case of small weights we were doing np.random.randn
+if you see this setup where 250 dimensional inputs are going in one hidden layer where 250 nodes are there
+basically this node is getting 250 inputs and there are 250 nodes like this so it will be shaped as 250,250
+we were multiplying it with a small constant like 0.01
+and in the case of large values
+we were writing this
+np.random.randn
+same 250 comma 250
+but this time we were multiplying it with 1
+now what is the problem in both of them, I will try to explain it to you
+and then we will see the solution
+if you are multiplying from 0.01 then all these weights are in this range
+or roughly in this range
+now think yourself that your x's are in the range of 1 to 1 or 0 to 1 which are again small
+if you multiply 250 numbers like this and add 250 numbers like this
+that number would be a very small number
+and as you were sending it in this node, its activation functions are designed in such a way
+that they were making it zero
+so this was the problem in the case of small
+In the case of large, the problem was that the number you generated was in the range from minus 3 to 3.
+So you multiply minus 3 to 3 in the range of minus 1 to 1 and add 250 numbers like this.
+So that number could be in the range of minus 250 to 250.
+Roughly.
+Now when you were sending such a big thing in your activation function, it was getting saturated.
+Means if it is minus 250, then depending on the activation function, it was going to be negative max as in min and if it is positive 250, then it was reaching the maximum value.
+So there was a problem in both the cases.
+So the problem is coming because your node uses this expression to calculate z.
+So the first thing that you can understand and the scientists also understood that you can't multiply with any constant
+Because then there will be no flexibility, the number with which you multiply should be dependent on the architecture of the neural network
+so that's why mathematically people proved it but I am telling you directly without the mathematics because mathematics is a little difficult
+people decided that the number we will generate here, its variance should be 1 by n
+What is n? n is the number of nodes in the previous layer of the layer you are initializing.
+Or in simple words, how many inputs this node is getting? 250. So variance should be 250.
+And this means that what will you multiply here?
+You will multiply root over of 1 divided by 250
+which is the standard deviation.
+Okay. What is the intuition of this thing?
+Intuition is very simple.
+If n is very high
+this means you have
+these inputs very high.
+So you want to minimize this.
+That's why you made every number small, you reduced the range.
+Think about it, range is defined by 1 by n, if n is very big, then every individual weight will be very small.
+And if n is very less, if the value of n is 2 inputs, in that case your weight will be big.
+And that's the intuition, this is what the scientists did, that they set the value of variance as 1 by n.
+What is n? How many nodes are there in the last layer?
+Or you can say that how many inputs are coming in a single node, number of inputs.
+Let me explain it again, intuition is very simple.
+If there are too many inputs, then you don't want this number to be too big, so you will make the WI's small, that's why you made it 1 by n
+And if the number of inputs is too less, then the WIXI should not be too small, so you will make the WI's a little bigger
+Because of this, okay
+So this is Xavier Initialization, let me tell you
+The formula of Xavier initialization is of the normal one.
+The formula of the normal one is
+root over of 1 divided by fan underscore in.
+What is fan in?
+Fan is basically number of inputs coming to the node.
+how many inputs are coming in a particular node, that is the fan-in
+so in Xavier initialization what you do is
+suppose this is
+you want to initialize these 4 weights
+so you write this
+np.random.randn
+multiplied by root over of 1 by 2
+This is Xavier Initialization
+In some places, this formula is implemented in a different way
+In some places, this is used
+toFanIn plus FanOut
+FanOut is the output coming out of a particular note
+This is used more, so you focus on this
+But you should know that there is a variation
+So I will quickly run it in Keras and show you that you will get good results by using this thing.
+So guys you can see I am working on the same data again.
+To be consistent.
+Our data looks like this and we have to handle it.
+So this is the architecture of my model.
+I have taken 4 hidden layers.
+There are 10 neurons.
+Activation function is tanh, and I have removed all weights from get weights and then I am changing them, you can see.
+np.random.randin and this time I am doing np.square root 1 by 2 because the input coming in the first layer is 2
+and then in the subsequent one, the input is 10. So you can see, I have initialized my biases from 0, there is no problem.
+And I have set these weights from set weights and here are my new weights.
+Okay.
+And you can see, you might be getting an idea about the range.
+And then what I did, I trained my model with the same settings, nothing is different here.
+And as soon as I trained the model, you can see the weights have changed after doing get weights.
+That means the training has been done properly.
+And finally, when I plot my graph, you can see a very good result is coming.
+There is no overfitting and there is no underfitting too, the pattern in the data is being roughly captured.
+If I would have run the model for a little more epox, then we would have got better results.
+But you get the idea how Xavier initialization is being done.
+You have to remember one thing, Xavier initialization will be applied on tanh, not on ReLU.
+So that's why I have done tanh here
+So now that you have seen and understood Xavier or Glorot Normal
+I will quickly tell you the formula of Hey Normal
+So you already know that Xavier works better in case of tanh
+And in case of ReLU Hey Normal will work better
+The formula is nothing
+In this formula there will be a small change
+that in place of 1, 2 will come and here will be fan-in, okay, so this is your formula, here
+basically you will do 2 by 2, okay, so this becomes normal and this is used in the case of ReLU, if
+you are working with ReLU, you should be using this one, okay, there is nothing else, now how
+these people reached these conclusions, this is heuristics, it has been done through experimentation, you can read their papers,
+it's just a bit complex, if you want to understand it at application level then this formula will be sufficient
+so these are the normal versions of both
+now there are also uniform versions
+uniform means formula based on uniform distribution
+so I will tell you both
+if you talk about Xavier or Glorot
+So the formula of Xavier Uniform is
+Between minus limit to limit
+You will initialize or generate your weights
+And you will define the limit
+By 6 divided by fan in plus fan out
+This is the formula of Xavier Uniform
+So you will generate your numbers in this given range
+Uniform distribution should be there
+And if you talk about Hey Uniform
+You have seen the normal
+If you talk about Hey Uniform
+so in that case your formula is
+you will generate numbers from minus limit to limit
+or you will generate weights and limit is defined by
+root over of 6 divided by fan underscore in
+that's it these are your
+You have to remember this. Actually, you don't have to remember this, I will show you how you can set these values in Keras.
+So, it is very easy to set this weight initialization technique in Keras.
+What you have to do is that you have to do this work layer by layer.
+For example, I am taking the same example.
+Here you just have to set the value of this kernel initialization parameter.
+As I am showing you working with ReLU, so I have set here HeyNormal, if you want you can also set HeyUniform,
+and if you want you can also set GlorotNormal or GlorotUniform, obviously you will do that when you are working with TANH.
+For now, I have made it normal. If you are thinking what is in default, if you don't specify it, then how is the initialization?
+So when I took out the source code of Keras, there was a Glorot uniform, default. So if someone asks you, you can tell this.
+So, we don't have to do everything in the morning. We have to run it.
+Let me run it once.
+Let's see the get weights.
+It will be of the same type.
+See, it is of the same type of weight initialization.
+Rest, we are not running this code now.
+We will not do these changes.
+We will directly execute.
+We will train our model.
+And our model is trained.
+Let's see its result once.
+You can see.
+It is fine.
+It is a little bad from the last time but again it happens because of multiple things, you will understand if you do changes.
+So this was hey normal, try hey uniform, keep tanh and try glorot uniform and glorot normal.
+So I told you how it is done in Keras. So that was the video guys.
+If you join both the videos then I know there was a lot of information.
+But you just have to remember the summary and know how to run it in Keras
+Although I would recommend that you run some things on some datasets
+Run experiments and put all the conclusions in your mind
+Then it will be more useful
+If you liked the video, then please like it
+And if you haven't subscribed to the channel yet, please subscribe
+That's it from my side, see you in the next video, bye

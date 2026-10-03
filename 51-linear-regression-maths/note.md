@@ -150,7 +150,11 @@ $$m = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 
 The top of the $m$ formula is $n$ times the covariance of $x$ and $y$; the bottom is $n$ times the variance of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
-> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ it is always a minimum, because $E$ is a sum of squares of straight-line expressions: a bowl that only curves upward. Figure 2 shows this shape.
+> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of straight-line expressions, a bowl that only curves upward (Figure 2). The check uses the second derivatives:
+>
+> $$\frac{\partial^2 E}{\partial b^2} = 2n, \qquad \frac{\partial^2 E}{\partial m^2} = 2\sum x_i^2, \qquad \frac{\partial^2 E}{\partial m\,\partial b} = 2\sum x_i$$
+>
+> The first is positive, and $\frac{\partial^2 E}{\partial b^2}\cdot\frac{\partial^2 E}{\partial m^2} - \left(\frac{\partial^2 E}{\partial m\,\partial b}\right)^2 = 4\left(n\sum x_i^2 - (\sum x_i)^2\right) = 4n\sum (x_i - \bar{x})^2$, which is positive whenever the $x_i$ are not all equal. By the second-derivative test for two variables, a flat point with both of these positive is a minimum.
 
 ## 5. The formulas on the placement data
 
@@ -168,7 +172,7 @@ $$m = \frac{101.204}{181.384} = 0.558$$
 
 $$b = 3.0039 - 0.558 \times 6.9899 = -0.896$$
 
-These are the numbers `LinearRegression` reported. Its `fit` does nothing more than these few sums.
+These are the numbers `LinearRegression` reported. scikit-learn reaches them by a different route: instead of these sums, `LinearRegression` solves the same least-squares problem with a matrix method, `scipy.linalg.lstsq` (scikit-learn docs, LinearRegression). The same problem has the same answer, so both give the same $m$ and $b$.
 
 ## 6. Our own linear regression class
 
@@ -198,7 +202,7 @@ These are the numbers `LinearRegression` reported. Its `fit` does nothing more t
 
 The predictions match scikit-learn's to every digit shown. The Notebook also checks the two conditions of Section 4 at the fitted line: the errors add up to 0, and so do the errors times $x$. Moving $m$ by just 0.01 raises $E$ from 16.55 to 17.35.
 
-> **Extra:** This class only handles one input column. The same idea works for many columns, written with matrices instead of single sums: that is multiple linear regression, coming soon. Calling `fit` again on a changed class also needs a fresh object: an old object keeps its old `m` and `b`.
+> **Extra:** This class only handles one input column. The same idea works for many columns, written with matrices instead of single sums: that is multiple linear regression, coming soon. If we edit the class and run its definition again, we must also create a new object: an object made before the edit keeps running the old code (Python reference §8.8).
 
 ## 7. Summary
 
@@ -215,7 +219,12 @@ The predictions match scikit-learn's to every digit shown. The Notebook also che
 - Errors are squared so they do not cancel, large errors count more, and the function can be differentiated.
 - The error function is a bowl in $(m, b)$; the best line is its bottom, where both partial derivatives are zero.
 - The best line always passes through $(\bar{x}, \bar{y})$.
-- scikit-learn's `LinearRegression` uses exactly these formulas (in matrix form).
+- scikit-learn's `LinearRegression` solves the same least-squares problem (with `scipy.linalg.lstsq`) and gets the same $m$ and $b$.
+
+## Sources
+
+- scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section. https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html
+- *The Python Language Reference*, §8.8 Class definitions. https://docs.python.org/3/reference/compound_stmts.html
 
 ## 8. Key terms
 

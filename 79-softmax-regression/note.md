@@ -17,7 +17,7 @@ title: "Softmax Regression (Multinomial Logistic Regression)"
 
 The logistic regression of the previous Notes handles **binary** classification: placed or not, spam or not. Many problems have more classes. A student might be placed, not placed, or opt out of placements altogether; an iris flower can be one of three species.
 
-**Softmax regression**, also called **multinomial logistic regression**, handles any number of classes. It is also the standard output layer of neural networks that classify, so it matters for deep learning too. With two classes it reduces exactly to ordinary logistic regression.
+**Softmax regression**, also called **multinomial logistic regression**, handles any number of classes. It is also the standard output layer of neural networks that classify, so it matters for deep learning too (Goodfellow et al. §6.2.2.3). With two classes it reduces exactly to ordinary logistic regression.
 
 ## 2. The softmax function
 
@@ -123,7 +123,7 @@ With 2 inputs and 3 classes there are $3 \times 3 = 9$ weights. Gradient descent
 > clf.predict([[3.4, 2.7]])              # [0]  (setosa)
 > ```
 
-> **Extra:** Older versions of scikit-learn needed `LogisticRegression(multi_class="multinomial")`. Recent versions removed that setting: with the default solver, multi-class problems always use softmax. One-vs-rest is still available as `OneVsRestClassifier(LogisticRegression())`.
+> **Extra:** Older versions of scikit-learn needed `LogisticRegression(multi_class="multinomial")`. Recent versions removed that setting: with the default solver, multi-class problems always use softmax. One-vs-rest is still available as `OneVsRestClassifier(LogisticRegression())` (scikit-learn docs, `LogisticRegression`).
 
 On 30 test flowers, the model gets 29 right (accuracy 0.967); the one mistake is a versicolor predicted as virginica.
 
@@ -139,7 +139,12 @@ Figure 3 shows the **decision regions**: each point of the plane is coloured by 
 - Training minimises the categorical cross entropy with gradient descent; with two classes, everything reduces to the sigmoid and the binary log loss.
 - Decision boundaries are straight lines.
 
-## 7. Key terms
+## 7. Sources
+
+- **Goodfellow et al.:** Goodfellow, I., Bengio, Y. and Courville, A. *Deep Learning*. MIT Press, 2016. Section 6.2.2.3, "Softmax Units for Multinoulli Output Distributions".
+- **scikit-learn docs:** `sklearn.linear_model.LogisticRegression`, scikit-learn 1.9.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

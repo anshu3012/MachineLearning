@@ -111,7 +111,7 @@ We make a dataset of 10,000 rows and 10 columns with `make_classification` (the 
 
 Bagging scores **0.945**, against 0.9265 for one tree. Training takes a while: 500 trees are trained instead of one. `n_jobs=-1` spreads them over every CPU core.
 
-> **Extra:** Older code passes the base model as `base_estimator=`. That name was removed in scikit-learn 1.4; the current name is `estimator`. Also, `max_samples` now defaults to `None`, which means "as many rows as the training set", the same as the old default of 1.0.
+> **Extra:** Older code passes the base model as `base_estimator=`. That name was deprecated in scikit-learn 1.2 and removed in 1.4; the current name is `estimator` (scikit-learn 1.2 changelog). Also, `max_samples` now defaults to `None`, which means "as many rows as the training set", the same as the old default of 1.0.
 
 ### 3.3 Which rows and columns each tree got
 
@@ -168,6 +168,9 @@ The OOB score, **0.943**, is close to the real test accuracy, **0.945**. The [OO
 From experiments on many datasets:
 
 1. **Bagging usually beats pasting.** Drawing with replacement makes the samples more varied, so the ensemble's variance is lower and it does better on new data, at the cost of a little more bias. Since it is only `bootstrap=True` or `False`, try both.
+
+   The theory agrees: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of the [bagging Note](../105-bagging-intuition/note.md), section 3.2: changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared bias a little higher (0.0019 against 0.0013).
+
 2. **`max_samples` between 0.25 and 0.5** usually works best for row sampling. Start at 0.25.
 3. **Column sampling** (random subspaces, random patches) is for **high-dimensional** data, with many columns. With few columns it hurts, as Figure 1 showed.
 4. **Tune with `GridSearchCV` or `RandomizedSearchCV`** instead of guessing (the [KNN Note](../91-knn/note.md), section 4.2, and the [regression trees Note](../99-regression-trees/note.md), section 7.2).
@@ -185,7 +188,7 @@ From experiments on many datasets:
 > search.best_params_
 > ```
 
-This tries $3 \times 4 \times 2 \times 4 = 96$ combinations with 5-fold cross-validation: 480 fits, about 5 minutes on 12 cores. The best: **500 trees, 70% of the rows without replacement (pasting), 70% of the columns**. Its cross-validation accuracy is 0.955, and its test accuracy 0.952, the best of all our settings.
+This tries $3 \times 4 \times 2 \times 4 = 96$ combinations with 5-fold cross-validation: 480 fits, which takes several minutes (about 12 minutes on our 12-core machine). The best: **500 trees, 70% of the rows without replacement (pasting), 70% of the columns**. Its cross-validation accuracy is 0.955, and its test accuracy 0.952, the best of all our settings.
 
 Here pasting wins: the rules are a starting point; the search decides.
 
@@ -206,6 +209,11 @@ Here pasting wins: the rules are a starting point; the search decides.
 - On 10,000 rows, bagging lifts one tree from 0.927 to 0.945; a grid search finds 0.952.
 - The OOB score (0.943) estimates test accuracy (0.945) without a test set.
 - Start with bagging and `max_samples` 0.25 to 0.5; sample columns only with many columns; tune with a grid search.
+
+## Sources
+
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2, equation 15.1.
+- scikit-learn developers. Release notes, version 1.2 (December 2022), `base_estimator` renamed to `estimator`. https://scikit-learn.org/stable/whats_new/v1.2.html
 
 ## 7. Key terms
 

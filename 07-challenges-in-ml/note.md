@@ -50,7 +50,7 @@ Researchers tested this on a language task: choosing the right word in sentences
 
 This effect is known as the **unreasonable effectiveness of data**. The catch: few projects have that much data. Most of us work with small or medium datasets, where the choice of algorithm still matters a lot.
 
-> **Extra:** The word-choice experiment was published by Michele Banko and Eric Brill (Microsoft) in 2001. The phrase "the unreasonable effectiveness of data" comes from a 2009 article of that name by three Google researchers.
+> **Extra:** The word-choice experiment is by Michele Banko and Eric Brill at Microsoft (Banko and Brill 2001). The phrase "the unreasonable effectiveness of data" comes from a 2009 article of that name by three Google researchers (Halevy et al. 2009). Figure 2 illustrates the idea; it does not show their measurements.
 
 ### 3.2 Labelled data is scarce
 
@@ -198,7 +198,7 @@ Managing all of this is a growing field of its own, **MLOps** (machine learning 
 
 The best way to learn these challenges is to go one step further than building a model: turn it into a real product, deploy it on a server and let real users use it.
 
-> **Extra:** A well-known paper on these hidden costs is *Hidden Technical Debt in Machine Learning Systems* (Sculley and others, Google, 2015). Its main figure makes the same point as Figure 9: the ML code is a small box in a much larger system.
+> **Extra:** A well-known paper on these hidden costs is *Hidden Technical Debt in Machine Learning Systems* (Sculley et al. 2015). Its Figure 1 makes the same point as Figure 9: the ML code is a small box in a much larger system.
 
 ## 11. Summary
 
@@ -218,6 +218,12 @@ The best way to learn these challenges is to go one step further than building a
 - Most challenges are about **data**: getting it, getting enough, getting a fair sample, cleaning it, choosing its features.
 - A model must learn the **pattern**, not the noise.
 - A model creates value only once it runs inside a product that real users can reach.
+
+## Sources
+
+- Banko, M. and Brill, E. (2001). Scaling to Very Very Large Corpora for Natural Language Disambiguation. *Proceedings of ACL*.
+- Halevy, A., Norvig, P. and Pereira, F. (2009). The Unreasonable Effectiveness of Data. *IEEE Intelligent Systems* 24(2).
+- Sculley, D. et al. (2015). Hidden Technical Debt in Machine Learning Systems. *NeurIPS*.
 
 ## 12. Key terms
 

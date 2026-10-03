@@ -1,0 +1,256 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our deep learning playlist.
+In the last video, we read about pooling.
+Today's video is very important because in today's video, I will tell you about the architecture of CNN.
+In the last three videos, we covered about convolution, padding, stride and pooling.
+how you can make a cnn architecture by combining all these we will discuss in today's video
+also we will do one more thing in this video that we will discuss a made-up cnn architecture
+whose name is lenet 5 so this was kind of the first cnn that yan likun built in 1998
+and this lenet 5 is kind of a foundational idea in cnn
+It is important for you to know about this, so I will tell you how the architecture of Lennet 5 was
+which was made by Yann LeCun in 1998 and then I will show you by coding it in Keras.
+So all in all the video will be easy because we have read all the difficult things.
+Now we just have to integrate it in this video and it will be very easy to understand.
+But it would be interesting as well. So let's start the video.
+So till now we have worked on three important ideas while reading CNN.
+First we read convolution operation.
+After that we read padding and what is stride.
+And in the last video we read the concept of pooling.
+Now by combining these three concepts you can create a CNN architecture.
+So first of all I will show you how a basic CNN architecture looks.
+and then we will discuss the first CNN architecture made by Yann LeCun in 1998
+whose name is LeNet
+how does it look like
+so watch carefully
+next 5-10 minutes is very important
+so we are going to discuss how does a simple CNN look like
+how is its architecture
+so first of all you have an input input generally you have an rgb image
+you can take any size of it for a while let's say 32 cross 32 cross 3
+you pass it in your convolution layer ok and there are filters in the convolution layer
+which you also call as kernels
+so how many filters can be there
+lets assume that we are taking 3 filters
+so
+this is the first filter
+this is the second and this is the third
+and
+all these are 3 channel filters
+because our input
+is 3 channel
+right
+now what will happen
+that here this is your
+convolution layer 1
+Now it will generate a feature map which will be a volume
+This is our feature map
+Its number of channels will be 3 because there are 3 filters
+And the rest will be size depending on the filter
+now you apply non-linear activation function like ReLU on the feature map after convolution
+so basically these are set of numbers and you pass them through ReLU
+now you pass it through a pooling layer
+ok after passing through pooling layer you will again get some tensor ok so we got tensor
+now after this what you can do if you want again by the way this is our pooling 1 right
+and this is our tensor now if you want you can again apply more convolution layers on it
+like you can apply one more convolution there let's call it conv to say
+convolution laga hai to you can apply one more pooling layer let's call it
+pool to or asap kitne bhi baar kar sakte ho once you are done ab aap kya
+karteyo aapke paas ye jo tensor aata hai finally ye jo tensor aata hai aap isko
+flatten kar deteyo flatten kar deteyo flatten karne ka matlab ye abhi three
+dimension you bring it in 1D okay and assume basically it has become a set of
+numbers now what you do is you bring a fully connected layer which you read in ANN
+and pass it through fully connected layer and if you want then
+you can apply any fully connected layer and in the end you have output layer
+if you are doing binary classification problem then you apply sigmoid and
+through a single node, if you are doing multi class classification then you apply softmax
+and do it through multiple nodes and from here you get your output, so this is a basic
+architecture, whenever CNN will be made you will notice that it will be made through this
+same architecture, I will tell you by revising it once, your image is passed through convolution
+there are filters in convolution layer
+generally you use pooling layer with convolution layer
+if you want you can use more convolution layer
+alongside pooling layer
+once you have done this
+the tensor that you get
+you flatten it using a flatten layer
+and then you pass it to a fully connected layer
+then you can apply any number of fully connected layer
+depending on your problem
+and then finally your output layer
+which gives you output
+so this is the most common CNN architecture
+now in this what happens is that people make different architectures by making small changes
+like how many are the number of convolution layers
+by varying this you can get different kind of architectures
+how many are the number of filters in convolution layer
+on the basis of this you can get different architectures
+what is the value of stride
+is there padding or not
+what are the nodes in fully connected layer
+what are the number of fully connected layers
+what is your activation function
+are you using dropout
+are you using batch normalization
+so you get the idea, this is the basic idea
+and you bring variation through all these things
+architectures over the years since image net competition is going on
+image net is a very famous competition where you have to do a very complex image
+classification task where many researchers bring their cnn model
+so over the years different cnn architectures have come which was the first cnn
+architecture which we will discuss in this video its name is lenit
+which was made by Yann LeCun
+after that there was another architecture called LXNet
+then there was Google
+Lenet
+then there was VGGNet
+then ResNet
+then Inception Module
+so we will study all these architectures further
+so till now you just have to understand that if you want to make your own cnn architecture then you have to follow this principle
+image in input layer then you can make combination of convolution and pooling then you will flatten it
+and after passing it in fully connected layer you will pass it to the output layer
+now what we are going to do in your video is to do a kind of study
+we will discuss Lennet's architecture
+and then I will show you how to make it in Keras
+I hope you are able to understand the discussion so far
+Gyan Likun, who is also known as CNN's father
+he was working on CNN since 1989
+and he published a paper in 1998
+where he talked about Lennet
+So, Lenet is basically a convolutional neural network which they used to complete a project of US Navy Postal Service
+where they had to read machine written PIN codes, they made Lenet for that work.
+Lenet's name is also Lenet 5 because it has 5 layers.
+So now I will show you the architecture of lennet and after that I will show you the architecture of keras
+So lennet expects in input that it should get 32 by 32 input image
+Now we will pass this through a convolution layer
+now the number of filters of this convolution layer is 6
+and the size of this filter is 5x5
+now what Jan Likun did is
+after this he applied an average pooling layer
+not max pooling
+average pooling
+with same receptive field of 2x2
+and stride size of 2
+after that he repeated this combination
+he added one more convolution layer
+and this time he kept the number of filters as 16
+of size 5 x 5
+and again he added average pooling
+with the same setting
+that is 2 x 2
+and stride of 2
+After doing this, what did they do? They flattened it.
+As soon as they flattened it, they got a 1D tensor.
+This is a 1D tensor.
+They then passed it through a fully connected layer in which there were 120 neurons.
+then they added one more fully connected layer with if i remember correctly 84 neurons
+and finally since they wanted to recognize digits they added a softmax layer as output
+which could classify different digits
+so this was the architecture of lenit
+this was the architecture of Lennet
+this is a very simple CNN
+but this was the first CNN which solved an actual problem
+you can do some calculations in your mind
+so 32 by 32
+and there is no padding
+so the size of the tensor will be
+28 by 28 by 6
+on this convolution layer
+you can do it
+as soon as you put it on this pooling layer
+on this pooling layer
+size will be 14,14,6
+then when you
+put this tensor in this convolution layer
+then
+your size will be
+10,10,16
+because in total
+there are 16 filters
+16 filters in this one as I told you there are 16 filters and when you will send data
+from here in this then your size will be 5 comma 5 comma 16 then you will flatten this
+here is the flattened layer so here it will be 25 multiplied by 16 400 then you 400 here
+Here you have 400 input, you have sent it in this layer, so here the total number of weights will be 400 x 120.
+After that, here your number of weights will be 120 x 84 and here it will be 84 x 10 because there are 10 digits.
+So this is how the data will move.
+so this was the architecture and you can see there is nothing special, you can also develop this type of architecture
+you just have to remember one or two things that if you are using convolution then generally you will use pooling layer
+you have to flatten at one point and then attach fully connected layer
+this kind of common pattern you will see in the future
+one more thing you have to remember that one layer is being called by combining these two
+so this is layer no.1, this is layer no.2, this is layer no.3, this is layer no.4 and this is my output layer
+that is why we call this as lenet 5
+one more thing you will get to see that as you go deeper in your convolution neural network
+generally your filter size increases, you will notice this one more thing
+when we will study further architectures
+in future as I told you
+we have to study LXNet
+we have to study LXNet
+we have to study VGGNet
+we have to study ResNet
+we have to study Inception module
+so we have to study all these things
+so there
+we will accumulate some interesting ideas
+now the architecture
+that you have learned from Lenet
+we will do it in Keras
+So I have already written the code, here I have imported things, here I have imported the MNIST data, there is no need to import anything like this because I have not trained the model.
+And here I have made the architecture of my lanyard. So you can see, first of all we have a conf 2D layer and after that an average pooling 2D layer.
+and after that again a conf 2D layer with another average pooling 2D layer
+then we flattened the data and after that we have three fully connected layers 120, 84 and 10
+now what are the things to notice here that in the first convolution layer we have used 6 filters or kernels
+in the second one we used 16
+kernel size is 5x5
+stride is 1
+padding is not there
+in average pooling 2d pool size is 2x2
+stride is 2
+ok
+one interesting thing which i didn't tell you
+is that in lenit 5 the activation function
+which you will see throughout
+is tanh not relu
+which you will see in today's cnn architectures
+you will see relu
+But back in 1998, when Yann LeCun was making this, the best activation function at that time was tanh.
+So he used tanh, that is why I also used tanh in this architecture.
+And this was its summary.
+So you can see we started with 32 by 32.
+and after applying the first convolution we have 28x28,6 as a tensor
+as you applied the average pooling on it, it became 14x14,6
+again you applied the convolution with 16 filters, it became 10x10,16
+again you applied the average pooling, it became 5x5,16
+after that you flattened it, it became 400
+then 120, 84, 10
+here you can easily go and count the parameters
+parameter will include both the weights and the biases
+one more thing I told you in the last video
+there will be no parameters attached to the pooling layer
+because there is no training around the pooling
+similarly there is no training involved in the flatten operation
+so there are no parameters
+so yeah this is CNN with around 60,000 parameters
+which is a bit less
+Generally, CNN has a lot of parameters.
+So, I would recommend that after watching the video,
+try to make it yourself.
+I have not trained the model. You can also train the model.
+You know this much.
+In future, when I will do some projects, I will train the model and show you.
+But yeah, this is Lenit.
+It is very basic.
+But this is the building block.
+we will use the principles of this
+so I hope you understood the whole thing
+so that's it for the video guys I hope you understood the video
+now we have seen lenit 5
+slowly we will discuss some more cnn architectures
+but before that I want to tell you one more thing
+and that is the difference between cnn and ann
+we will discuss that in the next video
+and after that I will show you a small project
+There I will make a CNN architecture by myself and will train it and show it to you.
+So that is the plan for the next video.
+So if you liked the video then please like it and if you haven't subscribed to the channel then please subscribe.
+That's it from my side. See you in the next video. Bye.

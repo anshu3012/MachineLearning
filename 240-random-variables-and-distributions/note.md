@@ -51,7 +51,7 @@ A **random experiment** is any experiment whose outcome is random: tossing a coi
 
 By convention, a random variable gets a **capital letter** ($X$, $Y$) and an algebra variable a small one ($x$). A particular value of $X$ is written with the small letter: "$X = x$" reads "the random variable $X$ takes the value $x$". The set of all possible outcomes is the sample space (see the [conditional probability Note](../82-conditional-probability/note.md)).
 
-> **Extra:** Strictly, a random variable is a **function**: it assigns a number to each outcome of the sample space. Head $\to 1$ and tail $\to 0$ is such a function. "The set of possible values" describes what the function can output. Thinking of it as a function explains why the same experiment can have several random variables: rolling two dice can give "the sum", "the larger face" or "the number of sixes".
+> **Extra:** Strictly, a random variable is a **function**: it assigns a number to each outcome of the sample space (MML §6.1.2). Head $\to 1$ and tail $\to 0$ is such a function. "The set of possible values" describes what the function can output. Thinking of it as a function explains why the same experiment can have several random variables: rolling two dice can give "the sum", "the larger face" or "the number of sixes".
 
 ### 2.3 Discrete and continuous random variables
 
@@ -182,7 +182,7 @@ The graph of a distribution is only $x$ (outcomes) against $y$ (their probabilit
 - If most marks sit around 8, with few below 7, most of the class is strong.
 - If a country's salary distribution has a big mass of high earners, it is probably a developed country; if most of the mass sits at low salaries, poverty is likely widespread.
 
-**2. Ready-made knowledge.** If our data's shape matches a famous distribution, we can apply everything known about that distribution to our data. The normal distribution has been studied for centuries and its mathematics is fully worked out. Knowing that a column is normal, we immediately know, for example, that about 95% of its values lie within two standard deviations of the mean.
+**2. Ready-made knowledge.** If our data's shape matches a famous distribution, we can apply everything known about that distribution to our data. The normal distribution has been studied for a long time and its mathematics is fully worked out. Knowing that a column is normal, we immediately know, for example, that about 95% of its values lie within two standard deviations of the mean.
 
 ## 8. Parameters of a distribution
 
@@ -201,7 +201,7 @@ Different distributions have different sets of parameters. Whenever we study a d
 
 This is the same word as in the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind the [density estimation Note](../243-density-estimation-kde/note.md).
 
-> **Extra:** The normal distribution's scale parameter is $\sigma$; its square, $\sigma^2$, is the variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). Some books list the parameters as $(\mu, \sigma)$, others as $(\mu, \sigma^2)$: the same curve, written two ways.
+> **Extra:** The normal distribution's scale parameter is $\sigma$; its square, $\sigma^2$, is the variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). Some sources list the parameters as $(\mu, \sigma)$, others as $(\mu, \sigma^2)$: the same curve, written two ways. For example, SciPy's `norm` takes $\mu$ and $\sigma$ (SciPy `norm` docs), while MML §6.5 writes $\mathcal{N}(\mu, \sigma^2)$.
 
 ## 9. Summary
 
@@ -219,6 +219,11 @@ This is the same word as in the [what is statistics Note](../220-what-is-statist
 - A table cannot list too many outcomes or a continuous range; a function can, and it can be plotted.
 - In these Notes, PDF means probability density function.
 - A distribution shows the shape of the data; matching a famous one lets us reuse its known mathematics.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.1.2 (random variable as a function), section 6.5 (Gaussian).
+- SciPy documentation, `scipy.stats.norm`.
 
 ## 10. Key terms
 

@@ -94,7 +94,7 @@ All three statements below sound reasonable and are wrong.
 
 **The correct reading:** "We are 95% confident that the mean age of all subscribers is between 25.06 and 30.94 years", meaning that this interval came from a method which, over many samples, captures the true mean 95% of the time.
 
-> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, Bayesian statistics (see the [what is statistics Note](../220-what-is-statistics/note.md)), which treats $\mu$ itself as uncertain. Its intervals are called credible intervals, and they are computed differently.
+> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, Bayesian statistics (see the [what is statistics Note](../220-what-is-statistics/note.md)), which treats $\mu$ itself as uncertain. Its intervals are called credible intervals: an interval $[a, b]$ is a 95% credible interval if the posterior probability that the parameter lies in it is 0.95 (H. Pishro-Nik, *Introduction to Probability, Statistics, and Random Processes*, 2014, Section 9.1.9).
 
 ## 4. What sets the width of an interval
 
@@ -165,9 +165,9 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 > **Key point:** 95% is the common compromise between being right often and giving a useful, narrow range.
 
-The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 2 (left), below about 90% the interval misses too often, and above 99% the margin of error grows quickly; 95% sits between, right 19 times out of 20.
+The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 2 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
 
-It is a convention, not a law: medical and safety studies often use 99%, quick business estimates 90%. The level is fixed before looking at the data.
+It is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
 
 ## 6. Summary
 

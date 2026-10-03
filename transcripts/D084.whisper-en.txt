@@ -1,0 +1,558 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our 100 days of deep learning playlist.
+And you will be very happy to know that the Transformers architecture that we have been studying for the last 6-8 months,
+today we are going to discuss its last video.
+So if you are following this playlist, then the last 12-15 videos that have come in this playlist have come on Transformer Architecture.
+And what we have covered so far, I will tell you that too.
+So this is our diagram of Transformer Architecture.
+And I told you in the beginning that I will follow a strategy to explain this topic to you because this topic is very important.
+And the strategy will be that instead of explaining the whole architecture in a single video, what I will do is that I will break down the whole architecture.
+So I taught you the encoder first.
+In the encoder, I also told you what are the things inside the encoder, how they work and when you understood those things, then I taught you the entire encoder architecture.
+Then I repeated the same work in decoder.
+So I explained the core components in decoder and when you understood that,
+then I explained the whole architecture of decoder.
+And in this way, now we have complete idea that how transformer architecture works.
+But if you know, if you have realized, then maybe you have understood that
+You must have understood that whatever we have studied so far is about how the transformer behaves during the training stage.
+We have not yet discussed how the transformer architecture behaves during inference or prediction time.
+So the topic of today's video is exactly the same.
+Since we have read the entire architecture and we have got the idea of all the components,
+In this video, we will finally discuss that once your transformer model is trained,
+after that, when you make a prediction through it,
+at the time of that prediction, how does the architecture of the transformer behave?
+So the topic of today's video is transformer inference.
+So I really hope you understood the plan of attack.
+Now I will quickly tell you the setup of this video.
+The setup is very simple.
+Let's assume that you had to solve a machine translation task and the translation task is a very simple English to Hindi sentence translation task.
+Where you have some kind of data set, you have English sentence in the input and Hindi sentence in the output.
+And you have a lot of rows like this. For now, I have shown you only three rows.
+Suppose you have 1 lakh rows and you have a transformer architecture and you have trained this transformer architecture on this data.
+Means you have completed the training and you have got the value of weights and biases.
+Your transformer architecture is ready to do predictions.
+and now you asked him a question that I have this English sentence, we are friends, so
+tell me what will be its Hindi translation and now we will discuss step by step that
+when you put this sentence in this transformer architecture during prediction time, then
+what happens in this architecture.
+This is the setup that we are going to start this video with.
+Although, I have made a detailed diagram to explain how the transformer behaves during inference, which is on your screen.
+But before deep diving into this diagram, I want to simplify some things for you.
+What will be the benefit of that? When we discuss this diagram, it will be a little easier for you to understand.
+If I tell you in big words, then transformer architecture is divided into two parts, encoder and decoder.
+Now if you talk about training time and inference time, then your encoder behaves in exactly the same way in both the stages.
+This means that the behavior of encoder is the same as it is during training as well as during inference.
+Which means we don't need to discuss about encoder in today's video.
+But the main difference comes on the decoder side.
+So decoder behaves differently during training and inference.
+So since during training I know all the words of output sentence of Hindi
+so I can send them all together in decoder.
+then our decoder behaves in a non-auto-regressive manner.
+We discussed this in the masked self-attention video.
+Whereas during the prediction time,
+what happens during inference time is that we don't have the output sentence.
+We have to predict that.
+So here you do prediction one by one in multiple time steps.
+So here your decoder behaves in an auto-regressive manner.
+So this is the main summary that you should know from the beginning.
+Let me summarize it again.
+Encoder behaves in the same manner during training and inference.
+There is nothing new to learn.
+But decoder behaves in a non-auto-regressive manner during training.
+but at the time of inference, it behaves in an autoregressive manner
+which means, now going forward, our focus will be more on the decoder's working, okay?
+So, let's start with our example.
+We have this query sentence of English,
+we are friends, and we are being told that
+the transformer architecture that you have trained on a lot of data,
+With the help of that, generate the Hindi translation of this English sentence and tell me.
+So what happens is that first of all you send this sentence inside the encoder.
+Now as I have told you that the encoder will behave exactly the same as it did during the training.
+So here I am not going to go deep.
+If you want to understand then go back.
+In this playlist, I have put a video called Encoder Architecture.
+Watch that video, you will understand everything.
+For now, I will tell you.
+You follow all the same stages here.
+First of all, you tokenize it.
+You distribute it in tokens.
+V is different, R is different, friends are different.
+After that, you calculate the embedding of all three tokens.
+Because it is necessary to convert it into numbers.
+After that you add positional encoding because order of words should be known.
+After that you send it in multi-head attention to get context.
+After that you send it in feed forward to introduce non-linearity.
+And in between you add and normalize.
+And how many times you do all this work?
+Six times because you have six encoder blocks.
+And finally you get the output of the sixth encoder here.
+So, for every token that you have, you get one corresponding context vector.
+So, this is V's corresponding context vector, this is R's corresponding context vector, and this is friends' corresponding context vector.
+So, not only they have the understanding of their own word, but they also have the understanding of the context in which it is used.
+For example, V is used with R and friends, R is used with V and friends, and friends is used with V and R.
+So, we have reached this stage where my transformer has understood my English sentence.
+Now, the work of decoder starts from here, which has to be printed in the output of the Hindi sentence one by one.
+So guys now that the encoder work is done, now we will talk about decoder.
+Now we will focus more on decoder because I have already told you that the behavior of the decoder during the training stage and during the inference stage is different.
+So I will give you a complete walkthrough through a very detailed diagram that what is going on inside the decoder when we are doing inference.
+So, at this point, we have got the output processed from the encoder.
+We have our context vectors.
+And now, at this stage, the decoder will start its processing.
+Here you can see one thing that even though we have drawn only one encoder,
+but here you can see four decoders.
+This is because the processing of decoder
+In the inference stage, it is done step by step and in every step you get the output of one word.
+So here you can see the first decoder, from this you will get the first word,
+from the second one you will get the second word, from the third one you will get the third word and so on.
+So now let's deep dive into how the decoder is processing the output.
+First of all, to start the processing of the decoder, you have to send a special token inside.
+This special token can be called SOS or simply start.
+As soon as the decoder gets this SOS, it understands that it has to start its work.
+So I will give you a detailed walkthrough of what will happen when you send this SOS in the decoder.
+So this is our SOS token. Since this is an English word, our machine cannot understand it.
+So the first thing you will do is that you will vectorize this word and convert it into numbers.
+and who will do this work for you?
+embedding layer
+so as soon as this word goes in embedding layer
+you get a
+512 dimensional vector
+ok
+after that comes positional encoding layer
+whose work is to
+encode positions in your embeddings
+although we don't need it here
+we have only one token
+but since we always
+apply position encoding
+we will do it here too
+We add this vector with this embedding vector
+so that we finally get our input vector
+which we call X1
+and this X1 finally goes inside our decoder
+Now if you remember,
+there are mainly 3 blocks inside the decoder
+First is Masked Attention Block
+Second is Cross Attention Block
+and third is Feed Forward Neural Network
+network. And in between there are add and norm layers. So first of all we will send our
+input x1 to masked self attention block. So here you can see the purple block, this is
+your masked multi head or in our case we are saying self attention because we are only
+We are taking one head but whatever it is, this is our masked multi-head attention block.
+Now you also know what happens in the attention block.
+There are three matrices in the attention block.
+One is WQ, one is WK and the third one is WV.
+What will you do?
+You will make this X1 a dot product with WQ,
+which will give you your query vector.
+You will make X1 a dot product with WK,
+by which you will get your key vector
+after that you will make x1 a dot product with wv
+by which you will get your value vector
+now as soon as you get these three vectors
+what you will do is you will make a dot product between your query and key vector
+by which you will get a scalar
+you will do scaling on that scalar
+and after that you will put softmax so that you will finally get your attention score
+what this attention score is representing is that how similar your start of sentence token is with itself
+right because here there is only one token so we will take out the similarity with itself
+and then we will multiply that similarity with value vector
+mind you all the vectors that you can see at this point are of 512 dimension
+After multiplying a scalar with a vector, we get a scalar again and we are calling this scalar Z1 which is again a 512 dimensional vector.
+So at this point, we have completed the masked self-attention processing.
+In our block diagram, we have covered this stage and we are at this point.
+Now next is add and norm layer.
+So let's go back again.
+In this stage what you will do is,
+you will add this Z1 back with this X1,
+through a residual connection, you can see.
+And by adding these two, we get Z1 dash.
+Again, all these vectors are of 512 dimensions.
+And finally, you send this vector to the normalization layer,
+where the process of normalization takes place
+and finally you get Z1 norm
+so in short, now we are here
+we are here
+ok
+and now next we will go to our cross attention block
+cross attention is a very important aspect of this architecture
+because cross attention works
+is to calculate the attention score between two given sequences.
+So, what we will do here is,
+the sequence we got from the decoder,
+where right now there is only one token, SOS,
+and the sequence of our encoder, VRFriends,
+whose contextual vectors we have extracted,
+we will calculate the attention score between these two sequences.
+In a way, we want to find out that SOS,
+How similar is this token to V, R and F?
+So now the calculation will be done inside this cross attention block
+So that is why you can see that two inputs are coming from here
+One is coming from below and the other is coming from left
+Meaning from encoder
+So I will explain you the flow diagram of this
+So at this point we reached here
+From Decoder, Layer Normalization, we got Z1Norm.
+Now, this block that you can see here is your Cross Attention Block.
+So, this is also an Attention Block.
+So, it also has three matrices, WK, WV, and WQ.
+Now, I have told you how Cross Attention works.
+What happens in Cross Attention is that you extract the query vector from the decoder sequence.
+and you extract the keys and values of the vector from the encoder's sequences
+so these three vectors that you can see are exactly the same vectors that you got from the encoder's output
+you are sending them back into this
+so I will tell you one by one what is happening
+first of all this vector is going to the cross attention block
+and dot product is happening with wq
+so we are getting this query vector
+query of SOS
+since there is one token
+then there will be only one query vector
+after that these three vectors
+are going in cross attention block
+and the dot product of all three
+is happening twice
+once with WK
+and once with WV
+so when the vector of V goes
+then there is dot product with WK
+so we got this vector
+key vector
+and when we got dot product with wv then we got this value vector
+similarly when we got r then we got this key vector from r and this value vector
+when we got friends then we got this key vector from friends and this value vector
+now what you do is that you dot product between all the key vectors and query vectors
+So at this point I have only one query vector but three key vectors.
+So we will dot product this query with all three keys and we will get three scalars from this.
+W1, W2, W3.
+We will scale these three scalars from square root of D and after that we will put softmax on it.
+So that we will finally get our weights and we will multiply those weights.
+W1 will be multiplied by the value vector of V
+W2 will be multiplied by the value vector of R
+and W3 will be multiplied by the value vector of friends
+and when we perform this operation then we will again get a vector
+which will be the output vector of cross attention
+and we are calling it ZC1, C for cross attention
+so at this point we have reached here
+at this point
+If it is not visible then I will use red color.
+We have reached here.
+Ok.
+Now after this there is add and norm layer.
+So what will we do?
+We have taken this Z1 norm and taken it up with residual connection.
+And in ZC1 we have added Z1 norm.
+So we got ZC1 dash.
+And then we will normalize ZC1 dash with the help of layer normalization.
+which will finally give us this vector which is ZC1 norm.
+So we have reached this point.
+And now the next layer is the feed forward layer.
+So in the feed forward block, you have a feed forward neural network
+and the vector that is coming to you till now,
+you send that vector to that feed forward neural network.
+that feed forward neural network does a non-linear transformation
+and after that you apply add and norm layer again
+so again I go to the main diagram
+so at this point we were here
+this is our cross attention plus layer norm output
+ZC1 norm
+we will send this in this neural network
+I have told you what is the architecture of this neural network
+Here is a hidden layer which is expecting 512 dimensional output, our vectors are 512 dimensional.
+Then here is a hidden layer which has 2048 neurons and the activation function is ReLU.
+After that in the output layer, there are 512 neurons again and their activation function is linear.
+So this vector will enter here, 512, 1 cross 512, here we have these weights, these are 512, 2048 dimensional, these two are the same, so we will get a new transformed vector, 1 comma 2048, in this you will add bias, it will still remain 1 comma 2048,
+If you apply ReLU on it, it will still remain 1,2048.
+Then if you multiply it with these weight matrices,
+then it will be 2048,512.
+If these two are the same, then again the size of our vector will be 1,512,
+which we will remove from here.
+And this Y1 that you can see is the output from the feed forward neural network.
+We are doing all this so that we can capture non-linearity
+in the output of our decoder.
+So at this point, we have reached here.
+Now after this, add and norm layer will be applied again.
+So what we did is, we made a residual connection from here
+and brought the ZC1 norm here and added it with Y1.
+And whatever addition it was, we sent it to the layer norm
+due to which we finally got one more vector here.
+Okay, we can call this Y1 norm.
+Sorry, I forgot to make it in the diagram, so this is the normalized vector and now we have reached this point, okay, and in this way, the work of a single decoder block is over, but guess what, we have 6 blocks like this, so the work of 1 block is over, 5 more blocks are left, so now we will send this Y1 norm in the same way in 5 more operations or operation cycles and all these operations will be repeated,
+The parameter values will be different but all the operations will be exactly the same
+And finally, the output from the 6th decoder will also be a vector of 512 dimensions
+And we have named it YF1Norm
+So we have reached this point
+Now finally we have to print the output
+So for that we have created a setup.
+What is the setup?
+We have a linear layer on which we have put softmax.
+So from here 512 dimensional input enters.
+Here 512 cross V dimension weights remain.
+What is V?
+V is the length of your vocabulary.
+All the words of your Hindi,
+we are calling all the unique words as v
+all the hindi sentences in your dataset
+we are calling all the unique hindi words as v
+and corresponding to every v
+I am sorry corresponding to every hindi vocabulary word
+we have added a neuron here
+which we call logit
+and as soon as this operation takes place
+all these throw an output
+The problem is that this output is un-normalized, so you put softmax on it so that it gets normalized and takes the form of a probability distribution.
+Where we get a probability for every vocabulary word.
+For example, we get a probability for us, a probability for friend, a probability for is.
+And in this way, all the words in your Hindi vocabulary, in your data set,
+each word has a corresponding probability.
+And finally what you do is, you pick the word against which the probability is highest.
+So in our case, that word is Hum.
+So in this way, our step 1 of decoder is completed.
+And the output we got from this step is Hum.
+Hum is our first word from our autoregressive decoder.
+Now guys, an interesting thing starts from here.
+So, I have already told you that the decoder will work in an autoregressive way.
+Meaning, it will remove the output step by step.
+It has removed the word Hum as output in the first time step.
+Now, we will move to the second time step.
+and the biggest question here is that what will be the input for decoder in the second time step
+so see here
+now your input will be whatever tokens you have till now
+you had SOS token before and you have HUM token as well
+so now the input you will send will be these two tokens
+you will send SOS and HUM
+And now this whole thing will be repeated again, the only difference would be that where there was only one token last time, this time we will take two tokens and move ahead.
+So again I have made a detailed diagram, I will go through that diagram, so see this, we started from here, we sent SOS and Hum inside the decoder.
+First of all, we got Embedding, Embedding layer, so what will Embedding layer do, it will already have the embedding of SOS, it will calculate the embedding of Hum.
+I will get two embedding vectors from this, this is of SOS and this is of Hum.
+Now in both of them, I will add positional encodings for position 0 and position 1.
+And by adding both of them, I finally got my two input vectors.
+One is x1 and one is x2.
+In this step, till now, the last step we did had only one vector, x1, which was corresponding to SOS.
+But since now we have two tokens, so x1 and x2 came.
+Now we will send this X1 and X2 in our first block.
+This is our first block. Masked multi-head attention.
+So this is our masked multi-head attention block.
+And since this is an attention block, it has 3 matrices.
+WQ, WK, WV.
+So we will calculate three vectors for each token.
+For X1, we will calculate the query, key and value vectors.
+And for X2, we will calculate the query, key and value vectors.
+So at this point, I have the corresponding query, key and value vectors of both my tokens.
+Now you know how it works.
+What you will do is, you will take the query of the first vector and multiply it with the first dot product
+and then you will get a number from it.
+After that, you will hold Q1 and do it with K2, you will get the second number from it.
+Then you will hold Q2 and do it with K1, you will get the third number from it.
+And then you take Q2 and dot product from K2
+then you will get the fourth number
+So basically you are calculating this matrix
+SOS, US
+You are calculating this matrix
+This number tells the similarity between SOS and SOS
+This number tells the similarity between SOS and US
+This tells the similarity between US and SOS
+And this tells the similarity between US and US
+Alright
+Now as soon as you get these numbers, you will divide them by 1 by root d and then you will apply softmax.
+But before applying softmax, you will have to do masking.
+So what you will do is that you will make sure that this SOS token does not see your future token as in us.
+Whereas we can see both of them.
+This is what used to happen in training.
+So you will do masking like this
+that this number
+becomes 0.
+Upper triangular matrix becomes 0.
+Now what will happen
+that when you will calculate vector for SOS
+then this 0.2 will be multiplied with V1
+V1 and 0 multiplied by V2 means that in the calculation of SOS, there will be no component of Hum.
+Whereas when you go to calculate the vector for Hum, then this 0.1 will be multiplied by V1 and this 0.6
+will be multiplied by V2. So in Hum, there is a component of SOS and there is a component of Hum. So you have to do this masking
+you have to do it in the time of inference.
+Some people have this doubt that masking is not done in the time of inference.
+But it is not like that.
+In transformer architecture, masking is done in the time of inference.
+Ideally, you can argue that what is the need of masking?
+I have these two tokens.
+I already had SOS and I predicted Hum.
+So we can show SOS, right?
+but you will not do this, you will not do this because during your training process you used masking
+now if you will not use masking during prediction then there will be a shift in the data
+and due to that shift your prediction quality will not be good
+So in simple words, this is applicable to all machine learning that whatever work you do on training data, you do the same work on query data and on prediction time.
+So that is why I am emphasizing here that the self-attention calculation that is being done here has masking involved in it.
+Suppose there is a third word here, SOS, we and friend.
+SOS, we and friend.
+So there would be some number here, this would be zero, this would be zero.
+We don't show SOS, we don't show friend.
+In we, there would be a number here, there would be a number here, but this would be zero.
+We would have shown SOS but not DOST because it is a future token and for DOST these are the three numbers because DOST came at the end.
+So the concept of masking will be valid while inferencing as well. This is very important.
+So whatever it is, due to these two calculations you will get two matrices again.
+one is Z1 and one is Z2
+this is the output of the masked self-attention block
+means we have come to this point in our diagram
+now we will do normalization again
+so pay attention
+we sent X1 and X2 in this block
+we took it out through the residual connection
+and we added it back in Z1 and Z2
+so now our new output is Z1-Z2-
+basically this is the output after adding
+now these two went in layer normalization
+and we got normalized output Z1 norm Z2 norm
+so at this point we are here
+at this point
+Now the next thing is cross attention.
+Now in the cross attention layer or block, we will again calculate the attention scores between two different sequences.
+So again what will happen is that the output of this encoder will be sent.
+You can see this path is being sent and from below our two vectors are coming
+and we have to calculate cross-attention between these two sets of vectors.
+So let me show you how this whole thing will be done.
+So see here, Z1 is the norm and Z2 is the norm and this is the output of our encoder.
+This is the output of the encoder.
+So again, with the help of your encoder vectors, we will get the keys and values
+and we will use the decoder to calculate the queries from these two vectors
+since we have two vectors here
+we will get two query vectors
+so what will happen is that this z1Norm.product will be with wq
+and we will get this query
+z of q of sos
+and then we will do the dot product of this vector with wq
+then we get this query vector.
+After that, when we send v,
+v's dot product is with wk
+and we get this vector
+key and v
+And then v's dot product
+with wv
+and we get this vector
+value of v
+Similarly if we send r,
+it will give us this vector
+If we send r,
+it will give us this vector
+and similarly we will get k friends and v friends
+so now what we have to do is
+all the query vectors which are 2
+and all the key vectors which are 3
+we have to do multiplication between them
+so we will do our q multiplication as in dot product
+with v key, r key and friends key
+so we will get W11, W12 and W13
+in this matrix if you pay attention
+these three
+and when we will do QSOS
+then we will get W21, W22 and W23
+you can understand it like this
+here is v
+here is r
+here is friends
+here is sos
+and here is hum
+so these are our
+similarity scores
+obviously you will scale them
+and you will put softmax on them
+from which you will get your weights
+and now what will you do
+you will calculate these two vectors
+we will multiply w11 by value vector of v by w12 by value vector of r by w13 by value vector of friend
+so we will get one vector which is this vector zc1
+and then we will multiply this row by three value vectors
+so we will get second vector and that is this
+So at this point, we are here, at this point, now we will add and norm again.
+So if you pay attention, I have sent a residual connection from here again, which came here as it is,
+Z1 norm is added from ZC1, Z2 norm is added from ZC2, so we got ZC1 dash and ZC2 dash,
+which we will again send to layer normalization
+and we will get normalized zc1 norm and zc2 norm
+and now we have come here
+and now the next block is feed forward block
+let's quickly see what happens in feed forward block
+so at this point we have come here
+zc1 norm and zc2 norm are our two vectors
+this is our feed forward neural network architecture
+I have just explained that there are two layers, 2048 neurons, 512 neurons, here is ReLU and here is linear.
+So in the same way matrix multiplication will happen and we will again get two vectors y1 and y2.
+So we have come here, now again you will add and norm, so you can see we have sent this ZC1Norm and ZC2Norm here
+and again performed addition and the addition we have sent it inside the layer norm
+and we got normalized vectors from the layer norm, Y1Norm, Y2Norm, two vectors have come to me and at this point we are at this point
+So this was the work of one single decoder block, but we have 6 blocks like this, which means that we will repeat the same process 5 times more with the same architecture but different parameters.
+Finally, we will get two vectors y f1 norm f for final and y f2 norm f for final.
+Now, we have come to the end of our journey.
+Now, we just have to print the output.
+To print the output, we use linear plus soft vex layer combination.
+An interesting thing here is that at every time step of the decoder, you need an output of a single token but you are constantly taking two vectors.
+If you send these two vectors here, then two tokens will be printed but we only need one token.
+The auto regressive property says that at every time step, one token should be output.
+So what you do in this time step is that this vector is corresponding to SOS and this one is corresponding to HUM.
+Now you have already taken out the output corresponding to SOS in the previous time step and that output was HUM.
+So now you will not use this again.
+You will only send this vector of HUM in this network.
+You will not send this.
+and the next network will work in the same way
+every logit will have an output of around 1 number
+which will be un-normalized
+you will send it to softmax
+which will normalize it
+and will convert it into a probability distribution
+and now you will catch that logit from that probability distribution
+whose probability is highest
+And let's assume that the highest probability word is DOST.
+So DOST will be the output of time step 2.
+So please don't get confused here.
+This step is very crucial.
+You are taking all the vectors till the end.
+But at the right time, you just send the last one forward.
+You forget this.
+Okay?
+And in this way, you got your second word in the output, DOST.
+Now think again, what will happen in the next time step?
+In the next time step, you will again send 3 tokens in the input.
+SOS, HUM and DOST.
+Which means, this whole process will be repeated.
+But in every place, instead of 2, there will be 3 tokens or 3 vectors.
+Like here, DOST will come.
+because of that, one more vector will come here, one more vector will come here
+one more set of query key and value will come here
+one more vector will come here, one more vector will come here
+ok
+and this whole calculation will be adjusted that way
+and we will get 3 vectors in output at every place
+ok
+I am drawing
+till here we are getting 3 vectors
+and the third vector will be YFPRENORM
+which will be the corresponding of friend
+but now what you will do is
+you will not send this or this
+you will send only this
+and corresponding to this
+we will get a word which will be
+HAI
+ok
+like this
+now in the last step
+we will send these 4 tokens
+which means now in this whole journey, here is will come, here is one more vector, here is one more vector, here is one more set of query key value vectors, here is one more vector, here is one more vector, one more vector, one more.
+While doing this, you will reach up again, and here you will get YF4Norm, and again what will you do, you will ignore this, you will ignore this, you will ignore this too, you will only send this, and hopefully you will get the end of sentence from this, and as soon as you get the end of sentence, you will understand that you have to stop your inference process, you have to stop it, and you have to get your output.
+will be output. We are friends. And this is how transformer inference works. So I tried to explain this whole process through a very detailed diagram.
+Roughly the big difference is that the encoder works in the same way but the main difference comes in the decoder.
+Decoder behaves in a non-auto-regressive manner during training.
+It takes all the tokens together and generates the output at the same time.
+Whereas, it works in an auto-regressive manner during inference.
+It takes the tokens one by one and gives the same token in the output at the same time step.
+One or two more important things that you have to remember is that
+in every next time step, we keep increasing the tokens.
+send 1 token in the first time step, 2 in the second, 3 in the third and 4 in the fourth
+this is a very important thing. Second one thing, masking is done
+masking will always work. Don't think that
+there is no need for masking. Since we have used masking during training
+you also use masking during inference. Everything else is
+So with that, I am super proud to announce that we have completed the transformer architecture.
+It took a very long time, you guys also showed a lot of patience, so really thankful to you.
+Now we will go forward and will discuss more architectures like GPT, BERT and how to fine-tune the transformer.
+We will discuss all this.
+So thanks for watching the video. If you liked the video, please like it.
+If you haven't subscribed to the channel, please do subscribe.
+See you in the next video. Bye.

@@ -167,7 +167,7 @@ The same habit works on any dataset. In IPL ball-by-ball data, anyone who follow
 
 Neither column exists in raw ball-by-ball data. Both are built from columns that do, using knowledge of the game.
 
-> **Extra:** Ratios are a common pattern in constructed features: price per square foot, debt per unit of income, clicks per visit. A ratio often says more than either of its parts, because it removes the effect of size.
+> **Extra:** Strike rate and economy are ratios, and ratios are a natural kind of constructed feature in other data too: price per square foot, debt per unit of income, clicks per visit. The intuition: a ratio removes the effect of size, so a big flat and a small flat can be compared by their price per square foot. Taking the ratio of two columns is one of the first new features worth trying, and the model then tells us whether it helps (Kuhn and Johnson, §1.1).
 
 ## 5. Feature splitting
 
@@ -184,7 +184,7 @@ Data is **tidy** when:
 
 Sometimes a dataset is not tidy: one cell holds two or three facts at once. Such a column is hard to plot, group or give to a model, because the facts inside it cannot be used separately.
 
-> **Extra:** The usual definition of tidy data, from the statistician Hadley Wickham, has three rules: each variable is a column, each observation is a row, and each cell holds one value. A name column that holds a title and a first name breaks the first and third rules: two variables share one column and one cell.
+> **Extra:** The usual definition of tidy data, from the statistician Hadley Wickham, has three rules (Wickham and Grolemund, §12.2): each variable is a column, each observation is a row, and each cell holds one value. A name column that holds a title and a first name breaks the first and third rules: two variables share one column and one cell.
 
 ### 5.2 Splitting a column
 
@@ -253,7 +253,7 @@ The title carries a lot of information about survival that the raw name hid. It 
 >
 > `agg(["mean", "size"])` gives each title's survival rate and its number of passengers. Select the `Survived` column before averaging: `df.groupby("Title").mean()` fails in pandas 3, because it tries to average text columns such as `Name`.
 
-> **Extra:** Treat the grey bars in Figure 4 with care. Lady, Sir, Ms and the Countess show 100% survival, but each is a single passenger. One person cannot give a reliable rate. The common practice is to group rare titles into one category, such as "Rare", before using the column in a model.
+> **Extra:** Treat the grey bars in Figure 4 with care. Lady, Sir, Ms and the Countess show 100% survival, but each is a single passenger. One person cannot give a reliable rate. So before using the column in a model, we group rare titles into one category. scikit-learn's `OneHotEncoder` can do this for us (Section 8).
 
 ### 7.1 A married column from the title
 
@@ -306,11 +306,11 @@ Splitting and construction often work together. From the split-out title we can 
 
 > **Extra:** Why `Family_size` adds exactly nothing. Logistic regression gives each column a weight and adds them up, so it can already use $w \cdot (\text{SibSp} + \text{Parch})$ by giving both raw columns the same weight. A new column that is a plain sum of existing ones gives a linear model no new information. Grouping is different: alone, small and large is a bend that no weighted sum of the raw counts can draw.
 
-> **Extra:** Why the family type helps more when one-hot encoded. As one number 0, 1, 2, the model must treat "large" as "even more of whatever small means", but survival goes up and then down (Figure 2). One-hot encoding (Note 27) gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within luck.
+> **Extra:** Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with a single weight $w$, the column adds $0$, $w$ and $2w$ to the model's score for alone, small and large. These three always go in one direction: if small is above alone ($w > 0$), large must be above small too. But survival goes up and then down (Figure 2). One-hot encoding (Note 27) gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within luck.
 
 > **Extra:** The title is clearly worth keeping: it beats the baseline in 99 of the 100 folds and ties in the last one.
 >
-> Much of its power is sex: the original columns contain no sex column, and Mr, Mrs and Miss reveal it. Adding the `Sex` column instead gives 80.2%; the title still does a little better because "Master" also marks young boys. In the one-hot encoder, titles with fewer than 10 passengers are grouped into one "infrequent" column, as suggested in Section 7.
+> Much of its power is sex: the original columns contain no sex column, and Mr, Mrs and Miss reveal it. Adding the `Sex` column instead gives 80.5%. The rest of the title's edge comes from "Master", which also marks young boys: adding a 0/1 `Master` column to baseline + `Sex` gives 82.9%, even above the title's 81.6% (Notebook, cell after the score table). In the one-hot encoder, titles with fewer than 10 passengers are grouped into one "infrequent" column with `min_frequency=10`, as suggested in Section 7 (scikit-learn User Guide, "Infrequent categories").
 
 > **Extra:** Is building columns before the split data leakage? Family size, family type and title are each computed from one row alone, with a fixed rule, so no information passes from test rows to training rows. Anything that learns from the data, such as the list of common titles in the encoder or a mean used to fill gaps, must be learned inside the pipeline, from training rows only.
 
@@ -332,7 +332,14 @@ Splitting and construction often work together. From the split-out title we can 
 - Always score the model before and after a new column, with cross-validation; a gain smaller than the fold-to-fold spread may be luck.
 - A plain sum of existing columns adds nothing to a linear model; groups, ratios and split-out facts can.
 
-## 10. Key terms
+
+## 10. Sources
+
+- Kuhn, M. and Johnson, K. (2019). *Feature Engineering and Selection: A Practical Approach for Predictive Models*, Section 1.1. CRC Press. https://feat.engineering/
+- Wickham, H. and Grolemund, G. (2017). *R for Data Science*, Section 12.2, "Tidy data". O'Reilly.
+- scikit-learn User Guide. Encoding categorical features, "Infrequent categories". https://scikit-learn.org/stable/modules/preprocessing.html
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

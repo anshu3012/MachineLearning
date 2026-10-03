@@ -96,7 +96,7 @@ To keep the speed of large batches and still get good results, some researchers 
 
 A practical order follows. First try large batches with a warm-up; if it works, we have speed and accuracy. If it does not, fall back to small batches, which are slower but reliably give good results.
 
-> **Extra:** Changing the learning rate during training is the job of a **learning rate scheduler** (section 4.3). The warm-up idea comes from Goyal and colleagues (2017), who trained an image network with batches of 8,192 images in one hour by warming up over the first 5 epochs and scaling the learning rate in proportion to the batch size.
+> **Extra:** Changing the learning rate during training is the job of a **learning rate scheduler** (section 4.3). The warm-up idea comes from Goyal and colleagues (Goyal et al. 2017, §2.2), who trained an image network with batches of 8,192 images in one hour by warming up over the first 5 epochs and scaling the learning rate in proportion to the batch size.
 
 ### 3.5 Activation function
 
@@ -125,7 +125,7 @@ With sigmoid in a deep network, the gradients shrink layer by layer on the way b
 - **Batch normalisation:** a more recent technique, widely used today (see the [batch normalisation Note](../1031-batch-normalization/note.md)).
 - **Gradient clipping:** caps the size of the gradients; it is used for exploding gradients only (see the [vanishing and exploding gradients Note](../1018-vanishing-exploding-gradients/note.md), section 7.3).
 
-> **Extra:** Keras does not start from equal weights. A `Dense` layer draws its starting weights at random from the Glorot uniform scheme and sets its biases to 0.
+> **Extra:** Keras does not start from equal weights. A `Dense` layer draws its starting weights at random from the Glorot uniform scheme and sets its biases to 0 (Keras docs, `Dense`).
 
 ### 4.2 Not enough data
 
@@ -175,7 +175,12 @@ Overfitting means learning the training data too closely, noise included, so tha
 - Never starve a layer of neurons: what an early layer drops is lost for good.
 - The four problems each have their own Notes, starting with early stopping.
 
-## 6. Key terms
+## 6. Sources
+
+- Goyal et al., "Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour", arXiv:1706.02677, 2017 (linear scaling of the learning rate; 5-epoch warm-up; batches of 8,192).
+- Keras documentation, `keras.layers.Dense` (defaults `kernel_initializer="glorot_uniform"`, `bias_initializer="zeros"`).
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

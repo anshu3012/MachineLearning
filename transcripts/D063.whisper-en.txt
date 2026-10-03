@@ -1,0 +1,785 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we will continue our deep learning playlist
+So if you remember in the last two videos we started LSTM
+We studied what is LSTM and how LSTM works
+What is its architecture
+We studied that in detail in the last video
+And I think this is the right time
+That we make a small project using LSTM
+Because in the case of making a project you learn a lot
+so I had multiple options which project I should make
+but the one I have chosen is a very interesting project
+so we are going to build a next word predictor using LSTM
+so in this video we will first understand what is next word predictor
+and then we will take a data set and make next word predictor using LSTM
+I will explain you the whole architecture and internal working in detail
+We will write the whole code from scratch, I will type it in front of you so that you understand the whole end-to-end.
+So yeah, let's start the video.
+So guys, before starting, let's just have a small discussion around what is the next word predictor.
+It is not that this is something new. Honestly, we have been using this for the last 10 years since smartphones came into our life.
+So, I'm pretty sure you must have used a keyword or a keyboard like Swift where as soon as you type something on WhatsApp,
+then automatically that keyboard starts giving you the next suggestion.
+This improves your typing speed and it's very important.
+In today's day and age, we may not be able to live without it.
+It's so important.
+Similarly, there are other softwares like I use Gmail a lot, you also use it, I guess, there is this smart correct or I don't know, there is some name of this feature, smart compose, yeah, a feature called smart compose has come in Gmail in the last one and a half years, where you are writing a sentence and it suggests you the next sentence, this is also an example of next word predictor, even your code completion tools where you do coding,
+this feature is also used there.
+So in short, the next word predictors are very important in the day and age of the internet
+because they save you some time.
+I would not say they save a lot of time, but they save your hard work.
+So this is a very interesting use case where LSTMs are used a lot.
+In fact, if you don't know, when Swift came in the beginning,
+their first model to do this work was LSTM.
+Over the years, they have implemented more complex, difficult deep learning models.
+But initially, they used LSTM as their main model.
+So, this is what we are going to do in today's video.
+In today's video, we will make the next word projector from scratch.
+First of all, we will learn how to take a data set, make it consumable,
+and how to train the model on it and things like that.
+So, it would be pretty interesting. You will enjoy making it.
+Let's start.
+So guys let's start our task. We have to make a next word predictor using LSTM.
+Now the first thing you need to execute this task is a data set on which you train your LSTM.
+So when I was thinking in the process of making this video that what data set should I use,
+So, I had a lot of ideas in my mind, like one idea was that what if I use Chutkulo's, as in jokes, data set
+and then we will get a model which will be able to generate jokes from itself or use famous quotes data set.
+So, there are many such data sets available on Kaggle.
+The only problem is that when you work on those data sets,
+then you would realize that the training time of your model is too much.
+And since I am going to show you live coding in this video,
+so it's not possible for me to use such big datasets.
+So just for demonstration purposes, what I have done is,
+I have decided that I will show you the next word predictor on a small dataset.
+And the dataset that I have finalized is on your screen.
+So if you see this, then this is the FAQ page of our Data Science Mentorship Program.
+Where we have written the answers to all the doubts that our course wants to join.
+So what I am going to do in this video, I will use this document as my data set.
+I will train my LSTM model on this document.
+And you will see that when I will run that LSTM model,
+then its predictions will be on the basis of this document.
+So, I have made a Google Colab notebook.
+And I have copied and pasted all the text from here.
+So, this data set is not very big.
+And the results will come.
+But obviously for a good model,
+To build a good model, you have to use a bigger data set.
+So this is just for demonstration purpose.
+Okay.
+Now comes the main question.
+How will the next word predictor be made?
+Okay.
+So let's discuss the strategy.
+So from the strategy point of view, first of all, let me tell you one thing.
+That
+you are trying to make this next word predictor.
+You can actually label it in the task of text generation, like eventually what you are going to actually what you are going to build is a text generator.
+Right, which you are giving some text, so it is generating the next word, then it is doing next, then it is doing next.
+So in a way what we are doing is we are building a text generator just like ChartGPT.
+But by playing a little smartly we can make it a supervised learning problem.
+What is a supervised learning problem?
+Where you have a data set, in that data set there are some input values and some output values.
+and then you train a model on this data set
+and you tell that model that for this input this output should be there
+and as soon as your model learns
+then as soon as you give it a new input
+then it predicts an output according to it
+this is called a supervised learning task
+so what we are going to do is
+that we will convert our text generation task into a supervised learning task
+and then we know how to handle the supervised learning task
+so the biggest challenge here is that how will you make a data set from this text
+where there is mapping of input and output
+ok
+so see here is its main backbone
+the main concept lies here
+So, this is how we are going to create a data set.
+So, we have multiple sentences in our text.
+For example, let's assume that our sentence is,
+Hi, my name is Nitish.
+This is the first sentence.
+The second sentence is, I live in Gurgaon.
+And there are more sentences like this.
+My goal is to create a new data set where input and output are arranged in this way.
+So how will we do this work?
+We will take a sentence every time.
+Like I am taking this sentence first.
+Hi, my name is Nitish.
+and what I will do is that I will always take this sentence token by token as in word by word
+like hi my name is Nitish what I will do is I will say that as soon as hi comes
+then its next word as in output should be my
+As high my comes, its output should be name
+As high my name comes, its output should be is
+As high my name is comes, its output should be Nitish
+Similarly, we will go to the next sentence
+and we will say as soon as i comes my output should be live
+as soon as i live comes my output should be in
+as soon as i live in comes my output should be gurgaon
+and this became my input set and this became my output set
+and i will do this for every sentence
+so i will have a big data set created
+and on this dataset I will train my LSTM model
+and then as soon as we will give a new input to LSTM model
+it will try to predict an output
+this is the basic gist in which you have converted in supervised machine learning
+now there is only one problem
+and that problem is that
+you must be knowing that your machine learning and deep learning models
+They don't understand English or for that matter any language.
+What they understand is numbers.
+So you can't send Hi or My, Hi or My name here because these are English words.
+So what you have to do is first of all you have to convert your text into numbers.
+like if we decide that high means 1, my means 2, name means 3, this means 4, netesh means 5
+this is 6, this is 7, this is 8, this is 9
+now this dataset will look like this
+it will come in return of 1 and it will come in return of 2 and this will be inside
+numpy array and python list ok then it will come here 1 2 2 output will be 3 1 2 3 output will be 4
+then it will come 5 sorry 1 2 3 4 output will be 5 then output is input is 6 output will be 7
+6 7 output will be 8 and now this will become my input and this will become my output and now the
+The good part is that our LSTM will not have any problem to handle such inputs.
+So this is the strategy that we are going to use.
+Once you bring your data in this format, then your 50% task is done.
+After that, you just have to make an LSTM architecture which will be trained on this data and will do the prediction.
+Let's do step by step. First of all, I will show you how we will bring this text in this format.
+This is our first goal.
+Now guys, first of all, what we are going to do is that we will assign an index to all the words in our data set.
+We will assign a number so that it becomes easier for us to work further.
+and to do this we will use a class called tokenizer in keras
+so i will just import the libraries
+firstly i will import tensorflow as tf
+and from tensorflow inside keras.preprocessing.text
+i will import tokenizer
+this is the class
+And next what we will do is, we will create an object of tokenizer class.
+Let's call it tokenizer in small.
+Now what we will do is, the object tokenizer has many methods.
+One of these methods is called fitOnText.
+We will send our text inside this, whose name is faqs.
+Always remember whenever you are sending any text, you can send multiple texts.
+so that's why your input goes inside a list
+ok
+and you will run it
+and that's done
+now if you want to see
+which numbers are allocated to all your words
+then you have an attribute
+word index
+as you will run it
+you will get a dictionary
+and in that dictionary
+you would see
+what number is given to every word
+like this
+ok
+so all the unique tokens that the tokenizer thought he should make, all those tokens, as you can see, there are some words or sentences like this, so he also assigned a token number to them, you can see
+so our first task is done
+we have assigned a number to all our words
+now our next task starts
+our next task is that we will go sentence by sentence
+and we will try to create this data set
+we will try to create this data set
+So, the first thing that we will do is, we will find out all the sentences that are present in our dataset.
+So, what I will do is, I will just write a simple code.
+So, I would write for sentence in faqs.split.
+I am splitting my entire dataset on the basis of slash n, on the basis of line change.
+And I would like to show you what are the sentences that are present in our dataset.
+So you can see this is the first sentence, this is the second sentence, this is the third
+sentence, fourth sentence and so on.
+Basically I have broken down my entire dataset sentence by sentence.
+Now we have to convert these words into numbers
+We will use tokenizer class again
+There is another method in tokenizer
+We call it textToSequences
+In this we will send our sentence
+and what will it do, based on the old data which is this one
+it will convert it into numbers, let me show you
+it is not printed, so what we can do is we can print
+just to show you what is going on, you can see
+so our first sentence was about the program
+if you go up, then you will see about in 93
+let me quickly show you, 93 is about
+1 is the and the last is 13, so 13 is program, so what we did in this way, we represented all the sentences in numbers, also this double list is created, to avoid this, we will just take the 0th item out,
+so that we will have all the sentences in one list
+my bad, we should put this statement in print
+so this is the numeric representation of all the sentences
+now see what i have to do
+the code can be difficult
+For example, our first sentence is about the program
+And its numeric representation is 93, 1, 13
+Now we have to make a data set, i.e. we have to make a combo of input and output
+So first of all, only 93 will come
+And the output for this 93 will be 1
+actually it will not come in one bracket, it is a scalar
+then next will be 93 and 1
+and its output will be 13
+so this will be our first sentence
+similarly our second sentence is little more
+but you understand
+first 11 will come so its output will be 7
+then 11 and 7 will come so its output will be 1
+then 11 7 and 1 will come so its output will be 12
+it will work like this
+so we have to form our dataset from this whole thing
+so let's see how we will do this
+so we have to run another loop
+first of all i am removing this print statement
+and i am storing this in a variable
+let's call it tokenized sentence
+because we have tokenized the sentence
+now what we will do
+we will run a loop
+for i in the range of 1 to the length of this sentence
+like if you talk about the first sentence
+then this loop will start from 1
+and the length of tokenized sentence will go till 3
+so 1 to 3 means this loop will run twice
+for the first sentence this loop will run twice
+basically it is running n-1 times
+and what we have to do is, we basically have to create a sentence
+so let me show you what I am saying
+we will take tokenized sentence
+and we will slice it from inside and get i plus 1
+understand this thing
+what does it mean
+if this loop runs for the first time
+then what is the value of i?
+1
+so what we are doing is
+tokenized sentence which is this entire thing
+from the beginning to the end
+i plus 1
+i.e. 1 plus 1
+i.e. till 2
+so we are taking these two
+93 and 1
+then next loop will run
+so we are taking from the beginning to 3
+1 and 13
+I hope you are able to understand
+and what I call this
+I call this as ngram
+because this is going to become my ngram
+and
+now what I have to do is
+add this whole thing in a list
+so I will call a list
+input sequences
+and what I will do is
+input
+sequences dot append
+this thing
+and i would run this code
+and something went wrong
+my bad, let's do one thing
+no need to add equal to
+yes we are done, let's see whether our work is done or not
+so if i run input sequences then
+it will become a very giant list
+this is basically a 2D list, just wait a second
+You will understand it immediately.
+See this.
+First is 93, 1.
+After that is 93, 1, 13.
+Then the next sentence starts.
+11, 7.
+11, 7, 1.
+11, 7, 1, 12.
+11, 7, 1, 12, 42.
+11, 7, 1, 12, 42, and 15.
+Then the second sentence ends here.
+Then the third sentence starts.
+Then the fourth.
+In this way,
+I have converted all the sentences in this type of input sequences
+it is not in the form of input and output
+now we have only input data
+but don't worry we will extract output data from it in some time
+but before that there is one more thing
+and that is that all these rows
+their size is not equal
+like this row's size is 2
+this row's size is 3
+this row's size is again 2
+this row's size is 3
+this row's size is 4
+and then it is increasing
+ideally what happens is that when you do supervised machine learning task
+then your input
+basically all the rows, their shape should be equal
+so I guess you are able to understand
+what we have to do is
+we have to put zero padding here
+what we will do is
+we will put the same zeros in front
+as maximum words in any sentence
+by that all the sentences will have equal number of items
+so this is what we are going to do next
+so first of all we have to find out which sentence is the biggest
+and how many words are there in total
+we have to find this out because in zero padding you have to tell max length
+so it is very simple, what we do is
+we find the length of every sentence
+and add it in a list
+so basically I would write this code
+length of x for x in input sequences
+basically all the sequences here, we are taking out the length of all of them
+and adding it in a list, so you can see this is the output
+so the first one has 3, after that there is a sentence which has 14, then 16, it is different
+what we have to do is to calculate the max from this
+This will tell us the longest sequence and how long it is.
+So, you can see there is a sequence whose length is 57.
+So, we would just store this in a variable.
+So, I will just write maxLength is equal to 57.
+Now, we will do zero padding.
+So, to do zero padding, Keras already has a utility.
+So, first of all, we will import it.
+tensorflow.keras.preprocessing.sequence
+import pad underscore sequence
+ok
+actually pad is sequences
+now what you have to do is
+call this function
+and you have to provide 3 things in this
+first of all what input you want to give
+input will be given
+input sequences
+max length which is equal to max underscore length which we have just created and then you have to tell that
+you want to put those zeros in front or in the back so we want to put it first, okay, you will understand in a little while,
+as soon as you run it, see this guys, this was your first sentence in which there were only 93 and 1, then
+there are 55 zeros in front of it, then there are 93 1 and 13, there are 54 zeros in front of it, so I will do it again, let's do one thing, let's store it in a variable,
+padded input sequences ok see this is padded input sequences now we have come to that place
+where we will separate our input and output now think for every sentence this much is
+going to be our input and this is going to be our output this much is going to be our
+input and this is going to be our output so simple we are going to do a very simple logic
+we will say that x is equal to padded input sequences in fact first I will show you by
+removing you from padded input sequences we will remove all the rows but leaving the last
+And you would see this will be the output.
+Here 93 came, this 1 was removed.
+Here 1 came, this 13 was removed.
+Here 11 came, this 7 was removed.
+So this will become our x.
+And similarly, how will y be extracted?
+We will write padded input sequences.
+All rows, we need the last one.
+so we would see that for every sequence we have taken out the last one
+we have added it in y
+and in this way we have x and y
+so till here we have achieved what we had planned
+we have our data set
+now guys i want to do one more important discussion with you
+So, if you remember, our strategy was to convert our text generation task into a supervised learning task.
+This is what we did.
+But we did not discuss whether it is a regression task or a classification task in supervised.
+What do you think?
+I would recommend you to pause the video and think that if you have this kind of data then you will use it as a regression task or as a classification task
+Now if you think very simple then you will say that since there is a number in the output then it should be a regression task
+but there is a problem if you make it a regression task then there will be a problem
+the problem is that the output here is discrete
+think what this 2 represents
+this 2 represents the second word of your vocabulary
+what if when your model is giving output then it gives 2.1 or 2.7
+so there are no words associated with these numbers
+and if there are no words then the output will not come
+so this is what I am trying to put
+that if you use it as a regression task
+then it can be wrong
+so the better strategy is
+that you make it as a classification task
+ok
+now there are two possibilities in classification
+either it will be binary classification
+or it will be multi class classification
+we will use multiclass classification setup
+pay attention what we are going to do
+that we will transform our output by applying one hot encoding
+try to understand this
+so here you can see that we have 9 words in total
+and the output of this first row is second word
+so we will not send only 2 in output
+we will send this in output
+4,5,6,7,8
+9
+this is a one hot encoded vector
+and from this also we can understand
+that we are going to use the second word
+as output
+when here will be 3
+then we will send this
+so basically we are transforming our output
+and
+we are replacing all our
+outputs
+with their one hot
+ENCODED REPRESENTATION
+how will be one hot encoded representation
+all the total words will be the same
+in one hot encoded representation
+and when prediction will happen
+suppose you have total 9 words
+suppose you have total 3 words
+so your model will give
+output of 3 numbers
+so let's say the output is this
+These are the three probabilities between 0 and 1, it will look like softmax.
+Since this probability is the highest, we will consider the output as this and this is the first word.
+So basically if this is the output, we will print the first word on the screen.
+If let's say this is the output, it means the output is 010 which means we will print the second word on the screen.
+So I did this discussion with you only so that I can explain you that the task we are taking is a multi-class classification task.
+So we have reached this point. If you see the shape of X, then the shape of X is 863 rows, 56 columns and the shape of Y is 863.
+so what we have to do is we have to encode this one hot because for now y is a scalar number
+so we have a simple function in keras
+so if i go to tensorflow and from there i go to keras
+there is a library called utils and if i import it
+to categorical
+and what i can do is, i will send my y in to categorical function
+and here i have to specify that how many num classes are there
+so num classes are as much as words are
+so in our case if you pay attention then total words were
+if you remember here we put in tokenizer
+so we got an index for every word
+if I take out its length
+then I will get to know how many words I have in total
+so we have total 282 unique words
+so what I will do is
+I will come here
+and I will put
+I will put 282 here
+actually I will not put 282, I will put 283 here
+and now your work is to figure out why I put 283 here
+Let me tell you why I put 283 here, the reason is that if you pay attention to the output of tokenizer
+If you go to tokenizer.wordindex then you will find one thing that your output is starting from 1
+see this, first word's index is 1, it is not starting from 0
+so if you give 282 here, then one hot encoding always starts from 0
+so the last word that it will cover will cover the 281 word, the 282 word will be missed
+that is why I am giving 283 so that the 282 word can also be covered
+I hope you are able to understand, so what I will do is, I will simply write y is equal to this
+and now if you take out y.shape
+here is our output, 863 rows, 283 columns
+every output is a 283 number long sequence
+so I will just show you one
+in fact I have shown all of them, see this
+it will always start from 0, the first one will always be 0 because we have taken 283
+ok, I hope you are able to understand
+so now we are ready with our training data
+we have x and y
+now we will build our model architecture
+and then we will train the model
+so guys now i am discussing architecture with you
+which we will use to build our model
+so our architecture will consist of three layers
+the first layer will be our embedding layer
+I told you this while teaching RNN
+so it will basically give us a dense vector for every token of ours
+it will convert every word into a dense vector
+there is better representation
+after that, there will be one layer of LSTM
+and finally, to calculate the output
+to get softmax etc
+there will be a dense layer
+so from here our input will go and this way we will get the output
+so I will discuss its details in some time, first let's do one thing
+we will convert it into code
+so this is the state of our code right now
+what we will do is, we will first of all import the necessary libraries
+so from tensorflow.keras.models
+We will first import sequential model also from tensorflow.keras.layers
+We will import all the layers we need
+First we need embedding layer
+After that we need LSTM
+And lastly we need dense layer
+Import is done
+Now we will build our model
+So, model will be a sequential model.
+First of all, in the model, we will add
+the embedding layer.
+In the embedding layer, you have to give three inputs.
+First, how much is your total vocabulary count?
+How many words do you have?
+Total is 282, but we will write 283.
+Our output dense vector will have 100 numbers.
+Okay, our embedding shape will be 100.
+And lastly, our input length
+it will be 56 because our every row contains 56 words
+this is our first
+after that we will add our lstm layer
+and in lstm layer you just have to tell that how many nodes are there in every lstm gate
+so in my experiment 150 nodes were working well so we are taking 150 nodes
+Finally, we will add our dense layer.
+Dense layer is very simple.
+In dense layer, you have to add exactly the same number of nodes as the total number of words in your vocabulary.
+So basically 283.
+Because for every word, you will get a probability and the word with highest probability will be your output.
+and the activation function
+you already know
+will be softmax
+ok
+and let's do one thing
+let's compile the model quickly
+to compile
+you just have to tell the loss
+which in our case will be categorical cross entropy
+because this is multi class classification
+after that you have to tell
+which optimizer
+you will use
+here I haven't experimented much
+We are just going to take Adam and which matrix do you want to track?
+So we want to track accuracy.
+And with this we can see the summary of the model.
+So this is our total weights and biases.
+How did we get so many weights and biases?
+It is actually interesting to understand this.
+I will tell you some details.
+Rest you are smart, you will figure it out yourself.
+If you have seen the lectures of LSTM properly, so see what is happening here, first of all, the data we have, if you remember, then the shape of our input X is 863,56, okay, I will in fact show you how our X looks, so if I remove X, then this is X, this is the first sentence's input, this is
+second sentence's input and so on.
+So,
+here you will notice one thing
+there are a lot of zeros because we did zero padding.
+So, this becomes
+a sparse vector.
+So, we can convert it into a dense vector using
+embeddings. So, that is why
+first of all, we will use
+an embedding layer.
+So, what will this embedding layer do?
+That in every
+row,
+how many words are there?
+56 words are here, 56 words are here, 56 words are here
+it will enter every word
+one word will enter from here
+and we are converting every word
+into 100 numbers
+so basically when you will give the input of 1,56
+one row 56 words
+you will get 1,56,100 in the output
+for every word of every sentence
+we are getting 100 numbers
+ok
+so this is the first point that you have to
+understand, this embedding layer
+is working exactly the same way
+and in this total
+weights are 283
+into 100, from where 283 came
+your total number of words in your vocabulary
+and from where 100 came
+you are outputting 100
+dimensional vector for everyone
+so that is why this is 283
+100 ok
+For every row and every word, there is a 100 dimensional vector, like this, I hope you are able to understand
+now what you have to do is
+now you have to take this data
+and give it in LSTM
+now you know
+LSTM works in time loop
+so this will be
+time step equal to 1
+this will be time step equal to 2
+this will be
+time step equal to 3
+and in total how many time steps will be there
+total
+time steps will be 56
+because maximum
+now what will happen, when time step will be 1, let's say we are talking about the first input, we are talking about this sentence
+so what will happen in the case of this sentence, that first of all we have converted all these words into 100 dimensional vector
+now we have to send this data here, so when time step will be equal to 1, then the first word
+its 100 dimensional dense vector which we got from embedding
+we will give input from here
+ok
+after calculating some output we will go to next time step
+on next time step we will catch second word
+and we will give its 100 dimensional input from here
+then after calculating output we will go to next step
+then from here we will give next word
+and in the end we will feed the 56th word's 100 dimensional vector
+and finally we will get the output H56
+and this H56 will be a vector of 1,150 dimension
+basically it will be a vector with 150 numbers
+why 150 numbers? because your LSTM has 150 nodes
+As you remember, the shape of notes in ht is exactly same, so that is why 1,150
+Now from this place, we will put a dense layer
+In which exactly 283 notes will be there
+So from here you have a vector of 150 shape
+And it is connecting to 283 layer
+And what will happen with this, we will get 283 outputs
+and since we have put softmax, every output will be between 0 and 1, will work like a probability
+and in 283, the maximum probability will be our output
+so this is the architecture, let me summarize
+embedding layer is converting every word into 100 dimensional dense vector
+and how many vectors do you have? 56, one for each word
+now what you are doing is that you are taking every vector and sending it in one time step
+and in 56th time step the output that you are getting
+you are taking that vector and sending it in a dense layer
+and from this dense layer you are getting a 283 dimensional output
+and in this 283 dimensional output you have to get the number which is the highest
+and the corresponding word of that number will be your output
+So, I guess you are understanding that the output of our next word predictor is always from training data.
+This is a must.
+So, now what we have to do is we have to simply train our model.
+So, you don't have to do anything to train the model.
+You have to simply call model.fit.
+You have to pass your x, your y and you have to tell the number of epochs.
+In our case, let's say we are taking 100 epochs and our model has started to train.
+Once it trains, I will show you how much accuracy we achieved.
+So, our training process is complete and you can see after 100 epochs, our accuracy is around 94.
+It is very good, but there is no need to be happy. This is training accuracy.
+I am pretty sure the smaller the data set we have used, the test accuracy or validation accuracy will not be that good.
+But it's okay, if we are able to catch patterns in the training, it's a good sign.
+So now what we have to do is, we have to do prediction.
+In prediction, we will be given a word or a sentence and we have to predict its next word.
+so let's assume that our text is mail us at nityaj.campusx at the rate gmail.com
+this is in our training data
+so first of all i have to repeat it
+first of all i have to tokenize it
+after that i have to pad it
+And after padding, I can do its prediction.
+We will do this in three steps.
+So, what will we do to tokenize?
+First of all, we will use the tokenizer which is already trained.
+Text to sequences.
+And we will pass the text in this.
+And it will give us 61.
+Okay, it is a single word, 61.
+and we need only list not nested list so this is done
+lets call this token underscore text
+now what we have to do is we have to pad this
+so we will write pad sequence
+actually pad sequence is there we have to tell 3 things
+first of all we have to tell token text this is our input
+Since it is expecting multiple inputs, you are providing it in the list.
+After that, you will tell what would be the max length.
+In our case, it would be equal to 56.
+Because our maximum length is 56.
+And the padding would be equal to 3.
+And this will be our padded token input.
+the token text
+and i will print it
+so yeah this is the output
+ok and
+now what we have to do
+we have to send it in our model
+so its very simple
+we will write model dot predict
+and we
+will send it here
+token text
+it will give us a 283 dimensional vector
+this is the output
+if I show you its shape
+so this is the shape 283
+basically all the words in our training data
+there is a probability against every word
+what we have to do is to find that word
+whose probability is highest
+First of all, we have to do one thing, we have to import numpy, I don't know if I have done it or not, but let's do it so that we can use np.argmax, it will tell us in which position the highest probability is 49, so whatever word is on the 49th number, that is our output, so what we can do is that we
+we can go to tokenizer.wordindex
+we are getting that dictionary
+and we need that word
+against which 49 is written
+so we can write a loop kind of thing here
+so we can write for word comma index in
+tokenizer
+dot word index this is our dictionary we have taken out its items and here we are checking
+if index is equal to equal to whatever this is let's call it position if it is equal to position
+then simply print the word let's run and see this
+So the output for mail is mail once, I hope you are getting it and what if we have to make a system like this which predicts the next 5 words like now it is only predicting one word mail once
+what if I have to predict the next word of this, that means what will be the output of male ones, we have to predict that, in that case what we can do is, what we can do is, we can run a loop, we can run a loop for i in the range of 5, this loop will run 5 times and in that loop we will do all these things again and again and what we will do is,
+that we will modify this text
+in the beginning this text is male
+next prediction is once
+so we will modify this text and make it male once
+so here what we have to do
+rather than printing we have to write
+text is equal to text which is old
+plus
+a space
+plus any word
+and
+by doing this I would print
+whatever is inside text
+So now if I run this, mail once, mail once you make, once you make the payment, see guys, it's doing the right thing, 5 words have been created, if you want to notice the changes a little more visually, then we can import the time module, and here let's import a day, time.sleep, 2 seconds, a little more, mail once, first output is mail once,
+you mail once you make mail once you make the mail once you make the payment so here say come
+correct it do or I'm look try out cassette a core input matryoshka wrong so many be just
+for a figure but I'm happy like how about a NLP and deep learning equation what was the
+log data science mentorship program NLP or deep learning Hikini the answer is naive
+let's see what prediction comes here
+so let's run this
+both
+are
+not
+a
+part
+let's do one thing
+instead of 5 let's do 10
+next 10 words
+we are predicting
+both are
+not
+a part
+of
+this
+program's
+curriculum
+perfect
+here you made a mistake
+he started
+maybe because this sentence is finished
+after that he again thought
+it should be a curriculum output
+but it is fine, it is working fine on training data
+I can put one more sentence
+total
+duration of the course seven months energy let's see all right seven months so the total course
+course fee becomes 799, I guess there will be something more in the future, but it is fine, it is working fine guys, it is working well on training data, but what if I give something that is not in the training data, it is not in our document, for example,
+I don't know what is the fee, let's see what is the output, what is the fee of the course for data
+science, okay, I mean a little bit, even then, I guess I can tell by picking a little context, I am actually
+impressed that it is working properly, you can try out other things, obviously very small data
+and will not do a very good job
+on changing things
+but whatever it is till now
+the less data we provided
+the less training we did
+on that basis the output is pretty impressive
+ok
+so I hope you understood
+so one last thing
+before ending the video
+first of all I am giving you a task
+what you have to do
+that while training this model
+calculate validation accuracy
+I am not doing it again, it would take time, but I am pretty sure the validation accuracy will be poor, it can't be good.
+So you will have a question in your mind that how can we bring good performance on unseen data, how can we reduce overfitting?
+So there are two or three ways and the first and simplest way is more data.
+The data that we used was basically the same as the number of words in 3-4 pages.
+There were around 283 unique words.
+It was a small data.
+It is also giving good results in training.
+For testing, you will have to bring more data.
+So in the beginning of the video, I told you that there are certain data sets on Kaggle.
+Where there is data of jokes, quotes, screenplay of any TV series.
+It would take more time to train but if you train on those data sets, you would get better validation results.
+Second is that you can do hyperparameter tuning, like if you go here in model architecture then a lot of things can be changed here.
+Like in this LSTM cell, we are taking 150 units, what if we increase or decrease?
+Apart from that, you can change optimizers here, you can change the learning rate, you can increase or decrease the epoch here.
+So you have to play a little with all these things and eventually you will get better results.
+And obviously the third thing is advanced architectures.
+Right, so let me tell you something, like you can use abstract LSTMs,
+means you have used one layer here, you can use multiple layers like this
+or you can use bidirectional LSTMs, I have not taught you this, we will read it later
+or other advanced architectures like transformers.
+GPT, BERT, all these advanced transformers will give better results, so the combination of these three will definitely give you a better next word predictor
+but whatever it is, we are learning now, we have just started, for starting, today we learned how you can make a text generation tool
+I hope you enjoyed learning this
+and I am pretty sure you must be exploring ideas in your mind
+that can I make this or can I make this
+I would recommend go and experiment
+the more you experiment, the better you will learn
+so yeah that's it for the video guys
+if you liked it then please like it
+and if you haven't subscribed to the channel yet
+please do subscribe
+see you in the next video, bye

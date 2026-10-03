@@ -46,7 +46,7 @@ Together these mean that grid lines stay parallel and evenly spaced. Some exampl
 
 Rotations about the origin, stretches along the axes and the slanting of Figure 1 are linear.
 
-> **Extra:** The formal definition says the same thing with algebra. A transformation $L$ is linear when it respects the two operations of linear algebra: $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\,\mathbf{v}) = c\,L(\mathbf{v})$ for every scalar $c$. Section 4 is exactly these two rules in action.
+> **Extra:** The formal definition says the same thing with algebra. A transformation $L$ is linear when it respects the two operations of linear algebra: $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\,\mathbf{v}) = c\,L(\mathbf{v})$ for every scalar $c$ (MML Def. 2.15). Section 4 is exactly these two rules in action.
 
 ## 4. Two vectors decide everything
 
@@ -156,7 +156,7 @@ A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its pi
 
 > **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a matrix of eigenvectors.
 
-- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an activation function such as the [sigmoid](../72-sigmoid-function/note.md). $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. Those two extra steps are what let a network learn curved boundaries.
+- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an activation function such as the [sigmoid](../72-sigmoid-function/note.md). $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (Goodfellow et al. §6.1).
 - **PCA** projects each point with $Z = XW^{\mathsf T}$ (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 5.1): a matrix applied to every row, exactly as in Section 7.1.
 
 > **Extra:** A transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$, is called an **affine transformation**. It keeps lines straight and parallel but moves the origin. Mean centring followed by scaling (standardization) is affine, and so is a neural network layer before its activation.
@@ -176,6 +176,11 @@ A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its pi
 - It is decided by where the basis vectors land; those landing spots are the columns of its matrix.
 - $A\mathbf{x}$ is a linear combination of the columns of $A$, with the coordinates of $\mathbf{x}$ as scalars.
 - Every matrix is a transformation of space; $XA^{\mathsf T}$ applies it to a whole dataset.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Definition 2.15 (MML).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 6.1, learning XOR.
 
 ## 9. Key terms
 

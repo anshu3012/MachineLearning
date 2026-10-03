@@ -73,7 +73,7 @@ $$\left(\frac{1 + 3 + 2}{3},\ \frac{2 + 2 + 5}{3}\right) = (2,\ 3).$$
 
 In Figure 1 (bottom left), the green centroid moves to the middle of its many points, between the right and bottom groups. The orange centroid moves up into the top group.
 
-> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw Euclidean distance a gap of 10 IQ points would swamp a gap of 2 CGPA points, so the clusters would be decided by IQ alone. Like KNN (the [KNN Note](../91-knn/note.md), section 3.2), k-means is distance-based, so Figure 1 uses standardized values (the [standardization Note](../24-standardization/note.md)).
+> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like KNN (the [KNN Note](../91-knn/note.md), section 3.2), k-means is distance-based, so Figure 1 uses standardized values (the [standardization Note](../24-standardization/note.md)). How the columns are scaled changes which clusters come out, and standardizing is not always the right choice either (ESL §14.3.3).
 
 ### 4.4 Step 5: stop when the centroids stop moving
 
@@ -140,7 +140,7 @@ The **elbow point** is where the curve bends, the k after which the fall flatten
 
 A memorable picture: imagine the curve is a mountain and we are sliding down it from the left. On the steep part we fall fast and feel scared. The point where the slope suddenly eases and we stop feeling scared is the elbow.
 
-> **Extra:** On real data the bend is often not sharp, and two people may read different elbows from the same curve. Other ways to choose k, such as the silhouette score, exist for this reason; the elbow method stays the most common first look.
+> **Extra:** On real data the bend is often not sharp, and it is easy to read the wrong k from it (Schubert 2022). Other ways to choose k exist for this reason, such as the silhouette score (Rousseeuw 1987).
 
 ## 6. Summary
 
@@ -157,6 +157,12 @@ A memorable picture: imagine the curve is a mountain and we are sliding down it 
 - WCSS (inertia) = the sum of squared distances from each point to its own centroid.
 - WCSS always falls as k grows and reaches 0 when every point is its own cluster.
 - The elbow method picks the k where the WCSS curve bends from steep to flat.
+
+## Sources
+
+- ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.3 (object dissimilarity and standardization in clustering).
+- Schubert 2022: E. Schubert, *Stop using the elbow criterion for k-means and how to choose the number of clusters instead*, arXiv:2212.12189, 2022.
+- Rousseeuw 1987: P. J. Rousseeuw, *Silhouettes: a graphical aid to the interpretation and validation of cluster analysis*, Journal of Computational and Applied Mathematics 20, 1987, 53–65.
 
 ## 7. Key terms
 

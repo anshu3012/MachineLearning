@@ -1,0 +1,501 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our 100 days of deep learning playlist.
+In the last video, we studied Gated Recurrent Units
+and in today's video, we will continue from there.
+The topic of today's video is Deep RNNs.
+Deep RNNs is also known as Stacked RNNs.
+The basic concept is how you can stack multiple layers of RNNs
+in order to solve a little complex type of problem, so in the video we will first understand this concept in detail.
+I will explain the architecture behind it and then through a code example, I will try to present the idea
+that how you can apply Deep RNN on such a problem. So it is a small sweet topic, we will quickly cover it.
+So let's start the video. So let's start with Deep RNN. Now to read Deep RNN, we will go back a little
+In this playlist, if you remember, the first neural network we covered was ANN.
+We will read a concept related to ANN.
+So if you remember, I am pretty sure I showed you this tool in some video
+where you can train a neural network inside the browser.
+So what we will do is, we will take a toy data set which is this spiral data set
+and we will try to train a neural network on it.
+Our goal is that we want to map the pattern in this data with the help of a neural network.
+By looking at it, we can understand that this data set is a bit complex and non-linear.
+It will be difficult to map it.
+Whatever it is, we are starting our training with this neural network.
+In this neural network, we have our input layer.
+This is our hidden layer in which there are 4 units or neurons.
+And this is our output layer.
+Now you can see training has started, we have crossed almost 800 epochs but we are not seeing any effective result.
+Most of the regions are being labelled orange and some are being labelled blue.
+Clearly our neural network is not performing well.
+Now if I ask you at this point that if you want to bring improvement then what will you do?
+Most likely your answer will be that what can we do in this hidden layer?
+We can increase neurons.
+So we increased two neurons and started the training.
+Let's see if there is any improvement or not.
+Now if there is improvement, then why is there improvement?
+As you can see there is some improvement.
+So this improvement is coming because you have improved the representation power of your neural network.
+you have increased the complexity of your neural network
+due to which it is able to find the patterns in the data more effectively
+what if I say that it is not sufficient yet
+can we improve it more
+so I guess you will be able to say that we can do one thing
+rather than having just one hidden layer
+we can have one more hidden layer
+with same number of neurons
+and now if I train this model
+You would see more improvement. Again why? Because the more hidden layers and nodes you are adding,
+you are increasing the complexity of your neural network and due to that increase of complexity,
+the representation power of your neural network improves and results also improve.
+As you can see, our neural network is trying a lot to track this data.
+So, the concept that we put here, that we had a basic level ANN,
+by adding more layers, we made a more complex neural network,
+so that we could understand our data better.
+You can use this same concept in RNNs too.
+And when you use the same concept in RNNs, then we call it as Deep RNNs.
+So, to understand what is Deep RNN, we have to see the normal RNN first.
+For a while, let's assume that we are performing a task of Sentiment Analysis,
+where we are given a review of a movie and we have to tell if it is positive or negative.
+Let's assume that all our reviews are of 5 words, so the architecture of RNNs is very simple, I have told you, in RNNs, you will send your current word of the review from here,
+from here you will get the output of previous time step which we call as ht-1
+here in between there is a tan operation
+and then from here you get the output for the next time step which we call as ht
+and then here you put a sigmoid and get your output
+I had shown you this by making a block
+If you unfold it, since we have 5 words, then total time steps will be 5, so if you unfold it, then this architecture will look something like this, so for each time step, we will have one block, from here you will get the first word of your first review, from here you will get the second word of your first review, you will get the third word, you will get the fourth word,
+and you will get last word
+from here
+you will get
+previous
+time step
+output
+you will send it forward
+like this
+and from here
+you can get this output
+right this is like
+unfolding your
+RNN in time
+now what if
+our RNN unfortunately is not able to do sentiment analysis correctly
+the accuracy is very low
+in that case what you can do is
+that you can add more hidden layers here
+now see here
+this is your input layer
+and this is your hidden layer
+So what you can do is, you can stack one more RNN cell.
+Like here you can put one more RNN cell.
+And when you unfold it, it will also unfold 5 times.
+Like this.
+It will also get input from the previous time step.
+And it will also get output.
+The only difference with this hidden layer would be that
+let's assume this is hidden layer 1 and this is hidden layer 2
+so you are directly giving input from input layer to hidden layer 1
+but the input given by hidden layer 2 will be given by hidden layer 1
+like this
+like this
+like this
+and similarly from here you will get output of hidden layer 2
+where if you want
+then you can add a third hidden layer
+like this
+here again you will get input from previous time step
+and again output from here
+and now there is no limit to this architecture
+in this way you can stack any number of hidden layers vertically
+and you can increase the complexity of RNN
+you can increase representation power so that you can solve more complex problems and this
+is the basic idea behind deep RNN deep RNN is nothing but stacking one RNN cell on top
+of each other ok and then unfolding all of them in time that is how deep RNNs work so
+So this is what I have provided to you on a very small level, now we will try to understand this whole architecture in great detail, how it is designed and how the flow of information is flowing in this whole system.
+So guys, we have taken the basic idea of deep RNN, now we will understand this topic in a little more depth.
+First of all, I want to explain you how a deep RNN architecture looks like.
+To understand this, first we will see a simple RNN with the help of a small problem.
+The problem is sentiment analysis where we have these three reviews.
+There is no meaning of these reviews, I just took it as an example.
+and this is their sentiment
+1 means positive sentiment
+0 means negative sentiment
+here you can see
+all reviews are made with 3 words
+and here
+every word
+if you want
+through one hot encoding
+you can represent through 3 numbers
+like cat you can say
+100
+mat you can say 010
+and rat you can say
+you can say 0 1 ok so every time in our RNN one word will go at each time stamp total
+time steps or time stamps will be three because in all our reviews there are three words so
+this is my setup so I guess you know how one RNN will work one RNN will be a cell in it
+when you are talking about the first review, then the cat will go to the first time step, then from here you will get the entry of 1 0 0
+from here you can send a random number or a vector of 0, for example, I am sending a vector of 0. Also, I have assumed that
+that there are three units and neurons in this RNN cell, that is why the size of this vector is 3,
+now the output will come out from here and it will go to the next time step, we will send the mat to the next time step,
+then 010 will go here, then the output will come out, it will go to the third time step, we will send the rat from here and finally
+we will calculate the output from here, so this is our unfolding, but if you want to understand the architecture, then you will have to understand it in such a way that you will be able to see what is going on inside this RNN cell,
+So I am drawing the architecture once, so basically as we said that our input is a three-dimensional vector
+and our RNN cell has three units and this is our output, so there is one unit in the output, sigmoid
+because we have to take out 1 and 0
+so our architecture is something like this
+I have shown you this in the RNN video
+this is a fully connected layer
+this is also a fully connected layer
+from here we are getting the output
+and one feature of RNN is that
+you have this connection
+which we call feedback loop
+or we call it state
+So this is a 3x3 connection, if you want to understand how it works, then I will show you what will happen at every time step.
+So if we talk about the first time step, then this is the first time step, okay, first of all, we will go to 1 0 0, then 1 will be here, 0 will be here, 0 will be here, this information will flow here.
+also this 00 will also enter in the system from here
+this is like a 3x3 connection
+means 0 will go here and here and here
+similarly this 0 will go here and here
+this 0 will go here and here
+basically it is 3x3
+now what will happen
+from this calculation
+this is time step 1 by the way
+with this, here an output will be generated, here an output will be generated, here an output will be generated.
+Ok.
+So now we are going to time step 2.
+This is time step 2.
+Here your input will be made.
+This is 010.
+Ok.
+So, this 010 is going here.
+And I am writing a little further so that it remains visible.
+These are the same 3 nodes.
+Now the output of these three will go here.
+Again via 3x3 connection.
+This is a 3x3 connection.
+Ok.
+Then we will get the output from here.
+And that will go to t equal to 3.
+Here we will get the input of 0, 0, 1, rat.
+And I am making it a little far again.
+And this is the connection.
+This is the connection.
+And then
+from here, we are getting this 3x3 again, now finally when three time steps are completed, then these three will come out and our output will go to sigmoid and here we will get our output, okay, so this is how the information flows inside a RNN, okay, the main thing is that there is this feedback loop which is a 3x3 connection, okay,
+Now what we decided is that we will not use only one RNN cell, instead we are going to use two RNN cells or two hidden layers.
+So basically the architecture would become like this. Let me show you.
+So since there are two RNN cells, so this is the first one.
+from here your cat is going
+from here your mat is going
+and from here your rat is going
+but instead of taking the output here
+we are taking the output out at every time step
+and giving it in the next RNN cell
+it is also getting its input
+and from here we are finally calculating the output
+this is the setup ok
+I will make its architecture and show you how it will look like
+so in this case
+let's assume for a while that
+this RNN cell
+has 3 units
+and this RNN cell
+has 2 units
+different units are possible
+same or different
+so now our architecture
+will look like this
+there are still 3 things in input
+after that our first RNN came
+This is a 3x3 connection, there is this feedback loop, then we have one more hidden layer and
+there is a 3x2 connection and again there is a feedback loop and now we have the final
+output layer and this is where we get our output.
+So this thing is newly added.
+Now by adding this new thing, when you unfold our architecture, how will it look, let me show it to you.
+So in time step 1, you assume this is the setup, this is the setup.
+This is time step equal to 1.
+Here we are sending the cat input.
+ok, this is the input flow
+and by the way
+this input and this input
+will be coming from the beginning
+either it will be random numbers or it will be zero
+now
+this is what we are getting from here
+ok
+so this happened, this happened, this happened
+ok
+and these connections
+Now because of this connection, we will get this and this, so if you go to the time step equal to 2, then I am doing everything a little further, so
+This is my 3 neurons and this is my 2 neurons, so I came out of here, went here, came out of here, came here and came out of here.
+This is a 3 cross 3 connection which is this connection.
+Then I came out of here, came here and came out of here. This is a 2 cross 2 connection and I am talking about this connection.
+ok, so we have reached here, now we will talk about the time step, by the way, by the way, this is the connection on time step 2,
+ok, so we have this connection now, this one has also been done, this one has also been done, now we will talk about the output, we will talk about this and this,
+so now we are moving on to time step 3
+on time step 3
+and I am moving it a little further
+ok
+this connection
+this is a 3 cross 3 connection
+and this connection is this one
+ok
+after that
+coming out from here
+here is a 3 cross 3 connection
+and this connection
+your
+is this one
+ok
+and then
+this 2x2 connection
+is this one
+and obviously
+I haven't shown this but this connection
+is this one
+and between these two
+this connection is this one
+three time steps are completed, so now in this time step, what will we do here, by putting a sigmoid in the output,
+we will remove our y hat here and that is this connection, so I hope you are able to understand that first of all
+how is the architecture, this is the architecture and how information is flowing in the system, so I have
+shown you by drawing three time steps, ok, this is how information is flowing, so all these arrows
+in this architectural diagram, you should understand this, then I hope that the whole part is clear to you,
+so guys, we understood the architecture, now we will read a little notation, so that in the future, if you are following
+any other resource, then you will not have any confusion, so here I have taken an example where we have
+There is an architecture like this, where we have 4 time steps in total and we have used 3 hidden layers of RNN.
+So this is the first layer, this is the second layer and this is the third layer.
+Now to understand the notation, first of all you have to remember that since the structure that you can see on the screen is like a 2D grid,
+so here there are two axes, one is this axis which we call time axis and represent it with T
+and second is this axis which we call depth axis because from this we can understand that how deep is our RNN
+and we represent it with L, L for layer, how many hidden layers are there
+Now what I will do is I will pick up any one cell like I pick up this cell and I draw it here.
+Now it is getting an input from the bottom, it is getting an input from the left and it is giving two outputs.
+So once we will try to understand what all these inputs and outputs are signifying.
+So first of all, you give a name to this particular RNN cell.
+So what is the name? Since it is a hidden unit, you call it H.
+And since it is inside a two-dimensional grid, you represent it with T here.
+T for time. At what time? Like it is at time step 3.
+and here you write L in superscript
+means which layer it is, like here it is in second layer
+so basically if you want to identify which RNN cell it is
+then you will write it as H3 second layer
+if you want to know which one it is then you will write H4 second layer
+This is how you identify a particular cell when you are unfolding your deep RNN.
+Now let's talk about the input here.
+The input coming here is coming from this.
+This becomes HT because it is on the same time step 3.
+but the layer is the previous one, so here it will be L-1
+I guess you are able to understand this
+similarly if you talk about this input
+then this input is coming from the previous time step
+so here it will be T-1
+but it is in the same layer so here it will be L
+so first of all you have to understand this
+now if you talk about the equation, how is the calculation happening here
+is very simple. If you have to calculate htl, by the way, this thing is your htl and this thing is also
+htl. How will this be calculated? You will write tanh because the activation function in all the RNN cells
+it is tanh now here you have two weights one corresponding to this and one corresponding to this
+okay so you understand that here since there are three layers so for every layer there will be this
+weight and there will be this weight. If you call this weight U and if you call it W then
+since every layer has its own W and U you represent it like this. So for any general
+RNN cell H T for layer L will become tan H of W of that layer multiplied by this is W
+multiplied by H T minus 1 L plus U L multiplied by this thing, H T L minus 1. Now here you
+can add bias and this is the general equation for any particular RNN cell. So this notation
+you have to remember that it is not that difficult notation, it is a simple notation, but once the clarity comes
+that there are two axis, time axis and depth axis, then it becomes easy to think. So guys, we have seen the basic level
+introduction of deep RNN, after that we have also discussed the architecture. So now let's discuss an important point
+that why you should use deep RNN and when you should use it, okay, so in the beginning of the video, I
+told you that the biggest motivation behind using deep RNNs is to be able to understand the complex patterns of data,
+so let's discuss that point a little well, so according to me, there are two main reasons why you should use
+use deep RNNs. So once we are talking about the first point, the first point is Hierarchical
+representation. So basically this is an example of deep RNN. So here you can see that we have
+multiple hidden RNN cells. So what is the benefit if you stack it like this in multiple layers
+So what is the benefit of it?
+The benefit is that your initial layers
+they find very primitive features in your data.
+For example, you are doing sentiment analysis of product reviews.
+Your users have written review of products
+and you want to do sentiment analysis of it.
+So these initial layers are very basic features in your data like words such as love, hate, amazing, terrible
+If you see these type of words then these initial layers will try to get sentiment on word by word level
+on primitive level
+as you go to middle level
+then
+on sentence level
+you will try to get sentiment analysis
+like
+you bought a phone
+and user wrote
+audio
+is bad
+so on sentence level
+middle layers
+they will try to understand your review
+and as you go
+If you go to the higher side, then it will try to get the sentiment of the overall review.
+Like it is written in the overall sentiment that the audio is bad but the display is great.
+Overall I am happy.
+so the next layer will try to find an overall sentiment by understanding all three sentences
+so what I mean to say is that there is a hierarchy in your data
+so the same hierarchy is understood by this structure
+the first layers try to understand things at a very primitive level like word level
+the middle layers try to understand things at sentence or phrase level
+And the next layers try to understand the overall sentiment on the basis of the information at the back and on the basis of the understanding till now.
+So this hierarchy of data, in reality sentences, phrases and paragraphs are made like this only.
+Sentence is made from words, paragraph is made from sentence.
+So this hierarchy in your data, deep RNNs are able to capture it.
+So this is why you should use deep RNNs.
+The second reason is a little different, in the second reason I have written here customization for advanced tasks.
+So let's say tomorrow you are making an encoder decoder module.
+So there you want to use the attention mechanism, now I know I have not taught you the attention mechanism yet.
+But it's a famous thing. So suppose you want to make a machine translation module by using the attention mechanism, encoder and decoder which will translate the language and give it to you.
+Here you can use deep RNNs in your encoder and decoder modules.
+In fact, deep RNNs have been used in Google Translate machine translation tool.
+Here deep RNNs are being used to build advanced level architecture like encoder-decoder with attention mechanism.
+So this can be the second usage of your deep RNNs.
+So now we have understood why we should use deep RNNs.
+Now we will discuss what kind of situations you should use deep RNNs.
+So I am telling you 3-4 scenarios where you will prefer deep RNN over single layer RNN.
+So the first one is complex tasks.
+If you have a task with high complexity, then that is an ideal situation where you want to try deep RNN.
+There are some examples, let's say speech recognition is used a lot here.
+Or another example is machine translation, which I explained to you a while ago.
+So, if your problem statement is complex, you can or you should use deep RNNs.
+Second point is when you have large data sets. This is one important point.
+Generally speaking, you try out deep RNNs when you have a lot of data.
+Because if you have less data and you use deep RNNs, then there is a chance of overfitting.
+then more data is required third is if you have sufficient computation
+or computational resources means you have so much processing power and computational power
+that you can actually train the architecture of deep RNN let's say you have a weak machine
+then you should not try deep RNN okay because it would take a lot of time to train the model
+And lastly, when you are not satisfied with simpler models,
+let's say you have trained a single layer RNN,
+and the results you are getting are not satisfactory,
+your baseline model is not giving good results,
+then you can try out Deep RNN as an improvement there.
+So this is basically a kind of guideline I have given you,
+you can use it anywhere,
+But after understanding this, you will be able to use Deep RNNs in an educated way.
+So guys, now we have understood a lot about Deep RNNs.
+So let me show you a sample code where I will show you how you can use Deep RNNs in Keras.
+So I have taken a very simple data set of IMDB, which is a data set of sentiment analysis, which comes built-in in Keras.
+so we are going to use it
+here I have imported all the libraries
+here we are loading the data
+using this function imdb.loaddata
+and we are capping on 10,000 words
+here we are creating our train and test parts
+and here we are just restricting our data
+to a max length of 100
+and we are doing a pad sequence
+here the main thing is
+So this is how you create a deep RNN, so first of all we used embedding layer, we have used this in the past also when we studied RNN and LSTM.
+So here basically it means that the input we are getting is of 10,000 words and our output is that we are representing every word in a 32 dimensional vector.
+and every word will be represented as a 32 numbers vector.
+From here main thing starts, here you have put your first hidden layer and after that you have put second hidden layer.
+The first hidden layer has 5 units and the second one also has 5 units, here you can do 15 also, there is no problem.
+But for now I have kept the same and in the last there is a dense layer.
+so if I explain you its architecture
+so the architecture is like this
+this is our input layer from where
+every time step one word will come in
+and this is like 32 dimensional
+for each word is represented using 32 numbers
+so one word will come in one bar which means 32 numbers will come
+so this is 32 dimensional
+after that here is my RNN which has 5 nodes
+After that I have one more RNN which again has 5 nodes and lastly I have a normal node which is a sigmoid node, this is tanh
+this is also tanh and this is sigmoid and all of this is fully connected. The only difference is that this is a recurrent connection, feedback loop.
+so if I ask you what are the weights and biases here
+so first of all if you talk about embedded layer
+so how many weights are there in the embedded layer
+how much is your input dimension and how much is your output dimension
+input dimension is 10000
+and output dimension is 32
+so basically it will be 320000
+ok this is the embedding layer
+now we talk about this layer
+So here is 32 and here is 5, so this is the connection of 32 cross 5, then this feedback connection is 5 cross 5, and then one bias of these 5 nodes, so 5.
+So 32 x 5 is 160, 5 x 5 is 25 and 5 is, so this will become 190.
+So in embedded layer there are 3,20,000, simple RNN 1 layer has 190.
+Now we will talk about second one, this one.
+so here first of all there is a connection of 5 cross 5 in between
+after that there is a recurrent connection so this is also 5 cross 5
+and then this is 5 of 5 biases
+so this is 25, 25 and 5 so basically this is 55
+so if you talk about simple RNN 2 then that is 55
+Now in the last we have output layer which is this one, so here the weights are 5x1 and it has a bias so this is 5 plus 1 is 6, so if you are talking about dense layer then this is 6, so these are our total weights and biases, 320190, 155 and 6, let's check that, so you can see 320190, 155 and 6.
+so this is very important to understand
+now one more thing is
+this return sequence
+you have to keep all your layers true
+except your last hidden layer
+why? I will tell you
+so what you are doing
+you have
+like this
+first layer
+from here you are getting input
+32 dimensional
+this is the flow
+but now you have to give the input to the next layer
+so the next layer is getting the input from the previous layer
+so these arrows will be able to flow only when you will keep return sequence equal to true
+if you will make it false then this connection will break
+and your simple RNN will not work
+and that is why you are not keeping it true in the last one
+because in the last one you only need the output from the last time step
+that is why you have not kept the return sequence true
+now if you are working on a problem where you need the output from every time step in the actual output layer
+then you can keep it there also
+I hope you understood
+so this was the main difference, everything else is the same
+I have compiled the model further
+and then trained the model
+now we are not discussing the accuracy here because that is not our goal
+I just wanted to show you how you can build a deep RNN in Keras, so you learned that, now I would recommend you to go ahead and apply it on a proper dataset and see if it is useful or not, but yeah, I just explained how to use deep RNN in Keras, so guys now I will tell you the best part of deep RNN, the best part of deep RNN is that we have just learned the architecture where you can build a deep RNN on one RNN and another RNN on another RNN,
+This concept is not only applicable on simple RNN, it can also be applied on other RNN architectures.
+Which means, if you have studied LSTM, you can also make deep LSTMs.
+Where you can stack other LSTMs on one LSTM.
+And we have also studied GRUs.
+You can also make deep GRUs.
+And in fact, if you talk about practical deep learning, then most of the times you will see that people use deep RNN concept with LSTM or with GRU.
+Simple RNN concept is generally not used because the problems of vanishing and exploding gradient are also seen with deep RNN concept.
+so I'll just show you the code
+how can you create
+like this was our model
+where we made a deep
+RNN
+here if you use LSTM instead of simple RNN
+then
+this becomes a deep LSTM
+ok
+similarly if you use GRU layer instead of LSTM
+then this becomes a
+deep GRU
+So, I would recommend you to pick up a data set and experiment with single RNN, deep RNN, single LSTM, deep LSTM, single GRU, deep GRU
+and try to document your results and try to understand how things are working.
+Back propagation and all these concepts work the same way.
+It becomes a little more difficult because if you notice here, since it becomes a grid structure,
+the gradients can flow in any way, like you can reach from here in this way, you can reach from here in this way,
+so it is a little more difficult calculation, but the good part is that a library like Keras handles it internally by forming a computation graph.
+So that is not our concern, our concern is to understand the concept and apply it.
+Along with this, you can also use dropouts and such concepts.
+Nothing changes, you just increased the complexity a little.
+So if we talk about disadvantages, there are only two major disadvantages.
+First, since you are increasing the complexity of your neural network,
+then the tendency of overfitting increases a little, so you have to design your neural network carefully,
+use techniques like dropouts, regularization, and set the learning rate carefully,
+weight initialization also matters, so you have to do all these things by looking at it,
+otherwise there are chances of overfitting, which basically means that the result will not look good on the training data,
+will not come on test data and the second problem is the training time, the time it takes to train the model
+increases, especially if you are working on a large data set, since you have increased the parameters in your neural network,
+it will be difficult to train them because you have to perform back propagation for more parameters,
+calculate derivatives, update, this might take some time, so these are the two major disadvantages,
+But as I said, if your simple RNN is not working, then you should definitely try out Deep RNNs.
+And in Deep RNNs also, I would recommend going for Deep LSTMs and Deep GRUs.
+So yeah, that was the video guys. I just gave you an introduction on Deep RNNs and tried to explain it in a lot of detail.
+Now it's your job to practically apply the knowledge you have gained from this video on this data set.
+and whatever you learn, document it somewhere.
+If you like the video, then like it.
+And if you haven't subscribed to the channel, please do subscribe.
+See you in the next video. Bye.

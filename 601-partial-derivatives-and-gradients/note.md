@@ -199,7 +199,7 @@ Hand-derived gradients are easy to get wrong, and a wrong gradient makes trainin
 1. **In words:** estimate each partial derivative with a small step $h$ (say $10^{-4}$), then compare the whole estimated gradient with the formula's.
 2. **Formula:** with $d_i^h$ the finite-difference estimate and $d_i$ the formula's value for input $i$,
    $$\text{relative error} = \sqrt{\frac{\sum_i (d_i^h - d_i)^2}{\sum_i (d_i^h + d_i)^2}}$$
-   A value below about $10^{-6}$ means the formula is very probably correct.
+   A value below about $10^{-6}$ means the formula is very probably correct (MML §5.2).
 3. **Example:** the squared-error loss $L(m, b) = \sum (y_i - m x_i - b)^2$ of the [gradient descent Note](../57-gradient-descent/note.md), on three points $x = [1, 2, 3]$, $y = [2, 4, 5]$, at $m = 1$, $b = 0$. The residuals are $[1, 2, 2]$, so the formulas give
    $$\frac{\partial L}{\partial m} = -2\sum r_i x_i = -2(1 + 4 + 6) = -22, \qquad \frac{\partial L}{\partial b} = -2\sum r_i = -10$$
    Central differences with $h = 10^{-4}$ give $[-22.0000, -10.0000]$, a relative error of about $10^{-13}$.
@@ -229,7 +229,7 @@ Hand-derived gradients are easy to get wrong, and a wrong gradient makes trainin
 >
 > `np.eye(2)` gives the rows $[1, 0]$ and $[0, 1]$, so `p + h * e` nudges one parameter at a time.
 
-Deep learning libraries compute gradients automatically, but gradient checking is still how those libraries, and any custom loss, are tested.
+Deep learning libraries compute gradients automatically, and they ship the same test for checking them: PyTorch's `torch.autograd.gradcheck` compares the automatic gradients with finite differences (PyTorch docs, "Gradcheck mechanics").
 
 ## 8. Summary
 
@@ -245,6 +245,11 @@ Deep learning libraries compute gradients automatically, but gradient checking i
 - Sum, product and chain rules carry over to vectors, with the order of factors kept.
 - The multivariate chain rule adds the products along every path; with gradients as rows, it is matrix multiplication.
 - Gradient checking compares a formula with finite differences.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 5.2, remark on verifying a gradient implementation (MML).
+- PyTorch documentation. "Gradcheck mechanics" and `torch.autograd.gradcheck`.
 
 ## 9. Key terms
 

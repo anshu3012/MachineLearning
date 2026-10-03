@@ -1,0 +1,81 @@
+activation,start,layer,std
+tanh,0.01 (too small),1,0.21375670072585332
+tanh,0.01 (too small),2,0.04756794101456327
+tanh,0.01 (too small),3,0.010608464324208922
+tanh,0.01 (too small),4,0.0023782941832653963
+tanh,0.01 (too small),5,0.0005293694335914918
+tanh,0.01 (too small),6,0.0001180348841676134
+tanh,0.01 (too small),7,2.6447833848485746e-05
+tanh,0.01 (too small),8,5.916312430769799e-06
+tanh,0.01 (too small),9,1.3182022943719809e-06
+tanh,0.01 (too small),10,2.9389616672645243e-07
+tanh,1 (too large),1,0.982061736253871
+tanh,1 (too large),2,0.9815046617372419
+tanh,1 (too large),3,0.9817492956854608
+tanh,1 (too large),4,0.9818147514279184
+tanh,1 (too large),5,0.9815858262522044
+tanh,1 (too large),6,0.9817726087454466
+tanh,1 (too large),7,0.9819763758789167
+tanh,1 (too large),8,0.9818019798163881
+tanh,1 (too large),9,0.9816293450628556
+tanh,1 (too large),10,0.9816384506669178
+tanh,Xavier: sqrt(1/fan_in),1,0.6284134802392642
+tanh,Xavier: sqrt(1/fan_in),2,0.4856003087323691
+tanh,Xavier: sqrt(1/fan_in),3,0.4070905354053655
+tanh,Xavier: sqrt(1/fan_in),4,0.35724391556522944
+tanh,Xavier: sqrt(1/fan_in),5,0.3202600771692372
+tanh,Xavier: sqrt(1/fan_in),6,0.2924797779854443
+tanh,Xavier: sqrt(1/fan_in),7,0.27192836362715717
+tanh,Xavier: sqrt(1/fan_in),8,0.2545747243900174
+tanh,Xavier: sqrt(1/fan_in),9,0.2396289444616489
+tanh,Xavier: sqrt(1/fan_in),10,0.22662925802234327
+tanh,He: sqrt(2/fan_in),1,0.7215744592744965
+tanh,He: sqrt(2/fan_in),2,0.6329355415209962
+tanh,He: sqrt(2/fan_in),3,0.5947051417538283
+tanh,He: sqrt(2/fan_in),4,0.5765881442990841
+tanh,He: sqrt(2/fan_in),5,0.566078758217533
+tanh,He: sqrt(2/fan_in),6,0.5607322590411041
+tanh,He: sqrt(2/fan_in),7,0.5592784719782526
+tanh,He: sqrt(2/fan_in),8,0.5578307124038155
+tanh,He: sqrt(2/fan_in),9,0.5571587406196771
+tanh,He: sqrt(2/fan_in),10,0.5553149517332678
+relu,0.01 (too small),1,0.1308069172927211
+relu,0.01 (too small),2,0.020543557055242405
+relu,0.01 (too small),3,0.0032168802855077534
+relu,0.01 (too small),4,0.00048723985329112465
+relu,0.01 (too small),5,7.594055690523271e-05
+relu,0.01 (too small),6,1.2503744414451175e-05
+relu,0.01 (too small),7,1.935715759092594e-06
+relu,0.01 (too small),8,2.862606638725943e-07
+relu,0.01 (too small),9,4.379711906900969e-08
+relu,0.01 (too small),10,7.10153486683145e-09
+relu,1 (too large),1,13.080691729272107
+relu,1 (too large),2,205.43557055242405
+relu,1 (too large),3,3216.880285507753
+relu,1 (too large),4,48723.98532911245
+relu,1 (too large),5,759405.5690523272
+relu,1 (too large),6,12503744.414451174
+relu,1 (too large),7,193571575.90925935
+relu,1 (too large),8,2862606638.7259426
+relu,1 (too large),9,43797119069.00969
+relu,1 (too large),10,710153486683.1449
+relu,Xavier: sqrt(1/fan_in),1,0.5849863179874343
+relu,Xavier: sqrt(1/fan_in),2,0.41087114110484807
+relu,Xavier: sqrt(1/fan_in),3,0.28772651975497066
+relu,Xavier: sqrt(1/fan_in),4,0.19489594131644983
+relu,Xavier: sqrt(1/fan_in),5,0.13584659799143312
+relu,Xavier: sqrt(1/fan_in),6,0.1000299553156094
+relu,Xavier: sqrt(1/fan_in),7,0.06925427235917833
+relu,Xavier: sqrt(1/fan_in),8,0.04580170621961508
+relu,Xavier: sqrt(1/fan_in),9,0.03133866734622655
+relu,Xavier: sqrt(1/fan_in),10,0.022724911573860637
+relu,He: sqrt(2/fan_in),1,0.8272955847005294
+relu,He: sqrt(2/fan_in),2,0.821742282209696
+relu,He: sqrt(2/fan_in),3,0.8138134929837794
+relu,He: sqrt(2/fan_in),4,0.7795837652657991
+relu,He: sqrt(2/fan_in),5,0.7684644051269214
+relu,He: sqrt(2/fan_in),6,0.800239642524875
+relu,He: sqrt(2/fan_in),7,0.7835226497810409
+relu,He: sqrt(2/fan_in),8,0.732827299513841
+relu,He: sqrt(2/fan_in),9,0.7091130942037187
+relu,He: sqrt(2/fan_in),10,0.7271971703635399

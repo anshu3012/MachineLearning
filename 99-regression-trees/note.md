@@ -131,7 +131,7 @@ Figure 4 shows this sweep on our 30 students (`images/sse_sweep.gif` animates it
 
 ![Sweeping the threshold across the data and tracking the SSE (key frames of the animation)](images/sse_sweep.gif){height=48%}
 
-> **Extra:** scikit-learn's default criterion, `"squared_error"`, compares splits by the weighted **mean** squared error (MSE) of the children. Since the parent's row count is the same for every candidate, minimising the children's weighted MSE is the same as minimising the SSE. The drop from the parent's MSE to the weighted MSE of its children plays the role that information gain plays in classification; it is often called **variance reduction**, because a node's MSE around its mean is the variance of its outputs.
+> **Extra:** scikit-learn's default criterion, `"squared_error"`, compares splits by the weighted **mean** squared error (MSE) of the children. Since the parent's row count is the same for every candidate, minimising the children's weighted MSE is the same as minimising the SSE. The drop from the parent's MSE to the weighted MSE of its children plays the role that information gain plays in classification; it is often called **variance reduction**, because a node's MSE around its mean is the variance of its outputs (sklearn reference, `criterion`).
 
 ### 4.4 Recursion, and when to stop
 
@@ -168,12 +168,12 @@ Figure 5 shows the result on 80 students, viewed from above: each box is a leaf,
 `DecisionTreeRegressor` has exactly the hyperparameters of the classifier (the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md)): `splitter`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_leaf_nodes`, `min_impurity_decrease` and `max_features`, with the same effects. The difference is the **criterion**, which measures error instead of impurity:
 
 - `"squared_error"` (default): the mean squared error, MSE (the [regression metrics Note](../52-regression-metrics/note.md)); leaves predict the mean.
-- `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less. It is much slower to train.
-- `"poisson"`: for counts, such as the number of visits.
+- `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less (ESL §10.6). The `absolute_error` criterion is slower to train: about 2.4 times slower than `squared_error` on the Boston data in the Notebook.
+- `"poisson"`: for counts, such as the number of visits (sklearn UG §1.10.7.2).
 
 On most data `"squared_error"` does as well as or better than the others, but this is again something to settle by tuning.
 
-> **Extra:** Older code also uses `"friedman_mse"`. In scikit-learn 1.9 it is deprecated (to be removed in 1.11) and simply maps to `"squared_error"`, as the two always gave the same trees.
+> **Extra:** Older code also uses `"friedman_mse"`. In scikit-learn 1.9 it is deprecated (to be removed in 1.11) and simply maps to `"squared_error"`, because the two always gave the same trees (sklearn 1.9 deprecation warning).
 
 ### 6.1 max_depth on a non-linear curve
 
@@ -192,13 +192,13 @@ The other hyperparameters behave as for classification. For example, with 150 tr
 
 ## 7. A regression tree on the Boston housing data
 
-> **Key point:** A single train-test split flatters the tree; cross-validation gives the honest score, and `feature_importances_` shows which columns the tree relies on.
+> **Key point:** Cross-validation gives an honest score, tuning beats an untuned fully grown tree on new data, and `feature_importances_` shows which features the tree relies on.
 
 ### 7.1 The data and a first tree
 
 > **Key point:** 506 Boston districts, 13 inputs, and the median house price; a depth-5 tree scores R² = 0.88 on one test split.
 
-The **Boston housing data** describes 506 districts of Boston in the 1970s. Each has 13 input columns, such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The output, `MEDV`, is the median home value in thousands of dollars.
+The **Boston housing data** describes 506 districts of Boston in the 1970s. Each district is one **observation** (one row of the table). Each has 13 **features**, the input variables (one column each), such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The **target**, the output we predict, is `MEDV`, the median home value in thousands of dollars.
 
 > **Python:** A regression tree on the Boston data.
 >
@@ -222,7 +222,7 @@ The **Boston housing data** describes 506 districts of Boston in the 1970s. Each
 >
 > `DecisionTreeRegressor` is used exactly like `DecisionTreeClassifier`; only the output is a number.
 
-> **Extra:** Older code loads this data with `load_boston` from `sklearn.datasets`. That function was removed in scikit-learn 1.2, partly because one column, `B`, was built from the share of Black residents of each district, an ethically problematic variable. The Notebook reads the same table from `data/boston.csv` (OpenML dataset 531). For new projects, scikit-learn suggests the California housing data instead.
+> **Extra:** Older code loads this data with `load_boston` from `sklearn.datasets`. That function was removed in scikit-learn 1.2, because one column, `B`, was built from the share of Black residents of each district, an ethically problematic variable (sklearn 1.1, `load_boston` notice). The Notebook reads the same table from `data/boston.csv` (OpenML dataset 531). For new projects, scikit-learn suggests the California housing data instead.
 
 An $R^2$ of 0.88 looks impressive, but it comes from one random test set of 102 districts. Cross-validation (the [pipelines Note](../29-pipelines/note.md), section 8) on the training set gives a more honest average: **0.66**.
 
@@ -251,13 +251,44 @@ Grid search with `GridSearchCV` (the [KNN Note](../91-knn/note.md), section 4.2)
 >
 > A decimal such as `max_features=0.5` means "50% of the columns" (6 of 13), and `min_samples_split=0.05` means "5% of the training rows".
 
-That is $5 \times 2 \times 3 \times 3 = 90$ combinations, each cross-validated 5 times: 450 trees. The best combination reaches a cross-validated $R^2$ of **0.725**, better than the 0.66 of our first tree, and this score can be trusted because it comes from cross-validation. Adding more values and more hyperparameters can improve it further.
-
-On the single test split, the tuned tree scores only 0.63. A single split of 102 rows is noisy: here it happened to favour the first tree. This is exactly why we choose settings by cross-validation, not by one test score.
+That is $5 \times 2 \times 3 \times 3 = 90$ combinations, each cross-validated 5 times: 450 trees. The best combination reaches a cross-validated $R^2$ of **0.725**.
 
 When a grid becomes too large, **`RandomizedSearchCV`** is the faster alternative: instead of every combination, it tries `n_iter` combinations drawn at random from the same lists. With `n_iter=20` it trains 100 trees instead of 450 and reaches a cross-validated $R^2$ of 0.70.
 
-### 7.3 Feature importance
+### 7.3 Does tuning beat an untuned tree?
+
+> **Key point:** An untuned tree grows until every leaf is pure, so it learns the noise. A tuned tree stops earlier and scores clearly better on new data.
+
+With its default settings, `DecisionTreeRegressor` never stops early: it splits until each leaf holds observations with the same target value, often a single observation (section 4.4). Such a tree copies the training data perfectly, noise included. This is why tree size must be tuned: "a very large tree might overfit the data, while a small tree might not capture the important structure", so the right size should be chosen from the data (ESL §9.2.2).
+
+The effect is clearest on a large dataset with a noisy target. We use the **California housing data**: 20,640 districts of California in 1990, with 8 features (input variables) such as median income and house age, and the median house value as the target (sklearn California housing). Each district is one observation.
+
+The experiment changes one thing only, the tree's settings:
+
+1. split the data 80/20 into training and test sets;
+2. **untuned tree:** fit `DecisionTreeRegressor()` with its defaults on the training set;
+3. **tuned tree:** run `GridSearchCV` over `max_depth` (4 to 12, or `None`) and `min_samples_leaf` (1, 5, 20, 50) **on the training set only**, and keep its best tree;
+4. score both trees on the test set, which the search never saw.
+
+The Notebook repeats this over 20 random splits and averages the scores (Figure 7).
+
+![Average R² over 20 train-test splits of the California housing data](images/tuning_gain.png){height=32%}
+
+- The untuned tree scores a perfect $R^2 = 1.00$ on its training data, with about 15,900 leaves for 16,512 training observations: it has memorised the noise.
+- On the test data it falls to **0.61**.
+- The tuned tree, with about 630 leaves, scores **0.73** on the test data, and it beats the untuned tree on all 20 splits.
+
+So tuning gains about 0.12 in test $R^2$ here. On every split the search picked `min_samples_leaf=20`: every leaf averages at least 20 districts, which smooths out the noise in single prices.
+
+### 7.4 The best score of a grid is a little lucky
+
+> **Key point:** The best of many cross-validated scores is slightly too high; re-score the winner on fresh folds to get an honest number.
+
+Picture 90 random people and pick the tallest. That person is tall, but part of the reason they won is luck of who showed up. A grid search works the same way. On the Boston data in section 7.2, it keeps the best of 90 scores, all measured on the same 5 folds, so a setting can win partly because it happens to suit those folds. Picking the best of many scores always makes the winner look a little better than it is; this effect is called **selection bias** (Cawley and Talbot 2010).
+
+The Notebook measures it. On 10 fresh shuffles of 5-fold cross-validation (only the folds change), the Boston grid's winning setting scores **0.663**, not 0.725. To report an honest score, either re-score the winner on fresh folds, or test it on data the search never saw, as in section 7.3.
+
+### 7.5 Feature importance
 
 > **Key point:** `feature_importances_` gives each column's share of the tree's total error reduction; on Boston, RM, LSTAT and CRIM dominate.
 
@@ -265,7 +296,7 @@ A trained tree also tells us which columns it relied on. Its attribute **`featur
 
 ![Feature importance of the tuned tree on the Boston data](images/feature_importance.png){height=34%}
 
-Figure 7 shows them for the tuned tree:
+Figure 8 shows them for the tuned Boston tree of section 7.2:
 
 - **RM** (rooms per home) is by far the most important column, at 0.47;
 - then **LSTAT** (0.29) and **CRIM** (0.11);
@@ -273,7 +304,7 @@ Figure 7 shows them for the tuned tree:
 
 This is useful for **feature selection** (the [curse of dimensionality Note](../46-curse-of-dimensionality/note.md)): if we must drop columns, the ones with near-zero importance are the first candidates.
 
-> **Extra:** The importance of a column is computed by adding up, over every node that splits on it, the node's share of the training rows times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4.8), and then dividing by the total over all columns. A single tree overfits easily, so its importances can change a lot from one training set to another. Random forests average them over many trees and give more reliable values.
+> **Extra:** The importance of a column is computed by adding up, over every node that splits on it, the node's share of the training rows times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4.8), and then dividing by the total over all columns. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
 
 ## 8. Summary
 
@@ -290,7 +321,19 @@ This is useful for **feature selection** (the [curse of dimensionality Note](../
 - Each candidate threshold splits the data in two; each side predicts its mean; the threshold with the smallest SSE wins (here, hours $\le$ 2.90).
 - With several inputs, each input's best threshold competes; the smallest SSE wins.
 - A tree grown fully gives every point its own leaf; stop it with `max_depth`, `min_samples_split`, `min_samples_leaf` and the other hyperparameters.
-- On the Boston data, a tuned tree reaches a cross-validated $R^2$ of 0.725; RM, LSTAT and CRIM are the most important columns.
+- An untuned tree grows until its leaves are pure and memorises the noise; on California housing, tuning `max_depth` and `min_samples_leaf` raises the test $R^2$ from 0.61 to 0.73 (average of 20 splits).
+- The best score of a grid is a little optimistic (best of 90): on fresh folds the Boston winner scores 0.663, not 0.725.
+- On the Boston data, RM, LSTAT and CRIM are the most important features.
+
+## Sources
+
+- **Cawley and Talbot 2010:** G. C. Cawley and N. L. C. Talbot, "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation", *Journal of Machine Learning Research* 11, 2010.
+- **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Sections 9.2.2, 9.2.4 and 10.6.
+- **sklearn California housing:** scikit-learn User Guide, Real world datasets, California Housing dataset (`fetch_california_housing`); data from R. K. Pace and R. Barry, "Sparse Spatial Autoregressions", *Statistics and Probability Letters* 33, 1997.
+- **sklearn UG:** scikit-learn User Guide, Section 1.10.7.2, Regression criteria.
+- **sklearn reference:** scikit-learn `DecisionTreeRegressor` API reference, parameter `criterion`.
+- **sklearn 1.9 deprecation warning:** the warning raised by `DecisionTreeRegressor(criterion="friedman_mse")` in scikit-learn 1.9.
+- **sklearn 1.1, `load_boston` notice:** scikit-learn 1.1 API reference for `sklearn.datasets.load_boston` (deprecated in 1.0, removed in 1.2).
 
 ## 9. Key terms
 
@@ -305,4 +348,6 @@ This is useful for **feature selection** (the [curse of dimensionality Note](../
 | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations |
 | Feature importance | A column's share of all the impurity reduction in a tree; the shares add up to 1 |
 | feature_importances_ | The fitted attribute holding the feature importance of every column |
+| California housing data | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn |
+| Selection bias | The best of many scores looks better than it really is, because part of its win is luck |
 | Boston housing data | 506 Boston districts, 13 inputs and the median home value; removed from scikit-learn in version 1.2 |

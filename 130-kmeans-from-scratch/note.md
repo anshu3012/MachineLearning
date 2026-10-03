@@ -156,7 +156,7 @@ Take five rows and their clusters:
 >
 > `axis=0` averages down each column, giving one mean per column. Without it, `mean()` averages all six numbers into a single value (3.17), which is not a point at all.
 
-> **Extra:** A cluster can end up empty: no row is nearest to its centroid. The mean of zero rows is undefined, and a loop over the cluster numbers that actually occur (for example with `np.unique(cluster_group)`) would silently return fewer than k centroids. The file `kmeans.py` keeps an empty cluster's old centroid instead. scikit-learn moves it to a far-away point.
+> **Extra:** A cluster can end up empty: no row is nearest to its centroid. The mean of zero rows is undefined, and a loop over the cluster numbers that actually occur (for example with `np.unique(cluster_group)`) would silently return fewer than k centroids. The file `kmeans.py` keeps an empty cluster's old centroid instead. scikit-learn moves it to the data point that is farthest from its own centroid (scikit-learn source, `_k_means_common.pyx`).
 
 ## 7. Step 5: stopping
 
@@ -215,7 +215,7 @@ The two runs can be compared by their WCSS (the [k-means Note](../128-kmeans-int
 1. run k-means from several random starts;
 2. keep the run with the lowest WCSS.
 
-In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit-learn's `n_init` and `k-means++` start (the [k-means in Python Note](../129-kmeans-code/note.md), section 5) do exactly this job.
+In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit-learn's `n_init` (the [k-means in Python Note](../129-kmeans-code/note.md), section 5) does exactly this job, and its `k-means++` start spreads the first centroids out.
 
 > **Extra:** The class also stores the WCSS of its result as `inertia_`, like scikit-learn:
 >
@@ -237,8 +237,12 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 
 - The Euclidean distance for any number of columns: `np.sqrt(np.dot(a - b, a - b))`.
 - `X[cluster_group == k].mean(axis=0)` is the new centroid of cluster k.
-- k-means usually stops within about 10 rounds; a wrong result comes from a bad random start, not from too few rounds.
+- On the four blobs, k-means stopped within 10 rounds from all 30 starts; the wrong result on the students came from a bad random start, not from too few rounds.
 - Fix bad starts by restarting several times and keeping the lowest WCSS.
+
+## Sources
+
+- scikit-learn source, `_k_means_common.pyx`: the function `_relocate_empty_clusters_dense` in `sklearn/cluster/_k_means_common.pyx`, scikit-learn 1.9.
 
 ## 11. Key terms
 

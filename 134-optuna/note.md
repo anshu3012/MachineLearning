@@ -85,11 +85,11 @@ After a few rounds, the guess matches the hidden curve well near its top, and th
 |---|---|---|---|
 | Next trial chosen | in a fixed order | at random | from the results so far |
 | Uses earlier scores | no | no | yes |
-| Trials needed | all combinations | as many as we allow | usually fewer for the same quality |
+| Trials needed | all combinations | as many as we allow | fewer than random search for the same score |
 
-**Bayesian optimisation** is the name of this informed approach. It is called Bayesian because it updates a belief about the unknown function with each new result, as Bayes' theorem updates a probability with new evidence (the [Bayes theorem Note](../85-bayes-theorem/note.md)).
+**Bayesian optimisation** is the name of this informed approach. It is called Bayesian because it puts a prior belief on the unknown function and updates it with each new result into a posterior, as Bayes' theorem updates a probability with new evidence (the [Bayes theorem Note](../85-bayes-theorem/note.md); Shahriari et al. 2016, §II).
 
-> **Extra:** The two parts of Bayesian optimisation have names. The guess of the curve is the **surrogate model**: in Figure 2 a **Gaussian process**, a model that predicts a value and its uncertainty (a mean $\mu$ and a standard deviation $\sigma$) at every point. The rule that picks the next trial is the **acquisition function**; a common one is the **expected improvement**.
+> **Extra:** The two parts of Bayesian optimisation have names. The guess of the curve is the **surrogate model**: in Figure 2 a **Gaussian process**, a model that predicts a value and its uncertainty (a mean $\mu$ and a standard deviation $\sigma$) at every point. The rule that picks the next trial is the **acquisition function**; a common one is the **expected improvement** (Shahriari et al. 2016; Jones et al. 1998).
 
 > **Extra:** Expected improvement, step by step.
 >
@@ -111,15 +111,15 @@ Five terms appear in every piece of Optuna code (Figure 1):
 - **Trial:** one run of the objective function with one set of hyperparameter values, for example `max_depth` = 1 and `n_estimators` = 50.
 - **Trial parameters:** the hyperparameter values used in a trial, for example `max_depth` = 2 and `n_estimators` = 100.
 - **Objective function:** the function we want to optimise. It takes a trial, builds and trains a model with that trial's values, and returns a score such as accuracy.
-- **Sampler:** the algorithm that suggests which hyperparameter values to try in the next trial. Optuna's default is **TPE**, the Tree-structured Parzen Estimator, a form of Bayesian optimisation.
+- **Sampler:** the algorithm that suggests which hyperparameter values to try in the next trial. Optuna's default is **TPE**, the Tree-structured Parzen Estimator, a form of Bayesian optimisation (Bergstra et al. 2011).
 
-> **Extra:** How TPE chooses. It sorts the past trials into a "good" group (by default about the best 10%) and a "bad" group. For each hyperparameter it estimates how its values are spread in each group, $\ell(x)$ for good and $g(x)$ for bad, and tries next the values where $\ell(x) / g(x)$ is highest: values common among good trials and rare among bad ones. Unlike a Gaussian process, it handles integer, categorical and conditional hyperparameters easily.
+> **Extra:** How TPE chooses (Bergstra et al. 2011, §4). It sorts the past trials into a "good" group (in Optuna, the best 10%, at most 25 trials) and a "bad" group. For each hyperparameter it estimates how its values are spread in each group, $\ell(x)$ for good and $g(x)$ for bad, and tries next the values where $\ell(x) / g(x)$ is highest: values common among good trials and rare among bad ones. TPE was built for "tree-structured" search spaces, in which some hyperparameters exist only for some values of another, as in section 8.
 
 ## 5. The Optuna workflow
 
 > **Key point:** Write an objective function, create a study, call optimize; the best trial holds the best score and values.
 
-We tune a random forest on the Pima diabetes data (768 patients, 8 medical measurements, the [ROC Note](../78-roc-auc/note.md)), split 70/30 into 537 training and 231 test rows. The Notebook (`notebook.ipynb`) runs every step of this section.
+We tune a random forest on the Pima diabetes data (the [ROC Note](../78-roc-auc/note.md)). Each **observation** (one row of the table) is a patient: 768 in all. Each has 8 **features** (input variables, one column each), medical measurements such as glucose and BMI, and the **target** (the output we predict) is whether the patient has diabetes. We split the data 70/30 into 537 training and 231 test observations. The Notebook (`notebook.ipynb`) runs every step of this section.
 
 ### 5.1 The objective function
 
@@ -154,7 +154,7 @@ The objective function does two things:
 
 The `trial` object is where the intelligence is hidden: on each call, `suggest_int` asks the sampler, which looks at all earlier trials before answering.
 
-> **Extra:** The other `suggest_` methods: `trial.suggest_float("C", 1e-3, 1e3, log=True)` for decimal values (`log=True` spreads the tries evenly over orders of magnitude, as for regularisation strengths), and `trial.suggest_categorical("kernel", ["linear", "rbf"])` for a choice from a list.
+> **Extra:** The other `suggest_` methods: `trial.suggest_float("C", 1e-3, 1e3, log=True)` for decimal values (`log=True` samples on a log scale, so 0.001 to 0.01 gets as much room as 100 to 1000; Optuna docs), and `trial.suggest_categorical("kernel", ["linear", "rbf"])` for a choice from a list.
 
 ### 5.2 Creating the study and running the trials
 
@@ -171,7 +171,7 @@ The `trial` object is where the intelligence is hidden: on each call, `suggest_i
 >
 > `direction="maximize"` because accuracy (or $R^2$) should go up; for a loss such as log loss or mean squared error we would write `"minimize"`. TPE is the default sampler, so `sampler=` can be left out; we pass it to fix its `seed`, so every run tries the same values. `optimize` calls `objective` 50 times, each time with a new `trial`.
 
-While it runs, Optuna prints one line per trial, such as `Trial 5 finished with value: 0.7747 and parameters: {'n_estimators': 53, 'max_depth': 20}. Best is trial 5 with value: 0.7747.` The first 10 trials are random, because TPE needs some history before it can model anything; after that, the trials gather in the regions that scored well.
+While it runs, Optuna prints one line per trial, such as `Trial 5 finished with value: 0.7747 and parameters: {'n_estimators': 53, 'max_depth': 20}. Best is trial 5 with value: 0.7747.` The first 10 trials are random: TPE needs some history before it can model anything, so `TPESampler` samples at random until `n_startup_trials` (default 10) trials have finished (Optuna docs). After that, the trials gather in the regions that scored well.
 
 ### 5.3 The best trial and the final model
 
@@ -192,9 +192,7 @@ While it runs, Optuna prints one line per trial, such as `Trial 5 finished with 
 >
 > `**best.params` unpacks the dictionary into keyword arguments: `n_estimators=115, max_depth=8`.
 
-After 50 trials, the best forest has 115 trees of depth 8, with a cross-validated accuracy of **0.790**. Retrained on all 537 training rows, it scores **0.745** on the 231 test rows. The cross-validated score is the one the search maximised, so it is a little optimistic; the test score is the honest one.
-
-> **Extra:** Better preprocessing would likely help more than more tuning on this data. Several columns use 0 for "not measured" (blood pressure, BMI, insulin), and imputing them ([imputation Note](../36-imputing-numerical-data/note.md)) is a natural next step.
+After 50 trials, the best forest has 115 trees of depth 8, with a cross-validated accuracy of **0.790**. Retrained on all 537 training observations, it scores **0.745** on the 231 test observations. The cross-validated score is the one the search maximised, so it is a little optimistic: the search also picks up the luck of the folds (Cawley and Talbot 2010). Our data agrees: the same forest on 10 other shuffles of the folds averages 0.772, not 0.790 (Notebook). The test score, 0.745, is the honest one.
 
 ## 6. Samplers: Bayesian, random or grid
 
@@ -230,11 +228,21 @@ The three samplers on the same objective:
 | Random | 50 | **0.793** | 0.769 | 56 trees, depth 8 | 0.740 |
 | TPE | 50 | 0.790 | **0.771** | 115 trees, depth 8 | 0.745 |
 
-On this small dataset, all three end up close, and the random sampler happened to draw the single best trial. TPE's advantage shows in where it spent its trials: 10 of its 50 landed in the best region (`max_depth` 6 to 10, `n_estimators` up to 120), against 7 for random search and 2 for the grid, so its average trial was the best of the three.
+TPE spent its trials better: 10 of its 50 landed in the best region (`max_depth` 6 to 10, `n_estimators` up to 120), against 7 for random search and 2 for the grid, so its average trial was the best of the three. The single best trial, though, came from random search. One study is one throw of the dice, so a fair comparison repeats each search many times.
 
-> **Extra:** All three test accuracies lie between 0.74 and 0.75. On 537 rows, cross-validated accuracy is noisy, and a search that tries many nearby combinations partly finds the luckiest one. Smarter search pays off most on larger data and with more hyperparameters, where blind search wastes far more trials.
+### 6.1 Bayesian search needs fewer trials
 
-> **Extra:** Other samplers in `optuna.samplers` include `GPSampler` (Gaussian-process Bayesian optimisation, as in Figure 2), `CmaEsSampler` (an evolution strategy for many numeric hyperparameters) and `NSGAIISampler` (for studies with several objectives at once).
+> **Key point:** Averaged over 20 runs, TPE reaches in 20 trials the score that random search needs about 42 trials to reach.
+
+Bayesian search pays off when each trial is expensive and the good settings fill only a small part of the search space: there, learning from earlier trials saves many wasted ones (Shahriari et al. 2016, §I; Bergstra et al. 2011). Our random forest is a poor test of this, since almost any depth and tree count scores about the same. So we tune an RBF-kernel SVM ([kernel trick Note](../95-kernel-trick-intuition/note.md)) on the same diabetes data, over its two settings `C` and `gamma`, each from very small to very large on a log scale; only a narrow band of this space scores well. We run each sampler 20 times with different seeds, 50 trials each, and average the best score so far after every trial (Figure 3).
+
+![Best 5-fold CV accuracy so far, averaged over 20 runs of each sampler on the SVM search; the bands are ± one standard error](images/best_so_far.png){width=100%}
+
+The first 10 trials are identical, because TPE starts at random (section 5.2). From then on, the TPE curve rises faster. After 20 trials TPE averages 0.780; random search reaches that average only at trial 42. TPE finishes ahead in 19 of the 20 runs (Notebook). Fewer trials for the same score is exactly what Bayesian optimisation promises.
+
+> **Extra:** All three test accuracies in the table lie between 0.74 and 0.75. On 537 observations, cross-validated accuracy is noisy: one fixed forest, scored on 10 shuffles of the folds, moves between 0.760 and 0.795 (Notebook). The three best CV scores (0.784, 0.790, 0.793) differ by less than that, which is why one study per sampler cannot rank them. In section 6.1 the folds are fixed, so every sampler scores a given `(C, gamma)` the same way, and only the choice of trials differs.
+
+> **Extra:** Other samplers in `optuna.samplers` (Optuna docs) include `GPSampler` (Gaussian-process Bayesian optimisation, as in Figure 2), `CmaEsSampler` (an evolution strategy for many numeric hyperparameters) and `NSGAIISampler` (for studies with several objectives at once).
 
 ## 7. Visualising a study
 
@@ -262,7 +270,7 @@ On this small dataset, all three end up close, and the random sampler happened t
 
 ![Optimisation history of the three studies: each trial (dots) and the best so far (lines)](images/history.png){width=100%}
 
-Figure 3 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. The flat lines after trial 30 suggest that 50 trials were more than enough for this problem, which helps us choose `n_trials` next time.
+Figure 4 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. No study improved its best score after trial 29, so on this problem the last 20 trials added nothing; this helps us choose `n_trials` next time.
 
 ### 7.2 Parallel coordinates and slices
 
@@ -270,7 +278,7 @@ Figure 3 puts the three studies on one chart. TPE's best, 0.790, came at trial 9
 
 ![Parallel coordinates of the TPE study: each line is a trial, darker is a higher score](images/parallel.png){width=100%}
 
-In Figure 4, the darkest lines all run through `max_depth` 8 to 9 and on to `n_estimators` between about 110 and 145. A **slice plot** (`plot_slice`) shows the same thing one hyperparameter at a time: each hyperparameter against the score, one dot per trial, so dense regions show where the sampler spent its trials.
+In Figure 5, the darkest lines all run through `max_depth` 8 to 9 and on to `n_estimators` between about 110 and 145. A **slice plot** (`plot_slice`) shows the same thing one hyperparameter at a time: each hyperparameter against the score, one dot per trial, so dense regions show where the sampler spent its trials.
 
 ### 7.3 Contour plot
 
@@ -278,7 +286,7 @@ In Figure 4, the darkest lines all run through `max_depth` 8 to 9 and on to `n_e
 
 ![Contour plot of the TPE study: max_depth against n_estimators, darker is a higher score; dots are trials](images/contour.png){width=90%}
 
-Figure 5 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 to 135, and the dots show that TPE placed many of its trials there. Away from that band of depths, the colours are pale whatever the number of trees.
+Figure 6 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 to 135, and the dots show that TPE placed many of its trials there. Away from that band of depths, the colours are pale whatever the number of trees.
 
 ### 7.4 Hyperparameter importances
 
@@ -286,9 +294,9 @@ Figure 5 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 
 
 ![Hyperparameter importances of the TPE study](images/importances.png){width=75%}
 
-Figure 6 gives `max_depth` an importance of 0.78 and `n_estimators` 0.22; the values add up to 1. So when time is short, `max_depth` is the hyperparameter to tune carefully.
+Figure 7 gives `max_depth` an importance of 0.78 and `n_estimators` 0.22; the values add up to 1. So on this data, when time is short, `max_depth` is the hyperparameter to tune carefully.
 
-> **Extra:** Optuna computes these importances with **fANOVA**: it fits a random forest that predicts the score from the hyperparameter values of the trials, then measures how much of the score's variation each hyperparameter explains.
+> **Extra:** Optuna 5.0 computes these importances with **PED-ANOVA**: roughly, a hyperparameter is important if its values among the best trials look very different from its values among all trials (Watanabe et al. 2023; Optuna docs). The older **fANOVA** method, which fits a random forest predicting the score from the hyperparameters (Hutter et al. 2014), gives 0.88 and 0.12 on the same study: a different split, the same order.
 
 ## 8. Define-by-run: searching over algorithms
 
@@ -351,7 +359,7 @@ In Optuna, the search space is not fixed in advance: it is created by the `sugge
 > #  'n_estimators': 134, 'max_depth': 8}
 > ```
 >
-> Each `if` branch suggests only its own algorithm's hyperparameters, so an SVC trial never draws a `max_depth`. The SVM gets a `StandardScaler` in a pipeline because it measures distances ([KNN Note](../91-knn/note.md), section 3.2). Building the model in its own function, `make_model`, lets us rebuild the winner later (section 8.3).
+> Each `if` branch suggests only its own algorithm's hyperparameters, so an SVC trial never draws a `max_depth`. The SVM gets a `StandardScaler` in a pipeline because SVMs are not scale invariant (scikit-learn user guide, SVM tips). Building the model in its own function, `make_model`, lets us rebuild the winner later (section 8.3).
 
 The TPE sampler chooses the classifier like any other hyperparameter. After 100 trials, the best is a random forest with 134 trees of depth 8: cross-validated accuracy **0.788**, test accuracy **0.749**. One study replaced three.
 
@@ -393,7 +401,7 @@ The counts are uneven because TPE learns. Counting trials in blocks of 20 shows 
 
 At first it explores all three. For a while it favours gradient boosting, then it settles on the random forest and spends all of the last 40 trials tuning it. A random sampler would have split the trials about evenly, and tuned the winner far less.
 
-> **Extra:** The SVC's low mean and high best go together: its score depends strongly on `C` and the kernel, so it has both some of the worst trials and some good ones. This is why comparing algorithms by their default settings can mislead.
+> **Extra:** The SVC's low mean and high best go together: its score depends strongly on `C`. Its 13 trials run from 0.650 (`C` of 0.012 or less) to 0.780 (`C` = 0.62). 0.650 is the share of patients without diabetes in the training data, the score of a model that always predicts "no diabetes" (Notebook).
 
 ## 9. Other features of Optuna
 
@@ -414,7 +422,7 @@ At first it explores all three. For a while it favours gradient boosting, then i
 >
 > Running the same lines in several terminals at once makes each one add trials to the same study.
 
-> **Extra:** **Pruning** stops unpromising trials early. In a neural network trained for many epochs, the objective reports the score after each epoch with `trial.report(score, epoch)`; if `trial.should_prune()` returns `True` because the trial is doing worse than earlier ones at the same point, the objective raises `optuna.TrialPruned()` and the study moves on.
+> **Extra:** **Pruning** stops unpromising trials early. In a neural network trained for many epochs, the objective reports the score after each epoch with `trial.report(score, epoch)`; if `trial.should_prune()` returns `True` (with the default `MedianPruner`: the trial is worse than the median of earlier trials at the same epoch; Optuna docs), the objective raises `optuna.TrialPruned()` and the study moves on.
 
 ## 10. Summary
 
@@ -423,6 +431,7 @@ At first it explores all three. For a while it favours gradient boosting, then i
 | Chooses the next trial | in order | at random | from all earlier results |
 | Cost | all combinations | `n_trials` | `n_trials` |
 | Risk | too slow | misses the best | can follow noise on small data |
+| Average best after 20 trials (SVM, 20 runs) | not run | 0.777 | **0.780** |
 | In Optuna | `GridSampler` | `RandomSampler` | `TPESampler` (default) |
 | Our best CV accuracy | 0.784 (16 trials) | 0.793 (50 trials) | 0.790 (50 trials) |
 | Our mean CV accuracy | 0.768 | 0.769 | 0.771 |
@@ -431,8 +440,19 @@ At first it explores all three. For a while it favours gradient boosting, then i
 - Optuna's vocabulary: study, trial, trial parameters, objective function, sampler.
 - The workflow: an objective with `trial.suggest_*`, then `create_study(direction=...)`, `optimize(objective, n_trials=...)`, `best_trial.params`, retrain and test.
 - `optuna.visualization` gives Plotly charts: optimisation history, parallel coordinates, slice, contour, importances.
-- On our small dataset the three samplers ended close (best 0.784 to 0.793, test 0.740 to 0.749); TPE's gain showed in where it spent its trials.
+- On the forest, one study per sampler ended close (best 0.784 to 0.793, test 0.740 to 0.749). Averaged over 20 runs on an SVM search with a narrow good region, TPE reached in 20 trials what random search needed 42 trials for.
 - Define-by-run lets one study choose the algorithm and its hyperparameters together: TPE spent its last 40 of 100 trials on the random forest.
+
+## Sources
+
+- Shahriari et al. 2016: B. Shahriari, K. Swersky, Z. Wang, R. P. Adams and N. de Freitas, *Taking the Human Out of the Loop: A Review of Bayesian Optimization*, Proceedings of the IEEE 104(1), 2016.
+- Jones et al. 1998: D. R. Jones, M. Schonlau and W. J. Welch, *Efficient Global Optimization of Expensive Black-Box Functions*, Journal of Global Optimization 13, 1998.
+- Bergstra et al. 2011: J. Bergstra, R. Bardenet, Y. Bengio and B. Kégl, *Algorithms for Hyper-Parameter Optimization*, NeurIPS 2011.
+- Cawley and Talbot 2010: G. C. Cawley and N. L. C. Talbot, *On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation*, Journal of Machine Learning Research 11, 2010.
+- Watanabe et al. 2023: S. Watanabe, A. Bansal and F. Hutter, *PED-ANOVA: Efficiently Quantifying Hyperparameter Importance in Arbitrary Subspaces*, IJCAI 2023.
+- Hutter et al. 2014: F. Hutter, H. Hoos and K. Leyton-Brown, *An Efficient Approach for Assessing Hyperparameter Importance*, ICML 2014.
+- Optuna docs: Optuna 5.0 API reference: `TPESampler` (`n_startup_trials`, `default_gamma`), `Trial.suggest_float` (`log`), `optuna.samplers`, `MedianPruner`, `PedAnovaImportanceEvaluator`.
+- scikit-learn user guide, SVM tips: scikit-learn user guide, "Support Vector Machines", Tips on Practical Use.
 
 ## 11. Key terms
 

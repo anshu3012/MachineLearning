@@ -173,7 +173,7 @@ Mini-batch gradient descent cuts the shuffled rows into batches and updates once
 | Vectorised | yes | yes, within a batch | no |
 | Memory | all rows | one batch | one row |
 
-Each batch is vectorised, only one batch has to be in memory, and the average over 32 rows removes most of SGD's noise. This is why Keras uses mini-batches by default, and why "gradient descent" in deep learning almost always means mini-batch.
+Each batch is vectorised, only one batch has to be in memory, and the average over 32 rows removes most of SGD's noise. This is why Keras uses mini-batches by default, and why "gradient descent" in deep learning almost always means mini-batch (Goodfellow et al. 2016, §8.1.3).
 
 ## 11. Two practical questions about `batch_size`
 
@@ -183,7 +183,7 @@ Each batch is vectorised, only one batch has to be in memory, and the average ov
 
 > **Key point:** 16, 32, 64, ... suit how hardware processes arrays; any value works.
 
-Batch sizes in examples are nearly always 16, 32, 64 or 128. Computer memory and processors, GPUs especially, handle arrays of these sizes efficiently, so they can run slightly faster (see the Extra in section 5 of the [mini-batch gradient descent Note](../60-mini-batch-gradient-descent/note.md)). It is a convention, not a rule: 10, 15 or 100 work just as well.
+Batch sizes in examples are nearly always 16, 32, 64 or 128. Computer memory and processors, GPUs especially, handle arrays of these sizes efficiently, so they can run slightly faster (Goodfellow et al. 2016, §8.1.3; see also the Extra in section 5 of the [mini-batch gradient descent Note](../60-mini-batch-gradient-descent/note.md)). It is a convention, not a rule: 10, 15 or 100 work just as well.
 
 ### 11.2 When the batch size does not divide the rows
 
@@ -211,7 +211,11 @@ So there are 3 updates per epoch, the last from fewer rows. With `batch_size=250
 - Batch is vectorised but needs all rows in memory; mini-batch keeps the vectorisation with one batch in memory.
 - A batch size that does not divide the rows leaves a smaller last batch.
 
-## 13. Key terms
+## 13. Sources
+
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §8.1.3 (minibatch algorithms; power-of-2 batch sizes on GPUs).
+
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|

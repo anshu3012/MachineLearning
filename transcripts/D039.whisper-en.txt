@@ -1,0 +1,616 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also we will continue our deep learning playlist.
+Now today's topic is very interesting.
+You might have noticed that when we make a neural network to solve any problem,
+then we have to take many types of decisions.
+Like how many hidden layers are there in our neural network?
+How many nodes are there in every hidden layer?
+Which activation function should be used?
+What should be the batch size?
+we should use optimizer
+now we can never know
+what will be the answer
+of all these things
+unless you try all these things
+so that is why
+in today's video we will learn hyperparameter tuning
+that how we can
+hyperparameter tune a neural network
+ok
+we will use an external library
+whose name is keras tuner
+it is one of the most famous
+hyperparameter tuning libraries for
+deep learning and that is what we are going to cover in this video, the video will be a little long because I have done multiple things very easily
+if you watch the video completely end to end, I guarantee you that you will be able to tune your neural network to hyperparameter
+ok so that's it from my side, let's start the video
+so what we are going to do today is a new library, new library as in we are reading for the first time, its name is Keras Tuner
+We will use this.
+For this, we need this data set.
+We will work on this data set.
+So, we are going to take this Pima Diabetes India database data set.
+Pick up this data set.
+This is a very small binary classification data set.
+We will use this today.
+And we will tune all the hyperparameters with this.
+Download this small dataset of just 23 KBs and extract it on your desktop to a specified folder.
+Ok, here is the diabetes data set. Now what you have to do is open Google Colab and go to Google Colab and first you have to upload this data set there.
+So I will be creating a new notebook and go here and click on this icon, this folder icon. So here is the upload option.
+click on it and i will upload this diabetes one
+ok and it is uploaded
+and now here guys you write import numpy as
+np import pandas
+as pd ok and here guys once
+let's note df is equal to pd.readcsv
+here is df.head
+and here is your data set
+I guess you must have worked on this data set
+it is a very famous data set
+this is our
+diabetes or not
+this is the data set
+and this is the data of some patients
+and most likely this is the data on females
+pregnancies, glucose
+blood pressure, skin thickness
+Insulin, BMI, Diabetes, Pedigree Function, Age, and finally Outcome.
+We have these many things.
+And finally, we are told whether we have diabetes or not.
+I guess 1 means we have diabetes and 0 means we don't have diabetes.
+This is our data set.
+Suppose if you want to make a neural network on this using Keras,
+then how will you approach it?
+First of all, you will see whether the outcome is affected by all the columns or not.
+All the columns here are numerical, so I am not going to go over that much.
+One way is to use the COR function and find the correlation on top of the outcome column.
+Then you will understand how much impact the other columns are having.
+So you can see that the outcome is pregnancy is 0.2 and glucose is 0.4.
+Blood pressure is not increasing, skin thickness is not increasing, insulin is 0.13, BMI is increasing, diabetes, pedigree function is cool.
+Age is increasing, chances of getting diabetes are high.
+And the outcome is 1.
+So you can see at this point, it is impacting everyone in some way or the other.
+If you want, you can eliminate these two.
+Blood pressure and skin thickness, but we are not doing it.
+Because our main task today is not to make a perfect model.
+Our work is to learn how to do hyperparameter tuning.
+So let's build a small model and then I will explain you the problem and then we will solve the problem.
+First of all, I will extract x and y and then I will normalize all the data and then I will show you a small model.
+So that you remember how you used to do it.
+Generally, what you do is, first of all you extract x and x will be everything except the last column.
+So, I would write iloc all rows and the columns will be from 0 to minus 1.
+This is our x and our y will be df.iloc all rows last column values.
+And now what will you do? Now I am scaling like this is my x, it has all the input columns.
+What am I doing? I am scaling it and to scale it I am using this sklearn.preprocessing
+and here we will make scalar is equal to standard scalar and after that we will scale it and
+for scaling what we will do is we will simply write this statement capital X is equal to
+scalar dot fit transform and will pass x and that's it guys scale
+all values up i guess in the range of minus 1 to 1
+something like this okay so this is done by the way how much data do we have
+around 700 patients data we have 768 patients data
+and this is our 8 there okay and let's do one more thing quickly
+uh model selection let's import crane test split and let's do x train comma x test comma
+y train comma y test is equal to crane test split x train oh sorry x comma y comma test size
+is equal to 0.2 and let's do a random state, you already know all this, I am just doing
+it quickly, so this guys our data is prepared and now what to do, now let's quickly form
+a model, okay, once I am forming a model, so I will write import tensorflow from here,
+from tensorflow import keras from keras dot from keras import sequential from keras dot layers import the dense layer
+okay and after that you know what you do you make a model which is an object of sequential class
+after that you add things in the model so let's say we are making a simple model
+uh in which there are only two layers so i would write model dot add will add the dense layer
+in the dense layer we will pass uh first of all our uh number of nodes let's say we have eight
+so we have given 32 nodes our activation function is relu and our input underscore dimension
+is equal to 8 because you know there is an input of 8 and I am adding a last layer again
+this is going to be a dense layer and in this dense layer there is one neuron and here activation
+is going to be sigmoid and that's it for last me i'm just going to compile the model will pass the
+optimizer to be equal to adam loss binary cross entropy or lastly matrix me will write loss
+actually accuracy sorry and that's it you formed a model and after that you called model.fit
+and specify the batch size let's say 32 batch size you passed your x train and y train batch
+size and after batch size you gave your epox let's say for now you gave only 10 epox okay
+and that's it guys, you have run it, your model train is done and see around 78% of your accuracy is coming.
+If you want, you can pass your validation data here, so you can write validation data
+and you can pass your X test as well as your Y test and I am running this one again from above
+And this time I am doing 100 just to see what is happening and run it.
+So the data is small so the result came quickly and see guys your validation accuracy that you are able to reach is 81%.
+Now see what is the problem here. Now I have done this whole thing just so that you can understand what problem you are facing.
+The problem is that as soon as you come to this part, you are like clueless. Think about it.
+As soon as you come here, you have to decide by yourself that first of all how many layers will be there, you have to decide this.
+Second, you have to decide that how many nodes will be there in each layer and this is very trial and error type.
+So what we do till now is that we are doing all this work with our intuition.
+But what you can do is that you can automate this process.
+Not only this, you can automate anything.
+You can put anything in the activation here, you can put anything in the optimizer here, you can put anything in the loss here.
+You can automate this whole thing using this library called Keras Tuner.
+We will learn that now.
+We will learn how to automate so that we can find out the best suitable parameter for our model.
+So how will my approach be?
+Look carefully.
+First, I will give you a little example because it may seem a little difficult.
+First I will show you how to select appropriate optimizer.
+Then I will show you how to select number of nodes as in neurons in a layer.
+I will show you this. After that I will show you how to select number of hidden layers.
+How to select number of hidden layers. I will teach you this after that.
+After that finally we will make an all-in-one model in which we will select all things.
+We will make an all-in-one model. This is what we will do.
+So, one by one we will approach this problem. So, first of all, let's write a code which will give us the best optimizer from the given optimizers.
+We are going to do this. So, what will we have to do for that? First of all, we have to import this library called Keras Tuner.
+tuner import keras tuner as kt you have to write the code now you have to see if it is installed or not
+keras tuner is together i guess i say keras tuner module not found error so you have to
+install it guys here you would write import keras tuner as kt yeah this is the code
+Now let me tell you how Keras tuner works, first you have to make a function and then you make a tuner object and in that tuner object I pass that function, I will show you once, that is why I am showing you first on the optimizer and then I will show you on the rest of the things, it will be a little tricky in the beginning, but after doing it 2-3 times you will be comfortable and I am sure that when you will work in the future, you will use this library a lot, so see once how to do the whole thing.
+first of all you will make a function def generally this function's name is build model
+in their documentation they generally make a function by saying build model
+and they get an object by saying HP
+this HP means hyperparameter as they have given here
+this HP is called hyperparameter
+so this hyperparameter is class object
+its name is HP and you are getting it automatically
+And now what you are doing here is you will build your model again from scratch.
+So you will write model is equal to sequential.
+This you have built.
+After that you are writing model.add
+And here you are adding a dense layer.
+Since our focus is not about selecting neurons or number of layers,
+that is not our concern now.
+Now our concern is only to select the optimizer.
+I am just writing here that there is a layer of 32.
+Activation is ReLU and the input dimension is 8.
+This is my first layer.
+Model.add is my second layer.
+which is of only one neuron and its activation is sigmoid.
+Now here you are writing model.compile.
+What do you pass in compile? First of all you pass your optimizer.
+Now what do you do in optimizer? Generally you pass Adam.
+But now what will I do? I will select one of the three options.
+By default, RMS prop is here, so what I will do, I will select between three optimizers or you can do more on it, like if you search Keras optimizers, then you will get the whole list of which optimizers are there, there are many, there is AdaGrad, there is Adam, there is SGD, there is AdaDelta, there are many of them, if you want, you can pick up four or five and you can check on all of them, okay, there should be a whole list here somewhere, so these are the optimizers, okay, so we are picking up three or four of them, SGD, RMS prop, Adam, AdaDelta, etc.
+We are taking delta and another one is taking n-adam.
+So, we will write this thing.
+We will write hp which is the object.
+There is a function called choice.
+And here you pass a string.
+You can call it anything.
+It is basically a name, an optimizer.
+And what you do here is you give it values.
+And you are passing in a list of all the available values.
+So, you will pass Adam, you will pass SGD, you will pass RMS prop and you will pass Ada Delta or whatever it was.
+Ada Delta, let's say. This is the syntax. So, what did you tell your code that when it will build a model,
+Now it will build 4 different models with different optimizers.
+Once optimizer will be Adam, once SGD, once RMS prop and once ADA delta.
+So you can write this in this line or you can cut this code and write it like this.
+Make a variable by saying optimizer like this and paste it here.
+And here optimizer equal to optimizer set like this, this can also be done for a little cleaner code.
+Second, then what will you do here?
+After that, you will pass the loss here.
+The loss that will be yours will be binary cross entropy matrix equals, let's keep the accuracy.
+And after doing this much, you will return to this method whatever your model is.
+This is the model building as they have done. I am taking everything from their documentation.
+Yes, see here they set hb.choice like this.
+Here you should pass values or not.
+Okay guys, do one thing.
+Don't throw an error.
+So the name of this list in this function like its footprint is values.
+So give the name here by saying values.
+And I am running it again.
+Now you have to make your tuner object.
+So how to make tuner object?
+You will write
+tuner is equal to kt dot random search
+This is the class
+This is a class called random search and it works like a grid search CV which you must have read in machine learning.
+The first parameter you give here is the name of your function which you have created.
+So your function name is build underscore model.
+After that you pass what is your objective.
+What you want to reduce or increase.
+It automatically takes it out.
+Our objective is to increase the validation accuracy.
+The third thing that you pass is maxTrials.
+It means how many times you will do this thing.
+Like how many times you will run on these models.
+So maxTrials, let's say we have done it 5 times.
+5 is also more, but okay now we have done 5.
+So what we are doing is we are making an object, tuner object.
+Which is the object of this class, of random search class.
+and we have to pass this input as constructor and now run this.
+This is our tuner object created.
+Now there are many features in this tuner object which we can use.
+So these are the features.
+So the most important feature in this is the search feature
+which will basically search your correct hyperparameters.
+And what you have to do here is you have to pass 2-3 things here.
+First of all you have to pass your x-train, just like you normally train, then you pass your y-train and then you write your epox, let's say we are taking epox 10.
+Actually, there is no need for 10 here, it can be found in very less, if you do 5 here, it will work, because you actually have to find your right model.
+Once the model comes out, you can increase the accuracy of your model in the future by rotating it in more epochs, but at this point 5 is sufficient.
+After this, I guess there is one more parameter and what is that parameter? I am forgetting.
+So here a lot of things are coming. Yes, you have to pass your validation data.
+So what you do is you pass validation data as you used to do in fit and here in tuple you would pass X test as well as your Y test and that's the code guys.
+This is the code. You just have to write this much code. This is the work of three steps.
+Now as soon as you run it, your model will start searching.
+Here it is written that the trial is complete and this will also be done.
+Let's see what has come.
+If you come here, then the first trial has been completed.
+The trial ID is 0.53 as in accuracy.
+The hyperparameter we used was Ada Delta.
+So, your accuracy is 0.53 with AdaDelta.
+Let's go a little further down.
+This is with Adam.
+Adam is giving you an accuracy of 0.75.
+After that, let's go a little further down.
+This is SGD.
+And your accuracy is 0.74 with SGD.
+Somehow, he has done it on RMS prop and RMS prop is giving you the best, 0.79.
+So what he did in the four things you did, he built that model separately four times and got the accuracy.
+Now what you can do from here, if you want, you can see which one performed best.
+Obviously, the results are coming in front of you, but if you want, you can fetch it by writing this piece of code.
+So here you write tuner.getBestHyperParameters
+As soon as you run this, you get an object, now what you do with this object, you remove the zeroth value, I got this code on the internet
+And as soon as you remove the values of that zeroth value, you get your best object and this is your best optimizer that is RMSProp
+And if you want, you don't have to train the model again, you can extract your model from here by writing this code.
+You can write model is equal to tuner.searchBestParameter or actually it is tuner.getBestModels.
+And in this you will do numModels equal to 1 because you want top first model.
+So you will write numModels equal to 1 because there are 4 models and you want the best one.
+And after this you will put 0. Again it has some confusing syntax.
+But as soon as you run it, now you have a model.
+If you take out its summary, then you would see that it is trained on top of this RMS prop.
+Now what you can do is, you can do model.fit again and here you pass your xtrain again, then you pass your ytrain, then you pass your batch size 32, then you pass your epox.
+Let's say you give 100 epochs, but here you will set your initial epoch.
+The reason for initial epoch is that this model has already run 5 epochs.
+So I want to retain that information and continue from there up to 100.
+Now again we will pass our validation data and in validation data we will pass our X test as well as our Y test.
+As soon as you will run it, now it will start from model 6 and it will take 100.
+Now your accuracy is somewhere around 82% by using RMS prop.
+When we used Adam, it was 79 point something and now it has reached around 82 because you have done hyperparameter tuning on top of optimizer.
+Now we will take out the number of neurons in a particular layer.
+So guys now what we are going to do is, as you can notice here that when we were building this model, we took the number of 32 arbitrarily.
+But now what we will do is, we will apply hyperparameter tuning on it as well.
+And we will find out from hyperparameter tuning what is the right number of neurons in this layer.
+We will find out what is the right number of neurons in this layer.
+We have to find out this next.
+So see what we will do. Everything will be repeated so you will get a clearer picture in your mind.
+So you would write, again we are making a function.
+build underscore model and again we are getting this hyperparameter object.
+I am writing model is equal to sequential.
+This is the first thing.
+After that I am coming down and here I am writing, I am writing units is equal to, like np.choice is same as np.integer is, sorry not np, hp.int is same as choice is same as hp.int.
+And here you pass three things. You give an initial number, you give a last number like a lower limit, you give an upper limit and after that you give a step size.
+Let's say I gave the step size of 8. So now what will it do? It will build multiple models.
+When it will build the first model, it will take number of neurons 8.
+When it will build the next model, it will take 16.
+Then it will take 24, then it will take 32, then it will take 40.
+By doing this, it will go up to 128.
+And it will give me the best result.
+I guess guys you are understanding this thing.
+And now see what you are doing here.
+You are writing model.add
+and here I am writing dense and in dense I am passing units is equal to units
+generally we would have written a number 32 but here we are passing the value of minutes
+and after that what we are doing we are writing what is our activation
+So, activation is equal to relu and after that we will pass the input dimension is equal to 8.
+After that we will add model dot and add the last layer dense and here we will pass 1, activation equals sigmoid.
+everything is same
+and after doing this you will compile the model
+and while compiling the model you will tell your optimizer
+you already know that it should be rms prop
+after that you will pass your loss metric
+that should be binary underscore cross entropy
+right and after that finally what will you pass your matrix and this would be a list of accuracy
+ok everything is same and only one thing we have changed we have passed some values ok
+and after that what we are doing we are returning whatever our model is that is model ok
+so guys this is our function now we will make our tuner object like we made last ok
+So let's make a tuner object, so tuner is equal to kt as in kerasTuner.randomSearch
+We are making an object of this class, first of all we are passing the name of our method, builtModel
+After that we are passing what is our objective, our objective is to maximize our val accuracy
+and lastly your max trials will be let's say 5
+and this is my object of tuner
+too many failed attempts to build model
+what happened here
+oh yes sorry sorry sorry
+as you gave a name in choices
+see here
+as you gave a name in choices
+similarly you have to give a name in int
+see here
+you gave a name in choice
+you gave a string
+here also you have to give a name
+So, you will write here in the first thing, you would write, let's call it units.
+You can keep anything, I have kept units.
+Now, I guess this should be done.
+Yes, it is done.
+It is done.
+So now you would write tuner dot search or in search you would pass your x-train, your y-train, your epox, let's say 5 epox and your validation data which is equal to xtest comma y-test.
+Okay, I guess this was it, there was nothing else above the parameter, just one second, let's cross check once, so we have, yes, these were the five things, okay guys, and now we are training our model again, so as soon as you run it, what happened, tensorflow oracle triggered exit, so guys, what happens, see, here I was not going to tell you one thing at this point, because there would be unnecessary complexity, so what happens is that,
+When the tuner object is trained, it becomes a JSON file and that JSON file is stored in a folder.
+If you want, you can keep it or not. If you keep it, it will be better according to them.
+In the future, you can take it out and properly put it in pickle and export it and work on it.
+So we are doing one thing, here let's add the directly parameter, directory is equal to let's say some directory or let's write here mydir.
+I am training everything again, I just provided the directory.
+I built the model again.
+And after that, I run it.
+And after that, it must have been made here.
+Yes, look, this is my directory.
+And here, guys, everything is made under my directory.
+If I had given a project here, let's say I had given a project here.
+Let's say if I took project is equal to let's say Salman Khan gave it.
+because nothing came in my mind
+so i am running this function again
+and once i will create this object
+you would see that in my directory
+it will become that
+project
+what is the name of that
+project name
+so i would write project
+project
+underscore name
+now when you will run it
+you would see there
+it became salman khan
+All the things related to tuner will come in this directory.
+So, that's why I was making an error.
+Now, let's go down.
+This is done.
+And after coming to this place, now we will run it.
+It will not be epox, it will be epox.
+So, here S will be applied.
+And now we are running.
+Okay, now it is getting trained, guys.
+See, your units are increasing one by one.
+And the whole thing is done.
+So, look here.
+If you come up, then you would see
+It started with 8.
+This is the starting point.
+Why did it start with 24 units when I gave it from 8?
+The accuracy of 24 units is 0.76.
+After that it became 72.
+in this range it is taking random values, this is random search so it is taking random
+values and in 120 it is getting around 0.80 and we have to check it again, in 112 it
+is taking again 0.80 so if we go down, in 128 it is taking 0.80 so let's do one thing
+Let's write the code again. So if you remember the code was, we have to find out which is your best output.
+So you would write tuner.getBestHyperParameters and its zerothElement.values and here is your best hyperparameter.
+120 is giving you the best performance on this data, whatever you have given, now if you want, then you know what you can do, if you want, then you can do this that by the way, look here guys, things have been stored here, if you collapse this Salman Khan, then all these files have been made, by saying tuner0.json, you can open them by going to them,
+and will it open here, this is empty actually, see this multiple trials, you gave 5 trials, so the data of each trial came here, so here is trial1.json
+see this, this is the data, so here you can see everything that what was the hyperparameter and what were your units and finally what was your accuracy
+All this data will come to you, you can see it once and same goes with other trials like this is the second trial
+And after that 3rd trial, 4th trial and 5th trial, so this whole thing forms like this, you can analyze it later
+Now what I was saying I forgot, you can extract the model, what is the code to extract the model
+model is equal to getBestModels
+so you will write
+model is equal to
+tuner.getBestModels
+and what you do in this too
+you pass num underscore
+models you need 1 you pick its 0th item
+now we have model and now we will train this model
+how many epochs we have used? we have used 5 epochs
+again you will write model.fit
+now the model on which you are training has 120 neurons
+so i will write xtrain ytrain then i will write batch size
+By the way, you can also tune the hyperparameter of all the batch sizes here.
+Let's set the epochs to 100 and set the initial epoch to 6 because it has already been set to 5.
+So, as soon as you run it, we were in the round of 81 and here we are in the round of 82.
+We didn't give the value accuracy.
+Okay, you can run it and see but I guess you get the idea.
+I was saying that if you don't want to take such big jumps, then you can remove the parameter of steps.
+In that case, it will be of step size 1, although it is taking random, but it will be of step size 1.
+So if I remove this, if I build this model again and let's say I make a new project here.
+Let's say, now we are going above the name of actors, SRK, and if I train again, then this time it will take a little more time because this time it is randomly, like the step size is 1.
+Let's run the code again, let's see if 120 is coming or something else is coming, see this time 72 is coming.
+And if we train it again, then the complexity of the model is reduced, that is, you came directly from 120 to 72 and your accuracy went around 0.10.
+I don't know how much it was last with that model, I don't know how much it was last with the 32 model.
+So guys, we have done the second thing, I have written here what we were going to do in today's class.
+First, we were going to take out the optimizer, then we were going to take out the number of nodes in a layer.
+Now we will do how to select number of layers. How to select number of layers, we will take out this.
+So, this is our next target and after that we will do it all together.
+So, let's go down.
+This one is a bit tricky because we will have to run some loops here.
+So, what we will do is, we will again create a function, build model.
+it will get hyperparameter and again we will create a model is equal to sequential class
+now we will run a loop for i in range of and here i will pass hp.integer
+and its name will be numLayers
+and then I will give min underscore value equals 1
+and max underscore value equal to 10
+so this means our 10 models will be made
+and our first model will have only one layer, second one will have two, third one will have three, fourth one will have four, tenth one will have ten layers
+so we will make it like this
+and after that what we are doing is
+here
+I am doing one thing
+to reduce the complexity
+I am adding a layer above
+which will be our first layer
+first hidden layer
+there I am telling the input dimension
+otherwise I would have to write a different condition
+So here I have written dense and in dense I have just written 72 so I have put 72 there
+and here I have put activation value and here I have put input underscore dimension is equal to 8.
+Now we are deciding how much to make inside this.
+So, we will write model.add and here we will write dense and we are making it of 72 only.
+We will change this later, we will do hyperparameter tuning that how many nodes should be inside.
+But for now, all of them will be 72.
+In all the layers, we are going to keep 72 neurons for now.
+After that, we will have our activation and this will be ReLU.
+And now I am coming down and making my last layer which is model.add
+In this, there will be one neuron, dense, one neuron and our activation will be of sigmoid.
+and yeah that's it and after that we are compiling our model
+we are compiling our model and here we are putting
+after model.compile we are passing
+our optimizer to be equal to rmsprop although
+we don't need to give that, that is default and here we are giving
+our loss metric to be equal to
+binary cross
+Entropy and lastly, we are adding loss accuracy in our metric.
+Everything is the same, we just run this loop.
+And how many times will that loop run?
+It's actually a little confusing syntax.
+You can understand it like this that there are two loops inside one.
+So, you will get input from here and you will get this range and that loop will rotate that much inside.
+When you come here for the first time, then you will get 1 here, then this loop will rotate once, then you will get 2 here, then this loop will rotate twice, then you will get 3 here, then this loop will rotate three times in this way, like there are multiple loops in this way, and by doing this, you will return your model.
+Now you will create your tuner object, tuner is equal to kt.random search and here you will pass your build model
+your objective will be val loss, val accuracy
+and third thing is max trials
+let's do 5 or 3 this time
+and specify directory
+what was the name of it? my directory
+and its project underscore name
+what was the name of it? num layers
+After that we are writing tuner.search and here I am passing my xtrain, my ytrain, epox will be 5 and validation data will be this would be equal to xtest, ytest.
+Let's run this, I guess it's done, let's see how many layers it is telling correctly.
+So if we copy this code or this one, if we copy this, we will understand how many layers we have to make.
+So paste it and run it and it says number of layers is giving the best performance in 6.
+and write model is equal to tuner.getBestModels
+and here we write model.fit, let's pass xtrain, ytrain, epox, initial epox, 6 and validation data that is xtest, ytest
+Let's run this, this is done and the validation accuracy is decreasing and it is not doing any benefit.
+So we will check one more thing, this is the last thing that we are doing that we will remove both the things.
+We will also remove the number of layers and we will also remove the number of nodes in it.
+We will remove both these things, if you want, you can remove this too.
+what will be the activation, you can also remove this, what will be the optimizer, you can also remove this, what will be the loss, you can also remove this, okay, let's do multiple things, one last code, so I am writing build underscore model, again we are getting HP, and here what I am doing is I am first doing this, model is equal to sequence in class object, right, after that I am writing this code, after that I am writing this code, yeah,
+So I'll write for i int range of hp.int and here I am keeping its name as num underscore
+layers.
+And then I am passing here min value is equal to 1, max value equal to 10.
+If it is not defining then it will take one by one jump.
+Now what I am doing in this, by the way I should have made one more model here.
+This time let's take another approach.
+That approach is this, if you want to understand then tell me.
+I am taking a counter variable here which is 0.
+And here I am checking if counter is equal to equal to 0.
+Then I am creating a model.add and here I am passing dense and in dense I am passing this units.
+And I am defining these units above before going into this loop.
+So, units would be equal to np.integer
+Sorry, sorry, sorry.
+I got used to HP.
+Sorry.
+hp.integer and here will be our name.
+But what is the problem of name?
+In every layer, name should change as much as possible.
+So, how do you have to write name here?
+It is given in their documentation that if you concatenate the string, then basically you have to write something like this, I will show you, you can't do it here, you have to do it here, you will write HP dot int and here you will write the name first,
+units plus string of i. So basically I am concatenating, the number of times the loop is running is being added in the unit.
+And after this, I will put a comma. I would write min underscore value is equal to, let's start with 8 and then we write max underscore value
+and take it to 128 and take the step of 8
+so in every layer that will be added here we will check this much
+I guess you have understood till now
+and after this we will go here
+and in this place I would write activation
+and if you want activation then you can add things
+I will write it properly. I am writing one by one.
+What am I doing in activation? I am writing like this.
+We will check all the activations that we have.
+so I will check for activation in np.hp.choice
+here we will give it name of activation because it will be single
+here also you have to give activation plus stri
+whatever will be in the loop you will give it unique name
+and here you will give values and you will pass in values
+So you can pass ReLU, tanH, sigmoid also, never know.
+There are two more, there is LU and ELU.
+And yeah, activation is done.
+And after activation, what I am doing? I am writing with comma.
+Input underscore dimension is equal to, actually this time I want to check in the first layer also how many neurons are there, so here I have given 8 as input dimension.
+This is if counter is equal to 0.
+Else, if counter is not 0, then this will not be the first layer, it will be the second, third and subsequent layer.
+So everything will be the same, but here you will not give input dimension if this is not counter.
+and after coming to this place, what you are doing is that you are coming out of the loop and incrementing the counter inside the loop itself.
+Now what you are doing is that you are coming out of the loop, all the layers inside have been created.
+Come out of the loop and pass the last layer which is model.add, dense, one neuron and your activation is equal to this sigmoid.
+Okay, and then you are coming below this and you are compiling the model, okay, and here we can also put some strategies, but we already know that our optimizer that is best is
+best is I guess RMS prop, but if you want, you can run it again here, then you can write optimizer is equal to HP dot choice
+HP.choice and here you can name it optimizer and then here you can write values is equal to and pass all optimizers
+rms prop since you are changing architecture so you never know whether rms performs better or adambar performs better or sgd
+or any other, SGD or NADM or ADA DELTA, so I have written all of them and after that what we have to do is,
+this is the optimizer, after optimizer we will pass the loss which is, here also you can try different loss but you already know
+already know this is like research wise proven that what to do cross entropy binary cross
+entropy and lastly you will pass this matrix is equal to accuracy and after doing all this
+you will return your model so this is the giant function that we were talking about
+And we have run it guys, I hope it works properly in Invalid Syntax Else.
+Okay, now you understand what the problem is.
+I didn't take this else indentation.
+Oh my God, everything is messed up.
+This should also be here.
+I am fixing everything quickly.
+So yeah, this much and this entire thing should be out of loop.
+Okay, now is it correct? I guess it is correct. Let's make it a little smaller. Yes, let's run it once.
+It is done. Okay guys, now let's quickly make that tuner object.
+tuner is equal to um kt dot random search build build model then we will pass our objective
+which is um val accuracy then we'll pass max trials to be equal to three then we'll pass our
+directory to be equal to my dir and finally we'll pass project underscore name is equal to final
+ok
+here is our tuner object
+it is messed up
+min value max value is missing somewhere in int
+i have given min value max value
+i have given min value max value
+oh oh oh
+what is this
+all of this will remain inside
+i have closed this bracket
+this should be here
+all of this will remain inside
+Now let's run it once, let's see, it's done, so now to train it, we will write tuner.search,
+in search we will pass our xtrain, our ytrain, our epox to be equal to 5,
+and finally we'll pass our validation data to be equal to x test
+comma y test or i guess let's run it
+you know dot get best hyper parameters because zero dot values let's run it
+So, it is saying that number of layers should be 7, in first layer put ReLU, in second layer put ReLU, then put ReLU, in fourth layer it is saying tanh, in sixth layer it is saying tanh, optimizer is saying this and number of units is saying this.
+Right, now let's do one thing, let's take out the model from this.
+So, we would write model is equal to, we would write tuner.getBestModels,
+let's fetch numModels equal to 1 to 0.
+and now let's run the guys
+X-train
+Y-train
+we should also remove the batch size but we haven't done it yet
+let's set the batch size to 32
+or let's set the batch size to default
+let's see what happens
+Let's set the epoch to 200 and set the initial epoch to 6 and give the validation data to our X-test and Y-test.
+Let's see how this network performs. Let's run it.
+6 is starting from 7, so we should only give 5 there, one is getting skipped, so our validation law accuracy is only 76, it is overfitting, it is very bad, it has come a long time ago, so it is fine, we will try dropouts on it,
+What you can do next is by inducing dropout layer, you can see that too.
+Let's do one last thing in this.
+Let me add dropouts.
+So what I will do is, I will come to this place.
+First of all, I will import dropouts as well.
+Where did it go?
+import all
+just one second
+here we will import dropout too
+ok
+and then we will do dropout too
+so I am coming down where we made
+our function for
+ifelse
+and
+at this place
+let's add dropout too
+ok
+so come here
+we have to go this way
+Let's see if it makes a difference from dropout or not.
+Here it is and here we are writing model.add
+Let's write dropout
+And here we have to pass a number
+By doing 0.1 and 0.2
+So what we will do, here we will write hp.choice
+name it dropout plus str of i and we will go out and here we will pass values and the values will be
+I will change it to 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9
+It is not giving 1 otherwise there is no logic
+0.9 and I copied this
+So yeah guys I changed this
+I added a dropout after every layer
+I have added a dropout after every layer and I have run it, it has run, it has come here and I have named it as final1 again, everything else is the same, it has run, now we are obtaining one more extra parameter,
+let's run this
+it's working
+it's done
+let's see
+what it says for dropout
+yes
+dropout is showing
+it's suggesting 0.9 for a particular layer
+so yeah
+that's it
+let's try this model
+let's try this model
+let's see what happens
+accuracy is not going towards 1
+by introducing a dropout, there was already one there, yes, see this is performing very well,
+the model is 0.77, but it is not overfitting at all, so that was the video guys, I hope you liked it and
+you understood things, if you liked the video, then please like it and if you have not subscribed to the
+channel, then please subscribe, that's it from my side, see you in the next video, bye

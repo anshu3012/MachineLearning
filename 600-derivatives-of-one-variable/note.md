@@ -79,7 +79,7 @@ The slopes approach 2. Figure 1 shows the same thing as a picture: the secant li
    $$\frac{(x + h)^2 - x^2}{h} = \frac{x^2 + 2xh + h^2 - x^2}{h} = 2x + h \;\longrightarrow\; 2x$$
    At $x = 1$ the difference quotient is $2 + h$: that is 3 for $h = 1$, 2.1 for $h = 0.1$, and the limit is $f'(1) = 2$.
 
-The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A function whose derivative exists at a point is **differentiable** there. Losses used with gradient descent are chosen to be differentiable.
+The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A function whose derivative exists at a point is **differentiable** there. Gradient descent uses the derivative of the loss at every step, so it needs a loss that is differentiable.
 
 ### 4.2 The power rule from the definition
 
@@ -125,7 +125,7 @@ This is all [gradient descent](../57-gradient-descent/note.md) needs: to go down
 >
 > The exact answer is $f'(1) = 3$.
 
-> **Extra:** The second line is the **central difference**: it uses one point on each side of $x$. Its error shrinks like $h^2$ instead of $h$, so with $h = 0.1$ it is off by 0.01 instead of 0.31. Making $h$ tiny (say $10^{-12}$) does not help: the two heights become almost equal and rounding errors in the computer take over. Values near $h = 10^{-5}$ are a common compromise.
+> **Extra:** The second line is the **central difference**: it uses one point on each side of $x$. Its error shrinks like $h^2$ instead of $h$, so with $h = 0.1$ it is off by 0.01 instead of 0.31. Making $h$ tiny (say $10^{-12}$) does not help: the two heights become almost equal and rounding errors in the computer take over. Balancing the two errors puts the best $h$ for the central difference near the cube root of the machine precision, $(2.2 \times 10^{-16})^{1/3} \approx 6 \times 10^{-6}$, so values near $h = 10^{-5}$ are a common choice (Nocedal and Wright §8.1).
 
 ## 5. Rules for computing derivatives
 
@@ -228,7 +228,7 @@ a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line o
    $$\sqrt{5} \approx 2 + 0.25 \times 1 = 2.25 \quad (\text{true: } 2.2361)$$
    A step of 0.1 is almost exact; a step of 1 is already visibly off.
 
-This is the picture behind [gradient descent](../57-gradient-descent/note.md). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate keeps the step inside the region where the tangent line is a good guide.
+This is the picture behind [gradient descent](../57-gradient-descent/note.md). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate keeps the step inside the region where the tangent line is a good guide; with a step that is too large, gradient descent can overshoot and fail to converge (MML §7.1.1).
 
 ### 6.3 A polynomial is its own Taylor polynomial
 
@@ -244,7 +244,7 @@ For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial i
 
 This explains a result of the [XGBoost maths Note](../126-xgboost-maths/note.md): its second-order approximation of the squared error was exact, because the squared error is already a polynomial of degree 2.
 
-> **Extra:** A function equal to its Taylor series everywhere near $x_0$ is called **analytic**; $e^x$, $\sin x$ and $\cos x$ are, at every point. A Taylor series is one example of a **power series**, $\sum a_k (x - c)^k$, a polynomial with infinitely many terms. Our NumPy functions `np.sin` and `np.exp` are computed with polynomial approximations of this kind.
+> **Extra:** A function equal to its Taylor series everywhere near $x_0$ is called **analytic**; $e^x$, $\sin x$ and $\cos x$ are, at every point. A Taylor series is one example of a **power series**, $\sum a_k (x - c)^k$, a polynomial with infinitely many terms. Functions such as `np.sin` and `np.exp` are computed with polynomial approximations too, though usually not Taylor polynomials: libraries use polynomials tuned to be accurate over a whole interval (Muller 2016).
 
 > **Extra:** Degree 2 is where the curvature enters: $T_2$ is the parabola that matches the value, the slope and the second derivative at $x_0$. Jumping to the lowest point of that parabola is the **Newton step** of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md). The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) does the same with many variables.
 
@@ -263,6 +263,12 @@ This explains a result of the [XGBoost maths Note](../126-xgboost-maths/note.md)
 - The sign of the derivative says which way is uphill; gradient descent moves the other way.
 - Sum, product, quotient and chain rules build the derivative of any formula from a short table.
 - A Taylor polynomial approximates a function near a point; degree 1 is the tangent line, and a polynomial is reproduced exactly.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 5.1 and 7.1.1 (MML).
+- Muller, J.-M. (2016). *Elementary Functions: Algorithms and Implementation*, 3rd ed. Birkhäuser.
+- Nocedal, J. and Wright, S. J. (2006). *Numerical Optimization*, 2nd ed. Springer. Section 8.1, finite-difference derivative approximations.
 
 ## 8. Key terms
 

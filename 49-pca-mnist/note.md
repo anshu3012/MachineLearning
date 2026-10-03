@@ -107,11 +107,15 @@ How many components do we need? Figure 1 repeats the experiment for k from 1 to 
 
 - **1 to 10 components:** each one adds a lot; the first components carry the most information.
 - **20 to 100:** the curve is flat. Later components add little.
-- **Above 100:** accuracy dips slightly. The extra components add more noise than signal for KNN.
+- **Above 100:** accuracy dips slightly, from 95.4% to 94.5% at 300. The later components still carry some information about the digit (see the Extra below); they just do not help KNN any more.
 
 So 50 components, 6% of the original columns, give the best result in this run.
 
-> **Extra:** Standardising the pixels lowers KNN's accuracy on all 784 columns, from 96.8% to 94.0% (the dashed line in Figure 1). Edge pixels are almost always 0; standardising stretches their rare tiny changes to the same scale as the important centre pixels. PCA then puts the noisy directions last, which is why 50 components beat all 784 standardised columns. For images, PCA is often run on unscaled pixels instead, since all pixels already share the same 0 to 255 scale.
+> **Extra:** Standardising the pixels lowers KNN's accuracy on all 784 columns, from 96.8% to 94.0% (the dashed line in Figure 1). The rarely used pixels are the main culprit. A pixel near the edge is blank in almost every image; standardising stretches its rare small changes to the same size as the busy centre pixels, so they disturb the distances KNN measures. Checks in the Notebook:
+>
+> - Drop the pixels that are non-zero in fewer than 5% of the training images, then standardise the rest: KNN gets 95.9%, so most of the loss comes back.
+> - Skip standardising and run PCA on the raw pixels: 50 components give 97.3%, better than every standardised run here.
+> - Are the later components just noise? No. Components 101 to 300 alone still give 76%, and components 51 to 784 alone 78%. Shuffling them across images (same spread, no link to the label) lowers accuracy: from 94.5% to 93.3% with 300 components, from 94.0% to 90.3% with all 784.
 
 ## 5. Visualising the digits
 
@@ -127,7 +131,7 @@ Figure 2 shows the 8,400 test images on PC1 and PC2, coloured by their label.
 
 ![MNIST test images on PC1 and PC2](images/digits_2d.png){height=55%}
 
-The colours overlap a lot: two numbers per image cannot hold 784 pixels' worth of information. Still, a pattern shows. The 1s (orange) form a tight group on the left and the 0s (blue) spread out on the right. Digits drawn with few dark pixels, like 1, sit at one end of PC1; digits with many, like 0, at the other.
+The colours overlap a lot. Still, a pattern shows. The 1s (orange) form a tight group on the left and the 0s (blue) spread out on the right. PC1 roughly measures how much ink a digit uses. A 1 is a single thin stroke (85 inked pixels on average); a 0 is a big loop (191). In the Notebook, PC1 and the number of inked pixels have a correlation of 0.80.
 
 ### 5.2 In 3D
 
@@ -157,7 +161,7 @@ After `fit`, a `PCA` object keeps the results of its eigen-decomposition (from t
 
 Each eigenvector has 784 numbers because it is a direction in the 784-dimensional pixel space. Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines.
 
-The first three components together hold only 14% of the variance. That is why the 2D and 3D pictures overlap so much.
+The first three components together hold only 14% of the variance. So little variance explains why the 2D and 3D pictures overlap so much: they show only a small part of what makes the images different.
 
 ## 7. How many components to keep
 
@@ -219,7 +223,7 @@ PCA is powerful, but it can only rotate the axes and drop some. Figure 5 shows t
 
 In all three cases, the picture in fewer dimensions mixes up points that were clearly apart, and a model trained on it does worse.
 
-> **Extra:** Case 2 shows that PCA is unsupervised: it never looks at the labels, so it keeps spread, not class differences. A supervised method, **LDA** (linear discriminant analysis), looks for the directions that separate the classes instead. For curved patterns (case 3), non-linear methods such as kernel PCA or t-SNE exist.
+> **Extra:** Case 2 shows that PCA is unsupervised: `fit` takes only `X`, never the labels, so it keeps spread, not class differences. A supervised method, **LDA** (linear discriminant analysis, also called Fisher's linear discriminant), looks for the direction that separates the classes instead (PRML §4.1.4). For curved patterns (case 3), non-linear methods exist, such as kernel PCA (PRML §12.3) and t-SNE (van der Maaten and Hinton 2008).
 
 ## 9. Summary
 
@@ -237,6 +241,11 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 - 2 or 3 components let us look at high-dimensional data, but they hold only part of its information.
 - `explained_variance_ratio_` and its running total tell how much of the data each $k$ keeps; about 90% is a common target.
 - PCA fails when spread is equal in all directions, when classes differ along a small-spread direction, or when the pattern is curved.
+
+## Sources
+
+- Bishop, C. M. (2006). *Pattern Recognition and Machine Learning* (PRML). Springer. §4.1.4 Fisher's linear discriminant; §12.3 Kernel PCA.
+- van der Maaten, L. and Hinton, G. (2008). Visualizing Data using t-SNE. *Journal of Machine Learning Research* 9: 2579–2605.
 
 ## 10. Key terms
 

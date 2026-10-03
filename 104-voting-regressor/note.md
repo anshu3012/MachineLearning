@@ -102,7 +102,7 @@ All three are poor: a negative $R^2$ means worse than always predicting the mean
 >
 > `VotingRegressor` takes the same list of (name, model) tuples as `VotingClassifier`, plus optional `weights` and `n_jobs`. There is no `voting` setting: regression always averages.
 
-`n_jobs=-1` trains the base models in parallel on all CPU cores. It saves time on big data and makes little difference on small data like this.
+`n_jobs=-1` trains the base models in parallel on all CPU cores. On small data like this it does not pay: here it made fitting slower (about 1.6 seconds against 0.11), because starting parallel work has a cost of its own (scikit-learn User Guide §10.3.1).
 
 ### 4.3 Weights
 
@@ -128,7 +128,7 @@ We can also vote over one algorithm with different hyperparameter values. Five d
 
 Every tree alone is poor, yet their average is clearly better than each of them.
 
-> **Extra:** Why are all these scores so low? The Boston rows are stored grouped by town, and `cv=10` cuts the rows into 10 folds **in order**, without shuffling. Each fold then tests the model on towns it never saw during training. Shuffling first, with `cv=KFold(n_splits=10, shuffle=True, random_state=42)`, gives far higher scores: linear regression 0.72, decision tree 0.76, SVR 0.19, voting 0.75, and the vote of the five trees **0.79**. Note that with shuffled folds the plain vote (0.75) no longer beats the decision tree (0.76): voting is worth trying, not guaranteed to win.
+> **Extra:** Why are all these scores so low? `cv=10` cuts the rows into 10 folds **in order**, without shuffling, and the Boston rows are stored grouped by town: each town's rows sit together (Gilley and Pace, 1996). So most test rows come from towns the model never saw in training: 453 of the 506 with folds in order, against only 19 with shuffled folds. Shuffling first, with `cv=KFold(n_splits=10, shuffle=True, random_state=42)`, gives far higher scores: linear regression 0.72, decision tree 0.76, SVR 0.19, voting 0.75, and the vote of the five trees **0.79**. Holding out whole towns picked at random (`GroupKFold`) gives scores in between (linear regression 0.55), so unseen towns are part of the reason for the drop. Note that with shuffled folds the plain vote (0.75) no longer beats the decision tree (0.76): voting is worth trying, not guaranteed to win.
 
 ## 5. Summary
 
@@ -143,6 +143,11 @@ Every tree alone is poor, yet their average is clearly better than each of them.
 - On the noisy sine data, the voting curve smooths out the tree's jumps: $R^2$ 0.52 against 0.18, 0.47 and 0.38.
 - On Boston, three poor models give a vote of 0.43 (0.45 with weights 2, 1, 1); five trees of different depths give 0.19.
 - Shuffle the rows before cross-validation when the data is stored in a meaningful order.
+
+## Sources
+
+- Gilley, O. W. and Pace, R. K. (1996). "On the Harrison and Rubinfeld Data". *Journal of Environmental Economics and Management* 31, 403–405. Corrected data with town names: StatLib, `boston_corrected.txt` (copy in `data/`).
+- scikit-learn developers. User Guide, section 10.3.1, "Parallelism". https://scikit-learn.org/stable/computing/parallelism.html
 
 ## 6. Key terms
 

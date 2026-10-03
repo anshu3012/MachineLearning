@@ -1,0 +1,127 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we will continue our deep learning playlist
+We are studying optimization techniques
+And we have studied 3-4 optimization techniques
+Today we will study our last optimization technique whose name is Adam
+Honestly Adam is the most famous optimization technique which is used the most
+So I think it is very important for you to have an idea about this
+So that is what we have covered in this video
+I have tried to explain the mathematical details behind Adam
+and like every video, I have tried to clear things through animations
+so let's start the video
+so guys let's start our discussion around Adam
+first of all let's see the full form of Adam
+the full form of Adam is adaptive moment estimation
+okay
+honestly speaking Adam is currently the most powerful optimization technique
+and most of the time you will see that if you are working with any ANN or CNN or any RNN
+then most of the time you optimize it using ADAM
+now to understand ADAM you should have some idea which we have read in other optimization techniques
+In this course, we have studied SGD, Batch Gradient Descent, Mini Batch Gradient Descent
+which are the most basic techniques
+After that, we have studied 4 more techniques
+We have studied Momentum, Nag, Nesterov Exclarated Gradients
+After that, we have studied Adagrad
+and in the last video, we have studied RMS Prop
+So if you want to understand Adam well, then you should have an idea of all these techniques.
+The reason for this is that Adam borrows concepts from these old techniques.
+Okay.
+So honestly, if you haven't seen it, then watch the last 4-5 videos in this playlist.
+Things will be clear to you.
+If you don't have time, then I will give you a quick summary.
+What are the characteristics of these 5 techniques?
+And how do they work?
+So, the whole story started with batch gradient descent.
+So, if you have a valley like this, where you have to reach the minimum, then batch gradient descent gets into this valley very quietly.
+The only problem is speed.
+Batch gradient descent doesn't work that fast.
+So, here comes the concept of momentum.
+So, the concept of momentum is that you use the past gradients for your current update.
+That is why you have to notice that in this valley where you have 10-12 epochs,
+the momentum will have only 2-3 epochs.
+See.
+In around 4 epochs you have reached down in the valley because you are using the concept of momentum and velocity.
+Then what was the problem in momentum?
+These oscillations.
+oscillations, we are crossing, then coming back, then crossing, and slowly we are settling in on our minima,
+so here the concept came of NAG, Nesterov Exclarated Gradients, which dampens these oscillations,
+you can see, here the oscillations are a little more, you would see, the oscillations are a little more,
+see, you are coming by making a big circle, whereas in NAG, you are making a small circle, because you have dampened the oscillations,
+see, this is what I am saying, you can compare, so till here everything was fine, but then a new problem came that if you have a sparse data or a sparse column, then what is the problem that if you are using your batch gradient descent on a sparse data, then you go down in the valley in this way, first you go down the sides of the non-sparse column and then you slowly go to the side of the sparse, so obviously this is not very fast,
+The same problem occurs in the same momentum as well that first you go in one direction fastly and then you go in another direction fastly
+So to solve this problem we have read Adagrad which is going straight down on this kind of data, notice this
+But then what was the problem in Adagrad that it misses the minima a bit because what you do in Adagrad is that you decrease the learning rate
+while doing dk, it gets so much dk that after a point it stops taking updates
+so its solution was rms prop
+which works perfectly
+and reaches down to the minimum
+so we covered the theory till here
+now honestly if you think we worked on two main interesting ideas
+first was the idea of momentum
+and second was
+Learning rate is DK.
+Here you can see that momentum and knack are based on this idea.
+Adagrad and RMS prop are based on this idea.
+Now what Adam does is that he merges both these ideas.
+Computer scientists thought that this idea is good and this idea is also good.
+What if we combine both of them?
+Then maybe we can generate a better idea.
+And that is the main principle behind Adam.
+Next, I will give you a mathematical intuition of how Adam works.
+I will show you the mathematical formulation of Adam.
+The mathematical formulation of Adam is this.
+MT is equal to, in fact let me first show you this
+Wt plus 1 is equal to Wt minus learning rate divided by Vt plus epsilon
+multiplied by mt where mt is equal to beta1 times mt-1 plus 1-beta1 times gradient of
+weight vector and vt is equal to beta 2 times vt minus 1 plus 1 minus beta 2 multiplied
+by gradient square. Now if you have seen the previous two videos of momentum and adagrad
+then you might be able to recognize what is happening here, so this concept, this equation is coming to us from momentum,
+we used to do this in momentum, and this concept, this equation is coming to us from adagrad where we used to divide this vt term with learning rate,
+Now here you have to do one more thing. After calculating these two, you have to do something called bias correction.
+So what do you do in bias correction? After calculating MT and VT, you calculate MT hat and VT hat.
+Its formula is this, mt divided by 1 minus beta 1 t and vt hat is equal to vt divided by 1 minus beta 2 t.
+Here t is your epoch number.
+So if you are calculating in first epoch then 1 will come in place of t and 2 will come in place of t in second epoch.
+I am just talking about the lower value of t
+I will also tell you the value of beta1 and beta2
+The value of beta1 is generally 0.9 and beta2 is 0.99
+This is configurable and you can change it as a parameter in Keras
+So first of all, you will calculate this, then this, then this, then this, and put it in this formula.
+Since the learning rate keeps changing, you can start with a learning rate of 0.1 or 0.01, you can tune it and see.
+In Adam, there is no need to change the learning rate too much, it is automatically handled.
+the main thing you have to understand from here is that what did you do, you read two core ideas before this, one was momentum and one was learning rate dk
+you applied both of them in a single formula, also I didn't tell you why you have to do bias correction
+we have to do bias correction because in the beginning mt and vt both have zero value
+meaning m of zero is zero and v of zero is also zero
+so in the beginning there is a bias which starts from zero
+to offset it, to change it, you do this bias correction
+this is just a mathematical detail
+there is no need to go into it
+You just have to understand the core idea, you can run the rest of the code directly from Keras.
+So I hope you understood this whole thing.
+Now I will show you the animation of how Adam performs.
+So this is the animation of Adam and I have taken the sparse data set again.
+Where one column is sparse and you can see this animation is showing you both the behaviors.
+First, it is showing you the behavior of momentum and second, it is showing you the behavior of learning rate decay.
+The original momentum was working like this, it was coming from here, but our atom is coming from the center,
+means it is optimized and it is rotating here, which shows that this is also a component of momentum in our algorithm.
+and it is also converging some epochs earlier
+although here you will not understand much in convex optimization problem
+but when you are working with a proper complex neural network
+where a non-convex optimization is happening
+there this algorithm performs very well
+so now comes the big question
+that we have studied 5-6 types of optimization techniques
+in fact there are some other optimization techniques
+like ada delta, n-adam we have not studied all these
+But which one should we use?
+In most cases, if you are working in deep learning, then Adam is a good starting point.
+You can run Adam and see the results.
+If you are not getting a good name, then you can try RMS prop.
+Sometimes it happens that the momentum performs well.
+In short, there is no clear answer.
+But in the last 3-4 years, generally Adam is giving better results over different kinds of problems.
+So, Adam is a good starting point.
+But you can always do hyperparameter tuning and you can run it and see which one is giving the best result on your data.
+So, the verdict will be that start with Adam and if you are not satisfied with the result,
+Try RMS prop and then do hyperparameter tuning to check which one is doing the best job.

@@ -38,7 +38,7 @@ The mean, the sum of the values divided by their count, is worked through in the
 $$\mu = \frac{1}{N}\sum_{i=1}^{N} x_i \qquad\qquad \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
 where $\sum_{i=1}^{n} x_i$ means "add up $x_1, x_2, \dots, x_n$". For the values 3, 4, 1, 2 and 5, $\bar{x} = 15/5 = 3$.
 
-The two formulas do the same arithmetic. They differ in what they describe: $\mu$ is the true centre of the whole population, $\bar{x}$ is the centre of one sample. The two are usually close, but not equal.
+The two formulas do the same arithmetic. They differ in what they describe: $\mu$ is the true centre of the whole population, $\bar{x}$ is the centre of one sample. Nothing guarantees they are equal: they can be close, or very different.
 
 ### 3.1 The weak spot of the mean: outliers
 
@@ -147,13 +147,13 @@ The **trimmed mean** removes a chosen percentage of the smallest and of the larg
    $$\bar{x}_{\text{trim}} = \frac{30 + 31 + 32 + 33 + 35 + 36 + 38 + 40}{8} = \frac{275}{8} = 34.375$$
    The plain mean was 230.3; the trimmed mean, 34.4, describes the class again (Figure 2).
 
-The trimmed mean sits between the mean and the median. It uses more values than the median, so it keeps more information, yet it ignores the extremes.
+The trimmed mean sits between the mean and the median: trimming nothing gives the plain mean, and trimming almost 50% from each end leaves only the middle, the median. In between, it uses more values than the median yet ignores the extremes.
 
-How much to trim depends on the data. We look at its distribution first, for example with a box plot, see how many outliers there are, and trim at least that share from each end.
+How much to trim depends on the data. We look at its distribution first, for example with a box plot, see where the outliers are, and choose the trimming percentage from that.
 
-> **Extra:** With 9 students, a 10% trim cuts $\lfloor 0.9 \rfloor = 0$ values, so in Figure 2 the trimmed mean of the nine equals their plain mean, 33.7. Trimming percentages are usually 5% to 25%; the median is the extreme case, a trim of almost 50% from each end.
+> **Extra:** With 9 students, a 10% trim cuts $\lfloor 0.9 \rfloor = 0$ values, so in Figure 2 the trimmed mean of the nine equals their plain mean, 33.7. A common general-purpose choice is 20% from each end (Wilcox 2012). The median is the extreme case, a trim of almost 50% from each end.
 
-> **Extra:** Judged sports such as gymnastics and diving use a trimmed mean: the highest and lowest judges' scores are dropped, so one very generous or very harsh judge cannot decide the result.
+> **Extra:** Judged sports use a trimmed mean, so one very generous or very harsh judge cannot decide the result. In diving, the two highest and two lowest of seven scores are dropped (USA Diving); in gymnastics, the highest and lowest execution scores are dropped (FIG Code of Points).
 
 > **Python:** The trimmed mean.
 >
@@ -198,6 +198,13 @@ When there are no outliers, the mean is the better summary: it uses every value,
 - Population mean $\mu$ and sample mean $\bar{x}$ use the same arithmetic but describe different things.
 - The mean is pulled by outliers; the median and the trimmed mean are not.
 - Ties give several modes: bimodal or multimodal data.
+
+
+## Sources
+
+- Wilcox, R. R. (2012). *Introduction to Robust Estimation and Hypothesis Testing*, 3rd ed. Academic Press.
+- FIG (Fédération Internationale de Gymnastique). *Rhythmic Gymnastics Code of Points 2022-2024*: execution panel scoring.
+- USA Diving. Judging and Scoring. https://www.usadiving.org/about-us/diving-101/judging-and-scoring
 
 ## 10. Key terms
 

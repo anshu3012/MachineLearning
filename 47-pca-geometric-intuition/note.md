@@ -24,7 +24,7 @@ Three facts to keep in mind:
 - It is old, well tested and reliable.
 - Its full mathematics is involved. This Note builds the geometric intuition; the step-by-step mathematics comes in the next Note.
 
-> **Extra:** PCA was first described by Karl Pearson in 1901 and developed further by Harold Hotelling in 1933.
+> **Extra:** PCA was first described by Karl Pearson in 1901 and developed further, under the name "principal components", by Harold Hotelling in 1933 (Pearson 1901; Hotelling 1933).
 
 ### 1.1 The photographer
 
@@ -174,7 +174,7 @@ $$\sigma^2 = \frac{(-10)^2 + 0^2 + 10^2}{3} = \frac{200}{3} \approx 66.7$$
 
 Data B's variance is 4 times Data A's. Variance tells the two datasets apart where the mean could not.
 
-> **Extra:** Here we divide by $n$, which gives the **population variance**. Dividing by $n - 1$ instead gives the **sample variance**, a slightly larger value that corrects for a sample looking less spread out than the population it came from. NumPy divides by $n$ by default (`ddof=0`); pandas divides by $n - 1$ (`ddof=1`), which is why the standard deviation in `describe` uses $n - 1$.
+> **Extra:** Here we divide by $n$, which gives the **population variance**. Dividing by $n - 1$ instead gives the **sample variance**, a slightly larger value. A sample tends to look a little less spread out than the population it came from; dividing by $n - 1$ corrects this exactly on average (Casella and Berger, Thm 5.2.6). NumPy divides by $n$ by default (`ddof=0`); pandas divides by $n - 1$ (`ddof=1`), which is why the standard deviation in `describe` uses $n - 1$.
 
 ### 5.3 Variance and spread
 
@@ -225,7 +225,14 @@ This is why PCA always looks for the direction of maximum variance. It keeps the
 - Data with n columns has at most n principal components; we keep the first few.
 - Variance, not mean absolute deviation, because it is smooth enough to optimise.
 
-## 8. Key terms
+
+## 8. Sources
+
+- Pearson, K. (1901). On lines and planes of closest fit to systems of points in space. *Philosophical Magazine*, 2(11), 559–572.
+- Hotelling, H. (1933). Analysis of a complex of statistical variables into principal components. *Journal of Educational Psychology*, 24(6), 417–441.
+- Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd edition, Theorem 5.2.6. Duxbury.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

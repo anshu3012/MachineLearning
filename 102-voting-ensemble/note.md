@@ -83,7 +83,7 @@ That is about 22%, worse than every single model (30%). It is also $1 - 0.784$: 
 
 > **Extra:** With $n$ models (an odd number, so there are no ties), the vote is right when more than half are right. The number of right models follows a **binomial distribution**, so
 > $$P(\text{vote right}) = \sum_{k > n/2} \binom{n}{k} p^k (1-p)^{n-k}$$
-> where $\binom{n}{k}$ counts the ways to choose which $k$ models are right. For $n = 3$ this gives the $p^3 + 3p^2(1-p)$ above. This result is known as **Condorcet's jury theorem** (1785).
+> where $\binom{n}{k}$ counts the ways to choose which $k$ models are right. For $n = 3$ this gives the $p^3 + 3p^2(1-p)$ above. This result is known as **Condorcet's jury theorem** (Condorcet, 1785).
 
 ### 5.2 More models, and correlated models
 
@@ -110,7 +110,7 @@ Figure 2b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 - with half the answers copied, about **0.74**;
 - with everything copied, the eleven models act as one, and the vote scores **0.7**, no better than a single model.
 
-> **Extra:** Real models trained on the same data are never fully independent: they tend to fail on the same hard rows. So real gains are smaller than Figure 2a promises. This is why ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
+> **Extra:** Models trained on the same data are usually correlated, so real gains are smaller than Figure 2a promises: the correlation between the models limits what combining them can gain (ESL §15.2), just as Figure 2b shows. An ensemble beats its members only when they are both accurate and *diverse*, meaning they make different errors (Dietterich, 2000). This is why ensembles work to make their models different: different algorithms (voting), different samples of the data (bagging), or both.
 
 ## 6. Summary
 
@@ -124,6 +124,12 @@ Figure 2b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 - It needs two assumptions: independent (different) models, and every model better than 50%.
 - For three models, $P(\text{vote right}) = p^3 + 3p^2(1-p)$: 0.784 for $p = 0.7$.
 - More independent models help more; correlated models help less.
+
+## Sources
+
+- Condorcet, Marquis de (1785). *Essai sur l'application de l'analyse à la probabilité des décisions rendues à la pluralité des voix*. Paris.
+- Dietterich, T. G. (2000). "Ensemble Methods in Machine Learning". *Multiple Classifier Systems* (MCS 2000), LNCS 1857, Springer, section 1.
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2.
 
 ## 7. Key terms
 

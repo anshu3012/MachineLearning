@@ -155,7 +155,7 @@ The same steps for 2 and 3 standard deviations:
 
 This is the **empirical rule** of the [z-score outliers Note](../42-outliers-zscore/note.md), now derived from the z-table instead of taken on trust. It is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
 
-A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: in an analysis by the statistician Charles Davis, it lies about 4.4 standard deviations above the mean of the leading batsmen. Most good batsmen sit within one standard deviation, great ones between one and three.
+A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up: $1 - \Phi(4.4) \approx 0.000005$. Roughly speaking, most good batsmen sit within one or two standard deviations of the mean, and only the very greatest approach three.
 
 ## 7. Where the normal distribution is used in data science
 
@@ -164,7 +164,7 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 1. **Outlier detection.** For a column that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (the z-score method, see the [z-score outliers Note](../42-outliers-zscore/note.md)). For the Titanic ages the limits are $29.70 \pm 3 \times 14.53$, from $-13.88$ to $73.28$ years. No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged.
 2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (the errors) are normal, not the inputs (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). Linear and logistic regression also tend to work better on normal-looking inputs (see the [function transformer Note](../30-function-transformer/note.md)), and a Gaussian mixture model is built from normal curves (see the [density estimation Note](../243-density-estimation-kde/note.md)).
 3. **Hypothesis testing.** Many statistical tests assume that the data, or a statistic computed from it, is normally distributed.
-4. **The central limit theorem.** Averages of samples from almost any distribution, normal or not, follow a normal distribution. This result, the topic of a later Note, is what makes the normal distribution central to inferential statistics.
+4. **The central limit theorem.** Averages of samples from almost any distribution, normal or not, follow approximately a normal distribution, more closely as the samples grow (Pishro-Nik §7.1.2). This result, the topic of a later Note, is what makes the normal distribution central to inferential statistics.
 
 ## 8. Summary
 
@@ -180,6 +180,11 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 - A z-table gives areas (probabilities) to the left of $z$, not heights of the curve.
 - Standardizing keeps the shape; only normal data becomes standard normal.
 - Values beyond 3 standard deviations are rare: 0.27% in all.
+
+## Sources
+
+- Davis, C. (2000). *The Best of the Best*. Bradman's 4.4 standard deviations as reported in *Discover* magazine, "Who's the Greatest Sportsperson?".
+- Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. Section 7.1.2 (central limit theorem; needs a finite variance).
 
 ## 9. Key terms
 

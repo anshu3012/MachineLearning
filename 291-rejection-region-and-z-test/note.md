@@ -51,7 +51,7 @@ The usual choices are 0.05 (5%) and 0.01 (1%). For most problems 0.05 works well
 
 The significance level and the confidence level are related but not the same. A 95% confidence level corresponds to $\alpha = 0.05$: confidence level $= 1 - \alpha$ (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)).
 
-We must fix $\alpha$ before the test. Without it there is no boundary between "reject" and "fail to reject", and choosing it after seeing the result would let us pick whatever answer we like.
+We must fix $\alpha$ before the test. Without it there is no boundary between "reject" and "fail to reject". Choosing it after seeing the result would let us reach either answer: for any observed $z$ other than 0, a large enough $\alpha$ puts it in the rejection region. For the chips example of section 7 ($z = -1.58$, two-tailed), any $\alpha$ above $2 \times P(Z > 1.58) = 0.114$ would reject $H_0$.
 
 ## 4. The one-sample z-test
 

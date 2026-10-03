@@ -15,7 +15,7 @@ title: "Naive Bayes Foundations: Bayes' Theorem"
 
 > **Key point:** Bayes' theorem turns P(B | A) into P(A | B): P(A | B) = P(B | A) × P(A) / P(B). Naive Bayes is this theorem plus one simplifying assumption.
 
-**Bayes' theorem**, published after Thomas Bayes's death in the 1760s, is one of the most important results in probability. A whole branch of statistics, **Bayesian statistics**, is built on it. It is also short and easy to prove.
+**Bayes' theorem**, published in 1763, two years after Thomas Bayes's death (Bayes 1763), is one of the most important results in probability. A whole branch of statistics, **Bayesian statistics**, is built on it. It is also short and easy to prove.
 
 For machine learning it matters directly: the Naive Bayes classifier is Bayes' theorem combined with the independence assumption of the earlier Note.
 
@@ -101,7 +101,11 @@ Seeing one word has moved the belief from 20% to 75%. The way the evidence was s
 - The proof writes $P(A \cap B)$ two ways using conditional probability.
 - Naive Bayes applies it with A = class and B = the observed inputs.
 
-## 7. Key terms
+## 7. Sources
+
+- **Bayes 1763:** Bayes, T. "An Essay towards Solving a Problem in the Doctrine of Chances." Communicated by R. Price. *Philosophical Transactions of the Royal Society of London* 53, 370–418, 1763.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

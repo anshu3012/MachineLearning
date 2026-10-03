@@ -114,7 +114,7 @@ So $n - 1$ columns are enough to represent $n$ categories. Keeping the $n$-th on
 >
 > Because $Y + B + R = 1$, adding any amount to $b$ and taking it off every weight changes nothing, so there are endless "best" answers. The model cannot settle on one, and its weights become unstable and meaningless. With `color_Y` dropped, only one answer is left: $b = 5$ (the yellow price), $w_B = 2$ and $w_R = 4$ (how much more blue and red cars cost than yellow ones).
 
-> **Extra:** Not every model is hurt. Tree-based models (decision trees, random forests) and distance-based ones such as K-nearest neighbours work fine with all $n$ columns. Dropping one column is mainly for linear and logistic regression, but it is a safe default.
+> **Extra:** Not every model is hurt. Tree-based models (decision trees, random forests) and distance-based ones such as K-nearest neighbours work fine with all $n$ columns, because they do not depend on the columns being free of overlap (Kuhn and Johnson 2019, §5.1). Dropping one column is mainly for linear and logistic regression, but it is a safe default.
 
 ## 4. Columns with many categories
 
@@ -267,7 +267,7 @@ scikit-learn's class for this is **`OneHotEncoder`**. Three parameters are usefu
 
 By default, `OneHotEncoder` returns a **sparse matrix**. Most entries of a one-hot result are 0, so a sparse matrix saves memory by storing only the positions and values of the non-zero entries. To see it as a normal table we would call `.toarray()` on it; `sparse_output=False` gives the normal array straight away.
 
-> **Extra:** In older scikit-learn versions this parameter was called `sparse`. It was renamed `sparse_output` in version 1.2, and the old name no longer works. Likewise, `get_feature_names` is now `get_feature_names_out`.
+> **Extra:** In older scikit-learn versions this parameter was called `sparse`. It was renamed `sparse_output` in version 1.2, and the old name was removed in 1.4 (scikit-learn release notes, 1.2). Likewise, `get_feature_names` is now `get_feature_names_out`.
 
 ### 7.4 Fit on the training set, transform both
 
@@ -306,7 +306,7 @@ Seven columns: $(4 - 1) + (5 - 1) = 3 + 4 = 7$. The encoder can tell us their na
 
 The first training row is a Diesel car with a first owner. It becomes [1, 0, 0, 0, 0, 0, 0]: 1 in `fuel_Diesel`, and all zeros for owner, because First Owner is the dropped category.
 
-> **Extra:** If the test set holds a category never seen in training (say, an Electric car), `transform` stops with an error. `handle_unknown="ignore"` writes all zeros for it instead. Combined with `drop="first"`, those zeros look exactly like the dropped category (CNG), so the unknown car is silently treated as CNG; keep that in mind.
+> **Extra:** If the test set holds a category never seen in training (say, an Electric car), `transform` stops with an error. `handle_unknown="ignore"` writes all zeros for it instead. Combined with `drop="first"`, those zeros look exactly like the dropped category (CNG), so the unknown car is treated as CNG; scikit-learn prints a warning, but the row is still all zeros.
 
 ### 7.5 Joining the columns back
 
@@ -368,6 +368,11 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 - Dropping one column fixes it and loses nothing: all zeros stand for the dropped category.
 - For a column with many categories, keep the frequent ones and merge the rare ones into "uncommon".
 - In ML projects, split first, fit `OneHotEncoder` on the training set, and transform both sets.
+
+## Sources
+
+- Kuhn, M. and Johnson, K. (2019). *Feature Engineering and Selection*. CRC Press. feat.engineering.
+- scikit-learn release notes. Version 1.2. scikit-learn.org/stable/whats_new.
 
 ## 10. Key terms
 

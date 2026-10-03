@@ -1,0 +1,897 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video, we will go ahead with our 100 days of deep learning playlist.
+So, till now we were focusing on self-attention in Transformers architecture.
+We might have read self-attention in detail in 5-6 videos.
+Now we are moving towards one more component.
+One such component about which we don't talk much but that component is very important.
+I am talking about positional encoding.
+Generally if you watch any video of transformers then you will see that whoever is making that video
+they generally explain positional encoding in 2-3 lines.
+But I personally feel positional encoding is a very important aspect of transformers
+and it is very important to read it well.
+The only problem is I actually feel that positional encoding is a little difficult to understand
+and that is why I have made this video after a lot of research and hard work
+My goal behind this video is to simplify positional encoding as a concept in front of you
+and that is why the video has become a little long
+but trust me if you watch this video till the end
+then you will appreciate how much research I have put into making this video
+So I am super excited for this video
+I really hope you are also
+Let's start the video
+So guys what is positional encoding
+Before reading this, we need to understand why transformers architecture needed positional encoding.
+Till now we have read an important component of transformers architecture.
+And that component is self-attention.
+And what is self-attention? I guess you already know.
+If you have a sentence and you divide it into tokens.
+here your sentence is river bank right so you divided it into two tokens one is river
+and the second one is bank and you generated the embeddings of these two so here what you can see
+this is the embedding of river and this is the embedding of bank now what self-attention block
+What this block can do is that it can generate contextual embeddings from the given embeddings of your words.
+Contextual embedding means that these embeddings are dynamic and they change with the usage of the word.
+Meaning that if you calculate the contextual embedding of the bank in this sentence then it will be something different.
+And when you calculate the contextual embedding of the bank in this sentence, it will be something different.
+And it will depend on the particular word bank in that sentence with which words it has come.
+We discussed this whole thing in great detail.
+So this was the best part about self-attention that it could generate dynamic contextual embeddings.
+And those dynamic contextual embeddings were generated on the basis of this thing
+that in which context a particular word has been used.
+I guess you know that.
+But apart from this, there is another big benefit of using self-attention
+and that is that you can calculate all these contextual embeddings in parallel.
+Which means that if you have two words in your sentence
+then you can generate the contextual embedding of both these words in parallel.
+You send both the embeddings in this block together and you get both the contextual embeddings generated together.
+So it does not matter that you have two words in your sentence or you are processing a very big document,
+maybe a PDF and it has 10,000 words.
+You can generate the contextual embedding of those 10,000 words together.
+And this is a huge benefit because when we have to process big documents, we will be able to do that processing in a very fast way.
+And you will be able to appreciate this when you turn back a little and look at the RNNs.
+If you remember the RNNs, they are inherently sequential.
+If you have a sentence like river bank, then in the first time step, you would send the river as input and in the second time step, you would send the bank as input.
+And if there were more words in your sentence, you would send them one by one.
+So, this architecture is inherently sequential.
+If you give it a PDF of 10,000 words,
+it would take 10,000 steps to execute that.
+So, it will be slow.
+So, two big benefits of self-attention module.
+First is that it can generate contextual embeddings,
+which means it can capture the context in which the word is used.
+And the second benefit is that everything is calculated in parallel.
+but it is said that when everything is good, then something goes wrong, so this is a very big benefit that I told you that you are able to do all the calculations in parallel.
+It has a major drawback and the major drawback is that you cannot capture the order of the words using self-attention.
+Listen to this again. You cannot capture the order of the words used in your sentence.
+Because you are sending all the words together.
+The self-attention module will not be able to understand which word has come first.
+Has the river come first or the bank has come first in the sentence.
+So for this self-attention module, this sentence that Nitish killed lion
+lion and this sentence, lion killed Nitish, these two are exactly same because in the
+first sentence also you are sending these three words together and in the second sentence
+also you are sending these three words together. Self-attention has got no mechanism to understand
+in which order words exist in your sentence.
+This problem is not in RNN.
+If you send this sentence,
+Nitish killed lion,
+then in the first time step, Nitish will go,
+in the second time step, killed will go,
+and in the third time step, lion will go.
+So RNN will inherently know what the order is.
+But unfortunately,
+Our self-attention module doesn't have this mechanism.
+Now, I don't need to explain that the order of words in NLP based applications matters.
+This sentence, Nitish killed lion and this sentence, lion killed Nitish, these two completely different meanings represent.
+But your self-attention module will say that both are same.
+Do you really think we will be able to make real-world NLP applications with this kind of a mechanism?
+Not at all.
+Which means, now we have a challenge in front of us.
+In some way, we have to make sure that we pass on the information of ordering in our self-attention module.
+Otherwise, our Transformers architecture will not perform that well.
+And this is where positional encodings come into the picture.
+Positional encoding is the logic which encodes this information in transformer architecture in self-attention
+that which word is in which position in your sentence.
+I really hope you understood why.
+So you understood the problem, now let's talk about the solution.
+The solution is positional encoding but I am not going to teach you directly positional encoding.
+Because if I teach you directly positional encoding then you might not be able to understand it properly.
+I have a better way. So what I will do is I will use the first principle approach.
+What does the first principle approach mean? That I will teach you the way we are inventing it for the first time.
+So we will start with a basic solution, identify its problems, solve those problems,
+In that process, we will come to the second solution, we will talk about the problem of the second solution, we will fix it.
+In this process, the third solution will come and by doing this, we will reach the positional encoding.
+And trust me, this is the best way to teach this topic. Okay, so let's start.
+We have a sentence, Nitish killed the lion. Okay, there are four words in this sentence.
+But the problem is that our self-attention block does not understand which word came first, which word came on the second number, which word came on the third number and so on.
+Somehow I have to convey this information to this self-attention block that Nitish was on the first number, killed was on the second number, the was on the third number and so on.
+So let's propose a very simple solution. Let's talk about a very simple solution.
+Now think for yourself what can be the easiest solution?
+The easiest solution could be counting.
+It's very simple.
+You just count which number this word is at, which number is it at, which number is it at, which number is it at, which number is it at, which number is it at, which number is it at, which number is it at.
+Now somehow this number is going to be sent to this self-attention block.
+Alright?
+There are multiple ways to do this but the simplest way is to assume that this embedding is of 512 dimensions for the time being.
+Means there are 512 numbers here.
+What I will do is, I will add one more dimension in the last.
+I will add one dimension in the last of all the word embeddings.
+Which means all the embeddings are of 513 dimensions.
+And what will I add in this last dimension?
+I will add this number, 1, 2, 3, 4 and in this way we are able to send this information in this self attention block
+that which particular word is in which position.
+Very simple solution, maybe even a child will be able to identify it.
+I hope you are getting the solution.
+Now let's talk about what is the problem in this simple solution
+because of which we can't use it
+so actually there are multiple problems
+I will tell you all the problems one by one
+first problem is that
+this solution is unbounded
+what does unbounded mean?
+that there is no upper limit in it
+think for yourself
+this was a small sentence with 4 words
+so your last number is 4
+now imagine you have a whole book
+You want to process the PDF of this book.
+A book has 500 pages.
+Every page has, I don't know, 200 words.
+So you can see, already we have like
+a document of 1 lakh words.
+So when we go to process this whole book and send it to the self-attention module,
+the last word of this book, let's say thank you, is you.
+so here what will be the number? 1 lakh
+now the problem is that this number is huge
+and we are sending this number in transformers architecture
+which in itself is a neural network architecture
+now you might have read so much about neural networks and deep learning that you would know
+that neural networks work on the principle of backpropagation
+Backpropagation is the core algorithm on which neural networks are trained and backpropagation hates big numbers.
+Generally, it is said that if your numbers are between minus 1 and 1, that is a good range to have.
+But if you have huge numbers like 1 lakh, 1 crore, 10 crore, these numbers create instability during training.
+due to which the same vanishing gradient problem, exploding gradient problem can come, in short, your gradients will become unstable
+so this is the biggest problem with this approach, the first biggest problem is that the numbers you are bringing in this approach are unbounded
+now you can easily implement a logic in this, you will say that what if I make sure that the numbers are always between 0 and 1
+You can do it. How? First of all, find out the total number of words.
+For example, there are 4 words in this sentence. And now divide every position by the total number.
+Automatically, your last position will always be 1. And it will be between 0 and 1.
+Right? Same for this book also. This book also has 1 lakh words.
+But the last word U, you will divide 1 lakh by 1 lakh.
+So this will be 1. Problem solved. What do you think? Do you think this is a good solution?
+The answer is no. Understand this. Suppose I have this sentence. Thank you.
+And I have this sentence. Nitish killed the lion. Okay.
+His position is 1, his is 2, his is 1, his is 2, his is 3, his is 4.
+what we have to do? we have to normalize, so I did this, 1 by 2, 2 by 2
+here I did 1 by 4, 2 by 4, 3 by 4, 4 by 4
+right, it got normalized, here also the range is between 0 and 1
+and here also the range is between 0 and 1, but see what is the problem, notice here
+that what will be the actual value at this position? 1
+And what will be the actual value on this position? 0.5
+Both of these are 2nd position
+But according to your technique, in this sentence, the value of 2nd position is 1
+And in this sentence, the value of 2nd position is 0.5
+There is no consistency
+Try to understand, in your training data, in one sentence, you are giving the value of 1 to the 2nd position
+And in your training data, in another sentence, you are giving the value of 2nd position to the value of 0.5
+So your neural network will get confused as to what is the 2nd position
+is it 1 or 0.5
+so this approach will not work
+that you
+normalize
+I really hope you understood this first problem
+the first problem is
+to blindly append numbers
+in this way
+that your
+this number will grow unbounded
+just like your sentence length will grow
+and neural networks don't like that
+if you are going to normalize
+then also the problem is the same
+You are not able to give consistent numbers for each position.
+The number of the position should not change, right?
+If it is 1 here, then it should also be 1 here.
+It should not change.
+This is also very important.
+Consistent behavior should be done across training samples.
+So, this was the first problem.
+Apart from this, there are more problems.
+I will tell you about them.
+Okay, let's talk about problem number 2.
+What is problem number 2 with this approach?
+In this approach, the numbers that you are bringing,
+1, 2, 3 and 4,
+these numbers are discrete
+right
+1,2,3,4,5,6
+these are discrete numbers
+and again it is not good for
+neural networks
+you might also know
+that neural networks
+generally prefer
+smooth transitions
+right like continuous
+numbers
+and if you use discrete
+numbers to train neural networks
+then there is a problem of numerical stability
+due to which your gradient flow is not good
+so again this is the second reason why you can't use this approach
+there is one more reason which I will tell you
+problem number 3 is that you will never be able to capture relative positioning
+I will explain this to you
+I will write problem number 3 here
+This simple approach where you are counting for positions, by using this approach you cannot capture relative positioning.
+Now what is relative positioning? I will explain it to you once. In fact, I will explain relative positioning as well as absolute positioning.
+So, NITISH KILLED THE LION.
+According to your solution, NITISH should get 1, KILLED should get 2, THE should get 3 and LION should get 4.
+So, your solution is doing one good thing that it is giving a unique position to every word.
+Right?
+So, we can call these positions absolute positions.
+but if you are not able to capture relative position, your model will not be able to understand that the is after Nitish
+maybe it will understand that it is after Nitish but it will not be able to figure out the distance
+because it is not that easy to perform 3-1 equal to 2 task
+task because the output is coming from a discrete function right the answer is one two three
+four so since the output is discrete then the things in between are not found in your
+neural network and that is why the difference between this point and this point how many
+positions are there how far is it or how close is it this understanding will not be given
+to your model and this is called relative positioning so that is why i told you that
+With your simple approach, you are able to get absolute positioning.
+You are able to give unique position to everyone.
+But you are not able to capture the distance between the positions.
+Because your output is coming from a discrete function.
+If it was continuous, it would have been better.
+Now, I will show you a piece of math a little further.
+Where I will prove it to you that if you take a periodic function instead of this simple discrete function.
+A mathematical function that repeats after a short period of time
+So this type of periodic function can be really good at capturing relative positioning
+I will show you a little further
+So let's summarize once
+We can see three problems
+The first problem is that our solution is unbounded
+And this is not good for Neural Networks. It would have been better if it operated in a given range.
+What is the second problem? That it is discrete.
+Meaning 1, 2, 3, 4, 5. Right?
+It would have been better if it was continuous.
+Because Neural Networks prefer continuous and smooth changes.
+And problem number 3, it can't capture relative positioning.
+If it was a periodic function then it would be good.
+So in short we need a bounded continuous periodic function.
+We have to find a function of mathematics which is first of all bounded and its y value operates in a given range.
+That function should be continuous and it should also be periodic.
+Now if you have studied a little maths then you must be thinking that one such option could be trigonometric functions.
+Especially if you talk about sine function then it looks something like this.
+I am sorry.
+Sine function looks something like this.
+What is happening? Just one second.
+So you can see.
+First of all, its y value is between minus 1 and 1, which means it is bounded.
+Second, at every x value, there is a y value, which means it is continuous.
+And after one value, after one x value, its y value repeats.
+This means it is periodic too.
+So on the basis of the discussion till now we understood that our simple solution had some problems but by discussing those problems we understood the next clue and the next clue is that what if we use the sine function to create positional encoding so this can be a better solution and that is what we will do next.
+We will discuss how can we use a sine function to calculate positions.
+So guys now I will show you how you can use sine curve to make positional encoding.
+So here I have drawn a sine curve.
+Here on x-axis you can imagine that there is a position.
+What is the position? The position of your word.
+And on y-axis there is your encoded value.
+And we have the same scenario again, we have been given this sentence, Nitish killed the lion.
+And we know that Nitish is in the first position, killed is in the second position, the is in the third position, lion is in the fourth position.
+So we will use this mathematical function, sign of position.
+And we will calculate its y from the position of every word.
+What is y? Encoded value.
+So, for example, when we want to find the position of the first word, then to find the position of the first word, we will write sign of 1.
+Basically, if you look at it from the graph, then this is our x value and we want to find its corresponding y value, which is this value.
+As far as I remember, it is somewhere around 0.84.
+So this is the first word's encoded value.
+For the second one, we will take out y is equal to sin2.
+In this graph, somewhere here, let's say 0.87 is coming.
+Then we will take out 3, so 3 is here.
+So whatever this value is, let's say 0.19.
+And we will also take out y is equal to sin4.
+so that is this value so it could be somewhere around minus point nine zero so
+we got these four numbers now what we will do in the last of first embedding
+we will put this number point eight four here we will add one more number and that
+that number will be this one, 0.87, here this number and here in the last this number
+and in this way we got the positional encoding value of our four words.
+Now what is the best part of this approach that it solved all the problems of previous approach.
+What were the problems?
+First, unbounded values, the good part is here your value will always fluctuate between minus 1 and 1, so the first problem is solved.
+Second, we had taken discrete values there, after 1, after 2, after 3, after 4, here it is not like that, here there are continuous values.
+right and the third thing is that if you use this sine curve then it will also be able to tell your relational positioning
+how it will be able to tell I will not tell you right now in the video I will show you a mathematical derivation
+through which I can tell you that with the help of sine curve you can find the distance between two positions
+so these three problems are being solved
+but there is a big problem
+there is a big problem in this approach as well
+now I want you to pause the video and think about the problem
+let me tell you
+our first requirement is
+if you use any positional encoding technique
+there should always be a feature
+that the positional encoding value of every word should be unique.
+This means that if Nitish's positional encoding value is 0.11
+with the help of this sign curve,
+then no matter how many words come in this sentence,
+the positional encoding value of any other word should never be 0.11.
+Because if the positional encoding value of two words is the same,
+it means that their position is also the same.
+But guess what?
+Nitish is in 1st position and the next words will be in some other position
+so if the position is different then the positional encoding value should also be different
+but the problem is that the sine curve is essentially periodic
+which means that this pattern will repeat
+and if it repeats then you can easily understand that
+at some point this value for 3
+may be the same value for some other number like 35
+Similarly, if this value is for 2, then it is possible that for some other number, let's say for 45, the same Y value will be there.
+And if this happens, then there will be a big problem because in your sentence, the positional encoding value of two different words in two different positions is becoming the same.
+What will happen with this? Your model will get confused. It will say that the second position is also 0.11 and the 45th position is also 0.11, which means these two are the words of the same position.
+and then there will be a big problem.
+So, although this approach is solving the three problems of your previous approach
+but it has a very big problem and that problem is periodicity.
+Periodicity is helping us but in this case, it is also causing a loss.
+So, now what we have to do is, in some way, this problem that the values can be repeated,
+we have to solve this problem in some way.
+Now a very simple approach to solve this problem is that instead of using only one trigonometric function, use two trigonometric functions.
+This means that till now we were using only one trigonometric function to calculate the positional encoding value.
+Which one? y is equal to sin .
+What I am saying is that what if we use two different trigonometric functions.
+We use y is equal to sin of position and y is equal to cos of position.
+Now what will happen is that for any one word you will get two values.
+One value will come from the sin curve and second value will come from the cos curve.
+And this means that now you will not represent every word as a scalar but as a vector.
+Let me explain what I am saying, suppose Nitish is on 1, this is on 2, this is on 3 and this is on 4
+So now we have to find the positional encoding value of Nitish
+So first of all we will put here, so this will be y sin 1
+Means we are plotting on this green curve and this value is 0.84
+Now we will take out y is equal to cos of 1 which is 0.5
+This means that I will not take one single number to represent Nitish
+I will take two numbers 0.84 and 0.5
+And now what I will do is, instead of 1, I will insert 2 values.
+In the first one, 0.84 and in the second one, 0.5.
+Similarly, when I have to do positional encoding for killed word,
+then I will again remove y is equal to sin of 2 and y is equal to cos of 2.
+so i will come here
+this is the value for sign
+and this is the value for cost
+so this value is
+0.87 something
+and this value is
+minus 0.4 something
+so now i will come here again
+and here i will add two values
+in first one 0.87
+in second one minus 0.4
+and in this way i will take out for 3
+and for 4
+so basically now i have
+Encoding is not a scalar, it is a vector.
+What is the benefit of this?
+Now, for some other word, if the same vector comes, we have reduced its possibility.
+Honestly, you can argue that in the future, there will be a situation where both the numbers of two words are exactly the same.
+and this is correct, then what will you do?
+it is very simple, extend this idea
+bring one more sine and cos curve
+what am I saying? I am trying to explain
+till now we were using these two functions
+sine of position and cos of position
+what if
+Let's create one more pair, sign of position by 2 and y is equal to cos of position by 2
+Here you can see that the green curve is the sign of position
+and the purple curve is the cos of position
+and this low frequency red curve is position by 2
+and this blue curve is cos position by 2
+now what will happen, if I want to calculate the positional embedding of nitish word
+then I will come here 1 and I will give 1 in all 4 functions
+so I will take out this value, this value, this value and this value
+So now the position of the word Nitish will be a vector which will have 4 numbers.
+And to encode every word positionally, I will use a vector of 4 numbers.
+What is the benefit of this?
+The benefit of this is that if all 4 numbers are the same, the probability of this will be even lower.
+Now you will need more number of words in your sentence so that the positional embedding vector of two words will be exactly the same.
+Now you can question again, but sir it is possible that if you have a very long sentence, then these four numbers will be exactly the same.
+And I will say again that yes, it is absolutely correct.
+In that case, you add one more pair.
+Which pair?
+y is equal to sin , y is equal to cos .
+Now you are representing your positional encoding vector with 6 numbers or 6 dimensional vectors.
+What happened with this? The probability became lower that both the vectors of 2 words are exactly the same.
+Then the same question. Sir, even now if there is a bigger document, it can be repeated.
+So, I would say introduce one more pair, one more pair and you will have a sufficiently large vector which generally will not repeat on a very big document.
+I really hope you understood this solution. We built the solution very gradually. We started with a single sign curve but guess what, it started repeating very quickly.
+So, we introduced a cos curve with it. So, now we came to vector representation instead of scalar.
+But here also the same thing is that if there are more words, then vectors can start repeating, so you started increasing the dimensionality of the vector.
+And how did you increase the dimensionality of the vector? It is very simple, the pairs of sine and cos were introduced and you made sure that the frequency of every next pair is more.
+I really hope you are understanding this first principle approach so far.
+If you have understood things till here, then trust me we have reached the point where I will show you the actual solution
+which was introduced by the authors in the paper Attention is all you need.
+Now I will share with you how the positional encoding was explained in the paper Attention is all you need.
+So the good part is that we have done all the groundwork.
+So now you will not have any problem in understanding this concept.
+So, I will explain you in simple words.
+So, suppose you have this sentence,
+river bank and this is the embedding of the river
+and this is the embedding of the bank
+which you want to send in this self-attention block.
+But, before sending it in the self-attention block,
+you want to send the positional encoding along with it.
+Obviously, so what we have to do is we have to calculate the positional encoding of the river and we have to calculate the positional encoding of the bank as well.
+Here this sentence is made up of only two words, but you can imagine any sentence, no matter how many words are there, you have to calculate a positional encoding for every word.
+Now, the first thing is how will the positional encoding look like?
+So I have already clarified that positional encoding will be a vector.
+means it will be a set of numbers
+so when I will make positional encoding of river
+then also it will be a vector means set of numbers
+when I will make positional encoding of bank
+then also it will be a vector means set of numbers
+first let's talk about
+positional encoding of river vector
+now the first question which should come in your mind
+that if I am creating this vector
+then what will be its dimensionality
+vector is known by how many dimension it is
+so let's first answer this question
+that how much is the dimension of the positional encoding vector of the river word
+there is a very straight forward answer to this
+the dimensionality of the positional encoding vector of the river word is exactly the same
+as the dimensionality of its embedding vector
+listen to this carefully
+So if this is the embedding vector of the river word, how many dimensions are there in it?
+Six.
+So this means that when we make the positional encoding vector of the river word,
+then it will also have exactly six dimensions.
+Similarly, the embedding vector of the bank word also has six dimensions
+because it remains the same.
+every word's embedding dimension remains the same
+so for this reason, when you make a bank word's positional encoding vector
+then it will also be 6 dimensional
+so I hope you understood this first
+you understood two things
+first, every word's positional encoding that we will create
+will be a vector of every word
+and the dimension of that vector will be exactly the same
+as the dimension of your embedding vector
+i hope you understood this
+now what we have to do after this
+suppose i made this positional encoding vector
+i didn't explain you how it will be made
+suppose we made it
+so now what we have to do
+when we did discussion earlier
+what we were doing
+we were doing concatenation
+at last we were connecting behind embedding vector
+but
+attention is all you need
+what you do in paper
+Take the embedding vector which is 6 dimensional
+Take the positional encoding vector which is 6 dimensional
+Addition these two vectors
+Basically this number will join to this
+This number will join to this
+This number to this
+This number to this
+This number to this
+Add vector
+This will give you a 6th dimension vector which will be a combination of two things
+your embedding plus your positional encoding
+and you send that combined vector in self attention
+so that vector has information of both embedding and positional encoding
+You might have a question in your mind that what was the problem in the previous concatenation?
+Why didn't we use concatenation?
+There is a very simple explanation for this.
+If you had done concatenation, then in the 6th dimension, if you had concatenated 6 more dimensions,
+then you would have got a new vector of 12 dimensions.
+then your dimensionality would have increased
+which you would have sent in the self attention module
+increasing dimensionality means that
+the number of parameters in your neural network will increase
+and if the number of parameters increases
+it means that your training time will also double up
+so don't do this
+training time should not be slow
+rather than concatenation, the author's preferred addition of these two vectors.
+So if someone asks you in an interview that why don't we concatenate embedding vector and positional encoding vector?
+Why do we add them? So this should be your answer that if we concatenate, the dimensionality will double up
+and hence number of parameters required would double up and training time will be like up by a factor of 2.
+so we are adding it to avoid that
+so I really hope some things are clear to you here
+first of all, positional encoding will be a vector for every word
+second, the dimension of that vector will be exactly the same as that of your embedding vectors
+point number 3, as soon as we make positional encoding vector
+we will add it with embedding vector of that particular word
+and we will send that resultant vector in self-attention block
+I really hope that you have understood everything till here, now only one thing is left and that is how to calculate the values inside this vector
+so if I want to make a 6 dimensional positional encoding vector of river word which comes at position number 1
+then how to calculate the values inside it, we have to try to understand this
+So let me explain it to you very quickly, it is very simple, you will use sine and cosine functions to calculate these values.
+So basically what you will do is, if you have six dimensions, then you will use one sine and one cosine function for every two dimensions.
+Let me explain what I am saying, first of all you will pick up the first two dimensions.
+To find the value of these two dimensions, you will take a sine wave and a cosine wave.
+You will go to the graph and fill the value of the sine wave corresponding to the position number 1.
+Then what is the value of cosine wave corresponding to the position 1 of this point?
+Let's say it is 0.4, you will put it here.
+Now you will take the next two numbers.
+These two.
+And to fill these two numbers, you will use two new sine and cosine functions.
+So see this second diagram.
+In this, this purple and this purple is the same, this green and this green is the same, what is new is this red graph and this blue graph.
+So now what will you do again, you will go to position 1 and pick up the value in this blue graph and pick it up.
+actually this blue graph is cosine, first let's take out the sine one
+so you will go to the one graph and you will take out its cosine value
+I am sorry you will take out its sine value whatever is here
+and you will fill it here
+then what will you do, you will take out the value of this one on this blue curve
+whatever it is, you will fill it here
+we have filled 4 numbers, now comes the next 2 numbers
+so for the next two numbers, you will again pick up a new sine-cosine curve
+you can see here this black curve is a new cosine curve
+and this blue curve is a new sine curve
+third pair
+so again I will go to position number 1
+and I will remove the value of position number 1
+and I will fill it here
+again i will come to position no.1 and i will fill the value on this black curve here
+and in this way for river word my position encoding vector is ready
+now i have to do the same work for bank vector
+so for bank also there will be a position encoding vector which will have 6 dimensions
+and I will repeat the same thing
+so what I will do is
+I will take the combination of 3,3,2,2
+first of all this
+so what I will have to do for this value
+since I am doing all the work for position number 2
+so I will talk about position number 2
+first of all this value of sign will come out
+and this will be filled at this place
+ok
+then
+for position number 2 this value of cosine will come out
+And this will fit here.
+We have talked about two numbers.
+Now we will take the next two numbers.
+And where will these next two numbers come from?
+Second set of cosine, from the sine curve.
+So what you will do is, I will just erase this.
+We are at position number two.
+So first of all, we will take this red curve, the sine one.
+Whatever this value is, I will put it here.
+Then I will take this blue curve.
+and I will put this value here
+now we have 4 values
+now we will talk about third pair
+for third pair
+things will repeat again
+we are talking about position number 2
+this is position number 2
+for position number 2
+I will take value of this blue curve
+and
+this value will come here
+and for position number 2
+I will take value of this black curve
+Whatever this value is, it came here and in this way I got the positional encoding vector of the bank word as well.
+Now there is no tension, if you had used 8 dimensional embedding, then your positional encoding vector would have been 8 dimensional as well.
+and here as you are using 6 different sine-cosine curves
+instead of this you do 8, you bring 2 more sine-cosines
+in the original paper 512 dimensional embedding is used
+so obviously our positional encoding vector will also be of 512 dimensions
+so to represent 512 dimensions, how many sine-cosine pairs do we need?
+512 divided by 2, we will keep adding more
+And one more thing to notice is that as we are adding more sin cos pairs, you will notice a pattern that the frequency of every next sin cos pair is decreasing.
+See this, this is the first sin curve, this is its frequency, now this is the second sin curve, see its frequency, it has decreased a little and then at the very last, see this blue one, its frequency has decreased even more.
+So as you add more pairs, you are decreasing the frequency.
+This is a pattern.
+Now one last question can come to our mind and should come too.
+And that question is that how will the frequency be decided?
+Till now I have only said that we will bring a sine curve and we will bring a cosine curve.
+But to decide the sine-cosine curve, you have to tell the frequency.
+I did not talk about this frequency.
+I just told you that as you bring more sine-cosine curves, you will decrease the frequency.
+But how much will you decrease? I didn't tell you all this.
+So now I will introduce the exact formula which was used in the paper and we will repeat the whole work using that formula.
+So guys, if you go to the original paper, then you will get the section of positional encoding on page number 6.
+and even though they have not explained much about how exactly these things work
+but they have given us this formula
+that how exactly position encoding is calculated
+we use exactly this formula
+so you can see for every alternate dimension
+we calculate sin and cos
+and what will be the frequency of sin and cos curve
+we get to know from this value inside
+Now I know it looks a little overwhelming after seeing this formula for the first time, but trust me, we have discussed so much that now you should not be so scared of this formula, but still I will show it by simplifying it completely.
+So what I have done is that I have pasted this formula here and we will apply this formula on our example.
+Our example is this small sentence which has two words, river and bank.
+Now I want to clear one or two things here, in this formula, first of all, you will see POS in many places, so first of all, I want to clarify that POS means position of the word, so if you talk about the river word, then the value of the position for the river word will be 0, because it is the first word, and for the bank word, the value of the position will be 1, because it is the second word, if there was a third word here, then the value of its position would be 2.
+and so on. I hope you understood this first.
+Next thing, what is D-model?
+So D-model is nothing but
+the dimensionality of
+embeddings.
+So suppose this is the river embedding and this is the bank
+embedding and you can see
+their dimensionality
+is 6. So in our case D-model's value
+value will be 6. The embeddings taken in the original paper are of 512 dimensions. So the value of D model will be 512.
+Also, if my embedding is of 6 dimensions, then my positional encoding will also be of 6 dimensions, i.e. of D model.
+next thing is what is I, so I is basically from 0 to D model by 2
+I's value will fluctuate from here to here, means from 0 to 6 divided by 2 means 3
+means from 0 to 3 it will fluctuate, actually D model will be minus 1
+you have to go to half because you are starting from 0, if you start from 1 then d model by 2 would go
+but since you are starting from 0 then d model by 2 minus 1 will go means from 0 to 2 will go
+this means value of i will be 0 once, once it will be 1 and once it will be 2 and that's it
+I hope you understood till here, now what I will do, first of all for river word
+I will calculate the positional encoding vector with the help of this formula
+first of all we will take the value of i as 0
+and obviously we will also take the value of position as 0 because we are talking about the river word and the position of the river word is 0
+so what will happen is that here 0 will come
+in 2i also 0 will come
+so you can see here I have made a small mistake, let me correct it
+here it will be 0 and here also it will be 0
+so position value is 0 here
+i value is 0 so 2i value will also be 0
+let's go inside sign of position value is 0 and
+10,000 raised to the power 2i so since i value is 0
+so here it will be 0 and when you will calculate it
+you will get 0 so this is the first value which you can fill here
+Now you have to find the value of the next dimension, so 2i plus 1.
+So the position is still 0 because you are doing it for the river word, but here 1 will come because 2i plus 1 is there, the value of i is 0.
+Here comes cos, the value of the position is still 0.
+10,000 raised to the power, since here 2i is there, so here again 0 is there, so cos 1 is there, 1.
+So the work of i equal to 0 is over.
+Now comes i equal to 1.
+Again I have made a small mistake here, I will rectify it.
+The value of position is still 0 because we are talking about the river word.
+So here 2 will come because now it is 2i.
+What is the value of i? 1.
+So 2 times 1 is 2.
+So now we are calculating the third dimension of the river.
+What will be the total dimensions of the river? 6 dimensions.
+We are talking about the third dimension now.
+The value of position is 0.
+10,000 raised to the power.
+what will be 2i? 2i will be 2 and what will be d model? 6, so what will be 2 divided by 6? 1 by 3
+but it doesn't make any difference, the answer will be 0 only, similarly here only 1 will be there
+i equal to 1 is done and then i is equal to 2, again I have made a mistake here
+here will be 0 and 0, now we are taking out the 5th dimension of river
+so we will take it out this way and we are taking out 6 dimension we will take it out this way and again we got 0 and 1
+so after doing so much hard work the positional encoding vector of river word is this
+of 6 dimension 0 1 0 1 0 1 is alternating similarly now what will you do
+you will calculate the positional encoding vector of bank word in the same way
+you will start from i equal to 0 here again i have made a mistake in fact i will correct everything
+Since the value of position will be 1, because this is the second word, so in all these places, 1 should come.
+So now I am calculating bank word's 0th dimension, 1st dimension, 2nd dimension, 3rd dimension, 4th and 5th dimension.
+Same, by repeating this formula, you can see.
+So I would recommend you to pause the video once and cross-check all the calculations.
+It can be a mistake, because I mean it can be a mistake, you can check it once, this is the value of the first dimension, this is the value of the second dimension, third dimension, fourth dimension, fifth dimension, sixth dimension, and I have written it here.
+And this is how exactly you calculate the positional encoding vectors for a given sentence.
+If there were more words then you would have taken position equal to 2
+If there was one more word then you would have taken position equal to 3
+The bigger the sentence, the more vectors you have to calculate
+But yeah, this is the basic idea
+The best thing at this point is that you take a sentence
+Hi, my name is X
+And you take a copy pen on that sentence and try to calculate these vectors
+Once you have done one sentence, all the confusion will be gone
+This is just a game of familiarity guys, because you have understood the concept, so now you should not be afraid to look at the formula etc.
+So I hope I was able to explain to you exactly how this whole thing is working.
+We have obviously taken scaled down things, instead of 512 dimensions, we have taken 6 dimensions, but you get the idea.
+Now I will show you a very famous graph that you will get to see everywhere.
+So if you ever go to the internet or go to YouTube and search for positional encoding,
+So you will get to see this graph for sure, this is a very famous graph, if you will read positional encoding then you will definitely see this graph.
+So let me explain this graph to you and in the process of explaining this graph we will answer a very interesting question.
+What is the question? I will tell you from the beginning.
+The question is that I told you a few days ago that to add more dimensions, more and more sin cos pairs are added.
+Here I told you earlier we had one sin cos pair, after that we added one more sin cos pair, after that we added one more sin cos pair but there was a pattern.
+The pattern was this that the frequency of every next cos pair that we were adding, keeps decreasing, right?
+You can see, here the frequency is more, but in the next one, you will notice that the frequency is decreasing.
+In the next one, the frequency is decreasing even more.
+So why is it like this? Why is the frequency being decreased?
+You will get this answer through this graph, okay?
+So first of all, let's understand what this graph wants to say, so let's assume for a while that we have a sentence
+which has 50 words, a very big sentence and every word of this sentence, the dimension of its embedding is also 128
+This means D model's value is 128
+So if I ask you something first
+If you have 50 words, then how many positional encoding vectors will you have to calculate in total?
+I guess you will answer this very easily
+The answer is 50
+The number of words is equal to the positional encoding vectors
+Now just tell me, how much is the dimensionality of every positional encoding vector?
+Again the answer is simple, whatever is the value of D model.
+So in this case, 128.
+So this means that I will make one positional encoding vector for every word.
+And that vector will be of 128 dimension.
+You can see the same thing in this graph.
+We took 50 words and created a 128-dimensional vector for each word
+and we used a heatmap on top of that vector
+So you can see the first line which you can see here
+This is the 128-dimensional positional encoding vector of your first word
+The second line which you can see here is the positional encoding vector of your second word
+3rd line, 4th, 5th and the last one is the positional encoding vector of 50th word
+I hope you understood this graph
+now some interesting observation
+so the observation is first look at the first vector
+In the first vector, you would see that in total 128 dimensions, alternate white, blue, white, blue, white, blue, white, blue has gone to the end.
+What is white? White is 0. And what is blue? 1.
+This means that the positional embedding vector of the first word is 0, 1, 0, 1, 0, 1, which is quite correct.
+because if I show you a little earlier
+when we also took out the positional vector of the first word
+then it was fluctuating 0 1 0 1 0 1 0 1
+and its reason is very simple
+that the value of position is 0
+then it will fluctuate 0 1 0 1 in every dimension
+I told you this first observation so that you get familiar
+that yes, it is aligning with what we have studied
+now one interesting thing that you must be seeing
+is that you will notice
+As you are calculating the vector of different words, you will see the difference mostly in the lower dimensions.
+You will see the variety in the lower dimensions.
+Sometimes blue color, sometimes red color, sometimes yellow color, sometimes white color.
+So you can see there is a lot of variety here, but if you talk about higher dimensions then nothing is changing in the higher dimensions.
+If I ignore the lower dimensions for a while and only talk about higher dimensions, don't you think that on the basis of higher dimensions, I will not be able to differentiate all the words?
+means this first word is exactly same to the second word
+it is exactly same to the third word
+fourth word, fifth word
+so basically higher dimensions are not changing much
+and they are not changing because
+because what you have done is
+for higher dimensions
+you have taken low frequency sine cos curves
+and for lower dimension you have taken high frequency curves
+which change fast
+you can see the same thing here
+but if I take 100 words instead of 50
+then what will happen is that your higher dimensions will also participate because
+this x-axis will be longer
+this x-axis will be longer
+so your higher dimension curve will also get space to change
+so what I am trying to say is
+that the pattern that you can see, if you go further down, it will keep on increasing
+and there will be a time when you will be able to see changes in all your vectors and dimensions
+given that you have enough number of words in your sentence.
+So this is a very interesting observation.
+And you can understand this interesting observation from a parallel, from an analogy.
+it is very very close to binary encoding
+pay attention, in binary encoding we try to convert decimals into binary
+like here I have numbers from 0 to 15
+you will notice that the lowest bit, red bit is changing on every number
+0 1, 0 1, 0 1, 0 1
+but its next bit
+is changing every 2 times
+its frequency is a bit low
+its next bit
+its frequency is more low
+it is changing 4 times
+and its next yellow bit
+its frequency is more low
+it is changing 8 times
+now imagine here we have represented
+only with 4 bits
+if I had represented with 8 bits
+then
+The higher bits are not changed, they are written as 0, 0 only.
+So the same thing is happening here as well.
+The positional encoding we have studied is very similar to binary encoding except
+we are doing this in the domain of continuous values.
+So in a way, if you try to understand,
+then basically the concept of binary encoding has been taken up
+in the domain of continuous numbers.
+And where did you get that from? From the sine-cos curve.
+I really hope you understood this parallel, if you want to encode positions then you can use binary encoding but you are not doing it because those are discrete values and neural networks prefer continuous values
+that is why the authors they decided to have this smart way of encoding like binary encoding but in the domain of continuous numbers
+I really hope you understood this parallel this is like a very very great idea
+i.e. after thinking and listening to this, you will actually appreciate that what kind of brain has been used by the person.
+He had to do binary encoding only but discrete numbers will not work.
+So he picked up that same idea and brought it to the domain of continuous values.
+So this is essentially binary encoding in the domain of continuous numbers.
+I really hope you understood this parallel.
+Now guys before ending the video, I want to discuss one last thing with you.
+But disclaimer, if you find this video interesting, this particular thing will wake you up and will clear one doubt.
+Which doubt? Let me tell you.
+If you remember, in the very beginning of the video, we proposed a very simple solution.
+Right? And I told you that there are three problems in that simple solution.
+The first problem is that the output is unbounded.
+The second problem is that it is discrete.
+And the third problem is that our simple solution cannot capture relative positioning.
+Right?
+And then we implemented our sine cosine positional encoding solution.
+But I haven't told you yet how the sine cosine method can capture relative positioning.
+That is what I want to discuss with you.
+And to discuss that, I will use this graph as an example again.
+Let me explain the settings again.
+We have 50 words.
+This means we have 50 vectors.
+And each vector is 128 dimension.
+ok
+now pay attention
+an interesting thing starts from here
+so the way we have
+applied this sine, cosine
+varying frequency funda
+because of that
+in our positional encoding
+a very interesting
+property
+has come
+what is that interesting property
+I will explain you
+but before that I want to give you an intuition
+and that is that these 50 vectors and each of them is of 128 dimension
+you can imagine it as this is a 128 dimensional space
+obviously I cannot draw so I am telling you with the help of 2D
+imagine 2D as 128D
+so here there are many vectors
+how many vectors are there? 50 vectors
+for every word there is one vector
+you have to imagine this and walk
+Now I will tell you an interesting property about these vectors.
+We have played this game of sine and cosine in such a way that
+a very interesting property has come between these 50 vectors.
+And that interesting property is that suppose I pick up a particular vector.
+Suppose I am picking up this vector.
+Vector number 10.
+Now, if I apply a linear transformation on this vector number 10.
+The simple meaning of linear transformation is to apply a matrix.
+So, for a particular matrix, as soon as I apply that matrix on V10, I will automatically get V20.
+It is possible. I have a vector. I applied a linear transformation as in matrix on this vector.
+So where did I reach from V10? I reached vector 20.
+Now the interesting thing is that if I take the same matrix as it is and if I apply it on V30,
+So any guesses what will happen? Your guess is correct if you said that you will reach V40.
+Any guesses if I take this same matrix and put it on V40 then where will I reach? I will reach V50.
+So, in a way, the interesting property is that this particular matrix has the capability to cover delta of 10 or to cover distance of 10.
+Now, the interesting thing is that this property is available for every delta.
+Let's take one more example.
+So, suppose I have V5 and I picked up a particular matrix and this matrix picked me up and threw me on V10.
+Now what if I take this same matrix again and put it on V12.
+Any guesses what will happen? I guess you are able to understand.
+I will reach V17
+if I put the same matrix on V21
+then I will reach V26
+it means that
+this matrix has capability of
+5 delta or distance travel
+so
+the main problem is
+in this whole system
+you have
+for each delta
+For each delta, a linear transformation or a matrix is available
+with the help of which you can reach anywhere.
+And in this way, this system has the intelligence that it can understand relative positioning.
+And this thing was not available in our simple solution.
+so this is first of all mind-blowing the maths is mind-blowing I'm pretty sure
+you must have questions in your mind that what is that matrix and how does it look
+so I will not go deep because it will take another 30-40 minutes for me to
+explain the maths what I can do is I can point you to the correct resources so
+this is a blog Timo Denk's blog I will give you the link in the description
+you can check it out here this topic is linear relationships in the
+transformers positional encoding. I would not say that this blog is very easy to read
+but if you put a little effort in it then you will understand that which linear
+transformation I am talking about. This is that linear transformation. This is what you
+can see here. This is the linear transformation. I am talking about this.
+When the value of lambda mk changes in this, then different delta is captured.
+And with this you will get the answer to one more question. If you pay attention then
+because this matrix has the component of sin and cos
+and this is a big reason why in our positional encoding we use sin and cos pair
+I haven't clarified this yet that why are we taking sin and cos pair together
+we could have taken only sin but because of taking sin and cos together
+Maths converges in such a way that you are able to capture the relative distance in your sentence.
+So I really hope first of all you are appreciating it because I know it is not possible to fully understand it at this point but as a teacher my goal is to spark curiosity.
+I really hope I was able to do it, this topic is mind-blowing.
+This is the first time I have studied and researched this in such a deep way.
+Before this, whenever I have studied Transformers architecture, I will be very honest, I have ignored positional encoding a little bit because
+there are so many other glamorous things to study, self-study, I am sorry, self-attention, residual connections, and I don't know what else.
+So, always the focus goes there, but this is the first time when I have actually given time, I have spent time on this topic of positional encoding and this has blown my mind and I really hope after this video, you will also feel that maths is such a beautiful thing, right?
+So if you are interested, please go ahead, read this blog, use ChatGPT to simplify things
+and try to understand why this interesting property we discovered came into the system.
+What is the reason? It is a very very good exercise.
+So with that, I will conclude this video.
+I really hope you liked this video.
+On this channel, I will be putting more content like this.
+and there is no need to say, it takes a lot of hard work in this level of research
+I really hope you can appreciate it
+and please if you want, you can share content with your friends
+whoever is reading these things, it would be very very good for me
+that more people come and learn data science on this channel
+so that's it for this video, see you in the next video, bye

@@ -57,9 +57,9 @@ Figure 1 maps each part of the SVD to its PCA meaning:
 
 Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose accuracy (the [computing the SVD Note](../611-computing-the-svd/note.md), section 8). The SVD of $X_c$ avoids that step. The squaring matters little for a few well-behaved columns, but it matters for data with nearly dependent columns.
 
-> **Extra:** What scikit-learn actually does (version 1.9). `PCA(svd_solver="auto")` picks a method from the shape of the data:
+> **Extra:** What scikit-learn actually does (version 1.9; scikit-learn docs, `PCA`). `PCA(svd_solver="auto")` picks a method from the shape of the data:
 >
-> - few columns (at most 1,000) and at least 10 times as many rows: it eigen-decomposes the covariance matrix (`"covariance_eigh"`, added in version 1.5), because a small $d \times d$ matrix is fastest there;
+> - fewer than 1,000 columns and more than 10 times as many rows: it eigen-decomposes the covariance matrix (`"covariance_eigh"`, added in version 1.5), because a small $d \times d$ matrix is fastest there;
 > - otherwise, small data (no side above 500): a full SVD of the centred data (`"full"`, LAPACK through SciPy);
 > - otherwise, when few components are wanted: a **randomized SVD**, which finds only the top $k$ singular vectors.
 >
@@ -114,7 +114,7 @@ Figure 2 shows why. d3 contains all the cricket words together, so the SVD learn
 
 ![The seven documents in the 2D topic space of LSA: cricket (green), food (orange), and the mixed d7 (purple)](images/lsa_docs.png){width=75%}
 
-This is a rank-$k$ approximation (the [low-rank approximation Note](../612-low-rank-approximation/note.md)) used for meaning rather than compression: dropping the small singular directions drops the accidents of word choice and keeps the shared themes. LSA was an early method of search engines for exactly this reason.
+This is a rank-$k$ approximation (the [low-rank approximation Note](../612-low-rank-approximation/note.md)) used for meaning rather than compression: dropping the small singular directions drops the accidents of word choice and keeps the shared themes. LSA was introduced for exactly this purpose, to find documents on a topic even when they use other words than the query (Deerwester et al. 1990).
 
 > **Python:** `TruncatedSVD` keeps the top $k$ singular directions.
 >
@@ -128,7 +128,7 @@ This is a rank-$k$ approximation (the [low-rank approximation Note](../612-low-r
 > cosine_similarity(Z)[0, 1]       # d1 vs d2: 1.0 (0 before)
 > ```
 >
-> Unlike `PCA`, `TruncatedSVD` does not centre the columns. Centring would turn a sparse count matrix (mostly zeros, stored compactly) into a dense one, which is impossible for a real vocabulary of 50,000 words.
+> Unlike `PCA`, `TruncatedSVD` does not centre the columns. Centring would turn a sparse count matrix (scikit-learn docs, `TruncatedSVD`) (mostly zeros, stored compactly) into a dense one, which is impossible for a real vocabulary of 50,000 words.
 
 ## 4. Ratings and recommenders
 
@@ -158,7 +158,7 @@ Adding the second layer (Figure 3, right) recovers the table: no entry is off by
    $$\hat{r}_{ab} = \sum_{i=1}^{k}\sigma_i\,u_{ai}\,v_{bi}$$
 3. **Example:** for Asha and Action 1 with $k = 2$: $14.63 \times (-0.39) \times (-0.54) + 6.57 \times 0.48 \times 0.44 \approx 3.06 + 1.39 = 4.45$, against her real rating of 5.
 
-> **Extra:** Real ratings tables are mostly empty: a viewer has rated a handful of thousands of films. The plain SVD needs every entry. Recommenders therefore fit the same form, $\hat{r}_{ab} = \sum_i p_{ai}q_{bi}$ (a viewer vector times a film vector), by gradient descent on the known ratings only, and use it to fill in the unknown ones. This **matrix factorisation** became famous as "Funk SVD" in the Netflix Prize (2006–2009), although strictly it is not an SVD: its vectors are not forced to be orthonormal.
+> **Extra:** Real ratings tables are mostly empty: a viewer has rated a handful of thousands of films. The plain SVD needs every entry. Recommenders therefore fit the same form, $\hat{r}_{ab} = \sum_i p_{ai}q_{bi}$ (a viewer vector times a film vector), by gradient descent on the known ratings only, and use it to fill in the unknown ones. This **matrix factorisation** became famous as "Funk SVD" in the Netflix Prize (2006–2009) (Funk 2006; Koren et al. 2009), although strictly it is not an SVD: its vectors are not forced to be orthonormal.
 
 ## 5. The pseudo-inverse and least squares
 
@@ -199,9 +199,9 @@ The [multiple linear regression maths Note](../54-multiple-lr-maths/note.md) (se
 
 - **The SVD shows it.** The singular values of the new $X$ are 131.65, 0.30 and $2 \times 10^{-15}$: the last is zero up to rounding, so the rank is 2, not 3.
 - **The normal equation fails quietly.** Here NumPy's `inv` raised no error and returned $[3.14, 0.06, 0.02]$. Its predictions for the four students are about 4.5 to 5.2, against real packages of 2 to 3.7: garbage. (On another computer it may instead raise an error.)
-- **The pseudo-inverse treats the tiny singular value as 0** and returns $[-0.81, 0.0062, 0.0589]$. Its predictions are exactly those of the two-column model, because $0.0062 + 9.5 \times 0.0589 = 0.565$, the old slope. Of all coefficient vectors that fit equally well, it picks the one with the smallest length.
+- **The pseudo-inverse treats the tiny singular value as 0** and returns $[-0.81, 0.0062, 0.0589]$. Its predictions are exactly those of the two-column model, because $0.0062 + 9.5 \times 0.0589 = 0.565$, the old slope. Of all coefficient vectors that fit equally well, it picks the one with the smallest length (Penrose 1956).
 
-So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`, and scikit-learn's `LinearRegression` (through SciPy's `lstsq`), use an SVD-based LAPACK routine (`gelsd`) and give the same $[-0.81, 0.0062, 0.0589]$ here.
+So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`, and scikit-learn's `LinearRegression` (through SciPy's `lstsq`), use an SVD-based LAPACK routine (`gelsd`; NumPy docs, `numpy.linalg.lstsq`; SciPy docs, `scipy.linalg.lstsq`) and give the same $[-0.81, 0.0062, 0.0589]$ here.
 
 > **Python:** The pseudo-inverse.
 >
@@ -215,7 +215,7 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 >
 > `np.linalg.pinv` treats singular values below a small cut-off (relative to $\sigma_1$) as zero, which is what rescues the three-column case.
 
-> **Extra:** Dropping tiny singular values is also a form of regularisation. Ridge regression, from the [ridge regression maths Note](../64-ridge-regression-maths/note.md), has a neat SVD form: it multiplies the contribution of each direction by $\sigma_i^2/(\sigma_i^2 + \lambda)$, which is close to 1 for large $\sigma_i$ and close to 0 for tiny ones. The pseudo-inverse keeps or drops a direction completely; ridge shrinks it smoothly. This is why scikit-learn's Ridge offers `solver="svd"`.
+> **Extra:** Dropping tiny singular values is also a form of regularisation. Ridge regression, from the [ridge regression maths Note](../64-ridge-regression-maths/note.md), has a neat SVD form: it multiplies the contribution of each direction by $\sigma_i^2/(\sigma_i^2 + \lambda)$, which is close to 1 for large $\sigma_i$ and close to 0 for tiny ones (ESL §3.4.1). The pseudo-inverse keeps or drops a direction completely; ridge shrinks it smoothly. scikit-learn's Ridge can solve it this way, with `solver="svd"`.
 
 ## 6. Summary
 
@@ -232,6 +232,17 @@ So the pseudo-inverse is the safe way to solve least squares. `np.linalg.lstsq`,
 - LSA links documents that share a topic but no words, by keeping the top singular directions.
 - A ratings matrix's top singular vectors read as viewer types and film types.
 - The pseudo-inverse inverts only the non-zero singular values; it gives least squares without the normal equation's breakdowns.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 4.5–4.6, Examples 4.14 and 4.15 (MML).
+- Deerwester, S., Dumais, S. T., Furnas, G. W., Landauer, T. K. and Harshman, R. (1990). "Indexing by Latent Semantic Analysis". *Journal of the American Society for Information Science* 41(6).
+- Funk, S. (2006). "Netflix Update: Try This at Home". Blog post, sifter.org.
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.1, ridge regression and the SVD (ESL).
+- Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix Factorization Techniques for Recommender Systems". *IEEE Computer* 42(8).
+- NumPy documentation. `numpy.linalg.lstsq`, `numpy.linalg.pinv`. SciPy documentation. `scipy.linalg.lstsq` (default driver `gelsd`).
+- Penrose, R. (1956). "On best approximate solutions of linear matrix equations". *Mathematical Proceedings of the Cambridge Philosophical Society* 52(1).
+- scikit-learn documentation (version 1.9). `sklearn.decomposition.PCA` (the `svd_solver="auto"` policy; `"covariance_eigh"` added in 1.5) and `sklearn.decomposition.TruncatedSVD`.
 
 ## 7. Key terms
 

@@ -123,7 +123,7 @@ Since $0.30 > 0.05$, we fail to reject $H_0$. A 26-to-34 split in 60 people is w
 > stats.binomtest(26, n=60, p=0.5)    # p = 0.37, exact
 > ```
 
-> **Extra:** The count of men is binomial, $B(60, \pi)$, so the p-value can also be computed exactly from binomial tail areas, as for the coin in the [p-values Note](../300-p-values/note.md); `stats.binomtest` does this. It gives 0.37 here. The z version is the normal approximation, good when $n\pi_0 \ge 10$ and $n(1 - \pi_0) \ge 10$ (here both are 30).
+> **Extra:** The count of men is binomial, $B(60, \pi)$, so the p-value can also be computed exactly from binomial tail areas, as for the coin in the [p-values Note](../300-p-values/note.md); `stats.binomtest` does this. It gives 0.37 here. The z version is the normal approximation, good when $n\pi_0 \ge 10$ and $n(1 - \pi_0) \ge 10$, the success-failure condition (OpenIntro §6.1); here both are 30.
 
 > **Extra:** With three or more categories (child, adult, elderly against claimed shares), one proportion no longer describes the column. The test for that case is the **chi-square goodness-of-fit test** (see the [chi-square tests Note](../571-chi-square-tests/note.md)).
 
@@ -207,7 +207,7 @@ We reject $H_0$: taller people in this population are heavier.
 > result.pvalue        # 1.2e-42
 > ```
 
-> **Extra:** Much of this $r$ comes from the gap between children and adults in Figure 2: two clouds far apart make a long line. Within adults alone $r = 0.92$, still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)).
+> **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 2: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../231-covariance-and-correlation/note.md)).
 
 ## 8. One numerical and one categorical column: t-test or ANOVA
 
@@ -233,7 +233,7 @@ $$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}, \qquad H_
 
 The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA Note](../572-one-way-anova/note.md) builds the F statistic and explains why three t-tests would not do.
 
-> **Extra:** With one numerical column and **two** categorical columns (weight by gender and age group together), the test is **two-way ANOVA**. It asks about each categorical column and about their interaction.
+> **Extra:** With one numerical column and **two** categorical columns (weight by gender and age group together), the test is **two-way ANOVA**. It asks about each categorical column and about their interaction (Montgomery, ch. 5).
 
 ## 9. Summary
 
@@ -251,6 +251,11 @@ The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.00
 - $H_0$ is assumed while computing $p$; the p-value is not the probability of $H_1$; a large $p$ means "fail to reject", not "accept".
 - The one-sample proportion test is a z-test on $\hat{p}$ with standard error $\sqrt{\pi_0(1 - \pi_0)/n}$.
 - The correlation test is a t-test on $r$ with $n - 2$ degrees of freedom; a weak $r$ needs a large sample to be significant.
+
+## Sources
+
+- Diez, D., Çetinkaya-Rundel, M. and Barr, C. (2019). *OpenIntro Statistics*, 4th ed. Section 6.1, the success-failure condition.
+- Montgomery, D. C. (2013). *Design and Analysis of Experiments*, 8th ed. Wiley. Chapter 5, factorial designs.
 
 ## 10. Key terms
 

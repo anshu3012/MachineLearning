@@ -1,0 +1,366 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we are going to continue our deep learning playlist
+Today we will study another optimization technique
+In last video we studied momentum with SGD
+Today's topic is NAG
+NAG stands for Nesterov Exclarated Gradient
+This is an optimization technique which is based on a small upgrade on momentum
+and mostly perform better than the momentum
+so in today's video my goal will be to give you an intuition of Nesterov Exclarated Gradient
+through animation and explain you the mathematics behind it
+and in the end I will show you how to implement NAG in Keras
+so let's start the video
+so guys let's start our discussion from the beginning
+So, we are discussing about optimizers. What are optimizers?
+Optimizer is basically the algorithm by which you find the optimum value of your weights
+for which the value of your loss is minimum.
+The most common optimizers that you use is gradient descent.
+In gradient descent, you had read 3 variations
+batch gradient descent, stochastic gradient descent
+and after that you had read mini batch gradient descent
+Now if you want to know something about these optimizers
+or if you know then it is that they are a bit slow
+due to which the training of the neural network also becomes slow
+and due to that we needed some advanced optimizers
+One of those optimizers was Momentum, which we covered in the last video.
+Now in today's video, I am going to teach you one more important optimization technique.
+Nesterov Exclarated Gradient.
+It is a very difficult name.
+But yeah, we will learn this technique.
+So, I want to show you some animations from the beginning.
+I have generated this code.
+Like this on your screen is a simple linear regression problem
+Where your cost function is mean squared error
+Whose error surface looks like this in 3D
+This is what you see on the screen
+We started from a random point
+You can notice that here is m and here is b
+We are starting from a random m and b
+and by minimizing one by one, we have to reach the right value of m and b, this red point is the right value of m and b
+now see the rest of the graph, this graph is the contour plot of this 3D graph, its representation is in 2D
+and this above is our data and we are trying to fit this linear regression line on it
+That is why you will notice that in the beginning this wrong line will be seen and then slowly slowly slowly that size starts to fit on the data.
+Now this batch gradient descent, if you count then it will be seen that it takes about 25 to 30 epochs to converge this algorithm on this data.
+Which is kind of slow.
+And that is why we have to study some advanced optimization techniques.
+One of them that we have covered in the last video is momentum.
+So, you understood batch gradient descent.
+I will show you momentum which is quite interesting.
+So, we had discussed about momentum.
+That you consider past gradients in a way that it works for velocity,
+it works for momentum.
+So, you will see the same thing here.
+It is the same data but I tweaked the algorithm and implemented the momentum.
+And you would notice if I show you from the beginning.
+So it is behaving like a ball is rolling from the mountain and it is crossing.
+Then it is going up and down again.
+It is rotating and eventually when it becomes stable then it is reaching the minima.
+You can see the same thing in the contour plot as well as in this line curve.
+You can see that the line crossed and went in the other direction.
+Then it came back and crossed again.
+Then it came back and the oscillations will get smaller and eventually you reach the correct line.
+Now you will say that this is slower than the previous one.
+It is very slow because when we reach the minimum, around 50 epochs are applied.
+So you have to use the momentum intelligently.
+Here is one factor, the decay factor.
+I have taught you the beta in the last video.
+I have set its value as 0.9.
+0.9 means that I am valuing the old velocities a lot.
+because of which if my speed is high, then I am crossing and moving ahead
+so you can manipulate this decay factor, I will show you in a while
+the good thing about momentum is that you have to notice that you have covered the road of the beginning very quickly
+let me show it to you, you are reaching the minimum very fast, like within 3-4 epochs
+Whereas here, to reach the minima, see how much epoch it looks like, 4, 5, 6, 7, 8, 9, 10, 11
+Means in some 15 epochs, you are reaching the minima's proximity, notice here how fast you are coming, see this
+Within 3 epochs, you have crossed the minima, so this is the biggest power
+So what I did, I gradually reduced the DK factor, like this is DK factor 0.8, notice
+here also you can reach fast but since
+I am giving a little less value to the old velocities
+so my oscillations
+they also get reduced a little
+can you see reduced we have reached around 30 epoch
+where we were getting 50 before
+see here we were getting around 50
+see you are going very high
+here you are not going that high see you will stop here
+see
+in comparison to this
+I hope you are able to understand what is happening by increasing and decreasing the dk factor
+So what I did was, I increased the dk factor to 0.5
+See what is happening by increasing the dk factor to 0.5
+Within 10 epochs I reached the minimum
+Now this dk factor along with momentum is much faster than batch gradient descent
+Which is taking 20-25 epochs
+This is taking only 38-39 epochs
+Okay? So I hope you understood this demonstration, although I explained you in the last video also
+That what does momentum do?
+Now you might be already seeing a big problem of momentum
+A big problem of momentum is its oscillations
+So this data was a bit simple, so you reduced the decay factor and controlled it
+But what will happen many times is that in a non-convex optimization problem
+this is a convex optimization problem, but a non-convex optimization problem, which is a bit complex,
+in that these oscillations trouble you, and it takes more time for your model to reach the minimum, for convergence,
+so a solution of that was found, which we call NAG,
+Nesterov accelerated gradient. I will show you that.
+And its graph is this.
+On this same decay factor, you notice that these oscillations are decreasing.
+See, how many oscillations were happening here?
+See, these oscillations are very high.
+But when you are applying NAG, you would see very less oscillations happening.
+This means if you will control decay factor more,
+then you can reach your minimum faster
+so if I summarize in the beginning of the video
+that what is NAG
+NAG is basically the way to implement the momentum technique
+but there is an improvement here
+that you dampen your oscillations
+damp means reduce
+how do you do?
+I will show you this mathematically
+and then I will also give you its geometric intuition
+now the maths of the Nesterov accelerated gradient optimization technique
+is actually very simple if you know the maths behind the momentum
+because in NAG you just do a small mathematical tweak in the momentum optimization technique
+and you get the NAG optimization technique
+so first I will discuss with you about the momentum
+and then I will tell you about NAG
+so if you remember the update rule in momentum with SGD is
+your next weight is old weight minus the velocity term
+and the formula of velocity term is
+beta times velocity at t-1 plus learning rate of the derivative of loss function with respect to w at time t
+now see, let's take its mathematical intuition once
+if you fill it here
+then what you will get, you will get that
+the value of new weight will be old weight minus
+this entire thing, it means that the update you are taking in your weight is coming in two forms
+one in this form and one in this form
+now think, the formula of your old gradient descent was this
+This is the old gradient descent. So the update that used to come there used to come because of only one thing.
+Because of this gradient. Here it is also coming because of this gradient and also because of this term.
+This means if you want to see visually, then suppose this is your loss function and this is your w.
+So if you are here, then where will you reach, this term is telling you this thing.
+But now where will you reach from here, this term is deciding two things in momentum.
+One is your past velocity and one is gradient at that point.
+it means that if you are here then you will take a long jump because it has two components
+one is the push of the current velocity and the other is that you will move in the negative direction of the gradient
+so it is being told here that you are making your update by combining two things
+that's why you move in this direction a little faster
+So this was the mathematical intuition of momentum
+Now if you do a small mathematical tweak in this
+Then you get the mathematical formulation of Nesterov-Excelerated Gradient
+There is only one thing different in NAG from momentum
+And that is that the gradient update
+on which position it will be calculated
+that's it, let me try to explain it to you
+so what happens in momentum
+that
+you assume
+from here to here, from here to here
+now where will you go from here to next
+it depends on two things
+first on your history of velocity
+which is this term
+and second one depends on gradient at that point
+gradient at that point
+at this point where gradient is sending you
+so here you have taken the momentum of past velocities
+and you have taken the slope at this point
+and that is updated
+but what do you do in nestorov-explorated gradient
+that suppose you reach from here to here and from here to here
+and now you have to decide where you will go next
+so what you do is that you don't calculate both these things at once
+you first apply momentum term
+you have applied momentum term so you have reached here
+now you calculate gradient at this point
+and then you go ahead according to that
+or if you want to go back then you go back
+that's the only difference
+again understand once
+where you have to go after any point in momentum
+to know this you have to do two calculations
+first of momentum
+and second of that point's gradient
+and you take the jump of both of them at the same time
+in NAG, there is a small difference that you take the first momentum jump
+and then where you reach, you calculate the gradient at that place
+and then you take more jump according to that
+that's it, that's the only difference
+and because of this difference, NAG performs better
+I will explain to you why this happens
+But first lets see the mathematical formulation
+So mathematical formulation is very simple
+First of all you try to find the place where you will reach with the momentum jump
+This is called as look ahead term in literature
+So you are finding W look ahead
+and this is the current w minus beta times vt-1
+basically your momentum till now
+then you take out vt
+pt is beta v p-1 plus learning rate times the gradient at time look ahead
+now you are calculating the gradient at this point and not at this point
+and finally your update rule will be this I hope you are able to understand this
+what did you do first? you were here, you were at this place, you first took out this value of lookahead
+how? you updated the momentum term, after that when you reached this place, you took out the slope from here
+which is this
+so if you replace this update
+with this equation
+then it is basically
+Wt minus
+Wlookahead
+plus gradient at
+lookahead
+this is the distance
+plus, where you reached, this is the slope, this is your total update
+and the same update you are doing from the previous place
+it is not that difficult, just pause the video and understand
+in momentum, you apply both things at the same place
+momentum and current gradient
+what do you do in nestorov exclarated gradient first you take a look ahead point
+only by applying momentum then wherever you reach
+you take a gradient there and then you take a gradient movement
+that's it this is the difference and this is your equation
+now I will try to explain you how to reduce oscillations
+small trick. So let's see the momentum and nag side by side geometric intuition so that
+you get clarity. So suppose this is our error surface. This is w and this is the loss. Our
+objective is that we will randomly initialize for some w value. Let's call it w0 and we
+we have to reach this value because this is minima
+here our loss is minimum
+so what will happen is very simple
+at every point you will calculate two things
+by the way we are talking about momentum at every point
+you will calculate two things first the
+momentum and second gradient
+so in the beginning when you are starting the momentum will be zero
+if you talk about gradient at this point
+so what we have to do is we have to go in the negative of the gradient
+or you can call it slope, we have to go in that direction
+so the slope at this point is negative
+why is it negative? because if you increase the weight
+then loss is decreasing
+so slope is negative
+so we will go in the direction of negative of the slope
+which is positive
+so basically we will move in this direction
+so suppose we come here
+ok
+now what we are doing again
+at this point we will calculate the momentum term
+which will come a little
+since we are moving in this direction
+so momentum term will push us in this direction
+at this point also the gradient is negative
+if it is negative then we will move in positive direction
+so we will take a jump and come here
+now at this point
+we will calculate the momentum again
+since we have already come in positive direction
+2-3 times
+so in this direction a momentum is being built
+which will push us further
+still our gradient
+is negative
+so update will be positive
+suppose we reach here
+now what will happen here
+we will calculate the momentum again
+and we will also calculate gradient and it will send us both in positive direction
+so suppose we were reaching here with the push of momentum
+and with the push of gradient we went a little further
+we reached here, let's call it W temp
+now what will you do here again
+you will calculate momentum, it will send you in positive direction
+will be sent in this direction and at this point the slope is positive so you will go in the opposite direction
+means negative so now what is happening here for the first time that momentum is sending you in this direction
+but your gradient is sending you in this direction but since the term of momentum will dominate
+and this will remain small so you will go slightly in this direction then after some time
+momentum in this position, if the momentum dominates the gradient then you will go a little
+ahead. Now what is happening at this point is that since the momentum of the last few
+points is negative, now the momentum will send you back and the gradient will send you
+back, then you will start coming back, then you will stop here by oscillating like this.
+that is how momentum works, so what happened, you started from here, you had to stop at this place, you had to stop at the minimum
+but you went ahead, overshoot, took a U-turn, came back, took a small U-turn, came back, smaller, smaller and eventually you stopped
+that is how momentum works
+now let's discuss
+what happens
+when you apply nestorov
+accelerated gradient
+i am making same error
+surface
+this is w
+this is loss
+and this is our
+error surface
+now what will happen this time
+you will start from here and again you will calculate
+two things
+you have to reach here, you will calculate the momentum and you will calculate the slope
+the momentum will be zero in the beginning, so suppose you reached here
+here a little bit of momentum will be built, suppose you reached here
+now suppose you are at this point, then what is happening, see carefully
+suppose you are at this point, now what will happen at this point
+As I told you earlier that you don't do both things at the same time
+You will first find the momentum
+So if you find the momentum then you will reach this point
+This is your look ahead point
+Now if you find the gradient at this point
+Which is in this direction
+So what will happen is that where you were finding the momentum
+You were reaching here from here
+at this point gradient is in opposite direction so you will come back a little and stop here
+I hope you are able to understand
+what we did here
+we took out both things together
+we reached here according to momentum and here according to gradient
+but what we did here
+we took out this lookahead point using momentum
+and when we took out gradient at this point it was in opposite direction so we stopped here
+so the momentum that we were going to stop here, we stopped here
+so you can say that when you came out from here, you took a small U-turn
+then in this direction also small and you came to the right place
+that's the main difference, this is your geometric intuition of Nesterov
+that you already know what is going to happen in the future
+and you are making your decision according to that
+if you remember this point example
+then you will be able to explain Nesterov Exclarated Gradient in front of anyone
+let's discuss one more thing that
+Nesterov Exclarated Gradient is NAG
+is there any disadvantage of this technique
+the answer is yes
+there is one disadvantage
+so till now we have understood what NAG does
+it dampens the oscillations in the momentum
+now what can happen with this is that you can get stuck in the local minima
+imagine you are in an error surface like this in 2D
+so what will happen is that your ball rolls from here
+and what happens in the momentum is that it may have so much momentum that it crosses and comes here
+but what you are doing in NAG is that you are kind of dampening the momentum of this
+so what will happen is that it will not gain that much momentum and will oscillate here and get stuck here
+so this is one potential problem which you can see in some data sets
+in that case we have to use other optimizers
+but this is the biggest disadvantage of NAG
+Before ending the video, let's see one more important thing.
+In the momentum video, I forgot to tell you how momentum is implemented in Keras.
+In this video, I am telling you both, how to implement momentum and how to implement Nesterov Exclerated Gradient.
+Keras has implemented it very simply.
+if you have a SGD class which you use to implement Stochastic gradient descent or normal gradient descent
+you can simply change the parameter values in that class and implement momentum and NAG
+so if you want to implement SGD then you just have to keep the value of these two parameters
+you have to keep the value of the momentum as 0 and the value of the nestrive as false
+if you want to do SGD with momentum
+then you will give a value to the momentum
+which will be the dk factor
+0.9 or 0.5
+and you will keep the nestrive as false
+then this momentum will be applied
+and if you want to implement nag then you have to give a value to momentum
+and you have to prove nest error
+that's it
+with these three methods you can implement three different optimizers in keras
+it is very simple
+so that was the video guys
+I hope you understood the intuition
+and you might be able to implement it in keras
+if you liked the video then please like it
+And if you haven't subscribed to the channel, then please do subscribe.
+That's it from my side. Thanks for watching.
+See you in the next video. Bye.

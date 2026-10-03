@@ -70,7 +70,7 @@ Checking with the definition for $C$ = "sum at least 10" and $D$ = "die 1 shows 
 
 > **Key point:** Naive Bayes assumes the inputs are independent given the class, so that their probabilities can simply be multiplied.
 
-With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses this to combine evidence: for an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification works surprisingly well (the Naive Bayes intuition Note).
+With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses this to combine evidence: for an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification works well in practice: the assumption adds a little bias but removes a lot of variance (ISL §4.4.4; the Naive Bayes intuition Note).
 
 ## 7. Summary
 
@@ -78,7 +78,11 @@ With independent events, the probability of several things happening together is
 - Independent events can happen together; one just does not affect the other.
 - Coins and separate dice are independent; "die 1 = 6" and "sum ≥ 10" are not.
 
-## 8. Key terms
+## 8. Sources
+
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 4.4.4, p. 155.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

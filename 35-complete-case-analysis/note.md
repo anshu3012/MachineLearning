@@ -30,7 +30,7 @@ This Note covers the left-most box: removing rows, called complete case analysis
 
 A **missing value** is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see "Handling missing values" in the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
-> **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier` and, since versions 1.3 and 1.4, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them.
+> **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier` and, since versions 1.3 and 1.4, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them (scikit-learn docs, Estimators that handle NaN values).
 
 ## 3. The two options: remove or impute
 
@@ -127,7 +127,7 @@ Data where the gaps are spread purely at random is called **missing completely a
 > - **MAR (missing at random):** the gaps depend on *another column that we can see*. *Example:* job applicants with no relevant experience leave the "years of experience" field empty more often. Whether `experience` is missing depends on `relevent_experience`, which is recorded.
 > - **MNAR (missing not at random):** the gaps depend on *the missing value itself*. *Example:* applicants with very little experience leave the field empty because they do not want to show it. The reason is hidden in the very value we lost.
 >
-> The name MAR is confusing: the data is *not* missing at random overall, only at random once we know the other column.
+> These three names come from Rubin (Rubin 1976). The name MAR is confusing: the data is *not* missing at random overall, only at random once we know the other column.
 
 Figure 3 makes each kind happen on purpose, using the `experience` column of the job-applicant data from Section 8. Red is the full column; green is what CCA keeps.
 
@@ -142,7 +142,7 @@ Figure 3 makes each kind happen on purpose, using the `experience` column of the
 
 Under MCAR, CCA removed the most rows but left the mean unchanged. Under MAR and MNAR it removed fewer rows, yet the mean rose by one to two years: the people who remained had more experience than the people who left.
 
-> **Extra:** We cannot prove from the data alone that it is MCAR, because the values that would tell us are missing. What we can do is check that dropping the rows changes nothing visible. Section 8 does exactly this.
+> **Extra:** No check on the data we have can prove that it is MCAR. A test can only find evidence *against* MCAR (Little 1988). What we can do is check that dropping the rows changes nothing visible. Section 8 does exactly this.
 
 ## 6. When to use complete case analysis
 
@@ -289,7 +289,7 @@ The distributions did not change, which supports the view that these gaps are MC
 >
 > `barmode="overlay"` draws the two histograms on top of each other, and `opacity` makes them see-through. The Notebook also draws the density curves.
 
-In this file, `experience` runs from 0 to 20. A value of 20 stands for "more than 20 years", which is why the last bar is so tall.
+In this file, `experience` runs from 0 to 20. The last bar is so tall because the value 20 alone holds 3,434 rows, against 304 for 19.
 
 ### 8.4 Categorical columns: comparing category shares
 
@@ -345,7 +345,13 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 - On the job-applicant data, CCA on five columns kept 89.7% of the rows and changed no distribution.
 - The main drawback: a model trained only on complete rows cannot handle gaps in new data, so imputation is used more often.
 
-## 10. Key terms
+## 10. Sources
+
+- Rubin, D. B. (1976). Inference and Missing Data. *Biometrika* 63(3), 581–592.
+- Little, R. J. A. (1988). A Test of Missing Completely at Random for Multivariate Data with Missing Values. *Journal of the American Statistical Association* 83(404), 1198–1202.
+- scikit-learn User Guide, *Imputation of missing values*, section "Estimators that handle NaN values"; release highlights for versions 1.3 and 1.4.
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

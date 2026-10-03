@@ -51,7 +51,7 @@ Gradient boosting is another tree ensemble, covered in later Notes; it is used h
 
 The point is not that the random forest always wins. It is that, on almost any problem, an untuned random forest lands among the top two or three algorithms.
 
-> **Extra:** The SVM's poor score is not a fair verdict on SVMs. An SVM measures distances, so it needs scaled inputs (the [KNN Note](../91-knn/note.md), section 3.2, shows the same for KNN), and cholesterol, in the hundreds, swamps the 0/1 columns. With a `StandardScaler` in a pipeline, the SVM scores 0.869 on the split and 0.828 with cross-validation (Figure 2, right). A random forest needs no scaling: a tree compares one column at a time with a threshold.
+> **Extra:** The SVM's poor score is not a fair verdict on SVMs. An SVM measures distances, so it needs scaled inputs (the [KNN Note](../91-knn/note.md), section 3.2, shows the same for KNN), and cholesterol, in the hundreds, swamps the 0/1 columns. With a `StandardScaler` in a pipeline, the SVM scores 0.869 on the split and 0.828 with cross-validation (Figure 2, right). A random forest needs no scaling: a tree compares one column at a time with a threshold, so rescaling a column moves the threshold but not which rows fall on each side. (ESL §10.7, Table 10.1). In the Notebook, putting a `StandardScaler` in front of the forest leaves its scores almost unchanged (0.836 and 0.835).
 >
 > Logistic regression on unscaled data needs `max_iter=5000` to converge; with the default 100 iterations, scikit-learn warns that it stopped early.
 
@@ -77,14 +77,23 @@ With cross-validation (Figure 2, orange), logistic regression drops from 0.885 t
 
 ## 5. Tuning one setting by hand
 
-> **Key point:** Giving each tree 75% of the rows raises the test-split score to 0.869 and the cross-validated score to 0.838.
+> **Key point:** Giving each tree fewer rows makes the trees less alike, and the forest a little more accurate: 0.826 with full-size samples, 0.834 with 20% of the rows per tree.
 
-Changing hyperparameters can improve the forest. For example, `max_samples=0.75` gives each tree 75% of the training rows instead of a full-size bootstrap sample:
+`max_samples` sets how many training rows each tree gets (the [random forest hyperparameters Note](../111-random-forest-hyperparameters/note.md), section 3). The default, `None`, gives each tree a bootstrap sample as large as the training set.
 
-- test split: 0.836 $\rightarrow$ **0.869**;
-- 10-fold cross-validation: 0.832 $\rightarrow$ **0.838**.
+**The idea.** When every tree sees a large sample, the samples overlap a lot, so the trees learn much the same thing and make the same mistakes. Averaging copies of the same mistake does not cancel it. Smaller samples overlap less, so the trees differ more, and their mistakes cancel more often in the vote. The [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) gives the formula: the less alike the trees, the lower the forest's variance (ESL §15.2). Breiman's bound on a forest's error says the same: error falls when the trees are less correlated, as long as each tree stays reasonably accurate (Breiman 2001, Thm 2.3).
 
-The cross-validated gain is small but real. The problem is scale: a random forest has about 20 hyperparameters, and guessing a good value for each by hand is hopeless. We need a systematic search.
+**The result.** We change only `max_samples` and score each forest with 10-fold cross-validation, averaged over 20 runs:
+
+| Rows per tree (`max_samples`) | all (`None`) | 75% | 50% | 30% | 20% |
+|---|---|---|---|---|---|
+| Mean cross-validated accuracy | 0.826 | 0.825 | 0.829 | 0.833 | **0.834** |
+
+Smaller samples score higher, and on the same folds 20% of the rows beats all of them in 16 of the 20 runs. The trees really do become less alike: the average correlation between two trees' predictions drops from 0.44 to 0.34.
+
+> **Extra:** The gain is small, about 2 or 3 of 303 patients, while a single cross-validation run moves by about 0.01 when only the seed changes. Because of this noise, the Notebook averages 20 runs, each with new folds and a new forest, and uses 500 trees so the forest's own randomness stays small. Too few rows hurt again, because each tree becomes too weak: the [random forest hyperparameters Note](../111-random-forest-hyperparameters/note.md) shows a forest with 25 rows per tree losing accuracy. The best share depends on the data: 50% to 75% on that Note's demo data, about 20% on the heart data.
+
+So hyperparameters matter, and the problem is scale: a random forest has about 20 hyperparameters, and guessing a good value for each by hand is hopeless. We need a systematic search.
 
 ## 6. Grid search over a random forest
 
@@ -197,7 +206,7 @@ The fix is to pass a **list of grids**: the search picks one of the grids at ran
 
 The best of the 10 combinations: 20 trees, 60% of the columns, fully grown, `min_samples_split=5`, `min_samples_leaf=2`, all the rows with replacement. Its cross-validated accuracy is **0.826**, and its test accuracy 0.836.
 
-The randomized search trained 50 forests instead of 540 (and instead of 4,320 for a grid over its larger space). It found a good forest, not the best one: the speed-for-accuracy trade of the [regression trees Note](../99-regression-trees/note.md), section 7.2. A common approach combines the two: a randomized search over a wide grid finds the promising region, then a grid search over a narrow grid around it.
+The randomized search trained 50 forests instead of 540 (and instead of 4,320 for a grid over its larger space). It found a good forest, not the best one: the speed-for-accuracy trade of the [regression trees Note](../99-regression-trees/note.md), section 7.2.
 
 ## 8. Summary
 
@@ -212,8 +221,14 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 
 - Out of the box, the random forest had the best cross-validated score of four algorithms (0.832).
 - Judge models by cross-validation, not one small test split: logistic regression fell from 0.885 to 0.818.
+- Fewer rows per tree made the trees less alike and the forest more accurate: 0.826 to 0.834 with 20% of the rows.
 - A grid over 4 hyperparameters needed 108 forests and 540 fits; the best forest scored 0.843.
 - `bootstrap=False` cannot be combined with `max_samples`: use a list of grids.
+
+## Sources
+
+- Breiman, L. (2001). Random forests. *Machine Learning*, 45(1), 5–32.
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer.
 
 ## 9. Key terms
 

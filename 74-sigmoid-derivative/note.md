@@ -103,7 +103,7 @@ This form is very convenient. When a model has already computed $\sigma(z)$ for 
 >
 > The numerical slope (rise over a tiny run) matches the formula to six decimals.
 
-> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the **vanishing gradient problem**. It is one reason deep networks mostly use other functions, such as ReLU, inside their hidden layers.
+> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the **vanishing gradient problem**. Saturating sigmoids make gradient-based learning very difficult, so the sigmoid is now discouraged inside the hidden layers of a network, and ReLU is the default choice (Goodfellow et al. §6.1, §6.3.2).
 
 ## 5. Summary
 
@@ -112,7 +112,11 @@ This form is very convenient. When a model has already computed $\sigma(z)$ for 
 - The derivative peaks at 0.25 when $z = 0$ and approaches 0 far from it.
 - The next Note uses it to derive the gradient of the log loss.
 
-## 6. Key terms
+## 6. Sources
+
+- **Goodfellow et al.:** Goodfellow, I., Bengio, Y. and Courville, A. *Deep Learning*. MIT Press, 2016. Sections 6.1 and 6.3.2.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

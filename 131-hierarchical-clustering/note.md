@@ -142,7 +142,7 @@ The rule for the distance between two clusters is called the **linkage**. It is 
 
 With the updated matrix, the next smallest distance is 1.41 (P1 to P2), so they merge into $C_2 = \{P_1, P_2\}$. Then $C_1$ and $P_5$ merge at 2.00 into $C_3 = \{P_3, P_4, P_5\}$. Finally $C_2$ and $C_3$ merge at their closest pair, P2 to P3: 3.61.
 
-Single linkage separates groups well when there is a clear gap between them (Figure 4, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: the closest-pair rule chains the groups together through them. In Figure 4 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
+Single linkage separates groups well when there is a clear gap between them (Figure 4, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12). In Figure 4 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
 
 ### 8.2 Complete linkage (max)
 
@@ -153,7 +153,7 @@ Single linkage separates groups well when there is a clear gap between them (Fig
    $$d_{\text{complete}}(A, B) = \max_{a \in A,\, b \in B} d(a, b)$$
 3. **Example:** $C_1 = \{P_3, P_4\}$ to $P_5$ is $\max(2.24, 2.00) = 2.24$. At the last step, $\{P_1, P_2\}$ to $\{P_3, P_4, P_5\}$ is the largest of six distances: 7.07 (P1 to P5).
 
-Complete linkage copes well with outliers and noise: a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes. Merging a big group would create a cluster with a huge farthest-pair distance, so the big group gets broken into pieces instead. In Figure 4 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
+Complete linkage copes well with outliers and noise: a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes. The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 4 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
 
 ### 8.3 Average linkage
 
@@ -179,7 +179,7 @@ The average lies between the minimum and the maximum, so average linkage behaves
 
 Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1). Like average linkage, Ward sits between single and complete linkage.
 
-> **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$, here $\sqrt{2 \times 2.83} = 2.38$. The square root does not change which pair is smallest, so the merges are the same.
+> **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$, here $\sqrt{2 \times 2.83} = 2.38$ (both print 2.38 for this merge). The square root does not change which pair is smallest, so the merges are the same.
 
 ### 8.5 The four linkages side by side
 
@@ -193,7 +193,7 @@ Figure 4 runs all four linkages, with 2 clusters, on three datasets:
 
 ![Single, complete, average and Ward linkage (2 clusters) on moons with a clear gap, noisy moons, and a big and a small group](images/linkage_compare.png){height=58%}
 
-So the linkage is a real choice that depends on the data. When the groups have odd shapes and also noise, DBSCAN (the [DBSCAN Note](../132-dbscan/note.md)) is often the better tool.
+So the linkage is a real choice that depends on the data. When the groups have odd shapes and also noise, DBSCAN (the [DBSCAN Note](../132-dbscan/note.md)) was built for that case: DBSCAN finds clusters of any shape and labels noise points (Ester et al. 1996).
 
 ## 9. Choosing the number of clusters from the dendrogram
 
@@ -229,7 +229,7 @@ Figure 5 is the Ward dendrogram of 200 shopping-mall customers (section 10). War
 - **`linkage`**: `"ward"` (default), `"complete"`, `"average"` or `"single"`.
 - **`distance_threshold`**: cut the tree at this height instead of at a number of clusters: clusters whose linkage distance is at or above the threshold are not merged. It needs `n_clusters=None`.
 
-> **Extra:** Older code and tutorials write `affinity="euclidean"`. scikit-learn renamed the parameter to `metric` in version 1.2 and removed `affinity` in 1.4, so the old name now raises an error.
+> **Extra:** Older code and tutorials write `affinity="euclidean"`. scikit-learn renamed the parameter to `metric` in version 1.2 and removed `affinity` in 1.4, so the old name now raises a `TypeError` (scikit-learn release notes 1.2, 1.4).
 
 ### 10.2 Clustering shopping-mall customers
 
@@ -295,6 +295,12 @@ Limitation:
 - Choose the cut in the longest vertical stretch no horizontal line crosses; it is a guide.
 - scikit-learn: the class `AgglomerativeClustering` with `n_clusters`, `metric` and `linkage`; `metric` replaced `affinity`.
 - Memory grows with $n^2$, so big datasets are out of reach.
+
+## Sources
+
+- ESL: Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009, §14.3.12 (hierarchical clustering; chaining in single linkage).
+- Ester et al. 1996: M. Ester, H.-P. Kriegel, J. Sander and X. Xu, *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise*, Proceedings of KDD 1996.
+- scikit-learn release notes 1.2, 1.4: deprecation of `affinity` in favour of `metric` in `AgglomerativeClustering` (1.2) and its removal (1.4).
 
 ## 13. Key terms
 

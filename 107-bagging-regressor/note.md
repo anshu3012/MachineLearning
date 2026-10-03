@@ -120,7 +120,7 @@ That is $3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$ combinations, eac
 
 Their cross-validation $R^2$ is **0.871**, and the test $R^2$ is **0.806**.
 
-> **Extra:** The 0.871 is an average over the three validation folds of the training data; the 0.806 is measured on the 102 test rows. The two differ because they are measured on different rows, and 102 rows is a small, noisy test. Expecting the test score to match `best_score_` exactly is a common mistake. Here the tuned model scores slightly lower on this test set than the default one (0.828); the search picks settings that do best on average, not on this particular test set.
+> **Extra:** The 0.871 is an average over the three validation folds of the training data; the 0.806 is measured on the 102 test rows. The two differ because they are measured on different rows, and 102 rows is a small, noisy test. With 100 different random splits, the same settings score anywhere from 0.63 to 0.94 on the test rows (mean 0.857, close to the 0.871 from cross-validation), so one 102-row test score can land far from the average. Expecting the test score to match `best_score_` exactly is a common mistake. Here the tuned model scores slightly lower on this test set than the default one (0.828); the search picks settings that do best on average, not on this particular test set. Over the same 100 splits, the tuned settings beat the default on 79 (mean 0.857 against 0.841).
 
 ### 4.4 The out-of-bag score
 

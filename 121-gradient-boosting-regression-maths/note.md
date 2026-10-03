@@ -40,7 +40,7 @@ Linear regression learns a straight line ([simple linear regression Note](../50-
 
 Some data follows a pattern that wiggles as it rises. A straight line cannot follow it. Polynomial regression ([polynomial regression Note](../61-polynomial-regression/note.md)) can bend, but a high degree makes the curve shoot up or down at the edges of the data, which lowers the test $R^2$.
 
-> **Extra:** This edge problem has a name, **Runge's phenomenon**: when a polynomial of high degree is fitted through equally spaced points, it oscillates strongly near the ends of the interval.
+> **Extra:** This edge problem has a name, **Runge's phenomenon**: when a polynomial of high degree is fitted through equally spaced points, it oscillates strongly near the ends of the interval (Runge 1901).
 
 ### 3.2 Break the function into parts
 
@@ -60,7 +60,7 @@ $$F(x) = f_0(x) + f_1(x) + f_2(x) + \dots + f_M(x)$$
 
 All boosting algorithms build this kind of sum. The [AdaBoost intuition Note](../115-adaboost-intuition/note.md), section 3, called it a stage-wise additive model: "additive" because the final model is a sum, "stage-wise" because the parts are added one per stage.
 
-In gradient boosting, $f_0$ is a constant and every later $f_m$ is a regression tree, which is also a function. Each new tree moves the sum closer to the true function, which is why the training error falls with every stage.
+In gradient boosting, $f_0$ is a constant and every later $f_m$ is a regression tree, which is also a function. Each new tree moves the sum closer to the training data, so the training error never rises from one stage to the next: section 8 picks each leaf value to make the loss as small as possible, and a leaf value of 0 (no change) is always one of the options.
 
 ## 4. The ingredients: training data and a differentiable loss
 
@@ -84,7 +84,7 @@ The notation $\{(x_i, y_i)\}_{i=1}^{n}$ in Figure 1 simply means this table. Her
 
 > **Key point:** We use half the squared error, $L = \frac{1}{2}(y - F(x))^2$. Any loss works, as long as it can be differentiated.
 
-A **loss function** measures how wrong a prediction is ([regression metrics Note](../52-regression-metrics/note.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any loss we can differentiate at every point; this flexibility is one of its strengths.
+A **loss function** measures how wrong a prediction is ([regression metrics Note](../52-regression-metrics/note.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any loss we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
 
 For regression we take the squared error with a factor of one half.
 
@@ -133,7 +133,7 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
 
 The derivative of the loss is its **gradient**, the same quantity gradient descent follows ([gradient descent Note](../57-gradient-descent/note.md)). Minus the gradient points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a *pseudo*-residual.
 
-> **Extra:** This is where "gradient" in gradient boosting comes from. Gradient descent changes a parameter by a small step against the gradient. Gradient boosting changes the *predictions* by a small step against the gradient: each tree learns the negative gradient, and adding it (times the learning rate) is one step of gradient descent on the predictions. It is gradient descent in function space.
+> **Extra:** This is where "gradient" in gradient boosting comes from. Gradient descent changes a parameter by a small step against the gradient. Gradient boosting changes the *predictions* by a small step against the gradient: each tree learns the negative gradient, and adding it (times the learning rate) is one step of gradient descent on the predictions. Friedman calls this gradient descent in function space (Friedman 2001).
 
 ## 7. Step 2(b): fit a tree; it creates terminal regions
 
@@ -226,7 +226,13 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 - The pseudo-residual is the negative gradient of the loss; for squared error it is the ordinary residual, which is why the intuition Note could use actual minus predicted.
 - With squared error, the leaf values equal the tree's own means; with other losses (absolute, Huber, log loss) step 2(c) changes them.
 
-## 12. Key terms
+## 12. Sources
+
+- ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed., Springer. Section 10.10, Algorithm 10.3, "Gradient Tree Boosting Algorithm".
+- Friedman, J. H. (2001). "Greedy function approximation: a gradient boosting machine". *Annals of Statistics* 29(5), 1189–1232.
+- Runge, C. (1901). "Über empirische Funktionen und die Interpolation zwischen äquidistanten Ordinaten". *Zeitschrift für Mathematik und Physik* 46, 224–243.
+
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|

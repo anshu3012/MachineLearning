@@ -24,7 +24,7 @@ Two earlier Notes, on [XGBoost regression](../124-xgboost-regression/note.md) an
 | Similarity score | $(\sum r_i)^2 \,/\, (n + \lambda)$ | $(\sum r_i)^2 \,/\, (\sum p_i(1-p_i) + \lambda)$ |
 | Output value | $\sum r_i \,/\, (n + \lambda)$ | $\sum r_i \,/\, (\sum p_i(1-p_i) + \lambda)$ |
 
-This Note derives all four, following the XGBoost paper (Chen and Guestrin, 2016, section 2). Figure 1 is the plan. The maths needs derivatives and the chain rule ([gradient descent Note](../57-gradient-descent/note.md)) and the gradient boosting algorithm ([gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md)).
+This Note derives all four, following the XGBoost paper (Chen and Guestrin 2016, §2). Figure 1 is the plan. The maths needs derivatives and the chain rule ([gradient descent Note](../57-gradient-descent/note.md)) and the gradient boosting algorithm ([gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md)).
 
 ## 2. A boosting model is a sum of functions
 
@@ -91,7 +91,7 @@ In linear regression the prediction is $mx + b$, a smooth function of $m$ and $b
 
 ![The same data fitted by a straight line (left) and by boosted trees (right): the trees give flat steps with sudden jumps](images/steps.png)
 
-A boosted model is different. Its output is a staircase: flat inside each region, with jumps at the split points (Figure 2, right). The loss as a function of the trees is therefore not a smooth bowl. For log loss, even a single leaf's best output has no simple formula.
+A boosted model is different. Its output is a staircase: flat inside each region, with jumps at the split points (Figure 2, right). The loss as a function of the trees is therefore not a smooth bowl. Even for one leaf, log loss is awkward: when the observations (rows) start from different log-odds, setting the derivative to 0 gives an equation with no simple formula for the answer (Extra in section 12).
 
 The way out is to approximate the loss near the current prediction by something smooth and simple, a parabola, and minimise that instead. The tool for this is the Taylor series.
 
@@ -217,9 +217,20 @@ with $p_i$ the previous stage's probability.
 
 ![Exact log loss of this leaf's three rows (blue) and its second-order approximation (red) as the leaf output w changes: they agree near 0, and their minima are close](images/leaf.png){height=40%}
 
-For log loss the parabola is only an approximation (Figure 5). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. Each new tree starts again from the new predictions, so the small error does not build up.
+For log loss the parabola is only an approximation (Figure 5). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
 
-> **Extra:** This is Newton's method: a step to the minimum of the local parabola, using both the slope ($g$) and the curvature ($h$). Gradient boosting fits trees to the gradient alone and only uses $h$ for the leaf values; XGBoost uses $h$ for choosing splits too. The same $g$ and $h$ are what a custom loss must supply ([imbalanced data Note](../133-imbalanced-data/note.md), section 9).
+> **Extra:** The exact best output of a leaf solves $\sum_i \sigma(z_i + w) = \sum_i y_i$, where $z_i$ is observation $i$'s previous log-odds (set the derivative of the leaf's log loss to 0). Here all three observations share one $z_i$, so the equation has a formula; in general it does not, and XGBoost uses the parabola instead. Does the parabola's small error build up? The Notebook (section 6) grows 100 trees of depth 3 ($\eta = 0.3$) on 2,000 synthetic observations, half for testing, twice with the same tree-growing rule: once with the Newton outputs $-G/H$, once with each leaf's exact minimum.
+>
+> | Trees | Train log loss, Newton | Train log loss, exact | Test log loss, Newton | Test log loss, exact |
+> |---|---|---|---|---|
+> | 1 | 0.527 | 0.472 | 0.545 | 0.499 |
+> | 10 | 0.199 | 0.170 | 0.280 | 0.268 |
+> | 50 | 0.057 | 0.040 | 0.261 | 0.264 |
+> | 100 | 0.016 | 0.007 | 0.282 | 0.312 |
+>
+> The Newton outputs lower the training loss a little less per tree, but the gap does not grow: it shrinks from 0.055 after one tree to 0.009 after 100. On the test half the two are about equal at 10 to 50 trees. So, on this data, the approximation does not build up into a large error.
+
+> **Extra:** This is Newton's method: a step to the minimum of the local parabola, using both the slope ($g$) and the curvature ($h$). scikit-learn's gradient boosting chooses its splits with the gradient alone and uses $h$ only for the leaf outputs; XGBoost uses $h$ for both the splits and the leaves (Sigrist 2021). The same $g$ and $h$ are what a custom loss must supply ([imbalanced data Note](../133-imbalanced-data/note.md), section 9).
 
 ## 13. The best objective, and the similarity score
 
@@ -235,7 +246,7 @@ $$-\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}(H_j + \lambda)\frac{G_j^2}{(H_j + \
 3. **Example:** the regression tree with one split at CGPA < 8.25, $\lambda = \gamma = 0$. Left: $G = 2.875 + 1.375 - 0.625 = 3.625$, $H = 3$. Right: $G = -3.625$, $H = 1$.
    $$\tilde{\text{Obj}}^{*} = -\frac{1}{2}\Big(\frac{3.625^2}{3} + \frac{3.625^2}{1}\Big) = -\frac{1}{2}(4.38 + 13.14) = -8.76$$
 
-The lower this number, the better the tree's structure. The paper uses it as a score for a tree, like the impurity of a decision tree, but valid for any differentiable loss.
+The lower this number, the better the tree's structure. The paper uses it as a score for a tree, like the impurity of a decision tree but valid for a wider range of losses (Chen and Guestrin 2016, §2.2).
 
 The term in each leaf, $G_j^2/(H_j + \lambda)$, is the **similarity score**. Since $G_j = -\sum r_i$, squaring removes the sign:
 
@@ -284,7 +295,12 @@ The XGBoost library follows the same convention as those Notes. Its tree dump pr
 - The leaf output and the similarity score both come from that minimisation; only $g$ and $h$ depend on the loss.
 - The gain is the drop in the best objective after a split; the library drops the $\frac{1}{2}$ and compares with `gamma`.
 
-## 16. Key terms
+## 16. Sources
+
+- Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
+- Sigrist, F. (2021). *Gradient and Newton Boosting for Classification and Regression*. Expert Systems with Applications (arXiv:1808.03064), section on software implementations.
+
+## 17. Key terms
 
 | Term | Meaning |
 |---|---|

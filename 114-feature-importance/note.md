@@ -162,9 +162,9 @@ A random forest adds nothing new: each tree computes its importances as in secti
 > rf2.feature_importances_           # [0.3125 0.6875]
 > ```
 
-A single tree's importances can change a lot when the data changes slightly (high variance). The forest's mean over many trees is much more stable, which is why random forests are the usual tool for feature importance.
+A single tree's importances can change a lot when the data changes slightly (high variance); the forest's mean over many trees is much more stable. In the Notebook, retraining on 20 resamples of the data of section 6, the forest's importances spread about a third as much as one tree's: the same variance reduction that makes bagging work.
 
-> **Extra:** Two details of scikit-learn's version. Each tree computes its decreases on its own bootstrap sample, not on the full training set. And a tree that never split (only a root) is left out of the mean; the result is divided by its total again so it still sums to 1.
+> **Extra:** Two details of scikit-learn's version. Each tree computes its decreases on its own bootstrap sample, not on the full training set. And a tree that never split (only a root) is left out of the mean; the result is divided by its total again so it still sums to 1. (scikit-learn source, `ensemble/_forest.py`)
 
 ## 6. The weakness: columns with many unique values
 
@@ -181,7 +181,9 @@ We make a dataset of 1,000 rows with four real columns, x1 to x4 (52 to 75 uniqu
 
 A random forest trained on 700 rows scores 0.87 on the other 300. Its impurity-based importances (Figure 3a) give `random_id` **0.100**, more than half as much as the real column x4, while `random_coin` gets only 0.015.
 
-The reason: importances are computed from the **training** data, where trees are grown until every leaf is pure. A column with 1,000 different values offers about 1,000 possible thresholds, so deep in a tree it can almost always separate the last few rows by chance. Each such split lowers the training impurity and earns the column credit, though it means nothing on new data. A column with 2 values offers one threshold, so it has far fewer chances to fit noise.
+The reason: importances are computed from the **training** data, where trees are grown until every leaf is pure. A column with 1,000 different values offers about 1,000 possible thresholds, so deep in a tree it can almost always separate the last few rows by chance. Each such split lowers the training impurity and earns the column credit, though it means nothing on new data. A column with 2 values offers one threshold, so it has far fewer chances to fit noise. The bias towards features with many values is well known (Strobl et al., 2007; scikit-learn User Guide §5.2).
+
+> **Extra:** A test of this explanation. If `random_id` earns its credit from the deepest splits, forcing bigger leaves should shrink it. The Notebook changes only `min_samples_leaf`: with leaves of at least 1, 5, 20 and 50 rows, `random_id`'s importance falls from 0.100 to 0.051, 0.032 and 0.021, while the test accuracy barely moves (0.870 to 0.847).
 
 ## 7. Permutation importance
 
@@ -206,9 +208,9 @@ For data with high-cardinality columns, scikit-learn recommends **permutation im
 > 2. Shuffle one column's values among the test rows, which breaks its link with the target while keeping its values. Score again: with x1 shuffled, the accuracy drops to 0.720.
 > 3. The drop, here 0.15 for this one shuffle, is that column's importance. Repeat with new shuffles (`n_repeats`) and average; then do the same for every column.
 >
-> A noise column like `random_id` was never truly used, so shuffling it changes almost nothing; its importance is near 0 and can even come out slightly negative by chance. Because it is measured on unseen data, permutation importance cannot be fooled by splits that only fit the training set.
+> A noise column like `random_id` was never truly used, so shuffling it changes almost nothing; its importance is near 0 and can even come out slightly negative by chance. Because it is measured on unseen data, permutation importance cannot be fooled by splits that only fit the training set (scikit-learn User Guide §5.2).
 >
-> It has costs: it needs a test set and many extra predictions, so it is slower. And when two columns are strongly correlated, shuffling one barely hurts the model, because the other still carries the same information, so both can look unimportant.
+> It has costs: it needs a test set and many extra predictions, so it is slower. And when two columns are strongly correlated, shuffling one barely hurts the model, because the other still carries the same information, so both can look unimportant (scikit-learn User Guide §5.2.3).
 
 If the data has no high-cardinality columns, the impurity-based importance of `feature_importances_` works well and is free: it is computed during training.
 
@@ -226,6 +228,12 @@ If the data has no high-cardinality columns, the impurity-based importance of `f
 - In a tree, each split's weighted impurity decrease $\Delta$ is credited to its column; a column's importance is its share of the total (5 rows: 0.30 / 0.48 = 0.625).
 - A random forest averages its trees' importances, which makes them more stable.
 - Impurity-based importance favours high-cardinality columns; permutation importance on a test set does not.
+
+## Sources
+
+- Strobl, C., Boulesteix, A.-L., Zeileis, A. and Hothorn, T. (2007). Bias in random forest variable importance measures. *BMC Bioinformatics* 8: 25.
+- scikit-learn developers. User Guide, section 5.2, "Permutation feature importance" (version 1.9). https://scikit-learn.org/stable/modules/permutation_importance.html
+- scikit-learn source code, `sklearn/ensemble/_forest.py`, property `feature_importances_` (version 1.9).
 
 ## 9. Key terms
 

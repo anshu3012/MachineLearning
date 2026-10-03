@@ -89,7 +89,7 @@ The estimates are close but not exact: the six faces came out between 0.1625 and
 >
 > `integers(1, 7)` excludes the upper end, so it returns 1 to 6. `normalize=True` divides the counts by their total; without it we would divide by 10,000 ourselves. `sort_index()` puts face 1 first. For two dice, add two such arrays. The Notebook (`notebook.ipynb`) runs both experiments.
 
-> **Extra:** The more trials, the closer the estimate gets to the true probability. This is the **law of large numbers**. With 100 rolls a face can easily come out at 0.12 or 0.22; with 10,000 rolls all six land within about 0.005 of $1/6$.
+> **Extra:** The more trials, the closer the estimate gets to the true probability. This is the **law of large numbers** (Pishro-Nik §7.1.1). With 100 rolls a face typically comes out anywhere from about 0.12 to 0.22; with our 10,000 rolls all six land within about 0.005 of $1/6$ (the Notebook repeats the 100-roll experiment 1,000 times).
 
 ## 5. The PMF of the sum of two dice
 
@@ -122,7 +122,7 @@ The **Bernoulli distribution** describes a single trial with two outcomes, succe
    $$P(X = k) = \begin{cases} p & \text{if } k = 1 \\ q = 1 - p & \text{if } k = 0 \end{cases}$$
 3. **Example:** with $p = 0.3$, $P(X = 1) = 0.3$ and $P(X = 0) = 0.7$; they add up to 1.
 
-The Bernoulli distribution has **one** parameter, $p$ (with $0 \le p \le 1$). The $q$ often listed beside it is not a second parameter: it is fixed by $p$ as $1 - p$.
+The Bernoulli distribution has **one** parameter, $p$ (with $0 \le p \le 1$). The $q$ often listed beside it is not a second parameter: it is fixed by $p$ as $1 - p$. (MML Example 6.8)
 
 ### 6.2 Binomial distribution
 
@@ -220,6 +220,11 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 - Simulating many trials and dividing counts by the number of trials estimates the PMF.
 - Bernoulli: one trial, one parameter $p$. Binomial: successes in $n$ trials, parameters $n$ and $p$.
 - The CDF is the running total of the PMF: a step function from 0 to 1.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Example 6.8 (Bernoulli distribution).
+- Pishro-Nik, H. (2014). *Introduction to Probability, Statistics, and Random Processes*. Kappa Research. Section 7.1.1 (law of large numbers).
 
 ## 9. Key terms
 

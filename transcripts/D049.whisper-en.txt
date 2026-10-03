@@ -1,0 +1,364 @@
+Hi guys, my name is Nitish and you are welcome to CampusX
+So in this video also we will continue our deep learning playlist
+Till now we have covered a lot of things in the deep learning playlist
+First we covered ANN, then we started CNN
+and in CNN also we went deep and covered topics like back propagation
+So I thought now it is a good time to make a small project
+where we can use whatever we have learned till now
+So we are going to make a small project in this video
+we are going to build a dog vs cat classifier
+we are going to make a cnn model which if you give the photo of dog or cat
+then it can classify and tell you that in that photo there is a dog or a cat
+so in this whole video whatever code is there i will write it and show you
+we will make our own cnn architecture
+infact if the performance of the model is not good
+how to improve it we will discuss about it
+And lastly, I will show you how to predict new unseen data.
+It will be very interesting because you will see the theory practically.
+So, I would recommend you to code along with it.
+That would give you more knowledge.
+So, let's start the video.
+So guys, this is the data set which we are going to use.
+I got this data set on Kaggle.
+Dogs vs Cats
+It is a very simple data set.
+There are two folders here.
+train and it has all the images in fact I had downloaded this data set
+so if you will download then you will see two folders like this test or train
+and in both the folders again you will see two folders cats and dogs
+ok if you will go to cats then you would see all the photos of cats are organized
+and if you will go to dogs then you will see same thing there also
+you will see all the photos of dogs in one place
+so we are going to use this data set
+I have put the link in the description of the video
+now what we have to do is
+we have to make an image classification model
+in which if we will input a new image
+then it will classify that
+in that given input image
+the entity is dog or cat
+Now we are going to use Keras for this whole CNN classification and we are not going to use our own installation, instead we will use Google Colab because it is possible that many of you do not have GPU machines, so I think working in Colab is the best option.
+So what you need to do is you need to search Google Colab
+Here I will create a new notebook
+So this is the new notebook
+We will name it as Cats v Dogs Classification
+Now the first thing we have to do is
+We have to bring this dataset here
+For this you have to go to your profile of Kaggle and go to your account and click on create new API token.
+A file will be downloaded for you by calling it as kaggle.json
+You have to upload that file in Google collab
+See, it has been uploaded
+I will just rename it
+It may be wrong if it is 1
+Let's keep it as kaggle.json
+Now you have to come back
+On your dataset
+And
+From there
+you need a command which you will get from here
+copy API command
+ok
+and what you will do
+you will paste that API command with exclamation mark
+ok
+after that what you have to do
+you have to run two more commands
+infact before that you have to run two more commands
+here are those two commands
+so first I will run this
+and after that as I will run this
+you would see that the data will come from Kaggle
+it will come to Google Colab.
+You can see, this data is being downloaded.
+The data is being picked up from the Kaggle server
+and coming to the Google Colab server.
+You can do this indirectly as well.
+First you download from Kaggle,
+then you upload from your machine to Google Colab.
+And you know, because it is such a big data set,
+it takes a lot of time.
+This is an easier way to do this.
+You just have to run these two commands.
+And you can see, the command has been run.
+If I refresh it, then you can see the data has come to us.
+The only problem is that this data has come to us in zip format.
+So we have to unzip it.
+Again for that you just have to write this code.
+What will this code do?
+By unzipping this file, it will start showing all the content here.
+And you can see now if we refresh,
+here is our test
+and here is our train
+ok
+we have got these two folders
+now what we have to do
+we have to make a cnn model
+and feed this data in it
+ok
+after that we will remove accuracy
+and that's it our model will be made
+so first of all we will do one thing
+that all
+important libraries we will import
+like
+import tensorflow as tf from tensorflow import keras from keras import sequential and from
+from keras import in fact from keras.layers let's import the dense layer conv 2d layer
+max pooling 2d flatten we are going to need all these layers and we are running it and
+Now we have to take all the images in train folder and give it to our model
+For this you can write custom code using the OS module
+that you will go in these folders, then you will take the name of all the files one by one, and you will take their label
+and then you can send that whole data to the CNN model.
+But the problem is that due to the high number of images, it becomes difficult to do the whole processing at once because RAM gets less.
+Keras uses a concept called generators, I have made a video on this topic on my channel where I have explained what are generators
+Generators divide your data into batches, let's say you have 10000 images
+So instead of working on 10,000 images at a time, you divide the data into small batches
+And then in one go, only a small batch is loaded in RAM
+And then when it is done, it is removed and the next batch is loaded
+So generators are very useful to process large amount of data
+So what we will do is, we will work with a generator which Keras provides us
+And the name of this generator is Image Dataset from Directory
+I will show you by making two generators
+one for training data and one for validation data
+and guys this is the documentation of this generator function
+so what we have to do is to call this function and give some inputs
+like directory means path, labels, label mode
+and what will be the batch size and what will be the image size
+you just have to tell these things
+so we will write keras.utils.imageDataFrom
+in fact let's copy this
+copy
+here we will provide our input one by one
+So first of all, directory. In directory, you will give the train path. So I am copying it.
+Copy path. This. After that, in labels, you will give inferred.
+In label underscore mode, you will give integer.
+By this, cats will be assigned 0 and dogs will be assigned 1.
+In batch size we can give 32
+and in image size we can give
+256 comma 256
+So all our images will be
+reshaped in 256 by 256 by 3
+Because our CNN model expects
+all the images size is same but unfortunately
+if you see in your data then you can see that all the images
+size is different
+so this can be a problem that's why we are giving it same size
+so with this we will get a dataset object
+let's call it
+train dataset and then
+they will do a same work
+for validation data
+so let's call it validation
+And here we will copy the test path and paste it here.
+We will keep the rest the same.
+And you can run it.
+It is not utils, it is utils.
+Sorry about that.
+Now let's run it.
+And you can see our trained dataset has 20,000 files belonging to two classes.
+and 5000 files belonging to 2 classes in test
+now we have to do one more thing
+that the images which we have stored
+it is stored in numpy array format
+but the problem is that every value of numpy array
+is from 0 to 255
+we have to do it from 0 to 1
+so basically we have to normalize
+so to normalize
+First of all we have to write a small code and here is that small code.
+Basically we have made a function called process which is getting an image and a label.
+And we are simply running this operation on the image that we are dividing it by 255.
+And we are returning the image and label.
+And we have used the map function.
+map function will send an image and label from train ds and this function will transform it and return it
+and we will store it in train ds and validation ds
+so basically we need to do this operation because we want all our pixel values to be between 0 and 1
+otherwise your results will not be good
+Let's run this and you can see our data set is now ready.
+Now we have to make our CNN model and pass this data in that CNN model.
+I will write create CNN model.
+So we will make an architecture where there would be 3 convolutional layers.
+In the first layer there would be 32 filters, second layer there would be 64 filters, third layer there would be 128 filters.
+okay so let's do that model is equal to sequential class object model dot add
+conv 2d 32 filters kernel size as in filter size we are taking 3 by 3 padding
+we are taking valid for now, activation relu remains and input shape will be 256,256,3
+ok, this is our first convolution layer, just after convolution layer we will apply pooling layer
+So we would write model.add max pooling 2D
+We will give pool size value 2x2
+We will give strides value
+2
+And padding will be here also
+Valid
+Ok
+Now what we will do is
+We will repeat this
+Copy
+Paste
+In second one, there would be 64 filters, we don't need to give input shape, it will infer by itself.
+And here will be 128 filters, again we don't need to give it, it will infer by itself.
+Rest everything is same.
+Now after this we will add model, dot, add, flatten layer and after that our fully connected.
+We are applying 3 fully connected layers
+Model.add
+Dense layer
+With 128 neurons
+And activation equals ReLU
+Model.add
+Dense
+64 neurons
+Activation equals ReLU
+and in the last model.add dense output will be 1 and activation will be sigmoid
+and we have run it, this is our model
+ok, let's see the summary of the model
+and here you can pause the video and see whether the shape is flowing properly or not
+In the end we have this tensor of 30x30x128 which we flattened
+And total is around 148,000,000 parameters in this whole CNN
+Now we just have to compile the model and execute it
+So we would write model.compile optimizer equals
+let's take Adam in the beginning
+loss binary cross entropy because it is a binary classification problem
+and in matrix we will take accuracy
+and now we will run the model
+So we would write model.fit
+Here you will pass your training data which is stored in train.ds
+Number of epochs let's keep to be equal to 10
+And you provide validation set
+So you would write validation data equals validation.ds
+And that's it guys, this is the code, let's do one more thing, whatever results we find, we will store it in history so that we can plot the graphs ahead and see.
+Let's run this code. You can see because of the batch size being 32, we have 625 batches.
+So, 625 multiplied by 32 is exactly 20000 which is the total images we have.
+Let us train this model once and let us see the result.
+Okay guys, I guess you might be noticing that if you are coding on your machine,
+the training is getting very slow.
+The reason is that I forgot to tell you in the beginning that
+When you open Google collab, you have to click on change runtime and here you have to use Hardware Exclinator
+If you don't use this, then you will do training with normal CPU and it would be very very slow
+So you have to change this, but after changing the problem is that you have to execute all the codes again
+So, I will just make sure that there is GPU here, once we will run this whole code again, sorry about this.
+And guys, now you can see that the training is happening very fast.
+So, this is what you had to do, sorry I forgot to tell you.
+And the training is done, our 10 epochs training is done.
+So, what I did guys, just to see the result of the training, I have plotted some graphs, I will show you that.
+So, I have plotted the graph of Training Accuracy and Validation Accuracy.
+And you can see this is the graph.
+It is clearly visible that as the epoch is increasing, the Training Accuracy is improving.
+But if you see the Validation Accuracy, then mostly it is fluctuating between 75 to 80.
+And you can see there is this gap.
+And this gap generally indicates that it is getting overfitting.
+Just to conclude, here we have plotted validation loss and training loss and you can see as
+the epoch is increasing, the training loss is reducing but validation loss is increasing
+more and more.
+So again this gap is increasing which is a clear indication that overfitting is happening
+here.
+That means our model is giving very good results on the training data and not giving
+good results on the test data.
+So we have to do something.
+So there are some ways to reduce overfitting, first one is to show more data to your model which is not possible for us because we have used our whole data.
+Second there is a technique called data augmentation where you use your existing data and create more data.
+So we will not read this now, this is the topic of our next video, we will discuss this in the next video.
+Apart from this, you can use your old techniques like L1, L2 regularization, dropout layer.
+Batch normalization also provides regularization at some level.
+You can reduce the complexity of your model.
+So these are some of the steps.
+I will show you two things in this video.
+Dropout and batch normalization.
+Your job is to make sure that the overfitting is reduced in some other ways.
+So to apply batch normalization we will add batch normalization layer in layers and we will also add dropout.
+Now we just have to go and make changes in our model.
+So what we will do is we will add batch normalization in our convolution layer like this, copy, here also and here also.
+training also improves from batch normalization
+if you want you can try out higher learning rate
+and here i will add
+dropouts
+0.1 is enough i guess
+and same for
+this and i will
+re-run this code batch normalization is not defined
+because after adding
+After that we did not run.
+We did run.
+We run this cell again.
+We run the model summary.
+We rerun the compile.
+And we train the model again.
+Let's see
+if there is any improvement or not.
+And we are done with the training.
+And you can see
+that there is some improvement.
+We have reached 80% accuracy.
+So I plotted again.
+This is the old graph.
+And when I plot it again, this is the graph and you can see the gap is reduced a little bit.
+I did the same on the graph of loss. This is an old graph and I came to plot it again.
+You can see the gap in training and validation is reduced a little bit.
+So in this technique, I showed you by applying dropout and batchnorm.
+Now your job is to improve the performance and increase the validation accuracy.
+If you can increase it then write in the comments that how did you improve the validation accuracy.
+So that other people also understand.
+Now let's do one last work.
+I will show you a prediction on a new unseen data.
+On a completely new image.
+So guys to do prediction I have downloaded two images from google.
+I have imported a cat and a dog. I will show you the prediction on both of them.
+I have written the code. First of all, I imported OpenCV.
+I called the cv2.imread function and imported the dog photo as in this variable.
+In the test image, there is a numpy array which is basically this image.
+I used matplot to plot it
+here is the image
+it looks weird because of rcb
+not rcb
+rgb
+is upside down
+while you are
+importing using opencv
+it doesn't make any difference
+after that I showed you
+the shape of test image
+this is the shape
+the dog image is big
+you have to resize it
+then in 256 x 256 x 3
+so I did that
+by calling the cv2.resize function
+I resized it to 256 x 256
+ok
+and in the end I did one thing
+that we pass data in batches
+so we have
+only one image so in our batch
+there will be one image
+so we converted it to a 4D tensor
+1 x 256 x 256 x 3
+so this means that in this batch
+there is only one image
+dimension is this
+and i have stored this in test input
+and after that i did
+model dot predict and passed test input
+in output one came
+one means dog
+why? because cat is first
+so zero is assigned to cat
+one is assigned to dog
+quickly we will do all this work
+on cat dot jpg
+imported the image
+this is our cat image
+its dimensions
+its dimensions
+here it is
+reshaped
+converted to batch
+now remember our output
+should be 0
+and you can see
+it is coming out to be 0
+so you can see although our accuracy
+is 80-81%
+but still
+it is performing decently on new data
+so that's it guys
+this is your project
+guys I know it was a very small mini project but whatever you have studied so far, it is a very
+interesting thing to see practical. I hope you enjoyed it and also understood things. If you liked the video, then please
+like it and if you haven't subscribed to my channel, then please do subscribe. See you in the next video bye

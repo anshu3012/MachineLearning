@@ -1,0 +1,347 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video, we will continue our deep learning playlist
+And today we will cover a very important topic which we call regularization
+We had studied regularization in machine learning also
+Specially when we were working with linear models
+Linear regression or logistic regression
+There regularization is used a lot
+The biggest reason to use regularization is overfitting
+with regularization you can reduce the overfitting
+so in today's video we have to learn
+that how you can fix an overfitted neural network
+with the help of regularization
+so let's start the video
+now guys before starting the video
+I want to remind you once
+that what exactly we are doing
+we have read a lot about artificial neural networks in this playlist
+that how artificial neural networks work
+how back propagation algorithm works
+how gradient descent is working and then we started a special topic, an important topic
+that if tomorrow you make a neural network and its performance is not good
+then how to improve it, we are trying to cover this in the last 4-5 videos
+so I made a document, I am showing you this from the last 2-3 videos because it is kind of important
+it is like a checklist which you have to follow in the future whenever you make any model
+So here we have covered some things like dropout layers which we covered in the last video, early stopping which we covered before that,
+normalizing inputs which we have also covered. Today we are going to cover regularization. Regularization work is to reduce overfitting.
+So in future if your model is overfitting then you have to remember that regularization can be a possible solution.
+So let's go to our notepad and let's start our discussion. So the most important question related to regularization is that when should regularization be used?
+And the answer is very simple, whenever your model is overfitting. Now I am assuming that you are beginners and you also don't know what is overfitting.
+So let me first explain what is overfitting. Although I have done this work many times but let's discuss what is overfitting.
+Overfitting is a scenario where machine learning model or deep learning model gives very good results on training data
+But as soon as you run it on new unseen test data, the results start getting bad
+And the reason for this is that your training data, your model is basically very complex
+And because of its complexities, it also captures very minor patterns of training data
+In short, he takes a rutt. He does not gain concepts, he takes a rutt. And he applies the rutted knowledge on test data,
+due to which the result is bad. Imagine a student who took the whole book, took the formulas without even knowing the concepts.
+So if there will be other questions tomorrow, then the result will be bad in the exam. This is what happens.
+Look here, I have made a diagram here. Here you have training data in the first diagram.
+Now imagine a very complex model like artificial neural network or a very deep decision tree.
+How will they work? They will try to capture the most minute patterns of your training data.
+Because their work is to reduce the error on the training data.
+So see, it will make a decision boundary like this on this data.
+Something like this. Okay?
+You can see, it is trying that there should not be any mistake on the training data.
+But obviously, if you pick up the same decision boundary and put the test on unseen data.
+You can see guys, if you put the same decision boundary on new data, how is the result coming?
+Result is not good. Your accuracy of the model will not be good.
+And this is called overfitting. And unfortunately it is a very big problem in machine learning and deep learning.
+A lot of models tend to over tend to overfit due to which you cannot get the results that you should get.
+So now the question arises that I understood what is overfitting but why is overfitting happening?
+especially in artificial neural networks, we are studying ANN, I want to know why overfitting happens.
+So, the biggest reason for overfitting, I will explain. The biggest reason for overfitting is the complexity of your model.
+Basically, when you make a neural network, then in that neural network, there are many nodes like this.
+Right? And every node is connected to each other. It is fully connected.
+So what is the problem in this scenario? That such a complex pattern, such a complex architecture tries to capture every small pattern of your data.
+Let me explain. I have this data and on this data I have run different types of neural networks.
+Like I have run a simple neural network in which there was only one neuron.
+You can say that this is a perceptron model. And you can see that a perceptron model is basically a linear model.
+It can classify by drawing a line. So it drew this line.
+Then what I did, I increased the number of nodes slowly, increased the number of nodes in this way,
+still kept 2 inputs, so you can see on the same data, when I increased the number of neurons,
+now I kept 10 neurons, so you can see your decision boundary is a little more complex than the line,
+started to rotate, when I increased a little more, let's say I did 50, so now this line is not there,
+is trying to make a curve. When I put 257 neurons, you can see it started taking more cuts so that there is no mistake in the training data.
+And when I increased it to 1000 neurons, you can see it started making more complex curves in order to fit the training data properly.
+So, in short, if someone asks you why artificial neural networks overfit, the reason is very simple.
+If you keep only one neuron, then it will always try to do its work by drawing a line.
+But if you have made two, then you actually have the capability to make two lines.
+So, imagine if you have three, then you have the capability to make three lines.
+If you have thousands, then you have the capability of making thousands of lines like this.
+And because of that, those complex patterns are formed which I have shown you here.
+I guess you are getting the idea.
+I am summarizing once again.
+The more neurons are there in your model,
+your model is capable of drawing small lines to classify your things.
+Now what can happen is that unnecessary complication can come in your model
+and it can happen that rather than capturing the essence of data,
+it starts capturing every minute thing.
+That could happen.
+So what is the solution to avoid overfitting?
+A simple solution is that if you have a very complex neural network
+then what you can do is you can remove some nodes
+Removing means that the value of their weights, you take it near to zero, make the value of their weights very weak.
+As soon as you bring the value of their weights very close to zero or make it zero, automatically what will happen is that
+your node will become kind of non-existent in your neural network and as soon as it will become non-existent,
+then your complex model will become a simple model
+it will not have the power to make complex lines like this to make decision boundary
+and it will try to make a simple line
+and this is what regularization does
+regularization and other techniques to reduce overfitting
+they essentially do the same work
+I hope you understood the discussion till now
+so guys we understood why overfitting happens in artificial neural networks
+Now let's understand what are the different ways using which you can eliminate overfitting or reduce overfitting in ANNs.
+So there are two major ways.
+The first way is by adding more data.
+This is the first way.
+And the second way is reducing the complexity of your model.
+It is very simple.
+First is to give maximum data to your model, simple thing is that the more data you give, the more surety you will get
+and your model will not focus on small things and will be able to see bigger picture.
+So generally you can add more rows to your data but data is costly and you can't get it every time.
+So some other techniques are used like data augmentation.
+Data augmentation is a technique where you produce artificial synthetic data from given data.
+Like I will give you an example, CNN which is Convolutional Neural Network which we will study further.
+When you work with images there, if you have very few images,
+then what you do is you create some synthetic data from existing images.
+You create some artificial data.
+For example, there is a photo which has a dog.
+what you will do is you will crop that photo or reverse it or upside down it and by doing this you will get different photos of same photo
+so this process is called as data augmentation and we will study this further
+so these are the two techniques in order to increase data
+next is to reduce the complexity of the model
+so in this we have studied a technique called dropout
+Where we have read that you can randomly enter in every layer and turn off a percentage of nodes.
+We have read this in the last class.
+Also, one more method is early stopping.
+Early stopping is basically a technique to detect where overfitting is starting and stop your model there.
+We have read this too.
+And the third technique is regularization.
+Three types of regularization are famous in regularization. One is L1, one is L2 and one is L1 plus L2 combination.
+L2 is used more in L1 and L2. There are 99% chances that when you will apply regularization in deep learning, you will apply L2 only.
+L1 is not that useful. Generally, you get better results in L2 only and in today's video also we will focus more on L2 only.
+But I will also show you how L1 and L1 plus L2 works.
+So you have to remember this chart that if there is overfitting then by doing this you can reduce it.
+Now we will move on to how regularization works.
+So guys now let's understand regularization.
+Let's understand what regularization is and then we will understand why it works.
+Till now you must have studied machine learning or deep learning, so you must be knowing this much, let's talk about deep learning, we are talking about ANN
+that we have to find the value of our weights and biases and how do we find it? By minimizing a loss function
+Same with linear models, linear regression, what is your work in logistic regression?
+You have to calculate the value of parameters which is obtained by minimizing a loss function.
+So in the case of regression, mean squared error is your loss function.
+In the case of classification, the same binary cross entropy is there.
+so basically the idea is this that your cost function for n terms as in for n rows it looks like this
+this is your cost function and what you have to do is you have to calculate the value of all your parameters
+for which the value of this cost function will be minimum. Now in regularization you just change one thing
+that you add a penalty term in this cost function. So your cost function becomes this loss plus a penalty term
+If you talk, there are two types of regularization L2 and L1, so we will talk about L2 because L2 is more common in deep learning.
+So L2 regularization will basically look like this.
+Lambda by 2n, i is equal to 1 to k, wi, weights square.
+So basically what you are doing is you are adding this term.
+This is your penalty term. So suppose in your neural network from W1 to W10, there were 10 different weights.
+So what you are doing is adding this term in your loss function.
+lambda by 2n W1 square plus W2 square dot dot dot plus W10 square.
+Basically, the sum of all the weights multiplied by this number
+You add this to your existing cost function
+Now there are some things to understand
+First of all, what is lambda?
+Lambda is a hyperparameter
+And the more you increase it, the weightage of the term you have added increases and regularization is applied more strongly.
+Means you will go from overfitting to underfitting. If you increase lambda a lot, then you will go to underfitting.
+If you make lambda to zero, then basically this whole term will become zero and your cost function which was earlier will be saved.
+This means regularization will not be applied.
+Here n is your number of rows and 2 is used for mathematical convenience.
+In some places you will notice that 2 is not used.
+It is just for mathematical convenience.
+The thing to understand is that whatever is your cost function, when you put this penalty in it, then what happens?
+So by putting the penalty, the value of all your weights starts running towards zero, starts getting very low.
+This is what regularization does. Now you have to remember two things.
+that you can also put L1 in replacement of L2. In case of L1, this will not be a square term.
+So, basically your cost function will be like this. The previous loss function will be
+Lambda by 2N Sigma will be L1 norm basically. This is L1 norm. This is the only difference.
+Second one more thing I would like to tell you that if you will read in some places then you will see this cost function like this.
+This term is added when you talk about artificial neural network. This is more accurate representation but it is same thing.
+if you have a neural network like this where layer 1 and layer 2 are arranged like this
+so basically you are entering layer by layer and then you are calling every row as i and every column as j and every layer as l
+That's it. It is the same thing. If there are 15 different weights, then you are doing the sum of the square of every weight.
+But this is the right way to write it. It is the right way to convert it in the program.
+So what is written here and what is written here, the meaning of both of them is the same.
+What you are doing is that you are adding a penalty term in your existing loss function.
+What is the penalty term? The sum of the square of all your weights.
+One more thing you have to remember that you don't add the sum of the square of biases.
+You will never add this. This is not done.
+Bias is not added, just weights are added.
+You have to remember this.
+And this is the correct format.
+But the meaning is the same.
+Now you may have a doubt in your mind that I have added this penalty term.
+But by adding this penalty term, how is it being made sure that all our weights go near 0?
+How will the weights be reduced? We are not getting an intuition for this.
+So I will give you an intuition for this. Try to understand carefully.
+So guys, now I will give you a small intuition.
+I am not telling you exact maths but I will give you a small intuition
+why when you apply regularization gradually your weights start moving towards zero
+let me show it to you
+so if you remember what you used to do in back propagation
+you used to apply gradient descent and for every particular weight
+for any particular weight, there will be many weights in your neural network
+you used to apply this formula on any particular weight
+so for any particular weight, suppose you have this neural network
+suppose you have this neural network, so you have to update this weight, so you used to apply this update rule
+where new value of this weight would be equal to old value minus learning rate times the partial derivative of your loss function
+with respect to the old value of this weight, you used to do this, now see carefully, our loss function has changed, let's call it L'
+What is L dash? The old loss function plus lambda by 2, your sigma of wi square.
+Here I did not divide by n because we are taking loss for a single training example.
+This is loss function not cost function.
+So this was it. Now if you go to find this derivative here,
+then del L dash by del this particular weight would be del L by del W naught plus lambda by 2 will remain like this only.
+You will go to differentiate this. Now in this there is the sum of all the weights of the square.
+It's like this, w1 square plus w2 square plus w3 square, all your weights have a square sum.
+But if you differentiate in respect to this particular weight, suppose this is the weight,
+then the rest of the term will be zero and what will come here? 2w.
+So here it will come 2 times w0.
+These two will get cancelled and this will be your differentiation.
+it will be W naught plus lambda W naught, now what will you do, in return of this term, you will fill this thing,
+so new value will be, old value minus learning rate times this plus this, if we rearrange a little,
+then it will become W naught minus learning rate times regularization factor times W naught minus learning rate times this
+and after rearranging it a little more it will become like this
+what you have to do is you have to look at this equation and this equation carefully
+These equations are exactly same, only this term is extra, so what is happening, in W0 first you are multiplying 1 minus learning rate times regularization factor
+Now regularization factor is a positive number, so as you multiply this learning rate with a positive number, it will be some positive thing
+which is smaller than 1, then obviously W0 which will come out will be smaller than the original W0 here.
+And after being smaller than the W0 here, you will also subtract this thing.
+So basically you are decreasing your weights.
+And you are doing this every time, whenever you are applying this update rule.
+Basically, whenever you are taking updates, whenever you are taking epochs,
+your weight is decreasing every time.
+And while decreasing, it will reach near 0, but it will never be 0, obviously, you can see, it will be very small, but it will not reach 0.
+So this is the mathematical intuition of this thing, that what exactly do you do, that when you differentiate,
+then you multiply 1 minus learning rate times lambda by a factor, your W0, this is actually called rate decay in some places.
+And this is called as weight decay factor.
+Exactly this is not weight decay but you can understand.
+Mostly practically speaking people call this as weight decay.
+That's why sometimes L2 regularization is also called as weight decay in neural networks.
+Although weight decay is a little different.
+I will talk about it in some other video.
+But for all practical purposes you can call it as weight decay.
+because eventually what you are doing is that you are taking your weight from D to zero, so this is the whole intuition,
+I will summarize it once, so what happens is that you have a loss function, you have to get the value of such a parameter
+by which the value of that loss function is minimum, optimization problem, now what you have to do is that since the value of your weights is very high,
+the value of your parameters is very high and you are doing over fitting, so what you want is that you reduce the value of your weights,
+And one way to do this is to add a penalty term.
+Now that penalty term could be L2 norm in L2 regularization or L1 norm in L1 regularization.
+You can use any one of them.
+But by adding both of them, what happens is that your weight reduces and starts going towards zero.
+And I have just shown you its intuition mathematically.
+One thing you have to remember is that when you do regularization of L1, then many weights become zero.
+I have told the answer of why it becomes zero in detail in my 100 days of machine learning playlist.
+But remember one thing that L1 regularization will give you sparse model.
+Sparse model means many weights will become zero.
+So you get a very simple model.
+Many of your nodes get eliminated.
+It doesn't happen in L2, it doesn't happen in what we have studied, it doesn't happen in 0, it goes near 0, the weight becomes small, but sparse model is not made, you have to remember this.
+So I guess you understood the whole theory a little bit. Now what we will do is, we will practically see through code how you can apply regularization in Keras.
+I will show you both L1 and L2 and I will also show you that there is a benefit. So guys I have written the code and the code is very simple.
+After looking at it, you will immediately understand what is the benefit of regularization.
+So in the first cell, I have imported all the libraries which I also needed.
+After that, I used the makemoons function and generated my own classification data set with a noise of 0.25 which looks like this for now.
+I have to perform the classification on this and to perform the classification, I will make an ANN.
+So I went down and started making my model here.
+It is a very simple model, in the first layer there are 128 neurons, in the first hidden layer there are 128 neurons,
+in the next one also 128 and after that our output layer which has one neuron, this is a very simple ANN.
+Here is the summary of this model, in the first layer you have 384 total parameters which you have to train,
+In total, it gives 17000 parameters.
+After that, you have seen many other things.
+We have set our learning rate with an optimizer of Adam.
+There is binary cross entropy because there is a binary classification problem.
+There is metric accuracy.
+We are running up to 2000 epochs intentionally so that it is overfitting.
+Validation split is 0.2.
+And as soon as I trained this model,
+and as soon as I run it on my data,
+you can see this is the decision boundary and by looking at this any child can also tell that overfitting is happening here
+because your machine learning model is trying really hard to capture all the minute patterns of the training data
+so that there is no mistake and it will never generalize well on new unseen data
+also if you want to show that overfitting is happening then you can print this loss curve
+after seeing the loss curve, it is very scary, it is clearly overfitting, then I made a new model
+in which everything is same, in the first hidden layer there are 128 units, in the next also there are 128 units
+but notice, what we have done is, in both of them, we have added a parameter called kernel regularizer
+We have written tensorflow.keras.regularizer.L2
+And here in L2 you can set the value of lambda
+Which for now I have set 0.03 for both the layers
+And that's it
+You just have to do this much
+You have to run this code
+The code below is exactly same
+Nothing is different
+And then when I trained the model
+And this time when I ran the decision boundary
+So it looks like this
+And you can see this is a much cleaner decision boundary which can give very good results on testing data.
+If you compare it side by side with this thing, you can totally see that there is a big difference
+and the one below will act or perform better with unseen data.
+Here also I have plotted those curves and you can see that it is not overfitting at all.
+Both the curves are moving side by side till 2000 epochs.
+After this, to tell you more point, what I am doing is, I fetched all the weights of our model 1 without regularization.
+You can do this, I have already told you that whatever model you train, model 1 is our first model,
+by calling its get weights function, you can actually fetch all the weights which we have trained there.
+these are all the weights, so now if I want the weights of the first layer then I will write here
+square bracket 0 and it will give me all the weights of layer 1, you can see here are all the weights
+and if you calculate the shape then you would see the shape is 2 comma 128 and the reason for that is
+that we have 2 units in the input layer and 128 units in the first hidden layer so 2 into 128
+In total, I have 256 weights in the first layer. If I want, I can reshape it to 256 because 2x128 is 256.
+And I will get this. So this is what I have done above. I have taken out the 256 weights in the first layer of model 1
+and put it in this variable and similarly model 2 also put the 256 weights of the first layer in this variable
+and after that I have plotted a box plot on both of them, this is model 1's box plot, you can see most of your
+weights are lying in this range and some outliers are also in very big values like bigger than minus 2,
+Smaller than minus 2 or bigger than 1. But this same boxplot, when you are running on model 2,
+where you had applied regularization, see this is the boxplot, almost all the values are in the range of minus 0.6 to 0.4.
+It has shrunk, weight has become dk and most of the weights are lying near 0, which I had said that weight is dk.
+when I took out the max value of all the weights of model 1, then there is one weight which is 1.75
+and if I take out the min here, then there is one weight which is minus 2.7
+if I am doing the same on model 2, then the maximum value is coming out to be 0.3
+this is the maximum value and the minimum value is coming out to be minus 0.5
+See, the whole range shrank and most of the values went to the side of 0, which happens in regularization.
+And the last thing that I did was, I plotted two PDFs, Probability Density Functions, and this is your result.
+The blue curve is without regularization, and the orange curve is with regularization.
+And you can see that the regularization curve, the orange curve, most of its values lie around 0,
+whereas the blue curve is quite spread, which means the values are in a big range.
+So, you can actually go through this notebook and you can understand how regularization works.
+One last thing, if you want, you can also apply L1 regularization here.
+You don't have to do anything.
+While making model 2, you have to do L1 instead of L2 like this.
+And as soon as you run it, I am training the model again.
+Our model is trained.
+Let's plot a graph from here and you can see the result is not very good.
+Maybe because we have set the value of regularization very high.
+Let's make it a little smaller.
+Let's say we are doing this.
+You have to try with different values which work.
+It's basically hyperparameter tuning.
+And you can see guys this is the result of L1 regularization
+when I have set the value of lambda as 0.001.
+If you plot the rest of the graph, then it is a little bit overfitting in comparison to L2 regularization which we did a while ago.
+And if we extract the weights again, here also you will see a similar type of result.
+And if you plot the dist plot, then again you would see a similar kind of result.
+But generally, I can tell you from my experience that in deep learning, L2 regularization gives better results than L1.
+So you can try both of them. But I think L2 will be more useful. So I guess you understood everything till here.
+Now if you want to understand regularization at a deeper level, then I am pointing out a resource for you.
+There is a playlist on my channel, if you search campusx regularization on YouTube, then you will see this playlist.
+This is a playlist of 7 videos which is a very detailed playlist about regularization
+where I have taught in detail how regularization works on linear regression and logistic regression with all the mathematical details and coding from scratch.
+If you see this once, I can guarantee you that you won't face any problem in any interview question.
+Okay?
+So, that's it.
+I guess you understand.
+Go and check out these videos once.
+So that was the video guys.
+I guess you understood things.
+I will share all the notebooks with you.
+Your work will be to perform experiments by yourself once.
+And make things sit in your mind.
+Okay?
+If you liked the video, then please like the video.
+Also, please subscribe the channel.
+Thanks for watching. Bye.

@@ -64,7 +64,7 @@ Because every range gets its fair share of the filled values, the shape of the d
 2. **Keeps the distribution and the variance**, as Section 2.2 explains.
 3. **Good for linear models**, such as linear and logistic regression, which are sensitive to the shape of the data.
 
-Tree-based models, such as decision trees, gain less from it: the random values add noise to the data, and keeping the shape matters less to them.
+Tree-based models, such as decision trees, gain less from it: the random values add noise to the data. The intuition: a tree splits on the order of the values, so keeping the exact shape of the distribution matters less to it.
 
 > **Python:** scikit-learn has no random sample imputer, so we write it in pandas.
 >
@@ -231,7 +231,7 @@ The 557 houses with no `FireplaceQu` sold for a mean of 141,182 dollars, far bel
 | Fa | 168,994 | 161,279 |
 | Po | 135,112 | 139,591 |
 
-Before imputation, a better fireplace meant a pricier house. After, Gd, TA and Fa houses look much more alike. A model, especially a linear one, would learn a weaker link between fireplace quality and price.
+Before imputation, a better fireplace meant a pricier house. After, Gd, TA and Fa houses look much more alike, so the link between fireplace quality and price is weaker in the imputed data. Such a change in the distribution is a bigger problem for linear models.
 
 For `GarageQual`, only 65 values were drawn, and the TA mean moves only from 186,766 to 182,093 dollars. So random sample imputation is fine for `GarageQual`, but not for `FireplaceQu`: too many values are missing there.
 
@@ -394,11 +394,20 @@ The grid lists the values to try for each name:
 | 1, 10 or 100 | any of the 4 combinations | 78.8% |
 | 0.1 | any of the 4 combinations | 78.6% |
 
-All four imputer combinations score exactly the same. The mean (29.79) and median (28.75) of `Age` are close, and `Embarked` has only 2 gaps, so the choice barely changes the data. Grid search then reports the first of the tied combinations as "best".
+All four imputer combinations score exactly the same, so grid search reports the first of the tied combinations as "best". The reason: on this data, `Age` barely affects the predictions at all, so it does not matter how its gaps are filled. The categorical fills touch only the 2 rows with no `Embarked`. On data where the column with gaps does drive the predictions, the scores would differ, and the same code picks the winner for us.
 
-On a bigger dataset, or with strategies that differ more (for example a constant fill value for `Age`), the scores would separate. The same code then picks the winner for us.
+> **Extra:** The experiment behind this (with `C = 1`, the same 10 folds; the last cell of the Notebook).
+>
+> | Change to the pipeline | Mean CV accuracy |
+> |---|---|
+> | `Age` filled with the mean or the median | 78.8% |
+> | `Age` filled with 0 | 78.8% |
+> | `Age` filled with 99 | 78.9% |
+> | `Age` removed from the inputs | 78.8% |
+>
+> Removing `Age` entirely gives the same score, fold for fold, so no fill of `Age` can change it; only the extreme fill of 99 flips a few predictions.
 
-> **Extra:** Grid search fits only on the training set; the test set stays unseen. After the search, `grid_search` refits the best pipeline on the whole training set, and we score it on the test set once: `grid_search.score(X_test, y_test)` gives 76.0%. This is the number to report, not the 78.8% from cross-validation, because the settings were chosen to maximise that one.
+> **Extra:** Grid search fits only on the training set; the test set stays unseen. After the search, `grid_search` refits the best pipeline on the whole training set, and we score it on the test set once: `grid_search.score(X_test, y_test)` gives 76.0%. This is the number to report, not the 78.8% from cross-validation, because the settings were chosen to maximise that one, which makes it too optimistic (Cawley and Talbot 2010).
 
 ## 8. Summary
 
@@ -418,7 +427,11 @@ On a bigger dataset, or with strategies that differ more (for example a constant
 - A missing indicator lets the model learn whether a missing value is informative. It is added next to any imputation.
 - Grid search can tune the imputation strategy along with the model, if the imputers sit inside the pipeline. Settings are named by their path, joined with `__`.
 
-## 9. Key terms
+## 9. Sources
+
+- Cawley, G. C. and Talbot, N. L. C. (2010). On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation. *Journal of Machine Learning Research* 11, 2079–2107.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -143,11 +143,15 @@ Three of the five perceptron lines pass within about 0.02 of a green point. The 
 
 The perceptron trick stops improving as soon as the training error is zero: its only goal is "no misclassified points". Where exactly the line ends up depends on the random order of picks.
 
-A new student whose point falls just next to the green cluster could easily land on the wrong side of a line that hugs it. A line in the middle of the gap leaves room for such points. So the perceptron can reach zero training error and still do worse on new data: it does not generalise as well.
+A new student whose point falls just next to the green cluster could easily land on the wrong side of a line that hugs it. A line in the middle of the gap leaves room for such points.
+
+A test on real data confirms this. On the iris flowers, setosa against versicolor (two species a straight line can separate), the perceptron lines misclassified 5.5% of new flowers on average, against 1.2% for logistic regression. The same idea drives the maximal margin classifier: a line with a wide gap on the training data should also keep a wide gap on new data, and so classify it correctly (ISL §9.1.3).
+
+> **Extra:** The test, in the notebook: sepal length and sepal width (standardised), 10 random training flowers per species, the other 80 flowers as the test set, averaged over 100 random draws.
 
 Logistic regression keeps adjusting the line even when every training point is already correct, until the line is placed as well as possible. How it decides what "as well as possible" means is the subject of the next Notes: the sigmoid function, and then the loss function.
 
-> **Extra:** `C=100` makes scikit-learn's regularisation weak. With the default `C=1`, `LogisticRegression` adds a Ridge-like penalty that keeps the weights small, which on this data moves its line slightly (it then misclassifies one point by a hair). The hyperparameters of logistic regression get their own Note later.
+> **Extra:** `C=100` makes scikit-learn's regularisation weak: `C` is the inverse of the penalty strength, and the default penalty is a Ridge-like L2 penalty (scikit-learn docs, `LogisticRegression`). With the default `C=1` the penalty keeps the weights smaller, which on this data moves the line slightly: the line then misclassifies one training point by a hair (0.009). The hyperparameters of logistic regression get their own Note later.
 
 ## 7. Summary
 
@@ -155,9 +159,14 @@ Logistic regression keeps adjusting the line even when every training point is a
 - The line is drawn with slope $-w_1/w_2$ and intercept $-w_0/w_2$.
 - On the example, the line moved only 6 times; after that, no point was misclassified and it stopped.
 - Its final position depends on the random order and can hug one class.
-- Logistic regression places the line with a fair gap to both classes, which generalises better.
+- Logistic regression places the line with a fair gap to both classes, which generalises better (iris test: 1.2% errors against 5.5% for the perceptron).
 
-## 8. Key terms
+## 8. Sources
+
+- **scikit-learn docs:** `sklearn.linear_model.LogisticRegression` (parameters C and penalty), scikit-learn 1.9.
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 9.1.3, p. 371.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

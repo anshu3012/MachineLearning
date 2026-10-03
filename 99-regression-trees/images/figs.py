@@ -125,3 +125,15 @@ fig.update_xaxes(title="feature importance (sums to 1)", range=[0, 0.55])
 fig.update_layout(margin=dict(l=100, r=20, t=20, b=60))
 save(fig, "feature_importance", 900, 560)
 print(imp.sort_values(ascending=False).round(3).to_dict())
+
+# 6. Untuned fully grown tree against a tuned tree on California housing (averages from the Notebook's 20 splits)
+res = pd.read_csv(DATA / "california_tuning.csv")
+bars = [("untuned tree,<br>training data", res.full_train.mean(), GREY),
+        ("untuned tree,<br>test data", res.full_test.mean(), RED),
+        ("tuned tree,<br>test data", res.tuned_test.mean(), GREEN)]
+fig = go.Figure(go.Bar(x=[b[0] for b in bars], y=[b[1] for b in bars], marker_color=[b[2] for b in bars],
+                       text=[f"{b[1]:.2f}" for b in bars], textposition="outside"))
+fig.update_yaxes(title="R² (higher is better)", range=[0, 1.1])
+fig.update_layout(margin=dict(l=80, r=20, t=20, b=80))
+save(fig, "tuning_gain", 800, 500)
+print({b[0]: round(b[1], 3) for b in bars})

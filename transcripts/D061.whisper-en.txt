@@ -1,0 +1,428 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video, we are going to continue our deep learning playlist.
+Now, I know that I started this playlist last year and in December, I paused this playlist.
+I have told you many times that I had started a mentorship program and I was so focused on running that program that I was not able to shoot videos in this particular playlist and I didn't want to compromise with quality.
+So that's why I decided that for a few days I will pause this deep learning playlist.
+So now our patch of mentorship program is going to end
+and I got some time and I thought I should go back and start creating videos in this playlist
+because I'll be very honest, I have received so many emails in the last 7 months
+so many messages have come on different platforms and so many comments have come from you guys
+that sir please continue the deep learning playlist
+that as I told you, it became a burden on my soul
+and now I have decided that going forward
+I will complete this playlist as soon as possible
+So, where are we resuming from? Let's clarify that.
+So, if you are watching the playlist, you will know that the last topic we covered was Recurrent Neural Network, RNN.
+We completed that well and then I paused it.
+So, we will start from exactly that point.
+And now, the topic we are going to cover is LSTM, Long Short Term Memory.
+It is a very important topic.
+In fact, I want to tell you two things about this topic.
+The first thing is that it has a lot of importance in the industry.
+It is used a lot and not only that,
+the famous things that you are listening to these days,
+like ChatGPT, LLMs, Transformers, Attention,
+the foundational step of all these things happens through RNN and LSTM.
+So, if you want to understand about LLMs,
+then you should know about LSTMs
+so according to that it is a very important topic
+and the second thing I want to tell you about LSTMs is that
+it is a difficult topic
+I will be honest, I guess many of you know about this
+generally people label LSTMs as a difficult topic
+the reason for that is
+not only
+it is difficult to understand what is going on in LSTMs
+but even if you understand how things are working, you don't understand why things are working
+and that is why I decided to cover LSTMs in 4 videos
+so in the first video, which is this video, we will read what is LSTM
+what means what is LSTM, we will discuss simple idea
+In the second video, we will learn how LSTM works, its architecture and its mathematics.
+And when we understand these two things, then in the third video, we will learn why LSTM works.
+And finally, when we have understood these three things, we will make a practical code using LSTM.
+and I think if you watch these 4 videos then you will understand LSTM
+I can't guarantee the frequency of next video, I will try my level best
+but I have shared the roadmap with you, going forward we will try to complete this playlist
+so I hope you understood the introduction, now let's start the video
+So guys, it's been a long time, so let's take a small recap so that it becomes easy for you too.
+So if you remember, we started this playlist with ANN.
+And you must be knowing that ANN is a very simple neural network architecture where you have input layers.
+Actually, there is only one input layer. There are multiple hidden layers and then there is an output layer.
+and it is fully connected like this
+now the problem of this architecture is that
+this architecture can't handle sequential data
+sequential data means textual data
+or time series based data
+where chronology matters
+old points impact new points
+in that kind of scenario ANN doesn't work and I have explained you in detail why
+one big reason is that let's say you have a text
+hi my name is Nitish
+now let's say I want to do sentiment analysis on this, I know there won't be any sentiment analysis here but let's say
+I want to know if this sentiment is positive or negative
+so obviously to know this you have to understand the meaning of this sentence
+and for that it is important that you study the order in which these words are coming
+but the problem with RNN is that you will first convert this sentence into vectors
+which is basically numbers, and you will send the whole sentence together in this neural network.
+Now when you send the whole sentence together, then there is no meaning of any word before or after it.
+And from here we started the discussion of RNN.
+RNN solves this problem because RNN brings a concept which we call state.
+for now let's do one thing, first of all I will write the architecture of ANN in simplified form
+this is the simplified form
+this is x
+this is h as in output
+and these are your
+middle layers
+this is a
+hidden layer
+now in this
+what improvement did RNN do
+he said that
+we will also use similar architecture
+which is in ANN but we will bring a state concept in it and state concept means this
+means that every hidden unit will give feedback to itself and to others also
+in the next time step so basically what you will do is first of all you will send only one word as input
+right means what will happen when you unroll it in time so first of all you will send your first word
+hi and from here like this is time step equal to 1 so you will send ht from here ok ht means h0
+I'm sorry h0 this will give you h1 which will work as input for your next state when you are sending your second word my
+from here you will get h2 which will work as input for your next step which is name
+then h3, here you are sending is, from here h4, here you are sending nitesh and finally here you get your output
+that is how RNNs work, I have studied this in detail
+but from here main discussion starts, so RNNs in theory they work well
+but problems start coming when you increase the length of the sentence
+like here we have 5 words, what if we have 50 words
+and now you have to do some decision making related to the initial words
+let's take an example
+Let's say you have this sentence, the example I gave you, Maharashtra is a beautiful state, the language spoken there is fill in the blank, this is to predict your neural network.
+So what are you doing? First you are sending this Maharashtra, then you are sending this, then you are sending this, in this way you are sending ahead.
+So eventually what will come here is actually depending on the first word because here only you know the name of that place Maharashtra
+So obviously Marathi will come here
+And Aryanans will be able to do this prediction because this sentence is not that big
+But if you make the sentence a little bigger like Maharashtra is a beautiful state
+It has got 25 cities. It has got beautiful vegetation and forest and whatever.
+So the capital city is Mumbai. And then at the end you are saying the language spoken there is fill in the blank question mark.
+So now since this sentence has increased, this whole series which you are unrolling in RNN, these time steps have increased.
+now if this last word is depending on the initial word
+then your RNN may not be able to tell that Marathi came here because it has already forgotten that Maharashtra was the topic
+and this happens because I explained in detail in the previous video that there is a mathematical issue here
+which we call vanishing slash exploding gradient problem
+basically if this chain gets too long then the prediction here is that it has forgotten the initial inputs
+and that is why it doesn't have much impact on the far away predictions of the initial inputs
+it is mostly of the past inputs
+basically it will behave like Gajni's Aamir Khan
+you will remember the present and forget the past
+this is the problem that RNN faces
+and I gave you a very good mathematical intuition of this
+by removing the derivatives, you can see if you want
+So from here the story starts of LSTM, till now whatever I told you was a flashback story
+Now from here LSTM starts, the origin of LSTM is because RNNs were not able to handle long sequences
+because of the vanishing exploding gradient problem
+so now I will give you an intro on what are LSTMs and how they work
+so guys from here the main part of the video starts
+now I am going to explain you the core idea of LSTM
+core idea means I will try to explain you the simplest version of LSTM
+Let me tell you one thing, and many people already know that LSTMs are a difficult topic.
+If anyone has studied LSTMs, they will honestly tell you that understanding LSTMs is difficult.
+But guess what, if you understand the core idea well, then understanding LSTMs becomes easy.
+So trust me when I say this, the next 15 minutes are very important to develop your understanding.
+so please I request you to focus now to explain the concept I have written here how RNN works
+I have explained you countless times how RNN works, how they unfold time by time and how information moves forward
+We already know all this. Now I will explain to you what is the core idea of LSTMs using this structure.
+How will I explain? In a very interesting way. I will keep a story in front of you. I am going to tell you a story.
+and your job is to listen to that story and tell whether that story is good or bad
+so in simple words you have to behave like a deep learning neural network
+and the task you have got is of text classification
+your answer should be yes or no
+yes means good story and no means bad story
+So, let's start. So, the story is very old, around 1000 years old. There was a state in India called Pratapgarh.
+You will be able to appreciate me a lot because I am making a story on the go. So, there was a state called Pratapgarh.
+In Pratapgarh there was a king called Vikram, now what should I say about Vikram, Vikram
+was very very powerful, like very powerful and not only powerful he was very kind and
+was very attached to his subjects, in short he was a very very good king, everything was
+Everything was going well, Pratapgarh was happy, everything was going nice.
+But then suddenly, one day, a neighbouring country's king XYZ attacked Pratapgarh.
+And there was a terrible war.
+Vikram fought with a lot of bravery and guess what, he defeated XYZ.
+But unfortunately in this war, Vikram died, it looks very bad, but yeah Vikram died and
+suddenly everything got very bad, everyone started mourning, whatever it is, the story
+continued slowly.
+After a few years, Vikram's eldest son, Vikram Jr., he became the king and Vikram Jr. was
+In fact, people used to say that every quality that Vikram had in him was 1.5 times more powerful and attached to his people.
+But guess what? Vikram had only one thing in his mind that he had to take revenge on his father.
+to kill xyz and guess what as soon as vikram jr was 20 years old and he thought that he
+had the power now he attacked xyz and what a fight it was and xyz killed vikram jr again
+so vikram jr also died there are a lot of twists and turns in the story and again everything
+Something went wrong, but guess what, Vikram Jr. also had a son, Vikram Super Jr., and Vikram Super Jr. was neither like his father nor like his grandfather, which means he was not very strong, but he was very smart, since childhood, a little out of the box thinking and approaching things in a different way, was his identity, and when he became the king,
+So he had only one thing in his mind that he has to take revenge of his father, grandfather and everyone else from this XYZ.
+And the day he turned 15 years old, he attacked XYZ.
+XYZ dominated him very badly and it seemed that Vikram Super Junior would also die.
+But guess what? Vikram Super Junior put his mind to it and killed XYZ.
+and in this way he took revenge of his father and grandfather
+and this is the story guys
+this is the story
+so first of all I would like you to appreciate me
+that I made such a great story in real time
+and now it's your job to tell me
+whether you liked this story or not
+according to you is this story good
+or bad
+guess what
+your answer doesn't matter
+matter is
+that when I asked you this question
+that did you like the story or not
+then how did you decide
+the core idea of LSTM
+is hidden in this
+I will tell you
+how your brain decided
+so what happens is
+when you get sequential data
+like a story
+a show
+a movie
+Your mind processes it on a word-by-word basis.
+First of all, it has processed a very old story.
+It is the story of Pratapgarh.
+Vikram was the king there.
+You are processing this whole story word-by-word.
+And along with that, you maintain two types of context.
+One is called short-term context.
+And the other is called long-term context.
+What is short-term context?
+that what is going on in the story right now will come here
+so when I told you that this is a very old story
+almost 1000 years old
+so this whole thing was in short term context
+and
+then what happens is that your mind tries to make long term context from short term context
+it thinks that what is going on in the story right now
+What do you think is important for the long term context?
+So you thought that this 1000 year old story is very important for the long term context
+Because it is possible that the whole story goes according to that
+1000 year old story means if there will be a fight then guns will not be used
+Sword will be used
+So it should go in the long term context
+Then came the story of Pratapgarh
+so you again thought that it is in the background of Pratapgarh
+geography matters a lot in the story of history so you put Pratapgarh here
+then came the topic of Vikram
+so when I said about Vikram that he is very powerful
+he is very kind
+so you thought that he is not my hero
+hero is very important for the story
+so you put Vikram here
+Then I told you that XYZ came and there was a fight with him, so you thought that XYZ is a villain and it will be important, so you put XYZ here
+But when I described the fight and said that Vikram died, you realized that maybe Vikram is not the hero because he has died
+So you removed him from the long term context
+then came vikram jr jr, when I said about vikram jr jr, he is more powerful than his father
+so you thought maybe he is the hero, so you added vikram jr in the long term context
+now the story is moving ahead by holding vikram jr, again there was a fight but vikram jr was killed
+and then your mind realized that maybe vikram jr is also not our hero
+xyz is still my villain but vikram jr is not my hero
+then came vikram super junior and you put vikram super junior in long term context
+and guess what vikram super junior finally killed xyz
+so you didn't remove him from long term context
+and eventually when you were asked whether the story is good or not
+you went to this long term context and decided whether the story is good or bad
+So this is how your mind is deciding how to process sequential data
+Now let's come back to RNN and think if RNN has this capability
+If you look at the architecture carefully then you would realize that RNN has only one way to maintain state, memory and remember things and that is this line
+This is the only path through which you are able to retain information about past data.
+Now on this single line there is pressure to maintain long term context and on this only there is responsibility to maintain short term context.
+And guess what we have read in last video that mathematically it is not possible that you can keep short term context and long term context on this single line.
+short term context and guess what short term context dominates so eventually short term
+context things remain here.
+You understand that basically he is such a person who has listened to only recent things
+that he has in his mind, he forgot a very old thing, if you go to show such a person a series
+on Netflix, then he will remember the most recent episodes that yes, some Vikram Super
+But he must have forgotten that Vikram was his grandfather.
+So this is the problem with RNN.
+And this is what our computer scientists realized that we don't have any mechanism to retain both these contexts.
+So that's when they decided, they thought that what if we maintain one more path.
+so in this lower path we will keep short term memory which i am getting in input
+and in this upper path i will keep long term memory
+so what will happen is that if something is important in first step itself
+then it will reach to the end, to the output
+if it is not removed from the long term memory. Let me give you an example, so suppose we have started a conversation, I am giving you a sentence that Ankita is a great girl.
+Now in the next sentence I have to tell that she is a state topper, so I have to use a pronoun, so I can either use she or he, but since I know that Ankita is a girl then I would use she.
+so as soon as I get this statement that Ankita is a great girl
+as soon as I get this sentence then automatically short term memory will tell long term memory
+that look boss Ankita and girl
+these are two important things according to long term context
+so you take this and move ahead and on this basis decide
+what output to give, he to give or she to give, text moved forward like this and eventually
+someone wrote in the sentence that Nitish is a youtuber and now we are talking about
+Nitish that he has made several videos on data science, so again what pronoun to use,
+now what pronoun to use, she or he, obviously he, so at this point where Nitish came in
+system, so what we did there, we removed Ankita from our long term memory, removed
+the girl and added Nitesh and maybe added the boy, now whether I have to use he or
+she, I am again asking from long term memory, so this is the core idea of LSTM, in LSTM
+you do this that you introduce a long term memory path apart from your short term memory
+so whenever on the basis of your current input you feel that this thing is important for long term
+you put that thing on the long term chain
+and it stays on that chain until it is removed
+if you don't remove it then it will reach the end
+no matter how long the chain is it will reach the end
+and this is the main idea behind LSTM
+so if I can show you in a summary diagram, so I told you that RNNs look like this, you are sending input from here, you are receiving output from here
+and in between you are maintaining a state in this place, the LSTM is very similar, there are only two major differences
+so what is the first difference let me tell you, so you can see it is basically similar, here also this is the state but along with this there is one more state
+I guess you are able to understand this white one is short term memory and this green one is long term memory
+so this is the first difference, I said there are two differences, this is the first difference that you are taking two paths instead of one path
+this is the first and the biggest difference, by the way in the context of LSTM this is called cell state, we will study this in the next video
+and the second difference is of architecture
+means what is inside this cell
+in RNN there is a simple architecture inside it
+but here there is a very difficult architecture
+why is that difficult architecture let me tell you
+because you have to do one more thing
+you don't have to keep only short term memory and long term memory
+you have to talk between these two
+if short term memory thinks that something new and important has come, then it will tell long term memory
+if it thinks that something has to be removed from long term memory, then it will talk
+so you have to talk between this short term memory and this long term memory
+so to make it talk, you have to use a difficult sort of architecture inside
+to handle this mechanism, to run this communication
+communication between short-term memory and long-term memory
+so if someone asks you at this point that tell me what is the biggest difference between RNN and LSTM
+then you will say that there are two differences
+first difference is that you are taking two states
+one short-term state and one long-term state
+and second architecture is a bit difficult because you are trying to do a complex thing
+and that is that you are establishing communication between short-term memory and long-term memory
+for that you have to bring some architectural changes
+so now next I will show you some architectural changes
+which differentiate rnn and lstm
+so guys time is up
+where I am going to reveal
+lstm's architecture
+so there is a very well written blog on the internet
+from there I have taken these diagrams
+I will share the link of that blog in the description
+but whatever it is
+what you can see above is rnn
+and what you can see below is LSTM
+and first of all I request you not to be scared
+just see two things which I told you earlier
+two changes which are there in RNN and LSTM
+two biggest differences
+so the first difference which you can see is
+RNN is just maintaining this single state
+whereas if you talk about LSTM
+so this bottom line is taking your short term memory
+and a line is passing from the top
+and it is taking your long term memory
+so I guess you are able to observe this
+second big thing
+if you see the architecture
+so this is the architecture of RNN
+how simple it is
+Whereas, if you focus on LSTM, you would see that something very complex is going on here.
+Don't worry, I won't go into details now. I won't study Maths.
+You just have to observe that yes, something very difficult is there in comparison to what is here.
+But I have told you why this difficult thing is there.
+so that long-term memory and short-term memory can communicate with each other
+you can see the whole design, the circuit, whatever you say
+this is only so that you can communicate between these two
+how is the topic of the next video
+but I can still give you a level of simplification
+you can actually simplify this whole difficult thing
+so these things inside are called gates in LSTM
+and precisely there are 3 gates in LSTM
+so if you break this whole architecture
+break one here
+break one here
+So this part, let me color it, this part is the first gate and it is called the input gate, okay?
+Then this second gate is called, I'm sorry, I wrote it wrong, I wrote it wrong, my bad.
+this one is called forget gate
+and this yellow one is called input gate
+and this last one is called output gate
+so all the people who have problem in understanding LSTM
+they have problem in understanding these 3 gates
+but guess what I will give you one line description
+of these three gates that what role does forget gate play, what role does input gate play
+and what role does output gate play, with that atleast you will get a little clarity
+that what is this complex architecture doing.
+So come on guys let me give you a small one line introduction of all these three gates
+forget gate, input gate, output gate, I will give their detailed introduction like detailed
+I will give the description in the next video with full maths, but now just understand what these three gates do.
+First of all, let's talk about forget gate, so you might be able to understand its work from the name forget gate.
+What forget gate does is based on the current input which is this thing and the short term context which is coming from here,
+On the basis of these days, Forget-Get decides what to remove from the long-term memory, understand this thing.
+So, in the long-term memory, we were taking 1000 years old story, Pratapgarh, and Vikram, our first king.
+and then as we came to know that there is a fight on the basis of current input and short term context and Vikram is dead
+so what will forget gate do? forget gate is the person who will remove Vikram from long term memory
+basically if Vikram is running here then he will be removed
+this is the work of forget gate
+forget gate is the gate which decides based on the current input
+what will remain in the long term memory and what will be removed
+now let's move on to the second gate
+the second gate is input gate
+this one
+what is the work of input gate
+input gate based on current input
+Decides what should be added in the long-term memory
+What new information should be added
+So, as Vikram Junior came
+So Vikram Junior should be added in the long-term memory
+Who is doing this work?
+Input gate is doing
+Forget gate is removing things from the long-term memory
+Based on current input
+Input gate is adding things from long term memory based on current input
+And the third is output gate
+Output gate is the gate which decides based on current input
+what to take out from long term memory and show as output
+when we reached final last stage of story
+so now on the basis of last ending
+and on the basis of what is in long term memory
+now I have to tell whether the story is good or not
+so this is our output gate
+so let me summarize once
+forget gate removes things from long term memory
+input gate adds things in long term memory
+output gate finally, the end of the story as in current input and what is in the long term memory
+based on that output is given. Now this whole thing which I have kept in front of you
+this is obviously oversimplification of the whole idea but trust me oversimplification is required
+in the next video when we will go into detail in this, we will see maths then you will understand everything
+that how all these gates work mathematically and then you would be able to appreciate the beauty of LSTM
+I forgot to tell you one more thing, the output gate
+apart from giving the output at the end, it does one more thing
+at every given stage, it creates the short term memory
+you can see i guess you can see here that the output coming out of this is our short term memory for the next stage
+so in the end it is giving the output but in intermediate stages it gives you short term memory
+so this was the functionality of all the gates
+so now let's summarize the whole video
+If you ask me what is LSTM, then I will tell you in a simplified version that you can take LSTM as a computer.
+Remember in childhood we were taught a flow diagram that computer is basically this thing in which you provide some input
+and it does some sort of processing and it gives you some output
+this definition can also be applied on LSTM
+what is happening here is that you are giving some input
+inside there is some processing happening and then we are getting some output
+so first I will tell you about input and output
+if you talk about input then you give 3 inputs
+so if this time is equal to let's say t then in input you first give long term memory of
+last time step which is t-1 this is represented by c and is called cell state as I told you
+and the second thing which you give in input is ht-1 on t-1 your short term memory this
+this is long term memory at t-1 this is short term memory as t-1 and at the same time you
+give current word in input at this moment xt so you are giving 3 things in input
+last time step's long term memory last time step's short term memory and this time step's
+input xt there is some processing and in output you get two things which is your next state
+for that ct as in long term memory and for the next state short term memory these two
+things you get ok 3 inputs and 2 outputs ok this ht which you can see here this and this
+actually same thing so it looks like we are getting 3 things but actually we are getting only 2 things
+ok now what happens inside inside there are 2 important things first you update the long term memory
+you update this update means you remove old things and add new things and second you create short term memory
+memory which is this thing for the next stage these are the two things so that's it this
+is the summary this is what we have read in the whole video in a lstm cell you give three
+things in the input it gives you two things and inside two things are happening first
+your long term memory is getting updated and for the next state short term memory is getting
+and that's the summary of it. Now what we are going to do in the next video where we will read how
+I will explain you this whole architecture by opening it, the maths behind it, what are all these operations
+this sigmoid, this tanh, what are these red symbols, we will understand all this but I really hope
+after watching this video at least you understood what LSTM is.
+So, I hope you liked this video
+If you liked this video, please press the like button
+And if you haven't subscribed to the channel yet
+Please subscribe. See you in the next video. Bye!

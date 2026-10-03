@@ -102,7 +102,7 @@ So the rule is right for 98% of versicolor flowers (no versicolor is 0.7 or belo
 
 > **Key point:** The empirical CDF of a sample is the share of its values at or below $x$; it is a step function that estimates the true CDF.
 
-The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** (ECDFs): for each $x$, the share of the sample's values that are at or below $x$. With 50 flowers per species, each flower adds a step of $1/50 = 0.02$, so the curve climbs in steps, like the CDF of a discrete variable (see the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md)). The true CDF of petal width would be smooth; the ECDF is its estimate, good enough for all practical purposes.
+The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** (ECDFs): for each $x$, the share of the sample's values that are at or below $x$. With 50 flowers per species, each flower adds a step of $1/50 = 0.02$, so the curve climbs in steps, like the CDF of a discrete variable (see the [PMF and discrete CDF Note](../241-pmf-and-discrete-cdf/note.md)). The ECDF is the standard estimate of the true CDF (Wasserman 2004, ch. 7), good enough for all practical purposes.
 
 > **Python:** An ECDF per class.
 >
@@ -155,6 +155,10 @@ Strictly, the colour is a probability density, so the plot shows where the proba
 - Overlapping class curves mean a weak feature; separated curves mean a strong one.
 - A rule from the PDFs, checked with the CDFs, comes with its error rate.
 - In a 2D density plot, colour is density: dark centres are the most common combinations.
+
+## Sources
+
+- Wasserman, L. (2004). *All of Statistics*. Springer. Chapter 7, "Estimating the CDF and Statistical Functionals".
 
 ## 6. Key terms
 

@@ -120,7 +120,7 @@ Counting half of the equal values puts a value in the middle of its own share of
 
 The five-number summary (minimum, $Q_1$, median, $Q_3$, maximum) and the IQR are defined in the [univariate analysis Note](../20-univariate-analysis/note.md), section 8. In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
 
-Because the IQR ignores the outer quarters, it is a measure of spread that outliers cannot move. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
+The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it: in Section 5, replacing 1500 by 15000 leaves the IQR at 94.25. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
 
 ## 5. Building a box plot by hand
 
@@ -174,7 +174,7 @@ One box plot answers four questions:
 
 - **Where is the centre?** The median line.
 - **How spread out is the data?** The width of the box (the IQR) and the reach of the whiskers.
-- **Is it skewed?** If the median sits off-centre in the box, or one whisker is much longer than the other, the middle half of the data is lopsided.
+- **Is it skewed?** If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
 - **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method of the [IQR outliers Note](../43-outliers-iqr/note.md)).
 
 Its fifth use is comparison. Splitting a numerical column by a categorical one gives one box plot per category, side by side, as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 5). Figure 4 splits the Titanic ages by ticket class.

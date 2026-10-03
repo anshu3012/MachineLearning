@@ -1,0 +1,607 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our 100 days of deep learning playlist.
+So if you remember, in the last 2-3 months, we are trying to study Transformers Architecture through multiple videos.
+And in this video also, I will continue Transformers Architecture.
+But first, I want to tell you clearly what exactly we are going to study.
+So I will share my screen.
+So you must have seen this diagram in many places. This is our Transformers architecture and I told you in the beginning that if you want to study Transformer architecture, then first you have to understand its individual components very well and we are doing exactly the same from the last 6-7 videos.
+So, we understood some important components of transformers.
+First of all, we understood what embedding is.
+So, we discussed about embedding.
+After that, we discussed a lot about attention.
+Self-attention, multi-head attention.
+And in the end, we also studied positional encoding.
+So we have studied these three components which are very important in transformers architecture.
+One last thing is left and that is normalization.
+So if you have any idea about transformers architecture then you have to normalize things here.
+And you use layer normalization for normalization.
+So today's video will be all about layer normalization.
+and why do we use layer normalization in transformers
+whereas we have studied batch normalization
+why do we not use batch normalization here
+so this is one last topic which I want to teach you
+before actually getting into the architecture part of transformers
+so once this is covered then next video onwards
+we will start studying the architecture of transformers
+so the plan of today's video is
+first of all we will study what is normalization in deep learning
+I will give you a quick revision of batch normalization and after that we will get into layer normalization
+So I really hope you are excited for this last component of transformers because after this the real architecture will start
+So let's start the video
+So guys let's start from the beginning
+Let's quickly discuss what is normalization and why normalization is useful in deep learning
+Now honestly if you have been studying machine learning for a long time then you would know about normalization, standardization and all these things but still I will give you a quick definition.
+So normalization in deep learning refers to a process of transforming data to have specific statistical properties, typically a mean of 0 and a variance of 1.
+So, if you have a feature and it has different numbers, then you can normalize it.
+There are different forms of normalization.
+One is standardization, where you take every number, subtract the mean of that column and divide it by standard deviation.
+What is the benefit of this transformation? The mean of the new transformed column is 0 and standard deviation is 1.
+This is the form of normalization that you have seen. Similarly, there is another one called min-max normalization or min-max scaling.
+We apply all this so that your data comes in a given range.
+Right? You might remember this.
+So, we had studied this in machine learning, but guess what?
+This is also very useful in deep learning.
+Now the question is, what exactly do you normalize?
+So, you normalize two things in deep learning.
+For example, if you look at the neural network architecture,
+suppose we have a data set which has F1, F2 and F3.
+different values are given here
+ok
+so this is our input layer
+this is our hidden layer
+and this is our output layer
+so in deep learning
+you can normalize two things
+first
+the input you are sending from here
+f1, f2
+f3
+you can normalize them
+and this is done
+you have done this in past
+Second, if you want, you can also normalize the hidden layer activations from here.
+In fact, you do it.
+So if anyone asks you what are the normalizations in deep learning,
+then you can say very easily on two things.
+First, on your input as in input data and second on your hidden layer activations.
+If you have a deep neural network, then you can apply normalization on the further hidden layer activations as well.
+Now the question arises, why? What is the benefit if I apply normalization in deep learning?
+I have already taught you all this, but I will give you a quick revision.
+The first advantage is that the training of the neural network, the back propagation that you apply improves its stability.
+It is written here that normalization helps to stabilize and accelerate the training process by reducing the likelihood of extreme values that can cause gradients to explode or vanish.
+It can happen that you are providing data and then you are updating the weights, so let's say this weight has increased a lot.
+Now if this weight increases, then obviously its activation will also increase.
+By increasing the activation, there will be a difference in the output and basically your model will not converge quickly.
+So it is always said that your activations and your inputs should always be in a given range.
+This makes your training stable.
+Second is faster convergence.
+By normalizing inputs or activations, models can converge more quickly
+because the gradients have more consistent magnitudes.
+This allows for more stable updates during back propagation.
+Similar point is that normalization is a way to improve your training.
+Third point is a bit interesting.
+This is called internal covariate shift.
+If you use normalization then you can avoid a big problem and that big problem is called Internal Covariate Shift.
+Now honestly what is this problem I have taught you in detail in my batch normalization video which is part of this playlist.
+I would recommend you to watch this video once. If you watch this video properly then you will understand this video too.
+In any case I will give you a rough idea of what is Internal Covariate Shift.
+Suppose we have a neural network which looks like this, I am sending my input from here and my output is coming from here.
+Now first of all I will explain you what is a covariate shift.
+Then I will explain you what is an internal covariate shift.
+Covariate shift is a scenario where the distribution of your input data is changing during training and testing or prediction.
+This means that you trained the model on a certain distribution.
+But when you went for prediction, its distribution changed.
+For example, you have built a flower classification deep learning model, but during the training you have given only red roses in the data.
+But when you go for the prediction, you are giving yellow rose, white rose and different colours of rose.
+So, the distribution during training and while prediction are different, so obviously the performance of the model will be bad.
+So, this is called covariate shift.
+Now, let's talk about what is internal covariate shift.
+so internal covariate shift means that the hidden layers of your deep learning model
+the output of which you call activation
+they keep changing over time
+understand this
+if I consider this as my neural network
+I am taking an assumption for a while
+that the one in this blue box is my neural network
+so the input for this blue box is this
+and this input is actually the output of this hidden layer
+but if you look carefully
+so the problem is that during the training
+since these weights will keep changing
+because back propagation is being applied
+so by changing these weights, automatically this will also keep changing
+and if this whole thing keeps changing
+So the input that this neural network is getting is also changing over time.
+So in a way, this is a covariate shift that the distribution of the input is changing.
+Since this is happening inside the neural network, it is happening in hidden layers,
+that is why it is called internal covariate shift.
+And your normalization also saves you from this problem.
+How does it save you? I have covered that in detail in this video.
+So, I would recommend you to watch this video again if you haven't watched it yet or if you have forgotten to watch it.
+It is a very interesting video.
+And the last benefit of applying normalization is that some forms of normalization also give you regularization effect.
+Like batch normalization.
+How do they give it? I have told you in this video.
+In short, normalization is this technique where you want to apply a mathematical operation and keep your data in a given range and give it some properties like mean 0, standard deviation 1.
+In deep learning also, the concept of normalization becomes very important and you apply normalization in two ways, either you do it on input data or you do it on activations.
+What are the advantages of this method?
+Training improves stability, convergence is fast, internal covariate shift problem is solved and there is a slight effect of regularization.
+Till now, we have learned how to normalize activations and inputs.
+There is nothing to teach in this.
+If you want to normalize the activations, then we have read a technique of this
+Batch Normalization
+Again this video
+Here I have explained in detail that how batch normalization works
+Now today we will read a second form of normalization
+Which you apply on activations
+And its name is Layer Normalization
+I am clarifying again
+we are trying to normalize these activations
+and layer normalization helps us in that
+so now the flow of this video will be
+that I will give you a little revision
+that how batch normalization works
+because it is very much connected to layer normalization
+then I will tell you that
+why you can't apply batch normalization on sequential data
+and then we will introduce layer normalization and in the end we will see how layer normalization works in the case of transformers
+this will be the flow of the video, I really hope you understood this introduction
+so guys now I will give you a quick revision on how batch normalization works
+first I will explain you the setup, so this is the setup
+we have a simple data where we have two features
+Obviously, there will be an output column, which I have not written here because it is not useful.
+There are two input features, F1 and F2, and there are a lot of rows in it.
+For now, I have given the numbers to the top five rows.
+In the next one, you can assume that there will be such numbers.
+And this is our neural network, artificial neural network, which we will use to train on this data.
+Now if you look carefully, this is our input layer, this is our first and only hidden layer, and this is our output layer.
+What we have to do is, we have to apply batch normalization, which basically means that we have to normalize the activations that will come out of this node's output and this node's output.
+So let's see how it works.
+We will send this data in batches in this neural network.
+Now suppose the batch size is 5.
+Which means I will send this data of first 5 rows together in this neural network.
+There will be matrix multiplication and we will get the output.
+But to simplify, I will show you one by one
+what will happen when the first row goes,
+what will happen when the second row goes,
+what will happen when the third, fourth and fifth row goes.
+Just once I will show you sequentially.
+Although it will be all together.
+First of all, we will send this first row.
+Means, from here 2 will go, from here 3 will go.
+Let's assume that these 6 weights have some initial value.
+For now, we have to focus on this weight and this weight.
+And we have to focus on this node.
+So, let's assume that this is w1 weight and this is w2 weight.
+and the bias of this node is b1
+for some time
+so
+here
+we will calculate z1
+and z1 will be
+2 multiplied by w1
+whatever the value of w1 is
+plus 3 multiplied by
+w2, whatever the value of w2 is
+plus b1
+whatever the value of b1 is
+ok
+now what we have to do
+we have to normalize Z1 if you remember in batch normalization video
+so for now before normalizing let me do one thing
+let me make a column in our data
+by calling it Z1
+so let's assume a number let's assume that
+we got 7 after solving it so we will write 7 here
+now let's focus on this node
+and specifically focus on this weight and on this weight
+call it W3 and call it W4
+and now we are calculating Z2 means activation of this one
+or we can call it weighted sum, actually activation comes after activation function
+so this is weighted sum, so now it will be 2 times W3 plus
+3 times W4 plus
+here bias will be B2
+and for some time let's assume that this number is 5
+now what I do is I make one more column here Z2
+and for this row the value of Z2 is
+5
+now we focus on this
+and specifically focus on this weight and this
+so this became W5
+W6 and here came B3
+now similarly we will take out Z3
+and Z3 will be 2 times W5 plus 3 times W6 plus B3
+let's assume that number 4 comes
+and I make one more column here Z3
+so for the first row the value of Z3 comes as 4
+and in this way the work of first row is done
+now what will happen
+our next row will come inside this neural network
+so here 1 will enter
+here also 1 will enter
+and again in the same way
+we will calculate Z1 for this row
+Z2 will calculate for this row
+and Z3 will calculate for this row
+so for some time let's assume that this came
+2,3,4
+then we will send the next one
+and in this way for every
+row we will have
+3 activations
+so 1
+2,3
+7, 5, 6, 3, 3, 4, I have assumed all these numbers, but you are understanding from where these numbers are coming, now the work of batch normalization starts from here, this is the place where we apply batch norm, ok, so what we have to do, we have to normalize these z1 values, normalize these z2 values, and normalize these z3 values, ok,
+so now what you have to do is first of all you have to find the mean for z1
+basically you will find the mean for all these numbers
+and then with the help of that mean you will find the sigma
+and since we are talking about z1 then you will call it mu1 and you will call it sigma1
+similarly for this also you will find mu and for this also you will find sigma
+you will call this as mu2 and you will call this as sigma2
+for this also you will take out mu
+for this also you will take out sigma
+you will call this as mu3 and you will call this as sigma3
+ok
+I hope you are able to understand
+we have taken out all these numbers
+now what will you do
+now you will start the normalization process
+now you have to normalize this number
+so what will you do
+you will write 7 minus mu1
+divided by sigma1
+as you normally standardize
+this will give you a number
+let's assume that the number is 0.36
+now you have to do one more thing in batch normalization
+you may remember that you have to do scaling and shifting operation
+so what will happen is that for every node
+for each of your nodes
+you have two parameters
+beta and gamma
+so
+let's call it beta 1 gamma 1
+for this also beta 2 gamma 2
+for this beta 3
+gamma 3
+now what you will do
+you will pick this number
+and in this you will multiply
+your gamma 1
+and in that you will add beta 1
+initially
+its value
+is 1 and beta's
+value is 0 initially these are learnable parameters so their values will change during training
+so there is no problem you have to understand conceptually so for now if it is 1 then finally
+this number will be 0.36 so now what you will do is you will replace this z1 which was 7
+with 0.36 then similarly you have to normalize the next one so again what will you do 2 minus
+mu1 divided by sigma1
+this will give you a value of 0.71
+now you will multiply it again with gamma1
+and add it with beta1
+and again you will get this value
+so you will replace this
+then you will apply it on top of this
+apply it on top of this
+apply it on top of this
+so this Z1 is completely normalized
+now you will move towards Z2
+so suppose you have to normalize this 5
+so now you will write 5 minus mu2
+divided by sigma2
+this will give you minus 0.21
+now multiply gamma2 with this
+because this is the activation of this node
+and add beta2 to this
+this will give you value
+then apply the same thing here and here
+and we have normalized all the activations of this node
+now it's turn of this
+so for this again 4-µ3 divided by sigma3
+suppose this number is 0.12
+now you will multiply it with gamma3
+and here you will put beta3
+and with this you will put the value you will get
+and in this way you will normalize all your z's
+and once it is normalised, you will send it to your activation function
+and the output given by the activation function will be the output for each of the rows
+so this is how batch normalisation works
+I had explained this to you in the previous video, this is a quick revision
+again I would recommend if you don't remember, please go and watch that video
+Now that you know how batch normalization works, let me tell you the exact reason why layer normalization is used in transformers architecture instead of batch normalization.
+The biggest reason behind this is that your batch normalization does not work well with self-attention.
+This is the main reason.
+Or you can say that batch normalization doesn't work well on sequential data.
+If you see here, this is a very famous diagram of Transformers architecture.
+Here you will notice that the normalization step is just applied after attention.
+Right?
+So what am I going to show you now?
+I will show you how to apply batch norm on self-attention
+and you will automatically understand why you can't use batch normalization with self-attention
+Just a small disclaimer that the explanation that is going to be given in the next 10 minutes is a little complex so you have to be a little more attentive.
+So let's start.
+Before starting, as always, let me give you a quick intro of self-attention.
+In self-attention, you have a sentence like here, river bank, you tokenize that sentence.
+In simple words, you break it word by word. Here two words have been made, river and bank.
+After that, you take out the embedding vector of both of them.
+Generally, it is very big, but in this diagram, I have taken a four-dimensional one.
+Always remember that every word's embedding vector dimension will be same.
+So if river is of 4 dimension then bank will also be of 4 dimension.
+Now what we do is we send both these embedding vectors in self attention.
+And the work of self attention is to generate contextual embedding vectors from these embedding vectors.
+So what you are seeing here is the contextual embedding vector of river word.
+which is taking care of the fact that it has come with the bank word
+and what you are seeing is the contextual embedding vector of the bank word
+which is taking care of the fact that it has come with the river word
+one more thing to note is that these two vectors are also of 4 dimensions
+you are getting the output of the same dimension as the input you are sending from here
+You have read this at least 50 times, so there should be no confusion here.
+Now, I am adding a little complexity here.
+Till now, I have shown you that you send one sentence at a time in the self-attention module.
+Like you are sending a riverbank here.
+But for the first time, I will show you that if you want, you can send more than one sentence in the self-attention module together in the form of batches.
+And how does this work? I will show you in a while.
+First of all, understand the setup.
+So suppose we have a data where we want to do sentiment analysis.
+Which means we have some reviews and their sentiment and we want to train our self-attention module on this.
+So right now we have 4 sentences in our data set.
+Hi Nitesh, how are you today? I am good, you question mark.
+Now what I have to do is I have to train on this data with the help of this self-attention module.
+And what I have decided is that I will send two sentences in one bar in self-attention, which means my batch size will be of 2.
+Meaning, these two sentences will go together and then these two sentences will go together. This is my setup.
+One more thing, to represent every word here, the dimension of the embedding vector that I will use will be 3.
+For example, here it is 4.
+This is our setup.
+Now see,
+first of all,
+all the words in every sentence
+I am focusing on the first two sentences
+because they are making our first batch.
+So in my first
+two sentences,
+I will calculate the embedding vector
+of all the words.
+So you can see,
+I have done exactly this.
+This is the embedding vector of high.
+This is the embedding vector of English, this is the embedding vector of AU, R, U and today.
+There is no logic in this, all the numbers are random and I have written them like this.
+So don't think about where these numbers come from.
+This is generated by a model and given to you.
+For now, all these are random.
+Now here you will see a simple problem.
+You have to send both these sentences.
+But the problem is that in the first sentence there are two words and in the second sentence there are four words.
+But here you can see, if you want to send two sentences at once in self-attention, then you have to make sure that the words should be equal in both.
+This is a requirement.
+Now, how will you make the words equal?
+I guess you already know this, you will use the concept of padding.
+So, here you will add two words, one word, two words and here is your new setup.
+So you can see this is your sentence one, this is your sentence two.
+There are four words in the first sentence too, hi, Nitish, padding, padding.
+There are four words in the second too and obviously the embedding vector of padding
+will be completely zero.
+But one good thing is that our input is now ready to go into self-attention.
+So now our setup looks like this.
+From here we are sending sentence 1 and from here we are sending sentence 2.
+We have to calculate the contextual embedding of every word with the help of this self-attention.
+So don't take any tension, inside there will be same things
+There will be matrices WQ, WK, WV
+By multiplying them, we will get query key and value vectors for both the sentences
+And then there will be all those calculations
+And then we will get our contextual embedding
+So I can do one thing to simplify this whole thing
+you might find it a bit weird
+so what we can do is we can write it in the form of matrix
+right
+you can see what I did
+I caught this whole first sentence
+caught this
+caught this and this
+and formed this matrix
+you can pause the video and see
+this is your
+high embedding, this is Nitish's embedding
+this is padding embedding and this is padding embedding
+Similarly, the second sentence, I have taken all the embedding vectors and made this matrix.
+This is of how, this is of r, this is of u and this is of today.
+So, these two matrices will go together in the self-attention module.
+Inside, there will be all the calculations.
+You can do all these calculations with a copy pen by assuming some weight matrix or you can also do it with chat GPD.
+Basic funda is that when this matrix will enter in this self-attention module,
+so for now this is of 4x3 and this is also of 4x3.
+So from here when we will get the output,
+then I will also get two matrices there.
+So 4x3 and from here also 4x3.
+Actually writing it like this might seem a bit weird,
+but actually we are sending a single tensor here.
+and that tensor's shape is 2,4,3
+basically 2 matrices whose shape is 4,3
+this is a single tensor
+and here at the output also we will get a single tensor of 2,4,3
+which we are representing in the form of 2 different matrices
+but it is a single tensor
+maybe now you don't find it strange
+so this is what happened here
+these are my 2 input matrices
+and with them self attentional module
+generated these contextual embeddings
+This is for sentence 1 and this is for sentence 2.
+I hope you can understand.
+One thing to notice is that the output of padding values is also 0.
+And you can easily understand why 0 will come.
+Because you are just doing multiplication inside.
+So if it is 0 here, then if you multiply it with any number, it will be 0 only.
+Right? That is why it remained 0 till the end.
+Rest of the numbers are non-zeros.
+But whatever it is, now I have the contextual embedding vector of every word of my first sentence.
+I have the contextual embedding of every word of my second sentence.
+Right? Now look carefully.
+What we have to do is, since these numbers are not in any range, they vary a lot.
+You can see 6.5 is also there, 9.2 is also there.
+It's a good idea right now that you normalize these numbers.
+And what will we use to normalize?
+Batch normalization. Right?
+So how will batch normalization happen here?
+That you will stack up these two vectors vertically.
+You can see.
+This is your first matrix, I am sorry if I am saying vectors again and again, these are matrices and this is your second one.
+You can cross check once. Right. And what is representing every column here?
+It is representing one dimension of the contextual embedding. So this is dimension 1, this is dimension 2, this is dimension 3.
+you remember we had 3 dimensions in embedding
+so now we have to apply batch normalization
+and you may remember that I have shown you earlier
+that in batch normalization you normalize by holding the column
+so here also you will do the same thing
+you will hold every number of this first column
+and with the help of that you will get mu1 and sigma1
+similarly with the second column you will get mu2 and sigma2
+for the third column you will get mu3 and sigma3
+and there is nothing to say
+first column will have its own gamma1 and beta1
+second column will have its own gamma2 and beta2
+and third column will have its own gamma3 and beta3
+you can see we had two batches
+I am sorry, we had two sentences in one batch and we are normalizing it across the whole batch.
+We are using every sentence of that batch for normalization.
+That's the concept of batch normalization, right?
+Now, here I would like you to pause the video and think about it.
+If I am doing batch normalization here, then what is the problem?
+I think you will be able to identify
+I guess you are able to understand the problem
+If you think carefully, we have taken two sentences
+Right, and the big sentence also had four words
+What if my batch size is
+Let's say 32
+Means we want to normalize 32 sentences at once
+And suppose the longest sentence in it is of 100 words
+And the rest of the sentences are on an average of 30 words.
+So I guess you are able to understand that in most of the sentences, these zeros will increase a lot.
+In the first sentence, there are two rows of complete zeros.
+In the same way, in the second sentence, in the third sentence, in the 25th sentence, in the 32nd sentence, there will be a lot of zeros.
+because the biggest sentence is of 100 words
+to do padding we need a lot of padding vectors
+what I am trying to say is
+that when you go to find the mean of a column
+then you will get a lot of zero values because of padding
+I hope you are able to understand
+think for yourself
+if you want to find the mean of a column
+and there will be a lot of zero values unnecessarily
+this is a very important word
+this padding was only used in this compulsion
+because we had to match the number of words
+this is not a part of the original data
+all these zeros are not a part of our original data
+but we have to keep them in compulsion
+and compulsion is that this number of zeros is too much in our data
+now if you have a data in which there are unnecessarily a lot of zeros
+and then you are asked to find the mean of that data.
+Will that mean ever be the true representation of that data?
+I hope you are able to understand that the mean will not be the true representation of that data.
+That standard deviation cannot be the true representation of that data.
+And that is why you do not apply batch normalization in the case of self-attention and transformers.
+I really hope that by giving this big demonstration, I was able to give you an intuition that why you cannot use batch normalization
+and this is true for all sequential data.
+This is the problem of sequential data.
+You can easily apply it in normal data but in sequential data you have to face this problem of padding zeros.
+So now I have presented in detail why you don't use batch normalization in transformers.
+Now let's discuss the remedy of this problem.
+And the solution is layer normalization.
+So now I will explain to you how layer normalization works.
+And then I will show you layer normalization in this particular setup.
+So now I will explain to you how layer normalization works.
+and to explain layer normalization, the setup that I am using is exactly the same
+which I used to explain batch normalization a while ago
+so exactly same neural network, exactly same data
+some other things are similar, we are calculating Z1 in the same way
+what is Z1? Preactivation for the first node
+Z2 is calculating, pre-activation for the 2nd node, Z3 is calculating, pre-activation for the 3rd node
+for all the data points. You have understood this setup.
+Here one more thing is similar, let me tell you that first.
+Every node has its own Gamma and Beta parameters.
+Now the main difference is that when you apply batch normalization, you normalize across the batch.
+Like this is a batch of 5 rows, so you normalize in this direction.
+but when you apply layer normalization then you normalize across the feature
+which means you normalize in this direction
+this means if you want to find mean and standard deviation then first of all you will find this
+for first row across all features
+Then for the second one, you will take out mu2, sigma2 and for the last one, you will take out mu5, sigma5.
+Now what you will do is, you will take the first number and to standardize it, you will write 7-mu1 divided by standard deviation.
+we will get a number from this
+let's assume that number is 0.3
+ok
+our work is not done yet
+now what we will do
+we will multiply this number
+with the gamma and beta of z1
+so what is the gamma and beta of z1
+gamma1 and beta1
+so we will do gamma1 plus beta1
+and the number we will get from this
+will replace this 7
+ok
+let's do this
+so for this also you will take out 5 minus mu1 because this is first row sigma1
+whatever number you get now you will multiply it with z2 gamma and beta parameters
+so you will write gamma2 plus beta2
+if you want to normalize this then you will write 4 minus mu1 divided by standard deviation
+multiplied by since it is z3 then you will add it to gamma 3 plus beta 3 if you want to do this
+then you will write 2 minus since now you have come to the second row mu 2 divided by sigma 2 and here
+gamma 1 plus beta 1 I will write one more let's say you have to do this one so since it is fourth row
+then you will write 5 minus mu4 divided by sigma4 multiplied by since it is z2 then you will do gamma2 plus beta2
+and in this way you will normalize this whole data so this is the main difference
+if anyone asks you then the main difference is of batch normalization and layer normalization
+In batch normalization, the normalization you do is across batch, whereas in layer normalization, the normalization you do is across feature.
+I really hope you understood.
+Now guys, I will show you with the same example that why it is more logical to use layer normalization in transformers.
+So, this is the same exact setup where we are sending two sentences together in the self-attention module
+and for both our sentences, contextual embedding vectors are being calculated, you can see, okay.
+And here I have stacked them, okay.
+So, here imagine that this is the first embedding dimension,
+This is the second embedding dimension and this is the third embedding dimension.
+You can understand these as features.
+Now here also, every embedding dimension will have its own gamma and beta parameter.
+Now we have to apply layer normalization here and again if you remember,
+we will apply across feature layer normalization.
+which means, for this first word, we will take out the mean and standard deviation of these three numbers.
+Then we will also take out these three, and by doing this, we will also take out this last one.
+Now let's say we have to normalize a particular number, we have to normalize this, so how will it be normalized?
+6.5 minus mu1 divided by sigma1
+we will multiply this by gamma1 and add beta1 in it
+if we want to do this then we will write 2.41 minus mu1
+because this is the first word
+divided by sigma1 multiplied by gamma2
+because this is second feature
+plus beta2
+similarly if I want to do this
+then I will write 6.5
+minus mu8
+divided by sigma8
+multiplied by
+since this is the last feature
+here it will be gamma3 plus
+beta3
+now think for yourself what is the benefit
+the benefit is
+that in any particular row
+in the process of calculating
+mu and sigma
+The padding zeros have no impact, so we are calculating mu and sigma with the help of the numbers in the data, which means that particular mu's and sigma's are the correct representation of the data.
+Now if you want to remove this, then it will have mu4 and sigma4.
+So this 0 minus mu4 will be 0 itself.
+Sigma4 will also be 0 multiplied by gamma1 plus beta1.
+It will be 0 only. Right?
+So these zeros will only affect themselves.
+They will not affect others.
+And this is the biggest benefit that layer normalization provides us
+in this transformer's self-attention setting.
+So I really hope I was able to explain to you the whole point of what is layer normalization
+and more importantly, why do we use layer normalization instead of batch normalization.
+If you are able to answer this big question in your mind,
+then I will consider this video to be successful.
+So I really hope you understood this whole topic
+and you liked this video.
+If you like this video, please like it and if you haven't subscribed to the channel, please do subscribe.
+See you in the next video. Bye.

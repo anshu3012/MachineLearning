@@ -1,0 +1,426 @@
+Hi guys, my name is Nitesh and you are welcome to my YouTube channel.
+In this video, we will continue our deep learning playlist.
+If you remember, we were covering a very important topic from the last 4-5 videos.
+The topic was self-attention.
+I had told you that if you understand self-attention well,
+then you will not have much problem in understanding the architecture of Transformers.
+So that component is done. Now we are moving ahead.
+And the next component which is very useful in Transformers architecture,
+today we are going to study that.
+and the name of that component is multi head attention
+multi head attention is not a new concept in itself
+you make multi head attention through self attention
+and in this video we are going to learn that
+first of all I will tell you why multi head attention is needed
+after that I will show you its complete architecture in this video
+in detail with pictures
+and in the end I will show you a very interesting visualization
+I will show you that by which the whole concept will fit in your mind very well.
+So I am super excited for the video. Let's start.
+So guys before starting the video, let's take a little recap of self-attention.
+Because if your self-attention is not clear then you will never understand multi-head attention.
+What is self-attention in simple words?
+Self-attention is a technique by which you can generate contextual embeddings.
+In simple words, suppose you have a sentence money bank and you want to represent it in the form of numbers.
+so what are your available options, you can do one hot encoding, bag of words, tf idf or best option is to represent it in embedding form
+because the main feature of embedding is that it can capture semantic meaning
+right, means to capture semantic meaning means that money and bank will be more close
+money and let's say tree will be a little far from each other, okay, numerically
+so this thing is captured in embeddings, but the biggest problem of embeddings is that they are static
+Static means that there is only one embedding value of money and it will be used everywhere.
+There is only one embedding value of bank and it will be used everywhere.
+So if you are using bank in this sentence and you are using bank in this sentence
+In both the sentences, the embedding value of bank will be exactly same even though the meaning of bank is different in both the sentences.
+And this was the biggest problem of embeddings.
+To solve this, self-attention comes.
+Self-attention has the power to generate contextual embeddings.
+which means it will also be an embedding but in which context it is used can be changed
+like if bank came with money then embedding will be seen as something else
+and if bank came with river then embedding will be seen as something else
+so in this flow diagram you have been shown that you have been given a sentence money bank
+You have taken out the embeddings from money bank, this is like word2vec type of a model and these are static and now you have put it in a self-attention block, this is a self-attention block, what happens in it, we discussed it in detail in the last 4-5 videos and what do we get after getting out of it, what are these two, these two are contextual embeddings which perform better,
+in comparison to static embeddings, so this is like a high level recap of self attention
+now if you want one more level of recap that exactly what is going on in this block
+so that also I have told you through these diagrams that first of all what you do is
+that you take 3 matrices, WQ, WK, WV and you take your embedding vectors
+and you do matrix multiplication of these three with e-money and e-bank and from this you get these vectors
+so for money for the word money you get three new vectors which we call as query, key and value vectors
+and for bank also you will get 3 new vectors
+basically for every word in your sentence you will get 3 new vectors
+now with these 3 vectors you do this work for each of the words
+so you catch the money one
+and do its dot product
+from K bank, K money
+with this you got these scores
+you scaled these scores
+I told you all the reasons why we do scale
+we got scaled values
+you normalize the scaled values with softmax
+and you get the weights
+and when you do matrix multiplication with vmoney and vbank
+this is your output
+the contextual embedding of the word money
+and this is same come up as it is repeat
+for all other words that are present in your sentence
+And this is exactly what happens inside this block.
+We have covered all this in detail in the last 5 videos.
+If you haven't watched those videos, then I would recommend you to watch the last 5 videos in this playlist.
+Everything will be clear.
+So we know everything about self-attention.
+But I haven't told you one thing about self-attention yet.
+and that one thing is that self-attention may be a very big problem and what is the problem that we will discuss next
+Now what is the problem with self-attention, this is the best way to understand it through an example
+So here I have written a sentence, you pause the video once and read this sentence and tell the meaning of it
+Sentence is The man saw the astronomer with a telescope.
+Now if I tell you what is the meaning of this.
+One meaning is that a man saw an astronomer with a telescope.
+Means he saw an astronomer on a telescope.
+This can be one meaning.
+But one of you can argue with me that sir one meaning can be that
+I hope you are able to understand this, this is an ambiguous sentence and there is a little ambiguity in its meaning, there is confusion, so two possible meanings are coming out, but unfortunately self-attention can capture only one meaning from these two,
+How self-attention works? It will generate embedding of every word.
+With that embedding, it will generate the query, key and value vectors for each of the words.
+And then it will calculate the similarity scores by taking out dot product between all the query and key vectors.
+So there is a chance that we will be able to capture the first meaning, which means that when we apply self-attention on this whole sentence,
+then the similarity score between man and telescope will be very high, due to which this meaning will come out that this man is looking at the telescope.
+It will be very high between the telescope and the saw, but another possible interpretation is that there is a very strong similarity between the astronomer and the telescope and there is a very strong similarity between the astronomer and the saw.
+This means that the person saw an astronomer and the astronomer had a telescope in his hand.
+I hope I am able to explain the problem.
+The biggest problem with self-attention is that in a given sentence or document,
+self-attention can only figure out a single perspective.
+If there are multiple perspectives, then self-attention will not be able to capture it.
+And unfortunately, in natural language processing, there are many such scenarios
+where you have to capture multiple perspectives.
+I will give you a simple example.
+Suppose you are making a document summarization tool.
+document summarization tool
+whose work is
+to look at a document
+and generate its summary
+and here is that document
+and our user wants
+you to generate a summary of this document
+so
+if you will use only self attention
+then
+obviously you
+will be able to generate a summary
+from only one perspective
+right
+Ideally, you have to implement a mechanism which will be able to generate multiple summaries by looking at the same document from multiple perspectives.
+That is the main problem behind self-attention.
+It is a very powerful technique to generate contextual embeddings.
+But on a single document, it only looks at it from one perspective and forms only one table.
+What is this table?
+The similarity of each word with the other word.
+You are taking out only one single table.
+So, many times, the hidden meaning or multiple perspectives cannot be captured.
+And to solve this, multi-head attention comes.
+which we will discuss further
+so let's see how multi head attention works
+multi head attention proposes a simple solution
+multi head attention says that if you have a sentence
+the man saw the astronomer with a telescope
+which can have two meanings or perspectives
+obviously with the help of self attention
+that you will not be able to get multiple perspectives with help
+so what if we use two self-attention modules instead of one self-attention
+and since more than one self-attention is being used
+we have to call it multi-head attention
+where we call every single self-attention as one head
+so we call more than one as multi-head
+I will explain you visually how multi head attention works
+this diagram is a simple self attention diagram
+which I have shown you earlier
+where you take your sentence
+generate embedding of every word
+then you take 3 matrices
+wq, wk, wv
+and then you generate these vectors and then with the help of these vectors you generate contextual embeddings
+one for each word
+this is simple self attention, we have seen this many times
+in multi head self attention what you do is
+you increase these matrices
+So, if you are using one self-attention module, then you will use only one set of WQ, WK and WV.
+But if you are using two self-attentions, then you will bring one more set of WQ, WK and WV.
+This is the first set and this is the second set.
+And there is no restriction.
+If you want, you can bring the third set also.
+If you want to apply 3 self-attention parallelly.
+After that, since you have multiple weight matrices,
+then your query, key and value vectors for each of the words will also become 2.
+and then you will do this work two times and then you will get two contextual embedding per word
+if you are using two self-attention modules in parallel
+now if you are not able to understand this then I will explain you visually
+we are going to apply two self-attention together
+2. Theoretically, it is more than 2 and people apply it but to keep it easy, I will apply 2 self-attentions in parallel.
+So, first of all, what you have to notice is that you have 2 sets of weights.
+1 is this and same thing is here
+and second is this
+and same thing is here
+how I have denoted them
+wq if here is 1 then this is first set
+wq if here is 2 then this is second set
+same with k first set second set
+same with v first set
+second set
+so look carefully what i have done
+i have taken my money word
+and
+generated its embedding
+and now that embedding
+i am doing dot product
+with both
+set of matrices
+what is the benefit
+of this
+that i got two set of
+query key and value vectors
+for same word
+QMoney1, QMoney2, KMoney1, KMoney2, Vmoney1, Vmoney2
+I hope you are able to understand, here I was getting only one
+so the first difference was seen here
+then I picked up the second word which was bank
+generated the embedding of bank which is eBank
+and then I made it a dot product with both the weights
+And again I got two sets of query key and value vectors for the word bank.
+Qbank1, Qbank2, Kbank1, Kbank2, Vbank1, Vmoney.
+Here bank should be my bad.
+This should be Vbank.
+Okay.
+Here you notice that there was only one set.
+So since now we have a set of two weight matrices.
+So we have Q, K, V vectors per word also doubled.
+Now if all the vectors are doubled, then what we can do, we will basically do the things that we were doing here once, we will do those things twice,
+like if we want to generate Y money, then it was being generated only once here, now notice here it is happening twice,
+How? First of all, we are multiplying QMoney1 with KMoney1.
+We are multiplying QMoney1 with KBank1.
+And then we are doing the whole step with the set of 1.
+This gives us the first contextual vector representation for the word money.
+And then we are doing the same work with the second set of vectors.
+and i got second contextual word representation for the word money
+and i repeated the same thing for the word bank
+so with first set i got y bank 1 and with second set i got y bank 2
+so the summary of basic difference is written here
+we have a multi head attention block which consists of two self attention blocks
+self-attention blocks. What are we doing? We are embedding money and bank in both.
+We are sending money in 1 and bank in 1. We are sending money in 2 and bank in 2.
+Now this first self-attention module is making contextual embedding with both words.
+why money one, why bank one, this is what was happening when we were using a single self-attention first
+but now that we have two self-attention modules, we are getting the second representation also
+right, this is the second self-attention output
+so if I have this big sentence
+if I have this big sentence
+and if I send it here
+then I will get the opportunity to capture as many perspectives as there are self-attention modules.
+I hope you understood. Let me summarize for you.
+So what we do is, we have to capture multiple perspectives which were not possible with a single self-attention block or a single head.
+So multi head attention is a simple thing that instead of one set of these matrices, what if we use multiple sets or multiple heads.
+So what will happen is that the whole process of self-attention you were doing once, you can do it multiple times in parallel.
+And since they are parallel, they can capture different perspectives.
+Here we have shown by doing two, the original paper of transformers, if I remember correctly.
+there 8 heads are used
+8 heads means 8 parallel self-attention modules are used
+to capture 8 different perspectives
+now we have done this thing by doing a lot of breakdown
+once I will tell you that in matrix form
+how this whole thing will happen, how this whole thing will happen together
+so let me tell you that
+how multi-head attention is applied together
+I have made this diagram very carefully and trust me, it will make things very easy for you.
+So let's understand step by step. So this was our sentence.
+There are only two words in the sentence, money and bank.
+So for these two words, I have generated their embedding.
+So this embedding is actually looking like a matrix because there are two embeddings here.
+above is e-money and this is of 4 dimension and below is e-bank and this is also of 4 dimension
+that is why this matrix is 2 cross 4 now main thing starts here
+now here is my multi head attention and I am using 2 heads as in 2 self attention modules
+This is the first one and this is the second one.
+So in the first one, these are my three weight matrices.
+WV, WK, WQ.
+This blue one is WV.
+The green one is WK and the purple one is WQ.
+And all of these are 4x4.
+Similarly, if you see here, there is a different set of matrices.
+This is WV, WK and WQ but this is second set so I have written 2 here and this is also 4x4.
+Now what we are doing is that we are making individual dot product with these three matrices.
+So when this yellow one is happening with this pink one then we are getting this matrix which we are calling Q1.
+When this yellow one is with this, we are getting this matrix, we are calling this as K1 and when this yellow one is with this, we are getting this matrix, we are calling this as V1.
+What are Q, K and V matrices? These are the matrices which have the value vectors of our query.
+So, in this Q matrix, there are Q vectors corresponding to both the words.
+So, basically this is QMoney1 and this is QBank1 and this is KMoney1 and this is KBank1
+and this is VMoney1 and this is VBank1 and all of these are 4-dimensional.
+so this green matrix is 2x4, this is also 2x4 and this is also 2x4
+now the same thing is happening here
+I am doing dot product with these three matrices
+when I am doing with this purple matrix, I am getting Q2
+when I am doing with this green matrix, I am getting K2
+when I am doing with this blue matrix, I am getting V2
+And what is Q2? This is QMoney2 and QBank2, KMoney2, KBank2, VMoney2, VBank2.
+Now we have all the query, key and value vectors of both self-attention heads.
+now here self attention work will be done
+this work
+this whole thing
+and because of this whole thing
+I will get my Z1
+Z1 is basically my Y
+money 1
+and Y bank 1
+basically these two things
+I am sorry, this and this, ok, I got this here and from its self-attention I will get Z2 which will contain Y money 2 and Y bank 2, ok
+This output is different and this output is different.
+Now from here a new thing will happen.
+We have two different contextual vectors coming out from two attention heads for each of the words.
+So now what do we do?
+What do we do? We concatenate them.
+We join them.
+So basically what are we doing?
+We are holding Z1. This much is Z1.
+and this is z2
+this is this and this is this
+and we get z dash
+and the shape of z dash is 2x8
+why? because this is 2x4 and this is also 2x4
+so now all the attention heads have a combined output
+but always remember that the output should be of the same shape as the input which is 2x4
+so we will have to convert this 2x8 matrix into 2x4
+so we will take a linear transformation with the help of this matrix wo
+On the other hand, its shape is 8 cross 4 and its shape is 2 cross 8.
+These 8 are common. When we will do dot product of these two, then we will get 2 cross 4 matrix.
+Which is here. This is our final output Z.
+And all these numbers in this matrix are weights.
+Which you learn during training.
+And the main goal of these weights is that they try to draw a balance between this output and this output.
+We get two perspectives, by understanding both the perspectives, the more useful perspective or if there is some mixture of perspectives,
+we try to create that with the help of this linear transformation.
+As soon as this linear transformation takes place, we get our final output Z which is basically a 2x4 matrix.
+So this is the corresponding output of your money word and this is the corresponding output of your bank word.
+In this diagram, you can easily use more sentence with more words and if possible you can use more attention heads but this is the matrix form in which multi-head attention is applied.
+Now let's do one thing, I will quickly discuss with you that our original paper, attention is all you need, in that how multi head attention was implemented.
+Basic idea is same as what we have discussed till now, just there are some slight changes that I want to discuss with you.
+So here also what you do is you start with your sentence, like in our case the sentence is money, bank.
+With that you generate the embedding.
+Now here you will see the first change that the embedding we use is of 512 dimension.
+This means that the embedding of money is e-money and the embedding of bank is of 512 dimension.
+which means that the yellow matrix is of 2x512
+so this was the first change
+if we talk about the second change
+in the previous example, I took two attention heads
+in the original paper, 8 attention heads were used
+here you might be able to see
+this is the first one
+this is the second one
+this is the eighth one
+So now what will you do? You will project your embedding vectors linearly to get your query, key and value matrices.
+So what you are seeing here is your first set of weight matrices which you can call WQ, WK and WV.
+I am writing 1 on all of them because they are representing the first head H equal to 1.
+and here below you will get WQ, WK and WV
+but they are representing 8th head
+so we will dot product these matrices and do linear projection
+so we get 9 matrices, no not 9
+3 times 8, 28, 24 matrices
+so this one is your query 1
+this one is K1 and this one is V1
+this is query 2, this is k2, this is v2, this is q8, this is k8, and this is v8.
+Now we have 8 sets of query key value vectors, matrices.
+Now we will apply self-attention in parallel.
+How many? 8 self-attention, we will apply it parallelly and we will get contextual vectors from all of them.
+One more big change which I haven't discussed yet is that the matrices which you are taking are all of them of 512 by 64.
+This blue one is also of 512x64, this green one is also of 512x64, and this purple one is also of 512x64.
+So when you will dot product a 2x512 matrix with a 512x64 matrix,
+so you will get this matrix
+its shape will be
+2 cross 64
+means this is your
+query vector and this is your
+query vector both are of 64
+dimension same with
+these two these two
+all of them all of these
+are 64 dimensional
+vectors it means
+that this linear projection we did here
+what we did here
+we reduced the dimension
+earlier we were working with 512 dimensional vectors
+now here all the vectors we have are 64 dimensional
+ok
+after some time I will tell you why we reduced dimension
+whatever it is
+with these reduced dimension vectors
+we put self attention
+and here I got my
+y money 1
+y bank 1
+here I got Y money 1, I am sorry 2, here I got Y bank 2, here I got Y money 8, here I got Y bank 8
+and all these purple vectors are also of 64 dimension
+so this matrix is 2 cross 64, this is also 2 cross 64 and this is also 2 cross 64
+after this you have 8 attention heads and 8 outputs
+you want to concatenate them because you want to catch all the perspectives
+so in this step you have concatenation and here you have 2 cross
+64 plus 64 plus 64 8 times
+you got 512 again
+see this
+so here I have a vector which is of 512 dimension and this is also a vector which is of 512 dimension
+and in the last step we will do linear projection again with the help of some weights
+which we call W output and its shape is 512 by 512
+So when you will do dot product with this matrix, then the final output is again 2 cross 512
+in which this first vector is the output of money and this is the output of bank.
+and notice that the output dimensions and the input dimensions are exactly same
+I hope you are able to understand this
+now one question which I haven't answered is that why did we go from 512 to 64 in the middle
+and its simple answer is to reduce the computations
+if we let all of them remain 512, then the self-attention, the computations in every self-attention would have increased
+so what we did, we provided 1 eighth of the dimensionality to every self-attention
+basically reduced all the computations from 1 eighth
+and then you parallelized all these computations
+by which you got your output
+And in this whole structure, your overall computation was the same as if you had used only one single self-attention with 512 dimension.
+You have divided that 512 dimension into 8 64 parts and applied multi-head attention.
+So in a way, you got best of both worlds.
+You have also applied multi-head attention instead of self-attention and you have to do the same computations as you have to do in normal self-attention but you have multiple perspectives due to multi-head attention.
+Here the concatenation is the joining of perspectives.
+Let me tell you again, we are connecting all the perspectives and this linear projection is deciding the importance of each perspective
+and this final output is kind of signifying the result, the mixture of perspectives, this result signifies the mixture of perspectives.
+So the whole architecture that you can see is implemented in the original paper of Transformers.
+So I really hope that you have understood the whole picture.
+Now let's do one last thing. I will show you a very good visualization through which whatever you have read will be clearer.
+So guys, the thing that I am going to show you is very interesting.
+This is a Google collab notebook that I got on GitHub.
+Here we will use an actual transformer trained model where internally multi head attention is working.
+The name of this model is BERT.
+Maybe you have heard its name.
+We are going to read about it in future.
+But whatever it is, I provided our sentence to this model.
+Our sentence was the man saw the astronomer with a telescope.
+And now I am going to show you the output of this model.
+I am going to show you so here you are working in multiple layers and there are multiple heads in each layer
+multiple heads means there are multiple self-attentions, okay, so I talk about layer 0, I show you the output of layer 0
+and in layer 0, first of all, I show you the output of the first self-attention head and the best part about this visualization is that
+you can go to all the words and see the similarity with the rest of the words
+so first I will go to man
+and you can see when I am focusing on man
+its similarity is with multiple things
+like with saw
+with astronomer
+but the strongest similarity is with telescope
+So, here maybe that meaning is being captured that the man is looking at the telescope and he is seeing the astronomer.
+That meaning is being captured here.
+Now, if I go to the second self-attention head instead of zero,
+here you will notice that he is trying to capture the second meaning.
+Here a very strong similarity of man is coming out from the astronomer.
+and if you go to the astronomer, then the strong similarity of the astronomer is coming out from the telescope
+so in a way it looks like he is capturing another perspective
+where the man is looking at the astronomer and the astronomer is holding the telescope
+here that meaning is being captured
+so in this way we can try to capture different perspectives by putting multiple heads
+and this demo is telling you exactly this
+So, this is a very interesting visual tool by which you can try out different sentences.
+I will give its link in the description.
+Rest, I hope you understood multi-head attention.
+It is a very simple concept.
+If you know self-attention, then you just solve its limitation with the help of multiple self-attention heads.
+And that is why we call it multi-head attention.
+So, if you liked this video, please like this video.
+And if you haven't subscribed to this channel, please do subscribe.
+See you in the next video. Bye.

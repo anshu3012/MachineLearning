@@ -16,7 +16,7 @@ title: "Logistic Regression: Maximum Likelihood and the Log Loss"
 
 > **Key point:** To find the best line, we need a loss function: one number that says how good a line is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.
 
-The sigmoid perceptron of the previous Note improved the line, but still did not match scikit-learn's logistic regression. The reason is deeper than the choice of function. Both perceptron versions pick random points and nudge the line; nothing in that procedure says which line is **best**, so there is no guarantee it ends up there.
+The sigmoid perceptron of the previous Note improved the line, but we still had no way to say which line is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the line, without a number that measures how good the line is.
 
 Machine learning normally works differently, as in linear regression:
 
@@ -119,7 +119,7 @@ The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the pr
 - $p = 0.4$ (on the wrong side): cost 0.92.
 - $p = 0.1$ (confident and wrong): cost 2.30, and it grows without limit as $p$ approaches 0.
 
-So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. That second effect is what keeps pushing the line into the middle of the gap, as the push-and-pull idea of the previous Note wanted.
+So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. That second effect keeps pushing the line towards the middle of the gap, as the push-and-pull idea of the previous Note wanted. On perfectly separable data, gradient descent on this loss slowly turns the line towards the one with the widest gap (Soudry et al. 2018).
 
 ## 6. One formula for both classes
 
@@ -164,7 +164,7 @@ It is called **binary cross entropy** or **log loss**. For model 1 it is $2.41 /
 
 > **Key point:** There is no formula for the best w, so logistic regression is trained with gradient descent.
 
-The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such closed-form solution, because $w$ sits inside the sigmoid and the logs.
+The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such closed-form solution, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
 
 So we use gradient descent: compute the derivative of $L$ with respect to $w$ and step downhill repeatedly. The next Note works out the derivative of the sigmoid, and the one after derives the gradient and codes logistic regression from scratch.
 
@@ -183,7 +183,12 @@ So we use gradient descent: compute the derivative of $L$ with respect to $w$ an
 - Logs avoid tiny products; the minus sign gives a positive loss to minimise.
 - Log loss: $L = -\frac{1}{n}\sum[y\log\hat{y} + (1 - y)\log(1 - \hat{y})]$; it has no closed-form minimum.
 
-## 9. Key terms
+## 9. Sources
+
+- **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.3.3, p. 207.
+- **Soudry et al. 2018:** Soudry, D., Hoffer, E., Nacson, M. S., Gunasekar, S. and Srebro, N. "The Implicit Bias of Gradient Descent on Separable Data." *Journal of Machine Learning Research* 19(70), 1–57, 2018.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

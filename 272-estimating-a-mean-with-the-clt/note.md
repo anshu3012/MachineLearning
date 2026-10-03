@@ -153,11 +153,11 @@ Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ an
 Drawing 100 samples is a teaching device: it lets us see the sampling distribution. A real survey collects one sample. Then the CLT is used directly: the one sample mean $\bar{x}$ is the point estimate, and the standard error $\sigma/\sqrt{n}$ is estimated with the sample's own standard deviation $s$:
 $$\bar{x} \pm 2\,\frac{s}{\sqrt{n}}$$
 
-For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 2, blue). It contains 33.30, and it is much wider, because one sample of 50 holds far less information than 100 samples of 50 (5000 fares).
+For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 2, blue). It contains 33.30, and it is much wider: its standard error is $\sigma/\sqrt{50}$, while the average of 100 samples of 50 has standard error $(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$, ten times smaller.
 
-100 samples of 50 also hold no more information than one large sample of 5000. If we have several samples, we can pool them into one.
+By the same formula, 100 samples of 50 give the same standard error, $\sigma/\sqrt{5000}$, as one large sample of 5000. If we have several samples, we can pool them into one.
 
-> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of 1000 repetitions, not 95%. The fares are so skewed (a few fares above 200 pounds) that a sample of 50 often misses the expensive tickets, which makes both $\bar{x}$ and $s$ too small at once. With $n = 200$ the share rises to 95.6%. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; the [t-procedure Note](../282-t-procedure/note.md) handles that part.
+> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of 1000 repetitions, not 95% (89.0% in a second run of 2000). The fares are so skewed that only 38 of the 1308 passengers paid more than 200 pounds. The Notebook tests whether missing those tickets is the cause. Of 221 misses in the 2000-run, 218 fell below the true mean. A sample with no fare above 200 missed 44.6% of the time; a sample with at least one missed 1.2% of the time. The sample mean and $s$ move together (correlation 0.86), so a sample without the expensive tickets has both $\bar{x}$ and $s$ too small at once: the range is too low and too narrow. With $n = 200$ the share rises to 95.6%. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; the [t-procedure Note](../282-t-procedure/note.md) handles that part.
 
 ## 8. Template: the average income of a country
 

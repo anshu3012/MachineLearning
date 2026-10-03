@@ -48,7 +48,7 @@ This is called the **68-95-99.7 rule** (or the **empirical rule**). It holds for
 
 Only about 0.3% of the values lie beyond 3 standard deviations, about 0.13% on each side. A value out there is so rare that the usual practice is to call it an outlier. This simple rule works well in many real problems.
 
-> **Extra:** The exact numbers are 68.27%, 95.45% and 99.73%. They come from the area under the bell curve, and they are only true for a perfectly normal column. A real column that is close to normal gives numbers close to them: the `cgpa` column of Section 6 has 67.9%, 95.7% and 99.5% of its values in the three ranges.
+> **Extra:** The exact numbers are 68.27%, 95.45% and 99.73%. They come from the area under the bell curve, and they are only true for a perfectly normal column. A real column that is close to normal gives numbers close to them: the `cgpa` column of Section 6 has 67.9%, 95.7% and 99.5% of its values in the three ranges (last cell of the Notebook).
 
 ### 3.1 The limits
 
@@ -292,12 +292,12 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 
 - **Simple:** two numbers (mean and standard deviation) give both limits.
 - **Effective:** on a normal column it flags exactly the rare values at the two ends.
-- **Limited:** it assumes a normal column. On a skewed column the mean and standard deviation are pulled towards the long tail, and the limits stop making sense; Note 43 handles that case with the IQR rule.
+- **Limited:** it assumes a normal column. On a skewed column the limits land in the wrong places. For the skewed marks column they come out as $-25.17$ and 89.62: the lower limit is below 0, so it can never flag anything, and 8 marks (0.8%, not 0.3%) are flagged on the high side. Note 43 handles this case with the IQR rule.
 
 > **Extra:** Two more things to keep in mind.
 >
 > - **A perfect normal column still has "outliers".** About 0.27% of the values lie beyond 3 standard deviations by pure chance: about 3 in 1,000. In large data, the method always flags some real, valid values.
-> - **The outliers move the limits they are judged by.** The mean and standard deviation are themselves pulled by extreme values. A few very large outliers can stretch the standard deviation so much that they end up inside the limits.
+> - **The outliers move the limits they are judged by.** The mean and standard deviation are computed from all the values, the extreme ones included, so a big outlier also widens its own limits. In a small column this can hide it completely: with $n$ values no z-score can be larger than $(n-1)/\sqrt{n}$ (Shiffler 1988; NIST 1.3.5.17). For 10 values that is 2.85, so the method can never flag anything, however extreme.
 
 ## 13. Summary
 
@@ -316,7 +316,13 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 - Trimming deletes the outlier rows; capping replaces each outlier with the limit, so no row is lost.
 - The limits should be learned on the training set only.
 
-## 14. Key terms
+
+## 14. Sources
+
+- Shiffler, R. E. (1988). Maximum Z scores and outliers. *The American Statistician*, 42(1), 79–80.
+- NIST/SEMATECH. *e-Handbook of Statistical Methods*, Section 1.3.5.17, "Detection of Outliers". https://www.itl.nist.gov/div898/handbook/
+
+## 15. Key terms
 
 | Term | Meaning |
 |---|---|

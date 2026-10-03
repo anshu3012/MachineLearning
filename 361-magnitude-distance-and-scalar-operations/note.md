@@ -120,7 +120,7 @@ Subtraction works the same way, with $s$ subtracted from every component: $[2, 3
 
 Changing every component moves the point to a new place in the coordinate system (Figure 3, left). So adding or subtracting a scalar is called **shifting**.
 
-> **Extra:** Strictly, adding a scalar to a vector is not an operation of linear algebra; mathematics books only define adding two vectors of the same size. NumPy allows it through **broadcasting**: it silently stretches the scalar into the vector $[s, s, \dots, s]$ and adds that. So $[2, 3] + 3$ is really $[2, 3] + [3, 3]$.
+> **Extra:** Strictly, adding a scalar to a vector is not an operation of linear algebra; a vector space has only two operations, adding two vectors and multiplying a vector by a scalar (Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, 2020, Definition 2.9). NumPy allows it through **broadcasting**: in the words of the NumPy user guide ("Broadcasting"), the scalar is "stretched" into an array of the same shape, here the vector $[s, s, \dots, s]$, and that is added. So $[2, 3] + 3$ is really $[2, 3] + [3, 3]$.
 
 ## 5. Mean centring: shifting in ML
 
@@ -149,7 +149,7 @@ Mean centring, the first half of standardization (see the [standardization Note]
 > 3. **Example:**
 >    $$2 \times [2, 3] = [4, 6]$$
 >
-> The result points in the same direction, but is twice as long (Figure 3, right). In general the magnitude is multiplied by $\lvert s \rvert$, which is why this operation is called **scaling**. Dividing by $s$ is the same as multiplying by $1/s$: $[2, 3] / 2 = [1, 1.5]$.
+> The result points in the same direction, but is twice as long (Figure 3, right). In general the magnitude is multiplied by $\lvert s \rvert$, since $\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2} = \lvert s \rvert \, \lVert x \rVert$; this is why the operation is called **scaling**. Dividing by $s$ is the same as multiplying by $1/s$: $[2, 3] / 2 = [1, 1.5]$.
 >
 > A negative scalar also flips the direction: $-1 \times [2, 3] = [-2, -3]$ points the opposite way. Dividing a vector by its own magnitude scales it to length 1, giving the unit vector used in the [PCA step by step Note](../48-pca-step-by-step/note.md): $[3, 4] / 5 = [0.6, 0.8]$.
 

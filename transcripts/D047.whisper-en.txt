@@ -1,0 +1,398 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also we will continue our deep learning playlist.
+In fact, today's video is very important because in this we will cover a very conceptual topic.
+The name of the topic is Backpropagation in CNN.
+So we are studying CNN and in the past we studied backpropagation on ANN.
+In today's video we will discuss how backpropagation works on a CNN architecture.
+I would like to warn you that this topic is a bit difficult
+that is why I have divided this topic into 3 parts
+Maths will be a bit difficult
+and you might have to watch it multiple times
+there is another issue with this topic that there is not much content available on the internet at this point
+so I had to work very hard
+and I have formulated a lot of Maths with my own copy pen
+so the whole idea will be a little difficult, I am telling you from the beginning
+what you have to do is watch all three videos, if possible multiple times
+and if possible take a copy pen with you because a lot of Maths is going to come
+so in the first video we will understand how back propagation applies on CNN
+In the second part, we will discuss how back propagation is applied on convolution operation
+How back propagation is applied on max pooling
+How back propagation is applied on flatten
+And in the last part, in the third part, we will again do back propagation on a little complex CNN architecture
+The whole idea is that you have to explain this very difficult topic well
+It is not covered in many places. In fact, I have seen that it is not covered in books and text books as well.
+Honestly, it is not that important because Keras handles everything for you.
+But again, the deeper your understanding in deep learning and machine learning, the better you will be able to use the tools.
+So, I just wanted you to know this difficult topic well.
+So, yeah, that's it. Let's start the video.
+So, guys, let's start with a very simple CNN architecture.
+so that we can understand things easily
+and then we will discuss complex architecture slowly
+so let's assume we have an image
+and this image is 6x6 pixels
+and you are passing it through a filter
+and this filter is 3x3
+obviously there will be a bias term here
+there is a bias of every filter
+so it will also have a bias
+and from here
+what you will get
+will be your feature map
+ok
+you will pass feature map
+through rally operation
+so
+again you will get feature map only
+but through rally
+so suppose
+if there are negative values
+then they will be zero
+all the positive values will remain same
+so basically this is the feature map
+passed through the relu
+after this what we will do
+we are passing this in max pooling operation
+so basically this feature map will become smaller
+or you can say it will become half
+the setting of feature map is same
+2x2 is your width and height
+and stride is also 2
+and now what you are doing
+you are flattening it. By flattening it, you will get a 1D answer which you are finally
+sending to a single output neuron which is giving us our Y hat or prediction. So this
+is the architecture. In this whole architecture, there is one convolution layer which has one
+plus there is a max pooling layer and we have flattened its output and we have sent it to this single neuron
+I hope you are able to understand. Now let's talk about the shape of the tensor flow
+So the shape here is 6x6, the shape of our image is 6x6, 3x3 is our filter.
+You also know that when the convolution happens and we get our feature map here,
+then its shape will be 4x4x1 because it is the same filter.
+Now when you apply ReLU on it, then there will be no changes in the shape, the shape will remain the same.
+then when you will put max pooling then it will be 2x2 and when you will flatten it then it will be 4
+and then here at this place in output you will get 1x1 basically scalar
+So this is your whole shape, you have to first visualize that how the shape of the tensor is changing
+Now let's discuss how many trainable parameters are there in this CNN architecture
+So we are going to discuss how many trainable parameters are there
+If you look carefully, you will find trainable parameters in only two places in the whole architecture.
+One is here near the convolution filter and one is here where you have flattened.
+So you can clearly see that first of all this is a 3x3 filter.
+So in total there are 9 weights here.
+ok you can call this matrix as w1 so what is w1 w1 is a weight matrix in which there will be 9 weights
+plus here will be a bias which we will call b1 which is basically 1 cross 1 or you can treat it as a scalar
+and similarly here since we have 4 inputs so these will be 4 weights
+so here you can imagine W2 which will basically be a matrix of 4 values
+also this neuron will have a bias we will call it B2 and we can also treat it as 1x1 or a scalar
+So, in short we have W1 whose shape is 3x3, we have B1 whose shape is 1x1, we have W2 whose shape is 1x4 and we have B2 whose shape is again 1x1.
+So in total in our system there are 9 plus 1 is 10, 10 plus 4 is 14, 15 trainable parameters.
+So basically when we train our CNN model and apply back propagation,
+we have to get the optimum value of these 15 parameters which will minimize this loss.
+by the way loss here since we are going to take a binary classification problem
+suppose here is a cat photo and we have to detect whether it is a cat or a dog so it is a binary classification problem
+so loss function here will be the same which you have studied in machine learning in logistic regression etc
+minus yi log yi hat minus 1 minus yi log of 1 minus yi hat
+this is the loss of a single instance
+and if you want to get the loss on the whole batch
+then you will get the average loss by doing summation and dividing by n
+the number of images you have
+But you get the idea, the loss in CNN is binary cross entropy, if you are doing multi class classification problem then you will get softmax loss, you get the idea, loss is exactly the same.
+Now what I am going to do is, I am going to make a logical diagram of our CNN architecture, logical diagram will help us in our work in the future.
+So our logical diagram will be something like this, we are calling our image x and on top of x we are doing a convolution operation with the help of a filter with weight 1 and bias 1.
+and on doing this we are getting z1 which is basically this feature map
+ok
+on this z1 we are applying relu
+and from that we are getting a1 our activation which is this thing
+ok
+on this a1 we are applying max pooling
+from which we are getting P1, we can name it anything, we have called P1 and on this P1 we are flattening
+which gives us f and f is our input to this node
+this neuron
+so f will go to this node
+and first z2 will be calculated
+basically f has 4 values
+these 4 values you will dot product with these weights
+and add with its bias
+that is your Z2
+and you are sending Z2 in sigmoid
+which is giving you A2
+and A2 is your prediction
+and then you are calculating loss with A2
+this is a logical flow of our cnn architecture
+let me revise it once
+your x is convolving with your filter
+in that bias is being added
+so you are getting z1
+z1 is your feature map
+on which when you are applying relu
+then you are getting a non-linear feature map a1
+on a1 you are applying max pooling
+then you are getting a tensor P1. If you are flattening P1 then you are getting a 1D tensor
+which will work as an input for our future neural network. Let's call it F.
+When we are adding F with these weights by doing dot product with this bias then we are getting Z2.
+and when we pass Z2 through this node's sigmoid, we are getting A2 which is our prediction
+and with that prediction we are calculating our loss, at this point I would recommend, if you are watching the video
+so by looking at this diagram, try to make this on your copy, if you understand this logical flow then the work ahead will be very easy
+So we understood the logical flow. Let's do one thing. Through this logical flow, we do forward propagation
+and write the rough equations of forward propagation. This will also be useful to us.
+So look carefully. First of all, we will calculate Z1. How is Z1 being calculated?
+Z1 is actually convolution of X and W1 and the result which is coming you add B1 in it
+in this way you are getting Z1 how are you getting A1 A1 is basically relu applied on
+z1 ok next p1 is max pool operation on a1 ok now let's go here how to get f f is basically
+a reshape operation so you are flattening flattening is basically a reshape operation
+of P1. Now how to get Z2? So Z2 is basically a dot product of F with W2 plus B2 and then
+and A2 which is your prediction, how are you getting it?
+sigmoid of Z2
+I hope you are able to understand till here
+infact, let's write this dot product in correct order
+it should be W2 into F
+because F's shape is 4
+if there is one image then you can say 4 cross 1
+if there are multiple images then it will be 4 cross N
+and W2's shape is 1 cross 4
+So when you do dot product of 1 cross 4 or 4 cross 1, it would be 1 cross 1 and bias is also 1 cross 1
+So the shape of Z2 will be 1 cross 1 and when you apply sigmoid on it, you will get A2 and the shape of A2 will be 1 comma 1 which will be a scalar
+So I have written it in the correct order, rest I am erasing it, these are your equations for forward propagation
+If you have this equation then you can write its program in python and you can always predict the output for a given image x
+we have forward propagation now we have to study back propagation
+see what is our end goal our end goal is that all our trainable parameters
+all our trainable parameters we have to apply gradient descent on them
+and find out such values for which our loss becomes minimum
+So in short we have to apply gradient descent, I am writing here, we have to apply gradient
+descent algorithm and our objective is that we should find such a value of w1 which minimizes
+the loss similarly find such values of w2 which minimizes the loss and same with bias
+here you just have to pay attention to one thing that this w is a matrix, this w2 is also a matrix
+in fact this derivative will also be a matrix, this derivative will also be a matrix
+but nothing special, I will clear everything slowly
+you just have to understand that you have some random values of w1 and w2
+when you start applying forward propagation then you have some random value of W1, B1, W2 and B2
+but what you have to do is slowly apply gradient descent and keep updating those values till the loss is minimized
+we are talking about the same principles which we had studied in ANN
+now what we have to do is, we have to find these derivatives
+if we come to find these 4 derivatives
+then we can apply gradient descent
+if we apply gradient descent
+then eventually we will be able to find the most optimized value of all these
+and that is our target
+In short, going forward, our target is to calculate these four derivatives.
+If you want to understand this video well, I have an advice for you.
+Imagine this whole CNN architecture in two parts.
+Part 1 would be this CNN part.
+Up to here.
+This is a CNN.
+and in part 2 you can imagine this
+ANN part
+this CNN part
+and this ANN part
+ok
+so these two parts although connected to each other
+but still if you study them logically
+it will be easy for you to understand
+in fact what I am going to do
+that in this video
+I will explain you the back propagation of this ANN part
+and in the next part
+I will explain you the back propagation of this CNN part
+and obviously both are logically connected
+so you will automatically understand how both are happening together
+but going forward please pause the video and imagine
+that there are two separate neural networks
+One of them is CNN and the second one is ANN.
+They are connected but they are different.
+So now let's focus on how we can get these four derivatives.
+Since we are doing back propagation, we will start from this direction.
+First we will focus on getting the derivatives of W2 and B2.
+Derivative of W2 and B2 is very simple, I have already told you about it.
+What is the meaning of deriving the derivative? What is the meaning of differentiating?
+If this thing is written here, then what does it mean?
+It means that by changing one unit in W2, how much will be the change in the loss?
+That means by changing the weight, how much will be the change in the loss? You have to get this out.
+but unfortunately w2 is not directly connected to loss
+there is an indirect connection so what you will do is you will remove the whole chain
+as you can see here
+let's find out del L by del w2
+you have to think that in which changes will come to change w2
+you can see
+if you will change in w2 then changes will come in z2
+if you will change in z2 then changes will come in a2
+which is your y-hat and changes in y-hat will result in changes in L
+so basically you can write this whole chain like this
+del L by del A2 multiplied by del A2 by del Z2 multiplied by del Z2 by del W2
+you have to find these three derivatives in order to calculate this one
+similarly for B2 same path will follow
+Z2 will change after changing B2
+A2 will change after changing Z2
+and L will change after changing A2
+so again you will write
+del L by del B2 will be equal to del L by del A2 multiplied by del A2 by del Z2 multiplied
+by del Z2 by del B2. Only this last term is different. Rest these two terms are same.
+So we have to find 4 total derivatives in order to calculate these two derivatives and
+our work will be done. We will calculate these two derivatives in this video. But now I want to show you
+how you will calculate the derivatives of W1 and B1. This is a little more interesting. Let's focus on this.
+Let's see how we will calculate del L by del W1. So again you have to see, this whole flow will help you
+help you in understanding what changes are happening
+if you change the weight of your filter
+W1
+then obviously
+Z1 will change
+if Z1 changes
+then A1 will change
+if A1 changes then P1 will change
+if P1 changes then F will change
+if F changes then Z2 will change
+if Z2 changes then A2 will change
+and if A2 changes then L will change
+so you can see how much flow is happening
+so
+you can write it like this
+del a1 multiplied by del a1 by del z1 multiplied by del z1 by del w1 and going by the same
+logic if you want to get del l by del b1 then everything will be same but this last term
+will be different. I will write it. This will be the outcome. A very big chain is formed
+and you have to calculate all these derivatives in order to find out these derivatives. Now
+here are some very interesting ideas. Like you have to learn how to calculate the back
+propagation of convolution operation. This last derivative will come out from the back
+back propagation. Similarly, this derivative where you want to do changes in F and P, it
+will come out from the convolution of flatten and similarly this derivative will come out
+from the back propagation of max pooling. So, we will cover this in the next video because
+in the next video we will read three interesting concepts that how to apply back propagation
+on first of all convolution, flattened layer and max pooling layer. If you read these three
+interesting concepts and understand them then only you will be able to calculate these derivatives.
+Now in this video we will calculate these two derivatives. These two are the topic of
+next video's topic. So let's calculate these two derivatives. So I have drawn the ANN part
+of our architecture here. You can see whatever is there after the flattened layer, I have
+written it here. Now here are our forward propagation equations also. One thing you
+you have to keep in mind that W2 and A2 are all matrices and Z2 are all matrices
+I have told you their shapes in the beginning
+now what we have to do is we have to find these two derivatives
+and clearly what we have to do is we have to find 1, 2, 3 and 4 different derivatives
+so first of all we will focus on this derivative because it is common in both
+so we have to calculate del L by del A2
+now for some time let's assume that our loss function we are applying on a single image
+so for some time since we are working on a single image
+so we will denote A2 as scalar not as matrix
+And this will be, for a single image, it would be minus yi log a2, a2 is our output, minus 1 minus yi log of 1 minus a2.
+Now when you will differentiate it you will get yi by a2 minus 1 minus yi 1 minus a2 and this minus a2 minus will be plus
+and this will be
+if we simplify this a bit more
+we will get minus yi plus yi a2 plus a2 minus a2 yi divided by a2 1 minus a2
+this term this term will get cancelled and we will get a2 minus yi divided by a2 1
+minus a2 this is del L by del a2 okay now what we will do we will remove this del a2 by del z2
+okay this is also common in both so for this we will need this equation so del a2 by del I'm sorry
+this equation will be required of this one of the second one
+del z2 will be
+since it is sigmoid of z2
+so it would be
+sigmoid of
+z2
+1 minus
+sigmoid of z2
+you know what is the derivative of sigmoid
+and what is sigmoid of z2
+it is basically a2
+so for a single instance we are taking it as a2
+small one
+not matrix
+1 minus a2
+So I got this term del E2 by del Z2.
+Now we will take out this term del Z2 by del W2.
+For that we need this equation.
+So you can see del Z2 by del W2 and we will directly do this matrix differentiation.
+So clearly we will get the answer F.
+What is f? f is this matrix where there are 4 inputs.
+This is del z2 by del w2. Similarly, we will get del z2 by del b2.
+So, in this case, del z2 by del b2 will be 1. I hope you are able to understand.
+and now we will multiply all three
+so we will write
+del L by del W2 will be
+A2 minus Yi
+A2 1 minus A2 multiplied by
+this term
+A2 1 minus A2 multiplied by F
+ok
+this is cancelled out
+and this will be
+a2 minus yi multiplied by f
+we replace a2 with a2 matrix and y with y matrix and f with f
+similarly del l by del b2 will be
+a2 minus yi
+a2 1 minus a2 multiplied by a2 1 minus a2 multiplied by 1
+both of these will be cancelled out and here also A2 matrix will be obtained minus y
+now lets do some shape analysis, think about it
+if i ask you what should be the shape of del L by del W2
+so why are we using del L by del W2, to update W
+so its shape should be same as that of W2
+right, basically
+and what was that shape?
+we discussed that here, 1,4
+so we have to make sure
+that its shape is 1,4
+see how it will come, what is the shape of a2?
+1,1
+what is its shape? 1,1
+so what will be the shape of subtraction of both of these? 1,1
+what is the shape of f?
+if you go up
+and see here what is the shape of F
+what I am getting here is basically 4 comma 1
+this is 4 comma 1
+this is 4 comma 1
+ok
+what you will do is transpose it
+as you transpose it, it will become 1 comma 4
+and the dot product between them will be
+1 comma 4
+which we needed
+So, in short, the derivative of del L by del W2 in the matrix form is A2 minus Y F transpose
+and the derivative of del L by del B2 is A2 minus Y.
+This was our answer.
+We achieved what we had to achieve in this video.
+Now what we will do in the next video, we will calculate these two derivatives and we will learn this concept in it.
+Let's discuss one more thing quickly, till now we were assuming that we are working on the same image,
+but what if we are applying mini batch gradient descent, what will happen in that, batch of images will flow.
+Suppose you send 32 or 64 images at once and at the same time prediction will be above 32 or 64 and then back propagation will be applied.
+So in that case what will happen? Till now we were taking that what is the shape of F? 4,1 because there are 4 numbers of one image.
+But suppose if you have M images then what will be the shape of F? It will be 4 cross M.
+Similarly, the shape of prediction A2 will also be 1, m.
+Similarly, the shape of Y will also be 1, m.
+So, let's come down and see what will be the difference.
+Assume that we are working on M images at the same time.
+so what is the shape of a2?
+1,m
+minus
+what is the shape of y?
+1,m
+so the matrix we will get by subtracting both of them
+will be 1 by m
+and what will be f transpose?
+we just saw
+what is the shape of f?
+4,m
+ok
+so
+its transpose will be m,4
+now if you will do dot product again, mm is common, so what will be the output?
+1 by 4
+so this derivative
+it will always be a matrix of 1 by 4
+whether you are sending one image
+or you are sending batch of image
+we have used matrix in this way
+that the matrix of this derivative
+the matrix of this derivative will always be 1 by 4 because
+the shape of W2 is 1 by 4
+I hope you are able to understand this
+so yeah that's it for the part 1 guys
+I really hope I was able to simplify the whole thing and you understood everything
+in the next part as I told you
+we will learn how back propagation looks on convolution, max pooling and flatten
+and in the third part we will learn about a more complex architecture
+we will perform back propagation on youtube
+i request you if you have watched this video
+try to do things with a copy pen
+i have learnt it this way
+you will also understand
+if you like the video then please like it
+you will not believe i woke up all night for this
+and now i am waking up in the morning and shooting the video
+so
+it took a lot of hard work like it
+and if you have not subscribed to the channel then please subscribe
+that's it from my side
+see you in the next video bye

@@ -89,7 +89,7 @@ The second derivative of one variable says whether a curve bends up or down. The
 
 For the bowl of the gradient Note, the eigenvalues of $H$ are $3 \pm \sqrt{2}$, that is $4.41$ and $1.59$. Both are positive, so it is a bowl, as its contour map showed. The ratio $4.41/1.59 = 2.8$ says the bowl curves almost three times as steeply in one direction as in the other: its contour ellipses are stretched. The narrow valleys that slow down gradient descent in the [gradient descent Note](../57-gradient-descent/note.md) (Section 9) are Hessians with a large eigenvalue ratio.
 
-> **Extra:** A function whose Hessian has no negative eigenvalues at any point is convex: a single bowl with no local minima to get stuck in, the property the [gradient descent Note](../57-gradient-descent/note.md) (Section 8) asked of a loss. The least-squares Hessian $2\Phi^{\mathsf T}\Phi$ never has negative eigenvalues, because $\boldsymbol{\delta}^{\mathsf T}\Phi^{\mathsf T}\Phi\boldsymbol{\delta} = \lVert \Phi\boldsymbol{\delta} \rVert^2 \geq 0$ for every $\boldsymbol{\delta}$. This is why linear regression's loss is convex.
+> **Extra:** A function whose Hessian has no negative eigenvalues at any point is convex (Boyd and Vandenberghe §3.1.4): a single bowl with no local minima to get stuck in, the property the [gradient descent Note](../57-gradient-descent/note.md) (Section 8) asked of a loss. The least-squares Hessian $2\Phi^{\mathsf T}\Phi$ never has negative eigenvalues, because $\boldsymbol{\delta}^{\mathsf T}\Phi^{\mathsf T}\Phi\boldsymbol{\delta} = \lVert \Phi\boldsymbol{\delta} \rVert^2 \geq 0$ for every $\boldsymbol{\delta}$. This is why linear regression's loss is convex.
 
 ## 4. Linearisation: the tangent plane
 
@@ -189,13 +189,13 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 >
 > $$\boldsymbol{\delta} = -H^{-1}\,\nabla f^{\mathsf T}$$
 >
-> For the bowl of the gradient Note at $(1, 1)$, $\nabla f = [3, 5]$ and $H$ has rows $[2, 1]$ and $[1, 4]$. Solving $H\boldsymbol{\delta} = -[3, 5]^{\mathsf T}$ gives $\boldsymbol{\delta} = (-1, -1)$, landing exactly on the minimum $(0, 0)$ in one step: for a quadratic function $T_2$ is the function itself. Gradient descent, which only uses the tangent plane, needs many small steps for the same trip. With one variable this is the **Newton step** of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), and XGBoost's leaf formula $-G/(H + \lambda)$ in the [XGBoost maths Note](../126-xgboost-maths/note.md) is a Newton step per leaf. The catch: with millions of parameters the Hessian has millions squared entries, which is why deep learning mostly stays with first-order methods.
+> For the bowl of the gradient Note at $(1, 1)$, $\nabla f = [3, 5]$ and $H$ has rows $[2, 1]$ and $[1, 4]$. Solving $H\boldsymbol{\delta} = -[3, 5]^{\mathsf T}$ gives $\boldsymbol{\delta} = (-1, -1)$, landing exactly on the minimum $(0, 0)$ in one step: for a quadratic function $T_2$ is the function itself. Gradient descent, which only uses the tangent plane, needs many small steps for the same trip. With one variable this is the **Newton step** of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), and XGBoost's leaf formula $-G/(H + \lambda)$ in the [XGBoost maths Note](../126-xgboost-maths/note.md) is a Newton step per leaf (Chen and Guestrin §2.2). The catch: with millions of parameters the Hessian has millions squared entries, which is why deep learning mostly stays with first-order methods (Goodfellow et al. §8.6.1).
 
 > **Extra:** **Quasi-Newton methods: BFGS and L-BFGS.** These skip the Hessian and build a stand-in matrix $B$ from gradients alone. After each step $\mathbf{s} = \mathbf{x}_{k+1} - \mathbf{x}_k$, the gradient change $\mathbf{y} = \nabla f_{k+1} - \nabla f_k$ is measured, and $B$ is updated so that
 >
 > $$B_{k+1}\,\mathbf{s} = \mathbf{y}$$
 >
-> This is the **secant equation**: the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. It is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). Source: Nocedal and Wright, *Numerical Optimization*, ch. 6.
+> This is the **secant equation**: the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. It is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). (Nocedal and Wright, ch. 6 for BFGS, §7.2 for L-BFGS.)
 
 ![The secant idea for $f = x^3$: the line through the slope readings at $x = 1$ and $x = 2$ has slope 9, a stand-in for the true curvatures 6 and 12](images/secant.png)
 
@@ -203,9 +203,9 @@ Figure 3 shows the one-variable case: BFGS never computes the curvature (dashed)
 
 ![Gradient descent, Newton and BFGS walking down the same curved valley from $(-1.2, 1)$ to the minimum $(1, 1)$, one step per frame](images/optimizer_race.gif)
 
-Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2)^2$, all with the same rule for the step length. Newton, with the true Hessian, needs 10 steps. BFGS, which only ever sees gradients, needs 17: its first steps wander while $B$ is still a guess, then it settles into the valley like Newton. Gradient descent zig-zags across the narrow valley and needs 717 steps.
+Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2)^2$, all with the same rule for the step length. Newton, with the true Hessian, needs 10 steps. BFGS, which only ever sees gradients, needs 17: its first steps wander while $B$ is still a guess, then it settles into the valley like Newton. The figure script checks this: for the first 7 steps $B$ is still 90% or more away from the true Hessian, and from step 7 on it is within about 30%. Gradient descent zig-zags across the narrow valley and needs 717 steps.
 
-> **Extra:** Second-order Taylor expansions also approximate probability distributions. The **Laplace approximation** replaces a distribution near its peak by a normal distribution whose spread comes from the Hessian of its log there. The **extended Kalman filter**, used to track moving objects, linearises a nonlinear system at every time step with the first-order expansion.
+> **Extra:** Second-order Taylor expansions also approximate probability distributions. The **Laplace approximation** replaces a distribution near its peak by a normal distribution whose spread comes from the Hessian of its log there (Bishop §4.4). The **extended Kalman filter**, used to track moving objects, linearises a nonlinear system at every time step with the first-order expansion (Thrun et al. §3.3).
 
 ## 7. Summary
 
@@ -224,6 +224,16 @@ Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2
 - Linearisation replaces a surface by its tangent plane, good only near the point.
 - The multivariate Taylor series adds terms with $k$ copies of the step and the $k$-th derivative tensor; the second-order term is $\tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$.
 - A polynomial of degree $k$ is reproduced exactly by its Taylor polynomial of degree $k$.
+
+## Sources
+
+- Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer. Section 4.4, the Laplace approximation.
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Section 3.1.4, second-order conditions.
+- Chen, T. and Guestrin, C. (2016). "XGBoost: A Scalable Tree Boosting System". *KDD*. Section 2.2.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Chapter 5.
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 8.6.1, Newton's method.
+- Nocedal, J. and Wright, S. J. (2006). *Numerical Optimization*, 2nd ed. Springer. Chapter 6 and section 7.2.
+- Thrun, S., Burgard, W. and Fox, D. (2005). *Probabilistic Robotics*. MIT Press. Section 3.3, the extended Kalman filter.
 
 ## 8. Key terms
 

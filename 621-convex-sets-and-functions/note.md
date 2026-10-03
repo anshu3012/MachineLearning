@@ -55,7 +55,7 @@ If $\mathbf{x}$ and $\mathbf{y}$ lie in both $A$ and $B$, the segment between th
 
 A union does not keep convexity. Two separate discs together form a set where the segment from one disc to the other crosses empty space.
 
-> **Extra:** The set where a convex function stays at or below a level, $\{\mathbf{x} : g(\mathbf{x}) \le c\}$, is always convex. This is why convex optimisation asks for convex functions $g_i$ in its inequality constraints $g_i(\mathbf{x}) \le 0$ (Section 6): each constraint then cuts out a convex set. The set where a convex function is exactly 0 is not convex in general (the circle $x^2 + y^2 = 1$ is not), which is why equality constraints must be linear.
+> **Extra:** The set where a convex function stays at or below a level, $\{\mathbf{x} : g(\mathbf{x}) \le c\}$, is always convex (Boyd and Vandenberghe §3.1.6). This is why convex optimisation asks for convex functions $g_i$ in its inequality constraints $g_i(\mathbf{x}) \le 0$ (Section 6): each constraint then cuts out a convex set. The set where a convex function is exactly 0 is not convex in general (the circle $x^2 + y^2 = 1$ is not), which is why equality constraints must be linear.
 
 ## 3. Convex functions and their sets
 
@@ -66,7 +66,7 @@ The [convex and non-convex cost functions Note](../590-convex-and-non-convex-cos
 Two related ideas:
 
 - **Concave function:** the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm is concave; so is the dual function $D(\lambda) = 3\lambda - 3\lambda^2/8$ of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md). Maximising a concave function is the same task as minimising a convex one.
-- **Epigraph:** the region on and above the graph of $f$, as if the bowl were filled with water. A function is convex exactly when its epigraph is a convex set. This links the two halves of this Note: convex functions are convex sets seen from above.
+- **Epigraph:** the region on and above the graph of $f$, as if the bowl were filled with water. A function is convex exactly when its epigraph is a convex set (Boyd and Vandenberghe §3.1.7). This links the two halves of this Note: convex functions are convex sets seen from above.
 
 > **Extra:** The defining inequality is the two-point case of **Jensen's inequality**. With more points and weights $\theta_i \ge 0$ that add up to 1, a convex $f$ satisfies $f\big(\sum_i \theta_i \mathbf{x}_i\big) \le \sum_i \theta_i f(\mathbf{x}_i)$: the function of an average is at most the average of the function. For $f(x) = x^2$ and the points 0, 1, 2 with equal weights: $f(1) = 1 \le (0 + 1 + 4)/3 = 1.67$. With probabilities as weights, this reads $f(E[X]) \le E[f(X)]$ (see the [expected value and variance Note](../332-expected-value-and-variance/note.md)); for $f(x) = x^2$ it says $E[X^2] - (E[X])^2 \ge 0$, that is, a variance is never negative.
 
@@ -83,7 +83,7 @@ Checking every chord is impossible in practice. When derivatives exist, two shor
 The right-hand side is the tangent plane of $f$ at $\mathbf{x}$, the first-order Taylor approximation of the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 4).
 
 1. **In words:** the tangent line or plane at any point never rises above the graph.
-2. **Formula:** a differentiable $f$ is convex if and only if, for all $\mathbf{x}$ and $\mathbf{y}$,
+2. **Formula:** a differentiable $f$ is convex if and only if, for all $\mathbf{x}$ and $\mathbf{y}$ (Boyd and Vandenberghe §3.1.3),
    $$f(\mathbf{y}) \;\ge\; f(\mathbf{x}) + \nabla f(\mathbf{x})\,(\mathbf{y} - \mathbf{x})$$
 3. **Example:** the **softplus** function $f(z) = \ln(1 + e^z)$. Its derivative is the [sigmoid](../72-sigmoid-function/note.md) $\sigma(z)$, so at $z = 0$ the slope is $\sigma(0) = 0.5$ and the value is $\ln 2 = 0.693$. At $z = 2$:
    $$f(2) = \ln(1 + e^2) = 2.13, \qquad \text{tangent: } 0.693 + 0.5 \times (2 - 0) = 1.69$$
@@ -95,7 +95,7 @@ Figure 2 (right) shows the test failing. For $q(w) = w^2(w - 1)^2$, the tangent 
 
 The first-order condition gives the most useful fact about convex functions in one line. If $\nabla f(\mathbf{x}^*) = \mathbf{0}$, the condition becomes $f(\mathbf{y}) \ge f(\mathbf{x}^*)$ for every $\mathbf{y}$. So for a convex function, any point with zero gradient is a global minimum. Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
 
-> **Extra:** Softplus is the [log loss](../73-log-loss/note.md) in disguise. For a row with label 0 and score $z$, the loss $-\ln(1 - \sigma(z))$ equals $\ln(1 + e^{z})$; for label 1, $-\ln \sigma(z) = \ln(1 + e^{-z})$. Both are convex in $z$, and $z = \mathbf{w}^{\mathsf T}\mathbf{x}$ is linear in the weights. A convex function of a linear function is convex, so the loss of logistic regression is convex in $\mathbf{w}$: gradient descent on it reaches the global minimum.
+> **Extra:** Softplus is the [log loss](../73-log-loss/note.md) in disguise. For a row with label 0 and score $z$, the loss $-\ln(1 - \sigma(z))$ equals $\ln(1 + e^{z})$; for label 1, $-\ln \sigma(z) = \ln(1 + e^{-z})$. Both are convex in $z$, and $z = \mathbf{w}^{\mathsf T}\mathbf{x}$ is linear in the weights. A convex function of a linear function is convex (Boyd and Vandenberghe §3.2.2), so the loss of logistic regression is convex in $\mathbf{w}$: gradient descent on it reaches the global minimum.
 
 ### 4.2 Second-order condition: curving up everywhere
 
@@ -152,7 +152,7 @@ This rule covers the regularised losses of earlier Notes:
 - **Difference:** $w^2$ and $2w^2$ are convex, but $w^2 - 2w^2 = -w^2$ is an upside-down bowl.
 - **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product $w^2(w - 1)^2$ has two dips (Figure 2, right). Its chord from 0 to 1 is at height 0, while the curve at 0.5 is $0.0625$.
 
-> **Extra:** One more rule: the pointwise **maximum** of convex functions is convex. The hinge loss $\max(0,\ 1 - z)$ of the [SVM soft margin Note](../94-svm-soft-margin/note.md) is the maximum of two straight lines, so it is convex, and with the convex penalty $\tfrac12\lVert \mathbf{w} \rVert^2$ the soft-margin SVM is a convex problem.
+> **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The hinge loss $\max(0,\ 1 - z)$ of the [SVM soft margin Note](../94-svm-soft-margin/note.md) is the maximum of two straight lines, so it is convex, and with the convex penalty $\tfrac12\lVert \mathbf{w} \rVert^2$ the soft-margin SVM is a convex problem.
 
 ## 6. Convex optimisation problems
 
@@ -178,7 +178,7 @@ For a convex optimisation problem:
 - **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.1). With constraints, a point that satisfies the KKT conditions of the [Lagrange multipliers Note](../620-lagrange-multipliers/note.md) is the answer.
 - **Strong duality.** The maximum of the dual function equals the primal minimum. In the example above, $D(4) = 6$ equals the primal minimum 6.
 
-> **Extra:** Strong duality for a convex problem needs one mild extra condition, **Slater's condition**: at least one point satisfies every inequality constraint strictly. For $3 - x - y \le 0$, the point $(3, 3)$ gives $-3 < 0$, so it holds. Almost every convex problem met in ML satisfies it.
+> **Extra:** Strong duality for a convex problem needs one mild extra condition, **Slater's condition**: at least one point satisfies every inequality constraint strictly. For $3 - x - y \le 0$, the point $(3, 3)$ gives $-3 < 0$, so it holds (Boyd and Vandenberghe §5.2.3).
 
 ### 6.3 Which ML problems are convex
 
@@ -191,7 +191,7 @@ For a convex optimisation problem:
 | [Logistic regression](../75-logistic-gradient-descent/note.md) | yes | log loss is softplus of a linear score |
 | [SVM](../94-svm-soft-margin/note.md) (hard and soft margin) | yes | convex objective, linear constraints (a quadratic program) |
 | [K-means](../128-kmeans-intuition/note.md) | no | the result depends on the starting centroids |
-| Neural networks | no | many minima and saddle points |
+| Neural networks | no | many minima and saddle points (Goodfellow et al. §8.2) |
 
 For the convex ones, the answer does not depend on the starting point or the solver, only on the data and the hyperparameters. The two best-known families of convex problems, linear and quadratic programs, are the topic of the [linear and quadratic programming Note](../622-linear-and-quadratic-programming/note.md).
 
@@ -209,6 +209,12 @@ For the convex ones, the answer does not depend on the starting point or the sol
 - Overlaps of convex sets are convex, so convex constraints give a convex feasible region.
 - For a convex function, zero gradient means global minimum.
 - Convex problems have no local-minimum traps and satisfy strong duality.
+
+## Sources
+
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 3.1–3.2 (convex functions and the operations that keep convexity) and 5.2.3 (Slater's condition).
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 7.3 (MML).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 8.2, challenges in neural network optimisation.
 
 ## 8. Key terms
 

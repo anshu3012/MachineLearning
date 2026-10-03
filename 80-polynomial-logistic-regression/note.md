@@ -48,7 +48,7 @@ The number of columns grows quickly with the degree: 2 at degree 1, 5 at degree 
 > model.fit(X, y)
 > ```
 >
-> The scaler puts the power columns on similar scales; without it, high powers such as $x^{10}$ dominate and the solver struggles to converge.
+> The scaler puts the power columns on similar scales; without it, high powers such as $x^{10}$ dominate and the solver needs more steps (at degree 10 on the data below: 279 steps instead of 182).
 
 ## 3. An example: two half-moons
 
@@ -74,7 +74,7 @@ The data has 200 points in two interlocking half-moon shapes (`make_moons` with 
 
 As with polynomial regression, the degree controls flexibility: too low underfits, too high overfits. It is a hyperparameter, chosen by comparing scores on data not used for training. Here degree 3 or 4 is best.
 
-> **Extra:** With scikit-learn's default regularisation (`C=1`), the high-degree models overfit less, because the penalty keeps the many weights small. This is regularisation doing its job (the Ridge Notes), and it is one more reason to use the default unless there is a reason not to.
+> **Extra:** With scikit-learn's default regularisation (`C=1`), the high-degree models overfit less, because the penalty keeps the many weights small (the Ridge Notes). At degrees 10 and 25, cross-validated accuracy rises from 0.900 and 0.905 to 0.910 and 0.915, and training accuracy falls from 0.955 to 0.935. The penalty costs the low degrees a little, though: degree 4 drops from 0.935 to 0.910. So `C` is a second hyperparameter to tune alongside the degree.
 
 ## 4. When to use it
 

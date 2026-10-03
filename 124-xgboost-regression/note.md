@@ -174,7 +174,7 @@ What we did in sections 5 to 7, sorting the values and testing every midpoint, i
 
 For large data XGBoost first groups each column into bins and only tests the bin edges: the **approximate algorithm**, introduced in the [XGBoost introduction Note](../123-xgboost-intro/note.md).
 
-> **Extra:** With several input columns, each column is searched in the same way and the split with the largest gain over all columns wins, exactly as in the [regression trees Note](../99-regression-trees/note.md), section 5. Binary and multi-class categorical columns are usually encoded as numbers first ([one-hot encoding Note](../27-one-hot-encoding/note.md)); recent XGBoost versions can also split categories directly when `enable_categorical=True`.
+> **Extra:** With several input columns, each column is searched in the same way and the split with the largest gain over all columns wins, exactly as in the [regression trees Note](../99-regression-trees/note.md), section 5 (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical columns are usually encoded as numbers first ([one-hot encoding Note](../27-one-hot-encoding/note.md)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
 
 ## 12. Lambda: shrinking scores and outputs
 
@@ -188,7 +188,7 @@ For large data XGBoost first groups each column into bins and only tests the bin
 > | 5.85 to 8.25 | $-2.875$, $-1.375$ | $-2.125$ | $-4.25/3 = -1.42$ |
 > | CGPA $\geq$ 8.25 | 3.625 | 3.625 | $3.625/2 = 1.81$ |
 >
-> The one-residual leaves lose half their output; the two-residual leaf loses a third. A leaf built on a single row is the least trustworthy, so it is pulled hardest towards 0. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. This is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../64-ridge-regression-maths/note.md)): $\lambda$ pulls the outputs towards 0 so that the model fits the noise less.
+> The one-residual leaves lose half their output; the two-residual leaf loses a third. The intuition: a leaf built on a single observation (row) is the least trustworthy, so it is pulled hardest towards 0. The formula shows the same: the fewer observations a leaf has, the harder $\lambda$ pulls it towards 0, because the output is $\frac{n}{n+\lambda}$ times the mean of the residuals, which is $\frac{1}{2}$ of the mean for $n = 1$ and $\frac{2}{3}$ for $n = 2$. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. This is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../64-ridge-regression-maths/note.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
 
 ## 13. Gamma: pruning weak splits
 
@@ -203,7 +203,7 @@ For large data XGBoost first groups each column into bins and only tests the bin
 > - the lower split, CGPA < 5.85, has $5.04 - 6 = -0.96 < 0$: removed. Its leaf becomes one leaf with residuals $-2.875$, $-1.375$, 0.625 and output $-3.625/3 = -1.21$;
 > - the root split, CGPA < 8.25, has $17.52 - 6 = 11.52 > 0$: kept.
 >
-> With $\gamma = 20$ the root split goes too ($17.52 - 20 < 0$) and the tree is a single leaf with output 0: this stage adds nothing. A parent is only checked after its children; if a child split is kept, the parent stays even with a small gain. The [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md) covers pruning in normal trees.
+> With $\gamma = 20$ the root split goes too ($17.52 - 20 < 0$) and the tree is a single leaf with output 0: this stage adds nothing. A parent is only checked after its children; if a child split is kept, the parent stays even with a small gain (the Notebook, section 10, shows this with the library). The [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md) covers pruning in normal trees.
 
 ## 14. The same in code
 
@@ -233,7 +233,7 @@ For large data XGBoost first groups each column into bins and only tests the bin
 
 The library agrees with the Extras as well. With `reg_lambda=1` the gains become 9.86 and 2.93; with `gamma=6` the lower split disappears. With `n_estimators=2` the predictions are those of section 10.
 
-> **Extra:** With $\lambda = 0$, the gain in section 6 equals the drop in the sum of squared errors when each leaf predicts its mean. So the XGBoost tree is the same tree that scikit-learn's squared-error regression tree finds on the residuals: `GradientBoostingRegressor(n_estimators=1, learning_rate=0.3, max_depth=2)` also splits at 8.25 and 5.85 and gives exactly our stage 2. With $\lambda > 0$ or $\gamma > 0$ the two differ.
+> **Extra:** With $\lambda = 0$, the gain in section 6 equals the drop in the sum of squared errors when each leaf predicts its mean. For a leaf with $n$ residuals and mean $\bar r$, the squared error is $\sum (r_i - \bar r)^2 = \sum r_i^2 - \frac{(\sum r_i)^2}{n}$. The first term is the same before and after a split, so the drop in squared error is $\frac{(\sum_L r_i)^2}{n_L} + \frac{(\sum_R r_i)^2}{n_R} - \frac{(\sum r_i)^2}{n}$, which is the gain. So the XGBoost tree is the same tree that scikit-learn's squared-error regression tree finds on the residuals: `GradientBoostingRegressor(n_estimators=1, learning_rate=0.3, max_depth=2)` also splits at 8.25 and 5.85 and gives exactly our stage 2. With $\lambda > 0$ or $\gamma > 0$ the two differ.
 
 ## 15. Summary
 
@@ -253,7 +253,12 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 - $\lambda$ shrinks scores and outputs; $\gamma$ prunes splits whose gain is too small.
 - Trying every midpoint is the exact greedy algorithm; large data uses the approximate one.
 
-## 16. Key terms
+## 16. Sources
+
+- Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754).
+- XGBoost documentation, *Categorical Data* tutorial.
+
+## 17. Key terms
 
 | Term | Meaning |
 |---|---|

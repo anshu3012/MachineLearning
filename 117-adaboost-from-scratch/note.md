@@ -78,7 +78,7 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 >
 > `df.shape[0]` is the number of rows. `export_text(dt1)` from `sklearn.tree` prints the split as text.
 
-> **Extra:** On this data the cut "X1 $\le$ 2.5" is exactly as good as "X2 $\le$ 2.5": both get 3 rows wrong. When two cuts tie, scikit-learn breaks the tie by shuffling the columns at random, so the chosen cut depends on `random_state`. With `random_state=0` we get the X2 cut; other values give the X1 cut.
+> **Extra:** On this data the cut "X1 $\le$ 2.5" is exactly as good as "X2 $\le$ 2.5": both get 3 rows wrong. When two cuts tie, scikit-learn tries the columns in a random order, so the winner depends on `random_state` (scikit-learn docs, `DecisionTreeClassifier`). In the Notebook, seeds 0, 1, 5, 6, 7 and 8 give the X2 cut; seeds 2, 3, 4 and 9 give the X1 cut.
 
 **Mistakes.** Comparing `label` with `y_pred` row by row, the stump is wrong on rows **2, 6 and 8**: three class-0 rows in the class-1 region.
 
@@ -134,7 +134,7 @@ $$\text{correct: } 0.1 \times e^{-0.4236} = 0.1 \times 0.6547 = 0.0655$$
 
 Figure 2 plots the two factors.
 
-- **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets a row wrong, that row is genuinely hard, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
+- **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets a row wrong, that row is likely a hard one, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
 - **$e^{-\alpha}$ (green)** is the mirror image: below 1 for any positive alpha, and smaller the larger alpha is. Rows a trustworthy stump gets right lose most of their weight: $\times 0.33$ at $\alpha = 1.10$.
 - A stump we barely trust (small alpha) changes the weights only a little: $\times 1.53$ and $\times 0.65$ for our stage 1 stump ($\alpha = 0.42$).
 
@@ -202,7 +202,7 @@ The update follows (Figure 2): the mistake becomes $0.1 \times e^{1.0986} = 0.3$
 
 $$\alpha = \frac{1}{2}\ln\left(\frac{1-0}{0}\right) \quad \text{divides by zero}$$
 
-The fix is to add a tiny number, such as $10^{-10}$, to the error before dividing; that is the `eps` in `calculate_model_weight`. Such a stump then gets a huge but finite alpha. scikit-learn handles this case itself: it stops boosting early, because a perfect stump leaves nothing to fix.
+The fix is to add a tiny number, such as $10^{-10}$, to the error before dividing; that is the `eps` in `calculate_model_weight`. Such a stump then gets a huge but finite alpha. scikit-learn handles this case itself: it stops boosting early, because a perfect stump leaves nothing to fix (scikit-learn source).
 
 ## 8. Stage 3
 
@@ -212,7 +212,7 @@ The third dataset is rows 7, 6, 7, 6, 7, 0, 7, 7, 8, 7. The new stump is **X2 $\
 
 $$\alpha_3 = \frac{1}{2}\ln\left(\frac{1-0.2}{0.2}\right) = \frac{1}{2}\ln 4 = 0.6931$$
 
-> **Extra:** A common slip when copying the stage code is to train the third stump on the second dataset while comparing its predictions with the labels of the third. The predictions then belong to different rows from the labels, the "error" comes out meaninglessly high (0.7, say), and alpha turns negative. Each stump must be trained and scored on the same dataset; the Notebook keeps one table per stage for that reason.
+> **Extra:** A common slip when copying the stage code is to train the third stump on the second dataset while comparing its predictions with the labels of the third. The predictions then belong to different rows from the labels, and the "error" comes out meaninglessly high. The Notebook makes this slip on purpose and gets an "error" of 0.7 and a negative say, $\alpha = -0.42$. Each stump must be trained and scored on the same dataset; the Notebook keeps one table per stage for that reason.
 
 ## 9. Prediction: the weighted vote
 
@@ -310,7 +310,12 @@ Both give alphas 0.8473, 1.2993 and 1.8458 (`abc.estimator_weights_`) and the sa
 - Each stump must be trained and scored on its own stage's dataset.
 - Our three upsampled stumps get 9 of 10 training rows right; scikit-learn's weighted stumps (SAMME, `sample_weight`) get all 10.
 
-## 12. Key terms
+## 12. Sources
+
+- scikit-learn docs: API page of `DecisionTreeClassifier`, parameter `random_state`.
+- scikit-learn source: `sklearn/ensemble/_weight_boosting.py`, `AdaBoostClassifier.fit` (stops when a stump's error is 0).
+
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|

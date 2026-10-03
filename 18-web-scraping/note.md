@@ -98,7 +98,7 @@ So we send a browser's User-Agent ourselves, in the request's **headers** (extra
 
 With this header, the server sent the whole page. `webpage` now holds exactly the text we see in a browser with right-click, **View Page Source**.
 
-> **Extra:** A 403 comes from the server deciding to block us. It is not caused by **robots.txt**, a different thing: a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow. Section 12 comes back to it.
+> **Extra:** A 403 comes from the server deciding to block us. It is not caused by **robots.txt**, a different thing: a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309, "These rules are not a form of access authorization"). Section 12 comes back to it.
 
 > **Extra:** What changed since this code was written (checked October 2026).
 >
@@ -149,7 +149,7 @@ Figure 2 shows the HTML of one company on the list page. Everything about TCS si
 
 `prettify()` prints the HTML with one tag per line, indented by depth, so the nesting is easy to follow. It changes nothing; it only helps us read.
 
-> **Extra:** The second argument chooses the **parser**, the part that reads the HTML. `"html.parser"` is built into Python. `"lxml"` is faster and is included in Anaconda, but in a plain Python setup it needs `pip install lxml` first; without it, `BeautifulSoup(webpage, "lxml")` stops with `FeatureNotFound`. For one page at a time the difference in speed does not matter.
+> **Extra:** The second argument chooses the **parser**, the part that reads the HTML. `"html.parser"` is built into Python. `"lxml"` is faster (Beautiful Soup docs, "Installing a parser") and is included in Anaconda, but in a plain Python setup, including our environment, it needs `pip install lxml` first; without it, `BeautifulSoup(webpage, "lxml")` stops with `FeatureNotFound`. For one page at a time the difference in speed does not matter.
 
 ## 6. Finding the right tags with Inspect
 
@@ -367,7 +367,7 @@ On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the det
 
 > **Extra:** Another common way to survive missing values is to wrap each line in `try:` ... `except AttributeError:` and append `np.nan` in the `except` part. It works the same. Name the error to catch: a bare `except:` also hides typos and other bugs.
 
-> **Extra:** Older code joins pages with `final = final.append(df, ignore_index=True)`. `DataFrame.append` was removed in pandas 2.0, so this now fails with an `AttributeError`. Collecting the pieces in a list and calling `pd.concat` once is the current way, and faster.
+> **Extra:** Older code joins pages with `final = final.append(df, ignore_index=True)`. `DataFrame.append` was removed in pandas 2.0 (pandas release notes), so this now fails with an `AttributeError`. Collecting the pieces in a list and calling `pd.concat` once is the current way, and faster.
 
 > **Extra:** Padding the details to four values stops the crash, but it hides a subtler error. Infosys BPM's three details are headquarters, age and employees; taken by position, its headquarters lands in `company_type`, its age in `head_quarters`, and so on. Each detail has an icon tag inside it (`<i class="icon-pin-drop">` for headquarters, `icon-access-time` for age, and so on). Matching each detail by its icon instead of its position puts every value in the right column; the Notebook shows how. The general lesson: always look at a few rows of scraped data, especially rows with NaN.
 
@@ -396,6 +396,12 @@ On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the det
 - Search inside each repeated container (one company box), not across the whole page; values then stay with their own company.
 - Missing tags give `None` or short lists: turn them into NaN, then check the rows that have NaN.
 - Websites block bots and change their layout. Send a User-Agent, pause between requests, respect robots.txt and the terms of use, and save the HTML you download.
+
+## Sources
+
+- Beautiful Soup documentation. Installing a parser. crummy.com/software/BeautifulSoup/bs4/doc.
+- pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
+- Koster, M., Illyes, G., Zeller, H. and Sassman, L. (2022). RFC 9309: Robots Exclusion Protocol. IETF.
 
 ## 14. Key terms
 

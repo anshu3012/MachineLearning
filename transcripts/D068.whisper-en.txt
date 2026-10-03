@@ -1,0 +1,854 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video, we will continue our deep learning playlist.
+So if you remember, in the last video, I shared a very detailed roadmap with you
+that how deep learning got from LSTM to LLMs.
+There I discussed that first came encoder-decoder architecture to solve seek-to-seek problems.
+Then came attention mechanism, then came transformers, then fine-tuning
+and then many more LLMs came
+and then I told you that now we are going to focus on all these parts one by one
+so today's video is going to be the starting point of this journey
+and in today's video we will discuss
+encoder decoder architecture for sequence to sequence data
+so it is a very important topic
+although in today's date these architectures are not used in that way
+but it is a very important foundational basic
+to understand the next topic
+So if you want to understand LLMs very well in the future, then you just have to start that journey with this video.
+So I have made this video in a lot of detail, the paper is very close to the original and I have tried to explain it in such a way that you can read that paper after the video and you will understand things.
+So super excited, I really hope you are also, let's start the video.
+So guys if you turn back in this playlist then you will see three important milestones, the first milestone came when we faced our first challenge and our first challenge was tabular data.
+data which is in the table
+very simple csv files
+like
+I always give you an example
+that we have data of students
+value of CGPA, value of IQ
+we have to know that their placement will be
+or not
+this kind of data
+when this kind of data came in our life
+then we
+studied a neural network architecture
+which we called ANN
+artificial neural network
+which looks like this
+and in this we added more layers
+and learned to make deep neural networks
+this was the first part of this playlist
+then we learned to improve it
+but then what happened
+that we faced second challenge in our life
+and the second challenge was
+image based data
+where we were given this kind of task
+that there is an animal in an image, we have to identify whether it is a dog or a cat.
+And we realized that images are made up of pixels and pixel is nothing but a 2D grid of data.
+And there we realized that this 2D structure has a meaning,
+and unfortunately ANN does not understand that meaning
+and that's when we studied CNN
+Convolutional Neural Networks
+this was stage 2 of our journey
+then came stage 3
+when we faced a new challenge
+and that was sequential data
+sequential data means a data where
+sequence has some meaning like textual data or time series based data
+now in this kind of data we realized that sequence, order has importance
+and unfortunately ANN and CNN were not able to decode that importance
+And that's when we studied the third type of neural network architecture called RNNs.
+And we studied its two variants LSTMs and GRUs.
+And now in our journey we are at a stage where the fourth type of challenge has been thrown on us.
+and that challenge is sequence-to-sequence data.
+What is sequence-to-sequence data?
+It is a type of data where there is sequence in the input as well as sequence in the output.
+I will give you a very good example of this type of problem.
+It is machine translation.
+Imagine you are given a sentence in English, Nice to meet you.
+And you are asked to convert this into a Hindi sentence.
+So obviously the output would be, Aap se mil kar acha laga.
+And this is our next task.
+We have to create a neural network architecture that can solve this type of problem.
+And this is what we are going to do in the next 5-8 videos.
+We will study this type of architecture which can handle sequence to sequence data.
+Now how are those architectures, which architectures are there, we will discuss this.
+But first I want to keep a perspective in front of you that why it is considered a little difficult to solve sequence to sequence data or sequence to sequence problems.
+So it is very simple to understand actually, if you pay attention, then there are three challenges here, the first challenge is that your input, since it is a sentence in some language, let's say English, so obviously it is of variable length, right, some sentence can be of 2 words, some sentence can be of 200 words, so this is the first challenge.
+The second challenge is that the output sentence which is a Hindi sentence in our case can also be of variable length.
+And the third biggest challenge is that there is no guarantee that if you give English sentence of 3 words then the translated Hindi sentence will also be of 3 words.
+see here your english sentence was of 4 words but in hindi it is 6 words
+so it means that dealing with variable length is going to be the biggest challenge
+not only in input but also in output and also you have to deal with this fact
+that if there are 6 words in the input, then it is possible that there are 600 words in the output, it is absolutely possible.
+The good part is that we have learned a little bit to handle variable lengths by reading LSTMs and GRUs,
+but we have learned to handle them only in the input, not in the output.
+And this is what we will have to learn to solve sequence to sequence problems.
+So to solve sequence to sequence problems, the first architecture which we are going to study is Encoder Decoder Architecture
+And today's video is fully dedicated to understand this architecture in and out
+So before understanding encoder decoder architecture, I would like to discuss one or two things with you
+The first discussion is about prerequisites, you may think that what should I know from the beginning to understand encoder decoder architecture.
+So I am expecting that you have a fair idea about RNN and LSTM from the beginning.
+How these two architectures work, how they process data, how they handle the sequence.
+You should know all these things, then you will be able to understand this video better.
+Now if you talk about how exactly we are going to understand the encoder decoder architecture,
+then I will tell you my plan of action.
+So this whole video is based on this paper.
+So this is the original paper where Elias Kutzkever had proposed the encoder decoder module,
+and explained in detail in this paper that what architecture they used, what training techniques they used, what settings they used.
+So, our goal is that we can be so educated through this video that we can understand this paper.
+So, my plan of action is that first of all I will explain you a very simple version of encoder-decoder.
+I will try to explain you the basic idea first
+and then I will go a little more deep
+and the overall complex architecture
+I will explain that to you
+and lastly I will show you some improvements in that architecture
+and eventually we will reach to the encoder decoder discussed in this paper
+After watching this video, if you are able to understand this paper, then this video will be successful.
+In this video, we will use machine translation task as a running example to understand encoder-decoder architecture.
+Let me show you the high-level overview of encoder-decoder architecture.
+According to me, the most beautiful aspect of encoder decoder architecture is that its high level overview is so simple that I can even explain it to a child.
+So once you focus on the screen here, you would see that as you can understand from the name, this architecture is made up of two blocks, one is encoder and the second one is decoder.
+And these two blocks are connected to each other using something called context vector.
+So I will try to explain you one by one that what are these three things representing and what is their purpose.
+So encoder is basically that section of the architecture where you give your input sequence.
+If you want to convert from English to Hindi, translate, then you will send your English sentence as input in this encoder.
+And when you will give this input, you will make sure that you give it on token by token basis.
+Now if you don't understand token by token, then you can also call it word by word.
+So what I am doing is, I am sending this sentence in this encoder on a word by word basis.
+First I sent nice, then to, then meet, then you.
+Now the work of this encoder is that it will try to understand this whole sentence.
+It will try to capture its essence.
+It will try to summarize it.
+And as soon as it will summarize it, it will give an output.
+and that output will be a vector
+vector means set of numbers
+and this is called as context vector
+so what is this context vector
+this is basically the summary of this sentence
+nice to meet you
+and how it was made
+with the intelligence of encoder
+encoder summarized it
+and represented it in a set of numbers
+now what will happen
+now this context vector
+will be given to our decoder
+and decoder's work is
+that he will try to understand this context vector
+and after understanding
+again on token by token basis
+or you can say word by word basis
+output will be printed
+first of all you will print
+then say, then meet, do, liked, and that's it.
+This is the architecture.
+At the high level, it is only this much.
+There are three blocks.
+The first block is doing its work by understanding the sentence and summarizing it.
+The second block is taking that summary from the encoder and sending it to the decoder.
+And the third block decoder is trying to translate that summary into another language.
+And this is the high-level overview of encoder-decoder architecture.
+Now I know you must have been a little curious by looking at this high-level diagram.
+What is inside this encoder? Right?
+What is inside this decoder?
+So now we will discuss that how encoder and decoder is made.
+Obviously in encoder we need something which can process sequences.
+And similarly in decoder also we need something which can process sequences.
+So I guess it is not a big deal.
+You can imagine it very easily.
+We use an LSTM inside the encoder, in fact I'll show you, this is a detailed diagram of encoder, I'll write it down
+So you can see our encoder is basically one LSTM cell and we are unfolding it over time
+like we do to any LSTM
+so this is the LSTM
+this is time step 1
+this is time step 2
+this is time step 3
+and this is time step 4
+so when it was the first time step
+we sent nice in the input
+we started with some random value of
+ht and ct
+our hidden states or cell states
+Then LSTM took out some output and took out new states of ht and ct, which became the input for the next time step, where we provided 2 in the input.
+Then we provided meet and in the last step we provided u.
+In this whole process LSTM tried to understand this sentence and forwarded its summarization through hidden states.
+And after the final step, the ht and ct that we got is our final representation of the sentence.
+which becomes the context vector
+and we pass this ht and ct to the decoder
+so in summary if someone ask you that from which encoder is the encoder made
+then it is very simple from one lstm cell
+By the way, it is not necessary that you use only LSTM, you can also use GRUs, RNNs are not generally used because they have a vanishing gradient problem, but mostly you would see that LSTMs and GRUs are used.
+LSTM is used in the original paper
+Now let's talk about decoder
+There is one LSTM in the decoder
+Like there is one LSTM in the encoder
+It's just that these two are two different LSTMs
+So the work of this LSTM is to produce some output at every time step
+Another important thing is that the initial state of this LSTM is set equal to the final state of the encoder.
+This means that the HT and CT that you are getting from here, you provide them here as initial states.
+And in the same way, the decoder gets the context of the input sequence.
+Now see what is happening step by step.
+What do you do on time step 1?
+You not only provide context vector,
+along with that you send in a special symbol input which we call start.
+After seeing this start, decoder understands that now it has to start producing output.
+And on its first time step it outputs a word.
+like in our case from you
+now what will happen on time step 2
+that the output from time step 1
+from you
+you will send it as input
+in second time step
+along with
+the internal states
+and then here you will get
+second word
+then you will move ahead
+you will send second word
+in third time step as input
+you will send as input and you will get 3rd word then you will send 3rd word as input
+you will get 4th word and till when you have to do this till you don't get this special
+symbol in output end or end of sentence as soon as decoder will see this it stops producing
+It stops and then it doesn't run any more time steps.
+And that is how decoder works.
+Now I know we haven't seen the internal details yet.
+But I guess you are able to understand the high level overview.
+So guys now we will discuss some fun parts.
+So next our discussion is that how we train an encoder decoder architecture.
+Before explaining all this, I would like to tell you two things.
+First, whenever you are studying about training, always make sure that you keep this diagram in front of you.
+Where you can see encoder and decoder side by side.
+Because the training is done together.
+So if you try to study both separately, then there can be a problem in understanding.
+Second, before training one very important thing is data set.
+So, as I have told you that I am going to explain the whole thing with the example of machine translation.
+So, we need a data set which we can use in machine translation.
+Now, generally the data sets used are something like this.
+These are called parallel data sets.
+And how do they appear?
+It is very simple.
+You will have two columns.
+In the first column, your source language
+sentences will be given.
+Like jump.
+And in the second column,
+the target language,
+in which you want to translate,
+in that language,
+translation will be given.
+Like jump is already given.
+Hello is Namaste.
+So this is one word.
+If you go further, I am at home, you will have to bring the data in this way.
+In this way, we will do the work of supervised learning.
+We have input and we have output.
+Now we will input this data in this network and we will train this model.
+Now to explain the whole process of training, I will not use the whole data set, I will take a subset.
+So I am using a small data set in which we assume that there are only two rows and two columns.
+So the first column is English and the second column is Hindi.
+And we have only two sentences.
+First is, let's say, think about it.
+Which was translated in Hindi.
+Think about it.
+and second is come in
+which is again translated in Hindi
+come in
+ok
+so
+let's assume that we have these two rows
+and on this data we have to train our encoder decoder
+now I will go step by step
+first of all
+the problem we have is
+This data set is in English and Hindi
+So unfortunately our machine
+Our neural network architecture
+It will not be able to understand it
+So somehow we have to convert it into numbers first
+And we have read all this in basic NLP
+What will you do first?
+You will do tokenization
+Means you will divide this whole data set into tokens
+then the tokens of the first sentence will be
+think
+about
+and it
+and the second sentence will be
+come
+in
+if you talk about Hindi
+then the first will be
+think
+and the second will be
+take
+and in the second Hindi sentence
+come
+inside
+go
+Now what we have to do is to convert them into numbers, now there are many ways to convert them into numbers, we will use the simplest one, i.e. one hot encoding
+So what do you do in one hot encoding, you write the total vocabulary of the English language together
+So basically there are 5 words 1,2,3,4,5
+So if I want to represent think using one hot encoding
+So think will be 1,0,0,0,0
+If you want to do about then 0,1,0,0,0
+And so on
+You will do the rest three
+Similarly, you will make vocabulary of Hindi also.
+So, for now there are 5 words in Hindi also.
+But here you have to add 2 additional words.
+And those additional words are
+START
+and END
+Why?
+Because as I told you
+you have to give this start in input
+and this end can come out in the output, in fact it comes, so we have to encode these two too, so now we have a total
+this is 1, this is 2, this is 3, this is 4, this is 5, this is 6 and this is 7, so if I want to encode start, then start will be 1
+If I want to encode the thought, then it will be 0, 1 and that is how you will encode all the items from output column.
+So now we have solved the first problem, we have numerical input and numerical output.
+Now what we have to do is to send this data to our encoder decoder network.
+So let's start the training process. First of all, we will pass the first row in our encoder decoder architecture.
+In the beginning of the training, you will have one LSTM in the encoder and one LSTM in the decoder.
+These are two different LSTMs and the weights and biases of both of them will be randomly initialized in the beginning.
+Any value can be there.
+Now what are we doing in this setup?
+We are sending our English sentence in the encoder.
+So you know how LSTM works.
+so the first time on time step 1 we sent think here
+think means we sent this vector
+because our input vocabulary is made up of 5 numbers
+and here our initial hidden states are ct and ht
+ok
+and
+output will come here
+and hidden state will propagate further
+then
+on next time step
+we sent about
+about will be
+0 1 0 0 0
+ok
+then
+on time step 3
+we sent it
+it will be 0 0 1 0 0
+0 0 ok now in these three time steps in time step 1 in time step 2 in time step 3 in our encoder
+he is trying to understand this data and along the way he is updating his hidden state
+As soon as the last time step comes, from here the final Ct and Ht will be output as context vectors and the values in Ct and Ht will go to decoder and now it's time for decoder
+so as you know decoder is also an LSTM
+so we are drawing an LSTM
+and in this LSTM two inputs are coming
+first this context vector is coming
+previous CTHT
+and along with that from here
+we will start to input our Hindi sentence
+so first of all we will send start
+ok
+whose one hot encoding is 1 0 0 0 0 0 0 because there are 7 terms in the vocabulary
+ok now what will happen things are interesting here now ideally what should come in the output
+should come in the output first word that is think right obviously since this is a neural
+network architecture can't be printed in hindi
+then what can it print?
+it can print numbers
+or set of numbers
+which you call vectors
+so we know that
+one hot encoded vector
+looks like this
+we discussed this above
+so in some way we have to output this vector
+so here I will explain you what exactly happens
+one thing I didn't tell you in high level overview
+and that is to get output in decoder
+what you do is you add a softmax layer
+you add a softmax layer
+I think you know what is softmax layer
+generally to get output from neural network
+you add softmax layer
+now in this softmax layer there are nodes
+ok
+how many nodes are there
+exactly that many nodes
+are there in your output language
+vocabulary terms
+like here
+there are 7 terms
+start, think, take, come in, go in
+and end
+so what we will do for every
+word we will take one unit
+and from here LSTM's output will come and that LSTM's output through a dense layer will be given to this softmax
+now the work of this softmax is that it will generate a probability on every node
+will generate. For example, he generated these probabilities. 0.2, 0.15, 0.15, 0.3,
+0.07, 0.02 and 0.01. Now what will be your output? Your output will be the term whose
+probability is highest ok so this is start this is low this is inside so since inside
+probability is highest so then your output will be 0 0 0 1 0 0 0 which basically means
+inside so this is how the decoder outputs a particular word ok so I will once again
+I will make you revision from here I got the context vector, this is my lstm decoder, I sent start from here, now on the basis of start and this input, this decoder decided that I have to get some output, we took that output and put it in softmax, now let's say in our case, the output is, I will just write anything, point,
+2, 0.1, 0.3, 0.2, 0.1, 0.1
+Let's say something like this.
+A seven dimensional vector.
+This is the output.
+Now pay attention.
+On the basis of this output,
+you can clearly see that the third term is maximum.
+This means that according to our vocabulary,
+the output should be low.
+The output should be low, right, but you know what the output should have been, think about it, it means that your y is true, y true means that the correct output should have been this 0 1 0 0 0 0 0 and this is your y
+red means the output of your model, you can call it y hat, you can call it y, you can
+see some mistake is happening, it should have come, think and what came from the prediction,
+now what is the problem, if you remember the architecture, then what we have to do is that
+Whatever output comes on your first time step, you have to send it as input in the next time step.
+Right, this is the connection.
+But see what is the problem here.
+That you should have sent the thought in the next time step from the rule.
+Whose corresponding one-hot encoding is this.
+but since this is the low output, then you have to send the low one-hot encoding vector
+now it is not that you can't send it, you can remove the thought and send the low one-hot encoding vector
+but what happens by doing this is that the training becomes a little slow
+So researchers decided that even if there is a mistake here, what we will do is that during the training process, we will send the correct input at every next time step.
+This means that even if we get the wrong output here, but when we will send the output here, then we will send the right input according to the data and that is why you will send the one hot encoded vector of thought and this concept is called teacher forcing.
+According to your plan, the output here should have been the input here, but since the plan went wrong, our output went wrong, so we do not want to train the next one with the wrong output.
+That is why we will send the right thing by going to the data, now the benefit of this is that your training, which is the convergence, it is fast.
+I hope you understood, now we will move on to step number 2
+where we sent this one hot encoded vector
+and from here we got the hidden states of previous time step
+now again we have to calculate the output
+and to calculate the output again we have to use the softmax layer
+now again with softmax we will get a vector like this
+and for some time let's assume that this is our output vector
+and if you try to understand it by pausing the video then you will notice that
+let's say I will just change it to this
+that the second last one is 0.5 and then the last one is 0.05
+so when you will see this factor then you will understand that the second last term
+the corresponding probability of that is highest
+and if you will go in our vocabulary then second last is go
+last is end
+so according to this the output should be
+go
+right
+this is the wipe rate
+but if you see in the data, then what should have come, low, right, here it should have been low, so again our model did a wrong prediction, now if you have a doubt in your mind that why is he doing so many wrong predictions, then it is a simple thing, you have just started training, you have random weights, from where will you do the right prediction, he is just giving any output, whatever he wants to do in vocabulary, randomly,
+so that is why it is making so many mistakes but what we will do again is that we will move to the next time step
+we will move to the next time step and on the next time step first of all we will send the hidden state from here
+and again in the input rather than sending go we will send low or corresponding to low which is one hot encoder
+one hot encoded vector, we will send it, so we will send 0 0 1 0 0 0 0 ok and we will do processing inside again
+and then the output will come out from here and that output will pass through our softmax again and we will get an output vector again
+now for some time let's assume that in the third step our output from softmax is this vector
+and if you focus then the last number corresponding to it is the highest probability
+and if you check in our vocabulary then that word is end
+which means that our network's third time step prediction is
+it should be end
+now if i ask you
+according to this time step
+what is
+the correct y true
+so i guess you can tell
+since sentence is ending here
+so ideally end should be here
+so in a way what i am trying to say is
+that on this step
+your prediction is correct
+what should be y true
+y true should be this
+which is
+one hot encoded vector of end and your output which came out of softmax is also end
+so here your output matched
+also one more thing if your prediction comes end
+then you stop it
+you don't go further in time steps
+you just stop the example
+So guys, now we have essentially completed the forward propagation of the first dataset on our encoder-decoder architecture.
+We put this data in this architecture once and calculated the output.
+So this is essentially what forward propagation is.
+Now the valid question is what to do next.
+You have the answer.
+You have read enough deep learning.
+Maybe you know that whenever you do forward propagation, the next thing that happens is that you want to know how many mistakes you have made.
+So in a way, now you will calculate the loss.
+So what I have done is, this portion where my prediction and true output are, I have copied and pasted both of them and put them down here.
+Now what I will do is, I will calculate loss, that how much our model made mistake on this particular piece of data.
+This is the correct answer and this is the prediction of our model.
+So the first thing is that you have to decide which loss function you have to use.
+I guess here you are able to understand that your model has to predict one word out of 7 words at every step
+so basically from 7 categories pick one category at every time step
+so this is like a multi class classification problem
+so the last function that we would use would be categorical cross entropy
+which you have seen earlier
+By the way, its formula is minus i equal to 1 to all your categories, in our case there are 7 unique words, 7 categories
+yi true multiplied by log yi pred
+So what we have to do, for 3 time steps we have to find different loss
+So, for time equal to 1, our loss will be, see it is very simple, what you have to do is, you are getting only 1 here,
+means yi is only 1 in one place, so in other place it is 0, so all those terms will be 0, so its corresponding is 0.1 here.
+So, basically the loss of first time step will be minus 1 multiplied by log of 0.1.
+1. Now, I guess you know that log of 0.1 is minus 1. So, minus 1 into minus 1 will be 1. So, the loss here is the loss of 1. Similarly, let's talk about this. If you notice here also, then only the third term is 1. So, its corresponding here is 0.1. So, in this case also, your loss will be of 1.
+The third one is a little interesting because in the third one, the last one is 1, so its corresponding is this, so it will be for time equal to 3, minus 1 multiplied by log of 0.4, log of 0.4 is around 0.39, so this will be minus 1 multiplied by minus 0.39, as in 0.39, here also 1 is and here 0.39 is.
+One thing you might be noticing is that our model made a mistake here and here and here and our model gave the correct output.
+So when it gave the correct output, the loss is less and when it gave the wrong output, the loss is more.
+Now if you want to calculate the total loss, then you can calculate the total loss which will be 2.39
+or you can also calculate the average loss which is I don't know 7...
+I am sorry, whatever will happen, divide it by 3, it will be 0.7 something, so let's assume for a while that we have taken the total loss, this is the total loss, so now we have done forward propagation and we have calculated the loss too, now what will we do, again you know the answer, we will do back propagation,
+Backpropagation is made up of two steps.
+First is gradient calculation and second is update parameters.
+I will tell you about both of them one by one.
+So let's talk about the first step, gradient calculation.
+So when you calculate loss, you use it for backpropagation.
+In this process, what you do is that you calculate the gradient of the loss with each of the trainable parameters.
+Meaning, all the parameters in LSTM, all the parameters in dense layer, all the parameters in softmax.
+In respect of all these parameters, you take out the derivative of loss.
+After that what you do is, on the basis of these gradients, what are these gradients representing?
+These gradients measure how much a particular parameter has contributed to the loss function
+and in which direction that parameter has to be adjusted so that the loss can be reduced.
+So this is the benefit of calculating gradient.
+As you have calculated the gradient, now you have to update the weights on the basis of those gradients.
+To do this, you use Stochastic Gradient Descent or any other optimizer like Adam or RMS prop etc.
+The optimizer adjusts the weight in the direction where the loss can be reduced and the adjustment of the parameters is done on the basis of learning rate.
+Learning rate is basically a hyperparameter which decides the speed at which we are reducing the gradient.
+So that's it, you have to do these two things.
+essentially you did four things, let me summarize, first of all you put forward propagation on your data
+with your initial weights, by doing this you got some output
+you compared that output with your correct output
+by which you got your loss
+after getting the loss you calculated the gradient of the loss
+with respect to each of the trainable parameters
+LSTM, Dense layer, Softmax layer
+then you used this gradient to update the weights
+using some optimizer let's say Adam
+and to decide how fast this update should be, you have learning rate
+and with this you get your new weights
+and once you get your new weights, now you can repeat this step again
+where you will take a new training example
+We had two training examples, one was think about it, now you will catch the second one, the come-in one, now you will send the come-in one to this encoder decoder, where the weights have been updated according to the old mistake, you will do forward propagation, you will calculate the output, you will calculate the loss, you will calculate the gradient, you will update the weights on the basis of learning rate.
+And again you will get a new set of weights which you will apply again on the third example.
+And in this way your model is learning on the data.
+And that is how training takes place.
+So guys our training process is complete.
+And now we are assuming that our encoder decoder architecture is fully trained.
+It means that all the weights and biases, all the parameters in this architecture have found their true value.
+Now we have to do prediction.
+Now suppose we are given a new English sentence.
+This is not new, I am reusing the sentence.
+But imagine that we are given a new sentence.
+So the sentence is think about it.
+And we have to do Hindi translation from this.
+So on this screen is your trained encoder decoder architecture.
+Now see what we will do.
+First of all, we will tokenize this sentence and then send it to the encoder on a word by word basis.
+This white color structure you are seeing is the encoder.
+The green one is the decoder.
+So first of all, we sent think from here.
+Obviously, we are not sending think, we are sending think's one hot encoded vector.
+From here we got some random hidden state values and our encoder started creating representation on the basis of its bates.
+Now we have to give the next input which is about
+It went inside, now on the basis of the previous sentence, a representation was made
+Our hidden state was updated
+Then we reached the third step, we sent it
+And finally we got our ht and ct here
+in context vector format
+and now encoder work is done
+from here
+decoder work will start
+but this time
+we don't know
+true values
+we don't know from before
+what will be the correct translation
+so see what we will do
+first of all you know
+you will start from start
+ok
+you will send one hot encoded vector of start
+you will get the context vector, on the basis of these two inputs, our decoder will create an output
+will send it in softmax layer to calculate the probabilities and for some time let's assume that these are the probabilities
+So, as I have told you, you have to print the word from which the associated probability is the highest.
+So, here you can see the word with the second number, the associated probability is 0.3, also the highest.
+So, we will see which word is on the second number. This is our vocabulary.
+So, on the second number is think. So, automatically our output will come here, think.
+Now what will happen, next thing is a little different, what we used to do, in the time of training, we used to find out what the correct output should have been
+And then in the next stage, we used to send the correct output and we used to call it teacher forcing
+But since we don't have the correct labels, so what we will do, whatever output has come here, we will send it here
+So, we will send SOCH, SOCH's one hot encoding vector, so we will send this actually, or maybe one zero more, okay.
+And from here we will send the updated hidden state, from here we will send SOCH, again there will be calculations according to weights inside.
+Output will come, output will go in softmax layer and again probabilities will be generated.
+Now if you notice here, the highest probability is on the second last, 0.3
+And if you see what is the second last? Jou
+So it means that our output is coming in this stage, Jou
+Now we will send this Jou here
+basically corresponding one hot encoder, one hot encoded vector
+from here our updated hidden state is coming
+here again some calculation went on, output came, went to softmax
+now here you can see the highest one is I guess this one
+third one and third is low
+so this is the output in third step
+low
+now what we will do
+we will send this low here
+corresponding to low
+whatever it is
+from here hidden state came
+some calculations happened
+output came and finally
+we put it in softmax
+and now you notice that
+the last one is
+the maximum probability
+0.35
+and here you go
+and see that the last one is END
+so the output would be END
+and as soon as END comes
+then we will not continue our time steps
+we will close the whole process
+and the output for this input
+according to our trained encoder decoder would be
+Soch jao lo
+This is the output
+Now obviously
+You can understand
+That this is wrong
+I have given this example on purpose
+So that you can understand that it can be wrong
+It depends on the training
+How you have done the training
+But whatever it is
+Prediction is done this way
+Exactly this way
+Here you neither use teacher forcing
+No back propagation is required, no weights need to be updated, all weights are freezed and now you are doing prediction.
+Simple as any neural network works.
+So now we have studied the basic level in encoder and decoder.
+We have understood the training process in detail and we have also seen how prediction is done.
+Now what I am going to tell you in the video is that how can you do improvements in that basic architecture.
+I will show you three improvements, the first improvement is the use of embeddings, I guess you already know embeddings, if you are following this playlist from the beginning, while teaching RNNs, I taught you the concept of embeddings, now what is the problem, I will explain to you and why we will use embeddings, I will tell you that too, so till now you must have noticed that this is our encoder, by the way, this is our encoder, so when we
+so in encoder we were putting word by word input
+like if the first word is think
+so we were putting one hot encoded representation instead of think
+now this is fine, we had only 5 words in input vocabulary
+that is why you were able to input 5 dimension vector easily
+but in real cases or in proper data sets you can have 1 lakh words in your input vocabulary
+it means that your one hot encoded representation will be 1 lakh dimensional
+so clearly there is no benefit in working with such big dimensions
+that is why what we do is we use embeddings
+so embeddings are basically low dimensional representation of something
+of something. So what we will do is we will send think here through this embedding layer and what will this embedding layer do?
+It will give a low dimensional dense representation. Like if you have already configured that it should be a three dimensional
+representation. So from here a three dimensional vector will come out which will basically have three numbers. Then you will send about.
+about will also go in this embedding layer and for about also 3 dimensional representation will come of 3 numbers
+for it also 3 representation 3 dimensional representation will come so this is the best part of embeddings
+embeddings are first of all low dimensional and dense means very less numbers are 0
+and it is actually a summary of the word like in a way you can capture the context of that word
+in one hot encoding you can't do it so that is why we would use embedding layer for both encoder
+plus decoder decoder in the same way you will put embedding layer before giving input
+the start that you send will go through an embedding layer
+what embeddings you can use, there are two options
+either you can use pre-trained
+like word2vec
+or glove
+or you can train with your network
+it will become an embedding layer in Keras
+And when you will train your model, then the weights inside this layer will also be trained together.
+So, it has the advantage that you can capture the nuances of your data, which are fine.
+And the context generated by the word is according to your data set.
+So, when I will show you in the next video, I will train the embedding layer together.
+But yeah, this is the first improvement.
+We are ditching one hot encoding.
+and we will use embedding layer in encoder and decoder everywhere
+infact in original research paper model of skewer they have used embeddings
+so this is the final architecture after adding embeddings
+this is encoder part and this is decoder part
+here input is going
+whatever is written
+nice to
+meet you
+and this is going through an embedding layer
+in encoder, encoder is doing its work
+removing context vector, then from here
+you are giving input again through embedding layer
+lstm is doing its work
+and our output is coming out on softmax
+and from here we are deciding what will be the final output
+so we have just added embedding
+layer to both the encoder and decoder blocks
+lets talk about improvement number 2
+improvement number 2 will be that
+instead of using single layer lstm
+use deep lstms
+basically multi layered lstms
+in this diagram. So till now we used to use only one single layer of LSTM in both encoder
+and decoder. But in this diagram you can see we have stacked multiple LSTM layers on top
+of each other like you do in deep LSTMs. So now how is it working? You are sending input
+think about this
+from here input is going to this LSTM
+now this LSTM has two work, first in this direction
+update hidden state and then in this direction
+provide input to next LSTM
+now this one also has two work, in this direction
+propagate hidden state and in next layer
+to provide input in next layer
+so here we have used three layer LSTM
+and then what is happening
+from these three layers
+context vectors are coming out
+and are getting received in decoder
+same setup is there in decoder
+from here we are sending start
+from here we are sending search
+and from here we are sending low
+and this input is then
+going in first layer
+where i am getting context vector
+now again it has two work
+to propagate hidden state further
+and to give input to next layer
+again it is receiving from here
+and i am sending input from upper side
+so this is called deep LSTM
+and you can implement this architecture
+very easily in encoder
+i will give you
+three reasons why you should do this
+reason number one
+by doing this
+you can
+If you have long term dependencies, you can handle them better.
+Long term dependency means long sentences, let's say you have very long paragraphs which you have to translate.
+So if you will use a single layer LSTM as we are doing till now,
+then you will notice that the performance on big paragraphs is not that good.
+but if you will use deep LSTM then you would see that you are able to translate long paragraphs also
+why it happens like this? I will explain it to you
+in encoder decoder, the work of encoder is to summarize all the inputs and convert them into context vector
+now if you are using a single layer then your context vector is coming out from only one LSTM
+So obviously it is difficult to carry the summary of the entire sentence.
+Whereas if you have multiple layers of LSTMs,
+then you are getting context vector from here, from here and from here.
+So you have more scope or you can say that you have more capability to store that summary.
+Right, you have more numbers to represent that summary, whereas in the case of single, you had only one context vector which was not capable enough to summarize the entire long sequence.
+So this is the first benefit and the benefit is that it works better on long paragraphs.
+second benefit is that this deep LSTM architecture can understand layered representation
+so if you have seen my deep LSTM video then I told you that this architecture where you place one LSTM above another LSTM
+This hierarchical data is very useful to understand, it means that the lower LSTMs start to understand things at the word level in the data.
+The middle layer ones start to understand at the sentence level and the top level ones start to understand at the paragraph level.
+so basically the hierarchy in your data can be understood very well by this architecture
+let me give you an example
+suppose you have this sentence
+that the phone's battery is bad
+but the overall phone is great
+so the lower layers try to understand things word by word
+what is singular, what is plural, what is a verb
+the middle layers try to understand the meaning by reading the entire sentence
+and the higher layers try to understand the context of the entire paragraph
+so that is how hierarchy of data works
+So this architecture is very useful in capturing hierarchy
+So this is the second benefit
+And the third benefit is very simple
+Whenever you increase the number of parameters of a deep learning neural network
+You have added additional weights and biases
+So whenever you increase the parameters of a deep learning neural network
+So its learning capability increases
+you can think that it can capture more minute variations in the data
+without overfitting the conditions
+so in a way you increased the capacity of the model
+if you started using deep LSTMs
+now the details in your data
+it is in the position to capture them better
+there are two benefits from this
+first is better generalization
+means overfitting
+means if you provide sufficient data
+then it will not be overfitting
+and you will get good results on your new data
+and the second benefit is that even if there are variations in your input
+one input is very different from the other input
+then also this architecture will be able to capture better
+and that is why the original paper
+where Ilya Skutskiver introduced this architecture
+they also used deep LSTM
+in fact they have used 4 layered deep LSTM
+there was one more layer in their architecture
+right
+so they also realized that using this will give better results
+in fact they have shown it empirically
+experimentally
+that deep LSTMs were giving better results than single layered LSTMs
+so this is improvement number 2
+one more very interesting improvement you can do is
+while providing input in encoder
+reverse it
+it means that if you want to provide this input
+think about it
+so rather than providing this you will provide it
+about think
+and here it will remain as it was in decoder
+start think think
+or whatever it was
+Now you will say that it seems weird, why will we do this?
+So its answer is hidden in a very small piece of logic
+Generally what happens is that you have to do translation
+So what is the corresponding translation of think?
+Think
+now what happens is that if you see in a way
+if you are giving input in this way
+then the distance between think and think is this much
+but if you are providing input in this way
+then there is less distance between think and think
+right, this means that it will take less effort to propagate the gradient
+right, so this is the benefit of reversing
+the words which are in the beginning
+they come more close
+and then your model
+can catch the context
+now you will say what is this
+by doing this
+there is benefit i can understand
+but there is loss too
+our last words
+they are far away
+first
+it and low
+how much distance was
+this much
+now how much is it
+So here you will have to understand that this trick does not always work, it works for some language pairs
+And it works more for such languages where more context is hidden in the initial words
+Like English
+So people adopted this trick in the original paper, where the translation was done from English to French
+and this trick has improved the quality of your translation
+so this will not work always
+but if there are certain language pairs where there is more context in the initial words
+more heavy lifting initial words
+by reversing there
+sometimes the quality of your translation improves
+so you can try out this trick as well
+so guys now we have understood encoder and decoder in detail
+Now, I want you to read this original paper once properly and before ending the video, I will give you a summary so that it becomes easy for you to read this paper.
+So, let me give you some quick points about this paper.
+The first point is that the encoder-decoder architecture used in this paper, we adopted it in the task of machine translation and English to French translation was done in it.
+Second, here a special end of sentence symbol was used EOS instead of start and end.
+Third is, the data set used had around 12 million sentences,
+which had 348 million French words and 304 million English words.
+And this is a public data set.
+So, you can see it was trained in a very big data set.
+If you talk about vocabulary, then the input vocabulary of English had 1,60,000 words and the French vocabulary had around 80,000 words.
+In our case, we were only taking 5 and 7 words.
+And the vocabularies that were not present were represented with a special token from UNK.
+Then the input sequences were reversed, which I just explained to you.
+next is word embeddings used of 1000 dimensional vector
+here the output from this embedding layer for each time step it was a 1000 dimensional word
+next is architectural detail
+so they used 4 layers
+you can see here there are 3 layers
+they used one more layer
+and in every layer of LSTM there were 1000 units
+lastly they used a softmax function
+which we also used
+and the last but the most important part is
+that the performance crossed the baseline model
+and it was 34.81
+and the metric used to check the efficiency of translation is blue score
+This was 34.81 which was more than the baseline statistical model of that time.
+That is why this paper gained a lot of traction.
+So now I want you to go and study that paper with a good heart.
+And I would just promise that you will understand that paper very well.
+Because you have watched this video very well.
+So if you have liked the video then please like it.
+And if you haven't subscribed to the channel, then please do subscribe.
+See you in the next video. Bye.

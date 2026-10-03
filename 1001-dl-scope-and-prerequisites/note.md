@@ -43,7 +43,7 @@ The ANN part runs in this order:
 
 - Convolutional neural networks (CNNs) work best on images: convolution, pooling, pretrained models and transfer learning.
 - Recurrent neural networks (RNNs) work on sequences such as text, speech and time series: RNNs, LSTMs and GRUs.
-- Transformers replace recurrence with attention and power today's language models: attention, self-attention and the full encoder-decoder transformer.
+- Transformers replace recurrence with attention (Vaswani et al. 2017) and are the basis of language models such as GPT-3 (Brown et al. 2020): attention, self-attention and the full encoder-decoder transformer.
 
 > **Extra:** Generative networks (GANs, autoencoders), object detection and image segmentation are not covered in these Notes. The [types of neural networks Note](../1003-nn-types-history-applications/note.md) describes GANs and autoencoders in a paragraph each.
 
@@ -74,21 +74,21 @@ Every Notebook is written in Python, so we need to read loops, functions and Num
 
 A few ML Notes come back again and again in the Deep Learning Notes, so they are worth reading first:
 
-- **Logistic regression:** the [perceptron trick](../70-perceptron-trick/note.md), the [sigmoid function](../72-sigmoid-function/note.md) and the [log loss](../73-log-loss/note.md). A single neuron is very close to logistic regression.
+- **Logistic regression:** the [perceptron trick](../70-perceptron-trick/note.md), the [sigmoid function](../72-sigmoid-function/note.md) and the [log loss](../73-log-loss/note.md). A single neuron with a sigmoid activation computes $\sigma(\mathbf{w}^{\mathsf T}\mathbf{x} + b)$, the same formula as logistic regression.
 - **Gradient descent:** the [gradient descent Note](../57-gradient-descent/note.md) and its [stochastic](../59-stochastic-gradient-descent/note.md) variant. Every network is trained this way.
-- **Tensors:** the [tensors Note](../11-tensors/note.md). Deep learning libraries store every input, weight and output as a tensor.
+- **Tensors:** the [tensors Note](../11-tensors/note.md). TensorFlow stores inputs, weights and outputs as tensors (TensorFlow guide, Tensors).
 
 ### 3.2 Linear algebra
 
 > **Key point:** A layer of a network is a matrix multiplication plus a shift, so matrices and the dot product are the core of every prediction.
 
-A neural network spends almost all its time multiplying matrices. One neuron computes a dot product of its inputs and weights. A whole layer computes a matrix product $W\mathbf{x} + \mathbf{b}$, as previewed in section 7.3 of the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md).
+A neural network spends almost all its time multiplying matrices; deep learning libraries are built on linear algebra. One neuron computes a dot product of its inputs and weights. A whole layer computes a matrix product $W\mathbf{x} + \mathbf{b}$, as previewed in section 7.3 of the [linear transformations and matrices Note](../500-linear-transformations-and-matrices/note.md).
 
 ### 3.3 Derivatives
 
 > **Key point:** Training adjusts every weight against the slope of the loss, and the chain rule carries that slope back through the layers.
 
-> **Extra:** Calculus is not on the usual list of prerequisites, but training a network is calculus. Backpropagation applies the chain rule layer by layer; section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md) previews it.
+> **Extra:** Training a network is calculus. Backpropagation applies the chain rule layer by layer; section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md) previews it.
 
 ## 4. Summary
 
@@ -102,12 +102,18 @@ A neural network spends almost all its time multiplying matrices. One neuron com
 - The ANN part comes first and is the longest; the later families reuse it.
 - Code uses TensorFlow with Keras; PyTorch is the research favourite.
 - Before starting: Python, the flow of an ML project, vectors and matrices, and derivatives.
-- Read the logistic regression and gradient descent Notes first: a neuron is close to logistic regression, and every network is trained with gradient descent.
+- Read the logistic regression and gradient descent Notes first: a sigmoid neuron computes the same formula as logistic regression, and every network is trained with gradient descent.
 
-## 5. Key terms
+## 5. Sources
+
+- Vaswani et al., "Attention Is All You Need", NeurIPS 2017.
+- Brown et al., "Language Models are Few-Shot Learners", NeurIPS 2020.
+- TensorFlow guide, "Introduction to Tensors", tensorflow.org.
+
+## 6. Key terms
 
 | Term | Meaning |
 |---|---|
 | TensorFlow | Google's deep learning library |
 | Keras | The high-level interface built into TensorFlow for defining and training networks |
-| PyTorch | Meta's deep learning library, most used in research |
+| PyTorch | Deep learning library first built at Meta (Facebook), now run by the PyTorch Foundation; most used in research |

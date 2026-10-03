@@ -32,7 +32,7 @@ This Note covers:
 
 ## 2. Why not several t-tests?
 
-> **Key point:** Each t-test at $\alpha = 0.05$ has a 5% false-alarm risk; three of them together have a 14% risk, ten of them 40%.
+> **Key point:** Each t-test at $\alpha = 0.05$ has a 5% false-alarm risk; three of them together have about a 14% risk, ten of them about 40%.
 
 A two-sample t-test compares two group means (see the [two-sample and paired t-tests Note](../302-two-sample-and-paired-t-tests/note.md)). With three groups A, B and C, we could run three t-tests: A against B, A against C, B against C.
 
@@ -45,7 +45,14 @@ The trouble is the Type I error (see the [errors, power and tails Note](../292-e
    $$1 - 0.95^{3} = 1 - 0.857 = 0.143$$
    Five groups need $m = 10$ tests: $1 - 0.95^{10} = 0.40$.
 
-So with five groups whose true means are all equal, we would "find" a difference 40% of the time. ANOVA asks one question about all groups at once, with a single 5% risk.
+So with five groups whose true means are all equal, pairwise t-tests "find" a difference far more often than 5% of the time. ANOVA asks one question about all groups at once, and its false-alarm rate stays at 5%.
+
+> **Extra:** The formula assumes the tests are independent. Pairwise t-tests are not, since each group appears in several of them, so the real risk is a little lower. The notebook measures the real risk on 2,000 simulated datasets (20 values per group, all true means equal):
+>
+> | Groups | t-tests | At least one false alarm (simulated) | Formula | ANOVA false alarm (simulated) |
+> |---|---|---|---|---|
+> | 3 | 3 | 11.0% | 14.3% | 5.0% |
+> | 5 | 10 | 29.0% | 40.1% | 5.0% |
 
 ## 3. The hypotheses
 
@@ -130,7 +137,7 @@ The two add to $N - 1 = 8$, the degrees of freedom of $SST$.
 3. **Example:**
    $$MSB = \frac{24}{2} = 12, \qquad MSW = \frac{6}{6} = 1, \qquad F = \frac{12}{1} = 12$$
 
-If $H_0$ is true, both mean squares estimate the same noise variance, and $F$ is close to 1. Here the between-group variance is 12 times the within-group variance.
+If $H_0$ is true, both mean squares estimate the same noise variance, and $F$ is close to 1 (Montgomery §3.3). Here the between-group variance is 12 times the within-group variance.
 
 For the right-hand groups of Figure 1 (1, 5, 9; 3, 7, 11; 5, 9, 13) the means and so $SSB = 24$ are the same, but $SSW = 96$. Then $MSW = 96/6 = 16$ and $F = 12/16 = 0.75$: no evidence of a difference.
 
@@ -148,7 +155,7 @@ For the right-hand groups of Figure 1 (1, 5, 9; 3, 7, 11; 5, 9, 13) the means an
 
 ![The F distribution with 2 and 6 degrees of freedom: the whole curve (left) and its tail (right)](images/f_curve.png)
 
-The **F distribution** is the distribution of a ratio of two independent variances. Like the chi-square distribution (see the [chi-square tests Note](../571-chi-square-tests/note.md)), it is never negative and is skewed to the right. It has two parameters: the degrees of freedom of the top and of the bottom variance.
+The **F distribution** is the distribution of a ratio of two independent variances (NIST Handbook §1.3.6.6.5). Like the chi-square distribution (see the [chi-square tests Note](../571-chi-square-tests/note.md)), it is never negative and is skewed to the right. It has two parameters: the degrees of freedom of the top and of the bottom variance.
 
 Only a large $F$ counts against $H_0$ (group means further apart than noise explains), so the test is always right-tailed. Figure 3 shows the F distribution with 2 and 6 degrees of freedom:
 
@@ -177,13 +184,13 @@ Since $0.008 \le 0.05$, we reject $H_0$: the three sections do not all have the 
 ANOVA makes the same assumptions as the two-sample t-test (see the [two-sample and paired t-tests Note](../302-two-sample-and-paired-t-tests/note.md)), for every group:
 
 1. **Independence.** The groups are separate (no one is in two groups), and the observations do not influence each other.
-2. **Normality.** The values in each group are roughly normal. With about 30 or more per group, the central limit theorem makes this less critical. Check with a Q-Q plot or the Shapiro-Wilk test (see the [one-sample t-test Note](../301-one-sample-t-test/note.md)).
+2. **Normality.** The values in each group are roughly normal. With large groups, the central limit theorem makes the group means close to normal anyway (see the [sampling distribution Note](../271-sampling-distribution-and-clt/note.md), which gives $n \ge 30$ as the usual guide), so this matters less. Check with a Q-Q plot or the Shapiro-Wilk test (see the [one-sample t-test Note](../301-one-sample-t-test/note.md)).
 3. **Equal variances.** The groups have about the same variance; Levene's test checks this, with $H_0$: "the variances are equal".
 
 When the assumptions fail:
 
-- unequal variances: **Welch's ANOVA**, or scipy's `stats.alexandergovern`, drops the equal-variance assumption;
-- strongly non-normal small groups: the **Kruskal-Wallis test** (`stats.kruskal`) compares the groups by ranks instead of means.
+- unequal variances: **Welch's ANOVA** (Welch 1951), or scipy's `stats.alexandergovern`, drops the equal-variance assumption;
+- strongly non-normal small groups: the **Kruskal-Wallis test** (`stats.kruskal`; Kruskal and Wallis 1952) compares the groups by ranks instead of means.
 
 ## 8. Case study: age by class on the Titanic
 
@@ -225,7 +232,7 @@ Both checks raise doubts, so we confirm with the tests of section 7. Alexander-G
 
 > **Key point:** A post-hoc test compares every pair of groups after ANOVA rejects, while keeping the overall false-alarm risk at 5%.
 
-ANOVA said that at least one mean differs. A **post-hoc test** finds which. The usual choice is **Tukey's HSD** (honestly significant difference), which compares every pair with the overall Type I error held at $\alpha$:
+ANOVA said that at least one mean differs. A **post-hoc test** finds which. The usual choice is **Tukey's HSD** (honestly significant difference), which compares every pair with the overall Type I error held at $\alpha$ (Tukey 1949):
 
 | Pair | Difference in mean age | p-value |
 |---|---|---|
@@ -250,14 +257,14 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 
 > **Key point:** `f_classif` scores each numerical feature by its ANOVA F against the class labels, for feature selection.
 
-`SelectKBest` can score features with `f_classif` instead of `chi2` (see the [pipelines Note](../29-pipelines/note.md) and the [errors, power and tails Note](../292-errors-power-and-tails/note.md)). For each numerical feature it runs a one-way ANOVA with the target classes as groups. A feature whose mean differs strongly between the classes gets a large F, and is kept.
+`SelectKBest` can score features with `f_classif` instead of `chi2` (see the [pipelines Note](../29-pipelines/note.md) and the [errors, power and tails Note](../292-errors-power-and-tails/note.md)). For each numerical feature it computes the one-way ANOVA F with the target classes as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
 
 ## 10. Summary
 
 | | Several t-tests | One-way ANOVA |
 |---|---|---|
 | Question | is this pair different? | do any of the $k$ means differ? |
-| Type I risk, 3 groups | 14% | 5% |
+| Type I risk, 3 groups | about 14% | 5% |
 | Statistic | $t$ per pair | $F = MSB / MSW$ |
 | Distribution | t with $n_1 + n_2 - 2$ df | F with $k - 1$ and $N - k$ df |
 | Follow-up | none needed | Tukey's HSD to find which pairs differ |
@@ -267,6 +274,15 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 - The test is right-tailed; reject $H_0$ when $p \le \alpha$.
 - Assumptions: independence, normality in each group, equal variances; Welch's ANOVA or Kruskal-Wallis when they fail.
 - Rejecting $H_0$ says some mean differs; Tukey's HSD says which.
+
+## Sources
+
+- Kruskal, W. H. and Wallis, W. A. (1952). "Use of Ranks in One-Criterion Variance Analysis". *Journal of the American Statistical Association* 47(260).
+- Montgomery, D. C. (2013). *Design and Analysis of Experiments*, 8th ed. Wiley. Section 3.3, analysis of the fixed effects model.
+- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. https://www.itl.nist.gov/div898/handbook/ Section 1.3.6.6.5, F distribution.
+- scikit-learn documentation. `sklearn.feature_selection.f_classif`.
+- Tukey, J. W. (1949). "Comparing Individual Means in the Analysis of Variance". *Biometrics* 5(2).
+- Welch, B. L. (1951). "On the Comparison of Several Mean Values: An Alternative Approach". *Biometrika* 38(3/4).
 
 ## 11. Key terms
 
@@ -279,7 +295,7 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 | F statistic | $MSB / MSW$: between-group variance over within-group variance |
 | F distribution | The distribution of a ratio of two variances; two degrees-of-freedom parameters, right-skewed |
 | ANOVA table | The table of SS, df, MS, F and p for each source of variation |
-| Familywise error rate | The probability of at least one Type I error over several tests: $1 - (1 - \alpha)^m$ |
+| Familywise error rate | The probability of at least one Type I error over several tests; $1 - (1 - \alpha)^m$ for $m$ independent tests |
 | Post-hoc test | A test run after ANOVA rejects, to find which groups differ |
 | Tukey's HSD | A post-hoc test comparing every pair of groups with the overall Type I error held at $\alpha$ |
 | Welch's ANOVA | A version of ANOVA that does not assume equal variances |

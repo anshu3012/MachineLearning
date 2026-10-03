@@ -1,0 +1,235 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also, we will continue our 100 days of deep learning playlist
+Till now you must have known that how seriously I am taking Transformer Architecture
+So in this video also, I am going to teach something which you might not get to see on other channels
+We are studying the most important thing in Transformer Architecture, Self-Attention
+and till now we have understood what is the mathematical formulation of the self-attention in transformers
+how does it work, we have learnt this
+but now in this video I am going to show you an interesting thing
+I am going to give you geometric intuition of self-attention
+that mathematically speaking, what exactly happens behind the scenes when you apply self-attention on a word
+we are going to see this in this video
+honestly this video is also on a topic which we could have skipped
+but I have taken the topic of transformers to heart
+I think transformers are incredibly important in today's day and age
+so we have to understand transformers very well
+and that is why I don't want to skip any steps
+that is why I have made this video
+rest you watch the video and decide yourself
+whether you found this thing useful or we wasted time
+so let's start the video
+Before giving geometric intuition, let's do a quick recap of what we have read in the last two videos.
+In the last two videos, we have seen the full formulation of self-attention.
+I will give you a quick summary of it, a visual summary.
+So suppose we have a sentence of these two words, money bank.
+What we have to do is apply self-attention on it.
+Now to apply self-attention, the first thing you have to do is that you need the embedding vector of these two words.
+So let's assume that this yellow box is the embedding vector of the money word and this yellow box is the embedding vector of the bank word.
+After this, you need three matrices, WQ, WK and WV.
+I had discussed these three matrices in detail. I really hope you remember.
+Then you pick up this money embedding vector and dot product it with these three matrices.
+This gives me three new vectors, QMoney, KMoney and VMoney.
+And then you repeat the same work with the embedding vector of the bank.
+So you do the dot product of this with this, then with this, then with this.
+And again you get three vectors from this. Q bank, K bank and V bank.
+You might remember this.
+Now what we have to do is, by using these six vectors, we have to make two new vectors.
+One will be YMoney, which is the contextual embedding of the word money and one will be YBank, which is the contextual embedding of the word bank.
+Now, how will it be made? This process is shown here.
+First of all, you are doing a draw product with QMoney and KMoney, then you are doing a draw product with QMoney and KBank, you are getting these two similarity scores.
+Now what you have to do is to scale these two similarity scores by the factor of root over of dk, dk is the dimensionality of this k vector.
+you will get new similarity scores from it
+now you have to normalize these similarity scores so you have added softmax
+you will get weights from it
+and you are summing these weights with value vectors
+so you are getting y money
+and you are repeating the same process for the word bank
+So this is the quick visual recap of what we did in the last two videos.
+I really hope you remember this setup completely.
+Now what I have to do is show you in this video that the whole thing that we have made through a flow diagram,
+what is happening mathematically and geometrically behind it.
+So that a very clear visual picture comes in your mind.
+Before explaining Geometric Intuition, let me show you a very cool thing.
+This is a visualization where word-to-vec word embeddings can be visualized.
+With the help of different feature extraction techniques like PCA or UMAP.
+Basically, we are doing dimensionality reduction because originally all these words have 200-dimensional embeddings.
+Obviously, we cannot plot 200-dimensional data.
+So, we are bringing it through PCA in 2D, PC1, PC2, and trying to visualize it.
+So, all these points on your screen are actually words.
+And words are arranged in such a way that semantic meaning is captured because that is what Word2Vec does.
+So, if you hover a little in this, then see here, chloride is the word which is at the top.
+next to it there is magnesium, sodium, and oxide
+you can see similar semantic meaning words have come together
+similarly if you come here
+indeed, regard, dare, consequently, practice, although
+these are all the words which you use in very formal setting
+whereas if you come here
+some words which I can explain to you
+this is a very cool visualization, I just want to show you that you can imagine your embeddings as a vector in a 2D space, these are vectors,
+So, I will start my discussion from this point.
+Let's assume that we have this sentence, money bank.
+And we have to put self-attention on it.
+So, let's try to understand step by step, what is happening.
+So, as I told you, first of all, what you do is
+embedding of both the words with the help of some technique like word2vec.
+Now word2vec can be of 200 or 256 dimension.
+We will assume that both the embedding values are 2D so that we can visualize.
+Let's assume that e-money is 2.7 and e-bank is 7.3 or 9.3
+So what I did is, I plotted these two values on a simple graph
+and you can see, this is the first value and this is the second value
+I just connected them with a line so they look like a vector
+So you can see, I have two vectors, eBank and eMoney
+So we are on this step, we are visualizing every step
+Now, what we have to do next is, we need WQ, WK, and WV.
+So, I have also assumed these values for a while.
+Obviously, you get these values after training.
+So, we are not performing any training.
+So, we are assuming values.
+Here, I have also written that all values are hypothetical.
+Okay.
+So, all of these are 2x2 matrices.
+You can understand the setup till now.
+Our embedding vectors are of two dimensions and all our matrices are also 2x2.
+Now, as I told you, what you will do is, first of all, you will pick up this embedding vector with money.
+You will do the dot product of this with WQ, WK and WV, through which you get these three new vectors.
+now if you have read matrices from me then I have explained you in detail that when you do dot product of a vector with a matrix
+then essentially what happens is that there is a linear transformation
+basically when you do dot product of a matrix on a vector, it goes somewhere else
+we are doing dot product with 3 matrices so we are making 3 new vectors from 1 single vector
+and you will see that in this second diagram
+so we took this vector and made dot product with this particular matrix
+so we got this vector
+this green one
+Then we took this vector and did dot product with it, so we got this vector.
+Then we took this same vector and did dot product with it, so we got this vector.
+So this step is completed.
+We achieved K-Money, Q-Money and V-Money.
+Now we will repeat the same work with E-Bank.
+So we did dot product of E bank with this, we got Q bank, this vector.
+Then we did dot product with this, we got K bank, this vector.
+And again we did dot product of this with this, we got V bank, this vector.
+So essentially the visual representation of the step we did is on your screen.
+where we started with two embedding vectors
+now we have six vectors
+and now we will use these six vectors for further work
+so now we move ahead in our work show
+now what we have to do is we have to do this whole process twice
+since we have two words so we have to do it twice
+and once we will get y-money and once we will get y-bank
+I am going to show you this second one
+you can imagine the other one by yourself, it's basically the same, there is no such preference, whatever diagrams I had imagined, I did it with the other one, that's it, that's it, there is no other reason, okay, so I will make the contextual embedding of the bank word, okay, so you can see this is the setup, I have all my six vectors, I brought them here, and this is the same setup, same flow,
+where we will generate bank's contextual embedding
+so we will go step by step
+so what you have to do first
+since you have to generate bank word's contextual embedding
+you have to find similarity of bank with both words
+you have to find similarity with money
+you have to find similarity with bank
+so you have to take q bank
+and do dot product with k money
+and Q bank has to be taken with K bank
+so basically what I am saying is
+that you have to take Q bank
+this vector
+and you have to dot product with this vector
+you are trying to find this similarity
+ok
+now since
+we can understand that the angular distance is more
+so dot product will be less
+so for some time let's assume that
+this dot product is 10
+ok
+then what you have to do is take dot product of Q bank with K bank
+take dot product of this vector with this vector
+so you can see since the angular distance is not much
+then this dot product will be more, the similarity will be more
+so we have assumed that it is equal to 32
+so basically we got these two values with the help of dot product
+so these are the two values
+all these values are hypothetical
+no need to take them seriously
+just visually I want to give you an idea
+now divide these values
+1 divided by root over of dk
+here dk is 2 so I have to divide it by 1 divided by root over of 2
+so what I did
+I divided 10 by root over of 2
+so I got 7.09
+32 also had to be done with root over of 2
+so I got 22.69
+so this one has also worked
+I have got S21' and S22'
+now what we have to do is normalize using softmax
+so I put these values in softmax
+and let's assume that since this is a small value and this is a big value
+so let's assume that it got 0.2 weightage
+and it got 0.8 weightage and obviously we should get 1 by combining both
+so now we have W21 and we have W22
+and now we can say that we don't need these four vectors
+K money, Q money, K bank and Q bank
+Their work is done. Now we have only work with V-Money and V-Bank.
+So here is our setup. We have only V-Money and V-Bank.
+And we are now in this step. Now this step is a composite step.
+There are multiple steps in it. First of all, we are taking W21.
+What is W21? 0.2. And we are multiplying it with V-Money.
+now this is scalar and this is a vector, so we are doing a scalar multiplication
+in a way we are scaling the vector
+and we are doing the same thing here
+we are taking 0.8 times v bank, again we are doing a scaling operation
+so see what I have done here, I have shown the same operation
+so here is v money, we have to scale it down
+to its 0.2 value, we have to bring it to 1 5th
+See, this orange vector is nothing but 0.2 times the V money vector and similarly I have also scaled the bank vector and this orange vector is 0.8 of V bank.
+Now what we have to do is, we have to add vector between these two orange vectors.
+So, I have made this diagram below where I have kept only these orange vectors.
+This is our first orange vector and this is our second orange vector.
+Now, maybe you know how to do vector addition.
+So, for vector addition, you have two options.
+Either you go with the triangle law of vector addition or parallelogram law of vector addition.
+So, let's say we are following the parallelogram law.
+so we have made a vector here in parallel to this and we have made a vector here in parallel to this
+so this, in fact what I will do is I will use an arrow
+this which is coming out, this will actually be our resultant
+I will try to draw it a little better, you can see this is the vector and this vector is your y bank
+Now I will compare it with the original embedding vectors.
+So here are my original embedding vectors.
+If I select it and plot it side by side,
+then I guess you would be able to understand that this is my E bank,
+which is my embedding vector of bank.
+And what you are seeing here is Y bank.
+If I draw it somewhere along with it, if we try to draw it by holding this angle, then it seems like it came very close to this place somewhere.
+This is Y bank. And this is the brilliance of self-attention.
+When we started with the embedding vector of money bank, then the embedding vector of bank was far away from the embedding vector of money.
+but as soon as we applied self-attention at least on the embedding vector of this bank
+so the new contextual embedding vector of the bank went very close to money
+and this is what we discussed in the first video
+what self-attention does on the basis of context
+It generates embeddings on the basis of which word is being used with which other word.
+So, in a way, if you say, you can say that self-attention acts like gravity.
+In a way, the word money pulled the word bank towards itself.
+now the best thing is that if i keep river bank instead of money bank
+and let's assume that river bank has river here
+this is the embedding of river
+this is the embedding of bank
+which is here
+so it was possible that
+after applying self attention
+y bank comes here
+at this place
+not here but here
+Because self-attention is context-aware.
+It understands in which context your current word bank is used.
+Is it used in the context of money or in the context of river?
+So I really hope I could explain you the larger point that why do you use self-attention?
+Because self-attention has the power to represent a particular word in terms of other words which are available in the sentence.
+and this whole thing works like gravity
+like money has pulled bank towards itself similarly bank will also pull money towards itself
+and the best part is that everything is happening on the basis of your data set
+everything is being decided on the basis of your data set
+So, I really hope you liked my extra effort to show you the visualizations.
+And you got a deeper intuition on how self-attention works.
+And if you think we wasted time, then you can tell me in the comments.
+Rest, if you liked the video, then please like it.
+And if you haven't subscribed to the channel, please do subscribe.
+See you in the next video. Bye.

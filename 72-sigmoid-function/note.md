@@ -30,7 +30,7 @@ This Note changes the perceptron's rule so that correctly classified points also
 
 So far, only misclassified points acted: each one **pulled** the line towards itself. Correct points did nothing.
 
-The new rule: correctly classified points **push** the line away from themselves. Then, even when every point is correct, the line keeps moving: points on both sides push it, and it settles where the pushes balance, in the middle of the gap.
+The new rule: correctly classified points **push** the line away from themselves. Then, even when every point is correct, the line keeps moving: points on both sides push it, and it keeps moving until the pushes balance. The aim is a line in the middle of the gap; Section 7 measures how close this rule gets.
 
 ### 2.2 How strongly
 
@@ -77,7 +77,7 @@ Its key properties (Figure 1, right):
 |---|---|---|---|---|---|
 | $\sigma(z)$ | 0.018 | 0.119 | 0.5 | 0.881 | 0.982 |
 
-However large or small the input, the output always stays strictly between 0 and 1. It never actually reaches 0 or 1. The S shape gives the function its name (sigma is the Greek letter for "s").
+However large or small the input, the output always stays strictly between 0 and 1. It never actually reaches 0 or 1. The S shape gives the function its name: "sigmoid" means "shaped like the Greek letter sigma", here like an S (Online Etymology Dictionary).
 
 ## 5. Sigmoid as a probability
 
@@ -183,7 +183,19 @@ Figure 4 compares three lines on data with a wide gap between the classes (`make
 
 The step version stops right next to the green class. The sigmoid version moves well away from it, a clear improvement. But it is still not centred, while scikit-learn's logistic regression keeps a nearly equal gap on both sides.
 
-So the change was in the right direction, but something is still missing. The missing piece is a proper **loss function**: a single number that measures how good the line is, which can then be minimised with gradient descent. That is the subject of the next Note.
+So the change was in the right direction. Why is the sigmoid line still off-centre? The line is not finished yet. Run longer, the sigmoid perceptron keeps moving towards the logistic regression line, and with the small penalty that scikit-learn adds by default it lands on that line (details in the Extra below). In fact the sigmoid update is already the gradient descent step of logistic regression (Bishop §4.3.2), as the [gradient descent Note](../75-logistic-gradient-descent/note.md) will show.
+
+What we still lack is a way to say which line is best: a **loss function**, one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function is the subject of the next Note.
+
+> **Extra:** The test, in the notebook. Gaps (blue, green) of the sigmoid perceptron:
+>
+> | Loops | No penalty | With scikit-learn's default penalty |
+> |---|---|---|
+> | 1,000 | 3.07, 1.21 | 2.64, 1.57 |
+> | 100,000 | 2.61, 1.62 | 2.19, 1.93 |
+> | 1,000,000 | 2.48, 1.76 | 2.18, 2.00 |
+>
+> scikit-learn's line has gaps 2.20 and 1.97. Without a penalty, the line keeps drifting slowly: on separable data such as this, plain log loss has no finite best line, and the weights grow for ever (Bishop §4.3.2). The penalty fixes that and gives one definite answer.
 
 ## 8. Summary
 
@@ -193,7 +205,12 @@ So the change was in the right direction, but something is still missing. The mi
 - $\sigma(w \cdot x)$ is the probability of the positive class: 0.5 on the line, near 1 deep on the positive side.
 - Using $\hat{y} = \sigma(z)$ in the update lets every point act and improves the line, but not yet to logistic regression's quality.
 
-## 9. Key terms
+## 9. Sources
+
+- **Online Etymology Dictionary:** "sigmoid", etymonline.com.
+- **Bishop:** Bishop, C. M. *Pattern Recognition and Machine Learning*. Springer, 2006. Section 4.3.2, pp. 205–207.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

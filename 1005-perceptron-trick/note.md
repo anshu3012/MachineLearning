@@ -62,7 +62,7 @@ The loop in Figure 1 needs a rule to end it. Two are common:
 
 Rule 2 only ever stops on linearly separable data: if no line separates the classes, some point is always misclassified. That is why the two rules are often combined: stop at convergence, or after the maximum number of loops, whichever comes first.
 
-> **Extra:** scikit-learn's `Perceptron` uses exactly this combination. `max_iter` caps the number of epochs (default 1,000), and `tol` stops training early once the loss stops improving.
+> **Extra:** scikit-learn's `Perceptron` uses a similar combination, with a looser early stop. `max_iter` caps the number of epochs (default 1,000). With `tol` set (default $10^{-3}$), training also stops once the loss has failed to improve by at least `tol` for `n_iter_no_change` epochs in a row (default 5) (scikit-learn docs, `Perceptron`). This stop can fire before every point is classified correctly: in the [perceptron Note](../1004-perceptron/note.md), section 8, it ended training after 7 epochs at 75% training accuracy.
 
 ## 5. Loops and epochs
 
@@ -78,7 +78,7 @@ An [epoch](../57-gradient-descent/note.md) is one full pass over the training se
 3. **Example:** 1,000 loops on 100 points:
    $$\frac{1000}{100} = 10 \text{ epochs}$$
 
-Because the picks are random, some points are seen more than once in those 10 epochs and others not at all. Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
+Because the picks are random, a stretch of 100 picks does not visit every point once. A given point is missed by one pick with probability $1 - 1/100$, so it is missed by all 100 picks with probability $(1 - 1/100)^{100} \approx 0.37$: in each stretch, about a third of the points are not seen, while others are seen twice or more. Visiting the points in a shuffled order, each once per epoch, avoids this; that is how stochastic gradient descent goes through the data (see the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)).
 
 ## 6. Why it is only a trick
 
@@ -104,7 +104,11 @@ The fix is a [loss function](../73-log-loss/note.md): a number that scores every
 - 1,000 random picks on 100 points are about 10 epochs.
 - The trick cannot score a line; a loss function can.
 
-## 8. Key terms
+## 8. Sources
+
+- scikit-learn documentation, `sklearn.linear_model.Perceptron`.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -81,7 +81,7 @@ Different ways of building samples are called **sampling techniques**; a later m
 
 A number computed from the whole population, such as India's true average salary, is a **parameter**. The same number computed from a sample is a **statistic**, and we use it as an estimate of the parameter.
 
-The two are generally different. The average salary of 50,000 random people is close to the national average, but there is no guarantee it is equal. So we always keep track of which one we have, and write them differently:
+The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different. So we always keep track of which one we have, and write them differently:
 
 | Quantity | Population (parameter) | Sample (statistic) |
 |---|---|---|
@@ -143,7 +143,7 @@ Numerical data is discrete or continuous:
 Before applying any measure or graph, we ask two questions of a column: categorical or numerical? Then nominal or ordinal, discrete or continuous? The answers decide what we can do:
 
 - The mean of a nominal column such as state makes no sense; its most frequent category (the mode) does.
-- A median needs an order, so it works for ordinal and numerical data, but not nominal data.
+- A median needs an order, so it works for ordinal and numerical data, but not nominal data. The classic rule of measurement scales is the mode for nominal data, the median for ordinal data (Stevens 1946, Table 1).
 - Categorical columns get bar charts and pie charts; numerical columns get histograms and box plots, as the [frequency tables and graphs Note](../223-frequency-tables-and-graphs/note.md) shows.
 
 ## 7. Summary
@@ -161,6 +161,11 @@ Before applying any measure or graph, we ask two questions of a column: categori
 - A good sample is large enough, random and representative.
 - Population numbers use Greek letters ($\mu$, $\sigma$); sample numbers use Latin letters ($\bar{x}$, $s$).
 - Check each column's type before choosing a measure or a graph.
+
+
+## Sources
+
+- Stevens, S. S. (1946). On the Theory of Scales of Measurement. *Science*, 103(2684), 677-680. Table 1.
 
 ## 8. Key terms
 

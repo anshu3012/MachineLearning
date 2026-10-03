@@ -36,7 +36,7 @@ We have met tensors before under other names:
 
 But what do we call a stack of matrices, or a stack of those? Rather than inventing a new name for every case, mathematics and physics use one general term for all of them: tensor.
 
-> **Extra:** Programmers know tensors as **arrays**: a 1D array is a list, a 2D array a list of lists, and so on. In NumPy, the main Python library for numbers, every tensor is an array.
+> **Extra:** Programmers know tensors as **arrays**: a 1D array is a list, a 2D array a list of lists, and so on. In NumPy, the main Python library for numbers, every tensor is an array, called an `ndarray` (NumPy docs, "The N-dimensional array").
 
 ## 3. Tensors from 0D to 5D
 
@@ -147,7 +147,7 @@ Most ML data starts as a table (Figure 5). Suppose we have 1,000 students with t
 
 Whenever we work with tabular data, we are working with 1D and 2D tensors.
 
-> **Extra:** The table of all inputs is usually called **X**, and the output column **y**. You will see these names in almost all ML code.
+> **Extra:** The table of all inputs is usually called **X**, and the output column **y** (scikit-learn Glossary). You will see these names in almost all ML code.
 
 ### 6.2 3D: text
 
@@ -193,7 +193,7 @@ An image is a grid of tiny dots called **pixels**, and each pixel is stored as n
 
 A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 32 such images is a 4D tensor of shape (32, 600, 800, 3) (Figure 8). Image tasks in deep learning, covered in later Notes, work with exactly these tensors.
 
-> **Extra:** The order of the axes is a convention. TensorFlow usually puts the channels last, (batch, height, width, channels), while PyTorch puts them first, (batch, channels, height, width). Always check which order a library expects.
+> **Extra:** The order of the axes is a convention. TensorFlow usually puts the channels last, (batch, height, width, channels), while PyTorch puts them first, (batch, channels, height, width) (TensorFlow docs, `Conv2D`; PyTorch docs, `Conv2d`). Always check which order a library expects.
 
 ### 6.5 5D: video
 
@@ -215,7 +215,7 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
 2. **Formula:** $\text{storage (bytes)} = \text{size} \times 4$.
 3. **Example:** $\text{size} = 4 \times 1800 \times 480 \times 720 \times 3 = 7{,}464{,}960{,}000$ numbers, so storage $= 7{,}464{,}960{,}000 \times 4 = 29{,}859{,}840{,}000$ bytes: about 30 billion bytes.
 
-Converted to gigabytes, that is about 27.8 GB if 1 GB means $1024^3$ bytes (the usual convention in computing), or 29.9 GB if 1 GB means $10^9$ bytes. Either way, four one-minute videos need around 28 to 30 GB when stored raw. This is why video formats such as MPEG and MP4 **compress** the data, storing much less without a visible loss in quality. A one-minute MP4 at this resolution is typically only about 10 to 50 MB: hundreds of times smaller than the raw numbers.
+Converted to gigabytes, that is about 27.8 GB if 1 GB means $1024^3$ bytes (the usual convention in computing), or 29.9 GB if 1 GB means $10^9$ bytes. Either way, four one-minute videos need around 28 to 30 GB when stored raw. This is why video formats such as MPEG and MP4 **compress** the data: they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than the raw numbers.
 
 The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note in NumPy: from a scalar to a real photo (shape (427, 640, 3)) and the video storage calculation.
 
@@ -234,6 +234,15 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 - Each tensor is a collection of tensors one dimension lower.
 - Rank = number of axes (`ndim`); shape = items per axis; size = product of the shape.
 - A 1D tensor with *n* items is an *n*-dimensional vector: two different meanings of "dimension".
+
+## Sources
+
+- Le Gall, D. (1991). MPEG: A Video Compression Standard for Multimedia Applications. *Communications of the ACM* 34(4).
+- NumPy documentation. The N-dimensional array (`ndarray`). numpy.org/doc.
+- PyTorch documentation. `torch.nn.Conv2d`. pytorch.org/docs.
+- scikit-learn documentation. Glossary of Common Terms and API Elements: X, y. scikit-learn.org.
+- TensorFlow documentation. `tf.keras.layers.Conv2D` (argument `data_format`). tensorflow.org.
+- YouTube Help. Recommended upload encoding settings (480p: 2.5 Mbps at 24 to 30 frames per second). support.google.com/youtube/answer/1722171.
 
 ## 8. Key terms
 

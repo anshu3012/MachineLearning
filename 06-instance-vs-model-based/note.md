@@ -65,7 +65,7 @@ The idea behind step 4: points that are close together tend to share the same an
 
 This procedure is the **K-nearest neighbours (KNN)** algorithm, covered in detail in later Notes.
 
-> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ. So before measuring distances, both columns are put on the same scale (**feature scaling**, see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2 and 3 were found this way.
+> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ: the distance is $\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$, and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both columns are put on the same scale (**feature scaling**, see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2 and 3 were found this way.
 
 ### 3.2 No real training
 
@@ -73,7 +73,7 @@ This procedure is the **K-nearest neighbours (KNN)** algorithm, covered in detai
 
 Until the new student arrived, the algorithm did nothing with the data: it simply held on to it. Only when the question came did it look at the data and work out an answer.
 
-So in instance-based learning, there is no real training step. This is why it is also called **lazy learning**.
+So in instance-based learning, there is no real training step. This is why it is also called **lazy learning**: the method puts off the work until a question arrives (Mitchell 1997, §8.6).
 
 ## 4. Model-based learning
 
@@ -119,7 +119,7 @@ Figure 4 shows the difference in what is kept: the whole table for instance-base
 | Kernel machines | Logistic regression |
 | RBF networks | Decision trees, neural networks and most other algorithms |
 
-> **Extra:** Model-based learning is sometimes called **eager learning**, the opposite of lazy learning: all the work is done up front, before any question arrives.
+> **Extra:** Model-based learning is sometimes called **eager learning**, the opposite of lazy learning: all the work is done up front, before any question arrives (Mitchell 1997, §8.6).
 
 ## 5. Comparing the two
 
@@ -145,6 +145,10 @@ The Notebook for this Note (`notebook.ipynb`) is a small app: move a new student
 - Instance-based learning is lazy: no real training, all the work happens at prediction time, and all the data must be kept.
 - Model-based learning keeps only a few parameters, so it is small and fast at prediction time.
 - For any new algorithm, ask: does it keep the data, or does it learn a rule?
+
+## Sources
+
+- Mitchell, T. (1997). *Machine Learning*. McGraw-Hill.
 
 ## 7. Key terms
 

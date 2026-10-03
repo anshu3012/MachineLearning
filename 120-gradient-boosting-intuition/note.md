@@ -18,7 +18,7 @@ title: "Gradient Boosting: the Intuition"
 
 ![Gradient boosting for regression: a mean, then trees trained on residuals, each added with the learning rate](images/stage_loop.png){height=36%}
 
-**Gradient boosting** is a boosting algorithm, like AdaBoost. It is one of the strongest algorithms for tables of data, and its optimised version, XGBoost, has won many Kaggle competitions. Figure 1 shows the whole method for regression. This Note follows it by hand on five students, then watches it fit a curve. The maths behind each step is in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md); classification is in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md).
+**Gradient boosting** is a boosting algorithm, like AdaBoost. It is one of the strongest algorithms for tables of data, and its optimised version, XGBoost, has won many Kaggle competitions: 17 of the 29 winning solutions on Kaggle's blog in 2015 used it (Chen and Guestrin 2016). Figure 1 shows the whole method for regression. This Note follows it by hand on five students, then watches it fit a curve. The maths behind each step is in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md); classification is in the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md).
 
 ## 2. Boosting passes mistakes forward
 
@@ -233,7 +233,7 @@ The Notebook's playground (`app.py`, a Dash app) lets us change the number of tr
 
 The leaf count depends on the data: about 8 leaves for small datasets, up to about 32 for big ones. Stumps are not used.
 
-> **Extra:** Sources differ on the best tree size. The textbook *The Elements of Statistical Learning* finds that trees with 4 to 8 leaves work well in most cases; scikit-learn's default, `max_depth=3`, allows at most 8. Like the learning rate, the tree size is a hyperparameter, best set by cross-validation.
+> **Extra:** Sources differ on the best tree size. Trees with 4 to 8 leaves work well in most cases (ESL §10.11); scikit-learn's default, `max_depth=3`, allows at most 8. Like the learning rate, the tree size is a hyperparameter, best set by cross-validation.
 
 ## 14. Summary
 
@@ -252,7 +252,12 @@ The leaf count depends on the data: about 8 leaves for small datasets, up to abo
 - Too many trees overfit as well, so the number of trees and the learning rate are tuned together.
 - Unlike AdaBoost: bigger trees (commonly 8 to 32 leaves), and the same learning rate for every tree.
 
-## 15. Key terms
+## 15. Sources
+
+- Chen, T. and Guestrin, C. (2016). "XGBoost: A Scalable Tree Boosting System". *Proceedings of KDD 2016*, Section 1.
+- ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed., Springer. Section 10.11, "Right-sized trees for boosting".
+
+## 16. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -157,18 +157,18 @@ The open questions are now precise:
 
 > **Key point:** Intuitive, no scaling needed, fast predictions.
 
-- **Intuitive and easy to explain.** Every prediction can be traced as a short list of questions. This is rare among ML models.
+- **Intuitive and easy to explain.** Every prediction can be traced as a short list of questions, so a tree is called a "white box" model, unlike "black box" models such as neural networks (sklearn UG §1.10).
 - **Little data preparation.** Each question compares values within one column only, so the scale of the columns does not matter: no standardization or normalization is needed. The [standardization Note](../24-standardization/note.md) (section 8) showed a tree giving the same 87.5% accuracy with and without scaling.
 - **Fast predictions.** A prediction follows one path from the root to a leaf and ignores every other branch.
 
-> **Extra:** Why "logarithmic"? A tree that halves the data at each question needs about $\log_2 n$ questions to reach a single row. For $n = 1{,}000{,}000$ rows that is only about 20 questions, because $2^{20} \approx 1{,}000{,}000$. Real trees are rarely perfectly balanced, so this is a best case; building the tree (training) costs much more than using it.
+> **Extra:** Why "logarithmic"? A tree that halves the data at each question needs about $\log_2 n$ questions to reach a single row. For $n = 1{,}000{,}000$ rows that is only about 20 questions, because $2^{20} \approx 1{,}000{,}000$. Real trees are rarely perfectly balanced, so this is a best case (sklearn UG §1.10).
 
 ### 5.2 Disadvantages
 
 > **Key point:** Overfitting, and bias towards the common class in imbalanced data.
 
 - **Overfitting.** A tree can keep splitting until every leaf holds a handful of rows, memorising noise (overfitting, [Note 7](../07-challenges-in-ml/note.md)). The hyperparameters Note (Note 98) shows how to stop this.
-- **Imbalanced data.** When one class is rare, for example 95 "yes" against 5 "no" (imbalanced data, the [accuracy Note](../76-accuracy-confusion-matrix/note.md), section 6), the purity measures are dominated by the common class and the rare class gets few leaves of its own.
+- **Imbalanced data.** When one class is rare, for example 95 "yes" against 5 "no" (imbalanced data, the [accuracy Note](../76-accuracy-confusion-matrix/note.md), section 6), the tree is biased towards the common class, so it helps to balance the data before training (sklearn UG §1.10).
 
 ### 5.3 Classification and regression: CART
 
@@ -182,7 +182,7 @@ Decision trees are mostly used for classification problems, but the same logic a
 
 In the online game Akinator, we think of a character, and the game asks questions such as "Is your character Asian?", "Is your character female?", "Is your character Indian?", "Is your character older than 40?". Each answer removes everyone who does not match: after "Asian: yes", every non-Asian character is gone.
 
-After a dozen questions only one character fits, and the game names it. Each question is a node, each answer a branch, and the named character is a leaf.
+After about a dozen questions only one character fits, and the game names it. Each question is a node, each answer a branch, and the named character is a leaf.
 
 ## 6. Entropy
 
@@ -273,7 +273,7 @@ Entropy so far needed classes. For a numerical output, such as a price, we can s
 
 The right question is again "where do we know more?". In dataset 1 most values lie between $-1$ and 1, so a random value is easy to guess closely. In dataset 2 they spread over $-3$ to 3. So the more peaked curve, dataset 1, has the lower entropy, and the flatter curve, dataset 2, the higher.
 
-> **Extra:** The continuous version is called **differential entropy**. For a normal distribution with standard deviation $\sigma$ it equals $\tfrac{1}{2}\log_2(2\pi e\sigma^2)$. For Figure 6, $\sigma = 0.5$ gives 1.05 bits and $\sigma = 1.5$ gives 2.63 bits.
+> **Extra:** The continuous version is called **differential entropy**. For a normal distribution with standard deviation $\sigma$ it equals $\tfrac{1}{2}\log_2(2\pi e\sigma^2)$. (Cover and Thomas, Example 8.1.2). For Figure 6, $\sigma = 0.5$ gives 1.05 bits and $\sigma = 1.5$ gives 2.63 bits.
 
 ## 7. Information gain
 
@@ -336,7 +336,7 @@ Outlook wins, so it becomes the root, as in Figure 2.
 
 Decision trees use a **recursive greedy search, top-down**: starting at the root, each node picks the split with the highest gain at that moment, then the same search runs inside each child. Once a node reaches entropy 0 (a leaf), it is not split further.
 
-> **Extra:** "Greedy" means the tree never looks ahead. A split that looks weak now but would enable two excellent splits later is never chosen. Finding the truly best tree is far too slow for real data, so every common tree algorithm is greedy.
+> **Extra:** "Greedy" means the tree never looks ahead. A split that looks weak now but would enable two excellent splits later is never chosen. Finding the best possible tree is far too slow (the problem is NP-complete), so practical tree algorithms are greedy (sklearn UG §1.10).
 
 ## 8. Gini impurity
 
@@ -348,7 +348,7 @@ Decision trees use a **recursive greedy search, top-down**: starting at the root
 
 In scikit-learn's `DecisionTreeClassifier`, the hyperparameter `criterion` chooses the impurity measure. Its default is `"gini"`; `"entropy"` gives the entropy we used above. So we need to know Gini too.
 
-> **Extra:** scikit-learn 1.9 accepts three values: `"gini"`, `"entropy"` and `"log_loss"`. The last two are the same criterion under two names.
+> **Extra:** scikit-learn 1.9 accepts three values: `"gini"`, `"entropy"` and `"log_loss"`. The last two are the same criterion under two names (sklearn UG §1.10.7.1).
 
 ### 8.2 The formula
 
@@ -380,7 +380,9 @@ Information gain works the same way with Gini: the parent's Gini minus the weigh
 
 - **Gini is faster:** squares are cheaper to compute than logs, which matters on large datasets.
 - **Entropy sometimes builds more balanced trees** on some datasets, while Gini may overfit slightly more.
-- In practice the two usually give very similar trees, so we treat `criterion` as a hyperparameter and try both, as in the [pipelines Note](../29-pipelines/note.md) (section 9).
+- In practice the two give similar accuracy, but not always the same tree, and neither wins on every dataset (Extra below). So we treat `criterion` as a hyperparameter and try both, as in the [pipelines Note](../29-pipelines/note.md) (section 9).
+
+> **Extra:** The Notebook changes only the criterion on three built-in datasets. The 5-fold cross-validation accuracies differ by at most 0.02 (iris 0.960 against 0.953, wine 0.888 against 0.899, breast cancer 0.917 against 0.935), yet on wine and breast cancer the two criteria pick a different root column.
 
 ## 9. Splitting on a numerical column
 
@@ -418,7 +420,7 @@ Figure 9 shows the gain of every candidate. "Rating $\le 3.2$" has the largest, 
 
 The right part (1 no, 3 yes) is still impure, so the search repeats inside it, and so on down the tree.
 
-> **Extra:** scikit-learn does not use the row values themselves as thresholds; it uses the midpoint between two neighbouring sorted values. That is why the iris tree asks "petal length $\le 2.45$": 2.45 is halfway between the longest setosa petal (1.9) and the shortest versicolor petal (3.0). The resulting groups are the same.
+> **Extra:** scikit-learn does not use the row values themselves as thresholds; it uses the midpoint between two neighbouring sorted values (sklearn source, `tree/_splitter.pyx`). That is why the iris tree asks "petal length $\le 2.45$": 2.45 is halfway between the longest setosa petal (1.9) and the shortest versicolor petal (3.0). The resulting groups are the same.
 
 ### 9.3 Is this not slow?
 
@@ -428,7 +430,7 @@ For every numerical column and every node, the search tries up to $n$ thresholds
 
 The cost is paid **once**, at training time, on our own machine. Predictions for new points, for example on a website, only walk one path down the finished tree. So training is slow, but prediction stays fast: logarithmic in the number of rows.
 
-> **Extra:** In practice trees handle numerical columns well. Sorting a column once per node costs about $n \log n$ operations, and after sorting all candidate thresholds can be scored in a single pass. Libraries such as LightGBM and scikit-learn's `HistGradientBoostingClassifier` go further and first group the values into at most 255 bins, so only 255 thresholds are tried.
+> **Extra:** In practice trees handle numerical columns well. The values of each column are sorted once, and then one pass over the sorted values scores every threshold, about $n_\text{features} \times n \log n$ steps in total (sklearn UG §1.10.4). Libraries such as LightGBM and scikit-learn's `HistGradientBoostingClassifier` go further: they first group the values into at most 255 bins, so only the bin edges are tried.
 
 ## 10. Summary
 
@@ -447,6 +449,13 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 - Information gain = parent impurity minus the weighted impurity of the children. At each node the tree greedily splits on the column with the highest gain (Play Tennis: outlook, 0.247).
 - For a numerical column, every value is a candidate threshold; the one with the highest gain wins.
 - Strengths: easy to read, no scaling, fast predictions. Weaknesses: overfitting, imbalanced data.
+
+## Sources
+
+- **Cover and Thomas:** T. M. Cover and J. A. Thomas, *Elements of Information Theory*, 2nd ed., Wiley, 2006. Example 8.1.2.
+- **sklearn UG:** scikit-learn User Guide, Section 1.10, Decision Trees (advantages and disadvantages; 1.10.4 Complexity; 1.10.7.1 Classification criteria).
+- **sklearn source:** scikit-learn 1.9, file `sklearn/tree/_splitter.pyx` (threshold set to the mean of two neighbouring sorted values).
+- **255 bins:** scikit-learn `HistGradientBoostingClassifier` reference (`max_bins`, default 255); LightGBM parameters documentation (`max_bin`, default 255).
 
 ## 11. Key terms
 

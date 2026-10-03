@@ -182,9 +182,9 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.1:
 
 The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 
-> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. That is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly.
+> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. That is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly, which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
 
-> **Extra:** A bonus of $+\lambda I$: when columns are strongly correlated (multicollinearity), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not.
+> **Extra:** A bonus of $+\lambda I$: when columns are strongly correlated (multicollinearity), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1). The maths in one line: for any non-zero vector $v$, $v^{\mathsf T}(X^{\mathsf T}X + \lambda I)v = \lVert Xv \rVert^2 + \lambda \lVert v \rVert^2 > 0$, so no $v$ is sent to zero and the matrix has an inverse.
 
 ## 4. Summary
 
@@ -200,7 +200,12 @@ The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 - The intercept is not penalised: the top-left entry of $I$ is 0.
 - The from-scratch code matches scikit-learn's `Ridge` exactly.
 
-## 5. Key terms
+## 5. Sources
+
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 64 (which credits Hoerl and Kennard, 1970).
+- **scikit-learn docs:** `sklearn.linear_model.Ridge` (fit_intercept, solver="cholesky"), scikit-learn 1.9 documentation and source (`_preprocess_data`).
+
+## 6. Key terms
 
 | Term | Meaning |
 |---|---|

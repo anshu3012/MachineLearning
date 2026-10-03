@@ -38,7 +38,7 @@ On the concentric-circles data, one class forms rings around the other, so no st
 | Base models (hard voting) | Each model's test accuracy | Voting classifier |
 |---|---|---|
 | logistic regression, Gaussian naive Bayes | 0.53, 0.60 | 0.63 |
-| logistic regression, SVM | 0.53, 0.87 | 0.77 |
+| logistic regression, SVM | 0.53, 0.87 | 0.76 |
 | logistic regression, Gaussian naive Bayes, random forest | 0.53, 0.60, 0.89 | 0.66 |
 
 Logistic regression draws a straight line, which cannot follow rings, so it scores barely better than guessing. Naive Bayes draws a curved boundary and does a little better. Voting with both gives 0.63, above each of them: the vote's boundary mixes the line and the curve.
@@ -97,17 +97,21 @@ Class 2 has the highest average, so soft voting predicts **class 2**. Hard votin
 
 ### 3.4 Which one to use
 
-> **Key point:** Soft voting is often better, but not always. The voting type is a hyperparameter: try both.
+> **Key point:** Soft voting is sometimes better, but not always. The voting type is a hyperparameter: try both.
 
-Soft voting often does better, because a probability carries more information than a bare label. On the concentric circles with logistic regression, naive Bayes and random forest (Figure 2):
+Soft voting can do better. On the concentric circles with logistic regression, naive Bayes and random forest (Figure 2):
 
 - the base models score 0.53, 0.60 and 0.89;
 - **hard** voting scores **0.66**: the two weak models outvote the forest;
 - **soft** voting scores **0.92**, better than every base model.
 
+Why? The forest is sure of its answers, while the two weak models hover near 50/50. In the hard vote their two shaky votes beat the forest's one; in the soft vote their near-0.5 probabilities barely move the average, so the forest decides (the effect of section 3.3).
+
+> **Extra:** We checked this in the Notebook. On the 100 test points, hard and soft voting disagree on 30; soft voting is right on 28 of them and sides with the random forest on all 30. On those points the forest's probability is on average 0.35 away from 0.5, against 0.01 for logistic regression and 0.06 for naive Bayes.
+
 ![Decision surfaces on the concentric-circles data: three base models, then hard and soft voting. Titles give test accuracy](images/hard_soft_surfaces.png){height=58%}
 
-Soft voting also tends to give a smoother decision surface, and that smoothing is often why it does better. It is not a rule, though: on the iris data in section 4, soft voting does slightly worse. The voting type is a hyperparameter like any other, so we try both and keep the better.
+Soft voting also tends to give a smoother decision surface, and that smoothing is sometimes why it does better. It is not a rule, though: on the iris data in section 4, soft voting does slightly worse. The voting type is a hyperparameter like any other, so we try both and keep the better.
 
 > **Extra:** Soft voting needs every base model to give probabilities, through a `predict_proba` method. Most classifiers have one. An SVM does not by default: older code wrote `SVC(probability=True)`, which is deprecated in scikit-learn 1.9. The current way is to wrap the SVM: `CalibratedClassifierCV(SVC(), ensemble=False)`.
 
@@ -246,7 +250,7 @@ Both approaches are used: different algorithms, or one algorithm with several se
 | Iris, two species, two columns | 0.67 | 0.64 (0.71 with weights 3, 1, 1) |
 
 - `VotingClassifier(estimators=[(name, model), ...], voting="hard" or "soft", weights=[...])`.
-- Soft voting is often better and smoother, but not always: treat the voting type as a hyperparameter.
+- Soft voting is sometimes better and gives a smoother surface, but not always: treat the voting type as a hyperparameter.
 - A vote can lose to its best member; then use that member alone.
 - Voting over one algorithm with different settings (five SVM degrees: 0.928) can beat picking the best setting (0.894).
 

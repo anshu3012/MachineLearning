@@ -1,0 +1,471 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our deep learning playlist.
+In the last video, we studied encoder-decoder architecture.
+So today's video is on attention mechanism which is a way to improve the encoder-decoder architecture.
+And not only that, attention mechanism is also very important for transformers which we are going to study later.
+So all in all, this is a very important video and I would recommend you to watch this video end to end.
+I will be very honest, it is difficult to understand the attention mechanism, the math is heavy
+but I have made this video in such a way that I have kept the explanation very lucid
+I have given the answer to all the whys and what's and I have also gone into a little bit of how
+so please it's a request, first of all watch the video end to end
+and if possible watch multiple times, make notes
+that would help, so let's not waste any more time, let's start the video
+So before reading the attention mechanism, I think you should know why attention mechanism is needed.
+If encoder decoder architecture works well, then we should not need attention mechanism.
+But attention mechanism is very important. It means that our encoder decoder architecture has some problem.
+So we will spend some time in the beginning of the video to understand that what is the problem in encoder decoder architecture which we have studied in the last video.
+So let me give you a quick revision that how encoder decoder architecture looks like.
+So this on your screen is encoder decoder architecture.
+Here this pink block is called encoder and this green block is called decoder.
+decoder and in this also you can see these yellow cells these are LSTMs we have discussed
+all this now if I give you a high level overview then how encoder decoder architecture works
+that you provide a sentence to encoder encoder process this whole sentence step by step this
+This is time step 1, this is time step 2, time step 3, and time step 4.
+And once it does the whole process,
+then at this place,
+encoder generates a summary of this sentence.
+You can call it summary or representation.
+And this is a vector.
+So basically, you are generating a set of numbers,
+which is representing the summary of this given input sentence.
+And then you pass this vector as input in the decoder.
+And the work of this decoder is that it prints the output sentence step by step.
+Like in step 1 light is printed, in step 2 button is printed, in step 3 do is printed and in step 4 end is printed which means our translation is complete.
+So this is how encoder decoder architecture works.
+Now if you want to understand the detail behind this, if you want to understand the mathematics then watch my previous video, there I have explained in detail.
+But now I will tell you what is the problem in this approach.
+Now I will give you a small task.
+You must be seeing this sentence on the screen.
+This is a little long sentence.
+Around 50 words in this.
+Your task is to pause the video and read this sentence.
+After reading the sentence, you have to close your eyes and translate it into Hindi.
+Please do it.
+What happened? You couldn't do it?
+I am pretty sure most of you will not be able to read this sentence once, close your eyes and translate the whole sentence in Hindi.
+Can you tell me what problem you faced?
+I guess you are able to understand.
+All of you will say that this is a very big sentence.
+It is very difficult to summarize it and put it in your mind and then translate it in another language.
+Now guess what, the same problem happens in our encoder-decoder network too.
+How is our encoder-decoder network working?
+We are giving it a sentence and telling it to look at the whole sentence at once and generate a summary of it.
+And send this summary to the decoder.
+And now the decoder will translate the whole thing from that summary.
+Now the problem is that as you start giving bigger sentences, greater than 25 words,
+So this summary starts to have a lot of load on it.
+Like you are putting a huge responsibility on a very small set of numbers to summarize a big sentence.
+And this can lead to the same issue which we faced as human beings.
+So the first problem with our architecture is that we are unnecessarily creating a lot of pressure on our encoder.
+that you have to read the entire sentence in one go, remember it and tell the decoder.
+And this is challenging for us, us human beings who have so much intelligence.
+Then think what will happen to this poor LSTM based encoder, decoder.
+Now this was the talk from the encoder side.
+There is also a problem from the decoder side.
+What is the problem? I will explain it to you.
+So look here, how do we do translation?
+For example, the first word that was printed in Hindi was light.
+Now think for yourself, did we need this entire input sentence to print this light?
+Or did we need a specific word or set of words?
+I guess you are able to understand that you only needed this word, lights.
+If you would have known the lights from the input, then you would have made this light from it.
+If you had to print closed, then did you need the entire input sentence?
+No, you only needed these two words.
+Turn off.
+So, I guess you are getting my point.
+At any time step of the decoder, we do not need the entire input sentence to translate.
+we need some specific word or set of words for translation
+but what is the problem in this architecture
+that we are given full input sentence at every time step
+and we are told to go figure out
+which word you will use is your decision
+and because of this static representation
+because it is not changing over time steps
+Because of this static representation, decoder has a problem in decoding.
+It would have been better if I had to print light,
+then I would have been able to see that particular section of the sentence,
+which is of my need, instead of going through the entire sentence.
+So I hope you are understanding what is the problem with the decoder side.
+The problem with decoder side is static representation.
+It would have been better if it was dynamic
+and while printing a particular word
+we could have put attention on specific parts of an input sentence.
+Then our work would have been easier.
+So these are two big problems in this architecture
+where we are told to take a sentence, memorize it and then translate it.
+Clearly humans don't work this way.
+So we understood the problem.
+What is the solution?
+The solution is what we human beings do.
+When we human beings translate a very big text,
+then we don't keep the whole sentence in our mind and translate it.
+As we move forward in the sentence,
+we do on-the-go translation.
+So I got this image on Google which is representing a bit
+what I want to tell you.
+So you can see when we are reading a big text, our mind, our eyes create an attention span, create an attention region where our focus is currently while translating the sentence.
+If you go out of this attention region, then our mind is not focusing on this place and it is kind of blurry for us.
+As we move forward, the next region will be clearly visible and the rest of the region will be blurry.
+And this is how we translate.
+If we are given a very big sentence, then if we are somewhere in the middle, then we are holding the context around it and doing translation.
+Right?
+So this is the concept by which human beings perform translation.
+So somehow we have to introduce this concept in our architecture.
+What I mean to say is that suppose you are on the time step 1 of the decoder and you have to print light.
+So somehow you have to pass on this information in your decoder that the time step 4 of the encoder is the most important
+to print light. Similarly, when you are on time step 2, where you have to print closed,
+then you have to pass on this information in your decoder that time step 1 and time step 2
+are most important to print closed. Same with time step 3 and time step 4.
+So we have to dynamically generate this information at every time step of the decoder
+That which time step or set of time steps of the encoder is important for you currently
+And this mechanism is called attention mechanism
+And this is what we have to understand in this video
+That what is attention mechanism and how it works
+Now we will understand from scratch what is attention mechanism.
+But before moving ahead, I want to simplify one thing.
+Since you will see some mathematical equations in the future.
+I want to set up some symbols here.
+So that you do not have any problem in the future.
+So first of all, let's talk about the decoder.
+In fact, let's talk about the encoder first.
+this is the encoder right
+so in encoder
+here you can see
+these arrows
+what are these
+these are actually the hidden states of
+encoder so we can
+denote them with H
+so this is H0
+here this is H1
+here this is H2
+here this is H3
+and here this is H4
+and all of these are vectors
+vectors or you have read in the LSTM class ok and for accessibility we can remove these
+vectors from here too so this is our h1 which is this is this is our h2 this is our h3
+and this is our h4 ok you must have seen this diagram earlier now if you focus on decoder
+this is the decoder
+so in decoder also it has its own internal state
+so we don't call these states as h
+in the original paper these states are called as s
+so this became s0
+this became s1
+this became s2
+this became s3
+and this became s4
+ok
+after that
+from here we are giving an input to decoder
+This is called y, because in a way when you do teacher forcing, you provide the correct label here.
+So this is your y0, this is your y1, this is your y2 and this is your y3.
+So we understood this much, we have attached all the labels on every input.
+Now the main thing starts from here, we have come to know in the attention mechanism that we have to pass on this information on every time step of the decoder that which time step of the encoder is useful.
+till now if I ask you in a normal encoder decoder architecture
+at any particular time step
+suppose this time step is 1, this is 2, this is 3, this is 4
+I ask you at any particular time step if you talk
+suppose we took the example of 2 for some time
+so you have to tell what are the requirements of inputs on 2
+it is very easy for you
+You will say that when i is equal to 2, time step is equal to 2, then what all I had to provide in the input?
+I had to provide y1 which is this thing and I had to provide s1.
+So in a way, I provide only two pieces of information as input at every time step.
+but what you do in attention mechanism is that you pass one more piece of information from here
+from this place you pass one more piece of information and what is that information
+that which time step of your encoder is H1 useful, H2 useful, H3 useful or H4 useful
+or someone else is useful in combinations
+so we need to provide one more piece of information
+so from this whole discussion we understood
+that first where we were providing only two pieces of input
+now we have to provide three pieces of input
+now the discussion will become easy, for this we will do one thing
+that this attention input
+which we have to give at every time step of decoder
+we will give it a name
+so here it will be c1
+here it will be c2
+here it will be c3
+and here it will be c4
+so basically for any time step
+we have to give an input of ci
+ok and we are calling this ci
+attention input
+so the first big change we are seeing
+on the basis of the discussion till now
+is that if you talk about vanilla encoder decoder which we read in the last video
+in that decoder at a particular time step i we need two inputs
+one was yi-1 which is basically this input through teacher forcing
+and second is SI-1 which is the previous time step of the decoder
+but if you talk about attention based encoder decoder
+then we have to give 3 inputs at every time step i
+we have to give YI-1, SI-1
+and also we have to give another input which is CI
+what is CI? CI is Attention Input
+so this is the first clarity
+now there are 1-2 interesting questions
+we will answer them first
+then we will move ahead
+the first interesting question is
+what exactly is CI?
+what is it?
+how does it look?
+so there are only 1-2 options
+Either it will be a vector, or it will be a scalar, or it will be a matrix.
+I want you to answer this question. Pause the video and think that if it is a vector, then what will be its dimension?
+You have to think whether it is a scalar or a matrix.
+Look, to answer this question, you should know what is the purpose of CI.
+CI's purpose is to tell decoder that which hidden state of encoder is useful in current time step
+For example, if you are talking about decoder's first time step where we have to print light
+So, I can understand as a human being that this hidden state of H4 should be the most useful
+So, if someone magically tells me which hidden state of the encoder will be useful,
+then CI's work is only to put this H4 in C1.
+Similarly, when I am on time step 2 where I have to close the print,
+So if I magically find out that H1 which is turn and H2 which is off
+These two hidden states are useful
+So all I have to do is pick up H1 and H2 and put them in C2
+So one thing has been answered that this CI should be a vector
+because in this you are entering the hidden states of the encoder
+the bigger question is that what will be the dimension of ci
+because sometimes it will happen that you will want to enter only one hidden state of the encoder
+and sometimes it will happen that you will want to enter a combination
+so if we assume for some time that there are 4 dimensions in the hidden states of the encoder
+basically it is made of 4 numbers
+suppose 1, 0.5, 0.6, 0.3
+suppose this is our H1
+so
+in C2 sometimes it will happen that
+only one vector will go
+and sometimes it will happen that
+like this
+2 vectors will go
+sometimes 3 vectors can also go
+4 vectors can also go
+so the most interesting question is
+that you CI
+How much dimension will you keep of the vector?
+Let me answer this too.
+The dimension of Ci should be exactly the same as that of Hi.
+H1, H2, H3.
+If H1 is 4, then we have to keep 4 for Ci too.
+This is very important.
+But what if I have to send more than 1?
+I have to send both H2 and H3.
+Then how will I send?
+I guess you are able to understand, it is very simple, we will do weighted sum, it means that when you are at a particular time step of decoder,
+suppose you are at time step 1 and you want to print this light and you want to know which hidden state of encoder is useful to print this light,
+H1, H2, H3 or H4
+so how does the attention mechanism work?
+it assigns a weight to all your encoder hidden states
+means it assigns a weight to H1
+it assigns a weight to H2
+it assigns a weight to H3
+and it assigns a weight to H4
+let's call this weight as α1
+this weight as α2, this weight as α3, and this weight as α4.
+And now, your CI,
+which in our case is C1,
+this input,
+this input,
+to calculate this, you will simply apply a weighted sum.
+You will write α1H1 plus α2H2 plus α3H3
+plus alpha4 h4
+right, here alphas are your weights
+means scalars and your h1s
+are your encoder hidden states means vectors
+now think yourself if h1, h2, h3
+h4 all are of 4 dimension
+then what will be the dimension of c1
+very simple, it will be 4 dimension only
+so this is how attention mechanism solves this problem
+that if we
+we have to calculate C1
+to calculate C1
+we are calculating all the weights
+for each of the hidden states
+now the weight which will dominate
+for example
+α4
+is the highest
+it is 0.6
+so obviously the say of H4
+to create C1
+will be the highest
+in comparison to H3, H2
+and h1, then same work will be repeated
+when you will go to calculate c2
+when you will go to calculate c2
+you will repeat this work, then you will calculate 4 weights
+alpha1, alpha2
+alpha3, alpha4, then same equation will be repeated for c2
+alpha1, h1, alpha2
+H2, Alpha 3, H3, Alpha 4, H4
+Obviously this time the alphas will be different
+So to write it better mathematically what we can do
+We can assume that the decoder's time step is called I
+Decoder's, I am really sorry let me repeat it again
+Decoder's time step is called I
+and the time step of encoder is called j
+so if we have to calculate ci which is this input
+so this will be sigma of alpha ij hj
+For example, if C1 is there, then for C1, I will have to take out αij, i.e. α11, 12, 13, 14.
+i.e. for C1, we have to take out α11, 12, 13, 14.
+For C2, we have to subtract 2x1, 2x2, 2x3 and 2x4.
+Similarly, for C3, we have to create different alphas and for C4, we have to create different alphas.
+Total number of alphas will be very simple, i cross j.
+Here, there are 4 time steps in both the places, so we have to create 16 alphas.
+I hope you understand.
+So now our whole focus is on this thing that how these alphas will be created.
+Because now all our expectations are based on this alpha that how this alpha is calculated.
+Because in this alpha only this information is there that which hidden state can be useful.
+Now we will discuss how these alphas are calculated and now I will just take the example of alpha21 but if you know how to calculate alpha21 then you can calculate the rest of the alphas as well.
+So, just to summarize one more time, what is alpha21?
+Alpha21 is an alignment score or you can also call it similarity score
+which tells me that the output will be printed on the second time step of decoder
+how much role of encoder's first time step will be in printing the output printed at this place
+and that first time step is this, turn or h1, this is alpha21
+So, first of all we have to understand to calculate α21, that on which quantities α21 depends.
+So, all these figures are in front of you, you just have to think and tell that on which quantities α21 will depend.
+first answer is very simple
+it will depend on h1
+it will depend on h1
+it will depend on h1
+it is very important
+if you want to find its similarity
+if you want to find its similarity
+and alpha21 is that similarity score
+then obviously it will depend on h1
+but along with this
+it will depend on one more thing
+and that is s1
+what is s1
+s1 is
+previous hidden state of the decoder
+and when I read this for the first time
+then I had a doubt in my mind
+that why our alpha21 is depending on the previous hidden state of the decoder
+but it's very logical if you think
+what do you want to know through attention mechanism
+you want to find out that given all the translations that have been done till now
+like now we are on time step 2, we are here
+so given all the translations that have been done till now
+which is this step, translation of this step has been done
+so given all the translations that have been done
+on the basis of that you tell me that
+how useful will be the first step of the encoder to print the output in the second step
+listen again
+we don't just need this information
+that what will be the output in the second step of the decoder
+how much will it depend on the first step of the encoder
+we need this information
+Even after all the translations, how much role does this H1 or this turn have in printing this word?
+So there is a difference. We want this.
+So in a way, what I am trying to say is that the alpha21 will actually be a function of two quantities.
+and those two quantities would be h1 and s1 and if I write it in a general form then I would write
+that any alpha ij will be a function of hj and si-1, any one of them, if you take alpha 2,3
+So, α23 will be a function of H3 which is this edge and H1 which is again this one.
+So, we understood that if we want to calculate α23 then we will have to put any mathematical function on H3 and S1.
+But now another question came in the picture that what will be this mathematical function?
+What function should we use?
+Now if this task was given to you that you have to decide which mathematical function will come here
+then what would you do?
+You would try different mathematical functions and then try to prove empirically
+that a particular mathematical function will be the most suitable
+but guess what, the researchers here applied a very smart method
+they said that why should we
+spoil our mind in finding a function, we have
+directly ANN power, ANN means Artificial Neural Network
+basically our feed forward neural network, if you
+If you have seen my previous lectures, then you might know that ANNs are basically Universal Function Approximators.
+This means that if you provide enough data, then you can make ANNs an approximation of any function.
+So, instead of finding which function we should have here, we can use a very good approach that we can directly use a neural network and provide it with a lot of training data.
+Automatically, its weights will be adjusted in such a way that we can approximate this function and this was a brilliant move.
+So, in summary, what these researchers did is that they put a neural network here to remove this alpha 2,1.
+Now, here you can put as many hidden layers as you want and you can add as many units as you want in those hidden layers.
+That depends on you. But here you put a neural network.
+and then what you did, you gave this s1 as input and this h1 as input
+and the output of this you got alpha21
+So, in a way, α21 is a function of H1 and S1, where this F is nothing but an artificial neural network which will have its own weights and biases.
+And how will this neural network be trained? It is very simple.
+In this whole architecture, it will also be fit.
+So when this whole architecture will be trained,
+along the way, since this is also trainable, it will also train itself.
+So this was the beauty of this architecture,
+that the concept of back propagation through time,
+by using that, not only I am adjusting the weights and biases of my encoder and decoder LSTMs,
+but at the same time I am also adjusting this small ANN
+I am also calculating its weights and biases
+and since this whole training is happening in one go
+so we are also getting the correct value of these weights
+so just to summarize
+I am telling you the whole architecture at once
+assume for some time that we have printed this light
+means our first time step of decoder is completed
+and we are on this time step, second time step
+now in second time step, to print this band
+we have to know that how much of turn will be roll
+how much of off will be roll, how much of the will be roll
+how much of lights will be roll
+so we will know these four things then
+when we will have alpha 21, alpha 22, alpha 23, alpha 24
+So what we are doing, we are taking a neural network, an artificial neural network, and we are putting two things in it, to calculate alpha 21, we are putting S1, which we are getting from the previous time step, and we are putting H1, which is the time step of our encoder, and we are getting alpha 21 from it.
+Then on second time step we are adding S1 and H2 which gives us alpha 22
+Then on third time step we are adding H3 and S1 which gives us alpha 23 and similarly alpha 24
+Then here we are performing weighted sum where C2 is coming out
+alpha21 times h1 plus alpha22 times h2 plus alpha23 times h3 plus alpha24 times h4
+and then using this C2, here we are providing C2, here we are providing S1 and here we are providing Y1
+and with the help of these three we are calculating this bandh and this next state
+and then you keep on doing this till the end
+so that is the model behind attention mechanism
+so we understood the architecture
+now I will show you what is the benefit of applying attention mechanism
+so this is a graph which I took from the original paper of attention mechanism
+If you notice in this graph that on x-axis is the length of sentence and on y-axis is the blue score.
+If you remember I told you that blue score is a metric by which you measure the quality of translation.
+So you can see that 3-4 models have been compared here.
+In most of the models, you will notice that as the length of the sentence is more than 30 words,
+the blue score of all of them starts to fall rapidly, i.e. the translation quality gets worse once the sentence length crosses 30 words.
+But in this main model, which is based on the attention-based mechanism, you will notice that even after 30 words, the blue score was going well.
+but at least it was stable.
+So this graph empirically proves that
+using attention mechanism is beneficial.
+Researchers published one more interesting thing in their paper
+and that was that since you have attention weights,
+alphas,
+you can actually plot alphas.
+understand this
+like here we have
+4 words in input
+and 4 words in output
+so
+this means
+total alphas will be 16
+light
+will be printed here
+to find this
+we have to find turn weightage
+off weightage
+the weightage
+lights weightage
+for that we have to calculate the weightage of turn, off, the and lights
+so it means that I can write light, close, end and turn off the lights
+So, this number will be alpha11, this number will be alpha12, alpha13, alpha14, alpha21, alpha22 and so on.
+So, since I have the values of alphas, I can plot them.
+So, in the original research paper, the translation performed was English to French.
+So that is why you can see English on x-axis and French on y-axis
+So here you can see that attention mechanism actually works
+Like the translation of European depends on European
+Similarly agreement word depends on Accord
+Accord area which is the word that is mostly depending on the zone, it is also depending on a little gap, so this is the grid, this
+grid actually shows that the attention mechanism was created by applying it, right, so you can also prove this experiment
+by plotting it, you can see and this is like a good feeling that you have created such a heavy theory around it
+I have planned such a difficult architecture, it is actually working, one last thing, since we are talking about the paper, you should read the paper, I will add the link of the paper in the description, but one last thing I would like to tell you that in the encoder of the original paper, the researchers used bidirectional LSTM,
+I have taught you bi-directional LSTM in the past, so the benefit of bi-directional LSTM is that at any moment you do not have only the context of the back, there is also the context of the front, so it can improve the quality of translation.
+So the researchers used bi-directional LSTM in the encoder, not in the decoder, so when you read this paper, you will see this thing, but guess what, the rest of the architecture is exactly the same.
+So, your entire alignment model through which you are calculating attention, there will be no change in it.
+It will remain the same.
+So, I hope you understood the introduction of attention mechanism.
+I tried to simplify it a lot.
+If you liked the video, then please like it.
+If you haven't subscribed to the channel, please do subscribe.
+See you in the next video. Bye.

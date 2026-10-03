@@ -116,7 +116,7 @@ For the marble bag, each of the 50 marbles is equally likely to be drawn, so the
 | Blue | $70/200 = 0.35$ | $15/50 = 0.30$ |
 | Green | $50/200 = 0.25$ | $15/50 = 0.30$ |
 
-Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal, as section 5 shows.
+Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md)), so the share of blue has standard deviation $\sqrt{p(1-p)/n} = \sqrt{0.3 \times 0.7 / 200} = 0.032$. A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
 
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >
@@ -157,12 +157,12 @@ A die behaves the same way. In 10 simulated rolls, the face 3 did not appear at 
 
 ### 5.1 Which one to use
 
-> **Key point:** Theoretical probability needs a known sample space of equally likely outcomes; empirical probability needs only data, which is why machine learning estimates most of its probabilities empirically.
+> **Key point:** Theoretical probability needs a known sample space of equally likely outcomes; empirical probability needs only data.
 
 - **Theoretical:** when we know the sample space and its outcomes are equally likely (coins, dice, cards). It shows how the event behaves in principle, before any data exists.
 - **Empirical:** when the outcomes are not equally likely or the sample space is not fully known, which is the usual case with real data. Statistics and hypothesis testing work with empirical probabilities.
 
-Machine learning works almost entirely from data, so its probabilities are empirical. The class priors in the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md), such as 5 wins in 8 matches, are counted from the training rows.
+Machine learning models learn from data, and many of their probabilities are counted from it. The class priors in the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md), such as 5 wins in 8 matches, are counted from the training rows.
 
 ## 6. The rules every probability follows
 
@@ -174,13 +174,13 @@ Machine learning works almost entirely from data, so its probabilities are empir
 
 > **Key point:** Probabilities are never negative, the whole sample space has probability 1, and the probabilities of events with no shared outcomes add up.
 
-Every probability, empirical or theoretical, obeys three rules called the **axioms of probability**. Everything else about probability is derived from them.
+Every probability, empirical or theoretical, obeys three rules called the **axioms of probability**. Everything else about probability is derived from them. Modern probability rests on axioms of this kind, due to Kolmogorov (Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, 2020, section 6.1.2); the three below, and the complement and general addition rules of sections 6.2 and 6.3, are Theorems 1.1 and 1.4 of Grinstead and Snell, *Introduction to Probability* (2nd ed., AMS, 1997), section 1.2.
 
 1. **Non-negative:** $P(A) \ge 0$ for every event $A$.
 2. **The sure event has probability 1:** $P(S) = 1$.
 3. **Mutually exclusive events add:** if $A$ and $B$ share no outcome, $P(A \cup B) = P(A) + P(B)$. This is the addition rule of the [mutually exclusive events Note](../84-mutually-exclusive-events/note.md).
 
-Two facts follow at once. The impossible event has $P(\varnothing) = 0$, and no probability is above 1. Together these give the 0-to-1 scale of Figure 2.
+Two facts follow at once. $S$ and $\varnothing$ share no outcome and $S \cup \varnothing = S$, so axiom 3 gives $P(S) = P(S) + P(\varnothing)$, hence $P(\varnothing) = 0$. And $P(A) = 1 - P(A^c) \le 1$ by the complement rule of section 6.2 and axiom 1. Together these give the 0-to-1 scale of Figure 2.
 
 ### 6.2 The complement rule
 
@@ -237,7 +237,7 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 - A probability lies between 0 (impossible) and 1 (sure).
 - Theoretical probability fails when the outcomes are not equally likely; then only data can tell.
 - With many trials, the empirical probability approaches the theoretical one; with few, it can be far off.
-- Machine learning estimates its probabilities empirically, from the training data.
+- Probabilities such as Naive Bayes class priors are estimated empirically, from the training data.
 
 ## 8. Key terms
 

@@ -30,7 +30,7 @@ All diabetes examples below use test size 0.2 and random state 2.
 
 ## 2. Point 1: coefficients shrink but never reach 0
 
-> **Key point:** As λ grows from 0 towards infinity, every coefficient gets closer to 0. None becomes exactly 0.
+> **Key point:** As λ grows from 0 towards infinity, the coefficients end up close to 0. Ridge does not set any of them to exactly 0.
 
 $\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty, so Ridge is plain linear regression. Figure 1 trains Ridge on the diabetes data for four values of alpha (scikit-learn's name for $\lambda$).
 
@@ -44,7 +44,7 @@ $\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty
 | 1000 | 0.8 | $-0.01$ |
 | 10,000 | 0.08 | $-0.01$ |
 
-From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. But even at alpha 10,000, every coefficient is still a small non-zero number.
+From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$ (its largest eigenvalue is about 3 here), the Ridge answer $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ is almost $X^{\mathsf T}y / \lambda$: ten times the $\lambda$, a tenth of the coefficients. But even at alpha 10,000, every coefficient is still a small non-zero number. Ridge shrinks coefficients towards 0 but does not set any of them exactly to 0 (ISL §6.2.2). On the way, a coefficient can cross 0 when it changes sign, as s1 and s2 do in the next table, but it does not stay there.
 
 The reason is the slope formula from the Ridge maths Note: $m = \frac{\text{top}}{\text{bottom} + \lambda}$. Adding $\lambda$ to the bottom makes the fraction smaller, but a fraction with a non-zero top never becomes 0.
 
@@ -70,7 +70,7 @@ Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2.
 
 The penalty is $\lambda\sum\beta_j^2$, and the square grows fast: a coefficient of 900 adds $810{,}000\lambda$ to the loss, while one of 9 adds only $81\lambda$. So reducing the big coefficients lowers the loss far more, and that is where Ridge cuts first.
 
-> **Extra:** A small coefficient can even grow for a while, as age does here (from $-9$ to 42 at alpha 1). The inputs s1, s2 and s5 are strongly correlated, so as their huge opposing coefficients are reduced, part of their effect moves to other inputs. Once alpha is large enough, all coefficients head to 0 together.
+> **Extra:** A small coefficient can even grow for a while, as age does here (from $-9$ to 42 at alpha 1). The intuition: s1, s2 and s5 had huge opposing coefficients, and as Ridge cuts them back, part of their effect moves to other inputs that are mildly correlated with them, age among them ($r$ about 0.3). A quick check agrees: dropping s1, s2 and s5 altogether moves the plain linear regression coefficient of age from $-9$ to $+34$. Once alpha is large enough, all coefficients head to 0 together.
 
 ## 4. Point 3: bias rises, variance falls
 
@@ -96,7 +96,7 @@ Figure 3 fits a degree-15 polynomial with Ridge to 80 points from a curve, $y = 
 
 So, as in the bias-variance Note, λ moves a model along the trade-off. Choose λ where variance has fallen a lot but bias has not yet risen much.
 
-> **Extra:** The curve here is standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. On the left of Figure 3, bias² first falls slightly as alpha grows. The wild curves at tiny alpha also move the average curve away from the truth, the same edge effect noted in the bias-variance Note.
+> **Extra:** The curve here is standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. On the left of Figure 3, bias² first falls slightly as alpha grows. The wild curves at tiny alpha also move the average curve away from the truth, the same edge effect noted in the bias-variance Note. A check confirms it: almost all of that extra bias² comes from one test point at $x = 2.81$, right at the edge of the training range.
 
 ## 5. Point 4: the loss curve rises and its lowest point moves to 0
 
@@ -131,25 +131,31 @@ The penalty is the same at every point of a circle around the origin. Ridge look
 
 A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained** view of the problem; the details come in a later Note.
 
-> **Extra:** The answer to "why is it called Ridge?" is often given with this picture: the solution always lies on the edge of the circle. Historically, the name comes from the formula of the maths Note: adding $\lambda$ to the diagonal of $X^{\mathsf T}X$ puts a "ridge" along that diagonal.
+> **Extra:** The answer to "why is it called Ridge?" is often given with this picture: the solution always lies on the edge of the circle. Historically, the name comes from older work: Hoerl had used *ridge analysis* to study curved response surfaces, and the Ridge formula looked mathematically similar, so the method was labelled "ridge regression" (Hoerl and Kennard 1970, §2).
 
 ## 6. Point 5: use Ridge with 2 or more inputs
 
 > **Key point:** Ridge helps when there are several inputs, especially correlated ones. With a single input there is little to gain.
 
-Regularisation fights overfitting caused by many, large coefficients. With one input there is only one slope, so there is little room to overfit. With 2 or more inputs, and especially with many or correlated inputs, the coefficients can become extreme, and Ridge keeps them in check.
+Regularisation fights overfitting caused by many, large coefficients. With one input there is only one slope, so there is little room to overfit. With 2 or more inputs, and especially with many or correlated inputs, the coefficients can become extreme, and Ridge keeps them in check. With correlated inputs, a large positive coefficient on one can cancel a large negative one on its partner, like the s1 ($-896$) and s2 ($+561$) pair above; Ridge's size limit stops this (ESL §3.4.1).
 
 ## 7. Summary
 
 | # | Point |
 |---|---|
-| 1 | As λ grows, all coefficients shrink towards 0 but never reach it |
+| 1 | As λ grows, the coefficients end up near 0, but Ridge does not set any to exactly 0 |
 | 2 | The largest coefficients shrink fastest; small ones barely change at first |
 | 3 | Larger λ: higher bias, lower variance. Pick λ in between |
 | 4 | The loss curve rises and its lowest point slides towards 0 |
 | 5 | Use Ridge with 2 or more inputs, especially correlated ones |
 
-## 8. Key terms
+## 8. Sources
+
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.2, p. 241.
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
+- **Hoerl and Kennard 1970:** Hoerl, A. E. and Kennard, R. W. "Ridge Regression: Biased Estimation for Nonorthogonal Problems." *Technometrics* 12(1), 55–67, 1970. Section 2.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

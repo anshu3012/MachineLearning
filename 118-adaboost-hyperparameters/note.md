@@ -51,9 +51,9 @@ In practice, decision trees are used almost every time, and stumps give the best
 
 ### 2.2 n_estimators: the number of stages
 
-> **Key point:** The maximum number of weak learners. Training stops earlier only if a stump classifies the training data perfectly.
+> **Key point:** The maximum number of weak learners. Training stops earlier if a stump classifies the training data perfectly, or if a new stump is no better than guessing.
 
-`n_estimators` is the number of base models, one per stage. It is a maximum: if some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix (the from-scratch Note, section 7). This is the most important hyperparameter of AdaBoost; section 3 shows its effect.
+`n_estimators` is the number of base models, one per stage. It is a maximum. If some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix (the from-scratch Note, section 7). It also stops if a new stump's weighted error reaches 0.5 or more on two classes, no better than guessing; that stump is thrown away (scikit-learn source). This is the most important hyperparameter of AdaBoost; section 3 shows its effect.
 
 ### 2.3 learning_rate: the say of every stump, scaled
 
@@ -65,9 +65,9 @@ In practice, decision trees are used almost every time, and stumps give the best
 
 > **Key point:** Old versions offered two algorithms, SAMME and SAMME.R; current scikit-learn has only SAMME and no `algorithm` parameter.
 
-Older versions of `AdaBoostClassifier` had a fourth hyperparameter, `algorithm`, with two choices: `"SAMME"` and `"SAMME.R"`. SAMME.R, which used predicted probabilities instead of hard votes, was the default and often converged faster.
+Older versions of `AdaBoostClassifier` had a fourth hyperparameter, `algorithm`, with two choices: `"SAMME"` and `"SAMME.R"`. SAMME.R, which used predicted probabilities instead of hard votes, was the default and typically converged faster (scikit-learn 1.5 docs).
 
-> **Extra:** SAMME.R was deprecated in scikit-learn 1.4 and later removed, and then the `algorithm` parameter itself was removed. scikit-learn 1.9, which this Note uses, accepts only `estimator`, `n_estimators`, `learning_rate` and `random_state`, and always runs SAMME. Code that passes `algorithm="SAMME.R"` fails with a `TypeError`; deleting the argument fixes it. This is also why the default model here scores 0.812 rather than the 0.786 that older versions gave with SAMME.R (section 3).
+> **Extra:** SAMME.R was deprecated in scikit-learn 1.4 and scheduled for removal in 1.6 (scikit-learn 1.5 docs), and then the `algorithm` parameter itself was removed. scikit-learn 1.9, which this Note uses, accepts only `estimator`, `n_estimators`, `learning_rate` and `random_state`, and always runs SAMME. Code that passes `algorithm="SAMME.R"` fails with a `TypeError`; deleting the argument fixes it.
 
 ## 3. n_estimators: from underfitting to overfitting
 
@@ -86,12 +86,12 @@ With the default settings (50 stumps, learning rate 1.0), 10-fold cross-validati
 | 1,500 | isolated strips and boxes: overfitting | 0.87 | 0.85 |
 
 - **Too few stumps underfit.** One stump can only cut the plane once; it cannot draw a disc.
-- **Too many stumps overfit.** Each extra stage focuses on the rows still misclassified, and on noisy data those are mostly noise. With 1,500 stumps, the surface grows small regions around single points, the training accuracy rises and the test accuracy falls.
+- **Too many stumps overfit.** Each extra stage focuses on the rows still misclassified, and on noisy data those are mostly noise. Experiments with noisy labels show the same: AdaBoost puts large weights on the noisy rows and its accuracy drops (Dietterich 2000). With 1,500 stumps, the surface grows small regions around single points, the training accuracy rises and the test accuracy falls.
 - **Training time grows** with the number of stumps: 1,500 stumps take 30 times as long to train as 50.
 
 So `n_estimators` needs a middle value, like `max_depth` for a decision tree (the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md)).
 
-> **Extra:** On this data the overfitting is mild: a stump is so simple that even 1,500 of them keep a fairly clean surface, and test accuracy only drops from 0.86 to 0.85. On data with more columns, or with deeper base trees, the effect is stronger.
+> **Extra:** On this data the overfitting is mild: even 1,500 stumps keep a fairly clean surface, and test accuracy only drops from 0.86 to 0.85. With deeper base trees the effect is stronger: section 5 shows 50 trees of depth 8 already reaching training accuracy 1.00.
 
 ## 4. learning_rate: shrinkage
 
@@ -140,7 +140,7 @@ Figure 2 tracks accuracy as stumps are added (scikit-learn's `staged_score` give
 
 The smaller the learning rate, the more stumps it takes. In return, the large-`n_estimators` model stays smoother: in Figure 1, 1,500 stumps with learning rate 0.1 (bottom right) have none of the islands of 1,500 stumps with learning rate 1.0 (bottom middle).
 
-So we do not tune the two separately. A large `n_estimators` with a small `learning_rate` is the usual recipe; the grid search finds a good pair.
+So we do not tune the two separately. A large `n_estimators` with a small `learning_rate` is the usual recipe (ESL §10.12.1); the grid search finds a good pair.
 
 > **Python:** n_estimators and learning_rate.
 >
@@ -198,7 +198,14 @@ The best pair is **500 stumps at learning rate 0.1**, with a cross-validated acc
 - The learning rate multiplies alpha, so the weight updates have a smaller amplitude and learning slows down: shrinkage.
 - On the circles data, the defaults score 0.812 (10-fold cross-validation); a grid search finds 500 stumps at learning rate 0.1, scoring 0.832.
 
-## 7. Key terms
+## 7. Sources
+
+- Dietterich, T. G. (2000). "An experimental comparison of three methods for constructing ensembles of decision trees: bagging, boosting, and randomization". *Machine Learning* 40, 139–157.
+- ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed., Springer. Section 10.12.1, "Shrinkage".
+- scikit-learn 1.5 docs: API page of `AdaBoostClassifier` (parameter `algorithm`).
+- scikit-learn source: `sklearn/ensemble/_weight_boosting.py`, the early-stopping checks in `fit` and `_boost`.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

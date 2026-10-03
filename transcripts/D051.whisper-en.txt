@@ -1,0 +1,282 @@
+Hi guys, my name is Nitish and you are welcome to CampusX
+In this video also we will continue our deep learning playlist
+Till now we have studied two things in deep learning in CNN
+First of all how do CNN architectures work
+And then we made our own CNN architecture and worked on image classification
+Today's video is a little different because in today's video I will discuss with you
+How can you use pre-trained models
+What are pre-trained models?
+Pre-trained model is such a CNN architecture or rather Neural Network Architecture
+which has been made by someone else, someone else has trained on some other data set
+but it is so good that you can use it in your problem also.
+So in today's video, I will first explain to you from where the concept of pre-trained model came
+and after that we will learn how to use pre-trained model in Keras in this video.
+Trust me, it is a very important topic because going forward when we will study transfer learning
+which is very very important
+there you will be able to use these concepts
+so try to watch today's video
+from end to end
+and try to do all the codes
+together
+so let's start the video
+we will start our discussion
+that why should we use pre-trained model
+pre-trained means
+made by someone else
+why should we use CNN model
+rather than using our own model
+I will give you two reasons
+Reason number one is that when you use CNN models, you are basically working on some image based data.
+So you might have heard about deep learning that deep learning is data hungry.
+Means to perform deep learning models well, you need a lot of data.
+Now if you are talking about CNN, it means you need a lot of image data.
+and in image data also if you are talking about classification problem you need a lot of labelled data
+lets say you are building a cat dog classifier
+so you need a lot of photos of cats and dogs
+you can solve this problem by going to google images and scraping the data
+but there is one more problem
+you also need labelling
+means whatever photo you download
+next to that you have to tell if there is a dog or cat in this photo
+now imagine you need 10,000 photos
+and you have downloaded it from google
+but now what you have to do is manually bat
+you have to label these 10,000 images
+Now that is a tedious task.
+It will take time and effort.
+So if you want to do this work in a company then you need to hire people and you have to give them salary.
+So basically it is a financial loss.
+Now maybe in future this work will become easy if companies like Pinterest open source their data.
+but at this point it is a tedious task to have your own data for your deep learning model
+this is reason no.1
+reason no.2 is time
+so suppose even if you have a lot of data
+then also there is a problem
+that when you train your model on a lot of data
+then that training process takes time
+sometimes it takes hours, days and weeks on a big data set
+so it basically means that the process of building a model is going to be slow
+so the solution is that rather than using our own model
+what we can do is that we can use someone else's pre-made model
+which we call pre-trained model
+In today's video, my goal is to explain the concept of pre-trained model and how it is used.
+To understand the concept of pre-trained model, you should know about ImageNet dataset.
+In simple words, ImageNet is basically a visual database of images.
+Let's talk about it in detail. Let's talk about the why, what and how.
+So that you have a detailed idea about it. Let's talk about the why.
+why this image net database was made
+so around 2006 there was a computer researcher
+called Fai Fai Li or Fifi Li
+so around this point in 2006
+deep learning was coming back to the surface
+so at this time mostly the researchers were focusing on the models
+and on algorithms
+mostly the focus of deep learning researchers was on model building
+and algorithm building
+at that time, Fee Fee Lee thought that if deep learning is all about data
+then in future it is absolutely necessary that we have some big and good data sets
+on which these models and algorithms will work
+So what he did, from 2006 he started building this database, ImageNet database, ok.
+So he met with a professor who had made WordNet and along with him he built this database of 1.4 million images.
+In Indian terms, they made a database of 1.4 crore images and in these 1.4 crore images, there were 20,000 categories.
+means there was data of 20,000 things like cat, dog, man, woman, vehicle, table, chair, many categories
+which are daily household items plus whatever you can see on a daily basis
+they made 1.4 million images of such 20,000 things
+All the images in this were labelled, labelled in a way that if there is an image of a dog, then there will be a well-organised labelling in every way that it will be written there that there is a dog,
+which breed of dog is there in the dog, what is its visual description, it is a white dog, in this way they have labelled everything in a hierarchical manner.
+moreover, around 1 million images
+means roughly 10 lakh images
+they also gave bounding box labeling
+what is bounding box labeling?
+suppose you have this photo
+and there is a cat in it
+so you make a box in bounding box
+to show where the object is in the image
+so this helps a lot in object localization task
+so in our database there were 1.4 crore images
+which were well labeled like this
+and atleast 10 lakh images were like this
+which were for object localization
+there were bounding boxes
+ok
+now you must be thinking about this whole thing
+that how it was made
+how
+how they made this whole thing
+So they used crowd sourcing, basically they took help from crowd, they asked people that this is a photo, tell us what is in it, or this is a photo, tell us where is that object, they took help from people.
+They used a service by Amazon called Mechanical Turk to build this entire database of images
+And this is the database, this is the data set which changed the future of deep learning
+How? For that we will discuss the next thing whose name is ImageNet Challenge
+Once the ImageNet database was created, the researchers decided to use this big data set
+Let's build a competition which is known as ILS VRC
+ImageNet Large Scale Visual Recognition Challenge
+or simply put it is also called ImageNet Challenge
+so this challenge started in 2010
+and the goal of this challenge was that
+the best image classification models
+should come on the surface and in front of the people
+so a lot of people participated in this competition
+In this competition, the data set used was actually a subset of the original ImageNet data set.
+So, in the original one, there were 14 crore images.
+In this competition, the data set used was only 1 million or you can say around 10 lakh images were used.
+where in the initial data set there were 20,000 classes
+in the ImageNet challenge there were only 1000 classes
+so they reduced the complexity a little
+so a lot of teams, a lot of researchers participated
+in this challenge in 2010 and in the beginning
+in the first 1-2 years of the competition the models that came
+were mostly machine learning based models, there
+learning was not being used, so these were the models where the machine learning algorithm was working, people were doing
+manually feature extraction here, if you have ever done it, then maybe you will have an idea, you extract SIFT and HAWK features
+and then somehow put ensemble learning etc. and do prediction, so when the team won in 2010, the error rate of their model was around 28%
+28% error rate means that if you show 100 images to this model it will make mistake on 28 images
+in 2011 also machine learning based models came and the error rate improved a bit
+it went to 25% means if you show 100 images to this model it will make mistake on 25
+The real change happened in 2012, which is a landmark year for deep learning.
+In 2012, Joffrey Hilton participated in this competition with his CNN model called LXNet.
+I will show you its architecture later.
+But LXNet was a CNN model, basically a deep learning based model.
+and the first time a deep learning model participated and the second time they used a CPU instead of using a CPU they used a GPU
+which made the training fast and this was also the first time when a CNN model used ReLU as an activation layer
+And as soon as he participated in this competition, he brought a revolution.
+In 2012, the error rate because of LXNet came directly at 16%.
+Which was an improvement of more than 10% from the second position.
+And as soon as LXNet won the competition, the whole tech world looked at this CNN model.
+and people started noticing that which technology has come that has left machine learning behind so much
+and that was the first time when everyone really looked at deep learning
+and after this continuously till 2013-14 this competition happened
+constantly deep learning models and CNNs came and they won the competition
+So guys this is the architecture of LXNet. I got this from Andrew Ng's lecture.
+So you can see the images in ImageNet are colored images of 227x227.
+What LXNet did was they put 96 filters of 11x11 in the first layer.
+then they kept stride 4 and max pooling sorry padding same
+in max pooling they kept 3x3 size
+stride 2
+you can do all the calculations
+we have already discussed all these when we have made our own cnn's
+then again they kept 5x5 of 256 filters
+then again max pooling
+then 384 filters
+and eventually in the last you can see they have put 3 fully connected layers with 9216, 4096
+actually 2 fully connected layers were put this is flattened by flattening 9216
+and in the last you can see they have put a softmax layer with 1000 units because the problem we have is a multi class classification problem where there are 1000 classes
+I would recommend you to pause the video or go to the internet and try to understand the architecture of LXNET
+if possible if you have time then try to make it in Keras it would be a great exercise
+this was the winning model of 2012 which started the deep learning revolution
+that is why I thought it is important to show it once
+now I will tell you what happened in going forward 2013-2014
+In the coming years also, constantly deep learning models improved and won all the contests.
+This is a chart which will give you some idea.
+In 2010-2011, machine learning models won the competition with 28% and 25% error rate.
+In 2012, LXNet came which won the competition and showed error rate of 16.4 which was kind of revolutionary at that time.
+After that, in 2013, there was this CNN architecture called ZFNet which improved more and brought error rate to 11.7%.
+After that, another very famous CNN architecture came which is called VGG
+Visual Geometry Group, I guess its full form
+They brought it on 7.3
+VGGNet in fact got very famous
+This is such an architecture which became very famous
+And now you will see going forward in many places that we will use VGGNet
+In 2015, Google also joined and won their CNN architecture
+With 6.7 error rate
+and in 2016 there was this again famous architecture called ResNet
+which brought the whole thing on unbelievable 3.5% error rate
+so this stage has now crossed humans
+means on that data set humans error rate is 5%
+means if you show 100 photos to humans
+then humans also make a mistake in 5
+but not this model
+its error rate is less than humans
+think how much we have progressed in deep learning
+that our computer vision systems are surpassing actual human vision systems
+so your work should be at this point
+that you go and study these architectures
+on internet you would get a lot of resources where their architecture is explained
+you will get to see a common pattern that as the year is increasing
+more and more layers were added
+means the complexity of cnn model has increased and due to that the error rate has reduced
+so your task should be to search these models once and see their architecture
+if you have time and you are interested then try to make it again in keras
+it would be a great exercise
+meanwhile the idea we had to take from image net and image net challenge we have got it
+Now I will explain to you that what is the logic to use pre-trained models, why should we use them?
+So I guess you must have understood the concept of pre-trained models, let me specify it explicitly
+So the idea is very simple, I told you in the beginning of the video that to train a deep learning model, you need a lot of data which is costly
+and even if there is data, it takes a lot of time in training
+so simply researchers observed that if we already have very good models
+like VGGNet, ResNet
+which is already trained on data like ImageNet
+where you have thousands of most common classes that exist
+So, if we have such a model, then why should we train our own model?
+Why not directly use them?
+There will be two advantages.
+First, you don't need training.
+So, you don't need to bring data.
+If you have zero data, then also it will work.
+If you have very less data, then also it will work.
+And the second advantage is that since you don't have to train,
+then you won't take time.
+You can use these models directly.
+The good part is that you get a lot of pre-trained models in Keras library.
+So what I am going to do is, I am going to show you some good models in Keras library.
+I am going to show you how to use them on a problem.
+So if you google Keras pre-trained models, you will see Keras applications in the first result.
+If you go to this page, then you will see the list of all pre-trained models which are available in Keras.
+So you can see these are the models.
+Exception VGG 16 with 16 layers, VGG 19 with 19 layers, Resnet 50, Resnet 50 V2.
+These are all famous models. Inception V3, MobileNet is very lightweight.
+After that you can just go through all the list.
+Here you can see the size of those models, so you can see VGG16 which we will use a lot in the future, it is around 528MB, why is it so big?
+Because it is pre-trained, pre-trained means all the parameters, trainable parameters which is roughly around 138.4 million,
+the weights of all these are stored, that is why it is so big. Resnet 50 is a little lightweight, 98 because it has less parameters.
+This is Top 1% Accuracy and Top 5% Accuracy
+Top 1% Accuracy means to be able to tell accurately what is in the image
+Top 5% Accuracy means one of the top 5 outputs is correct
+That is Top 5% Accuracy
+You can see the accuracy is also written, the parameter is also written
+How many layers are there, this is written
+and after that how much time it takes in inference in CPU and GPU
+this whole listing is given here
+so I would recommend you to see it once
+the famous modules in this are exception, VGG, ResNet, Inception, MobileNet is also used a lot
+so these are some famous modules in architecture which you will get to see in the future
+so now what I am doing is I will show you an example of ResNet50
+and we will make a universal classifier
+where you will put any image and it will try to predict
+what is in that image
+so code is already written
+in fact i have taken the example code
+here i have uploaded 4 images
+4 different things bread chair dog and tomato
+let me show you
+you can see this is dog image this is bread this is tomato and this is chair
+let me show you the code
+here we have imported everything
+you have to focus on this one
+here we have imported ResNet-50
+from ResNet-50 we have imported pre-process input
+and decode predictions
+after that we have made a model of ResNet-50 class
+here we have specified that we want the weights
+which we got after training on ImageNet database
+after that we told the image path, load the image, convert it to array, expand dims means convert it to batch
+and pre-process it and put it in x, now we have that image in x, in model we have predict function, we sent x in it
+and whatever prediction came we decode it using decode predictions and I am showing you the top 3 predictions
+First of all, I used tomato, so the result is actually strawberry, which is not the correct answer, but hip is also coming, I searched hip in the vegetable, so something like this was visible, so I guess there is a little confusion with tomato, but if you try other things, then the result is coming properly, let me show you, if you are trying dog, then you will get not only dog will come, but also breathe is also showing, Labrador Retriever is saying, and Golden Retriever is saying,
+dog is golden retriever
+if we are running on bread image
+this is the result
+and if we are running on chair
+extension is jfif
+jfif
+you can see folding chair
+So you can see how easily I didn't have to do any hard work, I didn't have to make my own architecture.
+Simply I took someone else's model and made a sort of universal classifier.
+In which whatever I am sending, it is telling me what is inside that image.
+So this was the goal of this video that I had to explain to you what pre-trained models are,
+why they exist and how to use them using Keras. I hope I could explain it to you.
+So that was the video guys. I hope you understood how to use pre-trained models.
+Next video will be on transfer learning where all these concepts will be reused.
+So whatever you have studied will help you.
+So if you liked the video then please like it.
+And if you haven't subscribed to the channel then please do subscribe.
+That's it from my side. See you in the next video. Bye.

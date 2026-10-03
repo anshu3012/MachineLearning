@@ -91,7 +91,11 @@ Two rules of **matrix calculus** do the work, the matrix versions of "the deriva
 | $2y^{\mathsf T}X\beta$ (like $a\beta$) | $2X^{\mathsf T}y$ |
 | $\beta^{\mathsf T}X^{\mathsf T}X\beta$ (like $a\beta^2$) | $2X^{\mathsf T}X\beta$ |
 
-The last rule holds because $X^{\mathsf T}X$ is symmetric. So
+The last rule gives $2X^{\mathsf T}X\beta$ because $X^{\mathsf T}X$ is symmetric (MML §5.5).
+
+> **Extra:** The general rule is $\partial(x^{\mathsf T}Bx)/\partial x = x^{\mathsf T}(B + B^{\mathsf T})$ (MML eq. 5.107; the book writes gradients as rows, the table writes them as columns). With $B = X^{\mathsf T}X$, which equals its own transpose, $B + B^{\mathsf T} = 2X^{\mathsf T}X$.
+
+So
 
 $$\frac{\partial E}{\partial \beta} = -2X^{\mathsf T}y + 2X^{\mathsf T}X\beta = 0$$
 
@@ -109,7 +113,7 @@ To get $\beta$ alone we need to "divide" by $X^{\mathsf T}X$. Matrices have no d
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
-This is the **normal equation**: a closed-form solution for all coefficients of multiple linear regression at once. scikit-learn's `LinearRegression` computes this solution (with a numerically safer method than a literal inverse).
+This is the **normal equation**: a closed-form solution for all coefficients of multiple linear regression at once. scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
 
 ### 6.1 A worked example
 
@@ -140,7 +144,7 @@ Figure 2 measures it on this computer.
 
 ![Time to invert a matrix as its size grows](images/inverse_cost.png)
 
-From 1,000 to 2,000 columns, the time grows about 7 times, from 0.08 to 0.59 seconds. With tens of thousands of columns, as with text or image data, the inverse becomes very slow and memory-hungry.
+From 1,000 to 2,000 columns, the time grows about 7 times, from 0.08 to 0.59 seconds. With tens of thousands of columns, as with text or image data, the inverse becomes very slow and memory-hungry. With numbers: 20,000 columns is 20 times 1,000, so the $m^3$ rule predicts about $20^3 = 8{,}000$ times the 0.08 seconds, roughly 11 minutes. And $X^{\mathsf T}X$ alone would hold $20{,}000^2$ numbers, about 3.2 GB of memory.
 
 That is why there is a second method, **gradient descent**: it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the normal equation's. In scikit-learn:
 
@@ -149,7 +153,7 @@ That is why there is a second method, **gradient descent**: it does not compute 
 
 For most tabular data the number of columns is small, and `LinearRegression` is the usual choice. Gradient descent gets its own Notes next.
 
-> **Extra:** $X^{\mathsf T}X$ has no inverse when one input column can be built exactly from others (multicollinearity, as in the dummy variable trap of the one-hot encoding Note). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation, both covered later.
+> **Extra:** $X^{\mathsf T}X$ has no inverse when one input column can be built exactly from others (multicollinearity, as in the dummy variable trap of the one-hot encoding Note). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation, both covered later. scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
 
 ## 8. Summary
 
@@ -165,6 +169,12 @@ For most tabular data the number of columns is small, and `LinearRegression` is 
 - A column of 1s in $X$ lets the intercept be treated like any other coefficient.
 - One formula gives all $m + 1$ coefficients at once; with one input it reduces to the simple formulas.
 - The inverse costs about $m^3$ operations, so very wide data uses gradient descent instead.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning* (MML). Cambridge University Press. §5.5 Useful Identities for Computing Gradients.
+- scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section (uses `scipy.linalg.lstsq`).
+- LAPACK documentation, DGELSD: minimum-norm least-squares solution using the SVD, for a matrix that may be rank-deficient. https://www.netlib.org/lapack/double/dgelsd.f
 
 ## 9. Key terms
 

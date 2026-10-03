@@ -52,7 +52,7 @@ In the notation of the [MLP notation Note](../1008-mlp-notation/note.md):
 
 That is $(2 \times 2 + 2) + (2 \times 1 + 1) = 6 + 3 = 9$ trainable parameters.
 
-> **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the large input would dominate the weighted sums and make training unstable, as the Extra in section 2 of the [forward propagation Note](../1010-forward-propagation/note.md) shows for the sigmoid.
+> **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the IQ weights would get gradients about 10 times larger, because a weight's gradient is multiplied by its input ($\partial O_{11}/\partial W^{1}_{11} = x_{i1}$, section 6). One learning rate would then be too large for the IQ weights or too small for the CGPA weights.
 
 ## 4. The steps of backpropagation
 
@@ -210,7 +210,7 @@ Every gradient is negative: raising any parameter would lower the loss, which fi
 >
 > `np.outer(a, b)` makes the table of all products `a[i] * b[j]`: here all four hidden-layer weight gradients at once.
 
-> **Extra:** Two independent checks agree to every digit (Notebook). Nudging each parameter by $10^{-6}$ and measuring the change in the loss gives the same nine numbers (the numerical check of section 7 of the [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md)). TensorFlow's `tf.GradientTape`, which records the forward computation and differentiates it automatically, also returns them. This automatic differentiation is how Keras computes the gradients of any network (see section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md)).
+> **Extra:** Two independent checks agree to every digit (Notebook). Nudging each parameter by $10^{-6}$ and measuring the change in the loss gives the same nine numbers (the numerical check of section 7 of the [partial derivatives Note](../601-partial-derivatives-and-gradients/note.md)). TensorFlow's `tf.GradientTape`, which records the forward computation and differentiates it automatically, also returns them. This automatic differentiation is how Keras computes the gradients of any network (see section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md); TensorFlow guide, Automatic differentiation).
 
 ### 7.2 The update
 
@@ -226,7 +226,7 @@ With learning rate $\eta = 0.001$:
 
 Running the same student forward again gives $\hat{y} = 0.386$ and a loss of $(4 - 0.386)^2 = 13.06$, down from 13.54. One small step in the right direction.
 
-> **Extra:** All four first-layer weights got the same gradient, and they still share one value. Because we started every weight at 0.1, the two hidden nodes compute the same thing and receive the same updates, so they stay identical forever and act like a single node. Starting from different (random) values avoids this; the weight initialisation Notes later cover it.
+> **Extra:** All four first-layer weights got the same gradient, and they still share one value. Because we started every weight at 0.1, the two hidden nodes compute the same thing and receive the same updates, so they stay identical forever and act like a single node. Starting from different (random) values avoids this (Goodfellow et al. 2016, §8.4); the weight initialisation Notes later cover it.
 
 ## 8. The full algorithm
 
@@ -264,7 +264,12 @@ Updating after every single row, as here, is [stochastic gradient descent](../59
 - All the numbers needed come from the forward pass.
 - Rows go one at a time; the whole data is repeated for many epochs.
 
-## 10. Key terms
+## 10. Sources
+
+- TensorFlow guide, "Introduction to gradients and automatic differentiation" (`tf.GradientTape`).
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §8.4 (random initial values break the symmetry between hidden units).
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

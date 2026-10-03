@@ -121,7 +121,7 @@ Since it is a hypothesis test, everything from the earlier Notes applies:
 - $p \le 0.05$: reject $H_0$, the data is not normal;
 - $p > 0.05$: fail to reject $H_0$; we have no evidence against normality and may go on with the t-test.
 
-"$p > 0.05$ means the data is normal" is the common way to say it, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power, so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give $p = 6 \times 10^{-11}$. It is best read together with a plot.
+"$p > 0.05$ means the data is normal" is the common way to say it, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power, so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give $p = 6 \times 10^{-11}$. It is best read together with a plot (Ghasemi and Zahediasl, "Normality tests for statistical analysis: a guide for non-statisticians", *International Journal of Endocrinology and Metabolism* 10(2), 2012, 486–489, make all three points).
 
 ## 6. Case study: the mean age of Titanic passengers
 

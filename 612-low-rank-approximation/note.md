@@ -119,7 +119,7 @@ To say which approximation is "closest", we need the size of the difference $A -
 
 > **Key point:** Among all rank-$k$ matrices $B$, the truncated SVD makes $\lVert A - B\rVert_2$ smallest, and the smallest value is $\sigma_{k+1}$.
 
-1. **In words:** the error of the truncated SVD is the sum of the layers we dropped. The biggest of those is layer $k + 1$, so the largest stretch of the error is $\sigma_{k+1}$. The **Eckart–Young theorem** says no other rank-$k$ matrix does better.
+1. **In words:** the error of the truncated SVD is the sum of the layers we dropped. The biggest of those is layer $k + 1$, so the largest stretch of the error is $\sigma_{k+1}$. The **Eckart–Young theorem** says no other rank-$k$ matrix does better (MML Thm 4.25; Eckart and Young 1936).
 2. **Formula:**
    $$A - \hat{A}_k = \sum_{i=k+1}^{r}\sigma_i\,\mathbf{u}_i\mathbf{v}_i^{\mathsf T}, \qquad \lVert A - \hat{A}_k\rVert_2 = \sigma_{k+1} \le \lVert A - B\rVert_2 \ \text{ for every } B \text{ of rank } k$$
 3. **Example:** for $A$ and $k = 1$, the error is the second layer, rows $[1.5, -1.5]$ and $[-0.5, 0.5]$, whose largest stretch is $\sigma_2 = \sqrt5 \approx 2.24$. A natural alternative rank-1 guess, keeping the second row of $A$ and zeroing the first, $B$ with rows $[0, 0]$ and $[4, 5]$, leaves the error with rows $[3, 0]$ and $[0, 0]$: its largest stretch is 3, worse than 2.24.
@@ -128,7 +128,7 @@ The difference $A - \hat{A}_k$ is itself written in SVD form, with singular valu
 
 > **Extra:** Why no other rank-$k$ matrix can win, in outline. A rank-$k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ right singular vectors span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
 
-> **Extra:** The theorem also holds for a second common size measure, the **Frobenius norm** $\lVert M\rVert_F$: the square root of the sum of all squared entries, the L2 norm of the matrix read as one long vector. It equals $\sqrt{\sigma_1^2 + \sigma_2^2 + \dots}$, and the truncated SVD's error is $\sqrt{\sigma_{k+1}^2 + \sigma_{k+2}^2 + \dots}$. For $A$: $\lVert A\rVert_F = \sqrt{9 + 0 + 16 + 25} = \sqrt{50} = \sqrt{45 + 5}$. In NumPy, `np.linalg.norm(M)` is the Frobenius norm and `np.linalg.norm(M, 2)` the spectral norm.
+> **Extra:** The theorem also holds for a second common size measure (Eckart and Young 1936), the **Frobenius norm** $\lVert M\rVert_F$: the square root of the sum of all squared entries, the L2 norm of the matrix read as one long vector. It equals $\sqrt{\sigma_1^2 + \sigma_2^2 + \dots}$, and the truncated SVD's error is $\sqrt{\sigma_{k+1}^2 + \sigma_{k+2}^2 + \dots}$. For $A$: $\lVert A\rVert_F = \sqrt{9 + 0 + 16 + 25} = \sqrt{50} = \sqrt{45 + 5}$. In NumPy, `np.linalg.norm(M)` is the Frobenius norm and `np.linalg.norm(M, 2)` the spectral norm.
 
 ## 5. Compressing an image
 
@@ -145,7 +145,7 @@ Reading Figure 1 in order of $k$:
 
 The "error" in each title is $\sigma_{k+1}/\sigma_1$: the spectral error of Section 4, relative to the size of the image. It drops from 18.4% at $k = 1$ to 2.3% at $k = 20$.
 
-> **Extra:** Real image formats such as JPEG do not use the SVD. They use a fixed set of patterns (cosine waves on small $8 \times 8$ blocks), which is faster and needs no $U$ and $V$ to be stored for each picture. The SVD example shows the idea of keeping the important directions, not how photos are actually compressed.
+> **Extra:** Real image formats such as JPEG do not use the SVD. They use a fixed set of patterns (cosine waves on small $8 \times 8$ blocks), which is faster and needs no $U$ and $V$ to be stored for each picture (Wallace 1991). The SVD example shows the idea of keeping the important directions, not how photos are actually compressed.
 
 ## 6. How many singular values to keep
 
@@ -175,7 +175,7 @@ This is the same rule as choosing the number of principal components by explaine
 > s[k] / s[0]                             # 0.023
 > ```
 >
-> `U[:, :k] * s[:k]` scales column $i$ of $U_k$ by $\sigma_i$, which is $U_k\Sigma_k$ without building the diagonal matrix. The grayscale weights 0.299, 0.587 and 0.114 are the standard ones for red, green and blue. The Notebook has a slider that moves through the ranks.
+> `U[:, :k] * s[:k]` scales column $i$ of $U_k$ by $\sigma_i$, which is $U_k\Sigma_k$ without building the diagonal matrix. The grayscale weights 0.299, 0.587 and 0.114 are the standard ones for red, green and blue (ITU-R BT.601). The Notebook has a slider that moves through the ranks.
 
 ## 7. Removing noise
 
@@ -190,14 +190,14 @@ The singular values of the noisy picture (Figure 4, bottom left) split into two 
 - three large ones, 42.1, 21.4 and 13.3: the shapes;
 - a flat **noise floor** of values near 5 to 7: the noise.
 
-Noise has no structure, so no direction is special and its contribution spreads over all singular values at a low level. The shapes are concentrated in three directions, so they stand out above the floor.
+The intuition: noise has no structure, so no direction is special and its contribution spreads over all singular values at a low level. The shapes are concentrated in three directions, so they stand out above the floor. The height of the floor can be predicted: for an $m \times n$ matrix of pure noise with standard deviation $s$, the largest singular value is close to $s(\sqrt m + \sqrt n)$ (Gavish and Donoho 2014). Here that is $0.3 \times (\sqrt{120} + \sqrt{160}) = 7.1$, the top of the observed floor.
 
 1. **In words:** measure the error as the size of (approximation minus clean picture) relative to the size of the clean picture, both in the Frobenius norm. Keep the singular values above the noise floor.
 2. **Formula:**
    $$\text{error} = \frac{\lVert \hat{A}_k - A_{\text{clean}}\rVert_F}{\lVert A_{\text{clean}}\rVert_F}$$
 3. **Example:** the noisy picture itself has an error of 87%. Its rank-3 approximation has 19%. Keeping more layers makes it worse again: 24% at $k = 4$, 41% at $k = 10$, 77% at $k = 50$ (Figure 4, bottom right), because each extra layer adds back mostly noise.
 
-The same idea is used to clean measurements from sensors, to remove noise from audio and images, and to keep only the stable structure of a dataset before fitting a model. Picking $k$ at the edge of the noise floor is the elbow rule of Section 6.
+The same idea, keeping only the singular values above the noise floor, is a standard way to remove noise from a data matrix (Gavish and Donoho 2014). Picking $k$ at the edge of the noise floor is the elbow rule of Section 6.
 
 ## 8. Summary
 
@@ -215,6 +215,14 @@ The same idea is used to clean measurements from sensors, to remove noise from a
 - Dropping the small layers gives the best rank-$k$ approximation, with error $\sigma_{k+1}$.
 - Fast-falling singular values mean a matrix can be compressed well.
 - Noise forms a flat floor of small singular values; truncating below it removes most of the noise.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.6 and Theorem 4.25 (MML).
+- Eckart, C. and Young, G. (1936). "The approximation of one matrix by another of lower rank". *Psychometrika* 1(3).
+- Gavish, M. and Donoho, D. L. (2014). "The Optimal Hard Threshold for Singular Values is $4/\sqrt{3}$". *IEEE Transactions on Information Theory* 60(8).
+- ITU-R Recommendation BT.601. *Studio encoding parameters of digital television*. Luma weights 0.299, 0.587, 0.114.
+- Wallace, G. K. (1991). "The JPEG Still Picture Compression Standard". *Communications of the ACM* 34(4).
 
 ## 9. Key terms
 

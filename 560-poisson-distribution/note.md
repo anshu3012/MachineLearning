@@ -157,7 +157,7 @@ Figure 3 shows how $\lambda$ changes the shape:
 - **$\lambda = 4$:** the peak moves right and the bars spread out; a mild right skew remains.
 - **$\lambda = 10$:** the peak sits at 9 and 10, the spread is wider, and the shape is close to a symmetric bell.
 
-> **Extra:** For large $\lambda$ (about 20 or more) the Poisson distribution is close to a normal distribution with mean $\lambda$ and variance $\lambda$ (see the [normal distribution Note](../250-normal-distribution/note.md)). Its skewness is $1/\sqrt{\lambda}$: 1 for $\lambda = 1$, 0.5 for $\lambda = 4$, 0.32 for $\lambda = 10$.
+> **Extra:** The skewness of a Poisson distribution is $1/\sqrt{\lambda}$ (NIST Handbook §1.3.6.6.19): 1 for $\lambda = 1$, 0.5 for $\lambda = 4$, 0.32 for $\lambda = 10$. It shrinks towards 0 as $\lambda$ grows, which matches Figure 3: the shape gets closer to a symmetric bell, a normal distribution with mean $\lambda$ and variance $\lambda$ (see the [normal distribution Note](../250-normal-distribution/note.md)).
 
 ## 5. Mean and variance
 
@@ -174,9 +174,17 @@ A simulation of 100,000 days with `rng.poisson(lam=4)` gives an average of 3.994
 
 > **Extra:** Why the mean is $\lambda$. Writing out the sum and cancelling one $y$ against $y!$:
 > $$E[Y] = \sum_{y=0}^{\infty} y\,\frac{\lambda^{y} e^{-\lambda}}{y!} = \lambda \sum_{y=1}^{\infty} \frac{\lambda^{y-1} e^{-\lambda}}{(y-1)!} = \lambda \times 1 = \lambda$$
-> The remaining sum is the Poisson PMF summed over all counts, which is 1. The same trick applied to $E[Y(Y-1)]$ gives $\lambda^2$, and from it $\mathrm{Var}(Y) = \lambda$.
+> The remaining sum is the Poisson PMF summed over all counts, which is 1. The same trick, cancelling $y(y-1)$ against $y!$, gives $E[Y(Y-1)] = \lambda^2$. Then $E[Y^2] = E[Y(Y-1)] + E[Y] = \lambda^2 + \lambda$, and $\mathrm{Var}(Y) = \lambda^2 + \lambda - \lambda^2 = \lambda$.
 
-> **Extra:** Mean equal to variance is a quick check on real count data. If the variance of the counts is much larger than their mean (**overdispersion**), the events are not independent or the rate is not constant, and the Poisson model will underestimate how often extreme counts happen.
+> **Extra:** Mean equal to variance is a quick check on real count data. A variance clearly larger than the mean is called **overdispersion**. The notebook tests two causes by breaking one Poisson condition at a time while keeping the mean near 4:
+>
+> | Simulated days (100,000) | Mean | Variance | $P(Y \ge 12)$ seen | Poisson with the same mean says |
+> |---|---|---|---|---|
+> | constant rate, independent events | 3.99 | 3.99 | 0.0008 | 0.0009 |
+> | rate varies from day to day | 3.99 | 11.99 | 0.0382 | 0.0009 |
+> | events come in pairs (not independent) | 4.01 | 7.96 | 0.0163 | 0.0009 |
+>
+> Each broken condition raises the variance above the mean, and the Poisson model then underestimates days with 12 or more events by a factor of about 20 to 40. With both conditions kept, mean, variance and tail all match.
 
 ## 6. Probability of a range of counts
 
@@ -229,7 +237,7 @@ Figure 4 keeps $np = 4$ and lets $n$ grow:
 
 With 10 trials the binomial is narrower than the Poisson: its variance $np(1-p) = 2.4$ is below 4. With 1000 trials $1 - p$ is almost 1, the variance $np(1-p) = 3.98$ is almost $\lambda$, and the bars sit on the dots.
 
-This is where the Poisson distribution comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. A rule of thumb: the approximation is good when $n \ge 20$ and $p \le 0.05$.
+This is where the Poisson distribution comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. A common rule of thumb says the approximation is good when $n \ge 20$ and $p \le 0.05$; the notebook confirms the largest gap is about 0.01 at that edge, and grows when $p$ is larger.
 
 ## 8. When a count is Poisson, and where it is used
 
@@ -237,7 +245,7 @@ This is where the Poisson distribution comes from. Cut a day into many tiny mome
 
 > **Extra:** This whole section is extra material.
 
-A count follows a Poisson distribution when:
+A count follows a Poisson distribution when these three conditions hold (Ross §4.7):
 
 1. **Events are independent.** One question does not make the next more or less likely.
 2. **The rate is constant.** The average count is the same for every interval of the same length; an exam week with more questions breaks this.
@@ -248,7 +256,7 @@ Typical Poisson counts:
 - customers arriving at a shop or a website per hour;
 - calls to a support centre per minute;
 - defects per metre of cable, typos per page;
-- goals in a football match;
+- goals in a football match (Maher 1982);
 - rare-event counts, such as accidents at a crossing per month.
 
 In machine learning, a target that is a count (bike rentals per hour, insurance claims per year) is often modelled with **Poisson regression**, which predicts $\lambda$ for each row; scikit-learn has it as `PoissonRegressor`. Counts of words in a document also appear in text models.
@@ -270,6 +278,12 @@ In machine learning, a target that is a count (bike rentals per hour, insurance 
 - Mean and variance are both $\lambda$.
 - A range of counts has the sum of the single-count probabilities.
 - A binomial with large $n$ and small $p$ is approximately Poisson with $\lambda = np$.
+
+## Sources
+
+- Maher, M. J. (1982). "Modelling Association Football Scores". *Statistica Neerlandica* 36(3).
+- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. https://www.itl.nist.gov/div898/handbook/ Section 1.3.6.6.19, Poisson distribution.
+- Ross, S. (2010). *A First Course in Probability*, 8th ed. Pearson. Section 4.7, the Poisson random variable.
 
 ## 10. Key terms
 

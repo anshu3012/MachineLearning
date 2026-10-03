@@ -1,0 +1,585 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video, we will continue our 100 days of deep learning playlist
+If you remember, in the last 2 videos, we were studying the concept of self-attention
+And in this video also, we will continue the same work
+There is a very small thing left to explain to you
+That why the concept of scaling is used in self-attention
+I will cover that in this video
+Honestly, this concept is very small
+And many people don't even teach it, they just give a line of justification and move forward.
+But I felt that there are a lot of conceptual things to be explained here that can build your solid concept.
+That is why I have made this video.
+Write a comment and tell us if you found this approach useful or we could have skipped it.
+So, let's start the video.
+Let's do one thing guys, before starting the video, let's discuss what we did in the previous video.
+So if you remember the last video, we tried to create self-attention from the very first principle.
+Let me give you a summary of what we discussed exactly.
+Suppose we have a sentence, money, bank, gross. We have to apply self-attention on it.
+What is the process? You take this first word i.e. money and you generate its embedding.
+We have discussed a lot about embeddings. So this e-money is the embedding of money word.
+Similarly, this e-bank is the embedding of bank word and e-grows is the embedding of gross word.
+After that we take three matrices, first matrix name is WQ, second matrix name is WK and third matrix name is WV.
+These three matrices are basically matrices of parameters, which means the value inside will be decided by training process, back propagation will be applied on it.
+So what did we do? We did money word embedding with dot product once with wq, we got a vector qmoney.
+We multiplied embedding with wk, we got a second vector.
+And then we did dot product with wv, we got a third vector.
+This is our query vector for money, this is our key vector for money, and this is our value vector for money.
+And we have repeated the same work with all the other words.
+Now what can you do?
+Since you have three query vectors, one query vector for money, one query vector for bank, and one query vector for gross.
+then you can stack up all three of them
+and make a query matrix
+similarly you can stack up all the key vectors
+and make a key matrix
+and similarly you can stack up all the value vectors
+and make a V matrix
+and as soon as you have this Q, K and V matrix
+now what you have to do is to apply self attention
+you have to get dot product of your query matrix with K matrix
+by which you get this particular matrix
+on this matrix you put softmax
+by which you get this matrix
+and finally you get dot product of this matrix with V matrix
+by which you get your final contextual embedding
+This is our summary in nutshell which we learned in last video.
+Now if you want then you can write this whole process in mathematically compact form.
+First of all you have to do dot product of Q and K matrix.
+In this process you have to transform K matrix.
+and then you put softmax operation on this whole thing
+and then you multiplied the result with V matrix
+so basically the formula to calculate attention
+for any given Q, K and V matrix is this on your screen
+and this is the summary of our last video
+In a single equation, we have summarized the last 1.5 hours video.
+Now I will tell you what we are going to read in this video.
+In this video, I want you to notice one thing first.
+And that is that we have developed the whole formulation from scratch.
+Kind of like we became the inventor and tried to make self-attention from the first principle.
+But when you go to the original paper, which is very famous, attention is all you need.
+When you go here, you will come to know that the formula that they have used here, everything is the same.
+Let me zoom in a little bit. Everything is the same, but there is a difference.
+what is that difference that difference is in fact let me copy this and paste it in the notepad
+just so that up side-by-side observe kappa up good same a there's only one major difference
+here we are scaling this operation with a particular value
+we are scaling this operation with the help of dk
+and that is why in this paper our attention is called scaled dot product attention
+so we just have to understand in this video that first of all what is this dk and then why is it necessary to divide by this square root of dk
+honestly I could have skipped this topic if you try to find this reason in any other video then they simply tell in one line that because there are no unstable gradients
+training is not unstable
+that's why we divide by this factor
+but I don't want to take any chances
+I want to give you a very good intuition
+that first of all why
+we need to scale and exactly
+why this scale is done with dk
+I want to give you this intuition in this video
+so I really hope you understood the why of this video
+Now we will move on to our discussion.
+So guys first of all I will try to explain to you what is DK.
+In simple words DK is Dimensionality of the K vector.
+Means Key Vector.
+So for every word we had there was a corresponding K vector.
+Right.
+So basically the dimensionality of these three vectors.
+If it is 3 dimensions then the value of DK will be 3.
+if it is 10 dimension then value of dk will be 10
+if it is of 512 dimension then value of dk will be 512
+also there is no need to explain
+that the dimension of k-money will be of k-bank as well as k-grow
+in fact I will explain this thing to you more clearly
+that how the dimensionality of k-vector is derived
+it is very simple
+what you are doing is that you are calculating embedding of every word
+embedding itself has a dimension
+like the popular embeddings like word2vec
+they all have some dimension
+for example 512 dimension or 256 dimension
+or even smaller than that
+to simplify things for some time
+let's assume that the embeddings we are using are 3 dimensional
+so it means this will also be 3 dimensional
+this will also be 3 dimensional
+In short, it will be 1 by 3.
+And one more thing,
+the weight matrices we are using
+wq, wk and wv,
+the dimensionality of these three is 3 cross 3.
+It can be different, but we
+assumed it to simplify things.
+Now see, as soon as we
+make the dot product of this embedding with this matrix,
+so since it is 1 by 3, we will get its dot product from 3 by 3
+so the outcome will be 1 by 3
+so K money will be 1 by 3
+by the way with the same logic, Q money will also be 1 by 3
+and V money will also be 1 by 3
+but it can be different
+and it will depend on the shape of your matrices
+if you have taken different shape then Q money, K money, V money will have different dimensionality
+but in our case dK is equal to dQ is equal to dV is equal to 3
+so I guess you understood what is dK
+it means that our formula will be
+softmax of Q KT divided by root over of 3 multiplied by V
+and it actually means that when you do dot product of Q and KT
+you will get this matrix by dividing every value of this matrix by root over of 3
+this is the meaning of scaling operation
+and then you will put softmax on the resultant matrix and you will get this matrix
+this is the setup
+but now the bigger question is why we need to put extra effort
+why do we scale from 1 by root over of dk
+this is the question that we have to answer now
+Now I can give you a one word answer of this y, not one word actually, I can give you a one sentence answer and that sentence is the nature of dot product, my answer is this, if you ask me why do we divide by 1 by root over of dk, then I will tell you that its reason is the nature of dot product.
+Now you will say that the nature of dot product is not understood.
+So I will explain you in detail but before that I have to have a small discussion with you.
+So the formula you are seeing here we are calculating Q KT.
+Q is a matrix and KT is also a matrix.
+So basically we are calculating dot product between two matrices, but if I ask you that how many vectors dot product is hidden behind these two matrices, then what will you say, you can answer it very easily.
+this is Q and this is KT
+Q is made up of 3 vectors
+and KT is also made up of 3 vectors
+so essentially when you are doing dot product of matrices
+behind the scenes you are doing dot product of multiple vectors
+so what is happening is that
+you are doing dot product of this vector with this vector
+then you are doing this with this, then you are getting this number, then you are doing this with this, then you are getting this number, then you are doing this with this, then you are getting this number, then you are doing this with this, then you are getting this number, then you are doing this with this, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then you are getting this number, then
+you are calculating dot products and those 9 vector dot products you will get stored in this matrix
+I hope you are clear about this
+so it means that when we did dot product of these vectors
+then I got 9 numbers because dot products are scalars
+we got 9 numbers
+Now if there are 9 numbers, then I can easily calculate the mean of it.
+Whenever you have more than 1 number, you can calculate the mean of it.
+And similarly, you can calculate its variance too.
+Is it right?
+If you have 9 numbers or 10 numbers or 50 numbers,
+you can calculate the mean and variance of those set of numbers.
+Is it right?
+Now I will explain you what this statement means.
+So the nature of dot product is that when you have low dimensional vectors
+then the variance that we get from the dot product of those vectors is also low variance
+and when we calculate the dot product of high dimensional vectors
+then we get high variance
+I would like to explain this with an example
+like here the vectors that we have
+I had told you that this is 3 dimensional
+So, I got three three-dimensional vectors with a second three set of three-dimensional vectors as dot product.
+So, I got nine dot product values.
+But since all these were three-dimensional as in small-dimensional vectors,
+so the variance of these nine dot product values will be small.
+But let's say, if my vectors were of 512 dimensions then also I would have got 9 dot product values only but the variance of these 9 dot product values would have been high.
+and this is very simple and logical thing
+think for yourself, if you have 2 dimensional vectors
+and you have 5 sets of vectors
+this is the first set
+second set
+this is also 2D
+third set
+this is also 2D
+and this is the 5th set
+Here every vector is 2D, so we did dot product of this, then of these two, then of these two, then of these two, then of these two, and here you got A, here you got B, here you got C, here you got D, here you got E, these are all numbers.
+versus I have one more situation where I have 5 pairs but this time all of them are 3 dimensional
+now if I do dot product of these two then I get F, G, H, I, J
+Now think and tell yourself, if the variance of these 5 numbers is sigma 1 square and the variance of these 5 numbers is sigma 2 square,
+then whose variance will be more and whose variety will be more?
+I guess you can also tell on the basis of intuition that the variance of 3 will be more.
+So I have written the same thing here that if you take out the dot product of low dimensional vectors and multiple low dimensional vectors, then the variance of those dot products is low.
+But if you take out the dot product of multiple high dimensional vectors, then the variance of all of them is high.
+You can understand this from simple logic intuition, but to prove the same thing, I wrote a code.
+and I have pasted the output of this code here
+what I have done, I have taken 1000 pairs of vectors
+1000 pairs of vectors
+and all these vectors were 3 dimensional
+so first pair, second pair, by doing this
+1000 pairs
+then I did dot product of these two, I got a number from this
+I made a dot product of both of them, I got a number from it and I made a dot product between these 1000 pairs and I got 1000 numbers and I made a histogram of those 1000 numbers.
+You can see that this is the histogram and what you have to notice is that how much this histogram is varying on x axis from minus 2 to 2.
+Roughly speaking, this is representing your variance.
+Now I repeated the same experiment.
+This time I again took 1000 pairs of vectors.
+But this time my every vector was 10 dimensional.
+So again I have 1000 pairs of vectors.
+but all these vectors are 10 dimensional
+got the dot product of all these
+again got some numbers
+got these 1000 numbers
+again got histogram of these 1000 numbers
+again notice thing is
+x axis
+this time see the spread
+from minus 10 to 10
+how much was above?
+from minus 2 to 2
+again run this experiment
+again I took 1000 pairs of vectors and every vector this time was of 1000 dimension
+again I did dot product of all these and again I got 1000 numbers
+but all these vectors were of 1000 dimension
+and when I plotted histogram of these 1000 numbers
+now you see variance went from minus 30 to 30
+Now when I plot these three curves on a single histogram, then what you can see from inside is the situation when you have 3 dimensional vectors dot product.
+What you can see here is of 10 dimensional vector. I am sorry, I said 10, this is actually 100. My bad.
+So don't get confused, this is 100 and the one that you can see from the outside is of 1000 dimension.
+So the thing to notice is that as your dimension is increasing, as the dimensions of vectors are increasing,
+then your variance is also increasing.
+And guess what, if there is high variance then it's a problem.
+In fact, it's a big problem.
+Why? I will tell you that.
+Now why is high variance a big problem?
+To explain this, let's take an assumption
+that in our self-attention calculation,
+all these vectors are high dimensional.
+Suppose they are of 512 dimensions instead of 3 dimensions.
+so obviously this matrix will have 9 numbers
+but between these 9 numbers the variance will be high
+some numbers will be very small and some numbers will be very big
+now what we have to do is we have to put softmax on these 9 numbers
+basically we have to catch S11 and put softmax on it
+catch S12 and put softmax on it
+we have to put softmax on every number
+now there is a nature of softmax
+the nature of softmax is that if you give a big number to it
+by the way first of all let me tell you what softmax does
+if you give a set of numbers to softmax
+then it converts those numbers into probabilities
+such that the sum of all of them is equal to 100% or 1, this is the work of softmax, but softmax
+since it depends on the exponents, then its nature is that if you give it big numbers, then it will
+quickly throw it towards big probabilities and if you give it small numbers, then it will send them
+will be sent towards 1, like towards smaller probabilities.
+I can show you this example.
+I have created a function of softmax.
+Now if I send such numbers here,
+in which there is not much variance,
+there is not much variance between these two,
+both are equal numbers,
+then you will notice that this is the result that you are getting.
+there are many probabilities in between
+not too far
+not too close
+these probabilities are around
+but if I send such numbers
+which have many variants
+like 1 or 10
+then what is the nature of softmax
+that it is giving high probability to big one
+and very low probability to small one
+so it means
+that if
+these numbers
+have high variants
+between them
+By default, Softmax will give high probability to some numbers and low probability to some numbers.
+I hope you are able to understand.
+Some numbers will be big and some will be small.
+Gap will increase a lot.
+Now you will think that what is the problem if gap increases?
+The problem is that we are training the whole process like we train any other neural network.
+This means that we are applying back propagation.
+In back propagation, we are calculating the gradient and on the basis of that gradient calculation, we are updating the weights.
+But as soon as in this matrix, back propagation will show that some numbers are very big.
+then automatically the whole focus of the training will go to correct these big numbers
+and the small numbers start getting ignored
+and as they start getting ignored then the corresponding parameters start having a vanishing gradient problem
+basically their gradient becomes very small
+and if the gradient becomes small then those parameters will not be updated
+and if they are not updated, then basically your training process will be spoiled
+if I want to explain this scenario through an analogy
+so imagine that there is a classroom
+and in that classroom, you have kids sitting
+and the kids are getting doubts which they want to ask the teacher
+but the problem is that in this class
+the height of the kids
+there is a lot of variance in it
+it means some kids are very tall
+and some kids are of less height
+there is a lot of variance
+so as the teacher said
+raise your hand and ask
+so the tall kids
+they will raise their hand
+and only tall kids will be seen
+so what will the teacher do automatically
+he will only clear the doubts
+of the tall kids
+so what is happening over time
+the doubts of the small kids
+their doubts are not being solved
+so the overall class
+is only
+learning from whom
+these tall kids
+are learning through their doubts
+small kids doubts are being ignored
+here exactly same work is happening
+now imagine a classroom
+where all the kids height is almost equal
+means variance is very less
+so teacher said
+raise your hand so all the kids are being seen
+so he will ask doubts from all the kids
+will ask a doubt and will clear everyone's doubt, then the learning of this class will be better because
+more variety of doubts are being solved here, so the same thing is happening here, since some of these
+numbers have become very big, then the training process is completely focusing on correcting those numbers
+and these small numbers are being ignored, it means that their gradients are
+becoming very small and they are not getting updated, so basically they are not being able to be part of the training process
+and the training process is only focusing on big numbers
+but if we can somehow make sure that
+if we can reduce the variance of all these numbers
+if we can reduce their variance
+then automatically when softmax will be applied
+then such probabilities will be assigned
+which will be equal
+will not be on extremes
+then the training process will focus on all and when it will focus on all then the result of the training will also be good
+so our problem is that due to high dimension the variance of these 9 numbers is high
+because of high variance, when we applied softmax, the probabilities of softmax came on extremes
+either around 99% or around 1%
+now what happened to the problem with extreme probabilities
+that all the focus of training went to big probabilities
+small probabilities were ignored, vanishing gradient problem was applied
+and all the focus was on big numbers
+The simple way to solve this problem is that you do not take high dimensional embeddings, take low dimensional embeddings, but guess what, you will not be able to extract more useful information in low dimensional embeddings, you will have to keep high dimensional embeddings.
+If there is high dimensional embedding, then high variance will come here, so we just have to lower the variance in this matrix in some way.
+Now think for yourself, how can we lower this variance here?
+As soon as we lower this variance, then the probabilities of applying softmax will also be a little comparable
+and our training process will be correct, i.e. stable training will be done.
+So our full focus is to lower the variance of this matrix.
+How? Let's see next.
+So guys, the problem is understood.
+The problem is that for big N values,
+i.e. big N means, what is N here?
+Dimension of vectors.
+For big n values, the variance of the numbers in this matrix is getting high
+which is undesirable and we have to stop it.
+So in simple words, we have to control the variance of these set of numbers.
+Now if I ask you a very simple question that if you have some numbers
+then what is the way to reduce it?
+It is a very simple question, I guess you know, maybe even a kid will answer this.
+See this, I have some numbers 10, 20, 30, 40, 50, 60, 70
+and when I took out their variance, then that variance came 400, too high.
+I have to reduce it, so what can I change in these numbers
+so that variance can be reduced
+very simple
+I guess you can think
+scale it
+see what I did
+I divided all the numbers by 10
+so now I have 1,2,3,4,5,6,7
+and now when I took out its variance
+so how much is the variance
+4
+variance is reduced
+same thing we have to do here
+that when we get this matrix
+we have to divide every item of this matrix by some number
+by that the variance of this matrix will be automatically reduced
+the bigger question is that what will be our scaling factor
+here we have divided it by 10
+what will we divide it by
+this is the big question
+I will have to work hard to explain this because it is not easy to understand
+what exactly you will divide every number with
+by which you can reduce and control your variance
+Now what will be that scaling factor
+To understand this, we will have to see this problem from a different perspective
+Let me explain
+So our problem is that the number here, the variance of these numbers increases as soon as we increase this n, okay.
+But if I ask you what each number represents here, like what this number represents, this number represents this vector and the dot product of this vector.
+if I call it v1, v2, v3, v4, v5, v6
+so basically we got this number from v1 and v4 dot product
+we got this number from v1 and v5 dot product
+and so on
+I am saying that if the dimension of these vectors increases
+then the variance of the numbers that are coming also increases, we have discussed this multiple times, but I want to show you this thing by quantifying it mathematically,
+that how much increases, we will discuss this, so for a little while, our discussion will be, for that we will not focus on this matrix completely,
+we will only focus on the first row, we will only focus on the first row, because the problem of the whole matrix is the same problem of this row, if you have solved the problem of this row, then you can apply it to this whole matrix, okay, so for this first row, we are considering vector 1, vector 4, vector 5, and vector 6, because v1 with v4 gives you this,
+v1 with v5 gives you this
+and v1 with v6 gives you this
+ok
+now I have to understand
+what is the variance of these three numbers
+I have to understand this
+ok
+for a while we will assume that
+all these vectors
+all of them are one dimensional
+V1 is made from A, V4 is made from B, V5 is made from C and V6 is made from D
+S1 will be AB, S12 will be AC and S13 will be AD
+Now I have to calculate the variance of these three, but we don't need sample variance, it is very easy to find the variance of these three numbers.
+I need population variance or in some other technical terms, I need expected variance.
+expected variance means that tomorrow if some other vector comes in place of v4 which is one dimensional
+or if some other vector comes in place of v5 which is one dimensional then I will get some new numbers
+maybe I will get fg one number, ef one number, km one number, you are understanding right, there can be different numbers
+these are all numbers, these are all the placeholders of a, b, c, d numbers
+If here is 3, here is 2, here is 1, here is 4, then what would be AB? 3 times 2 means 6.
+What would be C? What would be AC? 3. And what would be this? 12.
+So now I want to calculate the variance of 6, 3 and 12.
+No, I don't want to calculate the sample variance, I want to calculate the population variance.
+I want to calculate the variance of all possible values that can come here.
+So if this vector changes, this number changes, then this number will change.
+So I want the expected variance of this particular random variable.
+So let me assume that these three numbers A, B, A, C, A, D have come out of a random variable.
+And that random variable is X.
+so basically what I have to do now is, I have to find where of x
+ok, the thing is that I can't find where of x, so let's assume for some time
+that this row, the expected variance of this row will be where x
+just for the sake of discussion, now let's increase the discussion
+what if I increase the dimension of these vectors to 2
+it means that now this vector will look like this
+a and b together with two numbers
+this vector will look like this
+together with two numbers this vector will also look like this
+and this vector will look like this
+and now when we will do dot product we will get these values
+AC plus BD, this is a number, this is a number, from this we will get AE plus BF, again this is a number, and here we will get AG plus BH, again a number, now I have to calculate the variance of these three numbers, again I don't want sample variance, these are three numbers, but here any numbers can be there, right,
+so if I call another random variable as y, then I have to find where of y
+and more than that I have to understand that variance of y will be more or less than variance of x
+I have to ask you this question, pause the video and think that is this relationship true?
+yes or no
+I am saying that the numbers which came here
+suppose here the sample numbers are 6, 3, 12
+and there can be many more numbers like this
+so when I took out the variance of these numbers
+then it was var of x
+here also some numbers can come
+17, 18, 21
+and when I took out the variance of these numbers
+then it was var y
+I just want to ask you that
+which scenario will have more variance
+I guess now you are able to understand
+Since here you are combining two numbers to make this number.
+So in the second case of y, the variance will be clearly more.
+Because one dimension has been added.
+How much more will it be?
+Here it is made by combining one number and here it is made by combining two numbers.
+So, we can say that VAR of Y should be roughly 2 times VAR of X.
+Roughly speaking. I cannot prove this.
+Now, let's move the discussion further.
+What if my vectors are of 3 dimensions?
+then A, B, C will be my V1, in return it will be D, E, F, in return it will be G, H, I, and in return it will be K, L, M, these are the placeholders of all the numbers, now the number I will get here will be AD plus BC plus CF,
+here the number will be ag plus bh plus ci
+here the number will be ak plus bl plus cm
+again these are the numbers
+but this time these are made up of 3 numbers
+so if I consider this as the output of a random variable z
+then I have to ask you again
+that will the relationship of var of z be true
+and I guess you are able to understand
+that variance of z will be more than y and variance of y will be more than x
+because here you are making things from 3 numbers
+so roughly speaking var of z
+would be 3 times var of x
+so from this discussion we understood
+that if tomorrow we have d dimensions
+then the variance will be
+D times var of x and what is var of x?
+variance if your dimension is 1
+this means there is a linear relationship between dimension and variance
+the way dimension increases the same way variance increases
+so basically what we were talking about that
+that the variance increases due to the increase of dimensions.
+We have quantified it mathematically.
+If I summarize it for you,
+then for one dimension, the variance was var x.
+For two dimensions, the variance was 2 times var x.
+For three dimensions, the variance was 3 times var x.
+And as you went to d dimensions,
+then your variance will be d times var x and this is the problem that by increasing the dimension
+variance is also increasing linearly ideally it should happen that as the dimensions increase
+our variance should be constant means in one dimension also var x in two dimension also var x
+in three dimension also var x and in d dimension also var x if we can achieve this
+then our problem is solved
+so basically what we have to do
+all these numbers
+all these numbers
+we have to divide by something
+we have to divide by something
+that somehow variance always comes
+where x only comes
+I guess you are able to understand things
+I want to show you a mathematical rule, which you might have read before
+The mathematical rule is that if you have a random variable x
+whose variance is var of x
+and you create a new variable y
+by scaling x with a constant c
+means you have created a new random variable where you scale every x
+with a random variable
+random variable means it will have different outcomes
+you can scale every outcome from C like this
+so as soon as you do this
+the variance of Y will be C square var of X
+now this is a very nice property
+we can utilize this
+see how
+what I have to do is
+somehow I have to divide by a number
+which will always be var of X in the outcome
+no matter how much dimension you increase
+so when we have one dimension
+so here if I simply
+divide it with 1
+then there will be no difference and
+outcome will remain var x
+in this case this is not applicable
+but here what I do is
+that I divide
+every outcome with
+root over of 2
+now think
+when earlier these numbers were there
+when we did not divide with root over 2
+variance of this system was 2 times var of x. So, when I divide it by root over of 2,
+then automatically what will be the variance of this system? Do you remember? If x's variance
+is var x, then what will be the variance of cx? c square var x. So, going by that logic,
+When we had y, then our variance was var y which was 2 times var x.
+So when we did y divided by root 2, then our var y will be 1 by 2 var y and 1 by 2 var y multiplied by 2 times var x.
+This 2 and this 2 will get cancelled and we will get var x.
+so as soon as I divided by root 2
+so the outcome of variance
+I got was var x, notice
+for 2 dimension also var x happened
+similarly in 3 dimension what I will do
+I will divide by root over of 3
+root over of 3, notice again
+when z was there
+so variance var z was there
+which is roughly equal to 3 times var x
+as soon as I
+1 by root 3 times z will be 1 by root 3 square where z will be 1 by 3 times 3 times where x will be 3 and 3 will be cancelled
+and variance of this system will be x
+now coincidentally notice that 2 here is representing 2 dimensions
+3 here is representing 3 dimensions
+this means that if I have a vector which has d dimensions
+then its variance should be x only
+where x only, for this I have to divide every value of it
+1 by root dk, where k is dimension of keys
+in our case the dimension of keys and queries is same
+so whatever it is, this is our explanation, we have just mathematically proved that why
+we have discussed you a lot, here we were somewhere, why do we divide 1 by root DK, also
+now we were talking about only one row, but you can do this work on all three rows, in short, you
+we have to divide this matrix by 1 by root of dk
+and by this your variance no matter how many dimension vectors you take
+will always be where x is not increasing
+so I really hope you enjoyed reading this mathematical justification
+and understood the second one. So let's summarize
+the self-attention model that we developed in the last class
+only one step has been added to it
+what we do is
+we dot product the q matrix with the k matrix
+so that we get this matrix
+in this matrix, to solve the variance problem
+we do scaling by the factor of 1 divided by root over of dk
+dk is dimension of keys
+and from that we get this intermediate vector
+on which we put softmax
+we get this matrix and when we do dot product with values then we get self-attention, contextual embeddings.
+So if you want to calculate the attention mechanism and you have Q, K and V matrices
+So its formula is softmax of QKT divided by root over of DK into V.
+This is the final attention model which is used in transformers.
+We have discovered things in detail kind of I can proudly say from first principle.
+So tell me in the comments if you liked this detailed approach or we can shorten the whole form.
+My goal will always be to teach you things in such a way that you feel like you have invented them.
+This is my job as a teacher.
+So I hope I am doing that work and I really hope you like it too.
+So please tell me in the comments that this is a little too much, I didn't have to explain this much, or you are actually fine and you feel that when you get an explanation at this level, then my understanding will be more deepened and then I will be able to tackle the problems in a better way.
+So if you liked the video, then like it, if you haven't subscribed to the channel, then subscribe, see you in the next video, bye.

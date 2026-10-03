@@ -157,7 +157,7 @@ So we **scale** the inputs: bring every column to a similar range. A common meth
 >
 > `fit` learns each column's mean and standard deviation; `transform` applies the scaling. The scaler learns only from the training set, then applies the same numbers to the test set.
 
-> **Extra:** Why fit the scaler on the training set only? If it also learned from the test set, information about the test students would leak into training, and the test would no longer be a fair check on unseen data. This mistake is called **data leakage**.
+> **Extra:** Why fit the scaler on the training set only? If the scaler also learned from the test set, information about the test students would leak into training, and the test would no longer be a fair check on unseen data. This mistake is called **data leakage** (scikit-learn User Guide, "Common pitfalls"; Kaufman et al. 2012).
 
 ## 8. Training the model
 
@@ -228,7 +228,7 @@ A trained model lives in Python's memory and disappears when the program stops. 
 >     saved = pickle.load(f)
 > ```
 
-> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. Saving both, and scaling every new input with the saved scaler, avoids this. In later Notes, **pipelines** bundle all such steps into one object.
+> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. The Notebook checks this: on the 10 raw test students, the model predicts *placed* for everyone, and accuracy falls from 90% to 40%. Saving both, and scaling every new input with the saved scaler, avoids the problem. In later Notes, **pipelines** bundle all such steps into one object.
 
 ### 10.2 The website
 
@@ -240,7 +240,7 @@ Figure 6 shows the path. The website loads `model.pkl`, asks the user for an IQ 
 
 The Notebook builds this website on our own machine with Dash. To let other people use it, it must run on a server, for example on Heroku, AWS or Google Cloud. Deploying to these platforms is covered in later Notes.
 
-> **Extra:** Heroku used to offer free hosting for small apps, but its free plan ended in November 2022. AWS and Google Cloud still offer limited free tiers for new accounts.
+> **Extra:** Heroku used to offer free hosting for small apps, but its free plan ended in November 2022 (Heroku 2022). AWS and Google Cloud still offer limited free tiers for new accounts (aws.amazon.com/free; cloud.google.com/free).
 
 This model is far from perfect: it learned from only 90 students and was not tuned at all. The later Notes go through each step of this workflow in depth.
 
@@ -261,6 +261,12 @@ This model is far from perfect: it learned from only 90 students and was not tun
 - Always keep a test set hidden from training, to check the model fairly.
 - Fit the scaler on the training set only, and save it with the model.
 - Accuracy = correct predictions / total predictions.
+
+## Sources
+
+- Heroku (2022). Free Heroku Dynos, Heroku Postgres and Heroku Data for Redis are no longer available. Heroku Dev Center changelog.
+- Kaufman, S., Rosset, S. and Perlich, C. (2012). Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM Transactions on Knowledge Discovery from Data* 6(4).
+- scikit-learn User Guide. Common pitfalls and recommended practices: Data leakage. scikit-learn.org.
 
 ## 12. Key terms
 

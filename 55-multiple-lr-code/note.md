@@ -28,7 +28,7 @@ This Note turns it into a class with `fit` and `predict`, like scikit-learn's `L
 
 The example is scikit-learn's built-in **diabetes dataset**. Each row is a patient; the 10 inputs are age, sex, body mass index (bmi), average blood pressure (bp) and six blood measurements (s1 to s6). The target is a number measuring disease progression one year later.
 
-> **Extra:** The inputs come already standardised (each column centred on 0 and scaled), which is why their values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
+> **Extra:** The inputs come already scaled: each column is centred on 0 and shrunk so that its squares add up to 1 (scikit-learn docs, Diabetes dataset). The scaling explains why the values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
 
 We split the data 80/20: 353 patients to train, 89 to test.
 
@@ -112,18 +112,24 @@ The right panel plots the 89 test predictions against the true values. If the mo
 
 The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+517). Because the inputs are standardised, these can be compared with each other.
 
-> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of multicollinearity: two blood measurements that are strongly related. The model can trade weight between them almost freely, so their individual sizes should not be over-interpreted. Regularisation, later, tames this.
+> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of multicollinearity: s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely. Their individual sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
+>
+> - **Strongly related:** correlation 0.895; variance inflation factors 56 and 37, against under 2 for age, sex, bmi and bp.
+> - **Trading weight:** over 200 bootstrap refits, the s1 and s2 coefficients swing far more than bmi's (standard deviation 464 and 369 against 77), in opposite directions (correlation $-0.97$).
+> - **Regularisation:** ridge regression with a small penalty (`alpha=0.1`) gives s1 $-73$ and s2 $-81$.
 
 ## 6. Solving without an explicit inverse
 
-> **Key point:** In practice, libraries solve the normal equations directly instead of computing an inverse; the result is the same and more reliable.
+> **Key point:** In practice, libraries solve the least-squares problem from $X$ itself instead of computing an inverse; the result is the same, and more accurate when columns are nearly copies of each other.
 
-Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it is slower and can lose accuracy when the matrix is close to having no inverse. Two safer NumPy functions give the same coefficients:
+Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it can lose accuracy when the matrix is close to having no inverse. Two other NumPy functions give the same coefficients:
 
 - `np.linalg.solve(Xb.T @ Xb, Xb.T @ y)` solves $X^{\mathsf T}X\beta = X^{\mathsf T}y$ directly.
 - `np.linalg.lstsq(Xb, y)` finds the least-squares solution from $X$ itself, without forming $X^{\mathsf T}X$.
 
-Both agree with scikit-learn to within $10^{-11}$ here (see the Notebook). scikit-learn's `LinearRegression` uses a least-squares solver of the second kind.
+Both agree with scikit-learn to within $10^{-11}$ here (see the Notebook). The safer one is `lstsq`: when one column is almost a copy of another, `inv` and `solve` both lose accuracy, while `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate. scikit-learn's `LinearRegression` uses a least-squares solver of this second kind (scikit-learn docs, LinearRegression).
+
+> **Extra:** The Notebook's test uses a made-up design with known coefficients, where one column is a copy of another plus tiny noise. With noise of size $10^{-5}$, the largest coefficient error is about $3 \times 10^{-5}$ with `inv`, $9 \times 10^{-5}$ with `solve` and $10^{-11}$ with `lstsq`. With noise of size $10^{-7}$, `inv` and `solve` are off by about 0.08, `lstsq` by only $2 \times 10^{-9}$.
 
 ## 7. Summary
 
@@ -137,7 +143,12 @@ Both agree with scikit-learn to within $10^{-11}$ here (see the Notebook). sciki
 
 - The normal equation needs only matrix products, a transpose and an inverse.
 - Our class reproduces `LinearRegression` to about twelve decimal places.
-- Real libraries avoid the explicit inverse (`solve`, `lstsq`) for speed and accuracy.
+- Real libraries avoid the explicit inverse; `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate when columns are nearly copies of each other.
+
+## Sources
+
+- scikit-learn documentation, Toy datasets, Diabetes dataset. https://scikit-learn.org/stable/datasets/toy_dataset.html
+- scikit-learn documentation, `sklearn.linear_model.LinearRegression`, Notes section (uses `scipy.linalg.lstsq`).
 
 ## 8. Key terms
 

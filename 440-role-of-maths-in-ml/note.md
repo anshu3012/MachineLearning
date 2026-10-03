@@ -38,7 +38,7 @@ An ML model predicts something, and its predictions are never exactly right. The
 
 Most optimisation methods are built on calculus. The derivative of the error tells us in which direction to change each part of the model so the error goes down. [Gradient descent](../57-gradient-descent/note.md) does exactly this, one small step at a time.
 
-> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real data contains noise that no model can predict, so a perfect score usually means a mistake, such as test data leaking into training (data leakage, see the [toy project Note](../13-toy-project/note.md)).
+> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the irreducible error (ISLR §2.1.1). So a perfect score usually means a mistake, such as test data leaking into training (data leakage, see the [toy project Note](../13-toy-project/note.md); Kaufman et al. 2012).
 
 Calculus first appears in the [linear regression maths Note](../51-linear-regression-maths/note.md), where a derivative set to zero gives the best line. Differential calculus gets its own treatment in a later maths Note.
 
@@ -61,7 +61,7 @@ Statistics is the branch of mathematics for collecting and analysing data so tha
 In real work, nobody hands us a dataset with a list of questions. We get the data and must find the meaningful questions ourselves, then answer them. Statistics supplies the tools:
 
 - **Is there an outlier?** One value far from all the others can mislead a model (see the [outliers Note](../41-what-are-outliers/note.md)).
-- **Is the data noisy?** Noise decides how far we can trust the data.
+- **Is the data noisy?** Statistics helps us spot noisy data.
 - **Which algorithm suits this data?** The shape of the data points to suitable algorithms.
 - **Is this column related to the output?** If not, there is no reason to feed it to the algorithm. Measures such as [correlation](../231-covariance-and-correlation/note.md) answer this.
 
@@ -78,6 +78,11 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 
 - ML is mathematics running on data; four branches carry most of it.
 - Statistics is used the most; linear algebra does the heavy lifting of storing and transforming data.
+
+## Sources
+
+- James, G., Witten, D., Hastie, T. and Tibshirani, R. (2013). *An Introduction to Statistical Learning*. Springer. Section 2.1.1, reducible and irreducible error.
+- Kaufman, S., Rosset, S. and Perlich, C. (2012). "Leakage in Data Mining: Formulation, Detection, and Avoidance". *ACM Transactions on Knowledge Discovery from Data* 6(4).
 
 ## 7. Key terms
 

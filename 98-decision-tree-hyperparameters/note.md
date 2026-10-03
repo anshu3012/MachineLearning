@@ -76,7 +76,7 @@ From depth 5 onwards, strips around single points start to appear again: overfit
 
 Picking the depth by eye works for two columns we can plot. With tens of columns we cannot see the surface, so we choose `max_depth` by cross-validation with `GridSearchCV`, exactly as for k in the [KNN Note](../91-knn/note.md) (section 4.2).
 
-> **Extra:** On this data, 5-fold cross-validation over `max_depth` in {1, 2, 3, 4, 5, 6, 8, 10, None} picks **depth 2** (average 0.90), with a test accuracy of 0.94. The deeper trees in Figure 2 score similar test accuracies on these 100 test rows, but the cross-validation average prefers the simplest tree that captures the pattern.
+> **Extra:** On this data, 5-fold cross-validation over `max_depth` in {1, 2, 3, 4, 5, 6, 8, 10, None} picks **depth 2** (average 0.90), with a test accuracy of 0.94. The deeper trees in Figure 2 score similar test accuracies on these 100 test rows, but their cross-validation averages fall steadily after depth 2: 0.883 at depth 3, 0.837 at depth 5, 0.820 fully grown. One test split of 100 rows is a noisy measure; cross-validation averages over several splits and is steadier (ISLR §5.1). So we trust the cross-validation ranking.
 
 ## 4. The main hyperparameters
 
@@ -86,7 +86,7 @@ For the rest of the Note we use a toy dataset: two interleaving half-moons, 500 
 
 ### 4.1 criterion: Gini or entropy
 
-> **Key point:** The impurity measure used to score splits; the two usually give very similar trees.
+> **Key point:** The impurity measure used to score splits; the two usually give similar accuracy.
 
 `criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from the [decision tree intuition Note](../97-decision-trees-intuition/note.md) (section 8). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy.
 
@@ -152,7 +152,7 @@ On the moons data there are only 2 columns, so `max_features=1` means each node 
 
 The same idea is the heart of **random forests** (see the [random forest Note](../108-random-forest-intro/note.md) and [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md)): many trees, each seeing random columns at every split.
 
-> **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the columns at each node. When two columns give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible.
+> **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the columns at each node. When two columns give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible (sklearn reference, `random_state`).
 
 ### 4.7 max_leaf_nodes
 
@@ -160,7 +160,7 @@ The same idea is the heart of **random forests** (see the [random forest Note](.
 
 `max_leaf_nodes` limits how many leaves the tree may have. With `max_leaf_nodes=2` there is one split and two leaves; with 5, exactly 5 leaves (Figure 3, bottom right).
 
-When this limit is set, scikit-learn grows the tree **best-first**: it always makes the split with the largest impurity decrease next, wherever it is in the tree, until the leaf budget is used up. Higher value: overfitting; lower value: underfitting.
+When this limit is set, scikit-learn grows the tree **best-first**: it always makes the split with the largest impurity decrease next, wherever it is in the tree, until the leaf budget is used up (sklearn reference, `max_leaf_nodes`). Higher value: overfitting; lower value: underfitting.
 
 ### 4.8 min_impurity_decrease
 
@@ -168,7 +168,7 @@ When this limit is set, scikit-learn grows the tree **best-first**: it always ma
 
 Every split is chosen to lower the impurity (Gini or entropy). `min_impurity_decrease` (default 0) sets the smallest decrease worth a split: if the best split of a node gains less, the node becomes a leaf.
 
-The decrease is measured with weights, so that a split of a small node counts less than a split of a big one.
+The decrease is measured with weights, so that a split of a small node counts less than a split of a big one (sklearn reference, `min_impurity_decrease`).
 
 1. **In words:** take the node's share of all training rows, and multiply it by (the node's impurity minus the weighted impurity of its two children).
 2. **Formula:**
@@ -208,6 +208,11 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 - A fully grown tree (`max_depth=None`) has pure leaves resting on a few rows: overfitting. One split (`max_depth=1`): underfitting.
 - On the Social Network Ads data, depths 2 to 5 follow the real pattern; cross-validation picks depth 2.
 - Every hyperparameter except `criterion` either limits growth or adds randomness. Tune them with cross-validation, not by eye.
+
+## Sources
+
+- **ISLR:** G. James, D. Witten, T. Hastie and R. Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. Sections 5.1.1 and 5.1.3.
+- **sklearn reference:** scikit-learn `DecisionTreeClassifier` API reference (parameters `random_state`, `max_leaf_nodes`, `min_impurity_decrease`).
 
 ## 7. Key terms
 

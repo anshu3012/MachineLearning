@@ -43,7 +43,7 @@ $$\underset{w,\,b}{\arg\max}\ \frac{2}{\lVert w \rVert} \quad = \quad \underset{
 
 With numbers, for the best line of the SVM intuition Note, $\lVert w \rVert = 0.899$: the margin $2/0.899 = 2.22$ is as large as possible exactly when $0.899/2 = 0.45$ is as small as possible. This is still the hard-margin SVM; only the form has changed, because a minimisation is easier to add terms to.
 
-> **Extra:** In practice, and in scikit-learn, the term is written $\tfrac{1}{2}\lVert w \rVert^2$ instead of $\lVert w \rVert / 2$. Squaring does not change which $w$ is smallest, and the squared form is smooth (it has no kink at $w = 0$) and is exactly the L2 penalty of [Ridge regression](../63-ridge-regression-intuition/note.md).
+> **Extra:** In practice, and in scikit-learn, the term is written $\tfrac{1}{2}\lVert w \rVert^2$ instead of $\lVert w \rVert / 2$ (scikit-learn user guide §1.4.7). Squaring does not change which $w$ is smallest, and the squared form is smooth (it has no kink at $w = 0$) and is exactly the L2 penalty of [Ridge regression](../63-ridge-regression-intuition/note.md).
 
 ## 4. Slack: how far a point breaks the rules
 
@@ -137,9 +137,9 @@ The soft-margin loss has the same shape as the loss of regularised logistic regr
 
 - The margin term $\lVert w \rVert / 2$ plays the role of the **regularisation** term: it keeps $w$ small, which here means a wide margin.
 - The error term $\sum \xi_i$ is called the **hinge loss**, the SVM's counterpart of the log loss.
-- $C$ multiplies the error instead of the penalty, so it works the other way round: $C$ is inversely proportional to $\lambda$. A large C means weak regularisation; a small C means strong regularisation.
+- $C$ multiplies the error instead of the penalty, so it works the other way round: written as "hinge loss + $\tfrac{\lambda}{2} \lVert w \rVert^2$", the SVM has $\lambda = 1/C$ (ESL §12.3.2). A large C means weak regularisation; a small C means strong regularisation.
 
-This is also why scikit-learn's `LogisticRegression` has a `C` and no $\lambda$ (see the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md)). The convention comes from SVM: a larger C means less regularisation in both.
+scikit-learn's `LogisticRegression` also has a `C` and no $\lambda$ (see the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md)), following the same convention as SVM: a larger C means less regularisation in both (scikit-learn docs, `LogisticRegression`).
 
 > **Extra:** Written with $z = y_i(w^T x_i + b)$, the hinge loss of one point is $\max(0, 1 - z)$ and the log loss is $\log(1 + e^{-z})$ (the same log loss as before, with labels $\pm 1$). Figure 4 compares them. The hinge loss is exactly 0 for every point beyond its own hyperplane ($z \geq 1$), so those points do not affect the line at all; only points on or inside the margin matter, which is why SVM depends only on its support vectors. The log loss never quite reaches 0, so every point keeps pulling a little.
 >
@@ -166,7 +166,12 @@ The hard-margin SVM forbids any point inside the margin. The soft-margin SVM rel
 - Large C: narrow margin, few mistakes. Small C: wide margin, more mistakes. Tune C by cross-validation.
 - C plays the role of $1/\lambda$, as in `LogisticRegression`.
 
-## 10. Key terms
+## 10. Sources
+
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 12.3.2, p. 426.
+- **scikit-learn docs:** user guide Section 1.4.7, "Mathematical formulation" (SVC); `sklearn.linear_model.LogisticRegression` (parameter C), scikit-learn 1.9.
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

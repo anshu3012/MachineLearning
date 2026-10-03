@@ -1,0 +1,508 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we will continue our deep learning playlist
+Today's topic is batch normalization
+Batch normalization is a technique using which you can speed up your neural network's training
+It can speed up your neural network's training
+And it can also make your batch normalization more stable
+This technique came very recently in 2015
+And since then it is used a lot in neural networks
+The goal of today's video is to understand this technique in and out, why it is used, how it is implemented in Keras, we have to see that too.
+So let's start the video.
+So guys, let's start our discussion. We are starting with a basic question that what is batch normalization?
+I have picked up this definition from the internet. Let's read it out once, it is a very simple definition.
+Here it is written that batch normalization is an algorithmic method which makes the training of deep neural networks faster and more stable
+If anyone asks you what is batch normalization, then the biggest benefit of it is that after using it, your neural network's training becomes fast
+Fast means that in less epochs, you start converting towards the right optimal solution
+And also batch normalization makes your neural network training more stable.
+What is the meaning of making it stable? We will discuss it further.
+Now what does batch normalization do? It is written further.
+So it consists of normalizing activation vectors from hidden layers using the mean and variance of the current batch.
+This normalization step is applied right before or right after the non-linear function.
+I will try to explain you in simple words, here is a neural network and this is a deep neural network
+it has 3 hidden layers, generally you must have noticed that when we send inputs in a neural network, they are normalized
+normalized means that their mean is 0 and standard deviation is 1
+but in batch normalization, the output of neurons of hidden layer works as input for subsequent layer
+so in batch normalization you normalize these activations also
+that's it
+means their mean also becomes 0
+and standard deviation becomes 1
+and you do this for every hidden layer
+ok
+and it is said that by doing this your training becomes fast and stable
+now this is the main idea
+and we will discuss it in detail in this video
+first of all I will tell you why we need batch normalization
+we will discuss that first
+I will give you two reasons why you should use batch normalization
+first reason is very simplistic
+to understand that you should know why you normalize inputs
+I told you this in some videos
+if you are working with a neural network then it is advised that you normalize your inputs
+like see this example we have two input columns CGP and IQ
+their scale is different one is tens and one is hundreds and this is your neural network
+so it is always said that you should bring your inputs on same scale
+or normalize it, normalize means to make mean 0 and standard deviation 1
+means if you plot scatterplot by keeping CGPA and IQ on this axis
+any distribution can happen, when you apply this transformation on it
+so the result will be like this, mean centering will be done and 1 standard deviation will be done
+so you should apply this transformation, why should you do it?
+the reason is that if you work with unnormalized data then the contour of cost function will be like this
+you can see the contour of cost function
+now the problem is that it is more stretched in one direction and less stretched in another direction
+so it means that you can't approach your minima with high learning rates
+because if you have kept a very high learning rate then you can overshoot in this direction
+now the training will be slow because you are keeping the learning rate slow
+because what you have to do is reach the minimum point by making these jumps
+now you will reach as soon as these long jumps are there
+since you are keeping the learning rate slow then you take small steps
+that's why it is said that when you have un-normalized data, then training would be slow or unstable
+because you can't keep the learning rate too high
+now if you normalize your data, then the contour of your cost function looks like this
+which is uniform in both the directions
+and because of this you can reach your minima in a very stable way
+so training is faster as well as stable
+so people thought that if training becomes stable and fast by normalizing inputs
+so what if we normalize the output of these neurons
+because their output works as input for the next layer
+so this was the main idea behind batch normalization
+but there is one more important reason
+due to which batch normalization is used
+I will show you that after this
+Now I will give you another explanation that why batch normalization is used
+and to understand this explanation you have to understand a concept whose name is internal covariate shift
+and to understand internal covariate shift you have to understand one more concept which is called covariate shift
+Let's focus on covariate shift. Covariate shift is a very simple concept and you will get it very commonly.
+Focus on the diagram and before that focus on the right side.
+So sometimes what happens is that suppose you have this training data, you are working on a classification problem and this is your training data
+And the distribution of the training data is something like this, you trained the model on it and your model came out something like this, this is your model
+But what happened is that when you took out the model for testing, then you were shown this data
+Now if you notice in this data, the distribution of the input columns has changed, even though the output distribution is the same,
+You are still able to divide red and green class from the same decision boundary, this thing is still true but the distribution of data has changed.
+Now it is said that if the distribution of your input columns changes then also you will have to retrain your machine learning model.
+Even if your X and Y, relationship between input and output is still the same.
+Here, relationship between input and output is still the same.
+But since the distribution of input has changed, your model doesn't perform well on this new data.
+This concept is called covariate shift.
+Okay.
+You can see a very good explanation of this through this example.
+So, suppose you trained a CNN here.
+to distinguish between rose and other flowers
+and what you did was, while training by mistake
+the images of rose were all red rose
+so your model learnt to distinguish between rose and other flowers
+but when you gave data for testing
+you gave rose of every colour
+yellow, white, pink and other flowers
+Now unfortunately, since your input distribution has changed, you have to retrain your model otherwise your result will not be good.
+Even though your ground truth means the relationship between x and y, the relationship between rows and not rows is still same.
+But your model will not perform properly. This is called covariate shift.
+Now if you understood covariate shift then let's discuss internal covariate shift.
+I have written its definition here. I have taken this definition from the paper of people who have invented the concept of batch normalization.
+According to them, we define internal covariate shift as the change in the distribution of network activations due to the change in network parameters during training.
+now try to understand what is internal covariate shift
+suppose this is a very deep neural network
+where you have multiple hidden layers
+now suppose
+from here what you do is
+forget all the layers on this side
+and just imagine this much
+imagine this much as an independent neural network
+so obviously this point and this point is working like x1 and x2
+so this input is getting to so many neural networks and we have to calculate y hat
+so it will adjust its rate in such a way that the value of y hat comes out correctly
+but the problem is that these are not inputs but the output of this hidden layer
+and think that the output of this hidden layer is depending on the value of these weights
+and the value of these weights is constantly changing
+so basically it means that if you catch these many neural networks
+then the distribution of the input that it is getting
+you can say that when you plot the graph of this input
+so this distribution is constantly changing
+due to which this future neural network
+is very difficult to train
+and the training is very unstable
+and this is called internal covariate shift
+an easy way to understand this is
+this photo will give you a very good example
+that you imagine every child here as a hidden layer
+so the first child is told P
+But he sent Bs
+This kid made Bs into Knees
+He made it into Cheese and he made it into Fleece
+This is what happens in Neural Network
+Information passes a bit but due to constantly changing weight
+The information that reaches here, there is a lot of change in it
+Distribution changes
+And due to the change in distribution, your model is not able to train properly
+And your training is not stable
+Now batch normalization ensures that the distribution at the end of each layer is normally distributed
+Means mu would be 0 and standard deviation would be 1
+So it ensures that the distribution will always be like this
+Mean centered will be 0 and standard deviation will be 1
+So by ensuring this much, the next layers get a stable ground to do their work
+Due to which your training improves a little
+So this is the whole intuition behind batch normalization
+What you are doing is converting the output of every hidden layer into Gaussian distribution
+You are normalizing it
+Due to which the internal covariate shift is reducing
+due to which training is fast and stable
+also one more thing
+if there is an internal covariate shift
+means if you don't use batch normalization
+then you have to take your learning rate a little low
+only then training will be possible
+also all the parameter initialization you are doing
+weights etc
+you have to do it very carefully
+otherwise training is very unstable
+The only way to avoid this is batch normalization.
+I hope you got the answer of why you should use batch normalization.
+Now I will tell you how batch normalization works.
+So that you can understand the whole picture.
+I hope you are curious about how batch normalization works.
+Now we will understand step by step how batch normalization works.
+you have to watch this part carefully because the resources available on the internet are a bit confusing
+so watch carefully
+to understand how batch normalization works, you have to remember 3-4 bullet points
+first, when you apply batch normalization, you apply it with mini batch gradient descent
+this is the first thing you have to remember
+second thing you have to keep in mind is that it is applied layer by layer
+means if there are multiple layers
+you can apply it on 1, 2 or 3 layers but it will be on one layer at a time
+so it is optional
+it is not that you have applied it on one layer then you have to apply it on all layers
+no
+it is optional
+now let us understand a setup
+suppose we have this data of 100 students
+CGP IQ data and we have to predict placement and we are using this small neural network
+so first I will show you how batch normalization is applied on a single layer and then I will show you on a proper deep neural network
+so see what will happen
+how neural network works
+It is very simple. You insert these values one by one from here.
+Assume that these are weights, then you do forward propagation first.
+What do you do in forward propagation? This neuron of yours, what will it do? It calculates Z first.
+z will be calculated as w1 multiplied by cgpa plus w2 multiplied by iq plus its own bias
+then you send this z11 to an activation function and it calculates the activation of that neuron
+so here there are two things happening in this neuron, first you are calculating the weighted sum
+then you are calculating the activation, these are two things
+Now when you apply batch normalization on a layer, let's say you applied it on this layer
+So the work of batch normalization is to normalize the output of these two neurons
+Normalizing means doing mean 0 and standard deviation 1
+So how does it do that? It will work individually on the outputs of these two
+if there are 3 neurons here then we will normalize the third one individually
+now the process of normalizing is that first of all you will calculate Z11 as you did here
+then you will not calculate A11 from Z11, you first normalize it
+and then you send Z11 to the normalized one and then you calculate A11
+So here in the middle, we have a normalization in this place, there is also another way that you calculate Z11
+Then you calculate A11 and then you normalize A11, these are both the ways, this is the first way, this is the second way
+But this is more popular in comparison to this, so in this video we will take this way
+what is happening is that Z11 is calculated now we have to calculate this
+how will it be calculated? it is very simple
+you have to do this Z11-mean divided by sigma
+you will get Zn11, basically you will subtract mean from this value and divide it by standard deviation
+this is how you do standardization
+but the question is what is this mean and from where will it come
+so it is very simple
+that's why the name of this thing is batch normalization
+and that's why I had written here that you work in mini batches
+see how you will work
+if you decide a batch size
+suppose your batch size is 4
+so you will take 4 points at a time
+and you will send it to the neural network at a time
+obviously you will normalize it first
+so you will send these 4 points to the neural network at a time
+now the input you gave in the neural network is 4x2
+you will get a dot product with this 2x2 matrix
+so you will get a 4x2 matrix
+now in this 4x2 matrix you will add a 1x2 bias b1 and b2
+by adding this you will get 4x2 matrix only
+can you imagine what is this 4x2 matrix
+this is a 4x2 matrix that 4 activations of this neuron and 4 activations of this neuron
+and why 4 activations? 1 activation for this data point, 1 activation for this data point, 1 activation for this and 1 activation for this
+so basically you sent 4 sets together, 4 data points
+you have calculated activation of this neuron and activation of this neuron
+so I have 4 numbers here and 4 numbers here
+now you will calculate mu
+so mu will be at this point where you have 4 activations
+1 by m i is equal to 1 to m z11i
+so basically you have calculated these 4 activations
+you have calculated its mean here m is 4 because m is your batch size
+this is called as µb
+once you have calculated µb
+then very soon you will also be able to calculate σ
+and this is the formula of standard deviation
+one thing to note is that
+you have calculated µ and σ for activation of this neuron
+separately you will calculate for this also by taking all its activations
+the formula will be same but you have to do this 2 times
+once you have mu and sigma, now you will take all the individual i's
+you have 4 activations per neuron, now you will take every activation for every neuron
+and for that you will calculate this
+we will add an error term
+that if the standard deviation is 0 then this whole term should not be 0
+but yeah this is the step of normalization
+as soon as you do this
+all your activations will come between 0 and 1
+basically their mean will be 0
+and standard deviation will be 1
+so this was your step 1
+Now you have to do one more thing to do batch normalization, see what you have done till now, you have calculated Z11, its activation and you have normalized it.
+And this was step 1. But after this, what you do is, you multiply this normalized parameter by a parameter called gamma.
+And then you add a parameter called beta in it.
+now what is this gamma and beta, these gamma and beta are learnable parameters
+just like your w and b, so this right value of gamma and beta is known through training
+initial value of gamma is 1 and beta is 0, I am talking about Keras, in Keras implementation gamma's initial value is 1 and beta's value is 0
+Rest after back propagation there are changes so their value comes out to be something else
+So what you are doing is first you are scaling then you are shifting
+You are doing this operation and from this you get Z11, you can call it BN
+After doing this operation you get this
+And now you pick it up and send it to your activation function
+From which you get your A11
+So this is the complete step
+This is the entire step. I am summarizing. You have calculated z11 as weighted sum.
+In that weighted sum, since you have done vectorization, you have sent the whole batch together.
+You have calculated its mean and standard deviation. You have normalized it.
+And after normalizing, you have applied this operation.
+So you got this. And then you sent this to the activation function.
+Now the thing to be understood is that you will do the same thing with all your neurons, all the neurons that are in your layer.
+Here there are two, so all this work will be done twice.
+Also, one more thing about which there is a lot of confusion, for this neuron, it will have its own gamma and beta parameter and for this, it will have its own gamma and beta parameter.
+So if there was one more neuron, it would have its own Gamma and Beta parameter.
+Every neuron would have its own Gamma and Beta parameter.
+Which it will automatically learn, its value during the learning.
+Now the thing to think about is that you can ask a question.
+The question can be that first we calculated Z11, then we normalised it.
+Normalising it means that we have brought its mean to 0 and standard deviation to 1.
+In a way, if your data was something like this, then you entered it as mean, in this way.
+Then why are we multiplying it with some other factor and adding something else to it?
+Basically, why are we scaling and shifting again?
+This is exactly the opposite operation.
+The operation that you put after standardizing, this is exactly the opposite operation.
+think about it, here you are dividing and subtracting from one thing
+here you are multiplying and adding from one thing
+in a way you are running the opposite operation
+in fact you can see this
+if during learning you found out that the value of gamma is
+let's say
+sigma plus e
+and the value of beta is mean
+so in a way, when you will do this transformation, you will get Z11 from Z11Normalized
+and when you will do this operation from Z11Normalized, you will get Z11Normalized
+this and this is exactly same
+so it is very counter intuitive that we are normalizing in batch normalization
+but then we are doing the opposite operation of normalizing
+scale and shift
+so its intuition is that
+sometimes there is no need of batch normalization
+sometimes neural network doesn't want its activations to be
+enter mean and standard deviation 1
+sometimes on some kind of data
+it may want some different distribution
+so what you are doing
+through this gamma and beta parameter
+You are giving it flexibility, you are telling it that listen if you want normalization then you can do it
+But if you don't want it then using the values of gamma and beta you can have some other distribution also
+So this is the way of giving flexibility, this gamma and beta parameter
+So once I am summarizing what we have learnt
+That if we have a neural network and we want to apply batch normalization on it
+then we will apply on layer by layer basis
+if we have decided that we have to apply batch normalization on a particular layer
+it means that we will apply batch normalization on all the neurons of that layer individually
+so we will normalize the activation of this neuron separately
+we will normalize the activation of this neuron separately
+now batch normalization consists of two stages
+stage 1 is normalizing
+for which we will take out the mean of batch and standard deviation of batch and normalize it using this formula
+but after that there is a stage 2 where we scale and shift using this formula
+and once we do all this then we send our value in activation function and calculate the activation
+also remember that you are working on every neuron individually
+so every neuron will have its own gamma and beta parameter
+so now we understood how it works on a single layer
+now lets discuss how it works on a deep neural network
+Now let's see how the batch normalization works in a deep neural network.
+Suppose you want to batch normalize the activations of this layer.
+You can consider batch normalization as a layer.
+In fact, Keras considers batch normalization as a layer.
+So, you can imagine that there is a layer at this point.
+This is a layer.
+Now, what will this layer do?
+It will work on both the activations.
+And in this layer, there will be 4 learnable parameters.
+One will be Gamma and Beta for this neuron
+and one more gamma and beta for this neuron
+so what happens is that
+the back propagation which normally happens works the same way
+what you will do is during training
+you will use gradient descent to update gamma
+gamma is equal to
+gamma minus learning rate times
+del of loss function bar del of gamma
+the way you update weights, you will update gamma in the same way
+all the equations I have shown above are differentiable
+you can even figure out the maths
+but honestly there is no need to do it because a library like Keras has implemented all this
+we just have to write a one line code, you just need to understand a little
+The way I told you about forward propagation earlier, in the same way, back propagation will happen.
+And while back propagation is happening, you will update these too.
+Just like you update your weights.
+Okay?
+So, this is what I wanted to tell you.
+I hope you understood this thing.
+Guys, till now we saw how batch normalization works during training.
+But now we will see that during test,
+as in when you want to do a prediction, at that time how batch normalization works
+it is a little different, the reason is very simple, if you remember
+what used to happen is that we used to calculate Z11 for this neuron
+we used to normalize it
+but to normalize it, if you remember, we need a mean and a standard deviation
+so from where do we get this, we decide a batch size
+For example, we have data of 100 students, so we took batch size 4.
+So, we are working on data of 4 students at a time.
+So, we got the mean of 4 people.
+But, when you are doing testing or prediction, at that time you have only one query point.
+You have only one query point.
+So, where will this mu and standard deviation come from?
+This is the main problem and the difference comes at this point.
+So, look carefully what you do.
+You use a concept.
+Exponentially Weighted Moving Average, we will study this concept further in detail.
+Maybe you have heard about it before.
+What you do is, during training, you maintain Exponentially Weighted Moving Average.
+Let me tell you how.
+Assume you have a total of 100 rows, you divide the batch size of 4.
+so your algorithm is running 25 times in one epoch
+so what you do is, at the end of one batch, when the first batch is done
+then there will be a value of mu, let's call it mu
+when the second batch is done, then there will be another value of mu
+and then there will be values of mu
+by using these values you maintain an Exponentially Weighted Moving Average for Mu
+and then you do the same thing with your Standard Deviation Sigma
+and then when the training ends, during test you use the last updated Exponentially Weighted Moving Average of Mu
+and use the last update in sigma
+so what happens is that when you are training
+then every neuron
+basically every batch normalization layer
+for every neuron will store 4 parameters
+one will store gamma
+one beta
+one mu
+exponentially weighted moving average for mu
+and one sigma
+Exponentially moving weighted average for standard deviation.
+Now the thing to see is that these are both learnable parameters.
+Which are learned during training.
+These are non-learnable parameters.
+So I am summarizing here that when training is done.
+So when you apply batch normalization.
+So for every neuron that you have, you will store 4 parameters.
+I will show you after some time.
+2 will be learnable which is basically gamma and beta and 2 will be non learnable
+and that is mu and sigma exponentially weighted moving average
+so suppose you have a hidden layer in which you have 3 hidden units
+so when you will put batch normalization on this then total parameters will be 3 cross 4
+4 means 12
+out of this
+learnable will be 6 and non-learnable
+will be 6
+I guess you understood this point
+so let's now discuss
+the advantages of batch normalization
+we
+have read all the things
+but we are re-iterating
+first is
+batch normalization
+makes our training more stable
+more stable means
+If you do hyperparameter tuning, then you can have a wider range of values that you can choose from.
+You will understand this when we will study hyperparameter tuning.
+Your training is more stable and that's why you can choose the values for your hyperparameter in a larger range.
+Second is training becomes faster. We have discussed this in detail because the value of your learning rate can be set to a higher value.
+The third advantage is that batch normalization can act as a regularizer.
+It can help in overfitting. Why and how?
+See, not a very strong regularizer is made but there is a regularization effect, I will give you a reason why it is like this.
+Assume this is your neural network and you have applied batch normalization on it.
+So what happens is that this neuron, in every epoch, I am sorry, after every batch, mu and standard deviation, mean and standard deviation is being calculated.
+which is dependent on the batch itself
+and by changing the value of the batch, changes will come in its value
+and by changing in its value, changes will come in the activation
+and when changes will come in the activation
+then in a way, a little randomness is introduced in your system
+or you can say that a little noise comes
+which is good
+what happens with this is that the overfitting is reduced a little
+but it is not so strong regularization that you don't have to apply any regularization technique like dropout
+you have to apply dropout also
+this is kind of a side positive impact
+which is regularization but it does not mean that you use it like full fledged regularizer
+and the fourth and the last advantage of using a batch normalization layer is
+batch normalization reduces the impact of weight initialization
+it means weight initialization is not as crucial as without batch normalization
+let me explain why
+when you don't use normalization then your cost function is stretched
+suppose you have initialized a weight which is here, so obviously it will take time and effort to reach the optimum solution
+but when you normalize it, your cost function becomes uniform in such a way that you can easily reach the optimal solution even after doing different weight initialization
+so in a way when you are doing batch normalization and you are improving your cost function
+so the disadvantages of weight initialization you are reducing and eliminating
+and this is your fourth benefit
+so I will summarize it once
+first batch normalization makes your training stable
+to make it stable means
+that the values of your hyper parameters
+you can set them in a wide range
+We will study this when we will do hyperparameter tuning.
+Second is, training becomes fast because you can set higher learning rate.
+Third is, it also has some regularization effect because of this randomness
+which comes in the process of calculating mu and sigma.
+And the last one is, it reduces the impact of weight initialization, the negative impact.
+These are the four main advantages, if someone asks you then you can tell them.
+So, to implement batch normalization in Keras is a kid's game actually.
+I have written a code in front of you.
+Suppose if you are making a neural network
+which has two hidden layers.
+One has three units and one has two units.
+So, if you want to apply batch normalization,
+then you don't have to do anything.
+Basically, you have to add this line.
+That's it.
+This is your first layer which has three units.
+You have applied batch normalization layer in front of it.
+Okay.
+After that, there is one more hidden layer with two units.
+In front of this, you have added the batch normalization layer.
+And this is your last output layer.
+It is not added in front of this.
+So whatever it is, this is the implementation.
+That's it.
+That's all you have to do.
+So I will show you a code.
+First of all, I will show you how you can add batch normalization in Keras.
+But at the same time, I will also show you by comparing that if you use batch normalization,
+then it is more beneficial.
+training becomes fast. Let me show it to you. So, I have written the code nicely. I will just go through it.
+So, files are imported. This is the data set on which we are working. It is classification data set.
+It is called concentric circle data set. It is a very famous data set. It is a little difficult.
+Obviously, you can understand by looking at it. It is a little difficult work to classify on it.
+So, I have used two strategies. In the first strategy, I am not using batch normalization and I have trained the model for these parameters 200 epochs and then I changed the strategy and here I have made the second model where I have used batch normalization.
+Now I will show you one thing first that here the hidden layer has 3 units.
+So when you will put batch normalization on it then you will have total 3 cross 4, 12 parameters.
+Out of which 6 will be non-trainable and 6 will be trainable.
+Here you can see when we put batch normalization then there are 12 parameters.
+Similarly, there are 8 parameters because we have 2 x 4 parameters and here you can see non-trainable parameters are 10, why?
+Because this one is 6 non-trainable and this one is 4 non-trainable. So, in total there are 10 non-trainable parameters and rest are trainable parameters.
+Then when I trained this model, and finally when I plotted the accuracy,
+the green curve is telling you batch normalization and the black curve is telling you without batch normalization.
+So here you can see, not only the training performance is better, you are gaining more accuracy,
+but also you can see that in very less epochs, you started achieving more accuracy.
+Like to reach 60, to reach 60's accuracy, our model without batch normalization took around 70 epochs whereas in just 20 epochs, we reached 60's accuracy when we used batch normalization.
+So this is the biggest benefit. Now this is a very small data set. You will apply batch normalization on very good problems and you would see that it really happens.
+Mostly you will notice that batch normalization is being used with CNN
+But you can also do it with ANN
+So that was the video guys
+I hope I was able to explain you the concept of batch normalization
+If you liked the video then please like it
+And if you haven't subscribed to the channel then please subscribe to the channel
+Thanks for watching
+See you in the next video
+Bye

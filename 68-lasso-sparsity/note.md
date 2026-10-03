@@ -148,7 +148,7 @@ Figure 2 turns the view around: $\lambda$ is fixed at 100, and the slope is draw
 
 $S$ measures how strongly the input and output move together. So an input with only a weak relationship falls into the dead zone and is dropped. That is the feature selection of the Lasso Note.
 
-> **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding**. With several inputs, Lasso has no single formula, but scikit-learn's method (coordinate descent) applies this same soft-threshold step to one coefficient at a time, over and over. That is why many coefficients land exactly on 0.
+> **Extra:** Shrinking a value towards 0 by a fixed amount and setting it to 0 if it would cross 0 is called **soft thresholding**. With several inputs, Lasso has no single formula, but scikit-learn's method (coordinate descent) applies this same soft-threshold step to one coefficient at a time, over and over (ESL §3.8.6; scikit-learn docs, `Lasso`). The repeated soft-threshold step is why many coefficients land exactly on 0.
 
 ## 6. Checking with scikit-learn
 
@@ -193,7 +193,12 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 - The absolute value forces the Lasso formula into cases, and λ ends up subtracted from the numerator.
 - Once $\lambda \geq |S|$, the slope is 0 and stays there.
 
-## 8. Key terms
+## 8. Sources
+
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.8.6, p. 93.
+- **scikit-learn docs:** `sklearn.linear_model.Lasso` (coordinate descent), scikit-learn 1.9.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

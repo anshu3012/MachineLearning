@@ -1,0 +1,178 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our deep learning playlist.
+In the last video, we started Convolutional Neural Network and today's video is very interesting.
+In today's video, we will study about the biological connection of Convolutional Neural Network.
+So I might have told you in the last video that the architecture of CNN is inspired by our own visual cortex which is a part of our brain
+So in this video I will tell you about an experiment which was done by some computer scientists
+I don't remember computer scientists or in general let's call them scientists, scientists did it
+And that experiment was a landmark experiment because of its findings only CNN was able to be made.
+So the video is very interesting.
+Not only you will get some biology lessons but you will also get some history lessons.
+So watch the entire video till the end.
+Let's start the video.
+So we divide this entire video into three parts.
+In the first part I will show you how the human visual cortex works.
+the flow of the visual information through our brain, then in the second part I will tell you about an experiment
+which was a landmark experiment due to which CNNs were made and in the third part of the video I will tell you
+what was the benefit of that experiment, what were its findings and how we made CNN out of it
+we will talk about it in three parts, let's talk about the first part
+So in the first part I am going to show you that the visual processing that happens in your mind
+How can we see the light that falls in the eyes?
+I will first explain the visual processing
+I will show you the visual pathway that happens in our mind
+So there are two types of images here, we will focus on both
+So what happens is that in the beginning this is our eye and this is kind of our retina
+Light falls on our eyes from here, retina is like a 2D sheet
+It is like a 2D sheet on which light falls
+We pick up that light and our brain through this pipe
+this is a pipe and its name is Optical Nerve
+you might have heard of it
+it is basically nerve cells
+you can call it exon
+this information reaches to this part through a bunch of exons
+this part is called thalamus
+here it is written lateral geniculate nucleus
+this is something inside thalamus
+here there is a little pre-processing on the light
+and as soon as that pre-processing is done
+then from here you can see again these are cells
+these are exons
+through them that information again
+which is our electric information
+means here it is light
+here it is flowing in the form of electrochemical signals
+and then this electrochemical signal goes and falls on this part
+this part and this is your visual cortex
+so the information that comes first falls in this part
+which we call V1
+we call V1 as primary visual cortex
+try to understand the whole flow
+light falls on retina
+retina converts into electrochemical impulses
+through optical nerve it goes to thalamus
+in thalamus there is some pre-processing and then those electrochemical signals are projected on our V1 which is primary visual cortex
+you can see the same thing in your actual brain, this is a cut out of actual brain
+So here you can see that there are eyes at this point and this is our optic nerve
+It is cut from here.
+You can see electrochemical signals coming from here.
+This part is thalamus where there is some pre-processing happening
+and this is the white mass
+which is giving the electrochemical signals to our primary visual cortex
+so this area is your visual cortex
+so this is the entire flow
+you can always imagine how light is reaching our visual cortex
+Now if you have understood things till here, now I am going to tell you about a very famous experiment
+which was done by two scientists, Hubble and Wiesel.
+Around 1960s, they did a series of experiments on cats and monkeys
+where they caught a cat and gave it anesthesia
+and gave the anesthesia in such a way that she is not unconscious and not completely in her senses
+means she can see things but her body will not respond but her brain will respond
+so they put an electrode in her brain, put a screen in front of her and gave different types of input in front of her
+and they noted down what is the cat's response
+so I will tell you about the same experiment next
+So this is the setup of that experiment. This is the poor cat who has been made kind of unconscious and an electrode has been inserted in his brain.
+The idea is that this is the cross section of his brain at the microscopic level.
+So here he is touching the different cells of the electrode.
+and there is a screen in front of the cat's eyes, where we are showing such shapes, i.e. the scientists are showing such shapes, edges
+and whatever response is being recorded in this cat's brain, so let me first tell you what happened in the experiment and then I will tell you the conclusion separately
+So, first of all, let's assume that they touched at this place, so we are taking a reading of a particular cell.
+So, as soon as that cat was shown a horizontal edge, there was no response to it.
+Then gradually, as the scientists started rotating it, there is still no response.
+As soon as it turned a little more than a particular angle, then a little response started coming, you can see.
+as the time is increasing, it is showing an electrical activity
+when it tilted a little more, there was a little more response
+and as soon as it came completely straight, vertically
+then the most response was coming
+then as soon as it tilted again, the response started decreasing
+as soon as it went horizontal again
+then the response went completely
+so from this we understood that this particular cell
+it is good to detect these types of edges
+then scientists caught another cell and did the same thing on the other cell
+they started rotating it and they noticed that the other cell is better at detecting horizontal bars and edges
+it is only giving signal in this cell and not in the rest
+then there is another cell which is giving good signal in slant and another cell which is giving good signal in this
+so basically in this cat's brain the different cells in its visual cortex are responsive to different types of shapes
+and they do not respond to other types of shapes
+so this was the main observation in this experiment
+now let me tell you the conclusion of this experiment
+So after doing a lot of experiments, Hubble and Wiesel came to the conclusion that there are two types of cells in our visual cortex.
+One is called a simple cell and the other is called a complex cell.
+And on a microscopic level, it looks like this.
+Simple cells look like this. I did not get the image of a complex cell on Google.
+But I hope both are of similar type.
+So, simple cells are called orientation cells and feature detectors.
+Let me explain the difference between these two.
+A simple cell has a smaller receptive field.
+Basically, it can process a small area of an image.
+whereas the complex cell has a bigger or larger receptive field
+and this larger area can process an image at the same time
+now the simple cell works on the principle of preferred stimuli
+preferred stimuli
+it means that
+a particular simple cell
+can detect a particular type of edge
+if it detects a vertical edge
+then it will not detect horizontal or slant
+another simple cell
+can detect horizontal but not vertical
+so for every kind of edge
+there is some simple cell
+but every simple cell can detect the same type of edge
+that's why it is called as preferred stimuli
+so in short, the work of simple cells is edge detection
+now why did nature focus so much on edge detection
+try to understand that
+if you take any image
+after all it is made of edges
+take someone's face
+So it is made of edges only. Even the circle can be broken down into small edges.
+So what is the method of nature to process visual information?
+First of all, our simple cells detect all the edges.
+That's why they are also called feature detectors.
+And once they detect these features, they pass on their information to complex cells.
+and the work of complex cells is to detect higher features
+like if you have this type of edges then this will make a hexagon
+so this is a higher feature
+so the work of complex cell is to work on the process done by the simple cell
+and do next level feature detection
+So our visual cortex is formed from these two cells and this is how our brain processes visual information.
+So basically from this whole series of experiments we came to the conclusion that our visual cortex has two types of cells, simple cells and complex cells.
+The work of simple cells is to detect very basic level features, to detect edges.
+and then along with those edges, complex cells detect some complex patterns
+and then the further complex cells detect more complex patterns from those complex patterns
+and eventually you process the entire image
+so we understood this whole principle in the series of experiments done by Hubble and Wiesel
+so people took this principle and put it in their experiments
+so the earliest result was a model called Neo Cognitron
+so there was a Japanese scientist whose name is Sam Fukushima
+I don't remember the full name
+they made this model to recognize the pattern of the Japanese character
+Neo Cognitron
+and this is kind of inspiration for CNN
+it had two cells, C cell and S cell
+it was made from these two cells
+and it was made on the same principle
+because the initial layers recognize simple features like edges and gradually moving forward you start detecting more complex patterns
+the only problem with this was that it was not that optimized and could not work that well
+so in the 90s, Yann LeCun made his own CNN architecture
+in which they used back propagation, convolution layer, pooling layer and this was the architecture
+and this started early CNN, they made this model to scan bank cheques and it performed really well
+and from there serious research started happening on CNN
+and around 2012
+a model came AlexNet
+which won the ImageNet competition
+and after that many more CNNs started coming
+which we will study in this course
+but yes this is the entire history
+and this is the biological connection
+I hope you found it interesting
+and you understood things
+so that's it for the video guys
+I hope you liked the video
+if you liked the video then like it
+and if you haven't subscribed to the channel yet
+then please subscribe
+okay
+see you in the next video
+bye

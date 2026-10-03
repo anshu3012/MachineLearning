@@ -153,7 +153,7 @@ $$W_2(W_1\mathbf{x}) = (W_2W_1)\,\mathbf{x}$$
 
 With the numbers of Section 4, $W_1 = M_1$ and $W_2 = M_2$: the input $[1, 1]$ goes to $M_1[1, 1] = [-1, 1]$ and then to $M_2[-1, 1] = [2, -1]$. The single matrix $M_2M_1$ sends $[1, 1]$ straight to $[2, -1]$. However many linear layers we stack, the result is still one matrix, one linear transformation.
 
-This is why every layer of a network ends with a non-linear activation such as the [sigmoid](../72-sigmoid-function/note.md). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix, and depth adds real power.
+This is why every layer of a network ends with a non-linear activation such as the [sigmoid](../72-sigmoid-function/note.md). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix. The classic example is XOR: no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
 
 > **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original columns. Polynomial features (see the [polynomial regression Note](../61-polynomial-regression/note.md)) help precisely because squaring is not linear.
 
@@ -172,6 +172,10 @@ This is why every layer of a network ends with a non-linear activation such as t
 - Follow $\hat{\imath}$ and $\hat{\jmath}$ through both steps to get the columns of the product.
 - Order matters; grouping does not.
 - Stacked linear layers collapse into one matrix; activation functions prevent that.
+
+## Sources
+
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Section 6.1, learning XOR.
 
 ## 9. Key terms
 

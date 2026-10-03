@@ -33,7 +33,7 @@ Vectors can be multiplied, but not in the ordinary sense. There are two products
 
 ML uses the dot product almost everywhere, and the cross product rarely. This Note is about the dot product.
 
-> **Extra:** The cross product exists only in 3D. For two 3D vectors it gives a third vector perpendicular to both, whose length is the area of the parallelogram they span. It is central in physics and 3D graphics but rare in ML.
+> **Extra:** The usual cross product is defined for 3D vectors. For two 3D vectors it gives a third vector perpendicular to both, whose length is the area of the parallelogram they span. A product with these properties exists only in 3 and 7 dimensions (W. S. Massey, "Cross products of vectors in higher dimensional Euclidean spaces", *American Mathematical Monthly* 90, 1983, 697–701). ML meets it only in a few places.
 
 ## 3. Computing the dot product
 
@@ -194,7 +194,7 @@ For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = 
 
 Word counts are never negative, so for texts the cosine similarity always lies between 0 and 1.
 
-> **Extra:** Why cosine beats distance for text. Write B twice in a row, *my name is riya my name is riya*. Its vector is $2B$: same direction, twice as long. Its cosine similarity with B is exactly 1, but its Euclidean distance from B is 2. A long review and a short review on the same topic should count as similar; the angle sees this and the distance does not. This is why text search and recommender systems usually use cosine similarity.
+> **Extra:** Why cosine beats distance for text. Write B twice in a row, *my name is riya my name is riya*. Its vector is $2B$: same direction, twice as long. Its cosine similarity with B is exactly 1, but its Euclidean distance from B is 2. A long review and a short review on the same topic should count as similar; the angle sees this and the distance does not. Manning, Raghavan and Schütze (*Introduction to Information Retrieval*, 2008, section 6.3.1) make the same point: two documents with very similar content can be far apart "simply because one is much longer than the other", and the standard way to compare two documents is the cosine similarity of their vectors.
 
 > **Python:** scikit-learn computes all pairwise cosine similarities at once.
 >

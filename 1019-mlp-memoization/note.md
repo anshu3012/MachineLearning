@@ -65,7 +65,7 @@ It works, but it slows down sharply as $n$ grows: fib(30) already needs 2,692,53
 
 Figure 2 draws all the calls made by fib(5). It needs fib(4) and fib(3); fib(4) needs fib(3) again, and so on. fib(3) is computed twice and fib(2) three times: 15 calls for a single answer. For fib(48) the tree would be astronomically large, almost all of it repeats.
 
-> **Extra:** The number of calls is $2\,\text{fib}(n) - 1$, so it grows like $1.618^n$ (the golden ratio). That is often loosely called $2^n$; either way it is **exponential time**: each extra step multiplies the work by a constant factor.
+> **Extra:** The number of calls is $2\,\text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\,\text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio). That is often loosely called $2^n$; either way it is **exponential time**: each extra step multiplies the work by a constant factor.
 
 ### 3.3 The memoized version
 
@@ -87,7 +87,7 @@ Figure 2 draws all the calls made by fib(5). It needs fib(4) and fib(3); fib(4) 
 
 fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1, left). Each value is computed once; every later request is a lookup. The cost is the memory for the dictionary, one entry per value. This trick is the core of **dynamic programming**, a family of algorithms built on reusing solutions to overlapping sub-problems.
 
-> **Extra:** Python's standard library does this in one line: putting `@functools.lru_cache(maxsize=None)` above `def fib(n):` stores every result automatically.
+> **Extra:** Python's standard library does this in one line: putting `@functools.lru_cache(maxsize=None)` above `def fib(n):` stores every result automatically (Python docs, `functools`).
 
 ## 4. Derivatives in a network with two hidden layers
 
@@ -213,9 +213,9 @@ Backpropagation combines two ideas:
 - **The chain rule** (mathematics) says what each derivative is: a sum, over paths, of products of local derivatives.
 - **Memoization** (computer science) computes those derivatives efficiently: each shared piece is computed once, stored and reused, working backwards from the loss.
 
-On the computation graph of section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md), this is the backward pass: keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole gradient costs about as much as one forward pass.
+On the computation graph of section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md), this is the backward pass: keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole gradient costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
 
-> **Extra:** Storing every activation is why training a network needs much more memory than using it to predict: prediction can throw each layer's outputs away as soon as the next layer is computed, while training must keep them for the backward pass.
+> **Extra:** Storing every activation is why training a network needs much more memory than using it to predict: prediction can throw each layer's outputs away as soon as the next layer is computed, while training must keep them for the backward pass (Chen et al. 2016).
 
 ## 7. Summary
 
@@ -231,7 +231,13 @@ On the computation graph of section 10 of the [Jacobian Note](../602-jacobian-an
 - Many derivatives share the same pieces; computing $\partial L/\partial O$ once per node, from the output backwards, removes all repetition.
 - Backpropagation is the chain rule applied with memoization.
 
-## 8. Key terms
+## 8. Sources
+
+- Python documentation, `functools.lru_cache`.
+- Baydin, Pearlmutter, Radul and Siskind, "Automatic Differentiation in Machine Learning: a Survey", *JMLR*, 2018, §3 (cost and storage of reverse mode).
+- Chen, Xu, Zhang and Guestrin, "Training Deep Nets with Sublinear Memory Cost", arXiv:1604.06174, 2016 (stored activations dominate training memory).
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

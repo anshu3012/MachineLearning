@@ -1,0 +1,258 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel
+In this video also we will continue our 100 days of deep learning playlist
+So till now we have studied deep RNNs, last video was about deep RNNs
+We have studied RNNs in detail, we have also studied two architectures LSTMs and GRUs
+Now only one last thing is left which we will cover in this video and its name is Bi-directional RNNs
+little interesting idea, we will cover it in detail, what is the basic idea, we will discuss it, we will also see a little code, we will also see mathematics and now after that we are going to move on to a little more advanced job
+architectures, so yeah that's it for the introduction, let's start the video, so guys we have read a lot of things in RNN, we read Vanilla RNN, after that we read two more architectures, which
+First we read LSTMs and then we read GRUs.
+After that we discussed an interesting idea in the last video
+called Deep RNN where we discussed that you can stack multiple RNN cells on top of each other.
+In this way, you can understand deeper patterns in the data.
+Now we will discuss a new interesting idea which we call bi-directional RNN.
+So before reading bi-directional RNN, I would like to give you motivation and explain why bi-directional RNN is needed.
+So let's first talk about uni-directional RNN or simple RNNs.
+In this, if you notice, what happens is that you have an NLP task where you apply an RNN.
+RNN that is applied is applied in time steps.
+We have read this in great detail.
+So suppose from here your X1 is going, from here X2 is going, from here X3 is going.
+and here you are collecting output
+suppose this is your final output
+so final output will depend on x3
+and will depend on x2 and x1
+so this design which we have studied till now
+information flow in this direction
+and y hat depends on all the past inputs
+but what if we are in a scenario where future inputs are affecting past outputs
+Now I know you must be thinking that which scenario can affect the future and the past.
+I will give you examples, but think about it once that if such a scenario comes that the future's input can affect the output of the past.
+then this design of unidirectional RNN will fail
+now I will give you an example where this actually happens
+suppose we are performing an NLP task named NER
+which means named entity recognition
+In this, you get a sentence and you break that sentence word by word and extract entities from it.
+For example, Hi, my name is Nitish.
+Nitish is an entity which you can call a person.
+Or I live in Gurgaon.
+You can call Gurgaon a location or a place.
+So NER is very useful especially when you make chatbot type applications
+there you have to extract entities from messages
+So NER is basically a very important kind of NLP application
+and you will most likely read it in the future
+So I will give you an example of NLP
+So suppose we have to apply NER
+and we have been given this sentence
+I love amazon
+it's a great website
+this is the sentence
+and along with that we have one more sentence
+I love amazon
+It's a beautiful river.
+What we have to do is perform NER on both these sentences.
+We have to perform Named Entity Recognition.
+So clearly one entity here is Amazon.
+Now think for yourself.
+If you move left to right,
+then you will see this word, Amazon.
+And now we are asking your NER code, which is performing the algorithm, what will you label this Amazon?
+Since it has not read the next sentence, is it a great website or a beautiful river?
+he can either call this Amazon ORG ORG means organization company or he can also call it LOC because it's a river
+so you can see here a little bit of our ambiguity has come
+we don't know until we read the next sentence we can't tell whether it will be Amazon organization or location
+So this is one scenario where the next input is affecting the output of this step.
+So what would be good here is that we would have knowledge of the next input in some way.
+But unfortunately if you use a simple RNN or for that matter you use a LSTM or GRU
+then you have step-by-step information and that information is up to here, you do not have further information.
+So this is one scenario where you can use bidirectional RNNs because bidirectional RNNs have the capability to process input from both sides.
+We will discuss how bidirectional RNN works in this kind of scenario.
+But I just wanted to give you a motivation that why we will study bi-directional RNNs.
+So this was just one example but in NLP there are many other scenarios like one example was of machine translation.
+In machine translation means when you are translating from one language to another,
+Sometimes there is a scenario where something in the future affects something in the past.
+So even there you will not be able to work with normal vanilla RNN.
+So just wanted to give you a why. I really hope you understood why.
+Now I will tell you how a bidirectional RNN will solve this problem.
+So let's understand how a bidirectional RNN will solve this problem.
+Once again I will tell you the challenge which is in front of us.
+This sentence is in front of us, in fact there are two sentences.
+And we have to recognize Amazon in the right way as an entity.
+Either it is location or it is org.
+And the challenge is that we will not know this until we do not read the next sentence.
+So see, how does bidirectional RNN solve this problem?
+It is very simple.
+What does bidirectional RNN do?
+That it uses two different RNNs.
+Okay.
+One is forward RNN, which we represent with this arrow.
+And the other is backward RNN, which we represent with this arrow.
+What does front RNN do?
+that it starts reading the sentence from the front, left to right
+and backward RNN starts reading the sentence from the back, right to left
+and then at every time step, we concatenate the output coming from both these RNNs
+and that is how we solve the problem
+now I know at this point it may not be that clear
+so I will show you its architecture
+So we don't have to do anything, we have to make two RNNs, so since there are four words here, we will have four time steps, so this is our forward RNN that we are drawing.
+This is the input of random or zeros and it is propagating in this way.
+Here we are passing our input, here Amazon will go, here the will go, here the best will go and here the website will go.
+If we talk about notation, then we will call it xi1, we will call it xi2, we will call it xi3, we will call it xi4.
+so this is our forward RNN
+this is our forward RNN
+which we have learnt till now
+now things are interesting here
+where we use a second RNN
+backward RNN
+so basically we are using a second RNN
+I will represent the backward RNN with this green colour
+for each time step I will draw a block
+notice that everything is the same but it will be upside down
+here you will get the entry in this direction
+from here you will go to zeros
+like here we were going to zeros
+zeros or random number whatever it is
+and it will move in this direction
+ok
+and at the same time
+like here the first time step
+it will get the input of website
+this second one
+it will get the best
+this third one will get the and this last one will get amazon
+and then what will it do? it will also give its output at every time step
+like this
+so till now we have done that we have put two separate RNNs
+one from front and one from back both are reading our input in the opposite direction
+and then at every time step both are giving their own output
+now what we will do is
+we will concatenate their outputs
+will connect them
+and then we will get our final output from it
+so this is y1, y2, y3, y4
+this is our output of every time step
+and now you can see
+that at any time step
+let's say we want to know about amazon
+whether amazon is an org or a location
+so you would see
+that if you focus on the blue one
+then you would see
+just one second
+if you focus on the blue one
+then you would see that
+you are getting the output of amazon
+of amazon word
+but if you focus on the green one, then you would see that the output is also reaching, the best is also reaching, and the website is also reaching.
+So I just want to say that in calculating this Y1, the contribution of Amazon word also came, the word also came, the best word also came, and the website also came.
+Now since we also have the website word, we understood that we are talking about an organization and not about a location.
+So because of this bidirectional information flow, we are also getting the idea of the future inputs in the initial time steps.
+And this is the main idea behind bidirectional RNNs.
+If you talk about the equations, then the equations are very simple, if you look at us, then there are two separate RNNs, so if you focus on the blue RNN, then for the blue RNN, if you want to remove HT, basically hidden state for any time step, then I am representing it with this arrow.
+So it will be tanh of w times ht-1 forward plus uxt plus b forward which is our normal
+is equal to RNN equation, right, this is ours and if you talk about the backward one, then
+what will happen in the backward one, a small change will come, I guess you can predict,
+this is another weight, we are representing it with W backward, what will happen in this
+case, T plus 1 will come, think why T plus 1 will come, because here T is equal to 4
+t is equal to 3 who is affecting t is equal to 4 so who is affecting 3 4 that's why who is affecting t
+t plus 1 okay plus xt plus b this is the equation and lastly what we have to do here our ht is forward
+and here our ht is backward
+now we have to remove this
+so y for any time step would be
+sigmoid of
+because here you put sigmoid layer to remove output
+sigmoid of some weight
+let's call it v
+and we will concatenate these two
+ht forward and ht backward
+backward and then the bias will be here, the sigmoid unit will be its bias and this is the
+equation, these are the three equations, nothing you have, you have taken out the ht of this RNN,
+the ht of this RNN was taken out, the ht of both of them was calculated in different ways and then you
+concatenated them and calculated yt and that's it, that's the mathematics part,
+nothing more than this
+so guys let me quickly show it to you
+that how you can create bidirectional RNNs using Keras on any kind of NLP problem
+so we have seen this code many times in past
+here we are using readymade dataset with Keras
+that is IMDB dataset
+we are using that
+we are doing X and Y separately
+we are splitting it in train test
+we are adding sequence
+we have already seen all this
+we are adding embedding layer
+and here I have made a simple RNN model
+where after embedding layer
+I have added a simple RNN
+layer where there are 5 units
+and lastly we have
+created a dense layer
+whose activation is sigmoid
+so this is nothing new, we have already seen this
+I just wanted to show you
+how many weights and biases are there
+so you can see in embedding layer there are
+and in simple RNN it is 190, you can easily count that, I have taught you how to do that.
+The main thing is that you can easily change this architecture into bidirectional RNN.
+So basically what Keras does, Keras provides you a bidirectional wrapper
+and by using that wrapper you can create bidirectional RNNs instantly.
+See you don't have to do anything, this is the same code, exactly same code.
+The only difference is this line, so you can see I used only simple RNN at the top, what I did is I took the bi-directional wrapper and sent the simple RNN inside it.
+And the only difference would be that your weights and biases in the bi-directional layer have doubled, they have become 380, earlier they were 190.
+Why? Because you are using 2 RNNs instead of 1 RNN, so that is why 190 x 2 is 380.
+So, nothing special, what we have studied is matching with that and Kheraz has made it very easy to implement this whole thing.
+So, I would recommend you to take a problem statement and try out both unidirectional RNN and bidirectional RNN.
+Now an interesting thing, the way the concept of deep RNN was applicable on all types of RNN cells like LSTM and GRU
+Similarly, the idea of bi-directional RNN can be applied on any type of RNN cell
+So here you notice what I have done, this time I have sent LSTM inside the bi-directional wrapper
+5 units, and you can see everything is same, just the weights have increased a little because LSTM has more number of weights and biases
+and similarly here I have sent GRU, so I just want to say that the concept you are applying on RNN, bi-directional RNN
+you can apply the same concept on LSTM and GRU and in the case of LSTM, we call it Bi-LSTM
+By RNN is not used that much, mostly you use this, so in the future you can use NLP applications
+by LSTM, but you understand the core idea, the core idea is that you are traversing the input from the front
+and traversing from the back, and you are concatenating at every time step, that's it
+So again, I would recommend that you go and look at any problem on any data site side by side and note down your observation.
+So guys, let's discuss about some application areas of bidirectional RNNs.
+So, there are certain areas where using bidirectional RNNs will generally give you good results.
+I have already told you some of them.
+one of them being named entity recognition uh because
+similarly there is one more application called parts of speech tagging
+which particular word comes inside which parts of speech
+so for this application also bidirectional RNN can help
+and the third one is machine translation
+basically in translation based applications
+it can help
+so these three are very good applications
+where you should definitely try out bidirectional RNNs
+Apart from this, it has been seen that even in the tasks of sentiment analysis,
+many times bi-directional RNNs leave the normal RNNs behind in terms of performance.
+So there is no problem in trying.
+And one last but different application is time series forecasting.
+like if you want to predict the price of a stock or weather forecast
+then it is also seen in this type of problems that bi-directional RNNs perform well
+i.e. looking at the data from the front and also from the back
+it really helps in forecasting problems
+so if you are working on a forecasting problem in the future
+then you should definitely try out bi-LSTMs or bi-GRUs
+Lastly, let's talk about drawbacks because obviously there will be some drawbacks.
+Primarily, there are two drawbacks.
+First is complexity.
+As I just showed you that when you used simple RNN, you had 190 parameters.
+When you used bi-RNN, it doubled to 380.
+So basically, your weights and biases will be doubled due to which your training time will also increase and the chance of overfitting also increases.
+So then you have to do all those things to reduce the overfitting that you have been doing till now, dropouts, etc., regularization.
+But yeah, this is one of the concerns before using bidirectional RNNs.
+And second one is, there are certain applications where you don't have all the data at once.
+Think about it, what you have to do is, you have to traverse your data from the front as well as from the back.
+Right. But it can also happen that you don't have all the data at once.
+I can give you an example. Let's say you are doing real-time speech recognition.
+now speech is being spoken and you are doing it in real time
+so I am saying hi my name is Nitish
+so until I say complete
+till then I can't apply my bi-directional RNN
+because I don't have all the words
+so in real time speech recognition if you use bi-directional RNN
+then there will be latency issues
+latency issues means your response will be slow
+because you will first wait that the whole sentence has been spoken and then you will apply bi-directional RNN on it, its processing will go on, then the reply will come.
+So if there is any task of real-time speech recognition type where you do not have the whole data available in one go,
+then in such scenarios, bi-directional RNNs can cause latency issues which you will not get to see in other types of architectures.
+So these are two major concerns, apart from this there are no other problems, so you should definitely try out wherever you can try it out, it's a great idea, so yeah, this was a basic introduction, rest you try it on different datasets, if you liked the video, then please like it, and if you haven't subscribed to the channel, please subscribe, see you in the next video, bye.

@@ -1,0 +1,190 @@
+Hi guys, my name is Nitish and you are welcome to CampusX
+In this video also, we are going to continue our deep learning playlist
+In the last video, we made a cat-dog classifier
+In today's video, we are going to learn a new technique
+By using this technique, you can create data
+The name of this technique is Data Augmentation
+By using this technique, you can create data
+Let's say you are working on a project
+you are working on a cnn project and the data you have is in a very limited amount
+so using data augmentation you can generate data
+today's video is actually an old session of mine
+I am bringing its recording in front of you
+reason being I was running out of time, I didn't have time to shoot the video
+and this recording of the old session is very good
+and I have explained very well how data augmentation works
+So we will understand both things, first we will read the theory about data augmentation
+We will apply it on a single image and then we will come back and apply data augmentation in the cat vs dog classifier
+So all in all the video will be very interesting, watch till the end
+Let's start the video
+So what is data augmentation, I will tell you quickly
+Data augmentation is a simple and smart technique using which you reduce overfitting.
+In fact, you solve two problems.
+First problem, I am actually sharing this blog with you.
+When you get time, read this blog.
+This blog was written by Keras who created it.
+And the title of this blog is Building Powerful Image Classification Models Using Very Little Data.
+So what do you do in data augmentation?
+Let's say you have a photo.
+So you create new photos from that photo, that's the whole idea. I will show you, for example, here you have an image, this is one image
+Now what you will do is, using Keras, you will create more photos from this photo by applying certain image transformations
+shifting, rotating, zoom, zoom in, zoom out, vertical flipping, horizontal flipping, share, there are different types of operations
+what you are doing with that is that you are generating multiple images, so what happens is that let's say you are working on a data set where you don't have that much data
+and you know that deep learning is all about data, there should be a lot of data, so if you don't get a lot of data, then you can generate data for yourself using this technique
+so the first reason to use this is that if you don't have data, then you can generate data and actually this is a very useful thing
+Right now we are just collecting data on Kaggle because we are students so it doesn't matter to us
+We are not making any actual product, we are just learning. But if you think in terms of companies
+So in terms of companies, data gathering itself is a very difficult and expensive process. I will give you one example
+Let's say you are a startup, let's say you are a startup in the medical field
+like farm easy or any medicine companies, let's say you are in this domain, and you want to make a malaria detection classifier
+for that you need biological cell images, now the problem is how will you gather that data
+because you need actual patient's data, actual patient's biological cells photo, now you have to pay the cost to bring it,
+like there is cost involved, so it is a big deal to get 1000 data, to go in search of 10,000, you can take a lot of money,
+so if there is a field there, if data acquisition is very costly, then the data augmentation type technique will help you a lot,
+it will help you in the medical field, in the medical domain, second, why is data augmentation good, what is its reason, that it reduces overfitting, how, let me tell you,
+like let's say you have photos of cats, and every time the cat is looking in the left side, like in this example, this brown cat is always looking in the left side,
+now in all the photos all the cats are looking in the left side
+so now our model can pick this feature that if the species is looking in the left side then the probability of it being a cat is more
+it can pick such a feature whereas in the actual world this is not a feature
+cat looks at both sides
+now what you will do is you will pick this image and apply transformations on it
+If you apply this transformation on it, then the cat is also looking at the right side, so now your model will start generalizing and it will start thinking that it looks on the left and also on the right, so the chance of overfitting is reduced.
+So these are the two major reasons why you use data augmentation. First is to generate data if you don't have data and the second is to reduce overfitting.
+and it's an important concept so that's why we are studying it, for this what you have to do, you have a module in Keras
+image data generator, we will use this and we will generate data using this, so do one thing guys, we will study in two ways
+first we will generate images in this way on a single image, then we will do it on the whole folder, when we will do actual model building
+So do one thing, make a new folder in your Jupyter Notebook and just make sure you have something like this set up there.
+I will show you. Keep such a set up there that if you go there, I have made a different folder for you guys.
+So if you go here, then here I want a setup that you have a folder and in that folder you keep only one image, only one image will work, the cat will also work, the dog will also work, it doesn't matter, I just need one image, any image will work, apart from the cat and dog, something will work, okay, and now what are we doing, we are making a new file, okay, we are making a new file in this place, okay.
+so basically from here you can directly access the train, so let's see how to do this whole thing, so the first thing that you do is, in fact, let's do one thing, I have already written this whole code, I was trying all this, so I will walk you through it, it will be more easy and time will also be saved,
+so what you do is, the first thing is that you import these two things, first is keras.preprocessing.image
+say image data generator, which will help you to generate these images, and second is this image
+it behaves like opencv, it is inside keras, and opencv types helps you to work on images
+so we used both of them, so just like you use opencv and read im, just like that you use image and do image.loadimage
+what I did there, I told my path, my path was train.cat18.jpg which was the name of my image
+this was the name of my image, cat.18, after that I told that while importing it I told that its size should be 200x200
+this is my desired size, and after that what I did, this image has already come, so I imported the matplotlib and just run it, actually there is no need to do this,
+If you do this much already, then we will import both of them once, we will run it once and it will come directly, you do not need to use matplotlib
+So far I have done so much that I have just loaded the image using the Keras pre-processing image and converted it to a desired size, that's it
+now one more thing, this type, when you import in opencv then it is numpy array, here it is not like that, here it is PIL image
+this object of python imaging library, so you can't understand it as numpy array, this is not numpy array, you can't put directly numpy operation on it
+this is the main line, and by the way I have picked up all this code from this blog, like everything is from this blog
+today's code is actually from this blog, this blog is very good for data augmentation
+so what we did here, we made an object of this class
+by saying datagen, we made an object of this class by the name of datagen
+and what we did here, some parameters passed some values
+like what is one value, rotation range
+I have given 0.2 as rotation range, this should be 30 types, how is it here, yes it is 40 here, so basically this is the angle
+like how much you want to rotate the image, then there is share operation, the share side is a little distorted image, so on the scale of 1 we are distorting 0.2
+zoom in and zoom out is also possible, and all this is random, 0.2 is maximum, it will be less than this, horizontal flip is true, vertical flip is also possible here, but we will not keep vertical flip, someone will tell you why we are not keeping vertical flip,
+because if you do vertical flip, then there is a chance that the cat will look upside down and its leg will come up and the head will come down,
+generally speaking, cats are not like this, so vertical flip is not a commonsensical approach
+you will not do that, cats are not seen like that, that's the reason
+width, shift range, means you are slightly shrinking the image
+and in the height shift range also, you are slightly shrinking the image up and down
+so basically you are defining these transformations, that's it
+as soon as you press the shift tab, you will start seeing all the transformations, so you don't have to use everything, you will also see the brightness
+there are many operations, we are doing this much at this point, in fact, I have just copied and pasted what they have done
+I didn't use much of my brain, you can see when you need it, but for now this is the object
+now what we did, the image here, its type was PIL, what I did was, I passed image to array, this module is an image
+it has a function called image to array, in this I passed my image, this image
+As soon as I passed this image, what happened is that it was converted to numpy array, I will show you
+If I show you here by running it, type of img, now this has been converted to numpy array
+It has been converted to numpy, and if you take out its shape, then it is 200 by 3
+Because when we imported it, it was 200 by 200, and if it is color, then it is 3, and now what are you doing, what you have to do here
+when you give images, then generally you have to give in the form of batches that how many images are you giving, so you have to reshape it and add an extra dimension to tell how many images we are going to process during this whole transformation
+so I just reshape it into 1, now how much is this? one image of this dimension, that's it, and this will become my input batch
+this is the code, we didn't do anything special here, we just did two things, imported the image, converted it to numpy array
+changed its shape, this is the first thing, what did we do in the second thing, we created this object which will tell us what kind of transformations we have to apply
+till here we have done two things, now what we are doing in the third, we are calling this function, this datagen is an object of this class
+now in this class there is a function called flow, flow you use when you are applying on a single image or directly on a numpy array
+and one more is flow from directory, you use that when all the photos are in your directory and you want to process them all together during the training time
+I will show that after this, for now think like this that we are processing on one image and we are using flow
+here we are telling input batch is this and in output batch we need one batch size, means one more batch will be formed when output will be made
+and what we are doing is that we are storing all the images in this directory, so what I have done here, if you see here I have made one more directory
+I am making a new directory here by the name of AUG, so all the new images that will be made will be shown here in AUG
+so this loop is running, and now this is an infinite loop, there is no breaking condition here, it will keep making new images if you do not stop it
+so we put a condition to stop, i is equal to 0, increment i, and if i is 10, then break it, it will run from 0 to 9, total 10 images will be formed
+That's it. So what am I doing now? I am running this code.
+Input batch is not defined. Let's run this.
+And now let's run this.
+And it is run. And now if I go to my AUG folder
+So here I have 10 images. Here are those 10 images.
+This is the first image.
+This is the second.
+This is the third. See this is shifting a little.
+And because of that the pixels here are behaving a little differently.
+the last one was zoomed, so basically we generated 10 images from 1 to 1, now I will show you 1-2 things here
+like here is a parameter, it's name is fill mode
+so sometimes when you are shifting the images, then the pixels here are getting empty, right, that means if you are pushing, then the pixels here are getting empty, so what to do with those pixels, the fill mode tells the same,
+like the fill mode tells the nearest that populate with the nearby pixels, so that's what happened here, see what happened in these images, that as soon as the image shifted a little, then the nearby pixels got populated, so it doesn't look weird,
+There are some more options here, if I remember correctly, there is one option, I will show you, fill mode, one is reflect, what does reflect do, reflect, what will reflect do, once I run this code again, I am deleting all these images, going back, and I am running this again, and here are the new images, see this, now what is happening, here it is reflecting,
+means that which was on this side, came back to this side, how do I explain to you, I guess you are understanding, here you will understand from this part, how the reflection is happening, so a little scratch, so what was at this place, it was copied and came this way, so it is on its own, which one do you want to use, like here, see the reflection, see this, it came down from above, so it reflected, okay, there is more, there is a solid, maybe it turns black from solid, I guess there is a solid, let's see it for a year,
+It is solid, let's see once and come back and delete it and run it again.
+Boundary mode not supported, just one second, what was the name, I will have to see it once.
+Fill mode image generator, image data generator, there are three or four options, it is constant actually.
+what we have to do here is, instead of solid, we have to put constant
+and now we will run it, going back, see what is happening here, what has been removed has been removed, it has become black
+from here you will understand how transformations are being applied
+so these are 2-3 options, you can see what kind of data you have, if you already have data which is black all around, then constant will be better
+or reflect can work well, or whatever you like, you can use it, so this is how data augmentation works
+This is a good demonstration and by looking at it, you will understand what data augmentation is doing behind the scenes.
+It is applying transformations to the same image and in a way you are creating cheap data.
+So now that we understand that it does such a work, now what we will do is we will make a project with data augmentation using the caddoc classifier.
+So if you remember in the last class when we were making the cat dog classifier, then there we worked on 23,000 images, but what we are going to do today, what I have done today, I have reduced the data intentionally
+here is my data folder, it has 3 different folders, train, validation, test, if I enter train, then it is a folder called cats and dogs
+if I enter cats, then there are only 1000 items, similarly if I enter dogs, then there are only 1000 items, means I have reduced the data a lot
+Earlier I had 12500 cats and 12500 dogs. Let's assume that we don't have that much data, that means the data is less, then what can we do?
+So now I will show you two cases. The first case is that I will train this model on 2000 images without data augmentation.
+and i will show you accuracy and then i will use data augmentation and run on same 2000 and you would see that your accuracy will increase
+so i have already trained otherwise it takes time to train
+so this file is catdog normal means here we have not used our data augmentation
+and this code is exactly the same which we did in last class
+look at this, this is my directory, I made this by saying categories, I ran that loop which I ran in the last class
+after that I shuffled, extracted x and y, converted to numpy, after that I built the model, what I did while building the model
+I took 3 convolution layers and 3 max pooling layers, 32, 32 and the last one 64, this is the architecture
+After that I have taken flatten, after flatten I have taken dense with a dropout of 0.5 and then I have put a sigmoid in the output layer in the last.
+I have taken optimizer RMS prop and binary cross entropy. Again this is not my architecture, I have followed this block.
+This is exactly a copy-paste code. I have not written anything by myself.
+After that I ran this model for 5 epochs, so you can see that the maximum validation accuracy I was able to reach was 57%
+57% accuracy was coming without data augmentation. Now what I did is I applied data augmentation.
+Now how to apply data augmentation on the entire directory, if you have organized data like this, then how will you do it, see it once.
+So here also you imported the same thing, keras preprocessing.image, imported the image generator, after that what do you do,
+because if this code is looking scary, then just focus on this, so here you are doing exactly what you have done here, in fact, you are doing a little less, you are doing this exact thing here,
+you are making a data object, which is the object of this class, and here we have just kept some operations, rescale, shear, zoom, horizontal flip, we are not even using the rest of the operations,
+and we are not applying any transformation on our test, we are applying only one transformation that is rescale
+and we are doing it 1 by 255, someone can tell by thinking that why we are not applying other transformations on the test
+so the reason is that you will do prediction on test, while doing training you have to do data augmentation
+to increase the data or to reduce the overfitting, you will not interfere in the test data
+that is why you will not do anything here, you will leave the test as it is, you will only mess with the train
+after that next part is this, this part is actually equivalent to this part
+data.flow which we were using, now what will you use here, flow from directory
+So if you already have the data in such a way that one class is in one folder and the other class is in another folder
+So what you do is you use flow from directory and in flow from directory you just tell the path where the data is
+in my case, in the reference of my file, like this is my file, in its reference, the data is in the train
+so I have written that here, here I have also told that how much will be my target size
+I have told my batch size, it is 16, again I have not made any changes from this blog
+class mode is binary, since we use binary cross entropy loss, we need binary labels
+and after that what I did, my validation set which I will run together to test how my data is going
+same thing on validation, here also cats have 500 images and dogs also have 500 images
+this is my validation set, so I put test datagen on validation set which is this one
+no transformation, only scaling is happening and here folder is different, target size is same
+batch size is class mode binary, as soon as I run this code, it is saying found 2000 images belonging to 2 classes
+this is the training, and here it is saying found 1000 images belonging to 2 classes, this is the validation
+see this, this is my train, in train 1000 of cats and 1000 of dogs, so 2000 in train, and in valid 500 of cats and 500 of dogs
+so it is writing here that I got so many images, now I used the same model which I used here, this is the same model
+exact same model, and now what will you do, remember one thing guys, this is a little new, whenever you use image generator
+whenever you use image data generator, then you call fit generator instead of model.fit, and here instead of xy you give train generator
+all the work is going on through a different pipeline, so this train generator has all the images, so one more thing to keep in mind, that what happens, there is a little confusion
+that what are you doing, you have 2000 photos, you are making new images by doing data augmentation on those 2000 photos, now those new images that are being made will be used during the same training, the original ones will not be used
+remember this, your original 2000 images are not being used, in that the transformation is happening and the new image is being created is being used
+so what is happening is that the images in the train generator, you are sending them in training
+and I had set epox 25 but I will show you on 5 how it is going and I have put validation generator in validation data
+and what are these steps per epoch, we will discuss after some time, now see when I trained this after data augmentation
+and see here side by side we will compare this, so here after 5 epochs on same architecture accuracy was coming out to be 57%
+here you can see after 5 epochs we were above 69%, so you can see our performance of the model increased immediately
+So I trained this model more till 25 epochs and I was getting 74% accuracy at this point
+So that was the video guys, I hope I could explain you how data augmentation technique works
+In future if possible we will implement it in a real world project
+If you liked the video then like it and if you haven't subscribed to the channel then please subscribe
+That's it from my side, see you in the next video. Bye!

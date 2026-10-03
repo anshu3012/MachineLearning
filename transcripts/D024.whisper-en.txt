@@ -1,0 +1,289 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also we are moving forward our deep learning playlist.
+Today we will cover a topic whose name is Dropouts.
+Recently this thing has been discovered in deep learning a few years ago.
+And trust me now in the process of training neural networks, dropouts are used a lot.
+So in today's video we have to discuss what is a dropout?
+how it works and then we will practically implement it in code and in the last I will give you some practical tips
+that when and how you should use dropouts and you will notice that if you will learn things in the right way
+then you will be able to train your neural network in a better way, for now on the screen we have the same document
+which I am following from the last 2-3 videos
+these are the kind of steps
+which you have to follow if you want to improve your neural network
+if you want to improve its performance
+till now we have studied 2 things
+we have studied the concept of early stopping
+and we have studied the concept of normalizing inputs
+today we are going to focus on dropout layers
+as you can see
+that you use dropout layers when your model, your neural network over fits.
+So let's do one thing, we will start our discussion from the basics and we will move ahead slowly.
+So first of all, I guess I don't need to tell you what is over fitting.
+Over fitting is a problem which bothers machine learning a lot.
+You have trained a machine learning model on a data with a lot of hard work.
+Now the problem is that your machine learning model has over fit, over fit means that it has over fit the training data
+And its performance is very good on training data but when you show it new unseen data then the performance is not good
+If you see this diagram then you will understand what I am saying, here you can see you are solving a classification problem
+Where you have to create a decision boundary between blue and red points
+The work of your machine learning model is to differentiate between blue and red points.
+Now if you look at this green model, if you focus on this model, then it is doing overfitting because it is trying to wrap the training data too much
+and trying not to make a single mistake on the training data.
+Now think for yourself, if this data is removed and some new unseen data is brought in return,
+then this complex decision boundary that we have made will not give us good result.
+It would be very good if we could achieve this black decision boundary somehow.
+Because this is not a rut, it is understanding the concept inside your data
+and making a classification boundary between your two points in the right way.
+so this is what happens, the neural networks that you have read ANN till now, they are prone to overfitting, you will hear about neural networks again and again
+that neural networks are prone to overfitting, the reason for that is that they are very complex, means think for yourself, there are multiple layers
+and each layer have multiple nodes
+so when you give this complex architecture and run it on many epochs
+then you will get to see overfitting many times
+this is a very big problem
+now the question is how can you solve the problem of overfitting
+So if you talk about possible solutions, then there are 2-3 possible solutions.
+The first possible solution which is followed a lot in Neural Networks is
+Add more data.
+The more data you give, the more the chances of overfitting.
+The more different types of data you show to your Neural Network,
+the better it will generalize. That is the first point.
+Second is reduce complexity of your network.
+Where you were using 10 hidden layers, try applying 7 of them.
+Where you were adding 128 nodes in every layer, try adding 64 of them.
+When you reduce the complexity of your model, it reduces the overfitting as well.
+Third is early stopping.
+early stopping, we have read this, the basic funda of early stopping is that you identify when overfitting is starting,
+you stop the training at that place, I made you do this 2-3 videos before, this is also a technique, technique no.4 you must have studied in machine learning,
+specially in linear models, you can use regularization, regularization, both L1 and L2, you must have read ridge regression and lasso regression,
+I have taught you in 100 days of machine learning, you can use this technique here also.
+In fact, I will teach you this technique in the next video.
+But the technique we are going to learn in today's video is called Dropout.
+This is a very different technique which has been discovered a few years ago by
+Geoffrey Hilton and there is this guy called Nitesh Srivastava.
+These two together came up with this technique and since this technique has come, it has got very famous
+This technique has become very famous in deep learning circuits to train neural networks and to reduce overfitting
+So today's video is about dropouts. So now we will understand what exactly happens in dropouts
+What exactly do you change in your neural network to reduce your overfitting problem. Let's see that
+Let's understand the concept of dropouts. Let's understand through an example.
+Let's assume that we are working on a classification problem.
+And in that classification problem, we have 5 columns in the input.
+And then we have our output column.
+And we have created a neural network which will solve this classification problem.
+This is my input layer, you can see here 5 inputs will go, input of every column will go from here.
+Then we have 2 hidden layers, 5 nodes are there in both of them.
+And finally this is your output layer which has 1 single node, let's assume this is binary classification problem.
+So your fully connected neural network will look like this, like this is the first diagram.
+Now what happens is that when you make such a complex architecture then there is a chance of overfitting as I told you
+So to solve this we use dropouts and the main concept of dropout is that you randomly drop the nodes of your input layer and hidden layer
+Now what is the meaning of drop? Let me explain you. Focus on this diagram.
+What we will do is, in every epoch, suppose we are training 10 epochs in total.
+So what we will do is, for every epoch, we will randomly switch off some of the nodes in your input layer and in your hidden layer.
+As you can see here, suppose Epoch 1 is running, this is Epoch 1, so what I did is, I randomly turned off this and this from these 5.
+What does turn off mean? Now this node will not be connected to any other node.
+Basically, the weights and biases of this node will be removed. It will be separated from the network.
+Same what I did, I randomly removed these three in my hidden layer
+And then in the next hidden layer, I randomly removed these two
+So now what is left is my neural network and above that training will be done for this particular epoch
+Now when epoch 2 will come, so before epoch 2, what I will do again in this layer
+I will randomly remove two nodes, suppose this time I removed this one and this one
+So this one will come back, this one will also come back, this one and this one will be disconnected
+Similarly, what will I do in the next one? I will again randomly remove three nodes
+Suppose I removed this one, this one and this one, so basically this one will remain and this one will remain
+and in the next one also, I will remove two nodes randomly
+and will bring it back
+so what you are doing is, before every epoch
+you are randomly deciding which node will remain and which will not
+so in a way, you can say that when you run 10 epochs
+So you are actually training on 10 different neural networks
+This is the most important point here
+What is happening with the dropout
+Essentially the architecture of your neural network is changing
+So you can say in this way that in the first epoch
+There was a different neural network
+In the second it was a little different and in the third it was a little different
+So in a way in every epoch
+You are training the same data
+But on a different neural network
+This is the concept of your dropout.
+Now when someone reads it for the first time,
+then he gets this doubt in his mind,
+it had come in my mind as well,
+I am sure it must be coming in your mind as well,
+that how can the performance improve by breaking such things?
+What are we doing?
+We are breaking down our neural network.
+Then how can things be good by breaking?
+You should have this doubt in your mind.
+And next I will explain to you
+how this technique smartly solves the problem of overfitting. In fact, it is proven that by using dropout, your accuracy improves by around 2%.
+Now you will say which 2% is too much? It is too much. If you are at 95 and you have to go to 97, this is not a small jump.
+This is a very big jump and dropout can give you this kind of benefit.
+Now we have to understand how to remove the neurons to improve the performance, we will see the intuition of this thing
+So guys first we will try to understand why there is over fitting in the neural networks
+Now suppose we have this data and this is the neural network
+Now what is there in the neural network that you have many hidden layers and in those hidden layers there are many nodes
+And when you make a fully connected neural network then there are many possibilities because of these arrangements.
+So what happens is that these small small arrangements, there are many possibilities in the neural network.
+It tries to capture every small thing. It also tries to capture every small pattern.
+And because of that over fitting happens.
+So if someone asks you that how can we reduce overfitting?
+One simple answer is to reduce the number of nodes.
+By reducing the number of nodes, the possibilities will reduce.
+Picking these small possibilities will reduce.
+And the second way is that you do such changes in your nodes that they can't focus on a single type of pattern
+Rather, focus on all types of things equally
+If you can do these two things, then you can avoid the problem of over fitting
+First, reduce the number of nodes only
+then automatically the number of connections in your neural network will not be that much
+so automatically he will not have the resources to focus on very fine things
+second thing, you have to put a trick in this way that your nodes
+should not be able to focus on a single thing
+in some way you have to distract it and focus on everything rather than focusing on a single thing
+And these two things are done effectively by dropout layers.
+See how.
+See here, this is the same neural network.
+And what did I do?
+I decided that I will take my dropout ratio 0.5.
+You can take a separate dropout ratio for every layer which is called P.
+This means that I will randomly drop 50% neurons in every epoch from this input layer.
+same I have taken 0.5 for this hidden layer, means in every epoch 50% neurons will be dropped randomly from this hidden layer
+now see I have run my first epoch, when I ran my first epoch then automatically in first layer this and this
+and in second layer this and this turned off and this is my neural network which is actually a subset of this neural network
+If you see carefully, it is just a subset of the main neural network, which is smaller, we have less nodes.
+Then when the next epoch went on, this time these two neurons turned off and these two turned off.
+A new neural network was created again, which is again a subset of this neural network.
+You are reducing the number of nodes. Similarly, in the third epoch, again this one and this one got off and these two got off.
+So every time we are doing one thing that we are reducing the number of nodes.
+Let's talk about the second point.
+How we will achieve the second point is very simple.
+Now see, I will try to explain you in a very simple way.
+We hold this neuron.
+We hold this node.
+Now this node is taking input from these four.
+But it can happen depending on the data that it will start valuing this more.
+means the value of this weight is more in comparison to these weights
+or you can say that your neuron is focusing more on one particular pattern
+so by applying dropout this problem can be solved that one weight is getting more value and other is getting less value
+How? It is very simple. In this epoch when this neuron is being trained, notice that this one is there.
+But next time this one is not there. Next time also it is not there. So now this neuron is not getting much information from this.
+It cannot depend on this because it does not know that in the next epoch will I get input from this node or not.
+So in a way, whenever this neuron will get input from previous layer, it will be very balanced.
+Now it will not be dependent on it that the first one will send and I will value it. No.
+It is possible that the first one will not come. Then you will focus on second, third and fourth.
+In a way, your attention is not just on one, it is divided on all.
+your weight which was the thickest earlier, now it is equal, you are taking the same value from this, from this, from this and from this
+and as you will start doing this, automatically your neural network will over fit less and will start ignoring this kind of things
+will start ignoring this kind of patterns. And this is the main reason behind the success of dropout.
+You can understand it like this, I had read a very good example somewhere that suppose there is a company.
+Now there will be a lot of people in that company who will do different things.
+Means there will be a peon, there will be a coffee maker, there will be coders, there will be a marketing guy.
+There will be a lot of people. Now a new policy came in that company that every day in the morning
+Randomly it will be decided that which office will come and which office will not come.
+It means that 50% people will come and 50% people will not come and it will be decided randomly.
+So if I am an employee, I will get a mail in the morning that whether I have to come or not.
+And that mail will be random. Anyone can get it.
+Now you will think that this is very bad, if 50% or 30% employees are randomly denied daily, then the productivity of your company will be reduced.
+But this is not the case. It is also possible that since many people will not come, then as an employee, if I am a coder,
+then I will not depend on people and I will start controlling many things by myself.
+Where I used to depend only on the testing team, now I will also depend on other people because other people can do the work of the testing team.
+So what is happening here is that this node which was depending on first one, now since first one is not there
+So it has to talk to second one, third one and fourth one also
+Because of which your overall architecture becomes more resilient
+It becomes insensitive for small changes, it says ignore these small changes and focus on big things
+and the big thing is the overall pattern of this data, so the company's example cannot be proved
+that the productivity of the company will increase but this theory works in the neural networks
+so this is one way to understand this whole thing, now I will give you one more explanation
+through which this thing will sit better in your mind, we will compare the dropouts with random forest
+If you know random forest, it is one of the most powerful machine learning algorithms
+And in some mines, the dropout works like a random forest
+I will tell you that
+So guys, let's understand that how dropouts are connected to random forest
+So if you remember, when we studied random forest
+I told you that what happens in random forest
+Suppose you have a data set which has 10 input columns and an output column.
+Now you train multiple decision trees to make a random forest.
+Suppose we are training 100 decision trees.
+Now you give data in two ways.
+You either do column sampling or row sampling or you do combination of these two.
+Let's assume for some time that we will do only column sampling.
+This means that in the first decision tree, we will send only 50% columns randomly.
+So x1 will go, x2 will not go, x3 will go, x4 will not go.
+So we will send 5 random columns out of 10 and we will train our first decision tree.
+then we will pick up another decision tree and again randomly pick up 5 columns and put them in that decision tree
+so what will happen is while doing this you will have 100 decision trees which will be different from each other
+they will not be completely different because some columns will be same but you get the idea that you have an ensemble of 100 decision trees
+While doing prediction, you will send a single row to all 100 decision trees and ask everyone to tell 1 or 0.
+Now it is possible that 60 trees will say 1 and 40 trees will say 0.
+So on the basis of majority count, you will say that this row should be 1.
+That is how random forest works.
+Now see, you actually do the same thing when you drop out.
+suppose this is our neural network, this is our input layer and this is our hidden layer
+and we said that P is equal to 0.5 means we will drop 50% nodes both from input layer and hidden layer
+now first of all let's understand that how many neural networks can you make from this neural network
+Here in total there are 9 nodes and every node can be present or absent
+Means there are 2 possibilities for every node
+So in total we have these many combinations available
+You can make so many different types of neural networks
+Actually we will make 8 because we will not consider the output
+So 2 to the power 8 combinations are available
+What you can do is very simple
+let's say you are training for 10 epochs, so what will happen is that due to randomly switch off,
+a different neural network will be formed in each epoch, so basically what you are doing is that for every epoch,
+you are training a unique neural network, first time there is a different architecture, second time there is a different architecture,
+So in a way what you are doing here is that you are making an ensemble of 10 neural networks
+Just like you made an ensemble of decision trees. If you train for 100 epochs
+So since this combination is very much, the probability of this is very less
+That any architecture will repeat in 100 epochs
+It basically means that you have 100 unique neural network architectures
+which you are sending the same data, since the architecture of the neural network is different and not too different,
+so the answer will be different and you ask everyone and decide the answer.
+So in a way, you work here like an ensemble learning.
+So many times it is asked in the interviews that explain how the dropouts are similar to the random forest.
+I hope you are able to understand.
+In a way, it is happening that every time you train different decision trees, you are training different neural networks.
+And then you are doing decision making on the basis of their intelligence.
+That is why you can say that the neural network behaves like a random forest.
+And that is why by using dropouts, the performance of your neural network improves.
+Also, the problem of overfitting can be solved.
+Like random forest can overcome the problem of overfitting.
+Similarly, dropouts can reduce the problem of overfitting from the neural network.
+I hope you understood this connection.
+One thing you have to remember is that the dropout that we apply is only during the training time.
+Dropout is not applied during the testing time.
+Let me explain this.
+Suppose this is your neural network with 4 inputs, this is the input layer and this is the hidden layer
+Suppose you have put a dropout of 0.25
+That means in every epoch, randomly one of the 4 nodes will turn off
+Suppose you have put 0.25 here as well
+Again the same thing will happen
+so whatever it is, it happens during training, it doesn't happen during testing, during testing all these nodes will be available
+it means all these connections will be active, but the question is that how much weight it will be
+because it was not a guarantee during training that this weight will be there or not, but it will be there in testing
+Let me tell you how it is decided, suppose this is a weight and from training its weight is W
+So in testing its weight will be W times 1-P, P is 0.25, so weight will be W multiplied by 0.75
+this is the meaning of this, now think this is very logical, how? it is very simple, here every node
+how much is the probability of its disappearance? 0.25 and how much is the probability of it remaining?
+suppose you are training for 100 epochs, so if you set 0.25 as your dropout ratio
+So in 100 epochs, there is a probability that it will disappear in 25 epochs and will remain in 75 epochs
+This means that the probability of this weight remaining in this architecture is 0.75
+That is why whatever weight is coming, we are keeping it 0.75 times only
+Because if you don't keep 0.75 times, then it will be more
+during the training it was not that much, it was 0.75 times during the training
+that is why whatever weights you have, you can take any weight from them
+you will multiply all these weights by 1-P and you will use these weights in the testing when you do the prediction
+I hope you are understanding this thing, I will summarize it
+very simple, your node drops only during training time, during testing time all the nodes are available
+all the weights are available, but we can't assign the whole weight because that node was not available during training
+so we will multiply the time available with that probability, so if your dropout ratio is 0.25
+It means the probability of it staying was 75%, so we multiplied it by 75%.
+That's it. This is the concept.
+The good thing is that you don't have to do all this manually.
+Keras will handle all this behind the scenes.
+You just have to understand what is happening.
+So, I guess you are understanding things about dropouts.
+Next, I was going to show you coding.
+I would have shown you practically by working on a data set, but I guess the video is a little long.
+So what I will do is, I will convert this video into two parts.
+In the next part, I will show you code examples for both regression and classification.
+Also, I will give you some practical tips on when and how to use dropouts.
+So I hope you like the video. If so, please do like the video and consider subscribing to my channel.
+Thanks for watching. Bye.

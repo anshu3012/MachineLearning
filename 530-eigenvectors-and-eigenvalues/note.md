@@ -79,7 +79,7 @@ $\mathbf{v} = \mathbf{0}$ always solves $(A - \lambda I)\mathbf{v} = \mathbf{0}$
 
 Squishing space into a lower dimension is measured by the determinant.
 
-> **Extra:** The **determinant** of a $2 \times 2$ matrix is the factor by which its transformation scales areas: the unit square spanned by $\hat{\imath}$ and $\hat{\jmath}$ becomes a parallelogram with area $\lvert\det\rvert$. A negative determinant means the plane is also flipped over.
+> **Extra:** The **determinant** of a $2 \times 2$ matrix is the factor by which its transformation scales areas: the unit square spanned by $\hat{\imath}$ and $\hat{\jmath}$ becomes a parallelogram with area $\lvert\det\rvert$. A negative determinant means the plane is also flipped over (MML §4.1).
 >
 > 1. **In words:** multiply the diagonal entries and subtract the product of the other two.
 > 2. **Formula:**
@@ -111,7 +111,7 @@ $$\det \begin{bmatrix} 2 - \lambda & 2 \\ 1 & 3 - \lambda \end{bmatrix} = (2 - \
 
 So its eigenvalues are 1 and 4. An eigenvalue of 1 means its eigenvectors do not move at all: $[-2, 1]$ lands on $[2 \times (-2) + 2 \times 1,\ 1 \times (-2) + 3 \times 1] = [-2, 1]$. And $[1, 1]$ lands on $[4, 4]$, stretched by 4.
 
-> **Extra:** The polynomial $\det(A - \lambda I)$ is called the **characteristic polynomial** of $A$. For an $n \times n$ matrix it has degree $n$, so there are at most $n$ eigenvalues. Real libraries do not solve this polynomial (that is slow and inaccurate for large $n$); they use iterative methods. The polynomial is the idea, not the algorithm.
+> **Extra:** The polynomial $\det(A - \lambda I)$ is called the **characteristic polynomial** of $A$. For an $n \times n$ matrix it has degree $n$, so there are at most $n$ eigenvalues. Real libraries do not solve this polynomial: finding polynomial roots is very sensitive to rounding errors, so eigenvalue routines use iterative methods instead (Trefethen and Bau, Lecture 25). The polynomial is the idea, not the algorithm.
 
 ## 4. Finding the eigenvectors
 
@@ -213,10 +213,10 @@ Not every matrix has an eigenbasis. The shear of Figure 2 has only one line of e
 
 > **Key point:** PCA is an eigen-decomposition of a covariance matrix, which always has an eigenbasis; repeated multiplication drifts towards the top eigenvector.
 
-- **PCA.** The principal components are the eigenvectors of the covariance matrix, and the eigenvalues are the variances along them (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 4.3). A covariance matrix is symmetric, which guarantees a full eigenbasis of perpendicular eigenvectors: PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
+- **PCA.** The principal components are the eigenvectors of the covariance matrix, and the eigenvalues are the variances along them (see the [PCA step by step Note](../48-pca-step-by-step/note.md), section 4.3). A covariance matrix is symmetric, which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
 - **Powers of a matrix.** Whenever a model applies the same matrix again and again, the eigenbasis explains the result: each step multiplies the eigenbasis coordinates by their eigenvalues, so the direction with the largest eigenvalue takes over.
 
-> **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues are 1 and 0.4. Day after day, the 0.4 part shrinks to nothing ($0.4^{30}$ is about $10^{-12}$), and any starting split of users settles on the eigenvector of eigenvalue 1, scaled to sum to 1: $[0.833, 0.167]$. Google's original PageRank ranked web pages with exactly this kind of eigenvector, and the trick of multiplying repeatedly to find the top eigenvector is called **power iteration**.
+> **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues are 1 and 0.4. Day after day, the 0.4 part shrinks to nothing ($0.4^{30}$ is about $10^{-12}$), and any starting split of users settles on the eigenvector of eigenvalue 1, scaled to sum to 1: $[0.833, 0.167]$. Google's original PageRank ranked web pages with exactly this kind of eigenvector (Page et al. 1999), and the trick of multiplying repeatedly to find the top eigenvector is called **power iteration**.
 
 ## 8. Summary
 
@@ -233,6 +233,12 @@ Not every matrix has an eigenbasis. The shear of Figure 2 has only one line of e
 - Plug each eigenvalue back into $(A - \lambda I)\mathbf{v} = \mathbf{0}$ to get its line of eigenvectors.
 - With an eigenbasis, $P^{-1}AP$ is diagonal and powers become easy: $A^k = PD^kP^{-1}$.
 - Covariance matrices always have an eigenbasis, which is why PCA works for any data.
+
+## Sources
+
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.1 (determinant as signed volume, Example 4.2) and Theorem 4.15 (spectral theorem) (MML).
+- Page, L., Brin, S., Motwani, R. and Winograd, T. (1999). "The PageRank Citation Ranking: Bringing Order to the Web". Stanford InfoLab technical report.
+- Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 25, overview of eigenvalue algorithms.
 
 ## 9. Key terms
 

@@ -46,7 +46,7 @@ Ridge regression changes the loss function. In words: the loss is the usual sum 
 
 $$L = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 + \lambda m^2$$
 
-$\lambda$ (lambda) is a hyperparameter, at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only shifts the line up or down and does not make it steeper.
+$\lambda$ (lambda) is a hyperparameter, at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
 
 With numbers, Figure 1 has two training points, $(1, 2)$ and $(3, 5)$, and $\lambda = 1$.
 
@@ -55,9 +55,9 @@ With numbers, Figure 1 has two training points, $(1, 2)$ and $(3, 5)$, and $\lam
 - **The least-squares line** passes through both points: slope 1.5, errors 0. With the penalty, its loss is $0 + 1 \times 1.5^2 = 2.25$.
 - **A flatter line** with slope 0.9 misses both points slightly: errors $0.72$. Its loss is $0.72 + 1 \times 0.9^2 = 1.53$.
 
-With the penalty, the flatter line has the lower loss, so Ridge prefers it. On new data drawn from the same source (grey), the flatter line is indeed better: test mean squared error 0.43 against 0.93.
+With the penalty, the flatter line has the lower loss, so Ridge prefers it. In Figure 1 the grey test points come from a flatter pattern, so here the flatter line also fits new data better (test error 0.43 against 0.93). Figure 1 is a made-up example to show the idea; Section 4.3 tries it on real data.
 
-Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance): the bias-variance trade-off in action.
+Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
 
 ## 4. The effect of λ
 
@@ -99,7 +99,7 @@ Figure 3 trains Ridge on the 10-input diabetes data with alpha from 0.0001 to 10
 
 ![Coefficients and test R² against alpha on the diabetes data](images/diabetes_alpha.png){height=45%}
 
-- **Left:** every coefficient moves towards 0 as alpha grows. The large opposite pair s1 ($-971$) and s5 ($+794$), signs of multicollinearity, are the first to be tamed.
+- **Left:** at a large alpha every coefficient ends near 0, though not always in a straight line (age and s6 first grow, s3 changes sign). The biggest one, s1 ($-971$), shrinks fastest. Why was it so big? s1 and s2 are strongly correlated ($r = 0.90$). Plain linear regression gives such a pair large opposite coefficients ($-971$ and $+574$) that partly cancel each other, and Ridge's limit on coefficient size stops this (ESL §3.4.1). At alpha 0.01 the pair is already down to $-421$ and $+138$.
 - **Right:** test R² is 0.519 for plain linear regression and peaks at 0.523 around alpha 0.02. Beyond about alpha 1 it falls, and with alpha 100,000 every coefficient is about 0.005 and $R^2 = 0.00$: the model just predicts the average.
 
 > **Python:** Ridge in scikit-learn.
@@ -113,14 +113,14 @@ Figure 3 trains Ridge on the 10-input diabetes data with alpha from 0.0001 to 10
 > ridge.score(X_test, y_test)
 > ```
 
-> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their inputs. An input measured in grams gets a much smaller coefficient than the same input in kilograms, so it would be penalised less. That is why inputs are standardised before Ridge (the diabetes inputs already are). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
+> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their inputs. An input measured in grams gets a much smaller coefficient than the same input in kilograms, so it would be penalised less. That is why inputs are standardised before Ridge (ISL §6.2.1). The diabetes inputs already come scaled (scikit-learn docs, `load_diabetes`). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
 
 ## 5. Summary
 
 | alpha (λ) | Effect |
 |---|---|
 | 0 | ordinary linear regression |
-| small | slightly smaller coefficients, often better on new data |
+| small | smaller coefficients; here slightly better test R² |
 | large | coefficients near 0, the model underfits |
 
 - Overfitting linear models have extreme coefficients.
@@ -128,7 +128,13 @@ Figure 3 trains Ridge on the 10-input diabetes data with alpha from 0.0001 to 10
 - It trades a little bias for less variance.
 - alpha is tuned on held-out data; inputs should be standardised first.
 
-## 6. Key terms
+## 6. Sources
+
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.1, pp. 237–240.
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63.
+- **scikit-learn docs:** `sklearn.datasets.load_diabetes`, scikit-learn 1.9 documentation.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

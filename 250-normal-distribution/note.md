@@ -60,9 +60,9 @@ The name says it: the shape is **normal**, meaning common. Many natural phenomen
 - heights of people;
 - weights of objects of the same kind;
 - IQ scores of a population;
-- measurement errors in repeated measurements.
+- measurement errors in repeated measurements (Taylor 1997, ch. 5).
 
-For centuries, people in many fields collected data and drew its PDF, and this same bell kept appearing. So it was studied in great depth, and today its mathematics is completely worked out. That is why, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
+For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. So it was studied in great depth, and today its mathematics is completely worked out. That is why, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
 
 ## 5. The PDF of the normal distribution
 
@@ -104,7 +104,11 @@ The formula looks frightening, but it can be built term by term (Figure 2):
 
 ![Building the normal PDF term by term: the bell, the shift, the width, the area](images/pdf_build.gif){height=55%}
 
-> **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve, and the bell's two **inflection points** (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The area $\sigma\sqrt{2\pi}$ in step 6 comes from a classic integral, $\int_{-\infty}^{\infty} e^{-t^2/2}\,dt = \sqrt{2\pi}$, which we take on trust here.
+> **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve (MML §6.5), and the bell's two **inflection points** (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The inflection points follow from two derivatives of $f$:
+> $$f'(x) = -\frac{x - \mu}{\sigma^2}\, f(x), \qquad f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
+> $f''$ changes sign where $(x - \mu)^2 = \sigma^2$, that is at $x = \mu \pm \sigma$. Without the 2 the same steps would give $\mu \pm \sigma/\sqrt{2}$.
+>
+> The area $\sigma\sqrt{2\pi}$ in step 6 comes from a classic integral, $\int_{-\infty}^{\infty} e^{-t^2/2}\,dt = \sqrt{2\pi} = 2.5066$; we do not prove it here, but the Notebook checks it numerically.
 
 ## 6. Properties of the normal distribution
 
@@ -138,7 +142,7 @@ Reading Figure 3:
    $$F(72) = P(X \le 72) = 0.909$$
    so about 91% of men are 72 inches or shorter.
 
-> **Extra:** This integral has no formula in elementary functions: no combination of powers, logs and exponentials gives the normal CDF exactly. So it is computed numerically, either by software or, in the past, by printed tables. Those tables are the z-tables of the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
+> **Extra:** This integral has no formula in elementary functions: no combination of powers, logs and exponentials gives the normal CDF exactly (Conrad, "Impossibility theorems"). So it is computed numerically, either by software or, in the past, by printed tables. Those tables are the z-tables of the [standard normal distribution Note](../251-standard-normal-and-z-table/note.md).
 
 > **Python:** The CDF in scipy.
 >
@@ -162,6 +166,12 @@ Reading Figure 3:
 - The tails approach the x axis but never touch it.
 - The formula is a bell $e^{-x^2}$, shifted by $\mu$, widened by $\sigma$, scaled to area 1.
 - The CDF is an S-curve through 0.5 at the mean.
+
+## Sources
+
+- Taylor, J. R. (1997). *An Introduction to Error Analysis*, 2nd ed. University Science Books. Chapter 5, "The Normal Distribution".
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 6.5 (Gaussian distribution).
+- Conrad, B. "Impossibility theorems for elementary integration". Proves that $e^{-x^2}$ has no elementary antiderivative.
 
 ## 9. Key terms
 

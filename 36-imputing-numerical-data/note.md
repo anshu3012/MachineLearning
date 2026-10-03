@@ -106,7 +106,7 @@ We split the data 80/20: 712 training rows and 179 test rows. In the training se
 
 The same is done for `Fare`, with median 14.46 and mean 32.62. The test set is filled later with these same training values.
 
-> **Extra:** Computing the mean on the whole table before the split lets the test rows influence the fill value. The test set would then no longer be truly unseen data. This is called **data leakage**, and the rule is always: fit on the training set, apply to both sets.
+> **Extra:** Computing the mean on the whole table before the split lets the test rows influence the fill value. The test set would then no longer be truly unseen data. Letting test rows shape the fill value is called **data leakage**, and the rule is always: fit on the training set, apply to both sets (scikit-learn docs, Data leakage).
 
 ### 3.2 Variance shrinks
 
@@ -167,7 +167,7 @@ The relationship with `Family` weakened by about a fifth. For `Fare`, the covari
 > X_train.corr()
 > ```
 >
-> Both skip missing values pair by pair. The "original" numbers therefore use only the rows where both columns are known.
+> Both skip missing values pair by pair (pandas docs, DataFrame.cov). The "original" numbers therefore use only the rows where both columns are known.
 
 ### 3.5 New outliers appear
 
@@ -214,7 +214,7 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 
 `"most_frequent"` fills with the mode, used mainly for categorical columns (next Note). `"constant"` is used for arbitrary value and end of distribution imputation (Sections 5 and 6).
 
-> **Extra:** `add_indicator=True` adds the **missing indicator** of Note 35, covered in its own Note. Since scikit-learn 1.5, `strategy` may also be a function, such as `np.nanmax`. A column with no values at all is dropped with a warning, unless `keep_empty_features=True`, which keeps it filled with 0.
+> **Extra:** `add_indicator=True` adds the **missing indicator** of Note 35, covered in its own Note. Since scikit-learn 1.5, `strategy` may also be a function, such as `np.nanmax`. A column with no values at all is dropped with a warning when the strategy is not `"constant"`, unless `keep_empty_features=True`, which keeps it filled with 0 (scikit-learn docs, SimpleImputer).
 
 ### 4.2 A different strategy per column
 
@@ -332,7 +332,7 @@ The fill value, step by step:
    $$31.28 + 1.5 \times 23.38 = 66.34.$$
    The left end, $7.90 - 35.07 = -27.17$, is an impossible fare, so we use the right end.
 
-> **Extra:** Some libraries, such as Feature-engine, use $Q_3 + 3 \times \text{IQR}$ by default, to land further out. Both versions follow the same idea.
+> **Extra:** The library Feature-engine uses $Q_3 + 3 \times \text{IQR}$ by default when its IQR rule is chosen, to land further out (Feature-engine docs, EndTailImputer). Both versions follow the same idea.
 
 ### 6.3 On real data
 
@@ -373,7 +373,14 @@ Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 - Always compute the fill value on the training set with `fit`, then `transform` both the training and the test set.
 - `ColumnTransformer` lets each column use its own imputer. Its `set_output` method can make the result a DataFrame.
 
-## 8. Key terms
+## 8. Sources
+
+- scikit-learn User Guide, *Common pitfalls and recommended practices*, section "Data leakage".
+- scikit-learn API reference, `SimpleImputer`.
+- pandas API reference, `DataFrame.cov` and `DataFrame.corr`.
+- Feature-engine API reference, `EndTailImputer` (parameter `fold`).
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

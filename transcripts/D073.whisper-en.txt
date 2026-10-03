@@ -1,0 +1,956 @@
+Hi guys, my name is Nitesh and you are welcome to my YouTube channel.
+In this video also, we will continue our deep learning playlist.
+We have started reading Transformers.
+I have uploaded two videos till now.
+The first video was on the introduction of Transformers.
+And in the second video, we started reading self-attention.
+In the last video, we covered what is self-attention in detail.
+So, today's video is very important.
+Like it's absolutely critical because in today's video we will try to understand exactly how self-attention works.
+Now if I want to motivate you a little bit that why you should watch this video completely.
+So I would just say one thing.
+I am pretty sure you are aware that in today's market a new technology called Gen AI has penetrated in the market.
+Generative AI and most likely, if you have given any interview recently, then you might have been asked questions around it.
+And there is clearly a surge of demand in the industry around generative AI.
+And if I ask you that what comes at the center of generative AI, which is a complete technology,
+then I am sure you should know that it is transformer architecture.
+This technology is growing and improving around the Transformers architecture.
+And if I ask you what comes at the center of the Transformers architecture,
+then its answer is self-attention.
+So that is why this video is very critical.
+If you want to learn Generative AI, then it will start with this video.
+So this video is so important that I also put a lot of effort in making this video.
+Generally, it takes me 2-3 days to make a video.
+but it took me 14 days to shoot this particular video, to make this video, to research this video
+and I think I have never worked so hard on this channel to make any other video
+so in that sense this video is very special because I have tried
+in this video to explain self attention in such a way
+that you feel that you have invented self attention so there is a lot of level of simplification
+and I think this video will be successful for me when you tell me in the end of the video that I don't know why it took you 14 days, the topic was very simple.
+So if you found the video so simple after the video ended, then my work is done.
+So I am really excited to see your response after watching this video. Let's start the video.
+So before starting the video, let's take a quick revision of what we discussed in the last video.
+The topic of the last video was what is self-attention.
+So first of all, we discussed that whatever NLP application you want to make,
+the most important thing for that is that you can explain to the machine
+how to represent words in the form of numbers.
+And here different techniques come in picture like one hot encoding, bag of words and finally we read about word embeddings and we discussed that word embeddings are very important because they can convert the semantic meaning of words into numbers.
+And that is the best part about word embeddings.
+But then we came to understand that although embeddings are very useful, but a big problem with them is that they are static.
+This means that if you have trained word embeddings once, now when you will use it again and again, then you will use the same embeddings again and again everywhere.
+Now what is the problem? Suppose you have two sentences, one is money bank, I know it's not a complete sentence but it is written to prove a point and the second sentence is river bank.
+In both these places, the word bank has been used and it has been used in a different context. Here bank means financial institution and here bank means a place, a river bank.
+But since we are using word embeddings, the embeddings used in both the places of bank will be exactly same.
+And then this is wrong. This cannot be a good starting point.
+So to solve this, we need contextual embeddings.
+Contextual embeddings means that these embeddings should be dynamic.
+and should change according to the context
+means if this bank is coming in the context of money
+then there should be some other number in the embeddings
+and if the bank is coming with the river
+then these embeddings should be some other
+should be dynamically changed
+and here we discussed that self-attention actually solves this problem
+because self-attention is a way to convert static embeddings into dynamic contextual embeddings
+and this flow diagram will give you a clear picture
+so suppose you have this sentence humans love smartphones
+So, how self-attention works? First of all, you take out the static embeddings of these words.
+With any word embedding technique, you can use word2vec, you can use glove, whatever it is.
+And then you send every embedding to the self-attention block.
+and this self attention block does some calculations inside which we have not discussed
+and on the basis of those calculations for every static word embedding it generates a dynamic contextual embedding
+so from here if you send E1, E2, E3 here you will get Y1, Y2, Y3
+And the best part about these contextual embeddings is that they understand in which context this current word is being used.
+So this is our summary of the previous video.
+Now the goal of this video is that we have to understand what is going on in this yellow box.
+What calculations are being done here is that you are able to convert these static embeddings into contextual embeddings.
+That is the goal of this video.
+So let's try to understand from scratch how self-attention works.
+I believe that if you want to understand something, then you should understand it from the first principle.
+You should try to understand it this way as if you are inventing it, creating it.
+So we will also keep the same approach.
+We will approach self-attention as if we are creating self-attention for the first time to learn and understand how self-attention works.
+So see, we have a challenge in front of us.
+These are two sentences. Money bank grows and river bank flows.
+I know there is no meaning of these sentences.
+I am liking it. It is just rhyming.
+But whatever it is. These are two sentences.
+And our problem is that in both these sentences, the word bank is used in different contexts.
+Here bank is used in the context of money.
+and here bank is being used in the context of the river
+so
+the meaning of these two is not the same
+but unfortunately
+if we use word embeddings here
+then the meaning of both will be the same
+and then in the future if you perform any NLP task
+you will not get the correct result
+we need to change
+the meaning of bank here
+based on the context around the word
+ok
+So what if I put a little bit of mind and say that I will not write bank like a bank.
+I will write bank like this that bank is made up of a little bit of money, a little bit of bank and a little bit of gross.
+Bank means 0.3 times money, 0.7 times bank and 0.1 times gross.
+Similarly, here also I will write bank as 0.5 river, 0.4 bank and 0.1 flows.
+So automatically you can see that here the meaning of bank is coming out versus here the meaning of bank is coming out first of all it is different.
+Not only that now it is also depending on the context.
+Means the meaning of bank is depending on money and on gross which is its context.
+Because bank came here with money and gross.
+Similarly, bank is here with river and flows, so now in its context, we are using river and flows.
+So, in general, I thought that what if instead of representing every word in this way, I represent things in this way.
+I hope you can see this whole thing.
+so this is the first sentence money bank grows and this is the second sentence river bank flows
+and you can see I have represented every word of the first sentence in the form of the rest of the words
+and same with sentence 2 here also river is represented in the terms of river bank flows
+bank is represented in the terms of river, bank, flow and same with the 3rd word
+so the benefit of this is that if you focus on the bank
+if you focus on the bank in both the sentences
+then even though LHS is same
+but RHS is different in both the places
+And what if I use this simple idea, I will have to add it a little bit according to myself.
+For example, I have to make a small change that I can't talk in terms of words because machines won't understand words.
+Instead, in which terms should I talk? What is the way to represent words? Word embeddings.
+So, what we will do is, rather than writing these 6 equations in terms of words, I can write them in terms of word embeddings.
+So, I can easily write that embedding of money, in fact the new embedding of money will be equal to 0.7 times, focus on this equation,
+embedding of money plus 0.2 times embedding of bank plus 0.1 times embedding of gross
+where all of these are vectors n dimensional vectors and when you do weighted sum of three
+When you do weighted sum of three n-dimensional vectors, then this vector will also be n-dimensional.
+And same I can do with the other two words.
+So we will represent the new embedding of bank like this.
+And we will represent the new embedding of gross like this.
+And this is the mathematical form.
+But one thing is not clear to you that what is this number representing, what are all these numbers representing, so it is very easy to understand.
+What we are saying is that the new word embedding of money is 0.7 times made from the old embedding of money
+plus 0.2 times bank's old embedding and 0.1 times gross's old embedding
+this is the meaning
+so in a way you can say that these numbers are actually representing similarity
+they are representing similarity
+similarity between what?
+similarity between word embeddings
+So this point 7 is actually similarity between money embedding and money embedding.
+This point 2 is similarity between money embedding and bank embedding.
+This point 1 is similarity between money embedding and gross embedding.
+Similarly, this 0.1 represents similarity between gross and money embedding.
+I hope you are able to understand.
+And essentially, what are all these embeddings?
+These are vectors in high dimensional spaces.
+So, if I have to calculate similarity between two vectors, then how can I do it?
+I guess you know that there are multiple ways to do it, but one of the easiest one is to calculate the dot product.
+If you calculate dot product between two vectors, then in a way it shows similarity.
+Let me explain you with an example.
+Suppose you have three vectors, this is 6 comma 1, this is 4 comma 2 and this is 1 comma 5.
+So if you talk about these two, then what will be their dot product?
+4 times 6 is 24 plus 2 times 1 is 2, 26.
+And if you talk about this and this, then what will be the dot product of these two?
+1 times 6 is 6, plus 5 times 1 is 5, which is 11.
+So, you can understand that this vector and this vector are more similar
+in comparison to this vector and this vector.
+This dot product gives you this by quantifying.
+So, this means that all these numbers that you can see here,
+they are essentially dot products between word embeddings.
+So now things have become very easy, I can generate a new contextual embedding of every word with the help of this mathematical equation and I will show you by visualizing it.
+Before visualizing, I have written one thing here.
+So, basically I took this equation, the second one, where I am generating the new embedding of the bank word
+and in return of all its similarities, I have written it in the form of dot product.
+For example, where did 0.25 come from?
+When we did dot product with the money word embedding of bank word.
+Where did 0.7 come from?
+when we did bank word embedding with dot product
+and from where 0.05 came when we did bank word embedding with gross word embedding
+with dot product. So basically this is the equation
+and I will now visually represent it for you. So
+first of all what we have to do is calculate all these weights
+And from where all these weights will come? From dot product.
+So first of all here I will write the embedding of bank in three places because I have to use it three times.
+This is also of bank and this is also of bank.
+This is n dimensional vector.
+Now I have to do dot product of this first of all with money.
+here I have to dot product with bank itself
+and here I have to dot product with the embedding of gross
+let's assume for some time that we get a scalar from these two dot products
+let's call it S21
+Why 2,1? Because bank is the second word of the sentence and its dot product we are doing with the first word's embedding.
+Similarly, we got S22 with the second word's embedding.
+By doing dot product, we got this number and it will be S23.
+Now one thing you might have noticed that I have written such numbers here intentionally
+When you add them together, you will get 1
+Basically they are normalized
+Machine learning and deep learning love normalization
+Normalization is a very good operation
+So what we can do is normalize these three numbers S21, S22 and S23
+because these numbers can be big or small, they can be negative as well.
+It is a dot product.
+So suppose here it is 36, here it is minus 15, here it is 32.
+So actually write these numbers in such a way that their sum is 1.
+Basically, if it is converted in probabilities, then we will have a very good representation that the word bank is made up of 70% of bank, 20% of money and 10% of gross.
+So, what can we do for this interpretation? We can normalize it and since there is a chance of negative here, what we can do is that we can put all three of them in the softmax function.
+So, I will just create a box. This is the softmax function.
+In this softmax function, we are putting S21, S22 and S23.
+and we are getting three numbers
+first is W21
+second is W22
+and third is W23
+and when you add these three numbers
+then it will be 1
+if you don't know how softmax works
+So, to get W21, you are doing E raised to the power S21 divided by S21 plus S22 plus S23, okay?
+Similarly, what are you doing to get W22?
+e raised to the power s22
+e raised to the power s21
+e raised to the power s22
+e raised to the power s23
+and similarly you are taking out s23
+this is the softmax operation
+this much is done
+so basically now I have
+this dot product
+this dot product
+this dot product
+and these three are normalized
+the sum of these three will be 1
+now what we have to do
+with these vectors
+again we have to do multiplication so basically now this thing will be multiplied with the
+vector of money this thing will be multiplied with the vector of bank and this thing will
+be multiplied with the vector of grows and we will add these three things and we will get
+e bank new new embedding we can call it something else we can call it y now this is a new contextual
+word embedding
+which is made together
+from three words
+embedding
+in fact it is a weighted sum of
+the three
+embeddings and in the same way
+we will find y money
+and
+y gross
+in the same way
+and in fact I have also found
+you can see
+this is a very detailed diagram
+where i started with money word embedding and here i calculated money word's new embedding
+you can see, i calculated money from money, money from bank, money from gross
+i got S11, S12, S13, in softmax i got W11, W12, W13
+and then i calculated W11 from money, W12 from bank, W13 from gross
+Waited some and I got Y money.
+This middle one I just showed you and this is of grows.
+So you can see for every word I will take out embedding and follow this whole process.
+So I am getting new contextual embedding.
+So I did it for first word, then for second word and then for third word.
+And now I have the new contextual embeddings of every word in my sentence.
+So this was my normal first principle approach that we can generate contextual embedding in this way.
+Now we will review this method that what is good and what is bad in this method.
+I have to talk about two things in this method.
+The first thing is that the whole work that we have done is that we have calculated the embedding of every word and calculated the new embedding from that embedding.
+If you pay attention then you will understand that this operation is a parallel operation.
+What I mean to say is that what we are doing now is that we are taking out the embedding of the first word and then we are completing this operation.
+then we are taking out the embedding of second word and then we are completing this operation
+then we are taking out the embedding of third word and then we are completing this operation
+but if you pay attention then there is no reason that we can't do all these three things together
+i.e. think about it yourself
+what is there in this second operation which is depending on first operation
+Nothing. You just need these embedding vectors which can be generated together.
+What is in this third operation which depends on second?
+Nothing. You just need embedding vectors which can be generated together.
+So essentially what I am trying to say is that you can do these three things in parallel.
+You can generate new embeddings of these three words in parallel.
+If there are 1000 words in this sentence, all the new embeddings can be calculated in parallel.
+How?
+With the help of linear algebra, you can do this work in one go.
+What did I do?
+First of all, we were giving inputs at three places.
+First place was the input of e-money, second place was the input of e-bank and third place was the input of e-grows.
+I wrote it in the form of a matrix. This is a 3xn matrix where 3 represents the number of words in our sentence
+and n represents the size of our embedding vector. It could be 3, it could be 5, it could be 100, it could be 500.
+It doesn't matter. Then I took another matrix because every time we are multiplying this green vector with this pink vector.
+So, I have made another matrix by combining these three pink vectors.
+So, if this is 3xn, then obviously it is nx3.
+From these two dot products, you will get a matrix of 3x3.
+Which will be these values S11, S12, S13, S21, S22, S23, S31, S32, S33.
+this is the matrix
+now i will run softmax on this matrix
+basically i run this operation in parallel
+what i got from this? w matrix
+w11, w12, w13 and so on
+now i am here
+i have w11, w21, w31
+all this is there
+now what i have to do
+again from these blue vectors, we have to multiply, right, then again I can parallelize this operation,
+what I did, by combining these blue vectors, I made this matrix, this is again a 3xn matrix,
+basically this matrix and this green matrix is the same thing, and when we did dot product on these two,
+then we got this new purple matrix, which is basically a combination of y money, y bank and y gross,
+So this is the best part about this first principle approach that if there are 3 words in your sentence or 30 words, it doesn't matter, you can generate contextual embedding of those 30 words together.
+This entire thing is parallel and parallel means it can utilize the functionality of GPU, the functionality of the graphics card and this operation will happen very fast.
+So speed is one of the advantages of this method.
+But there is a disadvantage with this advantage.
+If you will do this operation parallelly.
+If you will generate money's contextual vector, bank's contextual vector, and gross's contextual vector together.
+Then you will loose the information of sequence.
+You will never know whether bank came first or money came first.
+Apparently, sequence matters in textual data.
+So, one benefit is happening here, but one loss is also happening due to that benefit.
+But it's okay, the benefit is too much and the loss is small.
+We will take out some other part of sequential information.
+But what will be the benefit of this parallel operation?
+That training can be done very fast.
+Okay?
+So, I hope you understood the first point of consideration.
+And the second point that I want to consider is that
+our first principle approach that we made,
+There are no learning parameters in this.
+Whenever you make a deep learning model, there are weights and biases.
+Why are there weights and biases? So that you can learn something from the data.
+If you see our self-attention model, here we are performing three operations.
+1 this operation, 1 this operation and 1 this operation.
+With the help of these 3 operations, I am getting my output.
+But in these 3 operations, if you pay attention,
+then there are no parameters involved.
+This is essentially a dot product.
+This is a softmax operation.
+And this is also a dot product.
+So basically there are no learning parameters
+and hence there is no learning.
+The simple meaning of this is
+that you
+with your words
+suppose you have this word hello
+you got an embedding from that
+with that embedding
+the contextual embedding you are generating
+it is not able to learn from the things in your data
+I will try to explain this point better
+suppose you are performing a machine translation task
+where in input you have given English sentence
+and in output you have given Hindi sentence
+and you have to make a model
+which will take the English sentence and will translate it in Hindi
+so first sentence is how are you and what is the output of this
+how are you I am good
+I am good
+in this way I have a lot of sentences
+so what I am saying is that the self attention model that we have developed
+This model we have developed, this model does not have any difference with this data, it only has a difference with the current sentence.
+What you are doing in this model, you are putting one sentence, you are putting how, r and u.
+Its embedding is getting, its embedding is getting, its embedding is getting.
+then you are putting it in our simplified self-attention model
+and from here you are getting y1, y2, y3
+but this contextual embedding that is being generated
+it is not depending on the nature of your task
+it is not depending on the data of your task
+it is independent
+It's like general contextual embedding.
+It is not a task specific contextual embedding.
+Now you will say, what difference does it make?
+Use general contextual embedding.
+Even if it is not task specific, what difference does it make?
+Actually, it makes a difference.
+Let me tell you an example.
+Suppose, you want to translate this particular English sentence into Hindi.
+Now, what you will do is, you will generate embeddings of all these.
+And then, from these embeddings, you will generate general contextual embeddings.
+That is what Y1, Y2, Y3.
+Now think what is the meaning of Piece of cake in English. Piece of cake means a small piece of cake.
+This is the meaning. But when I translated with this context, what came out in Hindi?
+cake ka tukda
+right but mere data mein
+piece of cake ka hindi translation likha hua tha
+bohot aasaan kaam
+ye bhi to ek meaning hota hai piece of cake ka
+that task is a piece of cake
+bohot hi aasaan hai
+but since we were generating general contextual embedding
+so obviously our output will be a piece of cake
+it can never think that its translation will be very easy
+but if we had generated task specific contextual embedding
+So it could have been possible that you could have done the translation of Piece of Cake very easily.
+So this is the main problem.
+The approach we took is a very simple approach, a very nice approach and it has its advantages too.
+But a very big disadvantage is that the contextual embedding you are getting from this approach is general.
+You can apply it on any NLP task.
+But it's not always good. There would be certain cases where your general contextual embedding will fail.
+Like I gave you this example. I can give you one more example.
+Break a leg. Now if you generate general contextual embedding of this sentence again,
+then again your translation will be that break your leg.
+This is what will happen. But when you see in the data, it was written Shubh Kam Naye
+Because it is used as a metaphor. So what I want to make a point, what I want to keep in front of you
+That it seems on the basis of this whole discussion that it is not sufficient to generate only contextual embedding
+We need task specific contextual embeddings.
+Meaning, it will be contextual embedding only.
+We will generate embedding of every word on the basis of our nearby words.
+But, it should depend on our NLP task.
+If you are doing machine translation, then it should be contextual embedding according to machine translation.
+If you are doing sentiment analysis then on the basis of sentiment analysis contextual embedding should be generated and so on.
+That is the larger point that I am trying to make.
+So basically in some way we have to introduce some weights and biases in this whole process.
+we will have to put weights and biases in this process
+so that next time when we are getting a new sentence
+then our self attention model is also learning
+that in this data this word is kept like this
+this learning should be on the basis of data
+and not in general how it is used in a sentence
+so I hope you understood
+so the main point of discussion came out
+first is
+that the approach we have taken
+it works
+it generates contextual embeddings
+means here you can represent one word with other words
+on the basis of which we are able to represent
+and one big benefit is happening in this
+that we can do this whole work in parallel, so this is a very big benefit, but a very big loss
+we understood that there is no learning happening here on the basis of data, on the basis of task,
+the contextual embedding that we are generating is general, you can use it anywhere, but it is better than
+general in specific machine learning, when you are talking about such scenarios, so now what is our goal
+that we will improve this first principle approach.
+We will introduce some learnable parameters here
+so that after seeing every next training sample,
+our self-attention model generates better contextual embeddings
+but specific to the task that we are performing.
+I really hope you understood this point.
+Let's do one thing, there was a lot of discussion.
+Let's summarize the progress till now.
+So, we started with a problem that we have to do something so that words can be understood by machines.
+And in this process, we discovered that embeddings are great for this purpose.
+Because embeddings can capture semantic meaning of words and convert them into numbers.
+But in word embeddings, there is a problem that the context is not able to be captured.
+For example, in river bank and money bank, the numerical representation of the bank will be same.
+So what is the benefit?
+So here we understood that we need contextual embeddings
+Which will dynamically change according to the usage of the word in the sentence
+Means this representation and this representation of the bank should look different
+Then we developed a super simple self-attention model
+And this model was able to generate contextual embeddings for us
+But then we realized that Contextual Embeddings are of two types
+One is General Contextual Embeddings
+And the other is Task Specific
+And we realized that Task Specific Embedding will be more helpful and will give better results
+But unfortunately our simple self-attention model was only able to generate General Contextual Embeddings
+because there were no learnable parameters which could learn something from data
+so now our goal is to add parameters in our simple self-attention model
+some learnable parameters means we have to add weights and biases which can learn with data
+And by doing this, our self-attention model will start generating task-specific contextual embeddings, which we need.
+Now if we think again from the first principle, because we are creators, we are making self-attention model for the first time.
+So on the basis of the discussion so far, on the basis of my experimentation so far, I have reached this conclusion that
+that in this flow diagram I have to introduce weights, learnable parameters, but the question is that where will you do it exactly?
+So if you think logically, you will notice one thing clearly. First of all, this is a three step process.
+The first step is dot product in between these two matrices.
+The second step is softmax operation on this matrix.
+And then the third stage is dot product in between these two matrices.
+So this is a dot product, this is a dot product, this is a softmax operation.
+So one thing is clearly understood that in this step you cannot introduce any weights.
+because this is just a simple softmax operation
+so to introduce weights
+there are only two possible places in this whole process
+one is here
+and one is here
+so now what we will do
+we will once again
+go through this whole process
+and specially we will focus on this step and this step
+and we will try to think that can we introduce any weights and biases i.e. learnable parameters or not
+and obviously it should be logical, we don't have to force it
+so after carefully going through this diagram, I realized one thing
+I think you must have also realized that every word embedding like money embedding
+or bank's embedding or growth's embedding. Every word's embedding is actually playing 3 different roles.
+How? Let me explain. Let's focus on the first one. This one where we are trying to generate contextual embedding of money word
+which is why money
+ok
+now notice here
+the money word embedding
+is used in green color
+it is used in pink color
+and it is used in blue color
+similarly if you come here
+in middle
+where you want to generate
+bank word contextual embedding
+here the embedding of bank word is coming in three forms
+first one is coming here, second one is coming here and third one is coming here
+and same here, the embedding of gross word is coming here, here and here
+so basically these three embeddings are playing three different roles in three steps
+What are those rules? Let's try to understand them.
+If we just talk about this first one, where we are trying to find the contextual embedding of the money word,
+then the word embedding of money is used as a green box and what purpose is it solving here?
+in one way he is asking question from the embedding of all other words
+that how much similarity between you and me
+see here same
+here embedding of bank word
+is asking question from embedding of all other words
+that how much similarity between you and me
+In a way, I can say that every embedding in the green box is playing the role of query.
+It is asking a question, so I can call it a query.
+Now let's talk about the pink one.
+What role are all the embeddings playing in the pink one?
+that when green embedding asks a question
+then pink embedding replies
+this is the same
+when e-money
+asked e-money that tell me how much similarity between you and me
+then it is telling in reverse
+same with e-bank, same with e-grows
+so in a way, these pink boxes
+they are acting as keys
+from which you can ask a query
+And lastly, when our weights are getting calculated, then we are calculating a weighted sum with the help of those weights.
+And to calculate that weighted sum, these blue boxes are acting as values.
+Now you will say that how did you think of such a specific name?
+Actually I haven't thought about it. This is a very simple computer science terminology, let me tell you.
+In Python, you make dictionaries, right?
+Suppose you made a dictionary.
+The value of A is 2.
+The value of B is 3.
+And the value of C is 4.
+This is your dictionary.
+So what do you call this A or this B or this C in this dictionary?
+you call it as key
+this is also a key
+this is also a key
+and this 2
+and this 4
+and this 3
+what do you call it?
+key value
+now if the name of this dictionary is D
+so if I write like this
+D A
+equal to question mark
+so in a way this A
+is my query
+I am doing this query that is there a key named A here, if it is there then return its value to me
+here it will be 2
+so this is a simple computer science language, here we are doing exactly the same thing
+here what we are doing is that to calculate every contextual embedding
+First of all, the word embedding is asking questions from all the other embeddings
+So it became a query
+All the other embeddings are answering
+So they became keys
+And what are they answering?
+It became a value
+So this is the meaning of this discussion
+that we use any of our word embedding in three ways
+as key, as query and as value
+same with bank
+we use bank in three ways
+as key and as value
+and same for gross
+If you want to understand something from this whole discussion, then only one thing has come out that in the process of calculating contextual embeddings, every embedding vector is playing three roles.
+Sometimes it becomes a query, sometimes it becomes a key and sometimes it becomes a value.
+So this is what I wanted to show you. I really hope you are able to observe this and appreciate that what we have made from the first principle is happening in a very fine way.
+So we have understood that every word embedding is playing three roles. Query, key and value.
+But do you know what is my problem in this approach?
+In this approach, I have a problem that query also becomes this vector itself.
+Key also becomes this vector itself.
+And value also becomes this vector itself.
+I think this is not the right way.
+What should be ideally?
+Ideally, we should have 3 different vectors coming out of this vector.
+One should perform the role of query.
+One should perform the role of key.
+And one should perform the role of value.
+Now you will ask why?
+What will be the benefit of this setup?
+So my answer is very simple.
+The answer is separation of concerns.
+If I put all three functions on one vector,
+then I feel that that vector will not be able to do all three functions properly.
+But if I transform that vector into three new vectors,
+then there is a chance that each vector will fulfill its role properly.
+Like QueryVectorForBank will do the work of Query well, KeyVectorForBank will do the work of Key well and ValueVectorForBank will do its work well.
+Now I know you are not getting the intuition of this. So I will give you an intuition of this.
+I will give you a very good example
+which will help you understand
+why I am saying that
+we should transform our word embedding vector
+into three new vectors
+ok
+but to give this example
+I want to come on camera
+because I think that
+if you understand the example while looking at me
+then you will understand it better
+so hi, let's talk about the example
+example is very simple
+so
+So there is this guy who is a writer, author, his work is to write books and he has written a lot of books till now, but most recently he has written his own autobiography and in this autobiography he wrote everything about himself,
+all the interesting incidents of his life
+he also told us about his personality
+what kind of girl he likes
+what kind of wife he wants
+he also told us in detail
+he also told us what kind of husband he wants to be
+so he wrote all this in this autobiography
+now this guy is 35 years old
+And his family started putting pressure on him like any other Indian parent
+That he is good, he has become an author, he is successful, now get married
+So he also thought that yes, let's get married
+So he went to a website
+Maybe you must have heard the name jeevansathi.com
+It is a very famous website
+So here you can go and find marriage partners for yourself
+so basically you can find your future wife or husband
+so if you talk about this website
+so generally you do three types of work on this website
+first thing you do is
+you make a profile
+ok
+and the idea of this profile is
+that tomorrow
+when someone is finding a guy
+so on the basis of his interest
+she will be shown this profile and from this profile that girl will understand that what kind of guy you are
+and if she likes you then things will move forward. So this profile is very important on this website.
+Second, after your profile is made, what you do is you start searching.
+You tell the website that I want a girl like this, so please find me and show me.
+So searching is a very important aspect on this website and finally the third thing is match.
+I liked a girl, I sent her a request, she wrote my profile, she liked me, it was a match.
+And after this match, we will start talking on the phone or we will meet physically somewhere.
+And the goal would be to take this thing forward till marriage.
+So, first of all I want to draw a parallel.
+In what we were reading, this e-bank which is our word embedding in which you will get all the information related to our words.
+It is actually comparable, analogous to this autobiography.
+in this autobiography also you will get all the information of this guy
+after that this search
+this guy is searching on the website
+information about girls
+this is analogous to query
+what you are doing here
+what you are doing is that you are trying to talk to this girl, you are trying to talk to this girl, you are trying to talk to this girl
+you are trying to find the similarity between you and this girl
+so who is helping you to find the similarity?
+you are doing the query
+If you search on this website that you want a girl of this state or a working girl or any other thing
+then it is relatable to the query aspect of our self-attention model
+Then this profile of yours which will help a girl in understanding about me or this guy
+This is actually comparable to, analogous to, key aspect.
+A girl comes from the front and this is the profile of this guy.
+So, the interaction of this search query and this profile,
+we can understand how much compatibility is there between this guy and this girl.
+And finally, the third aspect is match.
+when that boy and girl finally talk to each other
+so that is comparable to this value
+right, so this is analogous to
+this value, ok, so first of all we took an example
+and draw its analogy, now see
+initial setup
+where our embedding
+Query is also being made, key is also being made and value is also being made.
+Why this is not logical, you can understand from this example.
+What if our author says that I will not make a profile.
+Instead, he uploads his autobiography on the website of 300 pages.
+and the person in front of you is telling everyone that you want to know about me, then you download this autobiography and read it completely, you will understand.
+Do you really think that a girl will go and read a book of 300 pages to know someone? No.
+Similarly, when I am going out to search, that is, when this guy is going out to find a girl for himself,
+So what he is saying is that I will not tell you by searching what kind of girl I want, instead I will put all the content in the search bar in this autobiography.
+Because it also has this information that what kind of girl I like.
+So do you think the website will be able to give you the right profile of girls?
+Obviously not. You have to provide crisp information. You are putting the whole book.
+You will never get the right profile. You will never get the right girl.
+And finally, when the match is done, you should talk to her. You should chat on WhatsApp or talk on the phone.
+Even if a girl likes you, you are not telling her to do something.
+This is my autobiography in which I have written everything about myself.
+You read this book and you will understand how I am.
+You can't do that because there is a lot of risk in it.
+First of all, there are many things written in it that it is possible that you should get married instead of getting married.
+Because here you must have written that what you have done with your friends.
+it is written that you have a sleep disorder
+it is written that you lose half of your salary on dream 11
+because you are lucky to be on dream 11
+you will not want to tell all these things to the person in front of you
+when you are meeting for the first time
+obviously you will keep the best aspects of your personality
+so that your chances of getting married increase
+so what I am saying is that if you
+instead of profile, search and match
+upload your autobiography in all three places
+then it's not a good idea
+in the same way
+when you have to do the complete calculation
+then same embedding vector for query
+same embedding vector for key
+and same embedding vector for value
+is not a good idea
+ideally what you should do
+in this case
+let's come back to our example
+Ideally, you should make your profile very solid.
+The best things from your autobiography that you can put on the display that I am a recognized author,
+I have graduated from this college, so many numbers came in my boards, this is my height,
+whatever good pieces of information you can decorate your profile with, you will put it here.
+Similarly, when you will start searching, you will ask yourself what type of girl you like and on that basis, you will modify your search query.
+First of all, I want a girl of this state, then I want a working professional and I will tell my other preferences to the website.
+Only then I will see the best possible results and finally when our match is done, even then when I will talk to that girl,
+So I will try to tell him the best aspects of my personality from this autobiography
+so that my probability of getting married to him improves.
+So in short, this autobiography is your embedding vector
+and from here you have to calculate three new vectors.
+One is your profile vector, one is your search vector and one is your match vector.
+These three are coming out from this autobiography itself.
+All this information is in this autobiography itself.
+But they are optimized for their respective task.
+Profile vector is very very good at making you look good in front of other people.
+Query vector is really good in searching other people for you.
+And match vector is really good when you are meeting someone who can impress the other person.
+Similarly, in our case also, we will take our embedding and make 3 new vectors from it.
+Query, key and finally value.
+So, I really hope through this example, I could keep a solid argument in front of you
+that why you should remove 3 vectors from your given vector.
+Okay, I guess you understood this.
+Now, one question is left that from my autobiography, what exactly should I put in this profile?
+or ask a question like how this key vector will be made from this bank embedding
+this is the question
+so let's deal with this example later
+first let's talk about our running example
+what information will you take out from your autobiography and put in profile
+how will this be decided
+The answer is very simple. It will be decided with the help of data.
+Try to understand.
+In the beginning, I wrote in my autobiography that I am an author.
+I write books mostly around politics.
+So I noticed in a month that the girls I am getting requests from are of very political nature, like they have very high interest in politics.
+But guess what, I don't like such girls who talk a lot about politics.
+So I learned from the data. I learned from the data of the girls who were being recommended to me.
+And I immediately went back and removed the fact from my profile that I write books specifically on politics.
+I just wrote that I am an author. But I removed this word that I have a lot of interest in politics and write books on politics.
+Automatically, in the future, I started getting recommended to girls who were a little neutral about politics.
+So how did you learn to make this profile?
+From data, the way you received the data.
+Similarly, what will you put in the search, how will you understand this?
+It is very simple, by making a mistake, by looking at the data,
+you searched that I want a girl from Maharashtra, who is a Maharashtrian.
+So you got a request from the line of Maharashtrian girls.
+and you talked to them and felt that you don't want to see only Maharashtrian girls, I should also be seeing other girls as well
+I should meet girls from other states as well
+so you removed your preference that you will recommend any girl from anywhere in India
+so again you learned from the data
+similarly you wrote in the beginning that you can recommend working or not working girls
+But when you started getting requests, you realized that my tuning is sitting more with working girls.
+So you modified your search query again and suggested girls who are working in some profession.
+So what you are doing is you are changing your search on the basis of whatever is happening with you in the data.
+then third is match, in match also same thing will happen, what will you do to make match
+means when your match is done, after that how you should behave with any girl
+that also you learned by mistake, when my first match was with any girl
+so I used to talk with much enthusiasm
+so that girl said that guess what I don't like you
+So I understood that maybe I should be a little calm and talk.
+I started talking a little more calmly.
+So the other person says that no, you are too dull for me.
+So then you level up a little.
+So you are learning by meeting people how to talk.
+So here also you have to do the same thing.
+This query vector will be made and this key vector will be made.
+and this value vector will be made with the help of data, only then we will be able to make it good.
+I really hope you are able to draw these two arguments parallelly and understand what I am trying to say.
+Now we just have to discuss exactly how we are going to build these three vectors out of our embedding vector with the help of our data.
+we will discuss that next
+after a long discussion
+finally we understood
+that we have to
+transform all the embedding
+vectors of our words
+into
+three more vectors
+one would be
+the query vector
+the second would be the key vector
+and the third would be the value vector
+so if in our sentence
+suppose our sentence was
+money,bank,grows
+so if we want to get the contextual embedding of this first word
+then we will first catch the embedding
+and we will make three new vectors
+one will be query
+one will be key
+and one will be value
+and we will do the same work with bank vector
+and with grows vector
+So basically if you have 3 words, then you will get 3 cross 3, 9 new vectors.
+And then what will you do? It is very simple.
+What did you do earlier? You used to do this earlier.
+So where you have used embeddings, in return you will use its key, query and value component.
+So basically, let's say you want to create a contextual embedding of only money word.
+So what you will do is, notice here, you are not sending the embedding of money word, but you are sending its query component.
+Similarly, here you are sending its key component, key of bank, key of gross.
+And finally when we are getting our weights, then we are multiplying them with our value components.
+And we have to do the same work for all three words.
+Look at this.
+Here at all three places Q is money, Q is bank and Q is gross.
+Here at all three places K is money, K is bank, K is gross.
+And here at all three places V is money, V is bank, V is gross.
+Here we missed a weight in writing, you can understand that.
+And in this way, we are getting our final contextual embedding.
+There is just one final question left.
+And that is, how will we remove these three components or three vectors from a given embedding?
+how will we make it, we have already known that we have to take help of data
+but still how to make three new vectors from one vector
+what is that mathematical operation which will do this work
+that we have to discuss now
+so now we have to do one thing
+that we have one vector
+suppose this is our embedding vector
+and with this we have to make three new vectors
+First will be query vector, second will be key vector and third will be value vector.
+The question is that how these three vectors will be made from this given vector.
+There are not many ways to make new vector from one vector in linear algebra.
+to make new vector from vector means
+either the magnitude of new vector will be different
+means I increase this vector in this direction
+or decrease it more
+basically I can do scaling operation
+with this I will get new vectors
+and second is linear transformations
+linear transformation means that I have to multiply this vector with a matrix
+and you have read in basic linear algebra that when you multiply a vector with a matrix
+then that vector gets transformed and goes somewhere else
+so basically its magnitude and direction changes
+so clearly from our discussion till now we are able to understand that scaling alone will not work
+So, the best candidate is to do linear transformation.
+So, we have this vector.
+This is our embedding vector.
+We have to get out 3 new vectors using linear transformations.
+So, what I will do is, first of all I will take a matrix
+and I will do multiplication of this vector with this matrix
+and from this I will get a new vector
+which I can call query vector
+then what I will do
+I will take this old vector and
+multiply it
+with another matrix
+and from this I will get
+second vector which
+I will call key vector
+and then I will multiply
+my original vector
+I am sorry with third matrix and from this I will get my third vector
+which is my value vector and we can name these three matrices
+WQ, WK, WV
+Now the bigger question is that from where these matrices will come, i.e. what will be the numbers here, how will it be decided?
+Same with this matrix, what numbers will come here, how will it be decided?
+So guess what, we know its answer.
+Do you remember what we decided?
+We had decided that when we will make these new vectors from original embedding vectors then we will make them with the help of data.
+Right, the task we are performing, if we are performing the task of machine translation then we have to generate these vectors on the basis of the data given to us.
+Then the work is very simple, we will not decide what numbers will come here, the training process will decide.
+So what we will do is, we will start with random values or you can call it random weights.
+So whatever is random here, whatever is random here, whatever is random here.
+Now we sent our first sentence.
+For the first sentence, some query vectors, key vectors and value vectors were generated.
+Then on the basis of this, translation was done.
+So in translation, some mistake was seen.
+So in that mistake, due to back propagation, then here these weights changed.
+then by changing the weights, for the next sentence, different types of vectors are created.
+So basically, we will do this again and again and again and because of the training process,
+these weight vectors will automatically gain their correct value.
+So this is the plan. So the plan is very simple.
+We have to make three new vectors from this embedding vector
+and the way to make a new vector from a vector is linear transformation
+means
+its multiplication with some matrix
+so we made 3 matrices
+wq, wk, w, v
+right
+and
+from these dot products
+we got new vectors
+but the question is what number should we put in these matrices
+so
+we don't need to think about numbers
+we have to do a transformation on the basis of data
+So we will initialize these matrices with random weights
+and then it will become a part of the training process.
+So the loss in the training will be backpropagation
+and the numbers will be updated according to the backpropagation.
+So eventually when the training will be over, my model will be fully trained
+then the best numbers will be available in these matrices
+which will have the capability to generate best query, key and value vectors from this given embedding vector.
+One last thing, the work which you have done with the embedding of bank,
+you will have to do the same work with the rest of the words which are in your sentence.
+See, I wanted to say this, so you can see you are taking three words, you are taking money, you are taking bank, you are taking gross, you are taking the embedding vector of all three, e-money, e-bank, e-gross, now you need three three vectors from all three vectors, query, key and value vectors, so you are multiplying every embedding vector with three matrices, so you multiplied e-money with wq, so you got q-money.
+e-money with w-k, so we get k-money, and e-money with w-v, so we get v-money.
+Now you will repeat the same process for bank.
+One thing is very important here and you don't have to get confused,
+that the matrix which you are using for money,
+the query matrix, the key matrix and the value matrix which you are using for money,
+do exactly same matrix with the same numbers which number is here which number is here
+which number is here exactly these numbers will repeat for every other word so this wq
+is exactly same as this wq this wq is exactly same as this wq and same for wk and wv exact
+same weight matrices will repeat for every word and through same process we got q bank
+We got K bank and V bank.
+Then we got Q gross, K gross and V gross.
+So from these 3 embedding vectors, we extracted 9 query key value vectors.
+And once you got these 3,
+then you know the work ahead.
+This is the work ahead.
+Which we discussed earlier.
+Now you just have to do this operation.
+Okay.
+So this is our final.
+This is the self-attention mechanism that we know.
+In today's date, the self-attention mechanism used in Transformers architecture is exactly the same.
+First of all, you generate respective query key value vectors from the embedding vectors.
+And then with the help of query key value vectors, you generate contextual embeddings by following this whole process.
+Since all this is happening on the basis of data, we get task specific contextual embedding which we came out in search of.
+One last thing and that is that do you remember we had said in the introduction of our first model that this whole process can be parallel.
+That is still true.
+The refined self-attention model that you have created
+that is also true.
+This can also be created parallelly.
+And I will show you by doing that.
+So here it is guys.
+The complete summarized matrix operation
+of our refined self-attention model.
+So what I have done is
+by combining all the word embeddings
+I made a matrix
+this is the yellow matrix
+and for that yellow matrix
+I am doing matrix multiplication three times
+with three different matrices
+first matrix is
+WQ
+which is our vary matrix
+second is our key matrix
+and value matrix
+so from the first one
+by doing multiplication
+I get my capital Q matrix
+where all my query vectors are
+for each of the words
+second one is capital K matrix
+where all my key vectors are
+and last one is capital V matrix
+where all my value vectors are
+now what I have to do
+I have to do multiplication between K and Q
+as you have seen
+we were doing dot product between green and pink
+so we have to do the same thing between these matrices
+with this we will get all the similarity scores
+which we got here, s11, s12, s13
+also i have copied and pasted here so it is a little bit wrong
+here s21, s22, s23 should be there, same here s31, s32, s33
+here y money should be there, here y bank should be there, here y
+it should be gross, I really hope you understood now, so you won't get confused
+whatever it is
+from these two products, we got this matrix
+and we applied softmax on this whole matrix, so we got this
+again
+yellow matrix
+now what we have to do is, this and this
+we have to do multiplication between these two and do weighted sum
+by which we will finally get this one
+so the good part about this entire operation is
+that you have three words or three thousand words in your sentence, it makes no difference, you can do this whole work
+parallelly together with the help of GPUs, so with that we complete our study of self-attention model,
+some things are still left, we will discuss that later, but here we invented a self-attention model
+self-attention mechanism. So I really hope you enjoyed this.
+So that was the video guys. I really really hope that my 14 days of hard work
+and self-attention which is considered to be a difficult and unintuitive topic
+you understood it. Because if you understood self-attention then there are
+very solid chances that you understood Transformers and if you understood
+Transformers then what to say. So if you liked the video
+If you liked the video, please like it and share it with those who are struggling to understand how self-attention mechanism works.
+So that's it from my side.
+See you in the next video. Bye.

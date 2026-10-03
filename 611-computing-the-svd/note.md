@@ -251,9 +251,9 @@ The recipe is for understanding and for small examples. On a computer it has a f
 > # [0.0, 2.0]: the small one is lost
 > ```
 
-So `np.linalg.svd` never forms $A^{\mathsf T}A$. It reduces $A$ itself step by step with orthogonal matrices, which do not magnify rounding errors, until the singular values can be read off.
+So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine `gesdd` (NumPy docs, `numpy.linalg.svd`). That routine reduces $A$ itself step by step with orthogonal matrices, which do not magnify rounding errors, until the singular values can be read off (Trefethen and Bau, Lecture 31).
 
-> **Extra:** The ratio $\sigma_1 / \sigma_n$ of the largest to the smallest singular value is the **condition number** of a matrix. It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits. This is why the least-squares solvers of the [multiple linear regression code Note](../55-multiple-lr-code/note.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
+> **Extra:** The ratio $\sigma_1 / \sigma_n$ of the largest to the smallest singular value is the **condition number** of a matrix. It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). This is why the least-squares solvers of the [multiple linear regression code Note](../55-multiple-lr-code/note.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
 
 ## 9. Summary
 
@@ -271,6 +271,13 @@ So `np.linalg.svd` never forms $A^{\mathsf T}A$. It reduces $A$ itself step by s
 - Zero singular values belong to the null space; the missing $\mathbf{u}$'s are any perpendicular completion.
 - The SVD gives perpendicular bases for the row space, null space, column space and left null space.
 - Computers compute the SVD from $A$ directly, because $A^{\mathsf T}A$ loses small singular values.
+
+## Sources
+
+- NumPy documentation. `numpy.linalg.svd` (uses LAPACK `gesdd`).
+- Strang, G. MIT OpenCourseWare 18.06 Linear Algebra, Lecture 29: Singular value decomposition.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.5.2 (MML).
+- Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 12 (conditioning), Lecture 19 (least squares and the normal equations), Lecture 31 (computing the SVD).
 
 ## 10. Key terms
 

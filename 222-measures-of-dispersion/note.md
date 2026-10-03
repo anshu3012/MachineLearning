@@ -136,7 +136,7 @@ The mean absolute deviation averages the distances from the mean without their s
 
 Its strength is that a far value counts in proportion to its distance, not its distance squared. So outliers inflate it less than they inflate variance.
 
-Its weakness is mathematical: the absolute value cannot be differentiated at zero (section 5.4 of the PCA intuition Note). So inferential statistics and most ML algorithms are built on variance, and the mean absolute deviation is rarely used.
+Its weakness is inference. A sample's variance lets us estimate the population's variance (section 4.3); a sample's mean absolute deviation is not used that way. So inferential statistics is built on the variance, and the mean absolute deviation is rarely used. The absolute value is also awkward in calculus: it has no derivative at zero (section 5.4 of the PCA intuition Note).
 
 > **Extra:** The abbreviation MAD is also used for the median absolute deviation, a different, even more robust measure (see the [Pandas Profiling Note](../22-pandas-profiling/note.md)). Always check which one is meant.
 
@@ -168,7 +168,7 @@ The fares vary about three times as much as the ages, relative to their means. F
 
 The bigger the CV, the further the data spreads from its mean; the smaller, the more it is concentrated near the mean. The same idea compares two people's scores on different exams, or the spread of the same quantity in different currencies.
 
-> **Extra:** The CV only makes sense for data measured from a true zero and with a positive mean, such as fares, ages or weights. For temperature in Celsius, where 0 is arbitrary, or for a column with a mean near 0, the CV is meaningless or explodes.
+> **Extra:** The CV only makes sense for data with a true zero and a positive mean, such as fares, ages or weights; near a mean of 0 it jumps wildly (NIST Dataplot). Celsius has no true zero, so the same days give different CVs in different units: 10, 20, 30 degrees Celsius give 50%, but the same days in Fahrenheit (50, 68, 86) give about 26.5%.
 
 > **Python:** The coefficient of variation.
 >
@@ -197,6 +197,11 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 - The sample variance divides by $n - 1$ (Bessel's correction); dividing by $n$ is too small on average.
 - The standard deviation is the variance brought back to the data's units.
 - The CV compares the spread of columns in different units.
+
+
+## Sources
+
+- NIST/SEMATECH. *Dataplot Reference Manual*: Coefficient of Variation. https://itl.nist.gov/div898/software/dataplot/refman2/auxillar/coefvari.htm
 
 ## 9. Key terms
 

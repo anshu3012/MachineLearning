@@ -138,7 +138,7 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 
 > **Extra:** $w$ stays perpendicular when $w_0 \neq 0$. Take any two points $x$ and $y$ on the hyperplane: $w^{\mathsf T}x + w_0 = 0$ and $w^{\mathsf T}y + w_0 = 0$. Subtracting, $w^{\mathsf T}(x - y) = 0$. The vector $x - y$ runs along the hyperplane, so $w$ is perpendicular to every direction in it. This is why the two lines in Figure 1 (right) share the same $w$ and are parallel.
 
-> **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. This is the side test of the [perceptron trick Note](../70-perceptron-trick/note.md) and the decision rule of the [SVM maths Note](../93-svm-maths/note.md).
+> **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. To see this, start at a point $p$ on the hyperplane and step a distance $t$ along $w$: $x = p + t\,w/\lVert w \rVert$. Then $w^{\mathsf T}x + w_0 = (w^{\mathsf T}p + w_0) + t\,w^{\mathsf T}w/\lVert w \rVert = 0 + t\lVert w \rVert$, which has the sign of $t$. This is the side test of the [perceptron trick Note](../70-perceptron-trick/note.md) and the decision rule of the [SVM maths Note](../93-svm-maths/note.md).
 
 ## 7. Summary
 

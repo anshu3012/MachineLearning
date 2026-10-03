@@ -122,9 +122,9 @@ The famous continuous distributions of the [random variables and distributions N
 
 - **Normal distribution:** parameters $\mu$ (mean, location) and $\sigma$ (standard deviation, scale). Much natural data follows it. Its PDF, worked through in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), is
   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
-- **Log-normal distribution:** looks like a normal curve pushed to the left, with a long right tail. Its parameters are also $\mu$ and $\sigma$, those of the logarithm of the variable.
+- **Log-normal distribution:** looks like a normal curve pushed to the left, with a long right tail. Its parameters are also $\mu$ and $\sigma$, those of the logarithm of the variable (SciPy `lognorm` docs).
 
-The **Poisson distribution** (parameter $\lambda$) is often listed beside them, but it counts events (0, 1, 2, ...), so it is discrete and has a PMF, not a PDF. Each of these distributions gets its own Note later.
+The **Poisson distribution** (parameter $\lambda$) is often listed beside them, but it counts events (0, 1, 2, ...), so it is discrete and has a PMF, not a PDF. SciPy, for example, gives `poisson` a `pmf` and no `pdf`. Each of these distributions gets its own Note later.
 
 ## 7. The CDF of a continuous variable
 
@@ -177,7 +177,7 @@ The two curves of Figure 3 carry the same information:
    $$\frac{F(165.5) - F(164.5)}{1} = 0.0399 = f(165)$$
    At 150 the same rise is 0.0130, and $f(150) = 0.0130$: the CDF is flatter there, and the PDF lower.
 
-Calculus is not needed to use these ideas: libraries compute both functions. The relationship is worth remembering, though, because many later formulas switch between the two.
+Calculus is not needed to use these ideas: libraries compute both functions. The link returns later: the z-table of the [standard normal Note](../251-standard-normal-and-z-table/note.md) is a table of areas under the normal PDF, that is, of its CDF.
 
 ## 9. Summary
 
@@ -194,6 +194,10 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 - A density can exceed 1; a probability cannot.
 - Poisson is discrete (PMF); normal and log-normal are continuous (PDF).
 - The CDF of a continuous variable rises smoothly from 0 to 1.
+
+## Sources
+
+- SciPy documentation, `scipy.stats.lognorm` and `scipy.stats.poisson`.
 
 ## 10. Key terms
 

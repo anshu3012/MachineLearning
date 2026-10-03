@@ -39,7 +39,7 @@ Note 30 listed scikit-learn's three classes for mathematical transformations:
 
 > **Key point:** Box-Cox raises every value to a power $\lambda$; with the right $\lambda$, almost any skewed column becomes close to normal.
 
-The Box-Cox transform is named after the two statisticians who published it in 1964, George Box and David Cox. It is one of the most important transforms in practice: with it, a wide range of skewed distributions can be brought close to a normal distribution.
+The Box-Cox transform is named after the two statisticians who published it in 1964, George Box and David Cox (Box and Cox 1964). It is one of the most important transforms in practice: with it, a wide range of skewed distributions can be brought close to a normal distribution.
 
 ### 3.1 The Box-Cox formula
 
@@ -102,7 +102,7 @@ The best value, $\lambda = 0.067$, gives a skewness of almost exactly 0.
 
 Each column of a dataset gets its own $\lambda$. A dataset with 8 input columns gets 8 values of $\lambda$, one per column.
 
-> **Extra:** How "closest to normal" is measured. The two standard ways are **maximum likelihood** and Bayesian statistics. scikit-learn uses maximum likelihood: for each $\lambda$, it asks "if the transformed values really came from a normal distribution, how likely would we be to see exactly these values?", and keeps the $\lambda$ with the highest answer. Maximum likelihood comes back in its own right with logistic regression. A beginner only needs the idea: a computer search picks the most normal-looking $\lambda$.
+> **Extra:** How "closest to normal" is measured. The two standard ways are **maximum likelihood** and Bayesian statistics. scikit-learn uses maximum likelihood (scikit-learn docs, `PowerTransformer`): for each $\lambda$, it asks "if the transformed values really came from a normal distribution, how likely would we be to see exactly these values?", and keeps the $\lambda$ with the highest answer. Maximum likelihood comes back in its own right with logistic regression. A beginner only needs the idea: a computer search picks the most normal-looking $\lambda$.
 
 ### 3.4 Only positive values
 
@@ -118,7 +118,7 @@ So before using Box-Cox, we check the minimum of every column.
 
 > **Key point:** Yeo-Johnson is a variation of Box-Cox that also works on zeros and negative values.
 
-The Yeo-Johnson transform, published by In-Kwon Yeo and Richard Johnson in 2000, is an adjustment of Box-Cox. Its only real difference is that it removes Box-Cox's restriction: it accepts 0 and negative values.
+The Yeo-Johnson transform, published by In-Kwon Yeo and Richard Johnson in 2000 (Yeo and Johnson 2000), is an adjustment of Box-Cox. Its only real difference is that it removes Box-Cox's restriction: it accepts 0 and negative values.
 
 The Yeo-Johnson transform, step by step:
 
@@ -188,7 +188,7 @@ No column is negative, but three contain many zeros.
 
 As always, we split first: 80% for training (824 rows) and 20% for testing (206 rows), with `random_state=42`.
 
-> **Extra:** The data is the "Concrete Compressive Strength" dataset by I-Cheng Yeh, from the UCI Machine Learning Repository. The full file is small (about 60 KB), so it is kept whole in `data/`.
+> **Extra:** The data is the "Concrete Compressive Strength" dataset by I-Cheng Yeh (Yeh 1998), from the UCI Machine Learning Repository. The full file is small (about 60 KB), so it is kept whole in `data/`.
 
 ### 6.2 Baseline: no transform
 
@@ -377,6 +377,13 @@ Because the power transformer chooses from many formulas, including the log and 
 - `PowerTransformer` also standardises its output to mean 0 and standard deviation 1.
 - On the concrete data, linear regression's cross-validated R² rose from 0.46 to 0.67 (Box-Cox) and 0.68 (Yeo-Johnson). `Age` gained most: skewness 3.34 to 0.
 - A transform cannot merge two separate groups, such as a pile of zeros and the rest, into one bell.
+
+## Sources
+
+- Box, G. and Cox, D. (1964). An Analysis of Transformations. *Journal of the Royal Statistical Society, Series B* 26(2).
+- scikit-learn documentation. `sklearn.preprocessing.PowerTransformer`. scikit-learn.org.
+- Yeh, I-C. (1998). Modeling of Strength of High-Performance Concrete Using Artificial Neural Networks. *Cement and Concrete Research* 28(12).
+- Yeo, I-K. and Johnson, R. (2000). A New Family of Power Transformations to Improve Normality or Symmetry. *Biometrika* 87(4).
 
 ## 9. Key terms
 

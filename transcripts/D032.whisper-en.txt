@@ -1,0 +1,233 @@
+Hi guys, my name is Nitesh and you are welcome to my YouTube channel
+In this video also we are going to continue our deep learning playlist
+Now we will move towards a very important topic
+The name of the topic is Optimizers
+It is one of those topics which is a little difficult to understand
+And you will have to work hard to understand this
+So I have decided that I will break this topic into multiple videos
+And in every video we will cover a big topic
+So let's start the video
+So guys, in our deep learning course, in the last few videos, we are studying how can we improve the performance of our neural network.
+This has been our focus in the last 10-15 videos.
+And in that too, in the last 3-4 videos, our focus has been on how to speed up the training.
+right
+because what happens is that
+your neural network
+if you have made a very deep neural network
+suppose you have put a lot of hidden layers
+then
+it takes a lot of time to train it
+so that's why
+computer scientists have a lot of
+focus on this thing that
+how to speed up the training of neural network
+now
+to speed up we have read three techniques
+till now
+We have studied weight initialization, batch normalization and activation function which you are using, this also makes a difference.
+Now we will study the fourth technique which is probably the most important technique if you want to increase the speed of your neural network and that is optimizers.
+In the next 3-4 videos, our focus is going to be on optimizers.
+We are going to focus on how to use optimizers to increase the speed of neural network.
+Today's video will be more about introductions.
+What is an optimizer?
+How to change it or bring changes in it?
+How does training speed up?
+And what types of optimizers do we have to study?
+we will cover all these in this video and going forward in 3-4 videos we will cover the different types of optimizers in deep learning one by one
+so guys now we will try to understand what is the work of an optimizer in a neural network
+now honestly I have already explained this to you but we will try to understand it once again
+What does a neural network do?
+You have a data
+Like this is a classification task
+Where there are two input columns and one output column
+You draw a neural network architecture
+Like here is a simple neural network architecture
+Where there is one hidden layer and one output layer
+You have these weights
+And biases
+Like here are four weights, two biases, two weights and one bias
+So in total, there are 9 parameters in this neural network.
+You have to find the value of these 9 weights and biases.
+For that, when you send this data in this neural network,
+the prediction of this neural network should be close to the original result.
+It should be the same in the ideal case.
+Listen again. What is the role of neural network? It has 9 weights and biases.
+You have to find the value of these weights and biases.
+After achieving it, as soon as you give this data to the neural network,
+the prediction of the neural network should be very close to the real value.
+So in a way I can say that neural network is actually an optimization problem where you want to minimize loss.
+What is loss? The difference between y and y hat. You want to minimize that.
+Means your prediction should be very close to real values.
+And in the process of making it minimum, the value of your weights and biases will be the optimum parameter value of your neural network.
+So to do this whole thing, what you do is that in the beginning you take any random value of these weights and biases.
+And then with those random values, you try to get to the right values by slowly improving.
+If I want to explain you graphically, then see this graph.
+Suppose this is the graph.
+This graph is in 3D.
+Our neural network, if you make a cost function or loss function graph for it,
+then this loss function or cost function will depend on 9 parameters.
+Means this loss will be a function of these 9 weights and biases.
+So this will be a 10D graph which I cannot draw.
+So let's assume for some time that there are only 2 weights in our system.
+then 2 weights and 1 loss, so this 3D graph will look something like this
+where on this axis you have 1 weight, on this axis 2 weight and on this axis you have loss
+so cost function of a neural network in higher dimensional space
+looks something like this or if you take more complex then looks something like this
+You start with a value of W2 and W1, for that W1 and W2 will be the value of your loss.
+Your target is to reach the global minima of the entire surface by traversing like this.
+If you make it in 2D, then if this is your graph, this is your weight and this is your loss, then your target is that you start from a random value
+and want to reach the most optimum or minimum value, where the loss is the lowest and you want to get the value of your weight corresponding to that loss.
+So this is the entire thing. And to do this, you need an optimizer.
+The optimizer we use in deep learning is Gradient Descent.
+Gradient Descent is a very simple thing.
+In gradient descent, you use a simple update rule.
+Where you subtract the old value of weight to get new value of weight.
+Learning rate times the gradient of that weight vector with respect to the loss function.
+This is your update rule in gradient descent and this is what you do in a loop in multiple epochs and eventually you reach this place or the place here.
+Now there are three types of gradient descent and I have taught you this.
+first is batch gradient descent second is stochastic gradient descent and third is mini
+batch gradient descent right till now whatever discussion we have done I have already taught
+you all this if you watch this video on my channel then everything is covered in detail
+still I will give you a little more introduction about these three types of gradient descent
+so what happens is that you
+number of epochs which you decide that how many rounds you will do on your data
+that much time you run the loop
+what you do is that you update your weights
+using this update rule
+right
+now these three variants which you can see
+The only difference in this is that how many data points do you want to see before updating the weight, this differentiates in these three types.
+Like in batch gradient descent, what you do is that you rotate on the whole data at once.
+Suppose you have data of 500 rows, then you take prediction on 500 rows, then calculate loss and then you update weight once.
+Means if you have decided number of epochs 10, then you will update weight 10 times in batch gradient descent.
+In Stochastic gradient descent, you update the weight after every data point.
+Means if you have 10 epochs and 500 rows, then you will update the weight 5000 times.
+There are many weight updates.
+Mini batch gradient descent is between these three.
+Where you decide the batch size.
+Suppose you decide the batch size as 100.
+so you have divided your data set in 5 batches and every time weight update will be after 1 batch so 10x5 times
+I have told about these 3 things in detail in this video at this point if these concepts are not clear then I would recommend you to watch this video
+Clear all these concepts because if these concepts are not clear then the optimizers that we are going to cover in the future
+It will be a problem for you to understand
+Okay
+So
+According to the discussion so far, we already have three optimizers
+But then
+We have to read some more optimizers, which means we need some more optimizers
+But why
+What is the problem in these optimizers
+that we need new optimizers. We will discuss that next.
+So, let's start with problem number 1, challenge number 1.
+The first problem is to use gradient descent correctly,
+to decide the correct value of learning rate.
+So, if you remember that our update rule is
+new value of weight would be old value of weight minus learning rate times
+times this gradient. Now this learning rate becomes very crucial because you are subtracting
+the same value from the previous value. Now try to understand. I had told you earlier
+that gradient descent is designed in such a way that when you are starting from here
+and you are at a distance from the minima then you take long jumps. Then as you come
+you start taking small jumps. So here the value of learning rate becomes crucial. If you keep the learning rate very low then you will converge very slowly
+because in every next step you will take a small step. So your convergence will be very painfully slow. Whereas if you take too much then you will start
+you will jump and fall like this or you will go out after doing unstable training or you will go very far from minima
+I will show you a demo of this, so this is a tool of google where I am showing you the same thing
+here the learning rate is set to 0.01 which is actually very less, see as I click on the step
+you would see that you are moving forward towards minima but since every next step is smaller in comparison to the previous step
+you can see the convergence is happening this way, see how slow it is going, you can see
+and it may happen that you never reach, see an error message came here, gradient descent is taking too long to reach the minimum loss, try again with a different learning rate
+So if I increase it a lot, let's say I increase it to 1, now see we have gone very far from the minima, in fact let's make it around 0.8, see this is also getting unstable, let's see 0.5, see you jumped from here and came straight here, then you came here like this and you are converging in this zigzag manner.
+this is also not good, so you can take something in the middle like 0.1 types, which is more
+good, see this, the model has reached the minimum value, so the demo I showed you, here
+to find out the correct value of this learning rate according to your data set is a bit difficult,
+This is the first challenge that gradient descent faces.
+So, some people have found a solution to this problem which is called learning rate scheduling.
+In this, you automatically change the value of learning rate or you can say that you reduce it according to a pre-defined schedule.
+When there is an objective reach.
+but the schedules or thresholds you decide you have to pre-define it before the training
+so the problem in this is that different data sets require different types of requirements
+and it is not necessary that if your learning date schedule is working in one place
+then it can work in the same way on every data set
+so although we have not covered learning date scheduling on this channel
+My plan is to make a video on this in future.
+But understand that to handle learning rate, learning rate scheduling was invented.
+And the problem of learning rate scheduling is that the schedule that you have to make,
+that how much will the learning rate decrease after how many epochs,
+you have to pre-define that before training.
+It means that it does not depend on the data set.
+And if it doesn't depend on the data set, then it becomes challenging to get good results on every data set.
+What is challenge number 3? That you have to minimize multiple weights.
+You have to get the optimum value of multiple weights. Right.
+In a neural network, we saw that there were 9 weights and biases.
+It means that the loss function graph will be 10D.
+It means that you have to traverse in a 10 dimensional graph and reach the minimum.
+It means that there are 10 directions in which you can move.
+It is difficult to imagine in 10 directions, so we will take 2D only.
+You can move in these two directions.
+According to that your weight will decrease.
+The problem is that the gradient descent techniques we have studied, the learning rate is the same for both the directions.
+This is a kind of restriction. The same learning rate means that you are descending at the same speed.
+you are going down in same speed in both directions
+but it is possible that you don't need same speed in both directions
+it is possible that you have to go down faster in one direction and less faster in other direction
+so this flexibility does not provide you gradient descent
+if there are two weight parameters w1 and w2
+I can't keep separate learning rate for both
+If I have 9 rates and biases then I cannot have 9 separate learning rates.
+This is the restriction.
+If I want to get down from a hill, you can imagine yourself.
+If you want to get down from a hill then this is the restriction that you can move in the same direction in both directions.
+So imagine that would create a problem.
+This is problem number 3.
+and the last and the biggest problem is the problem of local minima
+so the graph of the cost function of your neural network is a bit complex
+you can understand it like this, where there are multiple minimas
+now your best solution will be global minima
+Means the value of W1 and W2 for which the value of loss is the lowest
+I have to reach the global minima value
+But the problem is that you get stuck in the local minima
+You can't get out of the local minima
+So you don't have any way to get out of it at this point
+Whatever gradient descent algorithms you have read
+Stochastic gradient descent still has some potential because it takes zigzag motion
+So it may be possible that it will come out of a local minima
+But in the other two it has less potential
+So there is a huge probability that you will get stuck in a local minima and you will have to work with a sub-optimum solution
+That is problem number 4
+And the last problem is of saddle point.
+I will try to explain what is saddle point. Look at this graph.
+Saddle point is a point where one dimension's slope is going up and the other dimension's slope is going down.
+Because of that a big region is formed where slope is similar in all four directions.
+Slope does not change, it means your differentiation will be zero.
+And if differentiation will be zero, then when you will go to update,
+Since this term is zero, then nothing new will be updated. Old and new will remain same.
+So in this kind of situation, you get stuck.
+Whereas this is not your optimum solution.
+So saddle point is another big problem.
+Our conventional gradient descent algorithms
+They can't solve it
+So there are 3-4 problems
+1. Setting the right value
+2. Not being able to adjust the learning rate according to the data
+3. Same learning rate in all directions
+4. Problem of local minima
+5. Problem of saddle point
+There are 4-5 such problems
+because of which, if we use conventional gradient descent algorithms
+then either the training becomes very slow
+or we don't get the optimum results
+and because of this reason, we have to read new optimizers
+which are used a lot now
+so we have to read some optimizers
+I will tell you
+we are going to read Momentum
+we are going to read adagrad we are going to read nag rms prop and finally the one which is used the most
+maybe you have seen it before Adam ok we will read these 5 optimizers now this is something very new
+it is not like that the small changes made in gradient descent are the reason for these new algorithms
+So you don't have to read anything completely out of the box, we will do some improvements in gradient descent
+And that's why we have to read a concept first which we will cover in the next video
+This is called Exponentially Rated Moving Average
+We have to read this concept in the next video because this concept will be used in these optimizers
+So that was the video guys, I know we haven't read anything yet, I just gave you an overview
+If you understood things and liked the video then please like the video
+And if you haven't subscribed to my channel then please do subscribe
+Thanks for watching, see you in the next video, bye

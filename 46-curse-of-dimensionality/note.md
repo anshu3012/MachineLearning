@@ -123,9 +123,19 @@ This is a different meaning from the sparse data of the [normalization Note](../
 
 Many algorithms, such as KNN, make a prediction by finding the points closest to a new point. That only works if "close" means something.
 
-In high dimensions, every point is far from every other point. The nearest neighbour is not really near, so the prediction is based on points that are not similar. This is why the KNN accuracy in Figure 2 fell as we added columns.
+In high dimensions, every point is far from every other point. The nearest neighbour is not really near, so the prediction is based on points that are not similar. These dissimilar neighbours are why the KNN accuracy in Figure 2 fell as we added useless features.
 
-> **Extra:** In very high dimensions, distances also become almost all the same. Figure 4 measures the distance from one random point to 500 others. With 2 columns, the farthest point is 67 times farther than the nearest; with 1,000 columns, only 1.1 times. When everything is about equally far, "nearest" carries almost no information.
+> **Extra:** We checked this on the red line of Figure 2. For every image we found its nearest other image and asked whether it shows the same digit (Notebook, after the accuracy table):
+>
+> | Columns | Nearest neighbour shows the same digit | Nearest distance / average distance |
+> |---|---|---|
+> | 64 | 98.8% | 0.34 |
+> | 164 | 91.0% | 0.76 |
+> | 464 | 72.5% | 0.89 |
+>
+> With more useless features, the nearest image is almost as far away as an average one, and more and more often it shows a different digit. KNN votes with these neighbours, so its accuracy falls with them.
+
+> **Extra:** In very high dimensions, distances also become almost all the same: the farthest point is hardly farther than the nearest (Beyer et al. 1999). Figure 4 measures the distance from one random point to 500 others. With 2 columns, the farthest point is 67 times farther than the nearest; with 1,000 columns, only 1.1 times. When everything is about equally far, "nearest" carries almost no information.
 
 ![Distances from one point to 500 others, in 2 to 1,000 columns](images/distances.png)
 
@@ -133,8 +143,8 @@ In high dimensions, every point is far from every other point. The nearest neigh
 
 > **Key point:** Too many dimensions cause two problems: lower performance and more computation.
 
-1. **Performance decreases.** Useless and redundant columns make the data sparse and hide the real pattern. In Figure 2, accuracy fell from 96% to 80%.
-2. **Computation increases.** Every extra column is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 columns took about twice as long as with 64.
+1. **Performance decreases.** Useless columns spread the data thin and push the truly similar points apart (Section 4.3). In Figure 2, accuracy fell from 96% to 80%.
+2. **Computation increases.** Every extra column is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 columns took about 1.6 times as long as with 64 (timings vary from machine to machine).
 
 The fix for both is to bring the number of columns down to the optimal number.
 
@@ -173,7 +183,12 @@ Figure 5 shows both on five columns, F1 to F5: selection keeps F1 and F3, while 
 - Two problems: lower performance and more computation.
 - The fix is dimensionality reduction: feature selection or feature extraction.
 
-## 8. Key terms
+
+## 8. Sources
+
+- Beyer, K., Goldstein, J., Ramakrishnan, R. and Shaft, U. (1999). When is "nearest neighbor" meaningful? *Proceedings of the International Conference on Database Theory (ICDT)*, 217–235.
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

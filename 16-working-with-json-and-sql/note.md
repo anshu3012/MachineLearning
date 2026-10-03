@@ -110,7 +110,7 @@ The pandas documentation for `read_json` lists every option. It is worth trying 
 
 > **Extra:** `nrows` and `chunksize` only work with `lines=True`. That setting is for **JSON Lines** files (`.jsonl`), which hold one JSON object per line instead of one big list. `train.json` is one big list, so `pd.read_json("data/train.json", nrows=5)` gives an error: "nrows can only be passed if lines=True".
 
-> **Extra:** In older pandas, `read_json` also accepted JSON text itself, for example `pd.read_json('[{"a": 1}]')`. Current pandas (3.0) treats any text as a file name and fails. To read JSON text, wrap it first: `pd.read_json(io.StringIO(text))`, after `import io`.
+> **Extra:** In older pandas, `read_json` also accepted JSON text itself, for example `pd.read_json('[{"a": 1}]')`. pandas 2.1 deprecated this (pandas release notes), and pandas 3.0 treats any text as a file name and fails with `FileNotFoundError`. To read JSON text, wrap the text first: `pd.read_json(io.StringIO(text))`, after `import io`.
 
 ## 5. Reading JSON from a URL
 
@@ -202,7 +202,7 @@ To connect to MySQL, we tell `connect` four things:
 > conn = sqlite3.connect("data/world.db")
 > ```
 
-> **Extra:** The MySQL connector's package name is `mysql-connector-python`. `pip install mysql.connector` instead installs `mysql-connector` 2.2.9, an old version from 2019 that is no longer maintained; use the current package. With a MySQL connection, pandas shows a warning that it only fully supports SQLite and **SQLAlchemy** connections. The query still works. The cleaner way is an SQLAlchemy engine: `create_engine("mysql+mysqlconnector://root:@localhost/world")`, passed to pandas in place of `conn`. The Notebook shows both.
+> **Extra:** The MySQL connector's package name is `mysql-connector-python`. `pip install mysql.connector` instead installs `mysql-connector` 2.2.9, an old version released in 2019 (PyPI); use the current package. With a MySQL connection, pandas shows a warning, because `read_sql` supports only SQLite and **SQLAlchemy** connections (pandas docs, `read_sql`). The query still works. The cleaner way is an SQLAlchemy engine: `create_engine("mysql+mysqlconnector://root:@localhost/world")`, passed to pandas in place of `conn`. The Notebook shows both.
 
 ## 8. Reading query results into a DataFrame
 
@@ -283,6 +283,12 @@ There are other ways to work with SQL from Python, but this one is simple and co
 - SQL is the language for querying databases. A connector (`mysql.connector`, `sqlite3`) opens the connection.
 - `read_sql_query` runs the query and returns a DataFrame. `WHERE` filters rows inside the database.
 - The pandas code is the same for MySQL and SQLite; only the connection changes.
+
+## Sources
+
+- pandas documentation. `pandas.read_sql`. pandas.pydata.org.
+- pandas release notes. What's new in 2.1.0. pandas.pydata.org/docs/whatsnew.
+- PyPI. mysql-connector 2.2.9 (released 1 April 2019). pypi.org/project/mysql-connector.
 
 ## 10. Key terms
 

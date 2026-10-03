@@ -206,7 +206,7 @@ The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot enc
 >
 > **`bin_edges_`** holds the learned edges, one array per column, so `[0]` picks the first column's edges. `n_bins_` holds the number of bins actually made.
 
-> **Extra:** Details of `KBinsDiscretizer` in scikit-learn 1.9.
+> **Extra:** Details of `KBinsDiscretizer` in scikit-learn 1.9 (scikit-learn docs, `KBinsDiscretizer`).
 >
 > - **`quantile_method`** (new in version 1.7) chooses how the quantiles are computed. Since version 1.9 its default is `"averaged_inverted_cdf"`; before, it was `"linear"`. Older code can give slightly different quantile edges.
 > - **`subsample`** (default 200,000): on bigger data, the edges are learned from a random sample of 200,000 rows to save time. Set `random_state` to make that sample repeat, or `subsample=None` to use every row.
@@ -335,7 +335,7 @@ Equal frequency gives about the same result whatever the number of bins, and its
 > discretize(5, "kmeans")   # 0.678
 > ```
 
-> **Extra:** A decision tree is an odd model for showing binning, since a tree already cuts each column into ranges. Binning still changes where those cuts can go, which can stop the tree from making very fine cuts that only fit the training data. Linear models can gain more: binning lets them give each range its own weight.
+> **Extra:** A decision tree is an odd model for showing binning, since a tree already cuts each column into ranges. Binning still changes where those cuts can go, which can stop the tree from making very fine cuts that only fit the training data. Linear models can gain more: binning lets them give each range its own weight. scikit-learn's own example puts it this way: after binning, a linear model becomes much more flexible, while a decision tree becomes much less flexible (scikit-learn example, "Using KBinsDiscretizer to discretize continuous features").
 
 ## 11. Custom binning
 
@@ -463,6 +463,10 @@ So this example only shows how binarization is done. Whether it helps must be te
 - `Binarizer(threshold)` makes values above the threshold 1 and the rest 0.
 - On the Titanic data, 15 equal-frequency bins raised a decision tree from 63.0% to 67.5% (cross-validated); binarizing family size lowered it from 65.4% to 62.6%.
 - Cross-validate a transformation inside a pipeline, and try several settings: no strategy is always best.
+
+## Sources
+
+- scikit-learn documentation. `sklearn.preprocessing.KBinsDiscretizer`; example "Using KBinsDiscretizer to discretize continuous features". scikit-learn.org.
 
 ## 15. Key terms
 

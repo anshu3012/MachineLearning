@@ -83,9 +83,9 @@ Once deployed, a batch model is **static**: it keeps using what it learned from 
 
 ![A batch model gets stale between retrains](images/staleness.png)
 
-Figure 3 shows the effect. Performance slowly drops after each deployment and jumps back up each time we retrain.
+Figure 3 sketches the effect (an illustration, not measured data). Performance slowly drops after each deployment and jumps back up each time we retrain.
 
-> **Extra:** This slow loss of accuracy is usually called **model drift** (sometimes model rot) or **concept drift**: the patterns in the real world drift away from the patterns the model learned.
+> **Extra:** This slow loss of accuracy is usually called **model drift** (sometimes model rot). When the cause is that the link between the inputs and the answer itself changes over time, it is called **concept drift** (Gama et al. 2014, §2.1).
 
 ### 4.2 Retraining on a schedule
 
@@ -161,6 +161,10 @@ Batch learning cannot handle situations that change this quickly. For these, a d
 - For fast-changing situations, use online learning instead.
 
 The Notebook for this Note (`notebook.ipynb`) has a slider for the retraining schedule, showing how stale the model gets between retrains.
+
+## Sources
+
+- Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M. and Bouchachia, A. (2014). A Survey on Concept Drift Adaptation. *ACM Computing Surveys* 46(4).
 
 ## 7. Key terms
 

@@ -90,7 +90,7 @@ DL is used in computer vision, speech recognition, natural language processing, 
 
 > **Key point:** In many fields DL holds the state-of-the-art result, and in some it beats human experts.
 
-In most of these fields, the best results today come from DL. In 2016 the program AlphaGo, built on deep networks, beat Lee Sedol, one of the world's best players of the board game Go, by 4 games to 1. Self-driving cars, new drug candidates and new chemistry research are further examples.
+In most of these fields, the best results today come from DL. In March 2016 the program AlphaGo, built on deep networks, beat Lee Sedol, one of the world's best players of the board game Go, by 4 games to 1 (Silver et al. 2017). Self-driving cars, new drug candidates and new chemistry research are further examples.
 
 ## 4. Five differences between DL and ML
 
@@ -139,7 +139,7 @@ ML models are often much easier to explain:
 - **Logistic regression** on CGPA and IQ learns two weights, $w_1$ and $w_2$. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
 - **A decision tree** is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees Note](../97-decision-trees-intuition/note.md)).
 
-> **Extra:** Researchers have built tools that explain individual predictions of any model, including networks: for example SHAP and LIME, and heat maps of the pixels a CNN looked at. They help, but they explain the model from outside; they do not make the network itself readable.
+> **Extra:** Researchers have built tools that explain single predictions of any model, including networks, such as LIME and SHAP, and heat maps of the image regions a CNN used. LIME, for example, fits a simple model that imitates the network near one input (Ribeiro et al. 2016, §3). So these tools explain the network from outside; its own weights stay unreadable.
 
 ### 4.6 DL does not replace ML
 
@@ -154,7 +154,7 @@ ML models are often much easier to explain:
 | Features | engineered by us | learned by the network |
 | Interpretability | often high (linear models, trees) | low: a black box |
 
-Since DL is so strong, why not use it everywhere? Because on small or tabular data, or when decisions must be explained, ML is the better tool. An old saying puts it well: where a needle is needed, a sword is no use. Section 6 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) gives the rule of thumb for choosing.
+Since DL is so strong, why not use it everywhere? Because on small or tabular data (section 4.1; Grinsztajn et al. 2022), or when decisions must be explained (section 4.5), ML is the better tool. An old saying puts it well: where a needle is needed, a sword is no use. Section 6 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) gives the rule of thumb for choosing.
 
 ## 5. Why deep learning took off after 2010
 
@@ -189,7 +189,7 @@ Thousands more are available today, for example on Kaggle. Without data there wo
 
 Around 2010, researchers realised that a network's matrix multiplications can run in parallel, just like the graphics work a GPU was built for. NVIDIA's **CUDA**, a platform for programming GPUs, made this practical, and training on GPUs became the norm. A GPU typically cuts training time by a factor of 10 to 20 compared with a CPU.
 
-> **Extra:** CUDA was released in 2007; the switch of deep learning to GPUs happened between about 2009 and 2012, peaking with the 2012 ImageNet result described in the [history section](../1003-nn-types-history-applications/note.md).
+> **Extra:** CUDA 1.0 came out in 2007 (NVIDIA 2007). Deep networks were trained on GPUs by 2009 (Raina et al. 2009), and the 2012 ImageNet winner described in the [history section](../1003-nn-types-history-applications/note.md) was trained on two GPUs (Krizhevsky et al. 2012, §3.2).
 
 Once the speed-up was clear, chips designed for DL followed:
 
@@ -216,7 +216,7 @@ Writing a network's training code from scratch takes longer than the problem it 
 
 Today TensorFlow with Keras is used more in industry, and PyTorch more in research. Converting a model from one to the other is awkward, so drag-and-drop tools appeared that build a network in a browser and export code for either: Google's AutoML, Microsoft's Custom Vision and Apple's Create ML.
 
-> **Extra:** Since Keras 3 (2023), Keras can again run on several back ends: TensorFlow, JAX or PyTorch.
+> **Extra:** Since Keras 3 (2023), Keras can again run on several back ends: JAX, TensorFlow or PyTorch (Keras 3 docs).
 
 ### 5.4 Architectures and transfer learning
 
@@ -259,7 +259,17 @@ None of the above would exist without people. Researchers worked on neural netwo
 - DL needs more data, a GPU and longer training, predicts fast, and is a black box.
 - ML stays the better choice for small or tabular data and when decisions must be explained.
 
-## 7. Key terms
+## 7. Sources
+
+- Silver et al., "Mastering the game of Go without human knowledge", *Nature*, 2017 (AlphaGo against Lee Sedol, March 2016).
+- NVIDIA developer forums, "CUDA 1.0 released", June 2007.
+- Raina, Madhavan and Ng, "Large-scale Deep Unsupervised Learning using Graphics Processors", ICML 2009.
+- Krizhevsky, Sutskever and Hinton, "ImageNet Classification with Deep Convolutional Neural Networks", NeurIPS 2012.
+- Keras documentation, "Introducing Keras 3.0", keras.io.
+- Ribeiro, Singh and Guestrin, "Why Should I Trust You? Explaining the Predictions of Any Classifier", KDD 2016 (LIME). Lundberg and Lee, "A Unified Approach to Interpreting Model Predictions", NeurIPS 2017 (SHAP).
+- Grinsztajn, Oyallon and Varoquaux, "Why do tree-based models still outperform deep learning on typical tabular data?", NeurIPS 2022 (Datasets and Benchmarks).
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

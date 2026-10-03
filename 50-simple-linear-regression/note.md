@@ -213,7 +213,7 @@ In other data, the intercept can mean something real.
 
 Take years of experience and salary: a fresher has 0 years of experience but still earns a salary. There, the intercept is the starting salary, and it should not be 0. The intercept is what lets the line start at the right height.
 
-> **Extra:** The line does not know where the real data ends. For CGPA 10 it predicts 4.68 LPA, which is reasonable. For CGPA 100, which cannot exist, it calmly predicts 54.9 LPA. A model is only trustworthy within the range of the data it was trained on; predicting outside that range is called **extrapolation**.
+> **Extra:** The line does not know where the real data ends. For CGPA 10 it predicts 4.68 LPA, which is reasonable. For CGPA 100, which cannot exist, it calmly predicts 54.9 LPA. Predicting outside the range of the training data is called **extrapolation**. A straight line keeps rising forever, but nothing tells us the real data does; past CGPA 10 we have no students to check it against. So predictions far outside the training range are risky, for any model (NIST Handbook §4.1.4.1).
 
 ## 6. Summary
 
@@ -232,6 +232,10 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 - In scikit-learn: `LinearRegression().fit(X_train, y_train)`, then `predict`.
 - The trained model is two numbers: `coef_` (slope, the input's weight) and `intercept_` (the starting value).
 - The line keeps going beyond the data; predictions far outside the training range are unreliable.
+
+## Sources
+
+- NIST/SEMATECH *e-Handbook of Statistical Methods*, §4.1.4.1 Linear Least Squares Regression (Disadvantages). https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm
 
 ## 7. Key terms
 

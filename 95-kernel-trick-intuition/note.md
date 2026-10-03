@@ -53,13 +53,13 @@ In 2D the boundary is a line, and the horizontal line $x^2 = 3$ now separates th
 
 In this Note, a **kernel** is the function that maps the data into the higher-dimensional space, and applying it to the data is the **kernel transformation**. (This is a different meaning from the Jupyter kernel of the [setup Note](../12-setup-anaconda-jupyter-colab/note.md), the Python process behind a notebook.)
 
-There are many kernels. The three that come with SVM in scikit-learn are:
+There are many kernels. Besides the plain linear one, scikit-learn's SVM comes with three:
 
 1. **RBF** (radial basis function): the most important one, used in Section 4.
 2. **Polynomial**: built from powers of the inputs. The $x^2$ example above is of this type.
 3. **Sigmoid**: an S-shaped kernel.
 
-> **Extra:** The sigmoid kernel is $\tanh(\gamma\, x \cdot x' + r)$. It has the same S-shape as the [sigmoid function](../72-sigmoid-function/note.md) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. Its name comes from neural networks, where tanh is a common activation. In practice it is used much less than RBF.
+> **Extra:** The sigmoid kernel is $\tanh(\gamma\, x \cdot x' + r)$. It has the same S-shape as the [sigmoid function](../72-sigmoid-function/note.md) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. It came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
 
 ## 4. A 2D example: concentric circles
 
@@ -90,7 +90,7 @@ The kernel trick is built into the SVM algorithm. We do not write the transforma
 
 In summary: if the data is not linearly separable in its own dimension, a kernel function performs a kernel transformation that makes it linearly separable in a higher-dimensional feature space. That is the whole idea behind the kernel trick.
 
-> **Extra:** Why is it called a "trick"? SVM never actually builds the new columns. Its training only needs dot products between pairs of points, and a kernel gives the dot product in the higher-dimensional space directly from the original coordinates. The next Note shows this in code; for RBF the higher-dimensional space is even infinite, so building it explicitly would be impossible.
+> **Extra:** Why is it called a "trick"? SVM never actually builds the new columns. Its training only needs dot products between pairs of points, and a kernel gives the dot product in the higher-dimensional space directly from the original coordinates. The next Note shows this in code; for RBF the higher-dimensional space is even infinite, so building it explicitly would be impossible (MML §12.4).
 
 ## 6. Summary
 
@@ -103,6 +103,11 @@ In summary: if the data is not linearly separable in its own dimension, a kernel
 - Kernel trick: map the data to a higher dimension where it becomes linearly separable, then use a linear SVM there.
 - The map is the kernel; applying it is the kernel transformation.
 - Common kernels: RBF (most used), polynomial, sigmoid. The kernel is a hyperparameter of SVM.
+
+## Sources
+
+- **Lin and Lin 2003:** H.-T. Lin and C.-J. Lin, *A Study on Sigmoid Kernels for SVM and the Training of non-PSD Kernels by SMO-type Methods*, National Taiwan University, 2003.
+- **MML:** M. P. Deisenroth, A. A. Faisal and C. S. Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020. Section 12.4, Kernels.
 
 ## 7. Key terms
 

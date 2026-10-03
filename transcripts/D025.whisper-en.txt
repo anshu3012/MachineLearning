@@ -1,0 +1,178 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our deep learning playlist.
+If you remember, in the last video, we had studied about dropout layers.
+We had discussed all the theories and whatever things we had studied,
+we will understand that in this video through a code.
+So, the previous video was theory, today's video will be its practical implementation.
+So I have decided that I will show you dropout layers in both situations, in regression and in classification also after doing these two things, I will tell you some practical tips from my side which will help you in using dropouts, so let's start the video
+So guys, this code is already written. In fact, I have taken this code from a Github repository, I will put the link of that Github repository in the description.
+It is a very simple code and it is a regression problem. So here the code in the beginning is the code to generate the data.
+Here I have generated my X train, Y train and X test and Y test.
+and when I plot it, our data is looking like this, you can see the black points here, these are your training points
+and the red points are your testing points, also one thing you might have noticed that the data is linearly aligned
+there is a linear relationship between X and Y, so we will apply regression here, we have to draw a line
+to capture the relationship inside this data.
+So, what I have done is that I have made an ANN.
+The architecture of ANN is very simple.
+There are in total four layers.
+One is input, two are hidden and one is output.
+In both the hidden layers, the number of neurons,
+the number of nodes is 128.
+Activation function is ReLU.
+and there is one single node in the output layer and its activation function is linear, you already know all this
+The optimizer we are using is Adam and its learning rate is set to 0.01
+We will track the MSE, the mean squared error, that will be our loss function
+and this is our main code where we are fitting our model on X-train and Y-train for 500 epochs
+When you run a lot of epochs, generally overfitting happens.
+In validation data, I passed X test and Y test.
+And as soon as I run this code, my model got trained.
+I will give you this code, you run it once and see.
+After that, I started evaluating my model.
+And when I evaluated, I noticed that the loss in training was 0.003.
+Mean squared error.
+but on the test it was almost 10% more like 0.04, so here you can clearly see, in fact I have plotted here too,
+this is the decision boundary, this is not the decision boundary, this is the curve, regression curve,
+which my model thinks should be on this data, if you pay attention on this curve, then you will notice that
+your blue curve which is regression line, we will call it curvy, it is passing along with black points,
+black point is our training point, and you can see it doesn't have much meaning from red point,
+so it is telling in one way that overfitting is happening here, the second way to tell this is that you can plot this curve and see,
+On validation data and on test training data, when I plot this graph, you can see that our validation loss is more
+And there is a gap between training and test loss, which again proves that overfitting is happening here
+So overfitting is happening, now how will we solve it? Using dropouts
+So what are we going to do? We are going to make a new model, same architecture, 4 layers, 1 input, 2 hidden and 1 output layer.
+In hidden there are 128 nodes, rest everything is same. The difference is that we are applying a dropout layer after every input layer and we are keeping a dropout ratio of 0.2.
+Means, we need 128 of hidden, 0.2% neurons or nodes to be turned off.
+I applied the same thing on the second hidden layer.
+You can't apply it on the output layer, so I didn't apply it.
+So basically, there is only one difference that we have applied dropout here.
+Learning rate is same, we are using Adam optimizer, we are tracking MSE.
+Everything is same to same.
+and now when I trained this model and after that evaluated it, so see this, this time our training loss has increased a bit,
+it has reached to 0.01, but our test loss has reduced a bit, and the gap between these two has also reduced,
+which shows that we have saved the overfitting. In fact, when I plotted this graph here,
+So you notice in this graph and in the above graph, there is a difference.
+This graph is very spiky, spiky in the sense that the small changes in the data are also very sensitive for that.
+Whereas when you put the dropout, then your graph becomes a little smooth.
+As if it is catching the concepts of the data and not trying to catch it.
+And when I again plotted this graph, in training loss and validation loss,
+You can see the gap between these two has reduced. Now I am giving you an experiment.
+Your work is to retrain this model. In return, you have to keep the dropout ratio of 0.5 instead of 0.2.
+Do it and run the code ahead and write your observation. You will see something interesting.
+So this is our regression program. Now I will quickly show you the same thing in a classification setting.
+So I have made one more notebook. Again here I have created my data as in x.
+And after that I have created y here. And I have plotted it. So this is basically a classification problem
+where there are two input columns and one output column. And my data is sort of linearly separable.
+Some blue points are in yellow region, some yellow points are in blue region, but you get the idea.
+Now I have to solve a classification problem, so what I did, again I made an ANN, I used the same architecture.
+In the last layer, this time in place of linear, our activation function is sigmoid.
+Because this is a binary classification problem. The next code is also the same.
+and you would see that when I trained this model, you can see in the last, when 500 epochs happened
+so in the last, training accuracy is around 92% but validation accuracy stopped at 74%
+which is a clear indication that overfitting is happening here, I again plotted a graph here
+and you can see that this decision boundary is not very smooth and obviously it is capturing the small sensitivities in your data
+as you can see here, these few orange points in your blue region, it is creating a different decision boundary for them which is not good
+obviously, the performance will be bad on new unseen data, when I plotted this graph, it was even more dangerous
+You can see the orange curve is going up and the blue one is going down, so the gap is increasing, which means overfitting is happening.
+And what I did again, by the way, I plotted a graph above the accuracy and you can see there is a gap, which shows there is an overfitting tendency.
+I made a new model again, this time I will use the dropout. You can see I put the dropout here, I put the dropout here and everything else is the same.
+And now when I plot it, let's do one thing, let's run this code again, I am doing one thing, I am running it again,
+I have run x and y, I went down and here I have run this again, also before that we have to import these libraries.
+Okay, now see we have run this, now this model will be trained, it will take some time
+and now I have kept my dropout ratio as 0.2 and I will show you what will happen with 0.2
+Actually when I run this data with 0.2, then the result is not very good, see this
+In fact, overfitting is still happening, trying to catch orange points, trying to catch blue points
+Let me show you, see this, when I run this, just one second, there are some dependencies that we should run once first.
+Yeah, let's run this, see this guys, also, just one second, we should have run everything properly once.
+Actually, I have imported all the libraries in different cells
+because of which this is happening, so I will do it here
+import matplotlib.pyplot as plt
+Let's run it once
+and go down
+and let's run it again
+and we should see the right graph
+See this
+still there is no significant benefit when we put 0.2
+although you will notice that the tendency of overfitting will reduce
+see the scale is 1.25 whereas in the upper graph
+the scale is very high, it is going up to 3.5
+the tendency of overfitting is reducing
+but if you want to improve this model then what you should do
+You should increase your dropout ratio. I did 0.2 to 0.5 and trained this model again.
+And this time you will see that you will get a very smooth decision boundary.
+Let's wait. See this guys. And you can see guys.
+Now no small decision boundary is being formed and a very clear line is being formed
+which is a correct representation on this data, okay, no small blocks are being made which were telling overfitting, okay,
+now if you go ahead and run this code again, you would see this gap will be reduced more, see this, now it has come on the scale of 1.2,
+which was on the scale of 1.5 earlier and before that it was on the scale of 3.5, also if you plot a curve on the accuracy,
+you would see that the gap will reduce a lot, you can see, the gap is not increasing, it is consistent, so this was a simple demonstration
+where dropout is clearly beneficial, also if you go here, you would see that your training accuracy will increase a lot,
+I have turned on verbose just to show you that after 500 epochs, what is the validation accuracy, just to show you,
+Earlier it was around 74. Now let's see how much it is. See this guys. Validation accuracy reached 83.
+Which was stopped at 74 earlier. So I guess this is a clear indication that dropout is really beneficial.
+Dropout in fact is a form of regularization. It is a kind of regularization. It is called regularization by randomization.
+So it helps. So you have to use this. Now we will discuss one more thing that what is the exact impact of P on your model.
+What is P? Dropout ratio. What will happen if we increase it? Generally we start from 0.2 and go to 0.5.
+So let's see what happens. So let's first understand the impact of P on regression setting.
+See here, this was when we did not use dropout at all, which basically means that the value of p was 0, the dropout ratio was 0, no node was getting separated.
+As soon as we did 0.2, it got smoothened a little. When we did 0.5, it got smoothened even more. And when I did 0.75, it got smoothened a lot.
+So, in short, when the value of P is very less, then there is over-fitting and when the value of P is very high, then there is under-fitting.
+So, you should stay between 0.2 to 0.5, there you can see the correct results, as you can see in this example also.
+I have shown the same thing below, this was without dropout, basically P is equal to 0 and this is P is equal to 0.5.
+and you can see that you are getting a very smooth decision boundary.
+So, P is overfitting by decreasing, P is underfitting by increasing.
+You have to stay somewhere in the middle.
+Now, I will tell you some practical tips.
+If you are using dropout in your neural network architecture,
+then how should you do it?
+The first tip from my side is that,
+I have already told you this,
+that if you can see that overfitting is happening,
+then increase the value of P
+if you feel that it is under fitting
+then decrease the value of P
+that is the first tip that I can give you
+second is
+that
+many times I have seen
+some good neural network architectures
+in them after last layer
+dropout is applied
+before that it is not applied
+So you can try out this thing too that the neural network architecture you have made,
+don't directly drop out on everyone, first try it on the last one and see if there is any benefit.
+And then you try out with others too. But you can start with the last layer, this is a good strategy.
+Third is that if you are working with CNNs, we will study convolutional neural network,
+So, if you have a dropout ratio of 40-50%, then you will get better results.
+And 20-30% is for RNNs.
+And in the case of ANN, it varies.
+You can get good results anywhere from 10-50%.
+I have not seen above 50% getting better results.
+So, you have to take care of these three things.
+If you take care of these 3 things then generally you will get good results.
+Now let's talk about some drawbacks.
+So there are 2 major drawbacks.
+The first drawback and it has been proved experimentally that the convergence
+Convergence means the neural network reaches its right weights and biases
+There is a delay in that.
+When you use dropouts then the training gets a little slow.
+The second problem is that the value of the loss function or cost function of your neural network architecture changes.
+Value changes and this is logical because your cost function is holding this whole neural network.
+Right, it is holding every node. But what is happening in every epoch is that suppose you have removed this.
+So now you haven't taken all the nodes. So if you haven't taken all the nodes, then your loss function has to change.
+Right, so due to this change, the calculation of gradients, there is a little problem in understanding it, in debugging it.
+that is the biggest problem with dropouts, that if you go to debug your neural network,
+that where is the problem happening, is there any problem or not, so since loss function keeps on varying,
+the calculation of gradient becomes very difficult, and because of that there can be some problem,
+but apart from these two things, there is no other problem in dropout, and generally,
+dropout will give you benefit, you should apply it, so I hope you understand till here,
+Before ending the video, one last thing, if you want to understand the deep level of dropouts,
+how it works mathematically, or you want to write the code by yourself,
+then I would recommend that the original paper that came on it,
+you try to read it once, it is a little tricky and a little long, it is around 30 pages,
+In some places it will be difficult to understand, but after reading it multiple times, you will develop an idea
+That how exactly dropout works mathematically. So there is a little matrix calculation involved in it.
+But I would recommend if you have time, you should go through this paper at least once.
+You will get a lot of knowledge from the interview point of view. So yeah, that's it.
+We have completed the dropout topic. I hope you understood. In the last video, we did theory. In this video, we have done practical.
+I will share these two codes with you. Regression and classification. If you liked the video, then like it.
+And if you have not subscribed to the channel, then please subscribe. That's it from my side. Thanks for watching. Bye.

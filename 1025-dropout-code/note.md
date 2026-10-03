@@ -85,7 +85,7 @@ The new model has the same layers, with a **`Dropout` layer** after each hidden 
 
 The training error rose, and the test error fell by a quarter. In Figure 1 (top right) the curve is much smoother: it reacts less to the small ups and downs of the training points and follows the overall trend. In Figure 2 (top right) the validation loss no longer climbs and the gap between the curves stays the same over the 500 epochs.
 
-> **Extra:** The training loss that Keras prints during `fit` is computed with dropout switched on, on the shrunken sub-networks, so it is noisier and higher than the loss of the full network. The table's training MSE comes from `evaluate`, which runs the full network with dropout off. This is why the blue curve in Figure 2 (top right) is jagged.
+> **Extra:** The training loss that Keras prints during `fit` is computed with dropout switched on, on the shrunken sub-networks, so it is noisier and higher than the loss of the full network. The table's training MSE comes from `evaluate`, which runs the full network with dropout off (Keras FAQ, training versus testing loss). This is why the blue curve in Figure 2 (top right) is jagged.
 
 ## 4. Dropout for classification
 
@@ -154,7 +154,7 @@ The same holds for classification: $p = 0.2$ was too little, $p = 0.5$ worked. T
 
 Rates above 50% rarely help.
 
-> **Extra:** The original dropout paper used a lower rate on the input layer than on the hidden layers: it kept input nodes with probability 0.8 ($p = 0.2$) and hidden nodes with probability 0.5 ($p = 0.5$). Dropping too many inputs throws away information that no later layer can recover.
+> **Extra:** The original dropout paper used a lower rate on the input layer than on the hidden layers: it kept input nodes with probability 0.8 ($p = 0.2$) and hidden nodes with probability 0.5 ($p = 0.5$) (Srivastava et al. 2014, Appendix A.4). Dropping too many inputs throws away information that no later layer can recover.
 
 ## 7. Drawbacks
 
@@ -165,7 +165,7 @@ Dropout has two main costs:
 1. **Slower convergence.** Each step trains only part of the network, so the network takes longer to reach good weights and biases. Experiments show training with dropout needs more epochs.
 2. **A loss that keeps changing.** The loss is computed from the whole network, but at each step a different set of nodes is missing, so in effect the loss function itself changes every step. That makes the gradients hard to interpret and debugging harder: when training goes wrong, it is difficult to tell whether something is broken or the loss is just jumping around (compare the jagged blue curves of Figure 2).
 
-Apart from these, dropout has few downsides, and it usually helps. For the mathematics, the original paper (Srivastava, Hinton and colleagues, 2014, about 30 pages) is worth reading once.
+Apart from these, dropout has few downsides, and it usually helps. For the mathematics, the original paper (Srivastava et al. 2014, about 30 pages) is worth reading once.
 
 ## 8. Summary
 
@@ -181,7 +181,12 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 - Small $p$ overfits, large $p$ underfits; try 0.2 to 0.5, starting with the last hidden layer.
 - The price: slower training and a loss that is harder to monitor.
 
-## 9. Key terms
+## 9. Sources
+
+- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014, Appendix A.4 (dropout rates).
+- Keras FAQ, "Why is my training loss much higher than my testing loss?" (dropout is off at test time; the training loss is averaged over the epoch's batches).
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

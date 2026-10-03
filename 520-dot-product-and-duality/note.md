@@ -169,7 +169,7 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 - **A layer of neurons:** row $j$ of the weight matrix is the dual vector of neuron $j$; the neuron's output before the activation is the projection of the input onto that row, scaled.
 - **PCA:** each principal component is a unit vector $u$, and a point's score on it is $u^{\mathsf T}x$, the position of its shadow on the line of $u$ (see the [PCA step by step Note](../48-pca-step-by-step/note.md)).
 
-> **Extra:** Recommender systems often give every user and every item a learned vector, an **embedding**, and predict a rating as their dot product. By duality, a user's vector is a linear scoring function over items: it projects each item's vector onto the user's taste direction.
+> **Extra:** Recommender systems often give every user and every item a learned vector, an **embedding**, and predict a rating as their dot product (Koren et al. 2009). By duality, a user's vector is a linear scoring function over items: it projects each item's vector onto the user's taste direction.
 
 ## 8. Summary
 
@@ -184,6 +184,10 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 - Which vector casts the shadow does not matter.
 - Projection onto the line of a unit vector $\hat{u}$ is linear, and its matrix is $\hat{u}$ tipped on its side.
 - A linear model's weights, a neuron's weights and a principal component are all dual vectors: linear functions to numbers written as arrows.
+
+## Sources
+
+- Koren, Y., Bell, R. and Volinsky, C. (2009). "Matrix Factorization Techniques for Recommender Systems". *IEEE Computer* 42(8).
 
 ## 9. Key terms
 

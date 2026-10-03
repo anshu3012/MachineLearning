@@ -74,15 +74,15 @@ Everyday examples are quantities that are equally likely anywhere within fixed l
 - the time a machine takes to produce a product, when it ranges evenly from 5 to 6 hours;
 - the waiting time for a bus that comes exactly every 10 minutes, for someone arriving at a random moment: anywhere from 0 to 10 minutes.
 
-A height chosen at random from a group whose heights all lie between 5.6 and 6 feet is sometimes given as an example. It is only a rough one: restricting a normal variable to a range does not make it flat, so within the range the heights still bunch towards the middle of the bell.
+A height chosen at random from a group whose heights all lie between 5.6 and 6 feet is sometimes given as an example. It is only a rough one: restricting a normal variable to a range does not make it flat. Cutting a bell curve to a range keeps the bell's shape inside it (the density is just scaled up so its area is 1), so the heights still bunch towards the centre.
 
 In machine learning, the uniform distribution mostly works behind the scenes:
 
 - **Random initialization.** Neural networks and k-means clustering (see the [k-means Note](../128-kmeans-intuition/note.md)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
 - **Sampling.** Splitting data into training and test sets, or drawing a random subset, picks each row with equal probability (the train-test split of the [toy project Note](../13-toy-project/note.md)).
 - **Data augmentation.** In deep learning with images, a small dataset is enlarged by making new images from old ones: zoomed in a little, shrunk, shifted, rotated. The amounts are drawn at random, often uniformly.
-- **Hyperparameter tuning.** Random search tries hyperparameter values drawn from ranges, often uniformly (see the [random forest tuning Note](../112-random-forest-tuning/note.md)).
-- **Pseudo-random number generators.** Computers first produce uniform random numbers and turn them into every other distribution from there.
+- **Hyperparameter tuning.** Random search tries hyperparameter values drawn from ranges, often uniformly (scikit-learn `RandomizedSearchCV` docs; see the [random forest tuning Note](../112-random-forest-tuning/note.md)).
+- **Pseudo-random number generators.** Computers first produce uniform random numbers and turn them into samples from other distributions (MML §6.7.1).
 
 > **Python:** Uniform values and the uniform distribution.
 >
@@ -129,7 +129,7 @@ Figure 3 keeps $\mu = 0$ and increases $\sigma$. A larger $\sigma$ spreads the c
 
 > **Key point:** The log-normal PDF is the normal PDF with $\ln x$ in place of $x$, divided by an extra $x$.
 
-1. **In words:** take the normal PDF, put $\ln x$ where $x$ was, and divide by $x$. The extra $x$ comes from the log transformation: it squeezes large values together, and dividing by $x$ keeps the total area at 1.
+1. **In words:** take the normal PDF, put $\ln x$ where $x$ was, and divide by $x$. The extra $x$ comes from the log transformation: the log squeezes large values together, and the factor $1/x$ keeps the total area at 1 (the change-of-variables rule, MML §6.7.2).
 2. **Formula:** for $x > 0$,
    $$f(x) = \frac{1}{x\,\sigma\sqrt{2\pi}}\; e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}}$$
 3. **Example:** comment lengths on a forum with $\mu = 3$ and $\sigma = 1$ (in log-words). At $x = 20$ words, $\ln 20 = 2.996 \approx 3$, so the exponent is almost 0 and $e^{0} = 1$:
@@ -157,7 +157,7 @@ The log-normal distribution appears in biology, medicine, chemistry, hydrology a
 - **Length of comments** in online discussion forums: most comments are a few words; a few are very long.
 - **Time spent reading online articles:** many readers leave quickly; a few stay to the end and read the other comments too.
 - **Length of chess games:** many games end quickly, and a few go on for a very long time.
-- **Income:** there is evidence that the income of about 97 to 99% of the population is log-normally distributed: many people earn little, few earn a lot. (The richest 1 to 3% follow a Pareto distribution, the [next Note](../262-pareto-and-power-law/note.md).)
+- **Income:** there is evidence that the income of about 97 to 99% of the population is log-normally distributed: many people earn little, few earn a lot. The richest 1 to 3% follow a Pareto distribution, the [next Note](../262-pareto-and-power-law/note.md) (Clementi and Gallegati 2005).
 
 ### 3.4 How to check whether data is log-normal
 
@@ -206,6 +206,12 @@ This is also the payoff of knowing a column is log-normal: the log transform tur
 - The uniform distribution works behind the scenes in ML: initialization, sampling, augmentation, random search.
 - A right-skewed column is log-normal only if its logs are normal.
 - Log-normal data becomes normal with a log transform.
+
+## Sources
+
+- Clementi, F. and Gallegati, M. (2005). "Pareto's Law of Income Distribution: Evidence for Germany, the United Kingdom, and the United States." In *Econophysics of Wealth Distributions*, Springer.
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 6.7.1 (sampling with the inverse CDF) and 6.7.2 (change of variables).
+- scikit-learn documentation, `RandomizedSearchCV`.
 
 ## 5. Key terms
 

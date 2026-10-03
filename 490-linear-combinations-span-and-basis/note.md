@@ -128,7 +128,7 @@ So the same arrow is $[3, -2]$ in the standard basis and $[0.5, 2.5]$ in the bas
 > np.linalg.solve(B, [3, -2])     # array([0.5, 2.5])
 > ```
 
-> **Extra:** Changing the basis is everyday ML. PCA (see the [PCA step by step Note](../48-pca-step-by-step/note.md)) re-describes each data point in a new basis made of the principal components: the new coordinates are the PC1, PC2, ... values. Word embeddings and the hidden layers of a neural network can be read the same way: each describes the data in coordinates the model found useful.
+> **Extra:** Changing the basis is everyday ML. PCA (see the [PCA step by step Note](../48-pca-step-by-step/note.md)) re-describes each data point in a new basis made of the principal components: the new coordinates are the PC1, PC2, ... values. Word embeddings and the hidden layers of a neural network can be read in the same spirit: each describes the data by new numbers that the model found useful, a learned **representation** (Bengio et al. 2013).
 
 ## 6. Span
 
@@ -187,7 +187,7 @@ With numbers:
 
 > **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../27-one-hot-encoding/note.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. That is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), section 7).
 
-> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf{x}_1 + \dots + \beta_m \mathbf{x}_m$, where $\mathbf{1}$ is the column of ones and $\mathbf{x}_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Fitting the model means picking the point of that span closest to the true $y$.
+> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf{x}_1 + \dots + \beta_m \mathbf{x}_m$, where $\mathbf{1}$ is the column of ones and $\mathbf{x}_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
 
 ## 8. Basis
 
@@ -198,7 +198,7 @@ Putting the words together: a **basis** of a space is a set of linearly independ
 - **"Spans the space":** every vector of the space is a linear combination of the basis, so every vector gets coordinates.
 - **"Linearly independent":** no basis vector is redundant, so the coordinates are unique. With a spare vector, the same arrow could be written in more than one way.
 
-$\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]$. But $[1, 2], [2, 4]$ is not: it spans only a line. Every basis of the plane has exactly 2 vectors, and every basis of $n$-dimensional space has exactly $n$. That count is what the dimension of a space means.
+$\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]$. But $[1, 2], [2, 4]$ is not: it spans only a line. Every basis of the plane has exactly 2 vectors, and every basis of $n$-dimensional space has exactly $n$. That count is what the dimension of a space means (MML §2.6.1).
 
 ## 9. Summary
 
@@ -216,6 +216,12 @@ $\hat{\imath}, \hat{\jmath}$ is a basis of the plane, and so is $[1, 1], [1, -1]
 - Coordinates depend on the chosen basis; the same arrow has different numbers in different bases.
 - Two independent vectors span a plane, three span 3D space; a dependent vector adds nothing.
 - Dependent input columns are multicollinearity, and they break the normal equation.
+
+## Sources
+
+- Bengio, Y., Courville, A. and Vincent, P. (2013). "Representation Learning: A Review and New Perspectives". *IEEE Transactions on Pattern Analysis and Machine Intelligence* 35(8).
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.2 (ESL).
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 2.6.1 (MML).
 
 ## 10. Key terms
 

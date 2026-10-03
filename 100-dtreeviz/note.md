@@ -16,7 +16,7 @@ title: "Visualising Decision Trees with dtreeviz"
 
 > **Key point:** dtreeviz draws a trained decision tree with the training data shown inside every node, so we can see why each split was chosen and where a prediction goes.
 
-**dtreeviz** is a Python library for visualising decision trees trained with scikit-learn (and with XGBoost, LightGBM and Spark). Compared with scikit-learn's own tree drawing, it adds:
+**dtreeviz** is a Python library for visualising decision trees trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, it adds:
 
 - real column and class names at every split;
 - the training data of every node, as histograms (classification) or scatter plots (regression);
@@ -40,7 +40,7 @@ The drawing has several weaknesses:
 - **Some information is hard to read:** `value = [0, 49, 5]` means 0 setosa, 49 versicolor and 5 virginica, but we must remember the class order.
 - **The data is invisible.** We see the threshold 0.8 but not why the split falls there.
 
-> **Extra:** Passing `feature_names=` and `class_names=` to `plot_tree` or `export_graphviz` fixes the first problem, and `filled=True` colours the boxes by class. The data inside each node, however, only dtreeviz shows.
+> **Extra:** Passing `feature_names=` and `class_names=` to `plot_tree` or `export_graphviz` fixes the first problem, and `filled=True` colours the boxes by class (sklearn `plot_tree` reference). The data inside each node, however, only dtreeviz shows.
 
 ## 3. Installing and calling dtreeviz
 
@@ -69,7 +69,7 @@ dtreeviz is installed with `pip install dtreeviz`. It also needs the **Graphviz*
 >
 > `dtreeviz.model` needs four things: the trained tree, the data it was trained on, the names of the input columns, and (for classification) the names of the classes.
 
-> **Extra:** Older tutorials use the dtreeviz 1.x interface, a single function: `from dtreeviz.trees import dtreeviz`, then `dtreeviz(clf, X, y, target_name=..., feature_names=..., class_names=...)`, with the options of section 6 passed to the same call. dtreeviz 2.0 replaced it with `dtreeviz.model(...)` and methods such as `.view()`.
+> **Extra:** Older tutorials use the dtreeviz 1.x interface, a single function: `from dtreeviz.trees import dtreeviz`, then `dtreeviz(clf, X, y, target_name=..., feature_names=..., class_names=...)`, with the options of section 6 passed to the same call. dtreeviz 2.0 replaced it with `dtreeviz.model(...)` and methods such as `.view()` (dtreeviz README).
 
 ## 4. Reading a dtreeviz tree
 
@@ -181,9 +181,9 @@ The **feature importance** of a column (the [regression trees Note](../99-regres
 
 ![Feature importance of the fully grown iris tree](images/importance.png){height=24%}
 
-Petal width carries 0.923 of the total, petal length 0.064 and sepal width 0.013. Sepal length is never used. The exact values depend on the training data: a tree trained on a different train-test split of iris can rank the minor columns differently.
+Petal width carries 0.923 of the total, petal length 0.064 and sepal width 0.013. Sepal length is never used. The exact values depend on the training data. In the Notebook, over 20 different training splits of iris, petal width and petal length always come first and second, but the two sepal columns swap places half of the time.
 
-> **Extra:** In dtreeviz 2.x, `viz.instance_feature_importance(x)` shows the importance computed only along one row's prediction path. The importance of the whole tree is the scikit-learn attribute `clf.feature_importances_`, which Figure 5 plots.
+> **Extra:** In dtreeviz 2.x, `viz.instance_feature_importance(x)` shows the importance computed only along one row's prediction path (dtreeviz README). The importance of the whole tree is the scikit-learn attribute `clf.feature_importances_`, which Figure 5 plots.
 
 ## 7. The whole tree on one plot
 
@@ -231,6 +231,11 @@ This picture is exactly the idea of the [regression trees Note](../99-regression
 - The depth-2 iris tree splits on petal width at 0.80 (50 setosa) and at 1.75 (54 mostly versicolor, 46 mostly virginica).
 - A regression split on the Boston data, RM $\le$ 6.94, predicts 19.93 (430 districts) or 37.24 (76 districts).
 - A prediction path shows exactly which questions decided one row's prediction.
+
+## Sources
+
+- **dtreeviz README:** T. Parr et al., dtreeviz, README at github.com/parrt/dtreeviz (supported libraries and the 2.0 API).
+- **sklearn `plot_tree` reference:** scikit-learn API reference for `sklearn.tree.plot_tree` and `sklearn.tree.export_graphviz`.
 
 ## 9. Key terms
 

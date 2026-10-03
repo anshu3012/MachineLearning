@@ -197,7 +197,7 @@ The same formula, worked on a real row:
 
 Before scaling, the two columns live in completely different ranges. After scaling, both have mean 0 and standard deviation 1, and both run from about -2 to 2.
 
-> **Extra:** `scaler.scale_` gives a salary standard deviation of 34,579, while `describe()` shows 34,641. pandas divides by $n - 1$ when computing the standard deviation, while `StandardScaler` divides by $n$. With 280 rows the gap is small, and the scaled column's std shows as 1.0 either way.
+> **Extra:** `scaler.scale_` gives a salary standard deviation of 34,579, while `describe()` shows 34,641. pandas divides by $n - 1$ when computing the standard deviation, while `StandardScaler` divides by $n$ (scikit-learn docs, `StandardScaler`). With 280 rows the gap is small, and the scaled column's std shows as 1.0 either way.
 
 ## 7. Effect of scaling on the data
 
@@ -267,7 +267,7 @@ For a **decision tree**, scaling made no difference at all. A decision tree does
 >
 > For the decision tree, replace `LogisticRegression(solver="sag")` with `DecisionTreeClassifier()` from `sklearn.tree`.
 
-> **Extra:** Why `solver="sag"`? A **solver** is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and gives up after 100 steps; on the raw data it has not reached the best answer by then, which gives the 65.8%.
+> **Extra:** Why `solver="sag"`? A **solver** is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
 >
 > The default solver, `"lbfgs"`, does reach it on the raw data too (87.5%), but needs 65 steps instead of 7. Either way, unscaled data makes the training harder.
 
@@ -353,6 +353,11 @@ These algorithms only compare values within one column, asking questions like "i
 - Split first; fit the scaler on the training set only; transform both sets.
 - Standardization keeps the shape of the data and does not remove outliers.
 - On the ads data, logistic regression went from 65.8% to 86.7% accuracy; a decision tree stayed at 87.5%.
+
+## Sources
+
+- scikit-learn documentation. `sklearn.linear_model.LogisticRegression` (note on the `sag` and `saga` solvers). scikit-learn.org.
+- scikit-learn documentation. `sklearn.preprocessing.StandardScaler`. scikit-learn.org.
 
 ## 12. Key terms
 

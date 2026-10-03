@@ -59,13 +59,13 @@ A popular improved variant is the **LSTM** (long short-term memory). RNNs and LS
 
 An **autoencoder** is used to compress data, such as an image, a file or a video, while keeping its quality as far as possible. Its input and output layers have the same number of nodes, and its hidden layers have fewer. The network learns to pass the data through the narrow middle and rebuild it on the other side.
 
-> **Extra:** The rebuilt output is close to the input but rarely identical, so the compression loses some detail. The narrow middle layer holds a compact summary of the input, which is also useful for removing noise and for spotting unusual data (anomaly detection).
+> **Extra:** The narrow middle layer cannot hold a full copy of the input, so the autoencoder learns to keep only the most important features, and the rebuilt output loses some detail (Goodfellow et al. 2016, §14.1). Trained to rebuild clean inputs from noisy copies, an autoencoder removes noise (§14.5). Inputs that rebuild badly can be flagged as unusual: anomaly detection (Sakurada and Yairi 2014).
 
 ### 2.5 Generative adversarial network (GAN)
 
 > **Key point:** A generator makes fakes, a discriminator judges real or fake; competing, the generator learns to create realistic new data.
 
-A **generative adversarial network (GAN)**, introduced by Ian Goodfellow in 2014, is two networks playing a game against each other:
+A **generative adversarial network (GAN)**, introduced by Ian Goodfellow and colleagues in 2014 (Goodfellow et al. 2014), is two networks playing a game against each other:
 
 - The **generator** creates new data, for example photos of faces.
 - The **discriminator** decides whether each photo is real or fake.
@@ -84,13 +84,13 @@ Deep learning is a young field, and many of the people who shaped it are still a
 
 > **Key point:** Rosenblatt's perceptron promised learning machines; Minsky and Papert showed it cannot learn XOR, and funding dried up.
 
-After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the **perceptron**, a model that learns, loosely based on a neuron in the brain. The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
+After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the **perceptron**, a model that learns, loosely based on a neuron in the brain (Rosenblatt 1958). The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
 
 In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** function, however long it is trained. The reason is that a perceptron draws a straight line, and XOR's classes cannot be split by one line (the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md) shows this in code).
 
 Funding, media attention and research on neural networks dropped sharply. A period like this, when interest and money for AI collapse, is called an **AI winter**; this was the first.
 
-> **Extra:** Minsky and Papert's 1969 work was a book, *Perceptrons*. The first AI winter of the 1970s had other causes too, such as the critical Lighthill report on AI research in the United Kingdom (1973).
+> **Extra:** Minsky and Papert's 1969 work was a book, *Perceptrons* (MIT Press). The first AI winter of the 1970s had other causes too, such as the critical Lighthill report on AI research in the United Kingdom (1973), after which the UK government ended support for AI research at all but a few universities (Russell and Norvig, §1.3).
 
 ### 3.2 Backpropagation and the second boom
 
@@ -102,9 +102,9 @@ In 1986, **Geoffrey Hinton**, now known as a father of deep learning, published 
 - Many perceptrons arranged in layers, with hidden layers, can learn non-linear ones.
 - Such a network can be trained with **backpropagation**: differentiate the error and use the derivatives to adjust every weight (taught in the backpropagation Notes).
 
-This overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Yann LeCun, a former postdoctoral researcher with Hinton, used a network trained by backpropagation to read handwritten zip codes from images. It was the first landmark result of neural networks in computer vision.
+This overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Yann LeCun, a former postdoctoral researcher with Hinton, used a network trained by backpropagation to read handwritten zip codes from images (LeCun et al. 1989).
 
-> **Extra:** Hinton is the great-great-grandson of the mathematician George Boole, after whom Boolean logic is named. He shared the 2018 Turing Award with Yann LeCun and Yoshua Bengio, and the 2024 Nobel Prize in Physics with John Hopfield.
+> **Extra:** Hinton is the great-great-grandson of the mathematician George Boole, after whom Boolean logic is named. He shared the 2018 Turing Award with Yann LeCun and Yoshua Bengio, and the 2024 Nobel Prize in Physics with John Hopfield (ACM 2019; Nobel Prize 2024).
 
 ### 3.3 Universal approximation
 
@@ -112,7 +112,7 @@ This overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Ya
 
 The **universal approximation theorem** states that a neural network with at least one hidden layer and enough neurons can approximate any continuous function, to any accuracy we want. This is why neural networks are called **universal function approximators**.
 
-> **Extra:** The theorem was proved by George Cybenko (1989) and Kurt Hornik (1991), not in the 1986 backpropagation paper. One hidden layer is already enough in principle, though it may need an enormous number of neurons; deeper networks usually need far fewer. The theorem says a good network exists; it does not promise that training will find it.
+> **Extra:** The theorem was proved by George Cybenko (1989) and Kurt Hornik (1991), not in the 1986 backpropagation paper. One hidden layer is already enough in principle, though that layer may need an enormous number of neurons; deeper networks often need far fewer. The theorem says a good network exists; it does not promise that training will find it (Goodfellow et al. 2016, §6.4.1).
 
 ### 3.4 The second AI winter
 
@@ -146,10 +146,10 @@ In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a de
 Further milestones:
 
 - **2014:** Ian Goodfellow introduces GANs.
-- **2016:** DeepMind's **AlphaGo** beats Lee Sedol, one of the best players of Go, a board game far more complex than chess, by 4 games to 1.
+- **2016:** DeepMind's **AlphaGo** beats Lee Sedol, winner of 18 international titles, by 4 games to 1. Go is a board game far more complex than chess: about 250 possible moves per turn against about 35 (Silver et al. 2016).
 - **Today:** almost every digital product uses deep learning somewhere, and universities teach it widely.
 
-> **Extra:** The 2012 figure is the top-5 error (the right answer is among the model's five guesses): 15.3% for AlexNet against 26.2% for the second-best entry. Lee Sedol retired from professional Go in 2019, saying AI could not be beaten.
+> **Extra:** The 2012 figure is the top-5 error (the right answer is among the model's five guesses): 15.3% for AlexNet against 26.2% for the second-best entry (Krizhevsky et al. 2012). Lee Sedol retired from professional Go in November 2019, calling AI "an entity that cannot be defeated" (Yonhap 2019).
 
 The reasons for this final success are the five forces of section 5 in the [what is deep learning Note](../1002-what-is-deep-learning/note.md): more labelled data, stronger hardware, better algorithms and frameworks, and a growing community.
 
@@ -182,7 +182,7 @@ Deep learning is everywhere: recommendation engines such as Netflix's, chatbots,
 
 > **Key point:** GANs create new faces, music, handwriting and stories.
 
-GANs generate data that never existed: photos of people who never lived, a prediction of what a couple's baby would look like, new music, handwriting in a given style, and stories (one AI-written story was made into a short film). **DeepDream**, a related Google technique, makes a network exaggerate the patterns it sees in an image, producing dream-like pictures.
+GANs generate data that never existed: photos of people who never lived, a prediction of what a couple's baby would look like, new music, handwriting in a given style, and stories (one AI-written story was made into a short film). **DeepDream**, another Google technique (not a GAN), makes a network exaggerate the patterns it sees in an image, producing dream-like pictures (Mordvintsev et al. 2015).
 
 ### 4.4 Everyday industry uses
 
@@ -217,7 +217,23 @@ GANs generate data that never existed: photos of people who never lived, a predi
 - A network with a hidden layer and enough neurons can approximate any continuous function.
 - Data, hardware, frameworks and community ended the winters.
 
-## 6. Key terms
+## 6. Sources
+
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016: §6.4.1 (universal approximation, depth), §14.1 and §14.5 (autoencoders, denoising).
+- Goodfellow et al., "Generative Adversarial Nets", NeurIPS 2014.
+- Sakurada and Yairi, "Anomaly Detection Using Autoencoders with Nonlinear Dimensionality Reduction", MLSDA workshop, 2014.
+- Rosenblatt, "The perceptron: a probabilistic model for information storage and organization in the brain", *Psychological Review*, 1958.
+- Minsky and Papert, *Perceptrons*, MIT Press, 1969.
+- Russell and Norvig, *Artificial Intelligence: A Modern Approach*, 4th ed., 2020, §1.3 (the Lighthill report and the first AI winter).
+- LeCun et al., "Backpropagation Applied to Handwritten Zip Code Recognition", *Neural Computation*, 1989.
+- ACM, 2018 A.M. Turing Award announcement, March 2019; The Nobel Prize in Physics 2024, nobelprize.org.
+- Cybenko, "Approximation by Superpositions of a Sigmoidal Function", 1989; Hornik, "Approximation Capabilities of Multilayer Feedforward Networks", 1991.
+- Krizhevsky, Sutskever and Hinton, "ImageNet Classification with Deep Convolutional Neural Networks", NeurIPS 2012.
+- Silver et al., "Mastering the game of Go with deep neural networks and tree search", *Nature*, 2016 (search-tree sizes of Go and chess).
+- Yonhap News Agency interview with Lee Sedol, November 2019.
+- Mordvintsev, Olah and Tyka, "Inceptionism: Going Deeper into Neural Networks", Google Research Blog, 2015.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

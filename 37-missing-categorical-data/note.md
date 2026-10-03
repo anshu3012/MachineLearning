@@ -99,7 +99,7 @@ So the "Missing" category suits two cases:
 2. **Keeps the existing categories' counts** exactly as they were.
 3. **Captures the missingness itself**, which helps when the gaps are not random.
 
-**Disadvantage:** it does not estimate the missing value; it only labels it. When there are few gaps, the new category is small, and the results are usually no better than with mode imputation.
+**Disadvantage:** it does not estimate the missing value; it only labels it, so the results are not always good.
 
 > **Extra:** After one-hot encoding (Note 27), the "Missing" category becomes its own 0/1 column. That column is the same as a missing indicator (Note 38) for this feature.
 
@@ -195,7 +195,7 @@ A second check looks at the target. If the houses with a gap were like the TA ho
 
 ![Sale prices as density curves. Left: houses in the most frequent category against houses with a gap. Right: the most frequent category before and after imputation](images/price_kde.png){width=100%}
 
-The houses with a gap sold for much less: a mean of 102,000 dollars against 188,000 for TA houses. So the gaps are probably not random. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 3, top right): its mean falls from 188,000 to 183,000 dollars.
+The houses with a gap sold for much less: a mean of 102,000 dollars against 188,000 for TA houses. Under MCAR, the gaps would not depend on any value (Note 35), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 3, top right): its mean falls from 188,000 to 183,000 dollars.
 
 For `GarageQual`, mode imputation is acceptable. Few values are missing, so even a poor guess cannot change much.
 
@@ -250,7 +250,7 @@ The same can be done in pandas with `fillna`. The mode must still come from the 
 > X_test["GarageQual"] = X_test["GarageQual"].fillna(mode)
 > ```
 >
-> `mode()` returns every value tied for most frequent, so `[0]` takes the first. Assign the result back to the column: in pandas 3, `fillna(..., inplace=True)` on a single column no longer changes the DataFrame.
+> `mode()` returns every value tied for most frequent, so `[0]` takes the first. Assign the result back to the column: in pandas 3, `fillna(..., inplace=True)` on a single column no longer changes the DataFrame (pandas docs, Copy-on-Write).
 
 > **Extra:** Two slips are easy to make here.
 >
@@ -294,9 +294,9 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 
 > **Extra:** What the gaps mean in this data.
 >
-> In this dataset, the gaps are not lost values at all. The dataset's own description says that an empty `FireplaceQu` means "no fireplace" and an empty `GarageQual` means "no garage". The data confirms it: all 690 houses with a gap in `FireplaceQu` have 0 fireplaces, and all 81 with a gap in `GarageQual` also have no garage type.
+> In this dataset, the gaps are not lost values at all. The dataset's own description says that an empty `FireplaceQu` means "no fireplace" and an empty `GarageQual` means "no garage" (De Cock 2011). The data confirms it: all 690 houses with a gap in `FireplaceQu` have 0 fireplaces, and all 81 with a gap in `GarageQual` also have no garage type.
 >
-> So the gaps are MNAR (Note 35): the value is missing because the thing does not exist. This explains why houses with a gap sold for less in Figure 3. For both columns, a category such as "Missing" (or better, "None") describes the truth; guessing TA or Gd invents a garage or a fireplace.
+> So the value is missing because the thing itself does not exist: no fireplace, or no garage (De Cock 2011). For both columns, a category such as "Missing" (or better, "None") describes the truth; guessing TA or Gd invents a garage or a fireplace.
 >
 > Before imputing, it is worth reading the data's description to see whether "missing" has a meaning.
 
@@ -309,7 +309,12 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 - Also compare the target for the most frequent category against the rows with gaps: here the gaps marked cheaper houses.
 - Split first, then fit `SimpleImputer` on the training set and transform both sets with it.
 
-## 9. Key terms
+## 9. Sources
+
+- De Cock, D. (2011). Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project. *Journal of Statistics Education* 19(3); its data documentation file.
+- pandas User Guide, *Copy-on-Write (CoW)*, section on chained assignment.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

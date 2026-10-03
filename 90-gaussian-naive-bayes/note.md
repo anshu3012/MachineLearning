@@ -92,7 +92,7 @@ The male score is about 49 times larger, so the prediction is **male**. As proba
 > nb.predict_proba(new_person)   # about 99% male
 > ```
 >
-> `GaussianNB` estimates the variance by dividing by $n$ rather than $n - 1$ (and adds a tiny amount for numerical safety), so its numbers differ slightly from the table: 99.2% male instead of 98.0%. The prediction is the same.
+> `GaussianNB` estimates the variance by dividing by $n$ rather than $n - 1$ (and adds a tiny amount, `var_smoothing`, for numerical safety; scikit-learn docs, `GaussianNB`), so its numbers differ slightly from the table: 99.2% male instead of 98.0%. The prediction is the same.
 
 ## 5. When the data is not normal
 
@@ -107,7 +107,7 @@ The normal assumption is a choice, and it can be poor, for example for a skewed 
 | Bernoulli | Bernoulli (yes/no) | binary features, such as "word present or not" | `BernoulliNB` |
 | Categorical | categorical | categories, as in the Play Tennis Note | `CategoricalNB` |
 
-The approach is to look at each column's distribution and pick the variant whose assumption fits best. A strongly skewed numerical column can also be transformed first (the power transformer Note) so that it looks more normal.
+The approach is to look at each column's distribution and pick the variant whose assumption fits best (scikit-learn user guide §1.9). A strongly skewed numerical column can also be transformed first (the power transformer Note) so that it looks more normal.
 
 ## 6. Summary
 
@@ -116,7 +116,11 @@ The approach is to look at each column's distribution and pick the variant whose
 - New person 185 cm, 170 lb: male score $5.5 \times 10^{-4}$, female $1.1 \times 10^{-5}$: male (98%).
 - Other variants (multinomial, Bernoulli, categorical) suit other kinds of inputs.
 
-## 7. Key terms
+## 7. Sources
+
+- **scikit-learn docs:** `sklearn.naive_bayes.GaussianNB` (var_smoothing); user guide Section 1.9, "Naive Bayes", scikit-learn 1.9.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -59,6 +59,14 @@ B_check = bfgs_update(np.eye(2), np.array([1.0, 0.5]), np.array([3.0, 2.0]))
 assert np.allclose(B_check @ [1.0, 0.5], [3.0, 2.0])
 assert steps["Newton (true Hessian)"] < steps["BFGS (Hessian built from gradients)"] < steps["gradient descent"]
 print(steps)
+# Check of the text's explanation: how far is BFGS's B from the true Hessian along its run?
+p, B, B_err = START.copy(), np.eye(2), []
+while np.linalg.norm(grad(p)) > TOL:
+    B_err.append(np.linalg.norm(B - hess(p)) / np.linalg.norm(hess(p)))
+    d = -np.linalg.solve(B, grad(p))
+    new = p + line_search(p, d) * d
+    B, p = bfgs_update(B, new - p, grad(new) - grad(p)), new
+print("relative error of B, steps 0-6:", np.round(B_err[:7], 2), " steps 7+:", np.round(B_err[7:], 2))
 
 gx, gy = np.linspace(-1.6, 1.6, 200), np.linspace(-0.7, 1.9, 200)
 X, Y = np.meshgrid(gx, gy)

@@ -27,7 +27,7 @@ Figure 1 shows the whole method. We check that the column is skewed, compute the
 
 A column is **skewed** when its values have a long tail on one side (Note 20). The z-score method of Note 42 does not fit such a column, because it assumes a bell shape.
 
-The IQR method makes no such assumption. It is built only on percentiles, which do not care about the shape of the column. To use it we need two ideas from Note 20: the box plot and the IQR.
+The IQR method makes no such assumption. The IQR method is built only on percentiles, which do not care about the shape of the column. To use it we need two ideas from Note 20: the box plot and the IQR.
 
 ## 3. The fences
 
@@ -41,7 +41,7 @@ $$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
 
 A mark below $-23.5$ or above 84.5 is an outlier. The plan for any skewed column is therefore short: compute $Q_1$, $Q_3$ and the IQR, compute the two fences, and trim or cap every value outside them.
 
-> **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 is a convention from John Tukey, who invented the box plot; some people use 3 to flag only "extreme" outliers.
+> **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\,\text{IQR}$ (or below $Q_1 - 3\,\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
 ## 4. Treating the outliers: trimming or capping
 
@@ -152,7 +152,7 @@ The trimmed box plot in Figure 3 still shows one red dot, at a mark of 83. It is
 
 For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is $43 + 1.5 \times (43 - 17) = 82$. The mark 83, safely inside the old fence of 84.5, is now just outside the new one.
 
-This is no reason to trim again: each round would move the fences in and flag new values. We detect once, with the fences of the original data, and treat once.
+In this Note we detect once, with the fences of the original data, and treat once. (Trimming again here would remove the 83 and then stop: a third round finds nothing. The last cell of the Notebook shows this.)
 
 ## 8. Capping in code
 
@@ -228,8 +228,8 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 
 > **Extra:** Two things to keep in mind.
 >
-> - **On a long tail, real values get flagged.** In a strongly skewed column the far tail is often genuine (a few very high incomes, a few toppers). The fences flag it all the same, so we still decide, as in Note 41 (Section 4), whether those values are errors or real.
-> - **One side may never be used.** For a right-skewed column with a natural lower bound, such as marks starting at 0, the lower fence is often below every possible value. That is expected, not a bug.
+> - **On a long tail, real values get flagged.** In a strongly skewed column the far tail can be perfectly genuine (a few very high incomes, a few toppers; here, 15 real exam marks between 86 and 100). The fences flag it all the same. So we still decide, as in Note 41 (Section 4), whether those values are errors or real.
+> - **One side may never be used.** For a right-skewed column with a natural lower bound, such as marks starting at 0, the lower fence can lie below every possible value, as it does here ($-23.5$). That is expected, not a bug.
 
 ## 11. Summary
 
@@ -256,7 +256,13 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 - A box plot of trimmed data computes new fences, so a new dot can appear; we do not trim again.
 - The fences should be learned on the training set only.
 
-## 12. Key terms
+
+## 12. Sources
+
+- Tukey, J. W. (1977). *Exploratory Data Analysis*. Addison-Wesley.
+- NIST/SEMATECH. *e-Handbook of Statistical Methods*, Section 7.1.6, "What are outliers in the data?". https://www.itl.nist.gov/div898/handbook/
+
+## 13. Key terms
 
 | Term | Meaning |
 |---|---|

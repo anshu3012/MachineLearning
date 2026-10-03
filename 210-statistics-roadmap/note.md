@@ -17,7 +17,7 @@ title: "Statistics Roadmap for Machine Learning"
 
 ![The four modules of statistics for ML](images/roadmap.png){height=60%}
 
-Figure 1 shows the whole map. Each module builds on the one before it. This Note says what each module covers, why ML needs it, and where each topic is taught.
+Figure 1 shows the whole map. Hypothesis testing, in the inferential module, depends on the probability distributions module. This Note says what each module covers, why ML needs it, and where each topic is taught.
 
 ## 2. Why ML needs statistics
 
@@ -26,8 +26,8 @@ Figure 1 shows the whole map. Each module builds on the one before it. This Note
 Statistics turns raw data into summaries and decisions. In data work it shows up in three places:
 
 - **Understanding data:** every exploratory analysis is built from statistical summaries and graphs.
-- **Algorithms:** linear regression, logistic regression and Naive Bayes all come out of statistics.
-- **Decisions:** checking whether a new model, medicine or website design is really better needs a statistical test.
+- **Algorithms:** linear regression, logistic regression and Naive Bayes all come out of statistics (ISLR ch. 3, §4.3, §4.4.4).
+- **Decisions:** checking whether a new medicine, or a new website design, really works better than the old one needs a statistical test (Bruce et al. 2020, ch. 3).
 
 ## 3. The four modules
 
@@ -72,7 +72,7 @@ This module draws conclusions about a population from a sample:
 
 - **Central limit theorem:** why averages of samples behave predictably.
 - **Confidence intervals:** a range built by a method that captures the true population value in a stated share of repeated samples.
-- **Hypothesis testing:** checking a claim about a population with a sample. The common tests are the z-test, t-test, chi-square test and ANOVA, and the module ends with when to use which.
+- **Hypothesis testing:** checking a claim about a population with a sample. The common tests are the z-test, t-test, chi-square test and ANOVA (Bruce et al. 2020, ch. 3), and the module ends with when to use which.
 
 ### 3.4 Miscellaneous topics
 
@@ -94,7 +94,7 @@ This module draws conclusions about a population from a sample:
 The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about one month. Two habits help:
 
 - **Know why each topic matters.** For every topic, note where ML or data analysis uses it.
-- **Defer some topics.** A few topics, such as Chebyshev's inequality or Bayesian statistics, can wait until an algorithm needs them. The rest are worth covering in order, since each builds on the last.
+- **Defer some topics.** A few topics, such as Chebyshev's inequality or Bayesian statistics, can wait until an algorithm needs them. The rest are worth covering now, in the order of the map.
 
 > **Extra:** Good resources for this roadmap:
 >
@@ -114,6 +114,12 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 
 - Descriptive statistics comes first; inferential statistics depends on probability distributions.
 - About 60 hours covers the whole roadmap.
+
+
+## Sources
+
+- ISLR: James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning*, 2nd ed. Springer. Chapter 3 (linear regression), sections 4.3 (logistic regression) and 4.4.4 (naive Bayes).
+- Bruce, P., Bruce, A. and Gedeck, P. (2020). *Practical Statistics for Data Scientists*, 2nd ed. O'Reilly. Chapter 3, Statistical Experiments and Significance Testing.
 
 ## 6. Key terms
 

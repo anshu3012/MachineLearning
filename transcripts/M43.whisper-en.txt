@@ -1,0 +1,288 @@
+So, first of all, what are we going to do? We are going to answer a very important question.
+And the question is, what is the difference between likelihood and probability?
+It is a very common question. Once you search on YouTube, you will start seeing videos in lines.
+The only problem with this topic is very confusing. It is very confusing.
+So, what I have thought is that I will not tell you the definition first, I will give you some examples first.
+And when you will see those examples, then I will tell you the definition that what is probability and what is likelihood.
+You already know the probability, you are learning the likelihood.
+So let's get down and let's understand three examples in order to understand likelihood and probability.
+So the first example is very simple. The first example is coin toss.
+We have a coin and obviously flipping the coin is our random experiment.
+So you also know that either head or tail will come.
+And the coin we have is a fair coin.
+Fair coin means that the probability of head coming in this coin is 0.5.
+This is given to us.
+Now at this point, if someone asks you that
+Tell me, if the coin is thrown once, then what is the probability of tail coming?
+You will very simply say that since the probability of head coming is 0.5, then automatically the probability of tail coming will also be 0.5.
+It is a simple thing. Right.
+Now how did you get this out?
+with common understanding, common sense that if head probability is 0.5 then tail probability will also be 0.5
+but you can prove this mathematically also. How? It is very simple. You can use probability distributions.
+If I ask you a simple question then I really hope you will know the answer to this question.
+That this random experiment where we are throwing a coin and there are only two possibilities, head and tail.
+So can you tell me which distribution this experiment will follow?
+I would like to see what you think.
+It is correct, it is simple.
+You know that it will follow Bernoulli distribution.
+What is the distribution of Bernoulli? In a trial, the output of an experiment is binary, either 1, 0, head, tail, yes, no, that is binary.
+Now you know that in the distribution of Bernoulli, there is only one parameter and that parameter is called P.
+In this case, P is the probability of head coming and that is 0.5.
+There is one more parameter called Q and that is 1-P.
+In this case, Q is the probability of tail coming and that is 0.5.
+If you remember, I had taught you the graph.
+If you plot the graph of this Bernoulli distribution,
+then here is the probability and here are your different outcomes.
+This is 1, this is 0. The probability of 1 coming is 0.5 and the probability of 0 coming as in tail is also 0.5.
+This is 0.5. This is the graph. And one more thing if you remember that its probability, the mass function PMF,
+What is that? p times k plus 1 minus p times 1 minus k
+where k value will be either 0 or 1.
+Like if you are asking the probability of head, then k value will be 1.
+So automatically, going by this logic, what will be px?
+p and what is p? Probability of head.
+and if K is tail then what will be P ?
+I have taught you all this, I just gave you a revision
+because I wanted to show you that there is a second method, a mathematical method
+where if you were asked that what is the probability of tail coming when you throw this coin
+then what will be the value of K? 0
+and in this equation if you would have put 0
+then this term would have become 0, this term would have become 1, and what would you have left? 1 minus p.
+And you already know that p is the probability of getting a head, so 0.5, and what would be your answer? 0.5.
+So we made a lot of mistakes, but you understand that this is the whole Bernoulli distribution.
+Now, if you notice one thing here, then what we did is, we were given a random experiment which is basically coin toss.
+And we know that the random experiment follows the Bernoulli distribution.
+Now if it follows the Bernoulli distribution, then its parameter will be P, we also know that P is the probability of head coming.
+And after knowing all this, what did we ask?
+That what is the probability of tail coming when the coin is thrown?
+So basically, how can you define the probability?
+If you know about a distribution, like in this case we knew that it is Bernoulli
+And the parameters of that distribution are given to you
+Like here it is given that our coin is fair
+Which means the probability of head coming is 0.5
+Which means the value of P is 0.5
+Means I know the parameters
+then the chance of an event that you calculate is called probability
+like in this case what is the chance of an event?
+of tail coming and what is the probability of that? 0.5
+so I know you have heard a lot about it but I just wanted to explain you a simple thing
+What is probability? When you have a random experiment, coin flip, you know its distribution,
+Bernoulli distribution. Distribution means you know its parameter, value of p.
+If you know all this, then if you are asked to find the chance of an event, then you call that chance probability.
+This was the concept. What is probability? Simple.
+Given you know something about your random experiment.
+Can you tell me the chance of this event happening? That is what probability is.
+Now comes the question. What is likelihood?
+What is likelihood? So likelihood is the opposite of seeing the same thing.
+I am talking about changing perspective. Listen carefully.
+So I flipped this coin 5 times.
+And guess what? I got head 5 times.
+Now I am getting this question in my mind.
+How is the head coming 5 times? If the head is coming 5 times, then what is the plausibility that probability of head is 0.5 or simply put coin is fair.
+This is what the likelihood is that I caught this coin, I know that its head probability is 0.5
+Or someone told me that this coin is a fair coin, I pushed it 5 times, what is coming 5 times?
+Head is coming, so obviously I had a doubt in my mind that I was told that it is fair,
+If head is 0.5, then what are the chances that it is a fair coin?
+This doubt is what likelihood is.
+So, how will I calculate this likelihood?
+If the probability is 0.5, then the probability of this head coming would be 0.5, it would be 0.5, all would be 0.5 because all of these are independent events.
+So basically, the likelihood is 0.5 raised to the power 5, which is a pretty small number, which is a very small number.
+So what does this mean? The likelihood is small.
+So how will I say this? The likelihood that the coin is fair given 5 times head is coming is very low.
+And this is very logical. If the coin is fair, then the probability of the head coming 5 times continuously would be very low.
+So this time we have changed the process, last time while calculating probability, I had a parameter and I was calculating the chance of an event from it.
+But now what I am doing is that I have an event, what is an event?
+5 times coin, 5 times head, so I have event, you can also call it data.
+And now what probability, likelihood am I calculating?
+Is this the parameter?
+This is what I am doing.
+So this is the basic difference between probability and likelihood.
+I will repeat that.
+So if you have the value of parameter and you calculate the chance of an event,
+That is known as probability.
+But if you already have an event and on the basis of that event you are questioning this parameter.
+That this parameter is this, what is its plausibility, what is its likelihood.
+This thing is known as likelihood.
+Think for yourself.
+Let's take an example.
+Suppose someone told me that this coin is biased.
+The probability of head coming is 0.7, which means head comes 70 times.
+Now I have thrown the coin and head came 5 times.
+Now if I calculate the likelihood, it will be 0.7 raised to the power 5.
+Don't you think this is greater than 0.5 raised to the power 5?
+So what we understood from this is that if the head is coming 5 times, then the probability of head being 0.7 is more in comparison to probability of head being 0.5.
+I hope you are understanding this. So it's basically reverse perspective.
+Let me make a diagram and show you.
+If you have a parameter and you calculate the chance of an event, this is called probability.
+And if you have an event already or call it data and you try to find out how much the parameter is justified.
+This thing is known as likelihood and that's the main difference.
+This is the main difference. But I know, I still feel that confusion can happen even now.
+That is why what I will do is, I will give you one more example.
+In fact, I will give you two more examples because I want to put this concept in your mind in such a way that you don't have to see the class again.
+So let's take one more example.
+Second example is,
+the second example is
+a very simple example.
+You must have seen these examples in probability.
+So we have a bag
+which is closed.
+And in that bag there are 3 red balls
+and 2 green balls.
+Now clearly you can see
+based on the data
+that
+Probability of green ball in this data is 2 by 5 and simple logic is second ball is red so probability of red is 3 by 5.
+So for some time I will do one thing, I will remove the probability of red ball.
+Let's just keep probability of green.
+So first of all I want to know what do you think if I do a random experiment where I put my hand in this bag and take out a ball.
+So you have to first tell me that which distribution will follow this random experiment. This is the question.
+A very simple question where I would like you to answer this question that this bag has two types of balls.
+If I am taking out a ball with my hand, then which distribution will follow this random experiment?
+Come on.
+Very simple. Nothing new.
+If I am taking out once, then there is one trial.
+And what are the outcomes?
+Either the ball will be red or green.
+True.
+There are two outcomes and one trial.
+It is Bernoulli.
+What is P here?
+P is the probability of taking out the green ball which is 2 by 5.
+If you plot the graph this time,
+then this is the probability of taking out the green ball and this is the probability of taking out the red ball.
+This time your graph will look like this because the probability of taking out the red ball this time is more.
+Now if I ask you a simple question that I put my hand and took out a ball, tell me what is the probability that the ball is red?
+It is very simple. On the basis of common sense, you can say that 3 by 5 or the formula that I told you, you can also calculate on the basis of this.
+Here the value of k is 0, so this term is 0 and this term is 1.
+What is left? 1 minus p. What is p? 2 by 5.
+So what is 1 minus 2 by 5? 3 by 5.
+So this is the mathematical method.
+So what did we do again? We knew the parameter and we calculated the chance of an event.
+And what do we call this? Probability.
+Now look carefully, in the same example we will discuss how the likelihood will come.
+So what did I do? I took out 5 balls one by one.
+Took it out once, then took it out again, then took it out again, then took it out again.
+And guess what? All the balls came green.
+Now I had a doubt in my mind that are all the balls green in the bag?
+But I have been told that the probability of getting green is 2 by 5.
+So now what I have to do is, based on this observed data or event, I have to find out how much this given parameter is possible.
+And how will I get this out? It is very simple. I will do 2 by 5 raised to the power 5.
+And obviously this number will be a small number, which will again tell me that based on this data, the probability of being green is 2 by 5, this is a very low likelihood.
+Now think for yourself, if 4 balls were green, then what would be our parameter value?
+4 by 5 and then if all 5 balls are green then its likelihood would be 4 by 5 raised to the power 5
+and obviously it will be more than this
+so I can say that if all 5 balls are green then my parameter value is 4 by 5
+its likelihood is high and that is what likelihood is
+Again, I am showing you a chart. If you are going from parameter to event, this is probability.
+And if you want to say something about parameter on the basis of event as in data, this is likelihood.
+It is basically looking at two sides in the same tunnel. If you are looking from this side, then it is probability.
+And that is why this concept is very very confusing because
+I don't understand what is going on but I have given you two examples
+But again I will not stop here because I really feel deep
+You have to keep this in your mind
+So I will give you the third example
+Till now the two examples I have given you both were discrete
+Where the output was 1 and 0 and the Bernoulli distribution was following
+Now I'll give you an example of continuous. Let's take an example of normal distribution.
+You know that normal distribution is a continuous probability distribution.
+Assume for a while that we are talking about the heights of people.
+It is a continuous variable, it can be any height.
+And we have a normal distribution whose mu is 150 cm.
+And its standard deviation is 10 cm.
+Now think about it yourself, in this case also everything is similar.
+You already know a distribution.
+Distribution means you know its parameters.
+Now if you are asked to calculate the chance of any particular event,
+then by definition it will be called probability.
+Assume that you are being asked that between 170 and 180, what is the probability of someone's height?
+This question was asked to you.
+So basically, given this distribution and given these parameter values, you are being asked about the chance of an event.
+and what is that event?
+if you randomly pick up a person
+from that distribution
+then his height
+is between 170 to 180
+what is the probability of this?
+you know how to find out
+you will calculate this area
+in this pdf
+I have taught you all this
+I can show you through direct tool
+go to normal
+distribution calculator
+any calculator will work
+You can do this by looking at the tables.
+So, I want this.
+My mu is 150.
+My standard deviation is 10.
+I want to know that from 170 to 100.
+Oh, there is an option of greater than.
+Let's try something else.
+Just give me one second.
+I'll show you.
+Yeah, this is fine.
+Our mean is 150, our standard deviation is 10, we need between 170 and 180.
+Basically we need this area and this is the answer.
+This is the probability. The probability of X between 170 and 180 is 0.02.
+And now you have just given a distribution, given parameter values,
+the chance of having this event and we are calling it probability.
+Now in this case, what is the likelihood? Let's see that.
+Look carefully, it is very simple.
+So suppose we randomly picked up a person.
+Suppose the height of that person is 100 cm.
+Now, based on this data or this event, I want to find out that what is the likelihood that our parameter's value is 150 and 10.
+This is mu and this is sigma.
+This time we are questioning that given the height of a random data point is 100 cm.
+What is the likelihood that it will follow this normal distribution?
+And how will this be calculated? It is very simple. You write it like this.
+Likelihood of mu, sigma given x equal to 100 will be equal to 1 divided by,
+you might remember this formula, this is the formula of normal distribution.
+And here what you will put in x, you will put 100.
+and as soon as you enter 100, the value of mu will be 150 and the value of sigma will be 10
+because we are assuming that this is what we are doing.
+So the value that will come out will be called as likelihood.
+Let me show you how much this value will come out.
+I have written a function.
+This is the function.
+In this function you have to give three things, x which in our case is 100, mu which in our case is 150 and standard deviation which in our case is 10.
+And this which came out, very small number, 1.48 multiplied by 10 to the power, how much is its value, 1.47 multiplied by 10 to the power minus 7, very small.
+This means that given this data point, if the value of your normal distribution parameter is this,
+its likelihood is a very small number and that is this.
+And this is what likelihood is.
+Given a data, you check the values of your parameter to see how much it sounds right.
+What if I do this, rather than 100, suppose the random point I picked up is 130, then what is the likelihood that it will belong to this distribution?
+See, the likelihood increased a little. What does this mean? If it was 130 instead of 100, then these parameters would have been more justified.
+If I make it 140, then it would be more justified.
+If I make it 200, then it would be less again.
+Do you understand how I am taking a random value
+and its value is making a difference in the confidence of the parameter.
+So this is what likelihood is.
+Again, just to summarize this discussion.
+Parameter is known, distribution is known and if you are taking out the chance of an event then it is called probability.
+But if event is known or data is available then the process of justifying the parameter is called likelihood.
+And that's the basic difference between probability and likelihood.
+This is what you have to understand. I have given you three examples and now I will give you a formal definition which will be a bit of a summary.
+So here both the definitions are written of probability and likelihood.
+This is the measure of the chance that a certain event will occur out of all possible events.
+It's usually presented as a ratio or fraction and its range from 0 to 1.
+Whereas likelihood, in statistical context, likelihood is a function that measures the plausibility
+of a particular parameter value given some observed data.
+This is what it means.
+On the basis of an observed data, what is the plausibility of a parameter's value?
+That is what you call likelihood.
+It quantifies how well a specific outcome supports specific parameter value.
+If the height is 100, then how justified is the mean to be 150?
+If the height is 200, then how justified is the mean to be 150?
+This is what likelihood is.
+I have given one more alternate definition here.
+A probability quantifies how often you observe a certain outcome of a test
+given a certain understanding of the underlying data.
+It means we know the parameter values.
+And a likelihood quantifies how good one's model is
+given a set of data that has been observed.
+There are two opposite ways of looking at things.
+So yeah, this was the discussion.
+I hope I was able to explain to you first of all
+what is the likelihood.
+You already know the probability.
+But what is the likelihood?
+I was able to explain that to you with the help of these three examples, I had put variety in the examples, I took discreet and I took continuous and took both and explained to you what is the difference between probability and likelihood.

@@ -1,0 +1,180 @@
+Hi guys, my name is Nitish and you are welcome to CampusX
+In this video also we will continue our deep learning playlist
+Today we will talk about a very special topic
+So we are studying CNN and while studying CNN I had told you that CNN acts like a black box
+You input an image and you get the result in the output
+But what is happening in the middle and how our CNN is seeing the data
+It is kind of impossible to find out
+but in today's video we will see a technique by which you can get an idea of how cnn processes your input
+if you remember in the beginning of the video when we started reading cnn we told you that the initial layers in cnn
+they look for primitive features in the image like edges and as you move forward towards deeper layers
+so you start finding sophisticated features
+like if you are identifying a human
+then you start identifying his nose, ear, hair
+I will show you this exact thing through code
+you would see initial layers
+they will tell us about primitive features
+like edges and as you move forward
+more complex features will be found through hidden layers
+which are deeper layers
+The code which I have used, I don't remember I have picked it up from any blog
+And honestly code does not matter
+I don't think you will ever need to write this code in the future
+The important thing is understanding
+Which you will see and understand by running this code
+I will recommend you to use this code
+On different types of images
+So that you get a deeper idea
+So let's start the video
+In general whenever you talk about neural networks
+so they are considered to be as black box right
+means input comes output comes
+very good output comes but nobody knows internally
+what neural network is picking so
+sometimes it is considered great if you stop the output of middle layer
+and check what it is seeing
+that can be done actually so we are going to do that
+first CNN is all about filters, kernels, 3x3, 5x5
+so first of all we will see how those kernels look
+because at the end they are like 2D
+and somehow there is a special relationship between the pixels
+or between the values
+so we will try to visualize that
+how it looks after it is trained
+Then we will give a new image to those filters and we will visualize the image in the output of those filters.
+So in that we will be able to see what our neural network is able to see.
+So we are going to see two things, one is the filter which is basically the kernel and second we are going to see it's called feature map.
+It's basically the output from a filter.
+a filter so jab aapka filter aapke image ke upar convolve karta hai toh jo output banta
+wo am dekhne wale hai theek hai toh see aap koi bhi cnn ke upar yeh kar sakte ho but wo
+trained hona chahiye toh isse liye mai kya kar raha ho mai vgg 16 ke upar kaam kar raha
+ho besides yeh code merko internet pe bohot easily mil gaya otherwise mujhe likhna padta
+So I am going to use VGG16 and in VGG16 first of all I will just show you VGG16 is basically
+a 16 layer network where first is obviously input 224 224 and if you go to 17th layer
+So, it is this, I guess this one, last convolution, okay.
+And after that, this is flattened, and after that, these are dense layers.
+So, you already know this, okay.
+And I have plotted it and shown you.
+I have used VGG16 because it is very simple, like straight forward,
+all of them are 3x3 convolutions.
+So, you can understand by looking at them, okay.
+Now, what I have done is, here a code is written,
+which is looping on all the layers and checking if there is a con word in the name of the layer
+because if you notice here
+this con word is telling that it is a convolution layer
+so I have to pick only those because they are the filters
+and I have just run here
+what is the layer number of those convolution layers
+here so first one but love 0 is input layer the first is convolution second is convolution then
+fourth is again convolution you can actually check this you can check 0 1 2 3 is max pooling
+4th 5th 6th is max pooling to same G's yeah pedicure you have to take a 4 5 6 3 7 7 8 9
+9, 10, 11, 12, 13, 14, 15, 16, 17
+and here are different blocks
+so all the 7 CNNs
+are put in one block
+so there are in total 5 blocks
+now I will show you
+first
+CNN
+first set of filters
+layer 1
+I will show you
+by printing their filters
+so what we did
+filters are basically weights right at the end they are just weights so we did model.layer1
+gate weights and here we will get two arrays one will be the value of all filters and one
+will be the value of bias ok i mean by the value of filters and i have normalize it in
+between 0 to 1 so that it will look like a pixel ok and after that there are 64 filters
+if you notice here 64 filters are being used here obviously we are not printing 64
+I will show you the first as much as possible in this code there is 18 so 6 we took here and range is 3
+so 18 filters will be shown so what we have done is that our first CNN layer
+layer, which is the first convolution layer, out of its 64 filters, we are seeing the first
+18 filters, how they look using the IMSHOW function. So you can see, here it is. So the
+theory we studied in edge detection, it's basically the same thing. You can easily see
+that. So, in fact, sometimes it is the same. Like here, the first three filters are same
+and it depends on the training actually
+it is not like this in every CNN case
+but in VGG case first 3 are same
+but if you focus on next one
+then it is little different
+and here we can understand
+that it is ready to detect this type of edges
+so by looking at these filters
+you can understand what it is ready to catch
+so this is how to see filters
+now we will see
+when you convolve these filters
+what it searches in the image
+so we have taken an image sample
+like this Virat Kohli's photo
+what I am going to do is
+I will put this in my CNN network VGG 16
+and every CNN
+convolution layer
+I will convolve in its filters and show you the output
+so basically what we have to do
+I have created a completely new model
+which will be the subset of VGG16 model
+what is the input of this new model?
+which is the input of VGG16
+and what is its output?
+which is the output of VGG16 first layer
+so basically I have cut VGG16 after first layer
+Now I have imported an image, converted it into an array, pre-processed it, and after that I have sent it to model.predict
+So I got the features and now I am showing you by running a loop on that feature
+So code does not matter, what matters is what understanding you are taking
+So here you can see when you pass through the first layer, first set of filters, you get 64 different images.
+Why 64? Because we have 64 filters.
+So if you count here, then 4, 4, 8 and we have 8 rows like this.
+So after passing through every filter, you are getting different output.
+Sometimes it is same because internally some filters are also same.
+but you can see it is detecting the edges
+it is detecting the silhouette
+it is detecting the beard and hair
+it is detecting the complete face as in black and white
+so you can see different filters are doing different things
+now what we do is
+these layers, 2nd layer, 5th layer, 9th layer, 13th layer, 17th layer
+we will go deeper in our VGG16 and plot the feature map after every layer
+and we will see what is left in our image
+I have done the same thing by going down a little, the work that I did above, I have to do it in the loop, and now when I plot the whole thing, then everything is a little interesting here, so you can see that the output of layer 2 is very close to layer 1, it is like that, but as you go down, things are interesting here, as you go down, you can see that the image of Virat Kohli,
+the visibility is decreasing. See, what are we going to do at the end? What is our goal?
+Our goal is to classify something. Like what can VGG16 do? If you use it as it is, then
+it does classification on 1000 classes because it is trained on ImageNet. So, one class
+can be HumanBee. So, at the end, when I gave this photo to CNN, then what was its end goal?
+classify this photo as a human being. Obviously, he doesn't know Virat Kohli. He is not a Virat Kohli in 1000 classes.
+But he can be a human being in 1000 classes. So at the end, what does he have to find out?
+He has to find out whether this photo is a human being or something else. So what is he doing now?
+As he comes down from Virat Kohli, he is focusing on some general features like
+face. If he is a human being, he should have a face. If he has a face, he should have eyes. If he has eyes,
+So you can see Virat Kohli's identity is getting lost and a general sort of logic is
+being created like you are going deep in your network.
+So you can see here it is more about figuring out that there is a face.
+Going a little more down, going to layer 9, you can see that now these things have come
+in pieces.
+It is being made in small pieces.
+these things have come in small pieces
+and going down you can see
+now specific spots are being formed
+specific spots of your face are being formed
+if you are combining them linearly
+then it will look like a face
+and yeah that is what happens
+so in a neural network
+By reaching the end, you extract the most general features and then you give the output by combining them linearly.
+So this is a very good experiment to actually understand what is going on in a CNN.
+So yeah, I will share this notebook with you.
+You can try to run different images of different subjects on this.
+So probably you will develop more intuition about this thing.
+But yeah this is it.
+I wanted to discuss this with you.
+So that was the video guys.
+We have done experiments with Virat Kohli's image.
+Now my recommendation is that you pick up some different types of images.
+Give input in this code.
+Look at the output and observe things.
+The more you observe and document your learning, the more you will learn
+If you liked the video, then like it
+And if you haven't subscribed to my channel yet, then you know what to do
+So that's it from my side
+See you in the next video. Bye!

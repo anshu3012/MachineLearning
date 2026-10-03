@@ -45,7 +45,7 @@ On the breast-cancer data (569 tumours, 30 measurements, inputs standardised, 5-
 | L1, C = 1 | 0.970 | 16 |
 | Elastic Net, `l1_ratio=0.5`, C = 1 | 0.974 | 26 |
 
-Without a penalty the model overfits slightly (and the solver struggles to converge). As in the Lasso Note, L1 sets many coefficients to exactly zero: here it keeps 16 of the 30 measurements.
+Without a penalty the model overfits slightly (and the solver stops at `max_iter` with a `ConvergenceWarning`). As in the Lasso Note, L1 sets many coefficients to exactly zero: here it keeps 16 of the 30 measurements.
 
 ### 2.2 The strength: C
 
@@ -78,7 +78,7 @@ Our own gradient descent (the gradient descent Note) was one way to minimise the
 | `lbfgs` (default) | yes | | | yes | good general choice |
 | `newton-cg` | yes | | | yes | |
 | `newton-cholesky` | yes | | | yes | fast when rows far outnumber columns |
-| `liblinear` | yes | yes | | | small data; one-vs-rest for several classes |
+| `liblinear` | yes | yes | | | small data; two classes only (wrap in `OneVsRestClassifier` for more) |
 | `sag` | yes | | | yes | large data; needs scaled inputs |
 | `saga` | yes | yes | yes | yes | large data; the only one for Elastic Net |
 
@@ -94,7 +94,7 @@ Asking for a combination that is not supported raises an error, for example `Log
 | `tol` | 0.0001 | stop when an iteration improves the result by less than this |
 | `warm_start` | False | if True, a second `fit` starts from the previous coefficients instead of from scratch |
 | `verbose` | 0 | print progress while training |
-| `n_jobs` | None | CPU cores to use; only helps in a few cases (`-1` = all) |
+| `n_jobs` | None | has no effect; deprecated since 1.8 |
 | `random_state` | None | seed for solvers that shuffle the data (`sag`, `saga`, `liblinear`) |
 
 If scikit-learn prints a `ConvergenceWarning`, the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the inputs, raise `max_iter`, or both. Lowering `tol` is rarely needed.
@@ -129,7 +129,7 @@ The weighted model finds three more of the 33 rare cases. In general, weighting 
 
 > **Key point:** With three or more classes, LogisticRegression uses softmax automatically; one-vs-rest needs OneVsRestClassifier.
 
-Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). It has been removed: with three or more classes, all solvers except `liblinear` now fit the softmax model of the previous Note. For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
+Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). It has been removed: with three or more classes, all solvers except `liblinear` now fit the softmax model of the previous Note, and `liblinear` raises an error (scikit-learn docs, `LogisticRegression`). For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
 
 ## 7. An interactive playground
 
@@ -157,7 +157,11 @@ Things to try:
 | `class_weight` | None | `"balanced"` for imbalanced classes |
 | others | | rarely |
 
-## 9. Key terms
+## 9. Sources
+
+- **scikit-learn docs:** `sklearn.linear_model.LogisticRegression` (penalty, l1_ratio, C, solver, n_jobs, class_weight), scikit-learn 1.9.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

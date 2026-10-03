@@ -1,0 +1,338 @@
+Hi guys, my name is Nitish and you are welcome to CampusX
+In today's video we will continue our deep learning playlist
+Today's video is a little different
+Till now we were studying CNN
+Now in today's video I am going to teach you a very different but very important thing
+The name of the topic is Functional API
+Till now all the models we have built were made on sequential API
+And all of them followed linear topology
+For the first time in this video, you will learn to create non-linear neural networks.
+So, we will learn to create multi-input neural networks, multi-output neural networks.
+So, it is a very interesting video and the best part is that the complex models that you will make in the future, today's topic is going to help a lot.
+So, watch carefully till the end. Let's start the video.
+So in this course we have made all the neural networks whether ANN or CNN
+One thing was common in them that we used sequential models to make those neural networks
+Keras's sequential model
+Now one thing you might already know about sequential model that sequential model is made up of some assumptions
+First assumption is that you have exactly one input
+and you will output the same thing in output
+and all the layers are linear
+they are linearly attached to each other
+it basically means that there is one input
+then there are series of layers
+and then there is one output
+till now we have made all the neural networks in this course
+they follow this topology that there is a linear topology
+one after the other, there is only one layer
+there is no non-linearity
+but this will not always be true
+going forward, you are going very deep in this course
+and now you will have to work on some such problems where this linear topology will not work properly
+and there comes functional model
+Let me show you some scenarios where you may not be able to design a neural network in linear topology.
+Let me give you two examples.
+Let's say, the first example is that we have an image of people's faces.
+We have an image dataset of human faces.
+For example, we have 25,000 photos in which there is one human photo in each photo.
+And our prediction is that we have to train a neural network on it and tell two things.
+First, what is the age of the human in that photo?
+And secondly, we have to tell what emotion is being shown.
+is he happy or sad or angry we have to do classification like this
+now if you think about this neural network you would totally understand
+that it cannot be made from a simple linear topology
+either you will do that you will train two separate neural networks
+one is to predict the age and the other is to classify the emotion
+but this is not a good approach
+a better approach would be to take your input
+pass it in a cnn
+and make two fully connected layers from there
+do branching
+in this your first branch will do the prediction of age
+so basically this is a regression problem
+and the second branch will classify the emotion
+means this is your classification problem
+so this is one example where sequential API will fail
+and you will not be able to make this neural network
+I will give you one more example
+Sometimes it can happen that you are working in an e-commerce startup and you are being asked that you will get three things in the input.
+First, the metadata of a product. Metadata can be any data like product color, size etc. You will get some numerical data like this.
+Second, you will get a big textual description of the product.
+Third, you will get an image of the product.
+You have to predict the price of the product by looking at these three things.
+now again here you have 3 different types of inputs
+one is tabular data
+second is textual data
+and the third one is image data
+and you are getting only one output
+so here also you can do a naive approach
+that you train 3 different neural networks
+and do price prediction from all 3
+and then find the average price of all three
+this could be a naive approach
+but a much better refined approach would be
+that if you make a non-linear neural network
+where your tabular data
+will go and get a fully connected layer
+your textual data will go and get a RNN
+because the performance of RNN on textual data is the best
+and your image data will go to XCNN and the features that are extracted from these three
+you will concatenate them and then you will predict the price of the product
+again a non-linear topology which you can't make with sequential API
+So to make such non-linear topologies, there is a separate class in Keras by the name of
+functional API which we will learn in this video.
+And trust me once you learn to work with this API, then your imagination is the limit.
+You can create any type of neural network topology, multiple input, multiple output,
+Shared layers, you can make anything
+So going forward, in this video I will show you some examples
+First of all, I will show you a very simple non-linear neural network using functional API
+After that, I will show you some complex architectures
+So we start with a very small and simple example to understand functional models
+Let's assume for a while that we are working on a small problem
+where we have got a data set
+this is the data set
+in this there are three columns
+first column is yearly salary
+second is height and third is marital status
+and after seeing these three we have to predict two things
+first we have to predict the age of that person
+and second we have to predict which state or city he is from
+let's say we have two options Delhi and Mumbai
+ok so now how can we make a neural network which will map this problem statement
+so we will make a small neural network which will be non-linear
+first of all you will give input here then there will be a dense layer of 128 neurons
+then we will have a dense layer of 64 neurons
+After that, here the output will be of age and here the output will be of place.
+We have to form this neural network using Keras functional API.
+I will copy this and show you.
+So let's design the neural network.
+First of all, you have to import the functional API.
+For that, you write from keras.models import model class and now what you do is that you make an object of the model class that you have imported, let's call that object model.
+now when you make this object then you tell two things that which layer of your neural network is input layer and which layer is output layer
+and mind you multiple input layers can also be there and multiple output layers can also be there
+so for now i am writing inputs is equal to something which we will decide in future
+and outputs is equal to something which we will decide in future
+for now i am not running this code otherwise there will be an error
+now what we will do is we will build the architecture which we discussed earlier
+So first of all I am writing from keras.layers import all the layers
+And now the main thing starts from here
+So the input we have is a tabular data which has the input of 3 columns
+So what we will do is first of all we will make an input layer
+and in that input layer you just have to tell that what is the shape of the input that your neural network will get
+so our input shape is 3
+because there are 3 columns
+and for some time what we do is
+we store this layer in a variable let's call it x
+now we will make the next layers
+so as I told you that first there will be 2 dense layers
+so let's create the first dense layer
+which has 128 nodes and we assume its activation function is ReLU
+now one thing is different here that first of all you have to give a name to every layer
+like I gave it a name hidden1
+now you have to tell that from whom this hidden1 is connected
+or you can say that from where is the input of hidden1
+so hidden 1 will be connected to this input layer
+that is why you would write this
+x
+this whole line means
+that this layer hidden 1
+is getting input from here
+now see I am making one more
+dense layer
+in which there are 64
+neurons
+and activation
+is its value
+and for some time I am naming it
+hidden 2
+and this hidden 2 is connected to hidden 1
+I hope you understand this structure
+now what will happen here
+we will do branching
+in the first branch
+we will do prediction of age
+and in the second branch
+we will do prediction of place
+so watch carefully
+we are making a dense layer
+and in this dense layer
+there will be one neuron
+and its activation will be linear
+because we are working on regression problem
+and we name it output 1
+because this is our first output
+and this is connected to hidden 1
+similarly I am making one more dense layer
+in which again there will be one neuron
+and its activation will be sigmoid, because we are predicting the place
+Delhi or Mumbai, this is a classification problem
+and we will call this output 2
+and this is also connected to hidden 2
+i hope you are able to understand till here
+and this is the architecture of our model
+if i want to show you the summary of the model
+aha! model is not defined
+in model you have to tell that your input is x
+and your output is actually a list
+because it has multiple outputs
+which is output1 and output2
+let's run all the cells once again
+and here is our model's summary
+so you can see this is the summary
+now what we will do is
+we will use a small keras utility
+to actually visualize what we have made
+so keras has a utility
+you will write from
+keras.utils import plot underscore model
+this is a small utility which you can use to visualize the architecture of any model
+I am calling this function and passing my model in it
+and this will show me the architecture of the model
+and you can see this is the architecture
+We are getting the input, we are sending the input in the first dense layer, then we are sending it in the second dense layer
+and from the second dense layer there is branching
+and in the first branch we will do the prediction of age and in the second branch we will do the prediction of place
+If you want you can also see the shapes, there is a hidden parameter called show shapes
+and if you prove the shapes, then you should get something like this
+Here you can see this is the output.
+So I hope you have understood how to use a functional API on a very basic level.
+Now I will show you some complex examples.
+So let's do a slightly more difficult architecture.
+This is an example where we have multiple inputs but one output.
+So the important thing here is concatenation.
+So what is happening is that we are doing feature extraction from two different neural networks and concatenating them.
+After concatenating, we are sending it forward and taking out the output.
+Again, this is not very special. If you understand the main thing, then the next deal is very easy.
+Here we have taken all the imports. Here we have declared two inputs. Input A whose shape is 32.
+as you can see here
+32 is of input 1
+and
+second one is 128
+these are two different inputs
+now what I am doing
+first I am making this one
+or you can say first I am making this one
+and then I am making this one
+so in this one you can see
+first branch is being made
+so I took a dense
+which is connected to input A
+I called it X
+in which there are 4 neurons and they are connected to x
+and I called this x1
+now in the second branch
+same thing is there
+input b is connected to y
+y is connected to y1
+and y1 is connected to y2
+these two branches are made
+these three and these two branches are made
+now here one thing happens
+concatenate
+I am concatenating x1
+which is the last one of this branch
+and Y2 which is the last one of this branch
+and the layer which is concatenated
+I am calling it combined
+now what I have to do is to connect these two dense layers
+so here is the first dense which is connected to combined
+I will call it Z
+and then Z is connected to Z1
+so here it is
+and lastly
+this time in inputs I gave input A and input B which is basically these two and in output I gave Z1
+which is basically this guy combined and in the last I just plotted the model this is the output
+you can also plot the shapes but you get the idea now let's take a slightly difficult example
+Now we will see a proper example where you will use functional API.
+So I gave you an example of age and emotion prediction.
+So Kaggle has a data set which is very similar.
+Where there are images of people's faces.
+And there are around 20,000 images like this.
+And you have to predict two things.
+first age of the person and second gender of the person so we will do this problem
+I have already written the code so let me tell you what strategy I am going to use
+so clearly this is a problem where there are multiple outputs so what we will do is
+we will use transfer learning which we had studied in the last video we will use VGG 16 model
+So, we will use VGG 16's convolutional base and extract features from it.
+After extracting features, we will put it in flattened layer and do branching from flattened layer.
+two different fully connected layers
+this one will be for age
+and this one will be for gender
+and this time not only I will show you this architecture
+but I will show you the end to end code
+that how do you actually run this model
+so that you get some more idea
+So this is the code which I was talking about. I will share this code with you.
+First I will show you the data set. This is the data set. The name of this data set is UTK face.
+It is an image of people's faces. And we have to tell two things by looking at this image.
+First what is the age of the person and second what is the gender.
+Also, here the information is hidden in the name of the file that the person is male or female and what is its age.
+So you can see the first number is telling the age and the second number is telling the gender.
+0 means male and 1 means female.
+So this database is a bit tricky.
+So in the beginning I have done this, in the first 3 lines I have imported the data from Kaggle in Google Colab.
+And after that the code that I have written here is just to achieve one thing.
+I want to make a data frame which has 3 columns
+in the last column you can see the file name
+and its age which is basically first number
+and its gender which is second number
+I have extracted this so that I have convenience to use that file along with the labels
+after this I have divided the data in train and test
+and after that I have applied data augmentation
+you can see these are the transformations that I have opted for
+after that I have made train generator and test generator
+you already know all these
+here one or two things are interesting
+you can notice that when you are giving information of Y
+you are actually passing a list
+and telling the output of both age and gender columns
+because in this case you have two output columns
+Also, the class mode is multi output, you have to keep this in mind, going forward, what I have done here is that I have imported VGG 16,
+I have made the include top false because I only wanted a convolutional base, I have made the trainable false because I am going to use transfer learning,
+Now the main thing starts from here. I have imported the functional model and what I am doing is
+First of all, I am removing the output of VGGNetLayer-1 and putting it in the output.
+After that, I am making Flatten which is connected to the output.
+then Dense1 is also connected to Flatten, Dense2 is also connected to Flatten
+Dense3 is connected to Dense1, Dense4 is connected to Dense2
+and lastly Output1 is connected to Dense3, Output2 is connected to Dense4
+One thing you have to pay attention here is that you can name your output layer
+output1 is age output and output2 is gender output
+here i have formed my model
+input is vgg net input
+and output is output1 and output2
+this is my model summary
+it is very big because it has vgg net convolution base
+from here we have made our model
+you can see here i have named the model as age and the layer name as age
+and this is the most important part of our model's architecture
+so the initial layers are coming from vgg's convolutional base till this point
+here things are flattening and then two fully connected layers are being formed
+this is the first one which predicts the age and this is the second one which predicts the gender
+this was our complete architecture
+and then you compile the model
+while compiling the model you have to tell the optimizer
+there are two losses
+so you tell both the losses
+in the age output our loss matrix will be mean absolute error
+and in the gender one binary cross entropy
+you passed a dictionary
+Same for metrics, in age there is MAE and in gender there is Accuracy.
+There is also an option to optimize the loss weights.
+So I am saying that giving less value to age and giving more value to gender, this happens sometimes.
+It depends, for now you can ignore this thing.
+You have to do this on a case to case basis.
+And lastly you have to call model.fit and everything else is the same.
+So that is how you train end-to-end a functional model.
+So I wanted to show you this whole thing.
+You guys run it once and see, you will also get the output.
+My plan is that I will make a project video on this topic later.
+But I hope you get the idea.
+Lastly, guys, I would like to share a blog post with you.
+This is a blog post of Machine Learning Mastery.
+They have explained very well how some very good types of architectures are made using functional API.
+in this blog. I have covered a lot but if you want to read some additional things then you can refer to this blog.
+Like this is an architecture, how is it made, although we have already discussed a similar thing.
+You can try this out. So there are different things that you will get here. I would recommend you to read this blog once and gain an idea.
+So that was the video guys. I hope you found it interesting because when I studied functional API for the first time, I felt so powerful because I thought that I can make any type of neural network now.
+So now what you have to do is try out some complex neural network architectures which you have learnt on the basis of today's video and like the video.
+And if you haven't subscribed to the channel, then please subscribe.
+See you in the next video. Bye.

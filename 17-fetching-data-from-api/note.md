@@ -141,7 +141,7 @@ We need two libraries: pandas, and **requests**, which sends web requests from P
 The TVmaze reply differs from TMDB's in two ways:
 
 - The reply is the list itself, with no `results` key around it, and no total page count.
-- Each page holds up to 250 shows (page 0 has 240, because deleted shows leave gaps).
+- Each page holds up to 250 shows (TVmaze API docs) (page 0 has 240, because deleted shows leave gaps).
 
 > **Python:** One page from TVmaze (no key).
 >
@@ -192,13 +192,13 @@ Every page's DataFrame numbers its rows from 0. Joined as they are, the index la
 > df.shape                           # (1208, 7)
 > ```
 >
-> `f"...{page}"` is an **f-string**: Python puts the value of `page` in place of `{page}`. `break` leaves the loop early. `frames.append(temp_df)` adds one item to the end of the list.
+> An **f-string** such as `f"...{page}"` is text in which Python puts the value of `page` in place of `{page}`. `break` leaves the loop early. `frames.append(temp_df)` adds one item to the end of the list.
 
 Fetching all of TMDB's 428 pages takes about two minutes, because each page is a separate trip to the server. The result has 8,551 rows and 7 columns, as planned.
 
-> **Extra:** Older code grew the table inside the loop with `df = df.append(temp_df, ignore_index=True)`. pandas 2.0 removed `DataFrame.append`; it now fails with `AttributeError`. Collecting the pages in a list and calling `pd.concat` once at the end replaces it, and is also faster.
+> **Extra:** Older code grew the table inside the loop with `df = df.append(temp_df, ignore_index=True)`. pandas 2.0 removed `DataFrame.append` (pandas release notes); it now fails with `AttributeError`. Collecting the pages in a list and calling `pd.concat` once at the end replaces it, and is also faster.
 
-> **Extra:** Most APIs have a **rate limit**: a maximum number of requests in a given time. TVmaze allows about 20 requests every 10 seconds and answers status code 429 ("too many requests") beyond that. `time.sleep(0.5)` waits half a second between pages, which keeps us under the limit. TVmaze has about 380 pages (roughly 90,000 shows); `range(0, 400)` fetches them all, and the 404 after the last page ends the loop.
+> **Extra:** Most APIs have a **rate limit**: a maximum number of requests in a given time. TVmaze allows at least 20 requests every 10 seconds (TVmaze API docs) and answers status code 429 ("too many requests") beyond that. `time.sleep(0.5)` waits half a second between pages, which keeps us under the limit. TVmaze has about 380 pages (roughly 90,000 shows); `range(0, 400)` fetches them all, and the 404 after the last page ends the loop.
 
 ## 8. Saving the dataset
 
@@ -232,7 +232,7 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 3. Fetch one page into a DataFrame, then loop over all pages.
 4. Save the result as a CSV file.
 
-> **Extra:** Before sharing a dataset, check the API's terms of use. Some APIs allow personal use only, or ask that the data's source be credited. TMDB, for example, asks to be credited as the data source.
+> **Extra:** Before sharing a dataset, check the API's terms of use. Some APIs allow personal use only, or ask that the data's source be credited. TMDB, for example, asks to be credited as the data source (TMDB API FAQ).
 
 ## 10. Summary
 
@@ -251,6 +251,12 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 - The reply is JSON; a list of dictionaries becomes a DataFrame with one row per dictionary.
 - Loop over the pages, collect the DataFrames in a list, then `pd.concat(..., ignore_index=True)`.
 - Keep API keys out of code, and respect the API's rate limit.
+
+## Sources
+
+- pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
+- TMDB. API FAQ (attribution). developer.themoviedb.org/docs/faq.
+- TVmaze. API documentation (show index, rate limiting). tvmaze.com/api.
 
 ## 11. Key terms
 

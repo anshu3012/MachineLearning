@@ -70,11 +70,11 @@ So when someone asks what kurtosis is, the short answer is: how fat the tails of
 
 > **Key point:** Kurtosis is about the tails, not the height of the peak; descriptions of it as "peakedness" are wrong.
 
-Many books and websites describe kurtosis as how **peaked** or flat a curve is, or as "peakedness plus tails". Both are incorrect. The statistician Peter Westfall showed that kurtosis has only one clear interpretation: **tail extremity**, meaning either outliers that are present in the data, or a tendency to produce outliers.
+Many books and websites describe kurtosis as how **peaked** or flat a curve is, or as "peakedness plus tails". Both are incorrect. The statistician Peter Westfall showed that kurtosis has only one clear interpretation: **tail extremity**, meaning either outliers that are present in the data, or a tendency to produce outliers (Westfall 2014).
 
 The reason is in the formula below. Values near the mean contribute almost nothing to it, so the shape of the peak hardly matters; values far from the mean dominate it.
 
-> **Extra:** A fat-tailed curve with the same standard deviation as a normal curve often does have a sharper peak (Figure 2), which is where the "peakedness" idea came from. But we can build distributions with a flat top and huge kurtosis, or a sharp peak and low kurtosis. The tails decide, not the peak.
+> **Extra:** A fat-tailed curve with the same standard deviation as a normal curve often does have a sharper peak (Figure 2), which is where the "peakedness" idea came from. But we can build distributions with a flat top and huge kurtosis, or a sharp peak and low kurtosis (Westfall 2014). The tails decide, not the peak.
 
 ### 3.2 The kurtosis formula
 
@@ -133,7 +133,7 @@ The prime example of a mesokurtic distribution is the normal distribution itself
 > pd.Series(b).kurt()               # 3.5
 > ```
 >
-> Most libraries report **excess** kurtosis and simply call it "kurtosis", so a normal column shows about 0, not 3. pandas also corrects for sample size, which matters a lot with 8 values and hardly at all with hundreds.
+> scipy (by default) and pandas report **excess** kurtosis and simply call it "kurtosis", so a normal column shows about 0, not 3. pandas also corrects for sample size, which matters a lot with 8 values (3.5 against 1.0) and little with hundreds (0.478 against 0.461 for 500 normal values in the Notebook).
 
 ## 5. Where kurtosis matters: kurtosis risk
 
@@ -153,7 +153,7 @@ Many methods assume that a column is normally distributed, so "how do we know wh
 
 The third way is a **statistical test**. The **Shapiro-Wilk test** (see the [one-sample t-test Note](../301-one-sample-t-test/note.md), section 5) and the **Anderson-Darling test** decide with the help of a p-value; they come after hypothesis testing.
 
-> **Extra:** For the 150 iris sepal lengths of Section 7.2, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even tiny departures from normality, so they are best read together with a Q-Q plot.
+> **Extra:** For the 150 iris sepal lengths of Section 7.2, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even small departures from normality (Ghasemi and Zahediasl 2012), so they are best read together with a Q-Q plot.
 
 ## 7. Building a Q-Q plot from percentiles
 
@@ -184,7 +184,7 @@ The iris dataset holds measurements of 150 flowers. Its `sepal length` column lo
 
 ![Q-Q plot of the iris sepal lengths against the normal distribution, by hand and with scipy](images/iris_qq.png)
 
-The points follow the line closely in the middle, but not every point touches it, and the lowest and highest values drift away. So the sepal lengths are roughly normal, not perfectly normal. The steps of points come from the data being rounded to 0.1 cm.
+The points follow the line closely in the middle, but not every point touches it, and the lowest and highest values drift away. So the sepal lengths are roughly normal, not perfectly normal. The steps of points come from the data being rounded to 0.1 cm: the 150 sepal lengths take only 35 distinct values, so many neighbouring percentiles share the same value and line up horizontally.
 
 > **Python:** A Q-Q plot by hand, then the shortcut.
 >
@@ -219,7 +219,7 @@ statsmodels has a one-line Q-Q plot, `sm.qqplot(x, line=...)`, with four choices
 - `"r"`: a regression line fitted through the points;
 - `"q"`: a line through the first and third quartiles.
 
-The diagonal only works when the data has mean 0 and standard deviation 1, or when we pass `fit=True` so statsmodels standardizes it first. The sepal lengths have mean 5.84 and standard deviation 0.83, so their points lie around the line with slope 0.83 and intercept 5.84 (Figure 4, right), far from $y = x$. For raw data we use `"s"`, `"r"` or `"q"`; scipy's `probplot` always draws the regression line.
+The diagonal only works when the data has mean 0 and standard deviation 1, or when we pass `fit=True`, which standardizes the data first (statsmodels `ProbPlot` docs). The sepal lengths have mean 5.84 and standard deviation 0.83, so their points lie around the line with slope 0.83 and intercept 5.84 (Figure 4, right), far from $y = x$. For raw data we use `"s"`, `"r"` or `"q"`; scipy's `probplot` always draws the regression line.
 
 > **Python:** `sm.qqplot` draws with matplotlib, which these Notes do not use. The same numbers come from `sm.ProbPlot(x, fit=True)`, whose `theoretical_quantiles` and `sample_quantiles` can be plotted with Plotly.
 
@@ -227,7 +227,9 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 > **Key point:** Fat tails make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
 
-The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../30-function-transformer/note.md) (Figure 2). Kurtosis explains that fat-tail shape: a leptokurtic column has more extreme values on both sides than a normal one. A curve that looks too peaked in the middle usually has this Q-Q plot, because its tails are fat.
+The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../30-function-transformer/note.md) (Figure 2). Kurtosis explains that fat-tail shape: a leptokurtic column has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
+
+> **Extra:** The Notebook checks this on 1,000 standardized values from the peaked, fat-tailed Laplace distribution. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
 
 Thin tails (platykurtic) give the opposite shape, which Figure 5 (left) shows for uniform data:
 
@@ -235,7 +237,7 @@ Thin tails (platykurtic) give the opposite shape, which Figure 5 (left) shows fo
 - the end points flatten out, inside the line, in an S shape: the extreme values are less extreme than normal;
 - with mild thin tails the points stay near the line and stray only slightly.
 
-The more the points leave the line, and the more the line's slope has to change to follow them, the further the data is from normal.
+The more the points leave the line, the further the data is from normal.
 
 ![Top: histograms; bottom: Q-Q plots. Uniform data against the normal, then the same data against the uniform](images/qq_tails.png){height=55%}
 
@@ -279,6 +281,12 @@ The same idea checks for the log-normal and Pareto distributions in the next two
 - Points on a straight line: same shape. The diagonal $y = x$ only fits standardized data.
 - Fat tails leave the line outwards at both ends; thin tails bend inwards (S shape).
 - Any theoretical distribution can go on the x axis of a Q-Q plot.
+
+## Sources
+
+- Ghasemi, A. and Zahediasl, S. (2012). "Normality Tests for Statistical Analysis: A Guide for Non-Statisticians." *International Journal of Endocrinology and Metabolism* 10(2).
+- statsmodels documentation, `ProbPlot` (`fit=True`) and `qqplot` (`line` options).
+- Westfall, P. H. (2014). "Kurtosis as Peakedness, 1905-2014. R.I.P." *The American Statistician* 68(3).
 
 ## 11. Key terms
 

@@ -21,7 +21,7 @@ title: "AdaBoost: How It Works"
 
 This Note gives the core idea for classification, on a picture. The next Notes fill in the numbers: how the say of each model is computed, and how the mistakes are passed on.
 
-> **Extra:** The name is short for **Adaptive Boosting**: each stage adapts to the mistakes of the stages before. Yoav Freund and Robert Schapire published it in 1995. One of its first big uses was fast face detection in cameras (the Viola-Jones detector, 2001). Deep learning has since taken over that job.
+> **Extra:** The name is short for **Adaptive Boosting**: each stage adapts to the mistakes of the stages before. Yoav Freund and Robert Schapire published it in 1995 (Freund and Schapire, 1997). One of its first big uses was fast face detection (Viola and Jones, 2001). Deep learning has since taken over that job.
 
 ### 1.1 Why learn AdaBoost
 
@@ -145,7 +145,7 @@ After training we have three stumps and three alphas. We write each stump as a f
 
 This is why the classes are +1 and -1: a "not placed" vote pulls the total down by its alpha. With 0 and 1, a "not placed" vote would multiply to 0 and could never outweigh a "placed" vote.
 
-> **Extra:** If the total is exactly 0, the sign is undefined; libraries then pick one class by a fixed rule. With real-valued alphas this almost never happens.
+> **Extra:** If the total is exactly 0, the sign is undefined; libraries then pick one class by a fixed rule. scikit-learn's `AdaBoostClassifier` gives the first class in `classes_` (scikit-learn source, `ensemble/_weight_boosting.py`).
 
 ## 6. Why it works: the combined boundary
 
@@ -177,6 +177,12 @@ With more stages, the boundary can bend in more places and fit more complicated 
 - Each stump gets a say, alpha, based on its error: unlike bagging, the votes are not equal.
 - The prediction is the sign of the alpha-weighted sum of the stumps' +1/-1 answers.
 - Three stumps on 10 students: each makes 2 mistakes, their weighted vote makes none.
+
+## Sources
+
+- Freund, Y. and Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. *Journal of Computer and System Sciences* 55(1): 119–139. (Conference version: EuroCOLT 1995.)
+- Viola, P. and Jones, M. (2001). Rapid object detection using a boosted cascade of simple features. *CVPR 2001*.
+- scikit-learn source code, `sklearn/ensemble/_weight_boosting.py`, `AdaBoostClassifier.predict` (version 1.9).
 
 ## 8. Key terms
 

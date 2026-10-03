@@ -26,7 +26,7 @@ $$L = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 | Also called | L2 regularisation | L1 regularisation |
 | Coefficients for large λ | close to 0, never exactly 0 | exactly 0 |
 
-LASSO stands for "least absolute shrinkage and selection operator". As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
+LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
 
 This Note shows what Lasso does with one input, with a flexible polynomial, and with the 10-input diabetes data, and why its coefficients can reach exactly 0.
 
@@ -48,7 +48,7 @@ Figure 1 fits Lasso to the 100-point example of the Ridge Notes. scikit-learn ca
 
 From alpha 24.17 on, the slope is exactly 0. The line is then flat at the average of $y$ ($-0.67$): the input no longer plays any part. With Ridge, the slope only approached 0 (the Ridge maths Note).
 
-> **Extra:** scikit-learn's `Lasso` minimises $\frac{1}{2n}\sum(y_i - \hat{y}_i)^2 + \alpha\sum|\beta_j|$: it averages the squared error and halves it. So its `alpha` is on a different scale from the $\lambda$ of the formula above, and from `Ridge`'s `alpha`. The values of alpha for Ridge and Lasso cannot be compared directly.
+> **Extra:** scikit-learn's `Lasso` minimises $\frac{1}{2n}\sum(y_i - \hat{y}_i)^2 + \alpha\sum|\beta_j|$ (scikit-learn docs, `Lasso`): it averages the squared error and halves it. So its `alpha` is on a different scale from the $\lambda$ of the formula above, and from `Ridge`'s `alpha`. The values of alpha for Ridge and Lasso cannot be compared directly.
 
 ## 3. A flexible model: Lasso picks the right terms
 
@@ -87,15 +87,15 @@ Figure 3 trains Lasso on the 10-input diabetes data (test size 0.2, random state
 | 1 | 7 | bmi, bp, s5 | 0.33 |
 | 10 | 10 | none | $-0.01$ |
 
-At alpha 0.1, Lasso drops three inputs and loses almost no accuracy (0.43 against 0.44). At alpha 1, it keeps only bmi, bp and s5, the three most useful inputs here. At alpha 10, it removes everything: underfitting.
+At alpha 0.1, Lasso drops three inputs and loses almost no accuracy (0.43 against 0.44). At alpha 1, it keeps only bmi, bp and s5, the three most useful inputs here: among all 120 possible sets of three inputs, these three give plain linear regression the best cross-validated R² (0.485). At alpha 10, it removes everything: underfitting.
 
 Ridge cannot do this. It shrinks an unhelpful coefficient to, say, 0.2, but the column stays in the model.
 
-> **Extra:** This is why Lasso is often preferred when the data has many columns, some of which are probably irrelevant. Fewer columns also means a simpler model that is faster to use and easier to explain.
+> **Extra:** Feature selection is why Lasso is often preferred when the data has many columns, some of which are probably irrelevant: Lasso tends to do best when only a few inputs really matter (ISL §6.2.2). Fewer columns also means a simpler model that is easier to explain (ISL §6.2.2).
 
 ## 5. How the coefficients change
 
-> **Key point:** The coefficients hit 0 one at a time. Small ones go first; the strongest inputs survive longest.
+> **Key point:** The coefficients hit 0 one at a time. The size of a coefficient does not decide when it goes: the large s2 goes second, while bmi and s5 survive longest.
 
 Figure 4 follows each coefficient as alpha grows on a log scale.
 
@@ -110,9 +110,9 @@ Figure 4 follows each coefficient as alpha grows on a log scale.
 | bp | 341 | 1.1 |
 | bmi, s5 | 517, 861 | 2.2 |
 
-- As with Ridge, the very large coefficients (s1, s2, s5) are cut back hard at first, which removes most of the overfitting.
+- As with Ridge, the very large coefficients (s1, s2, s5) are cut back hard at first. The cut barely changes the test R² (0.440 at alpha 0, 0.441 at alpha 0.01, 0.433 at alpha 0.1).
 - Then the coefficients drop to 0 one after another. bmi and s5 are the last to go.
-- s1 and s2 had huge coefficients only because they are correlated with other inputs. Lasso drops them early anyway: size alone does not protect a coefficient.
+- s1 and s2 had huge coefficients ($-896$ and $+561$) because they are strongly correlated with each other ($r = 0.90$): such a pair can get large opposite coefficients that partly cancel out (ESL §3.4.1). Lasso drops them early anyway: size alone does not protect a coefficient.
 
 ## 6. Bias and variance
 
@@ -155,7 +155,7 @@ Figure 5 draws this curve while $\lambda$ grows from 0 to 8,000.
 
 The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, so its lowest point only approaches 0 (the Ridge key points Note). The next Note derives this precisely.
 
-> **Extra:** Why do the two penalties behave so differently near 0? For a coefficient of 0.1, the Ridge penalty is $\lambda \times 0.01$, almost nothing, so Ridge has little reason to push it further. The Lasso penalty is $\lambda \times 0.1$, and it keeps pushing with the same force all the way to 0.
+> **Extra:** Why do the two penalties behave so differently near 0? Look at how hard each penalty pushes, which is its slope. The slope of $\lambda m^2$ is $2\lambda m$: at $m = 0.1$ it is only $0.2\lambda$, and it fades to 0 as $m$ approaches 0, so Ridge stops pushing. The slope of $\lambda|m|$ is $\lambda$ for every positive $m$: it pushes with the same force all the way to 0.
 
 ## 8. Ridge or Lasso?
 
@@ -168,6 +168,8 @@ The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, s
 | Feature selection | no | yes |
 | Best when | most inputs matter | only some inputs matter |
 | Closed-form formula | yes | no (solved step by step) |
+
+The "best when" row follows ISL §6.2.2. Lasso has no closed-form formula because the absolute values make the answer non-linear in $y$ (ESL §3.4.2). With strongly correlated inputs, Lasso tends to keep only one of the group, and Ridge has been seen to predict better (Zou and Hastie 2005, §1).
 
 Both shrink the largest coefficients, raise bias, lower variance and are tuned through $\lambda$. The difference that matters in practice is that Lasso can remove inputs. Elastic Net (a later Note) combines both penalties.
 
@@ -192,7 +194,15 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 - A larger λ means more bias and less variance; too large removes every input.
 - The absolute value makes a corner at 0 in the loss, which is why the answer can sit exactly at 0.
 
-## 10. Key terms
+## 10. Sources
+
+- **Tibshirani 1996:** Tibshirani, R. "Regression Shrinkage and Selection via the Lasso." *Journal of the Royal Statistical Society B* 58(1), 267–288, 1996. Section 1.
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Section 6.2.2, pp. 242, 246.
+- **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Sections 3.4.1 (p. 63) and 3.4.2 (p. 68).
+- **Zou and Hastie 2005:** Zou, H. and Hastie, T. "Regularization and Variable Selection via the Elastic Net." *Journal of the Royal Statistical Society B* 67(2), 301–320, 2005. Section 1.
+- **scikit-learn docs:** `sklearn.linear_model.Lasso`, scikit-learn 1.9.
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

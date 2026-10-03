@@ -357,7 +357,7 @@ The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 1
 
 Feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)) keeps only the most useful input columns. **`SelectKBest`** does it simply: it gives every column a score and keeps the `k` columns with the highest scores.
 
-The score here comes from `chi2`, the **chi-squared test**. It measures how strongly each column is linked to the target; it only works on values of 0 or more.
+The score here comes from `chi2`, the **chi-squared test**. It measures how strongly each column is linked to the target; it only works on values of 0 or more (scikit-learn docs, `chi2`).
 
 With `k=8`, two of the 10 columns are dropped. How the test works is covered with feature selection in a later Note.
 
@@ -481,7 +481,7 @@ In a Jupyter Notebook, a cell that ends with `pipe` draws the pipeline as a diag
 
 The diagram makes it easy for anyone to see what the pipeline does: impute Age and Embarked, one-hot encode two columns, scale, select the best columns, then train the tree.
 
-> **Extra:** Older scikit-learn versions needed `set_config(display="diagram")` first. The diagram has been the default since version 1.1.
+> **Extra:** Older scikit-learn versions needed `set_config(display="diagram")` first. The diagram has been the default since version 1.1 (scikit-learn release notes, 1.1).
 
 ### 7.2 Pulling out fitted steps
 
@@ -526,7 +526,7 @@ The average of the five accuracies is the result. It is covered fully in a later
 >                 scoring="accuracy").mean()   # 0.787
 > ```
 
-> **Extra:** Because every step is inside the pipeline, every step is refitted on the 4 training parts each time. The imputer's mean, the scaler's minimum and maximum, and the chosen columns never see the part used for testing. Preprocessing the whole training set first and then cross-validating only the model would let the test part leak into training. This is a quiet form of data leakage that pipelines prevent.
+> **Extra:** Because every step is inside the pipeline, every step is refitted on the 4 training parts each time. The imputer's mean, the scaler's minimum and maximum, and the chosen columns never see the part used for testing. Preprocessing the whole training set first and then cross-validating only the model would let the test part leak into training. This is a quiet form of data leakage that pipelines prevent (scikit-learn User Guide, "Common pitfalls").
 
 ## 9. Hyperparameter tuning with a pipeline
 
@@ -592,7 +592,7 @@ The bigger gain comes later. Suppose we change the training: add a step, remove 
 
 We save the new pipeline over `pipe.pkl` and put that file on the server. The production code does not change at all, so a change in training cannot break the website.
 
-> **Extra:** `joblib` does the same job as pickle with simpler calls, and it handles models holding large NumPy arrays better: `joblib.dump(pipe, "models/pipe.joblib")` and `pipe = joblib.load("models/pipe.joblib")`. With either tool, only load files from sources you trust: loading a pickle file can run any code hidden in it. Load the file with the same scikit-learn version that saved it.
+> **Extra:** `joblib` does the same job as pickle with simpler calls, and it handles models holding large NumPy arrays better (scikit-learn User Guide, "Model persistence"): `joblib.dump(pipe, "models/pipe.joblib")` and `pipe = joblib.load("models/pipe.joblib")`. With either tool, only load files from sources you trust: loading a pickle file can run any code hidden in it. Load the file with the same scikit-learn version that saved it (same source).
 
 > **Extra:** The new input is passed as a one-row DataFrame with the training column names. A bare NumPy array also works for this pipeline, because every step uses positions, but scikit-learn then warns that the input has no feature names.
 
@@ -656,6 +656,12 @@ It gives the same 78.8% accuracy, and `get_feature_names_out` shows which 8 colu
 - `named_steps` and `transformers_` reach any fitted step and its learned values.
 - `cross_val_score` and `GridSearchCV` accept a pipeline; a step's parameter is named `step__parameter`.
 - One pickled pipeline is all the production code needs.
+
+## Sources
+
+- scikit-learn release notes. Version 1.1. scikit-learn.org/stable/whats_new.
+- scikit-learn documentation. `sklearn.feature_selection.chi2`. scikit-learn.org.
+- scikit-learn User Guide. Common pitfalls and recommended practices; Model persistence. scikit-learn.org.
 
 ## 12. Key terms
 

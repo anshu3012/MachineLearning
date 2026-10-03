@@ -78,9 +78,9 @@ Many ML problems predict a yes/no outcome:
 - is an email spam or not;
 - does a patient have a certain disease or not.
 
-Each target value is a Bernoulli variable, and a binary classifier such as logistic regression estimates its $p$ for every row. The Bernoulli variant of Naive Bayes assumes that each input is a Bernoulli variable, such as "this word is present or not" (see the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
+Each target value is a Bernoulli variable, and a binary classifier such as logistic regression estimates its $p$ for every row. The Bernoulli variant of Naive Bayes assumes that each input is a Bernoulli variable, such as "this word is present or not": the scikit-learn user guide (Section 1.9.4, `BernoulliNB`) says each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (see also the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
 
-> **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution**, the many-outcome version of Bernoulli.
+> **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution**, the many-outcome version of Bernoulli (Murphy, *Machine Learning: A Probabilistic Perspective*, 2012, Section 2.3.2, which calls it the multinoulli distribution).
 
 > **Extra:** The mean of a Bernoulli variable is $p$ (see the [expected value Note](../332-expected-value-and-variance/note.md)). Its variance is $p(1 - p)$: by the shortcut formula $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is $p - p^2 = p(1 - p)$. For a fair coin this is $0.5 \times 0.5 = 0.25$, the largest possible; for $p = 0.2$ it is $0.2 \times 0.8 = 0.16$.
 
@@ -208,9 +208,9 @@ Figure 4 repeats the simulation for three coins. The bars are the share of the 1
 - **$p = 0.5$:** the distribution is centred at 5 and symmetric, close to a normal curve.
 - **$p = 0.8$:** a biased coin; counts of 7 to 10 dominate, and the tail points left.
 
-The simulated bars sit close to the exact dots, and they get closer with more runs.
+The simulated bars sit close to the exact dots, and they get closer with more runs. The Notebook measures the largest gap between a bar and its dot: for $p = 0.5$ it is 0.095 with 100 runs, 0.015 with 1000 runs and 0.0015 with 100,000 runs (the other two coins behave the same way).
 
-> **Extra:** The centre of a binomial distribution is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page: mean $1000 \times 0.1 = 100$ purchases, standard deviation $\sqrt{1000 \times 0.1 \times 0.9} = 9.49$. The skewness is $(1 - 2p)/\sqrt{np(1-p)}$: 0.84 for $p = 0.1$, 0 for $p = 0.5$, $-0.47$ for $p = 0.8$.
+> **Extra:** The centre of a binomial distribution is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page: mean $1000 \times 0.1 = 100$ purchases, standard deviation $\sqrt{1000 \times 0.1 \times 0.9} = 9.49$. The skewness is $(1 - 2p)/\sqrt{np(1-p)}$ (Johnson, Kemp and Kotz, *Univariate Discrete Distributions*, 3rd ed., 2005, Chapter 3): 0.84 for $p = 0.1$, 0 for $p = 0.5$, $-0.47$ for $p = 0.8$. scipy's `binom(10, p).stats(moments='s')` gives the same three numbers in the Notebook.
 
 ## 8. Where the binomial distribution is used
 

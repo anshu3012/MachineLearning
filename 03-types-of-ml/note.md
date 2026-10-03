@@ -133,7 +133,7 @@ When an algorithm such as PCA computes the new columns from the data instead, wi
 
 The technique used for Figure 6 is **PCA** (principal component analysis), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 6 as a 3D plot that we can rotate.
 
-> **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 columns. The idea is the same.
+> **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 columns (LeCun et al. 1998). The idea is the same.
 
 ### 3.4 Anomaly detection
 
@@ -161,7 +161,7 @@ In Figure 7, almost all transactions are small and close to home. The red one, l
 
 A famous case: a large US retailer found that customers buying baby diapers often also bought beer. Placing the two side by side increased sales. Hidden patterns like this are hard to spot by hand and easy for an algorithm.
 
-> **Extra:** The diapers-and-beer story is usually told about Walmart. It most likely comes from a 1992 data analysis for the Osco Drug chain, and its details are disputed. It is still the standard example of association rules.
+> **Extra:** The diapers-and-beer story is usually told about Walmart, but it traces back to a 1992 study of shopping baskets at Osco Drug stores, which did find beer and diapers bought together in the evening. The shops never moved the two products together, so the sales boost in the story is a legend (Power 2002). It is still the standard example of association rules.
 
 ## 4. Semi-supervised learning
 
@@ -242,6 +242,11 @@ RL is harder to set up than the other types, but its use is growing fast.
 - No output column $\rightarrow$ unsupervised.
 - Few labels $\rightarrow$ semi-supervised.
 - No data, only feedback $\rightarrow$ reinforcement.
+
+## Sources
+
+- LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11).
+- Power, D. (2002). What is the "true story" about data mining, beer and diapers? *DSS News*, 10 November 2002.
 
 ## 7. Key terms
 

@@ -1,0 +1,639 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we are going to continue our 100 days of deep learning playlist.
+So let me tell you the progress till now.
+We are studying Transformers architecture and we are at its midway point.
+This means that we have understood the entire architecture of encoder.
+Now we are moving forward to the decoder architecture.
+And in decoder architecture, we are going to zoom in on a very specific part.
+And the name of that part is Masked Multi-Head Attention.
+Honestly, it's a different flavor of Multi-Head Attention or Self-Attention you can say.
+But there is a small detail in it,
+which is very important for you to have a conceptual understanding before moving forward.
+So I'm super excited for this video. Let's start.
+So guys, before starting the video, let's take a small recap.
+So far, we have uploaded 10 videos on this channel on Transformers.
+And I want to tell you what happened in these 10 videos.
+So we started Transformer Architecture and while starting I told you that in my mind this topic of Transformers is very important.
+And maybe you also know that because whatever advancements you are seeing in the field of AI, most of them are driven by Transformers.
+If you open it and see, then maybe the transformer is being used inside.
+So in that sense, this topic has gained a lot of importance in my mind and that's why I decided that I will teach it very well, even if it takes a little time.
+So what did we do? First of all, we established that you can divide the transformer architecture into two parts, one is the encoder and the other is the decoder.
+And we first went to study encoder and I told you one more thing that this architecture is a bit complex
+So if you go straight to study encoder then it is possible that you will not understand things
+So we used an alternate philosophy to study and that philosophy was that rather than understanding everything together
+What if we first understood the building blocks and then when we understood the building blocks, then we came to understand the whole thing.
+We used this philosophy. So we covered small topics in this whole journey of 10 videos.
+Like what is self-attention and multi-head attention? What is positional encoding?
+And what is normalization? Etc. We covered all these things.
+And when we understood all these things, then we decoded the entire encoder architecture in the last video and understood it.
+And I really hope you understood it too.
+Now our journey is 50% covered.
+We have understood the encoder and 50% is left.
+Now while telling you this, I am feeling very sad that the remaining 50% journey is going to be a little more difficult.
+Because guess what, the decoder of the transformer is a little more difficult architecturally speaking.
+And you might be able to see that in this diagram.
+It looks like a lot of things are going on here.
+So, what I will do is that I will follow the same philosophy which I followed in the encoder.
+What I will do is that rather than teaching decoder in a simple video,
+I will first explain the building blocks of decoder in small videos.
+And then when we will understand that, I will explain the decoder architecture in a single short video.
+Now the good thing is that decoder is not a new thing
+which means that many things have been repeated by encoder
+so that is a good thing
+like here you can see multi head attention
+here you can see positional encoding
+here you can see add and norm layer
+here you can see feed forward layer
+so a lot of things are actually repeating
+so we don't need to work hard again
+But there are some new things that you are seeing here, like this word masked.
+So here another flavor of self-attention is used which we call masked self-attention.
+Apart from this, if you notice one more thing that the attention used here,
+one arrow is coming from the decoder but two arrows are coming from the encoder.
+So this is also a different flavor of self-attention which we call cross-attention.
+So these are the two major building blocks that we will have to understand to understand the architecture of decoder.
+So today's video is dedicated to explaining this masked multi-head attention.
+And trust me, after watching this video, you will not have any problem in this concept.
+I will give you Y-Level answers which will give you a deep intuition that why the decoder requires masked self-attention.
+Apart from that, we will cover what and how.
+So, I really hope I have cleared the purpose of this video.
+Now, let's start the video.
+Now guys, before explaining masked self-attention, I want to show you a sentence.
+This sentence is very special.
+What is the speciality of this sentence is that if you understand this sentence well then you will understand masked self-attention also.
+What is the sentence? Let me read it out.
+The transformer decoder is an autoregressive model at inference time and non-autoregressive at training time.
+Now I know what you would be saying. You would be saying that sir you have spoiled the mood.
+In the beginning of the video, some easy things are taught. You have left a very heavy sentence on us.
+what is autoregressive?
+what is inference?
+we don't know all this
+so let's do one thing
+first let me simplify the terms used here
+because it is very important
+so a simple thing is written here
+that the decoder of transformers
+is autoregressive during inference
+and non-autoregressive during training
+This is the sentence.
+Now, first of all, I would like to clarify a simple thing.
+What is inference?
+The simple meaning of inference is prediction.
+This means that when you are using transformers and doing prediction,
+then at that time, the decoder of the transformer is auto-regressive
+or behaves like an auto-regressive model.
+And when the training of the transformer is going on,
+then it behaves like a non-autoregressive model.
+Now you have only one doubt in your mind
+and that is what is the meaning of autoregressive.
+So let's quickly understand what is an autoregressive model.
+So autoregressive model is actually a concept of economics
+and if you want to talk strictly in the domain of machine learning
+then it comes from time series.
+In time series, many models used are autoregressive models but I don't want to go into time series.
+I want to explain you in the context of deep learning what is the meaning of autoregressive model.
+So I have a simple definition, I want to use it to explain this whole thing.
+So in the context of deep learning, autoregressive models are a class of models that generate data points in a sequence.
+By conditioning each new data point on the previously generated points.
+In simple words, it means that suppose you have made a machine learning model whose work was stock prediction.
+Every day, the value of the stock is predicted by our machine learning model.
+So suppose it predicted on Wednesday that the value of the stock is 29 and on Thursday it predicted that the value of the stock is 30.
+Now, we have to predict the value of the stock on Friday.
+So, an auto-regressive model helps us to predict the value of the stock on the previous day.
+This means that the value of the stock on Friday will depend on the value of the stock on Thursday and on Wednesday.
+If you go back to the definition, it is clearly written here.
+Autoregressive models are a class of models that generate data points in a sequence by conditioning each new data point on previously generated data points on the basis of Wednesday and Thursday data points.
+Now honestly if I tell you one thing, even if you have read this term for the first time that something happens by doing an autoregressive model, but you have seen such a thing, such a model before.
+Let me take you back to the original encoder decoder architecture which we had read some videos before.
+If you remember, 10-12 videos ago, I taught you the most basic Encoder-Decoder architecture
+which was the architecture of Ilya Skatskever, the seek-to-seek network.
+There we taught a very simple Encoder-Decoder where LSTM was used in Encoder and LSTM was used in Decoder.
+We used a language translation task where you wanted to do a Hindi translation from English and what was happening was that your English sentence was going to the encoder and LSTM was processing it and generating a context vector and you were putting this context vector in the decoder and the decoder was producing this Hindi translation, this was a high level overview.
+But if you remember, I explained in depth how it works and here is the diagram.
+So if I enlarge the window for a while, this is our architecture.
+So what is happening is that we have this sentence, nice to meet you.
+We are sending it in encoder, one word at a time.
+First of all, I sent nice in the first time step, then I sent to, then I sent meet, then I sent you and what is LSTM doing, it is processing them one by one and in the end it is generating these hidden states, HT and CT, we are calling them context vectors and what is hidden in these context vectors is the summary of this English sentence.
+Now the main thing starts from here. This is your decoder part. You are sending this context vector as it is in the decoder.
+And in the decoder, you are also giving one more input and that is the start input.
+Now it got this context vector which is the summary of your English sentence and this start token.
+and on the basis of these two inputs, this decoder LSTM generated this word
+Now in the next time step, if you want to generate the next word
+then to generate the next word, you are sending the modified hidden state as input
+but at the same time, you are also giving this as input to the next time step
+Now this next time step is producing together with these two.
+Then it is becoming an input for the next step,
+which is producing good.
+Then it is becoming an input for the next time step,
+which is producing good.
+And then it is becoming an input for the next time step,
+which is producing this end token,
+which makes it clear that now stop the translation.
+But the special thing here is to notice that
+At any time step, if you want to make an output or if you want to predict it,
+then in the process of predicting the output, you also need to know what output was predicted at the previous time step.
+And that is why you can call this model as an auto-regressive model.
+So in NLP, all these models like language translation, language modelling, where you are generating text and sentence, all these models are actually autoregressive.
+Because they sequentially, one step at a time, generate tokens.
+So if I go back to this sentence, then I really hope you are able to understand this sentence a little better.
+That the transformer decoder is autoregressive at inference time but it is non-autoregressive at training time.
+At least you are able to understand this part that it is autoregressive while doing prediction.
+Why is it non-autoregressive during training? This is the topic of today's video.
+So I really hope you understood this discussion.
+Now you might have a small curiosity in your mind that all these seek-to-seek models
+which perform tasks like language translation, text generation, text summarisation
+why are all these models autoregressive?
+So the answer to this is very simple.
+Why can't you produce all the words at once?
+What is the compulsion of this model is that it is sequentially generating all these words.
+There can be a model which can generate all these words in parallel.
+These types of models don't exist because while generating good, you should know what you have generated till now.
+You can't generate the entire paragraph at once because the words in the front depend on the words in the back.
+This is sequential data inherently so it will have to be generated in sequence only.
+You cannot just spit out the entire paragraph in one go and that is why these models have to be autoregressive and there is no other option.
+So I really hope you are not getting this curiosity that what if I don't use autoregressive model and I generate everything at once.
+That is not possible because the fundamental aspect of sequential data is that the front thing depends on the back thing.
+So until the thing at the back comes from the beginning, you can't generate the thing at the front.
+And that is why to model such data, you need autoregressive models.
+And that is why Transformers is also an autoregressive model.
+Now, where is the real fun? The real fun is in this sentence.
+There is a very interesting thing written in this sentence that the decoder of the transformer, where the output is actually being generated,
+it is autoregressive but only at the time of inference
+which is fine, what we have studied till now should be like this
+but the interesting thing is that it is not autoregressive at the time of training
+don't you think decoder should behave similarly in both the situations
+it should be autoregressive at the time of training and autoregressive at the time of inference
+But guess what? Transformers are behaving differently during training and during inference.
+And the reason behind this difference in behaviour, if I can tell you in one word,
+then that word is masked self-attention, which is the topic of our today's video.
+If you understand this then you will understand this sentence and that's why now we move towards understanding masked self-attention.
+So I really hope you like the build-up of the video, I have sparked some curiosity in you and now you want the answer.
+So if you want the answer then let's move forward in the video.
+So guys now that you understand why seek-to-seek models needed to be autoregressive
+and you have seen this sentence many times
+so now this is a good time to prove logically that this sentence is correct
+right
+lets discuss once again what is written in this sentence
+that the decoder of transformer is autoregressive at the time of inference
+but it is not autoregressive at the time of training
+I will prove this sentence to you
+I will use a different method to prove this
+What I will do is that I will assume that the decoder of the transformer is autoregressive at the time of inference.
+I will also assume that the decoder of the transformer is autoregressive even at the time of training.
+I want to start this discussion by saying that in both the stages of inference and training, the decoder of the transformer is autoregressive.
+And to carry out this discussion, I want to move forward with a problem statement.
+So I have this, just one second.
+So our problem statement is of machine translation.
+Let's assume that we have to build a deep learning model that does machine translation and specifically English to Hindi translation.
+And to make this model, we are using a transformer. This is my assumption.
+So for a while, let's assume that we have trained our transformer model.
+The training has been done on this data.
+Here you can see only three sentences but assume that there are many sentences in this data set.
+So we have trained our transformer on this very big data set.
+Now it is ready for inference.
+Now I will show you practically what will happen at the time of inference, so assume that at the time of inference, someone gave this English sentence to my transformer, I am fine, and he said to translate it into Hindi and show it, this is my transformer model, this is the encoder and this is the decoder.
+So, you might have understood about encoder, from here you will send your English sentence inside.
+The good part about transformer encoder is that it can process all the English sentences parallelly because it uses self-attention mechanism.
+So I will send i, am and fine from here.
+Here embeddings will be generated, positional encoding will be applied.
+Here inside a multi head attention module will be there.
+After that normalization will be there.
+After that a feed forward neural network will be there.
+After that again normalization will be there.
+And after doing this, after passing through multiple stacks,
+In the end, for each word in our sentence, we will have one vector.
+There will be a vector for i, a vector for am, and a vector for fine.
+And where will I send these vectors?
+To my decoder.
+Now, unfortunately, at this point, we don't know what happens inside the decoder.
+But, we have an idea of how the decoder will work.
+It will work in an autoregressive way.
+It means that it will produce and predict one word at every time step.
+It will start at this stage where we will give it a start token.
+By giving that start token and by giving the output of this encoder, my decoder will give me my first word.
+And let's assume that the first word is me, which is fine, right? Which is correct.
+I am fine means that I am fine
+this is correct translation by the way
+I have to remove this from my model
+so for now this is I
+now you know how autoregressive model works
+now it got the input of encoder on second time step
+and along with this what I predicted
+that as input went from here
+and let's assume that in this step my transformer made a mistake and it outputted a bad output instead of a good one
+this can happen, right? prediction can be wrong, it was a wrong prediction
+whatever it is, we will proceed to time step 3
+In time step 3, I will get the encoder's output again.
+And along with that, the low output that we got here will become the input from here.
+And the output that I got in this step is who, which is the correct output, right?
+Then what happened? In the next time step, we went where I got the encoder's output again as input.
+And I also got this who and by sending it inside, I got end here, which means that our work is done, so in a nutshell, our prediction is that I am low instead of I am good, okay, and this is how inference will be done, inference will be done in this way, now what calculations are going on inside, we will learn this further, it's not our concern,
+right now, something is happening inside, but something like this will be happening during the
+inference stage if my model is autoregressive. I think you are agreeing so far. Now let's do one thing,
+inference is understood, let's take two steps back, I told you very easily that this is my
+data set and I have trained my transformer model on it. Let's take two steps back and also understand the
+Let's also understand the training process, how the training will be done, so let's do one thing, let's pick up this data set and bring it down so that this discussion part is being made, so now what are we doing, we are going two steps back and training our transformer model on this data set, we have already seen the inference, now we are seeing the training, okay, so what will happen in the training,
+First of all, we will pick up sentence number 1
+And sentence number 1 is How are you?
+And we already know
+What is its Hindi translation? How are you?
+Ok, so what will be the funda again?
+You will send your English sentence
+From here to your encoder
+Here you will send how
+Here you will send R
+Here you will send U
+All the calculations will run here and from here your encoder will give you the output.
+Now you will take this output and send it to the decoder.
+Again, I would like to remind you again that our assumption here is that we are working on an autoregressive model.
+So during training also, everything should be done sequentially.
+So let's start.
+First of all, at the time step, we will again send the start token
+to tell the decoder to start the work and start the translation.
+Now, based on this input provided by the encoder and this start token,
+some calculations of the decoder went inside and he gave me you in the output instead of you
+it should have been you he gave me you now this is wrong you should not have come you should have come
+so here now no problem we will move ahead on time step 2 but now there is a change on time step 2
+What is the change? I had taught you earlier that during training you use a concept which we call as teacher forcing
+Which means that whether your decoder has given the correct output or the wrong output, it does not matter
+During training, the input you will send in the next step will be taken from the data and the correct thing will be sent
+This means that if you sent the wrong word then you will not send it here but you will send it here because you are the correct word in the data.
+You sent the app from here and sent the output of your encoder, the processing was done inside and the cache was printed here which is correct.
+So it doesn't matter if it is correct or wrong, it doesn't matter, you will always pick it up from the data.
+However, in this case it was correct, so how did you send it from here?
+And how to send it, the output came here was, which is again wrong.
+It doesn't make any difference, in the next step, we are sending what is in the data by not sending was, we have sent is.
+And I got end from this and my translation process was stopped.
+So, what happened is that the output should have come, how are you, but my output came, how were you, no problem, there will be mistakes, what you have to do now is to apply a loss function between these two and optimize it, apply back propagation and update the weights, this is what happens.
+Then you will go to the next row and repeat this process, but the main thing that happened here, I want to explain to you and that is that our training process was also autoregressive, which means there were time steps involved here, which means that the whole process was sequential.
+So I just showed you that I kept the decoder of the transformer auto-regressive at the time of inference and auto-regressive at the time of training.
+Now I really want you to pause the video at this point and think that
+that by making the training process autoregressive, has there been any loss, has there been any problem?
+I hope you can understand that a very big problem has been introduced.
+If you make this training process autoregressive, then your training will be very slow.
+Why? Let me tell you.
+Just think that to process a single training example or a single row, how many times did you run the operations under the decoder?
+Four times.
+Right?
+You have run it four times because there are three words in your sentence.
+Now imagine this is a paragraph of 300 words instead of a single small sentence.
+so you are doing this whole thing 301 times
+means whatever is happening in the decoder
+whatever operations are happening
+there are a lot of operations by the way
+I will show you
+see there are a lot of operations
+all these operations you are doing 301 times
+and this is only one row by the way
+what if your data set has one lakh rows
+now you can imagine
+that by running this sequential flow
+your training process is completely sequential
+Which means, for each word in your output data, every operation in your decoder will be executed once.
+This is very very slow.
+Now I know what is coming in your mind.
+What is coming in your mind is that sir but what can we do?
+This is a compulsion.
+This is a compulsion that we execute sequentially.
+Because we have to output sequential data.
+So there is an option to keep it autoregressive.
+My answer will be Yes and No.
+Let me explain.
+If you talk about inference, then you really have to go sequential.
+Why? Think about it.
+When you are on time step 2, then what input are you sending from here?
+the output that you got in the previous time step.
+If you are on this time step,
+then what is your input?
+Which is the output of your previous time step.
+So I don't have any option.
+I will have to run the previous one and see.
+And the output that I am getting here,
+I can send it forward.
+Apart from this, I don't have any option.
+And that is why,
+being autoregressive during inference is your compulsion.
+But guess what, there is no such compulsion in training.
+Look carefully, what are you sending here on the second step?
+You.
+Whereas what was your output here?
+You.
+What are you sending here?
+How?
+It does not matter how it came on the last time step or what came or why it came.
+you are sending something in every next time step in input which is already present in your data set
+what I am trying to say is that because of teacher forcing
+you don't have this pressure that you send something in this time step in input which is the output of your previous time step
+I really hope you are understanding this
+Because of teacher forcing, the constraint in our system that the output of the previous time step will be the input of the next time step will not be there.
+Whatever comes in the previous time step, the input of this time step is always being decided by the data set.
+And guess what? You have this data set from always.
+Then why do you have to wait?
+This means that I have these four words, start word, how word and how is word.
+So I can execute these four steps parallelly.
+Because the calculations that are going on inside can be executed parallelly.
+So basically there is no dependency of time step basis in training.
+And this is what happens in the real transformer architecture.
+They optimize this process in such a way that during the training process, your transformer decoder is non-autoregressive.
+Now I really hope you are able to understand this sentence.
+It is autoregressive during inference time because it is compulsory.
+But during training time, it is not autoregressive.
+Everything is a parallel process and due to parallel process, the speed of the training becomes very fast.
+I hope you are still understanding this.
+So now our next discussion will be on how we will solve this problematic scenario.
+How we will bring parallel execution here.
+Okay, let's move ahead.
+Now guys we have said very easily that we should train decoder in a non-autoregressive way instead of autoregressive
+And training should be done in a parallel way
+But guess what, it is not that easy
+And let me explain to you why it is not that easy
+Now to understand this, let's do one thing
+Till now we were assuming that something is happening inside the decoder and we don't know what calculations are going on inside
+Let's look at decoder and see what's in it.
+Clearly there are many different blocks here.
+I want to introduce you to the first block.
+Look carefully what's written here.
+The first block in the decoder is Masked Multi-Head Attention.
+Now I want you to forget about the mask for a while.
+Because we don't know what the mask is.
+but we know multi-head attention, we have read it very well in the encoder
+and if I want to simplify this discussion a little more
+so what I can do is I can actually call multi-head attention self-attention
+because after all what is multi-head attention?
+multiple self-attentions, right?
+if we were using only one head, then our multi-head attention is equal to self-attention
+So let's do one thing, just to simplify our discussion, let's assume that the first block in the decoder is the self-attention block.
+And now what you have to do is to send this first row to this self-attention block during the training.
+So in short, these three words, how are you, these three will enter into this self-attention block together.
+Now I know you must be having questions in your mind that how can Hindi words go directly into self-attention.
+I know it is a valid thing, it will not go directly, we have an embedding feature.
+First you will take these three words, I will write it in detail here, you will take these three words, how are you, you took these three words and you first sent these three to the embedding layer and what did the embedding layer do, it created an embedding for these three words, embedding means vector, here you have
+Here you have embedding of app, here you have embedding of case, and here you have embedding of hay.
+Now you will send these embeddings to self-attention.
+Now I want you to go a little back in this playlist and try to remember that when I was teaching you what is self-attention,
+what was the simplest description of self-attention that I had given you?
+So if you remember, I told you that self-attention is a block where when you send an embedding of a particular word,
+So this self-attention generates contextual embedding from that embedding.
+It generates contextual embedding of the same word.
+I had also given you an example.
+If you remember, we had two sentences.
+One was river bank and the other was money bank.
+I had told you that when you take out the embedding of these three words,
+the embedding of the river, the embedding of the money and the embedding of the bank,
+then you will realize that the embedding of the bank and the embedding of this bank is the same.
+Which should not happen because these two words are being used in different contexts in different sentences.
+In the first sentence, the meaning of bank is a place, a border.
+and in the second sentence, bank means an institution where you deposit money
+so what happens is that when you send the embedding of river and bank
+so on this side you will get the contextual embedding of river and on this side you will get the contextual embedding of bank
+And this contextual embedding or we can call it vector, this vector will consider that it is being used with the river.
+Similarly, if you send money's embedding vector and bank's embedding vector,
+then here you will get money's contextual embedding and here you will get bank's contextual embedding.
+And here the bank's contextual embedding or vector will consider that it is existing with money, which means that this contextual embedding of the bank and this contextual embedding of the bank will be different and this is what your self-attention block does.
+Now, if you talk about this situation where you have a self-attention block and from there you are three words, you, how and are.
+When you are sending the embedding of these three words, what will this self-attention block do?
+will generate a contextual embedding for these three words, right?
+And these three contextual embeddings will consider
+that which other words that particular word is existing with.
+Meaning, when your contextual embedding will be generated,
+it will consider how it is being used and how it is being used.
+When you will generate the contextual embedding of how,
+then it will consider that it is existing with you and is
+when you generate the contextual embedding of is
+then it will consider that it is being used with you and how
+I hope you are able to understand this
+so in a way I have shown you in that old video
+that you can perceive contextual embedding mathematically
+like you can write that your contextual embedding
+like 0.8 times it is made from your embedding, 0.1 times it is made from Kaise embedding and 0.1 times it is made from Hack embedding.
+Similarly, you can perceive it like this.
+Obviously, these are the example numbers that how the contextual embedding is made by meeting 0.15% of your embedding, 0.75% is made by meeting the embedding itself, and 0.1% is made by meeting the embedding.
+Similarly, the contextual embedding of is is made by combining 0.1 times your embedding, 0.2 times the embedding of how and 0.7 times the embedding of itself.
+This is what self-attention does.
+Now you must be thinking that I have already taught you self-attention in so much detail, then why am I repeating it again?
+I am repeating this because I want to put a point in your mind at a very deep level
+that how big a mistake you are making by sending all these words parallelly
+because think what you have done now
+You just represented your contextual embedding with the help of your embedding, Kaise's embedding and Hai's embedding.
+Now you will say what is wrong in this?
+So I would say that there is a very big problem here.
+The very big problem is that when you have started writing this sentence and you have only written AAP,
+So at this point, only you are there, not Kaise, Hai is not there, but what your equation demands is that to represent you, it needs 0.8 times you, 0.1 times Kaise, which does not exist now, and 0.1 times Hai.
+Similarly, you must have added the next word in the sentence, Kaise.
+so now what are you demanding to represent kaisa that kaisa will be made up of 15% of you, 75% of kaisa and 10% of hai
+hai by the way has not even come in the picture yet
+and finally when you write hai there is no problem because at the time of hai these three things exist
+so this can do its work, 10% is made up of you, 20% is made up of kaisa and 70% is made up of hai
+But there is a big problem in this that to derive or calculate the value of your current token, you are using the values of future tokens.
+Which is unfair.
+Don't you think you can do this during the training because you have the data set available, you have the output sentence available
+But you can't do this during the prediction time, during the inference time
+Because guess what, you have just printed the app
+So you don't know how it will come in the next sentence, it will come or something else will come
+So then how will you be able to solve this mathematical expression
+or how will you be able to get the value out of it
+if you don't know the things of the future
+then you can't use the values of the future
+but you are doing this in training
+and that is why this is wrong
+in machine learning you never do anything like this
+where you can do something in training
+but you can't do the same thing in prediction
+essentially if I say a hard, difficult word
+then I would say that you are cheating
+you are cheating with your model
+you are telling it from the beginning that what is the next word
+so there is a good chance that your model will give good results on training data
+but when it will go for prediction on real world data
+then its results will be very bad
+if you have heard a very famous term
+so this is an example of data leakage
+your model has some extra information during training
+which should not happen
+he will not have that thing at the time of prediction
+this is a case of serious data leakage
+so this is the problem which I wanted to tell you
+when you use parallel approach
+so now
+we are stuck
+let me summarize your situation
+your situation is
+that when you took auto regressive approach
+by the way
+By the way, going back to the discussion, this data leakage problem does not occur if you do auto-regressive training in sequence.
+Think about it, if you had only you, you would have done all the calculations on your basis.
+When you and how would have come, you would have done all the calculations on the basis of how and how.
+When you and how would have come, you would have done all the calculations on the basis of these three.
+This data leakage problem does not occur.
+So, in short, let me summarize where you are stuck.
+When you started doing autoregressive training, everything was good.
+Things were going well. There was no data leakage.
+I should say no data leakage.
+But what was the problem? The training was getting slow.
+In fact, it was getting very slow.
+And when you thought to train in a non-auto-regressive way and send all the tokens parallelly and predict everything at the same time
+So your training got fast because you are sending data in batches
+But a new problem came and that is of data leakage
+Your current tokens are able to see the value of your future tokens which is unfair
+It will not be available during the prediction time
+So, in a nutshell, you are stuck in this situation.
+And now, how to solve this dilemma has become a big question.
+Is it possible that if I am trying to do it sequentially, then there is a problem and if I am trying to do it in parallel, then there is another problem.
+Is there any smart way to get the best of both worlds?
+The answer is yes.
+The answer is yes.
+But for that, you will have to go into the how of self-attention.
+You will have to revisit all the calculations in it.
+Because the answer is hidden there.
+So I am pretty sure now you are very excited.
+Let's move ahead.
+So let's once again understand the working of self-attention.
+And we are doing this because our answer is hidden in the details.
+So let's see how self-attention works.
+So we have our output sentence.
+How are you?
+And we have to send these three words together in the self-attention module.
+But before doing that, we have to calculate the embeddings of these three.
+So first of all we will do that, here in this yellow color box, we have calculated the embedding of every word.
+This is your embedding, this is Kaise's embedding and this is Hai's embedding.
+Now what you have to do is enter inside the self-attention block.
+And inside the self-attention block, first of all you get three matrices.
+We call them weight matrices.
+One is called WQ, the other is called WK, and the third is called WV.
+Now you have to do dot product with these three weight matrices for every word embedding.
+You don't have to get confused by looking at the diagram.
+This green matrix, this green matrix and this green matrix are exactly same.
+This pink, this pink and this pink are exactly same.
+This blue, this blue and this blue are exactly the same.
+What we are doing is that we are taking the embedding of every word and dot producting it with all three weight matrices.
+With this, we are getting three new vectors for every word embedding.
+You can see that.
+So when we dot producted our embedding with these three matrices, we got three new vectors.
+QARP, KARP and VARP.
+These are the same famous vectors which we call Query, Key and Value Vectors.
+So basically, for every word of my sentence, I will get 3 new vectors.
+Every word will have its own Query Vector, every word will have its own Key Vector, every word will have its own Value Vector.
+So in this stage, we have calculated all those vectors.
+Now let's do one thing for convenience, we can stack all the query vectors and make a matrix
+and we can call this matrix the query matrix, in this we have made a combination of all the query vectors of every word
+Similarly, we can pick up all the key vectors and make a key matrix and pick up all the value vectors and make a value matrix.
+By doing this, you will be able to do matrix operation together rather than doing individual operation on all the words.
+Now, the main work of self-attention starts from here.
+The first thing you do is that you make dot product between query and key matrix.
+and from this you get a new matrix and in this new matrix every value represents the attention score
+so this light yellow matrix is very important because this contains your attention scores
+now what you do is you scale these attention scores
+basically you divide every item from this number
+1 divided by square root of dk where dk is the dimensionality of the vector
+Again, you know everything.
+With this you get this new matrix.
+A yellow coloured matrix.
+Now, on top of this
+you run softmax operation
+which finally gives you
+those numbers
+which you will use to calculate
+contextual embeddings.
+How? It is very simple.
+Now, what do you do?
+You pick up your weights
+and you multiply these weights
+with value vectors.
+For example, you have to calculate your contextual embedding.
+How will you calculate it? It is very simple.
+You will take the first weight of this matrix, W11 and multiply it with your value vector, Vup.
+Then you will take the second item of this matrix, W12 and multiply it with the value vector of CASA.
+then you will take the third item of this, W13 and multiply it with the value vector of H
+and when you add these three, you will get your contextual embedding
+similarly, how you have to calculate the contextual embedding
+you will take this item and multiply it with V
+then you will take this item and multiply it with V
+then you will pick up this item and multiply it with VH and then add these three
+this will give you Kasey's contextual embedding and in the same way
+you will pick up all the numbers of the rows below
+and you will keep on multiplying
+and you will get the contextual embedding of the word H
+so this is the entire process of self attention and trust me I have taught you this in a lot of detail
+now comes the moment
+What do we not want?
+Look carefully
+Here your answer is hidden
+We do not want this contribution while calculating your contextual embedding
+Plus we do not want this contribution
+Because when you are talking about you, then how and is did not come in the picture
+Similarly, when you are calculating the contextual embedding of how
+then you don't need this component in the picture
+because when it came, it was not in the picture
+so in a way, I have to zero this
+zero this and zero this
+now there are not many ways to zero
+it is a very simple observation that somehow
+if you zero w12, w13
+and make W23 as 0
+then automatically all these things will become 0
+and then only your contribution will be made to make you
+only you and Kaise's contribution will be made to make Kaise
+and our problem will be solved
+but the question arises
+that how will we make these three as 0
+so here comes the concept of masking
+what will we do
+we will add one more step in this whole flow
+pay attention what we will do
+so we have this dot product and this matrix
+which is fine
+after that we did scaling
+so we got this yellow color matrix
+this one
+this is also fine
+now in this step what you will do
+you will create a new matrix of same dimension
+which you will call as mask
+note that its shape is exactly the same as this matrix
+we will just do one thing
+that we will add minus infinity at the places where we need 0
+now what will happen is that when we add these two matrices
+so since these three places have minus infinity
+So automatically when S1,2 will be added from this minus infinity, then what will we get?
+Minus infinity.
+When S1,2 will be added from this minus infinity, then what will we get?
+Minus infinity.
+And when S1,2 will be added from this minus infinity, then what will we get?
+Minus infinity.
+Since the rest of the places are 0, then all these values will be copied as it is.
+Now we will apply softmax on this matrix which we were doing.
+Now you may or may not know but softmax of minus infinity is zero and here you will get zero.
+As soon as you get zero here, then automatically this thing becomes zero, this thing becomes zero and this thing becomes zero.
+And due to the zero of this whole thing, automatically while calculating your contextual embedding,
+your value vector is being used
+while calculating contextual embedding of how
+only you and how
+value vector is being used
+and for have all three are being used
+and this is how masking will solve
+the problem of
+not having an autoregressive model
+yet having a parallel processing
+So, what is happening with this process is that we are getting the best of both worlds.
+We are being able to process things parallelly.
+We have sent all three together and at the same time we are getting answers for all three.
+At the same time, since we have done masking,
+the current token is not getting the value of future tokens.
+So, data leakage is also not happening.
+So, in this way, we achieved non-auto-regressive modeling in the process of training.
+Right? I really hope that this whole explanation at this last moment is making sense to you.
+Right? Now, I'll be very honest with you.
+I think that 1 hour video would have been done.
+On some other YouTube channel, this could have been explained to you in 10 minutes.
+And I'm totally okay. This topic can be explained in 10 minutes.
+But I took 1 hour to explain this.
+And I took this 1 hour because I feel that after this 1 hour explanation, you don't just know this topic but you can also teach it to someone.
+So, to impart that level of confidence and knowledge, I took those extra 50 minutes.
+I really hope you liked this approach.
+If you liked this approach, please do like this video.
+And if you haven't subscribed to the channel, please do subscribe.
+We are on a beautiful journey to explain the Transformers architecture.
+We are going slow, I know, but I promise you by the end of this journey, you will have a very clear picture of Transformers.
+So clear that you will be able to perform better than your peers if they ask you questions on this topic in interviews.
+So I am super excited for the upcoming videos. I really hope you are too.
+See you in the next video. Bye.

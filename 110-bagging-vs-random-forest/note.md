@@ -78,7 +78,7 @@ From the ensemble Notes (the [voting ensemble Note](../102-voting-ensemble/note.
 > $$\text{variance of the average} = \rho\,\sigma^2 + \frac{1 - \rho}{n}\,\sigma^2$$
 > 3. **Example:** with $\sigma^2 = 1$ and $n = 100$ trees: for $\rho = 0.6$, $0.6 + 0.4/100 = 0.604$; for $\rho = 0.3$, $0.3 + 0.7/100 = 0.307$.
 >
-> Adding trees only shrinks the second term. The first term stays, however many trees we add, unless the trees become less alike. Lowering $\rho$ is exactly what node-level sampling does. This formula is from Breiman's random forest paper and the textbook *The Elements of Statistical Learning*.
+> Adding trees only shrinks the second term. The first term stays, however many trees we add, unless the trees become less alike. Lowering $\rho$ is exactly what node-level sampling does. (ESL §15.2, eq. 15.1)
 
 ## 4. Checking it in code
 
@@ -147,7 +147,7 @@ On a larger dataset (2,000 rows, 20 columns, 5-fold cross-validation, 100 trees 
 
 Here the random forest wins by a small margin, and tree-level column sampling is the worst of the three.
 
-> **Extra:** A bagging ensemble of trees that each sample columns at every node, `BaggingClassifier(DecisionTreeClassifier(max_features="sqrt"))`, scores exactly 0.917 too. That confirms node-level sampling is the whole difference: with it, bagged trees **are** a random forest.
+> **Extra:** A bagging ensemble of trees that each sample columns at every node, `BaggingClassifier(DecisionTreeClassifier(max_features="sqrt"))`, scores exactly 0.917 too. So with node-level sampling, bagged trees **are** a random forest, which is how scikit-learn defines one (scikit-learn User Guide §1.11).
 
 ## 5. Summary
 
@@ -163,6 +163,11 @@ Here the random forest wins by a small margin, and tree-level column sampling is
 - Bagging decides each tree's columns before it is grown; a random forest re-draws them before every split.
 - More randomness makes the trees less alike, which usually makes the forest better; try both.
 - In a bagged tree, `feature_0`, `feature_1`, ... are positions within that tree's own columns; `estimators_features_` maps them back.
+
+## Sources
+
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer.
+- scikit-learn developers. User Guide, section 1.11, "Ensembles" (Random forests). https://scikit-learn.org/stable/modules/ensemble.html
 
 ## 6. Key terms
 

@@ -114,7 +114,7 @@ The scale of $r$, from $-1$ to $+1$, is read as in the [understanding your data 
 
 In Figure 2, $x$ against itself gives $r = 1.00$. $x$ against $y$ gives $r = 0.65$: positive, but the points scatter around the line, so it is clearly below 1.
 
-> **Extra:** Common rules of thumb call $|r|$ above about 0.7 strong, 0.3 to 0.7 moderate and below 0.3 weak. These cut-offs are conventions, not laws; fields such as physics and social science use different ones.
+> **Extra:** Rules of thumb put names on $r$, but fields disagree. One common scale calls $|r|$ of 0.7 to 0.9 strong, 0.4 to 0.6 moderate and 0.1 to 0.3 weak; a medical scale calls 0.7 only moderate (Akoglu 2018, Table 1). On the first scale, the employees' $r = 0.957$ is strong and Figure 2's $r = 0.65$ is moderate.
 
 ### 4.2 Correlation does not depend on the scale
 
@@ -154,7 +154,7 @@ Because it gives both the direction and the strength, and does not depend on uni
 Two examples:
 
 - **Firefighters and fire size.** At bigger fires, more firefighters are present: a strong positive correlation. Reading it as "more firefighters make bigger fires" is obviously wrong; the size of the fire decides how many firefighters are sent. Here the direction is clear, but in many datasets it is not.
-- **Ice cream and drownings.** On days when more ice cream is sold, more people drown. Ice cream does not cause drowning. Hot weather drives both: people buy more ice cream and swim more (Figure 3).
+- **Ice cream and drownings.** On days when more ice cream is sold, more people drown. Ice cream does not cause drowning. Hot weather drives both: when it is hotter, more people buy ice cream and more people go swimming (Figure 3; Oja, §6.6.1).
 
 ![A hidden cause makes two columns correlated](images/confounder.png)
 
@@ -179,6 +179,12 @@ Establishing causation needs more than data that happens to be collected: contro
 - $\text{cov}(a x, c y) = ac\,\text{cov}(x, y)$, but $r$ stays the same.
 - The covariance of a column with itself is its variance.
 - Correlation does not imply causation; a confounding variable can drive both columns.
+
+
+## Sources
+
+- Akoglu, H. (2018). User's guide to correlation coefficients. *Turkish Journal of Emergency Medicine*, 18(3), 91-93. Table 1.
+- Oja, M. *Research Methods for the Social and Behavioral Sciences*. LibreTexts. Section 6.6.1, Correlation versus Causation.
 
 ## 7. Key terms
 

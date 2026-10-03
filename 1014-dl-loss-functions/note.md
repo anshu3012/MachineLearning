@@ -78,7 +78,7 @@ Four students show the difference:
 3. **Example:**
    $$J = \frac{0.04 + 0.01 + 0.04 + 0.04}{4} = 0.0325$$
 
-> **Extra:** Other Notes, such as the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), use "cost function" loosely as another name for the loss. Libraries also blur the line: Keras always reports the average over the batch, and calls it the loss.
+> **Extra:** Other Notes, such as the [convex and non-convex cost functions Note](../590-convex-and-non-convex-cost-functions/note.md), use "cost function" loosely as another name for the loss. Libraries also blur the line: by default Keras averages the losses over the batch and reports that average as the loss (Keras docs, Losses).
 
 ## 5. Mean squared error
 
@@ -336,7 +336,11 @@ Loss functions are not limited to these. Autoencoders use the KL divergence, GAN
   - classification: `"binary_crossentropy"`, `"categorical_crossentropy"`,
     `"sparse_categorical_crossentropy"`.
 
-## 13. Key terms
+## 13. Sources
+
+- Keras documentation, Losses (default reduction `"sum_over_batch_size"`: the average over the batch).
+
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -33,9 +33,9 @@ The next Notes run these steps on real numbers: the [rejection region Note](../2
 
 > **Key point:** One result, or a few, can be good or bad by chance; hypothesis testing tells us whether a sample is strong enough evidence for a claim about the whole population.
 
-### 2.1 A YouTube channel tries a new style
+### 2.1 A video channel tries a new style
 
-Suppose a YouTube channel records its videos on a digital writing pad. Its analytics show that, over all its videos, people watch for **6 minutes** on average. Successful channels seem to film in front of a whiteboard instead, so the owner has an idea: the whiteboard style would raise the average view duration.
+Suppose a video channel records its videos on a digital writing pad. Its analytics show that, over all its videos, people watch for **6 minutes** on average. Successful channels seem to film in front of a whiteboard instead, so the owner has an idea: the whiteboard style would raise the average view duration.
 
 The obvious test is to try it. The first whiteboard video is watched for 30 minutes on average. Can we conclude that the new style works?
 
@@ -113,7 +113,9 @@ Faced with a new problem, we may wonder which statement should be $H_0$. The rul
 
 The statement with the change, the difference or the effect is $H_1$.
 
-> **Extra:** The equals sign always goes in $H_0$. The test needs one exact value to compute with ($\mu = 6$), and only $H_0$ provides it. Some books write a one-tailed null as $H_0: \mu \le 6$; the calculation is the same, because $\mu = 6$ is the case in $H_0$ closest to $H_1$.
+> **Extra:** The equals sign always goes in $H_0$. The test needs one exact value to compute with ($\mu = 6$), and only $H_0$ provides it. Some books write a one-tailed null as $H_0: \mu \le 6$; the calculation is the same. For a right-tailed z-test that rejects when $(\bar{x} - 6)/SE > z_\alpha$, the chance of rejecting when the true mean is $\mu$ is
+> $$P(\text{reject}) = P\!\left(Z > z_\alpha - \frac{\mu - 6}{SE}\right)$$
+> For every $\mu < 6$ the subtracted term is negative, so this chance is below $\alpha$; it reaches $\alpha$ exactly at $\mu = 6$. So the error rate of $H_0: \mu \le 6$ is set by its edge case $\mu = 6$.
 
 ### 5.2 The goal: evidence against $H_0$
 
@@ -137,7 +139,7 @@ A "not guilty" verdict does not prove that no crime happened. It says the prosec
 
 For the same reason, rejecting $H_0$ for the channel would not show that the whiteboard style is the best possible. It would only show that it beats the old average of 6 minutes.
 
-> **Extra:** This is why careful writers say "fail to reject $H_0$" and avoid "accept $H_0$". With a small sample almost nothing gets rejected, so "accepting" $H_0$ would turn weak evidence into a false certainty. Absence of evidence is not evidence of absence.
+> **Extra:** This is why we say "fail to reject $H_0$" and avoid "accept $H_0$". A small sample gives a test little power to detect a real effect: in the [errors, power and tails Note](../292-errors-power-and-tails/note.md) the same test detects a true mean of 52 with probability 0.71 for 30 employees and 0.99 for 100. "Accepting" $H_0$ after such a test would turn weak evidence into a false certainty. D. G. Altman and J. M. Bland make the same point in "Absence of evidence is not evidence of absence" (*BMJ* 311, 1995): a non-significant result does not show that there is no effect.
 
 ## 6. The eight steps of a hypothesis test
 
@@ -160,7 +162,7 @@ There are two ways to carry out a test. The **rejection region approach** compar
 7. **Decide.** Based on the statistic, reject $H_0$ or fail to reject it.
 8. **Interpret the result.** Translate the decision back into the real question. If the channel rejected $H_0$, the interpretation would be: "filming in the new style increases the mean view duration".
 
-Steps 1 and 2 come before looking at the data. Choosing $\alpha$ or the direction of $H_1$ after seeing the results would let us tune the test until it says what we want.
+Steps 1 and 2 come before looking at the data: the decision needs a fixed boundary, and the boundary comes from $\alpha$ and the direction of $H_1$. Choosing them after seeing the results changes the error rate. For example, if we picked the direction of $H_1$ after seeing which side of 6 the sample mean fell on, a true $H_0$ would be rejected whenever $|z| > 1.645$, which has probability $2 \times 0.05 = 0.10$: double the $\alpha$ we claimed.
 
 > **Extra:** Are the five videos (7, 9, 5, 11, 13 minutes) enough evidence that $\mu > 6$? The [one-sample t-test Note](../301-one-sample-t-test/note.md) answers it: at the 5% level, just barely not.
 

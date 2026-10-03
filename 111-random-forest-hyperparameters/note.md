@@ -61,7 +61,7 @@ At every split, a tree draws `max_features` columns at random and picks the best
 
 With the 2 columns of our demo data, "sqrt" gives $\lfloor 1.41 \rfloor = 1$: each split may look at only one randomly chosen column.
 
-> **Extra:** Older code and documentation also list `max_features="auto"`, which meant "sqrt" for the classifier and all the columns for the regressor. It was removed in scikit-learn 1.3 and now raises an error; the classifier's default became "sqrt" in 1.1 and the regressor's 1.0 (all columns).
+> **Extra:** Older code and documentation also list `max_features="auto"`, which meant "sqrt" for the classifier and all the columns for the regressor. It was removed in scikit-learn 1.3 and now raises an error; the classifier's default became "sqrt" in 1.1 and the regressor's 1.0 (all columns). (scikit-learn API docs)
 
 ### 3.3 Trying the settings on a demo dataset
 
@@ -77,13 +77,13 @@ The demo data has 500 points with 2 columns and 2 classes: two rings of points, 
 - With **more trees** these areas smooth out (Figure 2c).
 - Each extra tree costs training time, so beyond the point where the score stops rising, more trees only add cost.
 
-**`max_samples`** (with 50 trees). Very few rows per tree hurt: 25 rows score 0.808 (Figure 2d), 50 and 100 rows 0.880. With 200 or 280 rows (53% and 75% of 375) the score reaches 0.904 (Figure 2e); all 375 rows give 0.896. In practice, 50% to 75% of the rows often works best.
+**`max_samples`** (with 50 trees). Very few rows per tree hurt: 25 rows score 0.808 (Figure 2d), 50 and 100 rows 0.880. With 200 or 280 rows (53% and 75% of 375) the score reaches 0.904 (Figure 2e); all 375 rows give 0.896. On this data the best share is 53% to 75% of the rows. The best share depends on the data: on the heart data of the [random forest tuning Note](../112-random-forest-tuning/note.md), smaller shares do a little better.
 
 **`max_features`** (with 50 trees). One column per split (the default here) scores 0.896, both columns 0.904 (Figure 2f). Even with one column the forest does well, because each split gets a randomly chosen column, so both columns are used across the tree.
 
 **`bootstrap`** (with 50 trees). `True` scores 0.896, `False` 0.880. There is little difference; `True`, the default, is the usual choice.
 
-> **Extra:** With `bootstrap=False`, every tree is trained on the whole training set: the rows are not drawn without replacement, they are not sampled at all. So `max_samples` cannot be set (scikit-learn raises a `ValueError`). If, on top of that, `max_features=None`, the only randomness left is tie-breaking between equally good splits, and the trees come out nearly identical (45 or 46 leaves each in the Notebook): a forest of copies of one tree.
+> **Extra:** With `bootstrap=False`, every tree is trained on the whole training set: the rows are not drawn without replacement, they are not sampled at all. So `max_samples` cannot be set (scikit-learn raises a `ValueError`). If, on top of that, `max_features=None`, the only randomness left is tie-breaking between equally good splits (scikit-learn API docs, `DecisionTreeClassifier`, `random_state`), and the trees come out nearly identical (45 or 46 leaves each in the Notebook): a forest of copies of one tree.
 
 ## 4. The tree-level hyperparameters
 
@@ -139,7 +139,7 @@ Two of them deserve a closer look:
 >
 > `set_params` changes a setting of a model after it is created. The new trees are trained on the data passed to the second `fit`.
 
-> **Extra:** `monotonic_cst` (added in scikit-learn 1.4) takes one value per column: 1, -1 or 0 (no constraint). For example, a model of house prices can be forced to never predict a lower price for a bigger house. It works for regression and for two-class classification.
+> **Extra:** `monotonic_cst` (added in scikit-learn 1.4) takes one value per column: 1, -1 or 0 (no constraint). For example, a model of house prices can be forced to never predict a lower price for a bigger house. It works for regression and for two-class classification, not for multi-class or multi-output problems (scikit-learn API docs).
 
 ## 6. The random forest regressor
 
@@ -152,7 +152,7 @@ Two of them deserve a closer look:
 
 It has no `class_weight`, since there are no classes.
 
-> **Extra:** Older code uses `criterion="mse"` and `"mae"`; these were renamed `"squared_error"` and `"absolute_error"` and the old names were removed in scikit-learn 1.2. A fourth option, `"friedman_mse"`, is deprecated since 1.9. The setting `min_impurity_split`, listed as deprecated in old documentation, was removed in 1.0; `min_impurity_decrease` replaces it.
+> **Extra:** Older code uses `criterion="mse"` and `"mae"`; these were renamed `"squared_error"` and `"absolute_error"` and the old names were removed in scikit-learn 1.2. A fourth option, `"friedman_mse"`, is deprecated since 1.9. The setting `min_impurity_split`, listed as deprecated in old documentation, was removed in 1.0; `min_impurity_decrease` replaces it (scikit-learn API docs).
 
 ## 7. Summary
 
@@ -169,6 +169,10 @@ It has no `class_weight`, since there are no classes.
 - 25 rows per tree scored only 0.808; 200 rows (about 50%) 0.904.
 - `bootstrap=False` means every tree gets all the rows; `max_samples` then cannot be set.
 - The regressor differs only in its criteria and its `max_features` default.
+
+## Sources
+
+- scikit-learn developers. API reference pages for `RandomForestClassifier`, `RandomForestRegressor` and `DecisionTreeClassifier`, versions 0.24, 1.1 and 1.9 (version notes under each parameter).
 
 ## 8. Key terms
 

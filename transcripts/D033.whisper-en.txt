@@ -1,0 +1,219 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+I know it's been a long time since I had Covid and it took me almost 10 days to recover properly.
+But now I am back, I am feeling fit and fine.
+So in this video, I will continue my deep learning playlist because it is left behind.
+So we were studying optimizers and in the last video, I told you that we have to discuss an important concept before studying optimizers.
+and that is Exponentially Weighted Moving Average
+we will cover that in this video
+and as soon as you understand this concept
+after that in the next video onwards we will start all the optimizers one by one
+so let's not discuss anymore, let's start the video
+so guys let's understand what is Exponentially Weighted Moving Average
+actually first I will show you once
+what is EWMA and after that we will talk about it
+So we have some time series based data, here X axis is dates and Y axis is temperature.
+So basically we have plotted the day by day recorded temperature of a city and these are the various temperatures.
+Now here you will see two types of curves, the first curve you will see is the red line.
+What is this? This is your average, simple average, mathematical average, mean, whatever you call it, okay?
+And this black colored curve that is visible, which is completely mixed with the data, this is called the exponentially weighted moving average.
+What is EWMA? I will tell you in simple words. EWMA is a technique using which you find trends in a time series based data.
+If you have a data which is based on time series
+Means how the stocks of a company fluctuate daily
+How the temperature of a city fluctuates daily
+If you want to find out the trend of this kind of data
+If you want to find out the pattern
+Then for that, EWMA is used
+You can see the data here
+How it is showing the trend
+This black graph is telling us the same trend
+Okay
+Now this is a very interesting and very important concept and we will do a lot of studies about it.
+But before that I will tell you where it is used.
+It is used in time series forecasting.
+Companies use it in financial forecasting as well.
+It is also used in the domain of signal processing in science.
+and we will use it in deep learning while building some cool optimizers
+in the next video we will learn an optimization technique called momentum
+there you would see that this concept is being used
+so our objective in this video is to understand EWMA in and out
+so that we can apply it in deep learning
+Now to understand EWMA, you don't need to understand much, it is a very simple technique, you just need to remember two things.
+The first thing is that while calculating exponentially weighted moving average, you value the points that come later in comparison to the old points.
+like time series based data means I am recording day by day data
+suppose I am on day 3
+so the weightage of the point on day 3 will be more than the point on day 1
+then we recorded D4 and D5 so now the weightage of D5 will be more than D3
+you have to remember one thing
+if the weightage of this point is greater than the weightage of this point because it came later in time
+this is the first thing
+the second thing is that as time passes
+the weightage of any point will be reduced
+like the weightage of this point
+after some time when you would have reached here and gathered the data
+then its weightage would have also reduced
+So let me summarize for you. Exponentially weighted moving average is a technique to find out the hidden trend in time series based data.
+It is used to find patterns. It is useful in many places.
+And you have to remember two things. How EWMA works is related to that.
+First, the weightage of the next point will always be more in comparison to the starting point.
+Second, over time, the weightage of any point keeps decreasing.
+This is how its formula is designed.
+Now, I'll show you how its formula works.
+So, guys, this is the formula of exponentially weighted moving average.
+It looks a bit difficult to see, but it actually isn't.
+Let me tell you how to read it.
+So Vt is basically Exponentially Weighted Moving Average at a particular time t
+How to calculate Exponentially Weighted Moving Average at a particular time t?
+Beta multiplied by Vt-1
+Means the Moving Average at the previous time instance
+plus 1-Beta times Theta t
+What is Theta t?
+The data at this time instance
+and what is beta? beta is a constant which is between 0 to 1
+so that you don't have any doubt, I will show you a small calculation
+that how exponentially weighted moving average is calculated
+so I have taken a dummy data where one side is time axis with different dates
+I didn't write dates, I just wrote d1 d2 d3
+and the other side is the temperature on that particular date, we call this as theta.
+Now what we will do is at every time step we will calculate the exponentially weighted moving average.
+So V0 is actually a bit confusing to me.
+Either at some places it is written as 0 directly or at some places V0 as in exponentially weighted moving average at time equal to 0
+Theta is equal to 0, i.e. equal to this number
+So I have seen different resources on the internet and both the things I could see
+So I would personally prefer this because it will give more accurate results
+But you can also see this in some places
+Now let's calculate V1
+So what will be V1?
+V1 is Exponentially Weighted Moving Average at Time 1
+we have taken the value of beta as 0.9 because in deep learning we will learn that most of the people take the value of beta as 0.9
+so 0.9 multiplied by v0 plus 1 minus beta 0.1 multiplied by theta 1 which is 13
+what is v0? if we take 0
+so this becomes 0 and this becomes 1.3
+so here you can plot the graph
+what was v0? v0 is 0
+v1 is 1.3
+connect this
+then we will take out v2
+v2 will be 0.9 multiplied by v1
+V1 which is 1.3 plus 0.1 multiplied by 17
+then this will also be some number, you can plot this also
+and in this way you can calculate V3, V4, V5 till the last point
+and all will come in this way and you can connect them like this
+in this way calculation of exponentially weighted moving average is done
+So now that we know what is Exponentially Weighted Moving Average and what is its mathematical formula, we have learnt to calculate it, now let us know about its details.
+First of all, let us discuss what is the impact of Beta.
+I had read somewhere that you can take an intuition of exponentially weighted moving average as if
+the average you are taking out is of last 1 by 1 minus beta days
+try to understand what it means
+if I have set my beta value as 0.9
+so this means, we will calculate it once, 1, 1-0.9, 1, 0.1, 10
+so if you have set the value of beta to 0.9, then the average at any point will behave as if it is the average of the last 10 days
+I guess you are understanding
+If I have set the value of beta as 0.5, then it will be 1, 1-0.5 is equal to 1 divided by 0.5, which means 2 days.
+If you have set the value of beta as 0.5, then your exponentially weighted moving average at any point will act as a normal average of previous 2 days.
+always remember this intuition that how your EWMA behavior changes by changing the value of beta
+I will show you the same thing through a graph
+so guys I have plotted these four graphs on the same data
+I have calculated EWMA with different beta values
+you can see
+I have calculated EWMA for these four different beta values
+now this is the highest value 0.098
+so here you can see that your exponentially weighted average is something like this
+when you reduced the beta it started moving with the data
+at 0.5 it has become more spiky and at 0.1 it is moving with the data
+I will tell you the intuition of this, I have told you a little while ago
+The more you take the value of beta, the more you are valuing the old points
+It is a simple thing, you can see in our formula also
+You are multiplying with beta, Vt-1, Vt-1 is the components of the past
+Vt-1 is the components of past
+which means the weightage you are giving to the old points is being decided by beta
+so here you can see the same thing
+that if beta is very high
+it means you are giving a lot of weightage to the points of past
+you are valuing the old things
+and as you are reducing beta
+then you are valuing the points of present
+and that is why when the value of beta is very low
+your graph is very spiky because according to the current points your graph is modulating a lot
+you can understand this thing from this analogy
+this is a person or a girl who is very moody
+moody means what happened today is affecting her mood immediately
+whereas this is a very stable person or girl
+instead of focusing on what is happening in the present,
+the current mood of the person is being decided according to how his life went in the past.
+This is the difference.
+So if you reduce the value of beta a lot,
+then you will get a very moody graph.
+This means that the behavior of the person will change according to every current instance.
+So you have to decide a sweet spot.
+Generally, in deep learning, that sweet spot is 0.9 value.
+And you will see that most of the people take the value of beta as 0.9 in their optimization algorithms.
+But you should understand how beta is affecting this curve.
+So we have understood the beta, now I want to give you the mathematical intuition of one more thing.
+So if you remember, I told you in the beginning of the video that how exponentially weighted moving average works.
+As the new data points come, we give more weightage to the new ones in comparison to the old ones.
+I will prove this to you mathematically.
+So, you have seen the formula above.
+I am writing it here again.
+This is the formula.
+Now what we will do is, we will take out V0, V1, V2 one by one.
+So, as I said v0 is 0, so automatically v1 will become 1-beta theta1
+v2 will become beta times v1 plus 1-beta times theta2
+Now, if I replace v1, then it will become beta into 1-beta theta1 plus 1-beta theta2
+Now if you go to find V3, then V3 will be
+If I replace V2 with this value, then this will be
+Let me show you one more last v4.
+v4 will be beta times v3 plus 1 minus beta times theta4.
+If I put this whole value of v3,
+So, V4 becomes beta cube 1 minus beta theta 1 plus beta square 1 minus beta theta 2 plus
+beta times 1 minus beta theta 3 plus 1 minus beta theta 4.
+if I take out 1-beta common, then my output is
+beta cube theta 1 beta square theta 2 beta theta 3 plus theta 4
+now if you want you can take it out further or generalize it for t
+but the thing to see is that theta 1 is the oldest term
+then theta 2, then theta 3 and then theta 4.
+Notice that theta 1 is multiplied by beta cube,
+theta 2 is multiplied by beta square,
+theta 3 is multiplied by beta and theta 4 is multiplied by 1.
+Now let me tell you that beta is a value between 1 and 0.
+So going by this logic, this logic is also true.
+This means that the older the point is,
+you are multiplying it with a smaller value or you are making it smaller
+so this is the mathematical intuition of this
+that when you calculate the exponentially weighted moving average
+so the formula is designed like this
+that it gives less weightage to the old values
+and gives more weightage to the new values
+due to which you get this kind of graph
+I hope you understood this
+So guys, let's quickly see how the exponentially weighted moving average is calculated in Python.
+I have taken a data set of Delhi daily climate.
+Basically, there are two columns in this data set.
+There is time series based data.
+In one column, you have the date.
+In the second column, what was the mean temperature on that particular date in Delhi.
+This is recorded.
+And if you plot, you will see exactly the same graph that I am showing you in the video from the beginning.
+The main thing here is, in Python, in Pandas, in fact, there is a function EWM.
+By using this, you can calculate the Exponentially Weighted Moving Average.
+Here you just have to give a parameter, alpha.
+Now alpha is nothing new.
+We just read beta and this alpha is exactly the same.
+The formula to calculate alpha is 1 minus beta.
+Means if the value of alpha is 0.9, then the value of beta is 0.1.
+So, this is the syntax. What will happen with this syntax is that you will calculate the exponentially weighted moving average for every row.
+You can see that I have calculated here and see that the exponentially weighted moving average is calculated for every particular day.
+I have merged it in the data frame. So, now an extra column has come of EWMA, you can see.
+When it was 15, then 15.91, 18.5 to 17.26 and it is varying like this.
+And lastly, I have used matplotlib and plotted it.
+I will share this code with you.
+Your work is to plot these graphs for different alpha values or beta values.
+Note down your observations.
+And if you want some coding exercise, then I would recommend you to write this code yourself.
+Don't use this function of pandas. It would be a good coding practice.
+So that was the video guys.
+I guess you understood this small concept
+Going forward in the next video
+We will start all the optimizers one by one
+Okay
+Let's go
+Bye

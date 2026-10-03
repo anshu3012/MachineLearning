@@ -85,7 +85,7 @@ In Figure 1, row 1 has no f3 and row 4 has no f2. Row 2 itself has no f1, the va
 
 > **Key point:** Skip every column where either row has `NaN`, compute the Euclidean distance on the rest, and multiply by a weight that makes up for the skipped columns.
 
-The **nan-Euclidean distance** is the distance scikit-learn uses for data with missing values. Skipping columns makes the sum smaller, so rows with many gaps would look too close. The **weight** corrects this: total number of columns divided by the number of columns both rows have.
+The **nan-Euclidean distance** is the distance scikit-learn uses for data with missing values. Skipping columns makes the sum smaller, so rows with many gaps would look too close. The **weight** corrects this: total number of columns divided by the number of columns both rows have. The weighted formula is the one scikit-learn uses (scikit-learn docs, nan_euclidean_distances; Dixon 1979).
 
 1. **In words:** keep only the columns where both rows have a value, add up their squared differences, multiply by (all columns / used columns), and take the square root.
 2. **Formula:** with $n$ columns in total and $p$ columns present in both rows,
@@ -107,7 +107,7 @@ Figure 2 computes the distance from row 2 to each of the other four rows. f1 is 
 - **Row 4** $(25, \text{NaN}, 22)$: only f3 is shared, so $\sqrt{3 \times (20 - 22)^2} = \sqrt{12} = 3.46$.
 - **Row 5** $(50, 70, 40)$: f2 and f3 are shared, so $\sqrt{1.5 \times (15^2 + 20^2)} = \sqrt{937.5} = 30.62$.
 
-> **Extra:** Row 4 comes out nearest using a single shared column. The fewer columns two rows share, the less reliable their distance is. The weight fixes the size of the distance, not how much evidence is behind it.
+> **Extra:** Row 4 comes out nearest using a single shared column; its f2 is unknown. Had its f2 been 55, the distance over f2 and f3 would be $\sqrt{1.5 \times (0^2 + 2^2)} = 2.45$; had it been 90, it would be $\sqrt{1.5 \times (35^2 + 2^2)} = 42.94$, farther than every other row. So the fewer columns two rows share, the wider the range the true distance could lie in. The weight fixes the size of the distance, not this uncertainty.
 
 > **Python:** scikit-learn computes the whole row of distances in one call.
 >
@@ -134,7 +134,7 @@ Figure 3 runs the whole process on the example:
 
 The column mean of f1 would have given 36.25 (Figure 1). The KNN value is lower because the rows most like row 2 have lower f1 values.
 
-> **Extra:** Only rows that have a value in the missing column can be neighbours. In scikit-learn, those rows are called donors. A row with its own gap in f1 is skipped when filling f1, however close it is.
+> **Extra:** Only rows that have a value in the missing column can be neighbours. These rows are called donors. A row with its own gap in f1 is skipped when filling f1, however close it is (scikit-learn docs, Nearest neighbors imputation).
 
 ## 6. Advantages and disadvantages
 
@@ -239,7 +239,9 @@ On the Titanic split, both weightings give the same accuracy for $k \le 9$ (Figu
 > # ['Age' 'Pclass' 'Fare' 'missingindicator_Age']
 > ```
 
-> **Extra:** The distance treats all columns alike, so a column with large numbers dominates it. `Fare` runs from 0 to 512 while `Pclass` runs from 1 to 3, so the neighbours here are chosen almost only by `Fare`. Scaling the columns first (Notes 24 and 25) gives each column a fair say. scikit-learn's scalers skip `NaN` when they fit, so `StandardScaler` can go before `KNNImputer`. On this split it did not change the accuracy at $k = 3$.
+> **Extra:** The distance adds up squared differences, so a column with large numbers dominates it. `Fare` runs from 0 to 512 while `Pclass` runs from 1 to 3, so here the neighbours are chosen mostly by `Fare`. Scaling the columns first (Notes 24 and 25) gives each column a fair say. `StandardScaler` can go before `KNNImputer`, because it skips `NaN` when it fits (scikit-learn docs, StandardScaler). On this split the test accuracy stays at 0.704 either way.
+>
+> The check, in the last cell of the Notebook ($k = 3$, distance weighting): removing `Pclass` leaves 81% of the 148 filled ages exactly the same, while scaling first changes 74% of them.
 
 ## 8. Summary
 
@@ -260,7 +262,13 @@ On the Titanic split, both weightings give the same accuracy for $k \le 9$ (Figu
 - Fit on the training set only; test rows and new rows get their neighbours from the training rows.
 - It is usually more accurate than mean or median imputation, but slow on large data and heavy in production.
 
-## 9. Key terms
+## 9. Sources
+
+- scikit-learn API reference, `sklearn.metrics.pairwise.nan_euclidean_distances`, and User Guide, *Nearest neighbors imputation*.
+- Dixon, J. K. (1979). Pattern Recognition with Partly Missing Data. *IEEE Transactions on Systems, Man, and Cybernetics* 9(10), 617–621.
+- scikit-learn API reference, `StandardScaler`.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

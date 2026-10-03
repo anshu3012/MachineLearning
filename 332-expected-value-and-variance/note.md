@@ -206,7 +206,7 @@ Expanding the square gives a second formula that is often quicker.
    $$\mathrm{Var}(X) = \frac{91}{6} - 3.5^2 = \frac{91}{6} - \frac{49}{4} = \frac{182 - 147}{12} = \frac{35}{12}$$
    The same value as the definition.
 
-The derivation uses three rules for expected values. They hold for any random variables, and need no independence:
+The derivation uses three rules for expected values. They hold for any random variables, and need no independence (Grinstead and Snell, *Introduction to Probability*, 2nd ed., 1997, section 6.1, Theorem 6.2, which notes that expectations add whether or not the summands are independent):
 
 - **Constants:** a constant $c$ has $E[c] = c$. It takes one value with probability 1, so its average is itself. $E[X]$ is a constant too, a single number such as 3.5.
 - **Scaling:** $E[cX] = c\,E[X]$. Multiplying every value by $c$ multiplies the weighted average by $c$.
@@ -223,7 +223,7 @@ $$\mathrm{Var}(X) = E[X^2] - 2\mu^2 + \mu^2 = E[X^2] - \mu^2$$
 
 Both formulas are used constantly, for discrete and continuous random variables alike.
 
-> **Extra:** The middle step is sometimes justified by calling $2X$ and $E[X]$ "independent". Independence is not what is used: $E[X]$ is a constant, and constants come out of an expected value by the scaling rule. Independence matters for $E[XY] = E[X]\,E[Y]$, which is not needed here.
+> **Extra:** The middle step is sometimes justified by calling $2X$ and $E[X]$ "independent". Independence is not what is used: $E[X]$ is a constant, and constants come out of an expected value by the scaling rule. Independence matters for $E[XY] = E[X]\,E[Y]$ (Grinstead and Snell, Theorem 6.4), which is not needed here. Grinstead and Snell derive the shortcut exactly this way, as Theorem 6.6 of section 6.2.
 
 > **Python:** Both formulas, and the simulated rolls.
 >
@@ -253,7 +253,7 @@ Figure 3 compares one die with the **average** of two dice, $(d_1 + d_2)/2$. Bot
 
 The expected value says where the outcomes centre; the variance says how much a single outcome can be trusted to land near it.
 
-> **Extra:** Averaging two independent dice halved the variance, from $35/12$ to $35/24$. In general, the average of $n$ independent copies has variance $\sigma^2 / n$. This is why averaging many models reduces the variance of their predictions in [bagging](../105-bagging-intuition/note.md).
+> **Extra:** Averaging two independent dice halved the variance, from $35/12$ to $35/24$. In general, the average of $n$ independent copies has variance $\sigma^2 / n$ (Grinstead and Snell, Theorem 6.9). With $n = 2$ and $\sigma^2 = 35/12$ this gives $35/24$, as in the table. The models averaged in [bagging](../105-bagging-intuition/note.md) are not independent, since they are trained on overlapping data. If each pair has correlation $\rho$, the average of $B$ of them has variance $\rho\sigma^2 + \frac{1 - \rho}{B}\sigma^2$ (Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., 2009, section 15.2, equation 15.1). Averaging still lowers the variance, but only the second term shrinks as $B$ grows.
 
 ## 5. Summary
 

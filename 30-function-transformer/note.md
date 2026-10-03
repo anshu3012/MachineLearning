@@ -342,7 +342,7 @@ Training the same two models on the transformed columns gives:
 | Logistic regression | 64.8% | 68.2% |
 | Decision tree | 67.0% | 68.2% |
 
-Logistic regression improved by more than 3 points because the data was transformed. The decision tree changed by about one point, which is within its usual run-to-run noise: a tree does not care about the distribution of the data.
+Logistic regression improved by more than 3 points because the data was transformed. The decision tree changed by about one point, which is within its usual run-to-run noise (with 20 different `random_state` values, the tree alone ranges from 64.8% to 68.7% on this split): a tree does not care about the distribution of the data.
 
 > **Extra:** Why a tree barely notices. The log keeps the order of the values: if one fare is bigger than another, its log is bigger too. A tree only asks questions like "is fare above 50?", and "is log fare above 3.93?" splits the passengers in exactly the same way. The small changes come from where the tree places each split between two training values, which can send a few test passengers the other way.
 

@@ -65,11 +65,11 @@ The **chi-square distribution** is a continuous distribution on the positive num
 
 - with 1 or 2 df, the density is highest at 0 and falls steadily;
 - with more df, the peak moves right and the curve spreads out;
-- the mean of a chi-square distribution equals its df.
+- the mean of a chi-square distribution equals its df (NIST Handbook §1.3.6.6.6).
 
 Only large $\chi^2$ values count as evidence against $H_0$, so the p-value is always the **right-tail** area beyond our $\chi^2$. The 5% critical values are 3.84 for 1 df, 5.99 for 2 df and 7.81 for 3 df.
 
-> **Extra:** Where the distribution comes from: the sum of the squares of $k$ independent standard normal variables follows a chi-square distribution with $k$ df. Each $(O - E)/\sqrt{E}$ is roughly standard normal for large counts, which is why $\chi^2$ follows this distribution.
+> **Extra:** Where the distribution comes from: the sum of the squares of $k$ independent standard normal variables follows a chi-square distribution with $k$ df (this is its definition). Each $(O - E)/\sqrt{E}$ is roughly normal for large counts, but the terms are not independent, because the counts must add up to $n$. Pearson (1900) showed that $\chi^2$ still follows a chi-square distribution for large samples, with one df lost to that constraint. The notebook checks it: 20,000 samples of 60 people drawn with the census shares of section 4 true give a mean $\chi^2$ of 1.99, close to $df = 2$, and 4.9% of them pass the 5% critical value 5.99.
 
 ## 4. The goodness-of-fit test
 
@@ -134,7 +134,7 @@ $$\chi^2 = \frac{(26 - 30)^2}{30} + \frac{(34 - 30)^2}{30} = 0.533 + 0.533 = 1.0
 
 With 1 df this gives $p = 0.302$. The proportion test in the [choosing a hypothesis test Note](../570-choosing-a-hypothesis-test/note.md) gave $z = -1.033$, and $(-1.033)^2 = 1.067$, with the same $p = 0.302$. The goodness-of-fit test is the proportion test extended to any number of categories.
 
-> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [Poisson distribution Note](../560-poisson-distribution/note.md)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom: $df = k - 1 - (\text{number of estimated parameters})$.
+> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [Poisson distribution Note](../560-poisson-distribution/note.md)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom: $df = k - 1 - (\text{number of estimated parameters})$. The notebook tests this: 5,000 samples of 200 Poisson counts in 5 categories, with $\lambda$ estimated each time, give a mean $\chi^2$ of 3.06, matching $df = 3$ rather than 4. Judged with the df = 4 critical value, only 2.4% of the samples are rejected instead of 5%; with df = 3 it is 5.4%.
 
 ## 5. The test of independence
 
@@ -228,7 +228,7 @@ The Kaggle Titanic training file has 891 passengers. Survival against sex:
 
 The four contributions are 65.4, 105.0, 35.6 and 57.1, so $\chi^2 = 263.1$ with $df = 1$ and $p = 3.7 \times 10^{-59}$. We reject $H_0$: survival depended on sex.
 
-> **Extra:** For a 2 by 2 table, `chi2_contingency` applies **Yates' continuity correction** by default: it shrinks each $|O - E|$ by 0.5 before squaring, which makes the test slightly more cautious for small counts. Here it gives $\chi^2 = 260.7$ instead of 263.1; pass `correction=False` to get the plain statistic. With counts this large the choice does not matter.
+> **Extra:** For a 2 by 2 table, `chi2_contingency` applies **Yates' continuity correction** by default: it shrinks each $|O - E|$ by 0.5 before squaring (Yates 1934), which lowers $\chi^2$ and so makes the test slightly more cautious. Here it gives $\chi^2 = 260.7$ instead of 263.1; pass `correction=False` to get the plain statistic. With counts this large the choice does not matter.
 
 ### 6.2 Class and survival
 
@@ -250,11 +250,11 @@ The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \tim
 
 1. **Counts, not percentages.** The formula needs the number of rows in each cell. Percentages or means give a wrong $\chi^2$.
 2. **Independent observations.** Each row is counted in exactly one cell, and rows do not influence each other. The same person measured twice breaks this.
-3. **Large enough expected counts.** Every expected count should be at least 5; the chi-square distribution is only an approximation, and it fails for small counts. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
+3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the chi-square distribution is only a large-sample approximation. The rule is cautious: in the notebook's simulation of the age-group test with only 8 people (smallest expected count 1.6), 5.0% of samples still passed the 5% critical value. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
 
 ### 7.2 Strength of a relationship: Cramér's V
 
-> **Key point:** Cramér's V rescales $\chi^2$ to a number between 0 (no relationship) and 1 (perfect relationship).
+> **Key point:** Cramér's V rescales $\chi^2$ to a number between 0 (no relationship) and 1 (perfect relationship) (Cramér 1946).
 
 $\chi^2$ grows with the sample size: the same pattern in 10 times as many rows gives a 10 times larger $\chi^2$. To measure strength, we divide the size out.
 
@@ -270,7 +270,7 @@ For class and survival, $V = \sqrt{102.9 / 891} = 0.34$. Both relationships are 
 
 > **Key point:** Feature selection with `SelectKBest(chi2)` ranks categorical features by how strongly they are related to the target.
 
-Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](../29-pipelines/note.md)) scores each feature against the target with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more; for one-hot encoded columns this matches the test of independence above.
+Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](../29-pipelines/note.md)) scores each feature against the target with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). It is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
 
 ## 8. Summary
 
@@ -286,6 +286,15 @@ Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](
 - Under $H_0$, $\chi^2 = \sum (O - E)^2/E$ follows a chi-square distribution; the p-value is the right-tail area.
 - With two categories, goodness of fit is the one-sample proportion test: $\chi^2 = z^2$.
 - The test needs raw counts, independent rows and expected counts of at least 5.
+
+## Sources
+
+- Cochran, W. G. (1954). "Some Methods for Strengthening the Common $\chi^2$ Tests". *Biometrics* 10(4).
+- Cramér, H. (1946). *Mathematical Methods of Statistics*. Princeton University Press.
+- NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. https://www.itl.nist.gov/div898/handbook/ Section 1.3.6.6.6, chi-square distribution.
+- Pearson, K. (1900). "On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling". *Philosophical Magazine* 50(302).
+- scikit-learn documentation. `sklearn.feature_selection.chi2`.
+- Yates, F. (1934). "Contingency Tables Involving Small Numbers and the $\chi^2$ Test". *Supplement to the Journal of the Royal Statistical Society* 1(2).
 
 ## 9. Key terms
 

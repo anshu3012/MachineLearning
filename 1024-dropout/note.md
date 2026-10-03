@@ -15,7 +15,7 @@ title: "Dropout"
 
 > **Key point:** Dropout fights overfitting by switching off a random set of nodes at every training step, so the network trains a different, smaller sub-network each time. At prediction time every node is back.
 
-Neural networks overfit easily, and dropout is one of the most used remedies. It was proposed by Nitish Srivastava, Geoffrey Hinton and colleagues (2012, published in full in 2014), and since then it has become a standard part of training networks.
+Neural networks overfit easily, and dropout is one of the most used remedies. It was proposed by Nitish Srivastava, Geoffrey Hinton and colleagues (Hinton et al. 2012; Srivastava et al. 2014), and since then it has become a standard part of training networks.
 
 ![Dropout on a network with 5 inputs, two hidden layers of 5 nodes and 1 output. At every training step a new random set of nodes (dashed) is switched off.](images/dropout_steps.png)
 
@@ -57,7 +57,7 @@ With **dropout**, before each training step we randomly switch off some nodes of
 
 So each step trains a different network on the data. Every one of them is a smaller **sub-network** of the full network, using a subset of its nodes and the same shared weights.
 
-> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every mini-batch (and each row of the batch gets its own mask), not once per epoch. With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
+> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every mini-batch (and each row of the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
 
 ### 4.2 The dropout rate
 
@@ -71,7 +71,7 @@ The **dropout rate** $p$ is the fraction of a layer's nodes to drop. With $p = 0
 
 > **Key point:** Three views of the same effect: a smaller network each step; no node can rely on one input; and many sub-networks vote, like a random forest.
 
-Breaking the network on purpose sounds like it should make it worse. In practice it makes it better: in the original experiments, dropout improved even strong networks by 1 to 2 percentage points, which is a big jump when the accuracy is already 95%.
+Breaking the network on purpose sounds like it should make it worse. In practice it makes it better: in the original experiments, dropout improved even strong networks by about 1 to 2 percentage points (Srivastava et al. 2014, §6), which is a big jump when the accuracy is already 95%.
 
 ### 5.1 A smaller network in every step
 
@@ -104,7 +104,7 @@ Dropout does the same with networks. Each training step trains a different sub-n
    $$\text{number of sub-networks} = 2^{n}$$
 3. **Example:** a network with 4 inputs, 4 hidden nodes and 1 output has $n = 8$ droppable nodes (the output is never dropped): $2^8 = 256$ sub-networks. The network of Figure 1 has $n = 15$: $2^{15} = 32{,}768$.
 
-With so many possibilities, the same sub-network is very unlikely to come up twice in training. Training for 100 steps trains 100 different networks, close relatives because they share weights, and the final network behaves like their ensemble. This is why dropout is often compared with a random forest.
+With so many possibilities, the same sub-network is very unlikely to come up twice in training. Training for 100 steps trains 100 different networks, close relatives because they share weights, and the final network behaves like their ensemble (Srivastava et al. 2014, §1). This is why dropout is often compared with a random forest.
 
 ## 6. Dropout at prediction time
 
@@ -125,7 +125,7 @@ Figure 2 (top row) shows this. We never have to do it by hand: Keras handles it 
 
 ![Two equivalent ways to handle dropout. Top: the original paper scales the weights down at prediction. Bottom: Keras scales the kept outputs up during training, so nothing changes at prediction.](images/train_vs_predict.png)
 
-> **Extra:** Keras uses **inverted dropout** (Figure 2, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing. Both versions give the next layer the same average input.
+> **Extra:** Keras uses **inverted dropout** (Figure 2, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing (Keras docs, `Dropout`). Both versions give the next layer the same average input.
 
 > **Python:** A `Dropout(0.25)` layer on a row of eight 1s.
 >
@@ -154,7 +154,13 @@ Figure 2 (top row) shows this. We never have to do it by hand: Keras handles it 
 - With $n$ droppable nodes there are $2^n$ sub-networks; dropout trains an ensemble of them, like a random forest.
 - At prediction every node is back, with its weights scaled by $1 - p$ (Keras does the equivalent automatically).
 
-## 8. Key terms
+## 8. Sources
+
+- Hinton, Srivastava, Krizhevsky, Sutskever and Salakhutdinov, "Improving neural networks by preventing co-adaptation of feature detectors", arXiv:1207.0580, 2012.
+- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014: §1 ($2^n$ thinned networks, approximate averaging), §6 (results).
+- Keras documentation, `keras.layers.Dropout` (applied at each training step; kept inputs scaled by $1/(1 - \text{rate})$).
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

@@ -62,7 +62,9 @@ The data is made with `make_circles` (the [kernel trick code Note](../96-kernel-
 >
 > `n_estimators` is the number of trees and `n_jobs=-1` trains them on every CPU core (both from the [bagging classifier Note](../106-bagging-classifier/note.md)). The surfaces are drawn on a grid of points, as in the [KNN Note](../91-knn/note.md), section 5.
 
-> **Extra:** One might expect the forest to give up a little training accuracy in exchange for the lower variance. Here it does not: each fully grown tree sees about 63% of the training rows, and for every training point the many trees that did see it outvote the rest. On noisier data the forest's training accuracy can fall slightly below 1, a small rise in bias.
+> **Extra:** One might expect the forest to give up a little training accuracy in exchange for the lower variance. Here it does not. Each tree's bootstrap sample holds about 63% of the training observations (rows) (ESL §7.11), and a fully grown tree gets every observation it saw right. So for any training observation, the trees that saw it are a majority, and they outvote the rest.
+>
+> The Notebook checks this: every training observation was seen by at least 57% of the 500 trees, and those trees were always right on it. Raising the noise of `make_circles` up to 1.0 leaves the forest's training accuracy at 1.00.
 
 ## 4. Seeing it in regression
 
@@ -93,6 +95,10 @@ Panels (b) and (c) match because the data has a single input column. A random fo
 - Fully grown trees are low bias, high variance: they overfit.
 - A random forest averages many such trees, each trained on a different random sample, so noisy rows are spread out and their effect averages away.
 - The result keeps the low bias and cuts the variance: smoother boundaries and curves, better scores on new data.
+
+## Sources
+
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer.
 
 ## 6. Key terms
 

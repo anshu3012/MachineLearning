@@ -96,7 +96,7 @@ The further a point is from the line, the bigger this value. This is exactly the
 
 > **Key point:** L = (1/n) Σ max(0, −yᵢ f(xᵢ)), where f(x) = w₁x₁ + w₂x₂ + b.
 
-scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the perceptron. For this loss, the two classes are labelled $y = +1$ and $y = -1$, not 1 and 0.
+scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the perceptron (scikit-learn User Guide, SGD). For this loss, the two classes are labelled $y = +1$ and $y = -1$, not 1 and 0.
 
 1. **In words:** for each row, multiply its label by its value $f(x)$ in the line's equation and flip the sign; keep it if it is positive, otherwise use 0; then average over all rows.
 2. **Formula:** with $f(x_i) = w_1 x_{i1} + w_2 x_{i2} + b$ (row $i$, columns 1 and 2) and $n$ rows,
@@ -128,7 +128,7 @@ So the formula is the "value in the line's equation" loss of Section 5.3, writte
 
 Figure 2 plots the loss of one point against $s = y f(x)$. The perceptron loss (red) is 0 for every point on its correct side and rises steadily the further a point is on the wrong side.
 
-> **Extra:** The SVM's [hinge loss](../94-svm-soft-margin/note.md) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line, which is why a perceptron can end with a line that hugs one class.
+> **Extra:** The SVM's [hinge loss](../94-svm-soft-margin/note.md) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line. Once every point is on its correct side, every row's gradient is 0 (section 7.1), so the updates stop at the first separating line reached, even one that passes very close to the points of one class.
 
 ### 6.3 Minimising it
 
@@ -168,7 +168,7 @@ Putting them together:
    $$w_1 = 2 - 0.1 \times 2 = 1.8, \quad w_2 = 3 - 0.1 \times 2 = 2.8, \quad b = 4 - 0.1 \times (-1) = 4.1$$
    The point's value becomes $1.8(-2) + 2.8(-2) + 4.1 = -5.1$: its loss drops from 6 to 5.1.
 
-> **Extra:** At exactly $y f = 0$ the max has a corner and no true derivative. Using 0 there (a "subgradient") is the standard choice and does no harm.
+> **Extra:** At exactly $y f = 0$ the max has a corner and no true derivative. Any slope between the two one-sided slopes, 0 and $-y x_1$, is a valid **subgradient** there: the slope of a line that touches the corner and stays below the loss. The code takes 0, because it updates only when $y f < 0$.
 
 ### 7.2 The update rule
 
@@ -234,7 +234,7 @@ So "a perceptron is logistic regression" is only true for one choice of the two 
 > sgd.fit(X, y)    # labels 0/1 are fine: it converts them itself
 > ```
 >
-> `loss="log_loss"` gives logistic regression and `loss="hinge"` a linear SVM. The `Perceptron` class is this same model with `eta0=1`.
+> `loss="log_loss"` gives logistic regression and `loss="hinge"` a linear SVM. The `Perceptron` class is this same model with `eta0=1` (scikit-learn docs, `Perceptron`).
 
 On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)` find the same line, one with weights ten times the other: $(2.35, -0.19, 2.0)$ and $(0.235, -0.019, 0.2)$. Multiplying all of $w_1$, $w_2$, $b$ by one positive number leaves the line $z = 0$ where it is. Both classify all 100 points correctly.
 
@@ -253,7 +253,12 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 - Its gradient for a misclassified row is $-y x$ (and $-y$ for $b$), so SGD updates $w \leftarrow w + \eta\, y\, x$: the perceptron trick, derived.
 - Changing the activation and the loss turns one perceptron into several classic models.
 
-## 10. Key terms
+## 10. Sources
+
+- scikit-learn User Guide, Stochastic Gradient Descent, Mathematical formulation.
+- scikit-learn documentation, `sklearn.linear_model.Perceptron` (equivalent to `SGDClassifier(loss="perceptron", eta0=1, learning_rate="constant", penalty=None)`).
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

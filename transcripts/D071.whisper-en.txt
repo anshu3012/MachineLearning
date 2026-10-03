@@ -1,0 +1,636 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video also, we will continue our deep learning playlist.
+And finally, we are going to cover that topic about which I was being asked questions in the comments every other day.
+You guessed it right, from today's video, we will start studying Transformers.
+This is going to be the first video on Transformers.
+And I have planned through this video, I will give you a detailed introduction about Transformers.
+We will discuss what are transformers, what is their impact on technology, we will also discuss the architectural overview of transformers, we will also discuss the factors due to which the creation of transformers took place, we will also discuss the advantages and disadvantages of transformers and finally what is the future like.
+So, through this one single video, I will try to give you a very good overview about Transformers
+which will help you a lot in the future videos
+when we will try to understand Transformers in and out in a very detailed manner.
+So, I really hope you are excited for the next 4-5 videos.
+Let's start.
+So, first of all, I will tell you in very simple words what is Transformers.
+So, Transformers is basically a neural network architecture.
+You have read ANN, CNN and RNN in this course.
+What are these three?
+These three are neural network architectures in simple words which are made for different types of data.
+If you talk about ANN, it works very well on tabular data.
+If you talk about CNN, it works on image-based data.
+and if you talk about RNN then it works on sequential data like textual data
+in the same way transformers is also a neural network architecture
+which is made to handle sequence to sequence task
+sequence to sequence task means a task where you get sequential data in input
+and the output is also sequential data.
+A very famous example of such task is machine translation.
+Basically, the task of translation where you convert the sentence of one language into another language.
+Or another example is question answering system.
+Or another example is text summarization system.
+where you generate a summary for a given big text.
+Transformers were developed specifically to handle sequence-to-sequence tasks.
+And that is why their name is Transformers because they transform one sequence into another.
+Now if you want to see how Transformers look,
+then this image is actually the architecture of Transformers.
+the original paper of transformers
+there you will get to see this image
+this is the architecture of a transformer
+after seeing it for the first time
+I get scared because there are too many components
+but if I give you a high level overview
+just like other seek to seek
+models, architectures
+here also you have an encoder
+This part is the encoder and this part is the decoder.
+Here you don't use LSTMs as you might have seen in previous sequence to sequence architectures.
+Instead you use a form of attention which is called self-attention.
+due to which the encoder can process all the words of your sentence at the same time
+like parallel processing can be done
+due to which this architecture is very scalable
+means it can handle a lot of big data and can be trained on a lot of big data
+apart from this by combining a lot of small and big things this complex architecture is made
+which we will read in detail
+But for now, you can just summarize it that Transformers is basically a neural network architecture
+which was made to handle sequence-to-sequence tasks.
+And just like previous seek-to-seek architectures, here also there is encoder and decoder.
+But here you don't use LSTMs which was used in previous architectures.
+Here instead you use a form of attention called self-attention.
+Due to which you can send all the words of your sentence as input in encoder.
+Basically you can do parallel processing.
+And due to that parallel processing your training of transformer architecture becomes very fast and scalable.
+Due to which you can train this architecture on very big data sets.
+I hope you got a basic overview.
+Before moving ahead, let's take a historical perspective because it will help you.
+Transformers architecture was introduced in 2017 in this groundbreaking research paper, Attention is All You Need.
+This paper came from Google Brain and this was the first paper where transformer architecture was introduced.
+The concept of self-attention was introduced and trust me, after this paper came, a revolution came in the space of deep learning, everyone's eyes were on this paper and in the last 6 to 7 years, I don't know how many places transformer architecture has been used and now it has become so popular that most people know that if someone is studying data science, AI, machine learning, they know what transformers are.
+In today's time, ChatGPT which is the most popular software in the world, is essentially a transformer.
+I don't know how many start-ups have opened up by making transformers as a base technology.
+Who have, I don't know, fundraised in billions and created a lot of jobs.
+In short, an AI revolution has come which we are able to feel for the past 1-2 years.
+And we are still trying to figure out what we will be doing in the future in this new AI-based world.
+So it is very easy to start a technical discussion on Transformers and we will do it.
+But before that, I want to give you a little motivation.
+I want to explain that Transformers, although it looks like a small architecture,
+It's basically this, but the impact of this is very profound.
+It's actually a fun thing to know that when the researchers published this paper,
+they only made Transformers to solve the task of machine translation and to achieve state-of-the-art results.
+They didn't even know that Transformers would become such a big thing in the next 7-8 years
+that deep learning AI will revolutionize the whole space.
+So my goal is to explain the impact of Transformers on the world, on society, on tech.
+Because it will give you motivation to learn Transformers well.
+So let's discuss the profound impact of Transformers on tech and on society.
+So let's discuss the impact of transformers from a technical standpoint.
+And the first point I want to discuss is how transformers have revolutionized NLP's field.
+NLP's field was the field where transformers were born.
+Transformers were made to solve NLP problems at least initially.
+And the biggest impact of transformers was in NLP's field.
+If you talk about natural language, then it is something which has always been very important for the field of AI
+because natural language is how we talk to other human beings
+and we are always trying to talk to other human beings in the same way we can talk to any machine or computer
+and trust me, in this field work has been going on for the last 50 years
+First heuristic methods were applied, then your statistical ML-based models were tried.
+Like Naive-based algorithm you must have read, hidden Markov models, SVMs,
+and also in heuristics if you talk about bag of words, n-grams, all these methods were tried out.
+Then a lot of work was done in early deep learning, the concept of embeddings came here.
+Then LSTMs, RNNs, all these were used a lot.
+to solve NLP problems
+but from the time transformers came
+on transformers you can leave any NLP problem
+and transformers on that problem
+are giving you state of the art results
+right and the benefit of this
+is that the biggest problems of NLP
+are getting solved
+means chat GPT is a great example
+in my life at least
+I have started using it less and on a day-by-day basis, I talk more to chat, GPD to solve my daily queries.
+If you buy a product from a company and you have a problem, then to resolve it, if you go to the company's website,
+then you may not be able to tell that you are talking to the actual agent of that company or you are talking to a chatbot.
+Many companies have released services like AI Boyfriend, AI Girlfriend.
+So in short, the progress that was going to take in the NLP field in the last 5-6 years all because of Transformers.
+Another big impact of Transformers is that they have democratized AI in a way.
+If you wanted to make an NLP application then you used to use LSTMs and deep learning to build a model from scratch.
+Obviously, if you are building a model from scratch then you will need a lot of data and then you will have to work hard and take the model to such a stage where your results are good.
+But mostly doing all this requires a lot of hard work, a lot of data, a lot of money and after that your results are not that good.
+But after the arrival of Transformers, this thing completely changed.
+Transformers, as I told you earlier, is a very scalable architecture which means that they can be trained efficiently on very big data sets.
+Transformers were trained on huge data sets to get architectures which you can use for your small tasks.
+I am talking about transformers like BERT and GPT.
+They were trained on huge data sets and they were left in public domain.
+means anyone can download and use them.
+Now the special thing about these transformers is that
+although they are trained on very big data sets
+but if you want then you can fine tune them on your small specific data.
+So the knowledge of their big data set
+they can transfer it on this specific small data set also.
+Basically the concept of transfer learning
+which we had studied in the computer vision domain, you bring that in the NLP domain.
+So now what is the benefit of transfer learning?
+If there is a small company or startup or an individual researcher,
+then if he is making an NLP application, then what he can do very easily is
+by taking these pre-trained transformers, he can apply on his task
+and can achieve state of the art results.
+which was almost impossible in the past.
+So, in a way, in today's date, because of Transformers, AI has been democratized.
+And the best part is that this small code where I have to do fine-tuning,
+I don't need to write it from scratch.
+There are libraries like Hugging Face which are assisting me in this work.
+In just 3-4 lines of code, I can actually create a state-of-the-art sentiment analysis NLP app just like that.
+Let's talk about the third point.
+about the impact of transformers
+and according to me that would be
+multi-modal capability of transformers
+so one of the good things about transformers is that
+the architecture of transformers is very flexible
+till now we have only seen that
+how you can use transformers with text based data
+but if you want
+you can experiment with different modalities
+which means that transformers don't only work with text
+if you want you can give different types of data to transformers
+like transformers can work with images, can work with speech
+and you can experiment with different modalities
+which basically means that you can make such an AI software using transformers
+where you give an image in input and it will give you another image or text in output
+And this is possible because the architecture of transformers is very flexible.
+So what happened in the last 6-7 years is that since everyone noticed that transformers are anyways so great and universally applicable,
+that many researchers started doing research in this direction that how we can put different modalities as input and as output in the transformer.
+And in this process, they created different types of representations.
+So, when you give the input of text in a transformer,
+what you do is, you essentially convert that text into a representation and put it in a transformer or remove it from there.
+If you can do the same work for images and also for speech,
+then you can essentially apply the power of transformer on the image and speech.
+And this is what happened in the last 6-7 years.
+Researchers were able to create representations which were similar to the text
+and you can apply them just like the text is applied on the transformers.
+So what has happened in today's date is that you have such applications which are multi-modal.
+For example, take the example of ChatGPT.
+ChatGPT is a tool where you can search visually if you want.
+I can upload an image and ask questions about it.
+Or I can talk with ChatGPT by giving audio input.
+All because of the multi-modal capability.
+If you want, you can make a tool by passing a text description, a prompt.
+And it will give you an image output.
+Like Dally or Mid Journey works.
+Or you can make a tool where you just give an input of a text.
+And it will give you a complete video.
+Like Runway, ML or InVideo works.
+So after this possibility, you started seeing a lot of such apps and startups in the world
+which are essentially transformers but they are experimenting on different modalities
+and this is the best part about transformers that in a way it democratized the whole thing
+as we discussed earlier for different modalities also.
+So, the fourth point of impact of transformers is the exploration of Gen AI.
+Gen AI means Generative AI.
+This is like a sub-field of AI where you make such machine learning models
+whose work is to generate something like text, image, video, anything.
+So, in this space, work was happening in the last 10 years but it was very slow.
+There were a lot of models like GANs, Generative Adversarial Networks,
+with the help of which images were generated.
+But many of these things were not industry-grade and could not be converted into a product.
+But when Transformers came, they revolutionized the task of text generation.
+like ChatGPT
+where
+it had the capability to generate human-like
+text
+due to which
+many companies
+started making chatbots
+using openAI
+so in short
+in the field of text, generative AI
+progressed very fast in the last 1-1.5 years
+after that since transformers are multi-modal
+then the same thing
+started appearing in the image domain
+With the advent of softwares like mid journey and dally, people are able to generate images with the input of text.
+Same with video, with the input of text, you can actually generate videos.
+Not only that, now the big giants like Adobe Photoshop, they have the generative capabilities.
+While editing, you can actually generate new portions inside an image.
+Similarly, the new pixel phones of Google have the ability to edit an image on the go.
+For example, while taking a photo, if your face turns a little, then you can actually hold it and make it straight so that the photo looks good.
+So, all these technologies have now accelerated very fast because of Transformers.
+So, Gen AI has become a very very important buzzword, it has become a very important field
+of AI and in today's date, if you are going to apply for let's say some data science position
+or job, then there is a good chance that you will be expected to have some idea about Gen
+AI tools and Gen AI in general.
+So, this is in my opinion the fourth biggest impact point of Transformers.
+And the last point of impact for transformers for me would be unification of deep learning.
+Till now, in the history of deep learning, you try to solve the problem by creating different architectures for different types of problems.
+For tabular data, ANN is most useful, for image-based data, CNN, for sequential data, RNN and so on.
+like to generate GANs etc.
+But recently, in the last 1-2 years, a paradigm shift has come
+after which it is being noticed that
+now people are using transformers for different problem spaces of deep learning.
+So if you are talking about NLP based sequence to sequence problems
+then transformers are being used here.
+Now if you are talking about Generative AI, then you are using Transformers there also.
+If you are talking about Computer Vision, then you are using Transformers here also.
+If you talk about Reinforcement Learning, then you are using Transformers there also.
+If you talk about different science fields like science research, then you are using Transformers in that space also.
+So, in a way, this is a point in history where we are seeing unification of deep learning
+rather than going for different different architectures.
+We are seeing that to solve different types of problems, there will be a single architecture
+and that will be Transformers.
+Now, I know there are many drawbacks and drawbacks in Transformers
+and there is a good chance that tomorrow a model will come that will surpass Transformers.
+But this unification is a very important part and that has been a very important impact of Transformers.
+So now that you have an idea of how profound the impact of Transformers was.
+Now I think it's a good time to make our discussion a little more technical.
+So now I want to discuss with you the origin story of Transformers.
+Origin story means the development of Transformers, why it happened, what were the factors that created this requirement that there should be an architecture like Transformers, we are going to read that now.
+And this whole origin story is made up of three research papers.
+So, I will give you a little introduction about the three research papers and around it, I will try to create a narrative so that you can understand the whole origin story properly.
+So, first of all, around 2014-15, a very impactful paper came, Sequence to Sequence Learning with Neural Networks by Ilya Skatskever.
+We had discussed about this paper in detail 2-3 videos before.
+But still just for this story, I will give you a revision.
+So, in this paper, an architecture was proposed to solve sequence to sequence task like machine translation.
+In this, it was said that if you want to solve a sequence-to-sequence task like machine translation,
+then you can use an encoder-decoder architecture.
+Okay?
+And in both the places, in encoder and decoder, LSTMs were used.
+Just to give you a rough overview,
+what we do is, as soon as we are given a sentence,
+Let's say my name is Nitish, we put this sentence in step by step fashion in this LSTM as input.
+Now the work of this LSTM is that it processes on this word and goes ahead maintaining a hidden state.
+And as soon as it processes the whole sentence, it gives us a context vector.
+You can consider this context vector as a summary in which summary or essence of this whole sentence is hidden.
+Like this context vector is a representation of this entire sentence.
+Now we pass this context vector in decoder and then decoder produces output in step by step fashion on word by word basis.
+Now this architecture works well if you have small input sentences, but as soon as your sentence becomes very big, let's say 30 words or more, then this architecture fails and the quality of your translation is not that good.
+Now after understanding the reason behind this, we understood that the biggest flaw in this architecture is that we try to summarize this entire sentence in this context vector.
+This context vector is basically a set of numbers. So what we are trying to do is that we are trying to summarize this entire input sentence in some numbers.
+Now if this sentence becomes too big, then it is obvious that your context vector will not be able to retain everything and obviously the quality of the translation will not be good.
+So this is the story of the first paper where we first proposed a solution to solve a sequence to sequence task
+and then we realized that since the input is too big then our context vector will not be able to retain that much context
+and that's why this model failed.
+Then to solve this problem, another research paper came
+whose name was Neural Machine Translation by jointly learning to align and translate.
+So, this paper was written by this guy, Bhardanao
+and this was the first paper where the concept of attention was proposed
+to solve the above problem which I told you above.
+To solve that problem, the concept of attention was introduced.
+Now, I will give you a quick overview of how attention works.
+Now, what happens in attention-based encoder-decoder?
+Your encoder works exactly the same as it used to work in the previous architecture.
+So, basically, here you send your input sentence in step-by-step fashion
+and encoder maintains a hidden state in every step.
+So, this is your H1, this is your H2, this is your H3 and this is your H4.
+The main difference comes in the way of decoder.
+So, the main ideological difference here is that the attention mechanism says that you don't need to send the context vector here at once.
+Because whenever you do translation, suppose you have to print the first word, light.
+Suppose this is your input sentence, turn off the lights.
+So obviously when you will translate this in Hindi, the first Hindi word will be light.
+So the concept of attention is that to print this first word, you don't need the context of this entire sentence.
+We just need a few words context like to print light you don't need turn, off, the only lights are required
+Similarly when you want to print closed then you don't need light or the but you need turn and off
+So what we do is, instead of sending the entire context vector at once, we send different context vector at every time step of decoder.
+And this context vector is dynamically calculated.
+And this context vector tells us that whatever will be printed at the current time step of decoder,
+It is influenced by the time step of the encoder
+For example, if I want to print light
+Then in context vector
+H4 weighted will be more
+H3 weighted will be less
+H2 weighted will be less
+H1 weighted will be less
+But if I want to print C2
+Then in C2, H1 component will be more
+H2 will be more
+H3 weighted will be less
+H4 weighted will be less
+So basically my context vector is a weighted sum of the hidden state of my encoder and these weights are called attention weights and this was the main difference which was introduced by this paper and this concept is called attention mechanism.
+As soon as attention mechanism was introduced in encoder-decoder architecture, the quality of translation improved, especially for sentences which were greater than 30 words.
+On long words, where the previous architecture used to fail, the translation quality of new attention mechanism based encoder-decoder architecture was good.
+But even after the arrival of attention mechanism, there was a big problem in this architecture.
+And that big problem was sequential training.
+Our architecture is LSTM based.
+Which means that in encoder, you can send only one word as input at a time.
+Then there will be some processing on it.
+And then you will send second word.
+Then you will send third word and so on.
+Basically, you have to send your input in a sequential manner.
+This means that the training that is happening here is inherently sequential and that is why it is slow.
+Due to which you cannot train very large data sets on this architecture.
+Now you will ask that if I cannot train very large data sets then what is the problem?
+The problem is that we will never be able to use a technique like transfer learning here.
+What happens in transfer learning, if you remember the computer vision thing which we have studied in this course.
+So what you do in transfer learning is that you train a CNN architecture on a very big data set, ImageNet.
+And this CNN architecture learns a lot from this ImageNet after training.
+And then what you can do is that you can fine tune this architecture on your task.
+So here he learned a lot of things.
+And now what you can do is that you can make a dog vs cat classifier by just showing it 100 photos of cats and dogs.
+But this is not possible in our case because we can't train this model on very big data in the first place.
+When we can't do this pre-training then there is no question of fine-tuning.
+This means that if you want to solve any task using this architecture then you have to train the model from scratch.
+and to train model from scratch there are two big problems
+first is time and effort
+and second is data set
+you need a lot of data set
+the general meaning of data set is money
+because to collect and label data you need money
+so in short if I summarize
+Even though the attention mechanism improved the translation quality on the long sentences
+But it couldn't solve a very big fundamental flaw and that was the sequential training
+And sequential training happens because inherently LSTM is installed in our encoder and decoder
+Which accepts data in sequential manner
+Which means we can't paralyze it
+and we can't paralyze it, it means that our training will be slow
+if training will be slow then by definition we can't train our model on huge data sets like TBs of data
+when you won't train on this level then the concept of transfer learning will never kick in
+and the meaning of not having transfer learning is that for every new project you have to train the model from scratch
+which requires a lot of time and data and money
+This was the main problem which was responsible for the creation of Transformers.
+And then comes chapter 3 of our origin story.
+This landmark paper called Attention is all you need.
+In 2017 this paper came and this paper introduced transformer architecture
+which completely solved the problem of sequential training of previous architecture
+So as you can see this is the transformer architecture
+On a very high level this architecture is also an encoder decoder architecture
+Here is an encoder and a decoder
+But that's the only similarity, everything inside has changed.
+First of all, the biggest change in this paper was that no LSTM or RNN component came here.
+This whole architecture is only based on attention, which is also a special form of attention which we call self-attention.
+Second, here you will see different types of components which you have already studied in this course
+like residual connections, layer normalization, feed forward neural network
+so this architecture was very different from all the old architectures
+And the best thing you will get to see here is that a lot of interplay of different components was created
+which made an efficient architecture which you can train in parallel.
+And because of training in parallel, this architecture is highly scalable
+which means you can actually use huge data sets to train this architecture.
+And as soon as it happened, the concept of transfer learning was introduced in NLP and models like BERT and GPT were trained which you can easily fine-tune.
+And that is why transformer is such a groundbreaking technology.
+So, if I tell you from my experience, what are the three best things in this paper?
+First of all, self-attention was used by ditching LSTMs,
+due to which the entire architecture can be trained parallelly,
+due to which training was speeded up.
+Second, by using many small and big components, this architecture was made very stable.
+And third, the hyperparameters used to make and train this architecture, those hyperparameters are actually very very stable and robust.
+Robust in the sense that a lot of changes have happened in the last 6-7 years in transformer architecture, small and big.
+But mostly the hyperparameters used in this paper, the values used, you can easily train your model by using the same values.
+And the weirdest thing about this paper is that generally research papers are a little incremental.
+Incremental means that you pick up the previous research paper and make a small change in it.
+For example, this paper had an encoder-decoder network where you were sending context vector.
+So you changed this architecture a little in the next one
+that you didn't send the context vector directly from here
+and sent the context vector at every decoder time step
+So this was an incremental small change
+But attention is all you need
+That's why it is a very ground breaking paper because
+it is not actually incremental
+After reading this paper you will feel that time travel really exists
+It feels as if a future time traveller came in 2017 and told these researchers to make such an architecture which exists in the future.
+And they created this architecture because when you read this architecture, you will realise that it has no relation with the previous architecture.
+This architecture is completely different from this architecture.
+Like you would feel that everything feels so random. First of all, LSTMs were removed.
+In return, a new thing called self-attention was introduced.
+Residual connections are being used there.
+Your feed-forward neural network is talking to your self-attention.
+Layer normalization has been used. Cross-attention has been used.
+There are so many small, big, different components which did not exist in previous architectures.
+This is a completely new architecture developed from scratch
+But the best part is that this architecture actually works
+It doesn't just work, it has created chaos
+So I won't go into the details of this because obviously we are going to read it in detail in multiple videos
+But just wanted to give you an origin story of how transformers came into being
+What were the factors that pushed the creation of transformers
+and how exactly this whole thing was executed, you had to give a rough idea.
+I hope I was able to motivate you a little, I sparked a little curiosity in you.
+So now that you know the origin story, just to summarize the entire timeline,
+I will tell you one by one when and what happened.
+So, from 2000 to 2014, the models dominating in NLP were mostly RNNs and more than that LSTMs.
+In 2014, your encoder decoder architecture came and along with that your attention mechanism was introduced.
+In 2017, attention is all you need paper came and through that finally transformers were introduced.
+If you talk about 2018 then this was the time when some big transformers were trained like BERT and GPT
+In short, the era of transfer learning started in NLP.
+After that, for the next two years, from 2018 to 2020, the concept of transformers was introduced in different domains.
+This was the time when vision transformers were used a lot.
+and science and structural biology based models came out like DeepMind's Alpha Fold 2
+so this was that period
+after that from 2021 onwards
+the era of generative AI started
+where you started seeing many tools like GPT-3
+or dally or codex
+and then from 2022
+till now if you talk
+then its all chat GPT
+other than that one more famous
+thing you will get to hear is stable diffusion
+and
+mostly transformer related stuff
+so this is a rough timeline how
+Transformers came into picture and what did they do in the last 6-10 years
+So you should have this kind of overview especially if you are interested and you are studying this whole thing
+Let's now discuss some of the main advantages of Transformers
+So the first and the main advantage that we know is scalability
+Because in the architecture LSTM's component is not there and it is only attention based
+then you can train parallel.
+Training is fast and you can train on big data.
+That is why it is highly scalable.
+The second benefit is transfer learning.
+You can train transformers on big data sets.
+You can retrain using unsupervised training.
+And then you can apply fine tuning on that transformer
+and you can use that transformer on your custom task directly without much effort
+third is multimodal input output
+as I have discussed earlier
+transformers are highly flexible
+if you are able to create correct representations
+then you can use different modalities like images and speech with a transformer
+by which you can make different kinds of applications
+after this if we talk about it
+it has got a very flexible architecture
+which means you can change multiple things
+and make different types of transformers
+you can make encoder only transformers like BERT
+you can also make decoder only transformers
+Like GPT, it really depends on your requirement.
+According to what kind of application you want to make, you can make changes in this architecture.
+Next advantage is the ecosystem.
+Since the time of Transformers, there has been a lot of chaos in the entire AI community.
+And everyone's first preference is to learn as much as possible about Transformers as soon as possible.
+And because of this overall curiosity, Transformers is a very very active topic of discussion among the community members.
+Because of which it has got a vibrant community. You will get a lot of libraries and tools etc. around Transformers.
+There is a very good library called Hugging Face.
+By using this you can quickly download and fine tune transformers for transfer learning.
+Apart from this you will get a lot of videos and blogs.
+Because a lot of people are reading about transformers.
+That is why a lot of people are making content on them.
+So in today's date if you are someone who wants to learn transformers.
+Then you will get a lot of resources.
+It's not something whose resource is very scarce.
+You will get plenty of good resources to learn about transformers.
+And the last benefit I would say is that it can easily be integrated to other AI techniques.
+I can give you some examples.
+For example, you can easily add GANs to transformers and create very good quality image generators.
+This work is done in DALI.
+More or less similar setup.
+You process the input through transformers and use an architecture like GAN to generate the output image.
+Similarly, you can use reinforcement learning to create interesting gameplay agents.
+where strategy development is done through reinforcement learning
+and understanding of current state is done through transformers
+similarly you can make applications for image caption generator or visual search
+where you can integrate transformers with CNN
+You must have heard about Vision Transformer, it's like a similar application.
+So, on the whole the point is that you can merge different AI techniques to make interesting applications.
+So, these are the 5-6 advantages of Transformers that you should know and you would be good to go.
+So, let's now discuss some of the main applications of Transformers.
+I am telling you about the most famous transformer application
+Obviously you must have heard about it
+The first one is ChatGPT
+There is no need of introduction
+From last 1-1.5 years
+Most likely every news channel
+Every website
+You must be hearing the name of one software
+What is ChatGPT
+ChatGPT is basically
+A chatbot
+Which is built on GPT-3
+GPT-3 is a
+Transformer, Generative Pre-trained Transformer created by OpenAI of course.
+So, what does ChatGPT do? You give it a text input and it generates the text in return.
+So, it can be used for any purpose. If you want, you can write poems or code with it.
+Or any other work can be easily done by ChatGPT.
+Second, the most famous example would be DALL-E 2.
+So, DALL-E 2 is also a software by OpenAI.
+Again, an implementation of transformer.
+DALL-E 2 basically provides a text, a prompt.
+Using that prompt, it can generate images.
+So, to generate any kind of image, you can use DALL-E 2.
+you can just go to this website and you would see a lot of examples like this is one example
+an astronaut riding a horse in photorealistic style this was the output and the best part is
+you get multiple outputs and you can select one of them so yeah this is the second one third one is
+a little less famous but probably in my opinion more powerful in impact and that is alpha fold
+AlphaFold 2 precisely, it uses transformer behind the scenes.
+What is AlphaFold? It is a project of Google DeepMind
+where you actually do research in structural biology
+and the main idea behind AlphaFold is to find out the protein structure of proteins.
+In space, how the protein is structured.
+Recently it came in the news that it has decoded the structure of many proteins that exist in nature and it was a big scientific breakthrough.
+So I would recommend you to go and read about it once.
+The fourth one is also a very interesting application. It's called OpenAI Codex.
+Codex is basically a tool that converts natural language into code.
+So, you might have seen GitHub co-pilot.
+As soon as you go to type code, it gives you a recommendation and generates the code.
+So, GitHub co-pilot is actually based on OpenAI's Codex.
+So, this is like for me the fourth most popular one.
+And apart from this, many applications have come out in today's date which are based on transformer architecture.
+If you need a detailed information in a single place then I would recommend you going through this paper
+where a very comprehensive survey has been done on transformer based applications
+and here you will see a very good chart which divides all the transformer applications into different categories
+So, it is a big research paper of around 58 pages, but it's a good read, even I haven't read it completely.
+But in a single paper, almost everything is covered.
+Whichever transformer architectures are available, whichever transformer applications are available under different categories.
+So, I would recommend you to go through this paper also.
+Now, let's talk about some of the disadvantages of transformer architecture.
+Because it is not that there is no disadvantage.
+The first and biggest disadvantage is that it requires high computational resources.
+You can train transformers in parallel, like it can process information parallelly in the encoder.
+But to train it, you need GPUs so that you can do parallel computations.
+And we all know that GPUs are costly, so there is a high computation cost involved in training of transformers.
+So this is the first drawback.
+Second one is data.
+Just like every other deep learning architecture,
+the limitation of transformers is that to train properly, to work properly, it requires a lot of data.
+But the good part is mostly till now the applications that are being made or used like LLMs, large language models, they get trained on text data very easily.
+And in text data also they get trained with the help of unsupervised pre-training. Basically you don't need labels.
+But let's say you are working on a very specific domain problem and there you have to implement transformers.
+Then you will need a lot of data to make sure that your transformer is properly trained.
+Just like any other model, there is a risk of overfitting here too.
+Since there are a lot of parameters involved.
+If there is no variety in the data, then the chance of overfitting is also very strong here.
+Next is energy consumption.
+Since these are like huge models, you need a lot of solid hardware to train them, you need electricity to run solid hardware, electricity comes at the cost of something, then there are environmental concerns as well.
+So, large language models need a lot of electricity consumption to run them and train them.
+And there are many environmental hazards around it which are discussed a lot nowadays.
+Next one is interpretability.
+even though the results that come out of transformers will surprise us but nobody knows exactly what is going on inside the transformer
+because it is mostly a black box model and interpretation of the result is difficult
+so if you are implementing transformers in crucial sectors like banking sector or health sector
+So there can be a problem because even if the results are correct, it is also important to tell why the results are coming.
+Transformers are not able to do that now.
+And the last problem is bias.
+Again, just like any other model, if there is bias in your data, then you start seeing that problem in the results of the model.
+Also, there are ethical concerns because we have seen that to train transformers, the model has been trained by taking the data of the entire internet.
+So, there are also ethical concerns.
+There are lawsuits against many companies that they have used the data of another company or website without asking.
+So, we will have to think a lot about all these things.
+So these are some of the major disadvantages that have stopped transformers in today's date.
+But I am sure the future is bright.
+Researchers are continuously working on fixing all these problems.
+And hopefully in future we will see more powerful transformers.
+So now let's talk about the future.
+What has happened till now is very good.
+Transformers have become probably the number one neural network architecture.
+atleast in today's date
+but what about the future
+what will happen in future
+lets discuss that
+first of all one thing
+which is being worked on already
+is to improve the efficiency
+of transformers
+both in terms of training
+and model size
+different techniques are being worked on
+like pruning
+quantization
+there is one more technique called knowledge distillation
+distillation. With the help of all this, it is being tried to reduce the size of the model, but its performance
+should be as good as it is. After this, one more thing on which a lot of work is being done is to improve the
+multimodal capabilities of a transformer. Till this point, text was the most prominent modality, but now
+on image and speech
+a lot of work has started
+apart from this if you talk
+on sensory data
+a lot of work is going on
+biometric
+feedback in which
+your fingerprint sensor
+or retina scan
+for this type of input
+transformers are getting ready
+for time series based
+data also
+transformers are working
+So in future you might see certain applications which will be able to handle many types of modalities very easily.
+Will be able to handle multiple modalities at the same time.
+So very exciting applications will be made out of it.
+Third point is the responsible development of transformers.
+Now, completely eliminating the bias and overcoming the ethical concerns will also be something which will be focused on in the future.
+Another interesting thing that can happen in the future is that you will have domain specific transformers
+who will be trained on domain specific data.
+So, in the future, it may happen that along with chat GPT, there will be a doctor GPT, a legal GPT, a teacher GPT
+and all of them are experts in their domain
+so if I ever want to take any legal advice
+then actually I will not go to ChatGPT instead I will go to LegalGPT
+because this is a specialized transformer which is trained only on legal documents
+so I can see a very exciting future
+one more thing is that transformers can go multilingual
+Till now, mostly the training that has been done on the internet, mostly the data is around English, but recently I can see a lot of development around regional language-based transformers, like in Hindi, a lot of Indian start-ups are working.
+Recently, the founder of Ola, he also started a company called Krittim AI, I guess.
+They are also training a transformer from scratch, in Hindi, I guess.
+So, transformers will be trained in different languages, so something exciting can come out of that as well.
+And the last one is interpretability.
+As I said, whatever comes out of transformers as a result, we don't know why it came out.
+Because essentially it's a black box, but I'm pretty sure there will be a lot of research in this domain
+that will try to understand by opening the Transformers that why did he give the same result.
+So it will try to make it a white box and by doing this it will be beneficial that many critical domains
+like banking or medical
+these type of domains where decision making is done
+that is very important
+that will be answered and in these fields transformers will be entered
+so again we would be seeing some great applications around that as well
+so this in my opinion is going to be the future in next 4-5 years
+maybe less because the space in which development is happening
+you can never say when what will come out
+But yeah, this is how the future should look.
+So that was the video guys, I really hope I was able to impart some knowledge which will help you.
+I will also share the next plan with you.
+The next plan is to understand the architecture of transformers in detail in 3-4 videos.
+The next video will probably be the most important of this whole series because in the next video we are going to cover
+a topic called self-attention which is like the center of transformers
+we will cover the most important mechanism behind the work of transformers in the next video
+meanwhile if you like this video then please like it
+and if you haven't subscribed to the channel then please do subscribe so that you get the notification of the next videos
+see you in the next video, bye

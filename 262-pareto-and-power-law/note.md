@@ -40,7 +40,7 @@ The Pareto distribution is a special case of a **power law**: a functional relat
 
 The best-known consequence of a power law is the **80-20 rule**, or **Pareto principle**: about 20% of something accounts for about 80% of the result. In wealth, it says that 20% of the population controls 80% of the wealth, and the other 80% of the people share the remaining 20%.
 
-The Italian economist Vilfredo Pareto found this pattern while studying how land and wealth were distributed, and the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter (Section 3.4).
+The Italian economist Vilfredo Pareto found this pattern while studying income and wealth data, and published it in his *Cours d'économie politique* (1896–1897); the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter (Section 3.4).
 
 ## 3. The Pareto distribution
 
@@ -98,6 +98,8 @@ In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 
 > **Extra:** The share of the total held by the richest fraction $p$ of a Pareto population is $p^{\,1 - 1/\alpha}$ (for $\alpha > 1$).
 >
+> It follows from the CDF. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$. Their total is $\int_{x_p}^{\infty} x f(x)\,dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\,1-\alpha}$, and the total of everyone is the same integral from $x_m$, $\frac{\alpha x_m}{\alpha - 1}$. Dividing gives $(x_m/x_p)^{\alpha - 1} = p^{(\alpha-1)/\alpha}$.
+>
 > 1. **In words:** raise the fraction of people to the power $1 - 1/\alpha$.
 > 2. **Formula:**
 >    $$\text{share held by the top } p = p^{\,1 - 1/\alpha}$$
@@ -109,7 +111,7 @@ In Figure 2 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 
 > **Key point:** Wealth and income at the top, city and settlement sizes, and file sizes on the internet.
 
-- **Wealth and income:** a small share of people holds most of the wealth. (For most of the population, income is closer to log-normal; the Pareto tail describes the richest few percent.)
+- **Wealth and income:** a small share of people holds most of the wealth. (For most of the population, income is closer to log-normal; the Pareto tail describes the richest few percent. Clementi and Gallegati, "Pareto's Law of Income Distribution: Evidence for Germany, the United Kingdom, and the United States", 2005, find a log-normal fit for the bottom 97–99% of incomes and a Pareto fit for the top 1–3%.)
 - **Human settlements:** many people crowd into a small share of the land, and a few live spread over remote areas. Very roughly, 20% of the area holds 80% of the population.
 - **File sizes in internet traffic:** most files are small and a few are huge, so a small share of the files makes up most of the gigabytes transferred.
 
@@ -148,7 +150,7 @@ Take the log of both $x$ and $y$ and plot $\ln y$ against $\ln x$. A power law b
 
 Plotting the PDF formula itself always gives a straight line, so Figure 3 (left) only shows what to look for. With real data we do not know the PDF. A practical version plots, for every data value $x$, the share of values at or above $x$. For Pareto data that share is $(x_m/x)^{\alpha}$, whose log is again a straight line, now with slope $-\alpha$.
 
-Figure 3 (middle) does this for 1,000 values from a Pareto distribution ($\alpha = 3$, blue) and 1,000 values from a log-normal distribution (orange). Both are right-skewed, but only the Pareto values give a straight line; the log-normal ones bend downwards. The scattered points at the far right are the few largest values, which are always noisy.
+Figure 3 (middle) does this for 1,000 values from a Pareto distribution ($\alpha = 3$, blue) and 1,000 values from a log-normal distribution (orange). Both are right-skewed, but only the Pareto values give a straight line; the log-normal ones bend downwards. The scattered points at the far right are the few largest values; the next paragraph measures how much they vary.
 
 ### 4.2 The Q-Q plot against a Pareto distribution
 
@@ -156,7 +158,7 @@ Figure 3 (middle) does this for 1,000 values from a Pareto distribution ($\alpha
 
 A Q-Q plot can compare data with any distribution (see the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)). Here the theoretical distribution is a Pareto whose $\alpha$ is estimated from the data itself.
 
-Figure 3 (right) shows the 1,000 Pareto values against a fitted Pareto ($\alpha = 3.02$, close to the true 3). Most points lie on the line; the last few, the largest values, move off it a little. That is normal for a heavy tail, where the biggest values vary a lot from sample to sample. So the data is roughly Pareto.
+Figure 3 (right) shows the 1,000 Pareto values against a fitted Pareto ($\alpha = 3.02$, close to the true 3). Most points lie on the line; the last few, the largest values, move off it a little. The Notebook measures why: over 500 fresh samples of 1,000 Pareto values ($\alpha = 3$), the middle (500th) value has a spread (standard deviation over mean) of about 1%, while the largest value has a spread of about 55%. The biggest values of a heavy tail vary a lot from sample to sample, so a few points off the line at the end are expected. So the data is roughly Pareto.
 
 > **Python:** Fit, then Q-Q plot.
 >

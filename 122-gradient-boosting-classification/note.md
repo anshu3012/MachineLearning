@@ -68,7 +68,7 @@ The **odds** of an event compare how often it happens with how often it does not
 
 So stage 1 predicts a log-odds of 0.51 for every student, whatever the CGPA and IQ.
 
-> **Extra:** Log-odds of 0 means even odds (1 to 1, a probability of 0.5). Positive log-odds mean class 1 is more likely, negative ones mean class 0 is more likely. Log-odds can be any number, which is why the trees can safely add to them; probabilities must stay between 0 and 1. Step 1 of the general algorithm, applied to the log loss, gives exactly this log-odds.
+> **Extra:** Log-odds of 0 means even odds (1 to 1, a probability of 0.5). Positive log-odds mean class 1 is more likely, negative ones mean class 0 is more likely. Log-odds can be any number, which is why the trees can safely add to them; probabilities must stay between 0 and 1. Step 1 of the general algorithm, applied to the log loss, gives exactly this log-odds: the Extra in section 8 shows that the derivative of one row's log loss is $p - y$, so the best constant $\gamma$ satisfies $\sum_i (\sigma(\gamma) - y_i) = 0$, that is $\sigma(\gamma) = 5/8$, and $\gamma = \ln(5/3)$.
 
 ## 5. From log-odds back to a probability
 
@@ -126,7 +126,7 @@ The same formula gives 0.18 for leaf 2 and 1.60 for leaf 3 (Figure 2). Leaf 1 pu
 
 > **Extra:** Where the formula comes from. Write one row's log loss in terms of its log-odds $z$, with $p = \sigma(z)$: since $\ln p = -\ln(1 + e^{-z})$ and $\ln(1-p) = -z - \ln(1 + e^{-z})$,
 > $$L = -\big[y \ln p + (1-y)\ln(1-p)\big] = \ln(1 + e^{-z}) + (1-y)\,z$$
-> Its derivative with respect to $z$ is $-(1-p) + (1-y) = p - y$, so the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf; this has no exact formula for the log loss, so we approximate each $L$ by its first two Taylor terms, $L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$ (the [XGBoost maths Note](../126-xgboost-maths/note.md) explains Taylor series). Setting the derivative to zero gives $\gamma = \sum (y_i - p_i) / \sum p_i(1 - p_i)$: our formula. This is one step of Newton's method, and scikit-learn uses the same formula.
+> Its derivative with respect to $z$ is $-(1-p) + (1-y) = p - y$, so the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf; this has no exact formula for the log loss, so we approximate each $L$ by its first two Taylor terms, $L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$ (the [XGBoost maths Note](../126-xgboost-maths/note.md) explains Taylor series). Setting the derivative to zero gives $\gamma = \sum (y_i - p_i) / \sum p_i(1 - p_i)$: our formula. This is one step of Newton's method (Friedman 2001), and scikit-learn uses the same formula (scikit-learn source).
 
 ## 9. The combined model after stage 2
 
@@ -239,7 +239,7 @@ Figure 4 looks at the same surface from above, after more trees:
 | 30 | 0.95 | 0.90 |
 | 100 | 0.99 | 0.93 |
 
-Each tree adds a few axis-parallel rectangles, so the boundary is built from straight pieces. After 100 trees it follows both circles: the centre disc becomes orange (class 0), the small disc on the right blue (class 1). Training accuracy nearly reaches 1, and the gap to the test accuracy is a sign that further trees would start to overfit.
+Each tree adds a few axis-parallel rectangles, so the boundary is built from straight pieces. After 100 trees it follows both circles: the centre disc becomes orange (class 0), the small disc on the right blue (class 1). Training accuracy nearly reaches 1, and the gap to the test accuracy is a sign that further trees would start to overfit. The Notebook checks this by training on to 1,000 trees: test accuracy peaks at 0.939 after 92 trees and falls to 0.917 by 300, while training accuracy sits at 1.000.
 
 ## 13. Summary
 
@@ -259,7 +259,12 @@ Each tree adds a few axis-parallel rectangles, so the boundary is built from str
 - The learning rate scales every leaf value, turning big jumps into gradual steps.
 - Geometrically, each tree raises or lowers a probability surface over rectangles of the input space; many trees give a curved, flexible boundary.
 
-## 14. Key terms
+## 14. Sources
+
+- Friedman, J. H. (2001). "Greedy function approximation: a gradient boosting machine". *Annals of Statistics* 29(5), 1189–1232 (two-class logistic regression: leaf values from a single Newton–Raphson step).
+- scikit-learn source: `sklearn/ensemble/_gb.py`, the leaf update for the log loss (numerator $y - p$, denominator $p(1-p)$).
+
+## 15. Key terms
 
 | Term | Meaning |
 |---|---|

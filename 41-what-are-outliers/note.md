@@ -40,9 +40,9 @@ Take a class of nine people with salaries between 15,000 and 22,000 rupees a mon
 > 1. **In words:** the mean is the sum of the values divided by how many there are. One huge value makes the sum huge.
 > 2. **Formula:**
 >    $$\text{mean} = \frac{x_1 + x_2 + \dots + x_n}{n}$$
-> 3. **Example:** the nine salaries add up to 162,000 rupees (mean 18,000). Add one salary of 100,000,000 rupees (10 crore):
+> 3. **Example:** take the nine salaries 15,000, 16,000, 17,000, 18,000, 18,000, 19,000, 19,000, 20,000 and 20,000 rupees. They add up to 162,000 rupees (mean 18,000). Add one salary of 100,000,000 rupees (10 crore):
 >    $$\text{mean} = \frac{162{,}000 + 100{,}000{,}000}{10} = 10{,}016{,}200$$
->    The mean is now about 1 crore. The median (the middle value) of the ten salaries is only 18,500 rupees, so the median barely moves.
+>    The mean is now about 1 crore. The median of the ten salaries is the mean of the two middle values, $(18{,}000 + 19{,}000)/2 = 18{,}500$ rupees, against 18,000 for the nine, so the median barely moves.
 
 This is how a few outliers can quietly spoil a whole analysis. In ML, outliers are therefore handled with care: removed, or changed, or kept on purpose.
 
@@ -106,14 +106,14 @@ Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm
 | AdaBoost | gradient boosting |
 | deep learning (neural networks) | other tree-based algorithms |
 
-Tree-based algorithms cut the input space into regions with simple conditions, such as "hours < 5". Such a condition depends only on the order of the values, not on how far out an extreme value lies, so outliers in the inputs barely change it.
+Tree-based algorithms cut the input space into regions with simple conditions, such as "hours < 5". Such a condition depends only on the order of the values, not on how far out an extreme value lies, so outliers in the inputs barely change it (ESL §10.7).
 
 In practice we usually try several algorithms on one problem, including weight-based ones. So treating outliers before training is a good habit either way.
 
 > **Extra:** A few more cases.
 >
-> - **Also affected:** algorithms based on distances, such as KNN and k-means, and on spread, such as PCA and SVMs. Scaling with the mean and standard deviation (standardization, Note 24) is also pulled by outliers.
-> - **Trees are not fully immune:** an outlier in the *output* column still shifts the average that a regression tree predicts in its leaf. Gradient boosting with the usual squared-error loss is pulled by such outputs; a robust loss such as `loss="huber"` in scikit-learn reduces this.
+> - **Also affected:** k-means, because squaring the distances gives the largest distances the most say (ESL §14.3.10); SVMs (ESL Table 10.1); and PCA, which is built from the mean and covariance of the data (Hubert et al. 2005). Scaling with the mean and standard deviation (standardization, Note 24) is pulled too, since one extreme value moves the mean (Section 2.1; scikit-learn docs, Compare the effect of different scalers).
+> - **Trees are not fully immune:** an outlier in the *output* column still shifts the average that a regression tree predicts in its leaf. Gradient boosting with the usual squared-error loss is pulled by such outputs; using the absolute error or the Huber loss instead makes it robust (ESL §10.6, §10.9). In scikit-learn this is `GradientBoostingRegressor(loss="huber")`.
 
 ## 6. Handling outliers: detect, then treat
 
@@ -215,7 +215,13 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 - Weight-based algorithms (linear and logistic regression, AdaBoost, deep learning) are sensitive to outliers; tree-based ones hardly are.
 - Trimming deletes outlier rows (fast, but loses data); capping moves outliers onto the limits (keeps every row).
 
-## 11. Key terms
+## 11. Sources
+
+- ESL: Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 10.7 and Table 10.1 (trees and outliers in the inputs), Sections 10.6 and 10.9 (robust losses for boosting), Section 14.3.10 (k-means and outliers).
+- Hubert, M., Rousseeuw, P. J. and Vanden Branden, K. (2005). ROBPCA: A New Approach to Robust Principal Component Analysis. *Technometrics* 47(1), 64–79.
+- scikit-learn example, *Compare the effect of different scalers on data with outliers*.
+
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

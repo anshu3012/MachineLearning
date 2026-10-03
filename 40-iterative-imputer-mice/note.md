@@ -52,7 +52,7 @@ MICE predicts a missing value from the other columns. That works best when those
 1. **Slow.** Every iteration trains one model per column with gaps, and we run several iterations. On large data this takes time.
 2. **Memory in production.** A new row with a gap must be filled from the training data, so the training set is kept on the server, as with the KNN imputer.
 
-> **Extra:** scikit-learn's `IterativeImputer` keeps the fitted models, one per column and iteration, rather than the raw rows. Filling a new row then means running those models again. Either way, more is stored and computed than for one mean per column.
+> **Extra:** scikit-learn's `IterativeImputer` keeps the fitted models, one per column and iteration, in its attribute `imputation_sequence_`, rather than the raw rows (scikit-learn docs, IterativeImputer). Filling a new row then means running those models again. Either way, more is stored and computed than for one mean per column.
 
 ## 4. The example table
 
@@ -202,7 +202,7 @@ Figure 3 continues the example for 10 iterations at full precision. With linear 
 
 > **Extra:** Keeping only two decimals at each step makes the hand-calculated numbers drift slightly from the full-precision ones. Iteration 1 gives 31.60 for Marketing instead of 31.56, and iteration 2 gives 23.83, 11.23 and 39.39. The final values are the same.
 
-> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four rows and two inputs, so it fits those rows exactly and extrapolates wildly. With scikit-learn's default model, `BayesianRidge` (orange), the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with many rows, the models are far more reliable (Section 8.4).
+> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four rows and two inputs. At the settled values, all three linear models fit their four training rows exactly: every residual is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. A linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a column whose known values run from 20 to 41). With scikit-learn's default model, `BayesianRidge` (orange), the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with many rows, the models are far more reliable (Section 8.4).
 
 ## 8. The iterative imputer in scikit-learn
 
@@ -214,7 +214,7 @@ Figure 3 continues the example for 10 iterations at full precision. With linear 
 
 > **Key point:** `from sklearn.experimental import enable_iterative_imputer` must run before `IterativeImputer` can be imported.
 
-scikit-learn marks `IterativeImputer` as **experimental**: its settings may still change without warning between versions. As of scikit-learn 1.9, importing it directly raises an error.
+scikit-learn marks `IterativeImputer` as **experimental**: its settings may still change without a deprecation cycle between versions. As of scikit-learn 1.9, importing it directly raises an error (scikit-learn docs, IterativeImputer).
 
 > **Python:** The extra import switches the class on.
 >
@@ -282,13 +282,23 @@ On the full 50-row data, we split 70/30, hid 20% of the values in both parts at 
 | KNN (`KNNImputer`, k = 5) | 6.69 |
 | Iterative (`IterativeImputer`) | 5.88 |
 
-The iterative imputer comes closest to the hidden values. R&D and Marketing are strongly related (correlation 0.72), so each helps to predict the other.
+The iterative imputer comes closest to the hidden values. It wins because the columns are related: R&D and Marketing have a correlation of 0.72, so each helps to predict the other. Gaps that can be predicted from other columns are the MAR case of Section 2.
+
+> **Extra:** The test behind this (the last cell of the Notebook). We shuffle each column on its own, which keeps every column's values but breaks the links between columns (all correlations fall below 0.2), and rerun the same 100 splits.
+>
+> | Imputer | Error, real data | Error, shuffled columns |
+> |---|---|---|
+> | Mean | 7.54 | 7.78 |
+> | KNN, k = 5 | 6.69 | 8.64 |
+> | Iterative | 5.88 | 8.10 |
+>
+> Without the links between columns, the iterative imputer loses its lead and does worse than the plain mean.
 
 ### 8.5 Several imputations
 
 > **Key point:** With `sample_posterior=True`, each seed gives a different, equally plausible filled table; the "multiple" in MICE.
 
-> **Extra:** In statistics, MICE originally means making several filled copies of the data, analysing each one, and combining the results. The spread between the copies shows how unsure the fills are. With `sample_posterior=True` and a different `random_state` each time, `IterativeImputer` produces such copies. With the default `False`, it gives one best-guess table, which is what a machine learning pipeline usually needs.
+> **Extra:** In statistics, MICE originally means making several filled copies of the data, analysing each one, and combining the results (Rubin 1987; van Buuren and Groothuis-Oudshoorn 2011). The spread between the copies shows how unsure the fills are. With `sample_posterior=True` and a different `random_state` each time, `IterativeImputer` produces such copies. With the default `False`, it gives one best-guess table, which is what a machine learning pipeline usually needs.
 
 ## 9. Summary
 
@@ -310,7 +320,13 @@ The iterative imputer comes closest to the hidden values. R&D and Marketing are 
 - `IterativeImputer` needs `from sklearn.experimental import enable_iterative_imputer`; defaults are `BayesianRidge`, mean start, `max_iter=10`, `tol=0.001`.
 - Fit on the training set only, then transform both sets.
 
-## 10. Key terms
+## 10. Sources
+
+- Rubin, D. B. (1987). *Multiple Imputation for Nonresponse in Surveys*. Wiley.
+- van Buuren, S. and Groothuis-Oudshoorn, K. (2011). mice: Multivariate Imputation by Chained Equations in R. *Journal of Statistical Software* 45(3), 1–67.
+- scikit-learn API reference, `IterativeImputer`; User Guide, *Iterative imputation* and *Multiple vs. Single Imputation*.
+
+## 11. Key terms
 
 | Term | Meaning |
 |---|---|

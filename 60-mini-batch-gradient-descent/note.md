@@ -20,7 +20,7 @@ The three types of gradient descent differ only in how often they update the coe
 
 - **Batch:** once per epoch, after looking at all $n$ rows.
 - **Stochastic:** $n$ times per epoch, after each single row.
-- **Mini-batch:** once after each **batch**: a small group of rows, typically 16 to 256.
+- **Mini-batch:** once after each **batch**: a small group of rows, typically 32 to 256, sometimes 16. Most deep-learning training works this way (Goodfellow §8.1.3).
 
 With 1,000 rows and a batch size of 100, the data splits into 10 batches, so there are 10 updates per epoch. A batch size of 10 would give 100 updates per epoch.
 
@@ -74,7 +74,7 @@ where $|B|$ is the number of rows in the batch.
 >
 > The derivative code is the same vectorised code as batch gradient descent, applied to the rows `X[j]` of one batch.
 
-> **Extra:** Some implementations draw each batch at random from all rows, so rows can repeat within an epoch. Shuffling once and slicing, as above, uses every row exactly once per epoch and is the usual choice.
+> **Extra:** Some implementations draw each batch at random from all rows, so rows can repeat within an epoch. Shuffling and slicing, as above, uses every row exactly once per epoch. For very large datasets it is usually enough to shuffle the order once and keep it, while never shuffling at all can seriously hurt the result (Goodfellow §8.1.3).
 
 ## 4. Comparing the three paths
 
@@ -88,11 +88,11 @@ Figure 1 runs all three for 3 epochs on the 100-point example, with the same lea
 - **Stochastic** (300 updates) reaches the minimum, then jumps around it.
 - **Mini-batch of 10** (30 updates) follows a much smoother path and is almost there.
 
-Averaging the derivative over 10 rows cancels much of the noise of a single row, while still updating 10 times as often as batch.
+Averaging the derivative over 10 rows cancels much of the noise of a single row, while still updating 10 times as often as batch. The noise of an average of $B$ values is $1/\sqrt{B}$ of the noise of one value (Goodfellow §8.1.3), so with $B = 10$ each step carries about a third ($0.32$) of a single row's noise.
 
 ## 5. Choosing the batch size
 
-> **Key point:** Smaller batches mean more updates per epoch but noisier ones; larger batches mean smoother but fewer updates. Small batches such as 8 to 32 usually work well.
+> **Key point:** Smaller batches mean more updates per epoch but noisier ones; larger batches mean smoother but fewer updates. Here batch size 8 worked best.
 
 Figure 2 trains on the diabetes data with learning rate 0.1 for 100 epochs and four batch sizes.
 
@@ -110,9 +110,11 @@ Figure 2 trains on the diabetes data with learning rate 0.1 for 100 epochs and f
 - With batch size 32, it is smooth but slower, with fewer updates per epoch.
 - Full batch has made only 100 updates in total and is far from done.
 
-Like the learning rate, the batch size is tuned by trying values. The two interact: a larger batch gives a less noisy derivative, so it can often take a larger learning rate.
+Like the learning rate, the batch size is tuned by trying values, and the two settings interact. A very small batch gives a noisy derivative, so it may need a small learning rate to stay stable (Goodfellow §8.1.3).
 
-> **Extra:** Batch sizes are often powers of two (16, 32, 64, 128) because computer hardware, especially GPUs in deep learning, processes arrays of these sizes efficiently. Mini-batches also need only one batch in memory at a time, which is how models are trained on datasets far larger than memory.
+> **Extra:** In deep learning, too, small batches often do well: one study got its best results with batch sizes between 2 and 32 (Masters and Luschi). Going the other way, one well-known large-batch method grows the learning rate with the batch size: twice the batch, twice the rate (Goyal et al.).
+
+> **Extra:** Batch sizes are often powers of two (16, 32, 64, 128) because some hardware, especially GPUs, runs faster with arrays of these sizes. The memory needed grows with the batch size, not with the size of the dataset, so models can be trained on datasets far larger than memory (Goodfellow §8.1.3).
 
 ## 6. Mini-batch in scikit-learn
 
@@ -152,8 +154,14 @@ Like the learning rate, the batch size is tuned by trying values. The two intera
 
 - Mini-batch gradient descent includes the other two as batch sizes $n$ and 1.
 - Each epoch: shuffle, cut into batches, update once per batch with the batch's average derivative.
-- Batch size and learning rate are tuned together; small batches of 8 to 32 worked best here.
+- Batch size and learning rate are tuned together; batch size 8 worked best here (test R² 0.45, against 0.41 for 32).
 - In scikit-learn, `partial_fit` on successive batches gives mini-batch-style training.
+
+## Sources
+
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org).
+- **Masters and Luschi**: D. Masters and C. Luschi, "Revisiting Small Batch Training for Deep Neural Networks", arXiv:1804.07612, 2018.
+- **Goyal et al.**: P. Goyal et al., "Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour", arXiv:1706.02677, 2017.
 
 ## 8. Key terms
 

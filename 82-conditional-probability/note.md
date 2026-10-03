@@ -14,7 +14,7 @@ title: "Naive Bayes Foundations: Conditional Probability"
 
 > **Key point:** The probability of A given B, P(A | B), is the probability of A once we know B has happened. It equals P(A ∩ B) / P(B).
 
-The next Notes build the **Naive Bayes** classifier, one of the simplest and fastest classification algorithms, widely used for text such as spam filtering. It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
+The next Notes build the **Naive Bayes** classifier, one of the simplest and fastest classification algorithms, widely used for text such as spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
 
 **Conditional probability** answers questions of the form "how likely is A, now that we know B is true?". It is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
 
@@ -107,7 +107,11 @@ So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$. Confusing the two is a classi
 - Knowing B shrinks the sample space to B; count A's share inside it.
 - Two dice: $P(\text{die 1} = 5 \mid \text{sum} \leq 10) = 5/33$, against $P(\text{sum} \leq 10 \mid \text{die 1} = 5) = 5/6$.
 
-## 6. Key terms
+## 6. Sources
+
+- **scikit-learn user guide:** Section 1.9, "Naive Bayes", scikit-learn 1.9.
+
+## 7. Key terms
 
 | Term | Meaning |
 |---|---|

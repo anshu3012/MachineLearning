@@ -38,7 +38,7 @@ The formal definition:
 
 In simpler terms: Machine Learning is all about learning from data.
 
-> **Extra:** The phrase "without being explicitly programmed" is usually credited to Arthur Samuel, who coined the term *machine learning* in 1959 while building a checkers program that improved by playing against itself. A more precise definition, from Tom Mitchell (1997): a program **learns** from experience E at a task T, measured by P, if its performance at T, measured by P, improves with E. For a spam filter: T is sorting emails into spam and not spam, E is a set of emails already labelled, and P is the share of emails it sorts correctly.
+> **Extra:** The phrase "without being explicitly programmed" is usually credited to Arthur Samuel, who named the field in 1959 while building a checkers program that learned partly by playing against itself. The exact words are a later paraphrase of his paper, which says that learning from experience "should eventually eliminate the need for much of this detailed programming effort" (Samuel 1959). A more precise definition, from Tom Mitchell (Mitchell 1997, Ch. 1): a program **learns** from experience E at a task T, measured by P, if its performance at T, measured by P, improves with E. For a spam filter: T is sorting emails into spam and not spam, E is a set of emails already labelled, and P is the share of emails it sorts correctly.
 
 ## 3. Explicit programming vs learning from data
 
@@ -119,7 +119,7 @@ Advertising companies find out about the rule and write "big" or "massive" inste
 
 *With Machine Learning* (Figure 2, right), the logic comes from the data. When advertisers change their words, we add the new labelled emails to the data, and the change is reflected in the logic automatically. We write one algorithm, and it handles everything else.
 
-> **Extra:** This is how real spam filters moved to ML. In 2002, Paul Graham's essay *A Plan for Spam* popularised a simple statistical filter that learns word probabilities from labelled emails and outperformed hand-written rules; that method, Naive Bayes, is covered in [Note 87](../87-naive-bayes-intuition/note.md).
+> **Extra:** This is how real spam filters moved to ML. Paul Graham spent months writing spam rules by hand, then found that a simple filter which learns word probabilities from labelled emails worked far better: it missed fewer than 5 in 1,000 spams and wrongly flagged no real emails (Graham 2002). That method, Naive Bayes, is covered in [Note 87](../87-naive-bayes-intuition/note.md).
 
 ### 4.2 When there are too many cases: recognising dogs
 
@@ -155,7 +155,7 @@ Sometimes the information is too well hidden to show up in any graph. For exampl
 
 Most of the time, when we need to extract hidden patterns from data, we use ML. ML is a very important tool for data mining.
 
-> **Extra:** More broadly, data mining is the discovery of useful patterns in large datasets, using methods from ML, statistics and databases. It is also called *knowledge discovery in databases* (KDD). Data analysis and data mining overlap a lot; the difference is mainly how hidden the patterns are and whether a model is needed to find them.
+> **Extra:** More broadly, data mining is the discovery of useful patterns in large datasets, using methods from ML, statistics and databases. Data mining is often used as another name for *knowledge discovery from data* (KDD) (Han et al. 2011, §1.2). Data analysis and data mining overlap a lot; as Section 4.3 sets out, the difference is how hidden the patterns are and whether a model is needed to find them.
 
 ## 5. A short history of Machine Learning
 
@@ -169,7 +169,7 @@ The history of ML resembles the career of the actor Nawazuddin Siddiqui. He work
 
 ML is similar. Its theory and mathematics have existed for 40 to 50 years, but it stayed out of the limelight, unlike other major technologies. Only from the 2010s did it rise to where it is today.
 
-> **Extra:** The roots go back even further. Frank Rosenblatt built the perceptron, an early learning machine, in 1957, and Arthur Samuel named the field in 1959. A well-known turning point came in 2012, when a deep neural network (AlexNet) won the ImageNet image recognition contest by a wide margin.
+> **Extra:** The roots go back even further. Frank Rosenblatt described the perceptron, an early learning machine, in 1957 (Rosenblatt 1957), and Arthur Samuel named the field in 1959. A well-known turning point came in 2012, when a deep neural network (AlexNet) won the ImageNet image recognition contest with an error of 15.3%, against 26.2% for the next entry (Krizhevsky et al. 2012).
 
 ### 5.2 Why ML took off after 2010
 
@@ -190,7 +190,7 @@ After 2010, the internet and smartphones solved both problems (Figure 4, right).
 
 With good hardware, plenty of data and the algorithms, ML is now enjoying its success, and its growth is not expected to stop any time soon.
 
-> **Extra:** The data figures move fast. A widely quoted IBM estimate from 2013 said that 90% of the world's data had been created in the previous two years. The number of internet users passed 5 billion in 2022 (ITU estimates about 5.5 billion in 2024).
+> **Extra:** The data figures move fast. A widely quoted IBM claim from around 2013 said that 90% of the world's data had been created in the previous two years (IBM 2013). About 5.3 billion people were online in 2022 and about 5.5 billion in 2024 (ITU 2022; ITU 2024), well above the 4 billion above.
 
 ## 6. Machine Learning jobs
 
@@ -237,6 +237,17 @@ Figure 5 shows this pattern for any technology: the salary premium first rises, 
 - Data mining uses ML to dig out patterns too hidden for graphs.
 - ML is decades old; data and hardware made it take off after 2010.
 - ML skills pay well because demand is ahead of supply; this will even out over time.
+
+## Sources
+
+- Graham, P. (2002). *A Plan for Spam*. paulgraham.com/spam.html.
+- Han, J., Kamber, M. and Pei, J. (2011). *Data Mining: Concepts and Techniques*, 3rd ed. Morgan Kaufmann.
+- ITU (2022, 2024). *Measuring Digital Development: Facts and Figures 2022* and *2024*. International Telecommunication Union.
+- Krizhevsky, A., Sutskever, I. and Hinton, G. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS*.
+- Mitchell, T. (1997). *Machine Learning*. McGraw-Hill.
+- Rosenblatt, F. (1957). *The Perceptron: A Perceiving and Recognizing Automaton*. Report 85-460-1, Cornell Aeronautical Laboratory.
+- Samuel, A. (1959). Some Studies in Machine Learning Using the Game of Checkers. *IBM Journal of Research and Development* 3(3).
+- IBM (2013). *IBM Smarter Computing: Big Data* (brochure). public.dhe.ibm.com.
 
 ## 8. Key terms
 

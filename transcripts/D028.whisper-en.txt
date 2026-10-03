@@ -1,0 +1,322 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video, we will continue our deep learning playlist.
+If you remember, we started reading activation functions in the last video.
+And we had studied about three very important activation functions.
+We had studied about sigmoid, tanh and ReLU.
+Now today we will continue our discussion from the same point.
+First of all, we will discuss what is the problem in ReLU.
+We will discuss the dying ReLU problem and then we will read some variants of ReLU.
+Precisely, we will read 4 different variants of ReLU in this video.
+And we will see how they solve the problems of ReLU.
+So, let's start the video.
+So, in the last video, we read the 3 activation functions.
+In the last one, we read ReLU which we call rectified linear unit.
+and we had also read that for all practical purposes this is the best choice for hidden
+layers.
+Means in today's date if most of the people train a neural network then in hidden layer
+neurons activation function is kept as relu because there are many benefits including
+there is no vanishing gradient problem in this, we saw all this in the last video.
+So everything is fine but there are certain problems, there are some problems of ReLU which I told you in the last video
+But the biggest problem, the biggest disadvantage of ReLU which I didn't tell you in the last video
+From there we will start today's video and the name of that problem is Dying ReLU Problem
+Dying ReLU problem is that if you have activated ReLU then the output of some neurons becomes zero.
+If you give any input, it does not depend on the input, the output is always 0, this is called dead neuron.
+Dead neuron is such a neuron which is not learning anything, the output is not changing on the basis of input.
+For any given input, the output is 0, such a neuron is called dead neuron.
+and the biggest problem of dead neuron is that it remains forever dead
+once it dies, it will always give the output of 0
+you can assume that it is no longer in this neural network
+so what happens with dying ReLU problem is that if with more than 50% of your neurons
+and if more than 50% of your neurons become dead neurons
+then the problem will be that the model which you are training on your given data
+why are you training it? because you want to capture the patterns in the data
+but since your model is operating at a performance level of less than 50%
+half of the nodes are not working
+so obviously you will not be able to capture the patterns of the data
+you will not be able to capture the representations in the data
+you will not be able to handle the high level representations
+in return you will get a low level representation
+which will not be very good
+and in the worst case scenario
+it can happen that your 100% neurons are dead
+In that case, your network is not there.
+Assume that no node exists because no one is learning.
+Then there will be no benefit of applying neural network.
+So this is the biggest problem of ReLU.
+That dying ReLU problem can happen.
+And if dying ReLU problem happens in more than 50% of neurons.
+Then you will not be able to find hidden patterns in your data.
+So first of all we will understand why dying ReLU problem is there and then we will understand
+how to solve it, what are the ways to remove it.
+So guys let's try to understand why dying ReLU problem is there, I will give you a mathematical
+I will try to give you a simple intuition and then I will tell you the exact reasons.
+So for a while let us assume a small setup where we have two neurons.
+So this is my input layer, this is my hidden layer, there is only one unit in it and this is my output layer, there is only one unit in it.
+It is a simple setup, input is going from here, here are my weights, this is my bias, this is also my weight W3
+where I am getting y hat, my output. Now we are going to focus on this particular neuron.
+So understand its setup. Its setup is very simple. The output of this neuron, let's call it A1,
+activation of this neuron would be equal to max of 0 comma z1.
+where z1 is w1x1 plus w2x2 plus b1
+the weighted sum of all the things coming on this node
+and you have sent that z1 here
+now let's take an assumption for a while
+that suppose this thing is less than 0
+As it will be less than 0, what will be its activation? a1 will be equal to 0.
+Now one more thing, if a1 is 0, then the derivative of a1 with respect to z1 will also be 0.
+Now this is a very important point. If the derivative is zero, then these two weights will never be updated.
+Let me try to explain. To update these two weights, you do this in back propagation algorithm.
+This is our gradient descent update rule.
+Now notice one thing here, when you go to remove this derivative or this w2, when you go to remove this derivative, then in the process of removing these two derivatives, this term will be used.
+and if this term is zero then these two derivatives will also become zero
+and when these two terms will become zero then there will be no difference between old and new
+and your w1 and w2 both will not be updated
+in short this value which is here
+because of this this node will become a dead node
+because it is not able to update its weights
+basically on the basis of input, it is not learning anything. Now I will quickly prove this point and show you that
+you will need this to calculate this derivative. So for argument's sake,
+let us assume for some time that this neural network is made for a regression problem.
+Means this y hat is a numerical quantity. So from here we will calculate
+we will calculate our loss, mean square loss or whatever it is, we have to take out this quantity
+del L by del W1 and we have to take out this del L by del W2, see how it will come out
+our loss is depending on our y hat
+ok, our y hat will depend on three things
+it will depend on this weight W3
+B2 and also the output of this neuron as in above A1.
+A1 will depend on Z1 and Z1 depends on these 5 things.
+Above W1, above W2, above X1, above X2 and above B1.
+We have to subtract del L by del W1.
+This means we will move from this path.
+So basically, this will be del L by del w1
+del L by del y hat multiplied by del y hat by del a1
+multiplied by del a1 by del z1 multiplied by del z1 by del w1
+we have applied chain rule and similarly when you take out in respect of del w2 everything
+will be same first 4 terms will exactly be the same like this in last z1 by del w2 will
+Now I want to focus on this term, look at this, this is the term, if this thing is negative then this thing will also be negative and as soon as this will be zero, this will be zero, these two will be zero and as soon as these two will be zero, w1 is old and new are equal, w2 is old and new are equal, basically these two will not be updated.
+this is the dying ReLU problem, listen again, if in a particular neuron, the weighted sum is zero, then the derivative of ReLU becomes zero
+now the derivative of ReLU is used in the update rule, then the complete update becomes zero, and as the update becomes zero, then your weights don't get updated
+So this is the mathematical intuition. Now the question is, when is this thing negative?
+Because everything is happening when it is negative. Now we will talk about this.
+that this term, I will write it down here, z1 was w1x1 plus w2x2 plus b1, when is this less than 0?
+or what are the reasons for it to be negative?
+now see guys, generally speaking, there can be two reasons for this whole term to be negative.
+The first reason is if your learning rate is very high, the equation you are seeing, if you have made the learning rate very high, then because of that, this whole term can become negative.
+Let me explain this to you. Assume that you have inserted the data of the first row and for that this whole term is positive.
+This whole term is positive. It means that the derivative is not 0. So when you update the weights, the update rule is this.
+By the way, this derivative will come, but you set the learning rate very high, so this whole term came in very positive.
+Now if you subtract a very big value from a small number, then this W1 will become negative, similarly this W2 will also become negative.
+and due to these two being negative, in the next cycle
+the Z1 that will be calculated
+will be negative
+ok
+so if your learning rate
+is very high
+so due to that in the next cycle
+W1 and W2 will be negative
+due to which this whole term will be negative
+and dying-relu problem can happen
+and the second biggest reason
+The negative of this term is high positive bias, I am sorry, high negative bias.
+If this bias term becomes very negative, then it doesn't matter how much it is positive, the whole equation will be negative.
+so these are the two major reasons
+now you can think why bias will be negative
+there can be two reasons, either you started with higher value in the beginning
+or second reason is that you update your bias
+using the same update rule
+now if you have set your learning rate high
+so because of that it can happen that in subsequent cycles your bias will be negative
+and then it will be big, means negative value will be big
+because of which this whole term will be negative
+and dying relu problem will happen, so in a way high bias can also be because of high learning rate
+so these are the two major reasons
+because of which your dying relu problem will happen
+so we understood dying relu problem
+and we have understood the reasons behind it
+now we will see how to solve it
+but before telling that I want to discuss one last point
+why do we say that neuron is dead
+dead means permanently dead
+means if this value is negative once
+then our neuron gets dead immediately
+means in future also at any point
+it will not give positive value again
+Why do we say this?
+It is very simple, you can see that if Z1 is negative once, then it cannot recover, it cannot be positive again.
+The reason for this is that there were two reasons for being negative.
+First, if the bias is very negative, then what will happen?
+your weights will not be updated
+it means in the next cycle also the weights are the same
+which were in the previous cycle
+what you can change is x1 and x2
+basically you can change your input
+but input also will not change much because you have normalized the input
+so it will be between 0 and 1
+so it is so small that by overcoming the negative bias
+we will not be able to make this thing positive
+Second reason is that your W1 and W2 has become negative because of high learning rate.
+In this case also if you understand then W1 and W2 will not change. B is a small number.
+So there will be no change in X1 and X2 because again they are in this given range.
+So that is why if your neuron dies then it is permanently dead and it cannot recover.
+It is not recoverable.
+So if 50% or more neurons are dead then your network will not perform well.
+So now let's discuss what are the solutions.
+What are the solutions?
+So I will tell you three solutions.
+First solution is to set low learning rates.
+I had told you that if the learning rate is high then it can be a problem.
+So the simple way is to set the learning rate less.
+Second solution is to set bias with a positive value.
+because there is a problem of bias being negative
+there is a very good positive value of 0.01
+it is experimentally proven
+it is sufficiently large enough
+that your dying relu problem is not there
+ok
+and third is
+don't use relu
+instead use some variants of relu
+ok
+now see the whole problem which we are discussing
+It is happening because of relu because relu is such a function that as soon as it is negative then its derivative is also negative
+And we are using its derivative in the update rule due to which this whole term is getting zero and no update is happening
+So in a way the way this function works there is a problem in its method
+So what if we change relu a little bit
+and change it in such a way that we keep the positive points of ReLU
+and remove the problem
+so now we are going to read some variants
+which are similar to ReLU only they don't have this problem
+due to which dying ReLU problem occurs
+in this video we will see two types of variants of ReLU
+First will be linear variants and second will be non-linear variants.
+Linear variants are those variants which are obtained by applying linear transformation on ReLU.
+And non-linear variants are those for which we have to apply a non-linear transformation on ReLU.
+We will read two things in linear.
+One we will read Leaky ReLU and second we will read Parametric ReLU.
+In non-linear also we will read two things, one will be exponential linear unit LU and one will be SELU which we call scaled exponential linear unit
+So now our target of this video is to read these four variants of ReLU carefully
+So, the first variant we are going to read of ReLU is Leaky ReLU.
+Its graph is in front of you. I will tell you its formula.
+Its formula is this. So, it is very simple.
+If the value of Z is positive, then the output will be Z.
+and if Z value is negative then your output will be 1 by 100 of Z basically a fraction of Z
+Now, what is the benefit of this small change? Whenever there is a negative value of z, the output is not 0, it is 0.01 times of z.
+Now what is the benefit of this? When you take out the derivative of this function, then when you take out the derivative of z greater than or equal to 0, then it remains 1.
+But for z less than 0, now it remains 0.01. So a small gradient keeps flowing in the system.
+So the main problem of ReLU is that the derivative of ReLU is 0 for z less than 0.
+That problem is not here.
+Now this is not 0, so when you will go to update the weights with that formula,
+then this term will never be 0.
+And because of not being 0, your small changes at least happen.
+there will be no dying relu problem
+I can show you this thing from here, there is side by side comparison of both
+you can see the blue one is relu
+and the purple one is relu
+and the blue one is leaky relu
+so in negative side relu is 0
+but it increases from 0.01 slope
+similarly here is the graph of their derivative
+so here you can see
+derivative is 0
+in the negative direction
+for ReLU
+but for Leaky ReLU
+here on 0.01
+your gradient flows
+ok
+so this is the biggest difference
+now if you are told the advantages
+then there are 3-4 advantages
+of Leaky ReLU
+first of all
+non-saturated means it is unbounded from both the sides
+it can go in any direction
+second is easily computed
+there are no exponent terms
+then you can easily do the calculation
+third is no dying ReLU problem
+and fourth is close to zero centered because value is going on both positive and negative side
+you can see it is going on both negative and positive side
+so it is not perfectly zero centered but it is close to zero centered because negative and positive
+both types of values are available here
+so these are the biggest benefits of using leaky value
+It has only one disadvantage and it will be wrong to call it disadvantage, people just question that why do we have to take 0.01 in the formula, why do we have to take 0.01, we could have taken something else, so it was proved experimentally, but if you want, you can change it, we will read the same next when we will read parametric value.
+Next let's discuss Parametric Relew. It is very similar to Leaky Relew but there is one difference that when X is on the negative side then the output is A times X.
+What was there? 0.01 times x, here a times x where a is a trainable parameter.
+So when your model is being trained, then a's correct value is also trained there just like any other hyperparameter.
+a is a trainable parameter which is taken out at the time of training according to the given data.
+So all the advantages of parametric ReLU are same as that of Leaky ReLU
+Only one benefit is that depending on the data, the value of A comes out here
+And you can say that a little more flexibility comes out because of this
+So sometimes its performance is better than Leaky ReLU
+Apart from that there is no difference, everything is exactly the same
+So the next variant we are going to read of ReLU is called ELU or Exponential Linear Unit.
+How it is made? It is very simple. Everything is like ReLU if you are talking about positive x.
+This formula is made in negative x.
+Alpha times e to the power x minus 1 where alpha is a constant.
+Okay, the value of which you choose. Generally, its value is between 0.1 to 0.3.
+As you increase the value of alpha, the curve moves like this.
+As you increase the value, the curve moves like this.
+The biggest advantage of ALU is that when people performed experiments on it,
+its performance was better than ReLU.
+was performing better than ReLU on many types of datasets.
+One reason might be that this function is always continuous.
+In ReLU, there is a discontinuity at x is equal to 0.
+Here there is no discontinuity.
+The function is always continuous, always differentiable.
+Here is the differentiation formula.
+For positive, it is 1 like ReLU.
+For negative, LU function will be returned plus alpha constant. This is your derivative.
+Here I have plotted the derivative curve. The blue curve is of LU and the orange curve is of its derivative.
+So let me tell you the benefits and advantages of it.
+The first advantage is that its value is close to zero centered.
+And due to being zero centered, its convergence towards the correct solution is faster.
+Second, experiment has proved that generalized results are better, i.e. good results are obtained on test data, better than ReLU in certain cases.
+There is no dying value problem because there is some value in the negative side as well.
+And the big advantage of this is that it is always continuous as well as differentiable.
+So these are the four biggest advantages and that's why LU is used in today's industry.
+If you talk about a disadvantage, then a big disadvantage is that computationally it is a bit expensive.
+Because it is a simple thing, we have to calculate e to the power x, so due to that it becomes a bit slow.
+But since the data is zero centered, then the convergence is faster.
+Okay, we don't need more cycles. Okay, so this is our LU.
+So the last variant we are going to see of ReLU is called SELU or Scaled Exponential Linear Unit.
+Exponential Linear Unit is similar to ELU but there is only one difference in it.
+The difference is that if you focus on the formula then everything is same like ELU but here there is multiplication with the factor of lambda.
+so everything is same except this lambda so by the way experimentally the value of lambda
+is this and the value of alpha is this and these are fixed parameters these are not trainable
+parameters. These are fixed parameters. You can tell its value from the start. Now,
+selu is a weird activation function. It came in recent years. And the results are good.
+In fact, it has a big quality which I will tell you in a while. But unfortunately, this
+function is not used much because it is relatively new and not much research is done on it.
+Those who made this function published a paper of 90 plus pages which is very difficult
+to read by yourself. So that is why I guess there is no complete adoption so far. If you
+if you want to see then this is the graph, on the positive side everything is like ReLU
+but it multiplies with the factor of lambda and on the negative side it depends on two things
+on alpha and on lambda, so this is the graph of cell U
+if you talk about the derivative then it is very simple, this is the derivative of cell U
+and its graph looks something like this
+ok
+so it has all the features of ReLU
+one extra advantage of cellu is
+that it is self normalizing
+it means that if you put cellu in any layer
+then the activation that is obtained from that layer
+it is normalized
+normalized means
+that the mean of all the activations will be equal to 0 and standard deviation will be equal to 1
+and due to this what happens is that your neural network converges very fast
+it converges faster
+and also from the results we understood that the output and generalization is also good in the case of sellu
+so the biggest benefit if someone ask you what is sellu then you have to say that it is self normalizing
+and it is self normalizing because your values are coming in both negative and positive sides
+and you can control it on the basis of lambda and alpha
+and the disadvantage is that research on this is not complete yet
+so the adoption is not complete yet
+so you will see that cellulose is used in very few places
+but over the years it may happen that in future we may see cellulose in some places in place of ReLU
+so I hope you understood this discussion
+So guys that was the video. I guess you have understood all the variants of ReLU.
+Our discussion on activation function is not complete yet.
+Some activation functions are still remaining. So I will take one more video
+where I will teach you all the remaining activation functions.
+If you liked the video then like it and please subscribe the channel.
+Thanks for watching. Bye.

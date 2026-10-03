@@ -1,0 +1,500 @@
+Hi guys, my name is Nitish and you are welcome to CampusX
+So, in this video also we are going to continue our deep learning playlist
+In the last video, we started RNN and we read very specifically
+that why do we need an RNN
+We can also use ANN, we discussed this point in the last video
+Now in today's video, we are moving ahead and
+we are going to discuss the architecture of an RNN
+and how to use forward propagation in it and how to do prediction
+so today's video is very important if you want to read RNNs well then I would recommend
+please watch today's video till the end and if possible make notes
+ok let's start the video
+so we will start our discussion from where we finished the previous video
+we discussed in the previous video that if you have sequential data
+So you need RNNs because ANN, CNN, all these neural network architectures
+they don't work well on sequential data and mainly I gave you two reasons
+First, the sequences or sequential data can be of any length
+And this is not good for ANN because ANNs generally work on fixed input size.
+I can give you an example again.
+Let's say if you are working on movie reviews,
+then there is no guarantee that the number of words in every movie review will be the same.
+Obviously, the number of words in different movie reviews will be different.
+and because of that you can't use ANNs.
+We have used some things like zero padding etc.
+If you watch the last video then you will understand.
+But again if you use zero padding then your cost of computation increases a lot
+due to which it is not logical to use it.
+The second reason to not use ANN and use RNN is
+that sequence contains some meaning
+sequential data means that
+what is coming later is depending on the previous one
+here I have written this sentence in English
+so you are reading it sequentially
+you are reading this first
+then you are reading this
+then you are reading this
+then you are reading this
+when you are reading this word
+If you have kept these three in your mind then only you are able to process this word
+Now unfortunately in ANN you input all the data at once
+So basically the information hidden in the sequence we lose
+And that is why the requirement of RNNs came
+So RNNs are a special class of neural networks
+those who have memory feature
+means they can remember past inputs
+and that is why they work great on sequential data
+so in today's video
+our goal is
+first of all to understand
+RNN's architecture
+ok
+then we will try to understand
+that how forward propagation happens in RNN
+or in simple words
+then how RNN predicts
+means if you are giving it an input data
+then how it calculates the output
+we will learn this in today's video
+and lastly we will write codes
+so that our understanding will be more solidified
+So this is our goal for today's video. I hope you understood till here.
+Now before moving ahead and understanding the architecture of RNN, I want to explain one thing to you.
+When you input data in your RNN, it is in a specific form. You should know that.
+So whenever you input data in RNN, your data is in this form
+Timesteps, Input Features
+This is the form in which you input data in RNN
+Now lets understand this
+Suppose we are working on sentiment analysis problem
+where we get movie reviews in the input and we have to predict the sentiment of that movie review in the output
+so first of all you can see the problem that your input is English words
+our machine learning algorithms, deep learning algorithms they don't understand English
+so we need numbers or vectors
+so there are multiple ways to convert words or text to vectors, we had read in our NLP playlist
+I will show you the simplest one. We are using one hot encoding.
+So, here you can see that we have three reviews and these three reviews are made up of five unique words.
+You can clearly see that. Movie, was, good, bad and not.
+These five words are forming our vocabulary.
+Basically, any review in our system will be made up of these five words.
+So, our vocabulary is a five word corpus.
+It means that I can represent any word in a five number representation.
+For example, I can represent a movie with this.
+I can represent a vase with this.
+I can represent good with this, I can represent bad with this and I can represent not with this.
+I am writing here that this is the vector of movie, this is the vector of was, this is the vector of good, this is the vector of bad and this is the vector of not.
+Now if I have to represent any particular review in the form of vectors, then how will I do it?
+I will simply write the first one like this, here is our review 1, now what will happen is that you send every word one by one in your RNN
+so when you send it for the first time, it is called time equal to 1, when you send the first word, it is called time equal to 1, when you send the second word, it is called time equal to 2, time equal to 3 and so on
+So, this review is actually of this shape, 3 comma 5, where 3 is telling the number of
+time steps.
+There are 3 words, so 3 time steps and 5 is telling the number of features or input features
+in your data.
+Similarly, the shape of the second review will be 3, 5 because there are 3 words and each word can be represented using 5 numbers.
+The fourth one will be represented using 4, 5.
+so keep this in your mind that whenever you will input data
+you will always insert it in the form of timesteps,input features
+when you will use keras and simple RNN class
+there you will actually send data in this form
+batch size comma time step comma input features
+so what will happen there is that you will send multiple reviews at once
+suppose we are sending these three together
+then our data size will be
+comma four
+why four?
+why? because here the longest as in most words review size is 4 and input features would be 5
+so you will input this 3D tensor in your RNN
+so I hope you understood how to feed data
+Now we will move ahead and try to understand how is the architecture of RNN and how it predicts.
+Now the interesting part starts from here.
+Now we are going to understand how is the architecture of RNN.
+To understand this, we are moving ahead with an example.
+And the example is the same that I gave you a while ago.
+We are going to take an example of sentiment analysis.
+where we have this data
+we have some movie reviews
+and we have been told that how is their sentiment
+positive or negative
+and intentionally I have taken very small data
+real world data will be much bigger than this
+we have only 3 reviews
+and in our vocabulary there are total 5 words
+and basically we are representing every word through a vector
+so that we can feed this information in the form of numbers in the neural network
+to keep maths easy, if we call our input as x
+then our first review will be called x1
+our second review will be called x2
+and our third review will be called x3
+and the first word of our first review
+we will call it x11 which is this vector
+we will call it x12 which is this vector
+we will call it x13 which is this vector
+similarly it will be x21, x22, x23, x31, x32, x33, x44
+I want to clear this notation from the beginning
+now let's start our discussion
+So, RNN is very similar to ANN, only two big differences are there.
+So, generally how is the structure of ANN?
+ANN looks like this, first you have some input or input layer,
+then you have hidden layer or multiple hidden layers
+and then you have output right so there is input this is hidden and this is output
+you can assume the structure of rnn similarly there is input there is output and there is a hidden
+layer but there are two major differences let me tell you one by one so the first major difference
+is that how do you feed data in your network. So in RNN what you do is, first of all you
+are taking your first review and you are sending it in this network. So what you do is, you
+send the input on the basis of time. So what you will do is, at time equal to 1, you can
+You will only send x11, which is your first word, then you will get some output from it.
+Then on t equal to 2, you will send x12, then you will get some output from it.
+And then on t equal to 3, you will send x13.
+So basically the first major difference is that you do not feed your entire input to this network at once.
+what you do is you do it one by one
+so it is on the basis of time steps
+so I hope you understood the first point of distinction
+second big point of difference is
+that your ANN is a feed
+forward neural network which means
+that information only moves in this direction
+move from input to output. But RNNs are not feed forward. In fact in RNNs there is a concept
+of state. So what happens is that your hidden layer sends a feedback back and this is the
+This is the biggest difference between R and N.
+And we have to understand this connection the most.
+This is what makes R and N R and N.
+So I will explain you in detail how this whole thing will work.
+So first I will show you the architecture of R and N.
+This was kind of a flow diagram.
+I will show you a proper architecture.
+Then I will show you the forward propagation on that architecture and trust me things will be clear.
+So we are working on our problem.
+So here you can clearly see that we need the RNN.
+In the input layer we will have to keep 5 nodes because you can see every word is going to be represented as 5 numbers.
+so the first thing you have to see is that your input layer will consist of 5 nodes
+now you have to add this hidden unit or hidden recurrent layer
+now for now I am assuming that we are adding 3 hidden nodes
+you can add more or less than this
+so first of all it will work as a fully connected layer
+then we will have an output which will look something like this
+and this is the output layer
+with one node
+and its activation function will be sigmoid because you are doing sentiment analysis
+which has two sentiments, here you are getting your prediction
+the main thing is this, this connection, how to make this, to understand that is very important
+So, since this is a recurrent hidden unit, it will give feedback to itself and its output will be the input for this.
+So, the output of each node will work as input for the same node.
+Like this.
+and not only this, this nodes output will go either side
+and will go this side after this
+similarly this nodes output will go this side after this
+and will go the opposite side after this
+similarly this output will go here and here,
+So, I know I made a mess and it happened because this is not the right way to show this thing.
+I will show you this representation in the right way.
+Here is the way to show this thing in the right way.
+So, you imagine that this much diagram is for t equal to 1.
+for the first time interval or time step
+by the way we are working with our first movie review
+so obviously when the time step will be 1
+so you will take your first word and send it to this network
+and by the way this is the first word
+so basically you are sending from here 1 0 0 0 0 to this network
+you will get that by going to hidden layers
+now here will be some calculation
+which is normal calculation of forward propagation
+and every node will have an output
+every node will have an output or activation
+what you are doing is that you are sending that activation back
+in this hidden layer
+but for time equal to 2
+so now what is happening for time equal to two is that you are taking the second word
+was this vector here you have sent this vector 0 1 0 0 0 and you are sending it back in the
+same hidden layer but this time in this hidden layer not only this vector is coming but from
+from the previous time stamp, its own output is coming
+right
+now
+this thing will continue further
+I will explain you in detail after some time
+but I hope you are getting this idea
+now you can think
+that in second time stamp
+here I am getting
+input of previous cycle
+when we are doing first time
+then what will we get in input
+very simple, what you will do
+here at this place you will send any random input of 3 by 3
+this can be 0 or random number also
+so basically this feedback for the first time stamp
+it would be 0 or random numbers
+this is on you
+but once you move ahead
+so now the output of the previous cycle is given to the next cycle
+and this thing continues ahead
+we will discuss that now
+now the most important thing that we have to understand is
+that in this whole architecture what are the weights and biases
+it is important for us to understand this
+okay
+look carefully
+so basically
+this network is like this
+this network is like this
+right
+so here
+you have a weight matrix
+whose size is
+5 cross 3
+means
+here there are 15 weights
+then this is also
+normal
+this is connected to your output
+so this is 3 cross 1
+so here also there are 3 weights
+then
+since these are 3 nodes, so there will be biases of these 3 nodes
+and since this is also a node, so there will be a bias of this node
+so this is all straight forward
+but this hidden connection
+it also has weights, so basically what you are seeing
+all of these are connected through a weight
+and this is 3x3
+so here also there are 3x3 weights
+So let me show you, here you have W1 matrix in which there are 15 weights, here 3x3 is there, let's call it W2 matrix in which there are 9 weights, here there are 3 weights, call it W2, so 15 plus 9 plus 3, this is 27 weights.
+and if you count the biases then here are 3 biases and here is 1 bias
+so basically there are 27 weights plus 4 biases
+there are so many trainable parameters in this architecture
+so now I have not shown you how forward propagation works
+now I have shown you the architecture
+I have shown you that how many rates and how many biases are there in this network.
+So now I will show you the demo of what we have read so that it becomes clear.
+So here I have just imported some things.
+We have imported a sequential model and we have imported two layers from layers.
+Dense and simple RNN.
+And here is the main thing guys.
+First of all, we have made a sequential model and we have added two layers to it.
+the first layer is a simple RNN layer
+with 3 nodes
+till now we were taking 3 nodes
+so i have replicated the same
+right, and in input shape i have told you
+that time steps will be 4 maximum
+and input features are 5
+ok, after that i have added a model.add
+dense layer with one
+node and the activation is sigmoid because we are working on binary classification problem
+now as soon as I clicked on model summary
+you can see that the total parameters
+trainable parameters is 31
+exactly what our calculation was
+right
+27 is coming from your simple RNN
+and 4 is coming from your dense layer
+I will show you all the trainable parameters.
+I have taken out from get weights.
+The first matrix is 5x3 and this is the array.
+Basically we are talking about this.
+There are 5x3 weights between input and simple RNN.
+when you are moving forward on the first one, now 3x3 is a weight matrix which is nothing but this feedback connection
+this which you are seeing, this 3x3
+when you are moving forward, you are seeing these 3 biases for these 3 nodes
+And when you move forward, you can see a weight again and it is this which has connected its output to its simple RNN.
+And in the last, you can see a single bias and that is this one.
+So I hope you understand simple RNN from the architecture point of view.
+So we understood the architecture clearly.
+clearly. Now let's come to the main thing and see how forward propagation happens in an RNN.
+It means that if you give any input to your RNN, then how does our RNN calculate the output?
+Okay. We are going to take the same example. Review and calculate its sentiment. Here basically
+basically I have represented the words with symbols
+and you have to remember two things
+first of all every word here x11, x12, x13
+all these are vectors
+means x11 would be something like this
+and all these vectors are five dimensional
+so first thing is this
+is that we will send them one by one in our recurrent neural network and we are using
+the same architecture. Now while doing forward propagation, a concept is followed which is
+called unfolding through time which is basically a fancy way of saying that this recurrent
+recurrent layer will work like a loop. Let me explain it. First of all, we are giving
+a simple form to this complex representation. I am making this box and this box is basically
+representing this recurrent layer. Now what I will do is, in this box, first of all, on
+on time equal to 1, I will send x11 to the first word, ok, mind you, the shape of our first word is this, right, and our first word will go inside from here, and with these weights, it will have a dot product, ok,
+here we have a weight let's call it weight input and you can see that its shape is 5x3
+now the next thing is very important that what will happen inside this recurrent layer
+so this recurrent layer is nothing special it will act like an artificial neural network
+so here every node has an activation function
+I haven't told you about it yet
+but by default if you don't set it then all the activation functions are tanh
+so what will happen is that first of all you will do dot product of x11 and wi
+so this will be the operation x11 multiplied by wi
+and this dot product is possible because this and this are same
+so as soon as this dot product is there you will get a vector of 1 cross 3
+and matrix
+now what you will do is you will put these 3 numbers in your activation function
+so basically the operation happening in this box is this
+where this f is tanh
+you can also use ReLU
+whatever activation functions you have read
+you can use anything from it
+and as soon as this is calculated
+then you will get your O1
+from here you got your O1
+By the way, what is the shape of O1? 1 cross 3, which is actually valid that one output is coming out of every node.
+I hope you are able to understand till here. Time equal to 1 is over.
+We have removed the work of the first word. Now comes time equal to 2.
+now in time equal to 2, we will use the same weights in the same network
+now we will send the second word
+and it will again go through the same weights in the same network
+so basically it will be w i
+but this time one thing will be different
+this time we will provide one more input in this network
+and what is that input?
+that is o1
+so the output that came from my last word
+I will send it in my next time step as input
+and this input will go through a weighted connection
+which I told you
+will go through this weighted connection
+this 3x3 weight will go through this
+so I will move this forward
+this oven is also going inside
+but now it is going through wh
+and we have noticed that the shape of wh is 3x3
+now the same operation will happen inside tanh
+so what will be calculated inside
+F of X12 times WI plus O1 times W hidden
+this whole thing will be calculated
+X12 shape is 1 cross 5
+WI shape is 5 cross 3
+so as soon as these two dot products will be there, you will get a matrix of 1 cross 3
+then the shape of O1 is 1 cross 3
+and the shape of WH is 3 cross 3
+so from these two dot products you will get 1 cross 3
+the shape of these two is same so you can add them
+and by adding you will get 1 cross 3 again
+basically an output will come out from here
+you will put tanh on it again and you will get O2
+now time equal to 2 is over
+now we are moving towards time equal to 3
+and what will happen in time equal to 3
+again we will use the same weights
+and this time we will send our third word
+X13
+from here we will pass X13 which will go to this network
+again through which weights? through WI
+and again we will get one more input and that is this O2
+right and this O2 will go through which weights?
+through WH
+these are the hidden weights that I have shown you
+ok and again what will be your operation?
+your operation will be x13 dot product wi plus o2 dot product wh
+and what will you get out of this?
+you will get tanh
+and from this you will get o3
+whose shape is 1 cross 3
+right
+so now you have reached here
+all your words are over
+now this O3 that you have got, you will dot product it with these 3 weights
+and these 3 weights are 3 cross 1
+by doing this dot product you will get 1 cross 1 which is basically a scalar
+and on this scalar you will apply sigmoid
+and as you apply sigmoid you will get your output
+So that is how forward propagation in RNN works.
+Now let's discuss one or two more things here.
+So till now you might be noticing that apart from t is equal to 1,
+we are getting two inputs in all the other time steps.
+One is word and the other is the output of the previous step.
+but in t equal to 1 we are getting only one input and that is x11 which is your first word
+so here it is not possible that you will get the output of the previous step
+that is why to keep the consistency you give o0 here
+which is basically 1 cross 3 vector of zeros
+and random numbers
+because of which
+when you calculate f here
+then it becomes
+f of x11 times wi
+plus o0 times w hidden
+just to be consistent you do this work
+ok
+apart from this
+I would like to tell you one or two more things
+at this point
+I guess if someone asks you why it is called Recurrent Neural Network, you might be able to answer.
+You call it recurrent because this hidden layer is re-occurring.
+You are changing the input word by word but you are using the same layer again and again to calculate the output.
+That is why you call this neural network as recurrent neural network.
+also one more thing to pay attention to is that you are giving new input every time but you are using same weight values
+so basically here the concept of parameter sharing or weight sharing is being used
+and the last important thing is to understand that really here you are processing the information of sequence
+Why did we start using RNN? Because RNN can actually process the hidden information inside a sequence.
+And you can actually see that when you are finally calculating your output in the last step,
+there is one component of the previous output, of the previous output and of the previous output.
+In fact, a simple RNN can process a sequence of 10 time steps.
+i.e. it can store the information of the previous 10 time steps as memory
+and that is why RNN works very well on sequential data
+now what you have learned till now, I will give you a simplified representation of it
+I will give you a summary and after seeing this, you will be able to understand how RNN works
+so you can imagine an RNN as a box
+which has two inputs
+so the first input is x i t
+where i represents row number
+and t represents time step
+like we sent x11 which means the first word of the first row
+similarly x12 means the second word of the first row
+so we are sending xit from here
+and one more input goes from here
+and that is ot-1
+the output at the previous time step
+you also get that as input
+and this input goes through a weight matrix which you can call WI
+and this OT-1 goes through a weight matrix which you can call WH
+so what is happening is that you are doing this dot product XIT dot product WI
+and then you are doing this dot product
+O T-1 WH
+as you do both these dot products
+after that you add these two
+inside the RNN
+so basically this is the operation
+ok
+after that what happens is
+whatever is the output
+the output of this thing is actually a vector
+you send that vector in an activation function
+so basically this is the operation
+ok
+and from this operation you get your OT
+the output on current time step
+ok
+now if this is the last time step
+in that case what you do
+this OT is sent here to WO
+what is WO?
+WO is this weights
+and with WO, basically this is your OT
+now you are dot producting this OT with WO
+and then you send it in an activation function
+let's call it G
+and from this G you get your Y hat
+and this activation function in our case was sigmoid
+because we did binary classification problem
+if it is multiclass classification then it could be softmax
+if it is regression then it could be linear
+and this is our final y hat
+so this is the entire operation
+I am summarizing once
+at every time step you send the output of current input and previous step in network
+you add both of them and after dot product you send it to your activation function
+by the way this activation function was tanh in our case
+and you get the output of current step cut
+but if you are on last time step then you take it out
+by doing dot product with w0 and send it to g which is your sigmoid
+and you get your y hat
+so this is the simplified representation
+this is more logical but again to understand this you should understand the last thing
+So I hope you understood this whole thing.
+So that was the video guys, I hope I have simplified RNN for you.
+Now we will move ahead and take a code example where we will try to make a small end-to-end project.
+And after that we will discuss a very important topic that how back propagation works in RNN.
+we have seen forward propagation
+we will see how back propagation works
+if you like the video then like it
+and if you haven't subscribed to the channel
+please subscribe
+see you in the next video
+bye

@@ -39,7 +39,7 @@ The **wisdom of the crowd** is the observation that a crowd, taken together, oft
 - **Democracy.** Everyone votes, and the party with the most votes wins, because we trust what most people support.
 - **Guessing a weight.** At a fair, visitors guessed the weight of an animal on show. Nobody guessed it exactly, but the average of all the guesses was very close to the true weight.
 
-> **Extra:** The weight-guessing story is real. At a fair in Plymouth, England, in 1906, about 800 visitors guessed the weight of an ox. Francis Galton reported that the middle guess (the median) was 1,207 pounds, within 1% of the true 1,198 pounds. The book *The Wisdom of Crowds* (James Surowiecki, 2004) collects many such cases.
+> **Extra:** The weight-guessing story is real. At a fair in Plymouth, England, in 1906, about 800 visitors guessed the weight of an ox. Francis Galton reported that the middle guess (the median) was 1,207 pounds, within 1% of the true 1,198 pounds (Galton 1907). The book *The Wisdom of Crowds* collects many such cases (Surowiecki 2004).
 
 Ensemble learning rests on the same fact: a crowd of models knows more than one model.
 
@@ -117,7 +117,7 @@ Suppose the data D has 1,000 students and we decide to show each model 500 of th
 
 The samples differ, so the models learn differently. At prediction time we vote or average as before.
 
-When the base models are decision trees, the bagging ensemble gets its own name: a **random forest**, a "forest" of trees. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests in the [random forest Note](../108-random-forest-intro/note.md).
+When the base models are decision trees, the bagging ensemble gets its own name: a **random forest**, a "forest" of trees. Strictly, a random forest also picks a random subset of the columns at every split (Breiman 2001); the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md) covers the difference. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests in the [random forest Note](../108-random-forest-intro/note.md).
 
 ### 4.4 Boosting
 
@@ -179,7 +179,7 @@ A **robust** model keeps performing well when the data it sees changes somewhat.
 
 There is rarely a reason not to try an ensemble. In a project, it usually comes last: after data cleaning, preprocessing, feature engineering, model building and evaluation, we combine models and check whether the result improves. Most of the time it does.
 
-Ensembles made Kaggle competitions famous, and Kaggle in turn made XGBoost, a boosting algorithm, famous. On small and medium-sized tables of data, tree ensembles often beat deep learning; on very large datasets, such as images or text, deep learning tends to win.
+Ensembles made Kaggle competitions famous, and Kaggle in turn made XGBoost, a boosting algorithm, famous. On small and medium-sized tables of data, tree ensembles often beat deep learning; on very large datasets, such as images or text, deep learning tends to win. A benchmark on 45 medium-sized tables found tree-based models still ahead of deep networks (Grinsztajn et al. 2022).
 
 The order of the coming Notes: voting, then bagging, then random forests, then boosting, and stacking last.
 
@@ -196,6 +196,13 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 - The base models must differ: different algorithms, different data, or both.
 - Ensembles cost more computation but usually improve performance, lower bias and variance, and are more robust.
 - On two-moons data, three models scoring 0.860 to 0.875 give a vote scoring 0.890.
+
+## Sources
+
+- **Breiman 2001:** L. Breiman, "Random Forests", *Machine Learning* 45, 5–32, 2001.
+- **Galton 1907:** F. Galton, "Vox Populi", *Nature* 75, 450–451, 1907.
+- **Grinsztajn et al. 2022:** L. Grinsztajn, E. Oyallon and G. Varoquaux, "Why do tree-based models still outperform deep learning on typical tabular data?", NeurIPS 2022 Datasets and Benchmarks Track.
+- **Surowiecki 2004:** J. Surowiecki, *The Wisdom of Crowds*, Doubleday, 2004.
 
 ## 9. Key terms
 

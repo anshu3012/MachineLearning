@@ -91,13 +91,13 @@ Now try an overcast, cool, normal-humidity day with weak wind. In the data, it w
 
 $$\text{no: } \frac{5}{14} \times 0 \times \dots = 0$$
 
-The model is 100% sure tennis will be played, purely because one value never happened to appear with "no" in 14 rows. A single zero wipes out all the other evidence. With real data and many columns, unseen combinations of one value and one class are common, so this is a real problem.
+The model is 100% sure tennis will be played, purely because one value never happened to appear with "no" in 14 rows. A single zero wipes out all the other evidence. With real data and many columns, unseen combinations of one value and one class are common, so this is a real problem: training data is never large enough to show every rare event (Manning et al. §13.2).
 
 ## 7. The fix: Laplace smoothing
 
 > **Key point:** Add 1 to every count before dividing. No probability is ever exactly 0, and common values are barely affected.
 
-**Laplace smoothing** (or **add-one smoothing**) adds a small count, usually 1, to every cell of each crosstab before turning it into probabilities:
+**Laplace smoothing** (or **add-one smoothing**) adds a small count, usually 1, to every cell of each crosstab before turning it into probabilities (Manning et al. §13.2):
 
 $$P(\text{value} \mid \text{class}) = \frac{\text{count} + 1}{\text{class count} + \text{number of values}}$$
 
@@ -122,7 +122,7 @@ The predictions stay the same, but the model is no longer absolutely certain abo
 > nb.predict_proba(enc.transform(new_days))
 > ```
 >
-> `CategoricalNB` is Naive Bayes for categorical inputs. Its `alpha` is the smoothing count, 1 by default; with a tiny `alpha` it reproduces the unsmoothed numbers above exactly.
+> `CategoricalNB` is Naive Bayes for categorical inputs. Its `alpha` is the smoothing count, 1 by default (scikit-learn docs, `CategoricalNB`); with a tiny `alpha` it reproduces the unsmoothed numbers above exactly.
 
 ## 8. Summary
 
@@ -131,7 +131,12 @@ The predictions stay the same, but the model is no longer absolutely certain abo
 - Sunny, hot, high, weak gives no (0.0274 against 0.0071).
 - A value never seen with a class gives a zero that overrides everything; Laplace smoothing (add 1 to every count) prevents it. `CategoricalNB(alpha=1)` does this by default.
 
-## 9. Key terms
+## 9. Sources
+
+- **Manning et al.:** Manning, C. D., Raghavan, P. and Schütze, H. *Introduction to Information Retrieval*. Cambridge University Press, 2008. Section 13.2, "Naive Bayes text classification".
+- **scikit-learn docs:** `sklearn.naive_bayes.CategoricalNB` (alpha), scikit-learn 1.9.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

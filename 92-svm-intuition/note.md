@@ -15,7 +15,7 @@ title: "Support Vector Machines: The Geometric Intuition"
 
 > **Key point:** A support vector machine (SVM) separates two classes with the line that leaves the widest possible gap between them. The points that touch the edges of that gap are the support vectors.
 
-A **support vector machine (SVM)** is a classification algorithm from the same family as logistic regression. It is a strong, widely used algorithm that works in many situations. It builds directly on logistic regression, so the logistic regression Notes are the best preparation for it.
+A **support vector machine (SVM)** is a classification algorithm from the same family as logistic regression. It is a strong, widely used algorithm that works in many situations, often called one of the best "out of the box" classifiers (ISL §9). It builds directly on logistic regression, so the logistic regression Notes are the best preparation for it.
 
 Logistic regression accepts any line that separates the classes. SVM goes one step further and asks which separating line is the **best**. Its answer: the line with the widest empty gap on both sides (Figure 1).
 
@@ -23,7 +23,7 @@ Logistic regression accepts any line that separates the classes. SVM goes one st
 
 This Note explains that idea with pictures only. The next Notes turn it into maths.
 
-> **Extra:** The maximum-margin idea goes back to Vapnik and Chervonenkis in the 1960s. The modern SVM took shape in the 1990s: the kernel trick was added in 1992 (Boser, Guyon and Vapnik) and the soft margin in 1995 (Cortes and Vapnik).
+> **Extra:** The maximum-margin idea goes back to Vapnik's work in the 1960s. The modern SVM took shape in the 1990s: the kernel trick was added in 1992 (Boser, Guyon and Vapnik) and the soft margin in 1995 (Cortes and Vapnik 1995, §1).
 
 ## 2. Choosing between two separating lines
 
@@ -51,7 +51,7 @@ So a line that keeps every point far away classifies every point with high confi
 
 > **Key point:** Separate the classes, and among all lines that do, choose the one that keeps the points as far away as possible.
 
-SVM classifies the data with the hyperplane that separates the classes **as widely as possible**. It wants to make the gap between the line and the points as large as it can. The hope is that such a line generalises better: it performs better on new, unseen data than a line that squeezes past the points.
+SVM classifies the data with the hyperplane that separates the classes **as widely as possible**. It wants to make the gap between the line and the points as large as it can. The hope is that such a line generalises better: it performs better on new, unseen data than a line that squeezes past the points (ISL §9.1.3). The [perceptron code Note](../71-perceptron-code/note.md) tested this on the iris flowers: lines that hugged one class made more mistakes on new flowers.
 
 ## 3. The margin
 
@@ -117,7 +117,7 @@ When $\pi^+$ and $\pi^-$ are moved outwards, they stop at the first points of ea
 
 The idea is so central that it gives the algorithm its name. The support vectors "support" the two edges of the margin: move one of them and the best line moves too.
 
-> **Extra:** The other points have no say at all. If we deleted every point except the three support vectors in Figure 4 and trained again, we would get exactly the same line. This is why an SVM model only needs to store its support vectors.
+> **Extra:** The other points have no say at all. If we deleted every point except the three support vectors in Figure 4 and trained again, we would get exactly the same line (ISL §9.1.3). This is why an SVM model only needs to store its support vectors.
 
 ## 6. Strengths of SVM
 
@@ -127,7 +127,7 @@ The idea is so central that it gives the algorithm its name. The support vectors
 2. **Non-linear data:** when no single straight line can separate the classes, SVM uses **kernels** to draw curved boundaries. The kernel trick Notes explain how.
 3. **Classification and regression:** the same ideas give a classifier (SVC) and a regression model (**support vector regression**, SVR).
 
-> **Extra:** The version described in this Note, which demands a perfect separation, is called the hard-margin SVM. It is actually **sensitive** to outliers: a single point on the wrong side makes it impossible, and a single extreme point near the boundary changes the line, because that point becomes a support vector. The robustness comes from the soft margin, which lets a few points break the rules at a cost.
+> **Extra:** The version described in this Note, which demands a perfect separation, is called the hard-margin SVM. It is actually **sensitive** to outliers: a single point on the wrong side makes it impossible, and a single extreme point near the boundary changes the line, because that point becomes a support vector (ISL §9.2.1). The robustness comes from the soft margin, which lets a few points break the rules at a cost.
 
 ## 7. Summary
 
@@ -143,7 +143,12 @@ The idea is so central that it gives the algorithm its name. The support vectors
 - The margin $d$ is the distance between $\pi^+$ and $\pi^-$. SVM chooses $w$ and $b$ to make $d$ as large as possible.
 - The points on $\pi^+$ and $\pi^-$ are the support vectors.
 
-## 8. Key terms
+## 8. Sources
+
+- **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Chapter 9 introduction (p. 367), Sections 9.1.3 (p. 371) and 9.2.1 (p. 374).
+- **Cortes and Vapnik 1995:** Cortes, C. and Vapnik, V. "Support-Vector Networks." *Machine Learning* 20, 273–297, 1995. Section 1 (history: optimal hyperplanes 1965, kernels 1992).
+
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|

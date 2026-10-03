@@ -129,7 +129,7 @@ The data is the wine dataset: 178 wines grown in the same region of Italy, from 
 >
 > `header=None` tells pandas the first row is data, not column names. `usecols=[0, 1, 2]` keeps only the first three columns.
 
-> **Extra:** The full wine dataset (13 inputs) comes from the UCI Machine Learning Repository and is also built into scikit-learn as `sklearn.datasets.load_wine`.
+> **Extra:** The full wine dataset (13 inputs) comes from the UCI Machine Learning Repository and is also built into scikit-learn as `sklearn.datasets.load_wine` (scikit-learn docs, `load_wine`).
 
 ### 5.2 Split, fit and transform
 
@@ -256,7 +256,7 @@ scikit-learn has a class for it, **`MaxAbsScaler`**, used exactly like `MinMaxSc
 
 Max-abs scaling is used for **sparse data**: data in which most values are 0. If our data has a very large number of zeros, max-abs scaling is the one to try. Apart from that, it is not used much.
 
-> **Extra:** Why sparse data. Max-abs scaling only divides; it never subtracts anything. So every 0 stays exactly 0, and the data stays sparse. A computer stores sparse data cheaply by recording only the non-zero values; min-max scaling or standardization would subtract a number from every 0, turn it into a non-zero value and destroy that saving.
+> **Extra:** Why sparse data. Max-abs scaling only divides; it never subtracts anything. So every 0 stays exactly 0, and the data stays sparse. A computer stores sparse data cheaply by recording only the non-zero values; min-max scaling or standardization would subtract a number from every 0, turn it into a non-zero value and destroy that saving (scikit-learn User Guide, "Scaling sparse data").
 
 > **Python:** Max-abs scaling keeps zeros and signs.
 >
@@ -364,6 +364,10 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 - Min-max scaling keeps the shape of each column, but outliers squeeze the other values together.
 - Robust scaling uses the median and the IQR, so it copes well with outliers.
 - First decide whether scaling is needed; then standardization is the default, with min-max, robust or max-abs scaling for their special cases. When unsure, try several.
+
+## Sources
+
+- scikit-learn documentation. `sklearn.datasets.load_wine`; User Guide, "Scaling sparse data". scikit-learn.org.
 
 ## 12. Key terms
 

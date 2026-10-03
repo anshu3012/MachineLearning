@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+% Probability and likelihood: the same formula read in two directions.
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, minimum width=5.4cm, minimum height=2.2cm] (par) at (0,0)
+    {\textbf{parameters}\\ distribution and its numbers\\ e.g.\ fair coin, $p = 0.5$};
+  \node[box=corange, minimum width=5.4cm, minimum height=2.2cm] (dat) at (12.5,0)
+    {\textbf{event / data}\\ what we observe\\ e.g.\ 5 heads in 5 tosses};
+  \draw[arrow, draw=cblue, line width=2pt] ([yshift=4mm]par.east) -- node[above=2pt, align=center, text=cblue, text width=6.2cm]
+    {\textbf{probability}\\ parameters known:\\ how likely is the event?} ([yshift=4mm]dat.west);
+  \draw[arrow, draw=corange, line width=2pt] ([yshift=-4mm]dat.west) -- node[below=2pt, align=center, text=corange, text width=6.2cm]
+    {\textbf{likelihood}\\ data observed:\\ how plausible are these parameters?} ([yshift=-4mm]par.east);
+  \node[note] at (6.25,-3.0) {same formula, $P(\text{data} \mid \theta)$; probability varies the data, likelihood varies $\theta$};
+\end{tikzpicture}
+\end{document}

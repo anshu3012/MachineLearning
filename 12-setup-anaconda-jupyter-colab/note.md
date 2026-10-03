@@ -35,7 +35,7 @@ Data science uses many libraries, and each depends on others. Installing them on
 
 **Anaconda** is the best-known data science distribution. It installs Python, about 250 popular libraries, and tools such as Jupyter. At its heart is **conda**, a **package manager**: a program that downloads libraries (called **packages**), works out which versions fit together, and installs them.
 
-> **Extra:** pip vs conda. Python also has its own package manager, **pip**, which downloads packages from **PyPI** (the Python Package Index). conda can also install things that are not Python, such as Python itself and the compiled maths libraries under NumPy. We use conda for almost everything and pip only for packages that conda does not have.
+> **Extra:** pip vs conda. Python also has its own package manager, **pip**, which downloads packages from **PyPI** (the Python Package Index). conda can also install things that are not Python, such as Python itself and the compiled maths libraries under NumPy (Helmus 2018). We use conda for almost everything and pip only for packages that conda does not have.
 
 ### 2.2 Miniforge: the installer we use
 
@@ -47,7 +47,7 @@ A **channel** is an online store of conda packages. Anaconda's own channel is th
 
 The full Anaconda distribution works too: every `conda` command in this Note is the same. It is a much bigger download (about 1 GB today) and installs hundreds of libraries we may never use.
 
-> **Extra:** Why Miniforge rather than Anaconda? Anaconda's terms require a paid licence for its default channel in organisations with 200 or more people. conda-forge is free for everyone. Miniforge also starts small, so the only libraries on our machine are the ones our projects need.
+> **Extra:** Why Miniforge rather than Anaconda? Anaconda's terms require a paid licence for its default channel in organisations with 200 or more people, apart from teaching and research at universities (Anaconda ToS FAQ). conda-forge is free for everyone. Miniforge also starts small, so the only libraries on our machine are the ones our projects need.
 
 ### 2.3 Installing Miniforge
 
@@ -76,7 +76,7 @@ To check the install, we open a new terminal and list the environments:
 > conda env list    # every environment; "base" is always there
 > ```
 
-> **Extra:** Older Anaconda guides show an "Individual Edition" download page and an installer of about 450 MB. Both have changed: the page now just says "Distribution", and the installer is about twice that size. The steps stay the same: download, run, keep the defaults.
+> **Extra:** Older Anaconda guides show an "Individual Edition" download page and an installer of about 450 MB. Both have changed: the page now just says "Distribution", and the installer is about twice that size (about 480 MB in 2021, 1.0 GB in 2026, per the Anaconda archive). The steps stay the same: download, run, keep the defaults.
 
 ### 2.4 Navigator and Spyder
 
@@ -135,7 +135,7 @@ Every cell has a type, chosen from a menu at the top of the notebook:
 > <span style="color:red">HTML also works</span>
 > ```
 
-Because Markdown cells accept HTML, a notebook can also show images and videos. Many people publish notebooks as tutorials on GitHub and Kaggle, with the explanation in Markdown cells next to the code.
+Because Markdown cells accept HTML (Jupyter docs), a notebook can also show images and videos. Many people publish notebooks as tutorials on GitHub and Kaggle, with the explanation in Markdown cells next to the code.
 
 > **Extra:** Notebooks can also hold interactive **widgets**: buttons, sliders and text boxes the reader can use. The `ipywidgets` package provides them; it is not in our environment. These Notes use Plotly and Dash for interactive parts instead.
 
@@ -335,7 +335,7 @@ The helper packages it really needs (such as `phik`, `visions` and `wordcloud`) 
 >
 > Afterwards `python -m pip check` reports that fg-data-profiling wants pandas below 3.0. That message is expected and harmless here.
 
-The library then runs on pandas 3 with one setting. pandas 3 stores text columns in a new format (Arrow arrays) that the library cannot add up, and building a report fails with an error. One line before the report switches text back to plain Python strings:
+The library then runs on pandas 3 with one setting. pandas 3 stores text columns in a new format (Arrow arrays) that the library cannot add up, and building a report fails with an error (on the Titanic data: `AttributeError: 'ArrowExtensionArray' object has no attribute 'sum'`). One line before the report switches text back to plain Python strings:
 
 > **Python:** The setting used before every profiling report.
 >
@@ -379,9 +379,9 @@ Files our code writes go to `/kaggle/working/` and appear in the **Output** pane
 
 **File > Download** saves the notebook itself as `.ipynb`. **Save Version** saves it on Kaggle, and a public notebook can be read, copied and upvoted by others. Upvotes build a Kaggle profile, which some people show to employers.
 
-> **Extra:** Older guides say Kaggle notebooks have no GPU. That is no longer true: in the notebook settings, the **Accelerator** option offers GPUs and a TPU, with a limited number of free hours per week.
+> **Extra:** Older guides say Kaggle notebooks have no GPU. That is no longer true: in the notebook settings, the **Accelerator** option offers GPUs and a TPU, with a limited number of free hours per week (about 30 GPU hours and 20 TPU hours; Kaggle docs).
 >
-> A **GPU** (graphics card) runs the big matrix maths of deep learning much faster than a normal processor (**CPU**). A **TPU** is Google's chip built only for that maths.
+> A **GPU** (graphics card) runs the big matrix maths of deep learning much faster than a normal processor (**CPU**). A **TPU** is Google's chip built only for that maths (Jouppi et al. 2017).
 
 ## 7. Google Colab
 
@@ -390,11 +390,11 @@ Files our code writes go to `/kaggle/working/` and appear in the **Output** pane
 **Google Colab** (colab.research.google.com) runs Jupyter notebooks on Google's servers, using a Google account. It looks and works like the notebooks above: code and text cells, Shift+Enter, and **File > Download** as `.ipynb` or `.py`. Two things set it apart:
 
 - **Google Drive:** every notebook is saved in our Drive automatically (in a folder called *Colab Notebooks*).
-- **GPU and TPU:** **Runtime > Change runtime type > Hardware accelerator** switches the notebook to a GPU or TPU. Classic ML code (scikit-learn) does not use a GPU; deep learning code runs many times faster on one.
+- **GPU and TPU:** **Runtime > Change runtime type > Hardware accelerator** switches the notebook to a GPU or TPU. Classic ML code (scikit-learn) does not use a GPU (scikit-learn FAQ); deep learning code runs many times faster on one.
 
 So we do not need an expensive computer to learn deep learning: Colab provides the hardware.
 
-> **Extra:** The free GPU has limits. A session ends after a while without activity and after at most about 12 hours. When it ends, the machine is wiped: variables and uploaded files are gone, only the notebook stays in Drive.
+> **Extra:** The free GPU has limits. A session ends after a while without activity and after at most about 12 hours (Colab FAQ). When it ends, the machine is wiped: variables and uploaded files are gone, only the notebook stays in Drive.
 
 ### 7.1 Data on Colab
 
@@ -466,7 +466,7 @@ Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for exa
 >
 > `mkdir -p` makes the hidden folder `.kaggle` in the home folder `~`. `chmod 600` makes the token file readable only by us; the Kaggle tool warns otherwise. `zipfile` is part of Python's standard library: `extractall` unpacks every file in the archive into the folder `data`.
 
-> **Extra:** `kaggle.json` is a password. It must never be shared, put in a public notebook or uploaded to GitHub. If it leaks, we delete the token on Kaggle and create a new one.
+> **Extra:** `kaggle.json` is a password (Kaggle API docs). It must never be shared, put in a public notebook or uploaded to GitHub. If it leaks, we delete the token on Kaggle and create a new one.
 
 ## 9. Choosing where to work
 
@@ -500,6 +500,18 @@ For learning, Kaggle and Colab are enough, and many people use nothing else. A r
 - Install fg-data-profiling with `--no-deps`, and set `mode.string_storage` to `"python"` before building a report.
 - Colab and Kaggle have their own library versions; `!pip install` adds what is missing.
 - A Kaggle API token lets Colab download Kaggle datasets directly. Keep it secret.
+
+## Sources
+
+- Anaconda (2024). Terms of Service FAQs. anaconda.com.
+- Anaconda installer archive. repo.anaconda.com/archive (file sizes of the Windows installers).
+- Google Colab. Frequently Asked Questions. research.google.com/colaboratory/faq.html.
+- Helmus, J. (2018). Understanding Conda and Pip. Anaconda blog.
+- Jouppi, N. et al. (2017). In-Datacenter Performance Analysis of a Tensor Processing Unit. *ISCA*.
+- Jupyter Notebook documentation. Markdown cells. jupyter-notebook.readthedocs.io.
+- Kaggle API documentation. API credentials. github.com/Kaggle/kaggle-api.
+- Kaggle documentation. Notebooks and Tensor Processing Units (TPUs). kaggle.com/docs.
+- scikit-learn FAQ. Will you add GPU support? scikit-learn.org.
 
 ## 11. Key terms
 

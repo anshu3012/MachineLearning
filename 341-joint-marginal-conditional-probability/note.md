@@ -285,7 +285,7 @@ The Titanic table answers this with either test:
 - **Conditional test:** $P(\text{died} \mid \text{class 3}) = 0.758$, but $P(\text{died}) = 0.616$. Knowing the class changes the chance.
 - **Joint test:** if they were independent, $P(\text{died}, \text{class 1})$ would be $0.616 \times 0.242 \approx 0.149$. The table says $0.090$.
 
-Both tests fail, so class and survival are dependent. This is why class is a useful input for predicting survival.
+Both tests fail, so class and survival are dependent. Knowing the class moves the chance of dying from 0.616 to anywhere between 0.370 (class 1) and 0.758 (class 3), so class carries information about survival.
 
 ## 6. Bayes' theorem as a one-column classifier
 
@@ -318,7 +318,7 @@ $$P(\text{survived} \mid \text{male}) = \frac{P(\text{male} \mid \text{survived}
 
 Since $2/3 > 1/3$, we predict that the male passenger died. The two answers add up to 1, as they must.
 
-With one input column we could have counted directly: of the three males, two died, $2/3$. Bayes' theorem matters once there are many input columns and the exact combination may never appear in the data. That is the Naive Bayes classifier of the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md).
+With one input column we could have counted directly: of the three males, two died, $2/3$. With many input columns, direct counting breaks down: 10 yes/no columns already give $2^{10} = 1024$ combinations, more than the 891 Titanic passengers, so many combinations never appear in the data and have no count. Bayes' theorem alone does not fix this, since $P(\text{combination} \mid \text{died})$ would need the same counts. The Naive Bayes classifier of the [Naive Bayes intuition Note](../87-naive-bayes-intuition/note.md) adds the assumption that the columns are independent given the class, so each column's likelihood is counted on its own.
 
 ## 7. Summary
 

@@ -16,7 +16,7 @@ title: "The Five Assumptions of Linear Regression"
 
 Linear regression always produces a line or hyperplane, whatever the data looks like. Whether that line can be trusted depends on a few conditions, called the **assumptions** of linear regression. They are a common interview question.
 
-Lists online vary from three to seven items; these five are the core ones:
+Lists online vary from five to seven items; these five are the core ones:
 
 | | Assumption | Checked with |
 |---|---|---|
@@ -60,7 +60,7 @@ The check is a scatter plot of the output against each input (Figure 1).
 - **feature3:** also rising, with more scatter (0.58).
 - **feature2:** no visible relationship at all (0.03). Its fitted coefficient is only $-0.28$, against 72.7 and 53.3 for the other two: the model has learned to almost ignore it.
 
-> **Extra:** A column with no relationship, like feature2, does not break the assumption so much as add nothing; the model gives it a near-zero weight. When an input has a curved relationship, polynomial regression (a later Note) or a transformation of the input (log, square and so on, from the function transformer Note) can make it linear.
+> **Extra:** A column with no relationship, like feature2, does not break the assumption so much as add nothing; the model gives it a near-zero weight. When an input has a curved relationship, a simple approach is to add non-linear transformations of that input, such as $\log x$, $\sqrt{x}$ or $x^2$, to the model (ISL §3.3.3). Adding $x^2$ is polynomial regression, a later Note.
 
 ## 3. Assumption 2: no multicollinearity
 
@@ -74,7 +74,7 @@ The check is a scatter plot of the output against each input (Figure 1).
 
 A coefficient $\beta_1$ is the change in the output when $x_1$ rises by 1 *and all other inputs stay the same*. If $x_1$ and $x_3$ always move together, "change $x_1$ and keep $x_3$ fixed" never happens in the data. The model then cannot separate their effects.
 
-An analogy: two scientists finish a project together. If one is a physicist and the other a chemist, it is easy to say who contributed what. If both have identical skills, it is impossible. With related inputs the model faces the second case, and the coefficients it reports can swing wildly while the predictions stay fine.
+An analogy: two scientists finish a project together. If one is a physicist and the other a chemist, it is easy to say who contributed what. If both have identical skills, it is impossible. With related inputs the model faces the second case. So the coefficients become unreliable: a small change in the data can move them a long way (ISL §3.3.3). The predictions, on the other hand, usually stay good (Kutner §7.6).
 
 ### 3.2 Checking it
 
@@ -95,7 +95,7 @@ where $R_j^2$ is the R² of predicting input $j$ from the others. With numbers: 
 >     variance_inflation_factor)
 > from statsmodels.tools import add_constant
 >
-> Xc = add_constant(X_train)     # VIF needs an intercept column
+> Xc = add_constant(X_train)     # add an intercept column
 > [variance_inflation_factor(Xc, i) for i in range(1, 4)]
 > # [1.011, 1.010, 1.014]
 > ```
@@ -104,7 +104,7 @@ A quicker, rougher check is a heatmap of the correlations between the inputs (Fi
 
 ![Correlations between the inputs, and their VIF](images/multicollinearity.png)
 
-> **Extra:** `variance_inflation_factor` expects the data to contain a constant column; without `add_constant` the values can be wrong for data that is not centred on 0. Here the inputs happen to be centred, so both ways give 1.01. If VIF is high, the usual fixes are dropping one of the related inputs, combining them (feature extraction, such as PCA), or regularisation (later Notes).
+> **Extra:** If VIF is high, two simple fixes are to drop one of the related features (input variables), or to combine them into one feature, such as their average after scaling (ISL §3.3.3). Ridge regression, a later Note, was also designed for related features (Hoerl and Kennard).
 
 ## 4. Assumption 3: normal residuals
 
@@ -119,13 +119,13 @@ Two checks, both on the residuals (Figure 3, top):
 
 ![Residual checks for assumptions 3, 4 and 5](images/residual_checks.png){height=62%}
 
-> **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** gives a p-value; above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large datasets these tests flag tiny, harmless departures, so the plots are usually more useful.
+> **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** gives a p-value; above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl §3).
 
 ## 5. Assumption 4: homoscedasticity
 
 > **Key point:** The residuals should have the same spread for small and large predictions. A funnel shape (heteroscedasticity) breaks the assumption.
 
-**Homoscedasticity** means "same scatter": the size of the errors does not depend on the size of the prediction. Its opposite, **heteroscedasticity**, is common: for example, a house-price model is often off by a few thousand on cheap houses and by much more on expensive ones.
+**Homoscedasticity** means "same scatter": the size of the errors does not depend on the size of the prediction. Its opposite, **heteroscedasticity**, is common (ISL §3.3.3): for example, a house-price model that is off by a few thousand on cheap houses and by much more on expensive ones.
 
 The check is a scatter plot of residuals against predicted values (Figure 3, bottom left). It should look like an even band around 0, with no shape. Here it does: the spread is roughly the same from the lowest to the highest prediction.
 
@@ -133,19 +133,19 @@ Figure 4 (middle) shows what heteroscedasticity looks like: a funnel that widens
 
 ![What failed assumptions look like (made-up data)](images/violations.png)
 
-> **Extra:** Under heteroscedasticity the predictions are still unbiased, but the model's uncertainty estimates (confidence intervals and the p-values reported by statistics packages) become wrong. A common fix is to transform the output, for example with a log, which often turns a funnel into an even band.
+> **Extra:** Heteroscedasticity does not make the coefficients wrong on average, but it makes the model's uncertainty estimates wrong: the confidence intervals and p-values that statistics packages report (Wooldridge §8.1). One fix is to take the log or square root of the target (the output we predict). The log shrinks large values more than small ones, and can turn a funnel into an even band (ISL §3.3.3).
 
 ## 6. Assumption 5: no autocorrelation of the residuals
 
 > **Key point:** One residual should not predict the next. Plotted in row order, the residuals should jump around randomly, not drift in waves.
 
-**Autocorrelation** means each residual is related to the one before it: if the model was too high on one row, it is also too high on the next. This mostly happens with data that has an order, such as measurements over time.
+**Autocorrelation** means each residual is related to the one before it: if the model was too high on one row, it is also too high on the next. Autocorrelation is common in time-series data, measurements taken at points in time (ISL §3.3.3).
 
 The check is to plot the residuals in row order (Figure 3, bottom right). They should jump up and down with no pattern. Here they do.
 
-Figure 4 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. It means the model is missing something that changes gradually, such as a time trend.
+Figure 4 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. One cause is a missing feature (an input variable) that changes slowly from one observation (row) to the next, such as a time trend: the model cannot see the trend, so the trend shows up in the residuals (tested in the Extra below). Autocorrelation makes the model look more certain than it is: its confidence intervals come out too narrow (ISL §3.3.3).
 
-> **Extra:** The **Durbin-Watson statistic** puts a number on it: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative. Here it is 2.31. Figure 4 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
+> **Extra:** The **Durbin-Watson statistic** puts a number on it: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative (statsmodels docs). Here it is 2.31, close to 2: no sign of autocorrelation. To test the missing-trend cause, the notebook makes data $y = 2x + 3\sin(t/25) + \text{noise}$, with $t$ the row number. Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as an input brings it back to 2.09. Figure 4 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
 
 ## 7. Summary
 
@@ -160,6 +160,15 @@ Figure 4 (right) shows positive autocorrelation: long runs above 0 followed by l
 - Assumptions 1 and 2 are about the inputs; 3 to 5 are about the residuals.
 - A failed assumption does not stop the model from running; it makes its coefficients or uncertainty estimates untrustworthy.
 - Residual plots should look like random noise; any shape (curve, funnel, wave) points to a broken assumption.
+
+## Sources
+
+- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021.
+- **Kutner**: Kutner, Nachtsheim, Neter, Li, *Applied Linear Statistical Models*, 5th ed., McGraw-Hill, 2005.
+- **Hoerl and Kennard**: A. E. Hoerl and R. W. Kennard, "Ridge Regression: Biased Estimation for Nonorthogonal Problems", *Technometrics* 12(1), 1970.
+- **Ghasemi and Zahediasl**: A. Ghasemi and S. Zahediasl, "Normality Tests for Statistical Analysis: A Guide for Non-Statisticians", *International Journal of Endocrinology and Metabolism* 10(2), 2012.
+- **Wooldridge**: J. M. Wooldridge, *Introductory Econometrics: A Modern Approach*, Chapter 8.
+- **statsmodels docs**: statsmodels documentation, `statsmodels.stats.stattools.durbin_watson`.
 
 ## 8. Key terms
 

@@ -126,9 +126,9 @@ The default 0.5 would find only 52% of the diabetic patients. For a screening te
 > thresholds[best]                             # 0.297
 > ```
 >
-> `roc_curve` tries every distinct probability as a threshold (54 here) and returns the matching rates.
+> `roc_curve` tries every distinct probability as a threshold (154 here). By default it then drops the thresholds that add nothing to the shape of the curve (`drop_intermediate=True`), so it returns 54 here (scikit-learn docs, `roc_curve`).
 
-> **Extra:** Another common rule picks the threshold with the largest $\text{TPR} - \text{FPR}$ (**Youden's J**). Here it gives a similar threshold, 0.29.
+> **Extra:** Another common rule picks the threshold with the largest $\text{TPR} - \text{FPR}$ (**Youden's J**, Youden 1950; $J$ = sensitivity + specificity − 1 = TPR − FPR). Here it gives a similar threshold, 0.29.
 
 ## 5. AUC: the area under the curve
 
@@ -143,6 +143,8 @@ The **area under the ROC curve (AUC)** summarises performance over all threshold
 | 0.5 | no better than random guessing (the diagonal line) |
 | below 0.5 | worse than random: the model has the classes the wrong way round |
 
+Random guessing gives the diagonal from (0, 0) to (1, 1), whose area is 0.5, and a curve below the diagonal can be flipped above it by swapping the model's answers (Fawcett 2006, §3 and §7).
+
 On the diabetes test set (Figure 3, right):
 
 | Model | AUC |
@@ -152,7 +154,7 @@ On the diabetes test set (Figure 3, right):
 
 Logistic regression's curve lies above the tree's for most thresholds, so it separates diabetic from healthy patients better overall.
 
-> **Extra:** AUC has a neat interpretation: it is the probability that a randomly chosen positive patient gets a higher predicted probability than a randomly chosen negative one. An AUC of 0.823 means that happens 82.3% of the time.
+> **Extra:** AUC has a neat interpretation: it is the probability that a randomly chosen positive patient gets a higher predicted probability than a randomly chosen negative one. An AUC of 0.823 means that happens 82.3% of the time (Fawcett 2006, §7). A direct count over all 54 × 100 pairs of a diabetic and a healthy test patient gives the same 0.823.
 
 > **Python:** AUC in scikit-learn.
 >
@@ -178,7 +180,13 @@ Logistic regression's curve lies above the tree's for most thresholds, so it sep
 - Choose the threshold from the ROC curve, for example the point closest to (0, 1), or according to which mistake costs more.
 - Compare models by AUC: higher is better.
 
-## 7. Key terms
+## 7. Sources
+
+- **Fawcett 2006:** Fawcett, T. "An Introduction to ROC Analysis." *Pattern Recognition Letters* 27(8), 861–874, 2006. Sections 3 and 7.
+- **Youden 1950:** Youden, W. J. "Index for Rating Diagnostic Tests." *Cancer* 3(1), 32–35, 1950.
+- **scikit-learn docs:** `sklearn.metrics.roc_curve` (drop_intermediate), scikit-learn 1.9.
+
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|

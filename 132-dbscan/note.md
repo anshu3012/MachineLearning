@@ -61,7 +61,7 @@ So k-means works well on some datasets and badly on many others. DBSCAN addresse
 
 **Density-based clustering** groups points by how densely they are packed. In a dataset with two groups, the inside of each group is a **dense region**: many points close together. Between the groups lies a **sparse region** with few points. The sparse region is what separates the two dense regions into two clusters.
 
-This idea does not care about shape. A dense crescent is a cluster just as much as a dense round blob. DBSCAN is the best-known density-based algorithm; another one is **OPTICS**.
+This idea does not care about shape. A dense crescent is a cluster just as much as a dense round blob. DBSCAN is one density-based algorithm; another one is **OPTICS**.
 
 The name DBSCAN lists its features: **density-based**, **spatial** (it works on points in space), **clustering of applications with noise** (it labels noise points as noise).
 
@@ -78,7 +78,7 @@ For example, with eps = 1 and MinPts = 3, we draw a circle of radius 1 around a 
 
 eps and MinPts are DBSCAN's only two hyperparameters, and choosing them well is most of the work of using it.
 
-> **Extra:** Whether the point itself is counted differs between explanations. The original paper and scikit-learn both count it: with `min_samples=4`, a point needs 3 neighbours within eps, plus itself.
+> **Extra:** Whether the point itself is counted differs between explanations. The original paper counts it: the eps-neighbourhood of a point p holds every point within eps of p, p included (Ester et al. 1996, Def. 1). scikit-learn counts it too (scikit-learn `DBSCAN` docs), and section 9.1 shows the effect: with `min_samples=2`, the points (8, 7) and (8, 8) each have only one other point within eps, yet both are core points. So with `min_samples=4`, a point needs 3 neighbours within eps, plus itself.
 
 ## 6. Core, border and noise points
 
@@ -123,7 +123,7 @@ Figure 3 runs DBSCAN on 14 points with eps = 1 and MinPts = 4.
 
 The result is 2 clusters and 2 noise points. Nobody told DBSCAN there were 2 clusters: the density of the points decided.
 
-> **Extra:** scikit-learn does step 3 slightly differently: a border point joins the cluster of whichever core point reaches it first while the cluster grows, not necessarily the nearest one. A border point within eps of two clusters can therefore land in either. The core points and noise points are always the same.
+> **Extra:** scikit-learn does step 3 slightly differently: a border point within eps of two clusters joins whichever cluster is built first, not necessarily the one of its nearest core point. The result can therefore depend on the order of the data; the core points and noise points are always the same (scikit-learn user guide, DBSCAN).
 
 ## 9. DBSCAN in scikit-learn
 
@@ -216,11 +216,11 @@ DBSCAN labels the points it was given and stops. If a new point arrives tomorrow
 
 > **Extra:** A common way to choose eps:
 >
-> 1. Fix MinPts first. A frequent rule of thumb is at least the number of columns plus 1; for 2-D data, 4 or 5.
+> 1. Fix MinPts first. For 2-D data the original paper uses MinPts = 4 (Ester et al. 1996, §4.2).
 > 2. For every point, compute the distance to its MinPts-th nearest point (counting the point itself, as scikit-learn does).
 > 3. Sort these distances and plot them (Figure 6).
 >
-> Points inside clusters have small distances; noise points have large ones. The curve stays low and then shoots up. A value of eps near the bend makes most points core or border points and leaves the rest as noise. On the standardized moons, the bend is at about 0.2, and any eps from 0.2 to 0.4 gives the two moons exactly.
+> Points inside clusters have small distances; noise points have large ones. The curve stays low and then shoots up. A value of eps at the bend treats the points with a larger k-distance as noise and puts all others in some cluster (Ester et al. 1996, §4.2). On the standardized moons, the bend is at about 0.2, and any eps from 0.2 to 0.4 gives the two moons exactly.
 >
 > ```python
 > from sklearn.neighbors import NearestNeighbors
@@ -244,7 +244,7 @@ Things to try:
 - **Two densities:** try to find one eps that gives both groups. There is none, which is section 11.2.
 - **Any dataset, min_samples from 2 to 20:** larger values call more points noise.
 
-> **Extra:** An online DBSCAN visualiser by Naftali Harris animates the algorithm on about ten datasets, including a smiley face, with sliders for eps and MinPts. It shows the circles spreading from point to point as each cluster grows.
+> **Extra:** An online DBSCAN visualiser by Naftali Harris (Harris, *Visualizing DBSCAN Clustering*) animates the algorithm on several datasets, including a smiley face, with controls for eps and MinPts. It shows the circles spreading from point to point as each cluster grows.
 
 ## 14. Summary
 
@@ -263,6 +263,13 @@ Things to try:
 - Algorithm: label points, grow clusters from core points, attach border points, leave noise.
 - In scikit-learn: `DBSCAN(eps, min_samples).fit(X).labels_`, with -1 for noise.
 - Choose eps with care, for example from the bend of the k-distance plot.
+
+## Sources
+
+- Ester et al. 1996: M. Ester, H.-P. Kriegel, J. Sander and X. Xu, *A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise*, Proceedings of KDD 1996, Definition 1 and §4.2.
+- scikit-learn `DBSCAN` docs: the `min_samples` parameter of `sklearn.cluster.DBSCAN` ("This includes the point itself"), scikit-learn 1.9 API reference.
+- scikit-learn user guide, DBSCAN: section 2.3 Clustering, DBSCAN, implementation notes on border points and data order.
+- Harris: N. Harris, *Visualizing DBSCAN Clustering*, naftaliharris.com/blog/visualizing-dbscan-clustering.
 
 ## 15. Key terms
 

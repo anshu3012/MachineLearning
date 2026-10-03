@@ -113,7 +113,7 @@ Figure 3 shows this. We draw 20 different training sets of 60 noisy points from 
 - **(a) one fully grown tree per set:** the 20 curves swing wildly around the truth. Average variance **0.160**.
 - **(b) bagging with 100 trees per set:** the 20 curves stay close together. Average variance **0.076**, less than half.
 
-The bias stays tiny in both (0.009 and 0.004): both average curves follow the true curve.
+The squared bias stays tiny in both (0.009 and 0.004): both average curves follow the true curve.
 
 ## 4. When to use bagging
 
@@ -171,7 +171,7 @@ We send a new flower to all three trees: sepal width 2.2, petal length 5.0. It i
 - Tree 2 (split at 4.90): above, so **class 2**.
 - Tree 3 (split at 4.95): above, so **class 2**.
 
-The majority says **2**, which is correct, although tree 1 alone would have been wrong. On real data, with thousands of rows and hundreds of trees, each tree grows much deeper and both classes always appear in every sample.
+The majority says **2**, which is correct, although tree 1 alone would have been wrong. Each tree here saw only 8 rows, so it made just one split. With more rows, trees grow deeper: in the [random forest Note](../108-random-forest-intro/note.md), section 5.3, trees trained on 100 rows reach depths 3 to 6.
 
 ## 6. Types of bagging
 

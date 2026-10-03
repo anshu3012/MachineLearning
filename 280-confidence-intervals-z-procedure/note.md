@@ -89,9 +89,9 @@ We have also drawn confidence intervals already without naming them. Figure 2 pl
 
 ![Mean Titanic fare per class (bars) with 95% confidence intervals (black lines)](images/error_bars.png){height=36%}
 
-The bars show the sample means; the lines show where the population means of passengers like these probably lie. First class has few passengers and very spread-out fares, so its interval is wide (about 74 to 95 pounds); third class has many passengers and similar fares, so its interval is narrow (about 12.6 to 14.7 pounds).
+The bars show the sample means; the lines show where the population means of passengers like these probably lie. First class has 216 passengers whose fares are very spread out (standard deviation about 78 pounds), and its interval is wide (about 74 to 95 pounds). Third class has 491 passengers with similar fares (standard deviation about 12 pounds), and its interval is narrow (about 12.6 to 14.7 pounds). Both match the standard error $s/\sqrt{n}$ of section 7: a larger spread or a smaller sample gives a wider interval.
 
-> **Extra:** Seaborn builds these intervals by bootstrapping (see the [bagging Note](../105-bagging-intuition/note.md)): it resamples the data with replacement 1000 times, recomputes the mean each time, and keeps the middle 95% of those means. For a mean from a large sample, this gives almost the same range as the formula of this Note.
+> **Extra:** Seaborn builds these intervals by bootstrapping (see the [bagging Note](../105-bagging-intuition/note.md)): it resamples the data with replacement (`n_boot=1000` times by default), recomputes the mean each time, and keeps the middle 95% of those means (seaborn documentation, "Statistical estimation and error bars" tutorial and `seaborn.barplot` reference, v0.13). In the notebook, the formula of this Note with $s$ in place of $\sigma$ gives almost the same ranges: 73.7 to 94.6 pounds for first class (seaborn: 74.3 to 95.2) and 12.6 to 14.7 pounds for third class (seaborn: 12.7 to 14.8).
 
 ## 5. Two ways to compute a confidence interval for a mean
 
@@ -104,7 +104,7 @@ There are several ways to compute a confidence interval. For a mean, the two sta
 | **Z-procedure** ("sigma known") | the population standard deviation $\sigma$ is known | $\sigma$ |
 | **T-procedure** ("sigma unknown") | $\sigma$ is unknown | the sample standard deviation $s$ |
 
-In practice $\sigma$ is almost never known: if we do not know the mean age of 77,000 subscribers, we hardly know the standard deviation of their ages. So the t-procedure is the one used in real work. The z-procedure comes first because it is simpler and the t-procedure is built on it.
+In practice $\sigma$ is almost never known: if we do not know the mean age of 77,000 subscribers, we hardly know the standard deviation of their ages. So the t-procedure is the one used in real work. We start with the z-procedure; the t-procedure has the same form, with $s$ and a t critical value in place of $\sigma$ and $z$ (see the [t-procedure Note](../282-t-procedure/note.md)).
 
 ## 6. Assumptions of the z-procedure
 

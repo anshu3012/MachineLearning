@@ -99,7 +99,7 @@ The multiplier is more than a helper variable. It says how much the constraint c
    $$\frac{d f^*}{d c} = \lambda$$
 3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^*(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$.
 
-> **Extra:** In economics, $\lambda$ is called the **shadow price** of the constraint: how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming Note](../622-linear-and-quadratic-programming/note.md) reads multipliers this way.
+> **Extra:** In economics, $\lambda$ is called the **shadow price** of the constraint (Boyd and Vandenberghe §5.6): how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming Note](../622-linear-and-quadratic-programming/note.md) reads multipliers this way.
 
 ## 5. Inequality constraints
 
@@ -116,7 +116,7 @@ Why must $\lambda \ge 0$ for an inequality? At an active constraint, $\nabla f =
 
 In both cases the product $\lambda\, g(\mathbf{x}^*)$ is 0: either $\lambda = 0$ (inactive) or $g = 0$ (active). For an equality constraint, the multiplier can have either sign.
 
-> **Extra:** These rules together are the **KKT conditions** (Karush–Kuhn–Tucker), the standard check for a constrained minimum:
+> **Extra:** These rules together are the **KKT conditions** (Karush–Kuhn–Tucker), the standard check for a constrained minimum (Boyd and Vandenberghe §5.5.3):
 >
 > 1. **Stationarity:** $\nabla f + \sum_i \lambda_i \nabla g_i + \sum_j \nu_j \nabla h_j = \mathbf{0}$.
 > 2. **Primal feasibility:** $g_i(\mathbf{x}) \le 0$ and $h_j(\mathbf{x}) = 0$.
@@ -161,7 +161,7 @@ The original problem, in the variables $\mathbf{x}$, is the **primal problem**. 
 Figure 3 shows two facts:
 
 - **Weak duality:** every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$, $D(2) = 6 - 1.5 = 4.5 \le 6$.
-- **Strong duality:** here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. This holds for convex problems such as this one (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)). For non-convex problems a gap can remain.
+- **Strong duality:** here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. This holds for convex problems such as this one (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
 
 Weak duality always holds. For a feasible $\mathbf{x}$ and $\boldsymbol{\lambda} \ge 0$, each term $\lambda_i g_i(\mathbf{x})$ is at most 0, so $\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) \le f(\mathbf{x})$. The minimum over all $\mathbf{x}$ is lower still: $D(\boldsymbol{\lambda}) \le f(\mathbf{x})$ for every feasible $\mathbf{x}$, including the best one.
 
@@ -169,7 +169,7 @@ The same argument in general form is the **minimax inequality**: for any functio
 
 Two further properties make the dual useful:
 
-- $D$ is always **concave** (an upside-down bowl), even when $f$ and $g_i$ are not convex: it is the lowest of many functions that are linear in $\boldsymbol{\lambda}$. Maximising a concave function has no local-maximum trap.
+- $D$ is always **concave** (an upside-down bowl), even when $f$ and $g_i$ are not convex: it is the lowest of many functions that are linear in $\boldsymbol{\lambda}$ (MML §7.2). Maximising a concave function has no local-maximum trap.
 - The dual has one variable per constraint, the primal one per parameter. Whichever is smaller can be the cheaper one to solve.
 
 ## 7. Two examples from ML
@@ -188,7 +188,7 @@ $$\min_{\mathbf{w}} \lVert \mathbf{y} - X\mathbf{w} \rVert^2 \quad \text{subject
 
 Its Lagrangian is $\lVert \mathbf{y} - X\mathbf{w} \rVert^2 + \lambda \lVert \mathbf{w} \rVert^2 - \lambda t$. For a fixed $\lambda$, the last term is a constant, so minimising over $\mathbf{w}$ is exactly Ridge regression with penalty strength $\lambda$ (see the [Ridge regression maths Note](../64-ridge-regression-maths/note.md)). A small circle (small $t$) needs a large multiplier; once the circle contains the ordinary least-squares answer, the constraint is inactive and $\lambda = 0$.
 
-Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a circle. Its corners on the axes are why Lasso answers often have coefficients exactly 0 (see the [Elastic Net Note](../69-elastic-net/note.md)).
+Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a circle. Its corners on the axes are why Lasso answers often have coefficients exactly 0 (ESL §3.4.3, Figure 3.11) (see the [Elastic Net Note](../69-elastic-net/note.md)).
 
 ### 7.2 The SVM dual
 
@@ -197,7 +197,7 @@ Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a cir
 The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf{x}_i + b) \ge 1$ for every point (see the [SVM soft margin Note](../94-svm-soft-margin/note.md), Section 3). Each point gives one constraint $g_i = 1 - y_i(\mathbf{w}^{\mathsf T}\mathbf{x}_i + b) \le 0$ and one multiplier $\alpha_i \ge 0$.
 
 1. **In words:** set the derivatives of the Lagrangian in $\mathbf{w}$ and $b$ to zero and put the results back; what is left is a problem in the multipliers alone.
-2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf{x}_i$, and $\partial \mathcal{L}/\partial b = 0$ gives $\sum_i \alpha_i y_i = 0$. The dual problem is
+2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf{x}_i$, and $\partial \mathcal{L}/\partial b = 0$ gives $\sum_i \alpha_i y_i = 0$. The dual problem is (MML §12.3)
    $$\max_{\boldsymbol{\alpha} \ge 0} \ \sum_i \alpha_i - \frac12 \sum_i \sum_j \alpha_i \alpha_j y_i y_j\, \mathbf{x}_i^{\mathsf T}\mathbf{x}_j \quad \text{subject to} \quad \sum_i \alpha_i y_i = 0$$
 3. **Example:** two points, $\mathbf{x}_1 = (1, 1)$ with $y_1 = +1$ and $\mathbf{x}_2 = (-1, -1)$ with $y_2 = -1$. The equality forces $\alpha_1 = \alpha_2 = \alpha$. Then $\mathbf{w} = \alpha(1, 1) + \alpha(1, 1) = (2\alpha, 2\alpha)$, and the dual objective is $2\alpha - \tfrac12 \times 8\alpha^2 = 2\alpha - 4\alpha^2$. Its maximum is at $\alpha = 0.25$, giving $\mathbf{w} = (0.5, 0.5)$ and $b = 0$. The margin is $2/\lVert \mathbf{w} \rVert = 2.83$, exactly the distance between the two points.
 
@@ -242,6 +242,12 @@ Two things are new here:
 - Weak duality always holds; strong duality holds for convex problems.
 - Ridge and Lasso are constrained least squares; the SVM dual has one multiplier per point, nonzero only for support vectors.
 
+## Sources
+
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 5.2.3 (Slater's condition), 5.5.3 (KKT conditions), 5.6 (sensitivity and shadow prices).
+- Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Sections 7.2 and 12.3 (MML).
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.3, Figure 3.11 (ESL).
+
 ## 9. Key terms
 
 | Term | Meaning |
@@ -258,5 +264,5 @@ Two things are new here:
 | Primal problem | The original constrained problem, in the variables $\mathbf{x}$ |
 | Dual problem | Maximise the dual function $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$ over multipliers $\boldsymbol{\lambda} \ge 0$ |
 | Weak duality | Every value of the dual function is at most the primal minimum |
-| Strong duality | The dual maximum equals the primal minimum; true for convex problems |
+| Strong duality | The dual maximum equals the primal minimum; true for convex problems that meet Slater's condition |
 | Minimax inequality | For any function of two arguments, the max of the min is at most the min of the max |

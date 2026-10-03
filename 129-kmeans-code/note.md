@@ -69,7 +69,7 @@ CGPA runs from 4.6 to 9.3 and IQ from 83 to 121. Plotted (Figure 1, left), the s
 
 Figure 2 plots the ten values. WCSS starts at 29,958 for one cluster and drops to 4,184 for two. It keeps falling to 2,503 at k = 3 and 682 at k = 4. After that it barely moves: 530 at k = 5, 421 at k = 6.
 
-The curve bends twice: a sharp bend at k = 2 and a second one at k = 4. After k = 4 nothing changes much, so k = 4 is the elbow, the same number we counted in Figure 1. Choosing between two bends is a judgement call; plotting the data, when possible, settles it.
+The curve bends twice: a sharp bend at k = 2 and a second one at k = 4. After k = 4 nothing changes much, so k = 4 is the elbow, the same number we counted in Figure 1. With two bends to choose from, the plot of the data in Figure 1 confirms k = 4.
 
 ## 5. Training k-means with k = 4
 
@@ -96,11 +96,11 @@ The first student is in cluster 3, the second in cluster 2, and so on. The numbe
 | 2 | 5.89 | 109.5 |
 | 3 | 4.97 | 86.7 |
 
-> **Extra:** scikit-learn's `KMeans` does not pick the starting centroids purely at random. Its default `init="k-means++"` picks the first centroid at random from the data. Each next centroid is also a data point, but points far from the centroids chosen so far are more likely to be picked: the chance is proportional to the squared distance. The starting centroids are thus spread out, which avoids most bad starts.
+> **Extra:** scikit-learn's `KMeans` does not pick the starting centroids purely at random. Its default `init="k-means++"` picks the first centroid at random from the data. Each next centroid is also a data point, but points far from the centroids chosen so far are more likely to be picked: the chance is proportional to the squared distance. The starting centroids are thus spread out, and bad starts become rare: the expected WCSS of this start is provably close to the best possible (Arthur and Vassilvitskii 2007). scikit-learn runs a "greedy" version that tries a few candidates at each step and keeps the best (scikit-learn `KMeans` docs).
 >
-> The second default, `n_init="auto"`, sets how many times the whole algorithm restarts from new centroids; the run with the lowest inertia is kept. With `k-means++` it runs once; with `init="random"` it runs 10 times. Other defaults: `n_clusters=8` and `max_iter=300` rounds at most.
+> The second default, `n_init="auto"`, sets how many times the whole algorithm restarts from new centroids; the run with the lowest inertia is kept. With `k-means++` it runs once; with `init="random"` it runs 10 times. Other defaults: `n_clusters=8` and `max_iter=300` rounds at most (scikit-learn `KMeans` docs).
 
-> **Extra:** The data was not scaled here, although k-means is distance-based (the [k-means Note](../128-kmeans-intuition/note.md), section 4.3). Running k-means on standardized columns puts every student in the same group as before: the four groups are so far apart that IQ's larger numbers do not matter. On real data, scale first.
+> **Extra:** The data was not scaled here, although k-means is distance-based (the [k-means Note](../128-kmeans-intuition/note.md), section 4.3). In the Notebook, running k-means on standardized columns puts every student in the same group as before (adjusted Rand index 1.0). The reason: in both versions every student is nearer its own group's centroid than any other centroid, so the assign step moves nobody and the same four groups are a finished k-means result either way (Notebook: the smallest ratio of nearest-other to own distance is 1.08 raw and 2.56 standardized). On other data, scaling can change the clusters.
 
 ## 6. Plotting the clusters with boolean indexing
 
@@ -180,6 +180,11 @@ What k-means did in 2 dimensions it does in 3, and in any higher number of dimen
 - `KMeans` starts with `k-means++` and keeps the best of `n_init` runs.
 - Name each cluster by its centroid to turn it into a decision.
 - The same code works for any number of columns.
+
+## Sources
+
+- Arthur and Vassilvitskii 2007: D. Arthur and S. Vassilvitskii, *k-means++: The Advantages of Careful Seeding*, Proceedings of SODA 2007, 1027–1035.
+- scikit-learn `KMeans` docs: the `init` and `n_init` parameters of `sklearn.cluster.KMeans`, scikit-learn 1.9 API reference.
 
 ## 10. Key terms
 

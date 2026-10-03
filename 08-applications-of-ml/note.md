@@ -128,7 +128,7 @@ The ML stage decides which applications reach the officer:
 - **High similarity** to past defaulters (say 80 out of 100): the model reports an 80% chance that this person will not repay. This is a red alarm, and the application is rejected.
 - **Low similarity** (say 10, 15 or 20): the application is passed on to the loan officer.
 
-> **Extra:** Predicting "will repay / will not repay" is a classification problem ([Note 3](../03-types-of-ml/note.md)). In banking it is called **credit scoring**, and the probability of not repaying is called the *probability of default*.
+> **Extra:** Predicting "will repay / will not repay" is a classification problem ([Note 3](../03-types-of-ml/note.md)). In banking it is called **credit scoring**, and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
 
 ### 4.2 Other uses in banking and finance
 
@@ -263,10 +263,10 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 
 > **Extra:** Some real events match this idea:
 >
-> - Twitter earns money by **licensing its data**: selling other companies access to the stream of tweets. In 2014 it bought Gnip, a company that resold that data.
-> - A 2011 study by Bollen, Mao and Zeng, *Twitter mood predicts the stock market*, found that the mood of tweets helped predict moves of the Dow Jones index a few days later.
+> - Twitter earns money by **licensing its data**: selling other companies access to the stream of tweets. In 2014 it bought Gnip, a company that resold that data (Twitter 10-K 2018).
+> - A 2011 study, *Twitter mood predicts the stock market*, found that the mood of tweets helped predict moves of the Dow Jones index a few days later (Bollen et al. 2011).
 >
-> Twitter was founded in 2006 and made its first full-year profit only in 2018.
+> Twitter was founded in 2006 and made its first full-year profit only in 2018 (Twitter 10-K 2018).
 
 ## 8. Summary
 
@@ -296,6 +296,12 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 > | Predictive maintenance | Anomaly detection or classification |
 >
 > Route planning is mostly an optimisation problem (finding the shortest or cheapest route); ML helps it by predicting travel times.
+
+## Sources
+
+- Bollen, J., Mao, H. and Zeng, X. (2011). Twitter Mood Predicts the Stock Market. *Journal of Computational Science* 2(1).
+- Thomas, L., Edelman, D. and Crook, J. (2002). *Credit Scoring and Its Applications*. SIAM.
+- Twitter, Inc. (2019). *Form 10-K for the fiscal year 2018*. US Securities and Exchange Commission.
 
 ## 9. Key terms
 

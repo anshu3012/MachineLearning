@@ -96,7 +96,7 @@ In school or college projects, data comes ready-made: from Kaggle, from course m
 
 The goal of this stage is to fetch the data and store it in the right form, so that the work can start.
 
-> **Extra:** In ETL, *extract* copies data out of the source systems, *transform* cleans and reshapes it, and *load* writes it into the warehouse. Apache Spark is a widely used tool for processing data that is too big for one computer. CSV files, JSON, SQL, APIs and web scraping each have their own Note in the data-gathering part of this series.
+> **Extra:** In ETL, *extract* copies data out of the source systems, *transform* cleans and reshapes it, and *load* writes it into the warehouse. Apache Spark is a widely used tool for processing data that is too big for one computer, by spreading the work over a cluster of machines (Zaharia et al. 2016). CSV files, JSON, SQL, APIs and web scraping each have their own Note in the data-gathering part of this series.
 
 ## 5. Data preprocessing
 
@@ -152,9 +152,9 @@ The core idea of the whole stage: bring the data into a format the ML algorithm 
 - **Outlier detection:** find the values far from the rest.
 - **Handling imbalanced data:** turn an imbalanced dataset into a balanced one.
 
-A dataset is **imbalanced** when one class has far more rows than another. For example, in a dog-versus-cat image classifier, we might have many cat images and very few dog images. A model trained on such data tends to favour the large class, so we handle the imbalance at this stage.
+A dataset is **imbalanced** when one class has far more rows than another. For example, in a dog-versus-cat image classifier, we might have many cat images and very few dog images. A model trained on such data tends to favour the large class (He and Garcia 2009, §2), so we handle the imbalance at this stage.
 
-> **Extra:** "Handling" imbalance usually means collecting more rows of the small class, creating extra copies or synthetic rows of it (oversampling), or dropping some rows of the large class (undersampling). Univariate, bivariate and multivariate analysis each have their own Note in the understanding-data part of this series.
+> **Extra:** "Handling" imbalance usually means collecting more rows of the small class, creating extra copies or synthetic rows of it (oversampling), or dropping some rows of the large class (undersampling) (He and Garcia 2009, §3.1). Univariate, bivariate and multivariate analysis each have their own Note in the understanding-data part of this series.
 
 ### 6.3 Time spent on EDA pays back later
 
@@ -224,7 +224,7 @@ In the **evaluation** step, we measure every trained model with **performance me
 | Regression | Mean squared error |
 | Clustering | Dunn index |
 
-> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is higher when clusters are tight and far apart from each other. Each of these metrics, and many more, has its own Note later.
+> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Each of these metrics, and many more, has its own Note later.
 
 ### 8.3 Model selection and hyperparameter tuning
 
@@ -234,7 +234,7 @@ In **model selection**, we pick one or several of the best algorithms. Every alg
 
 It is like adjusting a TV for a late-night movie: we change the picture mode and the sound mode and turn the volume up a little. Each setting is a knob; we turn the knobs until the picture is best for our situation.
 
-> **Extra:** In everyday speech these settings are often called "parameters". Strictly, the settings we choose before training are **hyperparameters**, while **parameters** are the values the model learns from the data during training (for example, the slope of a line). Tuning methods such as grid search and random search have their own Notes.
+> **Extra:** In everyday speech these settings are often called "parameters". Strictly, the settings we choose before training are **hyperparameters**, while **parameters** are the values the model learns from the data during training (for example, the slope of a line) (Goodfellow et al. 2016, §5.3). Tuning methods such as grid search and random search have their own Notes.
 
 ### 8.4 Ensemble learning
 
@@ -247,7 +247,7 @@ It is like adjusting a TV for a late-night movie: we change the picture mode and
 - stacking,
 - cascading.
 
-They differ in how the models are combined, but the core idea is the same: many models together make one strong model. Using an ensemble usually improves performance, so it is a step we almost always take.
+They differ in how the models are combined, but the core idea is the same: many models together make one strong model. Using an ensemble usually improves performance (Dietterich 2000), so it is a step we almost always take.
 
 The full routine of this stage: train many models, evaluate them all, tune their hyperparameters, then apply ensemble learning. The result is one strong final model.
 
@@ -275,7 +275,7 @@ Figure 3 shows the usual setup.
 
 The server itself is rented from a cloud provider such as Heroku, AWS (Amazon Web Services) or GCP (Google Cloud Platform). Once deployed, the model is online and serving users' requests. Later Notes build complete websites around ML models in this way.
 
-> **Extra:** **JSON** (JavaScript Object Notation) is a plain-text format for structured data, for example `{"prediction": "placed"}`. Heroku no longer has a free plan (it ended in November 2022); free options for small demos today include Render and Hugging Face Spaces. Pickle files should only be loaded from trusted sources, because loading a pickle can run code.
+> **Extra:** **JSON** (JavaScript Object Notation) is a plain-text format for structured data, for example `{"prediction": "placed"}`. Heroku ended its free plan on 28 November 2022 (Heroku 2022); Render still has a free plan for small demos (Render docs). Pickle files should only be loaded from trusted sources, because loading a pickle can run code (Python docs, `pickle`).
 
 ## 10. Testing
 
@@ -293,7 +293,7 @@ Software updates rarely reach all users at once; they roll out gradually. **Beta
 
 A popular technique at this stage is **A/B testing**. After it, we decide whether the model we just built is working properly. A/B testing gets its own Note later.
 
-> **Extra:** In A/B testing, users are split at random into two groups. Group A keeps the current version and group B gets the new one. We then compare a measure that matters to the business, such as clicks or sales, between the two groups. Because the groups are random, a clear difference can be put down to the new version.
+> **Extra:** In A/B testing, users are split at random into two groups. Group A keeps the current version and group B gets the new one. We then compare a measure that matters to the business, such as clicks or sales, between the two groups. Because the groups are random, a clear difference can be put down to the new version (Kohavi et al. 2020, Ch. 1).
 
 ### 10.3 When testing fails: going back
 
@@ -340,7 +340,7 @@ So we decide how often to retrain, for example weekly or monthly. This must be a
 
 Optimizing also means going through the whole process and removing extra expense wherever we find it, until the process runs smoothly.
 
-> **Extra:** Watching a live model's performance so that we notice drift early is called **monitoring**. The practice of running and maintaining live models is called MLOps.
+> **Extra:** Watching a live model's performance so that we notice drift early is called **monitoring**. The practice of running and maintaining live models is called MLOps (Kreuzberger et al. 2023).
 
 ## 12. The life cycle and the Pipeline map
 
@@ -388,6 +388,19 @@ Where the two differ:
 - Stage 1 comes first; stages 2 to 9 form a **cycle**, because live models drift and must be retrained on new data.
 - A failed test sends us **back** to the stage that caused the problem.
 - Sources count the stages differently; the core idea stays the same.
+
+## Sources
+
+- Dietterich, T. (2000). Ensemble Methods in Machine Learning. *Multiple Classifier Systems*, LNCS 1857. Springer.
+- Dunn, J. (1974). Well-Separated Clusters and Optimal Fuzzy Partitions. *Journal of Cybernetics* 4(1).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press.
+- He, H. and Garcia, E. (2009). Learning from Imbalanced Data. *IEEE Transactions on Knowledge and Data Engineering* 21(9).
+- Heroku (2022). Free Heroku Dynos, Heroku Postgres and Heroku Data for Redis are no longer available. Heroku Dev Center changelog.
+- Kohavi, R., Tang, D. and Xu, Y. (2020). *Trustworthy Online Controlled Experiments*. Cambridge University Press.
+- Kreuzberger, D., Kühl, N. and Hirschl, S. (2023). Machine Learning Operations (MLOps): Overview, Definition, and Architecture. *IEEE Access* 11.
+- Python Software Foundation. `pickle`: Python object serialization. Python 3 documentation.
+- Render. Deploy for Free. render.com/docs/free.
+- Zaharia, M. et al. (2016). Apache Spark: A Unified Engine for Big Data Processing. *Communications of the ACM* 59(11).
 
 ## 14. Key terms
 

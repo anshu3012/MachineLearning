@@ -34,7 +34,7 @@ Three things make the random forest one of the first algorithms to try in any pr
 2. **It handles both problem types.** `RandomForestClassifier` predicts classes and `RandomForestRegressor` predicts numbers.
 3. **It needs little tuning.** With every setting left at its default, it often gives the best result of all the algorithms we try. This makes it especially friendly for beginners.
 
-> **Extra:** The random forest was published by the statistician Leo Breiman in 2001, in a paper titled *Random Forests*. Breiman had also introduced bagging in 1996; his forests built on Tin Kam Ho's 1995 idea of "random decision forests", trees trained on random subsets of the columns.
+> **Extra:** The random forest was published by the statistician Leo Breiman in 2001, in a paper titled *Random Forests* (Breiman, 2001). Breiman had also introduced bagging (Breiman, 1996). The name and the idea of training trees on random subsets of the columns came earlier, from Tin Kam Ho's "random decision forests" (Ho, 1995).
 
 ## 3. Where the name comes from
 
@@ -148,7 +148,7 @@ This setting adds the most randomness: the trees differ in both rows and columns
 The forest of 100 trees also predicts **0**. Two things differ from our hand-built version:
 
 - **More trees.** Three trees are only enough to show the idea; the default is 100.
-- **Column sampling at every split.** Our functions picked the columns once per tree. A random forest picks a fresh random set of columns at every node of every tree, which adds even more variety. This is the main difference between bagging and a random forest, explained in the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md).
+- **Column sampling at every split.** Our functions picked the columns once per tree. A random forest picks a fresh random set of columns at every node of every tree (Breiman, 2001, section 4), which makes the trees even less alike (ESL §15.2). This is the main difference between bagging and a random forest, explained in the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md).
 
 ## 6. Summary
 
@@ -162,6 +162,13 @@ The forest of 100 trees also predicts **0**. Two things differ from our hand-bui
 - "Forest": many trees. "Random": each tree gets randomly sampled data.
 - Subsets can be made by row sampling, column sampling or both, with or without replacement.
 - It works for classification and regression, and gives strong results with little tuning.
+
+## Sources
+
+- Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140.
+- Breiman, L. (2001). "Random Forests". *Machine Learning* 45(1), 5–32.
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2.
+- Ho, T. K. (1995). "Random Decision Forests". *Proceedings of the 3rd International Conference on Document Analysis and Recognition*, 278–282.
 
 ## 7. Key terms
 

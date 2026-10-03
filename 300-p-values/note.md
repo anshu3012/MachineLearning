@@ -102,7 +102,7 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 
 ### 4.2 Common misreadings
 
-> **Extra:** Each of these statements about $p = 0.03$ is wrong.
+> **Extra:** Each of these statements about $p = 0.03$ is wrong. They are misreadings 1, 2, 4, 7 and 9 in the list of Greenland et al., "Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations", *European Journal of Epidemiology* 31 (2016), 337–350.
 >
 > - **"About 3 experiments in 100 would give exactly our result."** The p-value counts results **as or more extreme**, not exactly ours. For 53 heads, exactly 53 has probability 0.067, while the p-value is 0.309.
 > - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. That would need Bayes' theorem and a prior (see the [Bayes theorem Note](../85-bayes-theorem/note.md)).

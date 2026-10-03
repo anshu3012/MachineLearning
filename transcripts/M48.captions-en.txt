@@ -1,0 +1,423 @@
+
+We're going to do a lot of math step by
+step by step by step by step StatQuest.
+Hello, I'm Josh Starmer and welcome to
+StatQuest. Today we're going to talk
+about maximum likelihood for the normal
+distribution and it's going to be
+clearly explained.
+Note, this StatQuest follows up on the
+StatQuest maximum likelihood clearly
+explained
+as well as the StatQuest probability
+versus likelihood.
+Lastly, this StatQuest assumes you are
+already familiar with the normal
+distribution. If not, check out the
+StatQuest the normal distribution
+Let's start with this nasty looking
+equation.
+It's the equation for the normal
+distribution or normal curve.
+It has two parameters.
+The first parameter, the Greek character
+mu, determines the location of the
+normal distribution's mean.
+A smaller value for mu moves the mean of
+the distribution to the left.
+And a larger value for mu moves the mean
+of the distribution to the right.
+The second parameter, the Greek
+character sigma, is the standard
+deviation and determines the normal
+distribution's width.
+A larger value for sigma makes the
+normal curve shorter and wider.
+And a smaller value for sigma makes the
+normal curve taller and narrower.
+In this StatQuest, we're going to use
+the likelihood of the normal
+distribution to find the optimal
+parameters for mu, the mean, and sigma,
+the standard deviation, given some data
+X.
+Let's start with the simplest data set
+of all, a single measurement.
+Here, we've measured a single mouse and
+it weighs 32 g.
+Now, just to see what happens, we can
+overlay a normal distribution with mu =
+28 and sigma = 2 onto the data.
+To determine the likelihood of the data
+given this curve, we can plug the
+numbers into the likelihood function.
+And then plug the numbers into this
+And here's the equation with mu = 28,
+sigma = 2, and x = 32 plugged in.
+Now, just do the math.
+Plug and chug. Plug and chug.
+And the likelihood of the curve with mu
+= 30 and sigma = 2 given the data is
+0.03.
+Thus, the y-axis value here is 0.03.
+Now, we can shift the distribution a
+little bit to the right by setting mu =
+30 and then calculate the likelihood.
+Again, we just plug the numbers into the
+likelihood function.
+And then now we just plug and chug.
+And the likelihood of the new curve with
+mu = 30 and sigma = 2 given the data is
+0.12.
+Thus, the y-axis value here is 0.12.
+If we decide to fix sigma = 2 so that it
+is a given just like the data,
+then we can plug in a whole bunch of
+values for mu and see which one gives
+the maximum likelihood.
+For example, if we start with the mean
+of the distribution over here on the
+left at 20 g,
+then we plug mu = 20 into the equation.
+And we get a crazy small likelihood.
+And then we can plot the likelihood on a
+graph.
+The Y axis is the likelihood value.
+And the X axis is for the different
+values that we plug in for mu.
+Each time we change mu, we calculate the
+likelihood and plot it.
+We can identify the peak in the
+likelihood graph by determining where
+the slope of the curve equals zero.
+In this case, the slope equals zero when
+mu equals 32.
+Now we can fix mu equals 32 and treat it
+like a given, just like the data.
+And we can plug in different values for
+sigma to find the one that gives the
+maximum likelihood.
+Note, you actually need more than one
+measurement to find the optimal value
+for sigma.
+I'll leave the reason why as an exercise
+for the viewer.
+That said, if we had more data,
+then we could plot the likelihoods for
+different values of sigma.
+And the maximum likelihood estimate for
+sigma would be at the peak, where the
+slope of the curve equals zero.
+The goal of this super simple example is
+to convey the basic concepts of how to
+find the maximum likelihood estimates
+for mu and sigma.
+To solve for the maximum likelihood
+estimate for mu, we treat sigma like
+it's a constant and then find where the
+slope of its likelihood function is
+zero.
+And to solve for the maximum likelihood
+estimate for sigma, we treat mu like
+The example with one measurement kept
+the math simple, but now I think we're
+ready to dive in a little deeper.
+So let's use a two-sample data set to
+calculate the likelihood of a normal
+distribution. Crazy times.
+To keep track of things, let's call the
+mouse that weighs 32 g X sub 1.
+And the mouse that weighs 34 g X sub 2.
+And again, just to see what happens,
+let's overlay a normal distribution with
+mu equals 28 and sigma equals 2 onto the
+data.
+We've already seen how to calculate the
+likelihood for this curve given X sub 1,
+the mouse that weighs 32 g.
+And we can calculate the likelihood for
+the curve given X sub 2 by plugging in
+34 into this likelihood function.
+But what's the likelihood of this normal
+curve given both X sub 1 and X sub 2?
+In other words, what's this?
+Because these measurements are
+independent, i.e., weighing X sub 1 did
+not have an effect on weighing X sub 2,
+the likelihood of a normal distribution
+with mu equals 28 and sigma equals 2,
+given the data X sub 1 equals 32 and X
+sub 2 equals 34,
+is just the likelihood of the
+distribution given X sub 1
+times
+the likelihood of the distribution given
+X sub 2.
+So, we just plug in the numbers and do
+the math.
+And that gives us a really small number.
+If we had a third data point, then we
+just add it to the given side of the
+overall likelihood
+and add another individual likelihood
+term to our multiplication.
+With n data points,
+we add all n data points to the given
+side of the overall likelihood function,
+then multiply together all n individual
+likelihood functions.
+Bam!
+Now that we know how to calculate the
+likelihood of a normal distribution and
+we have more than one measurement, we
+just multiply together the individual
+likelihoods.
+Let's solve for the maximum likelihood
+estimates for mu and sigma.
+Brace yourself for a lot of math,
+but don't freak out. We'll go through it
+one step at a time.
+Here's the likelihood function without
+any value specified for mu and sigma.
+It equals the product of the likelihood
+functions for the n individual
+measurements.
+And here's what the equation looks like.
+What we need to do is take two different
+derivatives of this equation.
+One derivative will be with respect to
+mu when we treat sigma like it's a
+constant.
+And we can find the maximum likelihood
+estimate for mu by finding where this
+derivative equals zero.
+The other derivative will be with
+respect to sigma when we treat mu like
+it's a constant.
+estimate for sigma by finding where this
+But before we try to take any
+derivatives, let's take the log of the
+We do this because it makes taking the
+derivative way, way easier.
+And the likelihood function and the log
+of the likelihood function both peak at
+the same values for mu and sigma.
+I know it's hard to tell that the log
+likelihood function for sigma peaks
+here, but just take my word for it. I
+double-checked.
+Here's the log of the likelihood.
+Now, we're going to go step-by-step
+through all of the transformations that
+the log has on this function.
+Just a heads-up, the log is going to do
+a lot of transformations to this
+function, so hang in there.
+First, the log transforms the
+multiplication
+into addition.
+Now, we log transform the individual
+Let's focus on this one first.
+Step one,
+move the log of the first likelihood
+function to the top left-hand side of
+the screen for reference.
+Step two,
+convert the multiplication
+Step three,
+convert one over the square root
+into the exponent -1/2.
+And convert the exponent
+into multiplication.
+Step four,
+convert the -1/2 exponent
+And the log of e equals 1,
+so we can remove it.
+Step five,
+the log can convert the multiplication
+of 2 * pi * sigma squared
+into addition of 2 * pi and sigma
+squared.
+And there's nothing more to do to this
+term,
+so it doesn't change.
+Step six, convert the exponent in the
+log of sigma squared
+into 2 * the log of sigma.
+Step seven,
+lastly, the 2 / 2 term cancels out.
+We started with this,
+and after the log transformation ended
+up with this.
+I know all of this log transformation
+stuff looks bonkers the first time you
+see it. Just remember, it will make it
+easier to take the derivative.
+So now we can go back to the original
+likelihood and turn this
+into this.
+And by following the same steps, we can
+transform the remaining parts of the sum
+Now let's simplify this equation.
+Just to be clear about how we simplify,
+keep in mind that since we have n data
+points,
+that means we have a term for the first
+data point x sub 1
+and that this represents the terms for
+the remaining n minus 1 data points.
+So we can combine this from the first
+term
+with the remaining n minus 1
+occurrences.
+1
+plus n minus 1 equals n.
+Then all n of the negative log of sigmas
+can be combined.
+And the last parts of each term stay the
+same.
+This is the log of the likelihood
+function after simplification and it is
+what we will take the derivative of.
+So let's move it to the top for
+reference.
+We'll start by taking the derivative
+with respect to mu.
+This derivative is the slope function
+for the log of the likelihood curve
+and we'll use it to find the peak, aka
+where the slope equals zero.
+The first term doesn't contain mu, so
+it's derivative is zero.
+The second term doesn't contain mu
+either, so its derivative is also zero.
+The third term contains mu.
+So, now we have to work.
+Specifically, the numerator contains mu,
+and we have to apply
+the chain rule.
+So, we start with the outer derivative
+of -32 - mu squared.
+And then we multiply that by the
+derivative of 32 - mu.
+And then we simplify.
+Because the derivative is with respect
+to mu, sigma is a constant, and thus,
+the denominator doesn't change.
+So, we can combine the two pieces.
+And the twos cancel out.
+And that means the derivative of this
+is this.
+Likewise, we apply
+the chain rule
+to the remaining terms and get
+these.
+Now, we can simplify the equation.
+These zeros go away,
+and we can pull the sigma squared out.
+And add the numerators together.
+Then we can combine the measurements.
+And lastly, we can combine the mus.
+Thus, this is the derivative of the log
+likelihood function with respect to mu.
+Double bam!
+Now, let's take the derivative of the
+log likelihood function with respect to
+sigma.
+for the log of the likelihood curve.
+And we'll use it to find the peak, which
+is hard to see in this graph.
+So, from here on out, because they peak
+at the same spot, I'll show you the
+likelihood functions instead of the log
+The first term doesn't contain sigma, so
+its derivative is zero.
+The derivative of the second term is
+just n over sigma.
+The derivative of this term isn't
+tricky, but it's easier to figure out
+when we rewrite 1 over sigma squared as
+sigma to the -2.
+Since we're taking the derivative with
+respect to sigma, this part can be
+treated like a big constant.
+And the derivative of this
+The two negatives cancel out.
+And then the twos cancel out.
+And lastly, we put sigma back into the
+denominator by changing the sign of the
+exponent.
+So the derivative of this
+So that's what we put into the equation.
+Likewise, the derivatives of the
+remaining terms
+simplify to these.
+This is the derivative of the log
+likelihood function with respect to
+We can simplify the equation by omitting
+the zero,
+leaving the second term the same,
+and we can pull the sigma cubed out,
+and add up the remaining terms.
+At long last, here are the two
+derivatives.
+To find the maximum likelihood estimate
+for mu, we need to solve for where the
+derivative with respect to mu equals
+zero, because the slope is zero at the
+peak of the curve.
+Likewise, to find the maximum likelihood
+estimate for sigma, we need to solve for
+where the derivative with respect to
+sigma equals zero because the slope is
+zero at the peak of the curve.
+We'll start by setting the derivative
+with respect to mu to zero.
+And solve for mu.
+We start by multiplying both sides by
+sigma squared. That makes the sigma
+squared go away.
+Then we add n times mu to both sides.
+Divide both sides by n and solve.
+Thus, the maximum likelihood estimate
+for mu is the mean of the measurements.
+So that is where the center of our
+normal curve will go.
+Don't get too excited. We're not done
+yet.
+Dang.
+Now we need to set the derivative with
+respect to sigma to zero.
+Now multiply both sides by sigma.
+Add n to both sides.
+Multiply both sides by sigma squared.
+Divide both sides by n.
+And take the square root of both sides.
+And at long last, we see that the
+maximum likelihood estimate for sigma is
+the standard deviation of the
+Thus, we use the formula for the
+standard deviation to determine the
+width of the normal curve that, given
+the data, has the maximum likelihood.
+In summary,
+the mean of the data is the maximum
+likelihood estimate for where the center
+of the normal distribution should go.
+And the standard deviation of the data
+is the maximum likelihood estimate of
+how wide the normal curve should be.
+Note,
+these solutions may be obvious, but now
+we have the math that proves that our
+intuition is correct.
+Wait for it.
+Triple bam!
+Hooray! We've made it to the end of
+another exciting StatQuest. If you like
+this StatQuest and want to see more of
+them, please subscribe. And if you want
+to support StatQuest, well, please
+consider buying one or two of my
+original songs. All right, until next
+time, quest on.

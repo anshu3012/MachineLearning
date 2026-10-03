@@ -101,7 +101,7 @@ This worked because the bump $e^{-x^2}$ is centred at 0, exactly where the inner
 
 So SVM in effect tries a bump centred on each data point and keeps the combination that separates the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new columns at all (Section 7).
 
-> **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its decision function is a weighted sum of such bumps, one centred on each support vector.
+> **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its decision function is a weighted sum of such bumps, one centred on each support vector: $\sum_{i \in SV} y_i \alpha_i K(x_i, x) + b$ (sklearn UG §1.4.7).
 
 ## 5. The RBF kernel
 
@@ -148,15 +148,17 @@ With the default degree 3, the accuracy is even worse than linear: 0.45, with th
 > # 2 1.0
 > ```
 
-> **Extra:** Why does degree 2 work and degree 3 fail? scikit-learn's polynomial kernel is $(\gamma\, a \cdot b + r)^d$ with $r$ (`coef0`) equal to 0 by default. With $r = 0$, the degree-3 kernel contains only terms of degree exactly 3, such as $x_1^3$ and $x_1^2 x_2$. A circle needs $x_1^2 + x_2^2$, a degree-2 term, which the degree-3 kernel cannot produce. The degree-2 kernel contains exactly $x_1^2$, $x_1 x_2$ and $x_2^2$. Setting `coef0=1` with degree 3 would add the lower-degree terms back and also fit the circles.
+> **Extra:** Why does degree 2 work and degree 3 fail? scikit-learn's polynomial kernel is $(\gamma\, a \cdot b + r)^d$ with $r$ (`coef0`) equal to 0 by default (sklearn UG §1.4.6). With $r = 0$, the degree-3 kernel contains only terms of degree exactly 3, such as $x_1^3$ and $x_1^2 x_2$. A circle needs $x_1^2 + x_2^2$, a degree-2 term, which the degree-3 kernel cannot produce. The degree-2 kernel contains exactly $x_1^2$, $x_1 x_2$ and $x_2^2$. Setting `coef0=1` with degree 3 adds the lower-degree terms back, and in the Notebook this model also scores 1.00 on the circles.
 
-The table also shows the support vectors. The linear model needs almost every training point; the good kernels need only a few, as the SVM intuition Note predicted for a clean separation.
+The table also shows the support vectors. The linear model needs almost every training point; the good kernels need only a few. The reason: every point that sits on the margin, inside it or on the wrong side of the boundary becomes a support vector (ESL §12.2.1). A straight line fits the circles badly, so most points end up inside its margin; a curved boundary that fits well leaves only a few points near it.
+
+> **Extra:** The Notebook checks the margin rule for the linear model. The linear model misclassifies 30 of the 80 training points, and exactly 76 points have $y \cdot f(x) < 1$ (inside the margin or on the wrong side): the same 76 as its support vectors.
 
 ## 7. Why it is a trick
 
 > **Key point:** A kernel gives the dot product of two points in the higher-dimensional space directly from the original coordinates, so the new columns are never built.
 
-SVM's training and predictions only need **dot products** between pairs of points. A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
+SVM's training and predictions only need **dot products** between pairs of points (MML §12.4). A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
 
 As a formula, for the degree-2 polynomial kernel with the explicit features $\phi(x) = (x_1^2,\ \sqrt{2}\,x_1 x_2,\ x_2^2)$:
 
@@ -167,7 +169,7 @@ With numbers, for $a = (1, 2)$ and $b = (3, 1)$:
 - Kernel: $a \cdot b = 3 + 2 = 5$, so $K(a, b) = 5^2 = 25$.
 - Explicit features: $\phi(a) = (1,\ 2\sqrt{2},\ 4)$ and $\phi(b) = (9,\ 3\sqrt{2},\ 1)$, so $\phi(a) \cdot \phi(b) = 9 + 12 + 4 = 25$.
 
-The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap. This is the trick that made SVM famous.
+The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). This is the trick that made SVM famous.
 
 ## 8. An interactive playground
 
@@ -184,7 +186,7 @@ Things to try:
 - **C** from 3 down to $-3$ (that is, $10^3$ to $10^{-3}$): small C widens the margin and adds support vectors, as in the [soft-margin Note](../94-svm-soft-margin/note.md).
 - **gamma** with the RBF kernel on the moons data: from smooth boundaries at small gamma to tight islands around single points at large gamma.
 
-> **Extra:** `gamma` sets how far the influence of one training point reaches in the RBF kernel $e^{-\gamma \lVert a - b \rVert^2}$. A small gamma makes each bump wide, giving smooth boundaries (risk of underfitting). A large gamma makes each bump narrow, so the boundary wraps around individual points (risk of overfitting). scikit-learn's default, `gamma="scale"`, sets it from the spread of the data. C and gamma are usually tuned together with a grid search.
+> **Extra:** `gamma` sets how far the influence of one training point reaches in the RBF kernel $e^{-\gamma \lVert a - b \rVert^2}$. A small gamma makes each bump wide, giving smooth boundaries (risk of underfitting). A large gamma makes each bump narrow, so the boundary wraps around individual points (risk of overfitting). scikit-learn's default, `gamma="scale"`, sets it from the spread of the data: $1 / (\text{n\_features} \times \text{variance of } X)$. C and gamma are usually tuned together with a grid search (sklearn, "RBF SVM parameters").
 
 ## 9. Summary
 
@@ -200,6 +202,13 @@ Things to try:
 - With a kernel, SVM gets the same effect from the original two columns: no new features.
 - The kernel's settings (degree, gamma) and C are hyperparameters to tune.
 - A kernel returns the dot product in the higher-dimensional space directly: that is the trick.
+
+## Sources
+
+- **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 12.2.1.
+- **MML:** M. P. Deisenroth, A. A. Faisal and C. S. Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020. Section 12.4, Kernels.
+- **sklearn UG:** scikit-learn User Guide, Section 1.4, Support Vector Machines (1.4.6 Kernel functions, 1.4.7 Mathematical formulation), and the `SVC` reference page.
+- **sklearn, "RBF SVM parameters":** scikit-learn example gallery, *RBF SVM parameters*.
 
 ## 10. Key terms
 

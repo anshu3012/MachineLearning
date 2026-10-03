@@ -74,7 +74,7 @@ For the network, $\partial L/\partial W^{1}_{11}$ says how the loss responds to 
 
 At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$.
 
-For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W^{2}_{11} W^{1}_{11}$, and for any real network there are thousands of them, with no formula for the solution. So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../57-gradient-descent/note.md) does for linear regression.
+For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W^{2}_{11} W^{1}_{11}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../57-gradient-descent/note.md) does for linear regression.
 
 ## 7. Why we subtract the derivative
 
@@ -152,7 +152,11 @@ So the "right" loop is "repeat until convergence". In practice we write a loop o
 - The minus sign moves each parameter the right way; the slope's size makes steps shrink near the minimum.
 - On $L(b_{21}) = (3.68 - b_{21})^2$ each update multiplies the distance to the minimum by $1 - 2\eta$.
 
-## 11. Key terms
+## 11. Sources
+
+- Goodfellow, Bengio and Courville, *Deep Learning*, MIT Press, 2016, §6.2 (non-convex losses; iterative gradient-based training).
+
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|

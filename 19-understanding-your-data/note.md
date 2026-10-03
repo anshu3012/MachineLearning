@@ -156,7 +156,7 @@ Three things can be read from it:
 
 Sometimes whoever made the data stored numbers in a bigger type than they need. A column of small whole numbers kept as `float64` or `int64` uses 8 bytes per value.
 
-For 891 rows this hardly matters. On a dataset with millions of rows, such small fixes save a lot of memory, and every algorithm we later run on the data gets faster.
+For 891 rows this hardly matters. On a dataset with millions of rows, such small fixes save a lot of memory, so a much larger dataset fits on one computer (pandas, "Scaling to large datasets").
 
 > **Python:** Shrinking small-number columns.
 >
@@ -260,7 +260,7 @@ The rows of the table mean:
 >    $$s = \sqrt{\frac{186.8}{5 - 1}} = \sqrt{46.7} \approx 6.83.$$
 >    A typical age among these five is about 7 years away from 31.2.
 >
-> pandas divides by $n - 1$, not $n$. This **sample standard deviation** corrects for the fact that a sample tends to look a little less spread out than the whole population it came from.
+> pandas divides by $n - 1$, not $n$. This **sample standard deviation** corrects for the fact that a sample tends to look a little less spread out than the whole population it came from (see Section 4.3 of the [measures of dispersion Note](../222-measures-of-dispersion/note.md)).
 
 ### 7.2 Percentiles
 
@@ -378,7 +378,7 @@ Figure 6 shows the result. `Survived` with itself is exactly 1, as every column 
 
 This check is useful at the start, and we repeat it later, after cleaning and creating new columns.
 
-> **Extra:** Older code writes `df.corr()` without `numeric_only=True`. That worked in pandas 1, which skipped text columns quietly. From pandas 2 on, it raises `ValueError: could not convert string to float`, because the table has text columns such as `Name`.
+> **Extra:** Older code writes `df.corr()` without `numeric_only=True`. That worked in pandas 1, which skipped text columns quietly. From pandas 2 on, `numeric_only` defaults to `False` (pandas release notes), so it raises `ValueError: could not convert string to float`, because the table has text columns such as `Name`.
 
 > **Extra:** Correlation has two limits worth remembering:
 >
@@ -403,6 +403,11 @@ This check is useful at the start, and we repeat it later, after cleaning and cr
 - `describe` gives the descriptive statistics of each numerical column; reading them closely reveals odd values, such as fares of 0.
 - `df.corr()` needs `numeric_only=True` in pandas 2 and later when the table has text columns.
 - Correlation runs from -1 to +1; a column with no link to the output, such as an ID, is a candidate for removal.
+
+## Sources
+
+- pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
+- pandas user guide. Scaling to large datasets: use efficient datatypes. pandas.pydata.org/docs/user_guide/scale.html.
 
 ## 11. Key terms
 

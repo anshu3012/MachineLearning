@@ -38,7 +38,7 @@ KNN does it in five steps:
 4. **Keep the k nearest** training points: the **neighbours**.
 5. **Vote:** each neighbour "says" its class, and the class with the most votes wins. If the 3 neighbours say 1, 1 and 0, the prediction is 1 (placed).
 
-> **Extra:** Euclidean is not the only distance. scikit-learn's `KNeighborsClassifier` uses the **Minkowski distance** with `p=2` by default, which is exactly the Euclidean distance. With `p=1` it becomes the **Manhattan distance**: the sum of the absolute differences, like walking along city blocks.
+> **Extra:** Euclidean is not the only distance. scikit-learn's `KNeighborsClassifier` uses the **Minkowski distance** with `p=2` by default, which is exactly the Euclidean distance (scikit-learn docs, `KNeighborsClassifier`). With `p=1` it becomes the **Manhattan distance**: the sum of the absolute differences, like walking along city blocks.
 
 ### 2.2 Any number of columns
 
@@ -137,7 +137,7 @@ k is a **hyperparameter**: a setting we choose before training (the [pipelines N
 
 With two classes, an even k can produce a tie. With k = 4, the vote can end 2 against 2, and there is no majority. So we take an odd value nearby: 19 or 21 instead of 20.
 
-> **Extra:** If a tie does happen, scikit-learn does not flip a coin. It picks the class that comes first in its sorted list of classes (here, 0 = malignant). An odd k avoids the question entirely for two classes.
+> **Extra:** If a tie does happen, scikit-learn does not flip a coin. It picks the class that comes first in its sorted list of classes (here, 0 = malignant), as a small test in the notebook shows. An odd k avoids the question entirely for two classes.
 
 This rule is only a starting point. Experiments usually do better.
 
@@ -297,7 +297,7 @@ Figure 4 measures this on random data with 30 columns. "Training" on 500,000 row
 
 ![Fit time and prediction time of KNN (brute-force search) as the training set grows](images/predict_time.png){height=38%}
 
-> **Extra:** The measurement uses `algorithm="brute"`, the plain method described above. By default scikit-learn picks `algorithm="auto"`, which can store the points in a tree (a **KD-tree** or **ball tree**) so that most far-away points are skipped. That speeds things up a lot when there are few columns, but helps little with many columns, where the next failure case applies.
+> **Extra:** The measurement uses `algorithm="brute"`, the plain method described above. By default scikit-learn picks `algorithm="auto"`, which can store the points in a tree (a **KD-tree** or **ball tree**) so that most far-away points are skipped. That speeds things up a lot when there are few columns (fewer than about 20), but helps little with many columns, where the next failure case applies (scikit-learn user guide §1.6.4).
 
 ### 7.2 High-dimensional data: distances stop meaning much
 
@@ -349,7 +349,11 @@ KNN cannot answer this. It labels a query point by its neighbours, but it never 
 - A decision surface colours a dense grid of predicted points (`meshgrid`, predict, colour).
 - Small k overfits (islands, high variance); k = n underfits (always the majority class).
 
-## 9. Key terms
+## 9. Sources
+
+- **scikit-learn docs:** `sklearn.neighbors.KNeighborsClassifier` (metric, p); user guide Section 1.6.4, "Nearest Neighbor Algorithms", scikit-learn 1.9.
+
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|

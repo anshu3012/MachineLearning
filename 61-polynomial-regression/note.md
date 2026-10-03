@@ -63,7 +63,7 @@ That is why polynomial regression is called "linear": **linear** refers to the c
 >
 > `include_bias=True` adds the column of 1s; `LinearRegression` fits its own intercept anyway, so that column gets coefficient 0 and either setting works.
 
-With the $x^2$ column, the test R² jumps from 0.38 to 0.83. The learned equation, $\hat{y} = 1.92 + 1.04x + 0.82x^2$, is close to the true $2 + 0.9x + 0.8x^2$; the remaining difference is the noise.
+With the $x^2$ column, the test R² jumps from 0.38 to 0.83. The learned equation, $\hat{y} = 1.92 + 1.04x + 0.82x^2$, is close to the true $2 + 0.9x + 0.8x^2$. The remaining difference comes from the noise: refitting on the same training rows with the noise removed gives exactly $2 + 0.9x + 0.8x^2$ (notebook).
 
 ## 4. Choosing the degree
 
@@ -81,11 +81,13 @@ Higher degrees add more columns, $x^3$, $x^4$ and so on, and the curve can bend 
 | 10 | 0.98 | 0.28 | overfits |
 | 15 | 0.99 | $-9.35$ | overfits badly: wild swings between and beyond the points |
 
-The right panel shows the pattern. **Training R²** rises with every extra degree, because more columns always let the curve pass closer to the training points. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this overfitting).
+The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree-$(d+1)$ model contains every degree-$d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this overfitting).
 
 The degree is a hyperparameter. It is chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
 
-> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit numerically unstable, which is why high-degree models are usually built as a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`, as in Figure 2. The wildness of the degree-15 curve near the edges is the overfitting, not a numerical error.
+> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The **condition number** measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 2 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`.
+>
+> Are the wild swings of the degree-15 curve overfitting or rounding error? Overfitting: an exact degree-15 fit, computed in a numerically safer way, swings even more wildly (test R² $-3{,}727$ against $-9.35$; notebook).
 
 ## 5. More than one input
 
@@ -95,13 +97,13 @@ With two inputs $x$ and $y$, degree 2 creates all terms of total power up to 2:
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
-The product $xy$ is an **interaction term**: it lets the effect of $x$ depend on the value of $y$. The fitted model is a curved surface instead of a flat plane.
+The product $xy$ is an **interaction term**: it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\, xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\, y$, which depends on $y$. The fitted model is a curved surface instead of a flat plane.
 
 Figure 3 shows data made from $z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$ plus noise. A plane reaches $R^2 = 0.61$; a degree-2 surface reaches 0.98.
 
 ![A plane vs a degree-2 surface on curved 3D data](images/surface.png){height=45%}
 
-The number of new columns grows quickly. With 2 inputs, degree 2 gives 6 columns; degree 30 gives 496. With many inputs and a high degree, the columns quickly outnumber the rows, and the model overfits.
+The number of new columns grows quickly. With 2 inputs, degree 2 gives 6 columns; degree 30 gives 496. With many features (input variables) and a high degree, the columns quickly outnumber the observations (rows). Once there are as many columns as observations, least squares passes exactly through every training point, whatever the true relationship, and such a model does very poorly on new data (ISL §6.4.2).
 
 > **Extra:** To put two 1-D arrays side by side as columns, use `np.c_[x, y]` or `np.column_stack([x, y])`. A shortcut sometimes seen, `np.array([x, y]).reshape(100, 2)`, does not do this: it fills the rows with 100 values of `x` first and then of `y`, so most rows pair unrelated numbers. The model still runs, but on scrambled data. Checking `X[:3]` against `x[:3]` and `y[:3]` catches it.
 
@@ -117,6 +119,11 @@ The number of new columns grows quickly. With 2 inputs, degree 2 gives 6 columns
 - It is "linear" in the coefficients, so OLS and gradient descent work unchanged.
 - `PolynomialFeatures(degree=d)` creates the columns; with several inputs it adds interaction terms too.
 - The degree controls flexibility: too low underfits, too high overfits. Choose it on held-out data.
+
+## Sources
+
+- **Goodfellow**: I. Goodfellow, Y. Bengio, A. Courville, *Deep Learning*, MIT Press, 2016 (deeplearningbook.org).
+- **ISL**: James, Witten, Hastie, Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021.
 
 ## 7. Key terms
 
