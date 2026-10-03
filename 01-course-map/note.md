@@ -60,7 +60,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
 | Conditional probability | [Note 82](../82-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
-| Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), Video 86, coming | confirmed |
+| Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), [Note 86](../86-bayes-problem/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -369,11 +369,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 83 | Independent and mutually exclusive events | nothing | written |
 | 84 | Independent and mutually exclusive events | nothing | written |
 | 85 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | written |
-| 86 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | coming |
-| 87 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), Video 86, coming | coming |
-| 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), Video 86, coming | coming |
-| 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), Video 86, coming | coming |
-| 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), Video 86, coming | coming |
+| 86 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | written |
+| 87 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | coming |
+| 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | coming |
+| 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | coming |
+| 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | coming |
 | 91 | K-nearest neighbours | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 24](../24-standardization/note.md) | coming |
 | 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
 | 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |

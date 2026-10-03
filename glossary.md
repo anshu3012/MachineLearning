@@ -317,6 +317,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Iteration 0 | The starting table, with every gap filled by its column mean. | [Video 40](40-iterative-imputer-mice/note.md) |
 | Iterative imputer | Multivariate imputation that predicts each column from the others, repeatedly; its algorithm is MICE. | [Video 35](35-complete-case-analysis/note.md) |
 | joblib | A library that saves and loads Python objects like pickle, better suited to large arrays. | [Video 29](29-pipelines/note.md) |
+| Joint probability | The probability that two events happen together, $P(A \cap B)$. | [Video 86](86-bayes-problem/note.md) |
 | JSON (JavaScript Object Notation) | A plain-text data format of objects and arrays that almost every language can read. | [Video 16](16-working-with-json-and-sql/note.md) |
 | JSON Lines | A JSON file with one object per line, read with `lines=True`. | [Video 16](16-working-with-json-and-sql/note.md) |
 | JSON viewer | A tool that lays out JSON text as a tree to show its structure. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -340,6 +341,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lambda | A one-line Python function without a name, such as `lambda x: x**2`. | [Video 30](30-function-transformer/note.md) |
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. | [Video 31](31-power-transformer/note.md) |
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1). | [Video 63](63-ridge-regression-intuition/note.md) |
+| Law of total probability | $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the $A_i$ are mutually exclusive and cover every case. | [Video 86](86-bayes-problem/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
 | lbfgs | The default solver of LogisticRegression; supports L2 or no penalty. | [Video 81](81-logistic-hyperparameters/note.md) |
@@ -515,6 +517,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Prior | The probability of an event before any evidence is seen. | [Video 85](85-bayes-theorem/note.md) |
 | Probabilistic interpretation | Reading the model's output as the probability of the positive class. | [Video 72](72-sigmoid-function/note.md) |
 | Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities. | [Video 20](20-univariate-analysis/note.md) |
+| Probability tree | A diagram in which each path multiplies the probabilities along its branches. | [Video 86](86-bayes-problem/note.md) |
 | Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$. | [Video 83](83-independent-events/note.md) |
 | Production code | The code that runs the deployed model on a server, for example behind a website. | [Video 29](29-pipelines/note.md) |
 | Production environment | The server where a model serves real users. | [Video 4](04-batch-learning/note.md) |
