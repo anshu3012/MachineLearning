@@ -20,7 +20,7 @@ for n in sys.argv[1:]:
                           "-ac", "1", "-ar", "16000", "-"], capture_output=True, check=True).stdout
     audio = np.frombuffer(raw, np.int16).astype(np.float32) / 32768.0      # ffmpeg decode: avoids the PyAV version clash
     segments, info = model.transcribe(audio, task="translate", language="hi",
-                                      beam_size=5, vad_filter=True)
+                                      beam_size=5, vad_filter=True, condition_on_previous_text=False)
     lines = [s.text.strip() for s in segments]
     out.write_text("\n".join(lines) + "\n")
     print(n, f"{info.duration / 60:.1f} min audio", f"{(time.time() - t0) / 60:.1f} min", len(" ".join(lines).split()), "words", flush=True)
