@@ -70,6 +70,8 @@ notes:
   51: 51-linear-regression-maths
   52: 52-regression-metrics
   53: 53-multiple-linear-regression
+  54: 54-multiple-lr-maths
+  55: 55-multiple-lr-code
 
 concepts:
   # 0 Foundations
@@ -176,6 +178,7 @@ concepts:
   - {id: knn, name: K-nearest neighbours, step: 8, videos: [6, 91], status: confirmed}
   - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: confirmed}
   - {id: ols, name: Ordinary least squares (closed form), step: 8, videos: [51], status: confirmed}
+  - {id: normal_equation, name: Normal equation, step: 8, videos: [54, 55], status: confirmed}
   - {id: best_fit_line, name: Best-fit line and squared error, step: 8, videos: [50, 51], status: confirmed}
   - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: confirmed}
   - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: draft}
@@ -315,6 +318,9 @@ links:
   - [regression_metrics, needs, best_fit_line, confirmed]
   - [ols, compared with, gradient_descent, confirmed]
   - [ols, needs, covariance, confirmed]
+  - [normal_equation, is a kind of, ols, confirmed]
+  - [normal_equation, used in, multiple_lr, confirmed]
+  - [normal_equation, compared with, gradient_descent, confirmed]
   - [zscore, needs, standardization, confirmed]
   - [zscore, needs, skewness, confirmed]
   - [iqr, needs, univariate, confirmed]

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 92 of 140 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 93 of 141 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -165,7 +165,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Ordinary least squares (closed form) | [Note 51](../51-linear-regression-maths/note.md) | confirmed |
-| Multiple linear regression | [Note 53](../53-multiple-linear-regression/note.md), Video 54, coming, Video 55, coming | confirmed |
+| Multiple linear regression | [Note 53](../53-multiple-linear-regression/note.md), [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
+| Normal equation | [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
 | Assumptions of linear regression | Video 56, coming | draft |
 | Gradient descent | Video 57, coming | draft |
 | Batch gradient descent | Video 58, coming | draft |
@@ -255,7 +256,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 140 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 141 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -329,19 +330,19 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 51 | Best-fit line and squared error, Ordinary least squares (closed form), Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 52 | Regression metrics | [Note 51](../51-linear-regression-maths/note.md) | written |
 | 53 | Multiple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
-| 54 | Multiple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | coming |
-| 55 | Multiple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | coming |
+| 54 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
+| 55 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 56 | Assumptions of linear regression | nothing | coming |
 | 57 | Gradient descent | [Note 24](../24-standardization/note.md) | coming |
 | 58 | Batch gradient descent | Video 57, coming | coming |
 | 59 | Stochastic gradient descent | Video 57, coming | coming |
 | 60 | Mini-batch gradient descent | Video 57, coming | coming |
-| 61 | Polynomial features, Polynomial regression | Video 55, coming | coming |
+| 61 | Polynomial features, Polynomial regression | [Note 55](../55-multiple-lr-code/note.md) | coming |
 | 62 | Bias-variance trade-off | [Note 7](../07-challenges-in-ml/note.md) | coming |
-| 63 | Regularisation, Ridge regression | [Note 7](../07-challenges-in-ml/note.md), Video 55, coming | coming |
-| 64 | Ridge regression | Video 55, coming, Video 63, coming | coming |
-| 65 | Ridge regression | Video 55, coming, Video 63, coming | coming |
-| 66 | Ridge regression | Video 55, coming, Video 63, coming | coming |
+| 63 | Regularisation, Ridge regression | [Note 7](../07-challenges-in-ml/note.md), [Note 55](../55-multiple-lr-code/note.md) | coming |
+| 64 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
+| 65 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
+| 66 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
 | 67 | Lasso regression | Video 63, coming | coming |
 | 68 | Lasso regression | Video 63, coming | coming |
 | 69 | ElasticNet | Video 63, coming | coming |
