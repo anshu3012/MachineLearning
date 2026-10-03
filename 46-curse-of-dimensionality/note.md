@@ -8,7 +8,7 @@ title: "Curse of Dimensionality"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Feature engineering (Video 23, coming).
-> - **Leads to:** PCA (Video 47, coming).
+> - **Leads to:** PCA ([Note 47](../47-pca-geometric-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Where we are in feature engineering

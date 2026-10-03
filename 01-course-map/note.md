@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 47 of 127 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 49 of 128 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -86,6 +86,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Univariate analysis | Video 20, coming | draft |
 | Bivariate and multivariate analysis | Video 21, coming | draft |
 | Pandas Profiling | Video 22, coming | draft |
+| Variance | [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 
 ### 2.5 Step 4: Clean
 
@@ -130,9 +131,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Dimensionality reduction | [Note 3](../03-types-of-ml/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
-| PCA | [Note 3](../03-types-of-ml/note.md), Video 47, coming, Video 48, coming, Video 49, coming | draft |
+| PCA | [Note 3](../03-types-of-ml/note.md), [Note 47](../47-pca-geometric-intuition/note.md), Video 48, coming, Video 49, coming | confirmed |
 | Curse of dimensionality | [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
-| Feature extraction | [Note 46](../46-curse-of-dimensionality/note.md), Video 47, coming | confirmed |
+| Feature extraction | [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 
 ### 2.8 Step 7: Split
 
@@ -242,7 +243,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 127 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 128 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -309,9 +310,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 44 | Percentile outlier method | Video 41, coming | coming |
 | 45 | Feature construction and splitting | Video 23, coming | coming |
 | 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), Video 23, coming | written |
-| 47 | Feature extraction, PCA | Video 23, coming, Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | coming |
-| 48 | PCA | Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), Video 47, coming | coming |
-| 49 | PCA | Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), Video 47, coming | coming |
+| 47 | Feature extraction, PCA, Variance | Video 19, coming, Video 23, coming, Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | written |
+| 48 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
+| 49 | PCA | [Note 3](../03-types-of-ml/note.md), Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
 | 50 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |
 | 51 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |
 | 52 | Regression metrics | nothing | coming |

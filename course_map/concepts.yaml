@@ -34,6 +34,7 @@ notes:
   15: 15-working-with-csv
   16: 16-working-with-json-and-sql
   46: 46-curse-of-dimensionality
+  47: 47-pca-geometric-intuition
 
 concepts:
   # 0 Foundations
@@ -74,6 +75,7 @@ concepts:
 
   # 3 Understand data
   - {id: eda, name: Exploratory data analysis, step: 3, videos: [13, 19], status: draft}
+  - {id: variance, name: Variance, step: 3, videos: [47], status: confirmed}
   - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: draft}
   - {id: univariate, name: Univariate analysis, step: 3, videos: [20], status: draft}
   - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [21], status: draft}
@@ -116,7 +118,7 @@ concepts:
   - {id: dim_reduction, name: Dimensionality reduction, step: 6, videos: [3, 46], status: confirmed}
   - {id: curse_dim, name: Curse of dimensionality, step: 6, videos: [46], status: confirmed}
   - {id: feature_extraction, name: Feature extraction, step: 6, videos: [46, 47], status: confirmed}
-  - {id: pca, name: PCA, step: 6, videos: [3, 47, 48, 49], status: draft}
+  - {id: pca, name: PCA, step: 6, videos: [3, 47, 48, 49], status: confirmed}
 
   # 7 Split
   - {id: train_test_split, name: Train-test split, step: 7, videos: [13], status: confirmed}
@@ -271,8 +273,11 @@ links:
   - [feature_selection, is a kind of, dim_reduction, confirmed]
   - [feature_extraction, is a kind of, dim_reduction, confirmed]
   - [feature_selection, compared with, feature_extraction, confirmed]
-  - [pca, is a kind of, feature_extraction, draft]
-  - [pca, is a kind of, dim_reduction, draft]
+  - [pca, is a kind of, feature_extraction, confirmed]
+  - [pca, fixes, curse_dim, confirmed]
+  - [pca, is a kind of, unsupervised, confirmed]
+  - [pca, needs, variance, confirmed]
+  - [variance, is a kind of, descriptive_stats, draft]
   - [pca, needs, standardization, draft]
   # Split
   - [overfitting, needs, train_test_split, confirmed]
