@@ -175,7 +175,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Polynomial regression | [Note 61](../61-polynomial-regression/note.md) | confirmed |
 | Polynomial features | [Note 61](../61-polynomial-regression/note.md), Video 80, coming | confirmed |
 | Regularisation | [Note 63](../63-ridge-regression-intuition/note.md) | confirmed |
-| Ridge regression | [Note 63](../63-ridge-regression-intuition/note.md), [Note 64](../64-ridge-regression-maths/note.md), [Note 65](../65-ridge-gradient-descent/note.md), Video 66, coming | confirmed |
+| Ridge regression | [Note 63](../63-ridge-regression-intuition/note.md), [Note 64](../64-ridge-regression-maths/note.md), [Note 65](../65-ridge-gradient-descent/note.md), [Note 66](../66-ridge-key-points/note.md) | confirmed |
 | Lasso regression | Video 67, coming, Video 68, coming | draft |
 | ElasticNet | Video 69, coming | draft |
 | Sigmoid function | Video 74, coming | draft |
@@ -341,10 +341,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 61 | Overfitting, Polynomial features, Polynomial regression, Underfitting | [Note 13](../13-toy-project/note.md), [Note 55](../55-multiple-lr-code/note.md) | written |
 | 62 | Bias-variance trade-off | [Note 61](../61-polynomial-regression/note.md) | written |
-| 63 | Regularisation, Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | written |
-| 64 | Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | written |
-| 65 | Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | written |
-| 66 | Ridge regression | [Note 24](../24-standardization/note.md), [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | coming |
+| 63 | Regularisation, Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 62](../62-bias-variance/note.md) | written |
+| 64 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 62](../62-bias-variance/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | written |
+| 65 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 62](../62-bias-variance/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | written |
+| 66 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 57](../57-gradient-descent/note.md), [Note 62](../62-bias-variance/note.md), [Note 63](../63-ridge-regression-intuition/note.md) | written |
 | 67 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | coming |
 | 68 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | coming |
 | 69 | ElasticNet | [Note 63](../63-ridge-regression-intuition/note.md) | coming |

@@ -82,6 +82,7 @@ notes:
   63: 63-ridge-regression-intuition
   64: 64-ridge-regression-maths
   65: 65-ridge-gradient-descent
+  66: 66-ridge-key-points
 
 concepts:
   # 0 Foundations
@@ -447,6 +448,7 @@ links:
   - [ridge, needs, multiple_lr, confirmed]
   - [ridge, needs, normal_equation, confirmed]
   - [ridge, needs, gradient_descent, confirmed]
+  - [ridge, needs, bias_variance, confirmed]
   - [regularisation, fixes, overfitting, confirmed]
   - [ridge, needs, standardization, confirmed]
   # Model: classification

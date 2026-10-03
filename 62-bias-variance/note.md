@@ -8,6 +8,7 @@ title: "The Bias-Variance Trade-off"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Overfitting ([Note 61](../61-polynomial-regression/note.md)); Underfitting ([Note 61](../61-polynomial-regression/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)).
+> - **Leads to:** Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
