@@ -52,6 +52,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | API key | A secret code that tells the API who is asking. | [Video 17](17-fetching-data-from-api/note.md) |
 | API | A service that returns data when our code asks for it. | [Video 7](07-challenges-in-ml/note.md) |
 | Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. | [Video 36](36-imputing-numerical-data/note.md) |
+| arg max | The value of the variable that makes an expression largest. | [Video 88](88-naive-bayes-maths/note.md) |
 | Array | The programming name for a tensor (as in NumPy). | [Video 11](11-tensors/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
@@ -102,6 +103,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
 | Centred data | Data whose mean is 0. | [Video 25](25-normalization/note.md) |
 | Centroid | The centre of one group in k-means. | [Video 32](32-binning-binarization/note.md) |
+| Chain rule of probability | Writing a joint probability as a product of conditional probabilities, one variable at a time. | [Video 88](88-naive-bayes-maths/note.md) |
 | Chain rule | To differentiate a function of a function, multiply the outer derivative by the inner derivative. | [Video 74](74-sigmoid-derivative/note.md) |
 | Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3. | [Video 45](45-feature-construction-splitting/note.md) |
 | Chained equations | One prediction model per column, each using the latest fills of the others. | [Video 40](40-iterative-imputer-mice/note.md) |
@@ -133,6 +135,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Complete case | A row with a value in every column used. | [Video 35](35-complete-case-analysis/note.md) |
 | components_ | The eigenvectors of the fitted PCA, one per row. | [Video 49](49-pca-mnist/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
+| Conditional independence | Independence that holds once a third variable (here the class) is known. | [Video 88](88-naive-bayes-maths/note.md) |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$. | [Video 82](82-conditional-probability/note.md) |
 | Confidence interval | A range in which the true mean most likely lies. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Confusion matrix | A table counting predictions for every pair of actual and predicted class. | [Video 76](76-accuracy-confusion-matrix/note.md) |
@@ -375,6 +378,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | make_moons | scikit-learn function that creates two interlocking half-moon classes. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class. | [Video 29](29-pipelines/note.md) |
 | make_regression | scikit-learn function that generates data following a linear pattern plus noise. | [Video 53](53-multiple-linear-regression/note.md) |
+| MAP rule | Maximum a posteriori: predict the class with the largest posterior probability. | [Video 88](88-naive-bayes-maths/note.md) |
 | MAR | Missing at random: the gaps depend on another, recorded column. | [Video 35](35-complete-case-analysis/note.md) |
 | Margin (gap) | The distance from a separating line to the nearest point of a class. | [Video 71](71-perceptron-code/note.md) |
 | Mathematical transformation | Applying one mathematical formula to every value of a column. | [Video 30](30-function-transformer/note.md) |
@@ -526,6 +530,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Production environment | The server where a model serves real users. | [Video 4](04-batch-learning/note.md) |
 | Profiling report | An automatic EDA report describing every column and pair of columns of a dataset. | [Video 22](22-pandas-profiling/note.md) |
 | Projection | Dropping each point onto an axis or line, like casting a shadow. | [Video 47](47-pca-geometric-intuition/note.md) |
+| Proportional to (∝) | Equal up to a constant factor that is the same for every class. | [Video 88](88-naive-bayes-maths/note.md) |
 | Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one. | [Video 72](72-sigmoid-function/note.md) |
 | Q-Q plot | A plot of a column's sorted values against the values a normal distribution would have; points on the line mean normal. | [Video 30](30-function-transformer/note.md) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Video 30](30-function-transformer/note.md) |
