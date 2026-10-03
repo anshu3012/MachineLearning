@@ -37,16 +37,19 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
 | Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
+| categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
 | Channel | One colour layer of an image (red, green or blue). | [Video 11](11-tensors/note.md) |
 | Chunk | A piece of a file, read as a small DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Class | An attribute that labels tags; used to select the right ones. | [Video 18](18-web-scraping/note.md) |
+| classes_ | The attribute holding the classes `LabelEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Classification | Supervised learning with a categorical output. | [Video 3](03-types-of-ml/note.md) |
 | Client, server | The program that asks, and the computer that answers. | [Video 17](17-fetching-data-from-api/note.md) |
 | Cluster | One group found by clustering. | [Video 3](03-types-of-ml/note.md) |
 | Clustering | Splitting data into groups of similar rows. | [Video 3](03-types-of-ml/note.md) |
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average. | [Video 22](22-pandas-profiling/note.md) |
+| Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later). | [Video 26](26-ordinal-label-encoding/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
 | Confidence interval | A range in which the true mean most likely lies. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Connection object | The open link to a database (`conn`) that queries go through. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -135,6 +138,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Kernel density estimate (KDE) | A smooth curve that estimates a column's distribution from its values. | [Video 20](20-univariate-analysis/note.md) |
 | Knowledge base | The collection of rules inside an expert system. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve. | [Video 22](22-pandas-profiling/note.md) |
+| Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. | [Video 26](26-ordinal-label-encoding/note.md) |
+| LabelEncoder | scikit-learn's class for label encoding the target. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Labelled data | Data that includes the output column. | [Video 3](03-types-of-ml/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -166,6 +171,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Multivariate analysis | Studying more than two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | Narrow AI | AI that does one specific task. All AI today is narrow. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Nominal data | Categorical data whose categories have no order, such as states. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Non-null | Not missing. | [Video 19](19-understanding-your-data/note.md) |
 | Normal distribution | A symmetric, bell-shaped distribution. | [Video 20](20-univariate-analysis/note.md) |
 | Normalization | The other type of feature scaling, which squeezes values into a fixed range (next Note). | [Video 24](24-standardization/note.md) |
@@ -176,6 +182,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | One-hot encoding | Representing each word or category by a vector with a single 1. | [Video 11](11-tensors/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
 | Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
+| Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good. | [Video 26](26-ordinal-label-encoding/note.md) |
+| Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Video 26](26-ordinal-label-encoding/note.md) |
+| OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Video 5](05-online-learning/note.md) |
 | Outlier | A value far from the rest of the data. | [Video 20](20-univariate-analysis/note.md) |
 | Outliers | Values far from the rest, often mistakes. | [Video 7](07-challenges-in-ml/note.md) |

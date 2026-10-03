@@ -8,7 +8,7 @@ title: "Tensors"
 > ![](images/where_this_fits.png)
 >
 > - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Compare with:** Ordinal and label encoding (Video 26, coming).
+> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

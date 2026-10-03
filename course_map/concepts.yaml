@@ -41,6 +41,7 @@ notes:
   22: 22-pandas-profiling
   23: 23-what-is-feature-engineering
   24: 24-standardization
+  26: 26-ordinal-label-encoding
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
 
@@ -111,8 +112,8 @@ concepts:
   - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 13, 23, 24], status: confirmed}
   - {id: standardization, name: Standardization, step: 5, videos: [13, 24], status: confirmed}
   - {id: normalization, name: Normalization, step: 5, videos: [25], status: draft}
-  - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: draft}
-  - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: draft}
+  - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: confirmed}
+  - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: confirmed}
   - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 23, 27], status: confirmed}
   - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: draft}
   - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: draft}
@@ -270,10 +271,9 @@ links:
   - [normalization, compared with, standardization, confirmed]
   - [feature_scaling, used in, knn, confirmed]
   - [feature_scaling, used in, gradient_descent, confirmed]
-  - [encoding, is a kind of, feature_engineering, draft]
-  - [ordinal_encoding, is a kind of, encoding, draft]
+  - [ordinal_encoding, is a kind of, encoding, confirmed]
   - [one_hot, is a kind of, encoding, draft]
-  - [ordinal_encoding, compared with, one_hot, draft]
+  - [ordinal_encoding, compared with, one_hot, confirmed]
   - [column_transformer, needs, encoding, draft]
   - [pipeline, needs, column_transformer, draft]
   - [pipeline, fixes, data_leakage, draft]
@@ -285,6 +285,7 @@ links:
   - [feature_construction, is a kind of, feature_engineering, confirmed]
   - [feature_transformation, is a kind of, feature_engineering, confirmed]
   - [encoding, is a kind of, feature_transformation, confirmed]
+  - [ordinal_encoding, needs, train_test_split, confirmed]
   - [feature_scaling, is a kind of, feature_transformation, confirmed]
   - [binning, is a kind of, feature_transformation, confirmed]
   - [feature_selection, is a kind of, feature_engineering, confirmed]
