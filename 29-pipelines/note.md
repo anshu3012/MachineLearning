@@ -8,6 +8,7 @@ title: "Machine Learning Pipelines"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Software integration ([Note 7](../07-challenges-in-ml/note.md)); Data leakage ([Note 13](../13-toy-project/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)); Hyperparameter tuning (Video 9, coming).
+> - **Leads to:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 

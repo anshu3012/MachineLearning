@@ -7,7 +7,7 @@ title: "Handling Mixed Variables"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature construction and splitting ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Builds on:** Feature construction and splitting ([Note 23](../23-what-is-feature-engineering/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

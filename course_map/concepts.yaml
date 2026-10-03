@@ -61,6 +61,7 @@ notes:
   42: 42-outliers-zscore
   43: 43-outliers-iqr
   44: 44-outliers-percentile
+  45: 45-feature-construction-splitting
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
@@ -153,7 +154,7 @@ concepts:
   - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: confirmed}
   - {id: datetime, name: Date and time features, step: 5, videos: [34], status: confirmed}
   - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
-  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 23, 45], status: draft}
+  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 23, 45], status: confirmed}
   - {id: feature_importance, name: Feature importance, step: 5, videos: [114], status: draft}
 
   # 6 Reduce dimensions
@@ -347,6 +348,8 @@ links:
   - [power_transformer, fixes, skewness, confirmed]
   - [qq_plot, used in, power_transformer, confirmed]
   - [mixed_variables, is a kind of, feature_construction, confirmed]
+  - [binning, used in, feature_construction, confirmed]
+  - [cross_validation, used in, feature_construction, draft]
   - [pipeline, used in, deployment, confirmed]
   - [pipeline, needs, pickle, confirmed]
   - [pipeline, used in, grid_search, confirmed]
