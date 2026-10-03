@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\usetikzlibrary{matrix}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{tbl/.style={matrix of math nodes, column sep=-\pgflinewidth, row sep=-\pgflinewidth,
+           nodes={minimum width=1.5cm, minimum height=0.65cm, anchor=center, draw=cgrey!50, font=\small},
+           row 1/.style={nodes={font=\small\bfseries}}}}
+  \matrix (a) [tbl, column 1/.style={nodes={fill=cblue!15}}] { x \\ -0.89 \\ 1.50 \\ 2.10 \\ };
+  \matrix (b) [tbl, right=3cm of a, column 1/.style={nodes={fill=cgrey!12}}, column 2/.style={nodes={fill=cblue!15}},
+               column 3/.style={nodes={fill=cgreen!25}}]
+  { 1 & x & x^2 \\ 1 & -0.89 & 0.79 \\ 1 & 1.50 & 2.25 \\ 1 & 2.10 & 4.41 \\ };
+  \draw[arrow] (a.east) -- (b.west) node[midway, above, font=\sffamily\small] {PolynomialFeatures};
+  \node[note, below=0.25cm of b, text width=7cm] {a new column $x^2$ (and a column of 1s); the model stays linear in its coefficients: $\hat{y} = \beta_0 + \beta_1 x + \beta_2 x^2$};
+\end{tikzpicture}
+\end{document}

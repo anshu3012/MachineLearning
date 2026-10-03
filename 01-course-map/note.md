@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 100 of 143 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 102 of 143 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -172,8 +172,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Convex and non-convex loss | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Batch gradient descent | [Note 58](../58-batch-gradient-descent/note.md) | confirmed |
 | Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md) | confirmed |
-| Polynomial regression | Video 61, coming | draft |
-| Polynomial features | Video 61, coming, Video 80, coming | draft |
+| Polynomial regression | [Note 61](../61-polynomial-regression/note.md) | confirmed |
+| Polynomial features | [Note 61](../61-polynomial-regression/note.md), Video 80, coming | confirmed |
 | Regularisation | Video 63, coming | draft |
 | Ridge regression | Video 63, coming, Video 64, coming, Video 65, coming, Video 66, coming | draft |
 | Lasso regression | Video 67, coming, Video 68, coming | draft |
@@ -202,8 +202,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Overfitting | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| Underfitting | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
+| Overfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md) | confirmed |
+| Underfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md) | confirmed |
 | Accuracy | [Note 13](../13-toy-project/note.md), Video 76, coming | confirmed |
 | Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), Video 112, coming | draft |
 | Regression metrics | [Note 52](../52-regression-metrics/note.md) | confirmed |
@@ -339,21 +339,21 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 58 | Batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 59 | Stochastic gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
-| 61 | Polynomial features, Polynomial regression | [Note 55](../55-multiple-lr-code/note.md) | coming |
-| 62 | Bias-variance trade-off | [Note 7](../07-challenges-in-ml/note.md) | coming |
-| 63 | Regularisation, Ridge regression | [Note 7](../07-challenges-in-ml/note.md), [Note 55](../55-multiple-lr-code/note.md) | coming |
+| 61 | Overfitting, Polynomial features, Polynomial regression, Underfitting | [Note 13](../13-toy-project/note.md), [Note 55](../55-multiple-lr-code/note.md) | written |
+| 62 | Bias-variance trade-off | [Note 61](../61-polynomial-regression/note.md) | coming |
+| 63 | Regularisation, Ridge regression | [Note 55](../55-multiple-lr-code/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
 | 64 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
 | 65 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
 | 66 | Ridge regression | [Note 55](../55-multiple-lr-code/note.md), Video 63, coming | coming |
 | 67 | Lasso regression | Video 63, coming | coming |
 | 68 | Lasso regression | Video 63, coming | coming |
 | 69 | ElasticNet | Video 63, coming | coming |
-| 70 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
-| 71 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
-| 72 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
-| 73 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
+| 70 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
+| 71 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
+| 72 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
+| 73 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | coming |
 | 74 | Sigmoid function | nothing | coming |
-| 75 | Logistic regression | [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming, Video 74, coming | coming |
+| 75 | Logistic regression | [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), Video 74, coming | coming |
 | 76 | Accuracy, Confusion matrix | [Note 13](../13-toy-project/note.md) | coming |
 | 77 | Precision, recall and F1 | Video 9, coming, Video 76, coming | coming |
 | 78 | ROC curve and AUC | Video 76, coming | coming |
@@ -383,11 +383,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 102 | Voting ensembles | Video 101, coming | coming |
 | 103 | Voting ensembles | Video 101, coming | coming |
 | 104 | Voting ensembles | Video 101, coming | coming |
-| 105 | Bagging | [Note 7](../07-challenges-in-ml/note.md), Video 101, coming | coming |
-| 106 | Bagging | [Note 7](../07-challenges-in-ml/note.md), Video 101, coming | coming |
-| 107 | Bagging | [Note 7](../07-challenges-in-ml/note.md), Video 101, coming | coming |
+| 105 | Bagging | [Note 61](../61-polynomial-regression/note.md), Video 101, coming | coming |
+| 106 | Bagging | [Note 61](../61-polynomial-regression/note.md), Video 101, coming | coming |
+| 107 | Bagging | [Note 61](../61-polynomial-regression/note.md), Video 101, coming | coming |
 | 108 | Random forest | Video 100, coming, Video 107, coming | coming |
-| 109 | Bias-variance trade-off, Random forest | [Note 7](../07-challenges-in-ml/note.md), Video 100, coming, Video 107, coming | coming |
+| 109 | Bias-variance trade-off, Random forest | [Note 61](../61-polynomial-regression/note.md), Video 100, coming, Video 107, coming | coming |
 | 110 | Random forest | Video 100, coming, Video 107, coming | coming |
 | 111 | Hyperparameter tuning, Random forest | Video 100, coming, Video 107, coming | coming |
 | 112 | Cross-validation, Grid and random search | [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 111, coming | coming |

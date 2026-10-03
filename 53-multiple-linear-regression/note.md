@@ -8,7 +8,7 @@ title: "Multiple Linear Regression: Geometric Intuition and Code"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Simple linear regression ([Note 51](../51-linear-regression-maths/note.md)).
-> - **Leads to:** Polynomial regression (Video 61, coming); Ridge regression (Video 63, coming).
+> - **Leads to:** Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Ridge regression (Video 63, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview

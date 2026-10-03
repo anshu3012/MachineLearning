@@ -144,6 +144,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Day of week | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`). | [Video 34](34-date-and-time/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Density plot | A histogram with a smooth KDE curve on top. | [Video 20](20-univariate-analysis/note.md) |
 | Dependent variable | The output column (y). | [Video 13](13-toy-project/note.md) |
@@ -249,6 +250,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Hyperplane | A flat surface in more than three dimensions; the model for three or more input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Identity matrix | The matrix that leaves every vector unchanged. | [Video 48](48-pca-step-by-step/note.md) |
 | Imputation | Filling in missing values, for example with the mean, median or mode. | [Video 23](23-what-is-feature-engineering/note.md) |
+| include_bias | PolynomialFeatures setting that adds a column of 1s. | [Video 61](61-polynomial-regression/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
@@ -257,6 +259,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Input / output | The columns we know / the column we want to predict. | [Video 3](03-types-of-ml/note.md) |
 | Inspect | Browser tool that shows which tag draws each part of a page. | [Video 18](18-web-scraping/note.md) |
 | Instance-based learning | Learning by storing the training data and comparing new points with it. | [Video 6](06-instance-vs-model-based/note.md) |
+| Interaction term | A product of two inputs, such as $xy$, that lets one input's effect depend on another. | [Video 61](61-polynomial-regression/note.md) |
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | intercept_ | The fitted intercept in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data. | [Video 20](20-univariate-analysis/note.md) |
@@ -427,6 +430,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Plane | A flat surface in 3D; the model for two input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Plateau | A nearly flat region of the loss, where steps become very small. | [Video 57](57-gradient-descent/note.md) |
 | Policy | The agent's rules for which action to take. | [Video 3](03-types-of-ml/note.md) |
+| Polynomial regression | Linear regression on powers (and products) of the inputs, to fit curves. | [Video 61](61-polynomial-regression/note.md) |
+| PolynomialFeatures | scikit-learn transformer that creates the power and product columns. | [Video 61](61-polynomial-regression/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |
 | Predict | Use a trained model to give an answer for new data it has not seen. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |

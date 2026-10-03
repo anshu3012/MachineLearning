@@ -77,6 +77,7 @@ notes:
   58: 58-batch-gradient-descent
   59: 59-stochastic-gradient-descent
   60: 60-mini-batch-gradient-descent
+  61: 61-polynomial-regression
 
 concepts:
   # 0 Foundations
@@ -193,7 +194,7 @@ concepts:
   - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58], status: confirmed}
   - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: confirmed}
   - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, videos: [60], status: confirmed}
-  - {id: polynomial_regression, name: Polynomial regression, step: 8, videos: [61], status: draft}
+  - {id: polynomial_regression, name: Polynomial regression, step: 8, videos: [61], status: confirmed}
   - {id: regularisation, name: Regularisation, step: 8, videos: [63], status: draft}
   - {id: ridge, name: Ridge regression, step: 8, videos: [63, 64, 65, 66], status: draft}
   - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: draft}
@@ -201,7 +202,7 @@ concepts:
   - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: draft}
   - {id: sigmoid, name: Sigmoid function, step: 8, videos: [74], status: draft}
   - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: draft}
-  - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: draft}
+  - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: confirmed}
   - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [82, 83, 84, 85, 86, 87, 88, 89, 90], status: draft}
   - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: draft}
   - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: draft}
@@ -221,8 +222,8 @@ concepts:
   - {id: dbscan, name: DBSCAN, step: 8, videos: [132], status: draft}
 
   # 9 Evaluate
-  - {id: overfitting, name: Overfitting, step: 9, videos: [7], status: confirmed}
-  - {id: underfitting, name: Underfitting, step: 9, videos: [7], status: confirmed}
+  - {id: overfitting, name: Overfitting, step: 9, videos: [7, 61], status: confirmed}
+  - {id: underfitting, name: Underfitting, step: 9, videos: [7, 61], status: confirmed}
   - {id: bias_variance, name: Bias-variance trade-off, step: 9, videos: [62, 109], status: draft}
   - {id: accuracy, name: Accuracy, step: 9, videos: [13, 76], status: confirmed}
   - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: confirmed}
@@ -431,8 +432,9 @@ links:
   - [minibatch_gd, compared with, sgd, confirmed]
   - [minibatch_gd, used in, online_learning, confirmed]
   - [sgd, used in, online_learning, confirmed]
-  - [polynomial_regression, needs, multiple_lr, draft]
-  - [polynomial_regression, needs, polynomial_features, draft]
+  - [polynomial_regression, needs, multiple_lr, confirmed]
+  - [polynomial_regression, needs, polynomial_features, confirmed]
+  - [polynomial_regression, compared with, overfitting, confirmed]
   - [regularisation, fixes, overfitting, draft]
   - [ridge, is a kind of, regularisation, draft]
   - [lasso, is a kind of, regularisation, draft]
