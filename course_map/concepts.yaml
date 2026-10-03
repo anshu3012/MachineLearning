@@ -80,6 +80,7 @@ notes:
   61: 61-polynomial-regression
   62: 62-bias-variance
   63: 63-ridge-regression-intuition
+  64: 64-ridge-regression-maths
 
 concepts:
   # 0 Foundations
@@ -443,6 +444,7 @@ links:
   - [lasso, compared with, ridge, draft]
   - [lasso, used in, feature_selection, draft]
   - [ridge, needs, multiple_lr, confirmed]
+  - [ridge, needs, normal_equation, confirmed]
   - [regularisation, fixes, overfitting, confirmed]
   - [ridge, needs, standardization, confirmed]
   # Model: classification
