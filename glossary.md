@@ -98,6 +98,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Clustering | Splitting data into groups of similar rows. | [Video 3](03-types-of-ml/note.md) |
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | coef_ | The fitted slope (one per input column) in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
+| Coefficient ($\beta_i$) | The weight of one input column: the change in the output per unit of that input, others fixed. | [Video 53](53-multiple-linear-regression/note.md) |
 | Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average. | [Video 22](22-pandas-profiling/note.md) |
 | Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later). | [Video 26](26-ordinal-label-encoding/note.md) |
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. | [Video 28](28-column-transformer/note.md) |
@@ -224,6 +225,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Hyperparameter tuning | Trying several hyperparameter values and keeping the best. | [Video 29](29-pipelines/note.md) |
 | Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth`. | [Video 29](29-pipelines/note.md) |
+| Hyperplane | A flat surface in more than three dimensions; the model for three or more input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Identity matrix | The matrix that leaves every vector unchanged. | [Video 48](48-pca-step-by-step/note.md) |
 | Imputation | Filling in missing values, for example with the mean, median or mode. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
@@ -283,6 +285,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names. | [Video 29](29-pipelines/note.md) |
 | make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class. | [Video 29](29-pipelines/note.md) |
+| make_regression | scikit-learn function that generates data following a linear pattern plus noise. | [Video 53](53-multiple-linear-regression/note.md) |
 | MAR | Missing at random: the gaps depend on another, recorded column. | [Video 35](35-complete-case-analysis/note.md) |
 | Mathematical transformation | Applying one mathematical formula to every value of a column. | [Video 30](30-function-transformer/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
@@ -386,6 +389,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Pipeline | One object that bundles several processing steps and a model. | [Video 13](13-toy-project/note.md) |
 | Pivot table | A grid with one column's values as rows, another's as columns, and a third in the cells. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Pixel | One dot of an image, stored as one or more numbers. | [Video 11](11-tensors/note.md) |
+| Plane | A flat surface in 3D; the model for two input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Policy | The agent's rules for which action to take. | [Video 3](03-types-of-ml/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |

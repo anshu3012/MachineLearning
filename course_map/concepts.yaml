@@ -69,6 +69,7 @@ notes:
   50: 50-simple-linear-regression
   51: 51-linear-regression-maths
   52: 52-regression-metrics
+  53: 53-multiple-linear-regression
 
 concepts:
   # 0 Foundations
@@ -176,7 +177,7 @@ concepts:
   - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: confirmed}
   - {id: ols, name: Ordinary least squares (closed form), step: 8, videos: [51], status: confirmed}
   - {id: best_fit_line, name: Best-fit line and squared error, step: 8, videos: [50, 51], status: confirmed}
-  - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: draft}
+  - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: confirmed}
   - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: draft}
   - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57], status: draft}
   - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58], status: draft}
@@ -398,6 +399,7 @@ links:
   - [linear_regression, is a kind of, model_based, confirmed]
   - [linear_regression, is a kind of, regression_task, confirmed]
   - [multiple_lr, needs, linear_regression, confirmed]
+  - [multiple_lr, is a kind of, regression_task, confirmed]
   - [lr_assumptions, used in, linear_regression, draft]
   - [regression_metrics, used in, linear_regression, confirmed]
   - [gradient_descent, used in, linear_regression, draft]
