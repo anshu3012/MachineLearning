@@ -7,9 +7,9 @@ title: "Machine Learning Development Life Cycle (MLDLC)"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Features ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Batch (offline) learning ([Note 4](../04-batch-learning/note.md)); Online learning ([Note 5](../05-online-learning/note.md)); Software integration ([Note 7](../07-challenges-in-ml/note.md)).
+> - **Builds on:** Features ([Note 2](../02-ai-vs-ml-vs-dl/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Batch (offline) learning ([Note 4](../04-batch-learning/note.md)); Online learning ([Note 5](../05-online-learning/note.md)); Overfitting ([Note 7](../07-challenges-in-ml/note.md)).
 > - **Leads to:** ML pipelines ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Compare with:** Data mining ([Note 8](../08-applications-of-ml/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)).
+> - **Compare with:** Data mining ([Note 8](../08-applications-of-ml/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

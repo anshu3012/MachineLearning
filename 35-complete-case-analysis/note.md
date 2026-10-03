@@ -349,13 +349,9 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 
 | Term | Meaning |
 |---|---|
-| Missing value | A cell with no value, shown as `NaN` in pandas |
 | Univariate imputation | Imputation that uses only the column with the gap |
 | Multivariate imputation | Imputation that also uses the other columns |
 | SimpleImputer | scikit-learn's class for univariate imputation |
-| KNN imputer | Multivariate imputation from the most similar rows (`KNNImputer`) |
-| Iterative imputer | Multivariate imputation that predicts each column from the others, repeatedly; its algorithm is MICE |
-| Missing indicator | A 0/1 column recording whether a value was missing |
 | Complete case analysis (CCA) | Dropping every row that has a missing value in any chosen column; also called listwise deletion |
 | Complete case | A row with a value in every column used |
 | MCAR | Missing completely at random: the gaps have no relation to any value in the data |

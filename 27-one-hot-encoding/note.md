@@ -380,7 +380,6 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 | Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others |
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1 |
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros |
-| Dimensionality | The number of columns (features) in the data |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category |
 | get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$ |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned |

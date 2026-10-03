@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+  q/.style={box=cblue, minimum width=3.6cm},
+  leaf/.style={box=cgreen, minimum width=2.6cm},
+  lab/.style={font=\sffamily\small, fill=white, inner sep=2pt}]
+  \node[q] (root) at (0,0) {occupation = student?};
+  \node[leaf] (pubg) at (-3,-2.4) {recommend\\\textbf{PUBG}};
+  \node[q] (g) at (3,-2.4) {gender = female?};
+  \node[leaf] (gh) at (0.6,-4.8) {recommend\\\textbf{GitHub}};
+  \node[leaf] (wa) at (5.4,-4.8) {recommend\\\textbf{WhatsApp}};
+  \draw[arrow] (root) -- node[lab] {yes} (pubg);
+  \draw[arrow] (root) -- node[lab] {no} (g);
+  \draw[arrow] (g) -- node[lab] {yes} (gh);
+  \draw[arrow] (g) -- node[lab] {no} (wa);
+  \node[note, anchor=west] at (6.2,0) {root: the first question};
+  \node[note, anchor=west] at (7.4,-4.8) {leaves: the answers};
+\end{tikzpicture}
+\end{document}

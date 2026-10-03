@@ -7,9 +7,9 @@ title: "K-Nearest Neighbours (KNN)"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Instance-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)).
-> - **Leads to:** Bias-variance trade-off (Video 109, coming); Bagging (Video 105, coming); Grid and random search (Video 112, coming); Optuna (Video 134, coming).
-> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Instance-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)).
+> - **Leads to:** Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Bias-variance trade-off (Video 109, coming); Bagging (Video 105, coming); Optuna (Video 134, coming).
+> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview

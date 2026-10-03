@@ -9,6 +9,7 @@ title: "Simple Linear Regression: Intuition and Code"
 >
 > - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)).
 > - **Leads to:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)).
+> - **Compare with:** Regression trees ([Note 99](../99-regression-trees/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -7,7 +7,8 @@ title: "Logistic Regression Hyperparameters"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Grid and random search (Video 112, coming); Optuna (Video 134, coming).
+> - **Builds on:** Overfitting ([Note 61](../61-polynomial-regression/note.md)).
+> - **Leads to:** Grid and random search ([Note 91](../91-knn/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview

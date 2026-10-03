@@ -9,7 +9,7 @@ title: "Feature Scaling: Standardization"
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
 > - **Leads to:** Normalization ([Note 25](../25-normalization/note.md)); Z-score outlier method ([Note 41](../41-what-are-outliers/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Ridge regression ([Note 63](../63-ridge-regression-intuition/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)).
-> - **Compare with:** Normalization ([Note 25](../25-normalization/note.md)).
+> - **Compare with:** Normalization ([Note 25](../25-normalization/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -317,9 +317,7 @@ Standardizing rarely does harm, but for the algorithms below we should always do
 - **PCA** (principal component analysis): it looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred.
 - **Gradient descent**, and every algorithm trained with it: linear regression, logistic regression and neural networks (deep learning).
 
-**Gradient descent** is a method for finding the lowest point of a function. It starts somewhere and takes small steps downhill until it reaches the minimum. Training a model this way starts from some initial weights (often 0) and keeps updating them step by step.
-
-When the columns are on very different scales, the weights change at very different speeds: some take big jumps, others crawl. Gradient descent then struggles to settle at the minimum, so it may not reach the best weights. With scaled columns, it converges much more easily.
+Gradient descent (taught in the [gradient descent Note](../57-gradient-descent/note.md)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily.
 
 **Algorithms that do not need scaling:**
 

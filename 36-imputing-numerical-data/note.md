@@ -387,4 +387,3 @@ Figure 6 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 | `fill_value` | The value `SimpleImputer` uses with `strategy="constant"` |
 | `statistics_` | The fill values a fitted `SimpleImputer` has learned, one per column |
 | `fillna` | The pandas method that replaces every `NaN` with a given value |
-| Data leakage | Letting test data influence training, for example by computing a fill value before the split |

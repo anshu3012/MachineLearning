@@ -1,0 +1,1376 @@
+Hello guys, my name is Nitish and welcome to my YouTube channel.
+In this video, we are going to study one more machine learning algorithm
+which is very famous in the machine learning universe.
+We are going to study Gradient Boosting.
+Many of you had requested me to make a video on Gradient Boosting.
+So, that is why I am shooting this video.
+So, Gradient Boosting is a boosting algorithm.
+We had talked about another boosting algorithm before,
+Ada Boost, and it performs even better than that.
+So, if you are going to solve or approach any problem in machine learning,
+then this is an algorithm which you will definitely want to try
+because it gives very good results.
+In fact, it has one more optimized version which we call XGBoost
+which has won a lot of competitions on Kaggle.
+So, our idea is that we will study this algorithm in depth.
+Both regression as well as in classification
+First, we will approach regression because it is a little simple
+but we will also study the classification well.
+Along the way, we will also understand the maths behind it
+and then we will also understand its hyperparameters
+and see how its hyperparameter tuning is done.
+So, in short, there will be 6-7 videos.
+At this point, I have not shot all of them so I don't know.
+But what we are going to do in this video is that
+we will understand the core idea of Gradient Boosting,
+the intuition and that too regarding regression.
+We are starting with regression because
+regression is a little easier than classification
+when you are talking about Gradient Boosting.
+So, first of all, it is a boosting algorithm.
+You already know what a boosting algorithm is.
+Boosting algorithm is a machine learning algorithm
+where you make a big model by combining small models.
+And what is special about this is that
+you add these small models sequentially.
+So, first comes one model,
+it is trained on the data,
+then another model,
+then another model,
+again it is trained on the data,
+and so on.
+And then you make a big model by increasing all of them.
+So, this is called sequential stage-wise addition.
+Now, what is special about this is that
+in one go, your first model,
+the mistakes it makes on the data,
+you somehow tell the next model about those mistakes.
+That look, there are some mistakes in this model,
+now you have to improve on these mistakes.
+Or you have to avoid those mistakes.
+How do you do this in Adaboost?
+If you have seen Adaboost,
+then you might remember that
+the points where we are making an error,
+the rows where we are making an error,
+we increase the weight of those rows.
+And then we use a trick called up sampling
+so that in the next stage,
+the next model focuses more on those points
+and reduces the mistakes on those points.
+And you do this continuously
+and eventually you get a big model.
+Which performs the best.
+Here too, the concept will be similar.
+Here too, we will add small models in a stage-wise manner
+and then we will make a big model.
+And every time when we bring a new model,
+we will tell it what are the mistakes of the previous model.
+And then the work of this model will be
+to solve the mistakes of the previous model
+or to avoid them.
+So, now what I have planned is that
+I will take a real-world data set,
+the same data set on which we always work.
+It is the data of students.
+IQ, CGPA is the input.
+Salary will be of how many lakhs per annum.
+That is our output.
+We have to apply gradient boost on this data.
+Okay?
+So, let's start the video.
+So, guys, what I have planned is that
+since this data set is a toy data set,
+I have created it myself now.
+So, I will use three base models here.
+I will use three base models.
+Model 1, 2 and 3.
+You can do more than this.
+But since I just want to explain to you,
+three models will be sufficient for that.
+So, my overall model will be
+a combination of these three models.
+Okay?
+Now, let's start applying gradient boost
+on this data set.
+Okay?
+So, first of all, what you have to do is
+that you have to make model 1.
+Obviously, right?
+Now, in gradient boosting,
+if you are working on regression,
+listen carefully, this line is very important.
+If you are working on a regression problem in gradient boosting,
+then your first model,
+it is simply the mean of your output column.
+That's it.
+It is not a machine learning model.
+This model 1 is not a machine learning model.
+It is not a decision tree.
+It is not SVM.
+It is a simple leaf.
+Actually, it is called the leaf of decision tree.
+And how is the value of this leaf calculated?
+It is very simple.
+The mean value of your output column.
+Okay?
+This means that our first model,
+if you give it this training data,
+any IQ and CGPA value of any student,
+its output will always be one single number.
+In our case, that number is 4.8.
+You can calculate and see.
+3 plus 4 plus 8 plus 6 plus 3
+divided by 5 would be 4.8.
+So, according to me,
+that is, according to my first model,
+you give it any child's data.
+You are saying that he has 10 CGPA and he has 120 IQ.
+Even then, what will my first model say?
+His salary would be 4.8.
+Okay?
+Now, why does this happen?
+You will understand this in the next video
+where we will discuss its maths.
+But listen carefully at this point.
+If you are using gradient boosting
+for a regression problem,
+your first model is just the mean of your output column.
+It is very simple.
+Okay?
+So, what am I doing?
+Now, I am making a new column here.
+I am making a new column here.
+And I am naming it prediction 1.
+What is prediction 1 column?
+It is that your first model,
+your first model,
+when you sent all the input data in it,
+what output did it give?
+So, what am I doing?
+I sent both of them in the first model.
+It doesn't matter.
+The output will always be 4.8.
+I sent the data of the second student.
+So, what will my first model do?
+It will simply return you the mean, 4.8.
+So, basically, for every student,
+the output of my first model,
+is going to be 4.8.
+It is simple.
+This is step 1.
+That's all you have to do.
+Okay?
+So, guys, our first model is ready.
+Okay?
+Its predictions are in front of us.
+Now, what will we do next?
+We will find out
+the performance of our first model.
+And to find out the performance,
+you should have a loss function.
+Which will tell you
+what is your loss?
+What is your mistake?
+You will tell the same mistake to the next model.
+Okay?
+So, the loss function that we use here,
+is called
+actual
+minus
+predicted.
+We will use this loss function.
+And in gradient descent,
+I am sorry,
+in gradient boosting,
+it is called
+pseudo residual.
+Pseudo residual.
+Why is it called pseudo residual?
+It is a terminology of linear regression.
+There, if you remember,
+the loss function was
+actual
+minus
+predicted.
+YI minus
+YI hat
+whole square.
+Here, it is actual minus
+spread
+predicted.
+That is why it is called
+pseudo residual.
+Okay?
+There is no confusion here.
+So, what will we do?
+Here, we will calculate
+the residual,
+as in,
+pseudo residual
+for the first stage.
+And what will that be very simply?
+The subtraction between
+these two.
+So, if you see here,
+it would be
+minus
+1.8.
+Here, it would be
+1.8.
+Here, it would be
+1.8.
+Here, it would be
+1.8.
+Here, it would be
+minus
+0.8.
+Here, it would be
+3.2.
+Here, it would be
+1.2.
+Here, it would be
+minus
+1.8.
+So, this is my mistake.
+Okay?
+These are the mistakes
+my model has made
+on this data.
+On my first model.
+Now, what I have to do is,
+in the same way,
+I have to make these mistakes
+reach the next model.
+Now, guys,
+the most important concept
+of gradient boosting
+comes here.
+So, what we have to do is,
+in the same way,
+we have to make the model
+reach the next model.
+Now, guys,
+in the same way,
+we have to make the model
+reach the next model.
+Now, guys,
+in the same way,
+we have to make the model
+reach the next model.
+So, here,
+we will do one thing.
+What we will do is,
+our model 2,
+I will write it here,
+model 1 was mean.
+Model 2 and model 3.
+Our model 2
+will be a decision tree.
+Okay?
+Generally,
+you use decision trees
+because
+it is proven
+through research
+that in gradient boosting,
+the best result
+comes through trees.
+You can use
+any other machine learning
+algorithm also.
+But, the most trees
+are used.
+I will explain it to you
+later.
+Okay?
+So, our model 2
+will be a decision tree.
+Okay?
+But,
+the important thing is
+how we will train
+that decision tree.
+Listen carefully.
+We will give this data
+in the input.
+We will give this data
+in the input.
+Okay?
+But,
+our output column
+will not be
+salary.
+It will not be
+salary.
+It will be
+residual 1.
+So,
+in a way,
+after giving
+my input,
+how much
+mistake
+I want to
+predict.
+Okay?
+Understand this carefully.
+We are not asking
+from our second decision tree
+that how much
+is the salary.
+We are asking
+from it that
+by giving this input,
+try to predict
+that how much
+mistake
+the first model
+is making.
+So, in a way,
+I am getting my mistakes
+predicted here.
+Okay?
+The more correctly
+it will predict
+these mistakes,
+the easier it will be
+for us to
+calculate
+this salary overall.
+You will understand
+that in a while.
+This is the most important part
+of this video.
+So, listen carefully.
+Model 2
+is a decision tree.
+Model 1
+was just a mean.
+Model 2
+is a decision tree
+where in input,
+we will give IQ
+and CGPA.
+But,
+in output,
+we will give residual.
+This means,
+we don't want to
+predict from it
+how much
+the student's
+salary will be.
+We want to
+predict from this model 2
+that how much
+mistakes
+model 1
+has made.
+Or,
+how accurately
+it will
+catch the mistakes
+of this model,
+the more easily
+we will be able
+to make a model
+which can tell
+exactly the salary.
+Do you understand?
+So,
+I have already
+trained this decision tree
+on my machine.
+I will tell you
+how that decision tree
+looks like.
+So, guys,
+this is that decision tree.
+I have used
+decision tree regressor
+on my laptop
+on this data.
+And,
+when I called
+the plot tree function,
+I saw exactly
+this decision tree.
+So, this is the decision tree.
+Okay?
+Now,
+you can see
+it is very logical.
+First of all,
+you will check
+if you get
+a new student,
+you will check
+whether his IQ
+is more than 105
+or less.
+For example,
+we are talking
+about this student.
+His IQ is less than 105.
+So, you will come
+to this side.
+You will come
+to the left subtree.
+Here,
+you are being asked
+that your IQ
+is less than
+or equal to 95.
+Okay?
+So, this is true.
+So, you will come here
+minus 1.8.
+And,
+you will try to predict
+what is going to happen
+to this student.
+So, let's work
+I am making one more column here.
+Now,
+it is a bit clumsy
+but,
+I guess,
+you can understand.
+What we will do is,
+we will train these students
+on the exact same data
+of this model.
+But,
+what will we do again?
+We will do prediction
+on the exact same data.
+And,
+we will call this
+prediction 2.
+So, basically,
+prediction of
+model 2
+on the my data.
+Okay?
+So, if you look at
+the first one,
+then prediction is
+If you see the second one 100 and 7
+So again we will come in this sub tree
+We will go this way and this will be my output
+Minus 0.8 which is same
+Then we will go in the next one 110
+We will come here, is CGPA less than 7.5
+If it is then 3.2
+So here it will be 3.2, same
+Then next 129, this time we will go this side
+Here it will be 1.2, same
+Then we will come here 80 and there it will be minus 1.8
+So since this data was so less
+That you can see
+That something like over fitting is happening
+But anyways at this point I have both my models ready
+Model 1 and model 2
+And I have this whole thing left
+Now I will show you that if you have only 2 models
+Boosting
+Then how do you do prediction
+The formula to do prediction is very simple
+If you want to do any student's prediction
+That how much will be its package
+So what you do is simply
+The output of model 1
+Let's add the output of model 2
+Very simple, that's it, you just have to do this
+Now let's take an example, this is the first student
+Its IQ is 90, CGPA is 8
+For this we do prediction
+That its LPA as in package
+According to our model 1 plus model 2
+How much will it be
+If we have 2 models of gradient boosting
+Then what will be the output
+Very simple, according to model 1
+The student's CGPA and IQ
+No matter how much it will be
+Output will always be 4.8
+Do you know?
+And according to model 2
+This student's output is minus 1.8
+So we will write here minus 1.8
+So its salary should be 3
+And the actual salary of that student is 3
+Let's take an example of this student
+100 and 7
+Again, the value of M1
+Doesn't matter at all
+What is IQ and CGPA
+It will always be 4.8
+And after that
+According to model 2
+This student's
+It should be minus 0.8
+So as soon as I will write minus 0.8
+This student will get 4 LPA
+Which again is exactly the same
+What I wanted
+Now after seeing this
+You can be happy
+But if you have studied enough machine learning
+Then you will be able to understand
+What is happening here
+Overfitting is happening here
+Overfitting
+Your output is coming exactly the same
+Which is in the data
+So when new data will come tomorrow
+Which is not seen in this model
+Then your output will not be good
+So to avoid this
+A method is used
+Which we call learning rate
+So what we do
+Our prediction
+We write it like this
+M1 plus M2
+Instead we write it like this
+I am removing it
+I write
+M1 plus learning rate times
+M2's output
+Means
+M2
+As in the output of model 2
+All this
+In this
+You multiply it with learning rate
+Generally this learning rate
+Is kept as 0.1
+Between 0 and 1
+Now if you had not kept anything
+Then there was 1 there
+Generally you keep it as 0.1
+As you keep it as 0.1
+Now let's do prediction once
+Of the first student
+Of the first student
+As you will do of the first student
+Then the output of model 1
+Will always be 4.8
+Okay
+According to model 2
+What is the output of first student
+Minus 1.8
+If you multiply it with 0.1
+Then it will be 0.18
+Okay
+Now if you subtract it
+Then it will be 4.7 something
+Which is a little different
+From its own output
+Okay
+Now obviously this is not correct
+So what will you do
+You will keep adding more models like this
+And when you add a lot of models
+You would see that this number
+Will go from 4.7 to 3
+Okay
+So first of all
+Understand the concept of learning rate
+We take this so that
+There is no over fitting
+When we did not take this
+Our model as it is
+Was giving correct predictions
+About the students in the data
+But what would be the problem with that
+If a new student comes
+Then it would be a problem
+That is why in gradient boosting
+What you do
+That every subsequent model's output
+Is reduced by the factor of learning rate
+And you take small steps in the right direction
+Okay
+By doing 0.1 instead of 1
+Your step is getting smaller
+Towards the right direction
+Okay
+If you are not able to understand this
+I will make one more model
+Then you will understand it very well
+You will understand what I am saying
+Okay
+Before that
+What I will do is
+I will rub the whiteboard
+And write this data a little clearly
+So that we do not have any problem
+In the next step
+So guys
+Whatever work we have done so far
+I have written it very compactly
+On the whiteboard
+This is our data set
+We had made three models
+The first model was very easy
+It was simply giving a number output
+Our second model
+Is a decision tree
+Which gives output on the basis of this logic
+And we have to make model 3
+Okay
+So till this step
+Till model 2
+If you want any prediction
+Then the formula was this
+Output of model 1
+Plus
+0.1
+Which is our learning rate
+Multiplied by
+Output of model 2
+This will be our prediction
+On stage 2
+Okay
+So now what we have to do
+We have to make model 3
+But before making model 3
+We have to find out
+Till model 2
+How is the prediction
+How is the performance
+And for that
+What we will do again
+We will calculate the residual
+So that
+We will calculate pseudo residual
+Which formula was
+Actual
+Minus
+Predicted
+What is actual
+Your salary
+Or LPA column
+Okay
+And what is predicted
+After the second stage
+This
+So this means
+If you want to know
+What will happen to residual 2
+If you want to know
+What will happen to residual 2
+Means
+What are the mistakes of second model
+So what you have to do
+For every student
+You have to calculate
+Its actual
+Minus
+Predict
+If you want to know
+What will happen to residual 2
+Means
+What are the mistakes of second model
+You have to write its actual salary
+Which is 3 for the first student
+And minus
+You have to write this
+What is this
+Model 1's output
+4.8
+Plus
+0.1 times
+Model 2's output
+Which is
+Minus 1.8
+So from here
+It will come
+Minus
+1.8
+Okay
+So when you will do this calculation
+Your output will come
+Minus
+1.62
+Okay
+I have done this calculation
+You can do it once
+And see
+It will be
+Minus
+0.18
+You will subtract it
+From 4.8
+And then
+You will subtract 3
+From around 4.7
+So it will come
+Minus 1.62
+This same work
+You have to do
+For the rest of the students
+And that only
+Will be the mistakes of your
+Stage 2 model
+So I will do one thing
+By pausing the video
+I will fill all these calculations
+Here
+So guys
+I have written this
+This is our residual 2
+Okay
+Now here
+You can see one thing directly
+That
+From residual 1
+The value of residual 2
+Is less
+See
+Residual should always be
+0
+Because what is residual
+Actual minus predicted
+When it will be 0
+It means
+Your model is predicting
+Exactly the same
+Which is the actual value
+Right
+So ideally
+In the ideal case
+The value of residual
+Is 0
+So
+You will notice
+That the number of models
+You will add
+Your residual
+Your residual
+Will increase
+Towards 0
+Like here
+It is minus 1.8
+After adding the second model
+It became
+Minus 1.62
+Towards 0
+It is minus 0.8
+It is minus 0.72
+It is 3.2
+It is 2.88
+It is going towards 0
+Okay
+And you have to do this
+You have to add more models
+Eventually
+You have to bring the residual
+Near 0
+And if the residual is near 0
+It means
+There is not much gap
+Between actual and predicted
+It means
+Your model is doing
+Accurate predictions
+Okay
+Now
+The time has come
+To make model 3
+Model 3
+Will also be
+A decision tree
+And I guess
+You can understand
+What will be the input
+For this decision tree
+What will be the input
+And what will be the output
+So
+Again I will tell you
+Model 3
+Will be a decision tree
+And for this decision tree
+Input
+Again
+Will be
+Your IQ
+And CGPA
+Columns
+But
+This time
+Your output column
+Will be
+Residual 2
+So
+In a way
+What is model 3 doing
+It is
+Predicting the mistakes
+Of the combining model
+M1 plus M2
+Till now
+And the closer
+It is
+To the reality
+Then
+We will be able
+To go that close
+To the reality
+Okay
+So
+What will I do again
+I will train a decision tree
+On my laptop
+On this data
+And I will write it
+And show it
+What that decision tree
+Is saying
+Okay
+And then we will work further
+So guys
+This is our model 3
+Okay
+Again
+I ran it on my laptop
+And
+Since the data is very less
+You can see
+Your model 2
+Which is a decision tree
+And model 3
+Which is a decision tree
+It is almost same
+Okay
+So now we are going to
+Repeat the steps again
+Now what we will do
+The way we took out
+Prediction 2
+Similarly
+We will calculate
+Prediction 3
+For every student
+So
+I am writing
+Prediction
+3
+Okay
+And
+Prediction 3
+I guess you are
+Understanding
+It will be exactly
+The same as
+Residual 2
+Because the data is very small
+So our decision tree
+Is taking out
+The right values
+You can see
+It is 90 and 8
+Less than
+105
+So you will get
+Minus 1.62
+Let's see one more
+It is 107
+So you will enter here again
+And you will go here
+So this will be
+0.72
+In this way
+You can see the next 3
+But your prediction
+Will be
+This
+Okay
+This is your
+Prediction
+Of model 3
+Okay
+Now in this step
+If you had
+One more model
+Model 4
+So for that
+Again
+You take out
+Residual 3
+Because
+Again
+Model 4
+Model 4
+You train it
+IQCGP as input
+And
+Residual 3
+As output
+You train it
+But since
+We have to make
+Only 3 models
+We don't have to make
+4th model
+So that's it
+Our output is ready
+Now at this point
+If you want to
+Do prediction
+Then your prediction
+Formula will be
+I will tell you
+Y
+Pred
+Is equal to
+Model 1's
+Output
+Plus
+Point 1
+Multiplied by
+Model 2's
+Output
+Plus
+Point 1
+Times
+Model 3's
+Output
+If there is one more model
+Then plus
+Point 1
+Model 4's
+Output
+You have to remember one thing
+That your learning rate
+Will be the same
+For all models
+Model 2 onwards
+Okay
+Now let's do one thing
+Let's do prediction
+Suppose we have
+A student
+Whose CGPA is
+6.5
+And
+First
+Let's tell IQ
+IQ is
+Suppose
+60
+This is
+4.9
+We have to find out
+How much will this student's
+Package cost
+Okay
+So what we have to do
+First of all
+We have to take
+Model 1's
+Output
+Which will be
+4.8
+It doesn't matter
+Which student is
+Model 2's
+Output
+We will ask from this
+Decide
+Okay
+So what we will do
+We will ask
+How much is the value of IQ
+Less than 105 or more
+If it is less
+Then you will come here
+If it is less than 95
+Then you will come here
+So this would be
+Minus
+1.8
+This will be the output
+Okay
+Now
+We will ask from model 3
+Model 3 is also same
+Less than 60
+Less than 95
+Minus
+1.62
+So here the output will come
+Point
+Actually this will also be negative
+This will also be negative
+Point
+1
+6
+2
+Okay
+Now what you have to do
+You have to add these three
+You will subtract this much from 4.8
+So this would be
+4.62
+And
+Then you will subtract 16 from it
+So
+Something will come
+I am not sure
+It will come around 4.5
+And your output will be
+Roughly
+4.5
+Now obviously
+The result is not that good
+Because we did not have much data
+But that is how gradient boosting works
+Okay
+You add models stage wise
+And eventually
+When you have to do prediction
+Then you add the output of every model
+With a learning rate
+Okay
+And the rest of the procedure
+I guess you have understood
+Okay
+Now I will do one thing
+This whole thing
+You will get geometric intuition
+As in
+I will try to explain you
+By plotting graphs
+How this algorithm converts
+Towards the result
+Okay
+So let's see that
+So guys this is the code
+I have already written it
+I will just give you a walkthrough
+So
+We have imported the libraries
+And
+Here I have generated a data set
+From myself
+X and Y
+Based on this equation
+I have added some randomness
+Okay
+I will show you in a while
+How this data looks
+Imported pandas
+And
+This data
+I have converted it
+Into a data frame
+And here is my data frame
+In this data frame
+There are 100 rows
+And 2 columns
+So basically
+There is one input column
+And one output column
+Okay
+And I have plotted this scatterplot
+Here is the relationship
+Between X and Y
+Okay
+It is a non-linear relationship
+Now we have to apply gradient boost
+On it
+So as you already know
+What you do in step 1
+I will do exactly the same
+As I did on whiteboard
+Here also
+I will make 3 models
+And you know
+That the first model
+Is basically
+Mean
+So
+The first model
+Is basically
+Mean
+Of your output column
+So I did the same
+I made a new column
+Called pred1
+Which is basically
+Y's mean
+Okay
+And now
+When I run my df
+You can see
+This is the mean
+0.26
+Okay
+Everything is fine till here
+Now
+I will find out
+How much is the residual of my first model
+How will we find out
+We will subtract pred1 from Y
+And
+Here is its output
+You can see
+This is
+Residual 1
+Now you know
+You will take a decision tree
+You will give it
+X
+As input
+And
+Residual 1
+As output
+Okay
+That is what I have done
+By the way
+Before that
+I have plotted this
+So
+This is my data
+In blue color
+And currently
+My M1 model
+Looks like this
+It is obvious
+It will be a straight line
+Parallel to X axis
+Okay
+Now
+I took a decision tree regressor
+And here
+I made an object
+Called tree1
+Here
+So generally
+What happens is
+When you do gradient boosting
+So
+You
+Don't use decision stumps
+Like adaboost
+By using
+Some bigger decision trees
+You use
+Whose max
+Leaf nodes
+Either 8
+It is between 8 to 32
+Basically
+Okay
+So here
+Since the data set is a bit small
+So I have taken 8
+But you
+Between 8 to 32
+You can take anything
+This is proven
+This
+Whoever made this algorithm
+They
+Research
+Conducted
+Proved
+And you get the best results
+Between them
+Okay
+Now I have fitted tree1
+Here
+I gave X
+And here
+Residual1
+And
+I trained my model
+This is model2
+And
+This is a tree
+To plot it
+You can see
+This is the tree
+Okay
+What we did on the whiteboard
+It was a small tree
+Because there were only 5 columns
+There were 5 rows
+There are 100 rows
+So it is a little big tree
+After that
+What am I doing
+I am generating a test set
+In this range
+And
+I am calculating the wipe rate
+How is the wipe rate coming out
+Output of the first model
+Which is the mean
+Plus
+Output of the second model
+And
+How is it coming out
+This
+X test is being given as input
+In tree1.predict
+And
+This is my wipe rate
+And now what I am doing
+I am plotting this
+And
+As I am plotting it
+You can see
+That now
+This is my model's
+Overall prediction
+By combining model1
+Plus model2
+Okay
+Because here
+When you have done the prediction
+So you have added the output of model1
+Plus the output of model2
+So
+This is the output
+And you can see
+When
+Only model1 was there
+So this was our output
+And now
+When model2 came
+So this is our output
+Okay
+Now what we will do
+We will calculate pred2
+When we did it in whiteboard
+So this was the output of tree
+In this case
+What are we doing
+We are calculating overall prediction
+Means
+Of first stage
+Plus of second stage
+Okay
+You can do both things
+It is on you
+And
+This is my df
+Okay
+Now I will calculate residual2
+Which is simply
+Spread2
+Okay
+And
+This same residual2
+Will go to second decision tree
+Here it is
+Okay
+Here is residual2
+Now I will train a second decision tree
+Where input will be x
+Output will be residual2
+This column
+Okay
+I have done the same here
+Again I have taken max leaf nodes 8
+I have trained model
+Again
+I have calculated ypred
+This time ypred is 0.26
+Plus
+Prediction of tree1
+Plus
+Prediction of tree2
+It is 0.6
+So now
+This is my ypd
+This is my ypd
+This is my ypd
+And
+So
+I am well
+It is 1.1
+So
+I am well
+But
+You can see
+The time has been taken
+To convert
+So
+The time has been saved
+So
+It is 1.1
+In this case
+It is 0.1
+In this case
+You can see
+The price has gone
+So
+This is my ypd
+In this case
+This is 0.2
+So
+So, there are some changes in these parts, nothing was reaching our model, here you can see it is fitting more on that thing.
+And in the last, I made a function where you can tell how many models you have to train.
+Now you can see its code, it is basically a code which uses recursion, gradient boost function,
+it is calling gradient boost function only, so here I have used recursion, and now I said that make me 5 models.
+And when I made 5 models, so this was my output guys.
+And you would see that first of all it was not fitting that much, then its next one started fitting well,
+after that it started fitting more well, and then gradually it started overfitting.
+So here in this function, you can control the learning rate etc.
+and see what will be the output.
+So yeah guys, this is the code, you can see it properly.
+Now, there are 1-2 discussions left, I will tell you that quickly.
+So guys, we have seen in detail how gradient boost works in regression scenario.
+Now, before ending the video, I will discuss 2 points with you.
+And I will discuss these points in this way that we are discussing AdaBoost vs Gradient Boost,
+what is the difference between them.
+So the first difference is, if you have read AdaBoost then you would know that
+here you use decision stumps.
+What are decision stumps?
+It is a decision tree whose max depth is 1.
+Like this.
+But in gradient boosting, you use such decision trees whose max leaf nodes are 8-32.
+Where maximum leaf nodes are 2,
+whereas in gradient boosting, maximum leaf nodes, means the leaves here,
+are 8-32.
+If your data set is small, then you will use 8.
+If your data set is big, then you will use 32.
+But you don't use decision stumps.
+This is the first big difference.
+The second big difference is that when you train different models in AdaBoost,
+so M1, M2, your models are like this.
+Every model gets a weight.
+W1, W2, W3.
+And this weight is different.
+And this weight tells which model is more important and which model is less important.
+Okay.
+So here you use the concept of learning rate.
+And learning rate is the same for every model.
+It will be the same for M1 and L2.
+Learning rate should be the same for all.
+Learning rate will not be different.
+So when you are doing learning rate from 0.1 to 0.2,
+then you will multiply all the models from 0.2.
+Okay.
+So I had to discuss these two points separately because there could be a mistake here.
+Now we have seen the intuition of this whole algorithm in regression scenario.
+In the next video,
+I will explain you the math behind this.
+Why does this algorithm behave like this?
+Why is this the way to boost gradient?
+We will see that in the next video.
+And in its subsequent videos,
+we will discuss how gradient boosting is used in classification scenario.
+So that's it for the video guys.
+If you liked the video,
+then please subscribe the channel.
+Like, comment, share.
+Thanks for watching.
+Bye.

@@ -112,6 +112,15 @@ notes:
   89: 89-naive-bayes-code
   90: 90-gaussian-naive-bayes
   91: 91-knn
+  92: 92-svm-intuition
+  93: 93-svm-maths
+  94: 94-svm-soft-margin
+  95: 95-kernel-trick-intuition
+  96: 96-kernel-trick-code
+  97: 97-decision-trees-intuition
+  98: 98-decision-tree-hyperparameters
+  99: 99-regression-trees
+  100: 100-dtreeviz
 
 concepts:
   # 0 Foundations
@@ -199,7 +208,7 @@ concepts:
   - {id: datetime, name: Date and time features, step: 5, videos: [34], status: confirmed}
   - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
   - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [3, 7, 9, 23, 45], status: confirmed}
-  - {id: feature_importance, name: Feature importance, step: 5, videos: [114], status: draft}
+  - {id: feature_importance, name: Feature importance, step: 5, videos: [99, 100, 114], status: confirmed}
 
   # 6 Reduce dimensions
   - {id: dim_reduction, name: Dimensionality reduction, step: 6, videos: [3, 46], status: confirmed}
@@ -233,7 +242,7 @@ concepts:
   - {id: ridge, name: Ridge regression, step: 8, videos: [63, 64, 65, 66], status: confirmed}
   - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: confirmed}
   - {id: elasticnet, name: Elastic Net, step: 8, videos: [69], status: confirmed}
-  - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: draft}
+  - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: confirmed}
   - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [70, 71], status: confirmed}
   - {id: sigmoid, name: Sigmoid function, step: 8, videos: [72, 74], status: confirmed}
   - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73], status: confirmed}
@@ -243,10 +252,12 @@ concepts:
   - {id: independent_events, name: Independent and mutually exclusive events, step: 0, videos: [83, 84], status: confirmed}
   - {id: bayes_theorem, name: "Bayes' theorem", step: 0, videos: [85, 86], status: confirmed}
   - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [87, 88, 89, 90], status: confirmed}
-  - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: draft}
-  - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: draft}
-  - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: draft}
-  - {id: regression_tree, name: Regression trees, step: 8, videos: [99], status: draft}
+  - {id: hinge_loss, name: Hinge loss and soft margin, step: 8, videos: [94], status: confirmed}
+  - {id: impurity, name: "Entropy, information gain and Gini", step: 8, videos: [97], status: confirmed}
+  - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: confirmed}
+  - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: confirmed}
+  - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: confirmed}
+  - {id: regression_tree, name: Regression trees, step: 8, videos: [99], status: confirmed}
   - {id: ensemble, name: Ensemble learning, step: 8, videos: [9, 101], status: draft}
   - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: draft}
   - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: draft}
@@ -275,7 +286,7 @@ concepts:
 
   # 10 Tune
   - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118], status: draft}
-  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 112], status: draft}
+  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 112], status: draft}
   - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
 
   # 11 Deploy
@@ -433,8 +444,8 @@ links:
   - [binning, compared with, encoding, confirmed]
   - [feature_selection, is a kind of, feature_engineering, confirmed]
   - [feature_extraction, is a kind of, feature_engineering, confirmed]
-  - [feature_importance, used in, feature_selection, draft]
-  - [feature_importance, needs, random_forest, draft]
+  - [feature_importance, used in, feature_selection, confirmed]
+  - [feature_importance, needs, decision_tree, confirmed]
   # Reduce dimensions
   - [dim_reduction, is a kind of, unsupervised, confirmed]
   - [dim_reduction, fixes, curse_dim, confirmed]
@@ -518,13 +529,25 @@ links:
   - [knn, compared with, bias_variance, confirmed]
   - [decision_surface, used in, classification_task, confirmed]
   - [decision_surface, compared with, overfitting, confirmed]
-  - [svm, is a kind of, classification_task, draft]
-  - [kernel_trick, used in, svm, draft]
-  - [decision_tree, is a kind of, model_based, draft]
-  - [regression_tree, is a kind of, decision_tree, draft]
-  - [decision_tree, compared with, logistic_regression, draft]
+  - [svm, is a kind of, classification_task, confirmed]
+  - [kernel_trick, used in, svm, confirmed]
+  - [decision_tree, is a kind of, model_based, confirmed]
+  - [regression_tree, is a kind of, decision_tree, confirmed]
   # Ensembles
   - [decision_tree, used in, ensemble, draft]
+  - [svm, compared with, logistic_regression, confirmed]
+  - [svm, needs, perceptron_trick, confirmed]
+  - [hinge_loss, compared with, log_loss, confirmed]
+  - [hinge_loss, used in, svm, confirmed]
+  - [regularisation, used in, svm, confirmed]
+  - [kernel_trick, compared with, polynomial_features, confirmed]
+  - [impurity, used in, decision_tree, confirmed]
+  - [impurity, compared with, log_loss, confirmed]
+  - [decision_tree, compared with, feature_scaling, confirmed]
+  - [regression_tree, compared with, linear_regression, confirmed]
+  - [regression_tree, needs, regression_metrics, confirmed]
+  - [hyperparameters, fixes, overfitting, confirmed]
+  - [decision_surface, used in, decision_tree, confirmed]
   - [voting, is a kind of, ensemble, draft]
   - [bagging, is a kind of, ensemble, draft]
   - [boosting, is a kind of, ensemble, draft]

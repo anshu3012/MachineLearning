@@ -1,0 +1,22 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \begin{scope}[rotate=20]
+    \draw[line width=2.2pt] (-1,0) -- (9,0) node[right] {$\pi$};
+    \draw[dashed, cgrey, line width=1.4pt] (-1,1.6) -- (9,1.6) node[right, text=cgreen] {$\pi^{+}$: $w^{T}x + b = 1$};
+    \draw[dashed, cgrey, line width=1.4pt] (-1,-1.6) -- (9,-1.6) node[right, text=cred] {$\pi^{-}$: $w^{T}x + b = -1$};
+    \coordinate (X1) at (1.5,-1.6);
+    \coordinate (X2) at (5.5,1.6);
+    \node[circle, fill=cred, draw=black, inner sep=3.2pt, label={below:$x_1$}] at (X1) {};
+    \node[circle, fill=cgreen, draw=black, inner sep=3.2pt, label={above:$x_2$}] at (X2) {};
+    \draw[-{Stealth[length=3.5mm]}, line width=2pt, corange] (X1) -- (X2) node[midway, above left] {$x_2 - x_1$};
+    \draw[-{Stealth[length=3.5mm]}, line width=2pt, cblue] (7.4,0) -- (7.4,1.0) node[right] {$\dfrac{w}{\lVert w \rVert}$};
+    \draw[{Stealth[length=3mm]}-{Stealth[length=3mm]}, line width=1.4pt] (5.5,-1.6) -- (5.5,1.6);
+    \draw[dotted, line width=1.2pt] (X1) -- (5.5,-1.6);
+    \node[fill=white, inner sep=2pt, anchor=west] at (5.6,-0.6) {$d$};
+  \end{scope}
+  \node[box=cgrey, anchor=north west, text width=12.5cm, align=left] at (-0.8,-2.4)
+    {$d = (x_2 - x_1)\cdot\dfrac{w}{\lVert w\rVert} = \dfrac{w^{T}x_2 - w^{T}x_1}{\lVert w\rVert} = \dfrac{(1 - b) - (-1 - b)}{\lVert w\rVert} = \dfrac{2}{\lVert w\rVert}$};
+\end{tikzpicture}
+\end{document}

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 126 of 149 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 134 of 151 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -136,7 +136,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Power transformer | [Note 31](../31-power-transformer/note.md) | confirmed |
 | Mixed variables | [Note 33](../33-mixed-variables/note.md) | confirmed |
 | Date and time features | [Note 34](../34-date-and-time/note.md) | confirmed |
-| Feature importance | Video 114, coming | draft |
+| Feature importance | [Note 99](../99-regression-trees/note.md), [Note 100](../100-dtreeviz/note.md), Video 114, coming | confirmed |
 
 ### 2.7 Step 6: Reduce dimensions
 
@@ -164,7 +164,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md) | confirmed |
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Ensemble learning | [Note 9](../09-mldlc/note.md), Video 101, coming | draft |
-| Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | draft |
+| Logistic regression | [Note 13](../13-toy-project/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md), [Note 73](../73-log-loss/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | confirmed |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
 | Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
@@ -187,10 +187,12 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md) | confirmed |
 | Softmax regression | [Note 79](../79-softmax-regression/note.md) | confirmed |
 | Naive Bayes | [Note 87](../87-naive-bayes-intuition/note.md), [Note 88](../88-naive-bayes-maths/note.md), [Note 89](../89-naive-bayes-code/note.md), [Note 90](../90-gaussian-naive-bayes/note.md) | confirmed |
-| Support vector machines | Video 92, coming, Video 93, coming, Video 94, coming | draft |
-| Kernel trick | Video 95, coming, Video 96, coming | draft |
-| Decision trees | Video 97, coming, Video 98, coming, Video 100, coming | draft |
-| Regression trees | Video 99, coming | draft |
+| Support vector machines | [Note 92](../92-svm-intuition/note.md), [Note 93](../93-svm-maths/note.md), [Note 94](../94-svm-soft-margin/note.md) | confirmed |
+| Hinge loss and soft margin | [Note 94](../94-svm-soft-margin/note.md) | confirmed |
+| Kernel trick | [Note 95](../95-kernel-trick-intuition/note.md), [Note 96](../96-kernel-trick-code/note.md) | confirmed |
+| Entropy, information gain and Gini | [Note 97](../97-decision-trees-intuition/note.md) | confirmed |
+| Decision trees | [Note 97](../97-decision-trees-intuition/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 100](../100-dtreeviz/note.md) | confirmed |
+| Regression trees | [Note 99](../99-regression-trees/note.md) | confirmed |
 | Voting ensembles | Video 102, coming, Video 103, coming, Video 104, coming | draft |
 | Bagging | Video 105, coming, Video 106, coming, Video 107, coming | draft |
 | Random forest | Video 108, coming, Video 109, coming, Video 110, coming, Video 111, coming | draft |
@@ -223,8 +225,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), Video 98, coming, Video 111, coming, Video 118, coming | draft |
-| Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 112, coming | draft |
+| Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), Video 111, coming, Video 118, coming | draft |
+| Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), Video 112, coming | draft |
 | Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
 
@@ -264,7 +266,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 149 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 151 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -365,7 +367,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 78 | ROC curve and AUC | [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 77](../77-precision-recall-f1/note.md) | written |
 | 79 | Softmax regression | [Note 27](../27-one-hot-encoding/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | written |
 | 80 | Polynomial features | nothing | written |
-| 81 | Hyperparameter tuning | nothing | written |
+| 81 | Hyperparameter tuning | [Note 61](../61-polynomial-regression/note.md) | written |
 | 82 | Conditional probability | nothing | written |
 | 83 | Independent and mutually exclusive events | nothing | written |
 | 84 | Independent and mutually exclusive events | nothing | written |
@@ -375,34 +377,34 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
 | 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
 | 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
-| 91 | Accuracy, Cross-validation, Curse of dimensionality, Data leakage, Decision surface and boundary, Hyperparameter tuning, K-nearest neighbours, Overfitting, Underfitting | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | written |
-| 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
-| 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
-| 94 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
-| 95 | Kernel trick | nothing | coming |
-| 96 | Kernel trick | nothing | coming |
-| 97 | Decision trees | [Note 6](../06-instance-vs-model-based/note.md) | coming |
-| 98 | Decision trees, Hyperparameter tuning | [Note 6](../06-instance-vs-model-based/note.md) | coming |
-| 99 | Regression trees | Video 98, coming | coming |
-| 100 | Decision trees | [Note 6](../06-instance-vs-model-based/note.md) | coming |
-| 101 | Ensemble learning | Video 100, coming | coming |
+| 91 | Accuracy, Cross-validation, Curse of dimensionality, Data leakage, Decision surface and boundary, Grid and random search, Hyperparameter tuning, K-nearest neighbours, Overfitting, Underfitting | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
+| 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
+| 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
+| 94 | Hinge loss and soft margin, Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
+| 95 | Kernel trick | nothing | written |
+| 96 | Kernel trick | nothing | written |
+| 97 | Decision trees, Entropy, information gain and Gini | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md) | written |
+| 98 | Decision trees, Hyperparameter tuning | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md), [Note 97](../97-decision-trees-intuition/note.md) | written |
+| 99 | Feature importance, Grid and random search, Regression trees | [Note 38](../38-missing-indicator-random-sample/note.md), [Note 52](../52-regression-metrics/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md) | written |
+| 100 | Decision trees, Feature importance | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md), [Note 97](../97-decision-trees-intuition/note.md) | written |
+| 101 | Ensemble learning | [Note 100](../100-dtreeviz/note.md) | coming |
 | 102 | Voting ensembles | Video 101, coming | coming |
 | 103 | Voting ensembles | Video 101, coming | coming |
 | 104 | Voting ensembles | Video 101, coming | coming |
 | 105 | Bagging | [Note 91](../91-knn/note.md), Video 101, coming | coming |
 | 106 | Bagging | [Note 91](../91-knn/note.md), Video 101, coming | coming |
 | 107 | Bagging | [Note 91](../91-knn/note.md), Video 101, coming | coming |
-| 108 | Random forest | Video 100, coming, Video 107, coming | coming |
-| 109 | Bias-variance trade-off, Random forest | [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md), Video 100, coming, Video 107, coming | coming |
-| 110 | Random forest | Video 100, coming, Video 107, coming | coming |
-| 111 | Hyperparameter tuning, Random forest | Video 100, coming, Video 107, coming | coming |
+| 108 | Random forest | [Note 100](../100-dtreeviz/note.md), Video 107, coming | coming |
+| 109 | Bias-variance trade-off, Random forest | [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md), Video 107, coming | coming |
+| 110 | Random forest | [Note 100](../100-dtreeviz/note.md), Video 107, coming | coming |
+| 111 | Hyperparameter tuning, Random forest | [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md), Video 107, coming | coming |
 | 112 | Cross-validation, Grid and random search | [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 111, coming | coming |
 | 113 | OOB score | nothing | coming |
-| 114 | Feature importance | Video 111, coming | coming |
+| 114 | Feature importance | [Note 100](../100-dtreeviz/note.md) | coming |
 | 115 | AdaBoost | nothing | coming |
 | 116 | AdaBoost | nothing | coming |
 | 117 | AdaBoost | nothing | coming |
-| 118 | AdaBoost, Hyperparameter tuning | nothing | coming |
+| 118 | AdaBoost, Hyperparameter tuning | [Note 91](../91-knn/note.md) | coming |
 | 119 | Boosting | Video 101, coming | coming |
 | 120 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |
 | 121 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |

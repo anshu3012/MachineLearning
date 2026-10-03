@@ -7,6 +7,7 @@ title: "Polynomial Features in Logistic Regression"
 >
 > ![](images/where_this_fits.png)
 >
+> - **Compare with:** Kernel trick ([Note 95](../95-kernel-trick-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
