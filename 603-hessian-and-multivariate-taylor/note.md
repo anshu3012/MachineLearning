@@ -196,6 +196,14 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 >
 > This is the **secant equation**: the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. It is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). Source: Nocedal and Wright, *Numerical Optimization*, ch. 6.
 
+![The secant idea for $f = x^3$: the line through the slope readings at $x = 1$ and $x = 2$ has slope 9, a stand-in for the true curvatures 6 and 12](images/secant.png)
+
+Figure 3 shows the one-variable case: BFGS never computes the curvature (dashed), it reads the slope twice and takes the line through the two readings (orange).
+
+![Gradient descent, Newton and BFGS walking down the same curved valley from $(-1.2, 1)$ to the minimum $(1, 1)$, one step per frame](images/optimizer_race.gif)
+
+Figure 4 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2)^2$, all with the same rule for the step length. Newton, with the true Hessian, needs 10 steps. BFGS, which only ever sees gradients, needs 17: its first steps wander while $B$ is still a guess, then it settles into the valley like Newton. Gradient descent zig-zags across the narrow valley and needs 717 steps.
+
 > **Extra:** Second-order Taylor expansions also approximate probability distributions. The **Laplace approximation** replaces a distribution near its peak by a normal distribution whose spread comes from the Hessian of its log there. The **extended Kalman filter**, used to track moving objects, linearises a nonlinear system at every time step with the first-order expansion.
 
 ## 7. Summary
