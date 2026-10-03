@@ -100,12 +100,13 @@ Symbols like ⊃ or → go in Markdown as maths (`$\supset$`, `$\rightarrow$`): 
 
 Videos are grouped as:
 
-| Group | Videos | Written by |
+| Group | Videos | Status |
 |---|---|---|
 | A. Foundations | 1-14 | done (10 skipped) |
-| B. Prerequisites: getting and understanding data | 15-22 | subagents, 2 at a time; reviewed by Claude |
-| C. Feature engineering and preprocessing | 23-45 | subagents, 2 at a time; reviewed by Claude |
-| D. Core ML | 46-134 | Claude, while subagents work on B and C |
+| B. Prerequisites: getting and understanding data | 15-22 | done |
+| C. Feature engineering and preprocessing | 23-45 | done |
+| D. Core ML | 46-134 | done |
+| E. Maths for ML | Note IDs 210+ (see `docs/maths-plan.md`) | in progress |
 
 Subagents never edit the glossary, README or git; Claude merges those after review.
 
