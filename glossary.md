@@ -63,6 +63,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bot | A program that visits websites automatically. | [Video 18](18-web-scraping/note.md) |
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
 | Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0. | [Video 31](31-power-transformer/note.md) |
+| Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
 | Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -175,6 +176,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Format string | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. | [Video 34](34-date-and-time/note.md) |
 | Forward selection | Feature selection that starts empty and adds the best column at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Frame | One image in a video. | [Video 11](11-tensors/note.md) |
+| Fraud detection | Spotting dishonest transactions; here the outliers are what we want to find. | [Video 41](41-what-are-outliers/note.md) |
 | Frequency | How many times a value or category occurs. | [Video 20](20-univariate-analysis/note.md) |
 | func | The `FunctionTransformer` parameter that holds the function to apply. | [Video 30](30-function-transformer/note.md) |
 | Function, lambda | A named reusable piece of code (`def`), and a one-line unnamed one. | [Video 15](15-working-with-csv/note.md) |
@@ -211,6 +213,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | intercept_ | The fitted intercept in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data. | [Video 20](20-univariate-analysis/note.md) |
+| IQR rule | Values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$) are outliers; used for skewed columns. | [Video 41](41-what-are-outliers/note.md) |
 | isnull | The pandas method that marks each missing cell `True`. | [Video 35](35-complete-case-analysis/note.md) |
 | ISO week | The week number of the ISO calendar, from `.dt.isocalendar().week`; week 1 holds the year's first Thursday. | [Video 34](34-date-and-time/note.md) |
 | Iterative imputer | Multivariate imputation that predicts each column from the others, repeatedly; its algorithm is MICE. | [Video 35](35-complete-case-analysis/note.md) |
@@ -317,6 +320,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Video 26](26-ordinal-label-encoding/note.md) |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Video 5](05-online-learning/note.md) |
+| Outlier detection | Setting a lower and an upper limit; values outside them are outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Outlier | A value far from the rest of the data. | [Video 20](20-univariate-analysis/note.md) |
 | Outliers | Values far from the rest, often mistakes. | [Video 7](07-challenges-in-ml/note.md) |
 | Overfitting | Learning the training data too closely, noise included; fails on new data. | [Video 7](07-challenges-in-ml/note.md) |
@@ -336,6 +340,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Pearson correlation coefficient | The usual measure of correlation, written $r$; the one `df.corr()` computes. | [Video 19](19-understanding-your-data/note.md) |
 | Pearson's r | The correlation coefficient for straight-line relationships between two numerical columns. | [Video 22](22-pandas-profiling/note.md) |
 | Per-row seed | A seed taken from a row's own values, so the same input always gets the same random fill. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| Percentile rule | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Percentile | The value below which a given share of the data lies. | [Video 19](19-understanding-your-data/note.md) |
 | Perceptron | The smallest building block of a neural network; one artificial neuron. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | phpMyAdmin | A web page for creating and managing MySQL databases. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -457,6 +462,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples. | [Video 28](28-column-transformer/note.md) |
 | transformers_ | List of a fitted column transformer's (name, transformer, columns) tuples. | [Video 29](29-pipelines/note.md) |
 | Transpose | A matrix or vector with rows and columns swapped. | [Video 48](48-pca-step-by-step/note.md) |
+| Tree-based algorithm | An algorithm that splits the data with simple conditions; hardly affected by outliers. | [Video 41](41-what-are-outliers/note.md) |
+| Trimming | Removing the rows that hold outliers. | [Video 41](41-what-are-outliers/note.md) |
 | TSV file | Like a CSV file, with tabs between values. | [Video 15](15-working-with-csv/note.md) |
 | Type 1 mixed variable | A column whose cells each contain a category and a number together, such as `C85`. | [Video 33](33-mixed-variables/note.md) |
 | Type 2 mixed variable | A column with a number in some rows and a category in others. | [Video 33](33-mixed-variables/note.md) |
@@ -482,6 +489,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Vowpal Wabbit | A fast learning library that supports online learning. | [Video 5](05-online-learning/note.md) |
 | Wayback Machine | A web archive that keeps copies of web pages as they were. | [Video 18](18-web-scraping/note.md) |
 | Web scraping | Writing code that extracts data from web pages. | [Video 7](07-challenges-in-ml/note.md) |
+| Weight-based algorithm | An algorithm that learns one number per input column from all the points; sensitive to outliers. | [Video 41](41-what-are-outliers/note.md) |
+| Winsorization | Capping with limits set by percentiles. | [Video 41](41-what-are-outliers/note.md) |
 | X, y | Usual names for the input table and the output column. | [Video 11](11-tensors/note.md) |
 | XAMPP | A free package that runs a web server and a MySQL server on one computer. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default. | [Video 31](31-power-transformer/note.md) |

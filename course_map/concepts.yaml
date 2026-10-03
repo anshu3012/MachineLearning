@@ -56,6 +56,7 @@ notes:
   37: 37-missing-categorical-data
   38: 38-missing-indicator-random-sample
   39: 39-knn-imputer
+  41: 41-what-are-outliers
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
@@ -122,10 +123,12 @@ concepts:
   - {id: random_sample_imputation, name: Random sample imputation, step: 4, videos: [38], status: confirmed}
   - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: confirmed}
   - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: draft}
-  - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 23, 41], status: draft}
-  - {id: zscore, name: Z-score outlier method, step: 4, videos: [42], status: draft}
-  - {id: iqr, name: IQR outlier method, step: 4, videos: [43], status: draft}
-  - {id: percentile, name: Percentile outlier method, step: 4, videos: [44], status: draft}
+  - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 23, 41], status: confirmed}
+  - {id: trimming, name: Trimming outliers, step: 4, videos: [41, 42, 43], status: confirmed}
+  - {id: capping, name: Capping (winsorization), step: 4, videos: [41, 42, 43, 44], status: confirmed}
+  - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42], status: draft}
+  - {id: iqr, name: IQR outlier method, step: 4, videos: [41, 43], status: draft}
+  - {id: percentile, name: Percentile outlier method, step: 4, videos: [41, 44], status: draft}
 
   # 5 Engineer features
   - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 23], status: confirmed}
@@ -274,7 +277,7 @@ links:
   - [pandas_profiling, compared with, univariate, confirmed]
   - [pandas_profiling, compared with, bivariate, confirmed]
   - [missing_values, is a kind of, data_quality, confirmed]
-  - [outliers, is a kind of, data_quality, draft]
+  - [outliers, is a kind of, data_quality, confirmed]
   - [complete_case, fixes, missing_values, confirmed]
   - [complete_case, compared with, simple_imputation, confirmed]
   - [complete_case, needs, univariate, confirmed]
@@ -290,9 +293,14 @@ links:
   - [simple_imputation, used in, grid_search, confirmed]
   - [knn_imputer, needs, knn, confirmed]
   - [mice, fixes, missing_values, draft]
-  - [zscore, fixes, outliers, draft]
-  - [iqr, fixes, outliers, draft]
-  - [percentile, fixes, outliers, draft]
+  - [zscore, used in, outliers, draft]
+  - [trimming, fixes, outliers, confirmed]
+  - [capping, fixes, outliers, confirmed]
+  - [trimming, compared with, capping, confirmed]
+  - [binning, fixes, outliers, confirmed]
+  - [outliers, compared with, missing_values, confirmed]
+  - [iqr, used in, outliers, draft]
+  - [percentile, used in, outliers, draft]
   - [zscore, needs, descriptive_stats, draft]
   - [iqr, needs, descriptive_stats, draft]
   # Features

@@ -9,7 +9,7 @@ title: "Handling Missing Categorical Data: Most Frequent Value and Missing Categ
 >
 > - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)).
 > - **Leads to:** Missing indicator ([Note 38](../38-missing-indicator-random-sample/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); Grid and random search ([Note 38](../38-missing-indicator-random-sample/note.md)); Iterative imputation (MICE) (Video 40, coming).
-> - **Compare with:** Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)).
+> - **Compare with:** Outliers ([Note 23](../23-what-is-feature-engineering/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

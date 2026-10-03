@@ -7,7 +7,7 @@ title: "Binning and Binarization: Equal Width, Equal Frequency and k-means Binni
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Builds on:** Outliers ([Note 23](../23-what-is-feature-engineering/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
 > - **Compare with:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)).
 <!-- /where-this-fits -->
 
