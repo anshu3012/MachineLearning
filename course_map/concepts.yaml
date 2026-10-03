@@ -87,6 +87,7 @@ notes:
   68: 68-lasso-sparsity
   69: 69-elastic-net
   70: 70-perceptron-trick
+  71: 71-perceptron-code
 
 concepts:
   # 0 Foundations
