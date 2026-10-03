@@ -57,6 +57,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Assumption (of a model) | A condition the data must meet for the model's results to be reliable. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Atomic value | A single piece of information in a cell, not several combined. | [Video 45](45-feature-construction-splitting/note.md) |
 | Attribute | A `name="value"` setting inside an opening tag. | [Video 18](18-web-scraping/note.md) |
+| AUC | The area under the ROC curve; a single score from 0.5 (random) to 1 (perfect). | [Video 78](78-roc-auc/note.md) |
 | Autocorrelation | Each residual is related to the one before it in row order. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Average record size | The memory one row takes, on average. | [Video 22](22-pandas-profiling/note.md) |
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
@@ -224,6 +225,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | F1 score | The harmonic mean of precision and recall. | [Video 77](77-precision-recall-f1/note.md) |
 | False negative (FN) | Predicted negative, but actually positive; a Type II error. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | False positive (FP) | Predicted positive, but actually negative; a Type I error. | [Video 76](76-accuracy-confusion-matrix/note.md) |
+| False positive rate (FPR) | The fraction of real negatives the model wrongly flags. | [Video 78](78-roc-auc/note.md) |
 | Family size | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family. | [Video 45](45-feature-construction-splitting/note.md) |
 | Family type | Family size grouped into alone, small family (2 to 4) and large family (5 or more). | [Video 45](45-feature-construction-splitting/note.md) |
 | Feature construction | Creating a new column by hand from existing ones. | [Video 23](23-what-is-feature-engineering/note.md) |
@@ -481,6 +483,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |
 | Precision | Of all items predicted positive, the fraction that really are positive. | [Video 77](77-precision-recall-f1/note.md) |
 | Predict | Use a trained model to give an answer for new data it has not seen. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| predict_proba | scikit-learn method that returns predicted probabilities instead of classes. | [Video 78](78-roc-auc/note.md) |
 | Prediction ($\hat{y}$) | The value the model gives for an input; the hat marks a prediction. | [Video 51](51-linear-regression-maths/note.md) |
 | Preprocessing | Cleaning and preparing data before training. | [Video 13](13-toy-project/note.md) |
 | Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new columns along the directions of greatest variance. | [Video 47](47-pca-geometric-intuition/note.md) |
@@ -531,6 +534,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Robust scaler | A normalization technique that copes well with outliers. | [Video 24](24-standardization/note.md) |
 | Robust scaling | Subtract the median and divide by the interquartile range; copes well with outliers. | [Video 25](25-normalization/note.md) |
 | RobustScaler | scikit-learn's class for robust scaling. | [Video 25](25-normalization/note.md) |
+| ROC curve | A plot of TPR against FPR for every threshold. | [Video 78](78-roc-auc/note.md) |
 | Rollback | Restoring a model to an earlier, good version. | [Video 5](05-online-learning/note.md) |
 | Root mean squared error (RMSE) | The square root of MSE, in the output's units. | [Video 52](52-regression-metrics/note.md) |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean. | [Video 52](52-regression-metrics/note.md) |
@@ -624,6 +628,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Trimming | Removing the rows that hold outliers. | [Video 41](41-what-are-outliers/note.md) |
 | True negative (TN) | Predicted negative, and actually negative. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | True positive (TP) | Predicted positive, and actually positive. | [Video 76](76-accuracy-confusion-matrix/note.md) |
+| True positive rate (TPR) | The fraction of real positives the model flags; the same as recall. | [Video 78](78-roc-auc/note.md) |
 | TSV file | Like a CSV file, with tabs between values. | [Video 15](15-working-with-csv/note.md) |
 | Type 1 mixed variable | A column whose cells each contain a category and a number together, such as `C85`. | [Video 33](33-mixed-variables/note.md) |
 | Type 2 mixed variable | A column with a number in some rows and a category in others. | [Video 33](33-mixed-variables/note.md) |

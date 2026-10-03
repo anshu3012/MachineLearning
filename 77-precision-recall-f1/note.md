@@ -8,6 +8,7 @@ title: "Classification Metrics: Precision, Recall and F1 Score"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)); Imbalanced data (Video 9, coming).
+> - **Leads to:** ROC curve and AUC ([Note 78](../78-roc-auc/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
