@@ -170,6 +170,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Best-fit line | The line with the smallest total error over all the training points. | [Note 50](50-simple-linear-regression/note.md) |
 | best_score_ | The best mean cross-validated score found by a search. | [Note 29](29-pipelines/note.md) |
 | Beta testing | Releasing a new version to a small group of trusted users first. | [Note 9](09-mldlc/note.md) |
+| BFGS | The most used quasi-Newton update; keeps the Hessian stand-in symmetric and positive definite. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Bias (of a perceptron) | The weight on a constant input of 1; it shifts the boundary away from the origin. | [DL Note 1004](1004-perceptron/note.md) |
 | Bias vector ($b^{k}$) | The biases of all nodes of layer $k$. | [DL Note 1010](1010-forward-propagation/note.md) |
 | Bias | Error from a model being too simple to capture the true relationship. | [Note 62](62-bias-variance/note.md) |
@@ -746,6 +747,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Kruskal-Wallis test | A rank-based alternative to one-way ANOVA that does not assume normality. | [Maths Note 572](572-one-way-anova/note.md) |
 | Kurtosis risk | In finance, the risk of extreme gains or losses from fat-tailed returns. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve; the fourth moment. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
+| L-BFGS | Limited-memory BFGS: keeps only the last few step and gradient-change pairs; scikit-learn's default logistic regression solver. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | L1 norm | The sum of the absolute values of the components. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | L1 regularisation | Another name for the absolute-value penalty used by Lasso. | [Note 67](67-lasso-regression/note.md) |
 | l1_ratio | The share of the total penalty given to the L1 (Lasso) part. | [Note 69](69-elastic-net/note.md) |
@@ -1194,6 +1196,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Note 30](30-function-transformer/note.md) |
 | Quarter | One of four three-month parts of a year. | [Note 34](34-date-and-time/note.md) |
 | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. | [Note 19](19-understanding-your-data/note.md) |
+| Quasi-Newton method | Newton's method with the Hessian replaced by a matrix built from gradient changes. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1`. | [Note 17](17-fetching-data-from-api/note.md) |
 | Query point | The new point whose class we want to predict. | [Note 91](91-knn/note.md) |
 | Query | A request for data, written in SQL. | [Note 16](16-working-with-json-and-sql/note.md) |
@@ -1311,6 +1314,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Scott's rule | A rule-of-thumb bandwidth: $s \times n^{-1/5}$. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | SDLC | Software development life cycle: the standard process for building ordinary software. | [Note 9](09-mldlc/note.md) |
 | Search space | The ranges or lists of values each hyperparameter may take during tuning. | [Note 134](134-optuna/note.md) |
+| Secant equation | $B_{k+1}\mathbf{s} = \mathbf{y}$: the Hessian stand-in must reproduce the last gradient change. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Secant line | A straight line through two points of a curve. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Second partial derivative | A partial derivative of a partial derivative, such as $\partial^2 f/\partial x^2$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Second-order condition | A twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere. | [Maths Note 621](621-convex-sets-and-functions/note.md) |

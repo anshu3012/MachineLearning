@@ -190,6 +190,12 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 >
 > For the bowl of the gradient Note at $(1, 1)$, $\nabla f = [3, 5]$ and $H$ has rows $[2, 1]$ and $[1, 4]$. Solving $H\boldsymbol{\delta} = -[3, 5]^{\mathsf T}$ gives $\boldsymbol{\delta} = (-1, -1)$, landing exactly on the minimum $(0, 0)$ in one step: for a quadratic function $T_2$ is the function itself. Gradient descent, which only uses the tangent plane, needs many small steps for the same trip. With one variable this is the **Newton step** of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), and XGBoost's leaf formula $-G/(H + \lambda)$ in the [XGBoost maths Note](../126-xgboost-maths/note.md) is a Newton step per leaf. The catch: with millions of parameters the Hessian has millions squared entries, which is why deep learning mostly stays with first-order methods.
 
+> **Extra:** **Quasi-Newton methods: BFGS and L-BFGS.** These skip the Hessian and build a stand-in matrix $B$ from gradients alone. After each step $\mathbf{s} = \mathbf{x}_{k+1} - \mathbf{x}_k$, the gradient change $\mathbf{y} = \nabla f_{k+1} - \nabla f_k$ is measured, and $B$ is updated so that
+>
+> $$B_{k+1}\,\mathbf{s} = \mathbf{y}$$
+>
+> This is the **secant equation**: the new $B$ must reproduce the gradient change just seen. With one variable it says $B = (f'(x_{k+1}) - f'(x_k))/(x_{k+1} - x_k)$, the slope between two gradient readings. For $f = x^3$ stepping from $x = 1$ to $x = 2$: $f'$ goes from 3 to 12, so $B = (12 - 3)/(2 - 1) = 9$, between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search. **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite, so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. It is the default solver of `LogisticRegression` in the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md). Source: Nocedal and Wright, *Numerical Optimization*, ch. 6.
+
 > **Extra:** Second-order Taylor expansions also approximate probability distributions. The **Laplace approximation** replaces a distribution near its peak by a normal distribution whose spread comes from the Hessian of its log there. The **extended Kalman filter**, used to track moving objects, linearises a nonlinear system at every time step with the first-order expansion.
 
 ## 7. Summary
@@ -202,6 +208,7 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 | Second-order Taylor | $+\ \tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$ | 3.13 |
 | Third-order Taylor | $+\ \tfrac{1}{3!}D^3 f\,\boldsymbol{\delta}^3$ | 3.131 (exact) |
 | Newton step | $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$ | bowl: $(1, 1) \to (0, 0)$ |
+| Secant equation (BFGS) | $B_{k+1}\mathbf{s} = \mathbf{y}$ | $x^3$, $1 \to 2$: $B = 9$ |
 
 - Second partial derivatives can be taken in either order; the Hessian is therefore symmetric.
 - The Hessian measures curvature; the signs of its eigenvalues separate bowls, saddles and caps.
@@ -223,4 +230,8 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 | Multivariate Taylor polynomial | The multivariate Taylor series cut after the $k = n$ term |
 | Outer product | $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$, the matrix of all products $\delta_i\delta_j$; more copies give tensors |
 | Newton's method | Repeatedly jumping to the minimum of the second-order Taylor polynomial: $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$ |
+| Quasi-Newton method | Newton's method with the Hessian replaced by a matrix built from gradient changes |
+| Secant equation | $B_{k+1}\mathbf{s} = \mathbf{y}$: the Hessian stand-in must reproduce the last gradient change |
+| BFGS | The most used quasi-Newton update; keeps the Hessian stand-in symmetric and positive definite |
+| L-BFGS | Limited-memory BFGS: keeps only the last few step and gradient-change pairs; scikit-learn's default logistic regression solver |
 | Laplace approximation | Approximating a distribution near its peak by a normal distribution built from the Hessian |

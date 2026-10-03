@@ -136,7 +136,3 @@ None. The once-deferred Videos are written: Video 1 has two folders, `01-course-
 Videos we will not make Notes for:
 
 - Video 10: Data Engineer vs Data Analyst vs Data Scientist vs ML Engineer (job roles)
-
-## Earlier work
-
-The folders `Intro/`, `Data_analysis/`, `Datasets/` and `Optimization/` come from this repo's earlier history (hand-made notebooks), kept as they were.
