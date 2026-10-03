@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 99 of 143 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 100 of 143 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -171,7 +171,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Gradient descent | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Convex and non-convex loss | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Batch gradient descent | [Note 58](../58-batch-gradient-descent/note.md) | confirmed |
-| Mini-batch gradient descent | Video 60, coming | draft |
+| Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md) | confirmed |
 | Polynomial regression | Video 61, coming | draft |
 | Polynomial features | Video 61, coming, Video 80, coming | draft |
 | Regularisation | Video 63, coming | draft |
@@ -338,7 +338,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 57 | Convex and non-convex loss, Gradient descent, Learning rate | [Note 24](../24-standardization/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 58 | Batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 59 | Stochastic gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
-| 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | coming |
+| 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 61 | Polynomial features, Polynomial regression | [Note 55](../55-multiple-lr-code/note.md) | coming |
 | 62 | Bias-variance trade-off | [Note 7](../07-challenges-in-ml/note.md) | coming |
 | 63 | Regularisation, Ridge regression | [Note 7](../07-challenges-in-ml/note.md), [Note 55](../55-multiple-lr-code/note.md) | coming |
