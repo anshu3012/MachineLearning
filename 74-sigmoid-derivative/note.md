@@ -7,7 +7,7 @@ title: "The Derivative of the Sigmoid Function"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)).
+> - **Leads to:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

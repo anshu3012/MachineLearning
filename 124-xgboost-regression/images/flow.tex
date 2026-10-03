@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[b/.style={box=cblue, minimum width=5.2cm}, g/.style={box=cgrey, minimum width=5.2cm},
+  o/.style={box=corange, minimum width=5.2cm}]
+  \node[g] (m) at (0,0) {1. start: predict the mean};
+  \node[g] (r) at (0,-1.8) {2. residuals = actual $-$ prediction};
+  \node[o] (t) at (0,-3.8) {3. grow an XGBoost tree on the residuals:\\similarity score, gain, output value};
+  \node[b] (u) at (0,-5.8) {4. new prediction = prediction $+\ \eta \times$ tree output};
+  \draw[arrow] (m) -- (r); \draw[arrow] (r) -- (t); \draw[arrow] (t) -- (u);
+  \draw[arrow, dashed] (u.east) -- ++(1.2,0) |- node[note, pos=0.25, right] {repeat for\\the next tree} (r.east);
+  \node[note, anchor=east] at (-3.6,-3.8) {the only new part:\\how the tree is grown};
+\end{tikzpicture}
+\end{document}

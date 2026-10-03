@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 149 of 153 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 153 of 154 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -61,6 +61,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Conditional probability | [Note 82](../82-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
 | Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), [Note 86](../86-bayes-problem/note.md) | confirmed |
+| Taylor series | [Note 126](../126-xgboost-maths/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -101,7 +102,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Poor-quality data | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md) | confirmed |
-| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 35](../35-complete-case-analysis/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
+| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 35](../35-complete-case-analysis/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 123](../123-xgboost-intro/note.md) | confirmed |
 | Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 41](../41-what-are-outliers/note.md) | confirmed |
 | Simple imputation (mean, median, mode, constant) | [Note 23](../23-what-is-feature-engineering/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md) | confirmed |
 | Complete case analysis | [Note 35](../35-complete-case-analysis/note.md) | confirmed |
@@ -200,9 +201,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Bagging | [Note 105](../105-bagging-intuition/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md) | confirmed |
 | Random forest | [Note 108](../108-random-forest-intro/note.md), [Note 109](../109-random-forest-bias-variance/note.md), [Note 110](../110-bagging-vs-random-forest/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 113](../113-oob-score/note.md), [Note 114](../114-feature-importance/note.md) | confirmed |
 | AdaBoost | [Note 115](../115-adaboost-intuition/note.md), [Note 116](../116-adaboost-step-by-step/note.md), [Note 117](../117-adaboost-from-scratch/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
-| Gradient boosting | Video 120, coming, Video 121, coming, Video 122, coming | draft |
-| XGBoost | Video 123, coming, Video 124, coming, Video 125, coming, Video 126, coming | draft |
-| Stacking and blending | Video 127, coming | draft |
+| Gradient boosting | [Note 120](../120-gradient-boosting-intuition/note.md), [Note 121](../121-gradient-boosting-regression-maths/note.md), [Note 122](../122-gradient-boosting-classification/note.md) | confirmed |
+| XGBoost | [Note 123](../123-xgboost-intro/note.md), [Note 124](../124-xgboost-regression/note.md), [Note 125](../125-xgboost-classification/note.md), [Note 126](../126-xgboost-maths/note.md) | confirmed |
+| Stacking and blending | [Note 127](../127-stacking-blending/note.md) | confirmed |
 | Hierarchical clustering | [Note 131](../131-hierarchical-clustering/note.md) | confirmed |
 | DBSCAN | [Note 132](../132-dbscan/note.md) | confirmed |
 
@@ -213,7 +214,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Overfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Underfitting | [Note 7](../07-challenges-in-ml/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 91](../91-knn/note.md) | confirmed |
 | Accuracy | [Note 13](../13-toy-project/note.md), [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 91](../91-knn/note.md) | confirmed |
-| Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 91](../91-knn/note.md), [Note 103](../103-voting-classifier/note.md), [Note 104](../104-voting-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
+| Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 91](../91-knn/note.md), [Note 103](../103-voting-classifier/note.md), [Note 104](../104-voting-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 127](../127-stacking-blending/note.md) | confirmed |
 | Regression metrics | [Note 52](../52-regression-metrics/note.md) | confirmed |
 | Bias-variance trade-off | [Note 62](../62-bias-variance/note.md), [Note 109](../109-random-forest-bias-variance/note.md) | confirmed |
 | Confusion matrix | [Note 76](../76-accuracy-confusion-matrix/note.md) | confirmed |
@@ -228,7 +229,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 |---|---|---|
 | Hyperparameter tuning | [Note 9](../09-mldlc/note.md), [Note 81](../81-logistic-hyperparameters/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 111](../111-random-forest-hyperparameters/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 106](../106-bagging-classifier/note.md), [Note 107](../107-bagging-regressor/note.md), [Note 112](../112-random-forest-tuning/note.md), [Note 118](../118-adaboost-hyperparameters/note.md) | confirmed |
-| Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
+| Learning rate | [Note 57](../57-gradient-descent/note.md), [Note 118](../118-adaboost-hyperparameters/note.md), [Note 120](../120-gradient-boosting-intuition/note.md) | confirmed |
 | Elbow method and WCSS | [Note 128](../128-kmeans-intuition/note.md), [Note 129](../129-kmeans-code/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
 
@@ -268,7 +269,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 153 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 154 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -406,16 +407,16 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 115 | AdaBoost | [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 111](../111-random-forest-hyperparameters/note.md) | written |
 | 116 | AdaBoost | [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 111](../111-random-forest-hyperparameters/note.md) | written |
 | 117 | AdaBoost | [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 111](../111-random-forest-hyperparameters/note.md) | written |
-| 118 | AdaBoost, Cross-validation, Grid and random search, Hyperparameter tuning | [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
+| 118 | AdaBoost, Cross-validation, Grid and random search, Hyperparameter tuning, Learning rate | [Note 38](../38-missing-indicator-random-sample/note.md), [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
 | 119 | Boosting | [Note 91](../91-knn/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 109](../109-random-forest-bias-variance/note.md) | written |
-| 120 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | coming |
-| 121 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | coming |
-| 122 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | coming |
-| 123 | XGBoost | Video 122, coming | coming |
-| 124 | XGBoost | Video 122, coming | coming |
-| 125 | XGBoost | Video 122, coming | coming |
-| 126 | XGBoost | Video 122, coming | coming |
-| 127 | Stacking and blending | [Note 101](../101-ensemble-learning/note.md) | coming |
+| 120 | Gradient boosting, Learning rate | [Note 73](../73-log-loss/note.md), [Note 74](../74-sigmoid-derivative/note.md), [Note 99](../99-regression-trees/note.md), [Note 119](../119-bagging-vs-boosting/note.md) | written |
+| 121 | Gradient boosting | [Note 74](../74-sigmoid-derivative/note.md), [Note 99](../99-regression-trees/note.md), [Note 119](../119-bagging-vs-boosting/note.md), [Note 120](../120-gradient-boosting-intuition/note.md) | written |
+| 122 | Gradient boosting | [Note 74](../74-sigmoid-derivative/note.md), [Note 99](../99-regression-trees/note.md), [Note 119](../119-bagging-vs-boosting/note.md), [Note 120](../120-gradient-boosting-intuition/note.md) | written |
+| 123 | Missing values, XGBoost | [Note 9](../09-mldlc/note.md), [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md) | written |
+| 124 | XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
+| 125 | XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
+| 126 | Taylor series, XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
+| 127 | Cross-validation, Stacking and blending | [Note 101](../101-ensemble-learning/note.md) | written |
 | 128 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
 | 129 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
 | 130 | Clustering, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 129](../129-kmeans-code/note.md) | written |

@@ -1,0 +1,6 @@
+model,seconds,test accuracy
+sklearn GradientBoosting,46.78,0.922
+XGBoost (CPU),0.67,0.921
+XGBoost (GPU),1.17,0.921
+sklearn HistGradientBoosting,0.47,0.916
+LightGBM,0.31,0.918

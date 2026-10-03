@@ -8,8 +8,8 @@ title: "Introduction to Ensemble Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Underfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)).
-> - **Leads to:** Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Gradient boosting (Video 120, coming); Stacking and blending (Video 127, coming).
-> - **Compare with:** Bagging ([Note 105](../105-bagging-intuition/note.md)).
+> - **Leads to:** Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); AdaBoost ([Note 115](../115-adaboost-intuition/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)).
+> - **Compare with:** Bagging ([Note 105](../105-bagging-intuition/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

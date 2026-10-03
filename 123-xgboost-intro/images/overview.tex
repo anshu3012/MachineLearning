@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[a/.style={box=#1, minimum width=4.6cm, align=left, text width=4.3cm, font=\sffamily\small}]
+  \node[box=cred, minimum width=6cm] (x) at (0,0) {\textbf{XGBoost}\\gradient boosting + optimisations};
+  \node[box=cgrey, minimum width=4.4cm] (gb) at (0,1.9) {gradient boosting\\(any differentiable loss)};
+  \draw[arrow] (gb) -- (x);
+  \node[a=cblue, anchor=north] (f) at (-5.4,-1.7) {\textbf{Flexibility}\\[2pt]
+    - any operating system\\- many languages\\- works with other libraries\\- many problem types\\- custom loss and metrics};
+  \node[a=cgreen, anchor=north] (s) at (0,-1.7) {\textbf{Speed}\\[2pt]
+    - parallel split search\\- column blocks\\- cache awareness\\- out-of-core training\\- distributed training\\- GPU training};
+  \node[a=cpurple, anchor=north] (p) at (5.4,-1.7) {\textbf{Performance}\\[2pt]
+    - regularised objective\\- missing values handled\\- approximate split finding\\\ \ (weighted quantile sketch)\\- tree pruning with $\gamma$};
+  \draw[arrow] (x.south) -- (f.north); \draw[arrow] (x) -- (s); \draw[arrow] (x.south) -- (p.north);
+\end{tikzpicture}
+\end{document}

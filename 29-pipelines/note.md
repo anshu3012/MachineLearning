@@ -8,7 +8,7 @@ title: "Machine Learning Pipelines"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Software integration ([Note 7](../07-challenges-in-ml/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Data leakage ([Note 13](../13-toy-project/note.md)); APIs ([Note 17](../17-fetching-data-from-api/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)).
-> - **Leads to:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)).
+> - **Leads to:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); K-nearest neighbours ([Note 91](../91-knn/note.md)); Voting ensembles ([Note 102](../102-voting-ensemble/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 

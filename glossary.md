@@ -10,6 +10,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | 68-95-99.7 rule (empirical rule) | In a normal column, about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. | [Video 42](42-outliers-zscore/note.md) |
 | @ (matrix multiplication) | Python's operator for multiplying matrices and vectors. | [Video 55](55-multiple-lr-code/note.md) |
 | `add_indicator=True` | The `SimpleImputer` setting that imputes and appends missing indicators in one step. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| `base_score` | XGBoost's starting prediction; a probability for classification. | [Video 125](125-xgboost-classification/note.md) |
 | `BayesianRidge` | A linear regression with built-in shrinkage of the weights; the default model of `IterativeImputer`. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `best_params_` | The best combination of settings found by `GridSearchCV`. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | `clip` | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it. | [Video 44](44-outliers-percentile/note.md) |
@@ -24,6 +25,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `json_normalize` | pandas function that turns nested JSON into flat columns. | [Video 17](17-fetching-data-from-api/note.md) |
 | `KNNImputer` | scikit-learn's class for KNN imputation. | [Video 39](39-knn-imputer/note.md) |
 | `max_iter` | The largest number of iterations `IterativeImputer` runs; default 10. | [Video 40](40-iterative-imputer-mice/note.md) |
+| `min_child_weight` | Smallest allowed sum of $p(1-p)$ (in regression: number of rows) in a leaf; default 1. | [Video 125](125-xgboost-classification/note.md) |
 | `MissingIndicator` | The scikit-learn class that builds missing indicator columns; `features_` lists the columns with gaps. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | `n_neighbors` (k) | The number of nearest rows the KNN imputer averages; default 5. | [Video 39](39-knn-imputer/note.md) |
 | `np.where` | NumPy function that picks one value where a condition is true and another where it is false. | [Video 42](42-outliers-zscore/note.md) |
@@ -46,6 +48,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Accuracy | The fraction of predictions that are correct. | [Video 13](13-toy-project/note.md) |
 | AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote. | [Video 115](115-adaboost-intuition/note.md) |
 | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Video 84](84-mutually-exclusive-events/note.md) |
+| Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Adjusted Rand score | A number that is 1.0 when two labelings group the points identically, whatever the label numbers. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Adjusted R² | R² with a penalty for the number of input columns. | [Video 52](52-regression-metrics/note.md) |
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
@@ -61,8 +64,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | API (Application Programming Interface) | A service that returns data when our code asks for it; a website's API hands out its data on request. | [Video 7](07-challenges-in-ml/note.md) |
 | API key | A secret code that tells the API who is asking. | [Video 17](17-fetching-data-from-api/note.md) |
 | API token | A secret file or key that lets a program use a website's API as us. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Approximate tree learning (histogram-based training) | Finding a split by trying only the edges of bins the column has been cut into. | [Video 123](123-xgboost-intro/note.md) |
 | Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. | [Video 36](36-imputing-numerical-data/note.md) |
 | arg max | The value of the variable that makes an expression largest. | [Video 88](88-naive-bayes-maths/note.md) |
+| Arg min | The value of a variable that makes an expression smallest, written $\arg\min$. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Array | The programming name for a tensor (as in NumPy). | [Video 11](11-tensors/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
@@ -86,6 +91,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | base environment | The environment the installer creates, holding conda itself. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Base model | One of the models inside an ensemble. | [Video 101](101-ensemble-learning/note.md) |
+| Base prediction ($F_0$) | The first model of gradient boosting; for regression, the mean of the target. | [Video 120](120-gradient-boosting-intuition/note.md) |
 | Batch (mini-batch) | A small group of training rows used for one update. | [Video 60](60-mini-batch-gradient-descent/note.md) |
 | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
@@ -114,6 +120,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Binomial distribution | The distribution of the number of successes in $n$ independent trials with the same success probability. | [Video 102](102-voting-ensemble/note.md) |
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | Black box model | A model that gives predictions without showing how each input contributed. | [Video 91](91-knn/note.md) |
+| Blending | Stacking in which the meta-model is trained on the base models' predictions for a hold-out validation set. | [Video 127](127-stacking-blending/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
 | Boolean indexing | Selecting rows with an array of True/False values, e.g. `X[y_means == 0]`. | [Video 129](129-kmeans-code/note.md) |
 | Boosting | Combining many simple models in sequence to reduce bias. | [Video 62](62-bias-variance/note.md) |
@@ -130,10 +137,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Buying behaviour | The pattern of what a customer buys. | [Video 8](08-applications-of-ml/note.md) |
 | C (SVM) | The weight on the classification error; a large C means few mistakes and a narrow margin, a small C a wide margin. | [Video 94](94-svm-soft-margin/note.md) |
 | C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Video 81](81-logistic-hyperparameters/note.md) |
+| Cache memory | A small, fast memory inside the processor that holds data used again and again. | [Video 123](123-xgboost-intro/note.md) |
 | CalibratedClassifierCV | scikit-learn wrapper that gives a classifier, such as an SVM, calibrated probabilities. | [Video 103](103-voting-classifier/note.md) |
 | Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
 | cars.csv | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders. | [Video 100](100-dtreeviz/note.md) |
 | CART | Classification and regression trees: the tree algorithm used for both kinds of problem. | [Video 97](97-decision-trees-intuition/note.md) |
+| CatBoost | Yandex's gradient boosting library, with built-in handling of categorical columns. | [Video 123](123-xgboost-intro/note.md) |
 | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class). | [Video 79](79-softmax-regression/note.md) |
 | Categorical data (categorical column) | Data made of categories: labels rather than numbers. | [Video 3](03-types-of-ml/note.md) |
 | CategoricalNB | scikit-learn's Naive Bayes for categorical inputs. | [Video 89](89-naive-bayes-code/note.md) |
@@ -176,6 +185,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average. | [Video 22](22-pandas-profiling/note.md) |
 | Coefficient path | How each coefficient changes as the regularisation strength grows. | [Video 66](66-ridge-key-points/note.md) |
 | Coefficient vector ($\beta$) | All the coefficients of the model, $\beta_0$ to $\beta_m$, as one column. | [Video 54](54-multiple-lr-maths/note.md) |
+| Column block | XGBoost's storage of the data one sorted column per block, so each core can work on one feature. | [Video 123](123-xgboost-intro/note.md) |
 | Column sampling (feature sampling) | Giving each base model a random subset of the columns. | [Video 108](108-random-forest-intro/note.md) |
 | Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later). | [Video 26](26-ordinal-label-encoding/note.md) |
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. | [Video 28](28-column-transformer/note.md) |
@@ -213,6 +223,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Video 20](20-univariate-analysis/note.md) |
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
 | Covariance | How two columns move together: positive if they rise together, negative if not. | [Video 48](48-pca-step-by-step/note.md) |
+| Cover | XGBoost's name for the sum of $p(1-p)$ (in regression: the number of rows) in a node. | [Video 125](125-xgboost-classification/note.md) |
 | Cramér's V | A measure of the link between two categorical columns, from 0 to 1. | [Video 22](22-pandas-profiling/note.md) |
 | Credit scoring | Predicting whether a loan applicant will repay. | [Video 8](08-applications-of-ml/note.md) |
 | criterion | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss". | [Video 97](97-decision-trees-intuition/note.md) |
@@ -256,6 +267,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Decision tree | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. | [Video 97](97-decision-trees-intuition/note.md) |
 | DecisionTreeRegressor | scikit-learn's regression tree. | [Video 99](99-regression-trees/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Default direction | The side of a split that rows with a missing value follow. | [Video 123](123-xgboost-intro/note.md) |
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
 | Delivery routing | Planning the most efficient route for deliveries. | [Video 8](08-applications-of-ml/note.md) |
 | Demand forecasting | Predicting how much of something will be needed, where and when. | [Video 8](08-applications-of-ml/note.md) |
@@ -274,6 +286,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Design matrix ($X$) | The data as a matrix, one row per data point, with a first column of 1s for the intercept. | [Video 54](54-multiple-lr-maths/note.md) |
 | Development environment | Our own machine, where we build and train a model. | [Video 4](04-batch-learning/note.md) |
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised inputs, and disease progression one year later. | [Video 55](55-multiple-lr-code/note.md) |
+| Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution. | [Video 97](97-decision-trees-intuition/note.md) |
 | Dimension | One input column (one feature); a different meaning from the dimensions (axes) of a tensor in Video 11. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Video 3](03-types-of-ml/note.md) |
@@ -284,6 +297,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Distance weighting | Each neighbour counts in proportion to 1 / its distance, so nearer rows count more. | [Video 39](39-knn-imputer/note.md) |
 | Distance | A number measuring how far apart two points are; small distance = similar. | [Video 6](06-instance-vs-model-based/note.md) |
 | distance_threshold | Height at which `AgglomerativeClustering` stops merging, instead of a fixed number of clusters. | [Video 131](131-hierarchical-clustering/note.md) |
+| Distributed computing | Sharing one job between several machines (nodes), coordinated by a master node. | [Video 123](123-xgboost-intro/note.md) |
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
 | Diverge | To move further away with each step, the loss growing instead of shrinking. | [Video 57](57-gradient-descent/note.md) |
 | Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly. | [Video 131](131-hierarchical-clustering/note.md) |
@@ -330,11 +344,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | estimator | The base model that bagging copies (formerly base_estimator). | [Video 106](106-bagging-classifier/note.md) |
 | estimators_features_ | The column numbers each trained base model was given. | [Video 106](106-bagging-classifier/note.md) |
 | estimators_samples_ | The row numbers each trained base model was given. | [Video 106](106-bagging-classifier/note.md) |
+| Eta ($\eta$) | XGBoost's name for the learning rate; default 0.3. | [Video 124](124-xgboost-regression/note.md) |
 | eta0 | The starting learning rate in SGDRegressor. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | ETL | Extract, transform, load: copying data from source systems into a warehouse. | [Video 9](09-mldlc/note.md) |
 | Euclidean distance | The straight-line distance between two points. | [Video 39](39-knn-imputer/note.md) |
 | Event | A set of outcomes, such as "the sum is at most 10". | [Video 82](82-conditional-probability/note.md) |
 | Evidence | The overall probability of the observed evidence. | [Video 85](85-bayes-theorem/note.md) |
+| Exact greedy algorithm | Finding a split by trying the midpoint between every pair of neighbouring sorted values. | [Video 123](123-xgboost-intro/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all. | [Video 49](49-pca-mnist/note.md) |
 | Explained variance | The variance along a principal component; its eigenvalue. | [Video 48](48-pca-step-by-step/note.md) |
@@ -380,6 +396,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | func | The `FunctionTransformer` parameter that holds the function to apply. | [Video 30](30-function-transformer/note.md) |
 | Function, lambda | A named reusable piece of code (`def`), and a one-line unnamed one. | [Video 15](15-working-with-csv/note.md) |
 | FunctionTransformer | scikit-learn's class that applies any function we give it to the data. | [Video 30](30-function-transformer/note.md) |
+| Gain (XGBoost) | Similarity of the two children minus similarity of the parent; the split with the largest gain is chosen. | [Video 124](124-xgboost-regression/note.md) |
+| Gamma ($\gamma$, `min_split_loss`) | Minimum gain a split must exceed to be kept; default 0. | [Video 124](124-xgboost-regression/note.md) |
 | gamma | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. | [Video 96](96-kernel-trick-code/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
 | Gaussian Naive Bayes | Naive Bayes that models each numerical input as normally distributed within each class. | [Video 90](90-gaussian-naive-bayes/note.md) |
@@ -392,6 +410,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Good fit | Capturing the pattern while ignoring the noise. | [Video 7](07-challenges-in-ml/note.md) |
 | Google Colab | Google's browser-based Jupyter notebooks, saved in Google Drive. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | GPU | A graphics chip that runs deep learning maths much faster than a CPU. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Gradient $g_i$ | First derivative of row $i$'s loss with respect to the previous prediction. | [Video 126](126-xgboost-maths/note.md) |
+| Gradient boosting | A boosting algorithm that starts from a simple guess and adds trees one by one, each trained on the mistakes (pseudo-residuals) of the ensemble so far. | [Video 120](120-gradient-boosting-intuition/note.md) |
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill. | [Video 57](57-gradient-descent/note.md) |
 | Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase. | [Video 57](57-gradient-descent/note.md) |
 | Graphviz | The graph-drawing program (`dot`) that lays out tree diagrams for dtreeviz and export_graphviz. | [Video 100](100-dtreeviz/note.md) |
@@ -406,6 +426,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Header | The line of a file that holds the column names. | [Video 15](15-working-with-csv/note.md) |
 | Headers | Extra information sent with a request, such as the User-Agent. | [Video 18](18-web-scraping/note.md) |
 | Heatmap | A table drawn as coloured cells, darker for larger values. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Hessian $h_i$ | Second derivative of row $i$'s loss with respect to the previous prediction. | [Video 126](126-xgboost-maths/note.md) |
 | Heteroscedasticity | The spread of the residuals changes with the predicted value, often as a funnel. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Hierarchical clustering | Clustering that builds a hierarchy of clusters, from single points up to one cluster. | [Video 131](131-hierarchical-clustering/note.md) |
 | High bias, low variance algorithm | An algorithm too simple to fit the training data well but stable across samples, such as linear regression; it underfits. | [Video 109](109-random-forest-bias-variance/note.md) |
@@ -413,6 +434,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | High-dimensional data | Data with a very large number of columns. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Hinge loss | $\max(0, 1 - y(w^T x + b))$ per point: the error term of the soft-margin SVM. | [Video 94](94-svm-soft-margin/note.md) |
 | Histogram | A bar chart of how many values fall in each equal range (bin) of a numerical column. | [Video 20](20-univariate-analysis/note.md) |
+| Hold-out set | Rows set aside before training, used only to produce honest predictions or scores. | [Video 127](127-stacking-blending/note.md) |
 | Homoscedasticity | The residuals have the same spread for all predicted values. | [Video 56](56-linear-regression-assumptions/note.md) |
 | HTML | The language web pages are written in: a tree of nested tags. | [Video 18](18-web-scraping/note.md) |
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -440,6 +462,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Information gain | The drop in entropy from a parent to its weighted children; the tree splits on the highest. | [Video 97](97-decision-trees-intuition/note.md) |
 | Input / output | The columns we know / the column we want to predict. | [Video 3](03-types-of-ml/note.md) |
 | Inspect | Browser tool that shows which tag draws each part of a page. | [Video 18](18-web-scraping/note.md) |
+| Instance set $I_j$ | The rows that land in leaf $j$. | [Video 126](126-xgboost-maths/note.md) |
 | Instance-based learning | Learning by storing the training data and comparing new points with it. | [Video 6](06-instance-vs-model-based/note.md) |
 | Interaction term | A product of two inputs, such as $xy$, that lets one input's effect depend on another. | [Video 61](61-polynomial-regression/note.md) |
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
@@ -491,6 +514,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Labelled data | Data that includes the output column. | [Video 3](03-types-of-ml/note.md) |
 | labels_ | The cluster number of every training row, after fitting. | [Video 129](129-kmeans-code/note.md) |
 | Lambda ($\lambda$) | The power used by a power transform, learned separately for each column. | [Video 31](31-power-transformer/note.md) |
+| Lambda ($\lambda$, `reg_lambda`) | Regularisation parameter added to the denominators; shrinks scores and outputs; default 1. | [Video 124](124-xgboost-regression/note.md) |
 | Lambda | A one-line Python function without a name, such as `lambda x: x**2`. | [Video 30](30-function-transformer/note.md) |
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. | [Video 31](31-power-transformer/note.md) |
 | Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0. | [Video 89](89-naive-bayes-code/note.md) |
@@ -502,10 +526,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | lbfgs | The default solver of LogisticRegression; supports L2 or no penalty. | [Video 81](81-logistic-hyperparameters/note.md) |
 | LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes. | [Video 49](49-pca-mnist/note.md) |
 | Leaf node | A node that is not split; it gives the prediction. | [Video 97](97-decision-trees-intuition/note.md) |
+| Leaf value ($\gamma_{jm}$) | The constant a leaf adds to the model, chosen to minimise the loss of the rows in that leaf. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
+| Leaf value in log-odds | $\sum r / \sum p(1-p)$ over a leaf's rows: the amount the leaf adds to the log-odds. | [Video 122](122-gradient-boosting-classification/note.md) |
+| Leaf weight $w_j$ | The output value of leaf $j$ of a tree. | [Video 126](126-xgboost-maths/note.md) |
+| Learning rate ($\eta$) in gradient boosting | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. | [Video 120](120-gradient-boosting-intuition/note.md) |
 | Learning rate ($\eta$) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. | [Video 5](05-online-learning/note.md) |
 | Learning rate (AdaBoost) | A multiplier on every weak learner's alpha; values below 1 slow learning. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use. | [Video 123](123-xgboost-intro/note.md) |
 | Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Video 73](73-log-loss/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Video 44](44-outliers-percentile/note.md) |
@@ -521,6 +550,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Video 30](30-function-transformer/note.md) |
 | Log-likelihood | The log of the likelihood: the sum of the log probabilities. | [Video 73](73-log-loss/note.md) |
+| Log-odds | The natural log of the odds, $\ln(p/(1-p))$; any number, 0 at a probability of 0.5. | [Video 122](122-gradient-boosting-classification/note.md) |
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0. | [Video 30](30-function-transformer/note.md) |
 | Logistic function | Another name for the sigmoid function. | [Video 72](72-sigmoid-function/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
@@ -608,6 +638,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | monotonic_cst | Setting that forces predictions to only rise or only fall as a column grows. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Video 22](22-pandas-profiling/note.md) |
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Video 37](37-missing-categorical-data/note.md) |
+| Multi-layer stacking | Stacking with more than one layer of base models below the meta-model. | [Video 127](127-stacking-blending/note.md) |
 | Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others. | [Video 27](27-one-hot-encoding/note.md) |
 | Multinomial logistic regression | Another name for softmax regression. | [Video 79](79-softmax-regression/note.md) |
 | MultinomialNB | Naive Bayes for count data, such as word counts. | [Video 90](90-gaussian-naive-bayes/note.md) |
@@ -632,9 +663,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | NaT | "Not a time": the missing value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | Natural language processing (NLP) | The part of ML that works with human language. | [Video 8](08-applications-of-ml/note.md) |
 | Nearest neighbours | The rows at the smallest distance from a given row. | [Video 39](39-knn-imputer/note.md) |
+| Negative gradient | Minus the derivative of the loss with respect to the prediction; the direction that lowers the loss fastest. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Negative hyperplane ($\pi^-$) | The copy of the separating hyperplane moved out until it touches the first negative point. | [Video 92](92-svm-intuition/note.md) |
 | Neighbours | The k training points closest to the query point. | [Video 91](91-knn/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Newton step | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. | [Video 122](122-gradient-boosting-classification/note.md) |
 | Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root. | [Video 100](100-dtreeviz/note.md) |
 | Node-level column sampling | Drawing a new random set of columns before every split (random forest). | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Noise (irreducible error) | Randomness in the data that no model can predict. | [Video 62](62-bias-variance/note.md) |
@@ -661,6 +694,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Numerical data | Data made of numbers. | [Video 3](03-types-of-ml/note.md) |
 | Objective function | The quantity an algorithm tries to make as large or as small as possible. | [Video 48](48-pca-step-by-step/note.md) |
 | Observation | The report's word for a row. | [Video 22](22-pandas-profiling/note.md) |
+| Odds | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. | [Video 122](122-gradient-boosting-classification/note.md) |
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | OLTP | Online transaction processing: the database that records every action as it happens. | [Video 14](14-framing-ml-problem/note.md) |
 | One-hot encoding | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. | [Video 11](11-tensors/note.md) |
@@ -681,10 +715,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Out-of-bag (OOB) evaluation | Testing a bagging model by predicting each training row with only the base models that never saw it. | [Video 113](113-oob-score/note.md) |
 | Out-of-bag (OOB) score | The ensemble's accuracy measured on the rows each model never saw. | [Video 106](106-bagging-classifier/note.md) |
 | Out-of-bag rows | The rows a base model never saw because its bootstrap sample missed them (about 37%). | [Video 105](105-bagging-intuition/note.md) |
+| Out-of-core computing | Training on data bigger than the RAM by loading it chunk by chunk. | [Video 123](123-xgboost-intro/note.md) |
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Video 5](05-online-learning/note.md) |
+| Out-of-fold prediction | A prediction for a row made by a model trained on the other folds, never on that row. | [Video 127](127-stacking-blending/note.md) |
 | Outlier detection | Setting a lower and an upper limit; values outside them are outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Outlier | A value far from the rest of the data. | [Video 20](20-univariate-analysis/note.md) |
 | Outliers | Values far from the rest, often mistakes. | [Video 7](07-challenges-in-ml/note.md) |
+| Output value (classification) | sum of residuals / ($\sum p(1-p) + \lambda$), in log-odds. | [Video 125](125-xgboost-classification/note.md) |
+| Output value (leaf weight) | A leaf's prediction: sum of residuals / (number of residuals + $\lambda$). | [Video 124](124-xgboost-regression/note.md) |
 | Overfitting | Learning the training data too closely, noise included; fails on new data. | [Video 7](07-challenges-in-ml/note.md) |
 | Package manager | A program that downloads and installs libraries in versions that fit together. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Package | A library packed for installation. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -692,6 +730,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Pandas Profiling | The library that builds a profiling report from a DataFrame, now named `fg-data-profiling`. | [Video 22](22-pandas-profiling/note.md) |
 | pandas, DataFrame | Python's main table library, and its name for a table. | [Video 13](13-toy-project/note.md) |
 | Parallel learning | Training the base models independently, so they can all be trained at once (bagging). | [Video 119](119-bagging-vs-boosting/note.md) |
+| Parallel processing | Splitting one job among several processor cores working at the same time. | [Video 123](123-xgboost-intro/note.md) |
 | Parameter grid | A dictionary of hyperparameter names and the values to try for each. | [Video 112](112-random-forest-tuning/note.md) |
 | Parameter | A named setting passed to a function, like `sep=";"`. | [Video 15](15-working-with-csv/note.md) |
 | Parameters | The numbers that describe a learned model, e.g. slope and intercept. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -764,6 +803,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Proportional to (∝) | Equal up to a constant factor that is the same for every class. | [Video 88](88-naive-bayes-maths/note.md) |
 | Proximity matrix | An n × n table of the distances between every pair of points or clusters. | [Video 131](131-hierarchical-clustering/note.md) |
 | Pruning | Stopping a tree early or cutting it back so it does not overfit. | [Video 98](98-decision-tree-hyperparameters/note.md) |
+| Pseudo-residual | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. | [Video 120](120-gradient-boosting-intuition/note.md) |
 | Pure leaf | A leaf whose training rows all belong to one class. | [Video 100](100-dtreeviz/note.md) |
 | Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one. | [Video 72](72-sigmoid-function/note.md) |
 | PyPI | The Python Package Index, the public store of Python packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -798,6 +838,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Regression tree | A decision tree whose leaves predict numbers: the mean output of their training rows. | [Video 99](99-regression-trees/note.md) |
 | Regression | Supervised learning with a numerical output. | [Video 3](03-types-of-ml/note.md) |
 | Regular expression | A short pattern that describes text, such as `\d+` for "one or more digits". | [Video 33](33-mixed-variables/note.md) |
+| Regularisation term $\Omega$ | XGBoost's penalty on a tree: $\gamma T + \frac{1}{2}\lambda\sum_j w_j^2$. | [Video 126](126-xgboost-maths/note.md) |
 | Regularisation | Penalising large coefficients to reduce a model's variance. | [Video 62](62-bias-variance/note.md) |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments. | [Video 3](03-types-of-ml/note.md) |
 | Relative path | A file's location, starting from the folder the code runs in. | [Video 15](15-working-with-csv/note.md) |
@@ -822,6 +863,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Root node | The first node of a tree, holding all the training rows. | [Video 97](97-decision-trees-intuition/note.md) |
 | Row sampling | Giving each base model a random subset of the rows. | [Video 108](108-random-forest-intro/note.md) |
 | RPM | Revolutions per minute: how fast a motor turns. | [Video 8](08-applications-of-ml/note.md) |
+| Runge's phenomenon | The large swings of a high-degree polynomial near the ends of the interval it is fitted on. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
 | Saddle point | A flat point that curves up in one direction and down in another. | [Video 57](57-gradient-descent/note.md) |
 | saga | A stochastic solver that supports every penalty, including Elastic Net. | [Video 81](81-logistic-hyperparameters/note.md) |
@@ -859,6 +901,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sigmoid function | $\sigma(z) = 1/(1 + e^{-z})$; an S-shaped curve that maps any number into the range 0 to 1. | [Video 72](72-sigmoid-function/note.md) |
 | Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\, x \cdot x' + r)$. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Sign function | Returns +1 for a positive number and -1 for a negative one. | [Video 115](115-adaboost-intuition/note.md) |
+| Similarity score (classification) | (sum of residuals)$^2$ / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities. | [Video 125](125-xgboost-classification/note.md) |
+| Similarity score | (sum of residuals)$^2$ / (number of residuals + $\lambda$): how much a leaf's residuals agree. | [Video 124](124-xgboost-regression/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
 | Simple linear regression | Linear regression with one input column. | [Video 50](50-simple-linear-regression/note.md) |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Video 28](28-column-transformer/note.md) |
@@ -882,6 +926,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sparse model | A model in which many coefficients are exactly 0. | [Video 67](67-lasso-regression/note.md) |
 | sparse_output | `OneHotEncoder` parameter; `False` returns a normal NumPy array. | [Video 27](27-one-hot-encoding/note.md) |
 | Sparsity | Having many coefficients exactly equal to 0. | [Video 68](68-lasso-sparsity/note.md) |
+| Sparsity-aware split finding | Choosing, at each split, the side (left or right) for missing values by comparing the gain of both. | [Video 123](123-xgboost-intro/note.md) |
 | splitter | "best" searches every threshold; "random" draws thresholds at random. | [Video 98](98-decision-tree-hyperparameters/note.md) |
 | Splitting criterion (threshold) | The value a numerical question compares against, such as petal length $\le$ 2.45. | [Video 97](97-decision-trees-intuition/note.md) |
 | Splitting | Dividing a node's rows into parts according to a question. | [Video 97](97-decision-trees-intuition/note.md) |
@@ -913,6 +958,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | strategy | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans. | [Video 32](32-binning-binarization/note.md) |
 | Strike rate | A batter's runs per 100 balls faced. | [Video 45](45-feature-construction-splitting/note.md) |
 | Strong learner | A model with high accuracy. | [Video 115](115-adaboost-intuition/note.md) |
+| Structure score | The best objective of a tree, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better. | [Video 126](126-xgboost-maths/note.md) |
 | Subscription | A model where customers pay a fixed amount every month (or year). | [Video 14](14-framing-ml-problem/note.md) |
 | Sum of squared errors (SSE) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest. | [Video 99](99-regression-trees/note.md) |
 | Sum of squared errors | The squares of all the errors added up; the quantity the best-fit line makes smallest. | [Video 50](50-simple-linear-regression/note.md) |
@@ -929,7 +975,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Target leakage | Building an input column from the answer itself, so the model sees information it would not have in real use. | [Video 52](52-regression-metrics/note.md) |
 | Target, label | Other names for the output column. | [Video 3](03-types-of-ml/note.md) |
 | Targeted marketing | Advertising only to the people most likely to buy. | [Video 8](08-applications-of-ml/note.md) |
+| Taylor series | Approximation of a function near a point by a polynomial built from its derivatives there. | [Video 126](126-xgboost-maths/note.md) |
 | Tensor | A container of numbers arranged along one or more axes. | [Video 11](11-tensors/note.md) |
+| Terminal region | The part of the input space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Test set | The part hidden during training, used to check the model. | [Video 13](13-toy-project/note.md) |
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). | [Video 30](30-function-transformer/note.md) |
 | Threshold | The value that separates 0 from 1 in binarization. | [Video 32](32-binning-binarization/note.md) |
@@ -1005,12 +1053,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Weighted average | The mean of a metric over classes, weighted by each class's support. | [Video 77](77-precision-recall-f1/note.md) |
 | Weighted error | The total sample weight of the rows a model misclassifies. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Weighted impurity decrease | A split's impurity drop, weighted by the share of rows reaching the node: the $\Delta$ of `min_impurity_decrease`. | [Video 114](114-feature-importance/note.md) |
+| Weighted quantile sketch | XGBoost's method for placing bin edges at (Hessian-weighted) quantiles of a column. | [Video 123](123-xgboost-intro/note.md) |
 | weights | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance. | [Video 103](103-voting-classifier/note.md) |
 | Winsorization | Capping with limits set by percentiles. | [Video 41](41-what-are-outliers/note.md) |
 | Wisdom of the crowd | The combined judgement of many is often more accurate than any one member's. | [Video 101](101-ensemble-learning/note.md) |
 | With replacement | Sampling in which each drawn item is put back, so it can be drawn again. | [Video 105](105-bagging-intuition/note.md) |
 | X, y | Usual names for the input table and the output column. | [Video 11](11-tensors/note.md) |
 | XAMPP | A free package that runs a web server and a MySQL server on one computer. | [Video 16](16-working-with-json-and-sql/note.md) |
+| XGBoost | eXtreme Gradient Boosting: a library that implements gradient boosting with many speed and accuracy optimisations. | [Video 123](123-xgboost-intro/note.md) |
 | Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default. | [Video 31](31-power-transformer/note.md) |
 | Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. | [Video 42](42-outliers-zscore/note.md) |
 | Z-score normalization | Another name for standardization. | [Video 24](24-standardization/note.md) |

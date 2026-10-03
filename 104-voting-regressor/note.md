@@ -8,8 +8,8 @@ title: "Voting Regressor"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
-> - **Leads to:** Grid and random search ([Note 106](../106-bagging-classifier/note.md)).
-> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)); Stacking and blending (Video 127, coming).
+> - **Leads to:** Grid and random search ([Note 106](../106-bagging-classifier/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)).
+> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); OOB score ([Note 105](../105-bagging-intuition/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

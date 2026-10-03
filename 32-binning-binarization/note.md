@@ -8,7 +8,7 @@ title: "Binning and Binarization: Equal Width, Equal Frequency and k-means Binni
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Clustering ([Note 3](../03-types-of-ml/note.md)); Outliers ([Note 23](../23-what-is-feature-engineering/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)).
-> - **Leads to:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)).
+> - **Leads to:** Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); XGBoost ([Note 123](../123-xgboost-intro/note.md)).
 > - **Compare with:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)); Hierarchical clustering ([Note 131](../131-hierarchical-clustering/note.md)); DBSCAN ([Note 132](../132-dbscan/note.md)).
 <!-- /where-this-fits -->
 

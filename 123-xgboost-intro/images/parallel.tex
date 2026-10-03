@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[c/.style={box=cblue, minimum width=2.6cm}, g/.style={box=cgreen, minimum width=2.6cm}]
+  \node[box=cgrey] (node) at (4.5,2.2) {find the best split for one node};
+  \foreach \i/\x in {1/0,2/3,3/6,4/9} {
+    \node[c] (f\i) at (\x,0) {column block\\feature F\i};
+    \node[g] (k\i) at (\x,-2) {core \i:\\best split on F\i};
+    \draw[arrow] (node) -- (f\i); \draw[arrow] (f\i) -- (k\i);
+  }
+  \node[box=cred, minimum width=5cm] (best) at (4.5,-4.2) {compare: keep the best of the four};
+  \foreach \i in {1,...,4} {\draw[arrow] (k\i) -- (best);}
+  \node[note] at (4.5,-5.4) {trees are still built one after another; the work inside one tree is shared};
+\end{tikzpicture}
+\end{document}

@@ -140,6 +140,14 @@ notes:
   117: 117-adaboost-from-scratch
   118: 118-adaboost-hyperparameters
   119: 119-bagging-vs-boosting
+  120: 120-gradient-boosting-intuition
+  121: 121-gradient-boosting-regression-maths
+  122: 122-gradient-boosting-classification
+  123: 123-xgboost-intro
+  124: 124-xgboost-regression
+  125: 125-xgboost-classification
+  126: 126-xgboost-maths
+  127: 127-stacking-blending
   128: 128-kmeans-intuition
   129: 129-kmeans-code
   130: 130-kmeans-from-scratch
@@ -199,7 +207,7 @@ concepts:
 
   # 4 Clean
   - {id: data_quality, name: Poor-quality data, step: 4, videos: [7, 9], status: confirmed}
-  - {id: missing_values, name: Missing values, step: 4, videos: [7, 9, 23, 35, 36, 37, 38], status: confirmed}
+  - {id: missing_values, name: Missing values, step: 4, videos: [7, 9, 23, 35, 36, 37, 38, 123], status: confirmed}
   - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: confirmed}
   - {id: simple_imputation, name: "Simple imputation (mean, median, mode, constant)", step: 4, videos: [23, 36, 37], status: confirmed}
   - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: confirmed}
@@ -256,7 +264,7 @@ concepts:
   - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: confirmed}
   - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: confirmed}
   - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57], status: confirmed}
-  - {id: learning_rate, name: Learning rate, step: 10, videos: [57], status: confirmed}
+  - {id: learning_rate, name: Learning rate, step: 10, videos: [57, 118, 120], status: confirmed}
   - {id: convexity, name: Convex and non-convex loss, step: 8, videos: [57], status: confirmed}
   - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58], status: confirmed}
   - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: confirmed}
@@ -288,9 +296,10 @@ concepts:
   - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111, 112, 113, 114], status: confirmed}
   - {id: boosting, name: Boosting, step: 8, videos: [101, 119], status: confirmed}
   - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: confirmed}
-  - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: draft}
-  - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: draft}
-  - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: draft}
+  - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: confirmed}
+  - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: confirmed}
+  - {id: taylor_series, name: Taylor series, step: 0, videos: [126], status: confirmed}
+  - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: confirmed}
   - {id: kmeans, name: K-means, step: 8, videos: [32, 128, 129, 130], status: confirmed}
   - {id: elbow_method, name: Elbow method and WCSS, step: 10, videos: [128, 129], status: confirmed}
   - {id: hierarchical, name: Hierarchical clustering, step: 8, videos: [131], status: confirmed}
@@ -306,7 +315,7 @@ concepts:
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: confirmed}
   - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: confirmed}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: confirmed}
-  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112, 118], status: confirmed}
+  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112, 118, 127], status: confirmed}
   - {id: permutation_importance, name: Permutation importance, step: 5, videos: [114], status: confirmed}
   - {id: oob_score, name: OOB score, step: 9, videos: [105, 106, 107, 113], status: confirmed}
 
@@ -587,10 +596,21 @@ links:
   - [hyperparameters, used in, adaboost, confirmed]
   - [boosting, needs, bias_variance, confirmed]
   - [boosting, fixes, underfitting, confirmed]
-  - [gradient_boosting, is a kind of, boosting, draft]
-  - [xgboost, is a kind of, gradient_boosting, draft]
-  - [gradient_boosting, needs, gradient_descent, draft]
-  - [stacking, compared with, voting, draft]
+  - [gradient_boosting, is a kind of, boosting, confirmed]
+  - [xgboost, is a kind of, gradient_boosting, confirmed]
+  - [gradient_boosting, needs, gradient_descent, confirmed]
+  - [stacking, compared with, voting, confirmed]
+  - [gradient_boosting, compared with, adaboost, confirmed]
+  - [gradient_boosting, needs, regression_tree, confirmed]
+  - [learning_rate, used in, gradient_boosting, confirmed]
+  - [gradient_boosting, needs, log_loss, confirmed]
+  - [gradient_boosting, needs, sigmoid, confirmed]
+  - [xgboost, fixes, missing_values, confirmed]
+  - [xgboost, needs, binning, confirmed]
+  - [regularisation, used in, xgboost, confirmed]
+  - [taylor_series, used in, xgboost, confirmed]
+  - [cross_validation, used in, stacking, confirmed]
+  - [stacking, compared with, boosting, confirmed]
   # Clustering
   - [clustering, is a kind of, unsupervised, confirmed]
   - [anomaly_detection, is a kind of, unsupervised, confirmed]

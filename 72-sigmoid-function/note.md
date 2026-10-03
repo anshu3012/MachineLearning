@@ -8,7 +8,7 @@ title: "Logistic Regression: The Sigmoid Function"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
-> - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)).
+> - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 > - **Compare with:** Support vector machines ([Note 92](../92-svm-intuition/note.md)).
 <!-- /where-this-fits -->
 

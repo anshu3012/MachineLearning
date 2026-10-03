@@ -8,6 +8,7 @@ title: "AdaBoost: How It Works"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Decision trees ([Note 100](../100-dtreeviz/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)); Hyperparameter tuning ([Note 111](../111-random-forest-hyperparameters/note.md)).
+> - **Compare with:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

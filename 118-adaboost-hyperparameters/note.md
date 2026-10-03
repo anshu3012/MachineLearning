@@ -8,8 +8,8 @@ title: "AdaBoost Hyperparameters and Tuning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); ML pipelines ([Note 38](../38-missing-indicator-random-sample/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
-> - **Leads to:** Optuna (Video 134, coming).
-> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 113](../113-oob-score/note.md)); Optuna (Video 134, coming).
+> - **Leads to:** Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Stacking and blending ([Note 127](../127-stacking-blending/note.md)); Optuna (Video 134, coming).
+> - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); OOB score ([Note 113](../113-oob-score/note.md)); Gradient boosting ([Note 120](../120-gradient-boosting-intuition/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview
