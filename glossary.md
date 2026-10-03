@@ -62,6 +62,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Batch gradient descent | Gradient descent that uses all training rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
@@ -170,6 +171,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
 | Durbin-Watson statistic | A number from 0 to 4 measuring autocorrelation of residuals; about 2 means none. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Video 6](06-instance-vs-model-based/note.md) |
+| Early stopping | Stopping training when the score on held-out data is best, before full convergence. | [Video 58](58-batch-gradient-descent/note.md) |
 | Economy rate | A bowler's runs conceded per over. | [Video 45](45-feature-construction-splitting/note.md) |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Video 48](48-pca-step-by-step/note.md) |
 | Eigenvalue | The factor by which a matrix stretches its eigenvector. | [Video 48](48-pca-step-by-step/note.md) |
@@ -319,6 +321,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mean imputation | Filling every gap with the mean of the column's known values. | [Video 36](36-imputing-numerical-data/note.md) |
 | Mean normalization | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. | [Video 25](25-normalization/note.md) |
 | Mean squared error (MSE) | The average squared difference between actual and predicted values. | [Video 52](52-regression-metrics/note.md) |
+| Mean squared error loss | The average squared error; its derivatives do not grow with the number of rows. | [Video 58](58-batch-gradient-descent/note.md) |
 | Mean | The average of the values; the centre of the data. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Median absolute deviation (MAD) | The median distance of the values from their median. | [Video 22](22-pandas-profiling/note.md) |
 | Median imputation | Filling every gap with the median of the column's known values; better for skewed columns. | [Video 36](36-imputing-numerical-data/note.md) |
@@ -327,6 +330,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer. | [Video 40](40-iterative-imputer-mice/note.md) |
 | Min-max scaling | The main normalization technique. | [Video 24](24-standardization/note.md) |
 | min_frequency | `OneHotEncoder` parameter that merges rare categories into one column. | [Video 27](27-one-hot-encoding/note.md) |
+| Mini-batch gradient descent | Gradient descent that uses a small random group of rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing". | [Video 37](37-missing-categorical-data/note.md) |
@@ -515,6 +519,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Status code | A number saying how a request went: 200 OK, 401, 404, 500. | [Video 17](17-fetching-data-from-api/note.md) |
 | step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name. | [Video 29](29-pipelines/note.md) |
 | Stochastic error | A random, unmeasurable influence that scatters data around its trend. | [Video 50](50-simple-linear-regression/note.md) |
+| Stochastic gradient descent (SGD) | Gradient descent that uses one random row for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | str dtype | The pandas 3 type for text columns, replacing `object`. | [Video 33](33-mixed-variables/note.md) |
 | str.extract | The pandas method that returns the part of each value matching a regular expression. | [Video 33](33-mixed-variables/note.md) |
 | strategy | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans. | [Video 32](32-binning-binarization/note.md) |
@@ -567,6 +572,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other inputs predict input $j$; above 5 signals multicollinearity. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Variance | The average squared distance of the points from their mean. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Vector | A list of numbers: a 1D tensor. | [Video 11](11-tensors/note.md) |
+| Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Video 58](58-batch-gradient-descent/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |
 | View Page Source | Browser option that shows a page's raw HTML. | [Video 18](18-web-scraping/note.md) |
 | Vocabulary | The list of unique words in a set of texts. | [Video 11](11-tensors/note.md) |
