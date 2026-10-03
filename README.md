@@ -102,6 +102,7 @@ Videos skipped for now, to come back to later:
 - Video 1: Course map (what the course covers, all Videos grouped into modules)
 - Video 8: Applications of Machine Learning
 - Video 9: Machine Learning Development Life Cycle (MLDLC)
+- Video 12: Installing Anaconda / Jupyter / Colab. Do this when the project is done: first pin the exact library versions of the `campusx` environment (e.g. an `environment.yml`), then write the setup Note from that pinned environment.
 
 ## Skipped
 
