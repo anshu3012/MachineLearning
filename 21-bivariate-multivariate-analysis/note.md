@@ -9,7 +9,7 @@ title: "EDA: Bivariate and Multivariate Analysis"
 >
 > - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)).
 > - **Leads to:** Feature selection ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Compare with:** Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)).
+> - **Compare with:** Pandas Profiling ([Note 22](../22-pandas-profiling/note.md)); Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

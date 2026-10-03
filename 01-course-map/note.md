@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 64 of 132 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 66 of 134 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -57,6 +57,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | ML development life cycle | Video 9, coming, [Note 13](../13-toy-project/note.md) | draft |
 | Tensors | [Note 11](../11-tensors/note.md) | confirmed |
 | Anaconda, Jupyter and Colab | Video 12, coming | draft |
+| Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -89,6 +90,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Skewness | [Note 20](../20-univariate-analysis/note.md) | confirmed |
 | Bivariate and multivariate analysis | [Note 21](../21-bivariate-multivariate-analysis/note.md) | confirmed |
 | Pandas Profiling | [Note 22](../22-pandas-profiling/note.md) | confirmed |
+| Covariance and covariance matrix | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
 
 ### 2.5 Step 4: Clean
 
@@ -134,7 +136,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Dimensionality reduction | [Note 3](../03-types-of-ml/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
-| PCA | [Note 3](../03-types-of-ml/note.md), [Note 47](../47-pca-geometric-intuition/note.md), Video 48, coming, Video 49, coming | confirmed |
+| PCA | [Note 3](../03-types-of-ml/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md), Video 49, coming | confirmed |
 | Feature extraction | [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | confirmed |
 | Curse of dimensionality | [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 
@@ -247,7 +249,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 132 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 134 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -315,8 +317,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | written |
-| 48 | PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
-| 49 | PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | coming |
+| 48 | Covariance and covariance matrix, Eigenvectors and eigenvalues, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
+| 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | coming |
 | 50 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | coming |
 | 51 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | coming |
 | 52 | Regression metrics | nothing | coming |

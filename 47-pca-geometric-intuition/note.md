@@ -8,6 +8,7 @@ title: "PCA: Geometric Intuition"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Dimensionality reduction ([Note 46](../46-curse-of-dimensionality/note.md)).
+> - **Leads to:** Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)).
 > - **Compare with:** Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)).
 <!-- /where-this-fits -->
 

@@ -47,6 +47,7 @@ notes:
   28: 28-column-transformer
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
+  48: 48-pca-step-by-step
 
 concepts:
   # 0 Foundations
@@ -88,6 +89,8 @@ concepts:
   # 3 Understand data
   - {id: eda, name: Exploratory data analysis, step: 3, videos: [13, 19], status: confirmed}
   - {id: variance, name: Variance, step: 3, videos: [19, 47], status: confirmed}
+  - {id: covariance, name: Covariance and covariance matrix, step: 3, videos: [48], status: confirmed}
+  - {id: eigen, name: Eigenvectors and eigenvalues, step: 0, videos: [48], status: confirmed}
   - {id: correlation, name: Correlation, step: 3, videos: [19, 21], status: confirmed}
   - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: confirmed}
   - {id: univariate, name: Univariate analysis, step: 3, videos: [20], status: confirmed}
@@ -309,6 +312,10 @@ links:
   - [pca, fixes, curse_dim, confirmed]
   - [pca, is a kind of, unsupervised, confirmed]
   - [pca, needs, variance, confirmed]
+  - [pca, needs, covariance, confirmed]
+  - [pca, needs, eigen, confirmed]
+  - [covariance, compared with, correlation, confirmed]
+  - [covariance, needs, variance, confirmed]
   - [variance, is a kind of, descriptive_stats, confirmed]
   - [pca, needs, standardization, confirmed]
   - [standardization, needs, descriptive_stats, confirmed]

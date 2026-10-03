@@ -9,6 +9,7 @@ title: "Understanding Your Data: Seven First Questions"
 >
 > - **Builds on:** CSV files ([Note 15](../15-working-with-csv/note.md)).
 > - **Leads to:** Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Feature selection ([Note 23](../23-what-is-feature-engineering/note.md)); Standardization ([Note 24](../24-standardization/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Compare with:** Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

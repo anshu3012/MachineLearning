@@ -60,6 +60,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Container | A tag (often a `div`) that holds everything about one item, such as one company. | [Video 18](18-web-scraping/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Video 20](20-univariate-analysis/note.md) |
+| Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
+| Covariance | How two columns move together: positive if they rise together, negative if not. | [Video 48](48-pca-step-by-step/note.md) |
 | Cramér's V | A measure of the link between two categorical columns, from 0 to 1. | [Video 22](22-pandas-profiling/note.md) |
 | Crosstab | A table counting the rows for every pair of categories of two columns. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | CSV file | A text file holding a table, with commas between values. | [Video 13](13-toy-project/note.md) |
@@ -85,17 +87,22 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Distance | A number measuring how far apart two points are; small distance = similar. | [Video 6](06-instance-vs-model-based/note.md) |
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
 | Domain knowledge | Knowledge of the field the data comes from. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Dot product | Multiply matching components of two vectors and add; $u^{\mathsf T}x$. | [Video 48](48-pca-step-by-step/note.md) |
 | dtype | The data type of a column, such as `int64`, `float64` or `str`. | [Video 15](15-working-with-csv/note.md) |
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1. | [Video 27](27-one-hot-encoding/note.md) |
 | Dummy variable | One of the 0/1 columns created by one-hot encoding. | [Video 27](27-one-hot-encoding/note.md) |
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Video 6](06-instance-vs-model-based/note.md) |
+| Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Video 48](48-pca-step-by-step/note.md) |
+| Eigenvalue | The factor by which a matrix stretches its eigenvector. | [Video 48](48-pca-step-by-step/note.md) |
+| Eigenvector | A vector that a matrix only stretches or shrinks, without turning it. | [Video 48](48-pca-step-by-step/note.md) |
 | Encoding | The rulebook that maps text characters to stored bytes. | [Video 15](15-working-with-csv/note.md) |
 | Endpoint | One address of an API that returns one kind of data. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment variable | A named value stored on the computer, outside the code, read with `os.environ`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment | The world the agent acts in. | [Video 3](03-types-of-ml/note.md) |
 | Euclidean distance | The straight-line distance between two points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Explained variance | The variance along a principal component; its eigenvalue. | [Video 48](48-pca-step-by-step/note.md) |
 | Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns. | [Video 13](13-toy-project/note.md) |
 | f-string | Text starting with `f` in which `{name}` is replaced by a value. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -129,6 +136,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Histogram | A bar chart of how many values fall in each equal range (bin) of a numerical column. | [Video 20](20-univariate-analysis/note.md) |
 | HTML | The language web pages are written in: a tree of nested tags. | [Video 18](18-web-scraping/note.md) |
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Identity matrix | The matrix that leaves every vector unchanged. | [Video 48](48-pca-step-by-step/note.md) |
 | Imputation | Filling in missing values, for example with the mean, median or mode. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
@@ -158,6 +166,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear regression | An algorithm that fits the straight line closest to all the points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Linear relationship | A relationship between two columns that follows a straight line. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced. | [Video 48](48-pca-step-by-step/note.md) |
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Video 15](15-working-with-csv/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -195,6 +204,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side. | [Video 28](28-column-transformer/note.md) |
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Video 22](22-pandas-profiling/note.md) |
 | Numerical data | Data made of numbers. | [Video 3](03-types-of-ml/note.md) |
+| Objective function | The quantity an algorithm tries to make as large or as small as possible. | [Video 48](48-pca-step-by-step/note.md) |
 | Observation | The report's word for a row. | [Video 22](22-pandas-profiling/note.md) |
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | One-hot encoding | Representing each word or category by a vector with a single 1. | [Video 11](11-tensors/note.md) |
@@ -308,11 +318,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Train-test split | Dividing the data into training and test sets. | [Video 13](13-toy-project/note.md) |
 | Training set | The part of the data the model learns from. | [Video 13](13-toy-project/note.md) |
 | transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples. | [Video 28](28-column-transformer/note.md) |
+| Transpose | A matrix or vector with rows and columns swapped. | [Video 48](48-pca-step-by-step/note.md) |
 | TSV file | Like a CSV file, with tabs between values. | [Video 15](15-working-with-csv/note.md) |
 | Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling. | [Video 19](19-understanding-your-data/note.md) |
 | Unit hypercube | The same box in three or more dimensions (a unit cube in three). | [Video 25](25-normalization/note.md) |
 | Unit square | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns. | [Video 25](25-normalization/note.md) |
+| Unit vector | A vector of length 1, used to describe a direction. | [Video 48](48-pca-step-by-step/note.md) |
 | Univariate analysis | Studying one variable on its own. | [Video 20](20-univariate-analysis/note.md) |
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same. | [Video 7](07-challenges-in-ml/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |
