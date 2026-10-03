@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[level distance=2.3cm, sibling distance=4.4cm]
+  \node[box] (d) at (0,0) {\textbf{a column of data}};
+  \node[box=corange, minimum width=4.4cm] (c) at (-4.6,-2.2) {\textbf{Categorical}\\ labels};
+  \node[box=cblue, minimum width=4.4cm] (n) at (4.6,-2.2) {\textbf{Numerical}\\ numbers that measure};
+  \node[box=corange, minimum width=3.6cm] (nom) at (-6.8,-4.6) {\textbf{Nominal}\\ no order};
+  \node[box=corange, minimum width=3.6cm] (ord) at (-2.4,-4.6) {\textbf{Ordinal}\\ ordered};
+  \node[box=cblue, minimum width=3.6cm] (dis) at (2.4,-4.6) {\textbf{Discrete}\\ separate values};
+  \node[box=cblue, minimum width=3.6cm] (con) at (6.8,-4.6) {\textbf{Continuous}\\ any value in a range};
+  \foreach \a/\b in {d/c, d/n, c/nom, c/ord, n/dis, n/con} \draw[arrow] (\a) -- (\b);
+  \node[note] at (-6.8,-5.9) {gender, state,\\ IPL team};
+  \node[note] at (-2.4,-5.9) {bad $<$ average $<$ good};
+  \node[note] at (2.4,-5.9) {rank, number of\\ children};
+  \node[note] at (6.8,-5.9) {height, weight,\\ fare};
+\end{tikzpicture}
+\end{document}

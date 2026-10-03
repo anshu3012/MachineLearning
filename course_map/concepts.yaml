@@ -155,6 +155,13 @@ notes:
   132: 132-dbscan
   133: 133-imbalanced-data
   134: 134-optuna
+  210: 210-statistics-roadmap
+  220: 220-what-is-statistics
+  221: 221-measures-of-central-tendency
+  222: 222-measures-of-dispersion
+  223: 223-frequency-tables-and-graphs
+  230: 230-percentiles-and-box-plots
+  231: 231-covariance-and-correlation
 
 concepts:
   # 0 Foundations
@@ -195,11 +202,19 @@ concepts:
 
   # 3 Understand data
   - {id: eda, name: Exploratory data analysis, step: 3, videos: [9, 13, 19], status: confirmed}
-  - {id: variance, name: Variance, step: 3, videos: [19, 47], status: confirmed}
-  - {id: covariance, name: Covariance and covariance matrix, step: 3, videos: [48], status: confirmed}
+  - {id: variance, name: Variance, step: 3, videos: [19, 47, 222], status: confirmed}
+  - {id: covariance, name: Covariance and covariance matrix, step: 3, videos: [48, 231], status: confirmed}
   - {id: eigen, name: Eigenvectors and eigenvalues, step: 0, videos: [48], status: confirmed}
-  - {id: correlation, name: Correlation, step: 3, videos: [19, 21], status: confirmed}
-  - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: confirmed}
+  - {id: correlation, name: Correlation, step: 3, videos: [19, 21, 231], status: confirmed}
+  - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
+  - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
+  - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
+  - {id: central_tendency, name: Measures of central tendency, step: 3, videos: [221], status: confirmed}
+  - {id: bessel, name: Bessel's correction, step: 3, videos: [222], status: confirmed}
+  - {id: frequency_table, name: Frequency tables, step: 3, videos: [223], status: confirmed}
+  - {id: box_plot, name: "Percentiles, quartiles and box plots", step: 3, videos: [230], status: confirmed}
+  - {id: causation, name: Correlation and causation, step: 3, videos: [231], status: confirmed}
+  - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19, 210, 221, 222, 223, 230], status: confirmed}
   - {id: univariate, name: Univariate analysis, step: 3, videos: [9, 20], status: confirmed}
   - {id: qq_plot, name: Q-Q plot, step: 3, videos: [30], status: confirmed}
   - {id: skewness, name: Skewness, step: 3, videos: [20], status: confirmed}
@@ -680,6 +695,16 @@ links:
   - [cost_sensitive_learning, fixes, imbalanced_data, confirmed]
   - [cost_sensitive_learning, needs, log_loss, confirmed]
   - [roc, used in, imbalanced_data, confirmed]
+  - [inferential_stats, compared with, descriptive_stats, confirmed]
+  - [population_sample, used in, inferential_stats, confirmed]
+  - [population_sample, needs, sampling_bias, confirmed]
+  - [central_tendency, is a kind of, descriptive_stats, confirmed]
+  - [bessel, used in, variance, confirmed]
+  - [bessel, needs, population_sample, confirmed]
+  - [frequency_table, used in, descriptive_stats, confirmed]
+  - [box_plot, used in, percentile, confirmed]
+  - [causation, compared with, correlation, confirmed]
+  - [correlation, compared with, covariance, confirmed]
   # Production
   - [deployment, needs, pickle, confirmed]
   - [software_integration, used in, deployment, confirmed]
