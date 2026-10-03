@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box, minimum width=6cm] (q1) at (0,0) {\textbf{Compare a mean, $\sigma$ unknown}\\ how many samples?};
+  \node[box=cblue, minimum width=5.2cm] (one) at (-5,-3) {\textbf{One-sample t-test}\\ one sample against a known value\\ $H_0$: $\mu = \mu_0$};
+  \node[box, minimum width=5cm] (q2) at (3.2,-3) {\textbf{Two samples}\\ same subjects, measured twice?};
+  \node[box=corange, minimum width=5.2cm] (ind) at (0,-6.2) {\textbf{Independent two-sample t-test}\\ two separate groups\\ $H_0$: $\mu_1 = \mu_2$};
+  \node[box=cgreen, minimum width=5.2cm] (pair) at (6.2,-6.2) {\textbf{Paired t-test}\\ before and after, matched pairs\\ $H_0$: $\mu_{\text{diff}} = 0$};
+  \draw[arrow] (q1) -| node[pos=0.75, left] {one} (one);
+  \draw[arrow] (q1) -| node[pos=0.75, right] {two} (q2);
+  \draw[arrow] (q2) -| node[pos=0.75, left] {no} (ind);
+  \draw[arrow] (q2) -| node[pos=0.75, right] {yes} (pair);
+\end{tikzpicture}
+\end{document}

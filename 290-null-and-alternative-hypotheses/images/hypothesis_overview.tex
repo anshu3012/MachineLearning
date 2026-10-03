@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box, minimum width=7cm] (idea) at (0,0) {\textbf{An idea to test}\\ ``the new shooting style raises the average view time''};
+  \node[box=cblue, minimum width=5.6cm] (h0) at (-3.6,-2.6) {\textbf{Null hypothesis} $H_0$\\ $\mu = 6$ minutes\\ {\small nothing has changed (status quo)}};
+  \node[box=corange, minimum width=5.6cm] (h1) at (3.6,-2.6) {\textbf{Alternative hypothesis} $H_1$\\ $\mu > 6$ minutes\\ {\small there is an effect (research hypothesis)}};
+  \node[box, minimum width=7cm] (data) at (0,-5.3) {\textbf{Sample data}\\ does it give strong evidence against $H_0$?};
+  \node[box=cred, minimum width=5.6cm] (rej) at (-3.6,-8) {\textbf{Yes: reject $H_0$}\\ the data supports $H_1$};
+  \node[box=cgreen, minimum width=5.6cm] (keep) at (3.6,-8) {\textbf{No: fail to reject $H_0$}\\ $H_0$ is \emph{not} proven true};
+  \draw[arrow] (idea) -- (h0);
+  \draw[arrow] (idea) -- (h1);
+  \draw[arrow] (h0) -- (data);
+  \draw[arrow] (h1) -- (data);
+  \draw[arrow] (data) -- (rej);
+  \draw[arrow] (data) -- (keep);
+\end{tikzpicture}
+\end{document}

@@ -8,6 +8,7 @@ title: "Interpreting Confidence Intervals"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Central limit theorem ([Note 272](../272-estimating-a-mean-with-the-clt/note.md)).
+> - **Compare with:** Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -6,6 +6,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 |---|---|---|
 | $\alpha$ (Pareto shape) | The tail index: larger means a thinner tail. | [Maths Note 262](262-pareto-and-power-law/note.md) |
 | $\alpha$ | One minus the confidence level: the share of intervals that miss the parameter. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
+| $\beta$ | The probability of a Type II error. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | $\binom{n}{k}$ ($n$ choose $k$) | The number of ways to choose $k$ items out of $n$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | $\hat{\mu}$ | An estimate of the population mean $\mu$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
 | $\int_a^b f(x)\,dx$ | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
@@ -26,6 +27,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | 80-20 rule (Pareto principle) | About 20% of the causes produce about 80% of the results, e.g. 20% of people hold 80% of the wealth. | [Maths Note 262](262-pareto-and-power-law/note.md) |
 | @ (matrix multiplication) | Python's operator for multiplying matrices and vectors. | [Video 55](55-multiple-lr-code/note.md) |
 | `add_indicator=True` | The `SimpleImputer` setting that imputes and appends missing indicators in one step. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| `alternative` (scipy) | The argument of scipy's tests that sets the direction of $H_1$: `"two-sided"`, `"less"` or `"greater"`. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | `base_score` | XGBoost's starting prediction; a probability for classification. | [Video 125](125-xgboost-classification/note.md) |
 | `BayesianRidge` | A linear regression with built-in shrinkage of the weights; the default model of `IterativeImputer`. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `best_params_` | The best combination of settings found by `GridSearchCV`. | [Video 38](38-missing-indicator-random-sample/note.md) |
@@ -83,6 +85,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Alert | A warning in the report about a column that may need attention. | [Video 22](22-pandas-profiling/note.md) |
 | Alpha (model weight) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes. | [Video 115](115-adaboost-intuition/note.md) |
+| Alternative hypothesis ($H_1$, $H_a$) | The statement that contradicts $H_0$ and claims an effect, difference or relationship. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Anaconda Navigator | Anaconda's point-and-click window for environments and packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anaconda | The best-known data science distribution, with Navigator and Spyder. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anderson-Darling test | Another statistical test of whether data follows a given distribution. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
@@ -274,6 +277,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. | [Video 57](57-gradient-descent/note.md) |
 | Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. | [Video 68](68-lasso-sparsity/note.md) |
 | Core point | A point with at least MinPts points within eps. | [Video 132](132-dbscan/note.md) |
+| Corrected resampled t-test | A paired t-test for cross-validation scores that allows for the overlap between training sets. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | Correlation between base models | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance. | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
 | Cosine similarity | The cosine of the angle between two vectors, from -1 to 1. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
@@ -419,6 +423,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | eps (epsilon) | The radius of the neighbourhood DBSCAN examines around each point. | [Video 132](132-dbscan/note.md) |
 | eps-neighbourhood | All points within distance eps of a point. | [Video 132](132-dbscan/note.md) |
 | Equal frequency binning | Binning into bins holding the same number of rows, with the quantiles as edges; also called quantile binning. | [Video 32](32-binning-binarization/note.md) |
+| Equal variances (homogeneity of variance) | The assumption that two populations have the same variance. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning. | [Video 32](32-binning-binarization/note.md) |
 | Equally likely outcomes | Outcomes that all have the same probability, such as the faces of a fair die. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Equation of a hyperplane | $w^{\mathsf T}x + w_0 = 0$: one equation for a line, plane or hyperplane in any dimension. | [Maths Note 363](363-equation-of-a-hyperplane/note.md) |
@@ -453,8 +458,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | export_text | scikit-learn function that prints a trained tree as indented text. | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Extrapolation | Predicting for inputs outside the range of the training data. | [Video 50](50-simple-linear-regression/note.md) |
 | f-string | Text starting with `f` in which `{name}` is replaced by a value. | [Video 17](17-fetching-data-from-api/note.md) |
+| F-test | Another test that compares two variances. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | F1 score | The harmonic mean of precision and recall. | [Video 77](77-precision-recall-f1/note.md) |
 | Facet grid | The same plot repeated side by side, one panel per category of another column. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
+| Fail to reject $H_0$ | The decision that the evidence against $H_0$ is not strong enough; it does not prove $H_0$. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | False negative (FN) | Predicted negative, but actually positive; a Type II error. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | False positive (FP) | Predicted positive, but actually negative; a Type I error. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | False positive rate (FPR) | The fraction of real negatives the model wrongly flags. | [Video 78](78-roc-auc/note.md) |
@@ -564,6 +571,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Independent and identically distributed (i.i.d.) | Values that do not affect each other and all come from the same distribution. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | Independent events | Events where one happening does not change the probability of the other. | [Video 83](83-independent-events/note.md) |
 | Independent models | Models whose mistakes are unrelated, so one being wrong says nothing about the others. | [Video 102](102-voting-ensemble/note.md) |
+| Independent two-sample t-test | A t-test comparing the means of two separate, non-overlapping groups. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
 | Index | The row labels of a DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Inertia | A big organisation's resistance to changing direction once it has started. | [Video 14](14-framing-ml-problem/note.md) |
@@ -658,6 +666,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Leptokurtic | Excess kurtosis above 0: fatter tails than normal. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
+| Levene's test | A hypothesis test with $H_0$: the groups have equal variances. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use. | [Video 123](123-xgboost-intro/note.md) |
 | Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Video 73](73-log-loss/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -779,6 +788,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | monotonic_cst | Setting that forces predictions to only rise or only fall as a column grows. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Video 22](22-pandas-profiling/note.md) |
 | Moore-Penrose pseudo-inverse | A generalised inverse for matrices that are not square or have no inverse. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
+| More extreme | Having as much or more evidence against $H_0$, in the direction(s) of $H_1$. | [Maths Note 300](300-p-values/note.md) |
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Video 37](37-missing-categorical-data/note.md) |
 | Multi-layer stacking | Stacking with more than one layer of base models below the meta-model. | [Video 127](127-stacking-blending/note.md) |
 | Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others. | [Video 27](27-one-hot-encoding/note.md) |
@@ -837,6 +847,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | np.insert | NumPy function that inserts values into an array at a given position. | [Video 55](55-multiple-lr-code/note.md) |
 | np.linalg.inv | NumPy function that computes the inverse of a square matrix. | [Video 55](55-multiple-lr-code/note.md) |
 | np.linalg.lstsq | NumPy function that finds the least-squares solution of a linear system. | [Video 55](55-multiple-lr-code/note.md) |
+| Null hypothesis ($H_0$) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Nullable integer (Int64) | The pandas integer type that can also hold a missing value, `<NA>`. | [Video 33](33-mixed-variables/note.md) |
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Video 22](22-pandas-profiling/note.md) |
 | Number of samples ($k$) | How many samples are drawn; different from the sample size $n$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
@@ -850,7 +861,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | OLTP | Online transaction processing: the database that records every action as it happens. | [Video 14](14-framing-ml-problem/note.md) |
 | One-hot encoding | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. | [Video 11](11-tensors/note.md) |
+| One-sample t-test | Tests whether a population mean equals a claimed value, from one sample, with $\sigma$ unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | One-sided and two-sided critical value | The value leaving the whole $\alpha$ in one tail, or $\alpha/2$ in each of the two tails. | [Maths Note 282](282-t-procedure/note.md) |
+| One-tailed p-value | The tail area beyond the test statistic on the side that $H_1$ points to. | [Maths Note 300](300-p-values/note.md) |
+| One-tailed test (one-sided test) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | One-vs-rest | Training one binary classifier per class, each separating that class from all others. | [Video 79](79-softmax-regression/note.md) |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned. | [Video 27](27-one-hot-encoding/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
@@ -880,9 +894,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Output value (classification) | sum of residuals / ($\sum p(1-p) + \lambda$), in log-odds. | [Video 125](125-xgboost-classification/note.md) |
 | Output value (leaf weight) | A leaf's prediction: sum of residuals / (number of residuals + $\lambda$). | [Video 124](124-xgboost-regression/note.md) |
 | Overfitting | Learning the training data too closely, noise included; fails on new data. | [Video 7](07-challenges-in-ml/note.md) |
+| P-value approach | Carrying out a test by computing a p-value, which also measures the strength of the evidence. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
+| P-value decision rule | Reject $H_0$ if $p \le \alpha$, otherwise fail to reject it. | [Maths Note 300](300-p-values/note.md) |
+| P-value | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. | [Maths Note 300](300-p-values/note.md) |
 | Package manager | A program that downloads and installs libraries in versions that fit together. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Package | A library packed for installation. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Pair plot | A grid of scatter plots of every pair of numerical columns, with histograms on the diagonal. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Paired observations | Two measurements that belong to the same subject or matched pair. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
+| Paired t-test (dependent t-test) | A t-test comparing two linked measurements of the same subjects, through their differences. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | Pandas Profiling | The library that builds a profiling report from a DataFrame, now named `fg-data-profiling`. | [Video 22](22-pandas-profiling/note.md) |
 | pandas, DataFrame | Python's main table library, and its name for a table. | [Video 13](13-toy-project/note.md) |
 | Parallel learning | Training the base models independently, so they can all be trained at once (bagging). | [Video 119](119-bagging-vs-boosting/note.md) |
@@ -942,6 +961,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Polynomial kernel | A kernel built from powers of the inputs, such as $x^2$. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Polynomial regression | Linear regression on powers (and products) of the inputs, to fit curves. | [Video 61](61-polynomial-regression/note.md) |
 | PolynomialFeatures | scikit-learn transformer that creates the power and product columns. | [Video 61](61-polynomial-regression/note.md) |
+| Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | Population covariance ($\sigma_{xy}$) | Covariance of a whole population, dividing by $N$. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | Population mean ($\mu$) | The mean of every value in the population. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | Population | The entire group of individuals or objects we want to study. | [Maths Note 220](220-what-is-statistics/note.md) |
@@ -950,6 +970,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Positive skew (right skew) | A long tail on the right: a few very large values. | [Maths Note 252](252-skewness/note.md) |
 | Posterior | The probability of an event after the evidence is taken into account. | [Video 85](85-bayes-theorem/note.md) |
 | Power law | A relationship $y = k\,x^{a}$: one variable proportional to a power of the other. | [Maths Note 262](262-pareto-and-power-law/note.md) |
+| Power of a test | $1 - \beta$: the probability of rejecting $H_0$ when it is false. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |
 | Precision | Of all items predicted positive, the fraction that really are positive. | [Video 14](14-framing-ml-problem/note.md) |
@@ -1030,6 +1051,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Regularisation term $\Omega$ | XGBoost's penalty on a tree: $\gamma T + \frac{1}{2}\lambda\sum_j w_j^2$. | [Video 126](126-xgboost-maths/note.md) |
 | Regularisation | Penalising large coefficients to reduce a model's variance. | [Video 62](62-bias-variance/note.md) |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments. | [Video 3](03-types-of-ml/note.md) |
+| Reject $H_0$ | The decision that the data gives strong enough evidence against $H_0$. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
+| Rejection region (critical region) | The values of the test statistic for which we reject $H_0$; its area under $H_0$ is $\alpha$. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
+| Rejection region approach | Carrying out a test by checking whether the test statistic falls beyond a fixed boundary. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Relative frequency | A category's share of all the data: its frequency divided by the total. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
 | Relative path | A file's location, starting from the folder the code runs in. | [Video 15](15-working-with-csv/note.md) |
 | remainder | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"`. | [Video 28](28-column-transformer/note.md) |
@@ -1038,12 +1062,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | requests | Python library that sends web requests. | [Video 17](17-fetching-data-from-api/note.md) |
 | Required sample size | $n = (z_{\alpha/2}\,\sigma/E)^2$: the smallest sample giving a margin of error $E$. | [Maths Note 281](281-interpreting-confidence-intervals/note.md) |
 | Resampling | Changing the number of rows per class to balance the data. | [Video 133](133-imbalanced-data/note.md) |
+| Research hypothesis | Another name for the alternative hypothesis: the idea that came out of research. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Residual sum of squares | The total squared error of the model's predictions. | [Video 52](52-regression-metrics/note.md) |
 | Residual | The error on one data point: actual minus predicted value. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Response | What `requests.get` returns: the status code plus the reply. | [Video 17](17-fetching-data-from-api/note.md) |
 | Retrain | Train a model again, here from scratch on old + new data. | [Video 4](04-batch-learning/note.md) |
 | Reward / punishment | Good / bad feedback after an action. | [Video 3](03-types-of-ml/note.md) |
 | Ridge regression | Linear regression with a penalty on the sum of squared coefficients. | [Video 63](63-ridge-regression-intuition/note.md) |
+| Right-tailed and left-tailed test | One-tailed tests for $H_1: \mu > \mu_0$ and $H_1: \mu < \mu_0$. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | River | A Python library for online machine learning. | [Video 5](05-online-learning/note.md) |
 | robots.txt | A file at a site's root listing what bots are asked not to visit. | [Video 18](18-web-scraping/note.md) |
 | Robust scaling | Subtract the median and divide by the interquartile range; copes well with outliers. | [Video 25](25-normalization/note.md) |
@@ -1111,6 +1137,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sigmoid function | $\sigma(z) = 1/(1 + e^{-z})$; an S-shaped curve that maps any number into the range 0 to 1. | [Video 72](72-sigmoid-function/note.md) |
 | Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\, x \cdot x' + r)$. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Sign function | Returns +1 for a positive number and -1 for a negative one. | [Video 115](115-adaboost-intuition/note.md) |
+| Significance level ($\alpha$) | The probability of rejecting $H_0$ when it is actually true; fixed before the test, usually 0.05. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
 | Similarity measure | A number that says how alike two vectors are. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Similarity score (classification) | (sum of residuals)$^2$ / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities. | [Video 125](125-xgboost-classification/note.md) |
 | Similarity score | (sum of residuals)$^2$ / (number of residuals + $\lambda$): how much a leaf's residuals agree. | [Video 124](124-xgboost-regression/note.md) |
@@ -1163,11 +1190,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | StandardScaler | scikit-learn's class that standardizes columns with `fit` and `transform`. | [Video 24](24-standardization/note.md) |
 | Static model | A model that learns nothing new after deployment. | [Video 4](04-batch-learning/note.md) |
 | Statistic | A number computed from a sample, such as $\bar{x}$; an estimate of a parameter. | [Maths Note 220](220-what-is-statistics/note.md) |
+| Statistical hypothesis test | A method of statistical inference that decides whether the data sufficiently supports a hypothesis about a population parameter. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Statistical moments | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Statistical test | A procedure for hypothesis testing. | [Maths Note 220](220-what-is-statistics/note.md) |
 | Statistics | The branch of mathematics for collecting, analysing, interpreting and presenting data. | [Maths Note 220](220-what-is-statistics/note.md) |
 | statsmodels | A Python library for statistical models and tests. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Status code | A number saying how a request went: 200 OK, 401, 404, 500. | [Video 17](17-fetching-data-from-api/note.md) |
+| Status quo | Another name for the null hypothesis: the current state of things. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Step function | A function that outputs 1 for positive inputs and 0 otherwise. | [Video 70](70-perceptron-trick/note.md) |
 | step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name. | [Video 29](29-pipelines/note.md) |
 | Stochastic error | A random, unmeasurable influence that scatters data around its trend. | [Video 50](50-simple-linear-regression/note.md) |
@@ -1176,6 +1205,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | str dtype | The pandas 3 type for text columns, replacing `object`. | [Video 33](33-mixed-variables/note.md) |
 | str.extract | The pandas method that returns the part of each value matching a regular expression. | [Video 33](33-mixed-variables/note.md) |
 | Strength of a relationship | How closely the points follow a straight line; measured by $\lvert r \rvert$. | [Maths Note 231](231-covariance-and-correlation/note.md) |
+| Strength of evidence | How strongly the data speaks against $H_0$; the rejection region approach does not measure it. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
 | Strike rate | A batter's runs per 100 balls faced. | [Video 45](45-feature-construction-splitting/note.md) |
 | Strong learner | A model with high accuracy. | [Video 115](115-adaboost-intuition/note.md) |
 | Structure score | The best objective of a tree, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better. | [Video 126](126-xgboost-maths/note.md) |
@@ -1194,13 +1224,16 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sure (certain) event | The whole sample space; probability 1. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | Surge pricing | Raising fares when demand is much higher than supply. | [Video 8](08-applications-of-ml/note.md) |
 | Surrogate model | The model of the unknown score function that Bayesian optimisation builds from the trials. | [Video 134](134-optuna/note.md) |
+| Survival function (sf) | $1 - \text{CDF}$: the probability of a value above a point; scipy's `sf`. | [Maths Note 300](300-p-values/note.md) |
 | Survival function | One minus the CDF: the probability of a value above $x$; `sf` in scipy. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
 | SVD (singular value decomposition) | A factorisation that works for any matrix, square or not. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Synthetic data | Rows created by an algorithm rather than collected. | [Video 133](133-imbalanced-data/note.md) |
 | T critical value | $t_{\alpha/2,\,n-1}$: the t value leaving $\alpha/2$ in each tail; 2.045 for 95% and $n = 30$. | [Maths Note 282](282-t-procedure/note.md) |
+| T statistic | The value of $t$ computed from the sample in a t-test. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | T-procedure | The confidence interval $\bar{x} \pm t_{\alpha/2,\,n-1}\,s/\sqrt{n}$, used when $\sigma$ is unknown. | [Maths Note 282](282-t-procedure/note.md) |
 | T-table | A table of t critical values by degrees of freedom and tail area. | [Maths Note 282](282-t-procedure/note.md) |
+| T-test | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | Tag | One element of HTML, such as `<h2>TCS</h2>`. | [Video 18](18-web-scraping/note.md) |
 | Tail (of a distribution) | The part of the curve far from the centre, where values are rare. | [Maths Note 250](250-normal-distribution/note.md) |
 | Tail event | An event with a very low probability but a very large effect. | [Maths Note 252](252-skewness/note.md) |
@@ -1212,6 +1245,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Tensor | A container of numbers arranged along one or more axes. | [Video 11](11-tensors/note.md) |
 | Terminal region | The part of the input space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Test set | The part hidden during training, used to check the model. | [Video 13](13-toy-project/note.md) |
+| Test statistic | The number a test computes from the sample to make its decision, such as $z$ or $t$. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Theoretical (classical) probability | Favourable outcomes divided by all outcomes, for equally likely outcomes. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Theoretical distribution | The known distribution that data is compared with, for example on a Q-Q plot. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). | [Video 30](30-function-transformer/note.md) |
@@ -1243,8 +1277,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | True positive (TP) | Predicted positive, and actually positive. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | True positive rate (TPR) | The fraction of real positives the model flags; the same as recall. | [Video 78](78-roc-auc/note.md) |
 | TSV file | Like a CSV file, with tabs between values. | [Video 15](15-working-with-csv/note.md) |
+| Two-tailed p-value | The tail areas beyond $-\lvert z \rvert$ and $+\lvert z \rvert$ together: $2\,\Phi(-\lvert z \rvert)$ for a z-test. | [Maths Note 300](300-p-values/note.md) |
+| Two-tailed test (two-sided test) | A test whose $H_1$ is $\neq$, with $\alpha/2$ in each tail. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | Type 1 mixed variable | A column whose cells each contain a category and a number together, such as `C85`. | [Video 33](33-mixed-variables/note.md) |
 | Type 2 mixed variable | A column with a number in some rows and a category in others. | [Video 33](33-mixed-variables/note.md) |
+| Type I error (false positive) | Rejecting $H_0$ when it is actually true; its probability is $\alpha$. | [Maths Note 292](292-errors-power-and-tails/note.md) |
+| Type II error (false negative) | Failing to reject $H_0$ when it is actually false; its probability is $\beta$. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
 | Underflow | A number too close to 0 for the computer to store, which then becomes 0 or loses precision. | [Video 73](73-log-loss/note.md) |
 | Underlying distribution | The distribution that produced the data points. | [Maths Note 243](243-density-estimation-kde/note.md) |
@@ -1258,6 +1296,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Univariate analysis | Studying one variable on its own. | [Video 20](20-univariate-analysis/note.md) |
 | Univariate imputation | Imputation that uses only the column with the gap. | [Video 35](35-complete-case-analysis/note.md) |
 | Universal set ($U$) | The rectangle of a Venn diagram; in probability, the sample space, with $P(U) = 1$. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
+| Unpaired t-test | Another name for the independent two-sample t-test. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same. | [Video 7](07-challenges-in-ml/note.md) |
 | Unsupervised binning | Binning that uses only the column's own values. | [Video 32](32-binning-binarization/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |
@@ -1304,6 +1343,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Weighted mean | A mean in which each value is multiplied by a weight saying how much it counts. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | Weighted quantile sketch | XGBoost's method for placing bin edges at (Hessian-weighted) quantiles of a column. | [Video 123](123-xgboost-intro/note.md) |
 | weights | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance. | [Video 103](103-voting-classifier/note.md) |
+| Welch's t-test | The two-sample t-test that does not assume equal variances. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | Winsorization | Capping with limits set by percentiles. | [Video 41](41-what-are-outliers/note.md) |
 | Wisdom of the crowd | The combined judgement of many is often more accurate than any one member's. | [Video 101](101-ensemble-learning/note.md) |
 | With replacement | Sampling in which each drawn item is put back, so it can be drawn again. | [Video 105](105-bagging-intuition/note.md) |
@@ -1312,10 +1352,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | XAMPP | A free package that runs a web server and a MySQL server on one computer. | [Video 16](16-working-with-json-and-sql/note.md) |
 | XGBoost | eXtreme Gradient Boosting: a library that implements gradient boosting with many speed and accuracy optimisations. | [Video 123](123-xgboost-intro/note.md) |
 | Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default. | [Video 31](31-power-transformer/note.md) |
+| Z statistic | The value of $z$ computed from the sample in a z-test. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
 | Z-procedure | The confidence interval $\bar{x} \pm z_{\alpha/2}\,\sigma/\sqrt{n}$, used when $\sigma$ is known. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. | [Video 42](42-outliers-zscore/note.md) |
 | Z-score normalization | Another name for standardization. | [Video 24](24-standardization/note.md) |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean. | [Video 24](24-standardization/note.md) |
 | Z-table | A table of $\Phi(z)$ for many values of $z$, used to find normal probabilities. | [Maths Note 251](251-standard-normal-and-z-table/note.md) |
+| Z-test (one-sample) | A test of a population mean when $\sigma$ is known and $\bar{X}$ is normal, using $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
 | Zero-frequency problem | A probability of 0 for a value never seen with a class, which forces that class's score to 0. | [Video 89](89-naive-bayes-code/note.md) |
 | λ (lambda), alpha | The strength of the regularisation penalty; alpha in scikit-learn. | [Video 63](63-ridge-regression-intuition/note.md) |

@@ -8,7 +8,7 @@ title: "Probability Density Function and the CDF of a Continuous Variable"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)); Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
-> - **Leads to:** Density estimation ([Note 243](../243-density-estimation-kde/note.md)); Normal distribution ([Note 250](../250-normal-distribution/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)).
+> - **Leads to:** Density estimation ([Note 243](../243-density-estimation-kde/note.md)); Normal distribution ([Note 250](../250-normal-distribution/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); P-values ([Note 300](../300-p-values/note.md)).
 > - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)); Pareto distribution and power laws ([Note 262](../262-pareto-and-power-law/note.md)).
 <!-- /where-this-fits -->
 

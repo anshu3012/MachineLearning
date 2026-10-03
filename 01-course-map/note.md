@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 198 of 198 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 203 of 203 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -80,6 +80,11 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Central limit theorem | [Note 271](../271-sampling-distribution-and-clt/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | confirmed |
 | Confidence intervals | [Note 280](../280-confidence-intervals-z-procedure/note.md), [Note 281](../281-interpreting-confidence-intervals/note.md), [Note 282](../282-t-procedure/note.md) | confirmed |
 | Student's t-distribution | [Note 282](../282-t-procedure/note.md) | confirmed |
+| Hypothesis testing: null and alternative | [Note 290](../290-null-and-alternative-hypotheses/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | confirmed |
+| Z-test and rejection regions | [Note 291](../291-rejection-region-and-z-test/note.md) | confirmed |
+| Type I and II errors, power, tails | [Note 292](../292-errors-power-and-tails/note.md) | confirmed |
+| P-values | [Note 300](../300-p-values/note.md) | confirmed |
+| T-tests: one-sample, two-sample, paired | [Note 301](../301-one-sample-t-test/note.md), [Note 302](../302-two-sample-and-paired-t-tests/note.md) | confirmed |
 | Events and sample spaces | [Note 330](../330-events-and-types-of-events/note.md) | confirmed |
 | Empirical vs theoretical probability, probability rules | [Note 331](../331-empirical-and-theoretical-probability/note.md), [Note 340](../340-venn-diagrams-and-contingency-tables/note.md) | confirmed |
 | Expected value and variance of a random variable | [Note 332](../332-expected-value-and-variance/note.md) | confirmed |
@@ -289,7 +294,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Beta and A/B testing | [Note 9](../09-mldlc/note.md) | confirmed |
+| Beta and A/B testing | [Note 9](../09-mldlc/note.md), [Note 292](../292-errors-power-and-tails/note.md) | confirmed |
 
 ### 2.14 Step 13: Monitor and maintain
 
@@ -313,7 +318,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 198 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 203 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -492,6 +497,12 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 280 | Confidence intervals | [Note 251](../251-standard-normal-and-z-table/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | written |
 | 281 | Confidence intervals | [Note 251](../251-standard-normal-and-z-table/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | written |
 | 282 | Confidence intervals, Student's t-distribution | [Note 222](../222-measures-of-dispersion/note.md), [Note 251](../251-standard-normal-and-z-table/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | written |
+| 290 | Hypothesis testing: null and alternative | [Note 220](../220-what-is-statistics/note.md), [Note 271](../271-sampling-distribution-and-clt/note.md) | written |
+| 291 | Hypothesis testing: null and alternative, Z-test and rejection regions | [Note 220](../220-what-is-statistics/note.md), [Note 251](../251-standard-normal-and-z-table/note.md), [Note 271](../271-sampling-distribution-and-clt/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | written |
+| 292 | Beta and A/B testing, Type I and II errors, power, tails | [Note 29](../29-pipelines/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
+| 300 | P-values | [Note 253](../253-pdf-and-cdf-in-practice/note.md) | written |
+| 301 | T-tests: one-sample, two-sample, paired | [Note 282](../282-t-procedure/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
+| 302 | T-tests: one-sample, two-sample, paired | [Note 282](../282-t-procedure/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
 | 330 | Events and sample spaces | nothing | written |
 | 331 | Empirical vs theoretical probability, probability rules | [Note 330](../330-events-and-types-of-events/note.md) | written |
 | 332 | Expected value and variance of a random variable | [Note 240](../240-random-variables-and-distributions/note.md) | written |

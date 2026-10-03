@@ -179,6 +179,12 @@ notes:
   280: 280-confidence-intervals-z-procedure
   281: 281-interpreting-confidence-intervals
   282: 282-t-procedure
+  290: 290-null-and-alternative-hypotheses
+  291: 291-rejection-region-and-z-test
+  292: 292-errors-power-and-tails
+  300: 300-p-values
+  301: 301-one-sample-t-test
+  302: 302-two-sample-and-paired-t-tests
   330: 330-events-and-types-of-events
   331: 331-empirical-and-theoretical-probability
   332: 332-expected-value-and-variance
@@ -260,6 +266,11 @@ concepts:
   - {id: cosine_similarity, name: Cosine similarity, step: 8, videos: [362], status: confirmed}
   - {id: hyperplane_equation, name: Equation of a hyperplane, step: 0, videos: [53, 70, 363], status: confirmed}
   - {id: bag_of_words, name: Bag of words, step: 5, videos: [360], status: confirmed}
+  - {id: hypothesis_testing, name: "Hypothesis testing: null and alternative", step: 0, videos: [290, 291], status: confirmed}
+  - {id: z_test, name: Z-test and rejection regions, step: 0, videos: [291], status: confirmed}
+  - {id: type_errors, name: "Type I and II errors, power, tails", step: 0, videos: [292], status: confirmed}
+  - {id: p_value, name: P-values, step: 0, videos: [300], status: confirmed}
+  - {id: t_test, name: "T-tests: one-sample, two-sample, paired", step: 0, videos: [301, 302], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -411,7 +422,7 @@ concepts:
   - {id: software_integration, name: Software integration, step: 11, videos: [7], status: confirmed}
 
   # 12 Test
-  - {id: ab_testing, name: Beta and A/B testing, step: 12, videos: [9], status: confirmed}
+  - {id: ab_testing, name: Beta and A/B testing, step: 12, videos: [9, 292], status: confirmed}
 
   # 13 Monitor and maintain
   - {id: model_drift, name: Model drift, step: 13, videos: [4, 9], status: confirmed}
@@ -774,6 +785,19 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [hypothesis_testing, is a kind of, inferential_stats, confirmed]
+  - [hypothesis_testing, needs, sampling_distribution, confirmed]
+  - [z_test, is a kind of, hypothesis_testing, confirmed]
+  - [z_test, needs, standard_normal, confirmed]
+  - [z_test, needs, clt, confirmed]
+  - [type_errors, compared with, confusion_matrix, confirmed]
+  - [type_errors, used in, hypothesis_testing, confirmed]
+  - [p_value, used in, hypothesis_testing, confirmed]
+  - [p_value, needs, cdf, confirmed]
+  - [t_test, is a kind of, hypothesis_testing, confirmed]
+  - [t_test, needs, t_distribution, confirmed]
+  - [hypothesis_testing, used in, ab_testing, confirmed]
+  - [hypothesis_testing, compared with, confidence_interval, confirmed]
   - [maths_for_ml, used in, ml, confirmed]
   - [vector, is a kind of, tensor, confirmed]
   - [vector_norm, needs, vector, confirmed]

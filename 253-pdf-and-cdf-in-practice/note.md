@@ -8,6 +8,7 @@ title: "PDFs and CDFs in Data Analysis"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)).
+> - **Leads to:** P-values ([Note 300](../300-p-values/note.md)).
 > - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
 <!-- /where-this-fits -->
 

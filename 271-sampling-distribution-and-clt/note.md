@@ -8,7 +8,7 @@ title: "Sampling Distributions and the Central Limit Theorem"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Population, sample, parameter and statistic ([Note 220](../220-what-is-statistics/note.md)); Normal distribution ([Note 250](../250-normal-distribution/note.md)).
-> - **Leads to:** Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)).
+> - **Leads to:** Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)); Hypothesis testing: null and alternative ([Note 290](../290-null-and-alternative-hypotheses/note.md)); Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -8,7 +8,7 @@ title: "Probability Mass Function and the CDF of a Discrete Variable"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Probability density function (PDF) ([Note 90](../90-gaussian-naive-bayes/note.md)); Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)).
-> - **Leads to:** Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)).
+> - **Leads to:** Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); P-values ([Note 300](../300-p-values/note.md)).
 > - **Compare with:** Frequency tables ([Note 223](../223-frequency-tables-and-graphs/note.md)).
 <!-- /where-this-fits -->
 

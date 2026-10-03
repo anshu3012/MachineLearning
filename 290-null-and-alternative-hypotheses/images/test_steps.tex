@@ -1,0 +1,22 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.55cm]
+  \tikzset{step/.style={box=#1, minimum width=12.6cm, text width=12.1cm, align=left, minimum height=0.9cm, inner sep=5pt}}
+  \node[step=cblue] (s1) {\textbf{1. State $H_0$ and $H_1$}\quad $H_0$: $\mu = 6$, \ $H_1$: $\mu > 6$};
+  \node[step=cblue, below=of s1] (s2) {\textbf{2. Choose the significance level $\alpha$}\quad usually 0.05 or 0.01};
+  \node[step=cgrey, below=of s2] (s3) {\textbf{3. Check the assumptions}\quad normal? $\sigma$ known? data type? groups?};
+  \node[step=cgrey, below=of s3] (s4) {\textbf{4. Choose the test}\quad z-test, t-test, chi-square test, ANOVA, \dots};
+  \node[step=cgrey, below=of s4] (s5) {\textbf{5. Name the test statistic}\quad $z$ for a z-test, $t$ for a t-test};
+  \node[step=corange, below=of s5] (s6) {\textbf{6. Conduct the test}\quad compute the statistic from the sample};
+  \node[step=cred, below=of s6] (s7) {\textbf{7. Decide}\quad reject $H_0$, or fail to reject $H_0$};
+  \node[step=cgreen, below=of s7] (s8) {\textbf{8. Interpret}\quad what the decision means for the question};
+  \foreach \a/\b in {s1/s2, s2/s3, s3/s4, s4/s5, s5/s6, s6/s7, s7/s8} \draw[arrow] (\a) -- (\b);
+  \draw[decorate, decoration={brace, amplitude=6pt}, draw=cgrey] ([xshift=4pt]s1.north east) -- ([xshift=4pt]s2.south east)
+    node[midway, right=8pt, note, align=left] {before\\ seeing data};
+  \draw[decorate, decoration={brace, amplitude=6pt}, draw=cgrey] ([xshift=4pt]s3.north east) -- ([xshift=4pt]s5.south east)
+    node[midway, right=8pt, note, align=left] {choose\\ the tool};
+  \draw[decorate, decoration={brace, amplitude=6pt}, draw=cgrey] ([xshift=4pt]s6.north east) -- ([xshift=4pt]s8.south east)
+    node[midway, right=8pt, note, align=left] {use\\ the data};
+\end{tikzpicture}
+\end{document}

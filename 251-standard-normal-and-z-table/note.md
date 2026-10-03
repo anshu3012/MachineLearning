@@ -8,7 +8,7 @@ title: "The Standard Normal Distribution and the Z-table"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Skewness ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Descriptive statistics ([Note 230](../230-percentiles-and-box-plots/note.md)); Cumulative distribution function (CDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Normal distribution ([Note 250](../250-normal-distribution/note.md)).
-> - **Leads to:** Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)).
+> - **Leads to:** Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)); Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)).
 > - **Compare with:** IQR outlier method ([Note 43](../43-outliers-iqr/note.md)); Percentile outlier method ([Note 44](../44-outliers-percentile/note.md)).
 <!-- /where-this-fits -->
 

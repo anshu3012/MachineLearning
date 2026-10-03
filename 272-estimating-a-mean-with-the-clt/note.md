@@ -8,7 +8,7 @@ title: "Estimating a Population Mean with the Central Limit Theorem"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Normal distribution ([Note 250](../250-normal-distribution/note.md)); Sampling distribution and standard error ([Note 271](../271-sampling-distribution-and-clt/note.md)).
-> - **Leads to:** Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)).
+> - **Leads to:** Confidence intervals ([Note 280](../280-confidence-intervals-z-procedure/note.md)); Z-test and rejection regions ([Note 291](../291-rejection-region-and-z-test/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
