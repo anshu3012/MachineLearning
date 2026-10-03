@@ -184,6 +184,12 @@ notes:
   332: 332-expected-value-and-variance
   340: 340-venn-diagrams-and-contingency-tables
   341: 341-joint-marginal-conditional-probability
+  350: 350-linear-algebra-roadmap
+  360: 360-vectors-and-feature-vectors
+  361: 361-magnitude-distance-and-scalar-operations
+  362: 362-dot-product-and-cosine-similarity
+  363: 363-equation-of-a-hyperplane
+  440: 440-role-of-maths-in-ml
 
 concepts:
   # 0 Foundations
@@ -246,6 +252,14 @@ concepts:
   - {id: clt, name: Central limit theorem, step: 0, videos: [271, 272], status: confirmed}
   - {id: confidence_interval, name: Confidence intervals, step: 0, videos: [280, 281, 282], status: confirmed}
   - {id: t_distribution, name: Student's t-distribution, step: 0, videos: [282], status: confirmed}
+  - {id: maths_for_ml, name: Role of mathematics in ML, step: 0, videos: [440], status: confirmed}
+  - {id: linear_algebra, name: Linear algebra roadmap, step: 0, videos: [350], status: confirmed}
+  - {id: vector, name: Vectors and feature vectors, step: 0, videos: [360], status: confirmed}
+  - {id: vector_norm, name: "Vector magnitude, distance and scalar operations", step: 0, videos: [39, 361], status: confirmed}
+  - {id: dot_product, name: Dot product, step: 0, videos: [48, 362], status: confirmed}
+  - {id: cosine_similarity, name: Cosine similarity, step: 8, videos: [362], status: confirmed}
+  - {id: hyperplane_equation, name: Equation of a hyperplane, step: 0, videos: [53, 70, 363], status: confirmed}
+  - {id: bag_of_words, name: Bag of words, step: 5, videos: [360], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -760,6 +774,20 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [maths_for_ml, used in, ml, confirmed]
+  - [vector, is a kind of, tensor, confirmed]
+  - [vector_norm, needs, vector, confirmed]
+  - [vector_norm, used in, knn, confirmed]
+  - [vector_norm, used in, regularisation, confirmed]
+  - [dot_product, needs, vector, confirmed]
+  - [dot_product, used in, svm, confirmed]
+  - [cosine_similarity, needs, dot_product, confirmed]
+  - [cosine_similarity, compared with, vector_norm, confirmed]
+  - [hyperplane_equation, needs, dot_product, confirmed]
+  - [hyperplane_equation, used in, perceptron_trick, confirmed]
+  - [hyperplane_equation, used in, svm, confirmed]
+  - [bag_of_words, needs, vector, confirmed]
+  - [bag_of_words, compared with, one_hot, confirmed]
   - [binomial_dist, is a kind of, probability_distribution, confirmed]
   - [binomial_dist, used in, voting, confirmed]
   - [sampling_distribution, needs, population_sample, confirmed]

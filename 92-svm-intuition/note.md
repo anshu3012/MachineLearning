@@ -7,7 +7,7 @@ title: "Support Vector Machines: The Geometric Intuition"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
+> - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Dot product ([Note 48](../48-pca-step-by-step/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Equation of a hyperplane ([Note 70](../70-perceptron-trick/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)).
 > - **Compare with:** Logistic regression ([Note 75](../75-logistic-gradient-descent/note.md)).
 <!-- /where-this-fits -->
 

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 190 of 190 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 198 of 198 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -57,8 +57,11 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | ML development life cycle | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | confirmed |
 | Tensors | [Note 11](../11-tensors/note.md) | confirmed |
 | Setup: conda, Jupyter and Colab | [Note 12](../12-setup-anaconda-jupyter-colab/note.md) | confirmed |
+| Vector magnitude, distance and scalar operations | [Note 39](../39-knn-imputer/note.md), [Note 361](../361-magnitude-distance-and-scalar-operations/note.md) | confirmed |
 | Normal distribution | [Note 42](../42-outliers-zscore/note.md), [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md), [Note 250](../250-normal-distribution/note.md) | confirmed |
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
+| Dot product | [Note 48](../48-pca-step-by-step/note.md), [Note 362](../362-dot-product-and-cosine-similarity/note.md) | confirmed |
+| Equation of a hyperplane | [Note 53](../53-multiple-linear-regression/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 363](../363-equation-of-a-hyperplane/note.md) | confirmed |
 | Conditional probability | [Note 82](../82-conditional-probability/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
 | Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), [Note 86](../86-bayes-problem/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
@@ -82,6 +85,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Expected value and variance of a random variable | [Note 332](../332-expected-value-and-variance/note.md) | confirmed |
 | Venn diagrams and contingency tables | [Note 340](../340-venn-diagrams-and-contingency-tables/note.md) | confirmed |
 | Joint and marginal probability | [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
+| Linear algebra roadmap | [Note 350](../350-linear-algebra-roadmap/note.md) | confirmed |
+| Vectors and feature vectors | [Note 360](../360-vectors-and-feature-vectors/note.md) | confirmed |
+| Role of mathematics in ML | [Note 440](../440-role-of-maths-in-ml/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -172,6 +178,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Permutation importance | [Note 114](../114-feature-importance/note.md) | confirmed |
 | Random under- and oversampling | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | SMOTE | [Note 133](../133-imbalanced-data/note.md) | confirmed |
+| Bag of words | [Note 360](../360-vectors-and-feature-vectors/note.md) | confirmed |
 
 ### 2.7 Step 6: Reduce dimensions
 
@@ -241,6 +248,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | DBSCAN | [Note 132](../132-dbscan/note.md) | confirmed |
 | Balanced random forest | [Note 133](../133-imbalanced-data/note.md) | confirmed |
 | Cost-sensitive learning | [Note 133](../133-imbalanced-data/note.md) | confirmed |
+| Cosine similarity | [Note 362](../362-dot-product-and-cosine-similarity/note.md) | confirmed |
 
 ### 2.10 Step 9: Evaluate
 
@@ -305,7 +313,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 190 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 198 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -364,7 +372,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 36 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | written |
 | 37 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | written |
 | 38 | Grid and random search, ML pipelines, Missing indicator, Missing values, Random sample imputation | [Note 28](../28-column-transformer/note.md), [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 37](../37-missing-categorical-data/note.md) | written |
-| 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
+| 39 | KNN imputer, Vector magnitude, distance and scalar operations | [Note 6](../06-instance-vs-model-based/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
 | 40 | Iterative imputation (MICE) | [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
 | 41 | Capping (winsorization), IQR outlier method, Outliers, Percentile outlier method, Trimming outliers, Z-score outlier method | [Note 9](../09-mldlc/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md) | written |
 | 42 | Capping (winsorization), Normal distribution, Trimming outliers, Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
@@ -373,12 +381,12 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md), [Note 32](../32-binning-binarization/note.md) | written |
 | 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | written |
-| 48 | Covariance and covariance matrix, Eigenvectors and eigenvalues, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
+| 48 | Covariance and covariance matrix, Dot product, Eigenvectors and eigenvalues, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
 | 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 50 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | written |
 | 51 | Best-fit line and squared error, Ordinary least squares (closed form), Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 52 | Regression metrics | [Note 51](../51-linear-regression-maths/note.md) | written |
-| 53 | Multiple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
+| 53 | Equation of a hyperplane, Multiple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 48](../48-pca-step-by-step/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 54 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 55 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 56 | Assumptions of linear regression | [Note 27](../27-one-hot-encoding/note.md), [Note 30](../30-function-transformer/note.md) | written |
@@ -395,8 +403,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 67 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | written |
 | 68 | Lasso regression | [Note 63](../63-ridge-regression-intuition/note.md) | written |
 | 69 | Elastic Net | [Note 27](../27-one-hot-encoding/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 66](../66-ridge-key-points/note.md), [Note 68](../68-lasso-sparsity/note.md) | written |
-| 70 | Logistic regression, Perceptron trick | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | written |
-| 71 | Logistic regression, Perceptron trick | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | written |
+| 70 | Equation of a hyperplane, Logistic regression, Perceptron trick | [Note 6](../06-instance-vs-model-based/note.md), [Note 48](../48-pca-step-by-step/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md) | written |
+| 71 | Logistic regression, Perceptron trick | [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 70](../70-perceptron-trick/note.md) | written |
 | 72 | Logistic regression, Sigmoid function | [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md) | written |
 | 73 | Log loss (binary cross entropy), Logistic regression | [Note 57](../57-gradient-descent/note.md), [Note 61](../61-polynomial-regression/note.md), [Note 71](../71-perceptron-code/note.md), [Note 72](../72-sigmoid-function/note.md) | written |
 | 74 | Sigmoid function | nothing | written |
@@ -416,10 +424,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 88 | Naive Bayes | [Note 20](../20-univariate-analysis/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
 | 89 | Naive Bayes | [Note 20](../20-univariate-analysis/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
 | 90 | Naive Bayes, Normal distribution, Probability density function (PDF) | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
-| 91 | Accuracy, Cross-validation, Curse of dimensionality, Data leakage, Decision surface and boundary, Grid and random search, Hyperparameter tuning, K-nearest neighbours, Overfitting, Underfitting | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
-| 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
-| 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
-| 94 | Hinge loss and soft margin, Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
+| 91 | Accuracy, Cross-validation, Curse of dimensionality, Data leakage, Decision surface and boundary, Grid and random search, Hyperparameter tuning, K-nearest neighbours, Overfitting, Underfitting | [Note 24](../24-standardization/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), [Note 39](../39-knn-imputer/note.md) | written |
+| 92 | Support vector machines | [Note 48](../48-pca-step-by-step/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md) | written |
+| 93 | Support vector machines | [Note 48](../48-pca-step-by-step/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md) | written |
+| 94 | Hinge loss and soft margin, Support vector machines | [Note 48](../48-pca-step-by-step/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md) | written |
 | 95 | Kernel trick | nothing | written |
 | 96 | Kernel trick | nothing | written |
 | 97 | Decision trees, Entropy, information gain and Gini | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md) | written |
@@ -489,6 +497,12 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 332 | Expected value and variance of a random variable | [Note 240](../240-random-variables-and-distributions/note.md) | written |
 | 340 | Empirical vs theoretical probability, probability rules, Venn diagrams and contingency tables | [Note 330](../330-events-and-types-of-events/note.md) | written |
 | 341 | Bayes' theorem, Conditional probability, Joint and marginal probability | [Note 330](../330-events-and-types-of-events/note.md), [Note 340](../340-venn-diagrams-and-contingency-tables/note.md) | written |
+| 350 | Linear algebra roadmap | nothing | written |
+| 360 | Bag of words, Vectors and feature vectors | [Note 11](../11-tensors/note.md) | written |
+| 361 | Vector magnitude, distance and scalar operations | [Note 360](../360-vectors-and-feature-vectors/note.md) | written |
+| 362 | Cosine similarity, Dot product | [Note 360](../360-vectors-and-feature-vectors/note.md) | written |
+| 363 | Equation of a hyperplane | [Note 362](../362-dot-product-and-cosine-similarity/note.md) | written |
+| 440 | Role of mathematics in ML | nothing | written |
 
 ## 5. The Algorithm chooser
 

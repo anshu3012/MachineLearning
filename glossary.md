@@ -15,6 +15,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | $N(\mu, \sigma^2)$ | A normal distribution with mean $\mu$ and variance $\sigma^2$. | [Maths Note 250](250-normal-distribution/note.md) |
 | $P(X = x)$ | The probability that the random variable $X$ takes the value $x$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | $P(X = x, Y = y)$ | The joint probability that $X$ takes the value $x$ and $Y$ the value $y$ together. | [Maths Note 341](341-joint-marginal-conditional-probability/note.md) |
+| $w_0$ | The constant term; it shifts the hyperplane away from the origin, and is 0 when the hyperplane passes through the origin. | [Maths Note 363](363-equation-of-a-hyperplane/note.md) |
 | $x_m$ (Pareto) | The minimum possible value, where the Pareto curve starts and peaks. | [Maths Note 262](262-pareto-and-power-law/note.md) |
 | .dt accessor | The pandas tool that applies date and time methods to every value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | .str accessor | The pandas tool that applies a text method to every value of a column. | [Video 33](33-mixed-variables/note.md) |
@@ -111,6 +112,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | B2B | Business to business: a product that helps a company run its business. | [Video 8](08-applications-of-ml/note.md) |
 | B2C | Business to customer: a product sold to ordinary users. | [Video 8](08-applications-of-ml/note.md) |
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Bag of words | Turning a text into a vector of word counts over the vocabulary. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Bagging (bootstrap aggregation) | Averaging many models trained on different samples of the data to reduce variance. | [Video 101](101-ensemble-learning/note.md) |
 | Bagging regressor | A bagging ensemble of regressors that predicts the mean of their predictions. | [Video 107](107-bagging-regressor/note.md) |
 | Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Video 62](62-bias-variance/note.md) |
@@ -170,10 +172,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Box-and-whisker plot | Another name for a box plot. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
 | Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0. | [Video 31](31-power-transformer/note.md) |
 | Branch (subtree) | A node together with everything below it. | [Video 97](97-decision-trees-intuition/note.md) |
+| Broadcasting | NumPy stretching a scalar (or smaller array) to match a bigger array before an operation. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | Buying behaviour | The pattern of what a customer buys. | [Video 8](08-applications-of-ml/note.md) |
 | C (SVM) | The weight on the classification error; a large C means few mistakes and a narrow margin, a small C a wide margin. | [Video 94](94-svm-soft-margin/note.md) |
 | C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Cache memory | A small, fast memory inside the processor that holds data used again and again. | [Video 123](123-xgboost-intro/note.md) |
+| Calculus | The branch of mathematics about change: differentiation and integration. | [Maths Note 440](440-role-of-maths-in-ml/note.md) |
 | CalibratedClassifierCV | scikit-learn wrapper that gives a classifier, such as an SVM, calibrated probabilities. | [Video 103](103-voting-classifier/note.md) |
 | Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
 | cars.csv | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders. | [Video 100](100-dtreeviz/note.md) |
@@ -228,13 +232,16 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Column block | XGBoost's storage of the data one sorted column per block, so each core can work on one feature. | [Video 123](123-xgboost-intro/note.md) |
 | Column sampling (feature sampling) | Giving each base model a random subset of the columns. | [Video 108](108-random-forest-intro/note.md) |
 | Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later). | [Video 26](26-ordinal-label-encoding/note.md) |
+| Column vector | A vector written as one column, shape $n \times 1$; the default meaning of "vector". | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. | [Video 28](28-column-transformer/note.md) |
 | Combined sampling | Giving each base model random rows and random columns together. | [Video 108](108-random-forest-intro/note.md) |
+| Commutative law | $a \cdot b = b \cdot a$. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Complement ($A^c$) | The event that $A$ does not happen: every outcome not in $A$. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Complement rule | $P(A^c) = 1 - P(A)$. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Complete case analysis (CCA) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. | [Video 35](35-complete-case-analysis/note.md) |
 | Complete case | A row with a value in every column used. | [Video 35](35-complete-case-analysis/note.md) |
 | Complete linkage | Cluster distance = distance of the farthest pair of points. | [Video 131](131-hierarchical-clustering/note.md) |
+| Component | One number of a vector, its position along one axis. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | components_ | The eigenvectors of the fitted PCA, one per row. | [Video 49](49-pca-mnist/note.md) |
 | Compound event | An event with two or more outcomes. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
@@ -269,6 +276,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Core point | A point with at least MinPts points within eps. | [Video 132](132-dbscan/note.md) |
 | Correlation between base models | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance. | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
+| Cosine similarity | The cosine of the angle between two vectors, from -1 to 1. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Cost-sensitive learning | Changing the learning so that mistakes on some classes cost more. | [Video 133](133-imbalanced-data/note.md) |
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Video 20](20-univariate-analysis/note.md) |
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
@@ -281,6 +289,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | criterion | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss". | [Video 97](97-decision-trees-intuition/note.md) |
 | Critical value | The z (or t) value that leaves $\alpha/2$ in each tail; 1.96 for 95% on the standard normal curve. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | Cross entropy | The negative log-likelihood; smaller is better. | [Video 73](73-log-loss/note.md) |
+| Cross product (vector product) | A product of two 3D vectors that gives a vector perpendicular to both. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Cross-validated accuracy | Accuracy averaged over several train-test splits of the data, an estimate of performance on new data. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data. | [Video 29](29-pipelines/note.md) |
 | Crosstab | A table counting the rows for every pair of categories of two columns. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -353,6 +362,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution. | [Video 97](97-decision-trees-intuition/note.md) |
 | Differentiation | Finding the slope of a curve at each point; the derivative of the CDF is the PDF. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
+| Dimension of a vector | The dimension of the space it lives in: its number of components. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Dimension | One input column (one feature); a different meaning from the dimensions (axes) of a tensor in Video 11. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality | The number of columns (features) in the data. | [Video 27](27-one-hot-encoding/note.md) |
@@ -367,6 +377,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | distance_threshold | Height at which `AgglomerativeClustering` stops merging, instead of a fixed number of clusters. | [Video 131](131-hierarchical-clustering/note.md) |
 | Distributed computing | Sharing one job between several machines (nodes), coordinated by a master node. | [Video 123](123-xgboost-intro/note.md) |
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
+| Distributive law | $a \cdot (b + c) = a \cdot b + a \cdot c$. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Diverge | To move further away with each step, the loss growing instead of shrinking. | [Video 57](57-gradient-descent/note.md) |
 | Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly. | [Video 131](131-hierarchical-clustering/note.md) |
 | Domain knowledge | Knowledge of the field the data comes from. | [Video 23](23-what-is-feature-engineering/note.md) |
@@ -410,9 +421,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Equal frequency binning | Binning into bins holding the same number of rows, with the quantiles as edges; also called quantile binning. | [Video 32](32-binning-binarization/note.md) |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning. | [Video 32](32-binning-binarization/note.md) |
 | Equally likely outcomes | Outcomes that all have the same probability, such as the faces of a fair die. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
+| Equation of a hyperplane | $w^{\mathsf T}x + w_0 = 0$: one equation for a line, plane or hyperplane in any dimension. | [Maths Note 363](363-equation-of-a-hyperplane/note.md) |
 | Equiprobable | Equally likely. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Error (residual) | The gap between an actual value and the model's prediction. | [Video 50](50-simple-linear-regression/note.md) |
 | Error function (loss function) | A formula for how wrong the model is; here the sum of squared errors. | [Video 51](51-linear-regression-maths/note.md) |
+| Error | The gap between a model's prediction and the true value. | [Maths Note 440](440-role-of-maths-in-ml/note.md) |
 | errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. | [Video 33](33-mixed-variables/note.md) |
 | Estimated PMF | Each value's share of many repeated trials, used as its probability. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | estimator | The base model that bagging copies (formerly base_estimator). | [Video 106](106-bagging-classifier/note.md) |
@@ -459,6 +472,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Feature selection | Keeping only the useful input columns and dropping the rest. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature splitting | Breaking a column that holds several facts into one column per fact. | [Video 45](45-feature-construction-splitting/note.md) |
 | Feature transformation | Changing a column into a form the model can use better. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Feature vector | The vector of input values of one data point. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | feature_importances_ | The fitted attribute holding the feature importance of every column. | [Video 99](99-regression-trees/note.md) |
 | Fence | A limit 1.5 IQR beyond the box; values past it are possible outliers. | [Video 20](20-univariate-analysis/note.md) |
@@ -612,8 +626,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Knowledge base | The collection of rules inside an expert system. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Kurtosis risk | In finance, the risk of extreme gains or losses from fat-tailed returns. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve. | [Video 22](22-pandas-profiling/note.md) |
+| L1 norm | The sum of the absolute values of the components. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | L1 regularisation | Another name for the absolute-value penalty used by Lasso. | [Video 67](67-lasso-regression/note.md) |
 | l1_ratio | The share of the total penalty given to the L1 (Lasso) part. | [Video 69](69-elastic-net/note.md) |
+| L2 norm | The usual magnitude: square root of the sum of squared components. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | L2 regularisation | Another name for the squared-coefficient penalty used by Ridge. | [Video 63](63-ridge-regression-intuition/note.md) |
 | Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. | [Video 26](26-ordinal-label-encoding/note.md) |
 | LabelEncoder | scikit-learn's class for label encoding the target. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -645,6 +661,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use. | [Video 123](123-xgboost-intro/note.md) |
 | Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Video 73](73-log-loss/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Video 44](44-outliers-percentile/note.md) |
 | Linear regression | An algorithm that fits the straight line closest to all the points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Linear relationship | A relationship between two columns that follows a straight line. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -672,6 +689,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Video 50](50-simple-linear-regression/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 1](01-what-is-ml/note.md) |
 | Macro average | The plain mean of a metric over all classes. | [Video 77](77-precision-recall-f1/note.md) |
+| Magnitude (norm, length) of a vector | Its distance from the origin: $\sqrt{x_1^2 + \dots + x_n^2}$. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
 | Majority class | The class with the most rows in imbalanced data. | [Video 133](133-imbalanced-data/note.md) |
 | Majority vote | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. | [Video 91](91-knn/note.md) |
@@ -697,6 +715,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mathematical problem | A business goal restated as a measurable target, such as a churn rate to reach. | [Video 14](14-framing-ml-problem/note.md) |
 | Mathematical transformation | Applying one mathematical formula to every value of a column. | [Video 30](30-function-transformer/note.md) |
 | Matrix calculus | Rules for differentiating expressions with vectors and matrices. | [Video 54](54-multiple-lr-maths/note.md) |
+| Matrix factorisation (decomposition) | Writing a matrix as a product of simpler matrices. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
 | Max-abs scaling | Divide by the largest absolute value in the column, giving values from -1 to 1. | [Video 25](25-normalization/note.md) |
 | max_depth | The cap on a tree's depth; None lets it grow until every leaf is pure. | [Video 98](98-decision-tree-hyperparameters/note.md) |
@@ -759,6 +778,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Video 6](06-instance-vs-model-based/note.md) |
 | monotonic_cst | Setting that forces predictions to only rise or only fall as a column grows. | [Video 111](111-random-forest-hyperparameters/note.md) |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Video 22](22-pandas-profiling/note.md) |
+| Moore-Penrose pseudo-inverse | A generalised inverse for matrices that are not square or have no inverse. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Video 37](37-missing-categorical-data/note.md) |
 | Multi-layer stacking | Stacking with more than one layer of base models below the meta-model. | [Video 127](127-stacking-blending/note.md) |
 | Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others. | [Video 27](27-one-hot-encoding/note.md) |
@@ -792,6 +812,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Neighbours | The k training points closest to the query point. | [Video 91](91-knn/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Newton step | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. | [Video 122](122-gradient-boosting-classification/note.md) |
+| NLP | Natural language processing: ML on text. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root. | [Video 100](100-dtreeviz/note.md) |
 | Node-level column sampling | Drawing a new random set of columns before every split (random forest). | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Noise (irreducible error) | Randomness in the data that no model can predict. | [Video 62](62-bias-variance/note.md) |
@@ -806,6 +827,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Normal distribution | A symmetric, bell-shaped distribution. | [Video 20](20-univariate-analysis/note.md) |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression. | [Video 54](54-multiple-lr-maths/note.md) |
 | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy. | [Video 54](54-multiple-lr-maths/note.md) |
+| Normal vector | A vector perpendicular to a line, plane or hyperplane; for $w^{\mathsf T}x + w_0 = 0$ it is $w$. | [Maths Note 363](363-equation-of-a-hyperplane/note.md) |
 | Normalisation (of weights) | Dividing every weight by their sum so they add up to 1. | [Video 116](116-adaboost-step-by-step/note.md) |
 | Normalization | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. | [Video 25](25-normalization/note.md) |
 | Normalized importances | Importances divided by their total, so they add up to 1. | [Video 114](114-feature-importance/note.md) |
@@ -819,6 +841,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Video 22](22-pandas-profiling/note.md) |
 | Number of samples ($k$) | How many samples are drawn; different from the sample size $n$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
 | Numerical data | Data made of numbers. | [Video 3](03-types-of-ml/note.md) |
+| NumPy | Python's library for arrays and linear algebra. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Objective function (Optuna) | The function a search optimises: it takes a trial's hyperparameter values and returns a score. | [Video 134](134-optuna/note.md) |
 | Objective function (XGBoost) | The quantity XGBoost minimises: the loss plus a regularisation term. | [Video 126](126-xgboost-maths/note.md) |
 | Objective function | The quantity an algorithm tries to make as large or as small as possible. | [Video 48](48-pca-step-by-step/note.md) |
@@ -838,11 +861,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | OPTICS | Another density-based clustering algorithm. | [Video 132](132-dbscan/note.md) |
 | Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Optimisation algorithm | A method for finding the parameter values that make a function as small (or large) as possible. | [Video 57](57-gradient-descent/note.md) |
+| Optimisation | Changing a model step by step until its error is as small as possible. | [Maths Note 440](440-role-of-maths-in-ml/note.md) |
 | Optuna | A Python framework for hyperparameter tuning built around Bayesian optimisation. | [Video 134](134-optuna/note.md) |
 | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Video 26](26-ordinal-label-encoding/note.md) |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Ordinary least squares (OLS) | The closed-form method for linear regression: the line with the smallest sum of squared errors. | [Video 51](51-linear-regression-maths/note.md) |
+| Orthogonal | Perpendicular; for non-zero vectors, dot product 0. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Out-of-bag (OOB) evaluation, OOB score | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. | [Video 113](113-oob-score/note.md) |
 | Out-of-bag rows | The rows a base model never saw because its bootstrap sample missed them (about 37%). | [Video 105](105-bagging-intuition/note.md) |
 | Out-of-core computing | Training on data bigger than the RAM by loading it chunk by chunk. | [Video 123](123-xgboost-intro/note.md) |
@@ -960,6 +985,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one. | [Video 72](72-sigmoid-function/note.md) |
 | PyPI | The Python Package Index, the public store of Python packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Q-Q plot | A plot of a column's sorted values against the values a normal distribution would have; points on the line mean normal. | [Video 30](30-function-transformer/note.md) |
+| Quadratic form | An expression like $x^{\mathsf T}Ax$: a sum of squared and cross terms of a vector's components. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Quantiles | Values that cut sorted data into equal-sized groups. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Video 30](30-function-transformer/note.md) |
 | Quarter | One of four three-month parts of a year. | [Video 34](34-date-and-time/note.md) |
@@ -994,6 +1020,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Recall (sensitivity) | Of all items that really are positive, the fraction the model found. | [Video 14](14-framing-ml-problem/note.md) |
 | Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values. | [Video 30](30-function-transformer/note.md) |
 | Recommendation engine | A model that suggests items, such as movies, to users. | [Video 4](04-batch-learning/note.md) |
+| Recommender system | A system that suggests items a user is likely to like. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Reduced sample space | The outcomes that remain possible once the condition is known. | [Video 82](82-conditional-probability/note.md) |
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros. | [Video 27](27-one-hot-encoding/note.md) |
 | Regression metric | A number that summarises how close a regression model's predictions are to the true values. | [Video 52](52-regression-metrics/note.md) |
@@ -1028,6 +1055,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Root node | The first node of a tree, holding all the training rows. | [Video 97](97-decision-trees-intuition/note.md) |
 | Row and column totals | The sums in the margins of a contingency table; each counts one whole event. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
 | Row sampling | Giving each base model a random subset of the rows. | [Video 108](108-random-forest-intro/note.md) |
+| Row vector | A vector written as one row, shape $1 \times n$. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | RPM | Revolutions per minute: how fast a motor turns. | [Video 8](08-applications-of-ml/note.md) |
 | Runge's phenomenon | The large swings of a high-degree polynomial near the ends of the interval it is fitted on. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
@@ -1049,10 +1077,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sampling distribution | The distribution of a statistic computed from many independent samples of the same size from one population. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling techniques | Ways of drawing a good sample from a population. | [Maths Note 220](220-what-is-statistics/note.md) |
+| Scalar product | Another name for the dot product, whose result is a scalar. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Scalar | A single number: a 0D tensor. | [Video 11](11-tensors/note.md) |
+| Scaling (a vector) | Multiplying or dividing every component of a vector by a scalar. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | Scaling | Bringing input columns to similar ranges. | [Video 13](13-toy-project/note.md) |
 | Scatter plot | One dot per row, with one numerical column on each axis. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | scikit-learn | Python's main library for classical ML. | [Video 13](13-toy-project/note.md) |
+| SciPy | A library built on NumPy with more scientific routines. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Score | Likelihood × prior for a class; proportional to the posterior. | [Video 87](87-naive-bayes-intuition/note.md) |
 | Scott's rule | A rule-of-thumb bandwidth: $s \times n^{-1/5}$. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | SDLC | Software development life cycle: the standard process for building ordinary software. | [Video 9](09-mldlc/note.md) |
@@ -1072,6 +1103,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Shallow decision tree | A decision tree with a small maximum depth; high bias, low variance. | [Video 119](119-bagging-vs-boosting/note.md) |
 | Shape | The number of items along each axis. | [Video 11](11-tensors/note.md) |
 | Shapiro-Wilk test | A statistical test of whether data follows a normal distribution. | [Video 56](56-linear-regression-assumptions/note.md) |
+| Shifting | Adding or subtracting a scalar to every component of a vector. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | Shortcut variance formula | $\mathrm{Var}(X) = E[X^2] - (E[X])^2$. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | Shrinkage (boosting) | Scaling down each base model's contribution so the ensemble learns in small steps and overfits less. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | Shrinkage | The pulling of coefficients towards 0 by a penalty. | [Video 63](63-ridge-regression-intuition/note.md) |
@@ -1079,6 +1111,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sigmoid function | $\sigma(z) = 1/(1 + e^{-z})$; an S-shaped curve that maps any number into the range 0 to 1. | [Video 72](72-sigmoid-function/note.md) |
 | Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\, x \cdot x' + r)$. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Sign function | Returns +1 for a positive number and -1 for a negative one. | [Video 115](115-adaboost-intuition/note.md) |
+| Similarity measure | A number that says how alike two vectors are. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Similarity score (classification) | (sum of residuals)$^2$ / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities. | [Video 125](125-xgboost-classification/note.md) |
 | Similarity score | (sum of residuals)$^2$ / (number of residuals + $\lambda$): how much a leaf's residuals agree. | [Video 124](124-xgboost-regression/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -1162,6 +1195,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Surge pricing | Raising fares when demand is much higher than supply. | [Video 8](08-applications-of-ml/note.md) |
 | Surrogate model | The model of the unknown score function that Bayesian optimisation builds from the trials. | [Video 134](134-optuna/note.md) |
 | Survival function | One minus the CDF: the probability of a value above $x$; `sf` in scipy. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
+| SVD (singular value decomposition) | A factorisation that works for any matrix, square or not. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Synthetic data | Rows created by an algorithm rather than collected. | [Video 133](133-imbalanced-data/note.md) |
 | T critical value | $t_{\alpha/2,\,n-1}$: the t value leaving $\alpha/2$ in each tail; 2.045 for 95% and $n = 30$. | [Maths Note 282](282-t-procedure/note.md) |
@@ -1240,6 +1274,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other inputs predict input $j$; above 5 signals multicollinearity. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Variance of a random variable | $\mathrm{Var}(X) = E[(X - E[X])^2]$: the expected squared distance from the expected value. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | Variance reduction | The drop in mean squared error from a node to its children; the regression version of information gain. | [Video 99](99-regression-trees/note.md) |
+| Vector (geometric view) | A point in a coordinate system, drawn as an arrow from the origin. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Vector | A list of numbers: a 1D tensor. | [Video 11](11-tensors/note.md) |
 | Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Video 58](58-batch-gradient-descent/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |

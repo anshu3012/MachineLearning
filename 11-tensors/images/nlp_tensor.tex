@@ -7,8 +7,8 @@
       nodes={minimum size=0.6cm, anchor=center, draw=cblue, fill=cblue!8, font=\small}}}
   % vocabulary
   \node[box=cgrey, align=left, anchor=north west] (vocab) at (-0.3,3.4) {\textbf{Vocabulary} (every unique word)\\
-    hi $\rightarrow$ [1 0 0 0]\quad nitish $\rightarrow$ [0 1 0 0]\quad rahul $\rightarrow$ [0 0 1 0]\quad ankit $\rightarrow$ [0 0 0 1]};
-  \foreach \s/\w/\c [count=\i] in {Hi Nitish/nitish/2, Hi Rahul/rahul/3, Hi Ankit/ankit/4} {
+    hi $\rightarrow$ [1 0 0 0]\quad riya $\rightarrow$ [0 1 0 0]\quad rahul $\rightarrow$ [0 0 1 0]\quad ankit $\rightarrow$ [0 0 0 1]};
+  \foreach \s/\w/\c [count=\i] in {Hi Riya/riya/2, Hi Rahul/rahul/3, Hi Ankit/ankit/4} {
     \pgfmathsetmacro{\x}{(\i-1)*4.3}
     \node[font=\bfseries] at (\x+1.2,1.3) {``\s''};
     \matrix (m\i) [oh] at (\x+1.2,0.2) {

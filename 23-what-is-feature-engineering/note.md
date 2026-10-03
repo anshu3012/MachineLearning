@@ -9,7 +9,7 @@ title: "What is Feature Engineering"
 >
 > - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Poor-quality data ([Note 9](../09-mldlc/note.md)); Features ([Note 11](../11-tensors/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Kernel density estimation (KDE) ([Note 20](../20-univariate-analysis/note.md)).
 > - **Leads to:** Standardization ([Note 24](../24-standardization/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)); Grid and random search ([Note 29](../29-pipelines/note.md)); Function transformer ([Note 30](../30-function-transformer/note.md)).
-> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)).
+> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); Decision trees ([Note 97](../97-decision-trees-intuition/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

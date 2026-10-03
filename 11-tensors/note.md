@@ -7,8 +7,8 @@ title: "Tensors"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)).
-> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)).
+> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)); Vectors and feature vectors ([Note 360](../360-vectors-and-feature-vectors/note.md)).
+> - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)); Bag of words ([Note 360](../360-vectors-and-feature-vectors/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -157,8 +157,8 @@ ML algorithms work only with numbers, so text must be turned into numbers first.
 
 One simple method is **one-hot encoding** (the [one-hot encoding Note](../27-one-hot-encoding/note.md) applies it to categorical columns):
 
-1. List every unique word: the **vocabulary**. For "Hi Nitish", "Hi Rahul" and "Hi Ankit", it is: hi, nitish, rahul, ankit.
-2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], nitish = [0, 1, 0, 0], and so on.
+1. List every unique word: the **vocabulary**. For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
+2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], riya = [0, 1, 0, 0], and so on.
 3. Each sentence becomes a matrix with one row per word. "Hi Rahul" has 2 words, so its shape is (2, 4).
 
 ![Sentences as a 3D tensor](images/nlp_tensor.png)
