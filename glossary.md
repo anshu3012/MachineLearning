@@ -90,6 +90,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Alternative hypothesis ($H_1$, $H_a$) | The statement that contradicts $H_0$ and claims an effect, difference or relationship. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Anaconda Navigator | Anaconda's point-and-click window for environments and packages. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anaconda | The best-known data science distribution, with Navigator and Spyder. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Analytic function | A function equal to its Taylor series near every point. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Anderson-Darling test | Another statistical test of whether data follows a given distribution. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Anomaly detection | Finding rows that do not fit the pattern of the rest. | [Note 3](03-types-of-ml/note.md) |
 | ANOVA table | The table of SS, df, MS, F and p for each source of variation. | [Maths Note 572](572-one-way-anova/note.md) |
@@ -111,6 +112,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Attribute | A `name="value"` setting inside an opening tag. | [Note 18](18-web-scraping/note.md) |
 | AUC | The area under the ROC curve; a single score from 0.5 (random) to 1 (perfect). | [Note 78](78-roc-auc/note.md) |
 | Autocorrelation | Each residual is related to the one before it in row order. | [Note 56](56-linear-regression-assumptions/note.md) |
+| Automatic differentiation | Software that computes exact derivatives of a program by the chain rule on its elementary operations; reverse mode is backpropagation. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Average linkage | Cluster distance = mean of all distances between the two clusters' points. | [Note 131](131-hierarchical-clustering/note.md) |
 | Average record size | The memory one row takes, on average. | [Note 22](22-pandas-profiling/note.md) |
 | Axioms of probability | The three rules every probability obeys: non-negative, $P(S) = 1$, mutually exclusive events add. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
@@ -119,6 +121,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Axis-parallel split | A cut that tests one column, so it is a line, plane or hyperplane parallel to the other axes. | [Note 97](97-decision-trees-intuition/note.md) |
 | B2B | Business to business: a product that helps a company run its business. | [Note 8](08-applications-of-ml/note.md) |
 | B2C | Business to customer: a product sold to ordinary users. | [Note 8](08-applications-of-ml/note.md) |
+| Backpropagation | Computing the gradient of a loss by applying the chain rule backward through the computation graph. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Note 23](23-what-is-feature-engineering/note.md) |
 | Bag of words | Turning a text into a vector of word counts over the vocabulary. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Bagging (bootstrap aggregation) | Averaging many models trained on different samples of the data to reduce variance. | [Note 101](101-ensemble-learning/note.md) |
@@ -202,12 +205,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Causation | A cause-and-effect relationship: changing one thing changes the other. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | ccp_alpha | Cost-complexity pruning strength: the penalty per leaf when a grown tree is pruned back. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | Cell | One block of a notebook, holding either code or Markdown. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Central difference | The numerical derivative $(f(x + h) - f(x - h))/(2h)$, more accurate than a one-sided step. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Central limit theorem | Averages of samples follow a normal distribution, whatever the distribution of the data. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | Centred data | Data whose mean is 0. | [Note 25](25-normalization/note.md) |
 | Centroid initialization | Picking the first k centroids, here at random from the data. | [Note 128](128-kmeans-intuition/note.md) |
 | Centroid | The centre of one group in k-means. | [Note 32](32-binning-binarization/note.md) |
 | Centroid-based clustering | Clustering built around centroids, such as k-means. | [Note 132](132-dbscan/note.md) |
 | Chain rule of probability | Writing a joint probability as a product of conditional probabilities, one variable at a time. | [Note 88](88-naive-bayes-maths/note.md) |
+| Chain rule with Jacobians | The Jacobian of a composition is the product of the Jacobians, in the same order. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Chain rule | To differentiate a function of a function, multiply the outer derivative by the inner derivative. | [Note 74](74-sigmoid-derivative/note.md) |
 | Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3. | [Note 45](45-feature-construction-splitting/note.md) |
 | Chained equations | One prediction model per column, each using the latest fills of the others. | [Note 40](40-iterative-imputer-mice/note.md) |
@@ -238,6 +243,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | cluster_centers_ | The coordinates of the final centroids of a fitted `KMeans`. | [Note 129](129-kmeans-code/note.md) |
 | Clustering | Splitting data into groups of similar rows. | [Note 3](03-types-of-ml/note.md) |
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
+| Codomain | The set in which a function's outputs lie. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | coef_ | The fitted slope (one per input column) in scikit-learn. | [Note 50](50-simple-linear-regression/note.md) |
 | Coefficient ($\beta_i$) | The weight of one input column: the change in the output per unit of that input, others fixed. | [Note 53](53-multiple-linear-regression/note.md) |
 | Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average. | [Note 22](22-pandas-profiling/note.md) |
@@ -261,6 +267,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Composition | Applying one transformation and then another, seen as one overall transformation. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Compound event | An event with two or more outcomes. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | Compression | Storing data in less space. | [Note 11](11-tensors/note.md) |
+| Computation graph | A function broken into elementary steps, each a node, with arrows for the flow of values. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | conda | A package and environment manager for Python and other software. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | conda-forge | A free, community-run conda channel. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Conditional independence | Independence that holds once a third variable (here the class) is known. | [Note 88](88-naive-bayes-maths/note.md) |
@@ -318,6 +325,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Cumulative relative frequency | The running total of the relative frequencies; ends at 1. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
 | Cumulative sum | The running total of a list of numbers; it turns weights into ranges on the line from 0 to 1. | [Note 116](116-adaboost-step-by-step/note.md) |
 | Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation. | [Note 46](46-curse-of-dimensionality/note.md) |
+| Curvature | How fast the slope of a surface changes; given in each direction by the Hessian. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning. | [Note 32](32-binning-binarization/note.md) |
 | Custom loss function | A loss written by the user, passed to libraries such as XGBoost with its gradient and Hessian. | [Note 133](133-imbalanced-data/note.md) |
 | Customer profile | A summary of what kind of buyer a customer is, built from their purchases. | [Note 8](08-applications-of-ml/note.md) |
@@ -381,13 +389,16 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised inputs, and disease progression one year later. | [Note 55](55-multiple-lr-code/note.md) |
 | Diagonal matrix | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | Diagonalisation | Writing $A = PDP^{-1}$ with $D$ diagonal, using an eigenbasis. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
+| Difference quotient | $(f(x + h) - f(x))/h$: the slope of the secant line, the average slope over a step $h$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
+| Differentiable | Having a derivative at a point (or at every point). | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution. | [Note 97](97-decision-trees-intuition/note.md) |
 | Differentiation | Finding the slope of a curve at each point; the derivative of the CDF is the PDF. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
 | Dimension of a vector | The dimension of the space it lives in: its number of components. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Dimension | One input column (one feature); a different meaning from the dimensions (axes) of a tensor in Video 11. | [Note 3](03-types-of-ml/note.md) |
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Note 3](03-types-of-ml/note.md) |
 | Dimensionality | The number of columns (features) in the data. | [Note 27](27-one-hot-encoding/note.md) |
+| Directional derivative | The slope of $f$ along a unit vector $\mathbf{u}$: $\nabla f \cdot \mathbf{u}$. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | Dirty data | Data with errors, gaps, duplicates or inconsistencies. | [Note 9](09-mldlc/note.md) |
 | Discrete data | Numerical data that takes only separate values, usually counts. | [Maths Note 220](220-what-is-statistics/note.md) |
 | Discrete random variable | A random variable that takes separate values, such as a die's face. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
@@ -403,6 +414,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Diverge | To move further away with each step, the loss growing instead of shrinking. | [Note 57](57-gradient-descent/note.md) |
 | Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly. | [Note 131](131-hierarchical-clustering/note.md) |
 | Domain knowledge | Knowledge of the field the data comes from. | [Note 23](23-what-is-feature-engineering/note.md) |
+| Domain | The set of allowed inputs of a function. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Donor | A row that has a value in the column being filled, so it can be a neighbour. | [Note 39](39-knn-imputer/note.md) |
 | Dot product | Multiply matching components of two vectors and add; $u^{\mathsf T}x$. | [Note 48](48-pca-step-by-step/note.md) |
 | dropna | The pandas method that drops rows (or columns) with missing values. | [Note 35](35-complete-case-analysis/note.md) |
@@ -515,6 +527,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | fit_predict | Trains a clustering model and returns the cluster of every row. | [Note 129](129-kmeans-code/note.md) |
 | fit_transform | Fit and transform in one call; used on the training set only. | [Note 28](28-column-transformer/note.md) |
 | Five-number summary | Minimum, Q1, median, Q3 and maximum. | [Note 20](20-univariate-analysis/note.md) |
+| Flattening | Reshaping a matrix into one long vector so that derivatives stay matrices. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | For loop | Code that repeats once for each item of a collection. | [Note 15](15-working-with-csv/note.md) |
 | Forest-level hyperparameters | The settings that shape the forest itself: n_estimators, max_features, bootstrap, max_samples. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | Format string | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. | [Note 34](34-date-and-time/note.md) |
@@ -527,6 +540,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Frequency | How many times a value or category occurs. | [Note 20](20-univariate-analysis/note.md) |
 | Fully grown tree | A tree split until every leaf is pure; usually overfits. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | func | The `FunctionTransformer` parameter that holds the function to apply. | [Note 30](30-function-transformer/note.md) |
+| Function of several variables | $f: \mathbb{R}^n \to \mathbb{R}$: a vector of $n$ numbers in, one number out. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
+| Function | A rule that assigns exactly one output to every input, written $f: \mathbb{R} \to \mathbb{R}$, $x \mapsto f(x)$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Function, lambda | A named reusable piece of code (`def`), and a one-line unnamed one. | [Note 15](15-working-with-csv/note.md) |
 | FunctionTransformer | scikit-learn's class that applies any function we give it to the data. | [Note 30](30-function-transformer/note.md) |
 | Gain (XGBoost) | Similarity of the two children minus similarity of the parent; the split with the largest gain is chosen. | [Note 124](124-xgboost-regression/note.md) |
@@ -552,7 +567,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Google Colab | Google's browser-based Jupyter notebooks, saved in Google Drive. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | GPU | A graphics chip that runs deep learning maths much faster than a CPU. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Gradient $g_i$ | First derivative of row $i$'s loss with respect to the previous prediction. | [Note 126](126-xgboost-maths/note.md) |
+| Gradient as a row vector | $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$, the convention that makes the chain rule a matrix product. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | Gradient boosting | A boosting algorithm that starts from a simple guess and adds trees one by one, each trained on the mistakes (pseudo-residuals) of the ensemble so far. | [Note 120](120-gradient-boosting-intuition/note.md) |
+| Gradient checking | Testing a gradient formula against finite-difference estimates, using the relative error. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill. | [Note 57](57-gradient-descent/note.md) |
 | Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase. | [Note 57](57-gradient-descent/note.md) |
 | Grand mean | The mean of all values from all groups together. | [Maths Note 572](572-one-way-anova/note.md) |
@@ -570,6 +587,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Headers | Extra information sent with a request, such as the User-Agent. | [Note 18](18-web-scraping/note.md) |
 | Heatmap | A table drawn as coloured cells, darker for larger values. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | Hessian $h_i$ | Second derivative of row $i$'s loss with respect to the previous prediction. | [Note 126](126-xgboost-maths/note.md) |
+| Hessian matrix | The symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$; it measures curvature. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Heteroscedasticity | The spread of the residuals changes with the predicted value, often as a funnel. | [Note 56](56-linear-regression-assumptions/note.md) |
 | Hierarchical clustering | Clustering that builds a hierarchy of clusters, from single points up to one cluster. | [Note 131](131-hierarchical-clustering/note.md) |
 | High bias, low variance algorithm | An algorithm too simple to fit the training data well but stable across samples, such as linear regression; it underfits. | [Note 105](105-bagging-intuition/note.md) |
@@ -633,6 +651,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Iteration (MICE) | One pass that re-predicts the gaps of every column once, in order. | [Note 40](40-iterative-imputer-mice/note.md) |
 | Iteration 0 | The starting table, with every gap filled by its column mean. | [Note 40](40-iterative-imputer-mice/note.md) |
 | Iterative imputer | Multivariate imputation that predicts each column from the others, repeatedly; its algorithm is MICE. | [Note 35](35-complete-case-analysis/note.md) |
+| Jacobian determinant | $\det J$: the factor by which a function scales small areas or volumes near a point. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
+| Jacobian | The $m \times n$ matrix of all first partial derivatives, $J_{ij} = \partial f_i/\partial x_j$. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | joblib | A library that saves and loads Python objects like pickle, better suited to large arrays. | [Note 29](29-pipelines/note.md) |
 | Joint probability distribution | The joint probabilities of every combination of values of two variables; they sum to 1. | [Maths Note 341](341-joint-marginal-conditional-probability/note.md) |
 | Joint probability | The probability that two events happen together, $P(A \cap B)$. | [Note 86](86-bayes-problem/note.md) |
@@ -676,6 +696,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lambda ($\lambda$, `reg_lambda`) | Regularisation parameter added to the denominators; shrinks scores and outputs; default 1. | [Note 124](124-xgboost-regression/note.md) |
 | Lambda | A one-line Python function without a name, such as `lambda x: x**2`. | [Note 30](30-function-transformer/note.md) |
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. | [Note 31](31-power-transformer/note.md) |
+| Laplace approximation | Approximating a distribution near its peak by a normal distribution built from the Hessian. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0. | [Note 89](89-naive-bayes-code/note.md) |
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1). | [Note 63](63-ridge-regression-intuition/note.md) |
 | Latency | The delay between a request and its answer; high for KNN on large data. | [Note 91](91-knn/note.md) |
@@ -694,10 +715,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Learning rate (AdaBoost) | A multiplier on every weak learner's alpha; values below 1 slow learning. | [Note 118](118-adaboost-hyperparameters/note.md) |
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Note 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
+| Least-squares loss | $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Leptokurtic | Excess kurtosis above 0: fatter tails than normal. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Levene's test | A hypothesis test with $H_0$: the groups have equal variances. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use. | [Note 123](123-xgboost-intro/note.md) |
 | Likelihood | The probability of what we observed, given a hypothesis; for a classifier, the product over all points of the probabilities it gives to their true classes. | [Note 73](73-log-loss/note.md) |
+| Limit | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0). | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Linear combination | A sum of scaled vectors, $a_1\mathbf{v}_1 + \dots + a_k\mathbf{v}_k$. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
@@ -706,6 +729,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Linear relationship | A relationship between two columns that follows a straight line. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear transformation to the number line | A function from vectors to numbers that keeps evenly spaced dots evenly spaced; its matrix is $1 \times n$. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced. | [Note 48](48-pca-step-by-step/note.md) |
+| Linearisation | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Linearity of expectation | $E[aX + bY + c] = a\,E[X] + b\,E[Y] + c$, for any random variables. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | Linearly dependent | At least one vector is a linear combination of the others, so it adds nothing to the span. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Linearly independent | Every vector adds a new direction to the span. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
@@ -714,6 +738,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | List of grids | Several parameter grids passed together, so incompatible values never meet. | [Note 112](112-random-forest-tuning/note.md) |
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Note 15](15-working-with-csv/note.md) |
 | Load balancing | Spreading requests across servers so all users are served quickly. | [Note 9](09-mldlc/note.md) |
+| Local linear map | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Local minimum | A point lower than everything around it, but not the lowest overall. | [Note 57](57-gradient-descent/note.md) |
 | Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start. | [Note 130](130-kmeans-from-scratch/note.md) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Note 30](30-function-transformer/note.md) |
@@ -730,6 +755,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lower and upper limit | The two ends of a confidence interval. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Note 50](50-simple-linear-regression/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Note 1](01-what-is-ml/note.md) |
+| Maclaurin series | The Taylor series around $x_0 = 0$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Macro average | The plain mean of a metric over all classes. | [Note 77](77-precision-recall-f1/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Note 25](25-normalization/note.md) |
 | Majority class | The class with the most rows in imbalanced data. | [Note 133](133-imbalanced-data/note.md) |
@@ -808,6 +834,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Missing indicator | A 0/1 column recording whether a value was missing. | [Note 35](35-complete-case-analysis/note.md) |
 | Missing value | An empty entry, shown by pandas as `NaN`. | [Note 15](15-working-with-csv/note.md) |
 | Missing values | Empty cells in the data. | [Note 7](07-challenges-in-ml/note.md) |
+| Mixed partial derivative | A second partial derivative with respect to two different variables, such as $\partial^2 f/\partial y\,\partial x$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Mixed variable | A column holding both numerical and categorical data. | [Note 33](33-mixed-variables/note.md) |
 | ML algorithm | A general method that finds the pattern between inputs and outputs in data. | [Note 1](01-what-is-ml/note.md) |
 | MLDLC | Machine learning development life cycle: the guidelines for building an ML product from idea to product. | [Note 9](09-mldlc/note.md) |
@@ -834,7 +861,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Multiple imputation | Making several filled copies of the data to see how unsure the fills are. | [Note 40](40-iterative-imputer-mice/note.md) |
 | Multiple linear regression | Linear regression with several input columns. | [Note 50](50-simple-linear-regression/note.md) |
 | Multivariate analysis | Studying more than two variables together. | [Note 20](20-univariate-analysis/note.md) |
+| Multivariate chain rule | The derivative through intermediate variables: multiply along each path and add the paths; a row gradient times a matrix of inner derivatives. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | Multivariate imputation | Imputation that also uses the other columns. | [Note 35](35-complete-case-analysis/note.md) |
+| Multivariate Taylor polynomial | The multivariate Taylor series cut after the $k = n$ term. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
+| Multivariate Taylor series | $\sum_k D^k f(\mathbf{x}_0)\,\boldsymbol{\delta}^k / k!$: approximation of $f$ near $\mathbf{x}_0$ from its derivatives there. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Mutually exclusive events | Events that cannot happen at the same time; their intersection has probability 0. | [Note 84](84-mutually-exclusive-events/note.md) |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins. | [Note 32](32-binning-binarization/note.md) |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. | [Note 49](49-pca-mnist/note.md) |
@@ -843,6 +873,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | n_init | How many times `KMeans` restarts from new centroids; the run with the lowest inertia is kept. | [Note 129](129-kmeans-code/note.md) |
 | n_iter | The number of random combinations RandomizedSearchCV tries (default 10). | [Note 99](99-regression-trees/note.md) |
 | n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all. | [Note 104](104-voting-regressor/note.md) |
+| Nabla ($\nabla$) | The symbol for the gradient. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | Naive assumption | The assumption that the inputs are conditionally independent given the class. | [Note 87](87-naive-bayes-intuition/note.md) |
 | Naive Bayes classifier | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. | [Note 87](87-naive-bayes-intuition/note.md) |
 | Naive Bayes | A classification algorithm based on Bayes' theorem (later Notes). | [Note 82](82-conditional-probability/note.md) |
@@ -859,6 +890,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Neighbours | The k training points closest to the query point. | [Note 91](91-knn/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | Newton step | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. | [Note 122](122-gradient-boosting-classification/note.md) |
+| Newton's method | Repeatedly jumping to the minimum of the second-order Taylor polynomial: $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | NLP | Natural language processing: ML on text. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root. | [Note 100](100-dtreeviz/note.md) |
 | Node-level column sampling | Drawing a new random set of columns before every split (random forest). | [Note 110](110-bagging-vs-random-forest/note.md) |
@@ -889,7 +921,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Nullable integer (Int64) | The pandas integer type that can also hold a missing value, `<NA>`. | [Note 33](33-mixed-variables/note.md) |
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Note 22](22-pandas-profiling/note.md) |
 | Number of samples ($k$) | How many samples are drawn; different from the sample size $n$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
+| Numerator layout | Writing derivatives with outputs as rows and inputs as columns. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Numerical data | Data made of numbers. | [Note 3](03-types-of-ml/note.md) |
+| Numerical derivative | An estimate of a derivative from a difference quotient with a small step $h$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | NumPy | Python's library for arrays and linear algebra. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | Objective function (Optuna) | The function a search optimises: it takes a trial's hyperparameter values and returns a score. | [Note 134](134-optuna/note.md) |
 | Objective function (XGBoost) | The quantity XGBoost minimises: the loss plus a regularisation term. | [Note 126](126-xgboost-maths/note.md) |
@@ -929,6 +963,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Note 5](05-online-learning/note.md) |
 | Out-of-fold prediction | A prediction for a row made by a model trained on the other folds, never on that row. | [Note 127](127-stacking-blending/note.md) |
 | Outcome | The single result of one trial, such as heads or a 3. | [Maths Note 330](330-events-and-types-of-events/note.md) |
+| Outer product | $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$, the matrix of all products $\delta_i\delta_j$; more copies give tensors. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Outlier detection | Setting a lower and an upper limit; values outside them are outliers. | [Note 41](41-what-are-outliers/note.md) |
 | Outlier | A value far from the rest of the data. | [Note 20](20-univariate-analysis/note.md) |
 | Outliers | Values far from the rest, often mistakes. | [Note 7](07-challenges-in-ml/note.md) |
@@ -998,6 +1033,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Point estimate | A single number computed from sample data as the best guess for an unknown population parameter. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
 | Poisson distribution | A discrete distribution of counts of events, with parameter $\lambda$. | [Maths Note 560](560-poisson-distribution/note.md) |
 | Poisson regression | A model that predicts the rate $\lambda$ of a count target from the features. | [Maths Note 560](560-poisson-distribution/note.md) |
+| Polar coordinates | Describing a point by its distance $r$ from the origin and its angle $\theta$: $(r\cos\theta, r\sin\theta)$. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Policy | The agent's rules for which action to take. | [Note 3](03-types-of-ml/note.md) |
 | Polynomial features | New input columns made from powers and products of the original inputs. | [Note 80](80-polynomial-logistic-regression/note.md) |
 | Polynomial kernel | A kernel built from powers of the inputs, such as $x^2$. | [Note 95](95-kernel-trick-intuition/note.md) |
@@ -1016,6 +1052,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Power iteration | Finding the top eigenvector by multiplying a vector by the matrix again and again. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | Power law | A relationship $y = k\,x^{a}$: one variable proportional to a power of the other. | [Maths Note 262](262-pareto-and-power-law/note.md) |
 | Power of a test | $1 - \beta$: the probability of rejecting $H_0$ when it is false. | [Maths Note 292](292-errors-power-and-tails/note.md) |
+| Power rule | $(x^n)' = n x^{n-1}$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
+| Power series | An infinite sum $\sum a_k (x - c)^k$; the Taylor series is a special case. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Note 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Note 30](30-function-transformer/note.md) |
 | Precision | Of all items predicted positive, the fraction that really are positive. | [Note 14](14-framing-ml-problem/note.md) |
@@ -1037,6 +1075,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Probability tree | A diagram in which each path multiplies the probabilities along its branches. | [Note 86](86-bayes-problem/note.md) |
 | Probability | A number from 0 to 1 measuring how likely an event is; written $P(A)$. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$. | [Note 83](83-independent-events/note.md) |
+| Product rule | $(fg)' = f'g + fg'$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Production code | The code that runs the deployed model on a server, for example behind a website. | [Note 29](29-pipelines/note.md) |
 | Production environment | The server where a model serves real users. | [Note 4](04-batch-learning/note.md) |
 | Profiling report | An automatic EDA report describing every column and pair of columns of a dataset. | [Note 22](22-pandas-profiling/note.md) |
@@ -1061,6 +1100,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Query point | The new point whose class we want to predict. | [Note 91](91-knn/note.md) |
 | Query | A request for data, written in SQL. | [Note 16](16-working-with-json-and-sql/note.md) |
 | Quintiles | The 20th, 40th, 60th and 80th percentiles: cuts into 5 groups. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
+| Quotient rule | $(f/g)' = (f'g - fg')/g^2$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Random experiment | An experiment whose outcome cannot be predicted, such as a coin toss. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Random forest | Bagging with decision trees as the base models. | [Note 108](108-random-forest-intro/note.md) |
 | Random initialization | Starting a model's parameters at random values, often drawn from a uniform distribution. | [Maths Note 261](261-uniform-and-log-normal/note.md) |
@@ -1163,6 +1203,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Scott's rule | A rule-of-thumb bandwidth: $s \times n^{-1/5}$. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | SDLC | Software development life cycle: the standard process for building ordinary software. | [Note 9](09-mldlc/note.md) |
 | Search space | The ranges or lists of values each hyperparameter may take during tuning. | [Note 134](134-optuna/note.md) |
+| Secant line | A straight line through two points of a curve. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
+| Second partial derivative | A partial derivative of a partial derivative, such as $\partial^2 f/\partial x^2$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Note 29](29-pipelines/note.md) |
 | Semester | One of two six-month halves of a year. | [Note 34](34-date-and-time/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Note 3](03-types-of-ml/note.md) |
@@ -1250,6 +1292,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | statsmodels | A Python library for statistical models and tests. | [Note 56](56-linear-regression-assumptions/note.md) |
 | Status code | A number saying how a request went: 200 OK, 401, 404, 500. | [Note 17](17-fetching-data-from-api/note.md) |
 | Status quo | Another name for the null hypothesis: the current state of things. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
+| Steepest ascent | The direction in which $f$ increases fastest: the direction of the gradient. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | Step function | A function that outputs 1 for positive inputs and 0 otherwise. | [Note 70](70-perceptron-trick/note.md) |
 | step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name. | [Note 29](29-pipelines/note.md) |
 | Stochastic error | A random, unmeasurable influence that scatters data around its trend. | [Note 50](50-simple-linear-regression/note.md) |
@@ -1291,9 +1334,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Tail (of a distribution) | The part of the curve far from the centre, where values are rare. | [Maths Note 250](250-normal-distribution/note.md) |
 | Tail event | An event with a very low probability but a very large effect. | [Maths Note 252](252-skewness/note.md) |
 | Tailedness | How much probability lies far from the mean, in the tails. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
+| Tangent line | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
+| Tangent plane | The flat plane that touches a surface at a point with the same gradient; the first-order Taylor approximation. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | Target leakage | Building an input column from the answer itself, so the model sees information it would not have in real use. | [Note 52](52-regression-metrics/note.md) |
 | Target, label | Other names for the output column. | [Note 3](03-types-of-ml/note.md) |
 | Targeted marketing | Advertising only to the people most likely to buy. | [Note 8](08-applications-of-ml/note.md) |
+| Taylor polynomial | The Taylor series cut after the $(x - x_0)^n$ term. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Taylor series | Approximation of a function near a point by a polynomial built from its derivatives there. | [Note 126](126-xgboost-maths/note.md) |
 | Tensor | A container of numbers arranged along one or more axes. | [Note 11](11-tensors/note.md) |
 | Terminal region | The part of the input space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
@@ -1372,6 +1418,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Vector (geometric view) | A point in a coordinate system, drawn as an arrow from the origin. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Vector addition | Adding matching components; geometrically, placing the second arrow's tail at the first arrow's tip. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Vector | A list of numbers: a 1D tensor. | [Note 11](11-tensors/note.md) |
+| Vector-valued function | $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$: several numbers in, several numbers out; a stack of $m$ ordinary functions. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Note 58](58-batch-gradient-descent/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Note 11](11-tensors/note.md) |
 | Venn diagram | A picture of events as circles inside a rectangle; overlaps show shared outcomes. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |

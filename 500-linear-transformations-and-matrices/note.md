@@ -8,7 +8,7 @@ title: "Linear Transformations and Matrices"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Linear combinations, span and basis ([Note 490](../490-linear-combinations-span-and-basis/note.md)).
-> - **Leads to:** Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)); Eigenvectors and eigenvalues ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)); Determinant ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)).
+> - **Leads to:** Matrix multiplication as composition ([Note 510](../510-matrix-multiplication-as-composition/note.md)); Eigenvectors and eigenvalues ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)); Determinant ([Note 530](../530-eigenvectors-and-eigenvalues/note.md)); Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 213 of 213 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 217 of 217 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -63,12 +63,15 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | confirmed |
 | Dot product | [Note 48](../48-pca-step-by-step/note.md), [Note 362](../362-dot-product-and-cosine-similarity/note.md), [Note 520](../520-dot-product-and-duality/note.md) | confirmed |
 | Linear transformations and matrices | [Note 48](../48-pca-step-by-step/note.md), [Note 500](../500-linear-transformations-and-matrices/note.md) | confirmed |
+| Derivatives of one variable | [Note 51](../51-linear-regression-maths/note.md), [Note 600](../600-derivatives-of-one-variable/note.md) | confirmed |
 | Equation of a hyperplane | [Note 53](../53-multiple-linear-regression/note.md), [Note 70](../70-perceptron-trick/note.md), [Note 363](../363-equation-of-a-hyperplane/note.md) | confirmed |
+| Partial derivatives and gradients | [Note 57](../57-gradient-descent/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md) | confirmed |
 | Conditional probability | [Note 82](../82-conditional-probability/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
 | Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), [Note 86](../86-bayes-problem/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
 | Bernoulli and binomial distributions | [Note 102](../102-voting-ensemble/note.md), [Note 241](../241-pmf-and-discrete-cdf/note.md), [Note 270](../270-bernoulli-and-binomial/note.md) | confirmed |
-| Taylor series | [Note 126](../126-xgboost-maths/note.md) | confirmed |
+| Hessian and multivariate Taylor | [Note 126](../126-xgboost-maths/note.md), [Note 603](../603-hessian-and-multivariate-taylor/note.md) | confirmed |
+| Taylor series | [Note 126](../126-xgboost-maths/note.md), [Note 600](../600-derivatives-of-one-variable/note.md), [Note 603](../603-hessian-and-multivariate-taylor/note.md) | confirmed |
 | Probability distributions | [Note 210](../210-statistics-roadmap/note.md), [Note 240](../240-random-variables-and-distributions/note.md) | confirmed |
 | Inferential statistics | [Note 210](../210-statistics-roadmap/note.md), [Note 220](../220-what-is-statistics/note.md) | confirmed |
 | Population, sample, parameter and statistic | [Note 220](../220-what-is-statistics/note.md) | confirmed |
@@ -102,6 +105,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Choosing a hypothesis test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | One-sample proportion test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | One-way ANOVA | [Note 572](../572-one-way-anova/note.md) | confirmed |
+| Jacobian and matrix gradients | [Note 602](../602-jacobian-and-matrix-gradients/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -328,7 +332,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 213 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 217 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -399,13 +403,13 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 48 | Covariance and covariance matrix, Dot product, Eigenvectors and eigenvalues, Linear transformations and matrices, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
 | 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 50 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | written |
-| 51 | Best-fit line and squared error, Ordinary least squares (closed form), Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
+| 51 | Best-fit line and squared error, Derivatives of one variable, Ordinary least squares (closed form), Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 52 | Regression metrics | [Note 51](../51-linear-regression-maths/note.md) | written |
 | 53 | Equation of a hyperplane, Multiple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 48](../48-pca-step-by-step/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 54 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 55 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 56 | Assumptions of linear regression | [Note 27](../27-one-hot-encoding/note.md), [Note 30](../30-function-transformer/note.md) | written |
-| 57 | Convex and non-convex loss, Gradient descent, Learning rate | [Note 24](../24-standardization/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
+| 57 | Convex and non-convex loss, Gradient descent, Learning rate, Partial derivatives and gradients | [Note 24](../24-standardization/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 58 | Batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 59 | Stochastic gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
@@ -474,7 +478,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 123 | Missing values, XGBoost | [Note 9](../09-mldlc/note.md), [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md) | written |
 | 124 | XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
 | 125 | XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
-| 126 | Taylor series, XGBoost | [Note 32](../32-binning-binarization/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
+| 126 | Hessian and multivariate Taylor, Taylor series, XGBoost | [Note 51](../51-linear-regression-maths/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 122](../122-gradient-boosting-classification/note.md), [Note 123](../123-xgboost-intro/note.md) | written |
 | 127 | Cross-validation, Stacking and blending | [Note 101](../101-ensemble-learning/note.md) | written |
 | 128 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
 | 129 | Clustering, Elbow method and WCSS, K-means | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md) | written |
@@ -533,6 +537,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 570 | Choosing a hypothesis test, Correlation significance test, One-sample proportion test, T-tests: one-sample, two-sample, paired | [Note 231](../231-covariance-and-correlation/note.md), [Note 282](../282-t-procedure/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
 | 571 | Chi-square tests | [Note 291](../291-rejection-region-and-z-test/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | written |
 | 572 | One-way ANOVA | [Note 222](../222-measures-of-dispersion/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
+| 600 | Derivatives of one variable, Taylor series | nothing | written |
+| 601 | Partial derivatives and gradients | [Note 600](../600-derivatives-of-one-variable/note.md) | written |
+| 602 | Jacobian and matrix gradients | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
+| 603 | Hessian and multivariate Taylor, Taylor series | [Note 530](../530-eigenvectors-and-eigenvalues/note.md), [Note 600](../600-derivatives-of-one-variable/note.md) | written |
 
 ## 5. The Algorithm chooser
 

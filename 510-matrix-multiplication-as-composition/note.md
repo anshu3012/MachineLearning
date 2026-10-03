@@ -8,6 +8,7 @@ title: "Matrix Multiplication as Composition"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Dot product ([Note 362](../362-dot-product-and-cosine-similarity/note.md)); Linear transformations and matrices ([Note 500](../500-linear-transformations-and-matrices/note.md)).
+> - **Leads to:** Jacobian and matrix gradients ([Note 602](../602-jacobian-and-matrix-gradients/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

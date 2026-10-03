@@ -205,6 +205,10 @@ notes:
   570: 570-choosing-a-hypothesis-test
   571: 571-chi-square-tests
   572: 572-one-way-anova
+  600: 600-derivatives-of-one-variable
+  601: 601-partial-derivatives-and-gradients
+  602: 602-jacobian-and-matrix-gradients
+  603: 603-hessian-and-multivariate-taylor
 
 concepts:
   # 0 Foundations
@@ -290,6 +294,10 @@ concepts:
   - {id: linear_transformation, name: Linear transformations and matrices, step: 0, videos: [48, 500], status: confirmed}
   - {id: matrix_multiplication, name: Matrix multiplication as composition, step: 0, videos: [510], status: confirmed}
   - {id: determinant, name: Determinant, step: 0, videos: [530], status: confirmed}
+  - {id: derivative, name: Derivatives of one variable, step: 0, videos: [51, 600], status: confirmed}
+  - {id: gradient, name: Partial derivatives and gradients, step: 0, videos: [57, 601], status: confirmed}
+  - {id: jacobian, name: Jacobian and matrix gradients, step: 0, videos: [602], status: confirmed}
+  - {id: hessian, name: Hessian and multivariate Taylor, step: 0, videos: [126, 603], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -404,7 +412,7 @@ concepts:
   - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: confirmed}
   - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: confirmed}
   - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: confirmed}
-  - {id: taylor_series, name: Taylor series, step: 0, videos: [126], status: confirmed}
+  - {id: taylor_series, name: Taylor series, step: 0, videos: [126, 600, 603], status: confirmed}
   - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: confirmed}
   - {id: kmeans, name: K-means, step: 8, videos: [32, 128, 129, 130], status: confirmed}
   - {id: elbow_method, name: Elbow method and WCSS, step: 10, videos: [128, 129], status: confirmed}
@@ -804,6 +812,16 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [gradient_descent, needs, derivative, confirmed]
+  - [taylor_series, needs, derivative, confirmed]
+  - [gradient, needs, derivative, confirmed]
+  - [gradient, used in, gradient_descent, confirmed]
+  - [jacobian, needs, gradient, confirmed]
+  - [jacobian, needs, linear_transformation, confirmed]
+  - [jacobian, needs, matrix_multiplication, confirmed]
+  - [jacobian, used in, normal_equation, confirmed]
+  - [hessian, needs, eigen, confirmed]
+  - [hessian, used in, xgboost, confirmed]
   - [span_basis, needs, vector, confirmed]
   - [span_basis, compared with, multicollinearity, confirmed]
   - [span_basis, used in, normal_equation, confirmed]
