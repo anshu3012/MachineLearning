@@ -7,7 +7,7 @@ title: "Ridge Regression: Regularisation and Intuition"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Overfitting ([Note 61](../61-polynomial-regression/note.md)).
+> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Overfitting ([Note 61](../61-polynomial-regression/note.md)).
 > - **Leads to:** Lasso regression (Video 67, coming); ElasticNet (Video 69, coming).
 > - **Compare with:** Lasso regression (Video 67, coming).
 <!-- /where-this-fits -->

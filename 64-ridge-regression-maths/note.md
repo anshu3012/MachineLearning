@@ -7,7 +7,7 @@ title: "Ridge Regression: The Maths and Code from Scratch"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
+> - **Builds on:** Standardization ([Note 24](../24-standardization/note.md)); Multiple linear regression ([Note 55](../55-multiple-lr-code/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)).
 > - **Compare with:** Lasso regression (Video 67, coming).
 <!-- /where-this-fits -->
 

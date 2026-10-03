@@ -81,6 +81,7 @@ notes:
   62: 62-bias-variance
   63: 63-ridge-regression-intuition
   64: 64-ridge-regression-maths
+  65: 65-ridge-gradient-descent
 
 concepts:
   # 0 Foundations
@@ -445,6 +446,7 @@ links:
   - [lasso, used in, feature_selection, draft]
   - [ridge, needs, multiple_lr, confirmed]
   - [ridge, needs, normal_equation, confirmed]
+  - [ridge, needs, gradient_descent, confirmed]
   - [regularisation, fixes, overfitting, confirmed]
   - [ridge, needs, standardization, confirmed]
   # Model: classification
