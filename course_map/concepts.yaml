@@ -86,6 +86,7 @@ notes:
   67: 67-lasso-regression
   68: 68-lasso-sparsity
   69: 69-elastic-net
+  70: 70-perceptron-trick
 
 concepts:
   # 0 Foundations
@@ -208,6 +209,7 @@ concepts:
   - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: confirmed}
   - {id: elasticnet, name: Elastic Net, step: 8, videos: [69], status: confirmed}
   - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: draft}
+  - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [70, 71], status: confirmed}
   - {id: sigmoid, name: Sigmoid function, step: 8, videos: [74], status: draft}
   - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: draft}
   - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: confirmed}
@@ -458,7 +460,8 @@ links:
   - [regularisation, fixes, overfitting, confirmed]
   - [ridge, needs, standardization, confirmed]
   # Model: classification
-  - [logistic_regression, is a kind of, classification_task, draft]
+  - [logistic_regression, is a kind of, classification_task, confirmed]
+  - [perceptron_trick, used in, logistic_regression, confirmed]
   - [logistic_regression, is a kind of, model_based, draft]
   - [logistic_regression, needs, sigmoid, draft]
   - [logistic_regression, needs, gradient_descent, draft]
