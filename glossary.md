@@ -7,17 +7,21 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Anomaly detection | Finding rows that do not fit the pattern of the rest. | [Video 3](03-types-of-ml/note.md) |
+| API | A service that returns data when our code asks for it. | [Video 7](07-challenges-in-ml/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data. | [Video 5](05-online-learning/note.md) |
+| BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
 | Classification | Supervised learning with a categorical output. | [Video 3](03-types-of-ml/note.md) |
 | Cluster | One group found by clustering. | [Video 3](03-types-of-ml/note.md) |
 | Clustering | Splitting data into groups of similar rows. | [Video 3](03-types-of-ml/note.md) |
+| Data cleaning | Fixing errors, gaps and inconsistencies in data. | [Video 7](07-challenges-in-ml/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Deploy | Move a model from development to production. | [Video 4](04-batch-learning/note.md) |
+| Deployment | Putting a model on a server so users can reach it. | [Video 7](07-challenges-in-ml/note.md) |
 | Development environment | Our own machine, where we build and train a model. | [Video 4](04-batch-learning/note.md) |
 | Dimension | One input column. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Video 3](03-types-of-ml/note.md) |
@@ -27,8 +31,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Feature engineering | Choosing, removing and creating features. | [Video 7](07-challenges-in-ml/note.md) |
 | Feature extraction | Creating a new column from existing ones. | [Video 3](03-types-of-ml/note.md) |
 | Feature scaling | Putting columns on the same scale, so no column dominates distances. | [Video 6](06-instance-vs-model-based/note.md) |
+| Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
+| Good fit | Capturing the pattern while ignoring the noise. | [Video 7](07-challenges-in-ml/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
 | Inference engine | The part of an expert system that applies the rules to answer a question. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -43,6 +50,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
+| Missing values | Empty cells in the data. | [Video 7](07-challenges-in-ml/note.md) |
+| MLOps | Running and maintaining ML models in production. | [Video 7](07-challenges-in-ml/note.md) |
 | Model drift / concept drift | A model's accuracy dropping as the real world changes. | [Video 4](04-batch-learning/note.md) |
 | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Video 6](06-instance-vs-model-based/note.md) |
 | Narrow AI | AI that does one specific task. All AI today is narrow. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -51,6 +60,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Video 5](05-online-learning/note.md) |
+| Outliers | Values far from the rest, often mistakes. | [Video 7](07-challenges-in-ml/note.md) |
+| Overfitting | Learning the training data too closely, noise included; fails on new data. | [Video 7](07-challenges-in-ml/note.md) |
 | Parameters | The numbers that describe a learned model, e.g. slope and intercept. | [Video 6](06-instance-vs-model-based/note.md) |
 | partial_fit | A scikit-learn method that continues training from where the model left off. | [Video 5](05-online-learning/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
@@ -61,20 +72,28 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Recommendation engine | A model that suggests items, such as movies, to users. | [Video 4](04-batch-learning/note.md) |
 | Regression | Supervised learning with a numerical output. | [Video 3](03-types-of-ml/note.md) |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments. | [Video 3](03-types-of-ml/note.md) |
+| Representative sample | A sample that reflects the whole situation fairly. | [Video 7](07-challenges-in-ml/note.md) |
 | Retrain | Train a model again, here from scratch on old + new data. | [Video 4](04-batch-learning/note.md) |
 | Reward / punishment | Good / bad feedback after an action. | [Video 3](03-types-of-ml/note.md) |
 | River | A Python library for online machine learning. | [Video 5](05-online-learning/note.md) |
 | Rollback | Restoring a model to an earlier, good version. | [Video 5](05-online-learning/note.md) |
+| Sample | The part of the real world that our data covers. | [Video 7](07-challenges-in-ml/note.md) |
+| Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
+| Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Video 3](03-types-of-ml/note.md) |
 | Sequential data | Data fed one piece after another, in order. | [Video 5](05-online-learning/note.md) |
 | Server | A computer that is always on and that users reach over the internet. | [Video 4](04-batch-learning/note.md) |
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Video 5](05-online-learning/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
+| Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Static model | A model that learns nothing new after deployment. | [Video 4](04-batch-learning/note.md) |
 | Supervised learning | Learning from data with inputs and outputs, to predict outputs. | [Video 3](03-types-of-ml/note.md) |
 | Supervision | Correct answers that guide an algorithm while it learns. | [Video 3](03-types-of-ml/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Target, label | Other names for the output column. | [Video 3](03-types-of-ml/note.md) |
 | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
+| Unreasonable effectiveness of data | With enough data, different algorithms perform about the same. | [Video 7](07-challenges-in-ml/note.md) |
 | Unsupervised learning | Learning from inputs only, to find structure. | [Video 3](03-types-of-ml/note.md) |
 | Vowpal Wabbit | A fast learning library that supports online learning. | [Video 5](05-online-learning/note.md) |
+| Web scraping | Writing code that extracts data from web pages. | [Video 7](07-challenges-in-ml/note.md) |
