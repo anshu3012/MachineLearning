@@ -1,0 +1,173 @@
+ 
+So now we are going to deal with two
+ topics in probability that are very
+ useful later on. The first one is
+ independent events and the second one
+ is mutually exclusive events. And these
+ two, more importantly, are very
+ confusing. There is often trouble in
+ identifying them. So I really want you
+ to understand this once. So that in the
+ future, whenever something like this
+ comes up, you can clearly identify the
+ case. Okay? So in this video, we are
+ going to discuss independent events. So
+ in probability theory, two events A and
+ B are called independent if this
+ relationship exists. This is the
+ relationship. So according to
+ probability, those events are
+ independent if their intersection is
+ equal to the product of the individual
+ probabilities of the events. That's the
+ relationship. Uh, this is the main
+ relationship. Now, what is the meaning
+ of this? What is the intuition behind
+ this? Let's discuss this. It simply
+ means that two events can occur
+ together, but the occurrence of one
+ event does not affect the other. They
+ are independent. Right? I can give you
+ a few examples. Like an event is...You
+ know, tossing a coin. So let's say if
+ someone tells you that we tossed a coin
+ three times and got heads all three
+ times, then tell me, what is the
+ probability of getting heads this time?
+ So think about it yourself. No matter
+ how many times heads came up before,
+ whether three or ten times, when you
+ flip the coin again, the probability of
+ getting heads is still 1/2. So the
+ previous events did not affect the
+ current event. One more example: roll
+ two dice together. Okay? One turned out
+ to be a three. What is the probability
+ of getting a six on this one? Die one
+ showed a three. So what is the
+ probability of die two showing a six?
+ Both are independent events. It doesn't
+ matter what came up on that die. The
+ probability of getting any one of those
+ things will always be 1/6. Okay? So
+ this is the thing; in probability, we
+ basically call two events independent
+ when this relationship exists and it
+ means that the occurrence of one event
+ does not affect the other. We will
+ prove this mathematically. Okay? So, to
+ be honest, this proof could have been
+ very simple. But to keep it intuitive,
+ I am taking a slightly longer path. So
+ this is the setup. This is the Venn
+ diagram of two events like this. So
+ this is A, this is B, and this is the
+ entire sample space. Okay? Now see...
+Let's say, uh, we state that B has
+ already occurred. Now I have to state
+ what P of A/B will be? Right? Now just
+ think about it yourself. Uh, so I need
+ to find the probability of A given B.
+ So B has already happened. Okay? Now,
+ if you think about it yourself. If you
+ were calculating the independent
+ probability of anything. Probability of
+ A or probability of B, then you would
+ consider the entire sample space. Like
+ this entire area. Right? But now you
+ know which thing has happened out of it
+. I already know that B has happened.
+ So obviously, now my sample space is
+ just this much left. Right? So in a way
+, one thing is confirmed that the
+ denominator will be the number of B.
+ Because whatever things can happen here
+, that will be in the denominator. Now
+ think for yourself, what can the
+ probability of A be? Meaning, how much
+ area is there out of this? Meaning, if
+ this is the total area, only this much
+ is possible now. In this, the
+ possibility of A occurring is just this
+ much. This area and this area is
+ nothing but A intersection B. Think
+ about it. So, if you talk intuitively,
+ uh, it's very, very straightforward. If
+ you want to find the probability of A,
+ given B has occurred, then what does it
+ mean that instead of the entire sample
+ space, you are considering only B.
+ Meaning as your denominator, the total
+ will now come from this, and what are
+ the chances of it happening out of this
+? Whatever A intersection B is, because
+ that is where A is occurring. Now let
+ us keep this thing here as a fact. This
+ is a fact for us. We will use this
+ ahead. Okay? Now coming back to this
+ relationship, watch carefully what we
+ are doing, we are writing this,
+ rearranging it, we are writing P of A =
+ P of A intersection B/P of B, right, we
+ can write it like that. Now watch
+ carefully. Think about the probability
+ of A intersection B yourself. Right now
+, this is not conditional. Nothing has
+ happened before. So obviously, at our
+ bottom, the entire sample space would
+ be there. The entire sample space. Out
+ of that, we are just talking about this
+ area. We are just talking about this
+ area. So what will come here? N A
+ intersection B, right? And now let's
+ talk about the probability of B. Again,
+ nothing is given. So, obviously, we
+ will take the entire sample space. So
+ here we will have n of A intersection B
+ and this probability of B will be n of
+ B, if we...I'm sorry, this shouldn't be
+ A intersection B, this should be n of
+ the entire sample space, these canceled
+ out, so what relationship is left? P of
+ A = n of A intersection B/n of B, this
+ is my second fact. Right, this is fact
+ one, this is fact two, if you notice
+ the RHS of both is the same, so we can
+ conclude that the probability of A
+ given B is equal to probability of A,
+ and that is what we were talking about.
+ Think about it. What did we discuss,
+ that if three comes up on die one, then
+ tell me what is the probability of six
+ coming up on die two? And the
+ probability of six on die two was the
+ same as P of A. 1/6, think and write it
+ down. We just proved that P of A given
+ B is equal to P of A, it means B is
+ making no difference at all. Given
+ these two units are independent units.
+ I guess this entire proof is understood
+. To be honest, we could have done this
+ very easily too. But we did this to
+ give an intuitive feel. You could have
+ directly put this into the conditional
+ probability formula. This was the
+ formula. You could have simply replaced
+ it from here. So this B term and this B
+ term would cancel out and only A would
+ remain. But to get a clear picture of
+ this whole thing, we studied it in a
+ bit of detail. I hope it's okay. But
+ this is the idea. Let's summarize it
+ once. The idea is this: if two events
+ are independent, then this is a fact
+ that P of A intersection B = P of A*P
+ of B, how does it make a difference
+ that P of B has no effect on the
+ probability of A given B. It is
+ actually equal to P of A. This is the
+ thing. Okay? So I guess independent
+ events are understood. Both can exist
+ together. But the second one had no
+ effect on the first. That's the whole
+ summary. Thanks.

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 114 of 145 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 117 of 148 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -58,6 +58,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Tensors | [Note 11](../11-tensors/note.md) | confirmed |
 | Anaconda, Jupyter and Colab | Video 12, coming | draft |
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
+| Conditional probability | [Note 82](../82-conditional-probability/note.md) | confirmed |
+| Independent and mutually exclusive events | Video 83, coming, Video 84, coming | confirmed |
+| Bayes' theorem | Video 85, coming, Video 86, coming | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -182,7 +185,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md) | confirmed |
 | Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md) | confirmed |
 | Softmax regression | [Note 79](../79-softmax-regression/note.md) | confirmed |
-| Naive Bayes | Video 82, coming, Video 83, coming, Video 84, coming, Video 85, coming, Video 86, coming, Video 87, coming, Video 88, coming, Video 89, coming, Video 90, coming | draft |
+| Naive Bayes | Video 87, coming, Video 88, coming, Video 89, coming, Video 90, coming | draft |
 | Support vector machines | Video 92, coming, Video 93, coming, Video 94, coming | draft |
 | Kernel trick | Video 95, coming, Video 96, coming | draft |
 | Decision trees | Video 97, coming, Video 98, coming, Video 100, coming | draft |
@@ -260,7 +263,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 145 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 148 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -362,15 +365,15 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 79 | Softmax regression | [Note 27](../27-one-hot-encoding/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | written |
 | 80 | Polynomial features | nothing | written |
 | 81 | Hyperparameter tuning | nothing | written |
-| 82 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 83 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 84 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 85 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 86 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 87 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
-| 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
+| 82 | Conditional probability | nothing | written |
+| 83 | Independent and mutually exclusive events | nothing | coming |
+| 84 | Independent and mutually exclusive events | nothing | coming |
+| 85 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | coming |
+| 86 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | coming |
+| 87 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), Video 84, coming, Video 86, coming | coming |
+| 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), Video 84, coming, Video 86, coming | coming |
+| 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), Video 84, coming, Video 86, coming | coming |
+| 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), Video 84, coming, Video 86, coming | coming |
 | 91 | K-nearest neighbours | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 24](../24-standardization/note.md) | coming |
 | 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |
 | 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md) | coming |

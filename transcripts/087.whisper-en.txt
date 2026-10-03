@@ -1,0 +1,405 @@
+So hi, now that we are done with the probability part, let's move on to the algorithm.
+So I have planned that to explain this whole algorithm, I will make three videos.
+Because I really want to explain it properly. So I have made three breakdowns of the videos.
+In the first video, which is this one, I will take up a problem and I will try to explain the intuition behind the algorithm.
+How does the algorithm work? We will develop a general understanding.
+In the second part, we will try to get deep into the mathematics part of the algorithm.
+What is the mathematics behind it? In fact, we will try to derive the entire formula step by step.
+And in the third part, we will take a problem again and we will write a code which will actually solidify your understanding about the algorithm.
+So I would really suggest that you watch these three parts together.
+I guarantee you that after watching these three videos, you will have no doubt in the live base.
+So let's start with this video.
+So this is a data set which I have created by myself.
+To be honest with you.
+This is not a real world data set.
+This is a data set about Chennai Super Kings.
+And here every row is one match played by CSK.
+And there are four columns as you can see.
+Toss, Venue, Outlook, Result.
+These three have become our input columns and this has become our output column.
+So I guess you can understand by looking at it.
+Toss did not win.
+Where was the match happening?
+How was the weather that day?
+And according to that, Chennai did not win the match.
+I have this data of eight matches.
+Now the challenge is this.
+That given this data, you have to create a predictor.
+Okay.
+Which can predict whether Chennai will win a match or lose a match depending on these input conditions.
+Do you understand?
+So this is how much you have to learn.
+And then as soon as I get a new data, I have to tell you whether Chennai will win or lose that match.
+Okay.
+So let's say for an example.
+This is the input data.
+Toss lost.
+Match is in Mumbai.
+And the weather is sunny.
+The sun is shining.
+This is the input data.
+And for this given data, I have to predict that CSK match will win the match.
+Okay.
+Now we have to solve this whole problem from a naive basis.
+Okay.
+So let's start.
+See, first of all, what we have to do is we have to actually formulate.
+That we have to do it.
+Okay.
+We have to find out whether Chennai match will win or lose.
+Okay.
+Now I will tell you how a naive basis does this decision-making.
+So if you see, this is a bi-class or binary classification problem.
+Why did I say this?
+Because here in the output, there are only two classes.
+Will win or lose.
+I mean, third would have been if there was a draw.
+But here there is no draw.
+It's a two-class classification.
+Okay.
+It would have been better if there was a draw in it.
+Okay.
+Now what is the strategy of the naive basis?
+I will discuss that.
+Naive basis will conclude that probability of winning given these conditions.
+Okay.
+Similarly, then it will conclude probability of losing given these conditions.
+Now think for yourself.
+Between these three conditions.
+What is the relation?
+Obviously, when we are asking that these are the given conditions.
+So tell me, will it win or lose?
+So these three conditions are occurring together.
+So obviously, I can write this.
+Lost, intersection, Mumbai, intersection, Sunny.
+I guess you all are understanding the logic.
+This intersection is there because this is my input condition.
+And these three are occurring together.
+Okay.
+So in a way, I am saying that I have to take out probability of winning given lost, Mumbai and Sunny.
+Similarly, I have to take out lost, Mumbai and Sunny.
+I have to take out these two probabilities.
+Okay.
+So let's read out once again.
+I have to find out the probability of winning given.
+Given, toss is lost, venue is Mumbai and outlook is Sunny.
+Similarly, I have to find out probability of losing given toss is lost, venue is Mumbai and outlook is Sunny.
+Now let's say this probability is 0.56 and this probability is 0.27.
+Now Naive Bayes will do very simply.
+Whatever the probability of anything is more, he will consider it as the answer.
+So Naive Bayes will say that Chennai will win the match.
+Okay.
+If there is a draw here, then we take this.
+Probability of draw, lost, Mumbai, Sunny.
+And if this is 0.62, then we say that the match is a draw.
+Okay.
+So this is the general strategy that Naive Bayes uses.
+Okay.
+Now let's see how to solve this term.
+So let's do this.
+By simple Naive, sorry, by simple Bayes' theorem, you know this.
+That probability of A given B is equal to probability of B given A multiplied by probability of A divided by probability of B.
+Do we know this from Bayes' theorem?
+We will use Bayes' theorem here.
+Okay.
+Look carefully.
+This part is ours.
+This will become A.
+And this much part will become B.
+Okay.
+Now think about it.
+By the way, one more thing.
+This is a convention.
+You can either use this intersection symbol or instead of this, you can use this comma symbol as well.
+You will notice that in many places, especially in Wikipedia, they follow this notation.
+Okay.
+In some places, it is used as an ampersand.
+But generally people use comma.
+Okay.
+So if you are using comma, it is the same thing.
+Okay.
+So I could have actually written comma over here.
+Okay.
+Now let's focus on Bayes' theorem.
+Using Bayes' theorem, I can actually write probability of lost comma Mumbai comma Sunny given Zinic multiplied by probability of winning divided by probability of lost Mumbai and Sunny.
+Okay.
+This is a simple Bayes' theorem.
+I guess you are able to understand it from here.
+Let's read it out once again because this is really good.
+So probability of winning given lost Mumbai and Sunny is actually equal to probability
+of losing Mumbai and Sunny given winning.
+Something has gone wrong.
+Okay.
+And probability of winning divided by probability of lost Mumbai and Sunny.
+Okay.
+Same.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+Okay.
+and here also probability of loss, one minute I know I am repeating myself but I want to prove a point so just bear with me
+this is of loss, now I have repeated it completely because I wanted to show you one important thing
+think about it, my end strategy is this that out of these two the probability will be more
+that will be my end result, if this is more then I will win and if this is more then I will lose
+now see if you notice carefully this denominator part in both the equations is exactly same
+it's basically what probability of this happening together, lost, Mumbai and 7
+think about it, in this whole data is it ever happening like this?
+see the total data is 8 if you can count 4 and 4
+let's see how many places it is happening that this is lost, this is lost, this is lost, two places are lost
+here 8 is lost
+here is Mumbai and here is sunny, see
+so there is only one case out of 8 cases where this is happening
+so what will be the probability of this thing? 1 divided by 8
+but what I am trying to tell you is when I want to take out the one which is more than these two and both have same denominator
+do you really think this is going to help me in my analysis?
+means when both are same then it will be divided by same factor so there is no contribution
+so all I am trying to say is that you don't need to calculate the denominator
+you don't need to calculate the probability because all these are same
+so instead what you should do is you should focus on the numerator only
+so this is what we will do, we will remove this term, we don't need this
+we will only focus on the upper part
+similarly for this as well we will just focus on the numerator
+so this is our main concern
+now this term and this term, if we solve both of them then we will get this
+this term and this term, we will get this
+so let's focus on this one
+what is the probability of winning?
+let's do a simple count
+1, 2, 3, 4, 5
+so probability of winning is actually
+where should I write?
+so this is actually equal to 5 divided by 8
+similarly what will be the probability of losing?
+3 divided by 8
+this is our calculation
+now what I have to find out?
+now I have to find out that
+the probability of losing Mumbai and Sunny
+given winning
+so this time my sample space will not be complete
+when we are talking about this
+I will just focus on those rows where the result is 1
+so there are 5
+now I will find out where all this is happening
+so basically you will see
+there is not a single place where this is happening
+1, 1, 1
+we saw that this was here and this is lost
+the rest is not happening anywhere
+so this probability will be zero and this will be zero
+now here comes an important concept
+naive base is called naive base because
+because on the base theorem
+they put a naive as in very simplistic assumption
+and the assumption is this
+that by simplifying this term
+they make this
+look carefully
+probability of lost
+given C
+multiplied by probability of Mumbai
+given C
+probability of Sunny
+given C
+multiplied by probability of winning
+ok
+so actually what happened is
+we went to find this
+we replaced it with this
+now why did this part come
+the actual reason for this
+will be understood in the next video
+when we will see the mathematics of this
+but I can give you a rough intuition about this
+the idea is this
+that this
+we have so many specific things
+in our data set
+that generally this data will be very less
+or it will not be
+as you can see it was not there
+so this will be zero
+this probability will be zero
+so what you actually did
+instead of this
+you replaced it with this
+why did you replace it with this
+you will get its answer in the next video
+but the reason for doing this is
+because this thing is so specific
+we are demanding so much from our data set
+so John what are you asking
+wherever it wins
+there is a probability of this happening
+right
+this is so specific
+now here are three columns
+imagine a data set
+where 10
+15
+20
+columns are there
+every column will come here
+so you are asking for a very specific thing
+and generally speaking
+it will not happen in the data set
+or it will be very less
+so it will not have any meaning
+it will be zero
+and naive base will not work properly
+infact
+yeah
+it will not work properly
+so
+what you do is
+you replace this term
+with this
+why did you replace it with this
+you will get its answer in the next video
+ok
+now
+let's try to follow
+what is this
+now what did we find
+probability of loss
+given
+not C actually
+my mistake
+this should be W
+again
+my mistake
+this should be W
+ok
+not C
+I am sorry
+this should be W
+winning
+so what I have to find
+probability of lost
+given
+probability of toss being lost
+given
+matched
+is 1
+probability of venue being Mumbai
+given 1
+probability of sunny
+given 1
+ok
+what will we do to find this
+think and see
+again
+we have to focus on this
+so
+what we have to do
+is
+on this term
+where W is there
+so there are
+in total
+5 places
+now
+in those 5 places
+I will find out
+at how many places
+toss is being lost
+here it is winning
+here it is losing
+ok
+here it is winning
+here it is not winning
+and here it is not winning
+so this will become
+1 by 5
+multiplied by
+where W is there
+where is Mumbai
+here it is
+2 places
+so this will become
+2 by 5
+multiplied by
+7
+where is it
+so this is not
+1
+2
+3
+4
+so this will become
+4 by 5
+and this I already had
+5 by 8
+this whole thing
+multiplied
+the number that will come
+that is my end result
+ok
+similarly
+I will do the same stuff
+with P lost
+the number that will come
+let's say
+this number will come
+0.2
+and here this number came
+0.3
+so since this is
+greater than this
+I would say
+it will lose
+ok
+so I guess
+you have understood
+a rough intuition
+in the next video
+we are going to deal
+with the mathematics
+part of the algorithm
+so
+thanks for watching

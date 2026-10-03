@@ -98,6 +98,7 @@ notes:
   79: 79-softmax-regression
   80: 80-polynomial-logistic-regression
   81: 81-logistic-hyperparameters
+  82: 82-conditional-probability
 
 concepts:
   # 0 Foundations
@@ -225,7 +226,10 @@ concepts:
   - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73], status: confirmed}
   - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: confirmed}
   - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: confirmed}
-  - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [82, 83, 84, 85, 86, 87, 88, 89, 90], status: draft}
+  - {id: conditional_probability, name: Conditional probability, step: 0, videos: [82], status: confirmed}
+  - {id: independent_events, name: Independent and mutually exclusive events, step: 0, videos: [83, 84], status: confirmed}
+  - {id: bayes_theorem, name: "Bayes' theorem", step: 0, videos: [85, 86], status: confirmed}
+  - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [87, 88, 89, 90], status: draft}
   - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: draft}
   - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: draft}
   - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: draft}
@@ -482,6 +486,9 @@ links:
   - [softmax, needs, one_hot, confirmed]
   - [polynomial_features, used in, logistic_regression, confirmed]
   - [naive_bayes, is a kind of, classification_task, draft]
+  - [bayes_theorem, needs, conditional_probability, confirmed]
+  - [naive_bayes, needs, bayes_theorem, draft]
+  - [naive_bayes, needs, independent_events, draft]
   - [knn, is a kind of, classification_task, draft]
   - [svm, is a kind of, classification_task, draft]
   - [kernel_trick, used in, svm, draft]

@@ -1,0 +1,219 @@
+Hi so in this video we're going to learn about conditional probability. It's a very
+important concept in probability which basically says that if there are two
+events A and B right then probability of A given B can be written as probability
+of A intersection B divided by probability of B given. Probability of B
+is not equal to zero. Conditional Probability is a very fundamental concept in probability
+meaning that it is used very often and lots of problems are built on it and when we study it live
+you will notice that the concepts of conditional probability are used there. So
+So where do we do this? Let's see some examples to understand how they work. So let's say we are taking an event
+We are taking two events
+you are taking 2 events
+of rolling two dice together so there is this die one and there is this die two and we are
+rolling them together okay so the sample space is something like this one comma one one comma two
+two comma one two comma two and six comma six so there will be in total 36 outcomes are possible
+right this is the sample space okay now uh let's do one thing uh let's draw a chart
+let's draw a chart so that we can answer some questions so if this is the possibility of d1
+let's say one two three four and six this is d1 and let's say
+uh this is d2 so basically we are drawing the entire sample space
+so uh writing down the sum of these two things would be two three four five six seven three four
+five six seven eight four five six seven eight nine five six seven eight nine ten
+uh six seven eight nine
+ten eleven seven eight nine ten eleven and twelve right so uh this is the entire sample space
+now let's say we start asking questions so let's say the first question is
+what is the probability that the value attained by die one is five
+um
+which is the value of a cube
+so this is the probability of nine nothing the first thing is the probability one
+such question is in nearly ten percent of the three
+okay
+so
+anything smaller or bigger do exactly same thing there's only one possible outcome where die 1 is 5, out of 36 values so you can write probability of the A. So where is the probability of the value of a, coming di 1 is 5, So what is the probability of the sum 5 from a to the number 3?
+so the outcome is 1 out of 36
+now let's ask the second question
+the second question is what is the probability
+that die 1
+plus die 2 is less than equal to 10
+think about it, we have asked the question and
+we have rolled both the dies and we are asking that
+the sum of both should be less than equal to 10
+now to answer this question we can follow this chart
+so
+if you see
+don't you think only this much
+is not included otherwise apart from that
+everything is included because think about it what did we get out of it
+we got the sum out of it so if it is not made here then it is made here
+if it is made here then it is 2 or 3
+there are only 3 values
+where the sum is
+not less than equal to 10 right
+so it is 36 minus 3
+so the probability of
+die 1 plus die 2
+less than equal to 10
+is actually 33 out of 36
+so you can write 11 by 12
+that's the probability right
+so till now we have not talked about the conditional probability
+now let me ask you this question
+the question is this
+you have to find out
+the probability
+of die 1
+to be equal to 5
+given
+d1 plus d2 is less than equal to
+10
+right
+now think carefully like this is d2
+this is d1
+my question is you have to find out the probability of
+die 1
+having a value of 5 given
+this thing has happened
+p of a given b
+so here obviously this will become
+b and this is a
+so in a way I am writing
+p of d1 equal to 5
+given d1 plus d2 is less than equal to 10
+now think for yourself
+what has already been given
+this is given
+so this means this entire space
+like this entire space
+leaving these three values
+now I just have to find out
+in these 33 values instead of these 36
+right because this is given
+right
+now what I have to find out in that
+that what is the probability of die 1 equal to 5
+so obviously
+the probability of this
+a by b
+will obviously come in the denominator
+33
+because now what is my reduced sample size
+sample space of 33
+now I just have to find out from 33
+that how many times d1 can be 5
+think for yourself
+one
+like this one
+this one
+this one
+this one
+this one
+and this one
+think for yourself
+I am sorry
+I was wrong
+I said d1 equal to 5
+so this will not happen
+my mistake
+should be this
+there are only 5 cases
+in this sample space
+where d1 has a value of 5
+right
+so what we will write on this
+5 by 33
+right
+and if we don't do this
+then from this formula
+we can come to the same answer
+I will show you how
+so the answer that we got was
+5 by 33
+here I will write on the side
+the probability of a given b
+was coming out to be
+5 by 33
+now
+through this formula
+so
+according to this formula
+first we have to find out
+what is the probability of both of them being together
+ok
+of both of them being together
+means
+event A is
+d1 is equal to 5
+and event B is
+b1 plus b2
+is less than equal to 10
+right
+so
+if both of them are together
+we have to find out such a probability
+ok
+so we are finding out
+P of
+A intersection B
+the probability of both of them being together
+is
+5 by 36
+ok
+obviously
+the entire sample space is considered
+now
+I just have to find out
+how many times both of them are together
+so
+the answer is
+ah
+think for yourself
+1
+2
+3
+4
+5 times
+when
+the value of d1 was 5
+means this condition was also true
+and
+this
+d1 plus b2 was less than
+10
+this was it
+so the total is
+5 by 36
+right
+now
+let's find out
+the probability of happening of B
+or probability of B
+you already know
+is
+33
+divided by
+36
+so
+this term and this term cancels out
+and the answer that we have got is
+5 by
+33
+right
+so
+I hope you are able to understand this discussion
+it's very easy
+to be honest
+it's just that
+this is implemented in a lot of places
+and it becomes very important
+after this
+when they will study based
+that
+this concept is based upon conditional probability
+so I would say
+do some more research
+put some problems on conditional probability
+so that
+concepts get concrete
+and then
+we can move forward
+that
+how this whole concept is being used in IELTS
+thanks for watching

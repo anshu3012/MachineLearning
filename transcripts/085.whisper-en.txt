@@ -1,0 +1,89 @@
+Next, we are going to discuss Bayes Theorem. I guess you must have read it before.
+Bayes Theorem is a very very important theorem in probability and in fact it is a very old theorem.
+In 1700s, Thomas Bayes gave this theorem and this theorem is applicable in many places.
+In fact, there is a whole field of statistics which is called Bayesian statistics or Bayesian thinking.
+So, it is a great theorem to be honest and the best part is it is very easy to understand.
+It is very simple and applicable in many places.
+In fact, if you remember we are going to study naive Bayes.
+What is the name of our algorithm? Naive Bayes.
+So, to be honest, the algorithm which we are going to study in ML is the implementation of Bayes Theorem.
+We just take an assumption on the Bayes Theorem and we get our algorithm, Naive Bayes.
+So, before that, let's do one thing. Let's understand what Bayes Theorem is.
+So, if there are two events A and B.
+According to Bayes Theorem,
+Probability of A given B is equal to Probability of B given A multiplied by Probability of A divided by Probability of B.
+Obviously, given P is not equal to 0.
+This is what Bayes Theorem is.
+And these terms are called something. I will quickly write it down.
+This is known as the Posterior Probability.
+This is known as the Likelihood.
+This is known as the Prior.
+And this is known as the Evidence.
+Okay.
+These four are called by this name.
+To be honest, if you don't remember the name, then it works.
+It's not that important to remember these things.
+Yes, you have to remember the Posterior.
+Now, let's do one thing.
+We will discuss about this later.
+What is the meaning of these terms.
+But before that, let's actually prove Bayes Theorem.
+Why did we get this formula?
+Let's derive this.
+Okay.
+So, you already know by the definition of Conditional Probability.
+P of A given B is actually equal to P of A intersection B divided by P of P.
+Right.
+This is Conditional Probability.
+We have already worked on this.
+Now, you know this.
+That A intersection B is equal to B intersection A.
+Right.
+Think about it.
+A, B.
+This is A intersection B.
+You must have understood the basic set theory.
+That A intersection B will be equal to B intersection A.
+So, what if I derive this.
+P of B given A.
+This would be equal to P of B intersection A.
+Divided by P of A.
+Right.
+And this could be written as P of A intersection B divided by P of A.
+Right.
+Replaced it.
+Now, as soon as I rearrange it.
+P of A intersection B would become P of B given A multiplied by P of A.
+Rearranged it.
+Now, this is equation 1.
+This is equation 2.
+If we replace its value.
+P of A given B would become P of B given A multiplied by P of A divided by P of B.
+And this is base theorem.
+It was a very simple proof.
+We have only rearranged conditional probabilities.
+And we got our base theorem.
+Right.
+Now, see.
+Base theorem is super important.
+And when you will read naive base.
+With an example.
+See.
+What is the problem in Maths?
+It is a little bit dry.
+I don't find the meaning of all this.
+These are just symbols.
+But when you will solve an actual problem.
+Let's say.
+You will make email spam classified.
+You will actually notice.
+That how all these things work in behind the scenes base theorem.
+Right.
+So, just be patient.
+In the next video, what we are going to do is.
+We are going to solve a problem using base theorem.
+Right.
+We will solve a little bit of real problem.
+And then you will understand the meaning of all these things.
+Okay.
+So, thanks for watching.

@@ -1,0 +1,101 @@
+ 
+Next, we're going to discuss Bayes
+theorem.
+I guess
+Bayes theorem is a very, very important
+theorem in probability. And in fact,
+it's a very old theorem, but uh
+1700s may uh Thomas Bayes made the
+And this theorem is very applicable. In
+fact, statistics make a whole field of
+statistics. This is called Bayesian
+statistics or Bayesian thinking.
+Okay? So, it's a great theorem, to be
+honest. And the best part is it's very
+easy to understand. It's very simple.
+And it's very applicable. Okay? In fact,
+if you remember
+Our algorithm is called Naive Bayes.
+Naive
+Bayes. So, to be honest
+The Bayes theorem implementation is We
+just take an assumption on the Bayes
+theorem and we get our algorithm, Naive
+Bayes.
+Let's understand what Bayes theorem is.
+Okay? So, if there are two events, A and
+B
+According to Bayes theorem
+Probability of A given B is equal to
+probability of B given A multiplied by
+probability of A divided by probability
+of
+B.
+Obviously, given
+P of B
+is not equal to zero.
+This is what Bayes theorem is. Okay? Or
+You have to in terms of which one is
+that. I'll quickly write it down. This
+is known as the posterior probability.
+This is known as the likelihood.
+This is known as
+the prior.
+And this is known as the evidence.
+Okay? Uh In general, it's not so good to
+be honest.
+It's not that important to remember
+these things.
+Uh
+Now, let's do one thing.
+Uh it's about discussion.
+But before that, let's actually prove
+Bayes' theorem.
+So,
+you already know by the definition of
+conditional probability, P of A given B
+is actually equal to P of A intersection
+B divided by P of
+P. Right? This is conditional
+probability.
+you know this,
+uh that A intersection B is equal to B
+intersection A.
+A B. This is A intersection B. Basic set
+theory is going to come out of it like A
+intersection B will be equal to B
+So, what if
+P of B given A?
+This would be equal to P of
+uh B intersection A divided by P of A.
+Right? And this could be written as P of
+A intersection B divided by P of A.
+Right? Replaced that here.
+Uh but just give me a second to
+rearrange the formula.
+P of A intersection B would become P of
+B given A multiplied by P of A.
+Rearranged that here.
+Now, this is equation one.
+This is equation two.
+P of A given B would become P of B given
+A multiplied by P of A divided by P of
+And this is
+What is simple proof conditional
+probability of the rearrangement here?
+Now, see Bayes' theorem is super
+important or the naive Bayes' formula is
+here. with an example of maths and
+probability
+is just meaning these are just symbols.
+But just actual problem solve let's say
+email spam classifier
+you will actually notice behind the
+scenes Bayes theorem is just working. So
+just be patient. In the next video what
+we are going to do is we are going to
+solve a problem using Bayes theorem. So
+the real world problem
+or then you will understand things a lot
+better.
+Okay, so thanks for watching.

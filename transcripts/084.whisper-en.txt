@@ -1,0 +1,18 @@
+So now let's discuss about mutually exclusive events, two events A and B are said to be mutually exclusive when this is true
+P of A intersection B is equal to 0, means both can't exist together, it's like a swing of a coin and head and tail are together, not possible
+You are driving, either you can take left or right, both can't exist
+So these events are known as mutually exclusive events
+And by doing this, if you put this formula P , you already know that this is equal to A intersection B divided by P , since this one is 0, this also becomes 0
+So this is the rule
+Probability of A given B knowing that both are mutually exclusive events
+It's going to be 0
+It's like we took two dives, first time we got 3, so how much is the probability of getting 6 in the first dive?
+0
+We were driving and tell me how much is the probability of getting right given I have already taken left?
+Mutually exclusive, ok
+So that's the thing, that's all we had to learn in this
+Independent events exist together, it's just that one event does not make a difference to the other event
+But mutually exclusive events do not exist together
+And to be honest, the difference between these two and identifying when this is happening is the main thing
+I know after this discussion you will be able to do this
+So thanks for watching
