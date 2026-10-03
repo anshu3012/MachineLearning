@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 87 of 139 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 89 of 140 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -106,11 +106,11 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Random sample imputation | [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
 | KNN imputer | [Note 39](../39-knn-imputer/note.md) | confirmed |
 | Iterative imputation (MICE) | [Note 40](../40-iterative-imputer-mice/note.md) | confirmed |
-| Trimming outliers | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 43](../43-outliers-iqr/note.md) | confirmed |
-| Capping (winsorization) | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 43](../43-outliers-iqr/note.md), Video 44, coming | confirmed |
+| Trimming outliers | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 43](../43-outliers-iqr/note.md), [Note 44](../44-outliers-percentile/note.md) | confirmed |
+| Capping (winsorization) | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md), [Note 43](../43-outliers-iqr/note.md), [Note 44](../44-outliers-percentile/note.md) | confirmed |
 | Z-score outlier method | [Note 41](../41-what-are-outliers/note.md), [Note 42](../42-outliers-zscore/note.md) | confirmed |
 | IQR outlier method | [Note 41](../41-what-are-outliers/note.md), [Note 43](../43-outliers-iqr/note.md) | confirmed |
-| Percentile outlier method | [Note 41](../41-what-are-outliers/note.md), Video 44, coming | draft |
+| Percentile outlier method | [Note 41](../41-what-are-outliers/note.md), [Note 44](../44-outliers-percentile/note.md) | confirmed |
 
 ### 2.6 Step 5: Engineer features
 
@@ -162,8 +162,9 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), Video 91, coming | confirmed |
 | Logistic regression | [Note 13](../13-toy-project/note.md), Video 70, coming, Video 71, coming, Video 72, coming, Video 73, coming, Video 75, coming | draft |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
-| Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), Video 51, coming | confirmed |
-| Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), Video 51, coming | confirmed |
+| Simple linear regression | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
+| Best-fit line and squared error | [Note 50](../50-simple-linear-regression/note.md), [Note 51](../51-linear-regression-maths/note.md) | confirmed |
+| Ordinary least squares (closed form) | [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Multiple linear regression | Video 53, coming, Video 54, coming, Video 55, coming | draft |
 | Assumptions of linear regression | Video 56, coming | draft |
 | Gradient descent | Video 57, coming | draft |
@@ -254,7 +255,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 139 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 140 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -318,18 +319,18 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 41 | Capping (winsorization), IQR outlier method, Outliers, Percentile outlier method, Trimming outliers, Z-score outlier method | [Note 7](../07-challenges-in-ml/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md) | written |
 | 42 | Capping (winsorization), Trimming outliers, Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 24](../24-standardization/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
 | 43 | Capping (winsorization), IQR outlier method, Trimming outliers | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 41](../41-what-are-outliers/note.md) | written |
-| 44 | Capping (winsorization), Percentile outlier method | [Note 41](../41-what-are-outliers/note.md) | coming |
+| 44 | Capping (winsorization), Percentile outlier method, Trimming outliers | [Note 41](../41-what-are-outliers/note.md) | written |
 | 45 | Feature construction and splitting | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 47 | Feature extraction, PCA, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | written |
 | 48 | Covariance and covariance matrix, Eigenvectors and eigenvalues, PCA | [Note 3](../03-types-of-ml/note.md), [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md) | written |
 | 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 50 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | written |
-| 51 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | coming |
+| 51 | Best-fit line and squared error, Ordinary least squares (closed form), Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 52 | Regression metrics | nothing | coming |
-| 53 | Multiple linear regression | Video 51, coming | coming |
-| 54 | Multiple linear regression | Video 51, coming | coming |
-| 55 | Multiple linear regression | Video 51, coming | coming |
+| 53 | Multiple linear regression | [Note 51](../51-linear-regression-maths/note.md) | coming |
+| 54 | Multiple linear regression | [Note 51](../51-linear-regression-maths/note.md) | coming |
+| 55 | Multiple linear regression | [Note 51](../51-linear-regression-maths/note.md) | coming |
 | 56 | Assumptions of linear regression | nothing | coming |
 | 57 | Gradient descent | [Note 24](../24-standardization/note.md) | coming |
 | 58 | Batch gradient descent | Video 57, coming | coming |

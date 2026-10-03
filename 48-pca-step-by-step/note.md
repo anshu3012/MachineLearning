@@ -8,6 +8,7 @@ title: "PCA: Problem Formulation and Step-by-Step Solution"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Unsupervised learning ([Note 3](../03-types-of-ml/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Feature scaling ([Note 24](../24-standardization/note.md)); Curse of dimensionality ([Note 46](../46-curse-of-dimensionality/note.md)); Feature extraction ([Note 47](../47-pca-geometric-intuition/note.md)); Variance ([Note 47](../47-pca-geometric-intuition/note.md)).
+> - **Leads to:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)).
 > - **Compare with:** Correlation ([Note 21](../21-bivariate-multivariate-analysis/note.md)).
 <!-- /where-this-fits -->
 

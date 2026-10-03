@@ -60,11 +60,13 @@ notes:
   41: 41-what-are-outliers
   42: 42-outliers-zscore
   43: 43-outliers-iqr
+  44: 44-outliers-percentile
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
   49: 49-pca-mnist
   50: 50-simple-linear-regression
+  51: 51-linear-regression-maths
 
 concepts:
   # 0 Foundations
@@ -127,11 +129,11 @@ concepts:
   - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: confirmed}
   - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: confirmed}
   - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 23, 41], status: confirmed}
-  - {id: trimming, name: Trimming outliers, step: 4, videos: [41, 42, 43], status: confirmed}
+  - {id: trimming, name: Trimming outliers, step: 4, videos: [41, 42, 43, 44], status: confirmed}
   - {id: capping, name: Capping (winsorization), step: 4, videos: [41, 42, 43, 44], status: confirmed}
   - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42], status: confirmed}
   - {id: iqr, name: IQR outlier method, step: 4, videos: [41, 43], status: confirmed}
-  - {id: percentile, name: Percentile outlier method, step: 4, videos: [41, 44], status: draft}
+  - {id: percentile, name: Percentile outlier method, step: 4, videos: [41, 44], status: confirmed}
 
   # 5 Engineer features
   - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 23], status: confirmed}
@@ -170,6 +172,7 @@ concepts:
   - {id: association_rules, name: Association rule learning, step: 8, videos: [3], status: confirmed}
   - {id: knn, name: K-nearest neighbours, step: 8, videos: [6, 91], status: confirmed}
   - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: confirmed}
+  - {id: ols, name: Ordinary least squares (closed form), step: 8, videos: [51], status: confirmed}
   - {id: best_fit_line, name: Best-fit line and squared error, step: 8, videos: [50, 51], status: confirmed}
   - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: draft}
   - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: draft}
@@ -302,6 +305,12 @@ links:
   - [zscore, used in, outliers, confirmed]
   - [trimming, fixes, outliers, confirmed]
   - [zscore, compared with, iqr, confirmed]
+  - [percentile, compared with, zscore, confirmed]
+  - [percentile, compared with, iqr, confirmed]
+  - [capping, needs, percentile, confirmed]
+  - [ols, used in, linear_regression, confirmed]
+  - [ols, compared with, gradient_descent, confirmed]
+  - [ols, needs, covariance, confirmed]
   - [zscore, needs, standardization, confirmed]
   - [zscore, needs, skewness, confirmed]
   - [iqr, needs, univariate, confirmed]
@@ -310,7 +319,7 @@ links:
   - [binning, fixes, outliers, confirmed]
   - [outliers, compared with, missing_values, confirmed]
   - [iqr, used in, outliers, confirmed]
-  - [percentile, used in, outliers, draft]
+  - [percentile, used in, outliers, confirmed]
   - [zscore, needs, descriptive_stats, draft]
   - [iqr, needs, descriptive_stats, confirmed]
   # Features

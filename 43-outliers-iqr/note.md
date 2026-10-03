@@ -7,8 +7,8 @@ title: "Outlier Detection with the IQR Method"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)).
-> - **Compare with:** Z-score outlier method ([Note 42](../42-outliers-zscore/note.md)).
+> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
+> - **Compare with:** Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)); Z-score outlier method ([Note 42](../42-outliers-zscore/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

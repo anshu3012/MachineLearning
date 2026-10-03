@@ -7,8 +7,8 @@ title: "Outlier Detection with the Z-score Method"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)).
-> - **Compare with:** IQR outlier method ([Note 41](../41-what-are-outliers/note.md)).
+> - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
+> - **Compare with:** IQR outlier method ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
