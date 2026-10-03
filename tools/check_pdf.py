@@ -27,6 +27,7 @@ def probes(md):
         line = re.sub(r"^\s*([-*]|\d+\.|#+)\s*", "", line.strip())
         line = line.split("$")[0]                          # stop at maths: the PDF renders it differently
         line = re.sub(r"\*\*?|`", "", line)
+        line = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)   # a link shows only its text in the PDF
         if not line or line.startswith(("![", "|", "---", "title:")):
             continue
         w = words(line)
