@@ -103,12 +103,11 @@ Figure 2 shows six typical shapes.
 
 - **Symmetric:** most values in the middle, fewer and fewer towards both sides.
 - **Bimodal:** two separate peaks, two groups of values where points are dense. With three peaks it is trimodal. Two peaks often mean two kinds of data mixed together, such as the heights of children and adults.
-- **Right skew:** most values are low, with a long tail to the right. Marks in a very hard test, or salaries: very few people earn a very high salary.
-- **Left skew:** most values are high, with a long tail to the left. Marks in a very easy test: many students score high, few score low.
+- **Right or left skew:** a long tail on one side; the shapes and the skewness number are taught in section 10 of the [univariate analysis Note](../20-univariate-analysis/note.md).
 - **Uniform:** every bin holds about the same number of values. Too few bins also make data look uniform.
 - **No pattern:** the bars jump up and down. Usually there are too many bins for the amount of data, here 30 bins for 60 values.
 
-Skewness, the number that measures the lopsidedness, is covered in section 10 of the [univariate analysis Note](../20-univariate-analysis/note.md). Named shapes such as the normal and uniform distributions come in the probability distribution Notes.
+Named shapes such as the normal and uniform distributions come in the probability distribution Notes.
 
 > **Extra:** Remember the direction of skew by the tail, not by the hump. In a right-skewed histogram the hump is on the left and the long tail points right.
 
@@ -162,7 +161,7 @@ The cell "20 to 30, male" means 149 passengers were men aged over 20 and up to 3
 >
 > `pd.cut` puts each age in its band; a band such as (20, 30] includes 30 but not 20.
 
-> **Extra:** A crosstab only counts pairs of categories. A **pivot table** can also aggregate a third, numerical column for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 11) uses one.
+> **Extra:** A crosstab only counts pairs of categories. A pivot table can also aggregate a third, numerical column for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 11) uses one.
 
 ## 5. Graphs for more than two columns
 
@@ -234,6 +233,5 @@ Figure 4 shows four columns at once: bill, tip, meal time (the panels) and smoke
 | Cumulative relative frequency | The running total of the relative frequencies; ends at 1 |
 | Contingency table | A table of counts for every pair of categories of two columns; another name for a crosstab |
 | Aggregate | One summary number (mean, median, maximum, ...) computed from a group of values |
-| Pivot table | A table that aggregates a numerical column for every pair of categories of two other columns |
 | 3D scatter plot | A scatter plot of three numerical columns on three axes |
 | Facet grid | The same plot repeated side by side, one panel per category of another column |

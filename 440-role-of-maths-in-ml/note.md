@@ -23,18 +23,9 @@ Figure 1 shows the four branches and the job each one does. This Note gives a fi
 
 > **Key point:** Linear algebra gives us the containers for data (vectors, matrices and tensors) and the operations that act on a whole container at once.
 
-Linear algebra is the branch of mathematics that works with vectors and matrices (defined fully in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md)). Its first job in ML is to store data in a form an algorithm can use:
+Linear algebra stores every kind of data (tables, text, images, video) as vectors, matrices and tensors, and acts on a whole container in one step; section 3 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) explains why ML needs it. How each kind of data becomes a tensor is shown in the [tensors Note](../11-tensors/note.md).
 
-- **A table** of numbers becomes a matrix: one row per example, one column per feature.
-- **One column** becomes a vector.
-- **A colour image** becomes three matrices of pixel values: one for red, one for green and one for blue.
-- **A video** is a sequence of such images, so it becomes a stack of them.
-
-These containers are tensors, explained in the [tensors Note](../11-tensors/note.md).
-
-Its second job is to act on a whole container in one step. "Multiply every row by 2" or "subtract the mean from every column" is a single operation on a matrix, not a loop over thousands of numbers. ML algorithms are written as such operations, which is why they can run on large data.
-
-The [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists every linear algebra topic ML needs. The first of them, vectors, starts in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md).
+The [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md) lists every linear algebra topic ML needs.
 
 ## 3. Calculus: reducing the error
 
@@ -79,7 +70,7 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 
 | Branch | Its job in ML | Example | Where it is taught |
 |---|---|---|---|
-| Linear algebra | Represent data and act on it | A colour image as three matrices | [Roadmap Note](../350-linear-algebra-roadmap/note.md), [tensors Note](../11-tensors/note.md) |
+| Linear algebra | Represent data and act on it | A table as a matrix | [Vectors Note](../360-vectors-and-feature-vectors/note.md), [tensors Note](../11-tensors/note.md) |
 | Calculus | Reduce the error (optimisation) | Gradient descent | [Gradient descent Note](../57-gradient-descent/note.md) |
 | Probability | Decide under uncertainty | Pick the more likely class | [Events Note](../330-events-and-types-of-events/note.md) onward |
 | Statistics | Draw conclusions from data | Find outliers, related columns | [Roadmap Note](../210-statistics-roadmap/note.md) |

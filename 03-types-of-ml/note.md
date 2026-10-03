@@ -131,7 +131,7 @@ When an algorithm such as PCA computes the new columns from the data instead, wi
 
 ![Handwritten digits: 64 columns reduced to 3](images/digits_3d.png)
 
-The technique used for Figure 6 is **PCA** (principal component analysis), covered in detail later in the course. The Notebook for this Note (`notebook.ipynb`) shows Figure 6 as a 3D plot that we can rotate.
+The technique used for Figure 6 is **PCA** (principal component analysis), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 6 as a 3D plot that we can rotate.
 
 > **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 columns. The idea is the same.
 

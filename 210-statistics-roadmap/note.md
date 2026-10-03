@@ -45,8 +45,8 @@ This module describes data that is already in our hands. Its topics, and where e
 | Central tendency (mean, median, mode, ...) | [Measures of central tendency Note](../221-measures-of-central-tendency/note.md) |
 | Dispersion (range, variance, standard deviation, ...) | [Measures of dispersion Note](../222-measures-of-dispersion/note.md) |
 | Quantiles, percentiles, box plots | [Percentiles and box plots Note](../230-percentiles-and-box-plots/note.md) |
-| Skewness | [Univariate analysis Note](../20-univariate-analysis/note.md) |
-| Kurtosis | [Pandas Profiling Note](../22-pandas-profiling/note.md) |
+| Skewness | [Univariate analysis Note](../20-univariate-analysis/note.md), [skewness Note](../252-skewness/note.md) |
+| Kurtosis | [Kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md) |
 | Univariate analysis | [Univariate analysis Note](../20-univariate-analysis/note.md) |
 | Bivariate and multivariate analysis | [Bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md), [frequency tables and graphs Note](../223-frequency-tables-and-graphs/note.md) |
 | Covariance and correlation | [Covariance and correlation Note](../231-covariance-and-correlation/note.md) |
@@ -62,7 +62,7 @@ This module studies the shapes data can take:
 - **2D density plots**, the same idea for two columns at once.
 - **Named distributions**: normal, uniform, Bernoulli, binomial, log-normal and others. The normal distribution's 68-95-99.7 rule appears in the [z-score outliers Note](../42-outliers-zscore/note.md).
 
-The basic rules of probability are in the [conditional probability Note](../82-conditional-probability/note.md) and the Notes after it.
+The basic rules of probability are in the [events Note](../330-events-and-types-of-events/note.md) and the [empirical and theoretical probability Note](../331-empirical-and-theoretical-probability/note.md); conditional probability is in the [conditional probability Note](../82-conditional-probability/note.md).
 
 ### 3.3 Inferential statistics
 
@@ -71,7 +71,7 @@ The basic rules of probability are in the [conditional probability Note](../82-c
 This module draws conclusions about a population from a sample:
 
 - **Central limit theorem:** why averages of samples behave predictably.
-- **Confidence intervals:** a range that most likely holds the true population value.
+- **Confidence intervals:** a range built by a method that captures the true population value in a stated share of repeated samples.
 - **Hypothesis testing:** checking a claim about a population with a sample. The common tests are the z-test, t-test, chi-square test and ANOVA, and the module ends with when to use which.
 
 ### 3.4 Miscellaneous topics
@@ -84,7 +84,7 @@ This module draws conclusions about a population from a sample:
 | Q-Q plot | [Function transformer Note](../30-function-transformer/note.md) |
 | Sampling techniques | a later maths Note; sampling bias in the [challenges in ML Note](../07-challenges-in-ml/note.md) |
 | Resampling (bootstrap) | [Bagging intuition Note](../105-bagging-intuition/note.md) |
-| Statistical moments | skewness in the [univariate analysis Note](../20-univariate-analysis/note.md) |
+| Statistical moments | [Kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md) |
 | Bayesian statistics | [Bayes' theorem Note](../85-bayes-theorem/note.md) |
 
 ## 4. How to study the roadmap
@@ -117,6 +117,4 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 
 ## 6. Key terms
 
-| Term | Meaning |
-|---|---|
-| Probability distribution | A description of how likely each value of a variable is |
+This roadmap adds no terms of its own: each term is defined in the Note that teaches it, and listed in the [glossary](../glossary.md).

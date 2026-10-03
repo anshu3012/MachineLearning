@@ -260,5 +260,4 @@ The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.00
 | Sample proportion $\hat{p}$ | The share of a category in the sample, such as 26 men out of 60 |
 | Correlation test | A t-test of $H_0: \rho = 0$, using $t = r\sqrt{n-2}/\sqrt{1-r^2}$ with $n - 2$ degrees of freedom |
 | Population correlation $\rho$ | The correlation between two columns in the whole population; $r$ estimates it |
-| Fail to reject $H_0$ | The verdict when $p > \alpha$: too little evidence against $H_0$, not proof that it is true |
 | Two-way ANOVA | ANOVA for one numerical column and two categorical columns |

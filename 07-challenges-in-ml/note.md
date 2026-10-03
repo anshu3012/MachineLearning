@@ -21,7 +21,7 @@ Before we start building models, it helps to know what tends to go wrong. Figure
 
 ![The ten main challenges in ML](images/challenges_map.png)
 
-Each one comes back later in the course, with tools to handle it.
+Each one comes back in later Notes, with tools to handle it.
 
 ## 2. Collecting data
 
@@ -29,10 +29,10 @@ Each one comes back later in the course, with tools to handle it.
 
 ML learns from data, so without data there is nothing to learn.
 
-- **While learning:** data comes ready-made, as CSV files from sites like Kaggle, or from a teacher.
+- **While learning:** data comes ready-made, as CSV files from sites like Kaggle or from course material.
 - **In a company:** we usually have to gather it ourselves. The two main ways are calling an **API** (a service that returns data on request) and **web scraping** (writing code that extracts data from web pages).
 
-Both ways bring their own problems, because we are pulling large amounts of data from systems we do not control. Both are covered later in the course.
+Both ways bring their own problems, because we are pulling large amounts of data from systems we do not control. Both are covered in later Notes.
 
 ## 3. Not enough data
 
@@ -144,7 +144,7 @@ People do this too. Someone moves to Gurgaon, pays 500 rupees for one movie tick
 
 The last stage of Figure 7 shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the good fit.
 
-Overfitting is one of the biggest challenges in ML. For every algorithm in this course, we will ask how it can overfit and how to prevent it.
+Overfitting is one of the biggest challenges in ML. For every algorithm in these Notes, we will ask how it can overfit and how to prevent it.
 
 ### 7.2 Underfitting
 

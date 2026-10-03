@@ -40,7 +40,7 @@ Each of the four columns is a **feature**, an input used for the prediction. **F
 
 > **Key point:** The petal measurements separate the three species; the sepal measurements overlap, so the petal columns are the ones to keep.
 
-For each column we draw three density curves (KDEs), one per species, on the same axes (Figure 1). Each curve shows where that species' values are concentrated.
+For each column we draw three density curves (KDEs), one per species, on the same axes (Figure 1), as in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 6). Each curve shows where that species' values are concentrated.
 
 - **Petal length (top left):** the setosa curve sits alone, far left, below about 2.3 cm. Versicolor and virginica overlap only a little.
 - **Petal width (top right):** the same picture.
@@ -57,7 +57,7 @@ The class PDFs even suggest a decision rule. From petal length:
 | 2.3 to 5 cm | versicolor | the versicolor curve is higher |
 | above 5 cm | virginica | the virginica curve is higher |
 
-The same idea, with two classes, appeared in the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (section 6): young Titanic passengers were more likely to survive than to die.
+The same idea, with two classes, appeared there too: young Titanic passengers were more likely to survive than to die.
 
 > **Python:** One KDE per class.
 >

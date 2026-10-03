@@ -402,7 +402,6 @@ The column tree does the same for the years. Neighbouring years with similar tra
 | Linear relationship | A relationship between two columns that follows a straight line |
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size |
 | Bar plot | One bar per category, its height the mean of a numerical column |
-| Confidence interval | A range in which the true mean most likely lies |
 | Box plot | A summary of a column's spread by its median, quartiles and outliers |
 | KDE plot | A smooth estimate of a column's PDF, built from the data |
 | Crosstab | A table counting the rows for every pair of categories of two columns |

@@ -23,7 +23,7 @@ Figure 1 shows the whole map. This Note says what each module covers, why ML nee
 
 The first pillar, statistics, has its own [roadmap Note](../210-statistics-roadmap/note.md). If statistics is the eyes of an ML engineer, linear algebra is the hands and feet: it stores the data and does every calculation on it.
 
-Deep learning leans on it even more than classical ML. A neural network is, underneath, a long chain of matrix operations. To work in either field with confidence, we need a firm grip on linear algebra.
+Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in section 3 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md).
 
 ## 3. How to read the roadmap
 

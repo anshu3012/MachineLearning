@@ -39,7 +39,7 @@ Figure 1 shows the steps:
 8. **Evaluate** the model on the test set.
 9. **Deploy** it, for example as a website.
 
-Often we also train several different algorithms and keep the best one. This is called **model selection** and is covered later in the course.
+Often we also train several different algorithms and keep the best one. This is called **model selection** and is covered in later Notes.
 
 The Notebook for this Note (`notebook.ipynb`) runs every step, in order, on the same data.
 
@@ -87,7 +87,7 @@ Figure 2 plots every student by CGPA and IQ, coloured by placement. Two things s
 - Placed students (green) mostly have a CGPA above about 6.
 - IQ makes much less difference: both groups have high and low IQs.
 
-The two groups could be separated, roughly, by a straight line. That makes **logistic regression** a good choice of algorithm. It is a classification algorithm that finds the line that best separates the two classes. How it finds that line is covered later in the course.
+The two groups could be separated, roughly, by a straight line. That makes **logistic regression** a good choice of algorithm. It is a classification algorithm that finds the line that best separates the two classes. How it finds that line is covered in later Notes.
 
 ## 5. Inputs and output
 
@@ -228,7 +228,7 @@ A trained model lives in Python's memory and disappears when the program stops. 
 >     saved = pickle.load(f)
 > ```
 
-> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. Saving both, and scaling every new input with the saved scaler, avoids this. Later in the course, **pipelines** bundle all such steps into one object.
+> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. Saving both, and scaling every new input with the saved scaler, avoids this. In later Notes, **pipelines** bundle all such steps into one object.
 
 ### 10.2 The website
 
@@ -238,11 +238,11 @@ A trained model lives in Python's memory and disappears when the program stops. 
 
 Figure 6 shows the path. The website loads `model.pkl`, asks the user for an IQ and a CGPA, and shows *Placed* or *Not placed*. Trying it confirms what Figure 5 showed: the answer depends almost entirely on whether the CGPA is above about 6.
 
-The Notebook builds this website on our own machine with Dash. To let other people use it, it must run on a server, for example on Heroku, AWS or Google Cloud. Deploying to these platforms is covered later in the course.
+The Notebook builds this website on our own machine with Dash. To let other people use it, it must run on a server, for example on Heroku, AWS or Google Cloud. Deploying to these platforms is covered in later Notes.
 
 > **Extra:** Heroku used to offer free hosting for small apps, but its free plan ended in November 2022. AWS and Google Cloud still offer limited free tiers for new accounts.
 
-This model is far from perfect: it learned from only 90 students and was not tuned at all. The rest of the course goes through each step of this workflow in depth.
+This model is far from perfect: it learned from only 90 students and was not tuned at all. The later Notes go through each step of this workflow in depth.
 
 ## 11. Summary
 

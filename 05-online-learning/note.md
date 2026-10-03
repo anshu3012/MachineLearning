@@ -82,7 +82,7 @@ For problems that do not change, batch learning is still simpler and works well.
 
 Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`**, which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training.
 
-One such model is **`SGDRegressor`**. It does the same job as linear regression (covered later in the course), but learns step by step, which is what makes `partial_fit` possible.
+One such model is **`SGDRegressor`**. It does the same job as linear regression (covered in later Notes), but learns step by step, which is what makes `partial_fit` possible.
 
 > **Python:** Training one row at a time.
 >

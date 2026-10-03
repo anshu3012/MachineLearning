@@ -93,14 +93,11 @@ The estimates are close but not exact: the six faces came out between 0.1625 and
 
 ## 5. The PMF of the sum of two dice
 
-> **Key point:** When the probabilities differ, the PMF formula lists each group of values with its own probability.
+> **Key point:** When the probabilities differ, the PMF formula must give each value its own probability; for two dice one line does it.
 
-For the sum of two dice, the probabilities are not all equal (Figure 2, right). The formula pairs up values with the same probability:
-$$f(x) = \begin{cases} 1/36 & \text{if } x \in \{2, 12\} \\ 2/36 & \text{if } x \in \{3, 11\} \\ 3/36 & \text{if } x \in \{4, 10\} \\ 4/36 & \text{if } x \in \{5, 9\} \\ 5/36 & \text{if } x \in \{6, 8\} \\ 6/36 & \text{if } x = 7 \\ 0 & \text{otherwise} \end{cases}$$
+The probabilities of the sum of two dice, from 1/36 for sums 2 and 12 up to 6/36 for 7, are counted in the [random variables Note](../240-random-variables-and-distributions/note.md) (section 3.1) and plotted in Figure 2 (right). Written as a PMF, the list becomes a formula.
 
-For harder experiments, counting the outcomes uses permutations and combinations instead of a grid.
-
-> **Extra:** The seven cases fit into one line. The number of pairs falls by one for each step away from 7, so:
+> **Extra:** The number of pairs falls by one for each step away from 7, so:
 >
 > 1. **In words:** start from 6 pairs at the sum 7 and subtract the distance from 7.
 > 2. **Formula:** for $x = 2, \dots, 12$,
@@ -112,7 +109,7 @@ For harder experiments, counting the outcomes uses permutations and combinations
 
 > **Key point:** The Bernoulli PMF describes one yes/no trial; the binomial PMF counts the successes in $n$ such trials.
 
-Many discrete experiments follow a famous PMF (see Figure 4 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)). Two of them come up constantly, and each gets its own Note later.
+Many discrete experiments follow a famous PMF (see Figure 4 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)). Two of them come up constantly, Bernoulli and binomial, taught in full in the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md).
 
 ### 6.1 Bernoulli distribution
 

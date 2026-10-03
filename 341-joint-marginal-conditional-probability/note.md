@@ -274,16 +274,9 @@ For independent events the conditional probability equals the marginal one; the 
 
 Mutually exclusive events have no outcome in common: their **intersection** is empty, $P(A \cap B) = 0$. (The union is not empty: it holds the outcomes of both events.) Heads and tails on one toss, or odd and even on one die, are mutually exclusive.
 
-### 5.1 Drawing two aces
+Drawing cards with replacement gives independent draws; without replacement the first draw changes the second, so the draws are dependent (worked with spades in the [random experiments and events Note](../330-events-and-types-of-events/note.md), section 4.4).
 
-> **Key point:** With replacement the second draw is $4/52$ again (independent); without replacement and after an ace, it is $3/51$ (dependent).
-
-A pack has 52 cards, 4 of them aces. The first card is an ace with probability $4/52$.
-
-- **With replacement:** the ace goes back, the pack is full again, and the second card is an ace with probability $4/52$. The first draw changes nothing: independent.
-- **Without replacement:** if the first card was an ace, 51 cards and 3 aces remain, so the second is an ace with probability $3/51 \approx 0.059$. If the first was not an ace, 4 aces remain among 51: $4/51 \approx 0.078$. The first draw changes the second: dependent.
-
-### 5.2 Are class and survival independent?
+### 5.1 Are class and survival independent?
 
 > **Key point:** $P(\text{died} \mid \text{class 3}) = 0.758$ differs from $P(\text{died}) = 0.616$, so class and survival are dependent.
 

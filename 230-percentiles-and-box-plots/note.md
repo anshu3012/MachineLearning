@@ -118,19 +118,9 @@ Counting half of the equal values puts a value in the middle of its own share of
 
 > **Key point:** Minimum, Q1, median, Q3 and maximum split the data into four equal parts; the IQR, Q3 - Q1, is the width of the middle half.
 
-The five-number summary describes a numerical column with five values that divide it into four equal parts:
+The five-number summary (minimum, $Q_1$, median, $Q_3$, maximum) and the IQR are defined in the [univariate analysis Note](../20-univariate-analysis/note.md), section 8. In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
 
-| Number | Also called | Percentile |
-|---|---|---|
-| Minimum | smallest value | 0th |
-| $Q_1$ | first quartile | 25th |
-| Median | $Q_2$ | 50th |
-| $Q_3$ | third quartile | 75th |
-| Maximum | largest value | 100th |
-
-So the five-number summary is the quartiles plus the two extremes. pandas' `describe()` prints it, along with the count, mean and standard deviation.
-
-The interquartile range (IQR), $Q_3 - Q_1$, is the width of the middle 50% of the data: 25% of the values lie below it and 25% above. It is the box of a box plot (see the [univariate analysis Note](../20-univariate-analysis/note.md), section 8). Because it ignores the outer quarters, the IQR is a measure of spread that outliers cannot move.
+Because the IQR ignores the outer quarters, it is a measure of spread that outliers cannot move. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
 
 ## 5. Building a box plot by hand
 
@@ -163,7 +153,7 @@ $$\text{lower fence} = 234 - 141.375 = 92.625, \qquad \text{upper fence} = 328.2
 
 That is the whole construction. Plotting libraries follow the same steps, though their percentile formula can shift the quartiles slightly (Section 3.1).
 
-> **Extra:** Why 1.5 IQR? The factor comes from John Tukey, who invented the box plot, as a practical choice. For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean, so the fences sit $0.674 + 1.5 \times 1.349 \approx 2.70$ standard deviations out. Only about 0.7% of normal data falls outside them, so a dot beyond a fence is genuinely unusual.
+> **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../43-outliers-iqr/note.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean, so the fences sit $0.674 + 1.5 \times 1.349 \approx 2.70$ standard deviations out. Only about 0.7% of normal data falls outside them, so a dot beyond a fence is genuinely unusual.
 
 > **Python:** The box plot of the ten values.
 >

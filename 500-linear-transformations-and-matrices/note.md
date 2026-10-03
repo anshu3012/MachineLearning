@@ -182,7 +182,6 @@ A matrix with zeros everywhere off the diagonal is a **diagonal matrix**. Its pi
 | Term | Meaning |
 |---|---|
 | Transformation | A function that takes a vector in and gives a vector out |
-| Linear transformation | A transformation that keeps lines straight and the origin fixed, so grid lines stay parallel and evenly spaced |
 | Matrix (of a transformation) | The grid of numbers whose columns are where the basis vectors land |
 | Matrix-vector multiplication | $A\mathbf{x}$: the linear combination of the columns of $A$ with the coordinates of $\mathbf{x}$ as scalars |
 | Rotation matrix | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$ |

@@ -299,4 +299,3 @@ Feature selection with `SelectKBest(score_func=chi2)` (see the [pipelines Note](
 | Chi-square test of independence | A chi-square test of whether two categorical columns are related; $df = (r - 1)(c - 1)$ |
 | Yates' continuity correction | A small adjustment to $\chi^2$ for 2 by 2 tables, applied by default in `chi2_contingency` |
 | Fisher's exact test | An exact test for small 2 by 2 tables, used when expected counts fall below 5 |
-| Cramér's V | $\sqrt{\chi^2 / (n(\min(r, c) - 1))}$: the strength of a relationship between two categorical columns, from 0 to 1 |

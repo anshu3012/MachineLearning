@@ -34,14 +34,9 @@ There are several such measures. The main ones are the mean, median and mode; th
 
 > **Key point:** The mean is the sum of the values divided by how many there are; it uses every value, so one extreme value can drag it far away.
 
-The **mean**, or average, is the sum of all values divided by the number of values. The [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1) works it through step by step. What is new here is that the population and the sample get different symbols, as the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2) explains.
-
-1. **In words:** add up every value, then divide by how many values there are.
-2. **Formula:** for a population of $N$ values and a sample of $n$ values,
-   $$\mu = \frac{1}{N}\sum_{i=1}^{N} x_i \qquad\qquad \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
-   $\sum_{i=1}^{n} x_i$ means "add up $x_1, x_2, \dots, x_n$".
-3. **Example:** for the values 3, 4, 1, 2 and 5,
-   $$\bar{x} = \frac{3 + 4 + 1 + 2 + 5}{5} = \frac{15}{5} = 3$$
+The mean, the sum of the values divided by their count, is worked through in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1). What is new here is that the population and the sample get different symbols, as the [what is statistics Note](../220-what-is-statistics/note.md) (section 4.2) explains. For a population of $N$ values and a sample of $n$ values,
+$$\mu = \frac{1}{N}\sum_{i=1}^{N} x_i \qquad\qquad \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+where $\sum_{i=1}^{n} x_i$ means "add up $x_1, x_2, \dots, x_n$". For the values 3, 4, 1, 2 and 5, $\bar{x} = 15/5 = 3$.
 
 The two formulas do the same arithmetic. They differ in what they describe: $\mu$ is the true centre of the whole population, $\bar{x}$ is the centre of one sample. The two are usually close, but not equal.
 
@@ -64,14 +59,12 @@ So before using the mean, we check whether the column has outliers. If it does, 
 
 > **Key point:** The median is the middle value of the sorted data; extreme values sit at the ends of the sorted list, so they cannot move it.
 
-The **median** is the middle value when the data is sorted. The [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) gives the formula for its position, $(n+1)/2$.
+The median, the middle value of the sorted data, and its position $(n+1)/2$ are in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). With an even number of values there is no single middle one, so we take the mean of the two middle ones. For sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$,
+$$\text{median} = \begin{cases} x_{((n+1)/2)} & n \text{ odd} \\[4pt] \dfrac{x_{(n/2)} + x_{(n/2+1)}}{2} & n \text{ even} \end{cases}$$
 
-1. **In words:** sort the values. With an odd number of values, the median is the middle one; with an even number, it is the mean of the two middle ones.
-2. **Formula:** for sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$,
-   $$\text{median} = \begin{cases} x_{((n+1)/2)} & n \text{ odd} \\[4pt] \dfrac{x_{(n/2)} + x_{(n/2+1)}}{2} & n \text{ even} \end{cases}$$
-3. **Example:** 3, 4, 1, 2, 5 sorted is 1, 2, 3, 4, 5, so the median is 3. Adding a sixth value, 6, gives 1, 2, 3, 4, 5, 6, and
-   $$\text{median} = \frac{3 + 4}{2} = 3.5$$
-   If that sixth value were 60,000 instead of 6, the sorted list would be 1, 2, 3, 4, 5, 60000, and the median would still be 3.5.
+For example, 1, 2, 3, 4, 5 has median 3. Adding a sixth value, 6, gives 1, 2, 3, 4, 5, 6, and
+$$\text{median} = \frac{3 + 4}{2} = 3.5$$
+If that sixth value were 60,000 instead of 6, the sorted list would be 1, 2, 3, 4, 5, 60000, and the median would still be 3.5.
 
 That last line is why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 2, the founder moves the median only from 33 to 34 thousand rupees.
 

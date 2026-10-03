@@ -64,30 +64,16 @@ The same logic holds in 3D. A vector $[a, b, c]$ has length $\sqrt{a^2 + b^2 + c
 
 > **Key point:** The Euclidean distance between two vectors is the magnitude of their difference: subtract component by component, then take the norm.
 
-The Euclidean distance, the straight-line distance between two points, is defined in the [KNN imputer Note](../39-knn-imputer/note.md) (section 4.1). Here we see where its formula comes from and how it links to the magnitude.
+The Euclidean distance, the straight-line distance between two points, is defined in the [KNN imputer Note](../39-knn-imputer/note.md) (section 4.1). Here we see how it links to the magnitude.
 
-### 3.1 Where the formula comes from
-
-> **Key point:** The differences of the components are the legs of a right triangle; the distance is its hypotenuse.
-
-Take two points $p = [a, b]$ and $q = [c, d]$. Draw a horizontal line from $p$ and a vertical line from $q$: they meet at a right angle (Figure 1, right).
-
-- The horizontal leg runs from $a$ to $c$, so its length is $c - a$.
-- The vertical leg runs from $b$ to $d$, so its length is $d - b$.
-
-By Pythagoras, the distance is $\sqrt{(c - a)^2 + (d - b)^2}$. For $p = [1, 1]$ and $q = [4, 5]$ the legs are 3 and 4 and the distance is 5. In 3D a third squared difference joins the sum, and in $n$ dimensions there are $n$ of them.
-
-### 3.2 Distance as the norm of the difference
+### 3.1 Distance as the norm of the difference
 
 > **Key point:** Subtract the two vectors, then take the magnitude of the result.
 
-The squared differences $(c - a)^2$ and $(d - b)^2$ are exactly the squared components of the vector $q - p$. So the distance is the magnitude of the difference vector.
+In Figure 1 (right) the legs of the triangle, 3 and 4, are the components of the difference vector $q - p = [4, 5] - [1, 1] = [3, 4]$. The distance is the hypotenuse, which is exactly the magnitude of that vector:
+$$d(p, q) = \lVert p - q \rVert$$
 
-1. **In words:** subtract the vectors component by component, then take the magnitude of the result.
-2. **Formula:**
-   $$d(p, q) = \lVert p - q \rVert = \sqrt{\sum_{i=1}^{n} (p_i - q_i)^2}$$
-3. **Example:** for $p = [6, 7, 8, 9, 10]$ and $q = [1, 2, 3, 4, 5]$, the difference is $p - q = [5, 5, 5, 5, 5]$, so
-   $$d(p, q) = \sqrt{5 \times 5^2} = \sqrt{125} \approx 11.18$$
+The squared differences in the distance formula are the squared components of $p - q$. So for $p = [6, 7, 8, 9, 10]$ and $q = [1, 2, 3, 4, 5]$ the difference is $[5, 5, 5, 5, 5]$ and the distance is $\sqrt{5 \times 5^2} = \sqrt{125} \approx 11.18$.
 
 > **Python:** The distance is two steps: subtract, then `norm`.
 >
@@ -99,7 +85,7 @@ The squared differences $(c - a)^2$ and $(d - b)^2$ are exactly the squared comp
 >
 > This works for vectors of any dimension, as long as both have the same number of components.
 
-### 3.3 Distance in ML: the nearest neighbour
+### 3.2 Distance in ML: the nearest neighbour
 
 > **Key point:** Many algorithms decide by distance: a new point gets the class of the vectors nearest to it.
 
@@ -137,36 +123,9 @@ Changing every component moves the point to a new place in the coordinate system
 
 ## 5. Mean centring: shifting in ML
 
-> **Key point:** Mean centring subtracts each column's mean from that column: a scalar subtraction that moves the whole cloud of points to the origin without changing its shape.
+> **Key point:** Mean centring is a scalar subtraction on vectors: each column minus its own mean.
 
-Shifting appears in ML as mean centring, the first half of [standardization](../24-standardization/note.md): subtracting each column's mean so the column's mean becomes 0. Here we see it as a scalar operation on vectors.
-
-Treat every row as a 2D vector with components $x_1$ and $x_2$. Gather the $x_1$ components of all the vectors, and the $x_2$ components, into two columns:
-
-| | $x_1$ | $x_2$ | $x_1$ shifted | $x_2$ shifted |
-|---|---|---|---|---|
-| vector 1 | 3 | 4 | $-2$ | $-2$ |
-| vector 2 | 5 | 6 | 0 | 0 |
-| vector 3 | 7 | 8 | 2 | 2 |
-| **mean** | **5** | **6** | **0** | **0** |
-
-1. **In words:** compute the mean of each column, then subtract that scalar from every value of the column.
-2. **Formula:**
-   $$x_1^{\text{shifted}} = x_1 - \bar{x}_1, \qquad x_2^{\text{shifted}} = x_2 - \bar{x}_2$$
-   where $x_1$ and $x_2$ are whole columns (vectors) and $\bar{x}_1$, $\bar{x}_2$ are scalars.
-3. **Example:** $\bar{x}_1 = (3 + 5 + 7)/3 = 15/3 = 5$ and $\bar{x}_2 = (4 + 6 + 8)/3 = 18/3 = 6$. Subtracting gives $[-2, 0, 2]$ for both columns, and each shifted column adds up to 0.
-
-![100 random 2D vectors before and after mean centring](images/mean_centring.png)
-
-Figure 4 does the same for 100 random 2D vectors. The cloud keeps exactly its shape; only its position changes, so that its mean (the red cross) sits at the origin.
-
-Mean centring is a useful preprocessing step. It can improve the performance, the speed of convergence and the interpretability of a model. Algorithms that use it include:
-
-- principal component analysis, or PCA (see the [PCA intuition Note](../47-pca-geometric-intuition/note.md)),
-- linear regression,
-- gradient descent (see the [gradient descent Note](../57-gradient-descent/note.md)),
-- clustering algorithms,
-- regularisation (Ridge and Lasso).
+Mean centring, the first half of standardization (see the [standardization Note](../24-standardization/note.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation it is shifting: each column is a vector, its mean is a scalar, and $x_1 - \bar{x}_1$ subtracts that scalar from every component. For the column $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
 
 > **Python:** Mean centring is one line: subtracting a row of means from a table subtracts each mean from its own column.
 >
@@ -175,7 +134,7 @@ Mean centring is a useful preprocessing step. It can improve the performance, th
 > centred = data - data.mean(axis=0)   # [[-2,-2],[0,0],[2,2]]
 > ```
 >
-> `axis=0` takes the mean down each column. The Notebook for this Note (`notebook.ipynb`) runs every example of this Note, including the 100-vector plot and the nearest-neighbour demo with a query you can change.
+> `axis=0` takes the mean down each column. The Notebook for this Note (`notebook.ipynb`) runs every example of this Note, plus a 100-vector mean-centring plot and the nearest-neighbour demo with a query you can change.
 
 ## 6. Multiplying or dividing by a scalar: scaling
 

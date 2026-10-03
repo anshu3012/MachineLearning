@@ -255,7 +255,6 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 | Outcome | The single result of one trial, such as heads or a 3 |
 | Simple (elementary) event | An event with exactly one outcome |
 | Compound event | An event with two or more outcomes |
-| Dependent events | Events where one happening changes the probability of the other |
 | Without replacement | Drawing items without putting them back, so later draws depend on earlier ones |
 | Exhaustive events | Events that together cover the whole sample space, so at least one always happens |
 | Partition | Events that are mutually exclusive and exhaustive: exactly one of them happens in every trial |

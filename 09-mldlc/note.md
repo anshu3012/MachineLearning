@@ -82,7 +82,7 @@ Once these are answered, we have a clear mental plan of what comes next. Only th
 
 > **Key point:** School and college projects come with data; company projects usually do not.
 
-In school or college projects, data comes ready-made: from Kaggle, from a teacher, or downloaded from the internet. In a company, the data is often very specific to the business and not easily available. We have to fetch it ourselves.
+In school or college projects, data comes ready-made: from Kaggle, from course material, or downloaded from the internet. In a company, the data is often very specific to the business and not easily available. We have to fetch it ourselves.
 
 ### 4.2 Where data comes from
 

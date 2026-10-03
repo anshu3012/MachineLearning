@@ -147,21 +147,19 @@ So analysts plot the return distribution of an asset and compute its kurtosis. I
 
 ## 6. Is a column normally distributed?
 
-> **Key point:** Three ways to check normality: look at a histogram or density plot, draw a Q-Q plot, or run a statistical test.
+> **Key point:** Besides plots, a statistical test such as Shapiro-Wilk checks normality with a p-value; it is best read together with a Q-Q plot.
 
-Many methods assume that a column, or a random variable, is normally distributed (see the [function transformer Note](../30-function-transformer/note.md), section 2). So "how do we know whether a given distribution is normal?" is a common interview question. There are three main answers:
+Many methods assume that a column is normally distributed, so "how do we know whether a column is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in the [function transformer Note](../30-function-transformer/note.md) (section 4); the Q-Q plot is the most informative and gets a second look below.
 
-1. **Visual inspection.** Plot a histogram or a density plot (see the [univariate analysis Note](../20-univariate-analysis/note.md)). A bell shape suggests the data may be normal. This is quick but rough.
-2. **Q-Q plot.** A special plot that compares the data with a theoretical distribution, point by point. It is the most used and the most informative of the three; the rest of this Note is about it.
-3. **Statistical tests.** Tests such as the **Shapiro-Wilk test** and the **Anderson-Darling test** decide with the help of a p-value. They come after hypothesis testing.
+The third way is a **statistical test**. The **Shapiro-Wilk test** (see the [one-sample t-test Note](../301-one-sample-t-test/note.md), section 5) and the **Anderson-Darling test** decide with the help of a p-value; they come after hypothesis testing.
 
 > **Extra:** For the 150 iris sepal lengths of Section 7.2, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even tiny departures from normality, so they are best read together with a Q-Q plot.
 
 ## 7. Building a Q-Q plot from percentiles
 
-> **Key point:** A Q-Q plot sorts two sets of values, computes the same quantiles of both, and plots them in pairs; if the points fall on a straight line, the two distributions have the same shape.
+> **Key point:** Instead of exact normal quantiles, we can pair the percentiles of our data with the same percentiles of a large sample from the theoretical distribution.
 
-A **Q-Q plot** (quantile-quantile plot) is a graphical tool for comparing the distributions of two sets of data. Its most common use is to check whether data follows a normal distribution. How to read it, and how scipy computes it, is in the [function transformer Note](../30-function-transformer/note.md) (section 4.1); here we build one from percentiles (see [quantiles](../230-percentiles-and-box-plots/note.md)).
+A Q-Q plot pairs sorted data with the matching quantiles of a theoretical distribution; how to read it, and a five-value build with exact normal quantiles, are in the [function transformer Note](../30-function-transformer/note.md) (section 4.1 and its Extra). Here we build the same plot from percentiles (see the [percentiles and box plots Note](../230-percentiles-and-box-plots/note.md)), which needs no formula: only a sample from the theoretical distribution.
 
 ### 7.1 The steps
 
@@ -176,7 +174,7 @@ We compare our data $X$ with a **theoretical distribution** $Y$: one whose type 
 
 ![Building a Q-Q plot: sort both sets, take the same percentiles, plot them in pairs](images/qq_build.gif){height=55%}
 
-If all the points lie on one straight line, $X$ has the same shape as $Y$: our data is normally distributed. The line does not need to be the diagonal $y = x$. Our data can have any mean and standard deviation; those only move and tilt the line (Section 7.3).
+Points on one straight line still mean that $X$ has the same shape as $Y$. The line does not need to be the diagonal $y = x$. Our data can have any mean and standard deviation; those only move and tilt the line (Section 7.3).
 
 ### 7.2 The iris sepal lengths
 
@@ -229,16 +227,17 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 > **Key point:** Fat tails make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
 
-The basic shapes are in the [function transformer Note](../30-function-transformer/note.md) (Figure 2): on the line for normal data, leaving it at one end for skewed data, leaving it at both ends for fat tails. Interpreting a Q-Q plot is mainly a matter of knowing these shapes.
+The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../30-function-transformer/note.md) (Figure 2). Kurtosis explains that fat-tail shape: a leptokurtic column has more extreme values on both sides than a normal one. A curve that looks too peaked in the middle usually has this Q-Q plot, because its tails are fat.
 
-Kurtosis explains the last two (Figure 5, first two columns):
+Thin tails (platykurtic) give the opposite shape, which Figure 5 (left) shows for uniform data:
 
-- **Fat tails (leptokurtic).** Middle points on the line, end points beyond it: the smallest values are lower and the largest higher than a normal distribution would give. A curve that looks too peaked in the middle usually has this Q-Q plot, because its tails are fat.
-- **Thin tails (platykurtic).** The opposite: the end points flatten out, inside the line. The extreme values are less extreme than normal. With mild thin tails the points stay near the line and stray only slightly.
+- the middle points sit near the line;
+- the end points flatten out, inside the line, in an S shape: the extreme values are less extreme than normal;
+- with mild thin tails the points stay near the line and stray only slightly.
 
 The more the points leave the line, and the more the line's slope has to change to follow them, the further the data is from normal.
 
-![Top: histograms; bottom: Q-Q plots. Fat tails and uniform data against the normal, then the uniform data against the uniform](images/qq_tails.png){height=55%}
+![Top: histograms; bottom: Q-Q plots. Uniform data against the normal, then the same data against the uniform](images/qq_tails.png){height=55%}
 
 ## 9. Q-Q plots for other distributions
 
@@ -246,9 +245,9 @@ The more the points leave the line, and the more the line's slope has to change 
 
 A common misunderstanding is that Q-Q plots can only detect normal distributions. By definition a Q-Q plot compares two distributions, so the theoretical one can be anything. Only the quantiles on the x axis change.
 
-Figure 5 (middle and right) shows 1,000 values drawn from a **uniform distribution** between 0 and 1, where every value in the range is equally likely (the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)). The histogram looks flat.
+Figure 5 shows 1,000 values drawn from a **uniform distribution** between 0 and 1, where every value in the range is equally likely (the [uniform and log-normal distributions Note](../261-uniform-and-log-normal/note.md)). The histogram looks flat.
 
-- **Against the normal (middle):** an S-shaped curve, the thin-tail shape. The data is clearly not normal.
+- **Against the normal (left):** an S-shaped curve, the thin-tail shape. The data is clearly not normal.
 - **Against the uniform (right):** almost every point is on the line. The data is uniform.
 
 > **Python:** Pass the theoretical distribution with `dist`.
@@ -295,5 +294,4 @@ The same idea checks for the log-normal and Pareto distributions in the next two
 | Platykurtic | Excess kurtosis below 0: thinner tails than normal |
 | Kurtosis risk | In finance, the risk of extreme gains or losses from fat-tailed returns |
 | Theoretical distribution | The known distribution that data is compared with, for example on a Q-Q plot |
-| Shapiro-Wilk test | A statistical test of normality that returns a p-value |
 | Anderson-Darling test | Another statistical test of whether data follows a given distribution |

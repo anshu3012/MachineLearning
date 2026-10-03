@@ -47,18 +47,17 @@ Salaries in India show the problem. Some of the richest people in the world live
 
 > **Key point:** Variance is the average squared distance from the mean; the sample version divides by $n - 1$ instead of $n$.
 
-The variance is defined in the [PCA intuition Note](../47-pca-geometric-intuition/note.md) (section 5) as the average squared distance of the values from their mean. Here we add the two versions of the formula, work them through, and see why the squares are needed.
+The variance is the average squared distance of the values from their mean; the [PCA intuition Note](../47-pca-geometric-intuition/note.md) (section 5) teaches it. Here we add the population and sample versions, work them through, and see why the squares are needed.
 
-1. **In words:** find the mean; for every value, take its distance from the mean and square it; add the squares; divide by the number of values (population) or by one less (sample).
-2. **Formula:**
+1. **Formula:**
    $$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu)^2 \qquad\qquad s^2 = \frac{1}{n - 1}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
    $\sigma^2$ is the population variance, $s^2$ the sample variance.
-3. **Example:** for 3, 2, 1, 5, 4 the mean is 3, and the distances are $0, -1, -2, 2, 1$ (Figure 1). Their squares add up to $0 + 1 + 4 + 4 + 1 = 10$. As a population,
+2. **Example:** for 3, 2, 1, 5, 4 the mean is 3, and the distances are $0, -1, -2, 2, 1$ (Figure 1). Their squares add up to $0 + 1 + 4 + 4 + 1 = 10$. As a population,
    $$\sigma^2 = \frac{10}{5} = 2$$
    As a sample,
    $$s^2 = \frac{10}{5 - 1} = 2.5$$
 
-Variance grows with spread but is not the spread itself: it is in squared units. For $-5, 0, 5$ the population variance is 16.7; for $-10, 0, 10$, which is twice as spread out, it is 66.7, four times as much.
+Variance is in squared units, so doubling the spread multiplies it by four (worked in section 5.2 of the PCA intuition Note).
 
 ### 4.1 Why we square the distances
 
@@ -128,17 +127,16 @@ Dividing by $n - 1$ (green) lands on the true variance at every sample size. Div
 
 > **Key point:** The mean absolute deviation averages the absolute distances from the mean; it is less sensitive to outliers than variance, but harder to work with mathematically.
 
-The mean absolute deviation replaces the square by an absolute value (see the [PCA intuition Note](../47-pca-geometric-intuition/note.md), section 5.4).
+The mean absolute deviation averages the distances from the mean without their sign, replacing the square by an absolute value (see the [PCA intuition Note](../47-pca-geometric-intuition/note.md), section 5.4).
 
-1. **In words:** for every value, take its distance from the mean without the sign, then average these distances.
-2. **Formula:**
+1. **Formula:**
    $$\text{MAD} = \frac{1}{n}\sum_{i=1}^{n} \lvert x_i - \bar{x} \rvert$$
-3. **Example:** for 3, 2, 1, 5, 4 the absolute distances are $0, 1, 2, 2, 1$, so
+2. **Example:** for 3, 2, 1, 5, 4 the absolute distances are $0, 1, 2, 2, 1$, so
    $$\text{MAD} = \frac{0 + 1 + 2 + 2 + 1}{5} = \frac{6}{5} = 1.2$$
 
 Its strength is that a far value counts in proportion to its distance, not its distance squared. So outliers inflate it less than they inflate variance.
 
-Its weakness is mathematical. The absolute value has a sharp corner at zero, so formulas built on it cannot be differentiated there and are hard to manipulate. Variance has clean properties, such as the $n - 1$ correction above, so inferential statistics and most ML algorithms are built on variance. The mean absolute deviation is therefore rarely used.
+Its weakness is mathematical: the absolute value cannot be differentiated at zero (section 5.4 of the PCA intuition Note). So inferential statistics and most ML algorithms are built on variance, and the mean absolute deviation is rarely used.
 
 > **Extra:** The abbreviation MAD is also used for the median absolute deviation, a different, even more robust measure (see the [Pandas Profiling Note](../22-pandas-profiling/note.md)). Always check which one is meant.
 
@@ -146,16 +144,11 @@ Its weakness is mathematical. The absolute value has a sharp corner at zero, so 
 
 > **Key point:** The standard deviation is the square root of the variance; unlike the variance, it is in the same units as the data.
 
-The standard deviation is the square root of the variance, $\sigma = \sqrt{\sigma^2}$ for a population and $s = \sqrt{s^2}$ for a sample. The [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1) works one through.
+The standard deviation is the square root of the variance, $\sigma = \sqrt{\sigma^2}$ for a population and $s = \sqrt{s^2}$ for a sample; the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.1) works one through step by step. If we already have the variance, why keep the standard deviation? Because of units.
 
-If we already have the variance, why keep the standard deviation? Because of units.
-
-1. **In words:** take the square root of the variance, which brings the squared units back to the units of the data.
-2. **Formula:**
-   $$\sigma = \sqrt{\frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2}$$
-3. **Example:** four people earn 16, 17, 13 and 14 LPA (lakh rupees per annum). The mean is 15 LPA, the distances are $1, 2, -2, -1$ LPA, and
-   $$\sigma^2 = \frac{1^2 + 2^2 + (-2)^2 + (-1)^2}{4} = \frac{10}{4} = 2.5 \text{ LPA}^2$$
-   $$\sigma = \sqrt{2.5} \approx 1.58 \text{ LPA}$$
+Four people earn 16, 17, 13 and 14 LPA (lakh rupees per annum). The mean is 15 LPA, the distances are $1, 2, -2, -1$ LPA, and
+$$\sigma^2 = \frac{1^2 + 2^2 + (-2)^2 + (-1)^2}{4} = \frac{10}{4} = 2.5 \text{ LPA}^2$$
+$$\sigma = \sqrt{2.5} \approx 1.58 \text{ LPA}$$
 
 "2.5 LPA squared" means nothing to anyone: nobody earns a squared rupee. "1.58 LPA" does: a typical salary here is about 1.58 lakh away from the mean of 15 lakh. For 3, 2, 1, 5, 4, the standard deviation is $\sqrt{2} \approx 1.41$.
 
@@ -163,14 +156,11 @@ If we already have the variance, why keep the standard deviation? Because of uni
 
 > **Key point:** The coefficient of variation divides the standard deviation by the mean, so we can compare the spread of columns measured in different units.
 
-The standard deviation of salaries (in lakhs) and of experience (in years) cannot be compared: they are in different units, like apples and oranges. Yet we may want to know which of the two columns is more spread out relative to its own centre. The coefficient of variation (CV) answers this; the [Pandas Profiling Note](../22-pandas-profiling/note.md) introduced it.
+The coefficient of variation (CV), $\sigma / \mu$, is the unit-free spread taught in the [Pandas Profiling Note](../22-pandas-profiling/note.md) (section 4.2); here we write it as a percentage, $\sigma / \mu \times 100\%$. Its use is comparing columns in different units, such as salaries in lakhs and experience in years.
 
-1. **In words:** divide the standard deviation by the mean, and multiply by 100 to get a percentage. The units cancel.
-2. **Formula:**
-   $$\text{CV} = \frac{\sigma}{\mu} \times 100\%$$
-3. **Example:** for the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. Then
-   $$\text{CV}_{\text{Age}} = \frac{14.53}{29.70} \times 100\% \approx 48.9\%$$
-   $$\text{CV}_{\text{Fare}} = \frac{49.69}{32.20} \times 100\% \approx 154.3\%$$
+For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. Then
+$$\text{CV}_{\text{Age}} = \frac{14.53}{29.70} \times 100\% \approx 48.9\%$$
+$$\text{CV}_{\text{Fare}} = \frac{49.69}{32.20} \times 100\% \approx 154.3\%$$
 
 The fares vary about three times as much as the ages, relative to their means. Figure 3 shows why: dividing each column by its own mean puts both on one scale, where 1 is the mean. The ages stay within about 0 to 2.7 times their mean; the fares run from 0 to 16 times theirs.
 

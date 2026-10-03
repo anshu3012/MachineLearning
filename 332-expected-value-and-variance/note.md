@@ -275,7 +275,6 @@ The expected value says where the outcomes centre; the variance says how much a 
 
 | Term | Meaning |
 |---|---|
-| Random variable (as a function) | A rule that maps each outcome of the sample space to a real number |
 | Expected value $E[X]$ | The probability-weighted average of a random variable's values; its long-run mean; also written $\mu$ |
 | Mean of a random variable | Another name for its expected value |
 | Variance of a random variable | $\mathrm{Var}(X) = E[(X - E[X])^2]$: the expected squared distance from the expected value |

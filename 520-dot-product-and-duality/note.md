@@ -188,7 +188,6 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 
 | Term | Meaning |
 |---|---|
-| Projection (onto a vector) | The shadow of a vector dropped straight onto the line through another vector |
 | Projection view of the dot product | $\mathbf{v} \cdot \mathbf{w}$ = signed length of the projection of $\mathbf{w}$ onto $\mathbf{v}$, times $\lVert \mathbf{v} \rVert$ |
 | Linear transformation to the number line | A function from vectors to numbers that keeps evenly spaced dots evenly spaced; its matrix is $1 \times n$ |
 | Duality | The correspondence between vectors and linear transformations to numbers: each is a dot product with exactly one vector |

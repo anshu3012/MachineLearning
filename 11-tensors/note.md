@@ -191,7 +191,7 @@ An image is a grid of tiny dots called **pixels**, and each pixel is stored as n
 
 ![Images as tensors](images/image_tensor.png)
 
-A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 32 such images is a 4D tensor of shape (32, 600, 800, 3) (Figure 8). Image tasks in deep learning, covered later in the course, work with exactly these tensors.
+A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 32 such images is a 4D tensor of shape (32, 600, 800, 3) (Figure 8). Image tasks in deep learning, covered in later Notes, work with exactly these tensors.
 
 > **Extra:** The order of the axes is a convention. TensorFlow usually puts the channels last, (batch, height, width, channels), while PyTorch puts them first, (batch, channels, height, width). Always check which order a library expects.
 

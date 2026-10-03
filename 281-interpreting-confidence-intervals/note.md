@@ -117,9 +117,7 @@ The margin of error is half the distance between the limits: $E = (\text{upper} 
 
 > **Key point:** More confidence means a wider interval; 100% confidence needs an infinitely wide one.
 
-Back to the Dhoni betting game of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md). We can be 100% sure that he will score between 0 and 200 runs, but that range is useless. Saying "between 50 and 150" is narrower but less certain; "exactly 25" is very precise and almost certainly wrong.
-
-Intervals behave the same way (Figure 2, left):
+A wider range is more likely to be right but says less, as the betting game of the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md) (section 3) shows. Figure 2 (left) puts numbers on this trade-off:
 
 | Confidence level | $z_{\alpha/2}$ | Margin of error ($\sigma = 15$, $n = 50$) |
 |---|---|---|
@@ -167,9 +165,9 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 > **Key point:** 95% is the common compromise between being right often and giving a useful, narrow range.
 
-Figure 2 (left) shows the trade-off. Below about 90%, the interval is narrow but wrong too often. Above 99%, the margin of error grows quickly. 95% is the standard choice across industry and research: we are right 19 times out of 20, and the interval is still narrow enough to be useful.
+The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 2 (left), below about 90% the interval misses too often, and above 99% the margin of error grows quickly; 95% sits between, right 19 times out of 20.
 
-It is a convention, not a law. Medical and safety studies often use 99%; quick business estimates sometimes use 90%. The confidence level should be chosen before looking at the data, usually fixed by the question or by the company.
+It is a convention, not a law: medical and safety studies often use 99%, quick business estimates 90%. The level is fixed before looking at the data.
 
 ## 6. Summary
 

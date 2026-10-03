@@ -36,6 +36,8 @@ The x axis works as before: it holds the values of the variable, for example CGP
 | y axis | probability | probability density |
 | Probability of a range | sum of the bar heights | area under the curve |
 
+The density plot of the [univariate analysis Note](../20-univariate-analysis/note.md) (section 7) already met this: its curve's height is a density, and probability is the area under it.
+
 The second row is the one to remember. On a PMF we read probabilities straight off the graph. On a PDF the height is a **probability density**, and the rest of this Note is about what that means.
 
 ## 3. Why the y axis cannot be probability
@@ -200,5 +202,4 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 | Integration | Finding the area under a curve by adding up infinitely many thin strips |
 | $\int_a^b f(x)\,dx$ | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$ |
 | Log-normal distribution | A right-skewed continuous distribution whose logarithm is normal |
-| Poisson distribution | A discrete distribution of counts of events, with parameter $\lambda$ |
 | Differentiation | Finding the slope of a curve at each point; the derivative of the CDF is the PDF |

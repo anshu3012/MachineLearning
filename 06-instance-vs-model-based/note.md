@@ -63,7 +63,7 @@ Figure 2 shows the steps for a new student with IQ 94.5 and CGPA 8.3:
 
 The idea behind step 4: points that are close together tend to share the same answer. A student who looks like placed students will probably be placed too.
 
-This procedure is the **K-nearest neighbours (KNN)** algorithm, covered in detail later in the course.
+This procedure is the **K-nearest neighbours (KNN)** algorithm, covered in detail in later Notes.
 
 > **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ. So before measuring distances, both columns are put on the same scale (**feature scaling**, see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2 and 3 were found this way.
 

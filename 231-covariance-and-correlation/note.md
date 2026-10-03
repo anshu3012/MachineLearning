@@ -33,17 +33,11 @@ Each measure fixes a blind spot of the one before:
 
 > **Key point:** Covariance averages the product of each point's distances from the two means; positive means the columns rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
 
-Covariance is defined in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.2). It measures how much two variables change together, and so tells us the direction of their **linear relationship**, a relationship that a straight line describes:
+Covariance is taught in the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.2): the average product of each point's distances from the two means, whose sign gives the direction of a linear relationship (see the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md)). That Note divides by $N$, as for a whole population; a sample divides by $n - 1$ instead.
 
-- **Positive covariance:** when $x$ increases, $y$ tends to increase.
-- **Negative covariance:** when $x$ increases, $y$ tends to decrease.
-- **Covariance near 0:** no straight-line relationship.
+$$\sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y) \qquad\qquad s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$$
 
-1. **In words:** for every point, multiply its distance from the mean of $x$ by its distance from the mean of $y$. Add the products. Divide by $N$ for a population, or by $n - 1$ for a sample.
-2. **Formula:**
-   $$\sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y) \qquad\qquad s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$$
-   The sample version divides by $n - 1$ for the same reason as the sample variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md), section 4.3).
-3. **Example:** five employees (a sample) have experience $x$ = 2, 5, 8, 12, 13 years and monthly salary $y$ = 1, 2, 5, 12, 10 lakh rupees. The means are $\bar{x} = 8$ and $\bar{y} = 6$.
+The sample version divides by $n - 1$ for the same reason as the sample variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md), section 4.3). For example, five employees (a sample) have experience $x$ = 2, 5, 8, 12, 13 years and monthly salary $y$ = 1, 2, 5, 12, 10 lakh rupees, with means $\bar{x} = 8$ and $\bar{y} = 6$.
 
 | Employee | $x$ | $y$ | $x - \bar{x}$ | $y - \bar{y}$ | Product |
 |---|---|---|---|---|---|
@@ -116,12 +110,7 @@ Both relationships are strong; one rises and one falls.
 
 > **Key point:** The sign gives the direction and the distance from 0 gives the strength; +1 and -1 are perfect straight lines.
 
-Unlike covariance, which can be any number (1205, 3757, $-5000$), correlation always lies between $-1$ and $+1$:
-
-- **$r = +1$:** a perfect positive straight line: when one column goes up, the other goes up in exact proportion.
-- **$r = -1$:** a perfect negative straight line.
-- **$r = 0$:** no straight-line relationship.
-- **In between:** the closer to $\pm 1$, the closer the points lie to a straight line, called the regression line. Points close to the line give a **strong** relationship; points widely scattered around it give a **weak** one.
+The scale of $r$, from $-1$ to $+1$, is read as in the [understanding your data Note](../19-understanding-your-data/note.md) (section 9.1): the sign gives the direction, and the closer $|r|$ is to 1, the closer the points lie to a straight line, so the stronger the relationship. Unlike covariance, which can be any number (1205, 3757, $-5000$), $r$ never leaves that range.
 
 In Figure 2, $x$ against itself gives $r = 1.00$. $x$ against $y$ gives $r = 0.65$: positive, but the points scatter around the line, so it is clearly below 1.
 
@@ -195,7 +184,6 @@ Establishing causation needs more than data that happens to be collected: contro
 
 | Term | Meaning |
 |---|---|
-| Linear relationship | A relationship between two columns that a straight line describes |
 | Population covariance ($\sigma_{xy}$) | Covariance of a whole population, dividing by $N$ |
 | Sample covariance ($s_{xy}$) | Covariance of a sample, dividing by $n - 1$ |
 | Strength of a relationship | How closely the points follow a straight line; measured by $\lvert r \rvert$ |

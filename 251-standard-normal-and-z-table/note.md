@@ -189,4 +189,3 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 | $\phi(z)$ | The PDF of the standard normal distribution |
 | $\Phi(z)$ | The CDF of the standard normal distribution: the area to the left of $z$ |
 | Z-table | A table of $\Phi(z)$ for many values of $z$, used to find normal probabilities |
-| Central limit theorem | Averages of samples follow a normal distribution, whatever the distribution of the data |

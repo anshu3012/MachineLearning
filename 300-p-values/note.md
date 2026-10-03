@@ -223,4 +223,3 @@ A printed z-table stops around $z = 4$, where the area is practically 1. For lar
 | P-value decision rule | Reject $H_0$ if $p \le \alpha$, otherwise fail to reject it |
 | One-tailed p-value | The tail area beyond the test statistic on the side that $H_1$ points to |
 | Two-tailed p-value | The tail areas beyond $-\lvert z \rvert$ and $+\lvert z \rvert$ together: $2\,\Phi(-\lvert z \rvert)$ for a z-test |
-| Survival function (sf) | $1 - \text{CDF}$: the probability of a value above a point; scipy's `sf` |

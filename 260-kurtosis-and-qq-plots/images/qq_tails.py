@@ -1,6 +1,6 @@
 """Q-Q plots and kurtosis. Top: histograms; bottom: Q-Q plots.
-Fat tails (Laplace) against the normal; uniform data (thin tails) against the normal; the same uniform data
-against the uniform distribution."""
+Uniform data (thin tails) against the normal; the same uniform data against the uniform distribution.
+(The fat-tail case is Figure 2 of Note 30.)"""
 from pathlib import Path
 import numpy as np
 from plotly.subplots import make_subplots
@@ -9,16 +9,14 @@ from scipy import stats
 here = Path(__file__).parent
 BLUE, RED = "#4C78A8", "#E45756"
 rng = np.random.default_rng(42)
-fat = rng.laplace(0, 1, 1000)
 uni = rng.uniform(0, 1, 1000)
 cases = [  # (title, data, distribution compared with, x label)
-    (f"Fat tails (excess kurtosis {stats.kurtosis(fat):.1f})<br>against normal", fat, "norm", "normal quantiles"),
     (f"Uniform, thin tails (excess kurtosis {stats.kurtosis(uni):.1f})<br>against normal", uni, "norm",
      "normal quantiles"),
     ("Same uniform data<br>against uniform", uni, "uniform", "uniform quantiles"),
 ]
-fig = make_subplots(rows=2, cols=3, subplot_titles=[c[0] for c in cases], vertical_spacing=0.2,
-                    horizontal_spacing=0.08, row_heights=[0.35, 0.65])
+fig = make_subplots(rows=2, cols=2, subplot_titles=[c[0] for c in cases], vertical_spacing=0.2,
+                    horizontal_spacing=0.1, row_heights=[0.35, 0.65])
 for col, (_, data, dist, xlab) in enumerate(cases, start=1):
     fig.add_histogram(x=data, nbinsx=30, histnorm="probability density", marker=dict(color=BLUE, opacity=0.6,
                       line=dict(color="white", width=0.5)), row=1, col=col)
@@ -31,7 +29,7 @@ for col, (_, data, dist, xlab) in enumerate(cases, start=1):
 fig.update_yaxes(title_text="density", row=1, col=1)
 fig.update_yaxes(title_text="data quantiles", row=2, col=1)
 fig.update_annotations(font_size=18)
-fig.update_layout(template="simple_white", width=1200, height=720, showlegend=False, bargap=0.02,
+fig.update_layout(template="simple_white", width=900, height=720, showlegend=False, bargap=0.02,
                   font=dict(family="Latin Modern Roman", size=16), margin=dict(l=60, r=20, t=70, b=50))
 fig.write_image(here / "qq_tails.png", scale=2)
 fig.write_image(here / "qq_tails.pdf")

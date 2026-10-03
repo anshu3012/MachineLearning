@@ -118,7 +118,7 @@ The process is the same as in ML. We give data to an algorithm and **train** it:
 
 DL uses **neural networks**, which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. It is a mathematical model that borrows one idea: many simple units connected together.
 
-The smallest unit of a neural network is the **perceptron**, an artificial neuron. It is covered in detail later in the course.
+The smallest unit of a neural network is the **perceptron**, an artificial neuron. It is covered in detail in later Notes.
 
 ### 5.2 Features: chosen by us or learned
 

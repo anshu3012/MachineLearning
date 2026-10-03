@@ -30,25 +30,15 @@ A normal distribution is a symmetric bell with a specific formula (see the [norm
 
 So skewness is a warning light. The more it grows, the less the data looks like a normal distribution, and the less we can rely on the normal distribution's properties (such as the 68-95-99.7 rule) for that data.
 
-## 3. Positive and negative skew
+## 3. The tail and tail events
 
-> **Key point:** The skew is named after the long tail: a long right tail is positive (right) skew, a long left tail is negative (left) skew.
+> **Key point:** The skew is named after the long tail; a tail event has a very low probability but a very large effect.
 
-Skewness can be positive, negative or zero (Figure 1):
+Positive (right) skew has a long right tail and negative (left) skew a long left tail, as the [univariate analysis Note](../20-univariate-analysis/note.md) (section 10) shows. The tail is where the outliers are, and in finance it gets special attention.
 
-- **Positive skew (right skew):** the tail on the right is longer. Most of the data is on the left, with a few very large values. Titanic fares: most passengers paid little, a few paid a fortune.
-- **Zero skew:** symmetric, like the normal distribution.
-- **Negative skew (left skew):** the tail on the left is longer. Most values are high, with a few very low ones, like the marks in an easy exam.
+A **tail event** is an event with a very low probability of happening that has a huge impact when it does. Investors who fund start-ups are an example. Out of 50 companies they invest in, perhaps 45 to 48 fail and the money is lost.
 
-The naming can feel backwards, since a right-skewed hump sits on the **left**. The rule is to follow the tail, not the hump (see the [frequency tables Note](../223-frequency-tables-and-graphs/note.md)). The tail is where the outliers are, and that is why it gets the name.
-
-### 3.1 Tail events
-
-> **Key point:** A tail event has a very low probability but a very large effect; in finance whole strategies depend on them.
-
-In finance the tail gets special attention. A **tail event** is an event with a very low probability of happening that has a huge impact when it does.
-
-Investors who fund start-ups are an example. Out of 50 companies they invest in, perhaps 45 to 48 fail and the money is lost. But one or two succeed so spectacularly that they repay all the losses and more. The returns form a heavily right-skewed distribution, and the whole strategy rests on its long right tail.
+But one or two succeed so spectacularly that they repay all the losses and more. The returns form a heavily right-skewed distribution, and the whole strategy rests on its long right tail.
 
 ## 4. The order of mode, median and mean
 
@@ -149,8 +139,6 @@ So skewness is one check among several. We look at the shape as well (histogram,
 
 | Term | Meaning |
 |---|---|
-| Positive skew (right skew) | A long tail on the right: a few very large values |
-| Negative skew (left skew) | A long tail on the left: a few very small values |
 | Tail event | An event with a very low probability but a very large effect |
 | Sample skewness $G_1$ | The third moment of the standardized values with a small-sample correction; what pandas' `skew()` returns |
 | Pearson's skewness coefficient | $3(\bar{x} - \text{median})/s$: a simple measure of skew |
