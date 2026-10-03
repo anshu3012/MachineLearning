@@ -9,7 +9,7 @@ title: "End-to-End Toy Project: Predicting Placement"
 >
 > - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Feature engineering ([Note 7](../07-challenges-in-ml/note.md)); Software integration ([Note 7](../07-challenges-in-ml/note.md)); Framing an ML problem (Video 9, coming).
 > - **Leads to:** K-nearest neighbours (Video 91, coming); Descriptive statistics (Video 19, coming); Univariate analysis (Video 20, coming); Bivariate and multivariate analysis (Video 21, coming); Normalization (Video 25, coming); PCA (Video 47, coming).
-> - **Compare with:** Feature extraction ([Note 46](../46-curse-of-dimensionality/note.md)); JSON and SQL data (Video 16, coming); Normalization (Video 25, coming); Decision trees (Video 97, coming); Cross-validation (Video 112, coming).
+> - **Compare with:** JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Feature extraction ([Note 46](../46-curse-of-dimensionality/note.md)); Normalization (Video 25, coming); Decision trees (Video 97, coming); Cross-validation (Video 112, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview

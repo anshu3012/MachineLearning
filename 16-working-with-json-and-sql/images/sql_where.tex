@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\usepackage{textcomp}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{tb/.style={box=#1, minimum width=3.6cm, minimum height=1.5cm}}
+  \node[tb=cpurple] (all) at (0,0) {table \textbf{city}\\4079 rows (all countries)};
+  \node[tb=cblue] (ind) at (10,1.1)  {DataFrame\\\textbf{341 rows} (India)};
+  \node[tb=cblue] (usa) at (10,-1.1) {DataFrame\\\textbf{274 rows} (USA)};
+  \draw[arrow] (all.east) -- node[above, sloped, font=\ttfamily\small]{WHERE CountryCode = \textquotesingle IND\textquotesingle} (ind.west);
+  \draw[arrow] (all.east) -- node[below, sloped, font=\ttfamily\small]{WHERE CountryCode = \textquotesingle USA\textquotesingle} (usa.west);
+  \node[note, anchor=north] at (5,-2.3) {\texttt{SELECT * FROM city WHERE ...}\quad keeps only the rows that match};
+\end{tikzpicture}
+\end{document}

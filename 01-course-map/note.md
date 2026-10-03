@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 45 of 127 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 47 of 127 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -73,8 +73,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Sampling noise and bias | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | APIs | [Note 7](../07-challenges-in-ml/note.md), Video 17, coming | draft |
 | Web scraping | [Note 7](../07-challenges-in-ml/note.md), Video 18, coming | draft |
-| CSV files | [Note 13](../13-toy-project/note.md), Video 15, coming | draft |
-| JSON and SQL data | Video 16, coming | draft |
+| CSV files | [Note 13](../13-toy-project/note.md), [Note 15](../15-working-with-csv/note.md) | confirmed |
+| JSON and SQL data | [Note 16](../16-working-with-json-and-sql/note.md) | confirmed |
 
 ### 2.4 Step 3: Understand data
 
@@ -277,11 +277,11 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 12 | Anaconda, Jupyter and Colab | nothing | deferred |
 | 13 | Accuracy, CSV files, Data leakage, Deployment, Exploratory data analysis, Feature scaling, Feature selection, Logistic regression, ML development life cycle, ML pipelines, Saving models with pickle, Standardization, Train-test split | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 7](../07-challenges-in-ml/note.md), Video 9, coming | written |
 | 14 | Framing an ML problem | nothing | deferred |
-| 15 | CSV files | nothing | coming |
-| 16 | JSON and SQL data | nothing | coming |
-| 17 | APIs | nothing | coming |
+| 15 | CSV files | nothing | written |
+| 16 | JSON and SQL data | nothing | written |
+| 17 | APIs | [Note 16](../16-working-with-json-and-sql/note.md) | coming |
 | 18 | Web scraping | nothing | coming |
-| 19 | Descriptive statistics, Exploratory data analysis | Video 15, coming | coming |
+| 19 | Descriptive statistics, Exploratory data analysis | [Note 15](../15-working-with-csv/note.md) | coming |
 | 20 | Univariate analysis | Video 19, coming | coming |
 | 21 | Bivariate and multivariate analysis | Video 19, coming | coming |
 | 22 | Pandas Profiling | nothing | coming |

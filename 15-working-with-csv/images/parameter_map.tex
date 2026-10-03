@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[q/.style={box=#1, minimum width=5.0cm, text width=4.7cm}]
+  \node[title] at (0,4.3) {The questions read\_csv's parameters answer};
+  \node[box=cgreen, font=\ttfamily\bfseries, minimum width=3.4cm, minimum height=1.4cm] (c) at (0,0) {read\_csv()};
+  \node[q=cblue]   (a) at (-5.6, 2.4) {\textbf{Where is the file?}\\\small\ttfamily path or URL};
+  \node[q=cblue]   (b) at (-5.6, 0)   {\textbf{How are values split?}\\\small\ttfamily sep, names, header};
+  \node[q=cblue]   (d) at (-5.6,-2.4) {\textbf{Which part do we keep?}\\\small\ttfamily usecols, index\_col,\\\small\ttfamily skiprows, nrows};
+  \node[q=cblue] (e) at ( 5.6, 2.4) {\textbf{How is the text stored?}\\\small\ttfamily encoding, on\_bad\_lines};
+  \node[q=cblue] (f) at ( 5.6, 0)   {\textbf{What do the values mean?}\\\small\ttfamily dtype, parse\_dates,\\\small\ttfamily converters, na\_values};
+  \node[q=cblue] (g) at ( 5.6,-2.4) {\textbf{How much at once?}\\\small\ttfamily chunksize};
+  \foreach \n in {a,b,d} \draw[arrow] (\n.east) -- (c);
+  \foreach \n in {e,f,g} \draw[arrow] (\n.west) -- (c);
+\end{tikzpicture}
+\end{document}

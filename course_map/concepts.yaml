@@ -31,6 +31,8 @@ notes:
   7: 07-challenges-in-ml
   11: 11-tensors
   13: 13-toy-project
+  15: 15-working-with-csv
+  16: 16-working-with-json-and-sql
   46: 46-curse-of-dimensionality
 
 concepts:
@@ -65,8 +67,8 @@ concepts:
   - {id: data_quantity, name: Enough data, step: 2, videos: [7], status: confirmed}
   - {id: labelled_data, name: Labelled data, step: 2, videos: [3, 7], status: confirmed}
   - {id: sampling_bias, name: Sampling noise and bias, step: 2, videos: [7], status: confirmed}
-  - {id: csv, name: CSV files, step: 2, videos: [13, 15], status: draft}
-  - {id: json_sql, name: JSON and SQL data, step: 2, videos: [16], status: draft}
+  - {id: csv, name: CSV files, step: 2, videos: [13, 15], status: confirmed}
+  - {id: json_sql, name: JSON and SQL data, step: 2, videos: [16], status: confirmed}
   - {id: api, name: APIs, step: 2, videos: [7, 17], status: draft}
   - {id: web_scraping, name: Web scraping, step: 2, videos: [7, 18], status: draft}
 
@@ -219,7 +221,8 @@ links:
   - [sampling_bias, compared with, data_quantity, confirmed]
   - [csv, used in, eda, draft]
   - [api, compared with, web_scraping, draft]
-  - [json_sql, compared with, csv, draft]
+  - [json_sql, compared with, csv, confirmed]
+  - [json_sql, used in, api, draft]
   - [descriptive_stats, is a kind of, eda, draft]
   - [univariate, is a kind of, eda, draft]
   - [bivariate, is a kind of, eda, draft]
