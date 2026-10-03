@@ -8,7 +8,7 @@ title: "Gradient Descent from Scratch"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Feature scaling ([Note 24](../24-standardization/note.md)); Best-fit line and squared error ([Note 51](../51-linear-regression-maths/note.md)).
-> - **Leads to:** Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Stochastic gradient descent (Video 59, coming); Mini-batch gradient descent (Video 60, coming); Logistic regression (Video 70, coming); Gradient boosting (Video 120, coming).
+> - **Leads to:** Batch gradient descent ([Note 58](../58-batch-gradient-descent/note.md)); Stochastic gradient descent ([Note 59](../59-stochastic-gradient-descent/note.md)); Mini-batch gradient descent (Video 60, coming); Logistic regression (Video 70, coming); Gradient boosting (Video 120, coming).
 > - **Compare with:** Ordinary least squares (closed form) ([Note 51](../51-linear-regression-maths/note.md)); Normal equation ([Note 55](../55-multiple-lr-code/note.md)).
 <!-- /where-this-fits -->
 

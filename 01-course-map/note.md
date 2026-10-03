@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 98 of 143 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 99 of 143 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -158,7 +158,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Clustering | [Note 3](../03-types-of-ml/note.md), Video 128, coming | confirmed |
 | Anomaly detection | [Note 3](../03-types-of-ml/note.md) | confirmed |
 | Association rule learning | [Note 3](../03-types-of-ml/note.md) | confirmed |
-| Stochastic gradient descent | [Note 5](../05-online-learning/note.md), Video 59, coming | draft |
+| Stochastic gradient descent | [Note 5](../05-online-learning/note.md), [Note 59](../59-stochastic-gradient-descent/note.md) | confirmed |
 | K-nearest neighbours | [Note 6](../06-instance-vs-model-based/note.md), Video 91, coming | confirmed |
 | Logistic regression | [Note 13](../13-toy-project/note.md), Video 70, coming, Video 71, coming, Video 72, coming, Video 73, coming, Video 75, coming | draft |
 | Multicollinearity | [Note 27](../27-one-hot-encoding/note.md) | confirmed |
@@ -337,7 +337,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 56 | Assumptions of linear regression | [Note 27](../27-one-hot-encoding/note.md), [Note 30](../30-function-transformer/note.md) | written |
 | 57 | Convex and non-convex loss, Gradient descent, Learning rate | [Note 24](../24-standardization/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 58 | Batch gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
-| 59 | Stochastic gradient descent | [Note 57](../57-gradient-descent/note.md) | coming |
+| 59 | Stochastic gradient descent | [Note 57](../57-gradient-descent/note.md) | written |
 | 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | coming |
 | 61 | Polynomial features, Polynomial regression | [Note 55](../55-multiple-lr-code/note.md) | coming |
 | 62 | Bias-variance trade-off | [Note 7](../07-challenges-in-ml/note.md) | coming |

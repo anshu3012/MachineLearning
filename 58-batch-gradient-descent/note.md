@@ -8,6 +8,7 @@ title: "Batch Gradient Descent"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Gradient descent ([Note 57](../57-gradient-descent/note.md)).
+> - **Compare with:** Stochastic gradient descent ([Note 5](../05-online-learning/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

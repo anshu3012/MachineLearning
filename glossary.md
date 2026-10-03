@@ -188,6 +188,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Error (residual) | The gap between an actual value and the model's prediction. | [Video 50](50-simple-linear-regression/note.md) |
 | Error function (loss function) | A formula for how wrong the model is; here the sum of squared errors. | [Video 51](51-linear-regression-maths/note.md) |
 | errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. | [Video 33](33-mixed-variables/note.md) |
+| eta0 | The starting learning rate in SGDRegressor. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Euclidean distance | The straight-line distance between two points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all. | [Video 49](49-pca-mnist/note.md) |
@@ -290,6 +291,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes. | [Video 49](49-pca-mnist/note.md) |
 | Learning rate ($\eta$) | The number the slope is multiplied by to get the step size. | [Video 57](57-gradient-descent/note.md) |
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
+| Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Video 44](44-outliers-percentile/note.md) |
@@ -312,6 +314,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Matrix calculus | Rules for differentiating expressions with vectors and matrices. | [Video 54](54-multiple-lr-maths/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
 | Max-abs scaling | Divide by the largest absolute value in the column, giving values from -1 to 1. | [Video 25](25-normalization/note.md) |
+| max_iter | The maximum number of epochs in SGDRegressor. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | MaxAbsScaler | scikit-learn's class for max-abs scaling. | [Video 25](25-normalization/note.md) |
 | Maximum likelihood | Choosing the parameter value under which the observed data is most likely; used to find $\lambda$. | [Video 31](31-power-transformer/note.md) |
 | MCAR | Missing completely at random: the gaps have no relation to any value in the data. | [Video 35](35-complete-case-analysis/note.md) |
@@ -496,6 +499,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
 | Simple linear regression | Linear regression with one input column. | [Video 50](50-simple-linear-regression/note.md) |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Video 28](28-column-transformer/note.md) |
+| Simulated annealing | Lowering the learning rate gradually so the search settles down. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Size | The total number of items: the product of the shape. | [Video 11](11-tensors/note.md) |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Video 20](20-univariate-analysis/note.md) |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Video 29](29-pipelines/note.md) |
@@ -520,6 +524,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name. | [Video 29](29-pipelines/note.md) |
 | Stochastic error | A random, unmeasurable influence that scatters data around its trend. | [Video 50](50-simple-linear-regression/note.md) |
 | Stochastic gradient descent (SGD) | Gradient descent that uses one random row for every update. | [Video 58](58-batch-gradient-descent/note.md) |
+| Stochastic | Involving randomness. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | str dtype | The pandas 3 type for text columns, replacing `object`. | [Video 33](33-mixed-variables/note.md) |
 | str.extract | The pandas method that returns the part of each value matching a regular expression. | [Video 33](33-mixed-variables/note.md) |
 | strategy | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans. | [Video 32](32-binning-binarization/note.md) |

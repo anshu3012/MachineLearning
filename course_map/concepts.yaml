@@ -75,6 +75,7 @@ notes:
   56: 56-linear-regression-assumptions
   57: 57-gradient-descent
   58: 58-batch-gradient-descent
+  59: 59-stochastic-gradient-descent
 
 concepts:
   # 0 Foundations
@@ -189,7 +190,7 @@ concepts:
   - {id: learning_rate, name: Learning rate, step: 10, videos: [57], status: confirmed}
   - {id: convexity, name: Convex and non-convex loss, step: 8, videos: [57], status: confirmed}
   - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58], status: confirmed}
-  - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: draft}
+  - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: confirmed}
   - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, videos: [60], status: draft}
   - {id: polynomial_regression, name: Polynomial regression, step: 8, videos: [61], status: draft}
   - {id: regularisation, name: Regularisation, step: 8, videos: [63], status: draft}
@@ -423,7 +424,8 @@ links:
   - [linear_regression, is a kind of, supervised, confirmed]
   - [batch_gd, is a kind of, gradient_descent, confirmed]
   - [batch_gd, used in, multiple_lr, confirmed]
-  - [sgd, is a kind of, gradient_descent, draft]
+  - [sgd, is a kind of, gradient_descent, confirmed]
+  - [sgd, compared with, batch_gd, confirmed]
   - [minibatch_gd, is a kind of, gradient_descent, draft]
   - [sgd, used in, online_learning, confirmed]
   - [polynomial_regression, needs, multiple_lr, draft]
