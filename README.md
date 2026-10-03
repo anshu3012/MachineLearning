@@ -109,7 +109,9 @@ Subagents never edit the glossary, README or git; Claude merges those after revi
 
 One data file lists every Concept, its Pipeline step and its Links; all four views (Pipeline map, Concept map, Learning path, Algorithm chooser), the PDF, the interactive version (Dash Cytoscape) and every Note's *Where this fits* box are generated from it.
 
-Pipeline steps: 0 Foundations, 1 Get data, 2 Understand data, 3 Clean, 4 Engineer features, 5 Reduce dimensions, 6 Split, 7 Model, 8 Evaluate, 9 Tune, 10 Deploy.
+Pipeline steps (the teacher's ML development life cycle, Video 9, split finer): 0 Foundations, 1 Frame the problem, 2 Get data, 3 Understand data, 4 Clean, 5 Engineer features, 6 Reduce dimensions, 7 Split, 8 Model, 9 Evaluate, 10 Tune, 11 Deploy, 12 Test, 13 Monitor and maintain. Understand data comes before Clean (as in the playlist and CRISP-DM), with a loop arrow between them: in practice we go back and forth.
+
+Deferred Videos are on the map too: 1 is the Course map itself; 8 and 12 sit in Foundations; 9 defines the Pipeline map; 14 is Frame the problem.
 
 **Transcript first, map second.** For every Note:
 1. List every concept taught in the transcript and the teacher's code, before looking at the draft map.

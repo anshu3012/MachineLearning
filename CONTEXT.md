@@ -37,7 +37,7 @@ The one overview that ties all Notes together. It has four views: the Pipeline m
 _Avoid_: Index, syllabus, roadmap, architecture
 
 **Pipeline map**:
-The Course map view that places every topic at its step in an ML project (data, clean, explore, features, split, scale, model, evaluate, tune, deploy).
+The Course map view that places every topic at its step in an ML project (14 steps, from Foundations and Frame the problem to Test and Monitor and maintain).
 _Avoid_: Workflow diagram, lifecycle
 
 **Concept map**:
