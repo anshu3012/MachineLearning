@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 78 of 136 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 81 of 137 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -98,12 +98,13 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Poor-quality data | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
-| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 35](../35-complete-case-analysis/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md) | confirmed |
+| Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 35](../35-complete-case-analysis/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
 | Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), Video 41, coming | draft |
 | Simple imputation (mean, median, mode, constant) | [Note 23](../23-what-is-feature-engineering/note.md), [Note 36](../36-imputing-numerical-data/note.md), [Note 37](../37-missing-categorical-data/note.md) | confirmed |
 | Complete case analysis | [Note 35](../35-complete-case-analysis/note.md) | confirmed |
-| Missing indicator | Video 38, coming | draft |
-| KNN imputer | Video 39, coming | draft |
+| Missing indicator | [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
+| Random sample imputation | [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
+| KNN imputer | [Note 39](../39-knn-imputer/note.md) | confirmed |
 | Iterative imputation (MICE) | Video 40, coming | draft |
 | Z-score outlier method | Video 42, coming | draft |
 | IQR outlier method | Video 43, coming | draft |
@@ -119,7 +120,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 27](../27-one-hot-encoding/note.md) | confirmed |
 | Standardization | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
-| ML pipelines | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
+| ML pipelines | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | confirmed |
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), [Note 32](../32-binning-binarization/note.md) | confirmed |
 | Feature transformation | [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
@@ -212,7 +213,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Hyperparameter tuning | Video 9, coming, Video 81, coming, Video 98, coming, Video 111, coming, Video 118, coming | draft |
-| Grid and random search | [Note 29](../29-pipelines/note.md), Video 112, coming | draft |
+| Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 112, coming | draft |
 | Optuna | Video 134, coming | draft |
 
 ### 2.12 Step 11: Deploy
@@ -251,7 +252,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 136 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 137 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -300,7 +301,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 26 | Encoding categorical data, Ordinal and label encoding | [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 27 | Multicollinearity, One-hot encoding | [Note 26](../26-ordinal-label-encoding/note.md) | written |
 | 28 | Column transformer | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | written |
-| 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 7](../07-challenges-in-ml/note.md), Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 28](../28-column-transformer/note.md) | written |
+| 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 28](../28-column-transformer/note.md) | written |
 | 30 | Cross-validation, Function transformer, Q-Q plot | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 31 | Power transformer | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md), [Note 30](../30-function-transformer/note.md) | written |
 | 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | written |
@@ -309,9 +310,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 35 | Complete case analysis, Missing values | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
 | 36 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md) | written |
 | 37 | Missing values, Simple imputation (mean, median, mode, constant) | [Note 7](../07-challenges-in-ml/note.md), [Note 13](../13-toy-project/note.md) | written |
-| 38 | Missing indicator | [Note 37](../37-missing-categorical-data/note.md) | coming |
-| 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), [Note 37](../37-missing-categorical-data/note.md) | coming |
-| 40 | Iterative imputation (MICE) | [Note 37](../37-missing-categorical-data/note.md) | coming |
+| 38 | Grid and random search, ML pipelines, Missing indicator, Missing values, Random sample imputation | [Note 28](../28-column-transformer/note.md), [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), [Note 37](../37-missing-categorical-data/note.md) | written |
+| 39 | KNN imputer | [Note 6](../06-instance-vs-model-based/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
+| 40 | Iterative imputation (MICE) | [Note 38](../38-missing-indicator-random-sample/note.md) | coming |
 | 41 | Outliers | [Note 7](../07-challenges-in-ml/note.md), [Note 20](../20-univariate-analysis/note.md) | coming |
 | 42 | Z-score outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
 | 43 | IQR outlier method | [Note 19](../19-understanding-your-data/note.md), Video 41, coming | coming |
@@ -383,7 +384,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 109 | Bias-variance trade-off, Random forest | [Note 7](../07-challenges-in-ml/note.md), Video 100, coming, Video 107, coming | coming |
 | 110 | Random forest | Video 100, coming, Video 107, coming | coming |
 | 111 | Hyperparameter tuning, Random forest | Video 100, coming, Video 107, coming | coming |
-| 112 | Cross-validation, Grid and random search | [Note 29](../29-pipelines/note.md), Video 111, coming | coming |
+| 112 | Cross-validation, Grid and random search | [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 111, coming | coming |
 | 113 | OOB score | nothing | coming |
 | 114 | Feature importance | Video 111, coming | coming |
 | 115 | AdaBoost | nothing | coming |

@@ -8,8 +8,8 @@ title: "Handling Missing Data: Imputing Numerical Columns with SimpleImputer"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Train-test split ([Note 13](../13-toy-project/note.md)).
-> - **Leads to:** Missing indicator (Video 38, coming); KNN imputer (Video 39, coming); Iterative imputation (MICE) (Video 40, coming).
-> - **Compare with:** Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)).
+> - **Leads to:** Missing indicator ([Note 38](../38-missing-indicator-random-sample/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); Grid and random search ([Note 38](../38-missing-indicator-random-sample/note.md)); Iterative imputation (MICE) (Video 40, coming).
+> - **Compare with:** Complete case analysis ([Note 35](../35-complete-case-analysis/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

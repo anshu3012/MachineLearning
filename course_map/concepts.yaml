@@ -54,6 +54,8 @@ notes:
   35: 35-complete-case-analysis
   36: 36-imputing-numerical-data
   37: 37-missing-categorical-data
+  38: 38-missing-indicator-random-sample
+  39: 39-knn-imputer
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
@@ -113,11 +115,12 @@ concepts:
 
   # 4 Clean
   - {id: data_quality, name: Poor-quality data, step: 4, videos: [7], status: confirmed}
-  - {id: missing_values, name: Missing values, step: 4, videos: [7, 23, 35, 36, 37], status: confirmed}
+  - {id: missing_values, name: Missing values, step: 4, videos: [7, 23, 35, 36, 37, 38], status: confirmed}
   - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: confirmed}
   - {id: simple_imputation, name: "Simple imputation (mean, median, mode, constant)", step: 4, videos: [23, 36, 37], status: confirmed}
-  - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: draft}
-  - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: draft}
+  - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: confirmed}
+  - {id: random_sample_imputation, name: Random sample imputation, step: 4, videos: [38], status: confirmed}
+  - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: confirmed}
   - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: draft}
   - {id: outliers, name: Outliers, step: 4, videos: [7, 20, 23, 41], status: draft}
   - {id: zscore, name: Z-score outlier method, step: 4, videos: [42], status: draft}
@@ -135,7 +138,7 @@ concepts:
   - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 23, 27], status: confirmed}
   - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: confirmed}
   - {id: multicollinearity, name: Multicollinearity, step: 8, videos: [27], status: confirmed}
-  - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: confirmed}
+  - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29, 38], status: confirmed}
   - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: confirmed}
   - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: confirmed}
   - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: confirmed}
@@ -209,7 +212,7 @@ concepts:
 
   # 10 Tune
   - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 98, 111, 118], status: draft}
-  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 112], status: draft}
+  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 112], status: draft}
   - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
 
   # 11 Deploy
@@ -278,9 +281,14 @@ links:
   - [simple_imputation, needs, train_test_split, confirmed]
   - [datetime, needs, csv, confirmed]
   - [simple_imputation, fixes, missing_values, confirmed]
-  - [missing_indicator, fixes, missing_values, draft]
-  - [knn_imputer, fixes, missing_values, draft]
-  - [knn_imputer, needs, knn, draft]
+  - [missing_indicator, fixes, missing_values, confirmed]
+  - [knn_imputer, fixes, missing_values, confirmed]
+  - [knn_imputer, compared with, simple_imputation, confirmed]
+  - [missing_indicator, used in, knn_imputer, confirmed]
+  - [random_sample_imputation, fixes, missing_values, confirmed]
+  - [random_sample_imputation, compared with, simple_imputation, confirmed]
+  - [simple_imputation, used in, grid_search, confirmed]
+  - [knn_imputer, needs, knn, confirmed]
   - [mice, fixes, missing_values, draft]
   - [zscore, fixes, outliers, draft]
   - [iqr, fixes, outliers, draft]

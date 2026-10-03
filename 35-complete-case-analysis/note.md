@@ -8,7 +8,7 @@ title: "Handling Missing Data: Complete Case Analysis"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)).
-> - **Leads to:** Simple imputation (mean, median, mode, constant) ([Note 36](../36-imputing-numerical-data/note.md)); Missing indicator (Video 38, coming); KNN imputer (Video 39, coming); Iterative imputation (MICE) (Video 40, coming).
+> - **Leads to:** Simple imputation (mean, median, mode, constant) ([Note 36](../36-imputing-numerical-data/note.md)); Missing indicator ([Note 38](../38-missing-indicator-random-sample/note.md)); Random sample imputation ([Note 38](../38-missing-indicator-random-sample/note.md)); KNN imputer ([Note 39](../39-knn-imputer/note.md)); Iterative imputation (MICE) (Video 40, coming).
 > - **Compare with:** Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 
