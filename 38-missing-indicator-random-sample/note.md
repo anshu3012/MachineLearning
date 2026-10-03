@@ -8,7 +8,7 @@ title: "Handling Missing Data: Random Sample Imputation, Missing Indicator and A
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Poor-quality data ([Note 7](../07-challenges-in-ml/note.md)); Data leakage ([Note 13](../13-toy-project/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)); Saving models with pickle ([Note 29](../29-pipelines/note.md)); Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); Hyperparameter tuning (Video 9, coming).
-> - **Leads to:** KNN imputer ([Note 39](../39-knn-imputer/note.md)); Iterative imputation (MICE) (Video 40, coming).
+> - **Leads to:** KNN imputer ([Note 39](../39-knn-imputer/note.md)); Iterative imputation (MICE) ([Note 40](../40-iterative-imputer-mice/note.md)).
 > - **Compare with:** Outliers ([Note 23](../23-what-is-feature-engineering/note.md)); Simple imputation (mean, median, mode, constant) ([Note 37](../37-missing-categorical-data/note.md)); Optuna (Video 134, coming).
 <!-- /where-this-fits -->
 
