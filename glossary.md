@@ -91,6 +91,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0. | [Video 31](31-power-transformer/note.md) |
 | Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
 | Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
+| Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class). | [Video 79](79-softmax-regression/note.md) |
 | Categorical data | Data made of categories. | [Video 3](03-types-of-ml/note.md) |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Category share | The rows in one category divided by the rows that have a value. | [Video 37](37-missing-categorical-data/note.md) |
@@ -161,6 +162,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Day of week | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`). | [Video 34](34-date-and-time/note.md) |
 | Dead zone | The range of S for which the Lasso slope is exactly 0. | [Video 68](68-lasso-sparsity/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
+| Decision region | The part of the input space in which a model predicts a given class. | [Video 79](79-softmax-regression/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -397,6 +399,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Video 22](22-pandas-profiling/note.md) |
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Video 37](37-missing-categorical-data/note.md) |
 | Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others. | [Video 27](27-one-hot-encoding/note.md) |
+| Multinomial logistic regression | Another name for softmax regression. | [Video 79](79-softmax-regression/note.md) |
 | Multiple imputation | Making several filled copies of the data to see how unsure the fills are. | [Video 40](40-iterative-imputer-mice/note.md) |
 | Multiple linear regression | Linear regression with several input columns. | [Video 50](50-simple-linear-regression/note.md) |
 | Multivariate analysis | Studying more than two variables together. | [Video 20](20-univariate-analysis/note.md) |
@@ -428,6 +431,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Observation | The report's word for a row. | [Video 22](22-pandas-profiling/note.md) |
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | One-hot encoding | Representing each word or category by a vector with a single 1. | [Video 11](11-tensors/note.md) |
+| One-vs-rest | Training one binary classifier per class, each separating that class from all others. | [Video 79](79-softmax-regression/note.md) |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned. | [Video 27](27-one-hot-encoding/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
 | Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
@@ -570,6 +574,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Video 29](29-pipelines/note.md) |
 | Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0. | [Video 68](68-lasso-sparsity/note.md) |
+| Softmax function | Turns a list of scores into probabilities: $e^{z_k} / \sum_j e^{z_j}$. | [Video 79](79-softmax-regression/note.md) |
+| Softmax regression | Logistic regression extended to any number of classes using the softmax function. | [Video 79](79-softmax-regression/note.md) |
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Video 24](24-standardization/note.md) |
 | Sparse data | Data where most of the space holds no points. | [Video 46](46-curse-of-dimensionality/note.md) |

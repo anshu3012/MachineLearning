@@ -95,6 +95,7 @@ notes:
   76: 76-accuracy-confusion-matrix
   77: 77-precision-recall-f1
   78: 78-roc-auc
+  79: 79-softmax-regression
 
 concepts:
   # 0 Foundations
@@ -220,7 +221,7 @@ concepts:
   - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [70, 71], status: confirmed}
   - {id: sigmoid, name: Sigmoid function, step: 8, videos: [72, 74], status: confirmed}
   - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73], status: confirmed}
-  - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: draft}
+  - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: confirmed}
   - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: confirmed}
   - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [82, 83, 84, 85, 86, 87, 88, 89, 90], status: draft}
   - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: draft}
@@ -475,7 +476,8 @@ links:
   - [logistic_regression, needs, sigmoid, confirmed]
   - [log_loss, used in, logistic_regression, confirmed]
   - [logistic_regression, needs, gradient_descent, draft]
-  - [softmax, is a kind of, logistic_regression, draft]
+  - [softmax, is a kind of, logistic_regression, confirmed]
+  - [softmax, needs, one_hot, confirmed]
   - [polynomial_features, used in, logistic_regression, draft]
   - [naive_bayes, is a kind of, classification_task, draft]
   - [knn, is a kind of, classification_task, draft]

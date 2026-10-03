@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 113 of 145 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 114 of 145 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -181,7 +181,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Perceptron trick | [Note 70](../70-perceptron-trick/note.md), [Note 71](../71-perceptron-code/note.md) | confirmed |
 | Sigmoid function | [Note 72](../72-sigmoid-function/note.md), [Note 74](../74-sigmoid-derivative/note.md) | confirmed |
 | Log loss (binary cross entropy) | [Note 73](../73-log-loss/note.md) | confirmed |
-| Softmax regression | Video 79, coming | draft |
+| Softmax regression | [Note 79](../79-softmax-regression/note.md) | confirmed |
 | Naive Bayes | Video 82, coming, Video 83, coming, Video 84, coming, Video 85, coming, Video 86, coming, Video 87, coming, Video 88, coming, Video 89, coming, Video 90, coming | draft |
 | Support vector machines | Video 92, coming, Video 93, coming, Video 94, coming | draft |
 | Kernel trick | Video 95, coming, Video 96, coming | draft |
@@ -359,7 +359,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 76 | Accuracy, Confusion matrix | Video 9, coming, [Note 13](../13-toy-project/note.md) | written |
 | 77 | Precision, recall and F1 | Video 9, coming, [Note 76](../76-accuracy-confusion-matrix/note.md) | written |
 | 78 | ROC curve and AUC | [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 77](../77-precision-recall-f1/note.md) | written |
-| 79 | Softmax regression | [Note 75](../75-logistic-gradient-descent/note.md) | coming |
+| 79 | Softmax regression | [Note 27](../27-one-hot-encoding/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | written |
 | 80 | Polynomial features | nothing | coming |
 | 81 | Hyperparameter tuning | nothing | coming |
 | 82 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |

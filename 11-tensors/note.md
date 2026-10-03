@@ -7,7 +7,7 @@ title: "Tensors"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Leads to:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Softmax regression ([Note 79](../79-softmax-regression/note.md)).
 > - **Compare with:** Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)).
 <!-- /where-this-fits -->
 

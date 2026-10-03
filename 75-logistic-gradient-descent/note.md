@@ -8,7 +8,7 @@ title: "Logistic Regression: Gradient Descent and Code from Scratch"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)); Polynomial features ([Note 61](../61-polynomial-regression/note.md)); Perceptron trick ([Note 71](../71-perceptron-code/note.md)); Log loss (binary cross entropy) ([Note 73](../73-log-loss/note.md)).
-> - **Leads to:** Softmax regression (Video 79, coming).
+> - **Leads to:** Softmax regression ([Note 79](../79-softmax-regression/note.md)).
 > - **Compare with:** Decision trees (Video 97, coming).
 <!-- /where-this-fits -->
 
