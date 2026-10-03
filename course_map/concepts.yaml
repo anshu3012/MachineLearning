@@ -29,6 +29,7 @@ notes:
   5: 05-online-learning
   6: 06-instance-vs-model-based
   7: 07-challenges-in-ml
+  8: 08-applications-of-ml
   11: 11-tensors
   13: 13-toy-project
   15: 15-working-with-csv
@@ -128,8 +129,8 @@ concepts:
   - {id: instance_based, name: Instance-based learning, step: 0, videos: [6], status: confirmed}
   - {id: model_based, name: Model-based learning, step: 0, videos: [6], status: confirmed}
   - {id: tensor, name: Tensors, step: 0, videos: [11], status: confirmed}
-  - {id: applications, name: Applications of ML, step: 0, videos: [8], status: draft}
-  - {id: data_mining, name: Data mining, step: 0, videos: [1], status: confirmed}
+  - {id: applications, name: Applications of ML, step: 0, videos: [8], status: confirmed}
+  - {id: data_mining, name: Data mining, step: 0, videos: [1, 8], status: confirmed}
   - {id: mldlc, name: ML development life cycle, step: 0, videos: [9, 13], status: draft}
   - {id: dev_setup, name: "Anaconda, Jupyter and Colab", step: 0, videos: [12], status: draft}
 
@@ -308,7 +309,9 @@ links:
   - [knn, is a kind of, instance_based, confirmed]
   - [tensor, used in, ml, confirmed]
   - [problem_framing, used in, mldlc, draft]
-  - [applications, needs, ml, draft]
+  - [applications, needs, ml, confirmed]
+  - [data_mining, used in, applications, confirmed]
+  - [association_rules, used in, applications, confirmed]
   - [data_mining, needs, ml, confirmed]
   - [data_mining, compared with, eda, confirmed]
   - [dev_setup, used in, ml, draft]

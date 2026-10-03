@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 119 of 148 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 120 of 148 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -36,7 +36,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Concept | Taught in | Status |
 |---|---|---|
 | Machine learning | [Note 1](../01-what-is-ml/note.md), [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
-| Data mining | [Note 1](../01-what-is-ml/note.md) | confirmed |
+| Data mining | [Note 1](../01-what-is-ml/note.md), [Note 8](../08-applications-of-ml/note.md) | confirmed |
 | Artificial intelligence | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
 | Symbolic AI and expert systems | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
 | Deep learning | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | confirmed |
@@ -53,7 +53,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Out-of-core learning | [Note 5](../05-online-learning/note.md) | confirmed |
 | Instance-based learning | [Note 6](../06-instance-vs-model-based/note.md) | confirmed |
 | Model-based learning | [Note 6](../06-instance-vs-model-based/note.md) | confirmed |
-| Applications of ML | Video 8, coming | draft |
+| Applications of ML | [Note 8](../08-applications-of-ml/note.md) | confirmed |
 | ML development life cycle | Video 9, coming, [Note 13](../13-toy-project/note.md) | draft |
 | Tensors | [Note 11](../11-tensors/note.md) | confirmed |
 | Anaconda, Jupyter and Colab | Video 12, coming | draft |
@@ -292,7 +292,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 5 | Online learning, Out-of-core learning, Retraining, Stochastic gradient descent | [Note 4](../04-batch-learning/note.md) | written |
 | 6 | Feature scaling, Instance-based learning, K-nearest neighbours, Model-based learning | [Note 3](../03-types-of-ml/note.md) | written |
 | 7 | APIs, Deployment, Enough data, Feature construction and splitting, Feature engineering, Labelled data, MLOps and cost, Missing values, Outliers, Overfitting, Poor-quality data, Sampling noise and bias, Software integration, Underfitting, Web scraping | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | written |
-| 8 | Applications of ML | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | deferred |
+| 8 | Applications of ML, Data mining | [Note 2](../02-ai-vs-ml-vs-dl/note.md), [Note 3](../03-types-of-ml/note.md) | written |
 | 9 | Beta and A/B testing, Feature selection, Framing an ML problem, Hyperparameter tuning, Imbalanced data, ML development life cycle | [Note 3](../03-types-of-ml/note.md), [Note 7](../07-challenges-in-ml/note.md) | deferred |
 | 11 | Features, One-hot encoding, Tensors | nothing | written |
 | 12 | Anaconda, Jupyter and Colab | nothing | deferred |

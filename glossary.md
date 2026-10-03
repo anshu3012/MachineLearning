@@ -63,6 +63,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Autocorrelation | Each residual is related to the one before it in row order. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Average record size | The memory one row takes, on average. | [Video 22](22-pandas-profiling/note.md) |
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
+| B2B | Business to business: a product that helps a company run its business. | [Video 8](08-applications-of-ml/note.md) |
+| B2C | Business to customer: a product sold to ordinary users. | [Video 8](08-applications-of-ml/note.md) |
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Video 62](62-bias-variance/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -94,6 +96,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bot | A program that visits websites automatically. | [Video 18](18-web-scraping/note.md) |
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
 | Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0. | [Video 31](31-power-transformer/note.md) |
+| Buying behaviour | The pattern of what a customer buys. | [Video 8](08-applications-of-ml/note.md) |
 | C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
 | Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
@@ -149,6 +152,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Converge | To settle at a minimum, with steps becoming negligible. | [Video 57](57-gradient-descent/note.md) |
 | Convergence | The point where the fills hardly change between two iterations. | [Video 40](40-iterative-imputer-mice/note.md) |
 | ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum. | [Video 81](81-logistic-hyperparameters/note.md) |
+| Conversion rate | The share of people reached who become customers. | [Video 8](08-applications-of-ml/note.md) |
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. | [Video 57](57-gradient-descent/note.md) |
 | Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. | [Video 68](68-lasso-sparsity/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
@@ -156,6 +160,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
 | Covariance | How two columns move together: positive if they rise together, negative if not. | [Video 48](48-pca-step-by-step/note.md) |
 | Cramér's V | A measure of the link between two categorical columns, from 0 to 1. | [Video 22](22-pandas-profiling/note.md) |
+| Credit scoring | Predicting whether a loan applicant will repay. | [Video 8](08-applications-of-ml/note.md) |
 | Cross entropy | The negative log-likelihood; smaller is better. | [Video 73](73-log-loss/note.md) |
 | Cross-validated accuracy | Accuracy averaged over several train-test splits of the data, an estimate of performance on new data. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data. | [Video 29](29-pipelines/note.md) |
@@ -164,6 +169,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Cumulative explained variance | The share of the variance kept by the first k components together. | [Video 49](49-pca-mnist/note.md) |
 | Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning. | [Video 32](32-binning-binarization/note.md) |
+| Customer profile | A summary of what kind of buyer a customer is, built from their purchases. | [Video 8](08-applications-of-ml/note.md) |
+| Customer segmentation | Grouping customers by their buying behaviour. | [Video 8](08-applications-of-ml/note.md) |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95. | [Video 44](44-outliers-percentile/note.md) |
 | Dash | A Python library for building interactive web apps with Plotly charts. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Data analysis | Finding patterns and hidden information in data, mainly by plotting graphs. | [Video 1](01-what-is-ml/note.md) |
@@ -183,6 +190,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Decision region | The part of the input space in which a model predicts a given class. | [Video 79](79-softmax-regression/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
+| Delivery routing | Planning the most efficient route for deliveries. | [Video 8](08-applications-of-ml/note.md) |
+| Demand forecasting | Predicting how much of something will be needed, where and when. | [Video 8](08-applications-of-ml/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Density plot | A histogram with a smooth KDE curve on top. | [Video 20](20-univariate-analysis/note.md) |
 | Dependent events | Events that are not independent: knowing one changes the probability of the other. | [Video 83](83-independent-events/note.md) |
@@ -322,6 +331,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data. | [Video 20](20-univariate-analysis/note.md) |
 | Intersection (A ∩ B) | The event that both A and B happen. | [Video 82](82-conditional-probability/note.md) |
 | Inverse matrix | The matrix that undoes another: their product is the identity matrix. | [Video 54](54-multiple-lr-maths/note.md) |
+| IoT sensor | A device that measures something and sends the readings over the internet. | [Video 8](08-applications-of-ml/note.md) |
 | IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. | [Video 43](43-outliers-iqr/note.md) |
 | IQR rule | Values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$) are outliers; used for skewed columns. | [Video 41](41-what-are-outliers/note.md) |
 | isnull | The pandas method that marks each missing cell `True`. | [Video 35](35-complete-case-analysis/note.md) |
@@ -451,6 +461,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | nan-Euclidean distance | The Euclidean distance over the columns both rows have, scaled by (all columns / used columns). | [Video 39](39-knn-imputer/note.md) |
 | Narrow AI | AI that does one specific task. All AI today is narrow. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | NaT | "Not a time": the missing value of a datetime column. | [Video 34](34-date-and-time/note.md) |
+| Natural language processing (NLP) | The part of ML that works with human language. | [Video 8](08-applications-of-ml/note.md) |
 | Nearest neighbours | The rows at the smallest distance from a given row. | [Video 39](39-knn-imputer/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Noise (irreducible error) | Randomness in the data that no model can predict. | [Video 62](62-bias-variance/note.md) |
@@ -496,6 +507,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Partial derivative | The slope of a function of several variables in one variable, holding the others fixed. | [Video 51](51-linear-regression-maths/note.md) |
 | partial_fit | A scikit-learn method that continues training from where the model left off. | [Video 5](05-online-learning/note.md) |
 | passthrough | The `remainder` option that keeps untouched columns unchanged. | [Video 28](28-column-transformer/note.md) |
+| Past defaulters | Past borrowers who did not repay their loan. | [Video 8](08-applications-of-ml/note.md) |
 | Pattern | The relationship between input and output that the algorithm discovers. | [Video 1](01-what-is-ml/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
 | pd.crosstab | pandas function that counts how often each pair of values from two columns occurs. | [Video 89](89-naive-bayes-code/note.md) |
@@ -534,6 +546,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Predict | Use a trained model to give an answer for new data it has not seen. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | predict_proba | scikit-learn method that returns predicted probabilities instead of classes. | [Video 78](78-roc-auc/note.md) |
 | Prediction ($\hat{y}$) | The value the model gives for an input; the hat marks a prediction. | [Video 51](51-linear-regression-maths/note.md) |
+| Predictive maintenance | Repairing a machine before it breaks, based on predicted faults. | [Video 8](08-applications-of-ml/note.md) |
 | Preprocessing | Cleaning and preparing data before training. | [Video 13](13-toy-project/note.md) |
 | Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new columns along the directions of greatest variance. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most. | [Video 47](47-pca-geometric-intuition/note.md) |
@@ -593,6 +606,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | ROC curve | A plot of TPR against FPR for every threshold. | [Video 78](78-roc-auc/note.md) |
 | Rollback | Restoring a model to an earlier, good version. | [Video 5](05-online-learning/note.md) |
 | Root mean squared error (RMSE) | The square root of MSE, in the output's units. | [Video 52](52-regression-metrics/note.md) |
+| RPM | Revolutions per minute: how fast a motor turns. | [Video 8](08-applications-of-ml/note.md) |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean. | [Video 52](52-regression-metrics/note.md) |
 | R² score | How much of the variation in a regression target the model explains: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
 | Saddle point | A flat point that curves up in one direction and down in another. | [Video 57](57-gradient-descent/note.md) |
@@ -609,6 +623,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Video 29](29-pipelines/note.md) |
 | Semester | One of two six-month halves of a year. | [Video 34](34-date-and-time/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Video 3](03-types-of-ml/note.md) |
+| Sentiment analysis | Deciding whether a text expresses a positive or negative opinion. | [Video 8](08-applications-of-ml/note.md) |
 | Separator | The character between values on a line, such as `,` or a tab. | [Video 15](15-working-with-csv/note.md) |
 | Sequential data | Data fed one piece after another, in order. | [Video 5](05-online-learning/note.md) |
 | Series | pandas' one-column structure: values with an index. | [Video 15](15-working-with-csv/note.md) |
@@ -665,10 +680,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Supervised learning | Learning from data with inputs and outputs, to predict outputs. | [Video 3](03-types-of-ml/note.md) |
 | Supervision | Correct answers that guide an algorithm while it learns. | [Video 3](03-types-of-ml/note.md) |
 | Support | The number of items that really belong to a class. | [Video 77](77-precision-recall-f1/note.md) |
+| Surge pricing | Raising fares when demand is much higher than supply. | [Video 8](08-applications-of-ml/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Tag | One element of HTML, such as `<h2>TCS</h2>`. | [Video 18](18-web-scraping/note.md) |
 | Target leakage | Building an input column from the answer itself, so the model sees information it would not have in real use. | [Video 52](52-regression-metrics/note.md) |
 | Target, label | Other names for the output column. | [Video 3](03-types-of-ml/note.md) |
+| Targeted marketing | Advertising only to the people most likely to buy. | [Video 8](08-applications-of-ml/note.md) |
 | Tensor | A container of numbers arranged along one or more axes. | [Video 11](11-tensors/note.md) |
 | Test set | The part hidden during training, used to check the model. | [Video 13](13-toy-project/note.md) |
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). | [Video 30](30-function-transformer/note.md) |
