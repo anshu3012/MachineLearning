@@ -78,6 +78,7 @@ notes:
   59: 59-stochastic-gradient-descent
   60: 60-mini-batch-gradient-descent
   61: 61-polynomial-regression
+  62: 62-bias-variance
 
 concepts:
   # 0 Foundations
@@ -224,7 +225,7 @@ concepts:
   # 9 Evaluate
   - {id: overfitting, name: Overfitting, step: 9, videos: [7, 61], status: confirmed}
   - {id: underfitting, name: Underfitting, step: 9, videos: [7, 61], status: confirmed}
-  - {id: bias_variance, name: Bias-variance trade-off, step: 9, videos: [62, 109], status: draft}
+  - {id: bias_variance, name: Bias-variance trade-off, step: 9, videos: [62, 109], status: confirmed}
   - {id: accuracy, name: Accuracy, step: 9, videos: [13, 76], status: confirmed}
   - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: confirmed}
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: draft}
@@ -482,7 +483,9 @@ links:
   - [kmeans, needs, feature_scaling, draft]
   # Evaluate
   - [overfitting, compared with, underfitting, confirmed]
-  - [bias_variance, needs, overfitting, draft]
+  - [bias_variance, needs, overfitting, confirmed]
+  - [bias_variance, needs, underfitting, confirmed]
+  - [polynomial_regression, used in, bias_variance, confirmed]
   - [accuracy, needs, train_test_split, confirmed]
   - [accuracy, used in, classification_task, confirmed]
   - [confusion_matrix, needs, accuracy, draft]

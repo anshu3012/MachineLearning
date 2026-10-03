@@ -61,6 +61,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Average record size | The memory one row takes, on average. | [Video 22](22-pandas-profiling/note.md) |
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
+| Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Video 62](62-bias-variance/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Batch (mini-batch) | A small group of training rows used for one update. | [Video 60](60-mini-batch-gradient-descent/note.md) |
 | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
@@ -69,6 +70,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
 | Best-fit line | The line with the smallest total error over all the training points. | [Video 50](50-simple-linear-regression/note.md) |
+| Bias | Error from a model being too simple to capture the true relationship. | [Video 62](62-bias-variance/note.md) |
+| Bias-variance trade-off | Lowering bias by adding complexity tends to raise variance, and the reverse. | [Video 62](62-bias-variance/note.md) |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data. | [Video 5](05-online-learning/note.md) |
 | Bimodal | A distribution with two peaks. | [Video 31](31-power-transformer/note.md) |
 | Bin edge | A boundary between two neighbouring bins. | [Video 32](32-binning-binarization/note.md) |
@@ -79,6 +82,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Binning | Grouping a numerical column into ranges that act as categories. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
+| Boosting | Combining many simple models in sequence to reduce bias. | [Video 62](62-bias-variance/note.md) |
 | Bot | A program that visits websites automatically. | [Video 18](18-web-scraping/note.md) |
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
 | Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0. | [Video 31](31-power-transformer/note.md) |
@@ -368,6 +372,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | NaT | "Not a time": the missing value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | Nearest neighbours | The rows at the smallest distance from a given row. | [Video 39](39-knn-imputer/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Noise (irreducible error) | Randomness in the data that no model can predict. | [Video 62](62-bias-variance/note.md) |
 | Nominal data | Categorical data whose categories have no order, such as states. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Non-closed-form solution | An answer reached by improving a guess step by step. | [Video 51](51-linear-regression-maths/note.md) |
 | Non-null | Not missing. | [Video 19](19-understanding-your-data/note.md) |
@@ -464,6 +469,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Regression metric | A number that summarises how close a regression model's predictions are to the true values. | [Video 52](52-regression-metrics/note.md) |
 | Regression | Supervised learning with a numerical output. | [Video 3](03-types-of-ml/note.md) |
 | Regular expression | A short pattern that describes text, such as `\d+` for "one or more digits". | [Video 33](33-mixed-variables/note.md) |
+| Regularisation | Penalising large coefficients to reduce a model's variance. | [Video 62](62-bias-variance/note.md) |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments. | [Video 3](03-types-of-ml/note.md) |
 | Relative path | A file's location, starting from the folder the code runs in. | [Video 15](15-working-with-csv/note.md) |
 | remainder | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"`. | [Video 28](28-column-transformer/note.md) |
