@@ -8,7 +8,8 @@ title: "Naive Bayes with Numerical Data: Gaussian Naive Bayes"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Classification problems ([Note 3](../03-types-of-ml/note.md)); Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Bayes' theorem ([Note 86](../86-bayes-problem/note.md)).
-> - **Leads to:** Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)).
+> - **Leads to:** Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)).
+> - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

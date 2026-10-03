@@ -1,0 +1,20 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % one Bernoulli trial
+  \node[box=cblue, minimum width=4.6cm] (b) at (0,0) {\textbf{Bernoulli trial}\\ one yes/no experiment};
+  \node[note] at (0,-1.35) {success $=1$ with probability $p$\\ failure $=0$ with probability $1-p$};
+  % repeated n times
+  \foreach \i/\v in {1/1,2/0,3/1,4/1,5/0} {
+    \node[draw=cblue, fill=cblue!12, rounded corners=3pt, minimum size=0.9cm] (t\i) at (4.6+1.15*\i,0) {\v};
+  }
+  \draw[arrow] (b) -- (t1) node[midway, above, note] {repeat};
+  \draw[decorate, decoration={brace, amplitude=6pt, mirror}, draw=cgrey] (5.2,-0.65) -- (10.95,-0.65)
+    node[midway, below=8pt, note] {$n = 5$ independent trials, same $p$};
+  % count
+  \node[box=corange, minimum width=4.4cm] (x) at (14.9,0) {\textbf{Binomial variable}\\ $X$ = number of 1s};
+  \draw[arrow] (t5) -- (x) node[midway, above, note] {count};
+  \node[note] at (14.9,-1.35) {here $X = 3$; possible values\\ $0, 1, \dots, n$};
+\end{tikzpicture}
+\end{document}

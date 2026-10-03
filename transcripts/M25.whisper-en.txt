@@ -1,0 +1,2034 @@
+Hello guys, welcome to my YouTube channel. This is 100 days of machine learning and today is day 11.
+So it's been 10 days and we have discussed a lot of things.
+And mostly what we have discussed was related to the why and what parts of machine learning.
+Why and what, right? But from now, from today onwards, we are going to focus on the how parts.
+How is machine learning done? We are starting practical machine learning from today.
+And today's topic is a very important topic because only by using it, machine learning can do its work.
+Today we are going to study about tensors. I hope you have heard the name sometime.
+What are tensors and why are we studying tensors today? I will answer these two questions very quickly.
+First, I will answer you why are we studying tensors? First of all, we could have studied something else.
+But the first thing that we started in practical machine learning,
+why are those tensors?
+Let's discuss that. So a tensor is basically a data structure.
+If I explain it to you in very simple terms, a tensor is nothing but a data structure.
+Data structure means the way to store data.
+Now why are we studying tensors first of all?
+The reason for that is that in today's day and age, all the machine learning systems, all the leading libraries,
+scikit-learn, tensorflow, all these libraries' basic data structure that they use is a tensor.
+That means you are solving any machine learning problem.
+In the space of machine learning or deep learning, you will have to deal with tensors.
+So as a beginner, I had skipped this topic, honestly.
+And later I realized that no, it won't work without studying tensors.
+So don't make this mistake, that's why we are starting with tensors.
+Today what you will study will not only help you in machine learning, but also it will help you in deep learning.
+So it is a very general topic, a very important topic.
+Let's start with the topic.
+So I forgot to tell you one more thing.
+Tensors are so important that the number one deep learning library in today's day and age,
+Google's tensors flow, its name is on tensors.
+So trust me, it is a very important concept.
+So yeah, anyways, what is a tensor?
+Let's start the discussion from there.
+A tensor is nothing but a data structure.
+Data structure means the way to store data.
+And in the simplest terms, if we break down a tensor,
+then a tensor is a container.
+In which you store numbers.
+That's it.
+A tensor is nothing but a container for numbers.
+Sometimes you store characters or strings, but it is very rare.
+You almost never do that.
+99.99% times it is going to be a container for numbers.
+Now guess what?
+You have already used tensors.
+I mean, even if you didn't hear the name, but you have used it.
+So if you have ever studied vectors or matrices in your life,
+then they are actually tensors.
+So when it is of zero dimension, then you call it a scalar.
+A single number.
+When there is a list of numbers, then you call it a vector.
+When there are numbers in 2D, then you call it a matrix.
+Now if there are numbers in 3D, then what will you call it?
+Or what will you call it in 4D?
+So that's why computer scientists,
+in fact, this is a very mixed area of physics and math,
+they have decided, scientists have decided,
+that they will coin a general term.
+And they call it a tensor.
+So let's read about tensors in more detail.
+I will share my screen.
+Tensors are basically a container for storing numbers.
+We have discussed this.
+Let's talk about 0D tensors, which are scalars.
+So whenever you are storing a single number somewhere,
+like this or like this,
+these are basically called scalars.
+Okay?
+Or you can call this 0D tensor.
+Okay?
+0D means that the number of dimensions of this particular tensor is 0.
+There are no dimensions.
+Okay?
+If I show you practically,
+then what I can do is, I can go to Google Colab.
+If you don't know Google Colab,
+then trust me, it's a very simple tool
+where you can run Python code online.
+Okay?
+You don't need to know anything more than this.
+I am importing a library,
+called NumPy,
+which we will use a lot in this video.
+And in machine learning, in general,
+the library is used a lot.
+If you want to read NumPy,
+then I will put a link of a playlist of my own channel
+in the description of this video.
+You can read NumPy from there.
+NumPy is very simple.
+Okay?
+Now if you want to create a scalar using NumPy,
+then you don't have to write anything.
+You just have to write a code.
+Let's say we are making a variable A.
+In which we will store that scalar.
+This will be equal to np.array.
+And here I have put a number.
+And I have run it.
+And now as soon as I have printed A,
+which is on your screen,
+this is actually a scalar.
+Or 0D tensor.
+Okay?
+How do we know it is 0D?
+Whenever you are creating tensors in NumPy,
+See, one more thing you have to remember.
+If you are from a computer science background,
+then tensor and n-dimensional array
+are the same thing.
+Array means one-dimensional.
+2D array means arrays inside an array.
+3D array means arrays inside an array.
+Okay?
+So in the same way,
+the general term of n-dimensional array,
+if you come from a math or physics background,
+then it is called tensor.
+So the same machine learning community has picked up that thing.
+So whenever you see n-D array,
+then you have to understand that it is a tensor.
+Okay?
+So here you have a 0D array.
+Because there is no array.
+There is just one number.
+So you are calling it 0D tensor.
+So whenever you create arrays or tensors in NumPy,
+then you can find out its dimension.
+You have an attribute called n-dim.
+You can also understand it by its name.
+Number of dimensions.
+As soon as you run it,
+you are getting 0.
+With this, you can understand that
+the dimension of this particular tensor is 0.
+And that is why it is a 0D tensor.
+Okay?
+So I have shown you a small demonstration.
+Let's quickly discuss 1D tensor.
+So if you have a list of numbers,
+something like this.
+1, 2, 3, 4.
+So this is a 1D tensor.
+And you can also call it a vector.
+And in programming language,
+you can also call it 1D array.
+Or you can simply call it array.
+Okay?
+Now this thing,
+this tensor,
+what will be its n-dim?
+It would be 1.
+That means this is a tensor
+which has one dimension.
+Okay?
+Now you have to understand one more thing.
+In terms of tensors,
+what is an axis?
+So an axis is basically
+how many dimensions do you have?
+Okay?
+Basically if you have 2 dimensions,
+let's say,
+your tensor has 2 dimensions.
+We will discuss 2D tensors after some time.
+So this means
+there are 2 axes.
+Okay?
+If it is a 3D tensor,
+then you have 3 axes.
+Okay?
+So dimension and axis,
+this is related.
+Okay?
+The tensors of D,
+the tensors of dimension,
+you will have the same number of axes.
+And one more thing,
+number of axes
+is also called rank in some places.
+And that is also called dimension.
+Okay?
+So there should not be any confusion here.
+If you go to different places and read,
+then you will see different things.
+I am just telling you.
+Number of axes is equal to rank
+equal to dimension of the tensor.
+Okay?
+Let me quickly show you
+how can you create
+a 1D tensor using NumPy.
+So I am creating an array.
+And here what I am doing is
+in the array,
+I am sending a Python list
+which contains these values.
+And now if I print the array,
+this which is on your screen,
+this is a 1D tensor.
+Okay?
+And if I write arr.endim,
+then you would see
+that its end dimension is 1.
+So in this,
+the number of axes is 1.
+Its rank is also 1.
+And this is a 1D tensor.
+Okay?
+I guess you don't have any confusion till here.
+Now let me tell you something
+which might confuse you.
+But it is very important to understand.
+Okay?
+Listen carefully.
+This,
+this 1D tensor,
+this is also called a vector.
+This is also a vector.
+You can call it a vector.
+Okay?
+But,
+if someone asks you
+what is the dimension of this vector?
+So since there are 4 numbers here,
+you will say
+the dimension of this vector is 4D.
+Now you will say
+I just said that
+this is 1D.
+I said this is 1D tensor.
+This is 1D tensor.
+And 1D tensor means
+this is a vector.
+But how many dimensions are there in this vector?
+There are 4 dimensions.
+Now this might seem a bit confusing to you.
+But after some time,
+I will give you an example
+which will make this thing crystal clear
+that what I am trying to say.
+At this point,
+just create a distinction in your mind
+that whenever you make a 1D tensor,
+it is a vector.
+And in that vector,
+all the numbers in the vector
+are of the same dimension.
+Meaning,
+if I give you one more example.
+Let's say 1 or 2.
+This is still 1D tensor only.
+And this is also a vector.
+But if someone asks you
+what are the dimensions of this vector?
+Then you will say 2.
+Because there are 2 numbers in it.
+I hope you guys
+understand the thing till here.
+Okay?
+If you understand the thing till here,
+then you might have noticed one more thing.
+That if you are
+adding more scalars
+in the scalar,
+then you are making a vector.
+Meaning,
+if you add 4 scalars here,
+then you get a vector.
+Always remember this thing.
+In the case of tensors,
+as you increase the dimension,
+how do those dimensions always increase?
+If you keep adding the previous dimension,
+then you get the next dimension thing.
+Meaning,
+if you want 1D tensor,
+then basically it is a collection of multiple 0D tensors.
+If you want a vector,
+then it is basically
+a collection of scalars.
+If you want matrices,
+then it is basically
+a collection of vectors.
+So, always remember this thing.
+Okay?
+Now, I will show you an example
+of 2D tensor,
+which is also called matrices.
+Okay?
+So, now let's discuss
+what are 2D tensors or matrices.
+So, suppose if you have multiple vectors,
+like so.
+So, if you add these vectors,
+or collect them,
+then we can then
+call them matrix.
+Okay?
+Something like this.
+1, 2, 3,
+4, 5, 6,
+7, 8, 9.
+So, basically matrices are nothing but
+collection of vectors.
+Okay?
+And,
+obviously its dimension is 2D.
+Because there are two axes here.
+Okay?
+This is one axis,
+column axis.
+And this is one axis,
+row axis.
+Okay?
+So, I hope you understand this thing.
+So, it is blank.
+2.
+Which is equal to
+the end dim.
+Okay?
+And there are two axes,
+rows and columns.
+Let me quickly show you
+how this is made.
+It is very simple.
+You will again make a numpy.
+Let's say I am making
+a variable called mat.
+Matrix.
+And matrix is equal to
+np dot
+array.
+And what I will do here is
+I will pass list of list in Python.
+Something like this.
+1 comma 2 comma 3.
+5 comma.
+Second item in itself
+is going to be a list.
+4 comma.
+5 comma.
+4 comma.
+5 comma.
+4 comma.
+6 comma.
+5 comma.
+6 comma.
+7 comma.
+8 comma.
+9 comma.
+Okay?
+And if we print mat,
+then you will get a structure like this.
+This is a matrix.
+Okay?
+If you take out its end dim,
+then as expected,
+it would be
+2.
+2D tensor.
+Okay?
+Now, you can easily understand
+that if you want to make
+higher dimension tensors from this,
+then what are you going to do?
+Basically,
+if you want to make
+4D tensor,
+sorry,
+I am sorry.
+If you want to make
+higher dimension tensors from this,
+then what are you going to do?
+Basically,
+if you want to make
+3D tensor,
+then you will have
+a matrix
+which will look like this.
+You will take
+its
+and
+matrices like this.
+This
+is
+one matrix.
+This is
+second.
+This is
+third.
+So,
+basically,
+if in all these matrices,
+there are
+3 cross 3
+numbers
+and you are taking
+4 matrices like this,
+then you have
+4 cross
+3 cross
+3
+one
+tensor.
+So,
+this is
+a 3D tensor.
+And this time,
+there are 3 axes here.
+So,
+you have
+column axis,
+you have
+row axis
+and you have
+a depth axis.
+Okay.
+This is a 3D tensor.
+Okay.
+Or,
+you can actually see this
+in the terms of a cuboid.
+Right.
+Something like this.
+Right.
+Now,
+if someone says in the next class
+that
+what will be 4D tensor?
+What will be 4D tensor?
+So,
+4D tensor is basically
+a collection of
+3D tensors.
+If this is a 3D tensor,
+then 4D tensor
+will look like this.
+Basically,
+it will be a vector of
+3D tensors.
+See,
+like this.
+I am sorry
+for my drawing.
+But,
+these lines
+like this,
+3D tensors
+are kept.
+You call these
+4D tensors.
+Right.
+Now,
+if someone asks you
+what will be 5D tensor?
+So,
+5D tensor will be
+a matrix of
+3D tensors
+basically below this.
+And,
+you can see
+that
+if you
+draw
+like this,
+then
+you can see
+that
+this is a
+5D tensor.
+Right.
+And,
+that is how
+this entire thing
+works.
+This is a 5D tensor.
+Means,
+if you
+just focus on this,
+if you
+just focus on this,
+then
+this is a
+4D tensor.
+But,
+if you
+focus on this
+whole,
+this is a
+6D tensor.
+If you
+make a
+collection of
+6D,
+then it will
+be
+60.
+If you
+make a
+collection of
+60,
+then it will
+be 70.
+And,
+that is the
+whole idea.
+So,
+where you were restricted
+to think about
+scalar,
+vector,
+and matrices,
+now you are
+completely free.
+Because,
+you have a
+general concept
+that we call
+RANK,
+X,
+and
+SHAPE.
+So,
+in today's video,
+I will show you
+one example
+of
+5 tensors.
+To be honest,
+there is no need
+to show an example of
+scalar.
+So,
+I will show you
+all the examples
+from 1D
+to 5D.
+Practical examples.
+The examples
+that you can get
+in the future.
+But,
+before going there,
+I want to tell you
+one more thing.
+This is the
+last concept.
+The number of
+tensors in your
+tensors
+is called
+RANK.
+It is also
+called
+NUMBER OF
+AXES.
+NUMBER OF
+AXES
+IS
+EQUAL
+TO
+RANK
+IS
+EQUAL
+TO
+NUMBER
+OF
+DIMENSIONS.
+These three things
+are the same.
+You have to
+always remember this.
+Let me
+explain
+the
+matrix
+first.
+There is
+one more
+thing.
+What is the
+shape?
+The shape is
+the number of
+items
+you have
+in any
+particular
+axis.
+For example,
+if you talk
+about
+the
+row
+axis,
+then
+how many
+items
+can you
+store in
+the row
+axis?
+Three.
+If it is
+3x3,
+then
+if you take out
+its
+ending
+or rank,
+then it
+will be
+2.
+Because
+there is
+column axis
+and row axis.
+But if you
+take out
+the shape,
+then it
+will be
+2,3.
+Why am I
+saying this?
+Because in
+row axis,
+how many
+items can you
+store?
+Two.
+And in column axis,
+how many
+items can you
+store?
+One thing is size.
+Size of
+a tensor.
+So,
+size means
+how many items
+are there in
+that tensor.
+So,
+simply
+you
+multiply
+all the
+numbers
+of
+its
+shape.
+If you
+multiply
+2,3,
+then
+6
+items
+are
+there.
+If you
+do
+3x3,
+then
+you get
+3 items.
+But for
+scalar,
+size is
+always equal
+to 1.
+It is simple.
+If it is
+scalar,
+then its
+size will be
+1.
+For its
+tensors above,
+you simply
+have to
+multiply
+its shape.
+If you have
+a vector,
+1D tensor,
+then it
+will be
+something like
+this.
+In this case,
+your shape
+will be
+3.
+I hope you
+understood.
+This is very
+simple.
+If you
+take concepts
+once.
+So,
+rank,
+axis,
+and shape.
+We have
+discussed these
+three things.
+In fact,
+we have
+also discussed
+size.
+Now,
+the most
+important part
+of this
+video,
+we will
+see practical
+examples of
+tensors
+from
+1D to
+1D.
+In this video,
+you will
+understand
+why I
+said that
+vector is
+1D tensor,
+but its
+own dimensions
+are different.
+You will understand
+this now.
+To tell you
+the whole thing,
+I will take an
+example.
+Let's say,
+we have a
+data set
+about students.
+We have
+a data set
+of students.
+In that data set,
+we have
+four columns.
+The first column is
+CGPA.
+The second column is
+IQ.
+The third column is
+State.
+Which states
+are they from?
+West Bengal,
+Kerala,
+Bihar,
+whatever it is.
+And here it is
+whether their placement
+is done or not.
+Which is your
+target column,
+which you have
+to predict.
+Classification problem.
+Now,
+suppose
+I have
+data of
+10,000 students.
+And obviously,
+my end goal is
+to build a
+classification
+model
+where I tell
+the details
+of the students.
+I mean,
+IQ,
+CGPA,
+and State.
+So,
+I should know
+whether their placement
+is done or not.
+I have to predict this.
+So,
+what I do here is
+I show you
+an example of
+1D tensor.
+1D tensor.
+Or,
+I show you
+an example of
+vector.
+For that,
+you have to
+focus on
+one student
+by forgetting
+10,000 students.
+If you focus
+on
+10,000 students,
+then
+your
+placement
+is done.
+Now,
+we are
+ignoring the
+placement column
+because
+we are going to
+focus on
+the input columns.
+So,
+if you
+catch
+the input
+of that student,
+then,
+basically,
+it is a set of
+three things.
+Now,
+let's do
+one thing.
+For a while,
+suppose
+we have
+a set of
+10,000 students.
+And,
+suppose,
+we are saying
+0 for West Bengal
+and 1 for
+Karnataka.
+We have done
+numerical encoding.
+This is called
+label encoding.
+You will understand
+it in some
+future videos.
+So,
+basically,
+I wrote 0 for
+West Bengal.
+So,
+if we talk
+about the first
+student,
+we have
+these numbers.
+8.1,
+91,
+and 0.
+And guess what?
+This is a vector.
+And,
+what is the
+tensor of
+this dimension?
+1D.
+Because it has
+only one axis.
+Only one axis.
+But,
+what is the
+vector of
+this dimension?
+This is the
+vector of
+3D dimension.
+Why am I saying
+this?
+Because there are
+three axes here.
+What is the
+first axis?
+CGP.
+What is the
+second axis?
+IQ.
+And,
+what is the
+third axis?
+State.
+This is the
+vector.
+Now,
+suppose if there
+was another
+student here,
+7.2,
+IQ 102,
+if there
+was no
+placement of
+Karnataka,
+then,
+suppose,
+something would
+lie here.
+Something like
+this.
+Okay?
+Its vector
+would be
+different.
+So,
+basically,
+if you talk,
+in this
+three-dimensional
+space,
+you have
+a student representing
+a student in this
+three-dimensional
+coordinate space.
+So, when you are
+talking about vectors,
+this is a 3D space.
+But, when you are
+representing those numbers
+in the form of
+a tensor,
+then, this is a
+1D tensor.
+So, these are two
+different things.
+You don't have to
+get confused between
+this.
+You are talking about
+the tensor of
+which dimension
+and the vector of
+which dimension.
+There is a difference
+in this.
+Right?
+Here, 3D was made
+because you had
+three input columns.
+So, you are working
+in a three-dimensional
+coordinate space.
+But, even then,
+it will remain
+a 1D tensor.
+Please, I hope you
+understand this.
+Okay?
+One more example
+where you will get
+a 1D tensor.
+One example is this.
+Whenever you get
+any machine learning
+table or data,
+then, its
+every row
+is actually
+a 1D tensor
+or a vector.
+Okay?
+One more example is,
+now, think,
+if you had
+the data of
+10,000 students here,
+then, the output
+of everyone
+will be
+10,000.
+Now, if you
+subtract all these
+numbers,
+if you subtract
+all these
+numbers,
+and if you
+represent it
+like this,
+then,
+in total,
+there will be
+10,000
+numbers.
+But, this is also
+a 1D tensor.
+This is also
+a 1D tensor.
+Okay?
+So, I hope
+you understand
+this a little
+till now
+that,
+where you can
+get a 1D tensor
+in machine learning.
+Okay?
+Where will
+you get
+2D tensors?
+Now, it is a very
+simple thing, guys.
+What is a 2D tensor?
+2D tensor is basically
+a collection of
+1D tensors.
+Right?
+So, if you had
+this data,
+CGPA,
+IQ,
+state,
+and
+placement,
+now, we
+forget
+placement,
+if we focus
+on input columns,
+we had
+data of
+10,000 students
+like this.
+So, here,
+every student's
+data
+is actually
+a vector
+or 1D tensor.
+So, a collection
+of 10,000 vectors
+would be
+what?
+A matrix.
+Right?
+So, actually,
+you can write
+this whole thing
+in a matrix.
+So, whenever
+you get
+data in
+machine learning,
+the input
+of it,
+the collection
+of input
+columns,
+you can store
+all its data
+in a matrix.
+It is generally
+called D in
+machine learning.
+Right?
+So, it looks
+like this.
+Data of
+first student,
+data of
+second student,
+data of
+third student,
+data of
+10,000 students.
+And this
+is your
+2D tensor.
+Right?
+Which is
+a collection
+of 10,000 vectors
+which
+are
+3D vectors
+themselves.
+I hope you are
+understanding
+till here.
+And this
+placement
+or not
+is
+a dimensional
+vector.
+And
+basically,
+it is a 1D tensor.
+This is a 1D tensor.
+Right?
+This is a 2D tensor.
+I hope you
+understood
+this whole discussion.
+You will get this
+every time.
+If you ever work
+with table or data,
+then you are
+working with
+1D tensor
+and you are
+working with
+2D tensor also.
+Basically,
+you are working
+with matrices also
+and you are
+working with
+vectors also.
+In summary,
+when you separate
+2D tensor
+and when you
+separate
+the entire input,
+which is a single column,
+it becomes
+your vector
+or your
+1D tensor.
+Right?
+So, I guess you understood
+where you are getting
+1D and 2D tensor.
+Now, let's move on
+to 3D tensors.
+So, now let's focus
+our attention
+on 3D tensors.
+Now, to be honest,
+3D tensors are
+a bit rare.
+It is wrong to say
+rare.
+It is just that
+they are not as frequent
+as your
+1D and 2D tensors.
+If you want to
+see a practical example
+of 3D tensors,
+one of them is
+very intuitive,
+interesting,
+practical example
+is from the domain
+of NLP,
+Natural Language Processing.
+Meaning,
+if you are working
+with any textual data,
+then you will see
+3D tensors there.
+Let me show you
+how.
+So, let's say
+I have some
+text written
+here.
+Hi Nitish,
+Hi Rahul,
+and
+Hi Ankit.
+These are
+3 texts.
+And suppose
+these 3 texts
+are my
+input.
+So,
+I have to give
+these 3 texts
+to the algorithm
+to train.
+Now, obviously
+you know that
+machine learning algorithm
+is pure mathematics.
+It doesn't understand
+text,
+it doesn't understand
+string.
+So, you have to
+convert this text
+to numbers
+or
+let's say
+vectors.
+This whole process
+is called
+vectorization
+in the domain of NLP
+where you convert
+a given text
+to numbers
+or vectors.
+So, it is
+very important
+and there are
+many ways
+to do this.
+Let me show
+you a very simple
+and intuitive
+technique.
+Let me show you.
+So, what I will do is
+I have to convert
+all these sentences
+to numbers.
+For that,
+what I will do is
+I will
+list down
+all my
+words,
+all my
+unique words,
+like
+Hi
+once,
+Nitish
+once.
+Basically,
+I have written
+my whole vocabulary.
+Vocabulary means
+set of all the
+words
+basically,
+in my text.
+Now,
+what we will do is
+we will represent
+every word
+every particular word
+with a vector.
+For example,
+if I have to represent
+Hi,
+then
+Hi will be
+one,
+zero,
+zero,
+zero.
+Any time,
+if I get Hi
+I can write
+this instead.
+If I get Nitish
+somewhere,
+I will write
+this.
+Zero,
+one,
+zero,
+zero.
+And,
+if I have to represent
+Ankit,
+then
+it will be
+this.
+Now,
+if I talk about
+these sentences,
+if I talk about
+these sentences,
+let's say,
+my first sentence is
+Hi,
+Nitish.
+So,
+this is actually
+a set of
+two vectors
+or a collection.
+So,
+the first vector is
+one,
+zero,
+zero,
+zero.
+And,
+the second vector is
+zero,
+zero,
+zero,
+zero.
+If you notice carefully,
+then the vector inside
+is a 1D tensor
+and there are two
+1D tensors like this.
+So,
+this whole thing,
+the outer one,
+is a 2D tensor.
+Right?
+Now,
+if the first sentence
+is a 2D tensor,
+then the second sentence
+will also be a 2D tensor
+and the third sentence
+will also be a 2D tensor.
+You have basically
+a collection of
+three 2D tensors.
+So,
+basically,
+what is it?
+3D tensor.
+Right?
+So,
+if I want to write
+then I will write
+here again.
+This is my second
+2D tensor
+and
+this is my third
+sentence.
+Right?
+And,
+if I want to write
+their collection,
+then this
+has become
+my
+3D tensor.
+Right?
+If I want to write
+its shape,
+then how will the shape
+be?
+We have
+four
+vectors,
+like four
+size vectors
+and
+the size of
+the matrices
+that I have
+is
+2 by 4.
+Right?
+Basically,
+two rows,
+four columns
+and like this,
+I have
+three matrices.
+So,
+this is the shape
+of my
+3D tensor.
+Here,
+there are three x's
+which means
+the rank is 3
+and the number of items
+is 3 multiplied by
+2 multiplied by 4.
+24 items
+which is actually
+correct.
+Right?
+So,
+this is one good example
+of 3D tensor.
+Right?
+I will give you
+one more example
+of 3D tensor.
+Okay?
+Watch carefully.
+So,
+one more good example
+is the time series data
+of 3D tensor.
+Time series data
+means
+some data
+which you collect
+after a
+frequent
+time period
+like
+data of
+share market
+which you collect
+on a daily basis
+or sometimes
+you collect it
+after every hour.
+It depends.
+Okay?
+I will show you
+one example.
+Let's say
+what data
+you have
+and
+lowest price
+during the day.
+Okay?
+And
+you are filling
+this whole stock
+for the whole time
+for the whole day
+once
+this data
+and
+you are doing this
+for the whole year.
+Okay?
+So,
+the data you will get
+will be
+365
+by 2.
+Think about it.
+Because
+it will look like this
+day 1
+some number
+some number
+day 2
+some number
+some number
+some number
+right?
+So, basically
+you have
+365 in row axis
+and
+2 in column axis
+because you have
+2 input columns.
+So, this data
+which you have
+is a
+2D tensor.
+If you are
+tracking 2 quantities
+for the whole day
+for the whole year
+then
+this is a 2D tensor.
+But what if
+I have
+10 years
+data of
+this stock.
+I have
+tracked this thing
+for 10 years.
+So,
+how many
+2D tensors
+will I get?
+10.
+So, the resultant
+tensor will be
+10
+cross
+365
+cross
+2
+which is a
+3D tensor.
+Collection of
+10 2D tensors
+is a 3D tensor.
+Right?
+So,
+time series
+if you ever get data
+then it is 3D data.
+And in that
+the middle axis
+this axis
+this is your
+time axis.
+This is your
+time axis.
+Okay?
+So, you will work a lot
+on time series
+mostly whatever is there
+or
+sometimes medical data
+that is
+your time series based data
+and a lot of analysis
+is done on it
+and this is a very important thing.
+And this is an example where
+3D tensors
+are used.
+Okay?
+I hope you understand
+till here.
+Now there are 4D tensors
+and 5D tensors.
+Let's complete them.
+Let's cover them.
+Now let's focus on
+4D tensors.
+Okay?
+A very good example of
+4D tensor is
+images.
+Okay?
+Image based data.
+So,
+if you work in
+computer vision domain
+work on images
+then
+the tensors you get there
+are 4D tensors.
+Let me show you how.
+Okay?
+If you have ever studied
+a little bit of image processing
+then you might know
+that any image
+is basically
+a collection of pixels.
+In this way
+there are pixels
+there are very small pixels
+on your screen
+like this.
+And in every pixel
+there is a numerical value.
+Due to which
+you can see something.
+Like if this value
+is black
+this value is black
+all these values
+are black.
+Then on your screen
+you can see
+2.
+Everything else
+was 1.
+But these values
+are black.
+So this is
+2
+on your screen.
+So by controlling
+these pixels
+you can show
+any image.
+Now
+if you want
+to show
+a color image
+then you take
+3 channels
+like this.
+This is
+the first channel
+that I showed you.
+In this way
+you take 3 channels.
+This is R
+this is G
+and this is B.
+Red, Green, Blue.
+Okay?
+And you put these 3
+on top of each other like this.
+Right?
+So suppose
+your
+previous one
+obviously these 3
+are matrices.
+These 3
+are actually 2D tensors.
+And 2D tensors
+if you combine 3
+then it becomes
+a 3D tensor.
+Right?
+Suppose if
+your shape is 1
+1200 by 800
+suppose
+and like this
+you have
+3 channels
+so by combining
+these
+you will get
+3
+1200
+800
+3 channels
+and in every channel
+this many pixels
+1200 multiplied
+by 800.
+Okay?
+So this is done.
+If you are talking
+about one image
+then it is a 3D
+tensor.
+Right?
+But
+what if you have
+multiple images?
+Suppose
+you have
+50 color photographs
+like this.
+If you have
+50 color images
+in that case
+you have
+3D cross
+3 cross
+1200 cross
+800
+this tensor comes
+and this is
+your 4D tensor.
+So in future
+if you do
+image processing
+or in deep learning
+you will read
+convolutional neural networks
+there when you
+work on images
+then you work
+on batches of images
+and those batches
+of images
+are
+a very good example
+of 4D tensor.
+Okay?
+So I hope
+you understood
+this example.
+Now let's move on
+to 5D tensors.
+So 5D tensors
+I guess you have
+already understood.
+A very good example
+of that is
+videos.
+Right?
+Because what are
+videos?
+If you think carefully
+you might know
+videos are basically
+images
+which are passed
+very fast
+in front of your
+eyes
+because of which
+since those images
+are passed
+at such a speed
+that our
+eye
+our mind
+can't distinguish
+that they are
+two different images
+because the speed
+of crossing
+of those images
+is more than
+our persistence
+of vision.
+So I'll show you
+it is written here
+that our
+persistence of vision
+can classify
+only 12 separate
+images
+in one second.
+If you take
+more than 12 images
+in one second
+in front of our
+eyes
+then we
+feel like
+that video.
+Right?
+And this generally
+happens
+that you have
+30 FPS,
+60 FPS,
+120 FPS
+120 FPS
+I'm not sure
+how many frames
+per second
+videos are passed
+so obviously
+they are passing
+images so fast
+that we feel
+that they are
+in continuity
+they are videos.
+Right?
+So in short
+videos are
+basically
+frames.
+Right?
+Collection
+of frames.
+Right?
+One single frame
+means one image.
+One frame means
+one image.
+Right?
+So suppose
+if you have
+one
+60 seconds
+60 seconds
+frame
+video
+which is
+shot at
+30 FPS
+and
+480p
+480p
+means
+its resolution
+is
+480
+cross
+720
+obviously
+it is color
+so it has
+3 channels
+RGB
+Right?
+So now see
+there is one single image
+in it
+so obviously
+it will be
+480
+by 720
+by 3
+one single image
+Right?
+Now I have
+60 seconds video
+which is
+shot at 30 FPS
+which means
+how many images
+you have
+if you want to calculate
+with this
+in one second
+you have
+30 videos
+30 frames per second
+in one second
+you have 30 videos
+30 images
+I am sorry
+and like this
+you have 60 seconds
+which means
+you have
+1200 images
+Right?
+60
+in one second
+30
+sorry
+1800
+please
+ignore
+the manipulation mistake
+you have 1800 images
+Right?
+this is already your 4D data
+now suppose
+you have 4 video clips
+you have got 4 videos
+so
+now the data you have
+collection of 4 videos
+this is actually
+a 5D denser
+this is a
+5D
+denser
+collection of videos
+is a 5D denser
+where the first thing is telling
+how many videos are there
+this thing is telling you
+in one single video
+how many images are there
+and this is the size of every image
+and how many color channels are there
+so this is a 5D denser
+now if you multiply this number
+if you multiply this number
+this becomes a very big number
+Right?
+let me show you
+how big this number will be
+this will become a number
+we have
+4 videos
+multiplied by
+1800 images
+multiplied by
+480
+multiplied by
+720
+I want to show you something
+so I am doing a calculation
+multiplied by 3
+this is the number guys
+this is the number
+and this is a big number
+Right?
+now
+think about this
+if you
+there are so many values
+basically here
+there are so many numbers
+Right?
+because
+multiply all these
+in this denser
+there are same values
+same items
+so here
+there are so many items
+now think
+if you
+store every item
+in a float
+in float 32
+basically
+if you
+if you
+store every single item
+in a float 32
+then
+how much storage
+you will need?
+multiplied by
+32
+means
+you will need
+so many bits
+so in bytes
+how much number
+will come?
+divided by
+8
+so many bytes
+if I want to
+convert this
+in kilobytes
+then I will divide
+it
+from
+1024
+this is the number
+kilobytes
+if I want to
+convert in megabytes
+then I will divide
+again
+from
+1024
+this big
+megabyte
+if I divide again
+from 1024
+then
+this is
+my GB
+27 GB
+means
+if you
+want to
+store
+4
+60 seconds
+videos
+or
+process
+or
+machine learning
+or deep learning
+then
+you will need
+space of
+27 GB
+obviously
+you don't do this
+and
+here
+comes
+video codec formats
+video encoding formats
+like
+mkv
+or
+mpeg
+or
+mp4
+ok
+what they do is
+this one single item
+you are giving so much
+they reduce it
+and make it very less
+and
+you can do this
+whole work
+in very less data
+honestly speaking
+video processing
+is a little rare
+unless and until
+you are not making
+an application like youtube
+where you have to
+process before
+uploading every video
+you will not work
+on videos
+but you can do it
+if you are working
+in computer version
+right
+but yeah
+personally
+you don't have
+tensors above 5D
+above that
+there is no use case
+ok
+so 5D will be the max
+and
+that's it
+this is what we had to discuss
+in this video
+I know
+it has become a big video
+around 40 minutes
+I guess
+so
+what can I say
+I have read it in detail
+I hope
+you understood
+and
+this
+will provide us
+a good start
+when we do
+next things
+ok
+yeah
+that's it guys
+if you like the video
+please consider subscribing
+if possible
+share it with someone
+if someone is learning
+machine learning
+and
+see you tomorrow
+tomorrow we will do
+an end to end
+machine learning example
+so that you get
+a bird eyes overview
+on the whole process
+so
+yeah
+thanks for watching
+we will meet tomorrow
+bye

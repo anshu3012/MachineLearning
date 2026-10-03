@@ -8,7 +8,8 @@ title: "Random Variables and Probability Distributions"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Probability density function (PDF) ([Note 90](../90-gaussian-naive-bayes/note.md)); Discrete and continuous data ([Note 220](../220-what-is-statistics/note.md)).
-> - **Leads to:** Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Uniform distribution ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Log-normal distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)).
+> - **Leads to:** Probability mass function (PMF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Bernoulli and binomial distributions ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Uniform distribution ([Note 241](../241-pmf-and-discrete-cdf/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Log-normal distribution ([Note 242](../242-pdf-and-continuous-cdf/note.md)); Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)).
+> - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

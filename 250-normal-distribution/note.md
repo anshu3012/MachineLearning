@@ -8,7 +8,8 @@ title: "The Normal Distribution"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Probability distributions ([Note 240](../240-random-variables-and-distributions/note.md)); Probability density function (PDF) ([Note 242](../242-pdf-and-continuous-cdf/note.md)).
-> - **Leads to:** Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)).
+> - **Leads to:** Z-score outlier method ([Note 251](../251-standard-normal-and-z-table/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)).
+> - **Compare with:** Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

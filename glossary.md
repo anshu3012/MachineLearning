@@ -5,7 +5,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Term | Meaning | First explained |
 |---|---|---|
 | $\alpha$ (Pareto shape) | The tail index: larger means a thinner tail. | [Maths Note 262](262-pareto-and-power-law/note.md) |
+| $\alpha$ | One minus the confidence level: the share of intervals that miss the parameter. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | $\binom{n}{k}$ ($n$ choose $k$) | The number of ways to choose $k$ items out of $n$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
+| $\hat{\mu}$ | An estimate of the population mean $\mu$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
 | $\int_a^b f(x)\,dx$ | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
 | $\Phi(z)$ | The CDF of the standard normal distribution: the area to the left of $z$. | [Maths Note 251](251-standard-normal-and-z-table/note.md) |
 | $\phi(z)$ | The PDF of the standard normal distribution. | [Maths Note 251](251-standard-normal-and-z-table/note.md) |
@@ -130,6 +132,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
 | Bernoulli distribution | One trial with two outcomes: 1 with probability $p$, 0 with probability $1 - p$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
+| Bernoulli trial | One random experiment with exactly two outcomes, success (1) and failure (0). | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
 | BernoulliNB | Naive Bayes for binary (yes/no) inputs. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Bessel's correction | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average. | [Maths Note 222](222-measures-of-dispersion/note.md) |
 | Best-fit line | The line with the smallest total error over all the training points. | [Video 50](50-simple-linear-regression/note.md) |
@@ -149,6 +152,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Binary file | A file that is not plain text, such as a saved model. | [Video 9](09-mldlc/note.md) |
 | Binning | Grouping a numerical column into ranges that act as categories. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Binomial distribution | The distribution of the number of successes in $n$ independent trials with the same success probability. | [Video 102](102-voting-ensemble/note.md) |
+| Binomial experiment | A fixed number $n$ of independent Bernoulli trials with the same success probability $p$. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | Black box model | A model that gives predictions without showing how each input contributed. | [Video 91](91-knn/note.md) |
 | Blending | Stacking in which the meta-model is trained on the base models' predictions for a hold-out validation set. | [Video 127](127-stacking-blending/note.md) |
@@ -177,6 +181,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | CatBoost | Yandex's gradient boosting library, with built-in handling of categorical columns. | [Video 123](123-xgboost-intro/note.md) |
 | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class). | [Video 79](79-softmax-regression/note.md) |
 | Categorical data (categorical column) | Data made of categories: labels rather than numbers. | [Video 3](03-types-of-ml/note.md) |
+| Categorical distribution | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
 | CategoricalNB | scikit-learn's Naive Bayes for categorical inputs. | [Video 89](89-naive-bayes-code/note.md) |
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Category share | The rows in one category divided by the rows that have a value. | [Video 37](37-missing-categorical-data/note.md) |
@@ -239,6 +244,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$. | [Video 82](82-conditional-probability/note.md) |
 | Condorcet's jury theorem | A majority of independent voters, each right with probability above 0.5, is right more often than any one voter, and more so as voters are added. | [Video 102](102-voting-ensemble/note.md) |
 | Confidence interval | A range in which the true mean most likely lies. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Confidence level | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | Confounding variable | A hidden factor that drives two variables and makes them correlated. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | Confusion matrix | A table counting predictions for every pair of actual and predicted class. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | Connection object | The open link to a database (`conn`) that queries go through. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -268,9 +274,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
 | Covariance | How two columns move together: positive if they rise together, negative if not. | [Video 48](48-pca-step-by-step/note.md) |
 | Cover | XGBoost's name for the sum of $p(1-p)$ (in regression: the number of rows) in a node. | [Video 125](125-xgboost-classification/note.md) |
+| Coverage | The share of intervals from repeated samples that contain the true parameter; equals the confidence level when the assumptions hold. | [Maths Note 281](281-interpreting-confidence-intervals/note.md) |
 | Cramér's V | A measure of the link between two categorical columns, from 0 to 1. | [Video 22](22-pandas-profiling/note.md) |
+| Credible interval | The Bayesian counterpart of a confidence interval, read as a probability statement about the parameter. | [Maths Note 281](281-interpreting-confidence-intervals/note.md) |
 | Credit scoring | Predicting whether a loan applicant will repay. | [Video 8](08-applications-of-ml/note.md) |
 | criterion | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss". | [Video 97](97-decision-trees-intuition/note.md) |
+| Critical value | The z (or t) value that leaves $\alpha/2$ in each tail; 1.96 for 95% on the standard normal curve. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | Cross entropy | The negative log-likelihood; smaller is better. | [Video 73](73-log-loss/note.md) |
 | Cross-validated accuracy | Accuracy averaged over several train-test splits of the data, an estimate of performance on new data. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data. | [Video 29](29-pipelines/note.md) |
@@ -322,6 +331,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Default direction | The side of a split that rows with a missing value follow. | [Video 123](123-xgboost-intro/note.md) |
 | Define-by-run | Building the search space while the objective function runs, so it can depend on earlier choices. | [Video 134](134-optuna/note.md) |
 | Degree | The highest power used in the polynomial. | [Video 61](61-polynomial-regression/note.md) |
+| Degrees of freedom | The parameter of the t-distribution; $n - 1$ for a sample of size $n$, the number of deviations free to vary. | [Maths Note 282](282-t-procedure/note.md) |
 | Delivery routing | Planning the most efficient route for deliveries. | [Video 8](08-applications-of-ml/note.md) |
 | Demand forecasting | Predicting how much of something will be needed, where and when. | [Video 8](08-applications-of-ml/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -425,6 +435,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | explained_variance_ | The eigenvalues of the fitted PCA, largest first. | [Video 49](49-pca-mnist/note.md) |
 | Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 1](01-what-is-ml/note.md) |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns. | [Video 13](13-toy-project/note.md) |
+| Exponential distribution | A right-skewed continuous distribution of waiting times between random events. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | export_graphviz | scikit-learn function that writes a tree as Graphviz DOT text. | [Video 100](100-dtreeviz/note.md) |
 | export_text | scikit-learn function that prints a trained tree as indented text. | [Video 110](110-bagging-vs-random-forest/note.md) |
 | Extrapolation | Predicting for inputs outside the range of the training data. | [Video 50](50-simple-linear-regression/note.md) |
@@ -471,6 +482,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | FunctionTransformer | scikit-learn's class that applies any function we give it to the data. | [Video 30](30-function-transformer/note.md) |
 | Gain (XGBoost) | Similarity of the two children minus similarity of the parent; the split with the largest gain is chosen. | [Video 124](124-xgboost-regression/note.md) |
 | Gamma ($\gamma$, `min_split_loss`) | Minimum gain a split must exceed to be kept; default 0. | [Video 124](124-xgboost-regression/note.md) |
+| Gamma distribution | A family of right-skewed continuous distributions with a shape and a scale parameter. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | gamma | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. | [Video 96](96-kernel-trick-code/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
 | Gaussian distribution | Another name for the normal distribution. | [Maths Note 250](250-normal-distribution/note.md) |
@@ -535,6 +547,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | include_bias | PolynomialFeatures setting that adds a column of 1s. | [Video 61](61-polynomial-regression/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
+| Independent and identically distributed (i.i.d.) | Values that do not affect each other and all come from the same distribution. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | Independent events | Events where one happening does not change the probability of the other. | [Video 83](83-independent-events/note.md) |
 | Independent models | Models whose mistakes are unrelated, so one being wrong says nothing about the others. | [Video 102](102-voting-ensemble/note.md) |
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
@@ -655,6 +668,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lookup table | The stored probabilities that Naive Bayes computes during training. | [Video 89](89-naive-bayes-code/note.md) |
 | Loss function | A formula that measures how wrong a model's predictions are. | [Video 73](73-log-loss/note.md) |
 | Low bias, high variance algorithm | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. | [Video 105](105-bagging-intuition/note.md) |
+| Lower and upper limit | The two ends of a confidence interval. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Video 50](50-simple-linear-regression/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 1](01-what-is-ml/note.md) |
 | Macro average | The plain mean of a metric over all classes. | [Video 77](77-precision-recall-f1/note.md) |
@@ -673,6 +687,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Margin (gap) | The distance from a separating line to the nearest point of a class. | [Video 71](71-perceptron-code/note.md) |
 | Margin (SVM) | The full width between $\pi^+$ and $\pi^-$ (later shown to be $2/\lVert w \rVert$): twice the one-sided margin of the perceptron code Note. | [Video 92](92-svm-intuition/note.md) |
 | Margin error | The term $\lVert w \rVert$/2 of the SVM loss; small when the margin is wide. | [Video 94](94-svm-soft-margin/note.md) |
+| Margin of error | The distance from the point estimate to either end of a confidence interval. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | Margin-maximising hyperplane | The separating hyperplane with the largest margin: the SVM decision boundary. | [Video 92](92-svm-intuition/note.md) |
 | Marginal (simple, unconditional) probability | The probability of one variable's value whatever the other variable does. | [Maths Note 341](341-joint-marginal-conditional-probability/note.md) |
 | Marginal probability distribution | All the marginal probabilities of one variable, read from a joint table. | [Maths Note 341](341-joint-marginal-conditional-probability/note.md) |
@@ -802,6 +817,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | np.linalg.lstsq | NumPy function that finds the least-squares solution of a linear system. | [Video 55](55-multiple-lr-code/note.md) |
 | Nullable integer (Int64) | The pandas integer type that can also hold a missing value, `<NA>`. | [Video 33](33-mixed-variables/note.md) |
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Video 22](22-pandas-profiling/note.md) |
+| Number of samples ($k$) | How many samples are drawn; different from the sample size $n$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
 | Numerical data | Data made of numbers. | [Video 3](03-types-of-ml/note.md) |
 | Objective function (Optuna) | The function a search optimises: it takes a trial's hyperparameter values and returns a score. | [Video 134](134-optuna/note.md) |
 | Objective function (XGBoost) | The quantity XGBoost minimises: the loss plus a regularisation term. | [Video 126](126-xgboost-maths/note.md) |
@@ -811,6 +827,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | OLTP | Online transaction processing: the database that records every action as it happens. | [Video 14](14-framing-ml-problem/note.md) |
 | One-hot encoding | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. | [Video 11](11-tensors/note.md) |
+| One-sided and two-sided critical value | The value leaving the whole $\alpha$ in one tail, or $\alpha/2$ in each of the two tails. | [Maths Note 282](282-t-procedure/note.md) |
 | One-vs-rest | Training one binary classifier per class, each separating that class from all others. | [Video 79](79-softmax-regression/note.md) |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned. | [Video 27](27-one-hot-encoding/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
@@ -893,6 +910,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Plane | A flat surface in 3D; the model for two input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Plateau | A nearly flat region of the loss, where steps become very small. | [Video 57](57-gradient-descent/note.md) |
 | Platykurtic | Excess kurtosis below 0: thinner tails than normal. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
+| Point estimate | A single number computed from sample data as the best guess for an unknown population parameter. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
 | Poisson distribution | A discrete distribution of counts of events, with parameter $\lambda$. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
 | Policy | The agent's rules for which action to take. | [Video 3](03-types-of-ml/note.md) |
 | Polynomial features | New input columns made from powers and products of the original inputs. | [Video 80](80-polynomial-logistic-regression/note.md) |
@@ -991,6 +1009,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Representative sample | A sample that reflects the whole situation fairly. | [Video 7](07-challenges-in-ml/note.md) |
 | Request, response | What we send to a server, and what it sends back. | [Video 18](18-web-scraping/note.md) |
 | requests | Python library that sends web requests. | [Video 17](17-fetching-data-from-api/note.md) |
+| Required sample size | $n = (z_{\alpha/2}\,\sigma/E)^2$: the smallest sample giving a margin of error $E$. | [Maths Note 281](281-interpreting-confidence-intervals/note.md) |
 | Resampling | Changing the number of rows per class to balance the data. | [Video 133](133-imbalanced-data/note.md) |
 | Residual sum of squares | The total squared error of the model's predictions. | [Video 52](52-regression-metrics/note.md) |
 | Residual | The error on one data point: actual minus predicted value. | [Video 56](56-linear-regression-assumptions/note.md) |
@@ -1018,6 +1037,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | SAMME.R | An AdaBoost variant that used predicted probabilities; removed from scikit-learn. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | Sample covariance ($s_{xy}$) | Covariance of a sample, dividing by $n - 1$. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | Sample mean ($\bar{x}$) | The mean of the values in a sample. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
+| Sample size ($n$) | The number of values in one sample. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | Sample skewness $G_1$ | The third moment of the standardized values with a small-sample correction; what pandas' `skew()` returns. | [Maths Note 252](252-skewness/note.md) |
 | Sample space | The set of all possible outcomes of an experiment. | [Video 82](82-conditional-probability/note.md) |
 | Sample weight | A number attached to each row saying how important it is; AdaBoost starts every row at 1/n. | [Video 116](116-adaboost-step-by-step/note.md) |
@@ -1025,6 +1045,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | sample_weight | The argument of `fit` that tells a scikit-learn model how much each row counts. | [Video 117](117-adaboost-from-scratch/note.md) |
 | Sampler | In Optuna, the algorithm that suggests the next trial's hyperparameter values. | [Video 134](134-optuna/note.md) |
 | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
+| Sampling distribution of the sample mean | The distribution of the means of many samples of size $n$. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
+| Sampling distribution | The distribution of a statistic computed from many independent samples of the same size from one population. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling techniques | Ways of drawing a good sample from a population. | [Maths Note 220](220-what-is-statistics/note.md) |
 | Scalar | A single number: a 0D tensor. | [Video 11](11-tensors/note.md) |
@@ -1101,6 +1123,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | staged_score | A method that gives an ensemble's score after each added stage. | [Video 118](118-adaboost-hyperparameters/note.md) |
 | Standard deviation of a random variable | The square root of its variance, in the units of $X$. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | Standard deviation | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). | [Video 19](19-understanding-your-data/note.md) |
+| Standard error | The standard deviation of a sampling distribution; for the mean, $\sigma/\sqrt{n}$. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | Standard normal distribution | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$. | [Maths Note 251](251-standard-normal-and-z-table/note.md) |
 | Standardization | Scaling a column to mean 0 and standard deviation 1. | [Video 13](13-toy-project/note.md) |
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. | [Video 31](31-power-transformer/note.md) |
@@ -1123,6 +1146,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Strike rate | A batter's runs per 100 balls faced. | [Video 45](45-feature-construction-splitting/note.md) |
 | Strong learner | A model with high accuracy. | [Video 115](115-adaboost-intuition/note.md) |
 | Structure score | The best objective of a tree, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better. | [Video 126](126-xgboost-maths/note.md) |
+| Student's t-distribution | The symmetric, fat-tailed distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$; approaches the standard normal as $n$ grows. | [Maths Note 282](282-t-procedure/note.md) |
 | Study | In Optuna, one optimisation session: a collection of trials aimed at optimising the objective function. | [Video 134](134-optuna/note.md) |
 | Subscription | A model where customers pay a fixed amount every month (or year). | [Video 14](14-framing-ml-problem/note.md) |
 | Sum of squared errors (SSE) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest. | [Video 99](99-regression-trees/note.md) |
@@ -1137,8 +1161,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sure (certain) event | The whole sample space; probability 1. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | Surge pricing | Raising fares when demand is much higher than supply. | [Video 8](08-applications-of-ml/note.md) |
 | Surrogate model | The model of the unknown score function that Bayesian optimisation builds from the trials. | [Video 134](134-optuna/note.md) |
+| Survival function | One minus the CDF: the probability of a value above $x$; `sf` in scipy. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
 | Symbolic AI | Early AI where humans write the knowledge as rules. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Synthetic data | Rows created by an algorithm rather than collected. | [Video 133](133-imbalanced-data/note.md) |
+| T critical value | $t_{\alpha/2,\,n-1}$: the t value leaving $\alpha/2$ in each tail; 2.045 for 95% and $n = 30$. | [Maths Note 282](282-t-procedure/note.md) |
+| T-procedure | The confidence interval $\bar{x} \pm t_{\alpha/2,\,n-1}\,s/\sqrt{n}$, used when $\sigma$ is unknown. | [Maths Note 282](282-t-procedure/note.md) |
+| T-table | A table of t critical values by degrees of freedom and tail area. | [Maths Note 282](282-t-procedure/note.md) |
 | Tag | One element of HTML, such as `<h2>TCS</h2>`. | [Video 18](18-web-scraping/note.md) |
 | Tail (of a distribution) | The part of the curve far from the centre, where values are rare. | [Maths Note 250](250-normal-distribution/note.md) |
 | Tail event | An event with a very low probability but a very large effect. | [Maths Note 252](252-skewness/note.md) |
@@ -1172,8 +1200,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Transpose | A matrix or vector with rows and columns swapped. | [Video 48](48-pca-step-by-step/note.md) |
 | Tree-based algorithm | An algorithm that splits the data with simple conditions; hardly affected by outliers. | [Video 41](41-what-are-outliers/note.md) |
 | Tree-level column sampling | Drawing one random set of columns per tree, before the tree is grown; every split of that tree uses only those columns (bagging). | [Video 110](110-bagging-vs-random-forest/note.md) |
-| Trial | In Optuna, one run of the objective function with one set of hyperparameter values. | [Video 134](134-optuna/note.md) |
 | Trial (probability) | One run of a random experiment; it gives exactly one outcome. | [Maths Note 330](330-events-and-types-of-events/note.md) |
+| Trial | In Optuna, one run of the objective function with one set of hyperparameter values. | [Video 134](134-optuna/note.md) |
 | Trimmed mean | The mean after removing a fixed share of the smallest and largest values. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | Trimming percentage | The share of values removed from each end for a trimmed mean. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | Trimming | Removing the rows that hold outliers. | [Video 41](41-what-are-outliers/note.md) |
@@ -1249,6 +1277,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | XAMPP | A free package that runs a web server and a MySQL server on one computer. | [Video 16](16-working-with-json-and-sql/note.md) |
 | XGBoost | eXtreme Gradient Boosting: a library that implements gradient boosting with many speed and accuracy optimisations. | [Video 123](123-xgboost-intro/note.md) |
 | Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default. | [Video 31](31-power-transformer/note.md) |
+| Z-procedure | The confidence interval $\bar{x} \pm z_{\alpha/2}\,\sigma/\sqrt{n}$, used when $\sigma$ is known. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | Z-score method | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. | [Video 42](42-outliers-zscore/note.md) |
 | Z-score normalization | Another name for standardization. | [Video 24](24-standardization/note.md) |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean. | [Video 24](24-standardization/note.md) |

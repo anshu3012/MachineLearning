@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box, minimum width=5.2cm] (q) at (0,0) {\textbf{Is the population}\\ \textbf{standard deviation $\sigma$ known?}};
+  \node[box=cblue, minimum width=5.6cm] (z) at (-4.6,-3) {\textbf{Z-procedure}\\ $\bar{x} \pm z_{\alpha/2}\,\dfrac{\sigma}{\sqrt{n}}$};
+  \node[box=corange, minimum width=5.6cm] (t) at (4.6,-3) {\textbf{T-procedure}\\ $\bar{x} \pm t_{\alpha/2,\,n-1}\,\dfrac{s}{\sqrt{n}}$};
+  \draw[arrow] (q) -| node[pos=0.5, left, font=\sffamily] {yes (rare)} (z);
+  \draw[arrow] (q) -| node[pos=0.5, right, font=\sffamily] {no (usual)} (t);
+  \node[note] at (-4.6,-4.6) {critical value from the\\ standard normal curve};
+  \node[note] at (4.6,-4.6) {critical value from Student's\\ t-distribution with $n-1$ degrees of freedom};
+\end{tikzpicture}
+\end{document}

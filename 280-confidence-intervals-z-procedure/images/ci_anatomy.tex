@@ -1,0 +1,21 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % number line
+  \draw[cgrey, -{Stealth[length=3mm]}] (-1,0) -- (13,0) node[right, note] {age (years)};
+  % interval
+  \draw[cblue, line width=5pt] (2,0) -- (10,0);
+  \foreach \x/\t in {2/25.06, 6/28, 10/30.94} \draw[cgrey] (\x,-0.25) -- (\x,0.25) node[above=2pt, font=\sffamily] {\t};
+  \fill[corange] (6,0) circle (5pt);
+  \node[box=cblue, minimum width=2.6cm] at (2,-1.6) {lower limit\\ $\bar{x} - E$};
+  \node[box=corange, minimum width=2.6cm] at (6,-1.6) {point estimate\\ $\bar{x}$};
+  \node[box=cblue, minimum width=2.6cm] at (10,-1.6) {upper limit\\ $\bar{x} + E$};
+  % margins of error
+  \draw[decorate, decoration={brace, amplitude=7pt}, draw=cgreen] (2,0.95) -- (5.95,0.95)
+    node[midway, above=9pt, font=\sffamily, text=cgreen] {margin of error $E = 2.94$};
+  \draw[decorate, decoration={brace, amplitude=7pt}, draw=cgreen] (6.05,0.95) -- (10,0.95)
+    node[midway, above=9pt, font=\sffamily, text=cgreen] {margin of error $E = 2.94$};
+  \node[note, font=\sffamily\bfseries] at (6,2.6) {95\% confidence interval for the mean age $\mu$};
+\end{tikzpicture}
+\end{document}

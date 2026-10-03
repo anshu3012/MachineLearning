@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 185 of 185 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 190 of 190 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -62,6 +62,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Conditional probability | [Note 82](../82-conditional-probability/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
 | Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), [Note 86](../86-bayes-problem/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | confirmed |
+| Bernoulli and binomial distributions | [Note 102](../102-voting-ensemble/note.md), [Note 241](../241-pmf-and-discrete-cdf/note.md), [Note 270](../270-bernoulli-and-binomial/note.md) | confirmed |
 | Taylor series | [Note 126](../126-xgboost-maths/note.md) | confirmed |
 | Probability distributions | [Note 210](../210-statistics-roadmap/note.md), [Note 240](../240-random-variables-and-distributions/note.md) | confirmed |
 | Inferential statistics | [Note 210](../210-statistics-roadmap/note.md), [Note 220](../220-what-is-statistics/note.md) | confirmed |
@@ -72,6 +73,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Log-normal distribution | [Note 242](../242-pdf-and-continuous-cdf/note.md), [Note 261](../261-uniform-and-log-normal/note.md) | confirmed |
 | Standard normal and the z-table | [Note 251](../251-standard-normal-and-z-table/note.md) | confirmed |
 | Pareto distribution and power laws | [Note 262](../262-pareto-and-power-law/note.md) | confirmed |
+| Sampling distribution and standard error | [Note 271](../271-sampling-distribution-and-clt/note.md) | confirmed |
+| Central limit theorem | [Note 271](../271-sampling-distribution-and-clt/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | confirmed |
+| Confidence intervals | [Note 280](../280-confidence-intervals-z-procedure/note.md), [Note 281](../281-interpreting-confidence-intervals/note.md), [Note 282](../282-t-procedure/note.md) | confirmed |
+| Student's t-distribution | [Note 282](../282-t-procedure/note.md) | confirmed |
 | Events and sample spaces | [Note 330](../330-events-and-types-of-events/note.md) | confirmed |
 | Empirical vs theoretical probability, probability rules | [Note 331](../331-empirical-and-theoretical-probability/note.md), [Note 340](../340-venn-diagrams-and-contingency-tables/note.md) | confirmed |
 | Expected value and variance of a random variable | [Note 332](../332-expected-value-and-variance/note.md) | confirmed |
@@ -300,7 +305,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 185 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 190 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -422,9 +427,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 99 | Feature importance, Grid and random search, Regression trees | [Note 38](../38-missing-indicator-random-sample/note.md), [Note 52](../52-regression-metrics/note.md), [Note 91](../91-knn/note.md), [Note 98](../98-decision-tree-hyperparameters/note.md) | written |
 | 100 | Decision trees, Feature importance | [Note 6](../06-instance-vs-model-based/note.md), [Note 91](../91-knn/note.md), [Note 97](../97-decision-trees-intuition/note.md) | written |
 | 101 | Boosting, Ensemble learning | [Note 62](../62-bias-variance/note.md), [Note 91](../91-knn/note.md), [Note 100](../100-dtreeviz/note.md) | written |
-| 102 | Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 91](../91-knn/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
-| 103 | Cross-validation, Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
-| 104 | Cross-validation, Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
+| 102 | Bernoulli and binomial distributions, Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 91](../91-knn/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
+| 103 | Cross-validation, Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 102](../102-voting-ensemble/note.md) | written |
+| 104 | Cross-validation, Voting ensembles | [Note 84](../84-mutually-exclusive-events/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 102](../102-voting-ensemble/note.md) | written |
 | 105 | Bagging, OOB score | [Note 91](../91-knn/note.md), [Note 99](../99-regression-trees/note.md), [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md) | written |
 | 106 | Bagging, Grid and random search, OOB score | [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 104](../104-voting-regressor/note.md) | written |
 | 107 | Bagging, Grid and random search, OOB score | [Note 98](../98-decision-tree-hyperparameters/note.md), [Note 100](../100-dtreeviz/note.md), [Note 101](../101-ensemble-learning/note.md), [Note 104](../104-voting-regressor/note.md) | written |
@@ -463,7 +468,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 230 | Descriptive statistics, Percentiles, quartiles and box plots | [Note 19](../19-understanding-your-data/note.md), [Note 223](../223-frequency-tables-and-graphs/note.md) | written |
 | 231 | Correlation, Correlation and causation, Covariance and covariance matrix | [Note 222](../222-measures-of-dispersion/note.md), [Note 230](../230-percentiles-and-box-plots/note.md) | written |
 | 240 | Normal distribution, Probability distributions, Random variables | [Note 90](../90-gaussian-naive-bayes/note.md), [Note 220](../220-what-is-statistics/note.md) | written |
-| 241 | Cumulative distribution function (CDF), Probability mass function (PMF), Uniform distribution | [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md) | written |
+| 241 | Bernoulli and binomial distributions, Cumulative distribution function (CDF), Probability mass function (PMF), Uniform distribution | [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md) | written |
 | 242 | Cumulative distribution function (CDF), Log-normal distribution, Probability density function (PDF) | [Note 240](../240-random-variables-and-distributions/note.md), [Note 241](../241-pmf-and-discrete-cdf/note.md) | written |
 | 243 | Density estimation, Kernel density estimation (KDE) | [Note 220](../220-what-is-statistics/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | written |
 | 250 | Normal distribution | [Note 240](../240-random-variables-and-distributions/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | written |
@@ -473,6 +478,12 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 260 | Kurtosis and moments, Q-Q plot | [Note 250](../250-normal-distribution/note.md) | written |
 | 261 | Log-normal distribution, Uniform distribution | [Note 240](../240-random-variables-and-distributions/note.md) | written |
 | 262 | Pareto distribution and power laws | nothing | written |
+| 270 | Bernoulli and binomial distributions | [Note 240](../240-random-variables-and-distributions/note.md) | written |
+| 271 | Central limit theorem, Sampling distribution and standard error | [Note 220](../220-what-is-statistics/note.md), [Note 250](../250-normal-distribution/note.md) | written |
+| 272 | Central limit theorem | [Note 250](../250-normal-distribution/note.md), [Note 271](../271-sampling-distribution-and-clt/note.md) | written |
+| 280 | Confidence intervals | [Note 251](../251-standard-normal-and-z-table/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | written |
+| 281 | Confidence intervals | [Note 251](../251-standard-normal-and-z-table/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | written |
+| 282 | Confidence intervals, Student's t-distribution | [Note 222](../222-measures-of-dispersion/note.md), [Note 251](../251-standard-normal-and-z-table/note.md), [Note 272](../272-estimating-a-mean-with-the-clt/note.md) | written |
 | 330 | Events and sample spaces | nothing | written |
 | 331 | Empirical vs theoretical probability, probability rules | [Note 330](../330-events-and-types-of-events/note.md) | written |
 | 332 | Expected value and variance of a random variable | [Note 240](../240-random-variables-and-distributions/note.md) | written |

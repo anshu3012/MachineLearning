@@ -8,8 +8,8 @@ title: "Outlier Detection with the Z-score Method"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Probability density function (PDF) ([Note 20](../20-univariate-analysis/note.md)); Standardization ([Note 24](../24-standardization/note.md)); Outliers ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
-> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)).
-> - **Compare with:** IQR outlier method ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)).
+> - **Leads to:** Naive Bayes ([Note 87](../87-naive-bayes-intuition/note.md)); Standard normal and the z-table ([Note 251](../251-standard-normal-and-z-table/note.md)); Q-Q plot ([Note 260](../260-kurtosis-and-qq-plots/note.md)); Central limit theorem ([Note 271](../271-sampling-distribution-and-clt/note.md)).
+> - **Compare with:** IQR outlier method ([Note 41](../41-what-are-outliers/note.md)); Percentile outlier method ([Note 41](../41-what-are-outliers/note.md)); Student's t-distribution ([Note 282](../282-t-procedure/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

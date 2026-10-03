@@ -173,6 +173,12 @@ notes:
   260: 260-kurtosis-and-qq-plots
   261: 261-uniform-and-log-normal
   262: 262-pareto-and-power-law
+  270: 270-bernoulli-and-binomial
+  271: 271-sampling-distribution-and-clt
+  272: 272-estimating-a-mean-with-the-clt
+  280: 280-confidence-intervals-z-procedure
+  281: 281-interpreting-confidence-intervals
+  282: 282-t-procedure
   330: 330-events-and-types-of-events
   331: 331-empirical-and-theoretical-probability
   332: 332-expected-value-and-variance
@@ -235,6 +241,11 @@ concepts:
   - {id: uniform_dist, name: Uniform distribution, step: 0, videos: [241, 261], status: confirmed}
   - {id: lognormal, name: Log-normal distribution, step: 0, videos: [242, 261], status: confirmed}
   - {id: pareto, name: Pareto distribution and power laws, step: 0, videos: [262], status: confirmed}
+  - {id: binomial_dist, name: Bernoulli and binomial distributions, step: 0, videos: [102, 241, 270], status: confirmed}
+  - {id: sampling_distribution, name: Sampling distribution and standard error, step: 0, videos: [271], status: confirmed}
+  - {id: clt, name: Central limit theorem, step: 0, videos: [271, 272], status: confirmed}
+  - {id: confidence_interval, name: Confidence intervals, step: 0, videos: [280, 281, 282], status: confirmed}
+  - {id: t_distribution, name: Student's t-distribution, step: 0, videos: [282], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -749,6 +760,17 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [binomial_dist, is a kind of, probability_distribution, confirmed]
+  - [binomial_dist, used in, voting, confirmed]
+  - [sampling_distribution, needs, population_sample, confirmed]
+  - [clt, needs, sampling_distribution, confirmed]
+  - [clt, needs, normal_distribution, confirmed]
+  - [confidence_interval, needs, clt, confirmed]
+  - [confidence_interval, needs, standard_normal, confirmed]
+  - [confidence_interval, used in, inferential_stats, confirmed]
+  - [t_distribution, compared with, normal_distribution, confirmed]
+  - [t_distribution, needs, bessel, confirmed]
+  - [t_distribution, used in, confidence_interval, confirmed]
   - [conditional_probability, needs, probability_basics, confirmed]
   - [probability_rules, needs, probability_basics, confirmed]
   - [expected_value, needs, random_variable, confirmed]
