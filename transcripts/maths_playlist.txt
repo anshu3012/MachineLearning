@@ -35,3 +35,5 @@ M34|_FbZI9mtSSM|Probability: Binomial Distribution (365 Data Science)
 M35|nl9WiZMZnYs|Bernoulli Distribution (365 Data Science)
 M36|BbLfV0wOeyc|The Poisson Distribution (365 Data Science)
 M37|YrhlQB3mQFI|Tutorial 32 - All About P Value, T test, Chi Square Test, Anova Test
+M38|o4g4OTyCyDM|How to Overcome the Fear of Maths in Data Science? | Maths Roadmap for Machine Learning
+M39|TXVtbgaEyms|Difference between convex & non-convex cost function

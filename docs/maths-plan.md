@@ -36,3 +36,17 @@ Chosen to cover concepts the free CampusX sessions lack (see `transcripts/maths_
 | M28–M33 | 3Blue1Brown, Essence of Linear Algebra ch. 1, 2, 3, 4, 9, 14 | 480–530 | span and basis, matrices as transformations, composition, duality, eigenvectors |
 | M34–M36 | 365 Data Science: binomial, Bernoulli, Poisson | 540–560 | Poisson (binomial and Bernoulli only if new) |
 | M37 | p-value, t-test, chi-square, ANOVA tutorial | 570+ | chi-square tests, ANOVA |
+
+## Gap topics without free CampusX sessions (M38–M42)
+
+The user chose: CampusX first; the textbook and MIT lecture only for what CampusX does not teach for free. Optimizers and backpropagation are taught in the Deep Learning playlist (DL Notes), so maths does not repeat them.
+
+| Session | Source | Note IDs | Covers |
+|---|---|---|---|
+| M38 | CampusX "How to Overcome the Fear of Maths / Maths Roadmap" (free) | 580 | what maths ML needs |
+| M39 | CampusX "Convex vs non-convex cost function" (free) | 590 | convexity of cost functions |
+| M40 | *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong; free PDF at mml-book.github.io), ch. 5 Vector Calculus | 600+ | derivatives, partial derivatives, gradients, Jacobian, chain rule, Hessian, Taylor |
+| M41 | same book §4.5–4.6, plus MIT OCW 18.06 Lecture 29 (Gilbert Strang, SVD) transcript | 610+ | SVD, low-rank approximation |
+| M42 | same book ch. 7 (§7.2–7.3) | 620+ | constrained optimisation, Lagrange multipliers, convex optimisation |
+
+Local copies: `reference/maths-sources/` (book PDF and its text extracts are not committed).
