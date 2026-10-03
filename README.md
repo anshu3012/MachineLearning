@@ -102,7 +102,7 @@ Videos are grouped as:
 
 | Group | Videos | Written by |
 |---|---|---|
-| A. Foundations | 1-14 | done or deferred |
+| A. Foundations | 1-14 | done (10 skipped) |
 | B. Prerequisites: getting and understanding data | 15-22 | subagents, 2 at a time; reviewed by Claude |
 | C. Feature engineering and preprocessing | 23-45 | subagents, 2 at a time; reviewed by Claude |
 | D. Core ML | 46-134 | Claude, while subagents work on B and C |
@@ -115,7 +115,7 @@ One data file lists every Concept, its Pipeline step and its Links; all four vie
 
 Pipeline steps (the teacher's ML development life cycle, Video 9, split finer): 0 Foundations, 1 Frame the problem, 2 Get data, 3 Understand data, 4 Clean, 5 Engineer features, 6 Reduce dimensions, 7 Split, 8 Model, 9 Evaluate, 10 Tune, 11 Deploy, 12 Test, 13 Monitor and maintain. Understand data comes before Clean (as in the playlist and CRISP-DM), with a loop arrow between them: in practice we go back and forth.
 
-Deferred Videos are on the map too: 1 is the Course map itself; 8 and 12 sit in Foundations; 9 defines the Pipeline map; 14 is Frame the problem.
+On the map: Video 1 is the Course map and the first lesson; 8 and 12 sit in Foundations; 9 defines the Pipeline map; 14 is Frame the problem.
 
 **Transcript first, map second.** For every Note:
 1. List every concept taught in the transcript and the teacher's code, before looking at the draft map.
@@ -128,13 +128,7 @@ Write one Note → you review → fix → next. Video 2 first (locks the style),
 
 ## Deferred
 
-Videos skipped for now, to come back to later:
-
-- Video 1, second half: the lesson "What is Machine Learning?" (definition, explicit programming, when to use ML, data mining, history, jobs). The first half of the Video 1 Note is the Course map, built from `course_map/`.
-- Video 8: Applications of Machine Learning
-- Video 9: Machine Learning Development Life Cycle (MLDLC)
-- Video 12: Installing Anaconda / Jupyter / Colab. Do this when the project is done: first pin the exact library versions of the `campusx` environment (e.g. an `environment.yml`), then write the setup Note from that pinned environment.
-- Video 14: How to Frame a Machine Learning Problem
+None. The once-deferred Videos are written: Video 1 has two folders, `01-course-map` (the Course map) and `01-what-is-ml` (the lesson); Videos 8, 9, 12 and 14 have their own Notes. Note 12 is written from the pinned `environment.yml`.
 
 ## Skipped
 

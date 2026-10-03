@@ -253,7 +253,7 @@ def learning_path_rows():
         names = ", ".join(sorted(CONCEPTS[c]["name"] for c in own))
         first = sorted(set(before.values()))
         reads = ", ".join(note_ref(x, "../") for x in first[-4:]) or "nothing"
-        status = "written" if v in NOTES else ("deferred" if v in (8, 9, 12, 14) else "coming")
+        status = "written" if v in NOTES else "coming"
         rows.append(f"| {v} | {names} | {reads} | {status} |")
     return rows
 

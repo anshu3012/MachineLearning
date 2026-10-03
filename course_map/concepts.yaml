@@ -32,6 +32,7 @@ notes:
   8: 08-applications-of-ml
   9: 09-mldlc
   11: 11-tensors
+  12: 12-setup-anaconda-jupyter-colab
   13: 13-toy-project
   14: 14-framing-ml-problem
   15: 15-working-with-csv
@@ -134,7 +135,7 @@ concepts:
   - {id: applications, name: Applications of ML, step: 0, videos: [8], status: confirmed}
   - {id: data_mining, name: Data mining, step: 0, videos: [1, 8], status: confirmed}
   - {id: mldlc, name: ML development life cycle, step: 0, videos: [9, 13], status: confirmed}
-  - {id: dev_setup, name: "Anaconda, Jupyter and Colab", step: 0, videos: [12], status: confirmed}
+  - {id: dev_setup, name: "Setup: conda, Jupyter and Colab", step: 0, videos: [12], status: confirmed}
 
   # 1 Frame the problem
   - {id: problem_framing, name: Framing an ML problem, step: 1, videos: [9, 14], status: confirmed}
@@ -320,7 +321,8 @@ links:
   - [association_rules, used in, applications, confirmed]
   - [data_mining, needs, ml, confirmed]
   - [data_mining, compared with, eda, confirmed]
-  - [dev_setup, used in, ml, draft]
+  - [dev_setup, used in, ml, confirmed]
+  - [pandas_profiling, needs, dev_setup, confirmed]
   # Data
   - [sampling_bias, compared with, data_quantity, confirmed]
   - [csv, used in, eda, confirmed]

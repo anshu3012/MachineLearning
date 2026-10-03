@@ -56,7 +56,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Applications of ML | [Note 8](../08-applications-of-ml/note.md) | confirmed |
 | ML development life cycle | [Note 9](../09-mldlc/note.md), [Note 13](../13-toy-project/note.md) | confirmed |
 | Tensors | [Note 11](../11-tensors/note.md) | confirmed |
-| Anaconda, Jupyter and Colab | Video 12, coming | confirmed |
+| Setup: conda, Jupyter and Colab | [Note 12](../12-setup-anaconda-jupyter-colab/note.md) | confirmed |
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
 | Conditional probability | [Note 82](../82-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
@@ -295,7 +295,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 8 | Applications of ML, Data mining | [Note 2](../02-ai-vs-ml-vs-dl/note.md), [Note 3](../03-types-of-ml/note.md) | written |
 | 9 | APIs, Beta and A/B testing, Bivariate and multivariate analysis, CSV files, Deployment, Ensemble learning, Exploratory data analysis, Feature construction and splitting, Feature engineering, Feature scaling, Feature selection, Framing an ML problem, Hyperparameter tuning, Imbalanced data, ML development life cycle, MLOps and cost, Missing values, Model drift, Outliers, Poor-quality data, Retraining, Saving models with pickle, Standardization, Univariate analysis, Web scraping | [Note 3](../03-types-of-ml/note.md), [Note 4](../04-batch-learning/note.md), [Note 5](../05-online-learning/note.md), [Note 7](../07-challenges-in-ml/note.md) | written |
 | 11 | Features, One-hot encoding, Tensors | nothing | written |
-| 12 | Anaconda, Jupyter and Colab | nothing | deferred |
+| 12 | Setup: conda, Jupyter and Colab | nothing | written |
 | 13 | Accuracy, CSV files, Data leakage, Deployment, Exploratory data analysis, Feature scaling, Feature selection, Logistic regression, ML development life cycle, ML pipelines, Saving models with pickle, Standardization, Train-test split | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 7](../07-challenges-in-ml/note.md), [Note 9](../09-mldlc/note.md) | written |
 | 14 | Framing an ML problem | [Note 3](../03-types-of-ml/note.md), [Note 4](../04-batch-learning/note.md), [Note 5](../05-online-learning/note.md) | written |
 | 15 | CSV files | nothing | written |
@@ -305,7 +305,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 19 | Correlation, Descriptive statistics, Exploratory data analysis, Variance | [Note 15](../15-working-with-csv/note.md) | written |
 | 20 | Outliers, Skewness, Univariate analysis | [Note 9](../09-mldlc/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
 | 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
-| 22 | Pandas Profiling | nothing | written |
+| 22 | Pandas Profiling | [Note 12](../12-setup-anaconda-jupyter-colab/note.md) | written |
 | 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode, constant) | [Note 11](../11-tensors/note.md), [Note 13](../13-toy-project/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
 | 24 | Feature scaling, Standardization | [Note 13](../13-toy-project/note.md), [Note 19](../19-understanding-your-data/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 25 | Normalization | [Note 24](../24-standardization/note.md) | written |

@@ -7,6 +7,7 @@ title: "Pandas Profiling: A Full EDA Report in One Line"
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** Setup: conda, Jupyter and Colab ([Note 12](../12-setup-anaconda-jupyter-colab/note.md)).
 > - **Compare with:** Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)).
 <!-- /where-this-fits -->
 

@@ -48,9 +48,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Agent | The learner in reinforcement learning. | [Video 3](03-types-of-ml/note.md) |
 | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Alert | A warning in the report about a column that may need attention. | [Video 22](22-pandas-profiling/note.md) |
+| Anaconda Navigator | Anaconda's point-and-click window for environments and packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Anaconda | The best-known data science distribution, with Navigator and Spyder. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Anomaly detection | Finding rows that do not fit the pattern of the rest. | [Video 3](03-types-of-ml/note.md) |
 | API (Application Programming Interface) | A way for two programs to talk; a website's API hands out its data on request. | [Video 17](17-fetching-data-from-api/note.md) |
 | API key | A secret code that tells the API who is asking. | [Video 17](17-fetching-data-from-api/note.md) |
+| API token | A secret file or key that lets a program use a website's API as us. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | API | A service that returns data when our code asks for it. | [Video 7](07-challenges-in-ml/note.md) |
 | Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. | [Video 36](36-imputing-numerical-data/note.md) |
 | arg max | The value of the variable that makes an expression largest. | [Video 88](88-naive-bayes-maths/note.md) |
@@ -69,6 +72,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Video 62](62-bias-variance/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| base environment | The environment the installer creates, holding conda itself. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Batch (mini-batch) | A small group of training rows used for one update. | [Video 60](60-mini-batch-gradient-descent/note.md) |
 | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
@@ -110,6 +114,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Category share | The rows in one category divided by the rows that have a value. | [Video 37](37-missing-categorical-data/note.md) |
 | Category | One of the fixed groups of a categorical column. | [Video 20](20-univariate-analysis/note.md) |
+| Cell | One block of a notebook, holding either code or Markdown. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Centred data | Data whose mean is 0. | [Video 25](25-normalization/note.md) |
 | Centroid | The centre of one group in k-means. | [Video 32](32-binning-binarization/note.md) |
 | Chain rule of probability | Writing a joint probability as a product of conditional probabilities, one variable at a time. | [Video 88](88-naive-bayes-maths/note.md) |
@@ -146,6 +151,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Complete case | A row with a value in every column used. | [Video 35](35-complete-case-analysis/note.md) |
 | components_ | The eigenvectors of the fitted PCA, one per row. | [Video 49](49-pca-mnist/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
+| conda | A package and environment manager for Python and other software. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| conda-forge | A free, community-run conda channel. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Conditional independence | Independence that holds once a third variable (here the class) is known. | [Video 88](88-naive-bayes-maths/note.md) |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$. | [Video 82](82-conditional-probability/note.md) |
 | Confidence interval | A range in which the true mean most likely lies. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -246,6 +253,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | End-to-end product | A complete product, from raw data to software that users use. | [Video 9](09-mldlc/note.md) |
 | Endpoint | One address of an API that returns one kind of data. | [Video 17](17-fetching-data-from-api/note.md) |
 | Ensemble learning | Combining several models into one stronger model. | [Video 9](09-mldlc/note.md) |
+| Environment file | A file (`environment.yml`) listing an environment's packages and versions. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Environment variable | A named value stored on the computer, outside the code, read with `os.environ`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment | The world the agent acts in. | [Video 3](03-types-of-ml/note.md) |
 | Epoch | One full update of the parameters using the whole training set. | [Video 57](57-gradient-descent/note.md) |
@@ -304,6 +312,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | get_feature_names_out | `OneHotEncoder` method that returns the names of the new columns. | [Video 27](27-one-hot-encoding/note.md) |
 | Global minimum | The lowest point of the whole function. | [Video 57](57-gradient-descent/note.md) |
 | Good fit | Capturing the pattern while ignoring the noise. | [Video 7](07-challenges-in-ml/note.md) |
+| Google Colab | Google's browser-based Jupyter notebooks, saved in Google Drive. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| GPU | A graphics chip that runs deep learning maths much faster than a CPU. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill. | [Video 24](24-standardization/note.md) |
 | Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase. | [Video 57](57-gradient-descent/note.md) |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation. | [Video 38](38-missing-indicator-random-sample/note.md) |
@@ -361,6 +371,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | JSON Lines | A JSON file with one object per line, read with `lines=True`. | [Video 16](16-working-with-json-and-sql/note.md) |
 | JSON viewer | A tool that lays out JSON text as a tree to show its structure. | [Video 17](17-fetching-data-from-api/note.md) |
 | JSON | A plain-text format for structured data, used by APIs. | [Video 9](09-mldlc/note.md) |
+| Jupyter | Tool for notebooks that mix code, output and text. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| JupyterLab | The program that runs Jupyter notebooks in a web browser. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | k-means binning | Binning whose edges lie halfway between the centres of the groups found by k-means. | [Video 32](32-binning-binarization/note.md) |
 | k-means | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. | [Video 32](32-binning-binarization/note.md) |
 | K-nearest neighbours (KNN) | Predicting from the answers of the k closest stored points. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -368,6 +380,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | KBinsDiscretizer | scikit-learn's class for equal width, equal frequency and k-means binning. | [Video 32](32-binning-binarization/note.md) |
 | KDE plot | A smooth estimate of a column's PDF, built from the data. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Kernel density estimate (KDE) | A smooth curve that estimates a column's distribution from its values. | [Video 20](20-univariate-analysis/note.md) |
+| Kernel | The running Python process behind a notebook. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | KNN imputer | Multivariate imputation from the most similar rows (`KNNImputer`). | [Video 35](35-complete-case-analysis/note.md) |
 | Knowledge base | The collection of rules inside an expert system. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve. | [Video 22](22-pandas-profiling/note.md) |
@@ -420,6 +433,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | MAP rule | Maximum a posteriori: predict the class with the largest posterior probability. | [Video 88](88-naive-bayes-maths/note.md) |
 | MAR | Missing at random: the gaps depend on another, recorded column. | [Video 35](35-complete-case-analysis/note.md) |
 | Margin (gap) | The distance from a separating line to the nearest point of a class. | [Video 71](71-perceptron-code/note.md) |
+| Markdown | A simple way to format text with symbols such as `#` and `**`. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Mathematical problem | A business goal restated as a measurable target, such as a churn rate to reach. | [Video 14](14-framing-ml-problem/note.md) |
 | Mathematical transformation | Applying one mathematical formula to every value of a column. | [Video 30](30-function-transformer/note.md) |
 | Matrix calculus | Rules for differentiating expressions with vectors and matrices. | [Video 54](54-multiple-lr-maths/note.md) |
@@ -447,6 +461,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | min_frequency | `OneHotEncoder` parameter that merges rare categories into one column. | [Video 27](27-one-hot-encoding/note.md) |
 | Mini-batch gradient descent | Gradient descent that uses a small random group of rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
+| Miniforge | A small installer with only conda and Python, using conda-forge. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing". | [Video 37](37-missing-categorical-data/note.md) |
 | Missing indicator | A 0/1 column recording whether a value was missing. | [Video 35](35-complete-case-analysis/note.md) |
@@ -496,6 +511,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression. | [Video 54](54-multiple-lr-maths/note.md) |
 | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy. | [Video 54](54-multiple-lr-maths/note.md) |
 | Normalization | The other type of feature scaling, which squeezes values into a fixed range (next Note). | [Video 24](24-standardization/note.md) |
+| Notebook | A `.ipynb` file of cells, each with its output underneath. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side. | [Video 28](28-column-transformer/note.md) |
 | np.insert | NumPy function that inserts values into an array at a given position. | [Video 55](55-multiple-lr-code/note.md) |
 | np.linalg.inv | NumPy function that computes the inverse of a square matrix. | [Video 55](55-multiple-lr-code/note.md) |
@@ -522,6 +538,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Outlier | A value far from the rest of the data. | [Video 20](20-univariate-analysis/note.md) |
 | Outliers | Values far from the rest, often mistakes. | [Video 7](07-challenges-in-ml/note.md) |
 | Overfitting | Learning the training data too closely, noise included; fails on new data. | [Video 7](07-challenges-in-ml/note.md) |
+| Package manager | A program that downloads and installs libraries in versions that fit together. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Package | A library packed for installation. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Pair plot | A grid of scatter plots of every pair of numerical columns, with histograms on the diagonal. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Pandas Profiling | The library that builds a profiling report from a DataFrame, now named `fg-data-profiling`. | [Video 22](22-pandas-profiling/note.md) |
 | pandas, DataFrame | Python's main table library, and its name for a table. | [Video 13](13-toy-project/note.md) |
@@ -554,6 +572,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | phpMyAdmin | A web page for creating and managing MySQL databases. | [Video 16](16-working-with-json-and-sql/note.md) |
 | pickle | A Python module that saves objects to a file and loads them back. | [Video 13](13-toy-project/note.md) |
 | Pie chart | A circle split into slices sized by each category's share. | [Video 20](20-univariate-analysis/note.md) |
+| pip | Python's own package manager, which installs from PyPI. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Pipeline (class) | The scikit-learn class (in `sklearn.pipeline`) that builds a pipeline from a list of (name, object) tuples. | [Video 29](29-pipelines/note.md) |
 | Pipeline | One object that bundles several processing steps and a model. | [Video 13](13-toy-project/note.md) |
 | Pivot table | A grid with one column's values as rows, another's as columns, and a third in the cells. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -589,6 +608,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Projection | Dropping each point onto an axis or line, like casting a shadow. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Proportional to (∝) | Equal up to a constant factor that is the same for every class. | [Video 88](88-naive-bayes-maths/note.md) |
 | Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one. | [Video 72](72-sigmoid-function/note.md) |
+| PyPI | The Python Package Index, the public store of Python packages. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Q-Q plot | A plot of a column's sorted values against the values a normal distribution would have; points on the line mean normal. | [Video 30](30-function-transformer/note.md) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Video 30](30-function-transformer/note.md) |
 | Quarter | One of four three-month parts of a year. | [Video 34](34-date-and-time/note.md) |
@@ -682,6 +702,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sparse model | A model in which many coefficients are exactly 0. | [Video 67](67-lasso-regression/note.md) |
 | sparse_output | `OneHotEncoder` parameter; `False` returns a normal NumPy array. | [Video 27](27-one-hot-encoding/note.md) |
 | Sparsity | Having many coefficients exactly equal to 0. | [Video 68](68-lasso-sparsity/note.md) |
+| Spyder | A Python code editor that shows variables and tables in memory. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | SQL (Structured Query Language) | The language for asking a database for data. | [Video 16](16-working-with-json-and-sql/note.md) |
 | SQLAlchemy | A Python library that connects to many kinds of database; pandas supports it fully. | [Video 16](16-working-with-json-and-sql/note.md) |
 | SQLite | A database stored in a single file, built into Python, needing no server. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -726,6 +747,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Title | The word before a name, such as Mr, Mrs, Miss or Master. | [Video 45](45-feature-construction-splitting/note.md) |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category. | [Video 27](27-one-hot-encoding/note.md) |
 | Total sum of squares | The total squared error of always predicting the mean. | [Video 52](52-regression-metrics/note.md) |
+| TPU | Google's chip built only for deep learning maths. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Train-test split | Dividing the data into training and test sets. | [Video 13](13-toy-project/note.md) |
 | Training set | The part of the data the model learns from. | [Video 13](13-toy-project/note.md) |
@@ -765,6 +787,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Video 58](58-batch-gradient-descent/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |
 | View Page Source | Browser option that shows a page's raw HTML. | [Video 18](18-web-scraping/note.md) |
+| Virtual environment | A separate folder of Python and packages for one project. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Vocabulary | The list of unique words in a set of texts. | [Video 11](11-tensors/note.md) |
 | Volatile | Changing quickly and unpredictably. | [Video 14](14-framing-ml-problem/note.md) |
 | Vowpal Wabbit | A fast learning library that supports online learning. | [Video 5](05-online-learning/note.md) |
