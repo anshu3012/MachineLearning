@@ -8,7 +8,7 @@ title: "Function Transformer: Log, Reciprocal, Square and Square Root Transforms
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Skewness ([Note 20](../20-univariate-analysis/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Leads to:** Power transformer ([Note 31](../31-power-transformer/note.md)); Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Grid and random search ([Note 38](../38-missing-indicator-random-sample/note.md)).
+> - **Leads to:** Power transformer ([Note 31](../31-power-transformer/note.md)); Feature construction and splitting ([Note 45](../45-feature-construction-splitting/note.md)); Assumptions of linear regression ([Note 56](../56-linear-regression-assumptions/note.md)); Grid and random search ([Note 38](../38-missing-indicator-random-sample/note.md)).
 > - **Compare with:** Train-test split ([Note 13](../13-toy-project/note.md)); Power transformer ([Note 31](../31-power-transformer/note.md)).
 <!-- /where-this-fits -->
 

@@ -54,8 +54,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Array | The programming name for a tensor (as in NumPy). | [Video 11](11-tensors/note.md) |
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
+| Assumption (of a model) | A condition the data must meet for the model's results to be reliable. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Atomic value | A single piece of information in a cell, not several combined. | [Video 45](45-feature-construction-splitting/note.md) |
 | Attribute | A `name="value"` setting inside an opening tag. | [Video 18](18-web-scraping/note.md) |
+| Autocorrelation | Each residual is related to the one before it in row order. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Average record size | The memory one row takes, on average. | [Video 22](22-pandas-profiling/note.md) |
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
 | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
@@ -162,6 +164,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1. | [Video 27](27-one-hot-encoding/note.md) |
 | Dummy variable | One of the 0/1 columns created by one-hot encoding. | [Video 27](27-one-hot-encoding/note.md) |
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
+| Durbin-Watson statistic | A number from 0 to 4 measuring autocorrelation of residuals; about 2 means none. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Video 6](06-instance-vs-model-based/note.md) |
 | Economy rate | A bowler's runs conceded per over. | [Video 45](45-feature-construction-splitting/note.md) |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Video 48](48-pca-step-by-step/note.md) |
@@ -222,9 +225,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Header | The line of a file that holds the column names. | [Video 15](15-working-with-csv/note.md) |
 | Headers | Extra information sent with a request, such as the User-Agent. | [Video 18](18-web-scraping/note.md) |
 | Heatmap | A table drawn as coloured cells, darker for larger values. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
+| Heteroscedasticity | The spread of the residuals changes with the predicted value, often as a funnel. | [Video 56](56-linear-regression-assumptions/note.md) |
 | High cardinality | A categorical column with very many different categories. | [Video 22](22-pandas-profiling/note.md) |
 | High-dimensional data | Data with a very large number of columns. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Histogram | A bar chart of how many values fall in each equal range (bin) of a numerical column. | [Video 20](20-univariate-analysis/note.md) |
+| Homoscedasticity | The residuals have the same spread for all predicted values. | [Video 56](56-linear-regression-assumptions/note.md) |
 | HTML | The language web pages are written in: a tree of nested tags. | [Video 18](18-web-scraping/note.md) |
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Hyperparameter tuning | Trying several hyperparameter values and keeping the best. | [Video 29](29-pipelines/note.md) |
@@ -441,6 +446,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Request, response | What we send to a server, and what it sends back. | [Video 18](18-web-scraping/note.md) |
 | requests | Python library that sends web requests. | [Video 17](17-fetching-data-from-api/note.md) |
 | Residual sum of squares | The total squared error of the model's predictions. | [Video 52](52-regression-metrics/note.md) |
+| Residual | The error on one data point: actual minus predicted value. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Response | What `requests.get` returns: the status code plus the reply. | [Video 17](17-fetching-data-from-api/note.md) |
 | Retrain | Train a model again, here from scratch on old + new data. | [Video 4](04-batch-learning/note.md) |
 | Reward / punishment | Good / bad feedback after an action. | [Video 3](03-types-of-ml/note.md) |
@@ -470,6 +476,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | set_output | Method that makes a transformer return a pandas DataFrame with `transform="pandas"`. | [Video 28](28-column-transformer/note.md) |
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Video 5](05-online-learning/note.md) |
 | Shape | The number of items along each axis. | [Video 11](11-tensors/note.md) |
+| Shapiro-Wilk test | A statistical test of whether data follows a normal distribution. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
 | Simple linear regression | Linear regression with one input column. | [Video 50](50-simple-linear-regression/note.md) |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Video 28](28-column-transformer/note.md) |
@@ -492,6 +499,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. | [Video 31](31-power-transformer/note.md) |
 | StandardScaler | scikit-learn's class that standardizes columns with `fit` and `transform`. | [Video 24](24-standardization/note.md) |
 | Static model | A model that learns nothing new after deployment. | [Video 4](04-batch-learning/note.md) |
+| statsmodels | A Python library for statistical models and tests. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Status code | A number saying how a request went: 200 OK, 401, 404, 500. | [Video 17](17-fetching-data-from-api/note.md) |
 | step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name. | [Video 29](29-pipelines/note.md) |
 | Stochastic error | A random, unmeasurable influence that scatters data around its trend. | [Video 50](50-simple-linear-regression/note.md) |
@@ -544,6 +552,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | User-Agent | A short text a browser sends to say what it is. | [Video 15](15-working-with-csv/note.md) |
 | UTF-8 | The most common encoding, and `read_csv`'s default. | [Video 15](15-working-with-csv/note.md) |
 | Variable | One column of a dataset. | [Video 20](20-univariate-analysis/note.md) |
+| Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other inputs predict input $j$; above 5 signals multicollinearity. | [Video 56](56-linear-regression-assumptions/note.md) |
 | Variance | The average squared distance of the points from their mean. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Vector | A list of numbers: a 1D tensor. | [Video 11](11-tensors/note.md) |
 | Vectorization | Converting data such as text into vectors of numbers. | [Video 11](11-tensors/note.md) |

@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 93 of 141 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 94 of 141 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -167,7 +167,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Ordinary least squares (closed form) | [Note 51](../51-linear-regression-maths/note.md) | confirmed |
 | Multiple linear regression | [Note 53](../53-multiple-linear-regression/note.md), [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
 | Normal equation | [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
-| Assumptions of linear regression | Video 56, coming | draft |
+| Assumptions of linear regression | [Note 56](../56-linear-regression-assumptions/note.md) | confirmed |
 | Gradient descent | Video 57, coming | draft |
 | Batch gradient descent | Video 58, coming | draft |
 | Mini-batch gradient descent | Video 60, coming | draft |
@@ -332,7 +332,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 53 | Multiple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 54 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 55 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
-| 56 | Assumptions of linear regression | nothing | coming |
+| 56 | Assumptions of linear regression | [Note 27](../27-one-hot-encoding/note.md), [Note 30](../30-function-transformer/note.md) | written |
 | 57 | Gradient descent | [Note 24](../24-standardization/note.md) | coming |
 | 58 | Batch gradient descent | Video 57, coming | coming |
 | 59 | Stochastic gradient descent | Video 57, coming | coming |
