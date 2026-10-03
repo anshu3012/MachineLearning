@@ -94,6 +94,30 @@ Symbols like ⊃ or → go in Markdown as maths (`$\supset$`, `$\rightarrow$`): 
 
 ## Workflow
 
+Videos are grouped as:
+
+| Group | Videos | Written by |
+|---|---|---|
+| A. Foundations | 1-14 | done or deferred |
+| B. Prerequisites: getting and understanding data | 15-22 | subagents, 2 at a time; reviewed by Claude |
+| C. Feature engineering and preprocessing | 23-45 | subagents, 2 at a time; reviewed by Claude |
+| D. Core ML | 46-134 | Claude, while subagents work on B and C |
+
+Subagents never edit the glossary, README or git; Claude merges those after review.
+
+### Course map
+
+One data file lists every Concept, its Pipeline step and its Links; all four views (Pipeline map, Concept map, Learning path, Algorithm chooser), the PDF, the interactive version (Dash Cytoscape) and every Note's *Where this fits* box are generated from it.
+
+Pipeline steps: 0 Foundations, 1 Get data, 2 Understand data, 3 Clean, 4 Engineer features, 5 Reduce dimensions, 6 Split, 7 Model, 8 Evaluate, 9 Tune, 10 Deploy.
+
+**Transcript first, map second.** For every Note:
+1. List every concept taught in the transcript and the teacher's code, before looking at the draft map.
+2. Compare with the draft: add missing Concepts and Links, correct or remove wrong ones.
+3. Every Key term must be a Concept or belong to one.
+4. Only then mark the Note's Concepts confirmed. Reviews of subagent Notes check this step.
+
+
 Write one Note → you review → fix → next. Video 2 first (locks the style), then the Course map (Video 1), then onward.
 
 ## Deferred
