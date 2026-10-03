@@ -1,6 +1,8 @@
 # Brief for a subagent writing one Note
 
-You are writing ONE Note of a study-notes project for the CampusX playlist "100 Days of Machine Learning".
+You are writing Notes for a study-notes project built from CampusX playlists: "100 Days of Machine Learning" (Notes 1–134),
+the maths playlists (Notes 210+, see `docs/maths-plan.md`) and "100 Days of Deep Learning" (Notes 1001–1084 = 1000 + Video,
+see `dl_map/PLAN.md`).
 The reader is a beginner with ADHD and a visual learner. A reviewer (the main agent) checks your work before the user sees it.
 
 Project root: `/home/anshu/campusx`. Read these first, fully:
@@ -9,8 +11,10 @@ Project root: `/home/anshu/campusx`. Read these first, fully:
 - One finished Note as the model to copy: `13-toy-project/note.md` (code-heavy) and its `notebook.ipynb`, `images/`
 
 ## Inputs
-- Transcript: `transcripts/NNN.hi-orig.txt` (YouTube's automatic Hindi speech recognition: messy, read it for meaning).
-  Some Videos also have `NNN.en-IN.txt` (human English); prefer it if present.
+- Transcript: Whisper English translation, `transcripts/NNN.whisper-en.txt` (ML), `transcripts/Mnn.whisper-en.txt` or
+  `Mnn.captions-en.txt` (maths), `transcripts/DNNN.whisper-en.txt` (DL). Some also have a cleaner `*.timestamped.txt`;
+  prefer it. Whisper can loop on a phrase or hallucinate counted numbers: rebuild such passages from context and say so.
+  Older auto-Hindi captions (`NNN.hi-orig.txt`, `dl_map/transcripts/`) are a last resort.
 - The teacher's code and data: `reference/campusx-code/` (folders named by "day", NOT equal to video numbers; match by topic).
   If the data you need is not there, search the teacher's other repos (GitHub API `users/campusx-official/repos`, paginated,
   235 repos) and file contents before concluding it is missing. Never invent a dataset if the real one exists.
