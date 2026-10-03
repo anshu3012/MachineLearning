@@ -1,0 +1,15 @@
+\documentclass[tikz,border=10pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[font=\LARGE] (f) {$\color{cred}P(A \mid B)\color{black} \;=\; \dfrac{\color{cblue}P(B \mid A)\color{black} \;\times\; \color{cgreen}P(A)}{\color{corange}P(B)}$};
+  \node[text=cred, align=center, font=\small] (post) at (-3.6,-1.9) {\textbf{posterior}\\ belief in $A$ \emph{after}\\ seeing $B$};
+  \node[text=cblue, align=center, font=\small] (lik) at (0.2,2.0) {\textbf{likelihood}\\ how probable $B$ is\\ if $A$ is true};
+  \node[text=cgreen, align=center, font=\small] (prior) at (3.6,2.0) {\textbf{prior}\\ belief in $A$ \emph{before}\\ seeing $B$};
+  \node[text=corange, align=center, font=\small] (ev) at (2.2,-2.1) {\textbf{evidence}\\ how probable $B$ is\\ overall};
+  \draw[arrow, cred] (post) -- (-2.6,-0.35);
+  \draw[arrow, cblue] (lik) -- (0.6,0.55);
+  \draw[arrow, cgreen] (prior) -- (3.25,0.6);
+  \draw[arrow, corange] (ev) -- (1.6,-0.6);
+\end{tikzpicture}
+\end{document}

@@ -60,7 +60,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Eigenvectors and eigenvalues | [Note 48](../48-pca-step-by-step/note.md) | confirmed |
 | Conditional probability | [Note 82](../82-conditional-probability/note.md) | confirmed |
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
-| Bayes' theorem | Video 85, coming, Video 86, coming | confirmed |
+| Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), Video 86, coming | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -368,7 +368,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 82 | Conditional probability | nothing | written |
 | 83 | Independent and mutually exclusive events | nothing | written |
 | 84 | Independent and mutually exclusive events | nothing | written |
-| 85 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | coming |
+| 85 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | written |
 | 86 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | coming |
 | 87 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), Video 86, coming | coming |
 | 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), Video 86, coming | coming |

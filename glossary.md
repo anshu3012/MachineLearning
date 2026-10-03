@@ -69,6 +69,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Video 58](58-batch-gradient-descent/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | Batch size | The number of rows in each batch; a hyperparameter. | [Video 60](60-mini-batch-gradient-descent/note.md) |
+| Bayes' theorem | $P(A \mid B) = P(B \mid A) P(A) / P(B)$: the rule that reverses a conditional probability. | [Video 85](85-bayes-theorem/note.md) |
+| Bayesian statistics | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. | [Video 85](85-bayes-theorem/note.md) |
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
 | Best-fit line | The line with the smallest total error over all the training points. | [Video 50](50-simple-linear-regression/note.md) |
@@ -225,6 +227,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | eta0 | The starting learning rate in SGDRegressor. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Euclidean distance | The straight-line distance between two points. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Event | A set of outcomes, such as "the sum is at most 10". | [Video 82](82-conditional-probability/note.md) |
+| Evidence | The overall probability of the observed evidence. | [Video 85](85-bayes-theorem/note.md) |
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all. | [Video 49](49-pca-mnist/note.md) |
 | Explained variance | The variance along a principal component; its eigenvalue. | [Video 48](48-pca-step-by-step/note.md) |
@@ -499,6 +502,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Polynomial regression | Linear regression on powers (and products) of the inputs, to fit curves. | [Video 61](61-polynomial-regression/note.md) |
 | PolynomialFeatures | scikit-learn transformer that creates the power and product columns. | [Video 61](61-polynomial-regression/note.md) |
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0. | [Video 70](70-perceptron-trick/note.md) |
+| Posterior | The probability of an event after the evidence is taken into account. | [Video 85](85-bayes-theorem/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |
 | Precision | Of all items predicted positive, the fraction that really are positive. | [Video 77](77-precision-recall-f1/note.md) |
@@ -508,6 +512,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Preprocessing | Cleaning and preparing data before training. | [Video 13](13-toy-project/note.md) |
 | Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new columns along the directions of greatest variance. | [Video 47](47-pca-geometric-intuition/note.md) |
 | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most. | [Video 47](47-pca-geometric-intuition/note.md) |
+| Prior | The probability of an event before any evidence is seen. | [Video 85](85-bayes-theorem/note.md) |
 | Probabilistic interpretation | Reading the model's output as the probability of the positive class. | [Video 72](72-sigmoid-function/note.md) |
 | Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities. | [Video 20](20-univariate-analysis/note.md) |
 | Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$. | [Video 83](83-independent-events/note.md) |
