@@ -205,6 +205,8 @@ notes:
   570: 570-choosing-a-hypothesis-test
   571: 571-chi-square-tests
   572: 572-one-way-anova
+  580: 580-learning-maths-for-ml
+  590: 590-convex-and-non-convex-cost-functions
   600: 600-derivatives-of-one-variable
   601: 601-partial-derivatives-and-gradients
   602: 602-jacobian-and-matrix-gradients
@@ -213,6 +215,9 @@ notes:
   611: 611-computing-the-svd
   612: 612-low-rank-approximation
   613: 613-svd-in-machine-learning
+  620: 620-lagrange-multipliers
+  621: 621-convex-sets-and-functions
+  622: 622-linear-and-quadratic-programming
 
 concepts:
   # 0 Foundations
@@ -306,6 +311,10 @@ concepts:
   - {id: low_rank_approx, name: Low-rank approximation (truncated SVD), step: 6, videos: [612], status: confirmed}
   - {id: lsa, name: Latent semantic analysis, step: 6, videos: [613], status: confirmed}
   - {id: pseudo_inverse, name: Moore-Penrose pseudo-inverse, step: 8, videos: [613], status: confirmed}
+  - {id: learning_maths, name: How to learn the maths for ML, step: 0, videos: [580], status: confirmed}
+  - {id: lagrange, name: "Lagrange multipliers, KKT and duality", step: 0, videos: [620], status: confirmed}
+  - {id: convex_optimisation, name: Convex sets and convex optimisation, step: 0, videos: [621], status: confirmed}
+  - {id: lp_qp, name: Linear and quadratic programming, step: 0, videos: [622], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -382,7 +391,7 @@ concepts:
   - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: confirmed}
   - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57], status: confirmed}
   - {id: learning_rate, name: Learning rate, step: 10, videos: [57, 118, 120], status: confirmed}
-  - {id: convexity, name: Convex and non-convex loss, step: 8, videos: [57], status: confirmed}
+  - {id: convexity, name: Convex and non-convex loss, step: 8, videos: [57, 590], status: confirmed}
   - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58], status: confirmed}
   - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: confirmed}
   - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, videos: [60], status: confirmed}
@@ -820,6 +829,17 @@ links:
   - [density_estimation, needs, pdf, confirmed]
   - [density_estimation, needs, population_sample, confirmed]
   - [pdf, used in, naive_bayes, confirmed]
+  - [learning_maths, needs, maths_for_ml, confirmed]
+  - [convexity, needs, hessian, confirmed]
+  - [lagrange, needs, gradient, confirmed]
+  - [lagrange, used in, svm, confirmed]
+  - [lagrange, used in, ridge, confirmed]
+  - [lagrange, used in, lasso, confirmed]
+  - [convex_optimisation, needs, convexity, confirmed]
+  - [convex_optimisation, needs, lagrange, confirmed]
+  - [convex_optimisation, used in, logistic_regression, confirmed]
+  - [lp_qp, is a kind of, convex_optimisation, confirmed]
+  - [lp_qp, used in, svm, confirmed]
   - [svd, needs, linear_transformation, confirmed]
   - [svd, needs, eigen, confirmed]
   - [svd, compared with, eigen, confirmed]

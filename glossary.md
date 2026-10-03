@@ -74,6 +74,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | absolute_error | A criterion that splits by mean absolute error; leaves predict the median. | [Note 99](99-regression-trees/note.md) |
 | Accuracy | The fraction of predictions that are correct. | [Note 13](13-toy-project/note.md) |
 | Acquisition function | The rule that picks the next trial from the surrogate, such as expected improvement. | [Note 134](134-optuna/note.md) |
+| Active constraint | An inequality constraint that holds with equality at the answer; its multiplier can be positive. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote. | [Note 115](115-adaboost-intuition/note.md) |
 | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Note 84](84-mutually-exclusive-events/note.md) |
 | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
@@ -226,6 +227,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Chi-square test | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). | [Maths Note 571](571-chi-square-tests/note.md) |
 | Chi-squared test (chi2) | A test scoring how strongly a column is linked to the target; needs values of 0 or more. | [Note 29](29-pipelines/note.md) |
 | Cholesky solver | A scikit-learn Ridge solver that solves the closed-form equation directly. | [Note 64](64-ridge-regression-maths/note.md) |
+| Chord | The straight line joining two points on a function's graph. | [Maths Note 590](590-convex-and-non-convex-cost-functions/note.md) |
 | Chunk | A piece of a file, read as a small DataFrame. | [Note 15](15-working-with-csv/note.md) |
 | Churn rate | The percentage of customers who leave during a given period. | [Note 14](14-framing-ml-problem/note.md) |
 | Churn | Customers leaving a platform or service. | [Note 14](14-framing-ml-problem/note.md) |
@@ -260,6 +262,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Commutative law | $a \cdot b = b \cdot a$. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | Complement ($A^c$) | The event that $A$ does not happen: every outcome not in $A$. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | Complement rule | $P(A^c) = 1 - P(A)$. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
+| Complementary slackness | For each inequality constraint, the multiplier or the constraint value is 0. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Complete case analysis (CCA) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. | [Note 35](35-complete-case-analysis/note.md) |
 | Complete case | A row with a value in every column used. | [Note 35](35-complete-case-analysis/note.md) |
 | Complete linkage | Cluster distance = distance of the farthest pair of points. | [Note 131](131-hierarchical-clustering/note.md) |
@@ -269,6 +272,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Compound event | An event with two or more outcomes. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | Compression | Storing data in less space. | [Note 11](11-tensors/note.md) |
 | Computation graph | A function broken into elementary steps, each a node, with arrows for the flow of values. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
+| Concave function | The negative of a convex function; every chord lies on or below its graph. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | conda | A package and environment manager for Python and other software. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | conda-forge | A free, community-run conda channel. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Condition number | $\sigma_1 / \sigma_n$: how much a matrix can magnify errors when we solve with it. | [Maths Note 611](611-computing-the-svd/note.md) |
@@ -286,6 +290,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Constraint | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point. | [Note 93](93-svm-maths/note.md) |
 | Constructor (`__init__`) | The method that runs when an object is created and stores its settings. | [Note 130](130-kmeans-from-scratch/note.md) |
 | Container | A tag (often a `div`) that holds everything about one item, such as one company. | [Note 18](18-web-scraping/note.md) |
+| Contextual learning | Studying a maths topic together with the ML algorithm that uses it, instead of the whole subject up front. | [Maths Note 580](580-learning-maths-for-ml/note.md) |
 | Contingency table | A table of counts for every pair of categories of two columns; another name for a crosstab. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | Continuous data | Numerical data that can take any value in a range. | [Maths Note 220](220-what-is-statistics/note.md) |
 | Continuous random variable | A random variable that can take any value in a range, such as a CGPA. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
@@ -297,6 +302,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum. | [Note 81](81-logistic-hyperparameters/note.md) |
 | Conversion rate | The share of people reached who become customers. | [Note 8](08-applications-of-ml/note.md) |
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. | [Note 57](57-gradient-descent/note.md) |
+| Convex optimisation problem | Minimising a convex function subject to convex inequality constraints and affine equality constraints. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
+| Convex set | A set that contains the whole segment between any two of its points. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. | [Note 68](68-lasso-sparsity/note.md) |
 | Core point | A point with at least MinPts points within eps. | [Note 132](132-dbscan/note.md) |
 | Corrected resampled t-test | A paired t-test for cross-validation scores that allows for the overlap between training sets. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
@@ -304,6 +311,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Correlation test | A t-test of $H_0: \rho = 0$, using $t = r\sqrt{n-2}/\sqrt{1-r^2}$ with $n - 2$ degrees of freedom. | [Maths Note 570](570-choosing-a-hypothesis-test/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Note 19](19-understanding-your-data/note.md) |
 | Cosine similarity | The cosine of the angle between two vectors, from -1 to 1. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
+| Cost function | Another name for the loss function, read as a function of the model's parameters. | [Maths Note 590](590-convex-and-non-convex-cost-functions/note.md) |
 | Cost-sensitive learning | Changing the learning so that mistakes on some classes cost more. | [Note 133](133-imbalanced-data/note.md) |
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Note 20](20-univariate-analysis/note.md) |
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Note 48](48-pca-step-by-step/note.md) |
@@ -365,6 +373,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Decision surface | A plot colouring every point of the input space by the class the model would predict there. | [Note 91](91-knn/note.md) |
 | Decision tree | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. | [Note 97](97-decision-trees-intuition/note.md) |
 | DecisionTreeRegressor | scikit-learn's regression tree. | [Note 99](99-regression-trees/note.md) |
+| Decoding notation | Shrinking a formula's indices to two or three cases and writing every case out by hand. | [Maths Note 580](580-learning-maths-for-ml/note.md) |
 | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | Default direction | The side of a split that rows with a missing value follow. | [Note 123](123-xgboost-intro/note.md) |
 | Define-by-run | Building the search space while the objective function runs, so it can depend on earlier choices. | [Note 134](134-optuna/note.md) |
@@ -422,6 +431,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | dropna | The pandas method that drops rows (or columns) with missing values. | [Note 35](35-complete-case-analysis/note.md) |
 | dtreeviz | A Python library that draws decision trees with the training data shown at every node. | [Note 100](100-dtreeviz/note.md) |
 | dtype | The data type of a column, such as `int64`, `float64` or `str`. | [Note 15](15-working-with-csv/note.md) |
+| Dual problem | Maximise the dual function $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$ over multipliers $\boldsymbol{\lambda} \ge 0$. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Dual vector | The vector whose dot product computes a given linear transformation to numbers. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | Duality | The correspondence between vectors and linear transformations to numbers: each is a dot product with exactly one vector. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1. | [Note 27](27-one-hot-encoding/note.md) |
@@ -456,6 +466,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Environment file | A file (`environment.yml`) listing an environment's packages and versions. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Environment variable | A named value stored on the computer, outside the code, read with `os.environ`. | [Note 17](17-fetching-data-from-api/note.md) |
 | Environment | The world the agent acts in. | [Note 3](03-types-of-ml/note.md) |
+| Epigraph | The region on and above a function's graph; convex exactly when the function is convex. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | Epoch | One full update of the parameters using the whole training set. | [Note 57](57-gradient-descent/note.md) |
 | eps (epsilon) | The radius of the neighbourhood DBSCAN examines around each point. | [Note 132](132-dbscan/note.md) |
 | eps-neighbourhood | All points within distance eps of a point. | [Note 132](132-dbscan/note.md) |
@@ -512,6 +523,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Famous probability distributions | Common named shapes such as normal, uniform, binomial and Poisson. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Fat tail (heavy tail) | A tail that falls to zero slowly, so extreme values are relatively common. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | Favourable outcome | An outcome that belongs to the event we are measuring. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
+| Feasible region | The set of points that satisfy every constraint. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Feature construction | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. | [Note 23](23-what-is-feature-engineering/note.md) |
 | Feature engineering | Choosing, removing and creating features. | [Note 7](07-challenges-in-ml/note.md) |
 | Feature extraction | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). | [Note 23](23-what-is-feature-engineering/note.md) |
@@ -525,6 +537,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | feature_importances_ | The fitted attribute holding the feature importance of every column. | [Note 99](99-regression-trees/note.md) |
 | Fence | A limit 1.5 IQR beyond the box; values past it are possible outliers. | [Note 20](20-univariate-analysis/note.md) |
+| First-order condition | A differentiable function is convex exactly when every tangent plane lies on or below its graph. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | Fisher's exact test | An exact test for small 2 by 2 tables, used when expected counts fall below 5. | [Maths Note 571](571-chi-square-tests/note.md) |
 | fit / transform | Learn the scaler's numbers from the training set / apply them to any data. | [Note 24](24-standardization/note.md) |
 | fit_predict | Trains a clustering model and returns the cluster of every row. | [Note 129](129-kmeans-code/note.md) |
@@ -619,6 +632,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | imbalanced-learn | A Python library (`imblearn`) of resampling techniques and balanced ensembles, with a `fit_resample` method. | [Note 133](133-imbalanced-data/note.md) |
 | Impossible event | The empty event $\varnothing$; probability 0. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | Imputation | Filling in missing values, for example with the mean, median or mode. | [Note 23](23-what-is-feature-engineering/note.md) |
+| Inactive constraint | An inequality constraint that holds strictly at the answer; its multiplier is 0. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | include_bias | PolynomialFeatures setting that adds a column of 1s. | [Note 61](61-polynomial-regression/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Note 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Note 5](05-online-learning/note.md) |
@@ -659,6 +673,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Iterative imputer | Multivariate imputation that predicts each column from the others, repeatedly; its algorithm is MICE. | [Note 35](35-complete-case-analysis/note.md) |
 | Jacobian determinant | $\det J$: the factor by which a function scales small areas or volumes near a point. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | Jacobian | The $m \times n$ matrix of all first partial derivatives, $J_{ij} = \partial f_i/\partial x_j$. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
+| Jensen's inequality | For a convex function, the function of a weighted average is at most the weighted average of the function. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | joblib | A library that saves and loads Python objects like pickle, better suited to large arrays. | [Note 29](29-pipelines/note.md) |
 | Joint probability distribution | The joint probabilities of every combination of values of two variables; they sum to 1. | [Maths Note 341](341-joint-marginal-conditional-probability/note.md) |
 | Joint probability | The probability that two events happen together, $P(A \cap B)$. | [Note 86](86-bayes-problem/note.md) |
@@ -682,6 +697,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Kernel transformation | Applying a kernel to the data. | [Note 95](95-kernel-trick-intuition/note.md) |
 | Kernel trick | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. | [Note 95](95-kernel-trick-intuition/note.md) |
 | Kernel | The running Python process behind a notebook. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
+| KKT conditions | Stationarity, primal feasibility, dual feasibility and complementary slackness: the checks for a constrained minimum. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | KMeans | scikit-learn's k-means class, in `sklearn.cluster`. | [Note 129](129-kmeans-code/note.md) |
 | KNeighborsClassifier | scikit-learn's KNN classifier; `n_neighbors=5` by default. | [Note 91](91-knn/note.md) |
 | KNN imputer | Multivariate imputation from the most similar rows (`KNNImputer`). | [Note 35](35-complete-case-analysis/note.md) |
@@ -698,6 +714,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | LabelEncoder | scikit-learn's class for label encoding the target. | [Note 26](26-ordinal-label-encoding/note.md) |
 | Labelled data | Data that includes the output column. | [Note 3](03-types-of-ml/note.md) |
 | labels_ | The cluster number of every training row, after fitting. | [Note 129](129-kmeans-code/note.md) |
+| Lagrange multiplier | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. | [Maths Note 620](620-lagrange-multipliers/note.md) |
+| Lagrangian | The objective plus each constraint function times its multiplier: $f + \sum_i \lambda_i g_i$. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Lambda ($\lambda$) | The power used by a power transform, learned separately for each column. | [Note 31](31-power-transformer/note.md) |
 | Lambda ($\lambda$, `reg_lambda`) | Regularisation parameter added to the denominators; shrinks scores and outputs; default 1. | [Note 124](124-xgboost-regression/note.md) |
 | Lambda | A one-line Python function without a name, such as `lambda x: x**2`. | [Note 30](30-function-transformer/note.md) |
@@ -734,6 +752,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | Linear combination | A sum of scaled vectors, $a_1\mathbf{v}_1 + \dots + a_k\mathbf{v}_k$. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Note 44](44-outliers-percentile/note.md) |
+| Linear program | Minimising a linear function subject to linear inequality constraints. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
 | Linear regression | An algorithm that fits the straight line closest to all the points. | [Note 23](23-what-is-feature-engineering/note.md) |
 | Linear relationship | A relationship between two columns that follows a straight line. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear transformation to the number line | A function from vectors to numbers that keeps evenly spaced dots evenly spaced; its matrix is $1 \times n$. | [Maths Note 520](520-dot-product-and-duality/note.md) |
@@ -836,6 +855,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Mini-batch gradient descent | Gradient descent that uses a small random group of rows for every update. | [Note 58](58-batch-gradient-descent/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Note 5](05-online-learning/note.md) |
 | Miniforge | A small installer with only conda and Python, using conda-forge. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
+| Minimax inequality | For any function of two arguments, the max of the min is at most the min of the max. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Minimum-norm solution | Among all equally good least-squares solutions, the one with the smallest length; what $A^{+}\mathbf{b}$ returns. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | Minkowski distance | A family of distances: p = 2 is Euclidean, p = 1 is Manhattan. | [Note 91](91-knn/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Note 25](25-normalization/note.md) |
@@ -910,6 +930,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Noise point | A point that is neither core nor border; DBSCAN labels it -1. | [Note 132](132-dbscan/note.md) |
 | Nominal data | Categorical data whose categories have no order, such as states. | [Note 26](26-ordinal-label-encoding/note.md) |
 | Non-closed-form solution | An answer reached by improving a guess step by step. | [Note 51](51-linear-regression-maths/note.md) |
+| Non-convex function | A function where some chord lies below part of the curve; it can have several local minima. | [Maths Note 590](590-convex-and-non-convex-cost-functions/note.md) |
 | Non-Gaussian distribution | Any distribution that is not normal. | [Maths Note 261](261-uniform-and-log-normal/note.md) |
 | Non-linear data | Data whose classes no straight line, plane or hyperplane can separate. | [Note 95](95-kernel-trick-intuition/note.md) |
 | Non-null | Not missing. | [Note 19](19-understanding-your-data/note.md) |
@@ -1055,12 +1076,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Polynomial kernel | A kernel built from powers of the inputs, such as $x^2$. | [Note 95](95-kernel-trick-intuition/note.md) |
 | Polynomial regression | Linear regression on powers (and products) of the inputs, to fit curves. | [Note 61](61-polynomial-regression/note.md) |
 | PolynomialFeatures | scikit-learn transformer that creates the power and product columns. | [Note 61](61-polynomial-regression/note.md) |
+| Polytope | The region where a set of linear inequalities all hold: a polygon in two dimensions. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
 | Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | Population correlation $\rho$ | The correlation between two columns in the whole population; $r$ estimates it. | [Maths Note 570](570-choosing-a-hypothesis-test/note.md) |
 | Population covariance ($\sigma_{xy}$) | Covariance of a whole population, dividing by $N$. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | Population mean ($\mu$) | The mean of every value in the population. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | Population | The entire group of individuals or objects we want to study. | [Maths Note 220](220-what-is-statistics/note.md) |
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0. | [Note 70](70-perceptron-trick/note.md) |
+| Positive definite matrix | A symmetric matrix whose eigenvalues are all positive; its quadratic form is a strictly convex bowl. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
 | Positive hyperplane ($\pi^+$) | The copy of the separating hyperplane moved out until it touches the first positive point. | [Note 92](92-svm-intuition/note.md) |
 | Positive semi-definite | A symmetric matrix whose eigenvalues are all 0 or positive. | [Maths Note 610](610-svd-geometry/note.md) |
 | Positive skew (right skew) | A long tail on the right: a few very large values. | [Note 20](20-univariate-analysis/note.md) |
@@ -1080,6 +1103,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Prediction path | The nodes a row passes through, from the root to the leaf that predicts it. | [Note 100](100-dtreeviz/note.md) |
 | Predictive maintenance | Repairing a machine before it breaks, based on predicted faults. | [Note 8](08-applications-of-ml/note.md) |
 | Preprocessing | Cleaning and preparing data before training. | [Note 13](13-toy-project/note.md) |
+| Primal problem | The original constrained problem, in the variables $\mathbf{x}$. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new columns along the directions of greatest variance. | [Note 47](47-pca-geometric-intuition/note.md) |
 | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most. | [Note 47](47-pca-geometric-intuition/note.md) |
 | Prior | The probability of an event before any evidence is seen. | [Note 85](85-bayes-theorem/note.md) |
@@ -1109,6 +1133,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | PyPI | The Python Package Index, the public store of Python packages. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Q-Q plot | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. | [Note 30](30-function-transformer/note.md) |
 | Quadratic form | An expression like $x^{\mathsf T}Ax$: a sum of squared and cross terms of a vector's components. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
+| Quadratic program | Minimising a convex quadratic function subject to linear inequality constraints. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
 | Quantiles | Values that cut sorted data into equal-sized groups. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Note 30](30-function-transformer/note.md) |
 | Quarter | One of four three-month parts of a year. | [Note 34](34-date-and-time/note.md) |
@@ -1229,6 +1254,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Search space | The ranges or lists of values each hyperparameter may take during tuning. | [Note 134](134-optuna/note.md) |
 | Secant line | A straight line through two points of a curve. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | Second partial derivative | A partial derivative of a partial derivative, such as $\partial^2 f/\partial x^2$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
+| Second-order condition | A twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Note 29](29-pipelines/note.md) |
 | Semester | One of two six-month halves of a year. | [Note 34](34-date-and-time/note.md) |
 | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Note 3](03-types-of-ml/note.md) |
@@ -1241,6 +1267,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | set_output | Method that makes a transformer return a pandas DataFrame with `transform="pandas"`. | [Note 28](28-column-transformer/note.md) |
 | set_params | Method that changes a model's settings after it is created. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Note 5](05-online-learning/note.md) |
+| Shadow price | The multiplier read as the gain in the best value per extra unit of a limited resource. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Shallow decision tree | A decision tree with a small maximum depth; high bias, low variance. | [Note 119](119-bagging-vs-boosting/note.md) |
 | Shape rule | $(m \times n)(n \times p) = m \times p$; the inner sizes must match. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | Shape | The number of items along each axis. | [Note 11](11-tensors/note.md) |
@@ -1270,6 +1297,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Size | The total number of items: the product of the shape. | [Note 11](11-tensors/note.md) |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Note 20](20-univariate-analysis/note.md) |
 | Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane; 0 if it is on the correct side. | [Note 94](94-svm-soft-margin/note.md) |
+| Slater's condition | Some point satisfies every inequality constraint strictly; together with convexity it guarantees strong duality. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Note 29](29-pipelines/note.md) |
 | Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. | [Note 50](50-simple-linear-regression/note.md) |
 | SMOTE | Synthetic Minority Over-sampling Technique: new minority rows by interpolation between minority neighbours. | [Note 133](133-imbalanced-data/note.md) |
@@ -1278,6 +1306,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Soft-margin SVM | The SVM that allows points inside the margin or on the wrong side, at a cost controlled by C. | [Note 94](94-svm-soft-margin/note.md) |
 | Softmax function | Turns a list of scores into probabilities: $e^{z_k} / \sum_j e^{z_j}$. | [Note 79](79-softmax-regression/note.md) |
 | Softmax regression | Logistic regression extended to any number of classes using the softmax function. | [Note 79](79-softmax-regression/note.md) |
+| Softplus | The function $\ln(1 + e^z)$, a smooth convex curve whose derivative is the sigmoid. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | Software integration | Building a model into the software that users use. | [Note 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Note 24](24-standardization/note.md) |
 | Spam classifier | A program that decides whether an email is spam or not. | [Note 1](01-what-is-ml/note.md) |
@@ -1312,6 +1341,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. | [Note 31](31-power-transformer/note.md) |
 | StandardScaler | scikit-learn's class that standardizes columns with `fit` and `transform`. | [Note 24](24-standardization/note.md) |
 | Static model | A model that learns nothing new after deployment. | [Note 4](04-batch-learning/note.md) |
+| Stationary point | A point where the derivative (or every partial derivative) is zero: a minimum, a maximum or a saddle point. | [Maths Note 590](590-convex-and-non-convex-cost-functions/note.md) |
 | Statistic | A number computed from a sample, such as $\bar{x}$; an estimate of a parameter. | [Maths Note 220](220-what-is-statistics/note.md) |
 | Statistical hypothesis test | A method of statistical inference that decides whether the data sufficiently supports a hypothesis about a population parameter. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | Statistical moments | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
@@ -1330,7 +1360,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | str.extract | The pandas method that returns the part of each value matching a regular expression. | [Note 33](33-mixed-variables/note.md) |
 | Strength of a relationship | How closely the points follow a straight line; measured by $\lvert r \rvert$. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | Strength of evidence | How strongly the data speaks against $H_0$; the rejection region approach does not measure it. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
+| Strictly convex function | A function that lies strictly below every chord between two different points; it has at most one minimum. | [Maths Note 590](590-convex-and-non-convex-cost-functions/note.md) |
 | Strike rate | A batter's runs per 100 balls faced. | [Note 45](45-feature-construction-splitting/note.md) |
+| Strong duality | The dual maximum equals the primal minimum; true for convex problems. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Strong learner | A model with high accuracy. | [Note 115](115-adaboost-intuition/note.md) |
 | Structure score | The best objective of a tree, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better. | [Note 126](126-xgboost-maths/note.md) |
 | Student's t-distribution | The symmetric, fat-tailed distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$; approaches the standard normal as $n$ grows. | [Maths Note 282](282-t-procedure/note.md) |
@@ -1466,6 +1498,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | warm_start | Setting that keeps already-trained trees and adds new ones on the next fit. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | Wayback Machine | A web archive that keeps copies of web pages as they were. | [Note 18](18-web-scraping/note.md) |
 | WCSS (inertia) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid. | [Note 128](128-kmeans-intuition/note.md) |
+| Weak duality | Every value of the dual function is at most the primal minimum. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | Weak learner | A model whose accuracy is only a little better than random guessing. | [Note 115](115-adaboost-intuition/note.md) |
 | Web scraping | Writing code that extracts data from web pages. | [Note 7](07-challenges-in-ml/note.md) |
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor. | [Note 65](65-ridge-gradient-descent/note.md) |

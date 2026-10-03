@@ -1,0 +1,326 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+If you are new to this channel, let me quickly introduce myself.
+I am a data science educator, which means I teach data science to children.
+I have been doing this for the last 6-7 years.
+And I am super proud that in the last 6-7 years, I have taught data science to around 10,000 children.
+And I have created around 1200 videos on this channel in this period.
+So if you ask me what is the most common question I got from students in the last 6-7 years
+So I would say that the most common question from students is that we see a lot of potential in the field of data science and AI
+In today's date if we go to any news channel then we always see AI in the top headline
+And we can sense that if we do a job in this field then our future will be bright
+But unfortunately, when we go to study or learn data science, the biggest problem we face is that we are afraid of Maths.
+And we all know how critical Maths is to learn Data Science and AI.
+So if we are afraid of Maths, then how will we learn Maths? And if we don't learn Maths, then how will we excel in Data Science?
+And I totally get this question. I understand the mindset behind this question.
+Generally, this question is asked by those people who are from non-tech background or those students who have not studied mathematics in high school or college.
+Now, I want to make this video for those students.
+In this video, I want to share some tips and tricks with you which helped me a lot to get rid of the fear of Maths.
+So before starting the video, I want to discuss one more point with you. I want to discuss my story with you because I think you will get some comfort from this.
+So when I started reading data science 6-7 years ago, I also faced the same challenge. I was also very scared of math and I tried a lot at that time.
+Is there any way by which I can learn data science without learning math? And trust me, in trying out all these things, I wasted my 6 months and 1 year just like that.
+Then I realized that I will have to study Maths and then I made some fundamental changes in my learning technique and because of those changes, today around 7 years later, my perspective on Maths has changed completely.
+Earlier I was scared of Maths, now I have become friends with Maths.
+In today's date, if you give me an option that I have to teach an Algorithm where I don't need Maths
+versus I have to teach an Algorithm where I need very complex Maths,
+I would actually prefer the second one.
+And you can ask this to my students that how much I like Maths.
+I am not saying that I have become very good in Maths, but my fear is over.
+There is an affinity.
+And how did all this happen?
+Because I brought some changes in my way of studying.
+So if you are able to relate with all these things and you are also feeling that you have to reduce your fear of Maths, then I would recommend you to watch this video end to end.
+In this video, I will share 5 techniques with you from my learning journey and I think those 5 techniques will help you a lot in reducing the fear of Maths.
+So I hope you are excited. Let's start the video.
+So I want to give you five suggestions.
+I will start with the first suggestion.
+But before giving the suggestion, there is a disclaimer.
+If you did not implement the first suggestion correctly, then the next four suggestions have no meaning.
+So please you have to implement it carefully.
+My first suggestion is change your attitude.
+What does it mean?
+It means very simple.
+What is your attitude in today's date?
+You pick up a machine learning algorithm to study.
+in the process of reading it you see a mathematical equation and as soon as you see it you get scared
+and you feel that now I will not understand this algorithm and you quit
+you have to change this attitude
+you have to program yourself in such a way that as soon as you see a mathematical equation
+instead of getting scared of it, you get excited
+you will feel that now it will be more fun
+but the problem is that it is not that easy to change the attitude
+but there is a small psychological hack which you can try out
+so what you have to do is imagine a version of yourself which is not afraid of maths
+infact he loves maths, he gets happy after seeing it
+solving mathematical equations is a game of his left hand
+he understands mathematical formulations like this
+you have to imagine a version of yourself
+when I started studying data science seriously in 2017, I used to imagine that there will be a person in the future who will not be afraid of Maths
+who will read and understand Maths very well, basically that person will be a pro in Maths
+now by imagining so strongly, I got motivated by that imagination
+because of this imagination that I have to become like this in the future, I took a little fight
+where I used to run away after leaving in 5 minutes, now I used to run away after sitting for 10 minutes
+I used to work a little more, I used to solve Maths by taking a copy pen and writing
+and as soon as I spent more time with Maths for 1-1.5 months
+I had a very beautiful realization, I discovered a very beautiful thing
+and do you know what is that beautiful thing?
+that beautiful thing is that I came to know that
+the maths of data science has been misused for no reason
+that it is very difficult, infact if you ask me in today's date, I would say
+that the maths of data science is actually very easy
+and I will give you two reasons to prove this point
+So let me tell you the first reason why I said that the maths of data science is easy.
+But before telling you the reason, I want to ask you a question.
+You tell me why do you find maths difficult?
+I am pretty sure most of you will answer that we find maths difficult because when we are studying maths,
+so most of the times we don't even know why we are studying those maths
+like if I give you an example
+so in 12th class I might have solved thousands of questions on differentiation and integration
+because that was important from exam point of view
+but at that point I didn't have much idea that in real life exactly where and when
+I will get to apply differentiation and integration
+because of which those maths become a little dry
+it gets boring and you don't feel like studying
+but the good part about data science is
+that in data science you will always know
+that why are you using the maths that you are using
+I can give you 1-2 examples
+like if you are using differentiation in data science
+then there is a high probability that you will use differentiation because you have to minimize a loss function
+and why do you minimize the loss function so that your algorithm's performance improves
+so in a way I can actually say that the client of gmail
+is able to tell spam and not spam in emails because behind the scenes there is differentiation
+or if I am working in the computer vision domain
+where I make such filters
+which people put on their photographs
+then I know that behind the scenes
+those filters are nothing but the manipulation of matrices
+so this is the beauty of data science
+that at every point of time
+whenever you are reading any piece of maths
+you will have a why
+you will always know
+why you are reading that maths
+and due to this reason
+the maths you read
+does not remain boring, it becomes interesting
+and because it becomes interesting, it becomes a little easier
+so I hope you understood this first reason
+now I will tell you the second reason
+why I said that the maths used in data science is easy
+the second reason is very simple
+when we say that you need to know maths to excel in data science and AI
+it does not mean that you need to know the whole maths
+there are many topics in maths
+the good part is that to master data science and AI, you have to study a very small subset
+what is that small subset? you have to study precisely 4 topics
+you should know statistics well, you should have a fair idea of probability
+you should know linear algebra well, in that also you have to focus on matrices
+and you should know a very small part of calculus, mostly differential calculus
+which is used in optimization theory
+so this is a very small subset of the whole mathematics
+and if you ask me, this is an easy subset
+because if you compare it to let's say some other field of science
+let's say you compare it with theoretical physics
+a subject where maths is used a lot
+so you pick up a paper there and see
+you will realize that the maths used there
+first of all it has a lot of coverage, a lot of topics are used
+and second that maths is very abstract and difficult
+if you compare it with data science
+the topics that you have to study here are less and they are easy topics
+so the overall point that I want to say is that you have to change your attitude
+where you are scared of Maths, you have to come to this stage that you are studying Maths
+with that you will spend more time with Maths
+as you will spend more time with Maths, you will realize that really Maths is not that difficult
+First of all, you have to study less, in that also you have to study easy maths, in that also you will always know why you are studying maths.
+So when you join all these factors, then you will actually start enjoying reading maths.
+And as you will start enjoying it, the fear inside you will slowly come down.
+So that's why I said that the first point is the most important point and you will have to follow it properly.
+Let's move on to suggestion number 2.
+before telling you the second suggestion, I would like to ask you one more question
+apart from the fact that maths is very boring and dry and most of the times we don't know why we are studying maths
+apart from this, what is the reason why people are scared of maths?
+now again I think I know your answer
+and your answer will be
+notations and symbols
+When you go to study Maths, one of the scary aspects of Maths is that
+a lot of symbols and notations are used in Maths
+and because of those symbols and notations, it becomes difficult to understand Maths
+and then you start getting scared
+Unfortunately, we can't change this fact
+Maths has language of symbols and notations
+and my second suggestion would be that
+if you want to reduce the fear of Maths
+then you will have to learn to decode notations
+I also did this, I adopted a simple technique
+after which it became easy for me to decode mathematical symbols
+and it helped me a lot in learning math
+so through an example I will explain you what I want to say
+so let's take this example, a few days ago I was taking a session in our paid batch
+where we were reading an algorithm called Gaussian Mixture Models
+so in gaussian matrix models this algorithm is used which is called as expectation maximization algorithm
+I don't want to go in detail, I just want to show you this part
+so in this part we are told that we have to calculate responsibilities
+we don't know what are the responsibilities but read this sentence
+for each data point Xi and each component K, calculate the responsibility this
+and this is the scary formula
+now if you are a beginner
+then most likely you will get scared by looking at the whole structure
+but what you have to do is decode the notation very carefully
+so what I do is, as I am told that for each data point xi
+then I don't understand this xi, I just imagine that I have two data points
+x1 and x2, there are no more data points than this
+and for each component k, I assume that I have two components
+k1 and k2
+now i, j, k doesn't matter to me
+I scaled down the whole thing
+now what I have to do
+I have to calculate this term
+so what does it mean
+that I have to
+first of all
+gamma1
+x1 to calculate
+then I have to calculate gamma2x1
+then I have to calculate gamma1x2
+and then I have to calculate gamma2x2
+so this thing
+The basic meaning of this is that I have to calculate a responsibility value for each data point corresponding to each component.
+Similarly, we have to do the same for this too.
+Now the question arises that how will this responsibility come out?
+So we will catch any one and we will put 1 wherever k is and we will put 1 wherever i is.
+So basically, to get gamma1x1, I have to take pi1, p, for this complex term, I am writing x1 for a while.
+And below, what I have to do is, I have to do summation j is equal to 1 to capital K.
+In our case, capital K is there, since we have taken two components, so 2.
+So basically, below, there will be a summation of two terms, and those two terms will be pi1, p, x1, plus pi2.
+px2
+so this is our first term
+now if we have to take second term
+then we will do same thing
+we will write gamma2
+x1 here in place of pi1
+value of k will be 2
+so this will be pi2
+px1
+and the thing below
+I will write as it is same
+and I can write this for all four
+so by doing so much hard work
+we got the benefit that
+complex thing was written in such a compact form, I decoded it and decoding made it easy for me to understand this whole piece of mathematics
+now I know this Gaussian mixture model and all you might not know most likely, but I was giving you an example, you also have to do this
+going forward whenever you get such a complex equation with notations, then you have to take a copy pen and break it down for limited number of examples
+And you would automatically see that your mind is able to understand that piece of maths.
+Let's move on to the next suggestion.
+The suggestion is using programming to understand maths.
+So, as I improved in programming a little more, especially in Python.
+So, what I started doing is whenever I read any concept in maths,
+I used to implement it programmatically through code.
+And what used to happen is that I used to make visualization tools or simulation tools
+which made it very easy for me to understand that concept.
+So, I will explain through 2-3 examples what I want to say.
+Like you can see a small screen lit app on the screen
+where it is written confidence interval simulation.
+Now if you go to read statistics, inferential statistics,
+then you will get a very important concept which we call confidence interval.
+Confidence interval is a difficult concept to understand and visualize.
+So I wrote a piece of code in Python which plot your confidence interval through a graph based on certain inputs.
+So what happened because of this tool is that I used multiple inputs and analyzed the results.
+and tried to understand visually what is confidence interval
+and trust me, by using this tool my understanding of confidence interval has improved a lot
+I will explain you one or two more examples
+like this is an example which I made to see how matrices are applied as linear transformation
+so here you add any matrix and it will tell you how its transformation will look like
+When I was studying matrices in detail for data science for the first time, this tool gave me a lot of perspective to explain the transformation of matrices in space.
+One more example I can show you.
+In statistics, I was studying the concept of t-distribution and I used to get confused as to what is t-distribution and how it is related to normal distribution.
+So I made this tool where for different degree of freedoms, you can plot normal distribution and t distribution side by side and you can understand that as you increase the degrees of freedom, your t distribution will look very very similar to your normal distribution.
+So these are all small examples, maybe one more example I can show you, there is one more difficult concept in probability and statistics where the formula of sample is divided by n-1, it was a very tricky thing to understand, so for that too I wrote this code and through that code I plotted different graphs to just see what exactly is going on.
+So, I am not sure at this point your programming expertise is at this level that you can make such tools.
+But this can be a very very good technique to understand mathematics.
+Programming is a very good tool to understand mathematics.
+So, even if you are not very good in programming then also you can utilize such tools.
+How? One place where you will get such tools is GitHub.
+Github. People put such tools on Github. All the tools I have made are uploaded on Github.
+You can check on my Github. You will find a lot of tools. There are only 3-4. I think I have made
+at least 100 such tools. And now things have become very easy after 4GPT.
+You can actually write a prompt like this.
+Write a code for an Streamlit app where you compare
+compare normal distribution with t distribution. Give me a range slider where I can increase
+or decrease the number or degree of freedom and show me the changes accordingly. It will
+generate the code for you. You just have to copy paste it and run it. And if there is
+any problem, you can improve it gradually. So my point is that if you find any mathematical
+concept difficult, then you should use programming as a tool to understand mathematics. It has
+It has been immensely helpful in my learning journey and I feel if you also start doing it, you will also benefit.
+Let's move on to suggestion number 4.
+Suggestion number 4 is very simple.
+Follow visual learning resources.
+What does this mean?
+When I was starting to study data science, I used to search on Google from where to study maths to learn data science.
+And most of the time, the suggestions that I used to get were the recommendations of lectures of a big university like Stanford lectures or NPL lectures.
+Now no doubt, these lectures are very quality lectures and the content in them is top notch.
+It is factually correct. But unfortunately, somehow I could not connect with their teaching method because it is not very visual.
+The professors, although they are very smart, but their way of teaching is very routine.
+They write the equations and solve them.
+I didn't understand it.
+Then what I did, I consciously decided that now I need visual resources.
+Where things are explained through diagrams and animations.
+And then in the last 5-6 years, I got some such learning resources which I am sharing with you.
+I can't tell you the impact of these resources after coming into my life in words.
+Now what I do is, I have to understand any concept, first I go to these resources, visually take an idea of what that concept is and then I see some formal type lectures like NPTEL, Stanford or I read books.
+So, I will share 3 resources with you which I like a lot and I have used it many times in the last 5-6 years.
+The first resource is Khan Academy. I am pretty sure you must have heard the name of Khan Academy till this point.
+In Khan Academy, you will get tutorials on different subjects.
+You will get the things which are useful for you in class 11th Maths.
+Here you will get many chapters which will be useful for you in data science.
+like statistics, probability, limits and derivatives.
+And apart from this, maybe there can be one or two more things here.
+But mostly these last three parts.
+Apart from this, the mathematics of class 12th is also very useful.
+So you can actually read all these chapters.
+Relations and functions, differential equations may not work.
+But here also there is probability.
+Vector algebra will also help you.
+In short, whatever is useful in data science, you can go and study from Khan Academy.
+Apart from this, there is one more resource which I think has become very famous now, it was not famous before.
+That is 3Blue1Brown YouTube channel. This guy is a legend. Those who know him, they know.
+He creates very very fluid mathematics videos where he explains very difficult concepts through animation very lovingly.
+So, I will recommend two playlists, one would be Essence of Linear Algebra, trust me if you are starting to study Deep Learning etc., if you watch this playlist multiple times, it would be immensely helpful and second would be Essence of Calculus, this is also a great playlist.
+And one more channel I would recommend, again it is a legendary channel and that is for statistics.
+StatQuest with Josh Starmer, he teaches in a very fun way.
+And the statistics playlist which is around 60 videos, you can use it to learn statistics.
+Again a very visual style of teaching where first things are taught through animations and visualisation and then concepts and definitions come.
+So these three resources I would recommend you should follow.
+should follow. Now let's move on to the last suggestion. Suggestion number 5. Suggestion
+number 5 is contextual learning. Even if you want to study maths in data science, you
+have to study only 4 topics. But still what happens is that many students make a mistake
+that they go to study everything in these 4 topics. If you want to study statistics
+then you will study everything in statistics. If you want to study linear algebra then
+everything in linear algebra, you don't have to do this, you don't have to go to read all the topics together, what I have done is I have made a road map for you guys, I have named it
+Maths roadmap for machine learning and there are four different sheets in it, if you see below, then the first sheet is of linear algebra, the second is of probability, the third is of statistics
+and the fourth is of calculus, in these four sheets, I have written all the topics that are used in my knowledge, in my experience, in data science, not only I have
+I have segregated module and topic wise.
+I have also written where exactly that topic is used in data science.
+So what will be the benefit of this?
+You can understand very easily what exactly you have to study.
+Then you don't have to do any course of 2-3 months.
+You actually see from here what you have to study.
+And go and find the best resources and study these topics.
+This roadmap can actually be very very useful and time-saving for you.
+One last bit, if you want to learn these topics from me, then maybe you know if you have already come to this channel.
+We are making a data science end-to-end course here where I am actually trying to include everything that is required to learn data science including the maths part obviously.
+So you can enroll in this course.
+Currently we are offering a discount in this course.
+We recently crossed the 150k mark.
+So it was a happy occasion for us.
+So we recently started this discount.
+All the description and links you will get in the video description.
+And that's it.
+I guess I had to give you these 5 recommendations and suggestions.
+I really hope these five were useful to you.
+If you liked the video, then please like this video.
+Share it with your friends who are struggling with Maths.
+And if you haven't subscribed to this channel, then please do subscribe.
+Because here we upload a lot of data science, deep learning, AI related content.
+And hope to see you again in the next video.
+Bye.

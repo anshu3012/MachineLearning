@@ -1,0 +1,89 @@
+so guys our next interview question is what is the difference between convex and a non-convex
+loss function and what happens when we have a non-convex function so this is a very interesting
+question and this is related to optimization techniques that you use in machine learning
+okay so what we will do is in order to answer this question we will discuss multiple points
+the first point that we'll discuss is what is a loss function then we'll see
+like what is the difference between convex and non-convex then we'll see the
+properties of both and finally we'll see some examples of both kinds okay so
+let's start our discussion with what is a loss function so in machine learning a
+loss function is basically a measure of how far an estimated value is from its
+true value okay let me explain so the whole idea of a machine learning model
+is to do predictions right but these predictions may or may not be equal to
+the true value right so the difference between these two is basically
+represented by the loss function so in a way loss function is a value which gives
+us this understanding that how well our machine learning model is performing okay
+so it is a mathematical function of this form where Y represents the loss or the
+error in prediction and X represents the parameters of our algorithm okay so
+basically if X changes as in if you change the parameter values of the
+algorithm the loss or the error changes the error can reduce or it can increase
+our idea is to minimize this value we want to minimize this error because if
+If we minimize this error, then the prediction will be closer to the true value and that
+is what we want.
+So in a way, loss function acts as a north star, a guiding force in machine learning.
+It helps you reach the right model.
+Now this model could be, sorry, this loss function could be a function of single variable
+Or it could be a function of two or three or more variables also, depending on how many
+parameters are there in your machine learning algorithm, like in the case of linear regression,
+you have m and d slope and intercept.
+So now the loss function will be a function of two variables slope and intercept.
+So now we have an idea of what is a loss function.
+let's discuss what is convex and non-convex functions since loss function
+is nothing but a mathematical function it should have a graph right like I have
+drawn some graphs over here this is the first one this is the second one this is
+the third one now let's discuss what is a convex function in mathematics so if
+you go to the Wikipedia page of convex function you would see over here it's
+written in mathematics a real valued function is called convex if the line
+segment between any two points on the graph of the function does not lie below
+the graph between the two points this is the definition of a convex mathematical
+function let me show you so what we do is in order to find out whether a
+mathematical function is convex or non convex you select two points on the graph
+of the function like we have selected these two points now you connect these
+two points with the help of a line and now you check whether any part of your
+graph between these two points is above this line or not so you can clearly see
+in this case between these two points the graph of this function does not lie
+above the line segment it means it is a convex function whereas let's say we
+have this example let's draw two points and let's join them with the help of a
+line segment now this is a non convex function why because in this span the
+graph two times is above the line segment and this is not the definition
+of convex function so this is a non convex function so the green curve
+should never lie above the white line that is the core idea okay similarly if
+you talk about this function again it is a non convex function because in the
+range in this in this span the green curve is above the white line and that
+makes this a non convex function so that is how you identify a convex or a non
+convex function now comes this important question what happens when we have a
+non-convex function see the whole idea of understanding or rather having a loss
+function is to find a value of X or rather we should say to find a value for
+your parameters for which the error is minimum so in a way what we do is once
+we have the graph of our loss function we try to find out the minimum and the
+minimum represents a value of X for which the loss or the error is minimum
+so the whole idea of this entire thing is to find out the minima of this curve
+okay but if we have a non convex loss function then there is a problem what is
+that problem let me show you so over here you can read out convex function
+plays an important role in many areas of mathematics they are specially important
+in the study of optimization problems where they are distinguished by a number
+of convenient properties for instance a strictly convex function on an open set
+has no more than one minimum so that is the property that we are talking about
+so if you have a strictly convex function it means that it will have only
+one minima whereas if you talk about a non convex function it can have more
+than one minima so you can see over here this is the local minima and this is the
+global minima so ideally your optimization algorithm let's say you are
+using gradient descent your optimization algorithm would like to find out this
+global minima but sometimes it is stuck in this local minima and you are not
+able to find out the best answer or the best value for your parameters for which
+the error will be minimum okay so the worst case scenario in the case of non
+convex function is that you are stuck in a local minima and you do not converge
+to the global minima and you don't get the most optimized solution and that is
+the worst part okay so we have discussed what is a loss function what is the
+difference between convex and non convex functions we have seen some properties
+now let's discuss some examples I'll show you some examples of both convex
+function and non convex function so over here I have two loss function examples
+so this is an example of linear regression in two variables okay and you
+can see this function is a strictly convex function wherever you draw a line
+in this case you would draw a plane wherever you draw a plane the graph of
+this function will always lie below the plane okay and there is only one local
+minima whereas this is an example of a neural network if I am correct a
+complex neural network and you can see over here there are multiple minimas
+there are multiple minimas okay and one being the global minima and all of
+others are local minima so what happens is sometimes your solution is stuck in a
+local minima giving you sub optimized solution which is not desirable so I
+hope you get your answer

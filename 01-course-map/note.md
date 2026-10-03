@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 221 of 221 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 225 of 225 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -105,8 +105,12 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Choosing a hypothesis test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | One-sample proportion test | [Note 570](../570-choosing-a-hypothesis-test/note.md) | confirmed |
 | One-way ANOVA | [Note 572](../572-one-way-anova/note.md) | confirmed |
+| How to learn the maths for ML | [Note 580](../580-learning-maths-for-ml/note.md) | confirmed |
 | Jacobian and matrix gradients | [Note 602](../602-jacobian-and-matrix-gradients/note.md) | confirmed |
 | Singular value decomposition | [Note 610](../610-svd-geometry/note.md), [Note 611](../611-computing-the-svd/note.md) | confirmed |
+| Lagrange multipliers, KKT and duality | [Note 620](../620-lagrange-multipliers/note.md) | confirmed |
+| Convex sets and convex optimisation | [Note 621](../621-convex-sets-and-functions/note.md) | confirmed |
+| Linear and quadratic programming | [Note 622](../622-linear-and-quadratic-programming/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -238,7 +242,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Normal equation | [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
 | Assumptions of linear regression | [Note 56](../56-linear-regression-assumptions/note.md) | confirmed |
 | Gradient descent | [Note 57](../57-gradient-descent/note.md) | confirmed |
-| Convex and non-convex loss | [Note 57](../57-gradient-descent/note.md) | confirmed |
+| Convex and non-convex loss | [Note 57](../57-gradient-descent/note.md), [Note 590](../590-convex-and-non-convex-cost-functions/note.md) | confirmed |
 | Batch gradient descent | [Note 58](../58-batch-gradient-descent/note.md) | confirmed |
 | Mini-batch gradient descent | [Note 60](../60-mini-batch-gradient-descent/note.md) | confirmed |
 | Polynomial regression | [Note 61](../61-polynomial-regression/note.md) | confirmed |
@@ -336,7 +340,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 221 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 225 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -541,6 +545,8 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 570 | Choosing a hypothesis test, Correlation significance test, One-sample proportion test, T-tests: one-sample, two-sample, paired | [Note 231](../231-covariance-and-correlation/note.md), [Note 282](../282-t-procedure/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
 | 571 | Chi-square tests | [Note 291](../291-rejection-region-and-z-test/note.md), [Note 341](../341-joint-marginal-conditional-probability/note.md) | written |
 | 572 | One-way ANOVA | [Note 222](../222-measures-of-dispersion/note.md), [Note 291](../291-rejection-region-and-z-test/note.md) | written |
+| 580 | How to learn the maths for ML | [Note 440](../440-role-of-maths-in-ml/note.md) | written |
+| 590 | Convex and non-convex loss | [Note 126](../126-xgboost-maths/note.md) | written |
 | 600 | Derivatives of one variable, Taylor series | nothing | written |
 | 601 | Partial derivatives and gradients | [Note 600](../600-derivatives-of-one-variable/note.md) | written |
 | 602 | Jacobian and matrix gradients | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 510](../510-matrix-multiplication-as-composition/note.md), [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
@@ -549,6 +555,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 611 | Singular value decomposition | [Note 500](../500-linear-transformations-and-matrices/note.md), [Note 530](../530-eigenvectors-and-eigenvalues/note.md) | written |
 | 612 | Low-rank approximation (truncated SVD) | [Note 611](../611-computing-the-svd/note.md) | written |
 | 613 | Latent semantic analysis, Moore-Penrose pseudo-inverse | [Note 27](../27-one-hot-encoding/note.md), [Note 360](../360-vectors-and-feature-vectors/note.md), [Note 611](../611-computing-the-svd/note.md) | written |
+| 620 | Lagrange multipliers, KKT and duality | [Note 601](../601-partial-derivatives-and-gradients/note.md) | written |
+| 621 | Convex sets and convex optimisation | [Note 590](../590-convex-and-non-convex-cost-functions/note.md), [Note 620](../620-lagrange-multipliers/note.md) | written |
+| 622 | Linear and quadratic programming | [Note 621](../621-convex-sets-and-functions/note.md) | written |
 
 ## 5. The Algorithm chooser
 

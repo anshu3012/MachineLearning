@@ -7,6 +7,7 @@ title: "The Role of Mathematics in Machine Learning"
 >
 > ![](images/where_this_fits.png)
 >
+> - **Leads to:** How to learn the maths for ML ([Note 580](../580-learning-maths-for-ml/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

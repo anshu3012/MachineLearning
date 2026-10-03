@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+% Five habits for learning the maths of ML; the first one makes the other four work.
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\large}]
+  \node[box=corange, text width=4.2cm, minimum height=3.4cm] (a) at (0,0) {\textbf{1. Attitude}\\[4pt] expect maths to be useful, not scary};
+  \foreach \i/\name/\txt/\c in {1/2. Decode/shrink a formula to 2 cases and write it out/cblue,
+                                 2/3. Code/simulate and plot the idea/cblue,
+                                 3/4. See first/{visual resources, then formal ones}/cblue,
+                                 4/5. In context/study a topic when an algorithm needs it/cblue} {
+    \node[box=\c, text width=6.6cm, minimum height=1.25cm, anchor=west] (h\i) at (5.2, 2.4-1.6*\i+1.6) {\textbf{\name}: \txt};
+    \draw[arrow] (a.east) -- (h\i.west);
+  }
+  \node[note, below=0.25cm of a, text width=4.4cm] {makes the other four possible};
+\end{tikzpicture}
+\end{document}

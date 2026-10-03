@@ -8,6 +8,7 @@ title: "The Maths Behind XGBoost"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Eigenvectors and eigenvalues ([Note 48](../48-pca-step-by-step/note.md)); Derivatives of one variable ([Note 51](../51-linear-regression-maths/note.md)); Regularisation ([Note 63](../63-ridge-regression-intuition/note.md)); Gradient boosting ([Note 122](../122-gradient-boosting-classification/note.md)); Missing values ([Note 123](../123-xgboost-intro/note.md)).
+> - **Leads to:** Convex and non-convex loss ([Note 590](../590-convex-and-non-convex-cost-functions/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
