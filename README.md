@@ -87,6 +87,10 @@ In the PDF, GIFs are swapped for their `_frames.png` key frames and PNGs for a v
 Shared looks: `tools/tikz-style.tex` (diagrams), `tools/pdf-style.tex` (PDF).
 Symbols like ⊃ or → go in Markdown as maths (`$\supset$`, `$\rightarrow$`): the PDF font has no such characters.
 
+### Course map build
+
+`python course_map/build_map.py` regenerates the Course map Note (`01-course-map/`) and the *Where this fits* block of every written Note from `course_map/concepts.yaml`; run it before `tools/build.sh`. A name containing a comma must be quoted in the YAML (the script checks). The Algorithm chooser is hand-drawn in `course_map/algorithm_chooser.tex`. Interactive version: `python course_map/app.py`, then open http://127.0.0.1:8050.
+
 ## Transcripts
 
 `transcripts/fetch.sh` downloads subtitles for every Video in `transcripts/playlist.txt` as `NNN.<lang>.txt`.
@@ -126,7 +130,7 @@ Write one Note → you review → fix → next. Video 2 first (locks the style),
 
 Videos skipped for now, to come back to later:
 
-- Video 1: Course map (what the course covers, all Videos grouped into modules)
+- Video 1, second half: the lesson "What is Machine Learning?" (definition, explicit programming, when to use ML, data mining, history, jobs). The first half of the Video 1 Note is the Course map, built from `course_map/`.
 - Video 8: Applications of Machine Learning
 - Video 9: Machine Learning Development Life Cycle (MLDLC)
 - Video 12: Installing Anaconda / Jupyter / Colab. Do this when the project is done: first pin the exact library versions of the `campusx` environment (e.g. an `environment.yml`), then write the setup Note from that pinned environment.

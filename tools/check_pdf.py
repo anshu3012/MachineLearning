@@ -22,6 +22,8 @@ def probes(md):
             continue
         if in_code:
             continue
+        if line.strip().startswith("<!--"):
+            continue                                       # HTML comments never reach the PDF
         line = re.sub(r"^\s*([-*]|\d+\.|#+)\s*", "", line.strip())
         line = line.split("$")[0]                          # stop at maths: the PDF renders it differently
         line = re.sub(r"\*\*?|`", "", line)

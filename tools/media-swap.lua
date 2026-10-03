@@ -11,10 +11,11 @@ function Image(img)
     local pdf = src:gsub("%.png$", ".pdf")
     if exists(pdf) then img.src = pdf end
   end
-  -- Fit inside the text width and a third of the page height (keeping the shape),
-  -- so figures rarely jump to the next page.
-  return pandoc.RawInline("latex",
-    "\\includegraphics[width=\\linewidth,height=0.35\\textheight,keepaspectratio]{" .. img.src .. "}")
+  -- Fit inside the text width and a third of the page height (keeping the shape), so figures rarely
+  -- jump pages. A figure can ask for more with {height=88%} (e.g. full-page Concept maps).
+  local h = (img.attributes.height or "35%"):gsub("%%", "")
+  return pandoc.RawInline("latex", "\\includegraphics[width=\\linewidth,height=" .. tonumber(h) / 100
+    .. "\\textheight,keepaspectratio]{" .. img.src .. "}")
 end
 
 local boxes = { ["Key point:"] = "keypoint", ["Extra:"] = "extra", ["Python:"] = "pythonbox" }

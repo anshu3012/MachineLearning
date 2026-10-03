@@ -1,0 +1,354 @@
+# The Course map data. Every view of the Course map and every Note's "Where this fits" box is generated from this file.
+#
+# status: confirmed = taught in a written, reviewed Note; draft = guessed from playlist titles, to be checked against
+#         the transcript when its Note is written ("transcript first, map second", see README).
+# links:  [from, type, to, status]. type is exactly one of: needs, is a kind of, fixes, compared with, used in.
+
+steps:
+  0: Foundations
+  1: Frame the problem
+  2: Get data
+  3: Understand data
+  4: Clean
+  5: Engineer features
+  6: Reduce dimensions
+  7: Split
+  8: Model
+  9: Evaluate
+  10: Tune
+  11: Deploy
+  12: Test
+  13: Monitor and maintain
+
+# Folder of each written Note, by Video number. Deferred and skipped Videos are listed in README.
+notes:
+  1: 01-course-map
+  2: 02-ai-vs-ml-vs-dl
+  3: 03-types-of-ml
+  4: 04-batch-learning
+  5: 05-online-learning
+  6: 06-instance-vs-model-based
+  7: 07-challenges-in-ml
+  11: 11-tensors
+  13: 13-toy-project
+
+concepts:
+  # 0 Foundations
+  - {id: ai, name: Artificial intelligence, step: 0, videos: [2], status: confirmed}
+  - {id: expert_system, name: Symbolic AI and expert systems, step: 0, videos: [2], status: confirmed}
+  - {id: ml, name: Machine learning, step: 0, videos: [1, 2], status: confirmed}
+  - {id: dl, name: Deep learning, step: 0, videos: [2], status: confirmed}
+  - {id: neural_network, name: Neural networks, step: 0, videos: [2], status: confirmed}
+  - {id: feature, name: Features, step: 0, videos: [2, 11], status: confirmed}
+  - {id: supervised, name: Supervised learning, step: 0, videos: [3], status: confirmed}
+  - {id: regression_task, name: Regression problems, step: 0, videos: [3], status: confirmed}
+  - {id: classification_task, name: Classification problems, step: 0, videos: [3], status: confirmed}
+  - {id: unsupervised, name: Unsupervised learning, step: 0, videos: [3], status: confirmed}
+  - {id: semi_supervised, name: Semi-supervised learning, step: 0, videos: [3], status: confirmed}
+  - {id: reinforcement, name: Reinforcement learning, step: 0, videos: [3], status: confirmed}
+  - {id: batch_learning, name: Batch (offline) learning, step: 0, videos: [4], status: confirmed}
+  - {id: online_learning, name: Online learning, step: 0, videos: [5], status: confirmed}
+  - {id: out_of_core, name: Out-of-core learning, step: 0, videos: [5], status: confirmed}
+  - {id: instance_based, name: Instance-based learning, step: 0, videos: [6], status: confirmed}
+  - {id: model_based, name: Model-based learning, step: 0, videos: [6], status: confirmed}
+  - {id: tensor, name: Tensors, step: 0, videos: [11], status: confirmed}
+  - {id: applications, name: Applications of ML, step: 0, videos: [8], status: draft}
+  - {id: data_mining, name: Data mining, step: 0, videos: [1], status: draft}
+  - {id: mldlc, name: ML development life cycle, step: 0, videos: [9, 13], status: draft}
+  - {id: dev_setup, name: "Anaconda, Jupyter and Colab", step: 0, videos: [12], status: draft}
+
+  # 1 Frame the problem
+  - {id: problem_framing, name: Framing an ML problem, step: 1, videos: [9, 14], status: draft}
+
+  # 2 Get data
+  - {id: data_quantity, name: Enough data, step: 2, videos: [7], status: confirmed}
+  - {id: labelled_data, name: Labelled data, step: 2, videos: [3, 7], status: confirmed}
+  - {id: sampling_bias, name: Sampling noise and bias, step: 2, videos: [7], status: confirmed}
+  - {id: csv, name: CSV files, step: 2, videos: [13, 15], status: draft}
+  - {id: json_sql, name: JSON and SQL data, step: 2, videos: [16], status: draft}
+  - {id: api, name: APIs, step: 2, videos: [7, 17], status: draft}
+  - {id: web_scraping, name: Web scraping, step: 2, videos: [7, 18], status: draft}
+
+  # 3 Understand data
+  - {id: eda, name: Exploratory data analysis, step: 3, videos: [13, 19], status: draft}
+  - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19], status: draft}
+  - {id: univariate, name: Univariate analysis, step: 3, videos: [20], status: draft}
+  - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [21], status: draft}
+  - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: draft}
+  - {id: imbalanced_data, name: Imbalanced data, step: 3, videos: [9, 133], status: draft}
+
+  # 4 Clean
+  - {id: data_quality, name: Poor-quality data, step: 4, videos: [7], status: confirmed}
+  - {id: missing_values, name: Missing values, step: 4, videos: [7, 35, 36], status: draft}
+  - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: draft}
+  - {id: simple_imputation, name: "Simple imputation (mean, median, mode)", step: 4, videos: [36, 37], status: draft}
+  - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: draft}
+  - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: draft}
+  - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: draft}
+  - {id: outliers, name: Outliers, step: 4, videos: [7, 41], status: draft}
+  - {id: zscore, name: Z-score outlier method, step: 4, videos: [42], status: draft}
+  - {id: iqr, name: IQR outlier method, step: 4, videos: [43], status: draft}
+  - {id: percentile, name: Percentile outlier method, step: 4, videos: [44], status: draft}
+
+  # 5 Engineer features
+  - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 23], status: confirmed}
+  - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13], status: draft}
+  - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 13, 24], status: confirmed}
+  - {id: standardization, name: Standardization, step: 5, videos: [13, 24], status: confirmed}
+  - {id: normalization, name: Normalization, step: 5, videos: [25], status: draft}
+  - {id: encoding, name: Encoding categorical data, step: 5, videos: [26], status: draft}
+  - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: draft}
+  - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 27], status: confirmed}
+  - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: draft}
+  - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: draft}
+  - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: draft}
+  - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: draft}
+  - {id: binning, name: Binning and binarization, step: 5, videos: [32], status: draft}
+  - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: draft}
+  - {id: datetime, name: Date and time features, step: 5, videos: [34], status: draft}
+  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [7, 45], status: draft}
+  - {id: feature_importance, name: Feature importance, step: 5, videos: [114], status: draft}
+
+  # 6 Reduce dimensions
+  - {id: dim_reduction, name: Dimensionality reduction, step: 6, videos: [3, 46], status: confirmed}
+  - {id: curse_dim, name: Curse of dimensionality, step: 6, videos: [46], status: draft}
+  - {id: pca, name: PCA, step: 6, videos: [3, 47, 48, 49], status: draft}
+
+  # 7 Split
+  - {id: train_test_split, name: Train-test split, step: 7, videos: [13], status: confirmed}
+  - {id: data_leakage, name: Data leakage, step: 7, videos: [13], status: confirmed}
+
+  # 8 Model
+  - {id: clustering, name: Clustering, step: 8, videos: [3, 128], status: confirmed}
+  - {id: anomaly_detection, name: Anomaly detection, step: 8, videos: [3], status: confirmed}
+  - {id: association_rules, name: Association rule learning, step: 8, videos: [3], status: confirmed}
+  - {id: knn, name: K-nearest neighbours, step: 8, videos: [6, 91], status: confirmed}
+  - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: draft}
+  - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: draft}
+  - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: draft}
+  - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57], status: draft}
+  - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58], status: draft}
+  - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: draft}
+  - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, videos: [60], status: draft}
+  - {id: polynomial_regression, name: Polynomial regression, step: 8, videos: [61], status: draft}
+  - {id: regularisation, name: Regularisation, step: 8, videos: [63], status: draft}
+  - {id: ridge, name: Ridge regression, step: 8, videos: [63, 64, 65, 66], status: draft}
+  - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: draft}
+  - {id: elasticnet, name: ElasticNet, step: 8, videos: [69], status: draft}
+  - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: draft}
+  - {id: sigmoid, name: Sigmoid function, step: 8, videos: [74], status: draft}
+  - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: draft}
+  - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: draft}
+  - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [82, 83, 84, 85, 86, 87, 88, 89, 90], status: draft}
+  - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: draft}
+  - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: draft}
+  - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: draft}
+  - {id: regression_tree, name: Regression trees, step: 8, videos: [99], status: draft}
+  - {id: ensemble, name: Ensemble learning, step: 8, videos: [101], status: draft}
+  - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: draft}
+  - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: draft}
+  - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111], status: draft}
+  - {id: boosting, name: Boosting, step: 8, videos: [119], status: draft}
+  - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: draft}
+  - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: draft}
+  - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: draft}
+  - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: draft}
+  - {id: kmeans, name: K-means, step: 8, videos: [128, 129, 130], status: draft}
+  - {id: hierarchical, name: Hierarchical clustering, step: 8, videos: [131], status: draft}
+  - {id: dbscan, name: DBSCAN, step: 8, videos: [132], status: draft}
+
+  # 9 Evaluate
+  - {id: overfitting, name: Overfitting, step: 9, videos: [7], status: confirmed}
+  - {id: underfitting, name: Underfitting, step: 9, videos: [7], status: confirmed}
+  - {id: bias_variance, name: Bias-variance trade-off, step: 9, videos: [62, 109], status: draft}
+  - {id: accuracy, name: Accuracy, step: 9, videos: [13, 76], status: confirmed}
+  - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: draft}
+  - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: draft}
+  - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: draft}
+  - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: draft}
+  - {id: cross_validation, name: Cross-validation, step: 9, videos: [112], status: draft}
+  - {id: oob_score, name: OOB score, step: 9, videos: [113], status: draft}
+
+  # 10 Tune
+  - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 98, 111, 118], status: draft}
+  - {id: grid_search, name: Grid and random search, step: 10, videos: [112], status: draft}
+  - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
+
+  # 11 Deploy
+  - {id: deployment, name: Deployment, step: 11, videos: [4, 7, 13], status: confirmed}
+  - {id: pickle, name: Saving models with pickle, step: 11, videos: [13], status: confirmed}
+  - {id: software_integration, name: Software integration, step: 11, videos: [7], status: confirmed}
+
+  # 12 Test
+  - {id: ab_testing, name: Beta and A/B testing, step: 12, videos: [9], status: draft}
+
+  # 13 Monitor and maintain
+  - {id: model_drift, name: Model drift, step: 13, videos: [4], status: confirmed}
+  - {id: retraining, name: Retraining, step: 13, videos: [4, 5], status: confirmed}
+  - {id: mlops, name: MLOps and cost, step: 13, videos: [7], status: confirmed}
+
+links:
+  # Foundations
+  - [ml, is a kind of, ai, confirmed]
+  - [dl, is a kind of, ml, confirmed]
+  - [expert_system, is a kind of, ai, confirmed]
+  - [ml, compared with, expert_system, confirmed]
+  - [dl, needs, neural_network, confirmed]
+  - [dl, compared with, ml, confirmed]
+  - [ml, needs, feature, confirmed]
+  - [supervised, is a kind of, ml, confirmed]
+  - [unsupervised, is a kind of, ml, confirmed]
+  - [semi_supervised, is a kind of, ml, confirmed]
+  - [reinforcement, is a kind of, ml, confirmed]
+  - [supervised, needs, labelled_data, confirmed]
+  - [regression_task, is a kind of, supervised, confirmed]
+  - [classification_task, is a kind of, supervised, confirmed]
+  - [semi_supervised, compared with, supervised, confirmed]
+  - [online_learning, compared with, batch_learning, confirmed]
+  - [out_of_core, needs, online_learning, confirmed]
+  - [instance_based, compared with, model_based, confirmed]
+  - [knn, is a kind of, instance_based, confirmed]
+  - [tensor, used in, ml, confirmed]
+  - [problem_framing, used in, mldlc, draft]
+  - [applications, needs, ml, draft]
+  - [data_mining, needs, ml, draft]
+  - [dev_setup, used in, ml, draft]
+  # Data
+  - [sampling_bias, compared with, data_quantity, confirmed]
+  - [csv, used in, eda, draft]
+  - [api, compared with, web_scraping, draft]
+  - [json_sql, compared with, csv, draft]
+  - [descriptive_stats, is a kind of, eda, draft]
+  - [univariate, is a kind of, eda, draft]
+  - [bivariate, is a kind of, eda, draft]
+  - [pandas_profiling, used in, eda, draft]
+  - [missing_values, is a kind of, data_quality, draft]
+  - [outliers, is a kind of, data_quality, draft]
+  - [complete_case, fixes, missing_values, draft]
+  - [simple_imputation, fixes, missing_values, draft]
+  - [missing_indicator, fixes, missing_values, draft]
+  - [knn_imputer, fixes, missing_values, draft]
+  - [knn_imputer, needs, knn, draft]
+  - [mice, fixes, missing_values, draft]
+  - [zscore, fixes, outliers, draft]
+  - [iqr, fixes, outliers, draft]
+  - [percentile, fixes, outliers, draft]
+  - [zscore, needs, descriptive_stats, draft]
+  - [iqr, needs, descriptive_stats, draft]
+  # Features
+  - [feature_engineering, needs, feature, confirmed]
+  - [feature_scaling, is a kind of, feature_engineering, confirmed]
+  - [standardization, is a kind of, feature_scaling, confirmed]
+  - [normalization, is a kind of, feature_scaling, draft]
+  - [normalization, compared with, standardization, draft]
+  - [feature_scaling, used in, knn, confirmed]
+  - [feature_scaling, used in, gradient_descent, draft]
+  - [encoding, is a kind of, feature_engineering, draft]
+  - [ordinal_encoding, is a kind of, encoding, draft]
+  - [one_hot, is a kind of, encoding, draft]
+  - [ordinal_encoding, compared with, one_hot, draft]
+  - [column_transformer, needs, encoding, draft]
+  - [pipeline, needs, column_transformer, draft]
+  - [pipeline, fixes, data_leakage, draft]
+  - [function_transformer, used in, pipeline, draft]
+  - [power_transformer, is a kind of, feature_engineering, draft]
+  - [binning, is a kind of, feature_engineering, draft]
+  - [mixed_variables, is a kind of, feature_engineering, draft]
+  - [datetime, is a kind of, feature_engineering, draft]
+  - [feature_construction, is a kind of, feature_engineering, confirmed]
+  - [feature_selection, is a kind of, feature_engineering, draft]
+  - [feature_importance, used in, feature_selection, draft]
+  - [feature_importance, needs, random_forest, draft]
+  # Reduce dimensions
+  - [dim_reduction, is a kind of, unsupervised, confirmed]
+  - [dim_reduction, fixes, curse_dim, draft]
+  - [pca, is a kind of, dim_reduction, draft]
+  - [pca, needs, standardization, draft]
+  # Split
+  - [overfitting, needs, train_test_split, confirmed]
+  - [data_leakage, compared with, train_test_split, confirmed]
+  - [standardization, needs, train_test_split, confirmed]
+  # Model: regression
+  - [linear_regression, is a kind of, model_based, draft]
+  - [linear_regression, is a kind of, regression_task, draft]
+  - [multiple_lr, needs, linear_regression, draft]
+  - [lr_assumptions, used in, linear_regression, draft]
+  - [regression_metrics, used in, linear_regression, draft]
+  - [gradient_descent, used in, linear_regression, draft]
+  - [batch_gd, is a kind of, gradient_descent, draft]
+  - [sgd, is a kind of, gradient_descent, draft]
+  - [minibatch_gd, is a kind of, gradient_descent, draft]
+  - [sgd, used in, online_learning, confirmed]
+  - [polynomial_regression, needs, multiple_lr, draft]
+  - [polynomial_regression, needs, polynomial_features, draft]
+  - [regularisation, fixes, overfitting, draft]
+  - [ridge, is a kind of, regularisation, draft]
+  - [lasso, is a kind of, regularisation, draft]
+  - [elasticnet, is a kind of, regularisation, draft]
+  - [lasso, compared with, ridge, draft]
+  - [lasso, used in, feature_selection, draft]
+  - [ridge, needs, multiple_lr, draft]
+  # Model: classification
+  - [logistic_regression, is a kind of, classification_task, draft]
+  - [logistic_regression, is a kind of, model_based, draft]
+  - [logistic_regression, needs, sigmoid, draft]
+  - [logistic_regression, needs, gradient_descent, draft]
+  - [softmax, is a kind of, logistic_regression, draft]
+  - [polynomial_features, used in, logistic_regression, draft]
+  - [naive_bayes, is a kind of, classification_task, draft]
+  - [knn, is a kind of, classification_task, draft]
+  - [svm, is a kind of, classification_task, draft]
+  - [kernel_trick, used in, svm, draft]
+  - [decision_tree, is a kind of, model_based, draft]
+  - [regression_tree, is a kind of, decision_tree, draft]
+  - [decision_tree, compared with, logistic_regression, draft]
+  # Ensembles
+  - [decision_tree, used in, ensemble, draft]
+  - [voting, is a kind of, ensemble, draft]
+  - [bagging, is a kind of, ensemble, draft]
+  - [boosting, is a kind of, ensemble, draft]
+  - [stacking, is a kind of, ensemble, draft]
+  - [bagging, compared with, boosting, draft]
+  - [random_forest, is a kind of, bagging, draft]
+  - [random_forest, needs, decision_tree, draft]
+  - [bagging, fixes, overfitting, draft]
+  - [adaboost, is a kind of, boosting, draft]
+  - [gradient_boosting, is a kind of, boosting, draft]
+  - [xgboost, is a kind of, gradient_boosting, draft]
+  - [gradient_boosting, needs, gradient_descent, draft]
+  - [stacking, compared with, voting, draft]
+  # Clustering
+  - [clustering, is a kind of, unsupervised, confirmed]
+  - [anomaly_detection, is a kind of, unsupervised, confirmed]
+  - [association_rules, is a kind of, unsupervised, confirmed]
+  - [kmeans, is a kind of, clustering, draft]
+  - [hierarchical, is a kind of, clustering, draft]
+  - [dbscan, is a kind of, clustering, draft]
+  - [kmeans, compared with, dbscan, draft]
+  - [kmeans, needs, feature_scaling, draft]
+  # Evaluate
+  - [overfitting, compared with, underfitting, confirmed]
+  - [bias_variance, needs, overfitting, draft]
+  - [accuracy, needs, train_test_split, confirmed]
+  - [accuracy, used in, classification_task, confirmed]
+  - [confusion_matrix, needs, accuracy, draft]
+  - [precision_recall, needs, confusion_matrix, draft]
+  - [roc, needs, confusion_matrix, draft]
+  - [precision_recall, fixes, imbalanced_data, draft]
+  - [regression_metrics, used in, regression_task, draft]
+  - [cross_validation, compared with, train_test_split, draft]
+  - [oob_score, used in, random_forest, draft]
+  # Tune
+  - [hyperparameters, used in, model_based, draft]
+  - [grid_search, needs, cross_validation, draft]
+  - [grid_search, is a kind of, hyperparameters, draft]
+  - [optuna, is a kind of, hyperparameters, draft]
+  - [optuna, compared with, grid_search, draft]
+  # Production
+  - [deployment, needs, pickle, confirmed]
+  - [software_integration, used in, deployment, confirmed]
+  - [ab_testing, needs, deployment, draft]
+  - [online_learning, fixes, model_drift, confirmed]
+  - [retraining, fixes, model_drift, confirmed]
+  - [retraining, used in, batch_learning, confirmed]
+  - [mlops, needs, deployment, confirmed]
