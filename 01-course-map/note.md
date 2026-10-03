@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 69 of 135 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 70 of 135 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -121,7 +121,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Standardization | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md) | confirmed |
 | ML pipelines | [Note 13](../13-toy-project/note.md), [Note 29](../29-pipelines/note.md) | confirmed |
 | Encoding categorical data | [Note 23](../23-what-is-feature-engineering/note.md), [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
-| Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), Video 32, coming | draft |
+| Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md), [Note 32](../32-binning-binarization/note.md) | confirmed |
 | Feature transformation | [Note 23](../23-what-is-feature-engineering/note.md) | confirmed |
 | Normalization | [Note 25](../25-normalization/note.md) | confirmed |
 | Ordinal and label encoding | [Note 26](../26-ordinal-label-encoding/note.md) | confirmed |
@@ -302,7 +302,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 29 | Cross-validation, Deployment, Grid and random search, ML pipelines, Saving models with pickle | [Note 7](../07-challenges-in-ml/note.md), Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 28](../28-column-transformer/note.md) | written |
 | 30 | Cross-validation, Function transformer, Q-Q plot | [Note 20](../20-univariate-analysis/note.md), [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 31 | Power transformer | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
-| 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
+| 32 | Binning and binarization | [Note 23](../23-what-is-feature-engineering/note.md) | written |
 | 33 | Mixed variables | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 34 | Date and time features | [Note 23](../23-what-is-feature-engineering/note.md) | coming |
 | 35 | Complete case analysis, Missing values | [Note 7](../07-challenges-in-ml/note.md) | coming |

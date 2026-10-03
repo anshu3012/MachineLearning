@@ -7,7 +7,7 @@ title: "Column Transformer"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)); Simple imputation (mean, median, mode) ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Builds on:** Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Encoding categorical data ([Note 26](../26-ordinal-label-encoding/note.md)); Simple imputation (mean, median, mode) ([Note 23](../23-what-is-feature-engineering/note.md)).
 > - **Leads to:** ML pipelines ([Note 29](../29-pipelines/note.md)).
 <!-- /where-this-fits -->
 

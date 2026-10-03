@@ -9,7 +9,7 @@ title: "Encoding Categorical Data: Ordinal and Label Encoding"
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
 > - **Leads to:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)).
-> - **Compare with:** One-hot encoding ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Compare with:** One-hot encoding ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

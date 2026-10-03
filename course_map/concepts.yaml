@@ -47,6 +47,7 @@ notes:
   28: 28-column-transformer
   29: 29-pipelines
   30: 30-function-transformer
+  32: 32-binning-binarization
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
   48: 48-pca-step-by-step
@@ -130,7 +131,7 @@ concepts:
   - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: confirmed}
   - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: confirmed}
   - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: draft}
-  - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: draft}
+  - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: confirmed}
   - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: draft}
   - {id: datetime, name: Date and time features, step: 5, videos: [34], status: draft}
   - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
@@ -308,6 +309,9 @@ links:
   - [ordinal_encoding, needs, train_test_split, confirmed]
   - [feature_scaling, is a kind of, feature_transformation, confirmed]
   - [binning, is a kind of, feature_transformation, confirmed]
+  - [binning, used in, column_transformer, confirmed]
+  - [binning, needs, kmeans, draft]
+  - [binning, compared with, encoding, confirmed]
   - [feature_selection, is a kind of, feature_engineering, confirmed]
   - [feature_extraction, is a kind of, feature_engineering, confirmed]
   - [feature_importance, used in, feature_selection, draft]
