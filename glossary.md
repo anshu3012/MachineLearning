@@ -79,6 +79,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | bin_edges_ | The fitted `KBinsDiscretizer` attribute holding the learned edges. | [Video 32](32-binning-binarization/note.md) |
 | Binarization | Turning a continuous column into 0 or 1 by comparing it with one threshold. | [Video 32](32-binning-binarization/note.md) |
 | Binarizer | scikit-learn's class for binarization, with parameters `threshold` and `copy`. | [Video 32](32-binning-binarization/note.md) |
+| Binary cross entropy (log loss) | The average cross entropy for two classes, the loss function of logistic regression. | [Video 73](73-log-loss/note.md) |
 | Binning | Grouping a numerical column into ranges that act as categories. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Bivariate analysis | Studying two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
@@ -136,6 +137,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
 | Covariance | How two columns move together: positive if they rise together, negative if not. | [Video 48](48-pca-step-by-step/note.md) |
 | Cramér's V | A measure of the link between two categorical columns, from 0 to 1. | [Video 22](22-pandas-profiling/note.md) |
+| Cross entropy | The negative log-likelihood; smaller is better. | [Video 73](73-log-loss/note.md) |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data. | [Video 29](29-pipelines/note.md) |
 | Crosstab | A table counting the rows for every pair of categories of two columns. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | CSV file | A text file holding a table, with commas between values. | [Video 13](13-toy-project/note.md) |
@@ -318,6 +320,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
 | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Video 59](59-stochastic-gradient-descent/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Likelihood | The product, over all points, of the probabilities the model gives to their true classes. | [Video 73](73-log-loss/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. | [Video 44](44-outliers-percentile/note.md) |
 | Linear regression | An algorithm that fits the straight line closest to all the points. | [Video 23](23-what-is-feature-engineering/note.md) |
@@ -327,9 +330,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Video 15](15-working-with-csv/note.md) |
 | Local minimum | A point lower than everything around it, but not the lowest overall. | [Video 57](57-gradient-descent/note.md) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Video 30](30-function-transformer/note.md) |
+| Log-likelihood | The log of the likelihood: the sum of the log probabilities. | [Video 73](73-log-loss/note.md) |
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0. | [Video 30](30-function-transformer/note.md) |
 | Logistic function | Another name for the sigmoid function. | [Video 72](72-sigmoid-function/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
+| Loss function | A formula that measures how wrong a model's predictions are. | [Video 73](73-log-loss/note.md) |
 | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Video 50](50-simple-linear-regression/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Magnitude | The number part of a quantity, as opposed to its unit. | [Video 25](25-normalization/note.md) |
@@ -606,6 +611,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Type 1 mixed variable | A column whose cells each contain a category and a number together, such as `C85`. | [Video 33](33-mixed-variables/note.md) |
 | Type 2 mixed variable | A column with a number in some rows and a category in others. | [Video 33](33-mixed-variables/note.md) |
 | Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
+| Underflow | A number too close to 0 for the computer to store, which then becomes 0 or loses precision. | [Video 73](73-log-loss/note.md) |
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling. | [Video 19](19-understanding-your-data/note.md) |
 | Uniform weighting | Every neighbour counts equally: the fill is their plain mean. | [Video 39](39-knn-imputer/note.md) |
 | Unit hypercube | The same box in three or more dimensions (a unit cube in three). | [Video 25](25-normalization/note.md) |

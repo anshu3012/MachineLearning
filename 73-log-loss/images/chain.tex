@@ -1,0 +1,15 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.55cm]
+  \node[box, text width=3.3cm] (a) {probability each point gets for its \textbf{true} class};
+  \node[box, text width=3.3cm, right=of a] (b) {\textbf{multiply}: likelihood\\(maximise)};
+  \node[box, text width=3.3cm, right=of b] (c) {\textbf{take logs}: product becomes a sum};
+  \node[box, text width=3.3cm, right=of c] (d) {\textbf{change sign}: cross entropy\\(minimise)};
+  \draw[arrow] (a) -- (b); \draw[arrow] (b) -- (c); \draw[arrow] (c) -- (d);
+  \node[note, below=0.25cm of a, text width=3.3cm] {0.7, 0.4, 0.4, 0.8};
+  \node[note, below=0.25cm of b, text width=3.3cm] {$0.7 \times 0.4 \times 0.4 \times 0.8 = 0.090$};
+  \node[note, below=0.25cm of c, text width=3.3cm] {$\log 0.7 + \log 0.4 + \dots = -2.41$};
+  \node[note, below=0.25cm of d, text width=3.3cm, text=cred] {$2.41$};
+\end{tikzpicture}
+\end{document}
