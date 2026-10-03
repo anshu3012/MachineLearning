@@ -92,6 +92,7 @@ notes:
   73: 73-log-loss
   74: 74-sigmoid-derivative
   75: 75-logistic-gradient-descent
+  76: 76-accuracy-confusion-matrix
 
 concepts:
   # 0 Foundations
@@ -243,7 +244,7 @@ concepts:
   - {id: bias_variance, name: Bias-variance trade-off, step: 9, videos: [62, 109], status: confirmed}
   - {id: accuracy, name: Accuracy, step: 9, videos: [13, 76], status: confirmed}
   - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: confirmed}
-  - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: draft}
+  - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: confirmed}
   - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: draft}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: draft}
   - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 112], status: draft}
@@ -512,7 +513,8 @@ links:
   - [polynomial_regression, used in, bias_variance, confirmed]
   - [accuracy, needs, train_test_split, confirmed]
   - [accuracy, used in, classification_task, confirmed]
-  - [confusion_matrix, needs, accuracy, draft]
+  - [confusion_matrix, compared with, accuracy, confirmed]
+  - [imbalanced_data, used in, confusion_matrix, confirmed]
   - [precision_recall, needs, confusion_matrix, draft]
   - [roc, needs, confusion_matrix, draft]
   - [precision_recall, fixes, imbalanced_data, draft]
