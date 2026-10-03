@@ -1,0 +1,1595 @@
+[00:10] Hi guys, good evening. How are you all? I hope I'm audible. We'll start in 2-3 minutes.
+[00:30] Till then, whoever is there, live, if you have any questions, you can ask.
+[01:09] Sir, till when will this be completed? There is a placement in August.
+[01:13] We'll try to finish it by July. All the syllabus.
+[01:22] Sir, because of 4 years gap, negativity is spreading in my mind.
+[01:25] Can you change anything about it? If you can't, don't think about it.
+[01:32] I have seen people with more gap than you taking placements.
+[01:37] Do you really feel that you have a gap of 4 years and now you are good for nothing?
+[01:43] Whatever you believe will happen in your life. So please don't believe in that.
+[01:49] Please take one session on Power BI.
+[01:53] Yes, we will take more sessions than that. I am planning something different on Power BI.
+[01:57] It will be different from this course. But it is the plan of Power BI.
+[02:01] Yes, so what happened yesterday, sir? So, guys,
+[02:05] first of all, sorry. This class which is happening today, it was supposed to happen yesterday.
+[02:09] You must know in the schedule. But what happened is that
+[02:13] our today's topic, confidence interval,
+[02:17] So today you will understand after reading it. It is a bit conceptual.
+[02:21] So I was not getting that much confidence
+[02:23] that whether I will be able to read it properly or not.
+[02:26] So I was actually making some visualization tools
+[02:29] which I wanted to bring in front of you.
+[02:31] In fact, let me show you right now.
+[02:33] I have made three visualization tools.
+[02:35] This is one of them. This is the second one.
+[02:37] And this is the third one.
+[02:39] So what did I do yesterday?
+[02:41] Yesterday I spent all my time in making these tools.
+[02:45] Because I thought that if I bring these tools in front of you, then I will be able to explain the class in a better way.
+[02:53] So basically, I could have taken the class yesterday as well.
+[02:55] I just thought that to teach better, to make these tools, let's shift the class one day.
+[03:02] So that's the reason. Really sorry, I couldn't take the class yesterday.
+[03:05] Needed more practice on SQL. How should I practice?
+[03:11] Take datasets, take case studies and solve questions on them.
+[03:16] So, let's start today's class.
+[03:24] I'll pop out the chat so that it stays around.
+[03:38] And now let's move on to OneNote.
+[03:43] So guys, let me tell you that today's class is a bit conceptual.
+[03:50] It's not difficult.
+[03:52] It's a bit conceptual.
+[03:53] You won't find some things.
+[03:55] But at the same time it is interesting, so if you look carefully and understand it, then you will understand it.
+[04:03] Second, it is important. Confidence interval is a topic which you will not only see ahead in machine learning and data science,
+[04:11] but you can also be asked questions on it when you are giving an interview.
+[04:15] So you have to be careful.
+[04:17] I will try from my side that I will try to teach today's whole class like a story
+[04:23] where I will give you the reason for why every next step happened.
+[04:27] So I will try to make it easier but I am giving you a heads up that it may seem a little difficult.
+[04:35] So let's start the class.
+[04:39] So before starting today's class, the topic is Confidence Interval.
+[04:44] Before that, we need some revision.
+[04:47] We had read some terms in the first class of statistics.
+[04:52] We had discussed some terms in that.
+[04:54] I want to discuss those terms once again because
+[04:57] we are going to use them a lot in today's class.
+[05:01] The first concept that we had read in the first class was
+[05:06] population versus sample.
+[05:08] So you already know that in statistics basically you do two things
+[05:14] The first thing is that you have a data, you do some analysis about it, give some description, give some summary
+[05:22] And this branch of statistics is called descriptive statistics
+[05:27] Then there is a second branch of statistics where what you do is that on the basis of the data you have
+[05:33] you do some inference or prediction
+[05:36] which we call Inferential Statistic
+[05:39] the most important concept in inferential statistics is
+[05:42] population and sample
+[05:45] what you want to study
+[05:48] let's say in Delhi University
+[05:51] what is the height of all male students
+[05:54] average height, this is your study
+[05:57] so in this study
+[06:00] When your people come, everyone, you call it population.
+[06:06] So, every person from Delhi University will come into your study.
+[06:11] So, that will be population.
+[06:13] But at the same time, it is not possible to study the whole population.
+[06:18] So, generally, what statisticians do is they draw samples from their population.
+[06:24] They select randomly so that the study can be done on that small number.
+[06:29] So let's say I have a problem in reaching every person in Delhi University
+[06:35] So instead what I will do is that I will randomly pick up 100 people
+[06:40] And I will calculate the average of their height
+[06:43] So this group of 100 people is called a sample
+[06:48] So in statistics, the simple thing is that population means everyone
+[06:53] About whom you want to study
+[06:55] and from this population you create a small sample
+[07:01] this is the population and this is the sample
+[07:04] and to create the sample you have to take care of two things
+[07:07] first it should be random and second it should be representative
+[07:14] which basically means that there are people representing all the places
+[07:20] so if I want to get the average salary of India and I want to draw a sample
+[07:24] I will bring a person of every state so that there is representation of every state.
+[07:29] I hope you know this concept. We took this kind of revision.
+[07:33] Then we read one more concept. I don't know if you remember this or not.
+[07:37] What is parameter and what is estimate? Look carefully.
+[07:42] So a parameter is a numerical value that describes a characteristic of a population.
+[07:49] Suppose you have a whole population and you want to find out its mean, standard deviation, variance and proportion then you will collectively call these as parameters.
+[08:08] The simple thing is that when you take all these quantities out for population, then it will be called a parameter.
+[08:16] It is written here that parameters are usually denoted using Greek letters and that is why you represent mean with mu and standard deviation with sigma.
+[08:28] what is written further
+[08:30] since it is often difficult
+[08:32] or impossible to obtain
+[08:34] data from an entire population
+[08:36] parameters are usually unknown
+[08:38] this is very important
+[08:40] generally you don't have the value of parameters
+[08:42] you have to find it out
+[08:44] and must be estimated based on available
+[08:46] sample data
+[08:48] I hope you understood the parameter
+[08:50] this estimate
+[08:52] by the way you also call it statistics
+[08:54] this is a little confusing
+[08:56] It is very confusing that the name of this whole subject is also statistics and there is a term called statistic in it.
+[09:03] What is a statistic? A statistic is a numerical value that describes a characteristic of a sample.
+[09:10] In simple words, if you have a sample and you are taking out anything from that sample,
+[09:18] let's say you are taking out its mean or standard deviation or variance
+[09:23] then you call any quantity as statistic
+[09:28] I hope you are able to understand
+[09:32] any measure related to population is called as parameter
+[09:37] and any measure related to sample is called as statistic
+[09:42] So, researchers can make inferences about the unknown respective parameter by using statistics calculated from a representative sample.
+[09:53] So, if you denote them as x bar or s, then if you have x bar, then you will try to estimate mu from it.
+[10:03] This is written here.
+[10:05] So, this was the second topic.
+[10:07] I have given you a revision.
+[10:09] And third is inferential statistics. You got to know about this.
+[10:13] Inferential statistics solves a very big problem that you use a small sample
+[10:20] and make inferences and predictions about your population.
+[10:28] And whenever you do this work in statistics, it is a part of inferential statistics.
+[10:33] In fact, our today's topic confidence interval is a very important part of inferential statistics.
+[10:40] Inferential statistical techniques include hypothesis testing, confidence interval, regression analysis, linear regression, etc.
+[10:59] So here you try to answer these kinds of questions
+[11:04] Is there a significant difference between two groups?
+[11:07] You are studying two groups and you want to know if there is any difference between them or not
+[11:12] Can we predict the outcome of a variable based on the values of other variables?
+[11:16] Can I calculate the population mean from the sample mean?
+[11:20] What is the relationship between two or more variables?
+[11:23] when you start doing inferences in the correlations etc that also comes under inferential statistics
+[11:30] I hope you understood this small revision
+[11:35] we discussed three important things population vs sample
+[11:40] today we will use these terms many times parameter vs statistic and inferential statistics
+[11:45] from here we will start today's class
+[11:50] The first class will start with a small topic named Point Estimate.
+[11:57] Again something that you already know but you didn't know the name.
+[12:01] So I will tell you what is Point Estimate.
+[12:04] So a Point Estimate is a single value. This is a very important thing.
+[12:08] Point Estimate means that it is a single value.
+[12:11] Calculated from a sample that serves as the best guess or approximation for an unknown population parameter.
+[12:21] I will tell you in simple words.
+[12:24] Let's say all my subscribers are 77000.
+[12:36] I have to find the average age of all of them.
+[12:41] It is very difficult.
+[12:44] Because people are in India and other countries too.
+[12:47] So I can't contact them.
+[12:49] So what I did was I took a live class like I am taking right now
+[12:54] And in this live class let's say 100 people came
+[12:57] So I said that I can't go to 77000 people
+[13:01] What I can do is I can go to my 100 people and I will ask them to type their age in the chat
+[13:06] Everyone typed their age in the chat and I collected it
+[13:10] And I calculated x bar from it which is my sample mean
+[13:15] Let's say the sample mean is 28 years. We will call this 28 as point estimate.
+[13:25] At this time, the best approximation of the average age of my 77000 subscribers is this number.
+[13:36] That's why we call it point estimate.
+[13:39] A point estimate is a single value, it will always be a single value and by the way it is not that it can be only mean
+[13:46] I can take out standard deviation, I can take out variance, I can take out any other measure
+[13:52] Generally it is about mean
+[13:54] A point estimate is a single value calculated from a sample that serves as the best guess or approximation for an unknown population parameter
+[14:03] In our case, the average age of 77000 people
+[14:06] such as mean or standard deviation. Point estimates are often used in statistics when we want to make inferences
+[14:13] about a population based on a sample, which is our use case.
+[14:17] Now, sometimes you can make your point estimate stronger.
+[14:23] Like what I can do is, rather than just having one live class,
+[14:31] What if I take 10 live classes, 10 live classes on different subjects, today's class on statistics, tomorrow's class on machine learning, day after tomorrow's class on Power BI, 10 different topics
+[14:45] and there are 100 students in every class
+[14:48] so obviously students will come separately or they can be repeated
+[14:51] whatever it is, I will calculate the average mean for all my 10 classes
+[14:58] so I will take out x1, x2, x3, x10
+[15:03] so basically I have 10 sample means
+[15:07] now what I can do is that I will take out the average of these 10
+[15:11] so basically I am taking out the mean of this too
+[15:15] So this becomes a more accurate estimate but still it is a point estimate.
+[15:22] This is basically the central limit theorem if you are able to understand this.
+[15:26] So the simple thing is that by using the sample you get a single number
+[15:33] by which you can say something about your population.
+[15:38] That single number is called point estimate.
+[15:41] I guess you understood this simple thing.
+[15:44] If you understood this then now we are ready to start our class
+[15:48] And today's topic of our class is Confidence Interval
+[15:53] If you have any doubt then let me know
+[15:57] I am opening the chat
+[16:01] If you understood this then write clear
+[16:04] Let me know guys, just write clear and we will move forward to our next topic
+[16:18] ML will be from 15th April
+[16:24] I will release the schedule tomorrow or day after tomorrow of April.
+[16:29] Braj Bhushan point estimate is a simple thing.
+[16:34] If you have a sample, if you are taking out the sample mean of that sample,
+[16:38] then that can act as a point estimate. That's it.
+[16:43] Let's move ahead guys.
+[16:50] Now what if I ask you a simple question.
+[16:55] That I took out this point estimate which is 28.
+[16:59] that the average age of all my YouTube subscribers is 28.
+[17:08] Do you think it is reliable?
+[17:11] My simple question is that is it reliable?
+[17:16] The answer is no, it is not reliable.
+[17:20] I can prove it to you with a simple common sense intuition.
+[17:24] Now suppose I play a simple game with you
+[17:30] Where I will tell you that tell me in today's match how many runs will MS Dhoni make?
+[17:37] And I will give you three options.
+[17:39] I will tell you that if you tell the exact score like you said 25
+[17:45] And Dhoni really scored 25 runs exactly
+[17:49] Then I am giving you let's say 1000 rupees.
+[17:53] Second option is that you tell me plus or minus 10. If it is correct then also I will give you 750 rupees.
+[18:05] And third option is that you tell me plus or minus 20. If it is correct then also I will give you 500 rupees.
+[18:14] This plus or minus 10 means that you said you will make 35 and Dhoni made 28.
+[18:21] Since this difference is 7 then it is in the range of plus minus 10
+[18:25] Now honestly think about it
+[18:29] Now this money is a little less so maybe you will say that I want to bet on 1000 rupees
+[18:33] Just make it a little bigger, make it in crores
+[18:36] This became 1 crore
+[18:38] This became 75 lakhs
+[18:41] And this became 50 lakhs
+[18:43] Now think about it yourself
+[18:45] Which one would you choose?
+[18:48] Any intelligent person most likely will take this one or this one.
+[18:53] He won't go after this because he knows that exactly what you are saying is the same.
+[18:59] That is like very very less probable.
+[19:03] It can't happen or I don't know, it can happen 1 in a million times.
+[19:07] But this is a little more easy.
+[19:09] This is also more easy than that.
+[19:11] So what is the benefit of studying for 1 crore?
+[19:14] Let's go for 75 lakhs or 50 lakhs.
+[19:17] So basically what I am trying to say is that the point estimates that we have just read, they are not reliable.
+[19:26] Because how can you say that I will calculate the average age of 100 children and tell you exactly how much is the average age of 77000 people.
+[19:34] It is not at all logical.
+[19:36] So that is why statisticians said that rather than just telling the point estimate, what if we tell a range together.
+[19:46] And that range will cover the possible values in which that population parameter can exist.
+[19:57] So this range is called confidence interval.
+[20:03] And this is our today's topic.
+[20:06] In today's class, we will first learn what is confidence interval and then we will learn to calculate it.
+[20:15] That's the goal of today's class.
+[20:17] class. So if we talk a little more formally with you that what is confidence interval.
+[20:23] Here the definition is written. In simple words confidence interval is a range of values
+[20:29] within which we expect a particular population parameter. It could be mu or it could be sigma
+[20:36] anything. But we want it to be in that range. It's a way to express the uncertainty around
+[20:44] an estimate obtained from a sample of data like you have a sample mean, you want to get this out of it.
+[20:50] If you can't get it out exactly, the point estimate is not reliable, then what we will do is we will try to create a range
+[20:56] and we will hope that our population parameter falls in this range at least.
+[21:03] So statisticians do this, this is called confidence interval. Now whenever we talk about confidence interval,
+[21:10] then another topic is discussed and that is called confidence level.
+[21:15] So whenever you talk about confidence interval like you said that my subscribers age is between 25-32.
+[21:24] Let's say you said this, this was the confidence interval.
+[21:27] So always with confidence interval there is one more thing and that is confidence level.
+[21:33] Usually expressed as a percentage like 95% indicates how sure we are that the true value lies within the interval.
+[21:43] So I will say that the average age of my YouTube subscribers is between 25-32 and I am 95% confident about this.
+[21:53] So what you are seeing here is called confidence interval and the percentage you are seeing here is called confidence level.
+[22:04] Our goal of today's class is to learn to calculate confidence interval and within this confidence level.
+[22:14] We have to do these two things in today's class.
+[22:16] If you want to know the formula of confidence interval, you first calculate the point estimate
+[22:25] and then you calculate the margin of error. I will tell you how to calculate the margin of error
+[22:33] and in between you add plus and minus. So basically you have to calculate three things.
+[22:39] Actually you have to calculate two things. First you have to calculate the point estimate
+[22:42] which you kind of know and second you have to find margin of error
+[22:47] if these two things come let's say your point estimate was 25 and your margin
+[22:52] of error was 4 then your confidence level will be 25 plus
+[22:57] minus 4 which means lower bound will be 25 minus 4 is 21
+[23:02] and 25 plus 4 is 29 so your confidence interval is this
+[23:07] And then you have to tell how many percent confident you are.
+[23:12] What is your confidence level? Let's say you said 95% confident human.
+[23:16] Which is a standard confidence level.
+[23:19] We will talk about all these things.
+[23:21] Just now I want to tell you what all happens.
+[23:25] Now there are two ways, actually there are multiple ways to calculate confidence interval.
+[23:30] We are going to learn two ways in today's class.
+[23:33] So the first method is called Z procedure and you generally apply this when you have the standard deviation of the population.
+[23:52] Z procedure will be applied when you have the standard deviation of the population, basically sigma.
+[24:00] And then there is another procedure which is called T-procedure and this is applied when you don't have standard deviation of population.
+[24:13] So generally you will have this scenario because generally you don't have things related to population.
+[24:20] Now what do I know that in my 77000 subscribers what is the standard deviation of their age.
+[24:27] I don't know. So generally this is the case. But you have to study from here. You have to learn Z procedure first because it will be your theoretical base.
+[24:35] And then we will learn how to apply T procedure. So what we have to do in today's class, I will tell you.
+[24:42] First we have to learn the Z procedure to calculate confidence interval. Then we have to learn the T procedure to calculate confidence interval.
+[24:51] And in the end I will show you a small case study on how you apply all these theoretical concepts on a data set.
+[25:00] That's the plan for today's class.
+[25:02] You have to remember one more thing here.
+[25:07] Confidence interval is created for parameters and not for statistics.
+[25:13] Always remember that whenever you create a confidence interval, it is always in terms of population.
+[25:19] It doesn't happen in the terms of sample.
+[25:21] Statistics help us to get the confidence interval for a parameter.
+[25:26] We take it out with the help of sample.
+[25:29] If you want to know where confidence interval is used.
+[25:32] It is used in many places.
+[25:34] In companies, in business, in finance, in economics.
+[25:38] It is always talked through confidence interval.
+[25:40] No one tells you that this year's sales target was this.
+[25:46] So our projection is this.
+[25:48] We don't talk about exact things. We talk about confidence interval only.
+[25:52] But if you talk about our journey, we have already seen confidence interval in some places.
+[25:59] So if you remember when we were studying CBON, which is our graphing library, plotting library.
+[26:05] There we learnt to make bar chart.
+[26:08] It is called bar chart or bar plot.
+[26:10] So there we plotted the graph of Titanic.
+[26:15] So when this bar chart came, where at x-axis is 1st, 2nd and 3rd class and at y-axis is fair average.
+[26:23] So when you were taking out the average fair, there were these black colored bars which are called error bars in CBON.
+[26:31] But what are these actually? These are confidence intervals.
+[26:35] So basically when you are going to take out the average fair, then you are actually calculating a confidence interval too.
+[26:44] that it is not exactly this, it is a sample, but it can be of this much range of population.
+[26:52] Same with this one. Okay? In fact, when you will plot other graphs using seaborn,
+[26:58] like such plots where you are working on time series based data or making regression plots,
+[27:05] then also you will see a confidence interval like this. Okay?
+[27:11] So if you understood today's class, then you will understand the logic behind all this.
+[27:16] So till now I have explained you what we are going to do.
+[27:21] I really hope you understood what is confidence interval.
+[27:25] Now our next goal is to learn the Z procedure to calculate confidence interval.
+[27:31] And then we will move on to T procedure. This is our goal of today's class.
+[27:36] So I am opening the chart once. If anyone has any doubt, you can ask.
+[27:43] If you don't have any doubt then please write it clearly.
+[27:57] Longer interval implies higher confidence level?
+[28:07] No, we will discuss that later.
+[28:11] Let's start our discussion
+[28:15] around the first procedure
+[28:19] which we call as Z procedure.
+[28:26] In some places it is also called as Sigma known.
+[28:30] name is sigma known which basically means that you have population standard deviation
+[28:37] is available. Generally it is not like this. Generally you don't have population parameters
+[28:45] but let's say if you have then you will apply Z procedure. Now how to apply Z procedure
+[28:54] First you have to know that what are the assumptions without which you can't apply the Z procedure.
+[29:04] So here three assumptions are written. If these three assumptions are true then only you can apply the Z procedure otherwise you can't apply the Z procedure.
+[29:15] So first of all, when you are creating samples from your population
+[29:23] which you always do in inferential statistics, you work on the samples
+[29:28] then the samples you have made, they should be random.
+[29:33] This is the first assumption.
+[29:36] It should not happen that let's say I want to create a sample of my subscribers
+[29:43] and I only picked up people from India in the sample
+[29:47] now that would be wrong
+[29:48] then the result of Z procedure will not be correct
+[29:51] it's a simple thing
+[29:52] okay
+[29:53] second
+[29:54] which is already known
+[29:55] that you should have a standard deviation of your population
+[30:00] this means that I should know the standard deviation of the age of the whole subscribers of my YouTube channel
+[30:11] which is impossible by the way
+[30:13] but it should be known. Let's say it is known.
+[30:16] So this is the second reason, second assumption.
+[30:19] And the third assumption is that
+[30:22] the population
+[30:25] distribution
+[30:28] should be normal.
+[30:33] It is written that
+[30:38] Z procedure assumes that the underlying population
+[30:41] is normally distributed. So basically
+[30:44] There are 77000 subscribers.
+[30:47] When I will take the age of all of them
+[30:50] and I will plot it
+[30:53] it should be normal distribution.
+[30:56] But, this rule
+[30:59] has an exception and that is a very very
+[31:02] strong exception. See what is written here.
+[31:05] However, if the population distribution
+[31:08] is not normal. Let's say population distribution
+[31:11] It may be that there is a peak in 26, then there is a peak in 32 and then there is a peak in 44.
+[31:19] Let's say. So this is definitely not normal.
+[31:22] So see what is written here. However, if the population distribution is not normal,
+[31:26] the central limit theorem can be applied when the sample size is large.
+[31:31] Usually sample size greater than n, greater than 30.
+[31:36] According to the central limit theorem, the sampling distribution of the sample mean will approach a normal distribution as the sample size increases
+[31:43] regardless of the shape of the population distribution. So in simple words,
+[31:47] if let's say it is not normally distributed,
+[31:50] then you can apply the
+[31:52] central limit theorem and
+[31:54] the sampling distribution that you will make, basically you will take multiple samples,
+[31:59] you will get the mean of every sample
+[32:01] so the distribution of all the means
+[32:03] if you have taken sample size
+[32:05] greater than 30, then it will be
+[32:07] normally distributed, you can
+[32:09] work with that too, so this one
+[32:11] is not a strong assumption
+[32:13] it will kick in only
+[32:15] when your sample size
+[32:19] is less than 30
+[32:21] so basically what I am trying to say is
+[32:23] that your population distribution
+[32:25] is not normal
+[32:27] and let's say you took sample size 20
+[32:29] then you can't apply Z procedure because neither your distribution is normally distributed
+[32:36] nor you can apply central limit theorem because your sample size is less than 20-30
+[32:41] so in this case the Z procedure thing doesn't work
+[32:46] so I hope you understood the assumptions
+[32:49] now let's start from here that what we have to do
+[32:54] so let's take the same example from YouTube
+[32:57] So what we have to do is, once I am setting the problem statement so that the concept can be understood.
+[33:03] What we have to do is, once again I am telling the problem statement that we have a YouTube channel
+[33:08] whose name is CampusX and in today's rate there are 77000 subscribers in CampusX.
+[33:15] And we have to predict the average age of our YouTube subscribers like the whole population.
+[33:26] and if you are doing prediction then it will not work with a single number
+[33:31] so what we need is a point estimate let's say 28
+[33:36] and we need a confidence interval let's say 4
+[33:41] and 14 so basically we have to answer like this
+[33:46] 16 to 42 this is our confidence interval
+[33:51] We have to calculate this type of confidence interval for our channel.
+[33:59] Also, we have already been told that your confidence level to predict this interval should be 95%.
+[34:12] Why 95%? Because generally 95% is the optimum confidence level.
+[34:19] Now you will come to know further. But you can take 90, 70 or 50 also.
+[34:26] But this is given in the question. This is what the company has told you.
+[34:30] Your manager has told you that when you calculate the confidence interval,
+[34:34] then do it at this confidence level, at 95%.
+[34:38] So from here our work starts that how we will reach this number.
+[34:43] That is our goal. I hope you understood the problem statement.
+[34:47] So now what I am going to do is, I am going to tell you the formula directly.
+[34:54] I will directly tell you the formula to calculate confidence interval using Z procedure.
+[35:04] After looking at that formula, first of all you will have some confusion in your mind.
+[35:11] It may look a little weird.
+[35:13] But I am writing the formula.
+[35:15] And once I write the formula,
+[35:17] then I will give you an intuition
+[35:19] that how that formula came.
+[35:21] So listen carefully.
+[35:23] To calculate confidence interval
+[35:25] using Z procedure,
+[35:27] the formula is this.
+[35:29] First of all, you
+[35:31] calculate the point estimate.
+[35:35] You calculate the point estimate.
+[35:37] Obviously, these three
+[35:39] Assumptions should be correct, so for some time we assumed that the sampling we did, the live class we took,
+[35:45] people randomly came in it, people from different states and different countries, second, we have standard deviation,
+[35:52] assume we have our population standard deviation, and that is let's say 15, this is the population standard deviation,
+[36:02] We know this. And third, let's assume that all our subscribers' age PDFs are normally distributed.
+[36:13] Let's assume that all three assumptions are true.
+[36:15] So how will you get the confidence interval by using the Z procedure?
+[36:19] First of all, you will find out a point estimate.
+[36:22] Plus minus Z alpha by 2 multiplied by sigma divided by root over of n.
+[36:34] This is the formula.
+[36:36] This is the formula for confidence interval.
+[36:38] Okay.
+[36:40] Now, I will tell you what are the different things that are being represented here.
+[36:44] Point estimate, we got to know.
+[36:46] I took a class of 100 people.
+[36:47] the average age of those 100 children
+[36:49] basically x bar
+[36:51] ok, in fact I
+[36:53] write it as x bar
+[36:55] I am calling it sample mean
+[36:57] ok
+[36:59] plus minus
+[37:01] z alpha by 2
+[37:03] now this is a question mark
+[37:05] that what does z represent
+[37:07] for now I didn't tell you
+[37:09] I will tell you what alpha is
+[37:11] so what is alpha
+[37:13] forget it
+[37:15] Keep in mind that 1-alpha is your confidence level.
+[37:26] So, what we were told? 95% confidence level.
+[37:29] So, you can say that 1-alpha is 95%.
+[37:34] You can say that.
+[37:36] Next is what is sigma?
+[37:40] This is your standard deviation of population.
+[37:44] What is n?
+[37:45] n is your sample size
+[37:47] in our case
+[37:49] it is 100
+[37:51] why? because we took live class of 100 students
+[37:53] and we got their age
+[37:55] so this is the formula
+[37:57] let me write it again
+[37:59] if it is not clear
+[38:01] so this is the formula
+[38:03] this is the formula
+[38:05] to calculate
+[38:07] ci
+[38:09] with a given
+[38:11] 1-alpha
+[38:13] confidence level, CI formula is point estimate which is your sample mean plus minus Z which
+[38:20] we don't know what is alpha by 2 sigma root over of n. This is the formula. Now see you
+[38:29] have X bar, you have sigma, you have n but you don't have this quantity. What is this
+[38:38] quantity. This quantity is not there. Even if you get this quantity, then you have everything to get
+[38:45] confidence interval and you will get it quickly. But the problem is that we are not able to understand
+[38:52] two things. First, what is this Z representing? Second, how did we reach this formula? These two
+[39:00] questions are in front of us. We have been given a formula but in this formula, we are not able to
+[39:05] first thing we still don't understand what is z representing
+[39:08] and second thing we don't understand is how this formula came
+[39:11] what is its intuition
+[39:14] so we will answer both the questions
+[39:17] so first I will tell you
+[39:20] what is the intuition behind this formula
+[39:23] how this formula came, what is the logic
+[39:26] we will not derive it completely, I will explain you a little logic
+[39:29] and second I will tell you what is z alpha by 2
+[39:32] what is 2 and how to calculate it.
+[39:36] I hope you understand till here.
+[39:39] If everything is clear till this point then let me tell you guys.
+[39:42] Till then let me drink some water.
+[39:52] Rahul, point estimate plus minus margin of error is confidence interval.
+[40:00] When you add or subtract margin of error, then you get confidence interval.
+[40:08] Let's move ahead.
+[40:11] Now I will
+[40:13] I will give you an intuition that from where this formula came, the next 10 minutes may be a little difficult, it may also seem easy, it really depends on how much you are attentive right now, let's start from scratch
+[40:30] So, we need a formula to calculate the confidence interval.
+[40:39] Now, let's start from the beginning.
+[40:42] First of all, we need a point estimate.
+[40:45] We need a point estimate.
+[40:48] Basically, X bar.
+[40:50] So, I said, what is the best way to get a point estimate?
+[40:55] I will put a central limit theorem.
+[40:57] I have to find out about 77000 people
+[41:02] I will take 10 live classes
+[41:07] In every live class I will call 100 people
+[41:12] In every live class I will call 50 people and then I will ask their age
+[41:17] And I will calculate the average age of every live class
+[41:22] If I calculate their average then I will get a very good point estimate.
+[41:27] So basically what I did is that I took these 10 classes.
+[41:31] From the first class I got x bar 1.
+[41:34] From the second class I got x bar 2.
+[41:36] And by doing this I got x bar 10.
+[41:40] By the way we call this sampling distribution.
+[41:44] You might know this from the last class.
+[41:47] This is called sampling distribution of sample mean.
+[41:51] If you remember the last class then since we took sample size of 50 in every class
+[42:00] then these 10 numbers, 10 means will be actually normally distributed.
+[42:11] You might remember this.
+[42:14] And if you remember the central limit theorem then you might remember that the mean of this distribution will be very close to the mean of the population and the standard deviation would be very close to the standard deviation of the population root over of n.
+[42:37] I guess you might remember all this from the last class.
+[42:40] Now, what if I convert this normal distribution to standard normal variate.
+[42:50] Standard normal variate is a normal distribution whose mean is 0 and standard deviation is 1.
+[42:57] And you know that to convert any normal distribution to standard normal variate,
+[43:04] So basically you pick that variable, X bar, X1, X2, X3, X10, anything can be.
+[43:12] You pick that variable, subtract mean from it and divide it by standard deviation.
+[43:20] And this becomes your, now this Z, this was the PDF of X, how will be the PDF of Z?
+[43:32] The PDF of Z will also be normally distributed but the change will be that the mean will be 0 and the standard deviation will be 1.
+[43:41] I hope you understood.
+[43:43] So basically what I did is that I converted my normally distributed X bar into standard normal variate.
+[43:55] You must have understood till here.
+[43:57] Now what I am being told is that I need a range of Z values because confidence interval means I need a range of values.
+[44:08] Earlier what I wanted was a range of X bar but X bar is now converted into Z.
+[44:13] So now I need a range of Z values where I am 95% or 1-alpha times or 1-alpha% sure that Z will fall in the same interval.
+[44:30] This is the meaning of this. I have to create a range here
+[44:37] in which there is a 95% probability of Z coming.
+[44:46] Right. So in a way I can say that I have to create an area here
+[44:53] whose area is 1 minus alpha. Because what is 1 minus alpha? 95%.
+[44:59] So by definition if this is 1 minus alpha then since our graph is symmetrical then on both the sides of these points here will be alpha by 2 area and here also will be alpha by 2 area.
+[45:14] So if you think, this Z value, this is Z axis, so what is this Z value representing?
+[45:23] Z alpha by 2 and what is this representing? Z minus Z alpha by 2.
+[45:31] So basically what we mean to say is that this value of Z where alpha by 2 will come
+[45:38] and this Z value where alpha by 2 will come, in between this, 1 minus alpha is the probability that Z will lie.
+[45:51] 1 minus alpha means 95% probability that Z will lie.
+[45:55] Or in simple words, 95% probability.
+[45:58] So minus Z, how much is alpha?
+[46:02] If 1 minus alpha is 95, then alpha is 5.
+[46:05] So basically you are saying that Z is 2.5 and Z is positive 2.5.
+[46:13] In between this, if Z lies, its probability is 95%.
+[46:19] This is our meaning.
+[46:21] Okay.
+[46:22] So, I guess you must be able to understand a little bit.
+[46:25] When I had written that the formula of confidence interval is
+[46:28] point estimate plus minus z alpha by 2 this
+[46:37] so in that you might be getting a little intuition that from where is this coming
+[46:41] ok these are z values now we will take out whatever it is
+[46:45] till now we have not reached this formula till now we have only known that
+[46:49] if I take out both these z values
+[46:52] So in between this, 1-α% is the probability of lying of z, which is 95%.
+[47:01] Now look carefully, I am writing this well.
+[47:04] So I am writing this well.
+[47:06] What I mean to say is that probability of z lying between
+[47:14] minus zα by 2 and zα by 2 is 1-α.
+[47:21] By the way, you can always keep 1 minus alpha 95% in your mind, because it is the same.
+[47:26] Now if you remember, how we calculated z above, x bar minus mu, if I replace it, then I can actually write
+[47:34] that probability of minus z alpha by 2 less than, instead of z, I can write x bar minus mu.
+[47:43] I hope you understand till here.
+[47:55] Now what if I do a little shifting.
+[47:57] I have to work on this mu. Eventually I have to put confidence interval on mu.
+[48:04] So what if I do some shifting. Don't you think this will become something like this.
+[48:08] Minus z alpha by 2 multiplied by this x bar minus mu z alpha by 2 times.
+[48:20] This probability will be 1 minus alpha.
+[48:26] Now what if I move x bar also, so this will become probability of
+[48:33] minus x bar minus z alpha by 2 less than minus mu
+[48:44] minus x bar plus z alpha by 2 is equal to 1 minus alpha
+[48:53] Now because of minus sign will be reversed.
+[48:56] So this will become x bar minus z alpha by 2 less than mu less than x bar plus z alpha by 2 root over of n equal to 1 minus alpha.
+[49:20] If we read it, then what comes out is that the probability of mu being between this range and this range is this much, 95%.
+[49:42] But actually this statement is wrong. Why is it wrong?
+[49:45] Because mu is a fixed thing.
+[49:49] Think about it, all the 77,000 subscribers of my YouTube channel,
+[49:54] their age's mean is a fixed quantity.
+[49:57] It is not going to vary.
+[49:59] This is a fixed quantity.
+[50:01] But why is this range coming?
+[50:04] Because we want to calculate on the basis of this thing.
+[50:08] On the basis of x bar.
+[50:10] And what is x bar?
+[50:11] x bar is sample mean.
+[50:15] X bar is the sample mean.
+[50:17] Basically, who knows which 100 people will come in my next live class?
+[50:21] What will be their age?
+[50:23] Right, I don't know.
+[50:24] So basically, this range, this variability, this variance is because of this thing.
+[50:29] Not because of this thing.
+[50:31] So that is why you can't call it probability.
+[50:35] You can't say that the probability of mu being in this range is this much.
+[50:41] Instead, you will say that when I will predict the mean, infer it, then its confidence in this range is this much.
+[50:55] And that is why when you take out the confidence interval, its formula is this that your mu will be
+[51:02] x bar plus minus z alpha by 2 sigma root over of n
+[51:12] This is exactly the same thing, plus minus both came, this is minus and this is plus
+[51:15] And the confidence level of this to happen is 1 minus alpha
+[51:25] So if you assume 1 minus alpha for some time, 95%
+[51:31] So basically what is the 95% confidence interval of mu in this range, you will write it like this.
+[51:39] Plus minus z of 2.5 root over of n.
+[51:46] That is how you will write it.
+[51:48] Okay, I hope you are able to understand.
+[51:51] Also you will not write 2.5, it is 95 so it is 0.95.
+[51:56] 0.95 is 1 minus alpha, so alpha is 0.50 divided by 2, 0.250, this should be 0.250, okay.
+[52:17] So now if you remember, we decided that we will take the intuition of this formula,
+[52:24] that where did this formula come from
+[52:27] and once we get the intuition
+[52:30] that where did this formula come from
+[52:33] then I will tell you how to find the value of Zalpha by 2
+[52:36] or in our case how to find the value of Z0.250
+[52:39] so we had to prove two points
+[52:42] first is done, we will do the second
+[52:45] I am opening the chart once because it may be a little bit conceptually difficult
+[52:48] let me know if you
+[52:51] don't understand
+[52:57] 0.025, sorry, it will be 0.025
+[53:06] write it clearly once, if you understood till here
+[53:08] then we will move ahead
+[53:14] ok
+[53:16] let's go
+[53:18] so let's go guys, now I will teach you
+[53:21] that
+[53:22] if you see, then this value will come to us
+[53:26] by applying central limit theorem, this has been given to us
+[53:28] this is our sample size, we just have to remove this z
+[53:31] so removing z is actually very easy
+[53:34] see what you will do, if you remember
+[53:37] this is your graph
+[53:40] this is your mean
+[53:45] and you are told that 95% area is here
+[53:48] here is your 2.5% area
+[53:51] here is your 2.5% area
+[53:54] if you talk about probabilities
+[53:57] here is your 0.95 probability
+[54:00] here is your 0.025 probability
+[54:03] let's write it correctly
+[54:06] here your probability is 0.025
+[54:13] ok
+[54:14] so you know that you have learnt to see Z table
+[54:19] so according to Z table you always see area to the left
+[54:24] so if I want this Z value then basically I have to know this area
+[54:29] and what will be this area
+[54:32] 1 minus 0.025 which will be 0.975 if I am correct
+[54:41] or 950 whatever it is
+[54:44] basically you will minus 250
+[54:46] ok
+[54:46] so what we are doing we are going to z table
+[54:51] and we are just looking at that value whose corresponding
+[54:57] our area
+[54:58] 0.950 is coming
+[55:01] Just give me one second. Let's load it once.
+[55:05] What happened? It's not loading.
+[55:14] Let's see here. So if you pay attention
+[55:18] then 0.950
+[55:22] Look at this.
+[55:29] It's coming here. No. Just one second.
+[55:35] Why isn't it loading? What happened to this website?
+[55:42] We were using this only.
+[55:44] We will have to open byjuice unfortunately.
+[55:46] Hmm
+[55:49] So we want
+[55:53] positive
+[55:55] table
+[55:57] and we want
+[56:02] 0.
+[56:07] 0.9750
+[56:09] This will be it. In 1000
+[56:13] If you do 250 minus in 1000
+[56:15] then
+[56:20] what will I do? Just one second guys.
+[56:22] Just one second.
+[56:24] we are recalculating it
+[56:28] just one second
+[56:32] there is confusion in decimal subtraction
+[56:34] we are studying high level math
+[56:37] but there is problem in basics
+[56:39] whatever it is
+[56:42] here our point
+[56:45] is 95%
+[56:47] here point
+[56:51] 0.25%
+[56:54] and here also 0.025%
+[57:00] so you are being asked that how much area will be till here
+[57:04] so till here area will be 950
+[57:08] plus 025
+[57:12] so 0.9750
+[57:16] so this area you will be able to see here
+[57:20] here it is 9750
+[57:24] y axis is 1.9 and if you go up then it is 0.06
+[57:29] so basically this is a proven fact that according to this
+[57:34] z value will be 1.96 and by symmetry
+[57:39] we can say that this point will be minus 1.96
+[57:44] so basically 95% values will lie in this range
+[57:49] so now our formula will be if you want 95% confidence level
+[57:54] To calculate our mu, you just need x bar plus minus z alpha by 2, I would write 1.96
+[58:04] And I will multiply it with this thing
+[58:08] So if you have standard deviation, point estimate and your sample size
+[58:17] you can easily calculate your confidence interval with a confidence level of how much? 95%.
+[58:27] Now if someone says that not 95% but 75% confidence level, then what will you do?
+[58:37] It's very simple. You know that here in the middle, what will be the percent area? 0.75.
+[58:47] so by definition this side will be 0.125 and this side will be 0.125
+[58:56] and again you have to find this value and this value
+[59:00] so the area till here will be 0.75 and 0.875
+[59:07] so if you come here
+[59:09] here 0.87 is coming at this point
+[59:16] so your z value will be
+[59:19] in this case
+[59:21] 1.13
+[59:23] in this way, if you are given 50% confidence interval
+[59:26] or 99% confidence interval
+[59:30] you just have to see your z table
+[59:33] and you will get your z alpha by 2 value
+[59:36] and you will replace it here
+[59:39] And that's it. That's the Z procedure.
+[59:42] You don't need anything. You need your point estimate,
+[59:45] you need your population standard deviation,
+[59:48] you need your sample size,
+[59:50] and depending on the confidence level that you want,
+[59:53] 95%, 99%, 70%,
+[59:57] you just have to get the values from the Z table and put them here.
+[60:00] And as soon as you apply this formula, you will get a range.
+[60:04] and that range is called as confidence interval
+[60:10] and that's it guys
+[60:13] this is it
+[60:14] this is how to calculate confidence interval with Z procedure
+[60:18] let me know if you have any doubts
+[60:21] I am opening the chat
+[60:22] Sir how to decide confidence level
+[60:34] I will tell you in some time
+[60:36] how to decide confidence level
+[60:38] we will discuss this now
+[60:40] don't worry
+[60:42] till here if you understood
+[60:44] how to calculate confidence interval
+[60:46] from z procedure
+[60:48] for a given confidence level
+[60:50] just write clear
+[60:52] then we will move ahead
+[60:54] simply it is a formula
+[60:56] we spent so much time because
+[60:58] we were understanding the intuition behind the formula
+[61:00] and we were learning to find
+[61:02] the value of z alpha by 2
+[61:04] if we got these two things
+[61:06] then basically you have to apply a formula
+[61:08] if you have all the given things. That's it.
+[61:12] There is nothing more than this. But now things are interesting
+[61:16] where you can be asked some good questions like
+[61:20] why 95% confidence interval? Why not 99%?
+[61:24] Why not 75%? Or if standard deviation is increased
+[61:28] then what will be the difference on confidence interval? Or
+[61:32] what will be the difference on confidence interval by increasing or decreasing sample size?
+[61:36] These are some interesting questions that we are going to answer.
+[61:40] But before that, I want to make one thing very clear.
+[61:45] What exactly does confidence interval tell?
+[61:50] Many people are confused.
+[61:52] Some people say that, let's say my YouTube subscribers' confidence interval is 95%
+[62:02] interval came from 14 to 42. So some people say that what is this range? Someone asked
+[62:10] in the interview that if this is the confidence interval then tell me what is it saying? So
+[62:16] if you said that the average age of all the people on my channel is 14 to 42, then that
+[62:28] That is wrong. That is not a probability. I have already told you. It is not a probability because the mean, the population mean is a fixed quantity.
+[62:38] It is not varying. It is fixed. I am just trying to infer it. I am trying to estimate it with a confidence level.
+[62:48] So confidence level is not probability first of all. This is some people's misinterpretation.
+[62:53] It is absolutely important that you understand what is the meaning of confidence level.
+[62:59] I will explain you in simple words what is the meaning of confidence level.
+[63:03] Okay, watch carefully.
+[63:05] This is like super important.
+[63:07] It is more than the last 10 minutes and the next 5 minutes.
+[63:10] Listen carefully.
+[63:11] So, let's say my channel's 95% confidence level
+[63:18] Confidence interval about the population age came from 18 to 42.
+[63:28] What does this mean? This means, listen carefully, this is very very important.
+[63:35] So this means that if I make 100 random samples out of 77000 people
+[63:55] Let's say I went for the first time and randomly picked up 50 people
+[64:01] And I calculated their average age
+[64:08] I did this first time, then I did this second time, then I did this third time, I did this 100 times.
+[64:17] So I can be, I will be 95% sure, which basically means that out of these 100 times,
+[64:28] 95 times the average age that will come out will fall in this interval.
+[64:37] Listen again if you don't understand. It is a little confusing but if you listen carefully then you will understand.
+[64:44] Assume this was my confidence interval with 95% confidence level.
+[64:49] So what I mean to say is that if I take out 50-50 people 100 times randomly and calculate their average age.
+[64:58] if I calculate the average age
+[65:01] then 95% times
+[65:04] or near
+[65:07] the average age that will come
+[65:10] will fall under this interval
+[65:13] this is the meaning of this
+[65:16] and to show you this
+[65:19] I have made this visualization tool
+[65:22] just to give you this interpretation
+[65:25] our sample size is 50. My population mean is 50 and rather let's say 50 only, it doesn't
+[65:39] make any difference. And population standard deviation is known, 15. And how many simulations
+[65:46] have I done? How many I was doing here? 100 times. Here also I am doing 100 times. And
+[65:52] My confidence level is 95 and I have applied method Z with Sigma, I have applied Z procedure.
+[66:00] Look carefully what this graph is telling you.
+[66:02] What has happened in this graph is that every vertical line which you have sampled once,
+[66:10] its confidence interval is telling you.
+[66:12] For every time you are doing sampling, you will get confidence interval.
+[66:18] And notice that you will see two types of vertical lines here.
+[66:25] One is of blue colour and the other is of orange colour.
+[66:28] The orange colour line is such a vertical line where your line is not crossing the red line.
+[66:37] Which basically means that the orange line is such an interval in which your population mean is not coming.
+[66:44] Means you made a mistake there.
+[66:46] And these blue lines are all the lines where your population mean is coming under that interval.
+[66:54] So look here carefully that when I did this 100 times, there are 100 vertical lines.
+[67:00] There were only 4 orange lines where our population mean did not come under that interval, it came 96% times.
+[67:11] So, you can see this 96% is coming because our confidence level was 95.
+[67:17] Now, if I do 200 or 250 in return of 100, then also this thing will be right.
+[67:25] See, I did 251 times. Calculation is going on.
+[67:29] And you would see that 95% will definitely be maintained.
+[67:32] See this. This is a bit off but you can see that 97% is still right.
+[67:42] In fact, let's reload it once because there is a lot of calculation going on behind the scenes, sometimes the graph is not loading properly.
+[67:49] So what I will do is by increasing the sample size, I am doing 50 again.
+[67:55] Population means everything is the same.
+[67:57] Number of simulations I will make 250.
+[68:00] This rain slider is very sensitive.
+[68:05] What happened?
+[68:13] See this.
+[68:17] This is in 435 simulations and you can see that it is still going near 95%, more than 95% in 501 simulations.
+[68:29] If I increase it to 1000, then also it will cross 95%.
+[68:35] In 950, you are coming in the right place, falling in the right interval and then there are 50 samples where your interval is telling something else.
+[68:46] Your population mean is something else.
+[68:48] So this is what happens, by looking at this graph, you will understand what confidence interval is representing.
+[68:54] If your confidence interval is giving 95% confidence, then it means that if you perform experiment 100 times,
+[69:02] if you do sampling 100 times, then at least 95% times, you are able to estimate your population mean correctly.
+[69:10] That is the meaning of confidence interval.
+[69:14] Here it is written.
+[69:16] Here some more things are written.
+[69:18] A confidence interval is a range of values within which a population parameter such as population mean is estimated to lie with a certain level of confidence.
+[69:30] The confidence interval provides an indication of the precision and uncertainty associated with the estimate.
+[69:37] To interpret the confidence interval, consider the following points.
+[69:41] The confidence level represents the probability that the confidence interval will contain the true population parameter.
+[69:51] It is not the probability of population mean.
+[69:55] It is the probability that the population mean will fall in the confidence interval that we have made.
+[70:05] If the sampling and estimation process were repeated multiple times, for example, a 95% confidence interval means that if you were to draw 100 different samples from the population and calculate the confidence interval for each, approximately 95 of those intervals would contain the true population parameter.
+[70:25] I have shown you the same thing here.
+[70:28] Interval range, the width of the confidence interval
+[70:32] gives an indication of the precision of the estimate.
+[70:36] This vertical that you are seeing,
+[70:39] this is the width of your confidence interval.
+[70:42] I will show it by reducing it a bit.
+[70:44] Let's say I am taking 40.
+[70:47] So this width that you are seeing,
+[70:49] this is the width of your confidence interval.
+[70:51] The difference of lower value and upper value.
+[70:54] An interesting thing comes here that if your confidence interval is more, then your width will also be more, isn't it?
+[71:13] Think about it, if you are asked to predict how many runs Dhoni will make today,
+[71:18] Let's say. So, you can say with 100% surety that he will hit something between 0 and 200.
+[71:29] You can be 100% sure about this. Right? Because this is the minimum that anyone can score.
+[71:35] And this is the maximum that maybe no one has made till now. So this is the maximum. Right?
+[71:40] But you have to be, you are 100% sure about this. But what difference does this 100% surety make?
+[71:48] You are saying with minimum and maximum value. This is of no use.
+[71:52] But if you lower your confidence level then you can reduce your range.
+[71:56] Let's say you said that I am 95% sure that he will hit between 150 and 50.
+[72:05] You reduced the interval but your confidence decreased.
+[72:10] Now if you say exactly that he will make exactly 25 runs.
+[72:15] then you will be very less confident, let's say you will say that I am only 1% confident that I will make exactly 25
+[72:22] so you have to always remember that as your confidence level increases
+[72:26] the range of your confidence interval also increases
+[72:31] if you are 100% confident then the range of your confidence interval goes from minus infinity to infinity
+[72:38] I will show you this don't worry but you have to understand this
+[72:43] that you have to then decide for a particular confidence level
+[72:47] where your range is neither too much nor too less
+[72:50] now we will discuss all this, I just wanted to keep a point in front of you
+[72:53] so this was about interpretation
+[72:56] that how confidence interval is interpreted
+[73:02] so I have put this graph in the description of this video
+[73:06] you will play with it a little bit
+[73:08] so you will start getting some idea
+[73:11] So, this was a very important point. I really hope you understood what is the geometric intuition of confidence interval and what does it mean.
+[73:18] Let me know if you have any doubt in the chat.
+[73:28] Is it a sample mean or sample distribution of sample mean?
+[73:31] In the graph case, it is a sample mean.
+[73:34] But it doesn't matter. Our sample size is very high. It is around 50.
+[73:38] So, it will anyway consider as a central limit theorem.
+[73:42] So, it doesn't matter.
+[73:51] So, let's move ahead. Now, I will tell you that what are the various factors which affect confidence interval.
+[74:04] Okay. Look carefully. What was the formula of confidence interval? Point estimate plus minus margin of error.
+[74:19] Right, and we had written it in this way, x-bar plus minus z-alpha by 2, this.
+[74:33] Okay, here we label every term, this is your sample mean, which can come from a single sample as well as from multiple samples.
+[74:46] Meaning, sample mean of sampling distribution can also be there and sample mean of single sample can also be there, both will work.
+[74:53] This is your Population Standard Deviation and N is your Sample Size, in our case 50 is running now.
+[75:02] And by the way this is called as Critical Value. This is also known as Critical Value.
+[75:09] So don't get confused if it is called as Critical Value.
+[75:13] So you can clearly see that your Confidence Interval is depending on 3 things.
+[75:18] This is varying from sample to sample anyway.
+[75:23] It depends on critical value, population standard deviation and sample size of your sample.
+[75:33] So what is the relation between these three? Let's see that.
+[75:36] Let me show you.
+[75:37] So we will use my second visualization tool.
+[75:41] So I will just reload this so that there is no problem.
+[75:45] and what we will do is
+[75:48] here i have
+[75:50] option to set things
+[75:52] so what i will do is
+[75:54] i will take sample mean
+[75:56] let's say 50
+[75:58] and
+[76:00] standard deviation 15
+[76:02] and
+[76:04] sample size
+[76:06] 30 is a good
+[76:08] let's say
+[76:10] 50
+[76:12] ok
+[76:14] These three things can be changed, confidence level, population standard deviation and sample size.
+[76:28] We are plotting a graph where the red bar is showing the margin of error.
+[76:37] Basically, it is telling the distance between your lower limit and upper limit.
+[76:41] It is the same margin of error, isn't it?
+[76:42] The margin of error is 2 times...
+[76:44] Sorry, the margin of error is lower or let's say upper minus lower divided by 2.
+[76:55] That will be your margin of error.
+[76:57] So, basically, we have done the same thing.
+[76:58] We are telling the distance, the difference between the upper and lower values.
+[77:04] And this red color bar is giving you intuition of margin of error.
+[77:10] So watch carefully.
+[77:11] First of all, let's do one thing.
+[77:13] We will discuss the impact of confidence level, basically this Z value with margin of error.
+[77:23] So basically what we will do is we will reduce these values.
+[77:27] And we will see what is the difference on this red color bar.
+[77:30] Think a little, I have already told you.
+[77:32] So, as your confidence level decreases, like it goes from 95 to 75,
+[77:41] so basically what you are doing is, you are reducing the range but you are getting more and more unsure.
+[77:49] Right, I am 75% confident that Dhoni will hit 25-30 runs.
+[77:54] But I am 100% sure that Dhoni will hit between 0-200.
+[77:58] So you can see, if I make it 100, see what will happen.
+[78:05] What will be my confidence interval? From minus infinity to infinity.
+[78:08] I am 100% sure that my margin of error or my confidence interval will be between minus infinity to infinity.
+[78:15] But when I am 95% sure, then the margin of error is 4.6.
+[78:21] Now if I reduce it to 90, see the margin of error will be reduced.
+[78:31] See, it is reducing more.
+[78:33] Right? But I am not at all confident.
+[78:43] As the range is reducing,
+[78:45] my surety is decreasing.
+[78:47] Right? Because I am saying that
+[78:49] this will be exactly the same.
+[78:51] But I am not sure about that.
+[78:53] I am sure when the range is bigger.
+[78:55] I hope you are able to understand this.
+[78:57] If you want an exact graph,
+[78:59] then I have plotted an exact graph.
+[79:03] This is the graph.
+[79:05] I have shared it with you in the description, so you can see here is the confidence level on the x-axis
+[79:12] and here is the margin of error, let's cut it
+[79:16] and let's take it to one note
+[79:24] so that we can study it
+[79:27] so you can see this is the graph, I have put all the values and kept the rest constant and I got a graph
+[79:33] And you can see this is my 95% confidence interval.
+[79:40] So you can see that as you are going towards 100, your margin of error will touch infinity.
+[79:50] And as you are going towards 50, it is reducing a lot.
+[79:55] So by looking at this graph you will understand that generally 95% is considered to be a good value.
+[80:02] where first of all your confidence level is also there, you are 95% confident and at the same time your margin of error is also not that much like it reached to infinity
+[80:14] so generally 95% is considered as a standard across industries but at the same time it really depends, you can go up to 99%, you can go up to 90%, you can go up to 80%
+[80:24] It really depends on you, but generally you will see that your base setting is around 95%
+[80:32] But this is the graph, that is how it moves
+[80:35] So this is one thing
+[80:38] Now let's discuss what will be the difference between standard deviation
+[80:42] Actually you can think logically yourself
+[80:45] It looks directly proportional
+[80:48] Basically if you increase standard deviation, confidence interval will increase
+[80:52] let me show you
+[80:56] let's take it to 95 and fix it
+[81:00] this is fixed
+[81:05] now mean is fixed
+[81:09] we have to infer that, what we will do is
+[81:13] we will try to increase or decrease standard deviation, so you would see that whenever I increase it
+[81:17] let's say I increase it to 20, then margin will increase
+[81:23] See, it is increasing. And as soon as I decrease it, the margin will start decreasing.
+[81:34] And this is very logical. You can see that it is directly proportional.
+[81:38] That's why. Okay. So I had also plotted its graph.
+[81:41] So you can see if you keep the rest constant and change the value of these two,
+[81:47] then you would see that this is population standard deviation and this is margin of error.
+[81:50] It is a linear relationship. As the population standard deviation increases,
+[81:53] your margin of error also increases. And this is actually logical.
+[81:56] If your population data is very variable, then when you go to estimate it, you can see the variance in your estimation as well.
+[82:06] Dhoni makes a lot of runs in all his matches. Some make 10, 15, 200 runs. There is a lot of variance in his scores.
+[82:16] So when I go to make a prediction, I will be confused. I am 95% sure that he will hit something between 20 and 80.
+[82:24] Whereas if someone is very consistent, let's say Rahul Dravid, who was a very consistent batsman,
+[82:30] when he plays, he always makes runs in a very small region.
+[82:33] He always makes runs in between 30-50 runs.
+[82:35] So for me it's very easy to tell him that I am 95% confident that he will make something between 40-45 runs.
+[82:42] So I hope you are able to understand.
+[82:44] And the third thing is this.
+[82:47] Here also you can understand that in confidence interval and sample size there is a difference of 1 divided by root over of x.
+[82:56] So you can see it is inversely proportional basically.
+[82:59] So if you make it 15 again and fix it.
+[83:03] And if you start decreasing the sample size, let's say you have made it 30.
+[83:10] So, you can see that your confidence interval is increasing.
+[83:17] 20, 10, 5. Yes, it is correct.
+[83:31] This is what happened. We are reducing the sample size.
+[83:33] Confidence interval is increasing. Gap is increasing.
+[83:36] As you increase the sample size, then confidence interval will reduce.
+[83:41] If you increase it to 500, it will be equal to 0.
+[83:45] You can see.
+[83:46] And this graph is plotted here.
+[83:48] The second one.
+[83:49] You can see.
+[83:50] This is the graph.
+[83:51] And this is the graph of y is equal to 1 divided by root over of x.
+[83:55] So you can see that in the beginning, when you increase your sample size,
+[83:59] like you are going from 0 to 20,
+[84:01] then your margin of error decreases very quickly.
+[84:05] But after that, if you increase the sample size,
+[84:08] let's say you go from 20 to 40,
+[84:09] then you will not see as much benefit as you see between 0 to 20
+[84:13] if you go between 40 to 60 then you will see less benefit
+[84:17] above 80 then you will not see that much benefit
+[84:21] so basically you are taking real benefit here around 30
+[84:25] if you are coming from 0 to 30 then confidence interval is dropping a lot
+[84:29] so 30 is a value which is talked about that it is so important
+[84:33] because after that by putting things in other sample it does not improve your confidence interval
+[84:37] interval. It does not reduce the interval which remains as it is. I hope you understood.
+[84:42] So these are the three factors and how these three factors vary, this is often asked from you and you should have an understanding of it in general.
+[84:50] So let me know guys if you understood till here.
+[84:57] If we increase the sample size, you will see the benefit till one sample size but after that you will not see the benefit.
+[85:05] Neha as a rule of thumb you can start with 95%
+[85:12] Let me know guys if you understood till here
+[85:21] If you understood then write clearly and if you have any doubt then let me know
+[85:28] I really hope this helps you to make visualization tools
+[85:40] Otherwise it was a waste of effort
+[85:43] Aditya, X bar is not a calculated quantity
+[85:50] You will get your sample to sample
+[85:53] If you draw any sample and calculate its mean, it is not something that you have to formulate and calculate.
+[86:00] It is simple. You must have it.
+[86:02] Yes, I have heard that 99% confidence interval is used in some places.
+[86:13] Ok. Let's go guys.
+[86:18] So, we have discussed how confidence interval is calculated using the Z procedure.
+[86:26] But the biggest problem in this whole procedure is that you have taken a very big assumption that you will know the standard deviation of your population, which is not possible, it is never possible, it does not happen generally.
+[86:44] Means when I don't have the average age of my 77000 subscribers, then from where will be the standard deviation?
+[86:54] So generally population parameters don't exist.
+[86:59] So what you have read, Z procedure, there is a big chance that you don't use it.
+[87:08] Generally, because a very big clause is that you should have a standard deviation of population, which you don't have.
+[87:17] Then what is the option? The option is T procedure.
+[87:23] T procedure is a process or procedure where it is not necessary that you have a standard deviation of population.
+[87:34] and you will actually use this in real life
+[87:38] so let me tell you the assumptions of T procedure
+[87:42] and then we will learn how to apply T procedure
+[87:46] so here one
+[87:50] assumption is extra and rest is similar
+[87:54] so first assumption is that the sampling you did
+[87:58] is random, this was also there, second assumption is
+[88:02] This is not an assumption, it is a compulsion, I will write it here, this is a compulsion and I will discuss it later.
+[88:09] Third is that your distribution should be approximately normal distribution.
+[88:15] Approximate also works, but here also there is a clause that if you apply central limit theorem.
+[88:21] Suppose you do not have normally distributed, then you take multiple samples, take more sample size.
+[88:27] If you apply CLT then the assumption of normal distribution does not matter.
+[88:34] So it is important that the sample size should be greater than 30.
+[88:41] And if it is not normal.
+[88:49] There is one more scenario.
+[88:54] If this was normal, then for a very small sample size also you can apply T-procedure.
+[89:05] T-procedure shines in two scenarios.
+[89:08] First, when you don't have a standard deviation of the population.
+[89:12] In that case you can use it.
+[89:14] Second, you have a very small sample size.
+[89:17] Let's say you don't have a lot of people, you can't take out a lot of people's sample.
+[89:20] So in that case also T procedure helps you a lot.
+[89:25] So I hope you are able to understand.
+[89:27] And the fourth assumption is that all your observations in the sample are independent.
+[89:34] They are not related to each other.
+[89:36] Which is logical. In my YouTube example, I randomly took out one person and asked his age.
+[89:42] Then I took out another person and asked his age.
+[89:45] So the age of the first person will not affect the age of the second person.
+[89:48] but in certain scenarios it can affect, let's say, I don't know, feedback rating, something like that
+[89:55] where one can affect the other, so there you have to be careful that the observations you have
+[90:01] they should be independent, that is very very important, otherwise the results of T procedure will not be accurate
+[90:07] results do come, but accurate results will not come, so if you have these assumptions
+[90:12] then you can apply T procedure, now let's go to T procedure
+[90:17] So, what did the Z procedure say?
+[90:21] If you want to calculate the confidence interval
+[90:25] then this was your formula, right?
+[90:34] Now, in this whole formula, the problem is
+[90:38] that we don't have this thing
+[90:42] we don't have this.
+[90:46] So, what to do? If we don't have population mean
+[90:50] If we don't have population mean, then what is the next best thing?
+[91:00] Sample mean. We had put confidence interval on that.
+[91:05] So if we don't have population standard deviation, then what is the next best thing?
+[91:10] Sample mean. So what I will do is, I will modify this formula
+[91:16] and instead of using the population standard deviation I will use the sample standard deviation
+[91:26] right but this is not a complete thing here as soon as you add sample standard deviation
+[91:37] a complexity is coming a problem is coming let me tell you that problem so if you remember
+[91:44] When I taught you the last Z procedure, I told you that you can convert your X-bar distribution into standard normal variant very easily by writing this.
+[91:59] And this thing was following a standard normal distribution.
+[92:14] This Z was following a standard normal distribution.
+[92:20] But what did I do?
+[92:21] I replaced the standard deviation with S.
+[92:30] which is my sample standard deviation
+[92:33] so basically this formula became this
+[92:41] as soon as you change this
+[92:44] since this s is not a constant like
+[92:47] this sigma, this varies from sample to sample
+[92:50] now the problem is this
+[92:53] that whatever this becomes
+[92:56] z dash, this is not a normal distribution
+[92:59] this became something else
+[93:02] and this distribution is called student's t distribution
+[93:15] which looks like a normal distribution but is not exactly a normal distribution
+[93:25] So basically what was the complexity?
+[93:28] The complexity was that
+[93:31] the assumption that
+[93:34] our sample is normally distributed
+[93:37] x-bar or mean
+[93:40] now that thing is no more
+[93:43] normally distributed because of this
+[93:46] uncertainty. Think for yourself
+[93:49] why were we taking out confidence interval?
+[93:52] we had a point estimate but there was some uncertainty
+[93:55] we had x bar but it could not be accurate
+[93:58] there was uncertainty in it
+[94:01] now to find that population parameter
+[94:04] we are not only using x bar but we are also using s
+[94:07] which is also an uncertain thing which will vary from sample to sample
+[94:10] so this underlying distribution
+[94:13] now it is not a normal distribution
+[94:16] it is something else and it is called
+[94:19] T distribution. Its name is a bit weird. I will tell you about it.
+[94:23] But I will tell you the difference between these two. First of all,
+[94:27] this is a theoretical distribution.
+[94:33] It means that it doesn't exist in nature.
+[94:37] Just like normal distribution actually exists in nature. If I go outside
+[94:41] and find the height of 1000 people and plot their PDF
+[94:45] then it will become a normal distribution. Log normal distribution exists.
+[94:49] Pareto distribution exists, binomial distribution exists
+[94:54] Students t distribution doesn't exist in nature
+[94:57] It was made to solve this kind of problems
+[95:02] It was made to handle this uncertainty
+[95:06] Who made it?
+[95:08] There was a scientist named Worrell, a British scientist
+[95:12] Now, the company where he used to work, he created this distribution while doing research.
+[95:20] He created a mathematical model and since he was not able to publish his name while writing the research papers,
+[95:27] he used to write his name as student.
+[95:30] So, from there onward, the name of this distribution became students t distribution.
+[95:36] There is no significance of t, it is random.
+[95:38] So that is why its name is a bit weird. But it is a theoretical distribution.
+[95:42] Unlike other distributions, like what are the parameters of a normal distribution?
+[95:47] Mu, Sigma. Here there is only one parameter.
+[95:51] This whole distribution depends on only one thing which is called degree of freedom.
+[95:56] And degree of freedom is n-1.
+[96:01] What is n? Sample size. So if your sample size is 50,
+[96:06] then your degree of freedom will be 49
+[96:09] if your sample size is 30
+[96:11] then your degree of freedom will be 29
+[96:14] that's it
+[96:15] now why is n-1 only?
+[96:17] this is actually kind of related
+[96:19] that in standard deviation or variance formula
+[96:22] why is n-1 below?
+[96:24] it is related to that, we will discuss it tomorrow
+[96:26] when we will take interview session
+[96:28] there we will discuss this thing
+[96:30] that what is n-1
+[96:32] for now you just have to understand
+[96:34] As soon as you replaced population standard deviation with sample standard deviation in this formula, you added some additional uncertainty.
+[96:44] And as soon as you added that additional uncertainty, now this Z is no more a normal distribution.
+[96:51] It has become something else which is called student's t distribution.
+[96:56] And this student's t distribution is very very similar to normal distribution.
+[97:01] and it has only one parameter which we call Degree of Freedom
+[97:06] I will show you the difference between Normal Distribution and Student T Distribution
+[97:12] see here
+[97:14] so the blue one is Normal Distribution
+[97:18] and the red one is Student T Distribution
+[97:22] so you can see that the shape and skewness are very similar
+[97:27] both have bell curve
+[97:28] but the difference is that the tail of the student t distribution is a little fatter
+[97:36] you can see
+[97:37] there are more values in this place
+[97:40] which basically means that
+[97:41] far from mean, more values exist near the outlier
+[97:47] and less values exist near mean
+[97:50] basically you think that the area here is added on both sides
+[97:54] this is the biggest and that is the uncertainty if you think
+[97:56] If you think about it, that is how you will add uncertainty that there are not many people here, there are more people in the distance.
+[98:03] And this is by the way, this graph is for degree of freedom 1, means sample size 2.
+[98:09] As you increase the sample size, then what happens is that your student t-distribution starts becoming like a normal distribution, which is quite logical.
+[98:20] Why did student t-distribution get created? Because there was some uncertainty in your system.
+[98:25] Now as you increase the sample size, you will be more sure about your population.
+[98:31] So as soon as it is different from your system, your graph will look very similar to the normal distribution.
+[98:43] So here if I increase the degrees of freedom, you would see that it will approximate towards,
+[98:49] see I have only done 11, so it has already increased towards the normal distribution.
+[98:53] there is still some difference
+[98:55] as I increase it
+[98:57] it will be more closed
+[98:59] and if I increase it to 100
+[99:01] then also it will not be complete
+[99:03] you can see the blue line is a little higher
+[99:05] and the red line is a little higher
+[99:07] it matches on infinity
+[99:09] it becomes exactly normal distribution on infinity
+[99:11] what I mean to say is
+[99:13] when your degrees of freedom
+[99:15] is infinity
+[99:17] then
+[99:19] you can say that student t distribution
+[99:21] is exactly normal distribution. But before that, to take practical values, suppose if you are upto 50,
+[99:29] then it will behave very similar to normal distribution. But if your sample size is less, suppose 10, 15, 20 types,
+[99:35] then there is a significant difference. I hope you are able to understand till here. What did we do?
+[99:41] Our biggest compulsion was that we could not use standard deviation of population. We did not have it.
+[99:49] So we decided to remove it. What is the next best thing?
+[99:52] Use the standard deviation of the sample.
+[99:54] But the standard deviation of the sample itself will vary from sample to sample.
+[99:58] So it has its own uncertainty.
+[100:00] So as soon as you fit S,
+[100:03] now your distribution was not normal at all.
+[100:06] Especially for lower degree of freedoms, lower sample sizes.
+[100:09] So this new distribution is called student's t-distribution,
+[100:12] which depends on only one parameter.
+[100:14] Roughly you can say sample size.
+[100:16] As you increase the sample size, the uncertainty starts decreasing and your student's t distribution starts looking like normal distribution.
+[100:26] But for lower sample size, it will act as a different distribution.
+[100:31] I hope you are able to understand till here.
+[100:33] Now since we are not following normal distribution, which basically means we cannot use this Z critical value.
+[100:44] So that is why what we do is that we replace this formula and we create X bar plus T alpha by 2.
+[100:54] S divided by root over of n. Now what is this T alpha by 2?
+[101:00] You understand it like this that now we will see T table instead of Z table.
+[101:07] So, this is t table and from t table we will get the value of 95% Confidence Interval, you can see, okay.
+[101:18] For your degree of freedom, whatever is your sample size, like suppose my sample size is 50,
+[101:24] so I am somewhere here, all the values are not given in it, let's say my sample size is 41,
+[101:29] 40 n-1 and its corresponding 95
+[101:33] I will fetch the value that it should be this much 1.684
+[101:37] let's say I hope you are understanding so basically instead of seeing
+[101:41] this instead of using z alpha by 2
+[101:45] now we will use t alpha by 2 basically we are using a completely different distribution
+[101:49] and one more important thing that
+[101:53] generally what happens is like you say 95%
+[101:57] z alpha by 2 is 1.96
+[102:02] generally for the same confidence interval
+[102:07] and specially for lower degree of freedom your t alpha by 2 value
+[102:12] will be slightly greater than z alpha by 2 value
+[102:17] if you talk about 95% interval and your degree of freedom is
+[102:22] is 30 or 20, I don't remember, we will see the table now, then it comes around 2.0008.
+[102:31] Okay. So, generally what will happen for lower sample sizes, lower degree of freedom,
+[102:37] the t-statistic, the t-value is more than z. And why is it so? It has a very logical reason.
+[102:44] That you want to increase the confidence interval a little. Why? Because you are
+[102:51] uncertain about this sample standard deviation. That is why your confidence interval for T
+[102:59] statistic will be slightly higher in comparison to Z statistic because you are less confident
+[103:07] about the standard deviation. In Z you were confident about the standard deviation. Now
+[103:14] you are not confident about the standard deviation. That is why you will be slightly more conservative
+[103:19] And that is why your T values are more in comparison to Z values especially for lower degrees of freedom and this is logical too.
+[103:28] Think about it, what did I say? I said that, let me show you this graph, what did I say?
+[103:34] That if you take lower degree of freedom, then there is a fatter tail.
+[103:40] Let's pick up the graph and take it here, just to show you a logical thing.
+[103:49] Distribution is created in such a way that, think about it, what are we doing?
+[103:56] If we are holding 95%, then basically, what is happening?
+[104:02] Just one second.
+[104:06] when we are saying 95%
+[104:12] then
+[104:14] if you take the blue curve
+[104:16] then in the blue curve
+[104:18] if I am saying 95%
+[104:20] then since
+[104:23] there are less values here
+[104:25] then this value will be less
+[104:27] imagine Z value
+[104:29] and since
+[104:31] this is a fatter tail
+[104:33] this is a fatter tail
+[104:35] then only you
+[104:37] So, this side we have to give 2.5 and this side we have to give 2.5
+[104:44] So, in the case of fatter tail, the values of x-axis will move a little far
+[104:56] like this, to adjust for the additional area that is present in t distribution
+[105:03] in comparison to normal distribution
+[105:05] This distribution is also logical. This distribution is planned in such a way that for lower sample sizes, for lower degree of freedom,
+[105:11] the t alpha by 2 will always be greater than z alpha by 2.
+[105:21] By doing this, the size of your confidence interval will increase.
+[105:26] But as your sample size increases, then t alpha by 2 is very comparable to z alpha by 2.
+[105:34] That's it. You just have to understand that what happened, we are summarizing that you didn't have population standard deviation.
+[105:44] You said shoot, I have sample standard deviation. I am going to use that. But that is an uncertain thing in itself.
+[105:51] So that's why we can't use normal distribution. In fact, if you use normal distribution, then see what will be the problem.
+[105:58] Let me show you a graph. This is really interesting.
+[106:01] See here. So I am reducing the sample size.
+[106:04] I am keeping only 10. Population mean is 50.
+[106:07] Population standard deviation is 50.
+[106:10] Let's say I am doing 100 simulations.
+[106:13] Now see what I am doing.
+[106:19] I am using
+[106:22] Z with F which basically means
+[106:25] I am using this formula.
+[106:28] I am using this formula x bar plus minus z alpha by 2 sample standard deviation root over of n
+[106:41] I know z and s should not be used together
+[106:45] We have just learnt that z procedure is always used with population
+[106:49] But I want to show you that if you use z and s then what will be the problem
+[106:56] you will make more mistakes
+[106:59] see your confidence interval
+[107:02] how much confidence interval you have kept?
+[107:05] 95% and i have done 100 simulations
+[107:08] see how much is coming
+[107:11] how many times you wanted to be right? 95%
+[107:14] but since you are using z statistic
+[107:17] with standard deviation of sample
+[107:20] you are always getting wrong for 8%
+[107:23] 8% of the times, which should not be, see if I do 100 to 200
+[107:27] see, 92 is still going, more than that you are not getting right
+[107:37] I increase it a lot, I did 445
+[107:41] still you are hanging around 92, let's do 1000
+[107:45] you are not able to go more than 92, because you used wrong statistic
+[107:53] you will not be able to calculate right interval
+[107:57] because you are working with wrong distribution, but as soon as I
+[108:01] I do T with S
+[108:03] as soon as I replace this Z alpha by 2
+[108:05] with T alpha by 2
+[108:08] which is the right way
+[108:10] look carefully
+[108:12] see this
+[108:14] you have come to 95.9
+[108:16] now no matter how many trials you take
+[108:18] 95% you have said confidence interval
+[108:20] now 95% time you will be right
+[108:22] or you will be around it
+[108:24] so through this experiment
+[108:26] it came out that if you
+[108:28] are replacing population standard deviation
+[108:30] standard deviation with sample standard deviation and if you are assuming that your underlying
+[108:38] distribution is still normal distribution, then your confidence interval is not getting
+[108:43] good. You are saying that 95% is confidence interval but you are experimenting 100 times
+[108:47] and it is getting good only 92 times, 93 times, no matter how many times you are doing it,
+[108:50] even if you are doing it 1 lakh times, still that number is not reaching 95 and then that
+[108:55] guy realized that something else is wrong. Then the problem is that my assumption is
+[108:59] that it is a normal distribution. Maybe it is not a normal distribution. It is something else.
+[109:03] And that distribution would be something in which there will be a little bit of uncertainty.
+[109:08] Which means its tails will be a little bit fatter. Basically due to which
+[109:13] there will be uncertainty. And if you could notice a little bit
+[109:18] if you reduce the number of simulations, then you will notice that your bars
+[109:23] are getting a little bit bigger. And that is why they are able to intersect that red line.
+[109:28] When you were putting Z, they were coming a little smaller
+[109:31] and that's why they were skipping the red line
+[109:34] due to which you were not able to get the confidence score of 95
+[109:38] I really hope you are able to understand all this
+[109:41] I think you will have to see it multiple times
+[109:44] there are a lot of concepts
+[109:45] In a nutshell, the simple thing is that
+[109:48] if you don't have population standard deviation
+[109:52] then your formula will change
+[109:54] and that will be x-bar plus minus t alpha by 2 s divided by root over of n this is the formula
+[110:06] if you don't have if you have population standard deviation then this will be the formula
+[110:14] ci equal to x bar plus minus z alpha by 2 this will be the formula
+[110:22] This is the gist of the whole class. Simply you have to ask if there is a standard deviation of the population.
+[110:27] If there is, then Z-statistic, Z-procedure. If not, then T-statistic, T-procedure.
+[110:32] How to find out T-alpha by 2? It is very simple. You have to go to T-table.
+[110:37] And from here you have to say that what is your sample size or degree of freedom. Let's say you said 30.
+[110:44] Let's say 29. And you said that we need 95% confidence interval.
+[110:49] If you want this interval, then you will take this value directly, 1.684, which is less,
+[110:57] maybe it will be more for lower values, you can see for lower values, suppose if you
+[111:03] take 10, not 10, if you take 5, then you can see it is around 2.015, this is 95%, oh sorry
+[111:17] I was looking at it wrong. This is 95% and this is 2.042 for a sample size of 30.
+[111:24] Whereas if you are reaching near 60, then it is 2. But still you can see it is greater than Z procedure.
+[111:32] It is more than 1.96 which means that your confidence interval will increase more in comparison to Z interval.
+[111:41] Let me know if you understood or not. There are many concepts here.
+[111:47] Yeah, let me know guys if you understand.
+[111:56] One-tail, two-tail is the same that you are talking holding both tails or holding one tail.
+[112:01] As soon as you hold two tails, then your area will be doubled.
+[112:08] You hold it from below, don't look up, one-tail, two-tail.
+[112:11] Look below, here is the confidence interval.
+[112:17] Higher degree of freedom means we have that number of independent values to vary
+[112:22] to reach towards normal distribution
+[112:24] no
+[112:26] higher degree of freedom means
+[112:28] you increased the sample size
+[112:30] increased the sample size means
+[112:32] you are getting more sure
+[112:34] it will happen right
+[112:36] if I have 200 people in total population
+[112:38] and if I ask 200 people
+[112:40] then I will be more uncertain
+[112:42] but if I ask 150 people
+[112:44] then the certainty will increase in the system
+[112:49] yes it is correct
+[112:51] 2.042 with 30 sample size and 95 CL
+[112:53] also this is degree of freedom so you have to subtract 1
+[112:58] I know it is a little more conceptual
+[113:03] let me know guys if you have any doubts
+[113:08] I will show you a practical thing
+[113:15] it will make a summary of today's class
+[113:28] Let's drink some water.
+[113:38] I am very sure that people won't be much left.
+[113:41] 60 people.
+[113:50] Guys, do you remember that we did this code of Titanic in the last class?
+[113:55] There is a small mistake in this.
+[113:59] People were asking that day
+[114:01] why am I doing this
+[114:04] that I am dividing my sample standard deviation
+[114:08] I am dividing it by the square root of n
+[114:12] so the reason for that was that I didn't have population standard deviation
+[114:16] but I took the wrong value here
+[114:19] I took 2, it should have been ideally
+[114:22] I don't know how much
+[114:24] I was taking the size of 50
+[114:27] so according to that if I want 95% confidence interval
+[114:31] then ideally I should have taken
+[114:35] there is no table here, it is not complete
+[114:38] I should have taken...
+[114:40] It is coming correctly
+[114:42] It should have come near 2
+[114:44] But there is still a mistake
+[114:46] I will tell you what is the mistake
+[114:48] I will do one thing
+[114:50] I will do the same problem again
+[114:52] What was our problem?
+[114:54] We have the Titanic data set
+[114:56] In which
+[114:58] total number of passengers
+[115:00] on our Titanic ship
+[115:02] are 1390
+[115:04] 1390 passengers
+[115:06] we have to calculate their average fare and we will infer the average fare using t procedure
+[115:18] because we don't have the population standard deviation of the fare
+[115:22] we don't have anything related to the population
+[115:25] so we will apply central limit theorem which means we will do multiple sampling
+[115:30] we will create our point estimate and we will apply our t procedure
+[115:35] P procedure. Let me tell you some things
+[115:38] that what assumptions we are taking. Not assumptions, what values we are taking.
+[115:41] So, the total population we have
+[115:44] is 1360 or something.
+[115:47] We don't have any idea of
+[115:52] average fare. We have to find that only.
+[115:56] We don't have any idea of population standard deviation. We have to find that only.
+[115:59] We will apply central limit theorem.
+[116:02] And what we will do is, we will do 10 times sampling.
+[116:05] and in each of the samples we will take a sample size of 30
+[116:10] because it is available in our table
+[116:14] and we will do 95% confidence level
+[116:20] prediction and inference
+[116:24] that is the plan
+[116:26] now just see one thing
+[116:28] according to what I have taught you
+[116:34] I told you that here you use sample standard deviation
+[116:39] but this is only for one sample
+[116:42] but the problem is that we are using central limit theorem
+[116:46] and we are creating 10 samples
+[116:50] then from 10 samples which sample standard deviation you will take
+[116:57] so generally it is said that
+[116:59] if you take 10 samples
+[117:03] So, take out the sample standard deviation of 100 and create the average of it.
+[117:16] Take out the mean and it will become this.
+[117:20] So, we are going to do this. Look carefully. This is the plan.
+[117:23] So, I am running my code.
+[117:28] Here we have imported the dataset.
+[117:31] Data is divided into two files, train and test.
+[117:34] There are around 900 people in train and 450 people in test.
+[117:39] What I am doing is that I am merging both of them, so I will just wait 10 minutes more guys, then the topic will be completed.
+[117:49] I run this, concat, there are 1309 total passengers, this is our distribution of population, it is not normal,
+[118:01] but the good part is that we are going to perform central limit theorem, so this assumption does not matter that much.
+[118:07] We have taken the sample size as 50 and we are doing this work 10 times, not 50, we have taken it as 30.
+[118:14] Let's take it as 30.
+[118:17] And what I am doing is that every time I am taking out the samples and I am also calculating the standard deviation for that particular sample.
+[118:28] So, I would write std is equal to this and what I am doing is that this is my sampling.
+[118:43] I took the sample and put it in a variable x.
+[118:51] Then I wrote x.std, I took the standard deviation of that particular sample, s1, s2, s3, s10
+[119:00] And I append it in stds, I will take out the mean of it
+[119:05] And then I am doing x.to list to convert into list, this is the code
+[119:13] Now what I am doing, I am converting all my samples into numpy array
+[119:19] Then I am taking out this, taking out x-bar. How am I taking out x-bar?
+[119:25] Taking out the mean of every sample and taking out the average of all.
+[119:31] Sampling, mean of sampling distribution. We did this in the last class also.
+[119:36] And sample will be std when we take out np.mean of stds.
+[119:51] So now I have x1 and s and n and I just need to subtract t alpha by 2.
+[120:01] So what I will do is that I will go down and here I have subtracted the mean of sampling means.
+[120:10] And here we will go and we will search for 95% and on 30 it is 2.042.
+[120:20] So we will write instead of 2, we would write 2.042 and here also 0.042
+[120:31] And here we will not take out the standard deviation of sampling means, we will fit this
+[120:37] It is wrong, sorry, sorry, sorry
+[120:47] We will fit the sample std which we just calculated
+[120:57] ok, and that's it
+[121:00] and here is our range
+[121:06] it is coming very high
+[121:09] because
+[121:12] our sample std is coming
+[121:17] 36
+[121:21] yeah, means this is it
+[121:33] lower
+[121:35] limit is coming very low, minus 45
+[121:37] and upper limit is 104
+[121:42] and we know the answer
+[121:45] answer is
+[121:47] df's
+[121:49] fair
+[121:51] dot
+[121:53] std
+[121:58] no sorry we have to find the mean
+[122:02] 33.29
+[122:04] so 95% sure that
+[122:06] it is in this range
+[122:08] i will just check if we did any mistake
+[122:10] we found the mean of sampling means
+[122:12] value is 29.82. Could be right, could be wrong, I don't know. We just saw this.
+[122:22] Samples, okay, we didn't do square root of, sorry. Divided by, we didn't do this, right?
+[122:31] This was the mistake. We didn't divide by this. That is why. We will divide by this.
+[122:37] And here 30 will come because our sample size is 30. And we have to do the same division
+[122:44] and just to be safe side, let's take it in bracket
+[122:50] it was coming a little too much, that's why
+[122:53] let's see now what's the scene
+[122:55] yup, this is the output
+[123:00] it's saying between 16 to 43
+[123:03] and actually our value is 33
+[123:06] and we are 95% confident that this will be the value
+[123:09] now if you want to reduce your confidence level
+[123:12] let's say you tell me at a low confidence level
+[123:16] so you tell me at 50% confidence level
+[123:20] so what will you do?
+[123:22] you will take this value at 50% confidence level
+[123:24] 0.683
+[123:26] so what will happen?
+[123:28] you will write here
+[123:33] 0.683
+[123:35] 0.683
+[123:44] and now you are saying
+[123:46] between 25-34 but I am only 50% confident
+[123:49] See, you reduced the range, the confidence decreased, but the interval reduced.
+[123:55] But you were 95% confident that it will be between 18 to 45 because there was a wider interval, right?
+[124:03] If you keep reducing the confidence level more, let's say you say that there is nothing below 50, there is only 0.
+[124:11] so basically multiply it by 0 and say that the point estimate is the same as the sample mean and the population mean
+[124:19] but you are 0% confident and if you increase the confidence level then the confidence interval will increase
+[124:28] so yeah this is the case study last time we made a small mistake
+[124:35] the mistake was that we took out the standard deviation of sampling distribution
+[124:41] You don't do it like that. You take out the average of every sample.
+[124:46] You take out the average of every sample. I hope you understood.
+[124:51] Try it once or try it on any other dataset. It is interesting.
+[124:56] Try to plot things. Try to use the tools that I have given.
+[125:01] So, a little understanding will develop. I really understand that today's class is conceptually
+[125:06] conceptually dense in the sense concept is coming in every 2-5 minutes
+[125:10] but there is nothing to do in this maybe you have to see it one more time
+[125:14] so yeah this is today's class
+[125:18] let me know if you understood yes tomorrow we will study interview question
+[125:26] yes divided by n I forgot
+[125:30] Rahul it will be like this you are similar
+[125:48] generally people don't take standard deviation
+[125:52] Proportion is very similar. Proportion has slight difference in the formula.
+[125:56] Just search the standard deviation formula. Generally, it is not used that much.
+[126:00] Hypothesis testing will be next week. We will discuss P-value etc. next week.
+[126:11] Push and distribution can be discussed tomorrow. We will discuss it in the interview session tomorrow.
+[126:19] There are many distributions. I would not want to teach unnecessarily.
+[126:25] i.e. whenever there is a requirement, we will read it
+[126:27] that was my plan
+[126:29] now whatever we have read
+[126:31] like students tea distribution
+[126:33] i could have taught you in the last class too
+[126:35] but at that time
+[126:37] you don't understand its significance
+[126:39] but today you have read it together
+[126:41] so you understand that it will retain in your mind
+[126:43] that this is why it is used
+[126:45] that is why
+[126:47] so let's see accordingly
+[126:49] so yeah
+[126:51] how was it? did you like the class?
+[126:53] It took a lot of hard work
+[126:57] How many lectures are left of statistics?
+[127:00] There is an interview session tomorrow
+[127:03] Next week there are 4 sessions
+[127:06] 5 sessions are left
+[127:09] Next week we will do linear algebra
+[127:12] We will see some
+[127:15] optimization mathematics
+[127:18] And in the remaining 2 weeks
+[127:21] we will start linear regression and regularization
+[127:24] so basically we will start machine learning in April
+[127:41] IPL is started
+[127:43] we will get the data set
+[127:46] what happened you guys don't like the lecture
+[127:49] nobody is saying anything about the lecture
+[127:51] did you not like it or did you not understand what is going on
+[128:02] no problem i am assuming you all are dead
+[128:05] so
+[128:08] no problem
+[128:09] So yeah, I have two more minutes. If you have any questions, you can ask them.
+[128:15] And...
+[128:17] See you tomorrow.
+[128:19] Hmm...
+[128:25] I'll have to watch it one more time.
+[128:29] That I'm sure.
+[128:31] Because it took me so much time to prepare.
+[128:33] So you can't consume it in two hours.
+[128:35] That's a simple thing.
+[128:37] You might have to watch it.
+[128:58] Could you provide code of Streamlit app?
+[129:00] Okay.
+[129:02] I will tell this to my team
+[129:07] By the way you can make it yourself
+[129:10] I have used all these formulas
+[129:13] In a sci-fi library there will be direct implementation
+[129:16] So you can use that and you can code it yourself
+[129:19] It's not that big deal
+[129:22] If you understand the concept then you can code it yourself
+[129:25] Will all ML algorithms read in detail
+[129:28] Like Geometric, Intuition and Maths behind these algos
+[129:31] everything will be read in detail
+[129:33] everything will be read in detail
+[129:35] ok guys then
+[129:40] i will close the session
+[129:44] see you tomorrow
+[129:46] bye good night

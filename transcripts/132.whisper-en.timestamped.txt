@@ -1,0 +1,469 @@
+[00:00] Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+[00:03] In this video, we are going to cover a very important clustering algorithm
+[00:08] whose name is DBSCAN.
+[00:10] I hope you must have heard its name.
+[00:12] So, in this video, my plan is that I will first give you a geometric intuition of this algorithm.
+[00:17] After that, I will explain you a small Python code.
+[00:20] And lastly, I will also share a visualization tool with you,
+[00:22] with which your intuition will be built very solid.
+[00:25] So, this algorithm is pretty important.
+[00:27] So I would recommend you to watch this video till the end.
+[00:31] Let's start the video.
+[00:32] Before understanding DB scan, you should know why we need to read DB scan.
+[00:37] We have already read a clustering algorithm K-means.
+[00:41] It was a good algorithm.
+[00:43] Then why do we need to read a new clustering algorithm?
+[00:47] First of all, we will address this.
+[00:50] So K-means which was our clustering algorithm was very good.
+[00:56] but there were some flaws in it
+[00:58] and those were such flaws that
+[01:00] they need to be solved
+[01:02] very important
+[01:04] I will tell you 2-3 flaws of k-means
+[01:06] so that you understand why a new
+[01:08] clustering algorithm is needed
+[01:10] so the first and
+[01:12] biggest flaw in k-means
+[01:14] is that
+[01:16] you have to specify
+[01:18] or you have to tell
+[01:20] the algorithm that
+[01:22] how many clusters should be made
+[01:24] This is a big problem of k-means that you have to tell before starting clustering that how many clusters should be made.
+[01:33] Now imagine that the data you have is in a very high dimension.
+[01:37] Let's say the data is of 10 dimensions.
+[01:39] So you can't plot it.
+[01:42] Then basically you won't understand how many clusters should be made.
+[01:47] So we studied all these techniques where we plotted the elbow method and tried to find out the number of clusters.
+[01:56] But the problem is that sometimes the elbow curve is very ambiguous, we don't know what will be the right value.
+[02:05] So because of all these reasons, it becomes a little difficult to work with K-means.
+[02:11] So this is reason number 1.
+[02:12] Reason number 2 is that K-Means is very very sensitive to outliers.
+[02:20] Because you are calculating distances with every data point of every centroid.
+[02:27] Now if any data point is outlier like this particular data point.
+[02:33] So what will it do? It will move all your centroid from its position.
+[02:39] You can see that all the centroids should have been at the center of their clusters, but because of this data point, everything shifted.
+[02:47] Again, not a good scenario.
+[02:51] Reason number 3 is the most important reason that because K-means is a centroid based clustering algorithm,
+[03:00] means all its mechanics are around centroid calculation
+[03:05] so if you give weird shape data to k-means
+[03:10] then k-means starts crying
+[03:13] and you can see this is one example
+[03:15] where we gave it some data set which was non-spherical
+[03:20] and k-means clustered it in wrong way
+[03:24] you can see that
+[03:26] and this is true on many other data sets
+[03:30] where it does not get spherical type of data.
+[03:33] So, because of these three reasons,
+[03:36] the machine learning community understood that
+[03:39] it will not work only with K-means.
+[03:42] There are certain scenarios, certain data sets
+[03:44] where K-means will perform well.
+[03:46] But at the same time,
+[03:48] there will be many more such scenarios
+[03:50] where K-means fails.
+[03:52] And this is where a new requirement was created
+[03:56] and who comes to solve it?
+[03:58] One more thing you should know before reading db scan is that what are density based clustering algorithms?
+[04:05] So if you know, you can call k-means a centroid based clustering algorithm.
+[04:14] Because the logic behind clustering comes through centroid.
+[04:19] You create centroid, calculate distances, move points, make new clusters.
+[04:25] that is how k-means works
+[04:27] so this is called centroid based clustering
+[04:29] but db-scan
+[04:31] follows a completely different style
+[04:33] of clustering and that style
+[04:35] is called density based clustering
+[04:37] what happens in density based
+[04:39] clustering algorithm is that
+[04:41] you cluster all your data
+[04:43] with the help of
+[04:45] density between the data points
+[04:47] let me try to explain you
+[04:49] here you can see a data
+[04:51] and you can see
+[04:53] that there are roughly two clusters in this data.
+[04:57] But how can we understand density based clustering algorithms?
+[05:01] They see that this is a dense region
+[05:05] means there are many data points in this particular region.
+[05:09] This is a little sparse region
+[05:13] means there are less number of data points here.
+[05:17] And this is again a dense region.
+[05:21] With the help of this sparse region, dbScan can separate out two dense regions and make different clusters.
+[05:31] This is the main idea behind density-based clustering.
+[05:35] You are clustering on the basis of the density of data points.
+[05:40] One good example is dbScan. If you want to know the full name of dbScan then the full name is
+[05:50] Density Based Spatial Clustering of Applications with Noise. This is the full name.
+[06:07] Trust me by the end of this video you will understand why this name is there.
+[06:12] One more good algorithm is Optics, which does density based clustering.
+[06:18] It was necessary to give this introduction because if you don't know how density based clustering works, then you won't be able to understand db-scan.
+[06:28] Let me give you an example quickly.
+[06:31] Assume we have this data set and for some time we have assumed that the value of epsilon is 1 unit.
+[06:38] 1 unit means it can be 1 cm, 1 mm, 1 km, it does not matter.
+[06:45] And we have assumed that the min points are 3.
+[06:51] If it is more than 3, then only we will call it dense otherwise we will call it sparse.
+[06:59] So what we have to do is, for this particular point, we have to find out if it is dense or sparse at this particular point.
+[07:09] So first of all, we have to make a circle of one unit.
+[07:13] So I'll quickly draw a circle.
+[07:15] So let's say this is the circle.
+[07:17] Obviously, I'm not making this exact measurement.
+[07:20] But let's say this is the circle.
+[07:22] Now in this circle, we will count the number of points.
+[07:27] So, we have 1, 2, 3 and 4, total 4 points which is greater than 3.
+[07:34] So, I will say that the density around this point is called dense.
+[07:41] Okay.
+[07:42] Let's take one more example.
+[07:44] Let's talk about this point.
+[07:46] So, for this point also we have to make a circle.
+[07:49] So, let's say we have made this circle.
+[07:52] What is its radius?
+[07:57] Epsilon which is 1 unit.
+[07:59] Now we will also count the number of points in this circle.
+[08:05] So here we have one point and two points.
+[08:08] Since it is less than three, then I can say that the density here is sparse.
+[08:14] And in this way, I can calculate the density around any point.
+[08:20] So basically, the min points and epsilon help us to calculate the density around any point.
+[08:28] and fun fact these are your two hyper parameters which you have to tune in the process of using this algorithm
+[08:38] so that is why I told you learning these two is super important
+[08:42] now next we will learn about three types of points which you get to see in db scan
+[08:47] which three points first is core points second is border points and third is noise points
+[08:53] and trust me these three are very important in respect of db scan
+[08:57] important. So you should know which thing is called core, which is called border, which is called noise.
+[09:03] The good part is the concept is pretty simple, especially if you know the concept of the main point and you
+[09:10] know the concept of Epsilon, then we will learn from the help of this diagram that how will you identify these three points?
+[09:19] so first of all let's talk about core point
+[09:22] so core point is such a point
+[09:26] in which in epsilon neighborhood
+[09:29] there are more data points than min points
+[09:35] I am repeating once again
+[09:38] core point is such a data point
+[09:40] in which in epsilon neighborhood
+[09:42] epsilon neighborhood means
+[09:44] this circle whose radius is epsilon
+[09:47] you will provide value of Epsilon as a hyperparameter
+[09:51] so
+[09:52] core point is a data point whose Epsilon neighborhood
+[09:58] number of data points is greater than
+[10:01] or equal to
+[10:03] main points
+[10:04] so in this diagram
+[10:07] suppose we have taken value of main points 5
+[10:10] and value of Epsilon is Epsilon
+[10:13] so focus on this point
+[10:15] if you draw a circle of epsilon radius then you will get a red circle
+[10:22] now you have to count how many data points are there in this red circle
+[10:29] you can see 1,2,3,4,5
+[10:34] since it is equal to the min points
+[10:40] then this point becomes a core point
+[10:44] It is a simple concept, the number of data points in the epsilon neighborhood of any data point, if they are equal or more than the main points, then you will call it a core point.
+[10:58] I hope you understood, now let's move on to the second type of points that you will see in the db scan and we call it border point.
+[11:09] So, border point is a data point whose epsilon neighborhood has less number of data points than the min point.
+[11:22] But, its epsilon neighborhood has at least one core point.
+[11:29] Listen carefully, it is very simple, there are two conditions.
+[11:32] border point is a data point whose epsilon neighborhood has less data points than the min point
+[11:42] but atleast one core point is there
+[11:47] like if you focus on this
+[11:50] make a circle of epsilon radius for this
+[11:54] which we will call epsilon neighborhood
+[11:57] and now count how many data points are there
+[12:00] 1, 2, 3
+[12:04] which is less than 5
+[12:06] then this is not a core point
+[12:08] but in this whole neighborhood
+[12:11] this point which is a core point
+[12:14] both the criteria are satisfied
+[12:16] and this data point is border point
+[12:20] so let me summarize it once again
+[12:22] a point whose epsilon neighborhood
+[12:25] has less number of data points than the min point
+[12:28] but if there is atleast one core point then we call it as border point
+[12:34] now lets talk about noise point
+[12:37] which is third type of point
+[12:39] so its a very simple definition
+[12:41] if any data point is neither core point nor border point
+[12:48] then you will call it as noise point
+[12:50] like this data point
+[12:53] for this also you draw a circle of epsilon radius
+[12:58] which we will call as epsilon neighborhood
+[13:01] and we will count that how many data points are there
+[13:04] 1, 2 which is less than 5
+[13:08] so clearly this is not a core point
+[13:11] now neither this is a core point
+[13:15] nor any other core point is in its epsilon neighborhood
+[13:18] so this will not be a border point
+[13:20] so there is no core point and no border point so what is left?
+[13:23] noise point
+[13:24] and that's the concept
+[13:26] if you talk in the context of a real data set
+[13:29] suppose you have a data set like this
+[13:31] so in this data set you can identify the core points very easily
+[13:36] border points and noise points
+[13:39] so these points which you can see in the main area
+[13:43] these are your core points
+[13:45] which basically make the pattern of your data
+[13:49] On its periphery, the blue colored points on the border are our border points and the outliers in the distant areas are our noise points.
+[14:02] So when you will do a clustering on any data set tomorrow, you will see the categorization like this between core points, border points and noise points.
+[14:12] Now we have to learn one more concept before learning BBSCAN and that concept is Density Connected Points.
+[14:20] Now what are Density Connected Points? I will tell you in simple words.
+[14:25] If two points A and B are Density Connected, then it means that you can put both of them in one cluster.
+[14:39] That's it. Listen again. If two points A and B are density connected, then it simply means that you can put both of them in one cluster.
+[14:53] And that's the meaning of density connected points. But the bigger question is that how will we know that these two points are density connected.
+[15:03] So, the answer to this is also very simple.
+[15:06] Assume that you have two points A and B.
+[15:12] Now, if they are indirectly connected to each other via a lot of core points
+[15:22] And all of these adjacent pairs of core points are at a distance of less than equal to epsilon.
+[15:34] Then A and B are density connected points.
+[15:39] I know it might be a little confusing but try to understand.
+[15:43] If A and B are indirectly connected to each other
+[15:49] with the help of a lot of core points
+[15:56] and the speciality of these core points is that
+[16:01] if you take any of these two adjacent pairs
+[16:06] the distance between them will always be less than or equal to epsilon
+[16:13] if this criteria matches throughout
+[16:16] then we will call A and B as density connected
+[16:23] when this criteria will fail? there are two cases
+[16:27] first case is that if there is no core point in between
+[16:32] whether it is a border point or a noise point
+[16:35] then this path will break and then A and B will not be connected
+[16:41] second case is that you have these two core points
+[16:47] but the distance between them is more than epsilon
+[16:52] then also this path will break and A and B will not be density connected.
+[16:59] You will have to put them in different clusters.
+[17:02] And that's the concept of density connected points.
+[17:06] Let me summarize once again.
+[17:08] If two points A and B are density connected,
+[17:11] then its simple meaning is that you can put them in one cluster.
+[17:15] How do we know that two points are density connected?
+[17:18] It is very simple.
+[17:19] For example, if those two points are connected to a sequence of core points and in that sequence, the distance between any adjacent pair is less than or equal to epsilon, then the two points we have are density connected.
+[17:34] If one of these criteria fails, then those two points are not density connected.
+[17:40] So now we have read all the concepts which were required to understand db scan
+[17:45] We know the min points, epsilon, we know three types of points
+[17:49] Border point, noise point, core point
+[17:52] And we also know the concept of density connected points
+[17:55] So now we are ready to understand the db scan algorithm
+[17:59] So guys now I will explain you the db scan algorithm very well
+[18:04] In total, this algorithm is executed in four steps
+[18:08] So first I will tell you these four steps
+[18:10] And here I have created a small toy data set, I will show you all the steps on it by running it, so that you have a visual understanding.
+[18:21] Let's start. First of all, let's talk about step 1. Before step 1, in fact, you talk about step 0.
+[18:29] In step 0, you decide the value of one of the min points and the value of one of the epsilon
+[18:37] Because these are hyper parameters and without them our algorithm will not be able to start
+[18:42] So let's assume for a while that our epsilon is this much
+[18:46] Like whatever this distance is
+[18:48] And let's assume that the min points are 3
+[18:52] It is assumption based
+[18:54] Now let's move to step 1
+[18:56] we have the value of min points and we have the value of epsilon
+[18:59] what you have to do in step 1
+[19:02] you have to identify all the points
+[19:05] that you have as either core point
+[19:08] or border point or noise point
+[19:11] first of all you have to do this
+[19:14] so we can't do exactly but in this data set
+[19:17] you have to try to pause the video
+[19:20] you have to label every point as core point
+[19:23] border point or noise point so if i talk about this so i guess you are able to understand that since
+[19:30] it is in very close proximity of others so this seems like a core point same for this one same
+[19:37] for this one same for this one and same for this one all these core points are visible if i am here
+[19:45] then this is also a core point visible this is also a core point visible this is also a core point visible
+[19:50] Now if I talk about this point, then this point seems like a border point, same for this one and same for this one.
+[20:02] And if I talk about these two points, this and this, then it is very clear that these two are noise points.
+[20:12] So in this way we have calculated our step 1.
+[20:15] Obviously, we have to do a lot of calculations to do the whole thing, but we did it on the basis of induction.
+[20:21] And now we have every point labeled as either core point or border point or noise point.
+[20:29] Now let's move to step number 2. There are multiple steps in step number 2.
+[20:35] so what we have to do is, we have to find all the unclustered core points
+[20:47] for now none of them are clustered, all of them are unclustered
+[20:51] so let's consider it for a while, 4.12345678
+[20:59] so we have to go to unclustered core points, so let's say we go to 1
+[21:04] And we have to create a new cluster. So we will create a cluster around 1.
+[21:12] Now see what is next. This is the main step.
+[21:16] Now we have to add all the points that are unclustered.
+[21:22] And density connected to the current point into this cluster.
+[21:27] So 1 is the current point. We are going to the next unclustered point 2.
+[21:32] and we are just asking this question, are these two density connected?
+[21:36] since these two are core points and the distance between them is less than epsilon
+[21:41] so actually these two are density connected
+[21:44] so what I will do is, I will add 2 to this cluster
+[21:48] then we will move ahead towards 3
+[21:51] and we are asking this question, are 1 and 3 density connected?
+[21:55] the answer is yes, because 2 comes in between, 2 is also a core point
+[21:59] And this distance is also less than epsilon, so we will move this cluster forward.
+[22:05] Then we will ask the question whether 1 and 4 are density connected.
+[22:10] 1 and 2 are, 2 and 3 are, 3 and 4 are also there.
+[22:14] Because 3 and 4 are both core points and the distance between them is less than epsilon.
+[22:19] So we will also make this a part of this cluster.
+[22:22] Then we will ask whether 1 and 5 are density connected.
+[22:26] The distance between 5 and 4 is less than epsilon, so we will extend this cluster.
+[22:32] Then we will ask whether 1 and 6 are density connected.
+[22:36] Here 6 is connected.
+[22:38] So the distance between 5 and 6 is greater than epsilon.
+[22:43] So this connection will not be formed.
+[22:45] And because of this, your loop will stop here.
+[22:51] And this much will come in one cluster, now we will run the loop again, what is being said in the loop again, for all the unclustered core points, which is unclustered, 6, 7 or 8, so we will catch 6 and we will create a new cluster, in fact let me use a different color, so this is the cluster of 6, now what will we do again, add all the points that are unclustered and density connected,
+[23:22] we will go to 7, guess what, 6 and 7 are core points and are at the distance of less than epsilon
+[23:29] so you will put them in the same cluster
+[23:32] then I will ask whether 6 and 8 are density connected
+[23:36] the answer is again yes, 8 and 7 are core points and the distance between them is less than epsilon
+[23:42] so we will extend this
+[23:44] now if there is no unclustered core point left then the loop will end
+[23:48] and this is my second cluster
+[23:53] Now we will come to step 3. Since all our core points are exhausted, now we will talk about border points.
+[24:00] So here it is written for each unclustered border point, assign it to the cluster of nearest core point.
+[24:08] This means that suppose this is our first border point, this is our second border point, this is our third border point.
+[24:15] we will remove the nearest core point of every border point
+[24:19] and the cluster in which that core point will be located
+[24:22] we will put our border point in that same cluster
+[24:25] so basically this will happen
+[24:28] similarly for 2
+[24:31] you can see 2 is also closed by 3
+[24:34] so we will do this
+[24:37] for 3
+[24:40] it is closed by 8 hence
+[24:43] we will put it in green cluster
+[24:45] and in this way all our border points are also exhausted
+[24:49] now what is left? noise points
+[24:51] what we have to do in noise points
+[24:53] we have to leave it as it is
+[24:55] we have to leave it as it is
+[24:57] and this is the result of our clustering
+[25:00] we have two clusters
+[25:01] this is one
+[25:02] this is two
+[25:03] and there are two noise points
+[25:05] ok
+[25:06] and you can see
+[25:07] what was the basis of this clustering?
+[25:10] on the basis of density
+[25:12] and that is how
+[25:14] db-scan works
+[25:16] simple
+[25:18] elegant beautiful
+[25:20] so let's discuss
+[25:22] how you can use db-scan in sklearn
+[25:24] and implement it
+[25:26] it is very simple
+[25:28] sklearn makes everything easy
+[25:30] so I took this example
+[25:32] directly from sklearn website
+[25:34] here we took some data points
+[25:36] not much
+[25:38] there are 6 data points
+[25:40] and I will plot it and show you
+[25:42] so here are those 3 points
+[25:44] here are 2 and here is 1
+[25:46] so I guess you can understand
+[25:48] roughly this will be a cluster
+[25:50] this will be a cluster and this is a noise point
+[25:52] ok so here you don't have to do anything
+[25:54] you just have to make an object of db scan
+[25:56] in that you just have to provide
+[25:58] 2 hyper parameters
+[26:00] first is epsilon which we discussed
+[26:02] second is min samples which are your min points
+[26:04] so I have kept here 3
+[26:06] 3 or 2, call db.fit and pass your x here. The good part about db scan is that as you
+[26:15] train your model, then in the labels parameter, in the labels attribute, the result of your
+[26:24] cluster comes. So you can see when you run it, just one second, as you run it, then you
+[26:35] you are getting this so there are six points it did what it did first put three points in one cluster
+[26:41] put these two points in the other cluster and what does db scan do whenever there is a noise point
+[26:48] assigns it minus one I hope you understand I took a small example intentionally because it is easy to understand
+[26:54] let me ask you a quick question what if I do three in place of two in the min samples
+[27:01] what do you think will happen?
+[27:03] pause the video and try to think
+[27:06] I will run the cell and show you
+[27:08] this is the output
+[27:09] you can see
+[27:11] only these three are added in one cluster
+[27:14] rest three points
+[27:16] these two and this too
+[27:18] our algorithm has labelled as noise
+[27:20] why?
+[27:21] because if you talk about these two points
+[27:23] then in their epsilon neighbourhood
+[27:26] there can't be three points
+[27:27] because there are only two points here
+[27:29] So that is why these are noise points, border point is also not formed and core point is not there.
+[27:36] Similarly, what if I do this that I increase epsilon to 10 instead of 3.
+[27:44] Increasing epsilon means that you are increasing the radius of that circle, you are increasing the neighborhood.
+[27:49] So what will happen? I guess again you will be able to understand.
+[27:52] We have added these 5 points in one cluster because obviously one point's cluster Epsilon neighborhood has become so big that it has reached here.
+[28:04] You can see here the scale is written from 0 to 10.
+[28:07] So you can check the results by slightly varying Epsilon and Min samples because these are hyperparameters so you have the control.
+[28:15] and here is a proper example where we have taken a data set which is a data set of concentric circles
+[28:22] and we have applied db scan on this data set and this is the result
+[28:28] I guess you are able to understand that it is not possible for K-means to cluster this type of data
+[28:36] Right, he would have made a mistake but the speciality of DBSCAN is that it doesn't matter which shape and size data you are giving to him, it only matters the density and he can do the cluster.
+[28:47] So I will just give you this code in the description part, go there, explore, change the parameters, apply another data set and you would learn a lot.
+[28:56] So guys we understood the DBSCAN algorithm, even tried running some code, once I will summarize for you that what are the advantages and limitations of using DBSCAN.
+[29:05] If I talk about advantages first, then you must have seen many advantages, let's quickly discuss them.
+[29:13] The first advantage is that this algorithm is robust to outliers.
+[29:19] This means that there is a built-in capability in this algorithm to identify outliers.
+[29:24] And you must have noticed that it can detect noise points separately.
+[29:28] So because of that, many times you also use it in anomaly detection type scenarios.
+[29:34] So, very good feature. K-Means was not good in this.
+[29:38] One more very good thing and a headache which was less is that we don't have to tell how many clusters should be there.
+[29:44] This algorithm figures it out by itself.
+[29:46] The example I gave you just now, there should have been two clusters.
+[29:50] And DBSCAN figured it out by itself that there will be two clusters.
+[29:54] We didn't have to tell it like K-Means.
+[29:57] Third is that it can find arbitrary shaped clusters.
+[30:01] you can give any type of data to it
+[30:05] it can do clustering in it
+[30:09] shape does not matter because its main idea is on density
+[30:13] so that is why shapes does not matter
+[30:17] and the best part is that unlike some other machine learning
+[30:21] algorithms where you have to remember many hyper parameters
+[30:25] here you have to learn just two hyper parameters and those are
+[30:29] which are Minpoints and Epsilon
+[30:33] so these are some of the best advantages of this algorithm
+[30:37] but it is not that this is the best clustering algorithm
+[30:42] there are some flaws of this algorithm, we will discuss that as well
+[30:45] so
+[30:46] one of the biggest weakness of this algorithm
+[30:49] is that it is very sensitive to its hyperparameters
+[30:53] if you change the value of Minpoints or Epsilon a little
+[30:56] then you will notice that your clustering will be very different
+[31:00] very different clustering will be made
+[31:02] so this is one big problem
+[31:04] that you have to be super careful
+[31:06] while
+[31:08] while putting a value for
+[31:10] min points and epsilon
+[31:12] second problem is
+[31:14] if you give it this kind of data
+[31:16] where you have two clusters
+[31:18] one like this and one like this
+[31:22] but the problem in both of them is that
+[31:24] here it is little sparse
+[31:26] it is a little open, it is a little dense here, it is tightly packed, so in such clusters, db scan does not work that well, why, because what you have done, you have made one single value of epsilon, which you will put on it and you will put it on it, now think for yourself, one single value of epsilon, how will it suit on these two different density clusters, so that is the problem,
+[31:51] So if you have such a scenario where the density of clusters is different, then there is no good performance.
+[31:59] And the last drawback is that this algorithm cannot do prediction.
+[32:06] In fact, predict function does not exist here.
+[32:09] It only runs on training data and does clustering.
+[32:16] It only works for clustering, it does not work for prediction.
+[32:19] that means if tomorrow a new point comes, then it cannot tell that this new point will go here or here,
+[32:25] and why does this happen, I guess you are able to understand, to understand where this new point will go,
+[32:30] you will have to do all the calculations again, you will have to make clusters again, you will have to do training again,
+[32:36] and that is why there is no case of prediction here, now before ending the video, I want to show you a very kickass resource,
+[32:45] This is a website where you can see how db-scan works through visualization.
+[32:51] There are many different types of data sets given here.
+[32:54] So let's say I take this one, smiley face.
+[32:58] And here you have set the value of epsilon,
+[33:01] you have set the value of min points which you can increase or decrease using these sliders.
+[33:05] And once you click on go, it will actually perform db-scan.
+[33:10] you would actually be able to see how the DB Scan algorithm works, how these circles move forward and add more points to the cluster
+[33:21] and how they stop and how a new cluster is formed. You can visualize all these things and the best part is that you can change the value of Epsilon and Minpoints
+[33:31] you can see that what impact it has on the working of this algorithm
+[33:36] so when I understood db-scan, I used this website a lot
+[33:41] in fact, whatever data sets they gave, around 9-10 data sets they gave
+[33:45] I did all the tests, wrote my observations on copy
+[33:49] and trust me, it helped me a lot to understand how db-scan works
+[33:54] so this is like a cool resource
+[33:56] I don't know how they made it using javascript or how
+[33:59] but this is really really awesome
+[34:01] So, this was the video guys. I hope you liked the video.
+[34:05] If you liked the video, then please like the video, write in the comments and tell me how it was.
+[34:09] And if you haven't subscribed to the channel, please do subscribe.
+[34:13] See you in the next video. Bye.

@@ -168,8 +168,20 @@ Before-and-after studies are by far the most common.
 
 ### 5.2 Assumptions
 
-1. **Paired observations.** The two sets of measurements are linked: each value in one set belongs to the same subject (or matched pair) as one value in the other. Student A's mark before and student A's mark after form a pair.
-2. **Normality of the differences.** The differences between paired observations are approximately normal. We test the differences, not the two samples separately.
+A small class has 5 students, A to E. Their test marks are poor, so they get extra classes and then take the test again:
+
+| Student | Before | After | $d$ = before $-$ after |
+|---|---|---|---|
+| A | 50 | 55 | $-5$ |
+| B | 60 | 60 | 0 |
+| C | 70 | 60 | 10 |
+| D | 40 | 60 | $-20$ |
+| E | 25 | 100 | $-75$ |
+
+The same 5 students make up both samples. The three assumptions, on this example:
+
+1. **Paired observations.** The two sets of measurements are linked: each value in one set belongs to the same subject (or matched pair) as one value in the other. Student A's mark before (50) and student A's mark after (55) form a pair.
+2. **Normality of the differences.** The differences between paired observations are approximately normal. We test the differences (the last column), not the two samples separately.
 3. **Independence of pairs.** Each pair is independent of the other pairs: student A's marks do not influence student B's (no copying in the test).
 
 ### 5.3 The test statistic

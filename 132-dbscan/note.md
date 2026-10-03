@@ -74,7 +74,7 @@ DBSCAN measures density around each point with two settings:
 - **eps** (epsilon): a distance. The circle of radius eps around a point is its **eps-neighbourhood**. The unit is that of the data: eps = 1 could be 1 centimetre or 1 kilometre.
 - **MinPts** (minimum points): how many points the eps-neighbourhood must contain for the region to count as dense.
 
-For example, with eps = 1 and MinPts = 4, we draw a circle of radius 1 around a point and count the points inside, the point itself included. 5 points: dense. 2 points: sparse. Doing this for every point measures the density everywhere.
+For example, with eps = 1 and MinPts = 3, we draw a circle of radius 1 around a point and count the points inside, the point itself included. 4 points: at least 3, so dense. Around another point the circle holds 2 points: fewer than 3, so sparse. Doing this for every point measures the density everywhere.
 
 eps and MinPts are DBSCAN's only two hyperparameters, and choosing them well is most of the work of using it.
 
@@ -86,26 +86,26 @@ eps and MinPts are DBSCAN's only two hyperparameters, and choosing them well is 
 
 Using eps and MinPts, DBSCAN puts every point into one of three types (Figure 2):
 
-- A **core point** has at least MinPts points in its eps-neighbourhood. In Figure 2, with eps = 1 and MinPts = 4, the circled blue point has 5. Core points form the inside of a cluster.
-- A **border point** has fewer than MinPts points in its eps-neighbourhood, but at least one of them is a core point. The circled orange point has only 2 (itself and one more), and that other one is a core point. Border points sit on the edge of a cluster.
-- A **noise point** is neither: too few points around it, and no core point among them. The circled grey cross has only itself. Noise points are the outliers.
+- A **core point** has at least MinPts points in its eps-neighbourhood (equal to MinPts is enough). In Figure 2, with eps = 1 and MinPts = 5, the blue point has exactly 5. Core points form the inside of a cluster and make up its shape.
+- A **border point** meets two conditions: it has fewer than MinPts points in its eps-neighbourhood, but at least one of them is a core point. The circled orange point has only 3, fewer than 5, so it is not a core point; one of the 3 is the blue core point. Border points sit on the edge of a cluster.
+- A **noise point** is neither a core point nor a border point. The circled grey cross has only 2 points within eps, so it is not a core point, and neither of them is a core point, so it is not a border point either. Noise points are the outliers far from the dense areas.
 
-![Core, border and noise points for eps = 1 and MinPts = 4; dotted circles are eps-neighbourhoods](images/point_types.png){height=45%}
+![Core, border and noise points for eps = 1 and MinPts = 5; dotted circles are eps-neighbourhoods](images/point_types.png){height=45%}
 
 ## 7. Density-connected points
 
 > **Key point:** Two points are density-connected if a chain of core points links them, each step no longer than eps; density-connected points belong to the same cluster.
 
-Two points A and B can be far apart and still belong to the same cluster. What matters is whether we can walk from A to B through the dense region.
+If two points A and B are **density-connected**, we can put them in the same cluster. They can be far apart: what matters is whether we can walk from A to B through the dense region.
 
-A and B are **density-connected** if there is a chain of core points from A to B in which every two neighbouring points of the chain are at most eps apart. Density-connected points go in the same cluster.
+A and B are density-connected if they are linked, possibly indirectly, by a sequence of core points in which every two neighbouring points are at most eps apart.
 
 The chain breaks in two cases:
 
-- **A gap:** two neighbouring points in the chain are more than eps apart.
-- **A non-core point in the middle:** the walk passes through a point that is not a core point. A border point can end a chain but cannot pass it on.
+- **A non-core point in the middle:** there is no core point at some step, only a border point or a noise point. A border point can end a chain but cannot pass it on.
+- **A gap:** two neighbouring core points in the chain are more than eps apart.
 
-If the chain breaks, A and B are not density-connected and go in different clusters.
+If either case happens, A and B are not density-connected and go in different clusters.
 
 ## 8. The DBSCAN algorithm step by step
 
