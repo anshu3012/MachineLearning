@@ -8,8 +8,8 @@ title: "Simple Linear Regression: The Mathematics from Scratch"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)); Covariance and covariance matrix ([Note 48](../48-pca-step-by-step/note.md)).
-> - **Leads to:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)).
-> - **Compare with:** Gradient descent (Video 57, coming).
+> - **Leads to:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Multiple linear regression ([Note 53](../53-multiple-linear-regression/note.md)); Normal equation ([Note 54](../54-multiple-lr-maths/note.md)); Gradient descent ([Note 57](../57-gradient-descent/note.md)).
+> - **Compare with:** Gradient descent ([Note 57](../57-gradient-descent/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

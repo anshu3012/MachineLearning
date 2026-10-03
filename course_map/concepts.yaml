@@ -73,6 +73,7 @@ notes:
   54: 54-multiple-lr-maths
   55: 55-multiple-lr-code
   56: 56-linear-regression-assumptions
+  57: 57-gradient-descent
 
 concepts:
   # 0 Foundations
@@ -183,7 +184,9 @@ concepts:
   - {id: best_fit_line, name: Best-fit line and squared error, step: 8, videos: [50, 51], status: confirmed}
   - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: confirmed}
   - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: confirmed}
-  - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57], status: draft}
+  - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57], status: confirmed}
+  - {id: learning_rate, name: Learning rate, step: 10, videos: [57], status: confirmed}
+  - {id: convexity, name: Convex and non-convex loss, step: 8, videos: [57], status: confirmed}
   - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58], status: draft}
   - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59], status: draft}
   - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, videos: [60], status: draft}
@@ -411,7 +414,10 @@ links:
   - [lr_assumptions, needs, multicollinearity, confirmed]
   - [lr_assumptions, needs, qq_plot, confirmed]
   - [regression_metrics, used in, linear_regression, confirmed]
-  - [gradient_descent, used in, linear_regression, draft]
+  - [gradient_descent, used in, linear_regression, confirmed]
+  - [learning_rate, used in, gradient_descent, confirmed]
+  - [convexity, used in, gradient_descent, confirmed]
+  - [gradient_descent, needs, best_fit_line, confirmed]
   - [linear_regression, needs, best_fit_line, confirmed]
   - [linear_regression, is a kind of, supervised, confirmed]
   - [batch_gd, is a kind of, gradient_descent, draft]

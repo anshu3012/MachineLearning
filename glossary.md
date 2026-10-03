@@ -114,7 +114,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Connection object | The open link to a database (`conn`) that queries go through. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Connector | A library that lets Python talk to a database. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Container | A tag (often a `div`) that holds everything about one item, such as one company. | [Video 18](18-web-scraping/note.md) |
+| Contour plot | A map of a surface seen from above, with lines joining points of equal height. | [Video 57](57-gradient-descent/note.md) |
+| Converge | To settle at a minimum, with steps becoming negligible. | [Video 57](57-gradient-descent/note.md) |
 | Convergence | The point where the fills hardly change between two iterations. | [Video 40](40-iterative-imputer-mice/note.md) |
+| Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. | [Video 57](57-gradient-descent/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
 | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Video 20](20-univariate-analysis/note.md) |
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Video 48](48-pca-step-by-step/note.md) |
@@ -156,6 +159,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Distance weighting | Each neighbour counts in proportion to 1 / its distance, so nearer rows count more. | [Video 39](39-knn-imputer/note.md) |
 | Distance | A number measuring how far apart two points are; small distance = similar. | [Video 6](06-instance-vs-model-based/note.md) |
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
+| Diverge | To move further away with each step, the loss growing instead of shrinking. | [Video 57](57-gradient-descent/note.md) |
 | Domain knowledge | Knowledge of the field the data comes from. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Donor | A row that has a value in the column being filled, so it can be a neighbour. | [Video 39](39-knn-imputer/note.md) |
 | Dot product | Multiply matching components of two vectors and add; $u^{\mathsf T}x$. | [Video 48](48-pca-step-by-step/note.md) |
@@ -176,6 +180,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Endpoint | One address of an API that returns one kind of data. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment variable | A named value stored on the computer, outside the code, read with `os.environ`. | [Video 17](17-fetching-data-from-api/note.md) |
 | Environment | The world the agent acts in. | [Video 3](03-types-of-ml/note.md) |
+| Epoch | One full update of the parameters using the whole training set. | [Video 57](57-gradient-descent/note.md) |
 | Equal frequency binning | Binning into bins holding the same number of rows, with the quantiles as edges; also called quantile binning. | [Video 32](32-binning-binarization/note.md) |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning. | [Video 32](32-binning-binarization/note.md) |
 | Error (residual) | The gap between an actual value and the model's prediction. | [Video 50](50-simple-linear-regression/note.md) |
@@ -216,8 +221,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
 | get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$. | [Video 27](27-one-hot-encoding/note.md) |
 | get_feature_names_out | `OneHotEncoder` method that returns the names of the new columns. | [Video 27](27-one-hot-encoding/note.md) |
+| Global minimum | The lowest point of the whole function. | [Video 57](57-gradient-descent/note.md) |
 | Good fit | Capturing the pattern while ignoring the noise. | [Video 7](07-challenges-in-ml/note.md) |
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill. | [Video 24](24-standardization/note.md) |
+| Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase. | [Video 57](57-gradient-descent/note.md) |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | GridSearchCV | scikit-learn class that cross-validates every value in a grid and keeps the best. | [Video 29](29-pipelines/note.md) |
 | handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training. | [Video 27](27-one-hot-encoding/note.md) |
@@ -279,6 +286,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
 | LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes. | [Video 49](49-pca-mnist/note.md) |
+| Learning rate ($\eta$) | The number the slope is multiplied by to get the step size. | [Video 57](57-gradient-descent/note.md) |
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
 | Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -287,6 +295,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Linear relationship | A relationship between two columns that follows a straight line. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced. | [Video 48](48-pca-step-by-step/note.md) |
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Video 15](15-working-with-csv/note.md) |
+| Local minimum | A point lower than everything around it, but not the lowest overall. | [Video 57](57-gradient-descent/note.md) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Video 30](30-function-transformer/note.md) |
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0. | [Video 30](30-function-transformer/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
@@ -368,6 +377,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned. | [Video 27](27-one-hot-encoding/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
 | Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
+| Optimisation algorithm | A method for finding the parameter values that make a function as small (or large) as possible. | [Video 57](57-gradient-descent/note.md) |
 | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Video 26](26-ordinal-label-encoding/note.md) |
 | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -406,6 +416,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Pivot table | A grid with one column's values as rows, another's as columns, and a third in the cells. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Pixel | One dot of an image, stored as one or more numbers. | [Video 11](11-tensors/note.md) |
 | Plane | A flat surface in 3D; the model for two input columns. | [Video 53](53-multiple-linear-regression/note.md) |
+| Plateau | A nearly flat region of the loss, where steps become very small. | [Video 57](57-gradient-descent/note.md) |
 | Policy | The agent's rules for which action to take. | [Video 3](03-types-of-ml/note.md) |
 | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Video 31](31-power-transformer/note.md) |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Video 30](30-function-transformer/note.md) |
@@ -459,6 +470,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Root mean squared error (RMSE) | The square root of MSE, in the output's units. | [Video 52](52-regression-metrics/note.md) |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean. | [Video 52](52-regression-metrics/note.md) |
 | R² score | How much of the variation in a regression target the model explains: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
+| Saddle point | A flat point that curves up in one direction and down in another. | [Video 57](57-gradient-descent/note.md) |
 | Sample | The part of the real world that our data covers. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |

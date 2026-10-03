@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 94 of 141 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 97 of 143 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -168,7 +168,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Multiple linear regression | [Note 53](../53-multiple-linear-regression/note.md), [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
 | Normal equation | [Note 54](../54-multiple-lr-maths/note.md), [Note 55](../55-multiple-lr-code/note.md) | confirmed |
 | Assumptions of linear regression | [Note 56](../56-linear-regression-assumptions/note.md) | confirmed |
-| Gradient descent | Video 57, coming | draft |
+| Gradient descent | [Note 57](../57-gradient-descent/note.md) | confirmed |
+| Convex and non-convex loss | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Batch gradient descent | Video 58, coming | draft |
 | Mini-batch gradient descent | Video 60, coming | draft |
 | Polynomial regression | Video 61, coming | draft |
@@ -218,6 +219,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 |---|---|---|
 | Hyperparameter tuning | Video 9, coming, Video 81, coming, Video 98, coming, Video 111, coming, Video 118, coming | draft |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 112, coming | draft |
+| Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
 
 ### 2.12 Step 11: Deploy
@@ -256,7 +258,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 141 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 143 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -333,10 +335,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 54 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 55 | Multiple linear regression, Normal equation | [Note 3](../03-types-of-ml/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
 | 56 | Assumptions of linear regression | [Note 27](../27-one-hot-encoding/note.md), [Note 30](../30-function-transformer/note.md) | written |
-| 57 | Gradient descent | [Note 24](../24-standardization/note.md) | coming |
-| 58 | Batch gradient descent | Video 57, coming | coming |
-| 59 | Stochastic gradient descent | Video 57, coming | coming |
-| 60 | Mini-batch gradient descent | Video 57, coming | coming |
+| 57 | Convex and non-convex loss, Gradient descent, Learning rate | [Note 24](../24-standardization/note.md), [Note 51](../51-linear-regression-maths/note.md) | written |
+| 58 | Batch gradient descent | [Note 57](../57-gradient-descent/note.md) | coming |
+| 59 | Stochastic gradient descent | [Note 57](../57-gradient-descent/note.md) | coming |
+| 60 | Mini-batch gradient descent | [Note 57](../57-gradient-descent/note.md) | coming |
 | 61 | Polynomial features, Polynomial regression | [Note 55](../55-multiple-lr-code/note.md) | coming |
 | 62 | Bias-variance trade-off | [Note 7](../07-challenges-in-ml/note.md) | coming |
 | 63 | Regularisation, Ridge regression | [Note 7](../07-challenges-in-ml/note.md), [Note 55](../55-multiple-lr-code/note.md) | coming |
@@ -346,12 +348,12 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 67 | Lasso regression | Video 63, coming | coming |
 | 68 | Lasso regression | Video 63, coming | coming |
 | 69 | ElasticNet | Video 63, coming | coming |
-| 70 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), Video 57, coming, Video 61, coming | coming |
-| 71 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), Video 57, coming, Video 61, coming | coming |
-| 72 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), Video 57, coming, Video 61, coming | coming |
-| 73 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), Video 57, coming, Video 61, coming | coming |
+| 70 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
+| 71 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
+| 72 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
+| 73 | Logistic regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming | coming |
 | 74 | Sigmoid function | nothing | coming |
-| 75 | Logistic regression | [Note 6](../06-instance-vs-model-based/note.md), Video 57, coming, Video 61, coming, Video 74, coming | coming |
+| 75 | Logistic regression | [Note 6](../06-instance-vs-model-based/note.md), [Note 57](../57-gradient-descent/note.md), Video 61, coming, Video 74, coming | coming |
 | 76 | Accuracy, Confusion matrix | [Note 13](../13-toy-project/note.md) | coming |
 | 77 | Precision, recall and F1 | Video 9, coming, Video 76, coming | coming |
 | 78 | ROC curve and AUC | Video 76, coming | coming |
@@ -396,9 +398,9 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 117 | AdaBoost | nothing | coming |
 | 118 | AdaBoost, Hyperparameter tuning | nothing | coming |
 | 119 | Boosting | Video 101, coming | coming |
-| 120 | Gradient boosting | Video 57, coming, Video 119, coming | coming |
-| 121 | Gradient boosting | Video 57, coming, Video 119, coming | coming |
-| 122 | Gradient boosting | Video 57, coming, Video 119, coming | coming |
+| 120 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |
+| 121 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |
+| 122 | Gradient boosting | [Note 57](../57-gradient-descent/note.md), Video 119, coming | coming |
 | 123 | XGBoost | Video 122, coming | coming |
 | 124 | XGBoost | Video 122, coming | coming |
 | 125 | XGBoost | Video 122, coming | coming |
