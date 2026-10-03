@@ -9,7 +9,7 @@ title: "End-to-End Toy Project: Predicting Placement"
 >
 > - **Builds on:** Dimensionality reduction ([Note 3](../03-types-of-ml/note.md)); Classification problems ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Software integration ([Note 7](../07-challenges-in-ml/note.md)); Framing an ML problem ([Note 9](../09-mldlc/note.md)); APIs ([Note 9](../09-mldlc/note.md)).
 > - **Leads to:** Descriptive statistics ([Note 19](../19-understanding-your-data/note.md)); Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Ordinal and label encoding ([Note 26](../26-ordinal-label-encoding/note.md)).
-> - **Compare with:** Data mining ([Note 8](../08-applications-of-ml/note.md)); Web scraping ([Note 9](../09-mldlc/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Confusion matrix ([Note 76](../76-accuracy-confusion-matrix/note.md)).
+> - **Compare with:** Data mining ([Note 8](../08-applications-of-ml/note.md)); Web scraping ([Note 9](../09-mldlc/note.md)); JSON and SQL data ([Note 16](../16-working-with-json-and-sql/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Normalization ([Note 25](../25-normalization/note.md)); Cross-validation ([Note 29](../29-pipelines/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

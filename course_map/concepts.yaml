@@ -128,6 +128,13 @@ notes:
   105: 105-bagging-intuition
   106: 106-bagging-classifier
   107: 107-bagging-regressor
+  108: 108-random-forest-intro
+  109: 109-random-forest-bias-variance
+  110: 110-bagging-vs-random-forest
+  111: 111-random-forest-hyperparameters
+  112: 112-random-forest-tuning
+  113: 113-oob-score
+  114: 114-feature-importance
 
 concepts:
   # 0 Foundations
@@ -268,7 +275,7 @@ concepts:
   - {id: ensemble, name: Ensemble learning, step: 8, videos: [9, 101], status: confirmed}
   - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: confirmed}
   - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: confirmed}
-  - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111], status: draft}
+  - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111, 112, 113, 114], status: confirmed}
   - {id: boosting, name: Boosting, step: 8, videos: [101, 119], status: draft}
   - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: draft}
   - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: draft}
@@ -288,12 +295,13 @@ concepts:
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: confirmed}
   - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: confirmed}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: confirmed}
-  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112], status: draft}
-  - {id: oob_score, name: OOB score, step: 9, videos: [105, 106, 107, 113], status: draft}
+  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112], status: confirmed}
+  - {id: permutation_importance, name: Permutation importance, step: 5, videos: [114], status: confirmed}
+  - {id: oob_score, name: OOB score, step: 9, videos: [105, 106, 107, 113], status: confirmed}
 
   # 10 Tune
-  - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118], status: draft}
-  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112], status: draft}
+  - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118], status: confirmed}
+  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112], status: confirmed}
   - {id: optuna, name: Optuna, step: 10, videos: [134], status: draft}
 
   # 11 Deploy
@@ -560,8 +568,8 @@ links:
   - [boosting, is a kind of, ensemble, confirmed]
   - [stacking, is a kind of, ensemble, confirmed]
   - [bagging, compared with, boosting, draft]
-  - [random_forest, is a kind of, bagging, draft]
-  - [random_forest, needs, decision_tree, draft]
+  - [random_forest, is a kind of, bagging, confirmed]
+  - [random_forest, needs, decision_tree, confirmed]
   - [bagging, fixes, overfitting, confirmed]
   - [adaboost, is a kind of, boosting, draft]
   - [gradient_boosting, is a kind of, boosting, draft]
@@ -592,7 +600,7 @@ links:
   - [roc, needs, precision_recall, confirmed]
   - [regression_metrics, used in, regression_task, draft]
   - [cross_validation, compared with, train_test_split, draft]
-  - [oob_score, used in, random_forest, draft]
+  - [oob_score, used in, random_forest, confirmed]
   - [ensemble, needs, bias_variance, confirmed]
   - [voting, needs, independent_events, confirmed]
   - [cross_validation, used in, voting, confirmed]
@@ -600,11 +608,18 @@ links:
   - [bagging, compared with, voting, confirmed]
   - [decision_tree, used in, bagging, confirmed]
   - [oob_score, used in, bagging, confirmed]
+  - [random_forest, fixes, overfitting, confirmed]
+  - [random_forest, compared with, bagging, confirmed]
+  - [hyperparameters, used in, random_forest, confirmed]
+  - [grid_search, used in, random_forest, confirmed]
+  - [oob_score, compared with, cross_validation, confirmed]
+  - [feature_importance, used in, random_forest, confirmed]
+  - [permutation_importance, fixes, feature_importance, confirmed]
   - [grid_search, used in, bagging, confirmed]
   # Tune
   - [hyperparameters, used in, model_based, draft]
-  - [grid_search, needs, cross_validation, draft]
-  - [grid_search, is a kind of, hyperparameters, draft]
+  - [grid_search, needs, cross_validation, confirmed]
+  - [grid_search, is a kind of, hyperparameters, confirmed]
   - [optuna, is a kind of, hyperparameters, draft]
   - [optuna, compared with, grid_search, draft]
   # Production

@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[
+  g/.style={box=#1, minimum width=4.6cm, text width=4.3cm, align=left, font=\sffamily\ttfamily\small},
+  h/.style={title, align=center}]
+  \node[h] at (0,1.2) {1. the forest\\{\normalfont\small which data each tree gets}};
+  \node[h] at (5.6,1.2) {2. each tree\\{\normalfont\small how each tree grows}};
+  \node[h] at (11.2,1.2) {3. general\\{\normalfont\small training and bookkeeping}};
+  \node[g=cblue, anchor=north] at (0,0) {n\_estimators\\max\_features\\bootstrap\\max\_samples};
+  \node[g=cgreen, anchor=north] at (5.6,0) {criterion\\max\_depth\\min\_samples\_split\\min\_samples\_leaf\\min\_weight\_fraction\_leaf\\max\_leaf\_nodes\\min\_impurity\_decrease\\ccp\_alpha};
+  \node[g=corange, anchor=north] at (11.2,0) {oob\_score\\n\_jobs\\random\_state\\verbose\\warm\_start\\class\_weight\\monotonic\_cst};
+  \node[note] at (0,-2.9) {this Note, section 3};
+  \node[note] at (5.6,-4.5) {same as one decision tree};
+  \node[note] at (11.2,-4.1) {this Note, section 5};
+\end{tikzpicture}
+\end{document}

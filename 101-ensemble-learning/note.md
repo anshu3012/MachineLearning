@@ -117,7 +117,7 @@ Suppose the data D has 1,000 students and we decide to show each model 500 of th
 
 The samples differ, so the models learn differently. At prediction time we vote or average as before.
 
-When the base models are decision trees, the bagging ensemble gets its own name: a **random forest**, a "forest" of trees. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests come right after it.
+When the base models are decision trees, the bagging ensemble gets its own name: a **random forest**, a "forest" of trees. Bagging is taught in the [bagging Note](../105-bagging-intuition/note.md); random forests in the [random forest Note](../108-random-forest-intro/note.md).
 
 ### 4.4 Boosting
 

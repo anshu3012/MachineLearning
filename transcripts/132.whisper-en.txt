@@ -1,0 +1,1402 @@
+Hi guys, my name is Nitish and you are welcome to my YouTube channel.
+In this video, we are going to cover a very important clustering algorithm
+whose name is DBSCAN.
+I hope you must have heard its name.
+So, in this video, my plan is that I will first give you a geometric intuition of this algorithm.
+After that, I will explain you a small Python code.
+And lastly, I will also share a visualization tool with you,
+with which your intuition will be built very solid.
+So, this algorithm is pretty important.
+It is asked a lot in interviews.
+So, I would recommend you to watch this video till the end.
+Let's start the video.
+Before understanding DBSCAN, you should know why we need to read DBSCAN.
+We had already read a clustering algorithm, K-Means.
+It was a good algorithm.
+Then why do we need to read a new clustering algorithm?
+First of all, we will address this.
+So, K-Means, which was our clustering algorithm, was very good.
+But,
+there were some flaws in it.
+And they were such flaws that they need to be solved very important.
+I will tell you 2-3 flaws of K-Means,
+so that you can understand why we need a new clustering algorithm.
+So, the first and biggest flaw that comes in K-Means is that
+you have to specify or you have to tell the algorithm
+that how many clusters should be made.
+This is a very big problem of K-Means.
+Before starting clustering, you have to tell how many clusters should be made.
+Now, imagine that the data you have is in a very high dimension.
+Let's say, the data is of 10 dimensions.
+So, you cannot plot it.
+So, basically, you will not understand how many clusters should be made.
+So, we had read all these techniques where we had tried to find out the number of clusters
+by plotting the ELBO method.
+But, the problem is that sometimes the ELBO curve is very ambiguous.
+We do not understand what will be the correct value.
+So, because of all these reasons, it becomes a little difficult to work with K-Means.
+So, this is reason number 1.
+Reason number 2 is that K-Means is very very sensitive to outliers.
+Because you are calculating distances all the time.
+You are calculating with every data point of every centroid.
+Now, if any data point is an outlier, like this particular data point.
+So, what will it do?
+It will move all your centroids from its position.
+Right?
+You can see that all the centroids should be at the center of each cluster.
+But, because of this data point, everything shifted.
+Again, not a good scenario.
+Right?
+Reason number 3 is the most important.
+The most important reason is that because K-Means is a centroid based clustering algorithm.
+Meaning, all its mechanics are around centroid calculation.
+So, if you give K-Means some weird shape data.
+Then K-Means starts to cry.
+And you can see this is one example.
+Where we gave it some data set which was non-spherical.
+And K-Means clustered it in a completely wrong way.
+You can see that.
+And this is true on many other data sets.
+Where it does not get spherical type data.
+So, because of these three reasons.
+Machine learning community understood that only K-Means will not work.
+There are certain scenarios, certain data sets where K-Means will perform well.
+But at the same time, there will be many more such scenarios where K-Means will fail.
+And this is where.
+A new requirement was created.
+And who comes to solve that?
+DB scan.
+One more thing you should know before reading DB scan.
+And that is what are the density based clustering algorithms?
+So, if you know.
+You can call K-Means a centroid based clustering algorithm.
+Because the logic behind clustering comes through centroid.
+You create centroid.
+Calculate distances.
+Calculate points.
+Move points.
+Create new clusters.
+That is how K-Means works.
+So, we call it centroid based clustering.
+But DB scan follows a completely different style of clustering.
+And the name of that style is density based clustering.
+What happens in density based clustering algorithm?
+That you cluster your entire data.
+With the help of density between the data points.
+I will try to explain it to you.
+Here you can see a data.
+And you can see that there are roughly two clusters in this data.
+But how can density based clustering algorithms understand?
+They can see that this is a dense region.
+That means there are many data points in this particular region.
+This is a little sparse region.
+That means there are less number of data points here.
+And this is again a dense region.
+So, with the help of this sparse region.
+What can DB scan do?
+It can separate out two dense regions.
+It can create different clusters.
+So, this is the main idea behind density based clustering.
+That you are clustering on the basis of the density of data points.
+So, one good example is.
+Obviously, as I have told you till now.
+DB scan.
+In fact, if you want to know the full name of DB scan.
+Then the full name is.
+Density based spatial clustering of applications with noise.
+This is the full name.
+And trust me.
+By the end of this video.
+You will understand why exactly this name is.
+Okay.
+One more good algorithm is Optics.
+Which does density based clustering.
+So, it was necessary for you to give this introduction.
+Because.
+If you do not know how density based clustering works.
+Then you will not be able to understand DB scan that well.
+So, let me give you an example quickly.
+Suppose we have this data set.
+And for some time we have assumed.
+That our value of epsilon is.
+One unit.
+One unit means.
+It can be one centimeter.
+It can be one millimeter.
+It can be one kilometer.
+It does not matter.
+And we have assumed the min points.
+Three.
+Okay.
+If it is more than three.
+Then only we will call it.
+Dense.
+Otherwise we will call it.
+Sparse.
+So, what we have to do.
+Suppose.
+For this particular point.
+We have to find out.
+That at this particular point.
+Is it dense or sparse.
+So, first of all.
+We have to make this one unit circle.
+So, I will quickly draw a circle.
+So, let's say.
+This is the circle.
+Obviously.
+I am not making this by doing exact measurements.
+But let's say.
+This is the circle.
+So, let's say.
+This is the circle.
+So, let's say.
+This is the circle.
+So, let's say.
+This is the circle.
+So, let's say.
+This is the circle.
+But let's say.
+This is the circle.
+Okay.
+Now, in this circle.
+We will count.
+That how many points are there.
+So, we have.
+One.
+Two.
+Three.
+And four.
+In total.
+There are four points.
+Which is greater than three.
+So, I will say.
+That around this point.
+The density.
+I will call it.
+Dense.
+Okay.
+Let's take one more example.
+Let's talk about this point.
+So, for this point.
+We have to make a circle.
+So, let's say.
+This is the circle.
+So, let's say.
+This is the circle.
+Let's say.
+This is the circle.
+Let's say.
+This is the circle.
+How much is its radius?
+Epsilon.
+Which is one unit.
+Okay.
+Now, here also.
+We will count.
+That in this neighborhood.
+In this circle.
+How many points are there.
+So, here.
+There is one point.
+And there are two points.
+Since.
+This is less than three.
+So, I can say.
+That the density here.
+Is sparse.
+And in this way.
+I can calculate.
+The density.
+Around any point.
+So, basically.
+This is the min point.
+And this is the epsilon.
+We can calculate.
+The density.
+Around this point.
+This is the epsilon.
+This helps us.
+To calculate.
+The density.
+Around any point.
+And.
+Fun fact.
+These are your.
+Two hyper parameters.
+Which.
+You have to.
+Tune.
+In the process.
+Of using.
+This algorithm.
+So, that is why.
+I told you.
+It is super important.
+To learn.
+These two.
+Now, next.
+We will read.
+About three types.
+Of points.
+Which.
+You get to see.
+In db scan.
+Which three points.
+First.
+Is core points.
+And third.
+Is noise points.
+And trust me.
+These three.
+Are very important.
+In db scan.
+So, you.
+Should know.
+Which.
+Is called.
+Core.
+Which.
+Is called.
+Border.
+Which.
+Is called.
+Noise.
+The good part is.
+The concept.
+Is pretty.
+Simple.
+Especially.
+If.
+You.
+Know.
+The concept.
+Of.
+Min points.
+And.
+Core points.
+So.
+Core points.
+Is a.
+Point.
+Whose.
+Epsilon.
+Neighbourhood.
+Has.
+More.
+Data.
+Points.
+Than.
+Min points.
+Let me.
+Repeat.
+Once again.
+Core points.
+Is a.
+Data.
+Point.
+Whose.
+Epsilon.
+Neighbourhood.
+Epsilon.
+Neighbourhood.
+Means.
+This.
+Circle.
+So.
+Core.
+Point.
+Is a.
+Data.
+Point.
+Whose.
+Epsilon.
+Neighbourhood.
+Number.
+Of.
+Data.
+Points.
+Is.
+Greater.
+Than.
+Or.
+Equal.
+To.
+Min.
+Points.
+Okay.
+So.
+In.
+This.
+Diagram.
+Let's.
+See.
+The.
+Red.
+Circle.
+Now.
+What.
+You.
+Have.
+To.
+Count.
+How.
+Many.
+Data.
+Points.
+In.
+This.
+Circle.
+So.
+Since.
+This.
+Is.
+Equal.
+To.
+Min.
+Points.
+Not.
+More.
+But.
+Equal.
+Then.
+This.
+Number.
+Of.
+Data.
+Points.
+If.
+They.
+Equal.
+To.
+Min.
+Points.
+Or.
+More.
+Then.
+You.
+Will.
+Call.
+It.
+Core.
+Point.
+Now.
+Let's.
+Move.
+On.
+To.
+The.
+Second.
+Type.
+Of.
+Points.
+This.
+Number.
+Of.
+Data.
+Points.
+But.
+Its.
+Epsilon.
+Neighborhood.
+At.
+Least.
+One.
+Core.
+Point.
+Listen.
+Carefully.
+It's.
+Very.
+Simple.
+Two.
+Conditions.
+Border.
+Point.
+One.
+Data.
+Point.
+Whose.
+Epsilon.
+Neighborhood.
+Focus.
+On.
+This.
+For.
+This.
+Epsilon.
+Radius.
+Circle.
+Which.
+We.
+Call.
+Epsilon.
+Neighborhood.
+And.
+Now.
+Count.
+How.
+Many.
+Data.
+Points.
+One.
+Two.
+Three.
+Which.
+Is.
+Less.
+Than.
+Five.
+Then.
+This.
+Border.
+Point.
+So.
+I.
+Once.
+Summarize.
+One.
+Point.
+Whose.
+Epsilon.
+Neighborhood.
+Min.
+Point.
+Less.
+Number.
+Of.
+Data.
+Points.
+But.
+At.
+Least.
+One.
+Core.
+Point.
+We.
+Call.
+Border.
+Point.
+Simple.
+So.
+You.
+Call.
+Noise.
+Point.
+Like.
+This.
+Data.
+Point.
+You.
+For.
+This.
+Epsilon.
+Radius.
+One.
+Circle.
+Draw.
+Which.
+We.
+Call.
+Epsilon.
+Neighborhood.
+And.
+We.
+Count.
+How.
+Many.
+Data.
+Points.
+In.
+This.
+Epsilon.
+Neighborhood.
+So.
+This.
+Border.
+Point.
+Not.
+Core.
+Point.
+Not.
+Border.
+Point.
+So.
+What.
+Is.
+Left.
+Noise.
+Point.
+And.
+That's.
+The.
+Concept.
+If.
+You.
+Talk.
+In.
+A.
+Data.
+Which.
+Basically.
+Makes.
+The.
+Pattern.
+Of.
+Your.
+Data.
+On.
+Their.
+Periphery.
+On.
+Border.
+The.
+Blue.
+Color.
+Points.
+These.
+Are.
+Our.
+Border.
+Points.
+And.
+The.
+Outliers.
+In.
+Distant.
+Are.
+Before.
+Learning.
+B.B.
+Scan.
+And.
+That.
+Concept.
+Is.
+Density.
+Connected.
+Points.
+Up.
+Density.
+Connected.
+Points.
+What.
+Happens.
+In.
+Simple.
+Words.
+Two.
+Points.
+A.
+Or.
+B.
+If.
+Density.
+Is.
+Connected.
+And.
+B.
+If.
+Density.
+Is.
+Connected.
+Then.
+It.
+Means.
+That.
+You.
+Can.
+Put.
+Them.
+In.
+One.
+Cluster.
+And.
+That.
+Is.
+The.
+Meaning.
+Of.
+Density.
+Connected.
+Points.
+But.
+The.
+Biggest.
+Is.
+Indirectly.
+Connected.
+Via.
+A.
+Lot.
+Of.
+Core.
+Points.
+And.
+All.
+Of.
+These.
+Adjacent.
+Pairs.
+Of.
+Core.
+Points.
+Are.
+At.
+A.
+Distance.
+Of.
+Less.
+Than.
+Equal.
+To.
+Epsilon.
+Then.
+A.
+And.
+B.
+Are.
+Indirectly.
+Connected.
+With.
+The.
+Help.
+Of.
+A.
+Lot.
+Of.
+Core.
+Points.
+And.
+All.
+Of.
+These.
+Core.
+Points.
+Are.
+Indirectly.
+Connected.
+With.
+The.
+Help.
+Of.
+A.
+Lot.
+Of.
+A.
+And.
+B.
+So.
+We.
+Call.
+A.
+And.
+B.
+Density.
+Connected.
+When.
+This.
+Criteria.
+Will.
+Fail.
+Two.
+Cases.
+The.
+First.
+Case.
+Is.
+That.
+Between.
+Any.
+Point.
+Core.
+Point.
+Is.
+More.
+Than.
+Epsilon.
+Then.
+This.
+Path.
+Will.
+Break.
+And.
+A.
+And.
+B.
+Will.
+Not.
+Be.
+Density.
+Connected.
+You.
+Have.
+To.
+Put.
+In.
+Different.
+Clusters.
+And.
+That's.
+The.
+Concept.
+Of.
+If.
+Those.
+Two.
+Points.
+Are.
+Connected.
+To.
+A.
+Sequence.
+Of.
+Core.
+Points.
+And.
+The.
+Distance.
+Between.
+Any.
+Adjacent.
+Pair.
+Is.
+Less.
+Than.
+Epsilon.
+Then.
+We.
+Have.
+Two.
+Points.
+Density.
+Connected.
+Points.
+And.
+We.
+Know.
+The.
+Concept.
+Of.
+Density.
+Connected.
+Points.
+So.
+Now.
+We.
+Are.
+Ready.
+To.
+Understand.
+The.
+Db.
+Scan.
+Algorithm.
+So.
+Guys.
+Now.
+I.
+Explain.
+The.
+Algorithm.
+So.
+That.
+Visual.
+Understanding.
+Developer.
+Let's.
+Start.
+Step.
+One.
+Step.
+One.
+In.
+Fact.
+Step.
+Zero.
+Step.
+Zero.
+Min.
+Points.
+Value.
+Decide.
+Or.
+Epsilon.
+Value.
+Decide.
+Because.
+These.
+Are.
+Hyper.
+Distances.
+Okay.
+And.
+Min.
+Points.
+Three.
+Okay.
+Assumption.
+Based.
+Now.
+We.
+Move.
+Step.
+One.
+We.
+Have.
+Min.
+Points.
+Value.
+We.
+Have.
+Epsilon.
+Value.
+Step.
+One.
+You.
+Have.
+All.
+Points.
+But.
+In.
+This.
+Data.
+Set.
+You.
+Video.
+Pause.
+And.
+Try.
+To.
+Do.
+You.
+Have.
+Every.
+Point.
+As.
+Core.
+Point.
+Or.
+Border.
+Point.
+Or.
+Noise.
+Point.
+So.
+If.
+I.
+Talk.
+About.
+This.
+Now.
+If.
+I.
+Talk.
+About.
+This.
+Point.
+So.
+This.
+Point.
+Seems.
+Like.
+A.
+Border.
+Point.
+Same.
+For.
+This.
+One.
+And.
+Same.
+For.
+This.
+One.
+Or.
+If.
+I.
+Talk.
+About.
+This.
+Point.
+Then.
+I.
+Talk.
+About.
+This.
+Point.
+Or.
+Border.
+Point.
+Or.
+Noise.
+Point.
+Now.
+We.
+Move.
+To.
+Step.
+Number.
+Two.
+Step.
+Number.
+Two.
+There.
+Are.
+Multiple.
+Steps.
+To.
+Find.
+Them.
+Okay.
+For.
+Now.
+No.
+Cluster.
+Not.
+All.
+Unclustered.
+So.
+Let's.
+Take.
+This.
+For.
+Some.
+Point.
+One.
+Two.
+Three.
+Four.
+Five.
+Six.
+Seven.
+Eight.
+So.
+We.
+Have.
+To.
+Add.
+All.
+The.
+Points.
+That.
+Are.
+Unclustered.
+Which.
+Is.
+Not.
+Part.
+Of.
+Any.
+Cluster.
+And.
+Density.
+Connected.
+To.
+The.
+Current.
+Point.
+Into.
+This.
+Cluster.
+So.
+One.
+Is.
+The.
+Current.
+So.
+I.
+Will.
+Add.
+To.
+This.
+Cluster.
+Then.
+We.
+Move.
+Forward.
+Towards.
+Three.
+And.
+We.
+Ask.
+This.
+Question.
+Is.
+One.
+And.
+Three.
+Density.
+Connected.
+The.
+Answer.
+Is.
+Yes.
+Because.
+Three.
+And.
+Four.
+Are.
+Core.
+Points.
+And.
+The.
+Distance.
+Between.
+Them.
+Is.
+Less.
+Of.
+Epsilon.
+So.
+We.
+Make.
+This.
+Part.
+Of.
+This.
+Cluster.
+Then.
+We.
+Ask.
+Is.
+One.
+And.
+Two.
+And.
+Three.
+And.
+Four.
+And.
+One.
+Is.
+A.
+Second.
+Cluster.
+Two.
+And.
+One.
+And.
+One.
+And.
+Two.
+And.
+Two.
+And.
+One.
+And.
+Two.
+And.
+Four.
+And.
+And.
+And.
+And.
+This is the cluster of 6.
+Now what will we do? Add all the points that are unclustered and density connected.
+We will go towards 7.
+Guess what? 6 and 7 are both core points and are at the distance of less than epsilon.
+So you will put these two in the same cluster.
+Then I will ask whether 6 and 8 are density connected?
+The answer is again yes.
+8 and 7 are both core points and the distance between them is less than epsilon.
+So we will extend this.
+After this, if there is no unclustered core point left, then the loop will end and this will be my second cluster.
+Now let's come to step 3.
+Since all our core points are exhausted, now we will talk about border points.
+So here it is written, for each unclustered border point, assign it to the cluster of nearest core point.
+This means that suppose this is our first border point, this is our second border point, this is our third border point.
+Every border point should be assigned to the cluster of nearest core point.
+Every border point should be assigned to the cluster of nearest core point.
+And the cluster in which that core point will be, we will put our border point in that cluster.
+So basically this will happen.
+Similarly for 2, you can see 2 is also closed by 3.
+So we will do this.
+For 3, it is closed by 8.
+Hence we will put it in the green cluster.
+And in this way, all our points will be closed.
+And in this way, all our border points will be closed.
+Now what is left?
+Noise points.
+What we have to do in noise points?
+We have to leave it as it is.
+We have to leave it as it is.
+We will let it remain as it is.
+And this is the result of our clustering.
+We have 2 clusters.
+This is 1, this is 2 and there are 2 noise points.
+Okay.
+And you can see, what is the basis of this whole clustering?
+It is based on density.
+And that is how DB scan works.
+Simple.
+Elegant.
+Beautiful.
+So let's discuss how you can use and implement DB scan in sklearn.
+It is very simple.
+In this way, sklearn makes everything easy.
+So I have taken this example directly from the website of sklearn.
+Here we have taken some data points.
+Not much.
+There are some 6 data points.
+And I will plot it and show you.
+So here are those 3 points.
+Here are 2.
+Here are 2.
+And here is 1.
+So I guess you can understand.
+Roughly, this will be a cluster.
+This will be a cluster.
+And this is a noise point.
+Okay.
+So here you just have to do nothing.
+You have to make an object of DB scan.
+In that, you just have to provide 2 hyper parameters.
+First is epsilon, which we have discussed.
+Second is min samples, which are your min points.
+So I have kept 3 and 2 here.
+I called db.fit and passed my x here.
+The good part about DB scan is that,
+as you train your model,
+after that, in the labels parameter,
+in the labels attribute,
+you get the result of the whole cluster.
+So you can see when you are running it.
+Just one second.
+As you run it,
+you are getting this.
+So there are 6 points.
+What did it do?
+First, 3 points were put in one cluster.
+These 2 points were put in another cluster.
+So you can see that,
+you can see that,
+you can see that,
+you can see that,
+you can see that,
+you can see that,
+these 2 points were put in another cluster.
+And what DB scan does,
+whenever there is a noise point,
+it assigns minus 1.
+I hope you are understanding it.
+I have deliberately taken small example as it is easy to understand.
+Let me ask you a quick question.
+What if,
+I use 3 instead of 2 in min samples.
+What do you think will happen?
+Pause the video once.
+And try to think.
+I will run the cell and show you.
+This is the output.
+You can see,
+only these three are added in one cluster
+rest three points
+these two and this too
+our algorithm has labelled as noise
+why? because if you talk about these two points
+then in their epsilon neighbourhood
+there can't be three points
+because there are only two points
+that is why these are noise points
+border point also can't be made
+and core point is also not there
+similarly what if
+I do this
+that instead of 3 I do 10
+increase epsilon
+to increase epsilon means
+you are increasing radius of that circle
+you are increasing neighbourhood
+so what will happen? I guess again you can understand
+these five points
+we have added in one cluster
+because obviously
+one point cluster
+epsilon neighbourhood has increased so much
+that it reached here
+you can see here scale is written
+from 0 to 10
+so you can add a little epsilon
+and check the results
+because these are hyper parameters
+so you have control
+and here is a proper example
+where we have taken a data set
+which is data set of concentric circles
+and on this data set
+we have applied db scan
+and this is the result
+I guess you are able to understand
+that it is not possible for K-means
+to cluster this type of data
+right
+I am sure of it
+but what is special about db scan
+is that it does not matter
+which shape and size data you are giving to it
+it just matters the density
+and it can cluster
+so I will just give you this code in the description part
+there you go explore
+change parameters
+apply another data set
+and you would learn a lot
+so guys we understood db scan algorithm
+we have run some code
+once I will summarize for you
+what are the advantages and limitations of using db scan
+so if I talk about advantages first
+then you would have seen many advantages
+let's quickly discuss them
+first advantage is
+that this algorithm
+is robust to outliers
+means
+this algorithm has built in capability
+to identify outliers
+and you would have noticed
+that it detects noise points separately
+so because of that
+many times you use it in anomaly detection type
+scenarios
+so very good feature
+K-means was not good in this
+one more good thing
+and one headache which was less
+is that we do not have to tell
+how many clusters there should be
+this algorithm can figure it out by itself
+the example I gave you
+there should have been two clusters
+and db scan figured out by itself
+that there will be two clusters
+we did not have to tell it like K-means
+third is
+it can find arbitrary shaped clusters
+you can give it any type of data
+this type of data
+this type of data
+shape does not matter
+because its main idea
+is on density
+so that is why shapes
+does not matter
+and the best part is
+unlike some other machine learning algorithms
+where you have to remember many hyper parameters
+here you have to learn
+just two hyper parameters
+and those are min points
+and epsilon
+so these are
+some of the best advantages
+of this algorithm
+we do not know
+that this is the best clustering algorithm
+it also has some flaws
+we will discuss that too
+so one of its biggest weakness
+is that
+it is very sensitive to its hyper parameters
+if you change the value of
+min points or epsilon
+then you will notice
+that your clustering starts to be very different
+very different clustering is made
+so this is one big problem
+that you have to be super careful
+while
+putting a value for min points
+and epsilon
+second problem is
+if you give this type of data
+where you have two clusters
+one like this
+and one like this
+but in both of them
+the problem is that
+here it is sparse
+here it is dense
+tightly packed
+so in this type of clusters
+db scan does not work well
+why?
+because epsilon has one single value
+which you will put on this
+and you will put on this
+now think for yourself
+how one single value of epsilon
+will suit on these two
+different density clusters
+so that is the problem
+so in this type of scenario
+where the density of the clusters
+are different
+there is no good performance
+and the last drawback is
+that this algorithm cannot do prediction
+here in fact predict function does not work
+it only runs on training data
+and does clustering
+it only works for clustering
+it does not work for prediction
+means if tomorrow a new point comes
+then it cannot tell
+that this new point will go here
+or here
+and why this happens
+I guess you are able to understand
+to understand where this new point will go
+you will have to do all the calculations again
+you will have to make clusters again
+you will have to do training again
+and that is why prediction case is not here
+now before ending the video
+I want to show you a kickass resource
+this is a website where
+you can see through visualization
+how db scan works
+many different types of data sets
+are given here
+so let's say I take this one
+smiley face
+and here you have set the value of epsilon
+set the value of min points
+which you can increase or decrease
+by using these sliders
+and once you click on go
+it will actually perform db scan
+you would actually be able to see
+how the db scan algorithm works
+how the circles move forward
+and how the points
+are added to the cluster
+and how they stop
+and how a new cluster is formed
+you can visualize all these things
+and the best part is
+that you can change the value of epsilon
+and min points
+and see what impact they have
+on the working of this algorithm
+so when I understood db scan
+I understood this website
+and I used it
+in fact all the data sets
+around 9-10 data sets
+I tested all of them
+wrote my observations on a copy
+and trust me it helped me a lot
+to understand how db scan works
+so this is like a cool resource
+I don't know how they made it
+using javascript or how
+but this is really really awesome
+so this was the video guys
+I hope you liked the video
+if you liked the video then please like it
+write in the comments and tell me how it was
+and if you haven't subscribed to the channel
+please do subscribe
+see you in the next video bye

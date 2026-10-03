@@ -1,0 +1,1045 @@
+Hello guys, my name is Nitish. Welcome to my YouTube channel.
+So we were studying K-Means Clustering Algorithm.
+In the last two videos, we have seen the geometric intuition of this algorithm
+and applied it on a practical dataset.
+In this video, I have planned to teach you how to code this algorithm end-to-end using Python.
+Because I always feel that if you want to do good in machine learning
+and you want to understand algorithms very well,
+then the best way is to try to code it with scratch.
+If you are able to code it with scratch, it means that you have got the algorithm.
+So K-Means is very interesting and it will be fun to code it.
+So let's start the video.
+So yeah guys, let's start with the coding part.
+I have generated a dataset.
+We will work on it.
+If I run the current code and show you,
+then at this point I have a dataset which has two clusters like this.
+And we will write the code of K-Means from scratch
+and we will identify these two clusters.
+Very simple code so far.
+I have taken centroid values,
+took the standard deviation of the cluster
+and put it in the make blobs function.
+And I got x which is useful for me.
+After that, I have just printed it by doing plt.scatter.
+I have done nothing other than this.
+And at this point, I have made two files in my project.
+I am not showing you all this because it is very basic.
+app.py where our dataset will be.
+You can bring any dataset from outside.
+And I have made one more file, k-means.py which is empty now.
+I will make a class of k-means.
+So I have written the algorithm here.
+If you have seen my video,
+then you will easily understand what we are coding in this video.
+So I would recommend you to watch the video of geometric intuition of k-means.
+Now here are the series of steps that we have to follow.
+So first of all, we are making a class here.
+Its name will be k-means.
+And here we are making a constructor.
+In constructor, we will get two things in input.
+First, what will be the number of clusters?
+If we don't get it, then by default we will make two clusters.
+And the value of max iteration.
+If we don't get anything, then that will also be 100.
+Max iteration means how many times you do this work in the loop.
+Assign cluster and move centroid.
+Ok.
+Now here we will initialize some variables.
+Like self dot n underscore clusters will be equal to n clusters.
+Self dot max iteration will be equal to max iteration.
+And we are making one more variable by saying centroid.
+And it will be none in the beginning.
+Ok.
+We are not giving its value now.
+Ok.
+Now.
+We will create the most important method now.
+Which is fit predict.
+Fit predict.
+And it will get x in input.
+And for now we are just printing x.
+Ok.
+You can understand the setup till here.
+Now we are going here.
+And here first of all we are importing from k-means.
+Which is my file.
+From there I am importing the k-means class.
+Then here we are making an object by saying km.
+Of k-means.
+And here we are telling from the beginning that n clusters will be 2.
+And max iteration will be 100.
+And for now I am not plotting graphs.
+And I am writing km dot fit predict.
+I am just passing x.
+Ok.
+So now if I run this code.
+Then I should see x.
+And you can see.
+Here is my x.
+It is a 2D array.
+Where there are 100 1D arrays.
+Ok.
+And in every 1D array there are 2 items.
+x and y coordinates.
+So till here everything is fine.
+Now from here the main work starts.
+If you remember the algorithm.
+So first of all you decide the number of clusters.
+I am already getting that.
+Next what you have to do is.
+You have to select random centroids.
+So in your x.
+There are 100 points.
+Now from these 100 points.
+How many points do you have to select randomly?
+You have to select the same points.
+As much as you have to make clusters.
+So the value of n clusters.
+You have to select the same random points.
+Ok.
+So we will use a random function for this.
+So first of all.
+I am importing the random module.
+And I am removing this code.
+And here I am writing.
+Random dot sample.
+Here you have to provide.
+Two things.
+The first thing is.
+That you have to.
+Sample from which thing.
+So I have to sample.
+In the range of.
+0 to x dot shape 0.
+Ok.
+I have to sample in this range.
+And then I have to tell.
+How many random numbers do I need in this range.
+I need 2 numbers.
+Because my self dot.
+And the value of clusters is 2.
+Ok.
+And now I will print it.
+You would see.
+That automatically.
+Two numbers will be selected.
+So if I go back.
+And run it.
+See this.
+Randomly 26th row.
+And 17th row is selected.
+If we run it again.
+Then something else will happen.
+See.
+Ok.
+Now what we have to do.
+We have to catch these two.
+Row numbers.
+So I will write.
+I will put these two in a variable.
+By saying row random index.
+And now what we will do.
+We will write.
+Self dot centroids.
+Which is my upper variable.
+This is equal to.
+From inside x.
+Random index.
+And now I will show you by printing.
+What came in self dot centroids.
+Ok.
+If I go back and run it.
+Randomly two points will be selected.
+Every time from inside x.
+Here are those two points.
+On running again.
+There will be some other two points.
+See.
+There are some other two points.
+Ok.
+So our.
+Step two is also done.
+This is also done.
+Ok.
+Now we have to do these three things.
+Now these three things actually.
+How many times will it happen.
+We don't even know.
+Means this work.
+It should be inside the loop.
+So what we have to do.
+We have to run a loop.
+So I am going to kmeans.py.
+Now there is no need to print this.
+And I am running a loop.
+For.
+I.
+In the range of.
+From one to.
+We will have to run this loop.
+Actually there is no need to run one.
+Directly we can run max iteration.
+This loop will run so many times.
+And.
+Every time what I have to do here.
+I have to do three things.
+First.
+I have to assign clusters.
+Then.
+I have to.
+Move.
+Centroids.
+And.
+Third.
+Is.
+Check.
+If.
+There.
+Is.
+Any.
+Cluster.
+Then.
+I have to.
+Move.
+Centroids.
+And.
+Third.
+Is.
+Finish.
+I have to do these three things.
+Okay.
+So.
+First.
+For.
+Assigned.
+Cluster.
+We will make our own function.
+Okay.
+The name of this function will be.
+Assign.
+Clusters.
+And.
+We will give it.
+Input.
+Our.
+X.
+And.
+It.
+Returns.
+Clusters.
+Or.
+Cluster.
+Group.
+Can.
+Say.
+Okay.
+This.
+Will.
+Return.
+Something.
+Call.
+Cluster.
+Group.
+Will.
+Return.
+Okay.
+So.
+Here.
+I am writing.
+Self.
+Dot.
+Assign.
+Clusters.
+By.
+Calling.
+X.
+Pass.
+And.
+I am getting.
+Cluster.
+Group.
+How.
+Cluster.
+Group.
+Will.
+Be.
+Assigned.
+And.
+I am.
+Assigned.
+So.
+If.
+You.
+Have.
+5.
+Rows.
+This.
+Will.
+Be.
+Like.
+This.
+The.
+Means.
+That.
+The.
+First.
+Row.
+Went.
+In.
+Zero.
+In.
+The.
+First.
+Cluster.
+Group.
+we will have to make a list, an empty list, after that what we have to do, see what we have to do here, the most important thing you must be understanding that you have to calculate the distance of every point with every centroid,
+so we have 100 points, we have 100 points in the x and we have 2 centroid because we have 2 clusters,because we have to calculate the distance with every centroid of every point,
+means total how many distances we have to calculate, we have to calculate 100 multiplied by 200, then we will ask from every point,
+that which is the nearest centroid for that 0 or 1,
+if it is 0,
+if it is 1 then we will assign it as 0 number and if it is 1 then we will assign it as 1 number
+so I am making a variable by saying distances which is again an empty list
+and now I am writing a code basically I am writing a nested loop
+for each row in x this loop will run 100 times
+after that I am running one more loop for centroid in self.centroid
+this loop will run 2 times so basically this nested loop will run 200 times
+now what I have to do every time the current row is running and the current centroid is running
+I have to find the Euclidean distance between them I hope you are understanding
+now how to find the Euclidean distance it is very simple
+we simply
+I will show you
+so guys you already know that if you have 2 points
+x1 y1 and x2 y2
+so the formula to find the Euclidean distance between them is
+x2-x1 whole square
+plus y2-y1 whole square
+but the problem is that if you have a third dimension z
+then you have to add one more term z2
+z2-z1 whole square
+if you have one more term then you have to add one more term here
+so you cannot write this formula directly
+the problem in this formula is that if your dimensions start increasing
+then this formula starts changing
+so if you want a common formula which can work on any dimension
+then look carefully
+what we are doing is removing the square root for some time
+and I am writing it like this
+x2-x1 square
+y2-y1 square
+now this is actually
+x2-x1 multiplied by x2-x1
+plus y2-y1 multiplied by y2-y1
+so in a way this whole thing is a dot product of what
+x2-x1
+means if you have
+two vectors x2-x1
+and y2-y1
+and this is one more vector
+x2-x1
+y2-y1
+these two vectors are same actually
+this is a dot product of these two
+think about it
+now think about this vector
+these two vectors are same
+what is this vector?
+this vector is actually
+if you call this vector a
+and call this vector b
+and if this is c
+so this is actually coming out
+by writing b-a
+think about it
+if we write b-a
+so since these two are vectors
+arrays or whatever
+so b-a is actually this
+right
+so in short
+you can write this whole thing like this
+np dot square root
+square root
+np dot
+a-b
+comma
+a-b
+and what is a and b here?
+between these two
+arrays you have to find
+euclidean distance
+now the good part is
+if z also comes here
+then in this formula
+you don't have to change anything
+b-a or a-b whatever you say
+in both cases
+as soon as you do b-a
+then a third term will automatically come
+z2-z1
+if there is a third term here
+ok
+so I hope you are understanding
+that in how many dimensions
+you have to calculate
+euclidean distance
+then its general formula is this
+I will quickly show you this once
+as I have already made it here
+I have these two coordinates
+now if I have to find
+euclidean distance between these two
+then I will write
+np dot square root
+np dot of
+b-a
+comma
+b-a
+and you can see its 4.24
+ok you can also calculate
+4-1
+3
+3 square is 9
+5-2
+3
+3 square is 9
+so what is root over of 18?
+sqrt of 18
+is 4.24
+and you can see
+4.24 is coming here
+ok
+and if you increase one more term here
+let's say make it 3
+and make it 6 here
+still you don't have to change anything
+ok
+so now
+9 plus
+9 plus 9
+27
+so now I have to take out
+sqrt of
+27
+its 5.196
+ok
+so I hope you are understanding
+whatever I have done
+you have to
+basically implement this formula
+so if I go back
+to my code
+here what I have to do is
+current
+the row is running
+and the current centroid is running
+between them
+calculate euclidean distance
+so I would write
+np dot
+sqrt of
+np dot product of
+row
+minus
+centroid
+comma
+row
+minus
+centroid
+ok
+now
+we don't have
+np
+so let's import it
+ok
+so now
+this is
+current
+row and current centroid distance
+I am appending this
+I am appending this
+distances
+dot
+append
+right
+and now
+coming out
+coming out of the inner loop
+I am printing
+distances
+so now
+what will happen
+in the screen
+you will see
+that
+for every
+ah
+row
+two distances
+will be calculated
+one for each centroid
+let me show you
+so if I run this code
+ok
+there will be one more problem
+we didn't clear
+every time
+we
+now
+we need to
+clear
+our
+distances
+clear
+distances
+dot
+clear
+now
+run this
+now
+100 times
+this code will work
+and here is
+guys
+for each row
+I have two distances
+one is
+one row
+distance
+with first centroid
+this one
+is
+distance
+with first centroid
+this one
+is
+first centroid
+distance
+Now I have to find out which distance is smaller.
+Whatever the distance is smaller, the centroid is closer.
+So what we have to do is go back to our code.
+For now I am not printing.
+I am calculating min of distances.
+And storing it in a variable called min distance.
+So there are two values in that array.
+I am fetching whatever is smaller.
+And I am taking out the value on which index position it is.
+So I would write distances.index min distance.
+And this is its index position.
+This is its index position.
+And now what I have to do is,
+I will print it and show you what the index position is.
+Print.
+Index position.
+Now if I run it.
+See this.
+So for the first one it is 0.
+For the second one also it is 0.
+And so on.
+Okay.
+Now what we have to do is,
+the values of index position,
+I have to pick it up and add it to the cluster group.
+So I will write,
+cluster group dot append index position.
+And I would return cluster group.
+Okay.
+And here I will just do one thing.
+That for now,
+once by closing the loop,
+once,
+I would just print out,
+cluster group,
+one more thing.
+From here we will make it a numpy array and send it.
+It will be useful later.
+Now this is the list.
+Let's make it a numpy array.
+And for a while I just want to print it and see,
+that,
+what is the shape of the cluster group.
+It should be,
+an array of 100 items.
+Because for every row,
+one cluster is being assigned.
+If we see 100,
+it means our code is working properly.
+Yeah.
+It is working properly.
+Okay.
+Now,
+let's return it a little.
+I am removing it.
+Let's bring the loop back.
+Like this.
+Okay.
+Okay.
+So this function is done.
+Now I have to move the centroids.
+Okay.
+To move the centroids,
+first of all,
+what you have to do is,
+the current value of the centroid,
+you have to store it,
+in some variable.
+So let's do one thing.
+Let's take a variable.
+Old,
+centroid.
+Which,
+which will be equal to self dot,
+centroid.
+Okay.
+And now we make a new function.
+Whose name will be,
+move centroid.
+Move centroid.
+We will pass two things to it.
+First we will pass,
+our entire,
+x input.
+And second we will pass,
+cluster,
+group.
+Whatever cluster group we had.
+For now,
+there is no code written here.
+And,
+we will come here.
+And,
+we will write,
+self dot,
+move,
+centroid.
+I will pass x,
+as well as,
+my cluster group.
+And,
+this,
+which will be move centroid,
+it will give me new centroid values,
+by turning it.
+So,
+I will pass,
+x,
+as well as,
+my cluster group.
+And,
+it will give me new values.
+So,
+I will store it,
+in centroid.
+Okay.
+This is the structure of our code.
+And,
+now,
+we will write,
+logic of move centroid.
+Now,
+see guys,
+logic of move centroid is very simple.
+The cluster group,
+which you have got,
+in that,
+it has already been told,
+which points,
+are in the zero cluster.
+Which points,
+are in the one cluster.
+So,
+you just don't have to do anything.
+You have to separate,
+all the zero points.
+And,
+calculate their mean.
+And,
+separate,
+all the points.
+And,
+also,
+calculate their mean.
+Those will be,
+your new centroid.
+Okay.
+So,
+logic is very simple.
+I am making a variable,
+called,
+new centroid.
+And,
+this,
+will be an empty list.
+This,
+will be an empty list.
+And,
+now,
+what we have to do?
+First of all,
+we have to know,
+that,
+our cluster group,
+how many unique clusters are there?
+Like,
+in our case,
+here,
+there are only two.
+But,
+the data we have,
+has more than two clusters.
+So,
+we have to extract,
+unique clusters.
+It is very easy to extract.
+We will call,
+np dot,
+unique function.
+And,
+we will pass,
+cluster group in it.
+Okay.
+And,
+cluster group,
+we,
+very easily,
+here,
+we will know.
+And,
+we put it in a variable,
+cluster type.
+All our clusters,
+are in this variable.
+Now,
+what we have to do?
+We have to create a loop.
+For,
+type in,
+cluster group.
+Okay.
+In our cluster group,
+all the types,
+I am sorry,
+cluster group will not be here.
+Cluster type.
+All our cluster types,
+this loop will play that much times.
+So,
+if you have two clusters,
+then this loop will run twice.
+If you have three clusters,
+then this loop will run three times.
+And,
+what I have to do every time,
+I have to,
+from inside x,
+cluster group,
+equal to,
+equal to,
+type fetch.
+So,
+if the loop will run for the first time,
+then the type value will be zero.
+Means,
+from inside x,
+I am extracting all those points,
+whose cluster is,
+zero.
+And,
+I have to,
+calculate their mean.
+So, I will write,
+mean,
+and,
+x is,
+equal to,
+one,
+sorry,
+we will make it zero,
+because we need,
+column wise.
+Means,
+I guess,
+you understand this thing.
+I will show you this thing,
+quickly,
+what I have written here.
+So,
+assume,
+you have,
+one x,
+inside which,
+one comma,
+two,
+comma,
+two comma,
+three,
+comma,
+three comma,
+four,
+comma,
+four comma,
+five comma,
+five comma,
+six.
+Assume,
+you have an array,
+x.
+Okay.
+Then,
+you have a,
+cluster,
+group,
+a,
+variable,
+a,
+numby array,
+like this.
+And, here it is written,
+zero,
+one comma,
+zero,
+zero.
+Okay.
+This is written to you.
+Now, you are writing this code.
+Okay.
+So, first of all,
+I will show you this code.
+What will this code do?
+If I run this code,
+then,
+as expected,
+it will give you two values,
+zero and one.
+Okay.
+Then,
+you will run a loop,
+on this thing.
+And,
+you will print,
+type,
+then,
+you will see zero and one printed.
+Okay.
+Now,
+let's come to this thing.
+So,
+if I write this code,
+cluster group,
+equal to,
+equal to zero.
+So,
+see this.
+We will get only those rows,
+whose corresponding,
+is zero here.
+Okay.
+And,
+now,
+if I take out its mean,
+then,
+mean will be overall.
+But,
+I want the mean of x-axis,
+different.
+I want the mean of y-axis,
+different.
+So,
+I will do x is equal to one.
+Okay.
+And,
+you can see,
+first one is 1.5,
+then, 4.5,
+then,
+5.5.
+Not by doing 1,
+you have to do x is equal to zero.
+Sorry.
+See this,
+2 is coming.
+3.33,
+4.33.
+This is what I have done there.
+So,
+if I copy this code,
+and write here,
+here,
+if I type,
+and if I print this,
+here it is,
+guys,
+my
+two centroids.
+Okay.
+This is what I have done.
+So,
+I will go back.
+And,
+these centroids,
+I am
+appending them
+in new centroids.
+Like this.
+And,
+coming out of the loop,
+I am returning
+np.
+array
+new centroids.
+Okay.
+And,
+I will receive these new centroids
+in centroids.
+Okay.
+And,
+now,
+I just have to write one last piece of code.
+That is the finish one.
+Okay.
+This is the logic of move centroid.
+It came here.
+And,
+now,
+what we have to do for a finish?
+We have to write a simple piece of code.
+And,
+it will be this.
+We will write,
+if
+If
+old centroids
+is equal to equal to
+self.centroids
+And, since we are comparing two arrays,
+We have to use
+dot all.
+If this condition is true,
+we will break the loop.
+That's it.
+And, if it's not
+, this loop will continue.
+And, that's the code guys.
+Okay. Now, this is our code.
+And, now, what we have to do in the last?
+The last one from the last cluster
+has arrived.
+To that,
+we have to
+今天
+return
+cluster group. And this is the code. Now I am coming here. And here I am getting ymeans and now I just have to write a little code.
+And that code is that plt.scatter. I know that I have two clusters. So I would write ymeans equal to equal to 0 comma 1.
+I had shown you this code in the last video. And here will be 0. Its color will be red. Copy paste. Here will be first cluster.
+And here will be blue in place of red. And plt.show. And that's our code guys. This is our code. Let's run it once.
+And you can see we are able to catch the clusters. Ok. Let's do one thing. Let's increase the clusters.
+Let's say here I am adding one more cluster. Minus 2.5 comma 2.5. Cluster standard deviation is also 1.
+And now the number of clusters is 3. Let's run it once.
+Hmm. 3 clusters are not coming. Number of features will remain 2. Centroids are 3.
+Let's do one thing. Let's remove this code for some time and write this code.
+plt.scatter. X's 0th column. X's 1st column. Now let's run this code once.
+First I have to see that there are 3 clusters.
+Let's see whether these clusters are coming or not.
+Hmm. There is some error. Let's remove this once.
+X and Y must be of same size. Ok.
+The reason is that I have not added a comma here.
+So yeah. There are 3 clusters.
+Now let's see why this is not working.
+It is not working because we have made a small mistake.
+I am commenting this code once.
+I am uncommenting these codes.
+The reason is that we have written a code to handle only 2 clusters.
+See this.
+We have to write a code to handle 3rd cluster also.
+So let's write it here.
+Let's give color to 3rd cluster as green.
+And cluster number 2 will come here.
+Like this. Ok.
+Now let's run this.
+And here it is guys.
+Ok. Let's do one thing. Let's quickly check on 4 clusters.
+So it will come here.
+Let's say 2.5 comma minus 2.5.
+This is the centroid of 4th cluster.
+Standard deviation is 1.
+Number of clusters is 4.
+And here we will copy.
+We will paste.
+We will give color to this.
+Yellow.
+Here 3.
+And here also 3.
+Now we should see 4 different colored clusters.
+See this.
+So it is working properly.
+Now let me show you that if I reduce the value of your max iteration parameter, then what will happen?
+Ok.
+Suppose I did 10.
+And now if I run it.
+I guess you can understand what will happen.
+Ok.
+This data also worked in 10.
+Let's do one thing.
+Let's just do 1.
+I guess now you can understand what will happen.
+Clustering will not work properly.
+Clustering is still working properly.
+So again I guess this depends on random initialization.
+See this.
+This will be a mistake.
+If random points are not properly initialized.
+Then clusters will not form properly.
+So that's why you have to give enough max iterations.
+See this.
+Mistakes are happening.
+Because random points are not properly initialized.
+So you are not able to make correct clusters in just one iteration.
+Ok.
+So you have to give more value of max iteration.
+Ok.
+We will make it 100 again.
+And now if we run it.
+Now this time it did not work properly in 100.
+Let's do 200.
+It will be done in 200.
+200 is too much.
+Ok.
+Now I will show you one last thing.
+Rather than having this data.
+I will show you our algorithm running on a custom data set.
+So guys I have imported this studentclustering.csv data set.
+Which I showed you in the last video.
+And I imported it as readcsv.
+And I extracted x from it.
+Rest of the code is the same.
+End cluster is 4.
+And now let's run it.
+There will be no changes in the code.
+And.
+It did not work properly.
+Let's increase the number of iterations.
+And you can see.
+This is our output.
+Ok.
+So clustering is happening.
+I guess you get the idea.
+Ok.
+Now there is one thing missing in this code.
+And that is that.
+We have not implemented the ELBO method.
+So this is your homework task.
+If you are watching this video completely.
+And you liked it.
+To do this code from scratch.
+So bring an improvement in it.
+That you implement the ELBO method by yourself.
+Ok.
+It is very simple.
+You just have to calculate WCSS.
+And it is an interesting code.
+You will like it.
+Ok.
+So that's it for the video guys.
+If you liked it.
+Then please like, share and subscribe.
+Thanks for watching.

@@ -1,0 +1,316 @@
+Hello guys, my name is Nitish. Welcome to my YouTube channel.
+We were studying K-means clustering. In the last video, we studied its geometric intuition.
+In this video, I will show you how to apply K-means on a practical dataset in Python.
+So let's start the video.
+So guys, let's start with the coding part.
+Here I have already made a notebook in Jupyter.
+And I have also loaded the dataset.
+And here is my dataset.
+So let me tell you about the data.
+First of all, it is a toy dataset.
+Means I have generated this dataset myself.
+This is the data of some students.
+If you want to take it as a problem statement.
+So this is the data of students.
+The data of any college's final year students.
+The data of 200 students.
+Their CGP and IQ value.
+And on the basis of these two values, we have to cluster these students.
+Okay.
+Now if I give you a print once.
+Let me show you how this data looks.
+So for that, we have to import matplotlib once.
+pyplot as plt.
+plt.scatter
+I am sending CGPA on x-axis.
+And I am sending IQ on y-axis.
+And you can see, here is my data.
+Now obviously, this is a toy dataset that I have generated.
+That's why you can see the clusters very clearly here.
+The data sets that you will get in the real world.
+There won't be so many clear-cut clusters defined in that.
+But yeah, you can see.
+I have these four different types of students.
+Now I have to give this same data to my algorithm.
+And I have to see if it can classify or cluster this data properly or not.
+Okay.
+So first of all, we have to tell how many clusters will be created.
+So clearly, we can see that four clusters will be created.
+But let's see the ELBO method once.
+Let's try to find out whether the output is 4 or not.
+So for the ELBO method, we have to import k-means first.
+From sklearn.cluster, import k-means.
+And after that, I am making a list by calling it wcss.
+And i in the range of 1 to 11.
+You can run a loop up to 20.
+Km, I am making an object.
+Of k-means.
+And inside here, we have a hyper-parameter.
+Number of clusters.
+I am defining it as i.
+And km.fit is a function called predict.
+In that, I am passing my entire data frame.
+Because my entire data frame is what I need as input.
+And once the data is trained,
+then there is an attribute inside km called inertia.
+We need its value.
+And we will keep inserting this value.
+In wcss.
+Like this.
+We are running this code.
+And here is our wcss.
+You can see.
+Starting with a very big value, it is decreasing very fast.
+Now if we print it.
+By using plt.plot.
+We had given it on x-axis.
+From 1 to 21.
+And our y-axis is coming on wcss.
+And.
+It was not 21, sorry.
+It was 11.
+Yeah guys.
+And you can see.
+That it is decreasing very fast.
+And 4 is that elbow point.
+After going there.
+Suddenly our rate of steepness.
+It is decreasing.
+Okay.
+So elbow curve is also telling us.
+What should be the number of clusters?
+4.
+Okay.
+So what will we do now?
+We will again make km object.
+With number of clusters to be equal to 4.
+And we will write km.
+Before that, let's do one more thing.
+We x.
+Let's extract a numpy array.
+All rows.
+All columns.
+Dot.
+Values.
+It will be easy to deal with numpy array.
+That is why I did this.
+And now I will write km.
+Fit predict.
+Fit predict does what?
+It trains you.
+And returns you the value of clusters.
+And here I will pass x.
+And you would see.
+That for all my data.
+It has been assigned.
+For the first row 2.
+For the next one 1.
+And so on.
+I can call this ymean.
+Okay.
+And this is ymeans.
+Now what I have to do.
+I have to plot a graph.
+And how will that graph be plotted?
+It is very simple.
+This is my x.
+Okay.
+All rows are given here.
+What I have to do.
+Here I have to do boolean indexing.
+Using ymeans.
+If I give ymeans equal to equal to 0.
+Then.
+These are all the rows.
+Which are coming in cluster number 0.
+These are all the rows.
+Which are coming in cluster number 1.
+These are the rows.
+Which are coming in cluster number 2.
+And these are coming in cluster number 3.
+Okay.
+Now if I have to extract the first value of all.
+Then I will write here comma 0.
+First value is extracted.
+And if I have to extract the second value.
+113,110,109.
+Then I will write here comma 1.
+Okay.
+So I am using the same logic.
+To plot graph.
+Look carefully once.
+So if I write plt.scatter.
+First of all I will focus on cluster 0.
+So I will send 0 here.
+And 0.
+So what did I do in this step?
+All my points coming in cluster number 0.
+I took their x coordinate.
+Okay.
+And then.
+Copy.
+And all the points.
+Coming in cluster 0.
+I took their y coordinate.
+And we assigned a color to it.
+Blue.
+Okay.
+And copied it.
+Paste it 4 times.
+Next time we took cluster 1.
+And we assigned it.
+Red.
+Next one.
+Green.
+This is the value of cluster 2.
+After that 3.
+And in the last we can give yellow.
+And here is our output.
+And you can see.
+Our clustering algorithm.
+Is able to cluster all the students.
+So if you want to see.
+Or understand this data.
+As a data analyst.
+So.
+These red students.
+These are such students.
+Whose CGPA is also more.
+And IQ is also more.
+It means.
+These are the students.
+Who are intelligent too.
+And hardworking too.
+Okay.
+If you talk about these students.
+The blue ones.
+So these are the students.
+Whose IQ is not much.
+But their.
+CGPA.
+Is very high.
+So.
+These are the students.
+Who are hardworking.
+Okay.
+Next.
+The yellow one.
+These are the students.
+Whose IQ is very high.
+But CGPA.
+Is less.
+It means.
+These are the students.
+Who are a little chill.
+They are chill in life.
+They are smart.
+Okay.
+And lastly.
+You have such students.
+Whose CGPA is not much.
+Nor IQ is high.
+So obviously.
+You have to work hard.
+On these students.
+So if you are.
+A placement.
+Head of training and placement cell.
+And you have to.
+Plan training.
+For these students.
+So you don't have to.
+Guide the red ones.
+Too much.
+You don't have to.
+Guide the blue ones.
+Actually.
+Too much.
+Because they are sincere.
+I can understand that.
+You have to.
+Motivate the yellow ones.
+Because.
+They are already.
+Intelligent.
+And the green ones.
+You have to.
+Teach them a lot.
+Okay.
+So.
+This way.
+You can plan.
+What will be my approach.
+According to my data.
+In the same way.
+You can also.
+Cluster the customers.
+You can also.
+Cluster the movies.
+You can also.
+Cluster the images.
+Okay.
+So.
+One more thing.
+I will show you.
+In this video.
+Mostly.
+On YouTube.
+Whenever.
+You see.
+Practical.
+Implementation.
+Of K-Means.
+So.
+I show it.
+In 2D.
+I show you.
+On a 3D data.
+That.
+How.
+The look.
+And feel.
+Of this.
+Whole.
+Algorithm.
+So guys.
+This.
+Is the final.
+Cluster.
+Where.
+You can.
+Tell.
+What.
+Cluster.
+Data.
+You need.
+Many.
+Datasets.
+Generate.
+Where.
+X.
+It has three.
+Columns.
+You.
+Can.
+See.
+Here.
+X.
+So.
+This time.
+Two.
+Columns.
+And.
+It,
+And we have to do everything in the same way. This code is exactly same as we did earlier.
+And we run this. And when we plot the elbow curve, the graph was similar again.
+Our elbow point is above 4. So I trained a new model with number of clusters 4.
+I took out y-means and formed a data frame with x's 0, 1, and 2 values and y-pride values.
+And when I put it back in plotly, here is the output of the clustering.
+And you can see the work you were able to do in 2D, you are able to do that work in 3D as well.
+And this will remain true in higher dimension as well.
+So that is why k-means is such a powerful algorithm.
+The same piece of code will work.
+In any dimension.
+So once you work on these datasets and develop your understanding.
+And if you liked this video, then please like, share, and subscribe.
+Thanks for watching.

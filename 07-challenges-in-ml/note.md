@@ -8,7 +8,7 @@ title: "Challenges in Machine Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Features ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
-> - **Leads to:** Feature scaling ([Note 9](../09-mldlc/note.md)); Feature selection ([Note 9](../09-mldlc/note.md)); Beta and A/B testing ([Note 9](../09-mldlc/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
+> - **Leads to:** Feature scaling ([Note 9](../09-mldlc/note.md)); Feature selection ([Note 9](../09-mldlc/note.md)); Hyperparameter tuning ([Note 9](../09-mldlc/note.md)); Beta and A/B testing ([Note 9](../09-mldlc/note.md)); Simple imputation (mean, median, mode, constant) ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 23](../23-what-is-feature-engineering/note.md)).
 > - **Compare with:** CSV files ([Note 9](../09-mldlc/note.md)); Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)); Polynomial regression ([Note 61](../61-polynomial-regression/note.md)); Decision surface and boundary ([Note 91](../91-knn/note.md)).
 <!-- /where-this-fits -->
 

@@ -8,7 +8,7 @@ title: "Decision Tree Hyperparameters: Overfitting and Underfitting"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Decision surface and boundary ([Note 91](../91-knn/note.md)); Entropy, information gain and Gini ([Note 97](../97-decision-trees-intuition/note.md)).
-> - **Leads to:** Feature importance ([Note 99](../99-regression-trees/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Grid and random search ([Note 99](../99-regression-trees/note.md)); Random forest (Video 108, coming).
+> - **Leads to:** Feature importance ([Note 99](../99-regression-trees/note.md)); Regression trees ([Note 99](../99-regression-trees/note.md)); Grid and random search ([Note 99](../99-regression-trees/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)); Bagging ([Note 105](../105-bagging-intuition/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)).
 > - **Compare with:** Feature scaling ([Note 24](../24-standardization/note.md)).
 <!-- /where-this-fits -->
 
@@ -150,7 +150,7 @@ This adds randomness on purpose. The tree fits the training data a little worse,
 
 On the moons data there are only 2 columns, so `max_features=1` means each node may look at only one, chosen at random. One node may only see x1, the next only x2.
 
-The same idea is the heart of **random forests** (the random forest Notes, coming later): many trees, each seeing random columns at every split.
+The same idea is the heart of **random forests** (see the [random forest Note](../108-random-forest-intro/note.md) and [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md)): many trees, each seeing random columns at every split.
 
 > **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the columns at each node. When two columns give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible.
 

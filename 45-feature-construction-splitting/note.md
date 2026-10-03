@@ -7,7 +7,7 @@ title: "Feature Construction and Feature Splitting"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Binning and binarization ([Note 32](../32-binning-binarization/note.md)); Cross-validation ([Note 30](../30-function-transformer/note.md)).
+> - **Builds on:** Feature engineering ([Note 23](../23-what-is-feature-engineering/note.md)); Cross-validation ([Note 30](../30-function-transformer/note.md)); Binning and binarization ([Note 32](../32-binning-binarization/note.md)).
 > - **Compare with:** Feature extraction ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 

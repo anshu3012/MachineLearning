@@ -7,7 +7,7 @@ title: "Voting Ensemble: Why Majority Voting Works"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)); Cross-validation ([Note 91](../91-knn/note.md)).
+> - **Builds on:** Independent and mutually exclusive events ([Note 84](../84-mutually-exclusive-events/note.md)); Cross-validation ([Note 91](../91-knn/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
 > - **Compare with:** Bagging ([Note 105](../105-bagging-intuition/note.md)); Stacking and blending (Video 127, coming).
 <!-- /where-this-fits -->
 

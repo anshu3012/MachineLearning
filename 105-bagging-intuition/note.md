@@ -7,9 +7,9 @@ title: "Bagging: Bootstrap Aggregation"
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)); Grid and random search ([Note 99](../99-regression-trees/note.md)).
-> - **Leads to:** Random forest (Video 108, coming).
-> - **Compare with:** Voting ensembles ([Note 104](../104-voting-regressor/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
+> - **Builds on:** Bias-variance trade-off ([Note 62](../62-bias-variance/note.md)); Overfitting ([Note 91](../91-knn/note.md)); Grid and random search ([Note 99](../99-regression-trees/note.md)); Decision trees ([Note 100](../100-dtreeviz/note.md)); Ensemble learning ([Note 101](../101-ensemble-learning/note.md)).
+> - **Leads to:** Random forest ([Note 108](../108-random-forest-intro/note.md)).
+> - **Compare with:** Voting ensembles ([Note 104](../104-voting-regressor/note.md)); Cross-validation ([Note 104](../104-voting-regressor/note.md)); Random forest ([Note 108](../108-random-forest-intro/note.md)); Boosting ([Note 101](../101-ensemble-learning/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -119,7 +119,7 @@ The bias stays tiny in both (0.009 and 0.004): both average curves follow the tr
 
 > **Key point:** Whenever the model is low bias and high variance (it overfits), try bagging; it is not limited to decision trees.
 
-Bagging is worth trying in almost every project, and especially when a model overfits: low bias, high variance. It is what makes **random forests** (bagging with decision trees, in the random forest Notes) so popular.
+Bagging is worth trying in almost every project, and especially when a model overfits: low bias, high variance. It is what makes **random forests** (bagging with decision trees, see the [random forest Note](../108-random-forest-intro/note.md)) so popular.
 
 A common misunderstanding is that bagging only works with decision trees. Trees are the usual choice because they are easy to explain and give good results, but **any algorithm** can be bagged. The [bagging classifier Note](../106-bagging-classifier/note.md) bags KNN and SVMs too.
 
