@@ -13,6 +13,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Association rule learning | Finding items that tend to occur together. | [Video 3](03-types-of-ml/note.md) |
 | Axis | One direction along which a tensor's items are arranged. | [Video 11](11-tensors/note.md) |
+| Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Video 4](04-batch-learning/note.md) |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data. | [Video 5](05-online-learning/note.md) |
 | BMI | Body mass index: weight (kg) divided by height (m) squared. | [Video 7](07-challenges-in-ml/note.md) |
@@ -23,6 +24,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Clustering | Splitting data into groups of similar rows. | [Video 3](03-types-of-ml/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
 | CSV file | A text file holding a table, with commas between values. | [Video 13](13-toy-project/note.md) |
+| Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Data cleaning | Fixing errors, gaps and inconsistencies in data. | [Video 7](07-challenges-in-ml/note.md) |
 | Data leakage | Information from the test set leaking into training. | [Video 13](13-toy-project/note.md) |
 | Decision boundary | A line or curve that separates the classes in classification. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -39,14 +41,16 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Expert system | Early AI: a human expert's knowledge written as rules, plus a program that applies them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Explicit programming | A human writing out every rule the computer follows. ML avoids it. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns. | [Video 13](13-toy-project/note.md) |
-| Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Feature engineering | Choosing, removing and creating features. | [Video 7](07-challenges-in-ml/note.md) |
 | Feature extraction | Creating a new column from existing ones. | [Video 3](03-types-of-ml/note.md) |
 | Feature scaling | Putting columns on the same scale, so no column dominates distances. | [Video 6](06-instance-vs-model-based/note.md) |
 | Feature selection | Choosing which input columns to use. | [Video 13](13-toy-project/note.md) |
+| Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
+| Forward selection | Feature selection that starts empty and adds the best column at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Frame | One image in a video. | [Video 11](11-tensors/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
 | Good fit | Capturing the pattern while ignoring the noise. | [Video 7](07-challenges-in-ml/note.md) |
+| High-dimensional data | Data with a very large number of columns. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Video 4](04-batch-learning/note.md) |
 | Incremental training | Training in small steps, keeping what was learned before. | [Video 5](05-online-learning/note.md) |
 | Independent variables | The input columns (X). | [Video 13](13-toy-project/note.md) |
@@ -58,8 +62,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Labelled data | Data that includes the output column. | [Video 3](03-types-of-ml/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
-| Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
+| Learning | Finding rules (patterns) from examples. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Logistic regression | A classification algorithm that finds a separating boundary. | [Video 13](13-toy-project/note.md) |
 | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Matrix | A table of numbers: a 2D tensor. | [Video 11](11-tensors/note.md) |
@@ -75,6 +79,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | One-hot encoding | Representing each word or category by a vector with a single 1. | [Video 11](11-tensors/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
+| Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Video 5](05-online-learning/note.md) |
 | Outliers | Values far from the rest, often mistakes. | [Video 7](07-challenges-in-ml/note.md) |
 | Overfitting | Learning the training data too closely, noise included; fails on new data. | [Video 7](07-challenges-in-ml/note.md) |
@@ -113,6 +118,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
 | Size | The total number of items: the product of the shape. | [Video 11](11-tensors/note.md) |
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
+| Sparse data | Data where most of the space holds no points. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Standard deviation | A measure of how spread out a column's values are. | [Video 13](13-toy-project/note.md) |
 | Standardization | Scaling a column to mean 0 and standard deviation 1. | [Video 13](13-toy-project/note.md) |
 | Static model | A model that learns nothing new after deployment. | [Video 4](04-batch-learning/note.md) |

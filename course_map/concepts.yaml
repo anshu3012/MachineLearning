@@ -31,6 +31,7 @@ notes:
   7: 07-challenges-in-ml
   11: 11-tensors
   13: 13-toy-project
+  46: 46-curse-of-dimensionality
 
 concepts:
   # 0 Foundations
@@ -92,7 +93,7 @@ concepts:
 
   # 5 Engineer features
   - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 23], status: confirmed}
-  - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13], status: draft}
+  - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13, 46], status: confirmed}
   - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 13, 24], status: confirmed}
   - {id: standardization, name: Standardization, step: 5, videos: [13, 24], status: confirmed}
   - {id: normalization, name: Normalization, step: 5, videos: [25], status: draft}
@@ -111,7 +112,8 @@ concepts:
 
   # 6 Reduce dimensions
   - {id: dim_reduction, name: Dimensionality reduction, step: 6, videos: [3, 46], status: confirmed}
-  - {id: curse_dim, name: Curse of dimensionality, step: 6, videos: [46], status: draft}
+  - {id: curse_dim, name: Curse of dimensionality, step: 6, videos: [46], status: confirmed}
+  - {id: feature_extraction, name: Feature extraction, step: 6, videos: [46, 47], status: confirmed}
   - {id: pca, name: PCA, step: 6, videos: [3, 47, 48, 49], status: draft}
 
   # 7 Split
@@ -256,12 +258,17 @@ links:
   - [mixed_variables, is a kind of, feature_engineering, draft]
   - [datetime, is a kind of, feature_engineering, draft]
   - [feature_construction, is a kind of, feature_engineering, confirmed]
-  - [feature_selection, is a kind of, feature_engineering, draft]
+  - [feature_selection, is a kind of, feature_engineering, confirmed]
+  - [feature_extraction, is a kind of, feature_engineering, confirmed]
   - [feature_importance, used in, feature_selection, draft]
   - [feature_importance, needs, random_forest, draft]
   # Reduce dimensions
   - [dim_reduction, is a kind of, unsupervised, confirmed]
-  - [dim_reduction, fixes, curse_dim, draft]
+  - [dim_reduction, fixes, curse_dim, confirmed]
+  - [feature_selection, is a kind of, dim_reduction, confirmed]
+  - [feature_extraction, is a kind of, dim_reduction, confirmed]
+  - [feature_selection, compared with, feature_extraction, confirmed]
+  - [pca, is a kind of, feature_extraction, draft]
   - [pca, is a kind of, dim_reduction, draft]
   - [pca, needs, standardization, draft]
   # Split

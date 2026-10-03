@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 42 of 126 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 45 of 127 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -110,7 +110,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Feature scaling | [Note 6](../06-instance-vs-model-based/note.md), [Note 13](../13-toy-project/note.md), Video 24, coming | confirmed |
 | Feature engineering | [Note 7](../07-challenges-in-ml/note.md), Video 23, coming | confirmed |
 | Feature construction and splitting | [Note 7](../07-challenges-in-ml/note.md), Video 45, coming | draft |
-| Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md) | draft |
+| Feature selection | Video 9, coming, [Note 13](../13-toy-project/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | One-hot encoding | [Note 11](../11-tensors/note.md), Video 27, coming | confirmed |
 | Standardization | [Note 13](../13-toy-project/note.md), Video 24, coming | confirmed |
 | ML pipelines | [Note 13](../13-toy-project/note.md), Video 29, coming | draft |
@@ -129,9 +129,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Dimensionality reduction | [Note 3](../03-types-of-ml/note.md), Video 46, coming | confirmed |
+| Dimensionality reduction | [Note 3](../03-types-of-ml/note.md), [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
 | PCA | [Note 3](../03-types-of-ml/note.md), Video 47, coming, Video 48, coming, Video 49, coming | draft |
-| Curse of dimensionality | Video 46, coming | draft |
+| Curse of dimensionality | [Note 46](../46-curse-of-dimensionality/note.md) | confirmed |
+| Feature extraction | [Note 46](../46-curse-of-dimensionality/note.md), Video 47, coming | confirmed |
 
 ### 2.8 Step 7: Split
 
@@ -241,7 +242,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 126 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 127 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -271,7 +272,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 6 | Feature scaling, Instance-based learning, K-nearest neighbours, Model-based learning | [Note 3](../03-types-of-ml/note.md) | written |
 | 7 | APIs, Deployment, Enough data, Feature construction and splitting, Feature engineering, Labelled data, MLOps and cost, Missing values, Outliers, Overfitting, Poor-quality data, Sampling noise and bias, Software integration, Underfitting, Web scraping | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | written |
 | 8 | Applications of ML | [Note 2](../02-ai-vs-ml-vs-dl/note.md) | deferred |
-| 9 | Beta and A/B testing, Feature selection, Framing an ML problem, Hyperparameter tuning, Imbalanced data, ML development life cycle | [Note 7](../07-challenges-in-ml/note.md) | deferred |
+| 9 | Beta and A/B testing, Feature selection, Framing an ML problem, Hyperparameter tuning, Imbalanced data, ML development life cycle | [Note 3](../03-types-of-ml/note.md), [Note 7](../07-challenges-in-ml/note.md) | deferred |
 | 11 | Features, One-hot encoding, Tensors | nothing | written |
 | 12 | Anaconda, Jupyter and Colab | nothing | deferred |
 | 13 | Accuracy, CSV files, Data leakage, Deployment, Exploratory data analysis, Feature scaling, Feature selection, Logistic regression, ML development life cycle, ML pipelines, Saving models with pickle, Standardization, Train-test split | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 7](../07-challenges-in-ml/note.md), Video 9, coming | written |
@@ -307,10 +308,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 43 | IQR outlier method | Video 19, coming, Video 41, coming | coming |
 | 44 | Percentile outlier method | Video 41, coming | coming |
 | 45 | Feature construction and splitting | Video 23, coming | coming |
-| 46 | Curse of dimensionality, Dimensionality reduction | [Note 3](../03-types-of-ml/note.md) | coming |
-| 47 | PCA | Video 24, coming, Video 46, coming | coming |
-| 48 | PCA | Video 24, coming, Video 46, coming | coming |
-| 49 | PCA | Video 24, coming, Video 46, coming | coming |
+| 46 | Curse of dimensionality, Dimensionality reduction, Feature extraction, Feature selection | [Note 3](../03-types-of-ml/note.md), Video 23, coming | written |
+| 47 | Feature extraction, PCA | Video 23, coming, Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md) | coming |
+| 48 | PCA | Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), Video 47, coming | coming |
+| 49 | PCA | Video 24, coming, [Note 46](../46-curse-of-dimensionality/note.md), Video 47, coming | coming |
 | 50 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |
 | 51 | Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md) | coming |
 | 52 | Regression metrics | nothing | coming |

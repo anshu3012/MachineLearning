@@ -8,7 +8,7 @@ title: "Types of Machine Learning"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Machine learning ([Note 2](../02-ai-vs-ml-vs-dl/note.md)).
-> - **Leads to:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)); Simple linear regression (Video 50, coming); Naive Bayes (Video 82, coming); Support vector machines (Video 92, coming); K-means (Video 128, coming).
+> - **Leads to:** K-nearest neighbours ([Note 6](../06-instance-vs-model-based/note.md)); Feature selection (Video 9, coming); Feature extraction ([Note 46](../46-curse-of-dimensionality/note.md)); Logistic regression ([Note 13](../13-toy-project/note.md)); Simple linear regression (Video 50, coming); Naive Bayes (Video 82, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview

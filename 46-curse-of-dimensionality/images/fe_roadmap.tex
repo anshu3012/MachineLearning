@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}[node distance=0.6cm and 0.5cm]
+  \node[box=cblue, font=\sffamily\bfseries] (fe) {Feature engineering};
+  \node[box=cgrey, below left=1.1cm and 2.6cm of fe, text width=3.0cm, minimum height=1.6cm] (t) {Feature\\transformation};
+  \node[box=cgrey, right=0.4cm of t, text width=3.0cm, minimum height=1.6cm] (c) {Feature construction\\and splitting};
+  \node[box=corange, right=0.4cm of c, text width=3.0cm, minimum height=1.6cm] (s) {Feature\\selection};
+  \node[box=cgreen, right=0.4cm of s, text width=3.0cm, minimum height=1.6cm] (e) {Feature\\extraction};
+  \foreach \n in {t,c,s,e} \draw[arrow] (fe.south) -- (\n.north);
+  \node[note, below=0.2cm of t] {done: missing values,\\encoding, scaling, outliers};
+  \node[note, below=0.2cm of c] {done};
+  \node[note, below=0.2cm of s, text=corange] {later: after models\\are built};
+  \node[note, below=0.2cm of e, text=cgreen] {next: PCA};
+  \draw[decorate, decoration={brace, amplitude=8pt, mirror}, draw=cgrey]
+    ([yshift=-1.25cm]s.south west) -- ([yshift=-1.25cm]e.south east)
+    node[midway, below=10pt, font=\sffamily\bfseries] {both reduce the number of columns};
+\end{tikzpicture}
+\end{document}
