@@ -144,11 +144,11 @@ There are many techniques for this in **NLP** (natural language processing, the 
 2. Give each vocabulary word one dimension.
 3. Turn each text into a vector that counts how often each vocabulary word appears in it.
 
-Take three toy "summaries": A = *hi how are you*, B = *my name is riya*, C = *this is 2023*. Their vocabulary has 10 unique words, so each summary becomes a 10-dimensional vector (Figure 3).
+Take three toy "summaries": A = *hi how are you*, B = *my name is riya*, C = *this is 2023*. Their vocabulary has 10 unique words, so each summary becomes a 10-dimensional vector (Figure 3). We cannot draw 10 dimensions, but we can imagine them the same way we imagine 3D.
 
 ![Bag of words turns three texts into three 10-dimensional feature vectors](images/bag_of_words.png)
 
-With real summaries the vocabulary might hold 50,000 words, and each movie becomes a 50,000-dimensional vector. The idea is exactly the same.
+Real data is much bigger. With 5,000 movies the vocabulary might hold 50,000 words: we get 5,000 feature vectors, one per movie, each a vector in a 50,000-dimensional space. The idea is exactly the same.
 
 > **Extra:** The order of the words is thrown away, which is why the method is called a "bag" of words: *dog bites man* and *man bites dog* get the same vector. The [tensors Note](../11-tensors/note.md) (section 6.2) shows a different method, one-hot vectors per word, which keeps the order.
 
@@ -195,7 +195,7 @@ A vector can be written in two ways. The components are the same; only the layou
 
 Seeing the shape $1 \times n$ or $n \times 1$, we know at once which kind a vector is.
 
-Both appear in the iris table. One flower's feature vector, $[5.1, 3.5, 1.4, 0.2]$, is a row of the table: a row vector of shape $1 \times 4$. One column of the table, such as petal length for all 150 flowers, is a column vector of shape $150 \times 1$.
+Both appear in the iris table. One flower's feature vector, $[5.1, 3.5, 1.4, 0.2]$, is a row of the table: a row vector of shape $1 \times 4$. One whole column of the table, such as the species of all 150 flowers, is a column vector of shape $150 \times 1$. In short: a row of the table is a row vector, a column of the table is a column vector.
 
 In ML we use either form, depending on what a calculation needs. When a book or a formula says "vector" without saying which, it means a column vector. Turning a column into a row is called the transpose (see the [PCA step by step Note](../48-pca-step-by-step/note.md)); it becomes important for the dot product in the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md).
 

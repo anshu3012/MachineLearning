@@ -17,7 +17,7 @@ title: "Magnitude, Distance and Scalar Operations on Vectors"
 
 ![Left: the length of a vector. Right: the distance between two points. Both are Pythagoras' theorem](images/magnitude_distance.png)
 
-Figure 1 shows the two measurements this Note builds on. The length of $[3, 4]$ and the distance from $[1, 1]$ to $[4, 5]$ are both 5, and both come from the same right triangle. This Note works each one out in 2D, 3D and $n$ dimensions, shows where ML uses them, and then turns to the two simplest operations on a vector: adding a scalar and multiplying by one.
+Figure 1 shows the two measurements this Note builds on. The length of $[3, 4]$ and the distance from $[1, 1]$ to $[4, 5]$ are both 5, and both come from the same right triangle. This Note works each one out in 2D, 3D and $n$ dimensions, shows where ML uses them, and then turns to the simplest operation on a vector, adding a scalar, and its main use in ML: mean centring.
 
 Vectors, components and dimensions are defined in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md).
 
@@ -113,9 +113,9 @@ The same distance appears in [K-means clustering](../128-kmeans-intuition/note.m
 
 ## 4. Operations with a scalar
 
-> **Key point:** A scalar operation applies the same number to every component: adding shifts the vector, multiplying scales it.
+> **Key point:** A scalar operation applies the same number to every component; adding or subtracting a scalar shifts the vector.
 
-A vector and a scalar can be combined: the scalar is applied to every component in turn.
+A vector and a scalar can be combined in two ways: by adding (or subtracting, which works the same way) and by multiplying (or dividing). In both, the scalar is applied to every component in turn.
 
 ### 4.1 Adding or subtracting a scalar: shifting
 
@@ -125,7 +125,7 @@ A vector and a scalar can be combined: the scalar is applied to every component 
 2. **Formula:** for $v = [v_1, v_2, \dots, v_n]$ and a scalar $s$,
    $$v + s = [v_1 + s,\ v_2 + s,\ \dots,\ v_n + s]$$
 3. **Example:**
-   $$[2, 3] + 3 = [5, 6]$$
+   $$[2, 2] + 5 = [7, 7], \qquad [2, 3] + 3 = [5, 6]$$
 
 Subtraction works the same way, with $s$ subtracted from every component: $[2, 3] - 1 = [1, 2]$.
 
@@ -134,20 +134,6 @@ Subtraction works the same way, with $s$ subtracted from every component: $[2, 3
 Changing every component moves the point to a new place in the coordinate system (Figure 3, left). So adding or subtracting a scalar is called **shifting**.
 
 > **Extra:** Strictly, adding a scalar to a vector is not an operation of linear algebra; mathematics books only define adding two vectors of the same size. NumPy allows it through **broadcasting**: it silently stretches the scalar into the vector $[s, s, \dots, s]$ and adds that. So $[2, 3] + 3$ is really $[2, 3] + [3, 3]$.
-
-### 4.2 Multiplying or dividing by a scalar: scaling
-
-> **Key point:** Multiplying by a scalar multiplies every component, which stretches or shrinks the arrow without turning it.
-
-1. **In words:** multiply every component by the scalar.
-2. **Formula:**
-   $$s\,v = [s\,v_1,\ s\,v_2,\ \dots,\ s\,v_n]$$
-3. **Example:**
-   $$2 \times [2, 3] = [4, 6]$$
-
-The result points in the same direction, but is twice as long (Figure 3, right). In general the magnitude is multiplied by $\lvert s \rvert$, which is why this operation is called **scaling**. Dividing by $s$ is the same as multiplying by $1/s$: $[2, 3] / 2 = [1, 1.5]$.
-
-> **Extra:** A negative scalar also flips the direction: $-1 \times [2, 3] = [-2, -3]$ points the opposite way. Dividing a vector by its own magnitude scales it to length 1, giving the unit vector used in the [PCA step by step Note](../48-pca-step-by-step/note.md): $[3, 4] / 5 = [0.6, 0.8]$.
 
 ## 5. Mean centring: shifting in ML
 
@@ -191,22 +177,38 @@ Mean centring is a useful preprocessing step. It can improve the performance, th
 >
 > `axis=0` takes the mean down each column. The Notebook for this Note (`notebook.ipynb`) runs every example of this Note, including the 100-vector plot and the nearest-neighbour demo with a query you can change.
 
-## 6. Summary
+## 6. Multiplying or dividing by a scalar: scaling
+
+> **Key point:** Multiplying by a scalar multiplies every component, which stretches or shrinks the arrow without turning it.
+
+> **Extra:** The second scalar operation works like the first, with multiplication in place of addition.
+>
+> 1. **In words:** multiply every component by the scalar.
+> 2. **Formula:**
+>    $$s\,v = [s\,v_1,\ s\,v_2,\ \dots,\ s\,v_n]$$
+> 3. **Example:**
+>    $$2 \times [2, 3] = [4, 6]$$
+>
+> The result points in the same direction, but is twice as long (Figure 3, right). In general the magnitude is multiplied by $\lvert s \rvert$, which is why this operation is called **scaling**. Dividing by $s$ is the same as multiplying by $1/s$: $[2, 3] / 2 = [1, 1.5]$.
+>
+> A negative scalar also flips the direction: $-1 \times [2, 3] = [-2, -3]$ points the opposite way. Dividing a vector by its own magnitude scales it to length 1, giving the unit vector used in the [PCA step by step Note](../48-pca-step-by-step/note.md): $[3, 4] / 5 = [0.6, 0.8]$.
+
+## 7. Summary
 
 | Idea | Formula | Example |
 |---|---|---|
 | Magnitude | $\lVert x \rVert = \sqrt{\sum x_i^2}$ | $\lVert [3, 4] \rVert = 5$ |
 | Euclidean distance | $\lVert p - q \rVert$ | $[1, 1]$ to $[4, 5]$: 5 |
 | Shifting | $v + s$: add $s$ to every component | $[2, 3] + 3 = [5, 6]$ |
-| Scaling | $s\,v$: multiply every component by $s$ | $2 \times [2, 3] = [4, 6]$ |
 | Mean centring | each column minus its mean | $3, 5, 7 \rightarrow -2, 0, 2$ |
+| Scaling | $s\,v$: multiply every component by $s$ | $2 \times [2, 3] = [4, 6]$ |
 
 - Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any dimension.
 - Distance = magnitude of the difference: `np.linalg.norm(p - q)`.
 - KNN, K-means and recommender systems all decide by distance.
 - Shifting moves a vector, scaling stretches it; mean centring is shifting applied to whole columns.
 
-## 7. Key terms
+## 8. Key terms
 
 | Term | Meaning |
 |---|---|
