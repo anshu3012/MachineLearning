@@ -3,7 +3,7 @@
 # Tries human English (en-IN) first, then YouTube's Hindi speech recognition (hi-orig).
 # One language per request and long pauses, because YouTube returns 429 when asked too fast.
 cd "$(dirname "$0")"
-Y="/home/anshu/miniforge3/envs/campusx/bin/python -m yt_dlp"
+Y="${CAMPUSX_ENV:-$(conda info --base)/envs/campusx}/bin/python -m yt_dlp"
 while IFS='|' read -r n id title; do
   ls "$n".*.txt >/dev/null 2>&1 && continue
   for try in "--write-subs en-IN" "--write-auto-subs hi-orig"; do

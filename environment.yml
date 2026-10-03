@@ -16,6 +16,24 @@ dependencies:
   - attrs=26.1.0
   - audioop-lts=0.2.2
   - av=19.0.0
+  - aws-c-auth=0.10.4
+  - aws-c-cal=0.9.14
+  - aws-c-common=0.14.2
+  - aws-c-compression=0.3.2
+  - aws-c-event-stream=0.7.1
+  - aws-c-http=0.11.0
+  - aws-c-io=0.27.3
+  - aws-c-mqtt=0.16.0
+  - aws-c-s3=0.12.8
+  - aws-c-sdkutils=0.2.7
+  - aws-checksums=0.2.10
+  - aws-crt-cpp=0.40.1
+  - aws-sdk-cpp=1.11.833
+  - azure-core-cpp=1.16.3
+  - azure-identity-cpp=1.13.3
+  - azure-storage-blobs-cpp=12.18.0
+  - azure-storage-common-cpp=12.14.0
+  - azure-storage-files-datalake-cpp=12.16.0
   - babel=2.18.0
   - backports=1.0
   - backports.tarfile=1.2.0
@@ -29,6 +47,7 @@ dependencies:
   - brotli-bin=1.2.0
   - brotli-python=1.2.0
   - bzip2=1.0.8
+  - c-ares=1.34.8
   - ca-certificates=2026.7.22
   - cachecontrol=0.14.4
   - cachecontrol-with-filecache=0.14.4
@@ -73,9 +92,11 @@ dependencies:
   - freetype=2.14.3
   - fribidi=1.0.17
   - gdk-pixbuf=2.44.8
+  - gflags=2.3.1
   - glcontext=3.0.0
   - glib=2.90.0
   - glib-tools=2.90.0
+  - glog=0.7.1
   - glslang=16.6.0
   - gmp=6.3.0
   - graphite2=1.3.15
@@ -132,6 +153,11 @@ dependencies:
   - lerc=4.2.0
   - level-zero=1.33.1
   - libabseil=20260526.0
+  - libarrow=21.0.0
+  - libarrow-acero=21.0.0
+  - libarrow-compute=21.0.0
+  - libarrow-dataset=21.0.0
+  - libarrow-substrait=21.0.0
   - libass=0.17.5
   - libblas=3.11.0
   - libbrotlicommon=1.2.0
@@ -139,12 +165,16 @@ dependencies:
   - libbrotlienc=1.2.0
   - libcap=2.78
   - libcblas=3.11.0
+  - libcrc32c=1.1.2
+  - libcurl=8.22.0
   - libdav1d7=1.5.4
   - libdeflate=1.25
   - libdovi=3.4.0
   - libdrm=2.4.129
   - libedit=3.1.20250104
   - libegl=1.7.0
+  - libev=4.33
+  - libevent=2.1.12
   - libexpat=2.8.5
   - libffi=3.7.0
   - libflac=1.5.0
@@ -160,6 +190,9 @@ dependencies:
   - libglvnd=1.7.0
   - libglx=1.7.0
   - libgomp=16.2.0
+  - libgoogle-cloud=3.8.0
+  - libgoogle-cloud-storage=3.8.0
+  - libgrpc=1.82.1
   - libharfbuzz=14.5.1
   - libhwloc=2.15.0
   - libhwy=1.4.0
@@ -168,9 +201,12 @@ dependencies:
   - libjxl=0.12.0
   - liblapack=3.11.0
   - liblzma=5.8.3
+  - libnghttp2=1.68.1
   - libnsl=2.0.1
   - libogg=1.3.5
   - libopenblas=0.3.34
+  - libopentelemetry-cpp=1.27.0
+  - libopentelemetry-cpp-headers=1.27.0
   - libopenvino=2026.4.0
   - libopenvino-auto-batch-plugin=2026.4.0
   - libopenvino-auto-plugin=2026.4.0
@@ -186,25 +222,31 @@ dependencies:
   - libopenvino-tensorflow-frontend=2026.4.0
   - libopenvino-tensorflow-lite-frontend=2026.4.0
   - libopus=1.6.1
+  - libparquet=21.0.0
   - libpciaccess=0.19
   - libplacebo=7.360.1
   - libpng=1.6.59
   - libprotobuf=7.35.1
+  - libpsl=0.23.1
   - libpython=3.12.14
   - libraqm=0.11.0
+  - libre2-11=2025.11.05
   - librsvg=2.62.4
   - libskia=143.0.0
   - libsndfile=1.2.2
   - libsodium=1.0.22
   - libsqlite=3.53.4
+  - libssh2=1.11.1
   - libstdcxx=16.2.0
   - libstdcxx-ng=16.2.0
   - libsystemd0=262
+  - libthrift=0.22.0
   - libtiff=4.7.2
   - libudev1=262
   - libunwind=1.8.3
   - liburing=2.14
   - libusb=1.0.30
+  - libutf8proc=2.11.3
   - libuuid=2.42.4
   - libva=2.24.1
   - libvorbis=1.3.7
@@ -219,6 +261,7 @@ dependencies:
   - libxml2-16=2.15.4
   - libzlib=1.3.2
   - logistro=2.0.1
+  - lz4-c=1.10.0
   - manim=0.20.1
   - manimpango=0.7.0
   - mapbox_earcut=2.1.0
@@ -242,13 +285,17 @@ dependencies:
   - nest-asyncio=1.6.0
   - nest-asyncio2=1.7.3
   - networkx=3.7
+  - nlohmann_json=3.12.0
   - notebook-shim=0.2.4
+  - nspr=4.40
+  - nss=3.118
   - numpy=2.5.3
   - ocl-icd=2.3.4
   - opencl-headers=2025.06.13
   - openh264=2.6.0
   - openjpeg=2.5.4
   - openssl=3.6.4
+  - orc=2.3.1
   - orjson=3.12.0
   - overrides=7.7.0
   - packaging=26.3
@@ -269,14 +316,20 @@ dependencies:
   - plotly=7.1.0
   - poetry=2.5.1
   - poetry-core=2.5.0
+  - poppler=26.09.0
+  - poppler-data=0.4.12
+  - prometheus-cpp=1.3.0
   - prometheus_client=0.26.0
   - prompt-toolkit=3.0.53
+  - protobuf=7.35.1
   - psutil=7.2.2
   - pthread-stubs=0.4
   - ptyprocess=0.7.0
   - pugixml=1.15
   - pulseaudio-client=17.0
   - pure_eval=0.2.4
+  - pyarrow=21.0.0
+  - pyarrow-core=21.0.0
   - pycairo=1.29.1
   - pycparser=3.0
   - pydantic=2.13.5
@@ -304,6 +357,7 @@ dependencies:
   - pyzmq=27.2.0
   - qhull=2020.2
   - rapidfuzz=3.14.6
+  - re2=2025.11.05
   - readline=8.3
   - referencing=0.37.0
   - requests=2.34.2
@@ -314,6 +368,7 @@ dependencies:
   - rfc3987-syntax=1.1.0
   - rich=15.0.0
   - rpds-py=2026.6.3
+  - s2n=1.7.5
   - scikit-learn=1.9.1
   - scipy=1.18.1
   - screeninfo=0.8.1
@@ -389,6 +444,7 @@ dependencies:
   - yaml=0.2.5
   - zeromq=4.3.5
   - zipp=4.1.0
+  - zlib=1.3.2
   - zlib-ng=2.3.3
   - zstandard=0.25.0
   - zstd=1.5.7
@@ -417,3 +473,5 @@ dependencies:
       - visions==0.8.1
       - wordcloud==1.9.6
       - yt-dlp==2026.8.19
+variables:
+  PYTHONNOUSERSITE: '1'

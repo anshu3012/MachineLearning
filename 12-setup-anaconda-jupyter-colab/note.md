@@ -272,22 +272,24 @@ If `conda activate myproject` still seems to work right after removing, the term
 
 ### 5.1 Recreating the environment from a file
 
-> **Key point:** Two commands rebuild our `campusx` environment on any computer; a third adds the profiling library.
+> **Key point:** On Linux, two commands rebuild our `campusx` environment exactly; a third adds the profiling library.
 
-An **environment file** (`environment.yml`) lists an environment's name, its channel, and every package with its exact version. Pinning exact versions means everyone who builds from the file gets the same results as these Notes. Ours was made from the working environment with `conda env export --no-builds`.
+An **environment file** (`environment.yml`) lists an environment's name, its channel, and every package with its exact version. Pinning exact versions means everyone who builds from the file gets the same results as these Notes. Ours is generated from the working environment with `conda env export --no-builds`, never written by hand.
 
-The file has two parts: conda packages from conda-forge, and a `pip:` section for packages that conda-forge does not have. Recreating the environment takes one long download:
+The file has three parts: conda packages from conda-forge, a `pip:` section for packages that conda-forge does not have, and a `variables:` section (below). It lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of Section 5.2 instead. Recreating the environment takes one long download:
 
-> **Python:** Building the `campusx` environment (Linux or macOS terminal).
+> **Python:** Building the `campusx` environment (Linux terminal).
 >
 > ```bash
 > conda env create -f environment.yml
 > conda activate campusx
-> pip install --no-deps fg-data-profiling==4.20.0
+> python -m pip install --no-deps fg-data-profiling==4.20.0
 > python -c "import sklearn; print(sklearn.__version__)"   # 1.9.1
 > ```
 >
-> `-f` names the file. The third line adds the profiling library separately; Section 5.3 explains why. The last line checks that scikit-learn imports. The same commands work on Windows in Miniforge Prompt.
+> `-f` names the file. The third line adds the profiling library separately; Section 5.3 explains why. The last line checks that scikit-learn imports.
+
+The `variables:` section sets `PYTHONNOUSERSITE=1` whenever the environment is activated. Without it, Python also loads packages installed with `pip install --user` (in `~/.local`), and an old copy there can silently replace the environment's own version. With it, only the environment's packages are used.
 
 Figure 1's left side is now complete. From the project folder, `jupyter lab` opens notebooks that use exactly these versions.
 
@@ -302,6 +304,7 @@ The table lists the pinned versions that matter most for these Notes.
 | Python | 3.12.14 | The language |
 | NumPy | 2.5.3 | Arrays and maths |
 | pandas | 3.0.6 | Tables (DataFrames) |
+| PyArrow | 21.0.0 | Fast storage that pandas uses for text columns |
 | scikit-learn | 1.9.1 | ML models and preprocessing |
 | SciPy | 1.18.1 | Statistics and scientific functions |
 | statsmodels | 0.15.0 | Statistical models and tests |
@@ -327,8 +330,10 @@ The helper packages it really needs (such as `phik`, `visions` and `wordcloud`) 
 > **Python:** Adding the library (the third command of 5.1).
 >
 > ```bash
-> pip install --no-deps fg-data-profiling==4.20.0
+> python -m pip install --no-deps fg-data-profiling==4.20.0
 > ```
+>
+> Afterwards `python -m pip check` reports that fg-data-profiling wants pandas below 3.0. That message is expected and harmless here.
 
 The library then runs on pandas 3 with one setting. pandas 3 stores text columns in a new format (Arrow arrays) that the library cannot add up, and building a report fails with an error. One line before the report switches text back to plain Python strings:
 
