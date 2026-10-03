@@ -219,7 +219,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 | Concept | Taught in | Status |
 |---|---|---|
-| Hyperparameter tuning | Video 9, coming, Video 81, coming, Video 98, coming, Video 111, coming, Video 118, coming | draft |
+| Hyperparameter tuning | Video 9, coming, [Note 81](../81-logistic-hyperparameters/note.md), Video 98, coming, Video 111, coming, Video 118, coming | draft |
 | Grid and random search | [Note 29](../29-pipelines/note.md), [Note 38](../38-missing-indicator-random-sample/note.md), Video 112, coming | draft |
 | Learning rate | [Note 57](../57-gradient-descent/note.md) | confirmed |
 | Optuna | Video 134, coming | draft |
@@ -361,7 +361,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 78 | ROC curve and AUC | [Note 76](../76-accuracy-confusion-matrix/note.md), [Note 77](../77-precision-recall-f1/note.md) | written |
 | 79 | Softmax regression | [Note 27](../27-one-hot-encoding/note.md), [Note 75](../75-logistic-gradient-descent/note.md) | written |
 | 80 | Polynomial features | nothing | written |
-| 81 | Hyperparameter tuning | nothing | coming |
+| 81 | Hyperparameter tuning | nothing | written |
 | 82 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
 | 83 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |
 | 84 | Naive Bayes | [Note 3](../03-types-of-ml/note.md) | coming |

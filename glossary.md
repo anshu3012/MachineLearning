@@ -89,6 +89,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bot | A program that visits websites automatically. | [Video 18](18-web-scraping/note.md) |
 | Box plot | A graph of the five-number summary, with outliers drawn as dots. | [Video 20](20-univariate-analysis/note.md) |
 | Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0. | [Video 31](31-power-transformer/note.md) |
+| C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Capping | Replacing every value beyond a limit with the limit itself. | [Video 41](41-what-are-outliers/note.md) |
 | Categorical column | A column whose values are labels rather than numbers. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class). | [Video 79](79-softmax-regression/note.md) |
@@ -107,6 +108,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Chunk | A piece of a file, read as a small DataFrame. | [Video 15](15-working-with-csv/note.md) |
 | Class | An attribute that labels tags; used to select the right ones. | [Video 18](18-web-scraping/note.md) |
 | class_sep | make_classification setting for how far apart the classes are. | [Video 71](71-perceptron-code/note.md) |
+| class_weight | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes. | [Video 81](81-logistic-hyperparameters/note.md) |
 | classes_ | The attribute holding the classes `LabelEncoder` learned, in order. | [Video 26](26-ordinal-label-encoding/note.md) |
 | Classification metric | A number that measures how well a classification model performs. | [Video 76](76-accuracy-confusion-matrix/note.md) |
 | Classification | Supervised learning with a categorical output. | [Video 3](03-types-of-ml/note.md) |
@@ -136,6 +138,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Contour plot | A map of a surface seen from above, with lines joining points of equal height. | [Video 57](57-gradient-descent/note.md) |
 | Converge | To settle at a minimum, with steps becoming negligible. | [Video 57](57-gradient-descent/note.md) |
 | Convergence | The point where the fills hardly change between two iterations. | [Video 40](40-iterative-imputer-mice/note.md) |
+| ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. | [Video 57](57-gradient-descent/note.md) |
 | Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. | [Video 68](68-lasso-sparsity/note.md) |
 | Correlation | How two columns move together, from -1 to +1. | [Video 19](19-understanding-your-data/note.md) |
@@ -152,6 +155,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Curse of dimensionality | The problems that appear when data has too many dimensions: lower performance and more computation. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning. | [Video 32](32-binning-binarization/note.md) |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95. | [Video 44](44-outliers-percentile/note.md) |
+| Dash | A Python library for building interactive web apps with Plotly charts. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Data cleaning | Fixing errors, gaps and inconsistencies in data. | [Video 7](07-challenges-in-ml/note.md) |
 | Data leakage | Information from the test set leaking into training. | [Video 13](13-toy-project/note.md) |
 | Data pipeline | A channel that carries data from one point to another. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -329,6 +333,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1). | [Video 63](63-ridge-regression-intuition/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
+| lbfgs | The default solver of LogisticRegression; supports L2 or no penalty. | [Video 81](81-logistic-hyperparameters/note.md) |
 | LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes. | [Video 49](49-pca-mnist/note.md) |
 | Learning rate ($\eta$) | The number the slope is multiplied by to get the step size. | [Video 57](57-gradient-descent/note.md) |
 | Learning rate | How strongly each new piece of data changes the model. | [Video 5](05-online-learning/note.md) |
@@ -547,6 +552,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean. | [Video 52](52-regression-metrics/note.md) |
 | R² score | How much of the variation in a regression target the model explains: 1 is perfect, 0 is no better than the average. | [Video 31](31-power-transformer/note.md) |
 | Saddle point | A flat point that curves up in one direction and down in another. | [Video 57](57-gradient-descent/note.md) |
+| saga | A stochastic solver that supports every penalty, including Elastic Net. | [Video 81](81-logistic-hyperparameters/note.md) |
 | Sample | The part of the real world that our data covers. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Video 7](07-challenges-in-ml/note.md) |
 | Sampling noise | An unrepresentative sample caused by being too small. | [Video 7](07-challenges-in-ml/note.md) |

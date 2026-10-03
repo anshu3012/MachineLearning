@@ -97,6 +97,7 @@ notes:
   78: 78-roc-auc
   79: 79-softmax-regression
   80: 80-polynomial-logistic-regression
+  81: 81-logistic-hyperparameters
 
 concepts:
   # 0 Foundations
