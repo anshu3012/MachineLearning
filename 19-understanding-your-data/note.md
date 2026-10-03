@@ -8,7 +8,7 @@ title: "Understanding Your Data: Seven First Questions"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** CSV files ([Note 15](../15-working-with-csv/note.md)).
-> - **Leads to:** Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); Univariate analysis (Video 20, coming); Bivariate and multivariate analysis (Video 21, coming); Z-score outlier method (Video 42, coming); IQR outlier method (Video 43, coming).
+> - **Leads to:** Univariate analysis ([Note 20](../20-univariate-analysis/note.md)); Skewness ([Note 20](../20-univariate-analysis/note.md)); Bivariate and multivariate analysis ([Note 21](../21-bivariate-multivariate-analysis/note.md)); Feature selection ([Note 46](../46-curse-of-dimensionality/note.md)); PCA ([Note 47](../47-pca-geometric-intuition/note.md)); Z-score outlier method (Video 42, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview
