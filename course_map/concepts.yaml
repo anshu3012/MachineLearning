@@ -68,6 +68,7 @@ notes:
   49: 49-pca-mnist
   50: 50-simple-linear-regression
   51: 51-linear-regression-maths
+  52: 52-regression-metrics
 
 concepts:
   # 0 Foundations
@@ -213,7 +214,7 @@ concepts:
   - {id: underfitting, name: Underfitting, step: 9, videos: [7], status: confirmed}
   - {id: bias_variance, name: Bias-variance trade-off, step: 9, videos: [62, 109], status: draft}
   - {id: accuracy, name: Accuracy, step: 9, videos: [13, 76], status: confirmed}
-  - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: draft}
+  - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: confirmed}
   - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: draft}
   - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: draft}
   - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: draft}
@@ -310,6 +311,7 @@ links:
   - [percentile, compared with, iqr, confirmed]
   - [capping, needs, percentile, confirmed]
   - [ols, used in, linear_regression, confirmed]
+  - [regression_metrics, needs, best_fit_line, confirmed]
   - [ols, compared with, gradient_descent, confirmed]
   - [ols, needs, covariance, confirmed]
   - [zscore, needs, standardization, confirmed]
@@ -397,7 +399,7 @@ links:
   - [linear_regression, is a kind of, regression_task, confirmed]
   - [multiple_lr, needs, linear_regression, confirmed]
   - [lr_assumptions, used in, linear_regression, draft]
-  - [regression_metrics, used in, linear_regression, draft]
+  - [regression_metrics, used in, linear_regression, confirmed]
   - [gradient_descent, used in, linear_regression, draft]
   - [linear_regression, needs, best_fit_line, confirmed]
   - [linear_regression, is a kind of, supervised, confirmed]

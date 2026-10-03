@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 90 of 140 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 91 of 140 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -204,7 +204,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Underfitting | [Note 7](../07-challenges-in-ml/note.md) | confirmed |
 | Accuracy | [Note 13](../13-toy-project/note.md), Video 76, coming | confirmed |
 | Cross-validation | [Note 29](../29-pipelines/note.md), [Note 30](../30-function-transformer/note.md), Video 112, coming | draft |
-| Regression metrics | Video 52, coming | draft |
+| Regression metrics | [Note 52](../52-regression-metrics/note.md) | confirmed |
 | Bias-variance trade-off | Video 62, coming, Video 109, coming | draft |
 | Confusion matrix | Video 76, coming | draft |
 | Precision, recall and F1 | Video 77, coming | draft |
@@ -327,7 +327,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 49 | PCA | [Note 24](../24-standardization/note.md), [Note 46](../46-curse-of-dimensionality/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
 | 50 | Best-fit line and squared error, Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md) | written |
 | 51 | Best-fit line and squared error, Ordinary least squares (closed form), Simple linear regression | [Note 3](../03-types-of-ml/note.md), [Note 6](../06-instance-vs-model-based/note.md), [Note 27](../27-one-hot-encoding/note.md), [Note 48](../48-pca-step-by-step/note.md) | written |
-| 52 | Regression metrics | nothing | coming |
+| 52 | Regression metrics | [Note 51](../51-linear-regression-maths/note.md) | written |
 | 53 | Multiple linear regression | [Note 51](../51-linear-regression-maths/note.md) | coming |
 | 54 | Multiple linear regression | [Note 51](../51-linear-regression-maths/note.md) | coming |
 | 55 | Multiple linear regression | [Note 51](../51-linear-regression-maths/note.md) | coming |

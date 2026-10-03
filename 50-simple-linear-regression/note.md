@@ -8,7 +8,7 @@ title: "Simple Linear Regression: Intuition and Code"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Regression problems ([Note 3](../03-types-of-ml/note.md)); Supervised learning ([Note 3](../03-types-of-ml/note.md)); Model-based learning ([Note 6](../06-instance-vs-model-based/note.md)); Multicollinearity ([Note 27](../27-one-hot-encoding/note.md)).
-> - **Leads to:** Multiple linear regression (Video 53, coming).
+> - **Leads to:** Regression metrics ([Note 52](../52-regression-metrics/note.md)); Multiple linear regression (Video 53, coming).
 <!-- /where-this-fits -->
 
 ## 1. Overview
