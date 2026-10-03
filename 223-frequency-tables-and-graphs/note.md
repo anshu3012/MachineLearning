@@ -9,7 +9,7 @@ title: "Frequency Tables and Graphs by Data Type"
 >
 > - **Builds on:** Exploratory data analysis ([Note 19](../19-understanding-your-data/note.md)).
 > - **Leads to:** Correlation ([Note 231](../231-covariance-and-correlation/note.md)).
-> - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)).
+> - **Compare with:** Inferential statistics ([Note 220](../220-what-is-statistics/note.md)); Cumulative distribution function (CDF) ([Note 241](../241-pmf-and-discrete-cdf/note.md)).
 <!-- /where-this-fits -->
 
 ## 1. Overview

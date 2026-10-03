@@ -8,7 +8,7 @@ title: "What Is Statistics: Population, Sample and Types of Data"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Sampling noise and bias ([Note 7](../07-challenges-in-ml/note.md)).
-> - **Leads to:** Bessel's correction ([Note 222](../222-measures-of-dispersion/note.md)).
+> - **Leads to:** Bessel's correction ([Note 222](../222-measures-of-dispersion/note.md)); Random variables ([Note 240](../240-random-variables-and-distributions/note.md)); Density estimation ([Note 243](../243-density-estimation-kde/note.md)).
 > - **Compare with:** Descriptive statistics ([Note 210](../210-statistics-roadmap/note.md)).
 <!-- /where-this-fits -->
 

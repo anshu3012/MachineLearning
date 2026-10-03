@@ -15,7 +15,7 @@ The Notes each teach one lesson. The Course map shows how those lessons fit toge
 | **Learning path** | Which Notes should I read first? |
 | **Algorithm chooser** | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 167 of 167 Concepts are confirmed.
+Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their Video when their Note is written. So far, 174 of 174 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -62,8 +62,11 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Independent and mutually exclusive events | [Note 83](../83-independent-events/note.md), [Note 84](../84-mutually-exclusive-events/note.md) | confirmed |
 | Bayes' theorem | [Note 85](../85-bayes-theorem/note.md), [Note 86](../86-bayes-problem/note.md) | confirmed |
 | Taylor series | [Note 126](../126-xgboost-maths/note.md) | confirmed |
+| Probability distributions | [Note 210](../210-statistics-roadmap/note.md), [Note 240](../240-random-variables-and-distributions/note.md) | confirmed |
 | Inferential statistics | [Note 210](../210-statistics-roadmap/note.md), [Note 220](../220-what-is-statistics/note.md) | confirmed |
 | Population, sample, parameter and statistic | [Note 220](../220-what-is-statistics/note.md) | confirmed |
+| Random variables | [Note 240](../240-random-variables-and-distributions/note.md) | confirmed |
+| Probability mass function (PMF) | [Note 241](../241-pmf-and-discrete-cdf/note.md) | confirmed |
 
 ### 2.2 Step 1: Frame the problem
 
@@ -94,6 +97,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Variance | [Note 19](../19-understanding-your-data/note.md), [Note 47](../47-pca-geometric-intuition/note.md), [Note 222](../222-measures-of-dispersion/note.md) | confirmed |
 | Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md), [Note 231](../231-covariance-and-correlation/note.md) | confirmed |
 | Descriptive statistics | [Note 19](../19-understanding-your-data/note.md), [Note 210](../210-statistics-roadmap/note.md), [Note 221](../221-measures-of-central-tendency/note.md), [Note 222](../222-measures-of-dispersion/note.md), [Note 223](../223-frequency-tables-and-graphs/note.md), [Note 230](../230-percentiles-and-box-plots/note.md) | confirmed |
+| Probability density function (PDF) | [Note 20](../20-univariate-analysis/note.md), [Note 90](../90-gaussian-naive-bayes/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | confirmed |
+| Kernel density estimation (KDE) | [Note 20](../20-univariate-analysis/note.md), [Note 243](../243-density-estimation-kde/note.md) | confirmed |
 | Skewness | [Note 20](../20-univariate-analysis/note.md) | confirmed |
 | Pandas Profiling | [Note 22](../22-pandas-profiling/note.md) | confirmed |
 | Q-Q plot | [Note 30](../30-function-transformer/note.md) | confirmed |
@@ -104,6 +109,8 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 | Frequency tables | [Note 223](../223-frequency-tables-and-graphs/note.md) | confirmed |
 | Percentiles, quartiles and box plots | [Note 230](../230-percentiles-and-box-plots/note.md) | confirmed |
 | Correlation and causation | [Note 231](../231-covariance-and-correlation/note.md) | confirmed |
+| Cumulative distribution function (CDF) | [Note 241](../241-pmf-and-discrete-cdf/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | confirmed |
+| Density estimation | [Note 243](../243-density-estimation-kde/note.md) | confirmed |
 
 ### 2.5 Step 4: Clean
 
@@ -282,7 +289,7 @@ Every Link has one of five types:
 | **compared with** | often confused or contrasted | bagging *compared with* boosting |
 | **used in** | a tool used inside something else | feature scaling *used in* KNN |
 
-The full map has 167 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
+The full map has 174 Concepts, too many for one page, so it is shown in six areas (Figures 2 to 7). In each figure, the area's own Concepts are large and coloured by pipeline step; Concepts from other areas that link in are small and grey. Faint dots and dotted lines are drafts.
 
 ![Concept map: Foundations and framing](images/concept_map_foundations.png){height=88%}
 
@@ -322,7 +329,7 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 17 | APIs | [Note 16](../16-working-with-json-and-sql/note.md) | written |
 | 18 | Web scraping | nothing | written |
 | 19 | Correlation, Descriptive statistics, Exploratory data analysis, Variance | [Note 15](../15-working-with-csv/note.md) | written |
-| 20 | Outliers, Skewness, Univariate analysis | [Note 9](../09-mldlc/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
+| 20 | Kernel density estimation (KDE), Outliers, Probability density function (PDF), Skewness, Univariate analysis | [Note 9](../09-mldlc/note.md), [Note 19](../19-understanding-your-data/note.md) | written |
 | 21 | Bivariate and multivariate analysis, Correlation | [Note 19](../19-understanding-your-data/note.md), [Note 20](../20-univariate-analysis/note.md) | written |
 | 22 | Pandas Profiling | [Note 12](../12-setup-anaconda-jupyter-colab/note.md) | written |
 | 23 | Binning and binarization, Encoding categorical data, Feature construction and splitting, Feature engineering, Feature extraction, Feature scaling, Feature selection, Feature transformation, Missing values, One-hot encoding, Outliers, Simple imputation (mean, median, mode, constant) | [Note 11](../11-tensors/note.md), [Note 13](../13-toy-project/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 21](../21-bivariate-multivariate-analysis/note.md) | written |
@@ -389,10 +396,10 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 84 | Independent and mutually exclusive events | nothing | written |
 | 85 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | written |
 | 86 | Bayes' theorem | [Note 82](../82-conditional-probability/note.md) | written |
-| 87 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
-| 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
-| 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
-| 90 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
+| 87 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
+| 88 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
+| 89 | Naive Bayes | [Note 3](../03-types-of-ml/note.md), [Note 20](../20-univariate-analysis/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
+| 90 | Naive Bayes, Probability density function (PDF) | [Note 3](../03-types-of-ml/note.md), [Note 84](../84-mutually-exclusive-events/note.md), [Note 86](../86-bayes-problem/note.md) | written |
 | 91 | Accuracy, Cross-validation, Curse of dimensionality, Data leakage, Decision surface and boundary, Grid and random search, Hyperparameter tuning, K-nearest neighbours, Overfitting, Underfitting | [Note 13](../13-toy-project/note.md), [Note 24](../24-standardization/note.md), [Note 37](../37-missing-categorical-data/note.md), [Note 38](../38-missing-indicator-random-sample/note.md) | written |
 | 92 | Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
 | 93 | Support vector machines | [Note 3](../03-types-of-ml/note.md), [Note 63](../63-ridge-regression-intuition/note.md), [Note 71](../71-perceptron-code/note.md) | written |
@@ -437,13 +444,17 @@ Each row lists a Video's Concepts and the Notes to read first. Videos marked *co
 | 132 | Anomaly detection, Clustering, DBSCAN | [Note 3](../03-types-of-ml/note.md) | written |
 | 133 | Balanced random forest, Cost-sensitive learning, Imbalanced data, Random under- and oversampling, SMOTE | [Note 78](../78-roc-auc/note.md), [Note 91](../91-knn/note.md), [Note 114](../114-feature-importance/note.md), [Note 127](../127-stacking-blending/note.md) | written |
 | 134 | Bayesian optimisation, Optuna | [Note 118](../118-adaboost-hyperparameters/note.md), [Note 127](../127-stacking-blending/note.md) | written |
-| 210 | Descriptive statistics, Inferential statistics | [Note 19](../19-understanding-your-data/note.md) | written |
+| 210 | Descriptive statistics, Inferential statistics, Probability distributions | [Note 19](../19-understanding-your-data/note.md) | written |
 | 220 | Discrete and continuous data, Inferential statistics, Population, sample, parameter and statistic | [Note 7](../07-challenges-in-ml/note.md) | written |
 | 221 | Descriptive statistics, Measures of central tendency | [Note 19](../19-understanding-your-data/note.md) | written |
 | 222 | Bessel's correction, Descriptive statistics, Variance | [Note 19](../19-understanding-your-data/note.md), [Note 220](../220-what-is-statistics/note.md) | written |
 | 223 | Descriptive statistics, Frequency tables | [Note 19](../19-understanding-your-data/note.md) | written |
 | 230 | Descriptive statistics, Percentiles, quartiles and box plots | [Note 19](../19-understanding-your-data/note.md), [Note 223](../223-frequency-tables-and-graphs/note.md) | written |
 | 231 | Correlation, Correlation and causation, Covariance and covariance matrix | [Note 222](../222-measures-of-dispersion/note.md), [Note 230](../230-percentiles-and-box-plots/note.md) | written |
+| 240 | Probability distributions, Random variables | [Note 220](../220-what-is-statistics/note.md) | written |
+| 241 | Cumulative distribution function (CDF), Probability mass function (PMF) | [Note 90](../90-gaussian-naive-bayes/note.md), [Note 240](../240-random-variables-and-distributions/note.md) | written |
+| 242 | Cumulative distribution function (CDF), Probability density function (PDF) | [Note 240](../240-random-variables-and-distributions/note.md), [Note 241](../241-pmf-and-discrete-cdf/note.md) | written |
+| 243 | Density estimation, Kernel density estimation (KDE) | [Note 220](../220-what-is-statistics/note.md), [Note 242](../242-pdf-and-continuous-cdf/note.md) | written |
 
 ## 5. The Algorithm chooser
 

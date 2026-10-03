@@ -162,6 +162,10 @@ notes:
   223: 223-frequency-tables-and-graphs
   230: 230-percentiles-and-box-plots
   231: 231-covariance-and-correlation
+  240: 240-random-variables-and-distributions
+  241: 241-pmf-and-discrete-cdf
+  242: 242-pdf-and-continuous-cdf
+  243: 243-density-estimation-kde
 
 concepts:
   # 0 Foundations
@@ -206,6 +210,13 @@ concepts:
   - {id: covariance, name: Covariance and covariance matrix, step: 3, videos: [48, 231], status: confirmed}
   - {id: eigen, name: Eigenvectors and eigenvalues, step: 0, videos: [48], status: confirmed}
   - {id: correlation, name: Correlation, step: 3, videos: [19, 21, 231], status: confirmed}
+  - {id: random_variable, name: Random variables, step: 0, videos: [240], status: confirmed}
+  - {id: probability_distribution, name: Probability distributions, step: 0, videos: [210, 240], status: confirmed}
+  - {id: pmf, name: Probability mass function (PMF), step: 0, videos: [241], status: confirmed}
+  - {id: pdf, name: Probability density function (PDF), step: 3, videos: [20, 90, 242], status: confirmed}
+  - {id: cdf, name: Cumulative distribution function (CDF), step: 3, videos: [241, 242], status: confirmed}
+  - {id: density_estimation, name: Density estimation, step: 3, videos: [243], status: confirmed}
+  - {id: kde, name: Kernel density estimation (KDE), step: 3, videos: [20, 243], status: confirmed}
   - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
   - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
   - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
@@ -705,6 +716,17 @@ links:
   - [box_plot, used in, percentile, confirmed]
   - [causation, compared with, correlation, confirmed]
   - [correlation, compared with, covariance, confirmed]
+  - [random_variable, needs, discrete_continuous, confirmed]
+  - [pmf, is a kind of, probability_distribution, confirmed]
+  - [pdf, is a kind of, probability_distribution, confirmed]
+  - [cdf, needs, pmf, confirmed]
+  - [cdf, needs, pdf, confirmed]
+  - [cdf, compared with, frequency_table, confirmed]
+  - [kde, is a kind of, density_estimation, confirmed]
+  - [density_estimation, needs, pdf, confirmed]
+  - [density_estimation, needs, population_sample, confirmed]
+  - [pdf, used in, naive_bayes, confirmed]
+  - [probability_distribution, needs, random_variable, confirmed]
   # Production
   - [deployment, needs, pickle, confirmed]
   - [software_integration, used in, deployment, confirmed]

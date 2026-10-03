@@ -4,6 +4,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 
 | Term | Meaning | First explained |
 |---|---|---|
+| $\binom{n}{k}$ ($n$ choose $k$) | The number of ways to choose $k$ items out of $n$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
+| $\int_a^b f(x)\,dx$ | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
+| $P(X = x)$ | The probability that the random variable $X$ takes the value $x$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | .dt accessor | The pandas tool that applies date and time methods to every value of a datetime column. | [Video 34](34-date-and-time/note.md) |
 | .str accessor | The pandas tool that applies a text method to every value of a column. | [Video 33](33-mixed-variables/note.md) |
 | 3D scatter plot | A scatter plot of three numerical columns on three axes. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
@@ -14,6 +17,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `base_score` | XGBoost's starting prediction; a probability for classification. | [Video 125](125-xgboost-classification/note.md) |
 | `BayesianRidge` | A linear regression with built-in shrinkage of the weights; the default model of `IterativeImputer`. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `best_params_` | The best combination of settings found by `GridSearchCV`. | [Video 38](38-missing-indicator-random-sample/note.md) |
+| `bw_adjust` | seaborn's multiplier on its default KDE bandwidth. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | `clip` | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it. | [Video 44](44-outliers-percentile/note.md) |
 | `cv_results_` | The scores of every combination tried by `GridSearchCV`. | [Video 38](38-missing-indicator-random-sample/note.md) |
 | `enable_iterative_imputer` | The import that switches on the experimental `IterativeImputer`. | [Video 40](40-iterative-imputer-mice/note.md) |
@@ -24,6 +28,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | `ignore_index` | Setting of `pd.concat` that renumbers the joined rows from 0. | [Video 17](17-fetching-data-from-api/note.md) |
 | `IterativeImputer` | scikit-learn's class for MICE; still experimental. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `json_normalize` | pandas function that turns nested JSON into flat columns. | [Video 17](17-fetching-data-from-api/note.md) |
+| `KernelDensity` | scikit-learn's KDE; `score_samples` returns log densities. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | `KNNImputer` | scikit-learn's class for KNN imputation. | [Video 39](39-knn-imputer/note.md) |
 | `max_iter` (IterativeImputer) | The largest number of rounds `IterativeImputer` runs; default 10. | [Video 40](40-iterative-imputer-mice/note.md) |
 | `max_iter` (KMeans) | The largest number of assign-and-move rounds k-means may run. | [Video 130](130-kmeans-from-scratch/note.md) |
@@ -97,6 +102,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | BaggingClassifier | scikit-learn class for bagging, pasting, random subspaces and random patches in classification. | [Video 106](106-bagging-classifier/note.md) |
 | BaggingRegressor | scikit-learn class for bagging, pasting, random subspaces and random patches in regression. | [Video 107](107-bagging-regressor/note.md) |
 | Balanced random forest | A random forest in which every tree is trained on a balanced sample. | [Video 133](133-imbalanced-data/note.md) |
+| Bandwidth | The width (for a Gaussian kernel, the standard deviation) of each kernel; sets the KDE's smoothness. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Bar plot | One bar per category, its height the mean of a numerical column. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | base environment | The environment the installer creates, holding conda itself. | [Video 12](12-setup-anaconda-jupyter-colab/note.md) |
 | Base model | One of the models inside an ensemble. | [Video 101](101-ensemble-learning/note.md) |
@@ -110,6 +116,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Bayesian statistics | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. | [Video 85](85-bayes-theorem/note.md) |
 | BeautifulSoup | Python library that parses HTML into a searchable tree. | [Video 18](18-web-scraping/note.md) |
 | Bell curve | The curve of a normal distribution. | [Video 42](42-outliers-zscore/note.md) |
+| Bernoulli distribution | One trial with two outcomes: 1 with probability $p$, 0 with probability $1 - p$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | BernoulliNB | Naive Bayes for binary (yes/no) inputs. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Bessel's correction | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average. | [Maths Note 222](222-measures-of-dispersion/note.md) |
 | Best-fit line | The line with the smallest total error over all the training points. | [Video 50](50-simple-linear-regression/note.md) |
@@ -226,6 +233,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Container | A tag (often a `div`) that holds everything about one item, such as one company. | [Video 18](18-web-scraping/note.md) |
 | Contingency table | A table of counts for every pair of categories of two columns; another name for a crosstab. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Continuous data | Numerical data that can take any value in a range. | [Maths Note 220](220-what-is-statistics/note.md) |
+| Continuous random variable | A random variable that can take any value in a range, such as a CGPA. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Contour plot | A map of a surface seen from above, with lines joining points of equal height. | [Video 57](57-gradient-descent/note.md) |
 | Converge | To settle at a minimum, with steps becoming negligible. | [Video 57](57-gradient-descent/note.md) |
 | Convergence (k-means) | The point where the centroids stop moving between rounds, so the algorithm stops. | [Video 128](128-kmeans-intuition/note.md) |
@@ -250,6 +258,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data. | [Video 29](29-pipelines/note.md) |
 | Crosstab | A table counting the rows for every pair of categories of two columns. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | CSV file | A text file holding a table, with commas between values. | [Video 13](13-toy-project/note.md) |
+| Cumulative distribution function (CDF) | The function giving $P(X \le x)$, the probability of a value at most $x$. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Cumulative explained variance | The share of the variance kept by the first k components together. | [Video 49](49-pca-mnist/note.md) |
 | Cumulative frequency | The running total of the frequencies, up to and including a category. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
 | Cumulative relative frequency | The running total of the relative frequencies; ends at 1. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
@@ -297,6 +306,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Demand forecasting | Predicting how much of something will be needed, where and when. | [Video 8](08-applications-of-ml/note.md) |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Dense region, sparse region | An area with many points close together; an area with few points. | [Video 132](132-dbscan/note.md) |
+| Density estimation | Estimating the PDF of a random variable from observed data. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Density plot | A histogram with a smooth KDE curve on top. | [Video 20](20-univariate-analysis/note.md) |
 | Density-based clustering | Clustering that finds dense regions of points separated by sparse regions. | [Video 132](132-dbscan/note.md) |
 | Density-connected | Linked by a chain of core points with every step at most eps. | [Video 132](132-dbscan/note.md) |
@@ -312,11 +322,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised inputs, and disease progression one year later. | [Video 55](55-multiple-lr-code/note.md) |
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives. | [Video 121](121-gradient-boosting-regression-maths/note.md) |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution. | [Video 97](97-decision-trees-intuition/note.md) |
+| Differentiation | Finding the slope of a curve at each point; the derivative of the CDF is the PDF. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
 | Dimension | One input column (one feature); a different meaning from the dimensions (axes) of a tensor in Video 11. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality | The number of columns (features) in the data. | [Video 27](27-one-hot-encoding/note.md) |
 | Dirty data | Data with errors, gaps, duplicates or inconsistencies. | [Video 9](09-mldlc/note.md) |
 | Discrete data | Numerical data that takes only separate values, usually counts. | [Maths Note 220](220-what-is-statistics/note.md) |
+| Discrete random variable | A random variable that takes separate values, such as a die's face. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
+| Discrete uniform distribution | A discrete distribution in which every possible value is equally likely, such as a fair die. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | Discretization | Turning a continuous column into a discrete one by cutting its range into intervals. | [Video 32](32-binning-binarization/note.md) |
 | Distance weight (nan-Euclidean) | All columns divided by the columns present in both rows; makes up for the skipped columns. | [Video 39](39-knn-imputer/note.md) |
 | Distance weighting | Each neighbour counts in proportion to 1 / its distance, so nearer rows count more. | [Video 39](39-knn-imputer/note.md) |
@@ -364,9 +377,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | eps-neighbourhood | All points within distance eps of a point. | [Video 132](132-dbscan/note.md) |
 | Equal frequency binning | Binning into bins holding the same number of rows, with the quantiles as edges; also called quantile binning. | [Video 32](32-binning-binarization/note.md) |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning. | [Video 32](32-binning-binarization/note.md) |
+| Equiprobable | Equally likely. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Error (residual) | The gap between an actual value and the model's prediction. | [Video 50](50-simple-linear-regression/note.md) |
 | Error function (loss function) | A formula for how wrong the model is; here the sum of squared errors. | [Video 51](51-linear-regression-maths/note.md) |
 | errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. | [Video 33](33-mixed-variables/note.md) |
+| Estimated PMF | Each value's share of many repeated trials, used as its probability. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | estimator | The base model that bagging copies (formerly base_estimator). | [Video 106](106-bagging-classifier/note.md) |
 | estimators_features_ | The column numbers each trained base model was given. | [Video 106](106-bagging-classifier/note.md) |
 | estimators_samples_ | The row numbers each trained base model was given. | [Video 106](106-bagging-classifier/note.md) |
@@ -395,6 +410,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | False positive rate (FPR) | The fraction of real negatives the model wrongly flags. | [Video 78](78-roc-auc/note.md) |
 | Family size | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family. | [Video 45](45-feature-construction-splitting/note.md) |
 | Family type | Family size grouped into alone, small family (2 to 4) and large family (5 or more). | [Video 45](45-feature-construction-splitting/note.md) |
+| Famous probability distributions | Common named shapes such as normal, uniform, binomial and Poisson. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Feature construction | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Feature engineering | Choosing, removing and creating features. | [Video 7](07-challenges-in-ml/note.md) |
 | Feature extraction | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). | [Video 23](23-what-is-feature-engineering/note.md) |
@@ -429,6 +445,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Gamma ($\gamma$, `min_split_loss`) | Minimum gain a split must exceed to be kept; default 0. | [Video 124](124-xgboost-regression/note.md) |
 | gamma | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. | [Video 96](96-kernel-trick-code/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
+| Gaussian kernel | A kernel shaped like the normal curve; the usual default. | [Maths Note 243](243-density-estimation-kde/note.md) |
+| Gaussian mixture model | A density built as a weighted sum of a few normal curves. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Gaussian Naive Bayes | Naive Bayes that models each numerical input as normally distributed within each class. | [Video 90](90-gaussian-naive-bayes/note.md) |
 | Gaussian process | A model that predicts a value and its uncertainty at every point; a common surrogate. | [Video 134](134-optuna/note.md) |
 | GaussianNB | scikit-learn's Gaussian Naive Bayes. | [Video 90](90-gaussian-naive-bayes/note.md) |
@@ -500,6 +518,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Inspect | Browser tool that shows which tag draws each part of a page. | [Video 18](18-web-scraping/note.md) |
 | Instance set $I_j$ | The rows that land in leaf $j$. | [Video 126](126-xgboost-maths/note.md) |
 | Instance-based learning | Learning by storing the training data and comparing new points with it. | [Video 6](06-instance-vs-model-based/note.md) |
+| Integration | Finding the area under a curve by adding up infinitely many thin strips. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
 | Interaction term | A product of two inputs, such as $xy$, that lets one input's effect depend on another. | [Video 61](61-polynomial-regression/note.md) |
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$. | [Video 50](50-simple-linear-regression/note.md) |
 | intercept_ | The fitted intercept in scikit-learn. | [Video 50](50-simple-linear-regression/note.md) |
@@ -534,6 +553,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | KDE plot | A smooth estimate of a column's PDF, built from the data. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Kernel (SVM) | The function that maps the data to the higher-dimensional space (not the Jupyter kernel). | [Video 95](95-kernel-trick-intuition/note.md) |
 | Kernel density estimate (KDE) | A smooth curve that estimates a column's distribution from its values. | [Video 20](20-univariate-analysis/note.md) |
+| Kernel density estimation | Building a PDF by adding a kernel centred on every data point. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Kernel function $K(a, b)$ | A function that returns $\phi(a) \cdot \phi(b)$ directly from the original points. | [Video 96](96-kernel-trick-code/note.md) |
 | Kernel transformation | Applying a kernel to the data. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Kernel trick | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. | [Video 95](95-kernel-trick-intuition/note.md) |
@@ -557,6 +577,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0. | [Video 89](89-naive-bayes-code/note.md) |
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1). | [Video 63](63-ridge-regression-intuition/note.md) |
 | Latency | The delay between a request and its answer; high for KNN on large data. | [Video 91](91-knn/note.md) |
+| Law of large numbers | The more trials, the closer a share of trials gets to the true probability. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | Law of total probability | $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the $A_i$ are mutually exclusive and cover every case. | [Video 86](86-bayes-problem/note.md) |
 | Layer | One step in a neural network; each layer builds on what the previous one found. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives. | [Video 6](06-instance-vs-model-based/note.md) |
@@ -587,6 +608,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start. | [Video 130](130-kmeans-from-scratch/note.md) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Video 30](30-function-transformer/note.md) |
 | Log-likelihood | The log of the likelihood: the sum of the log probabilities. | [Video 73](73-log-loss/note.md) |
+| Log-normal distribution | A right-skewed continuous distribution whose logarithm is normal. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
 | Log-odds | The natural log of the odds, $\ln(p/(1-p))$; any number, 0 at a probability of 0.5. | [Video 122](122-gradient-boosting-classification/note.md) |
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0. | [Video 30](30-function-transformer/note.md) |
 | Logistic function | Another name for the sigmoid function. | [Video 72](72-sigmoid-function/note.md) |
@@ -717,6 +739,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Non-closed-form solution | An answer reached by improving a guess step by step. | [Video 51](51-linear-regression-maths/note.md) |
 | Non-linear data | Data whose classes no straight line, plane or hyperplane can separate. | [Video 95](95-kernel-trick-intuition/note.md) |
 | Non-null | Not missing. | [Video 19](19-understanding-your-data/note.md) |
+| Non-parametric density estimation | Estimating a PDF from the data with no assumption about its shape. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Norm of a vector | The length of a vector, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. | [Video 93](93-svm-maths/note.md) |
 | Normal distribution | A symmetric, bell-shaped distribution. | [Video 20](20-univariate-analysis/note.md) |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression. | [Video 54](54-multiple-lr-maths/note.md) |
@@ -776,7 +799,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Parallel processing | Splitting one job among several processor cores working at the same time. | [Video 123](123-xgboost-intro/note.md) |
 | Parameter grid | A dictionary of hyperparameter names and the values to try for each. | [Video 112](112-random-forest-tuning/note.md) |
 | Parameter | A named setting passed to a function, like `sep=";"`. | [Video 15](15-working-with-csv/note.md) |
+| Parameters (of a distribution) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Parameters | The numbers that describe a learned model, e.g. slope and intercept. | [Video 6](06-instance-vs-model-based/note.md) |
+| Parametric density estimation | Assuming a named distribution and estimating its parameters from the data. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Parse, parser | Read text and build a structure from it; the part that does this. | [Video 18](18-web-scraping/note.md) |
 | Parser | The part of a program that reads text and splits it into pieces. | [Video 15](15-working-with-csv/note.md) |
 | Partial derivative | The slope of a function of several variables in one variable, holding the others fixed. | [Video 51](51-linear-regression-maths/note.md) |
@@ -816,6 +841,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Pixel | One dot of an image, stored as one or more numbers. | [Video 11](11-tensors/note.md) |
 | Plane | A flat surface in 3D; the model for two input columns. | [Video 53](53-multiple-linear-regression/note.md) |
 | Plateau | A nearly flat region of the loss, where steps become very small. | [Video 57](57-gradient-descent/note.md) |
+| Poisson distribution | A discrete distribution of counts of events, with parameter $\lambda$. | [Maths Note 242](242-pdf-and-continuous-cdf/note.md) |
 | Policy | The agent's rules for which action to take. | [Video 3](03-types-of-ml/note.md) |
 | Polynomial features | New input columns made from powers and products of the original inputs. | [Video 80](80-polynomial-logistic-regression/note.md) |
 | Polynomial kernel | A kernel built from powers of the inputs, such as $x^2$. | [Video 95](95-kernel-trick-intuition/note.md) |
@@ -842,7 +868,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Probabilistic interpretation | Reading the model's output as the probability of the positive class. | [Video 72](72-sigmoid-function/note.md) |
 | Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities. | [Video 20](20-univariate-analysis/note.md) |
 | Probability density | The height of a continuous distribution's curve; compares how likely nearby values are. | [Video 90](90-gaussian-naive-bayes/note.md) |
+| Probability distribution function | A formula $y = f(x)$ giving the probability of each outcome; the umbrella term for PMF and PDF. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Probability distribution | A description of how likely each value of a variable is. | [Maths Note 210](210-statistics-roadmap/note.md) |
+| Probability mass function (PMF) | The probability distribution function of a discrete random variable. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Probability tree | A diagram in which each path multiplies the probabilities along its branches. | [Video 86](86-bayes-problem/note.md) |
 | Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$. | [Video 83](83-independent-events/note.md) |
 | Production code | The code that runs the deployed model on a server, for example behind a website. | [Video 29](29-pipelines/note.md) |
@@ -867,6 +895,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Query point | The new point whose class we want to predict. | [Video 91](91-knn/note.md) |
 | Query | A request for data, written in SQL. | [Video 16](16-working-with-json-and-sql/note.md) |
 | Quintiles | The 20th, 40th, 60th and 80th percentiles: cuts into 5 groups. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
+| Random experiment | An experiment whose outcome cannot be predicted, such as a coin toss. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | Random forest | Bagging with decision trees as the base models. | [Video 108](108-random-forest-intro/note.md) |
 | Random oversampling | Copying randomly chosen minority rows until the classes are equal. | [Video 133](133-imbalanced-data/note.md) |
 | Random patches | Bagging in which each model gets random rows and random columns. | [Video 105](105-bagging-intuition/note.md) |
@@ -874,6 +903,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Random seed | A number that fixes a random number generator so that a run can be repeated exactly. | [Video 117](117-adaboost-from-scratch/note.md) |
 | Random subspaces | Bagging in which each model gets all rows but a random subset of columns. | [Video 105](105-bagging-intuition/note.md) |
 | Random undersampling | Dropping randomly chosen majority rows until the classes are equal. | [Video 133](133-imbalanced-data/note.md) |
+| Random variable | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
 | RandomForestClassifier | scikit-learn's random forest for classification. | [Video 108](108-random-forest-intro/note.md) |
 | RandomForestRegressor | scikit-learn's random forest for regression. | [Video 108](108-random-forest-intro/note.md) |
 | Randomised controlled trial | An experiment that assigns a treatment at random, to test causation. | [Maths Note 231](231-covariance-and-correlation/note.md) |
@@ -943,6 +973,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Scatter plot | One dot per row, with one numerical column on each axis. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | scikit-learn | Python's main library for classical ML. | [Video 13](13-toy-project/note.md) |
 | Score | Likelihood × prior for a class; proportional to the posterior. | [Video 87](87-naive-bayes-intuition/note.md) |
+| Scott's rule | A rule-of-thumb bandwidth: $s \times n^{-1/5}$. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | SDLC | Software development life cycle: the standard process for building ordinary software. | [Video 9](09-mldlc/note.md) |
 | Search space | The ranges or lists of values each hyperparameter may take during tuning. | [Video 134](134-optuna/note.md) |
 | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Video 29](29-pipelines/note.md) |
@@ -1083,6 +1114,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Type 2 mixed variable | A column with a number in some rows and a category in others. | [Video 33](33-mixed-variables/note.md) |
 | Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
 | Underflow | A number too close to 0 for the computer to store, which then becomes 0 or loses precision. | [Video 73](73-log-loss/note.md) |
+| Underlying distribution | The distribution that produced the data points. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling. | [Video 19](19-understanding-your-data/note.md) |
 | Uniform weighting | Every neighbour counts equally: the fill is their plain mean. | [Video 39](39-knn-imputer/note.md) |
 | Union (A ∪ B) | The event that A or B (or both) happens. | [Video 84](84-mutually-exclusive-events/note.md) |
