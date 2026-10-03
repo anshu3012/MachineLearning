@@ -43,6 +43,8 @@ notes:
   24: 24-standardization
   25: 25-normalization
   26: 26-ordinal-label-encoding
+  27: 27-one-hot-encoding
+  28: 28-column-transformer
   46: 46-curse-of-dimensionality
   47: 47-pca-geometric-intuition
 
@@ -116,7 +118,8 @@ concepts:
   - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: confirmed}
   - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: confirmed}
   - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 23, 27], status: confirmed}
-  - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: draft}
+  - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: confirmed}
+  - {id: multicollinearity, name: Multicollinearity, step: 8, videos: [27], status: confirmed}
   - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29], status: draft}
   - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: draft}
   - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: draft}
@@ -273,9 +276,12 @@ links:
   - [feature_scaling, used in, knn, confirmed]
   - [feature_scaling, used in, gradient_descent, confirmed]
   - [ordinal_encoding, is a kind of, encoding, confirmed]
-  - [one_hot, is a kind of, encoding, draft]
+  - [one_hot, is a kind of, encoding, confirmed]
   - [ordinal_encoding, compared with, one_hot, confirmed]
-  - [column_transformer, needs, encoding, draft]
+  - [column_transformer, needs, encoding, confirmed]
+  - [column_transformer, needs, simple_imputation, confirmed]
+  - [one_hot, needs, multicollinearity, confirmed]
+  - [multicollinearity, used in, linear_regression, draft]
   - [pipeline, needs, column_transformer, draft]
   - [pipeline, fixes, data_leakage, draft]
   - [function_transformer, used in, pipeline, draft]

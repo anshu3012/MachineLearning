@@ -52,6 +52,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average. | [Video 22](22-pandas-profiling/note.md) |
 | Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later). | [Video 26](26-ordinal-label-encoding/note.md) |
+| ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. | [Video 28](28-column-transformer/note.md) |
 | Compression | Storing data in less space. | [Video 11](11-tensors/note.md) |
 | Confidence interval | A range in which the true mean most likely lies. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
 | Connection object | The open link to a database (`conn`) that queries go through. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -80,10 +81,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Development environment | Our own machine, where we build and train a model. | [Video 4](04-batch-learning/note.md) |
 | Dimension | One input column. | [Video 3](03-types-of-ml/note.md) |
 | Dimensionality reduction | Reducing the number of input columns while keeping the information. | [Video 3](03-types-of-ml/note.md) |
+| Dimensionality | The number of columns (features) in the data. | [Video 27](27-one-hot-encoding/note.md) |
 | Distance | A number measuring how far apart two points are; small distance = similar. | [Video 6](06-instance-vs-model-based/note.md) |
 | Distribution | How a column's values spread over their range. | [Video 20](20-univariate-analysis/note.md) |
 | Domain knowledge | Knowledge of the field the data comes from. | [Video 23](23-what-is-feature-engineering/note.md) |
 | dtype | The data type of a column, such as `int64`, `float64` or `str`. | [Video 15](15-working-with-csv/note.md) |
+| Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1. | [Video 27](27-one-hot-encoding/note.md) |
+| Dummy variable | One of the 0/1 columns created by one-hot encoding. | [Video 27](27-one-hot-encoding/note.md) |
 | Duplicate row | A row identical to another row in every column. | [Video 19](19-understanding-your-data/note.md) |
 | Eager learning | Another name for model-based learning: all the work done up front. | [Video 6](06-instance-vs-model-based/note.md) |
 | Encoding | The rulebook that maps text characters to stored bytes. | [Video 15](15-working-with-csv/note.md) |
@@ -104,6 +108,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Feature | One piece of information about each example that a model uses (e.g. a student's CGPA). | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Fence | A limit 1.5 IQR beyond the box; values past it are possible outliers. | [Video 20](20-univariate-analysis/note.md) |
 | fit / transform | Learn the scaler's numbers from the training set / apply them to any data. | [Video 24](24-standardization/note.md) |
+| fit_transform | Fit and transform in one call; used on the training set only. | [Video 28](28-column-transformer/note.md) |
 | Five-number summary | Minimum, Q1, median, Q3 and maximum. | [Video 20](20-univariate-analysis/note.md) |
 | For loop | Code that repeats once for each item of a collection. | [Video 15](15-working-with-csv/note.md) |
 | Forward selection | Feature selection that starts empty and adds the best column at a time. | [Video 46](46-curse-of-dimensionality/note.md) |
@@ -111,8 +116,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Frequency | How many times a value or category occurs. | [Video 20](20-univariate-analysis/note.md) |
 | Function, lambda | A named reusable piece of code (`def`), and a one-line unnamed one. | [Video 15](15-working-with-csv/note.md) |
 | Garbage in, garbage out | Bad input data always gives bad results. | [Video 7](07-challenges-in-ml/note.md) |
+| get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$. | [Video 27](27-one-hot-encoding/note.md) |
+| get_feature_names_out | `OneHotEncoder` method that returns the names of the new columns. | [Video 27](27-one-hot-encoding/note.md) |
 | Good fit | Capturing the pattern while ignoring the noise. | [Video 7](07-challenges-in-ml/note.md) |
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill. | [Video 24](24-standardization/note.md) |
+| handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training. | [Video 27](27-one-hot-encoding/note.md) |
 | Header | The line of a file that holds the column names. | [Video 15](15-working-with-csv/note.md) |
 | Headers | Extra information sent with a request, such as the User-Agent. | [Video 18](18-web-scraping/note.md) |
 | Heatmap | A table drawn as coloured cells, darker for larger values. | [Video 21](21-bivariate-multivariate-analysis/note.md) |
@@ -164,6 +172,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Median absolute deviation (MAD) | The median distance of the values from their median. | [Video 22](22-pandas-profiling/note.md) |
 | Median | The middle value of sorted data; the 50% percentile. | [Video 19](19-understanding-your-data/note.md) |
 | Min-max scaling | The main normalization technique. | [Video 24](24-standardization/note.md) |
+| min_frequency | `OneHotEncoder` parameter that merges rare categories into one column. | [Video 27](27-one-hot-encoding/note.md) |
 | Mini-batch | A small group of data points used for one training step. | [Video 5](05-online-learning/note.md) |
 | MinMaxScaler | scikit-learn's class for min-max scaling. | [Video 25](25-normalization/note.md) |
 | Missing value | An empty entry, shown by pandas as `NaN`. | [Video 15](15-working-with-csv/note.md) |
@@ -175,6 +184,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Model selection | Training several algorithms and keeping the best. | [Video 13](13-toy-project/note.md) |
 | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Video 6](06-instance-vs-model-based/note.md) |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Video 22](22-pandas-profiling/note.md) |
+| Multicollinearity | A mathematical relationship between input columns, so that one can be calculated from the others. | [Video 27](27-one-hot-encoding/note.md) |
 | Multivariate analysis | Studying more than two variables together. | [Video 20](20-univariate-analysis/note.md) |
 | Narrow AI | AI that does one specific task. All AI today is narrow. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
@@ -182,11 +192,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Non-null | Not missing. | [Video 19](19-understanding-your-data/note.md) |
 | Normal distribution | A symmetric, bell-shaped distribution. | [Video 20](20-univariate-analysis/note.md) |
 | Normalization | The other type of feature scaling, which squeezes values into a fixed range (next Note). | [Video 24](24-standardization/note.md) |
+| np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side. | [Video 28](28-column-transformer/note.md) |
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Video 22](22-pandas-profiling/note.md) |
 | Numerical data | Data made of numbers. | [Video 3](03-types-of-ml/note.md) |
 | Observation | The report's word for a row. | [Video 22](22-pandas-profiling/note.md) |
 | Offline learning | Another name for batch learning. | [Video 4](04-batch-learning/note.md) |
 | One-hot encoding | Representing each word or category by a vector with a single 1. | [Video 11](11-tensors/note.md) |
+| OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned. | [Video 27](27-one-hot-encoding/note.md) |
 | Online learning | Training incrementally on mini-batches while the model is live in production. | [Video 5](05-online-learning/note.md) |
 | Optimal number of features | The number of columns at which a model performs best. | [Video 46](46-curse-of-dimensionality/note.md) |
 | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good. | [Video 26](26-ordinal-label-encoding/note.md) |
@@ -204,6 +216,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Parse, parser | Read text and build a structure from it; the part that does this. | [Video 18](18-web-scraping/note.md) |
 | Parser | The part of a program that reads text and splits it into pieces. | [Video 15](15-working-with-csv/note.md) |
 | partial_fit | A scikit-learn method that continues training from where the model left off. | [Video 5](05-online-learning/note.md) |
+| passthrough | The `remainder` option that keeps untouched columns unchanged. | [Video 28](28-column-transformer/note.md) |
 | PCA | Principal component analysis, a dimensionality reduction technique. | [Video 3](03-types-of-ml/note.md) |
 | Pearson correlation coefficient | The usual measure of correlation, written $r$; the one `df.corr()` computes. | [Video 19](19-understanding-your-data/note.md) |
 | Pearson's r | The correlation coefficient for straight-line relationships between two numerical columns. | [Video 22](22-pandas-profiling/note.md) |
@@ -233,9 +246,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Raw data | Data as it arrives, before any preparation. | [Video 23](23-what-is-feature-engineering/note.md) |
 | Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time. | [Video 15](15-working-with-csv/note.md) |
 | Recommendation engine | A model that suggests items, such as movies, to users. | [Video 4](04-batch-learning/note.md) |
+| Reference category | The category whose dummy column is dropped; it is shown by all zeros. | [Video 27](27-one-hot-encoding/note.md) |
 | Regression | Supervised learning with a numerical output. | [Video 3](03-types-of-ml/note.md) |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments. | [Video 3](03-types-of-ml/note.md) |
 | Relative path | A file's location, starting from the folder the code runs in. | [Video 15](15-working-with-csv/note.md) |
+| remainder | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"`. | [Video 28](28-column-transformer/note.md) |
 | Representative sample | A sample that reflects the whole situation fairly. | [Video 7](07-challenges-in-ml/note.md) |
 | Request, response | What we send to a server, and what it sends back. | [Video 18](18-web-scraping/note.md) |
 | requests | Python library that sends web requests. | [Video 17](17-fetching-data-from-api/note.md) |
@@ -260,14 +275,18 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Sequential data | Data fed one piece after another, in order. | [Video 5](05-online-learning/note.md) |
 | Series | pandas' one-column structure: values with an index. | [Video 15](15-working-with-csv/note.md) |
 | Server | A computer that is always on and that users reach over the internet. | [Video 4](04-batch-learning/note.md) |
+| set_output | Method that makes a transformer return a pandas DataFrame with `transform="pandas"`. | [Video 28](28-column-transformer/note.md) |
 | SGDRegressor | A scikit-learn model that does linear regression step by step. | [Video 5](05-online-learning/note.md) |
 | Shape | The number of items along each axis. | [Video 11](11-tensors/note.md) |
 | Similarity | How alike two data points are. | [Video 6](06-instance-vs-model-based/note.md) |
+| SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Video 28](28-column-transformer/note.md) |
 | Size | The total number of items: the product of the shape. | [Video 11](11-tensors/note.md) |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Video 20](20-univariate-analysis/note.md) |
 | Software integration | Building a model into the software that users use. | [Video 7](07-challenges-in-ml/note.md) |
 | Solver | The method a model uses to find its best settings during training. | [Video 24](24-standardization/note.md) |
 | Sparse data | Data where most of the space holds no points. | [Video 46](46-curse-of-dimensionality/note.md) |
+| Sparse matrix | A table stored as only its non-zero entries, to save memory. | [Video 27](27-one-hot-encoding/note.md) |
+| sparse_output | `OneHotEncoder` parameter; `False` returns a normal NumPy array. | [Video 27](27-one-hot-encoding/note.md) |
 | SQL (Structured Query Language) | The language for asking a database for data. | [Video 16](16-working-with-json-and-sql/note.md) |
 | SQLAlchemy | A Python library that connects to many kinds of database; pandas supports it fully. | [Video 16](16-working-with-json-and-sql/note.md) |
 | SQLite | A database stored in a single file, built into Python, needing no server. | [Video 16](16-working-with-json-and-sql/note.md) |
@@ -284,9 +303,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | Tensor | A container of numbers arranged along one or more axes. | [Video 11](11-tensors/note.md) |
 | Test set | The part hidden during training, used to check the model. | [Video 13](13-toy-project/note.md) |
 | Time series | Data recorded at regular time intervals. | [Video 11](11-tensors/note.md) |
+| Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category. | [Video 27](27-one-hot-encoding/note.md) |
 | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Video 2](02-ai-vs-ml-vs-dl/note.md) |
 | Train-test split | Dividing the data into training and test sets. | [Video 13](13-toy-project/note.md) |
 | Training set | The part of the data the model learns from. | [Video 13](13-toy-project/note.md) |
+| transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples. | [Video 28](28-column-transformer/note.md) |
 | TSV file | Like a CSV file, with tabs between values. | [Video 15](15-working-with-csv/note.md) |
 | Underfitting | Being too simple to capture the pattern; fails on all data. | [Video 7](07-challenges-in-ml/note.md) |
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling. | [Video 19](19-understanding-your-data/note.md) |

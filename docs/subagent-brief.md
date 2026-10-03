@@ -27,6 +27,8 @@ Project root: `/home/anshu/campusx`. Read these first, fully:
    Manim (step-by-step processes; render MP4 + GIF + `_frames.png` 2x2 key frames, copy the pattern from
    `13-toy-project` or `11-tensors/images/tensor_buildup.py`), Plotly (interactive or chart; also write a `.pdf`),
    Seaborn objects interface only (still statistical charts), Dash (apps that rerun Python, in the Notebook).
+   Never call matplotlib directly, not even to tweak a Seaborn figure (e.g. `._figure`, rotating labels): if Seaborn
+   objects cannot do it, use Plotly.
    All text in Latin Modern ("Latin Modern Roman" in Python, the TikZ style already sets it). Same colours as existing figures.
    For EVERY figure, look at the rendered PNG yourself (Read tool) and fix overlaps, clipping, unreadable text.
 3. `notebook.ipynb` if the Video has code: rebuild the teacher's code for current library versions (never copy his

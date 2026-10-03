@@ -8,7 +8,7 @@ title: "Encoding Categorical Data: Ordinal and Label Encoding"
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** Train-test split ([Note 13](../13-toy-project/note.md)); Feature transformation ([Note 23](../23-what-is-feature-engineering/note.md)).
-> - **Leads to:** One-hot encoding (Video 27, coming); Column transformer (Video 28, coming).
+> - **Leads to:** One-hot encoding ([Note 27](../27-one-hot-encoding/note.md)); Column transformer ([Note 28](../28-column-transformer/note.md)).
 > - **Compare with:** One-hot encoding ([Note 23](../23-what-is-feature-engineering/note.md)).
 <!-- /where-this-fits -->
 
