@@ -31,7 +31,7 @@ kind = "Note" if video < 200 else "Maths Note" if video < 1000 else "DL Note"
 nxt = max(ids.values(), default=0) + 1
 added = []
 for t, m in new:
-    if t.lower() in ids:
+    if t.lower() in ids or re.search(r"G-\d+", t + m[:12]):     # known term, or the row already cites its ID
         continue
     added.append(f'| <span id="G-{nxt}">G-{nxt}</span> | {t} | {m.rstrip(".")}. | [{kind} {video}]({folder}/note.md) |')
     ids[t.lower()] = nxt

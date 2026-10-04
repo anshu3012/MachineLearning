@@ -68,7 +68,7 @@ Observations can be drawn **with replacement**: after an observation is drawn, i
 - D1 holds only 6 different observations: 3, 6, 8 and 9 appear twice, and observations 1, 4, 5 and 7 are never drawn.
 - D2 holds 7 different observations: 2 appears twice and 5 three times, while 3, 4 and 8 are missing.
 
-A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (Efron and Tibshirani, 1993; the term was used in the [Ridge key points Note](../66-ridge-key-points/note.md)). Drawing observations without replacement is also possible; section 5 calls that pasting.
+A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (Efron and Tibshirani, 1993; the term was used in the [Ridge key points Note](../66-ridge-key-points/note.md)). Drawing observations without replacement is also possible; section 6 calls that pasting.
 
 > **Extra:** How many different observations does a bootstrap sample hold?
 >
@@ -78,6 +78,34 @@ A sample of the same size as the data, drawn with replacement, is a **bootstrap 
 > 3. **Example:** for $n = 10$: $(0.9)^{10} = 0.349$, so $1 - 0.349 = 0.651$, about 6.5 distinct observations out of 10 (Figure 2 got 6 and 7). For $n = 10{,}000$ the share is 0.632.
 >
 > The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of observations a model never sees are its **out-of-bag** observations; the [bagging classifier Note](../106-bagging-classifier/note.md) uses them to score the model.
+
+### 2.4 Where bootstrapping comes from
+
+> **Key point:** Bootstrapping was invented to answer one question: how much would a result change if we collected the data again? Each bootstrap sample stands in for one fresh dataset.
+
+Bootstrapping is older than bagging, and its first use explains why the samples are drawn with replacement and have the same size as the data.
+
+*The problem.* Suppose 8 patients take a new drug, and we measure how each one responds: 5 feel better (positive values) and 3 feel worse (negative values). The mean response is 0.5 (example data). Is the drug useful, or would 8 other patients give a mean near 0? Repeating the experiment many times would tell us, but each repeat costs time and money.
+
+*The idea.* We treat the 8 values we have as a stand-in for all patients, and make new datasets from them. Figure 3 shows the steps.
+
+![Bootstrapping the mean of 8 drug responses (example data). Left: the 8 measured values (blue) and one bootstrap sample drawn from them (green: first draw of a value; orange: a repeat). Right: the means of the bootstrap samples so far. Idea after StatQuest, "Bootstrapping Main Ideas!!!".](images/bootstrap_means.gif)
+
+1. **Draw a bootstrap sample.** Pick one of the 8 values at random, copy it, and put it back. Do this 8 times. The first sample is −0.6, −0.3, 0.6, 1.1, 1.1, 1.8, 1.8, 1.8: two values came up more than once, and three were never drawn.
+2. **Calculate.** The mean of this sample is 0.91, not 0.5, because the sample differs from the original data.
+3. **Record** the mean in a histogram.
+4. **Repeat** steps 1 to 3 many times; Figure 3 goes up to 10,000 samples.
+
+*What the histogram says.* The 10,000 means show how the mean could vary if we redid the experiment. Their standard deviation, 0.32, estimates the **standard error** (G-1872) of the mean. The middle 95 percent of them lie between −0.15 and 1.12. This interval contains 0, so with only 8 patients we cannot rule out that the drug does nothing.
+
+The two design choices now have a reason:
+
+- **With replacement:** without it, 8 draws from 8 values would return the same 8 values every time, and every sample would be identical.
+- **Same size as the data:** the spread of a mean depends on how many values go into it, so each sample must be as large as the real experiment.
+
+The method works for any statistic, not only the mean: in step 2 we could calculate the median or the standard deviation instead.
+
+*The link to bagging.* Bagging keeps steps 1 and 4 and changes step 2: instead of calculating a mean on each bootstrap sample, it trains a model on it. Each model stands for "what we would have learned from another dataset", and section 3 shows why averaging them helps.
 
 ## 3. Why bagging works
 
@@ -108,7 +136,7 @@ No single tree absorbs all the change, so the behaviour of each tree changes les
 
 ![The same experiment repeated on 20 different training sets: (a) a single fully grown tree, (b) bagging with 100 trees. The spread of the orange curves is the variance](images/variance.png){height=45%}
 
-Figure 3 shows this. We draw 20 different training sets of 60 noisy points from a sine curve and fit a model to each:
+Figure 4 shows this. We draw 20 different training sets of 60 noisy points from a sine curve and fit a model to each:
 
 - **(a) one fully grown tree per set:** the 20 curves swing wildly around the truth. Average variance **0.160**.
 - **(b) bagging with 100 trees per set:** the 20 curves stay close together. Average variance **0.076**, less than half.
@@ -120,6 +148,15 @@ The squared bias stays tiny in both (0.009 and 0.004): both average curves follo
 > **Key point:** Whenever the model is low bias and high variance (it overfits), try bagging; it is not limited to decision trees.
 
 Bagging is worth trying whenever a model overfits: low bias, high variance. Breiman (1996, section 1) calls such models **unstable**: a small change in the training data causes a large change in the model. Bagging helps unstable models and can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3). Bagging is also what makes **random forests** (bagging with decision trees, see the [random forest Note](../108-random-forest-intro/note.md)) so popular.
+
+Figure 5 measures the difference on the setup of Figure 4: the same 20 training sets, once with a fully grown tree (unstable) and once with a **5-nearest-neighbour** model (G-998), which averages the 5 closest training points and is stable.
+
+![Variance over the 20 training sets of Figure 4, for one model per set (orange) and for bagging with 100 models per set (blue).](images/unstable.png)
+
+- **Fully grown tree.** One tree per set has variance 0.160; bagging cuts it to 0.076, a 52 percent cut.
+- **5-nearest neighbours.** One model per set has variance 0.034, already low because each prediction averages 5 points; bagging only brings it to 0.025, a 24 percent cut.
+
+The more a model changes with its data, the more there is for bagging to average away.
 
 A common misunderstanding is that bagging only works with decision trees. Trees are the usual choice because they are unstable, so they gain the most. **Any algorithm** can be bagged, but the gain depends on how unstable it is: the [bagging classifier Note](../106-bagging-classifier/note.md) bags KNN and SVMs too, and they gain little or nothing.
 
@@ -171,6 +208,10 @@ We send a new flower to all three trees: sepal width 2.2, petal length 5.0. The 
 - Tree 2 (split at 4.90): above, so **class 2**.
 - Tree 3 (split at 4.95): above, so **class 2**.
 
+Figure 6 draws the three trees on the 10 training flowers.
+
+![Bagging by hand. Each frame shows one tree's bootstrap sample (bigger dots are drawn more often, hollow dots are not drawn) and its cut on petal length; the last frame shows all three cuts and the vote on the new flower (star).](images/hand_vote.gif)
+
 The majority says **2**, which is correct, although tree 1 alone would have been wrong. Each tree here saw only 8 observations, so it made just one split. With more observations, trees grow deeper: in the [random forest Note](../108-random-forest-intro/note.md), section 5.3, trees trained on 100 observations reach depths 3 to 6.
 
 ## 6. Types of bagging
@@ -179,7 +220,7 @@ The majority says **2**, which is correct, although tree 1 alone would have been
 
 ![What one base model sees under each type: blue cells are the rows (observations) and columns (features) it is trained on](images/bagging_types.png){height=34%}
 
-So far we sampled **observations** (rows of the table). We can sample **features** (columns) too: instead of giving each tree every feature, we give it a random subset. Feature sampling is meant for data with many features; the [bagging classifier Note](../106-bagging-classifier/note.md), section 2.4, shows it hurting when there are only two. Combining these choices gives four types (Figure 4), each with its own name in the literature (scikit-learn User Guide, "Bagging meta-estimator").
+So far we sampled **observations** (rows of the table). We can sample **features** (columns) too: instead of giving each tree every feature, we give it a random subset. Feature sampling is meant for data with many features; the [bagging classifier Note](../106-bagging-classifier/note.md), section 2.4, shows it hurting when there are only two. Combining these choices gives four types (Figure 7), each with its own name in the literature (scikit-learn User Guide, "Bagging meta-estimator").
 
 ### 6.1 Bagging
 
@@ -233,7 +274,7 @@ All four aim at the same thing: give each base model different data, so the mode
 - Bagging = bootstrapping (each model trains on random observations) + aggregation (mode or mean of the predictions).
 - All base models use the same algorithm; the variety comes from the data.
 - A bootstrap sample holds about 63.2% of the distinct observations; the rest are out-of-bag.
-- Bagging keeps the low bias of a flexible model and cuts its variance: 0.160 to 0.076 in Figure 3.
+- Bagging keeps the low bias of a flexible model and cuts its variance: 0.160 to 0.076 in Figure 4.
 - Use it whenever a model overfits (an unstable model); decision trees are the usual choice, but any unstable algorithm can be bagged.
 
 ## 8. Sources
@@ -241,6 +282,7 @@ All four aim at the same thing: give each base model different data, so the mode
 **Built from**
 
 - CampusX, "Bagging | Introduction | Part 1", YouTube, https://www.youtube.com/watch?v=LUiBOAy7x6Y
+- StatQuest with Josh Starmer, "Bootstrapping Main Ideas!!!", YouTube, https://www.youtube.com/watch?v=Xz0x-8-cgaQ (section 2.4)
 
 **Other references**
 
@@ -261,9 +303,10 @@ All four aim at the same thing: give each base model different data, so the mode
 | Target | The output we predict |
 | Bootstrapping | Drawing random samples of the data, with replacement, to train each base model |
 | Unstable model | A model that changes a lot when the training data changes a little, such as a fully grown tree |
-| Aggregation | Combining the base models' predictions into one: mode for classes, mean for numbers |
+| Aggregation (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers |
 | With replacement | Sampling in which each drawn item is put back, so it can be drawn again |
-| Out-of-bag observations | The observations a base model never saw because its bootstrap sample missed them (about 37%) |
+| Standard error | How much a statistic, such as a mean, varies from one dataset to another; estimated by the spread of the bootstrap means |
+| Out-of-bag observations (G-1412) | The observations a base model never saw because its bootstrap sample missed them (about 37%) |
 | Pasting | Bagging with observations sampled without replacement |
 | Random subspaces | Bagging in which each model gets all observations but a random subset of features |
 | Random patches | Bagging in which each model gets random observations and random features |

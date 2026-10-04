@@ -33,7 +33,7 @@ Figure 2 shows the starting point on real data. Three iris flowers form a table 
 
 ![Three iris flowers, one per species: their petal length and width as a 3 × 2 matrix (left) and each row drawn as a vector (right).](images/rows_as_vectors.png){height=32%}
 
-Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in section 3 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md).
+Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in section 6 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md).
 
 ### 2.1 A neural network is matrix maths
 
@@ -229,8 +229,8 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 | Term | Meaning |
 |---|---|
 | Matrix factorisation (decomposition) | Writing a matrix as a product of simpler matrices |
-| SVD (singular value decomposition) | A factorisation that works for any matrix, square or not |
+| SVD (singular value decomposition) (G-1813) | A factorisation that works for any matrix, square or not |
 | Quadratic form | An expression like $x^{\mathsf T}Ax$: a sum of squared and cross terms of a vector's components |
-| Moore-Penrose pseudo-inverse | A generalised inverse for matrices that are not square or have no inverse |
+| Moore-Penrose pseudo-inverse (G-1262) | A generalised inverse for matrices that are not square or have no inverse |
 | NumPy | Python's library for arrays and linear algebra |
 | SciPy | A library built on NumPy with more scientific routines |

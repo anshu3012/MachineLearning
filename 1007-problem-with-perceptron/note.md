@@ -94,6 +94,26 @@ Watch the black ring: at every angle some corner is on the wrong side, and the c
 
 > **Extra:** Why no line can separate XOR. A line works if $b < 0$ for $(0, 0)$, $w_2 + b \geq 0$ for $(0, 1)$, $w_1 + b \geq 0$ for $(1, 0)$, and $w_1 + w_2 + b < 0$ for $(1, 1)$. Adding the middle two gives $w_1 + w_2 + 2b \geq 0$, so $w_1 + w_2 + b \geq -b$. Since $b < 0$, $-b > 0$, so $w_1 + w_2 + b > 0$, which contradicts the last condition. No $w_1, w_2, b$ can satisfy all four.
 
+### 4.1 Another way to see it: one input
+
+> **Key point:** With one input, XOR becomes the pattern 0, 1, 0. A straight line can rise or fall, but it cannot rise and then fall.
+
+The same failure shows with a single input. Suppose a drug is tested at three doses:
+
+- a **low** dose does not work (0);
+- a **medium** dose works (1);
+- a **high** dose does not work (0).
+
+We fit a straight line to the nine patients and predict "works" wherever the line is at 0.5 or above. Figure 3 turns the line through every slope and, at each slope, puts it at its best height.
+
+![A drug that works only at a medium dose. A straight line is turned through every slope and placed at its best height; a black ring marks a patient predicted wrong. The line never gets more than 2 of the 3 dose groups right. Idea after StatQuest, "The Essential Main Ideas of Neural Networks".](images/dosage_line.gif)
+
+1. **A rising line** is low on the left and high on the right. It gets the low and medium doses right, and wrongly says the high dose works.
+2. **A falling line** makes the mirror mistake on the low dose.
+3. **A flat line** gives every dose the same answer, so the medium dose is wrong.
+
+At every slope the count stays at 2 of 3. The target goes up and then down, and a straight line changes direction never. The data needs a curve that bends; the [MLP intuition Note](../1009-mlp-intuition/note.md) builds such a curve from two neurons for this same drug.
+
 ## 5. The same failure on larger data
 
 > **Key point:** One sigmoid neuron separates two blobs perfectly but stays near 50% on XOR-shaped and circular data.
@@ -104,7 +124,7 @@ The Notebook repeats this experiment in scikit-learn with `LogisticRegression`, 
 
 ![One sigmoid neuron on linearly separable, XOR-shaped and circular data](images/playground.png)
 
-- **Two blobs** (Figure 3, left): a line separates them, accuracy 100%.
+- **Two blobs** (Figure 4, left): a line separates them, accuracy 100%.
 - **XOR quadrants** (middle): class 1 where $x_1$ and $x_2$ have the same sign. A line cuts across all four quadrants, accuracy 52%.
 - **Circles** (right): one class inside a ring of the other. A line cannot enclose anything, accuracy 50%.
 
@@ -120,6 +140,17 @@ So the problem is not the four-row table: any data whose classes need a bent or 
 > **Key point:** Combining several perceptrons in layers gives curved decision boundaries: the multi-layer perceptron.
 
 A single perceptron is a linear model, so it can only capture linear relationships. The fix is to use several perceptrons and feed their outputs into another one. The last frame of Figure 2 shows the idea with two lines, one per hidden perceptron: $x_1 + x_2 = 0.5$ (the OR line of section 4) and $x_1 + x_2 = 1.5$. The sum $x_1 + x_2$ is 0 for $(0, 0)$, 1 for $(0, 1)$ and $(1, 0)$, and 2 for $(1, 1)$, so exactly the two 1s fall between the lines. The [MLP intuition Note](../1009-mlp-intuition/note.md) shows how two lines combined give a curved decision boundary, and how such a network solves XOR on the Playground.
+
+Figure 5 shows why the second perceptron layer then has an easy job. Each hidden perceptron outputs 0 or 1, so each observation gets a new pair of numbers, $(h_1, h_2)$.
+
+![The four XOR observations moved by two hidden perceptrons, h1 = step(x1 + x2 − 0.5) and h2 = step(x1 + x2 − 1.5). Left: the input square with the two hidden lines. Right: the new positions, where one line separates the classes.](images/xor_remap.gif)
+
+1. **$h_1$ is the OR line.** It outputs 1 for every corner except $(0, 0)$.
+2. **$h_2$ is the AND line.** It outputs 1 only for $(1, 1)$.
+3. **The corners move.** $(0, 0)$ goes to $(0, 0)$, both $(0, 1)$ and $(1, 0)$ go to $(1, 0)$, and $(1, 1)$ goes to $(1, 1)$. The two green observations now sit at the same spot.
+4. **One line is enough.** In the new positions, the line $h_1 - h_2 = 0.5$ has both green observations on one side and both red ones on the other. An output perceptron with this line classifies all four correctly.
+
+The hidden layer has changed how the data is represented, into a form where the classes are linearly separable. Finding such a form from the data is **representation learning** (G-1670), and it is what the hidden layers of a multi-layer perceptron do.
 
 ## 7. Summary
 
@@ -141,6 +172,7 @@ A single perceptron is a linear model, so it can only capture linear relationshi
 **Built from**
 
 - CampusX, "Problem with Perceptron", YouTube, https://www.youtube.com/watch?v=Jp44b27VnOg
+- StatQuest with Josh Starmer, "The Essential Main Ideas of Neural Networks", YouTube, https://www.youtube.com/watch?v=CqOfi41LfDw (the three-dose example of section 4.1)
 
 ## 9. Key terms
 

@@ -207,13 +207,13 @@ Things to try:
 
 | Term | Meaning |
 |---|---|
-| C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation |
+| C (G-337) | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation |
 | l1_ratio | The share of the penalty that is L1: 0 is Ridge, 1 is Lasso, in between is Elastic Net |
 | Solver | The optimisation method used to find the coefficients |
 | lbfgs | The default solver of LogisticRegression; supports L2 or no penalty |
 | saga | A stochastic solver that supports every penalty, including Elastic Net |
 | ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum |
 | class_weight | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes |
-| Recall | The share of actual positives that the model finds |
+| Recall (G-1641) | The share of actual positives that the model finds |
 | Precision | The share of predicted positives that are actually positive |
 | Dash | A Python library for building interactive web apps with Plotly charts |

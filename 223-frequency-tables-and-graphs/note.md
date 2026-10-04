@@ -105,7 +105,7 @@ A discrete feature, such as the number of people in a restaurant party, has few 
 |---|---|---|---|---|---|---|
 | Frequency | 0 | 39 | 15 | 18 | 3 | 1 |
 
-A **dot plot** draws this table with one dot per observation, stacked above its value (Figure 3). The table, the dot plot and the raw list of 76 numbers all hold the same data; the dot plot is the quickest to read.
+A **dot plot** (G-2230) draws this table with one dot per observation, stacked above its value (Figure 3). The table, the dot plot and the raw list of 76 numbers all hold the same data; the dot plot is the quickest to read.
 
 ![Dot plot of party size for the 76 Sunday parties: one dot per party, stacked over its size. Idea after Khan Academy, "Frequency tables and dot plots"](images/dot_plot.png){height=40%}
 
@@ -173,7 +173,7 @@ Named shapes such as the normal and uniform distributions come in the probabilit
 
 > **Key point:** Two features are categorical + categorical (contingency table), numerical + numerical (scatter plot) or categorical + numerical (an aggregate per category, or a contingency table of bins).
 
-Studying two features together is **bivariate analysis** (G-310); the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (Figure 1) maps each pair of feature types to its plots. In short:
+Studying two features together is **bivariate analysis** (G-310); the [bivariate and multivariate analysis Note](../21-bivariate-multivariate-analysis/note.md) (Figure 1) maps each pair of feature types to its plots.
 
 Figure 7 draws one example of each pair on the Titanic.
 
@@ -308,7 +308,7 @@ Figure 9 shows four features at once: bill, tip, meal time (the panels) and smok
 | Relative frequency | A category's share of all the data: its frequency divided by the total |
 | Cumulative frequency | The running total of the frequencies, up to and including a category |
 | Cumulative relative frequency | The running total of the relative frequencies; ends at 1 |
-| Dot plot | A frequency table drawn with one dot per observation, stacked over its value |
+| Dot plot (G-2230) | A frequency table drawn with one dot per observation, stacked over its value |
 | Contingency table | A table of counts for every pair of categories of two features; another name for a crosstab |
 | Aggregate | One summary number (mean, median, maximum, ...) computed from a group of values |
 | 3D scatter plot | A scatter plot of three numerical features on three axes |

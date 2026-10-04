@@ -1,25 +1,20 @@
-"""Anomaly detection: one transaction far from all the normal ones. Example data."""
+"""Anomaly detection: one transaction far from all the normal ones. Example data. Plotly: a scatter."""
 from pathlib import Path
+
 import numpy as np
-import pandas as pd
-import seaborn as sns
-import seaborn.objects as so
+import plotly.graph_objects as go
 
 here = Path(__file__).parent
 rng = np.random.default_rng(5)
-normal = pd.DataFrame({"Amount (thousand rupees)": rng.gamma(2.0, 1.2, 80),
-                       "Distance from home (km)": rng.gamma(2.0, 2.5, 80), "Type": "normal"})
-odd = pd.DataFrame({"Amount (thousand rupees)": [14.5], "Distance from home (km)": [42.0], "Type": "anomaly (flagged)"})
-df = pd.concat([normal, odd], ignore_index=True)
+amount, dist = rng.gamma(2.0, 1.2, 80), rng.gamma(2.0, 2.5, 80)        # normal: small and close to home
 
-plot = (
-    so.Plot(df, x="Distance from home (km)", y="Amount (thousand rupees)", color="Type")
-    .add(so.Dot(pointsize=10))
-    .scale(color={"normal": "#4C78A8", "anomaly (flagged)": "#E45756"})
-    .label(title="Anomaly detection: a point far from all the others  (example data)")
-    .layout(size=(8.5, 5))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
-            "axes.titlesize": 15, "axes.labelsize": 15})
-)
-plot.save(here / "anomaly.png", dpi=200, bbox_inches="tight")
-plot.save(here / "anomaly.pdf", bbox_inches="tight")
+fig = go.Figure()
+fig.add_scatter(x=dist, y=amount, mode="markers", name="normal", marker=dict(size=12, color="#4C78A8"))
+fig.add_scatter(x=[42.0], y=[14.5], mode="markers", name="anomaly (flagged)", marker=dict(size=16, color="#E45756"))
+fig.update_layout(template="simple_white", width=950, height=560, font=dict(family="Latin Modern Roman", size=20),
+                  title=dict(text="Anomaly detection: a point far from all the others  (example data)", x=0.5),
+                  xaxis=dict(title="Distance from home (km)", showgrid=True),
+                  yaxis=dict(title="Amount (thousand rupees)", showgrid=True),
+                  legend=dict(title="Type", x=0.7, y=0.5), margin=dict(l=80, r=30, t=70, b=70))
+fig.write_image(here / "anomaly.png", scale=2)
+fig.write_image(here / "anomaly.pdf")

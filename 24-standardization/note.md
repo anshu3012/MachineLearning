@@ -436,14 +436,14 @@ Tree-based algorithms only compare values within one feature, asking questions l
 | Feature | An input variable, one column of the data table |
 | Target | The output we predict |
 | Observation | One record, one row of the data table |
-| Feature scaling | Putting features on the same scale, so no feature dominates distances |
+| Feature scaling (G-767) | Putting features on the same scale, so no feature dominates distances |
 | Euclidean distance | The straight-line distance between two points |
 | Standardization | Scaling a column by subtracting its mean and dividing by its standard deviation, so it gets mean 0 and std 1 |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean |
 | Z-score normalization | Another name for standardization |
-| Normalization | The other type of feature scaling, which squeezes values into a fixed range (next Note) |
+| Normalization (G-1349) | The other type of feature scaling, which squeezes values into a fixed range (next Note) |
 | Min-max scaling | The main normalization technique |
-| Robust scaler | A normalization technique that copes well with outliers |
+| Robust scaler (G-1699) | A normalization technique that copes well with outliers |
 | Mean centring | Subtracting the mean from every value, so the column's mean becomes 0 |
 | StandardScaler | scikit-learn's class that standardizes columns with `fit` and `transform` |
 | fit / transform | Learn the scaler's numbers from the training set / apply them to any data |

@@ -63,6 +63,15 @@ Their work was later recognised with a Nobel prize (Goodfellow et al. 2016, §9.
 
 Take one recorded cell. A horizontal bar gives no response. As the bar is rotated, there is still nothing at first; past a certain angle the cell starts to fire a little, more as the bar tilts further, and most when the bar is vertical. Rotated further, the response falls again and disappears at horizontal. This cell detects vertical edges.
 
+Figure 3 replays the experiment with a model cell from the Notebook (section 5.3 describes it): a small grid of weights that answers a bright vertical line inside its receptive field, the orange square.
+
+![The Hubel and Wiesel experiment, replayed with a model cell. Left: the screen, with a bar of light rotating from horizontal (0°) to vertical (90°) and back; the orange square is the cell's receptive field. Right: the cell's response at each angle.](images/hubel_wiesel.gif)
+
+1. **0° to 20°, near horizontal:** the response is 0.
+2. **25° to 40°:** a faint response, 0.02.
+3. **45° to 80°:** the response climbs, 0.21 at 45° and 0.83 at 80°.
+4. **85° to 95°, around vertical:** the largest response, 1. Past 95° it falls again in the same way, back to 0 at 160°.
+
 Another cell behaves the same way but prefers horizontal bars, another a slant, and so on. So different cells of the visual cortex respond to different orientations, each strongly to its own and hardly at all to the others: the neurons of the early visual system "responded most strongly to very specific patterns of light, such as precisely oriented bars, but responded hardly at all to other patterns" (Goodfellow et al. 2016, §9.10).
 
 ## 5. Simple cells and complex cells
@@ -95,7 +104,7 @@ The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 
 
 ![A model simple cell (one filter position, blue) and a model complex cell (maximum over a neighbourhood, orange). Left: both are tuned to orientation, strongest for a vertical bar and silent for a horizontal one. Right: shifting the vertical bar sideways by 2 pixels silences the simple cell, while the complex cell keeps responding](images/cell_models.png){width=100%}
 
-Figure 3 shows both effects:
+Figure 4 shows both effects:
 
 - **Orientation.** As the bar rotates from horizontal (0°) to vertical (90°), both responses rise from 0 to their maximum, then fall back to 0 at 180°: the tuning Hubel and Wiesel recorded.
 - **Position.** Shifting a vertical bar 2 pixels to the side drops the simple cell's response to 0, because the bar has left its small receptive field. The complex cell's response stays at its maximum for every shift from −8 to +8 pixels.

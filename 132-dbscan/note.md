@@ -124,7 +124,7 @@ Figure 6 runs DBSCAN on 14 points with eps = 1 and MinPts = 4.
 0. **Choose eps and MinPts.**
 1. **Label every point** as core, border or noise (Figure 6, top left).
 2. **Grow the clusters.** Take a core point that is not yet in a cluster and start a new cluster with it. Add every core point that is density-connected to it. When no more core points can be added, the cluster is complete; take the next unclustered core point and start the next cluster (top right).
-3. **Attach the border points.** Each border point joins the cluster of its nearest core point (bottom left).
+3. **Attach the border points.** Each border point joins the cluster of its nearest core point (bottom left). A border point joins a cluster but never extends it: a point that is within eps of a border point only, and of no core point, is not pulled in.
 4. **Leave the noise.** Noise points join no cluster (bottom right).
 
 ![DBSCAN step by step: label points, grow clusters through core points, attach border points, leave noise](images/dbscan_steps.gif){height=48%}
@@ -201,11 +201,19 @@ DBSCAN does not care about the shape or size of a cluster, only about density.
 
 Section 9.2 showed it on six points: one change in `min_samples` or `eps` gave a completely different result. We must choose both values with care, and try several.
 
+Figure 8 shows the same on the two moons of Figure 1, with MinPts fixed at 5 and eps growing from 0.05 to 0.8. Watch the left panel:
+
+- **eps too small (0.05 to 0.1):** few points have 5 neighbours within eps, so the moons break into many small clusters (33 at eps = 0.08) and many points are noise (136).
+- **eps about right (0.2 to 0.5):** the two moons, with at most one noise point.
+- **eps too large (0.6 and above):** the gap between the moons is now shorter than eps, so the chain of core points crosses it and everything becomes one cluster.
+
+![DBSCAN on the two moons as eps grows from 0.05 to 0.8, MinPts = 5. Left: the clusters found (grey crosses: noise). Right: the number of clusters for every eps tried so far.](images/eps_sweep.gif)
+
 ### 11.2 Clusters of different density
 
 > **Key point:** One eps cannot suit a tightly packed cluster and a loosely spread one at the same time.
 
-Figure 8 has a tightly packed group on the left and a loosely spread group on the right. eps is a single value for the whole dataset:
+Figure 9 has a tightly packed group on the left and a loosely spread group on the right. eps is a single value for the whole dataset:
 
 - **Small eps (0.3):** right for the dense group, but most of the sparse group (93 of its 100 points) becomes noise.
 - **Large eps (0.8):** right for the sparse group, but now the two groups merge into one cluster.
@@ -226,7 +234,7 @@ DBSCAN labels the points it was given and stops. If a new point arrives tomorrow
 >
 > 1. Fix MinPts first (this method draws a **k-distance plot**, G-994). For 2-D data the original paper uses MinPts = 4 (Ester et al. 1996, §4.2).
 > 2. For every point, compute the distance to its MinPts-th nearest point (counting the point itself, as scikit-learn does).
-> 3. Sort these distances and plot them (Figure 9).
+> 3. Sort these distances and plot them (Figure 10).
 >
 > Points inside clusters have small distances; noise points have large ones. The curve stays low and then shoots up. A value of eps at the bend treats the points with a larger k-distance as noise and puts all others in some cluster (Ester et al. 1996, §4.2). On the standardized moons, the bend is at about 0.2, and any eps from 0.2 to 0.4 gives the two moons exactly.
 >
@@ -275,6 +283,7 @@ Things to try:
 **Built from**
 
 - CampusX, "DBSCAN Clustering Algorithms | Density Based Clustering | How DBSCAN Works | CampusX", YouTube, https://www.youtube.com/watch?v=1_bLnsNmhCI
+- StatQuest with Josh Starmer, "Clustering with DBSCAN, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=RDZUdRSDOok
 
 **Other references**
 

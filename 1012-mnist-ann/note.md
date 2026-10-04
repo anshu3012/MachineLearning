@@ -158,7 +158,7 @@ The 784-128-10 network is the one previewed in the Extra box of section 3 of tha
 
 > **Key point:** Both losses are categorical cross-entropy; "sparse" only means the labels stay as integers.
 
-With a softmax output, the loss is **categorical cross-entropy** (G-350): the average of $-\log$ of the probability the network gives the true class (see the [softmax regression Note](../79-softmax-regression/note.md), section 4.2, and the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8). Keras offers it in two forms, which differ only in how the labels are written:
+With a softmax output, the loss is **categorical cross-entropy** (G-349): the average of $-\log$ of the probability the network gives the true class (see the [softmax regression Note](../79-softmax-regression/note.md), section 4.2, and the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8). Keras offers it in two forms, which differ only in how the labels are written:
 
 | Loss | Labels | Label of a "5" |
 |---|---|---|

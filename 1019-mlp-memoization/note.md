@@ -86,7 +86,16 @@ Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib
 >
 > `d` is a **dictionary** (G-603): it maps each `n` already computed to its answer. `n in d` checks whether the key is there.
 
-fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1, left). Each value is computed once; every later request is a lookup. The cost is the memory for the dictionary, one entry per value. Memoization is the core of **dynamic programming** (G-652), a family of algorithms built on reusing solutions to overlapping sub-problems (Cormen et al. 2009, Ch. 15).
+Figure 3 runs fib(5) both ways on the tree of Figure 2, call by call.
+
+![fib(5) call by call. First plain recursion: all 15 calls. Then with memoization: blue calls are computed and stored, orange calls are looked up, and the grey calls under a looked-up call never happen.](images/fib_memo.gif)
+
+1. **Plain recursion** visits all 15 boxes.
+2. **With memoization,** the first walk down the left edge computes fib(2), fib(3), fib(4) and fib(5) once each (blue) and stores them.
+3. **Every other request is a lookup** (orange): fib(1) and fib(0) are in the dictionary from the start, and the second requests for fib(2) and fib(3) find the stored answers.
+4. **The subtrees under a lookup are skipped** (grey). The total is 9 calls instead of 15: 4 computed, 5 looked up.
+
+For fib(5) the saving is small. It grows fast with $n$: fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1, left). Each value is computed once; every later request is a lookup. The cost is the memory for the dictionary, one entry per value. Memoization is the core of **dynamic programming** (G-652), a family of algorithms built on reusing solutions to overlapping sub-problems (Cormen et al. 2009, Ch. 15).
 
 > **Extra:** Python's standard library does this in one line: putting `@functools.lru_cache(maxsize=None)` above `def fib(n):` stores every result automatically (Python docs, `functools`).
 
@@ -100,7 +109,7 @@ fib(30) now needs 59 calls instead of 2,692,537, and fib(100) only 199 (Figure 1
 
 ![The 3-3-2-1 network. A change in $W_{11}^{1}$ changes $O_{11}$, which reaches $\hat{y}$ along two paths](images/two_paths.png){height=34%}
 
-The [backpropagation what Note](../1015-backpropagation-what/note.md) used one hidden layer. Figure 3 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ **trainable parameters** (G-1999; see the [MLP notation Note](../1008-mlp-notation/note.md)).
+The [backpropagation what Note](../1015-backpropagation-what/note.md) used one hidden layer. Figure 4 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ **trainable parameters** (G-1065; see the [MLP notation Note](../1008-mlp-notation/note.md)).
 
 The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797) gives $O_{11} = 0.783$, $O_{21} = 0.374$, $O_{22} = 0.208$ and $\hat{y} = -0.194$, so $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$.
 
@@ -126,7 +135,7 @@ Here $\partial \hat{y}/\partial O_{21} = W_{11}^{3}$ and $\partial O_{21}/\parti
 
 > **Key point:** $O_{11}$ feeds both $O_{21}$ and $O_{22}$, so its effect on the loss is the sum over both paths.
 
-Now take $W_{11}^{1}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 3): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
+Now take $W_{11}^{1}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 4): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
 
 When a variable affects a function through two intermediate variables, the **chain rule** (G-371) multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../601-partial-derivatives-and-gradients/note.md)). For $h(f(x), g(x))$:
 
@@ -171,6 +180,17 @@ The memoized method keeps one stored number per node: the derivative of the loss
    $$\frac{\partial L}{\partial O_{lj}} = \sum_{k} \frac{\partial L}{\partial O_{l+1,k}}\thickspace s_{l+1,k}\thickspace W_{jk}^{l+1}, \qquad \frac{\partial L}{\partial W_{ij}^{l}} = \frac{\partial L}{\partial O_{lj}}\thickspace s_{lj}\thickspace O_{l-1,i}$$
 3. **Example:** $\partial L/\partial O_{11}$ is computed once, from the stored $\partial L/\partial O_{21}$ and $\partial L/\partial O_{22}$. Then all three weights entering $O_{11}$ reuse it, and the two-path sum of Section 4.4 is never repeated.
 
+Figure 5 runs this backward pass on the network of Figure 4, with the numbers of Section 4.
+
+![The memoized backward pass on the 3-3-2-1 network. Orange nodes have their dL/dO stored; thick orange links are the ones used in the current step. Last frame: the first-layer weight W¹₁₁ (red) read off the stored value of its node.](images/backward_memo.gif)
+
+1. **Output.** $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$ is computed and stored.
+2. **Layer 2.** $O_{21}$ and $O_{22}$ each multiply the stored $-2.387$ by the output's slope (1, linear) and their weight to the output: 0.874 and 0.650, stored.
+3. **Layer 1.** Each node adds the stored values of the two nodes it feeds, each times that node's sigmoid slope and the connecting weight: $-0.163$, $-0.120$ and $-0.089$, stored. The two paths of Section 4.4 are added here, once, inside $\partial L/\partial O_{11}$.
+4. **A weight.** $\partial L/\partial W_{11}^{1} = -0.1628 \times 0.170 \times 0.5 = -0.0138$: the stored value of $O_{11}$, times its slope, times its input $x_1$. The result is the same as the two-path sum of Section 4.4, but no product was built twice.
+
+Six node values were computed in all, one per node; Section 5.3 counts what plain recursion would need.
+
 > **Python:** Plain recursion versus memoization.
 >
 > ```python
@@ -196,7 +216,7 @@ Counting how often a node's derivative is evaluated to get all the weight gradie
 
 | Network | Plain recursion | Memoized |
 |---|---|---|
-| 3-3-2-1 (Figure 3) | 59 | 6 |
+| 3-3-2-1 (Figure 4) | 59 | 6 |
 | 1 hidden layer of 10 | 210 | 11 |
 | 3 hidden layers of 10 | 23,410 | 31 |
 | 5 hidden layers of 10 | 2,345,610 | 51 |
@@ -214,7 +234,7 @@ Backpropagation combines two ideas:
 - **The chain rule** (mathematics) says what each derivative is: a sum, over paths, of products of local derivatives.
 - **Memoization** (computer science) computes those derivatives efficiently: each shared piece is computed once, stored and reused, working backwards from the loss.
 
-On the **computation graph** (G-434) of section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md), this is the **backward pass** (G-249): keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole **gradient** (G-865) costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
+On the **computation graph** (G-434) of section 10 of the [Jacobian Note](../602-jacobian-and-matrix-gradients/note.md), this is the **backward pass** (G-249): keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole **gradient** (G-863) costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
 
 > **Extra:** Storing every activation is why training a network needs much more memory than using it to predict: prediction can throw each layer's outputs away as soon as the next layer is computed, while training must keep them for the backward pass (Chen et al. 2016).
 

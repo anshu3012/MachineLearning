@@ -47,7 +47,7 @@ We use a sentiment analysis task: the input is a text, and the **target** (G-194
 
 The vocabulary has three words, so one-hot encoding turns each into 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (G-772) (one input variable). Review $i$ is $x_i$, and its word at time step $t$ is $x_{it}$.
 
-The task is **many-to-one** (G-1156): a sequence goes in, a single output comes out (see the [types of RNN Note](../1058-types-of-rnn/note.md)).
+The task is **many-to-one** (G-1155): a sequence goes in, a single output comes out (see the [types of RNN Note](../1058-types-of-rnn/note.md)).
 
 ### 3.2 The network
 
@@ -280,7 +280,7 @@ Compared with backpropagation in an ANN, the only new point is the unfolding in 
 | Observation | One record of the data, here one review |
 | Feature | An input variable; here one of the 3 positions of a word vector |
 | Target | The output we predict, here the sentiment |
-| Many-to-one | An RNN task with a sequence as input and a single output |
+| Many-to-one (G-1155) | An RNN task with a sequence as input and a single output |
 | Parameter sharing | Using the same weights at every time step |
 | Path (in the chain rule) | One route through the computation from the loss to a weight; the derivative is the sum over all paths |
 | Immediate derivative | The derivative of $h_t$ with respect to a weight with $h_{t-1}$ held fixed: only the weight's direct use at step $t$ |

@@ -82,10 +82,6 @@ Everyday examples are quantities that are equally likely anywhere within fixed l
 - the time a machine takes to produce a product, when it ranges evenly from 5 to 6 hours;
 - the waiting time for a bus that comes exactly every 10 minutes, for someone arriving at a random moment: anywhere from 0 to 10 minutes.
 
-A height chosen at random from a group whose heights all lie between 5.6 and 6 feet is sometimes given as an example. The height example is only a rough one: restricting a normal variable to a range does not make it flat. Cutting a bell curve to a range keeps the bell's shape inside it (the density is just scaled up so its area is 1), so the heights still bunch towards the centre. Figure 3 shows this for an illustrative normal with mean 5.8 and standard deviation 0.2 feet, cut to 5.6 to 6 feet: a bell shape remains, not a flat line. The cut-off curve is called a **truncated normal** (G-2023).
-
-![A normal height distribution (mean 5.8 ft, standard deviation 0.2 ft) restricted to 5.6 to 6 ft and rescaled to area 1 (blue), against the flat uniform U(5.6, 6) (dashed).](images/truncated_normal.png){height=36%}
-
 In machine learning, the uniform distribution mostly works behind the scenes:
 
 - **Random initialization** (G-1612). Neural networks and k-means clustering (see the [k-means Note](../128-kmeans-intuition/note.md)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
@@ -123,13 +119,9 @@ The second condition is the test. Not every right-skewed distribution is log-nor
 
 $$X \text{ is log-normal} \iff \ln X \text{ is normal}$$
 
-Why does the log turn a long right tail into a symmetric bell? A right-skewed feature such as comment length changes by multiplying: a comment is twice as long as another, or 8 times shorter. Take the comment lengths of section 3.4, whose median is about 20 words. A comment 8 times longer has 160 words, 140 words above the median. A comment 8 times shorter has 2.5 words, only 17.5 words below it. On an ordinary axis the two are the same change in size, but they sit at very different distances from the median: the right side is stretched and the left side is squeezed. That stretched right side is the long tail.
+Why does the log turn a long right tail into a symmetric bell? The log measures a value by how many times it was multiplied, so "8 times longer" and "8 times shorter" become steps of the same size (see the [function transformer Note](../30-function-transformer/note.md), section 5). For the comment lengths of section 3.4, with a median of about 20 words, 160 words and 2.5 words sit 140 and 17.5 words from the median, but the same distance from it after the log.
 
-The log measures each value by how many times it was multiplied, so equal multiplications become equal steps: $\log_2 8 = 3$ steps up and $\log_2 (1/8) = -3$ steps down. An axis on which each step multiplies the value by the same factor is a **logarithmic scale** (log scale). In Figure 4, watch the two bars for "8 times shorter" and "8 times longer": they start at 0.11 and 0.89 of the axis and end equal.
-
-![Seven comment lengths around the median of 20 words, on an ordinary axis that turns into a log axis. The bars from the median to "8 times shorter" and "8 times longer" become equal. Idea after StatQuest, "Logs (logarithms), Clearly Explained!!!".](images/log_axis.gif){height=45%}
-
-Figure 5 applies the log gradually to 1,000 simulated comment lengths (the data of section 3.4). It uses the power $(x^{\lambda} - 1)/\lambda$, which leaves the shape of the raw data unchanged at $\lambda = 1$ and becomes $\ln x$ as $\lambda$ shrinks to 0. Watch the long right tail pull in: the skewness falls from 4.41 to 1.09, then 0.59, and the logs form a bell with skewness $-0.02$.
+Figure 3 applies the log gradually to 1,000 simulated comment lengths (the data of section 3.4). It uses the power $(x^{\lambda} - 1)/\lambda$, which leaves the shape of the raw data unchanged at $\lambda = 1$ and becomes $\ln x$ as $\lambda$ shrinks to 0. Watch the long right tail pull in: the skewness falls from 4.41 to 1.09, then 0.59, and the logs form a bell with skewness $-0.02$.
 
 ![1,000 simulated comment lengths transformed step by step from raw (λ = 1) to the log (λ = 0), each standardized to one axis. The right-skewed histogram becomes a bell.](images/log_morph.gif)
 
@@ -143,7 +135,7 @@ $$X \sim \text{Lognormal}(\mu, \sigma^2), \qquad \text{which means} \qquad \ln X
 
 The parameters $\mu$ and $\sigma$ look like those of the normal distribution, and they are: but they belong to the logged values. The mean and standard deviation of $X$ itself are different numbers.
 
-Figure 6 keeps $\mu = 0$ and increases $\sigma$. A larger $\sigma$ spreads the curve out and stretches the right tail. All three curves start at 0: a log-normal variable is always positive.
+Figure 4 keeps $\mu = 0$ and increases $\sigma$. A larger $\sigma$ spreads the curve out and stretches the right tail. All three curves start at 0: a log-normal variable is always positive.
 
 ![Log-normal PDFs with μ = 0 and three values of σ](images/lognormal_shapes.png){height=38%}
 
@@ -157,7 +149,7 @@ Figure 6 keeps $\mu = 0$ and increases $\sigma$. A larger $\sigma$ spreads the c
 3. **Example:** comment lengths on a forum with $\mu = 3$ and $\sigma = 1$ (in log-words). At $x = 20$ words, $\ln 20 = 2.996 \approx 3$, so the exponent is almost 0 and $e^{0} = 1$:
    $$f(20) = \frac{1}{20 \times 1 \times 2.5066} \times 1 = 0.0199$$
 
-The curve looks like a normal curve pushed to the left with its right side stretched out (Figure 6). The CDF behaves like the normal CDF too: a larger $\sigma$ makes it rise more slowly.
+The curve looks like a normal curve pushed to the left with its right side stretched out (Figure 4). The CDF behaves like the normal CDF too: a larger $\sigma$ makes it rise more slowly.
 
 The resemblance is only in the formulas. The log-normal variable itself is skewed and not symmetric; it is $\ln X$ that is normal and gets all the benefits of normality.
 
@@ -193,7 +185,7 @@ Checking for log-normality is a common interview question, and the answer follow
 2. Draw a Q-Q plot of $Y$ against the normal distribution (see the [kurtosis and Q-Q plots Note](../260-kurtosis-and-qq-plots/note.md)).
 3. If the points lie on a straight line, $Y$ is normal, so $X$ is log-normal.
 
-Figure 8 does this for 1,000 comment lengths simulated with $\mu = 3$ and $\sigma = 1$. The raw lengths are strongly right-skewed (skewness 4.4). Their logs form a bell (skewness $-0.02$), and the Q-Q plot of the logs is a straight line.
+Figure 6 does this for 1,000 comment lengths simulated with $\mu = 3$ and $\sigma = 1$. The raw lengths are strongly right-skewed (skewness 4.4). Their logs form a bell (skewness $-0.02$), and the Q-Q plot of the logs is a straight line.
 
 ![1,000 comment lengths: raw (left), after the log (middle), and the Q-Q plot of the logs (right)](images/lognormal_check.png)
 
@@ -212,7 +204,7 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 > ln.sf(100)       # 0.054, P(X > 100)
 > ```
 >
-> The Notebook (`notebook.ipynb`) rounds the simulated lengths to whole words and draws Figure 8 with Plotly.
+> The Notebook (`notebook.ipynb`) rounds the simulated lengths to whole words and draws Figure 6 with Plotly.
 
 ## 4. Summary
 
@@ -236,7 +228,6 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 **Built from**
 
 - CampusX, "Session 42 - Non-Gaussian Probability Distributions | DSMP 2023", YouTube, https://www.youtube.com/watch?v=U6QCc_3zgUk
-- StatQuest with Josh Starmer, "Logs (logarithms), Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=VSi0Z04fWj0
 
 **Other references**
 
@@ -256,5 +247,3 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 | Random initialization | Starting a model's parameters at random values, often drawn from a uniform distribution |
 | Data augmentation | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images |
 | $\text{Lognormal}(\mu, \sigma^2)$ | The distribution of $X$ when $\ln X \sim N(\mu, \sigma^2)$ |
-| Logarithmic scale (log scale) | An axis on which each equal step multiplies the value by the same factor |
-| Truncated normal | A normal distribution restricted to a range and rescaled so its area is 1; it keeps its bell shape inside the range |

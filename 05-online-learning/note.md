@@ -28,7 +28,7 @@ When a company says "the more you use our product, the better it gets", it is us
 
 > **Key point:** Many small updates instead of one big training run.
 
-**Online learning** (G-1391) trains a model **incrementally** (**incremental learning**, G-931). Instead of using the whole dataset at once (as in **batch learning**, G-265), we feed the model data **sequentially**, in small groups called **mini-batches** (G-1223), one after another. After each mini-batch, the model improves a little.
+**Online learning** (G-1391) trains a model **incrementally** (**incremental learning**, G-931). Instead of using the whole dataset at once (as in **batch learning**, G-265), we feed the model data **sequentially**, in small groups called **mini-batches** (G-263), one after another. After each mini-batch, the model improves a little.
 
 Each mini-batch is small, so each training step is fast and cheap. Small, cheap steps make it possible to train the model on the production server itself, while it is online. Hence the name.
 
@@ -61,6 +61,10 @@ As new data arrives, the model's performance keeps improving to match it.
 - **Smart keyboards** such as SwiftKey get better at predicting our words the more we type.
 - **YouTube:** after we watch a video and go back to the feed, the feed has already changed to show related videos. The clicks we just made became new training data.
 
+![Three products that learn while we use them](images/online_examples.png)
+
+Figure 3 shows the pattern the three share: using the product produces new data, and the deployed model learns from that data at once.
+
 Many companies still use batch learning, but the industry is moving towards online learning.
 
 ## 3. When to use online learning
@@ -70,6 +74,15 @@ Many companies still use batch learning, but the industry is moving towards onli
 1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. Here the model must keep adapting, which is exactly what online learning does.
 2. **Cost.** Retraining a batch model on a very large dataset is expensive. Online learning works with small mini-batches, so each step costs little.
 3. **Speed.** Each training step is tiny, so the model reflects new data almost immediately.
+
+Figure 4 tests the first reason on a problem that keeps changing: the Electricity market data of the [batch learning Note](../04-batch-learning/note.md) (Harries 1999), where each half hour we predict whether the price goes up or down.
+
+![Online vs batch on the Electricity market data. Orange: a batch model trained once on the first 4 weeks. Green: an online model that starts from the same 4 weeks, then each day predicts that day and learns from it. Accuracy on each week, averaged over 8 weeks.](images/elec_online.gif)
+
+1. **The same start.** Both models learn from the first 4 weeks of data.
+2. **Batch.** The orange model is then frozen, as in the batch learning Note.
+3. **Online.** The green model keeps going. Each day it first predicts that day's 48 half hours, and then learns from their true answers with one small update.
+4. **The result.** Over 130 weeks, the online model is right 71.7 percent of the time and the frozen batch model 68.0 percent. Where the market changes, for example around week 25 and after week 120, the frozen model falls behind while the online model recovers.
 
 For problems that do not change, batch learning is still simpler and works well.
 
@@ -102,6 +115,16 @@ One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job 
 >
 > `np.array([[...]])` is a table with one row: one **observation** (G-1374; one record), with three **features** (G-772; input variables). `np.array([...])` holds its **target** (G-1949), the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
 
+What does each call change? Figure 5 runs `partial_fit` on a stream of mini-batches of 10 observations, from data whose true pattern is $y = 2x$ plus noise (the Notebook's data).
+
+![An SGDRegressor learning from a stream with partial_fit. Orange: the mini-batch of this call. Grey: earlier mini-batches, which the model has already used and does not keep. Blue: the model's line after the call.](images/partial_fit_stream.gif)
+
+1. **Call 1.** The model has seen 10 observations. Its line is $y = 0.67x + 0.25$, far too flat.
+2. **Calls 2 to 10.** Each call nudges the slope towards the data: 0.94, 1.18, and 1.66 after 10 calls.
+3. **Call 50.** After 500 observations the line is $y = 1.81x + 0.51$, close to the true $y = 2x$.
+
+The model never goes back to old observations. Each call moves the **parameters** (G-1450), the slope and the intercept, a little, starting from where the last call left them.
+
 ### 4.2 Dedicated libraries
 
 > **Key point:** River and Vowpal Wabbit are built specifically for online learning.
@@ -122,9 +145,9 @@ Think of two news readers. A reader who believes every new headline changes thei
 
 We want a balance: the model should learn new patterns while still remembering the old ones.
 
-![How the learning rate changes what an online model learns](images/learning_rate.png)
+![How the learning rate changes what an online model learns (simulation)](images/learning_rate.gif)
 
-In Figure 3, the true value jumps at step 120:
+Figure 6 draws three models as the data arrives, one point at a time. Each model follows one rule: move a fraction of the way from the current estimate towards the newest data point. That fraction is the learning rate. The true value jumps from 20 to 60 at step 120:
 
 - with a rate of 0.01, the model takes a very long time to catch up;
 - with 0.7, the model reacts to every noisy point;
@@ -138,11 +161,11 @@ The learning rate is one of the most important settings in online learning. If t
 
 Sometimes a dataset is too large to load at once. For example, a 50 GB dataset cannot be loaded on a machine with 8 GB of RAM, so it cannot be trained with batch learning.
 
-**Out-of-core learning** (G-1414) solves this with the online-learning technique (scikit-learn User Guide, Strategies to scale computationally):
+**Out-of-core learning** (G-1413) solves this with the online-learning technique (scikit-learn User Guide, Strategies to scale computationally):
 
 ![Out-of-core learning](images/out_of_core.png)
 
-1. Split the dataset into small chunks (Figure 4).
+1. Split the dataset into small chunks (Figure 7).
 2. Feed the chunks to the model one at a time, training incrementally.
 3. Deploy the trained model.
 
@@ -172,7 +195,7 @@ The tools are also young. Most are open-source libraries built by small groups, 
 
 An online model changes according to the data it receives. If that data goes wrong, for example because the server is hacked and fake requests flood in, the model learns from it and becomes biased towards wrong answers.
 
-The defences (Figure 5):
+The defences (Figure 8):
 
 ![Protecting an online model](images/safety_net.png)
 
@@ -191,6 +214,14 @@ The defences (Figure 5):
 | Use in production | Easier to implement | Harder to implement |
 | Best for | Problems that do not change (e.g. classifying dog breeds: a dog is still a dog in 10 years) | Problems that keep changing (e.g. weather, stock prices, trends) |
 | Tools | Mature, industry-proven | Newer, still an active research area |
+
+Figure 9 puts numbers on the trade-off with the three models of Figure 4 and the [batch learning Note](../04-batch-learning/note.md).
+
+![Accuracy against training work on the Electricity market data, weeks 4 to 133. Training work counts each record once each time it is fed to training.](images/elec_cost.png)
+
+- **Batch, never retrained:** the cheapest (1,344 records, once), and the least accurate, 68.0 percent.
+- **Batch, retrained every 4 weeks:** the most accurate, 73.3 percent, but every retrain starts from scratch on all the data so far: 754 thousand records in total.
+- **Online:** 71.7 percent for 72 thousand records, about a tenth of the retrained batch model's work, because after the first 4 weeks each record is used once, as it arrives.
 
 Building a model with high accuracy is only part of the job. In industry, we also have to think about what happens after deployment: how much the server costs, and how the model reacts when the data changes.
 
@@ -223,6 +254,7 @@ The Notebook for this Note (`notebook.ipynb`) trains a model one row at a time w
 **Other references**
 
 - Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*, 2nd ed. O'Reilly. Ch. 1, Online learning.
+- Harries, M. (1999). *Splice-2 Comparative Evaluation: Electricity Pricing*. Technical report, University of New South Wales. The data as OpenML dataset 151, "electricity", https://www.openml.org/d/151
 - Montiel, J. et al. (2021). River: Machine Learning for Streaming Data in Python. *Journal of Machine Learning Research* 22(110).
 - scikit-learn developers. *User Guide*, Strategies to scale computationally: bigger data. scikit-learn.org.
 - Vowpal Wabbit project. *Vowpal Wabbit documentation*. vowpalwabbit.org.
@@ -232,17 +264,18 @@ The Notebook for this Note (`notebook.ipynb`) trains a model one row at a time w
 | Term | Meaning |
 |---|---|
 | Online learning | Training incrementally on mini-batches while the model is live in production |
-| Incremental training | Training in small steps, keeping what was learned before |
+| Incremental training (G-931) | Training in small steps, keeping what was learned before |
 | Sequential data | Data fed one piece after another, in order |
 | Feature | An input variable; one column of the data table |
 | Target | The output we want to predict |
 | Observation | One record; one row of the data table |
-| Mini-batch | A small group of observations used for one training step |
-| `partial_fit` | A scikit-learn method that continues training from where the model left off |
-| `SGDRegressor` | A scikit-learn model that does linear regression step by step |
+| Mini-batch (G-263) | A small group of observations used for one training step |
+| `partial_fit` (G-1458) | A scikit-learn method that continues training from where the model left off |
+| `SGDRegressor` (G-1783) | A scikit-learn model that does linear regression step by step |
 | River | A Python library for online machine learning |
 | Vowpal Wabbit | A fast learning library that supports online learning |
-| Learning rate | How strongly each new piece of data changes the model |
-| Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline |
+| Learning rate (G-1068) | How strongly each new piece of data changes the model |
+| Out-of-core learning (G-1413) | Training on data too big for memory by feeding it in chunks, offline |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data |
+| Parameter (G-1450) | A number inside a model that training changes, such as the slope of a line |
 | Rollback | Restoring a model to an earlier, good version |

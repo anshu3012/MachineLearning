@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 from PIL import Image
 
-from common import BLUE, ORANGE, GREEN, GREY, FONT
+from common import BLUE, ORANGE, GREEN, GREY, RED, FONT
 
 LIGHT = "#F2F2F2"
 
@@ -44,8 +44,9 @@ def windows(X, f, stride):
 
 
 def animate(name, X, f, *, kernel=None, op="conv", stride=1, pad=0, fmt=lambda v: f"{v:g}", fsize=16,
-            keys=(0, 1, None, -1), here=None, hold=6, fps=1.5, width=1100, height=520, labels=None):
-    """X: 2D input (before padding). f: window size. kernel: f x f weights for op='conv'. Writes name.gif, name_frames.png."""
+            keys=(0, 1, None, -1), here=None, hold=6, fps=1.5, width=1100, height=520, labels=None, ghost=None):
+    """X: 2D input (before padding). f: window size. kernel: f x f weights for op='conv'. Writes name.gif, name_frames.png.
+    ghost=(row, col, text): a window position that does NOT fit, drawn dashed red in the closing frames."""
     here = Path(here)
     Xp = np.pad(X.astype(float), pad)
     pad_mask = np.pad(np.zeros(X.shape, bool), pad, constant_values=True)
@@ -62,7 +63,7 @@ def animate(name, X, f, *, kernel=None, op="conv", stride=1, pad=0, fmt=lambda v
     xo = xk + (f + gap if op == "conv" else 0)                   # output panel
     labels = labels or ("input" + (" (zero-padded)" if pad else ""), "filter", "feature map" if op == "conv" else "pooled map")
 
-    def frame(k):
+    def frame(k, show_ghost=False):
         fig = go.Figure()
         cur = out.copy()
         for kk in range(k + 1):
@@ -91,7 +92,12 @@ def animate(name, X, f, *, kernel=None, op="conv", stride=1, pad=0, fmt=lambda v
         fig.update_layout(template="simple_white", width=width, height=height, font=FONT, showlegend=False,
                           title=dict(text=txt, x=0.5, y=0.97, font=dict(size=18)),
                           xaxis=dict(visible=False, range=[-0.3, W + 0.3], scaleanchor="y"),
-                          yaxis=dict(visible=False, range=[-Xp.shape[0] - 0.3, 1.2]), margin=dict(l=10, r=10, t=60, b=10))
+                          yaxis=dict(visible=False, range=[-Xp.shape[0] - (1.4 if ghost else 0.3), 1.2]),
+                          margin=dict(l=10, r=10, t=60, b=10))
+        if show_ghost:
+            fig.add_shape(type="rect", x0=ghost[1], x1=ghost[1] + f, y0=-ghost[0], y1=-ghost[0] - f,
+                          line=dict(color=RED, width=9, dash="dash"), fillcolor="rgba(228,87,86,0.25)")
+            fig.update_layout(title_text=ghost[2])
         return fig
 
     tmp = here / f".{name}_frames"
@@ -99,12 +105,14 @@ def animate(name, X, f, *, kernel=None, op="conv", stride=1, pad=0, fmt=lambda v
     pio.write_images([frame(k) for k in range(len(wins))], [tmp / f"{k:03d}.png" for k in range(len(wins))],
                      width=width, height=height)
     last = len(wins) - 1
+    if ghost:
+        frame(last, True).write_image(tmp / "ghost.png", width=width, height=height)
     for k in range(len(wins), len(wins) + hold):
-        shutil.copy(tmp / f"{last:03d}.png", tmp / f"{k:03d}.png")
+        shutil.copy(tmp / ("ghost.png" if ghost else f"{last:03d}.png"), tmp / f"{k:03d}.png")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(tmp / "%03d.png"), "-vf",
                     "scale=900:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse", str(here / f"{name}.gif")],
                    check=True)
-    ks = [len(wins) // 2 if k is None else (k % len(wins)) for k in keys]
+    ks = [len(wins) // 2 if k is None else (k % (len(wins) + (1 if ghost else 0))) for k in keys]
     imgs = [Image.open(tmp / f"{k:03d}.png").convert("RGB") for k in ks]
     w, h = imgs[0].size
     sheet = Image.new("RGB", (2 * w + 16, 2 * h + 16), "white")

@@ -276,8 +276,8 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 | Term | Meaning |
 |---|---|
 | Constructor (`__init__`) | The method that runs when an object is created and stores its settings |
-| max_iter | The largest number of assign-and-move rounds k-means may run |
+| max_iter (G-113) | The largest number of assign-and-move rounds k-means may run |
 | np.argmin | NumPy function returning the position of the smallest value |
 | mean(axis=0) | The mean of each column of an array |
 | Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start |
-| Adjusted Rand score | A number that is 1.0 when two labelings group the points identically, whatever the label numbers |
+| Adjusted Rand score (G-175) | A number that is 1.0 when two labelings group the points identically, whatever the label numbers |

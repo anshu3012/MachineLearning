@@ -23,7 +23,8 @@ To control this, scikit-learn's `DecisionTreeClassifier` offers several **hyperp
 
 - why a fully grown tree overfits, and why a very short one underfits;
 - `max_depth` on a real dataset, with its decision surfaces;
-- the other main hyperparameters: `criterion`, `splitter`, `min_samples_split`, `min_samples_leaf`, `max_features`, `max_leaf_nodes` and `min_impurity_decrease`.
+- the other main hyperparameters: `criterion`, `splitter`, `min_samples_split`, `min_samples_leaf`, `max_features`, `max_leaf_nodes` and `min_impurity_decrease`;
+- cutting a grown tree back: cost-complexity pruning with `ccp_alpha`.
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for every hyperparameter, redraws the decision surface and prints the tree.
 
@@ -93,7 +94,7 @@ For the rest of the Note we use a toy dataset: two interleaving half-moons, 500 
 
 > **Key point:** The impurity measure used to score splits; the two usually give similar accuracy.
 
-`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from the [decision tree intuition Note](../97-decision-trees-intuition/note.md) (section 8). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy on this split. Averaged over 50 fresh moons datasets, the two are level (0.866 against 0.867). Both are worth trying when tuning.
+`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from the [decision tree intuition Note](../97-decision-trees-intuition/note.md) (sections 6 and 8). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy on this split. Averaged over 50 fresh moons datasets, the two are level (0.866 against 0.867). Both are worth trying when tuning.
 
 ### 4.2 splitter: best or random
 
@@ -192,7 +193,73 @@ The decrease is measured with weights, so that a split of a small node counts le
 
 With `min_impurity_decrease=0.01` the tree keeps 7 leaves. With 0.1, only the root split (0.209) is large enough, so the tree stops after one question. Higher value: underfitting; lower value: overfitting.
 
-## 5. Why trees deserve the extra attention
+## 5. Pruning a grown tree: cost-complexity pruning
+
+> **Key point:** Instead of stopping the tree early, grow it fully and then cut leaves back. A penalty $\alpha$ per leaf decides how much to cut, and cross-validation chooses $\alpha$.
+
+### 5.1 The idea: grow first, cut back after
+
+> **Key point:** Remove the leaves that buy the least fit; each removal makes the training fit a little worse and the tree simpler.
+
+The hyperparameters of section 4 are brakes: they stop the tree **while** it grows. The second kind of **pruning** (G-1587) works the other way round. We let the tree grow fully, then cut it back: a pair of leaves is removed and their parent becomes a leaf.
+
+Each cut makes the tree fit the training data a little worse, because the merged leaf is less pure. Each cut also removes boxes that were drawn around one or two noisy observations (section 2.1). The question is how far to cut.
+
+### 5.2 The tree score
+
+> **Key point:** Tree score = total leaf impurity + $\alpha$ times the number of leaves. The subtree with the lowest score wins.
+
+**Cost-complexity pruning** (G-2222) (also called weakest-link pruning) gives every candidate subtree one number, its tree score, and keeps the subtree with the lowest score.
+
+1. **In words:** take how badly the subtree fits the training data (the total impurity of its leaves), and add a fixed penalty $\alpha$ for every leaf it has.
+2. **Formula:**
+   $$R_\alpha(T) = R(T) + \alpha \thinspace|T|$$
+   where $R(T)$ is the total impurity of the leaves of subtree $T$ (each leaf's Gini weighted by its share of the training observations), $|T|$ is its number of leaves, and $\alpha \ge 0$ is the penalty per leaf (sklearn UG §1.10.9).
+3. **Example:** four subtrees of the fully grown Social Network Ads tree of section 3, with 49, 3, 2 and 1 leaves. Their leaf impurities $R(T)$ are 0, 0.157, 0.295 and 0.466.
+
+| Subtree | $R(T)$ | score, $\alpha = 0$ | score, $\alpha = 0.01$ | score, $\alpha = 0.2$ |
+|---|---|---|---|---|
+| 49 leaves (fully grown) | 0.000 | **0.000** | 0.490 | 9.800 |
+| 3 leaves | 0.157 | 0.157 | **0.187** | 0.757 |
+| 2 leaves | 0.295 | 0.295 | 0.315 | 0.695 |
+| 1 leaf | 0.466 | 0.466 | 0.476 | **0.666** |
+
+For the 3-leaf subtree at $\alpha = 0.01$, the score is $0.157 + 0.01 \times 3 = 0.187$.
+
+- With $\alpha = 0$ there is no penalty, so the fully grown tree wins: it fits the training data best.
+- With $\alpha = 0.01$ the 49 leaves cost 0.49 in penalties, and the 3-leaf subtree wins.
+- With $\alpha = 0.2$ even 3 leaves cost too much, and the single leaf wins.
+
+So $\alpha$ is one more knob: **higher value, smaller tree, more underfitting; lower value, bigger tree, more overfitting.** In scikit-learn the knob is the hyperparameter `ccp_alpha` (G-360; default 0, no pruning).
+
+### 5.3 Choosing alpha
+
+> **Key point:** As $\alpha$ grows, the best subtree changes only at a few values. Try each of those values and keep the one with the best cross-validation score.
+
+Raising $\alpha$ slowly from 0, the winning subtree stays the same for a while, then loses its weakest leaves, and so on down to a single leaf. The method `cost_complexity_pruning_path` returns exactly the $\alpha$ values at which the winner changes. On the Social Network Ads training data there are 17 of them, from 0 (49 leaves) to 0.171 (1 leaf).
+
+> **Python:** Pruning with `ccp_alpha`, chosen by cross-validation.
+>
+> ```python
+> from sklearn.model_selection import GridSearchCV
+> from sklearn.tree import DecisionTreeClassifier
+>
+> full = DecisionTreeClassifier(random_state=42).fit(X_train, y_train)
+> path = full.cost_complexity_pruning_path(X_train, y_train)
+>
+> grid = GridSearchCV(DecisionTreeClassifier(random_state=42),
+>                     {"ccp_alpha": path.ccp_alphas}, cv=5)
+> grid.fit(X_train, y_train)
+> grid.best_params_          # ccp_alpha about 0.0071: 3 leaves
+> ```
+
+Figure 7 plays the path. Each frame raises $\alpha$ to the next value: leaves drop off the tree, and the islands and strips of the fully grown surface disappear. Watch the two curves: training accuracy falls from 1.00 to 0.91, while 5-fold cross-validation accuracy **rises** from 0.820 to 0.873 at 3 leaves ($\alpha = 0.0071$). One step further, at 2 leaves, cross-validation accuracy falls to 0.830: the tree now underfits.
+
+![Cost-complexity pruning of the fully grown Social Network Ads tree, one value of α per frame. Left: the decision surface. Right: training accuracy and 5-fold cross-validation accuracy against the number of leaves left. Cross-validation picks the 3-leaf tree.](images/ccp_sweep.gif)
+
+The pruned tree has 3 leaves instead of 49 and scores 0.94 on the test set, against 0.91 for the fully grown tree.
+
+## 6. Why trees deserve the extra attention
 
 > **Key point:** Random forests, bagging and gradient boosting are all built from decision trees, and they are tuned with these same hyperparameters.
 
@@ -205,7 +272,7 @@ The best way to get a feel for these hyperparameters is to experiment. Run `pyth
 
 Decision trees are the building blocks of **bagging**, **random forests** and **gradient boosting**, which come later. All of them are tuned through these same knobs, so knowing how each one moves a single tree pays off there too.
 
-## 6. Summary
+## 7. Summary
 
 | Hyperparameter | Default | What it controls | Raise it to |
 |----------------------------|------------|------------------------------|-----------------|
@@ -217,24 +284,28 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 | `max_features` | `None` (all) | features considered at each split | less randomness |
 | `max_leaf_nodes` | `None` | number of leaves | overfit more |
 | `min_impurity_decrease` | 0 | weighted impurity drop a split must give | underfit more |
+| `ccp_alpha` | 0 | penalty per leaf when the grown tree is pruned back | underfit more |
 
 - A fully grown tree (`max_depth=None`) has pure leaves resting on a few observations: overfitting. One split (`max_depth=1`): underfitting.
 - On the Social Network Ads data, depths 2 to 5 follow the real pattern; cross-validation picks depth 2.
+- Cost-complexity pruning grows the tree fully and cuts it back: tree score = leaf impurity + $\alpha$ × leaves. On the Social Network Ads data, cross-validation picks $\alpha = 0.0071$: 3 leaves instead of 49.
 - Every hyperparameter except `criterion` either limits growth or adds randomness; the randomness pays off in ensembles. Tune them with cross-validation, not by eye.
 
-## 7. Sources
+## 8. Sources
 
 **Built from**
 
 - CampusX, "Decision Trees - Hyperparameters | Overfitting and Underfitting in Decision Trees", YouTube, https://www.youtube.com/watch?v=mDEV0Iucwz0
+- StatQuest with Josh Starmer, "How to Prune Regression Trees, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=D0efHEJsfHo
 
 **Other references**
 
 - **ISLR:** G. James, D. Witten, T. Hastie and R. Tibshirani, *An Introduction to Statistical Learning*, 2nd ed., Springer, 2021. Sections 5.1.1 and 5.1.3.
 - **ESL:** T. Hastie, R. Tibshirani and J. Friedman, *The Elements of Statistical Learning*, 2nd ed., Springer, 2009. Section 15.2, Definition of random forests.
+- **sklearn UG:** scikit-learn User Guide, Section 1.10.9, Minimal Cost-Complexity Pruning. scikit-learn.org/stable/modules/tree.html
 - **sklearn reference:** scikit-learn `DecisionTreeClassifier` API reference (parameters `random_state`, `max_leaf_nodes`, `min_impurity_decrease`) and `ExtraTreeClassifier` API reference ("Extra-trees should only be used within ensemble methods"). scikit-learn.org/stable/api/sklearn.tree.html
 
-## 8. Key terms
+## 9. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -247,4 +318,6 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 | max_leaf_nodes | The cap on the number of leaves; the tree grows best-first until it is reached |
 | min_impurity_decrease | The smallest weighted impurity decrease a split must give to be made |
 | Pruning | Stopping a tree early or cutting it back so it does not overfit |
+| Cost-complexity pruning (G-2222) | Growing a tree fully, then cutting back the leaves that buy the least fit: keep the subtree with the lowest leaf impurity + $\alpha$ × number of leaves |
+| ccp_alpha | The penalty per leaf, $\alpha$, in cost-complexity pruning; 0 means no pruning |
 | Fully grown tree | A tree split until every leaf is pure; usually overfits |

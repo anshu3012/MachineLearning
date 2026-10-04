@@ -246,8 +246,6 @@ Figure 6 shows how two splits isolate the title:
 
 The 891 names give 17 different titles. One unusual name, "Rothes, the Countess. of (Lucy Noel Martha Dyer-Edwards)", gives the title "the Countess".
 
-> **Extra:** Older code splits with `expand=True`, which returns a table, and then picks a column: `df["Name"].str.split(", ", expand=True)[1]`. The `.str[1]` form above gives the same values without building the table.
-
 ## 7. What the title tells us
 
 > **Key point:** Survival rate differs strongly by title: 79% for Mrs, 70% for Miss, 57% for Master, but only 16% for Mr.

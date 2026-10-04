@@ -69,8 +69,6 @@ The part of a distribution far from the centre, where values are rare, is a **ta
 
 A value beyond 3 standard deviations is so rare that the usual practice is to call it an **outlier** (G-1420): like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
 
-> **Extra:** The exact numbers are 68.27%, 95.45% and 99.73%. They come from the area under the bell curve, and they are only true for a perfectly normal feature. A real column that is close to normal gives numbers close to them: the `cgpa` column of Section 6 has 67.9%, 95.7% and 99.5% of its values in the three ranges (last cell of the Notebook).
-
 ### 3.2 The limits
 
 > **Key point:** The lower limit is $\mu - 3\sigma$ and the upper limit is $\mu + 3\sigma$; values outside them are outliers.
@@ -88,7 +86,7 @@ The rule turns into two limits, step by step:
 
 > **Key point:** A value's z-score counts how many standard deviations it lies from the mean, so "outside mean ± 3 standard deviations" is the same as "z-score above 3 or below -3".
 
-The **z-score** (G-2141) of a value is the **standardization** (G-1874) formula of Note 24 (Section 5), applied to one value:
+The **z-score** (G-2141) of a value is the **standardization** (G-1874) formula of Note 24 (Section 4), applied to one value:
 
 1. **In words:** subtract the mean of the column, then divide by its standard deviation.
 2. **Formula:**
@@ -210,8 +208,6 @@ Trimming is a filter: keep only the rows whose CGPA lies between the two limits.
 > trimmed = df[~is_outlier]
 > trimmed.shape    # (995, 3)
 > ```
-
-> **Extra:** It is safer to use the variables `upper_limit` and `lower_limit` than to type rounded limits such as 8.80 and 5.11 by hand. A rounded upper limit of 8.80 is slightly below the true 8.8089, so a CGPA of 8.805 would wrongly count as an outlier. In this data no CGPA lies in that gap, so both ways give the same 995 rows.
 
 ## 9. Trimming with the z-score column
 
@@ -376,7 +372,7 @@ In Figure 10, watch the grey band: half of the rule is spent on impossible negat
 | Bell curve | The curve of a normal distribution |
 | 68-95-99.7 rule (empirical rule) | In a normal feature, about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean |
 | Z-score | How many standard deviations a value lies from the mean: $(x - \mu)/\sigma$ |
-| Tail | The part of a distribution far from the centre, where values are rare |
+| Tail (G-1942) | The part of a distribution far from the centre, where values are rare |
 | Outlier | A value far from the rest of the data |
-| Upper / lower limit | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers |
+| Upper / lower limit (G-2062) | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers |
 | `np.where` | NumPy function that picks one value where a condition is true and another where it is false |

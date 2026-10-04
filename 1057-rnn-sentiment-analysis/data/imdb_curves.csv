@@ -1,31 +1,31 @@
 approach,seed,epoch,accuracy,val_accuracy
 integer encoding,0,1,0.4967,0.5012
-integer encoding,0,2,0.5016,0.5014
-integer encoding,0,3,0.5024,0.5013
-integer encoding,0,4,0.5026,0.501
-integer encoding,0,5,0.5036,0.5013
-integer encoding,1,1,0.5024,0.5039
-integer encoding,1,2,0.5016,0.5043
-integer encoding,1,3,0.5043,0.5081
-integer encoding,1,4,0.5049,0.5074
-integer encoding,1,5,0.5055,0.5048
-integer encoding,2,1,0.5002,0.5048
+integer encoding,0,2,0.501,0.5012
+integer encoding,0,3,0.5024,0.5014
+integer encoding,0,4,0.5021,0.501
+integer encoding,0,5,0.5005,0.5014
+integer encoding,1,1,0.5035,0.5038
+integer encoding,1,2,0.5016,0.5042
+integer encoding,1,3,0.504,0.5072
+integer encoding,1,4,0.505,0.5062
+integer encoding,1,5,0.5052,0.5057
+integer encoding,2,1,0.5002,0.5047
 integer encoding,2,2,0.5052,0.5052
-integer encoding,2,3,0.5044,0.503
-integer encoding,2,4,0.5038,0.5058
+integer encoding,2,3,0.5044,0.5032
+integer encoding,2,4,0.5036,0.5058
 integer encoding,2,5,0.5052,0.5055
-embedding,0,1,0.6434,0.7806
-embedding,0,2,0.8286,0.8056
-embedding,0,3,0.8694,0.8019
-embedding,0,4,0.8914,0.8022
-embedding,0,5,0.9051,0.794
-embedding,1,1,0.5519,0.7284
-embedding,1,2,0.7953,0.8014
-embedding,1,3,0.863,0.7987
-embedding,1,4,0.8855,0.7988
-embedding,1,5,0.9014,0.7942
-embedding,2,1,0.5373,0.6184
-embedding,2,2,0.773,0.7873
-embedding,2,3,0.853,0.807
-embedding,2,4,0.8812,0.8029
-embedding,2,5,0.897,0.7974
+embedding,0,1,0.6454,0.7817
+embedding,0,2,0.8298,0.794
+embedding,0,3,0.8689,0.8023
+embedding,0,4,0.8923,0.7969
+embedding,0,5,0.905,0.7931
+embedding,1,1,0.5475,0.6375
+embedding,1,2,0.7909,0.8072
+embedding,1,3,0.8603,0.7985
+embedding,1,4,0.8852,0.7932
+embedding,1,5,0.9056,0.7935
+embedding,2,1,0.532,0.6505
+embedding,2,2,0.7637,0.8059
+embedding,2,3,0.8451,0.7992
+embedding,2,4,0.875,0.7964
+embedding,2,5,0.8935,0.7989

@@ -57,6 +57,8 @@ Model B has the higher precision, matching the choice above. Figure 2 shows wher
 
 ![The confusion matrices of the two spam filters, both with accuracy 0.80. Precision reads the outlined column, everything predicted spam: 100 of 200 for model A (0.50), 100 of 110 for model B (0.91).](images/spam_matrices.png)
 
+> **Extra:** The precision formula has no TN in it. Suppose model A were tested on 100 times more normal email, with TN 70,000 instead of 700 and nothing else changed: its precision would still be $100 / 200 = 0.50$. So when real positives are rare and negatives are plentiful, as with a rare disease, precision still reports honestly on the positive predictions (StatQuest, "ROC and AUC, Clearly Explained!").
+
 ## 3. Recall
 
 > **Key point:** Recall = TP / (TP + FN). Use it when false negatives are the expensive mistake.
@@ -90,9 +92,11 @@ In words: of everything that **really** is positive, how much did the model catc
 - Model A: $150 / (150 + 10) = 0.94$.
 - Model B: $100 / (100 + 60) = 0.63$.
 
-Model A has the higher recall, matching the choice above.
+Model A has the higher recall, matching the choice above. Figure 3 shows where the two numbers come from: recall reads only the outlined "actual cancer" row, and model B's row holds six times as many missed patients.
 
-> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (G-2022) (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994).
+![The confusion matrices of the two cancer detectors, both with accuracy 0.90. Recall reads the outlined row, everyone who really has cancer: 150 of 160 for model A (0.94), 100 of 160 for model B (0.63).](images/cancer_matrices.png)
+
+> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (G-2022) (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994). Its partner for the negatives is **specificity** (G-2209), $TN / (TN + FP)$: of everyone who really is negative, the fraction the model cleared. The two names return in the [ROC curve Note](../78-roc-auc/note.md).
 
 ### 3.3 Choosing between them
 
@@ -107,7 +111,7 @@ Model A has the higher recall, matching the choice above.
 
 Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). A later Note looks at this trade-off (scikit-learn docs, "Precision-Recall" example).
 
-Figure 3 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
+Figure 4 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
 
 ![The decision threshold slides across the heart-disease test set. Each dot is a patient at its predicted probability of disease, in the lane of its true class; the shaded side is flagged. Green: caught; orange: missed; red: false alarm; grey: correctly cleared. Right: precision, recall and F1 at that threshold](images/threshold_sweep.gif)
 
@@ -164,7 +168,7 @@ On the heart-disease test set of the previous Note:
 | Logistic regression (standardised) | 0.800 | 0.966 | 0.875 |
 | Decision tree | 0.788 | 0.897 | 0.839 |
 
-Logistic regression misses fewer patients (higher recall), which matters most for a disease. Figure 5 draws the table: the two models are close on precision, and the gap in recall carries over into F1.
+Logistic regression misses fewer patients (higher recall), which matters most for a disease. Figure 6 draws the table: the two models are close on precision, and the gap in recall carries over into F1.
 
 ![Precision, recall and F1 on the 61 heart-disease test patients: standardised logistic regression (blue) and a decision tree (orange).](images/heart_scores.png)
 
@@ -178,7 +182,7 @@ Logistic regression misses fewer patients (higher recall), which matters most fo
 
 > **Key point:** Each class in turn is treated as "positive" and all the others as "negative".
 
-A model sorts 108 animals into dog, cat and rabbit (Figure 6).
+A model sorts 108 animals into dog, cat and rabbit (Figure 7).
 
 ![A three-class confusion matrix with per-class precision and recall](images/multiclass.png){height=48%}
 
@@ -234,6 +238,8 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 **Built from**
 
 - CampusX, "Precision, Recall and F1 Score | Classification Metrics Part 2", YouTube, https://www.youtube.com/watch?v=iK-kdhJ-7yI
+- StatQuest with Josh Starmer, "Machine Learning Fundamentals: Sensitivity and Specificity", YouTube, https://www.youtube.com/watch?v=vP06aMoz4v8. Sensitivity and specificity as the medical names (Section 3.2).
+- StatQuest with Josh Starmer, "ROC and AUC, Clearly Explained!", YouTube, https://www.youtube.com/watch?v=4jRBRDbJemM. Precision does not use the true negatives (Section 2.2, Extra).
 
 **Other references**
 
@@ -247,6 +253,7 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 |---|---|
 | Precision | Of all items predicted positive, the fraction that really are positive |
 | Recall (sensitivity) | Of all items that really are positive, the fraction the model found |
+| Specificity (G-2209) | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP) |
 | F1 score | The harmonic mean of precision and recall |
 | Harmonic mean | An average that stays close to the smaller of the values: $2ab/(a + b)$ for two values |
 | Support | The number of items that really belong to a class |

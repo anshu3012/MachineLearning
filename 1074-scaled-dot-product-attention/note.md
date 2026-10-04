@@ -52,7 +52,7 @@ The scaled weights are less extreme (Figure 2): "bank" still attends most to its
 
 ## 4. Longer vectors give more spread-out dot products
 
-> **Key point:** The **variance** (G-2078) of a dot product grows in proportion to the length of the vectors. Dot products of 1,000-number vectors have about 350 times the variance of those of 3-number vectors.
+> **Key point:** The **variance** (G-2074) of a dot product grows in proportion to the length of the vectors. Dot products of 1,000-number vectors have about 350 times the variance of those of 3-number vectors.
 
 Each score in $QK^T$, an **attention score** (G-223), is a dot product of two vectors. Take 1,000 pairs of random vectors, every number drawn independently with mean 0 and variance 1, and compute the 1,000 dot products. Then repeat with longer vectors (Notebook):
 
@@ -209,7 +209,7 @@ The outputs agree too: the largest difference over the $3 \times 8$ numbers is $
 | Scaled dot-product attention | $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$: self-attention with the scores divided by $\sqrt{d_k}$ |
 | $d_k$ | The number of values in each key vector (and query vector) |
 | Attention score | The dot product of one query with one key, before the softmax |
-| Variance | The average squared distance of values from their mean; a measure of spread |
+| Variance (G-2074) | The average squared distance of values from their mean; a measure of spread |
 | Saturated softmax | A softmax whose inputs are so far apart that one weight is near 1 and the rest near 0 |
 | Softmax gradient | $\partial\alpha_i/\partial s_i = \alpha_i(1 - \alpha_i)$ and $\partial\alpha_i/\partial s_j = -\alpha_i\alpha_j$; near 0 everywhere when the softmax is saturated |
 | Scaling factor | The number $1/\sqrt{d_k}$ that multiplies every score |

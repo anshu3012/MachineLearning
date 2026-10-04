@@ -110,8 +110,6 @@ The Notebook takes 10,000 random directions in 100 dimensions and runs 60 steps 
 
 Watch the red lines move in while the middle of the histogram stays put. The root-mean-square cosine drops to the floor, 0.0995, within 10 steps and cannot go lower; the share of pairs within 89–91 degrees stays near 13 percent.
 
-> **Extra:** Sanderson's version of this experiment, with 10,000 vectors in 100 dimensions, describes every angle ending up between 89 and 91 degrees. The bound above rules that out for those sizes: at least one pair must be 5.7 degrees or more from perpendicular. The point of his picture still holds: 100 times more directions than dimensions fit with every pair within about 16 degrees of perpendicular, and section 6 shows how fast the room grows with the dimension.
-
 ## 6. The room grows exponentially with the dimension
 
 > **Key point:** The Johnson–Lindenstrauss lemma implies that the dimension needed for $n$ nearly perpendicular directions grows only with $\log n$. Turned around, the number of directions that fit grows exponentially with the dimension: going from about 5,900 to 11,800 dimensions raises the guaranteed count from a thousand to a million.

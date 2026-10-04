@@ -61,7 +61,7 @@ The description raised the belief (from 4.8% to 16.7%), but did not decide it. T
 
 > **Key point:** Posterior = likelihood × prior / evidence. The prior is the belief before the evidence, the posterior the belief after it.
 
-Every step of the puzzle has a standard name. The statement we want to judge, "Steve is a librarian", is the **hypothesis** $H$. The thing we observed, the description, is the **evidence** $E$. The bar in $P(H \mid E)$ reads "given": we look only at the cases where $E$ holds (**conditional probability**, G-444, [Note 82](../82-conditional-probability/note.md)).
+Every step of the puzzle has a standard name. The statement we want to judge, "Steve is a librarian", is the **hypothesis** (G-2214) $H$. The thing we observed, the description, is the **evidence** $E$. The bar in $P(H \mid E)$ reads "given": we look only at the cases where $E$ holds (**conditional probability**, G-444, [Note 82](../82-conditional-probability/note.md)).
 
 | Step of the puzzle | Number | Name | Symbol |
 |---|---|---|---|
@@ -235,7 +235,7 @@ Seeing one word moved the belief about an email from 20% to 75%. A spam filter d
 | Term | Meaning |
 |---|---|
 | Bayes' theorem (G-269) | $P(A \mid B) = P(B \mid A) P(A) / P(B)$: the rule that reverses a conditional probability |
-| Hypothesis | The statement whose probability we want, such as "Steve is a librarian" or "the email is spam" |
+| Hypothesis (G-2214) | The statement whose probability we want, such as "Steve is a librarian" or "the email is spam" |
 | Prior (G-1565) | The probability of an event before any evidence is seen |
 | Likelihood (G-1086) | The probability of the observed evidence if a given event is true |
 | Evidence (G-718) | The overall probability of the observed evidence |

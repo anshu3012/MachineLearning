@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node[box=cblue, minimum width=3.8cm] (d) at (0,0) {Past sales data\\incl.\ earlier festival sales};
+  \node[box=cgrey, minimum width=3.4cm] (m) at (5.6,0) {Data mining\\and ML};
+  \node[box=cgreen, minimum width=4.4cm] (up) at (11.6,1.1) {Sells far more in the sale\\stock up};
+  \node[box=corange, minimum width=4.4cm] (no) at (11.6,-1.1) {Sells about the same\\leave the stock alone};
+  \draw[arrow] (d) -- (m);
+  \draw[arrow] (m.east) -- (up.west);
+  \draw[arrow] (m.east) -- (no.west);
+  \node[note] at (5.6,-1.5) {one prediction per product};
+\end{tikzpicture}
+\end{document}

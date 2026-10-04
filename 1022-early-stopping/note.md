@@ -42,7 +42,7 @@ The Notebook (`notebook.ipynb`) runs every step.
 
 > **Key point:** 100 points in two noisy circles; one hidden layer of 256 ReLU nodes.
 
-The data comes from scikit-learn's `make_circles` (G-1148): 100 points, an inner circle (class 1) inside an outer one (class 0), with noise. The data uses three terms:
+The data comes from scikit-learn's `make_circles` (G-110): 100 points, an inner circle (class 1) inside an outer one (class 0), with noise. The data uses three terms:
 
 - each point is an **observation** (G-1374; one record, one row of the data table);
 - its two coordinates are the **features** (G-772; the input variables);
@@ -56,7 +56,7 @@ The network has three layers:
 - one **hidden layer** (G-890) of 256 **ReLU** (G-1668) nodes;
 - a **sigmoid** (G-1798) output node.
 
-That makes 1,025 **trainable parameters** (G-1999). The network is compiled with **Adam** (G-169) and **binary cross-entropy** (G-304).
+That makes 1,025 **trainable parameters** (G-1065). The network is compiled with **Adam** (G-169) and **binary cross-entropy** (G-303).
 
 > **Python:** The data and the network.
 >
@@ -197,6 +197,10 @@ For a loss, lower is better, so training stops when it stops decreasing (`mode="
 **Patience** (G-1466) is the number of epochs without improvement that Keras waits before stopping. With `patience=3`, it waits 3 epochs; with `patience=5`, 5. Waiting matters because the validation loss does not move smoothly: it can rise for a few epochs and then fall again.
 
 Our data shows this. In the first epochs the validation loss rises a little, from 0.6892 at epoch 1 to 0.6947 at epoch 10, before it starts its long fall. With `patience=20` the Notebook stops at epoch 21 with 50% validation accuracy, before the network has learned anything. With `patience=50` it waits out this bump.
+
+![Keras' stopping rule replayed on the validation loss of section 3. Left: the first 60 epochs; patience 20 stops at epoch 21. Right: the first 600 epochs; patience 50 stops at epoch 503, 34 epochs after the best one.](images/patience.png)
+
+Figure 4 shows why epoch 21. The best validation loss so far is still the one of epoch 1, 0.6892: the loss rose until epoch 10 and at epoch 21 it is falling again but has not yet got back below 0.6892. So epochs 2 to 21 are 20 epochs "without improvement", and patience 20 is used up just as the network starts to learn. Patience 50 lasts long enough for the loss to beat its epoch-1 value (at epoch 25), and then the counter only runs out after the true best epoch, 469.
 
 ### 5.3 baseline
 

@@ -145,7 +145,7 @@ Figure 7 shows the rule as a shape: the pair counts form a tent, peaking at 6 fo
 
 > **Key point:** The Bernoulli PMF describes one yes/no trial; the binomial PMF counts the successes in $n$ such trials.
 
-Many discrete experiments follow a famous PMF (see Figure 4 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)). Two of them come up constantly, Bernoulli and binomial, taught in full in the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md).
+Many discrete experiments follow a famous PMF (see Figure 6 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md)). Two of them come up constantly, Bernoulli and binomial, taught in full in the [Bernoulli and binomial Note](../270-bernoulli-and-binomial/note.md).
 
 ### 7.1 Bernoulli distribution
 

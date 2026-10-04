@@ -188,7 +188,7 @@ Figure 1 shows the data flow for one observation.
 2. **LSTM.** The LSTM reads the 50 vectors one time step at a time. After the last one it outputs its hidden state $h_{50}$, 150 numbers, one per unit (see the [LSTM architecture Note](../1062-lstm-architecture/note.md)). This is a many-to-one RNN.
 3. **Dense.** $h_{50}$ goes to a layer of 3,000 nodes with a softmax activation, which gives one probability per vocabulary word.
 
-The model is compiled with the **categorical cross-entropy** (G-350) loss (the loss for multi-class classification with one-hot targets; see the [loss functions Note](../1014-dl-loss-functions/note.md)), the Adam optimizer, and accuracy as the metric.
+The model is compiled with the **categorical cross-entropy** (G-349) loss (the loss for multi-class classification with one-hot targets; see the [loss functions Note](../1014-dl-loss-functions/note.md)), the Adam optimizer, and accuracy as the metric.
 
 > **Python:** The model.
 >
@@ -237,12 +237,12 @@ Figure 5 shows one run. Every seed keeps epoch 6. After it, the training loss ke
 
 ### 7.2 Comparing with simple guessing rules
 
-> **Key point:** A score means something only next to a baseline. The LSTM beats both baselines in every one of its 5 runs.
+> **Key point:** A score means something only next to a **baseline** (G-2270). The LSTM beats both baselines in every one of its 5 runs.
 
 A next-word accuracy of 17.5% sounds low, so we compare it with two simple rules, both built from the training pairs and scored on the same test pairs:
 
 - **Most common word:** always guess the most frequent next word, "the".
-- **Bigram:** guess the word that most often follows the previous word in the training text (a **bigram** is a pair of consecutive words). If the previous word never appeared, guess "the".
+- **Bigram:** guess the word that most often follows the previous word in the training text (a **bigram** (G-2269) is a pair of consecutive words). If the previous word never appeared, guess "the".
 
 ![Next-word accuracy on the 11,366 test pairs. The LSTM bar is the mean of 5 seeds; the error bar is one standard deviation](images/baselines.png){width=95%}
 
@@ -371,5 +371,5 @@ The text is also repetitive: different prompts lead into the same phrase, and "s
 | Softmax output layer | A layer with one node per class whose outputs are probabilities that add up to 1 |
 | Overfitting | Fitting the training data well but new data poorly |
 | Out-of-vocabulary (OOV) token | `[UNK]`, the placeholder for every word outside the vocabulary |
-| Bigram | A pair of consecutive words; the bigram rule guesses the word that most often follows the previous one |
-| Baseline | A simple rule whose score a model must beat to show it has learned something |
+| Bigram (G-2269) | A pair of consecutive words; the bigram rule guesses the word that most often follows the previous one |
+| Baseline (G-2270) | A simple rule whose score a model must beat to show it has learned something |

@@ -149,7 +149,11 @@ The rule for the distance between two clusters is called the **linkage** (G-1104
 
 With the updated matrix, the next smallest distance is 1.41 (P1 to P2), so they merge into $C_2 = \lbrace P_1, P_2\rbrace$. Then $C_1$ and $P_5$ merge at 2.00 into $C_3 = \lbrace P_3, P_4, P_5\rbrace$. Finally $C_2$ and $C_3$ merge at their closest pair, P2 to P3: 3.61.
 
-Single linkage separates groups well when there is a clear gap between them (Figure 6, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 6 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
+Figure 6 plays these merges. In every frame the red outline marks the smallest distance off the diagonal; the two clusters it names merge, their two rows and columns become one, and the matrix shrinks: 5 × 5, 4 × 4, 3 × 3, 2 × 2, 1 × 1. Watch the new row: each of its entries is the smaller of the two entries it replaces.
+
+![The proximity matrix shrinking merge by merge with single linkage on the five points. Left: the points, one colour per cluster; the dashed line is the closest pair. Right: the current matrix with its smallest off-diagonal distance outlined.](images/matrix_shrink.gif)
+
+Single linkage separates groups well when there is a clear gap between them (Figure 7, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 7 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
 
 ### 8.2 Complete linkage (max)
 
@@ -160,7 +164,7 @@ Single linkage separates groups well when there is a clear gap between them (Fig
    $$d_{\text{complete}}(A, B) = \max_{a \in A,\thinspace b \in B} d(a, b)$$
 3. **Example:** $C_1 = \lbrace P_3, P_4\rbrace$ to $P_5$ is $\max(2.24, 2.00) = 2.24$. At the last step, $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ is the largest of six distances: 7.07 (P1 to P5).
 
-Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 6 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
+Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 7 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
 
 ### 8.3 Average linkage
 
@@ -192,7 +196,7 @@ Each merge thus keeps the clusters as tight as possible, which is the same goal 
 
 > **Key point:** No linkage wins everywhere: single needs clean gaps, complete and Ward prefer compact groups of similar size.
 
-Figure 6 runs all four linkages, with 2 clusters, on three datasets:
+Figure 7 runs all four linkages, with 2 clusters, on three datasets:
 
 - **Moons with a clear gap (top):** only single linkage separates the two moons; the others cut across them.
 - **Noisy moons (middle):** single linkage chains everything into one cluster and leaves one point alone. Complete, average and Ward give rough splits.
@@ -215,11 +219,11 @@ The vertical lines of a dendrogram measure distance between clusters: the longer
 3. Cut horizontally through the middle of that stretch.
 4. The number of vertical lines the cut crosses is the number of clusters.
 
-Figure 7 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized (the [standardization Note](../24-standardization/note.md)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 8).
+Figure 8 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized (the [standardization Note](../24-standardization/note.md)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 9).
 
 ![Ward dendrogram of the 200 customers (standardized features); the cut at 7 gives 5 clusters](images/dendrogram_cut.png){height=48%}
 
-> **Extra:** The rule is a guide, not a proof. The blue band in Figure 7, from 10.14 to 15.19, is nearly as long (5.04), and a cut there gives 3 clusters. On data we cannot plot, both candidates are worth inspecting. Scaling matters here too: on the raw, unscaled features the two bands swap order (131.8 against 132.3) and the rule would pick 3 clusters (Notebook). Standardizing gives both features the same say in the distances.
+> **Extra:** The rule is a guide, not a proof. The blue band in Figure 8, from 10.14 to 15.19, is nearly as long (5.04), and a cut there gives 3 clusters. On data we cannot plot, both candidates are worth inspecting. Scaling matters here too: on the raw, unscaled features the two bands swap order (131.8 against 132.3) and the rule would pick 3 clusters (Notebook). Standardizing gives both features the same say in the distances.
 
 ## 10. AgglomerativeClustering in scikit-learn
 
@@ -232,7 +236,7 @@ Figure 7 is the Ward dendrogram of 200 shopping-mall customers (section 10). Lik
 `AgglomerativeClustering` (in `sklearn.cluster`) has four important hyperparameters:
 
 - **`n_clusters`**: how many clusters to return, i.e. where to cut the tree. Default 2.
-- **`metric`**: how to measure the distance between two points: `"euclidean"` (default), `"manhattan"`, `"cosine"`, `"l1"` or `"l2"`. Ward linkage accepts only Euclidean.
+- **`metric`**: how to measure the distance between two points: `"euclidean"` (default), `"manhattan"`, `"cosine"`, `"l1"` or `"l2"`. Ward linkage accepts only Euclidean. Euclidean is the straight-line distance; Manhattan adds up the absolute differences feature by feature (both are **Minkowski distances**, G-1227: the [KNN Note](../91-knn/note.md)).
 - **`linkage`**: `"ward"` (default), `"complete"`, `"average"` or `"single"`.
 - **`distance_threshold`**: cut the tree at this height instead of at a number of clusters: clusters whose linkage distance is at or above the threshold are not merged. `distance_threshold` needs `n_clusters=None`.
 
@@ -265,7 +269,7 @@ The file `data/shopping_data.csv` describes 200 customers of a shopping mall. Ea
 >
 > `linkage` returns one row per merge: the two clusters merged, the distance and the new size. `dendrogram(..., no_plot=True)` only computes the line coordinates (`icoord`, `dcoord`), which the Notebook draws with Plotly.
 
-The five clusters have 32, 39, 85, 21 and 23 customers (Figure 8):
+The five clusters have 32, 39, 85, 21 and 23 customers (Figure 9):
 
 - high income, low spending (blue);
 - high income, high spending (orange): the mall's best customers;
@@ -284,11 +288,11 @@ A marketing team could now treat each group differently. The same method could, 
 Strengths:
 
 - **Widely applicable:** with four linkages to choose from, it can cluster data that k-means cannot.
-- **The dendrogram:** the tree shows, at every level, which point or group is closest to which. k-means only says which cluster a point is in, not which other points are its closest relatives.
+- **The dendrogram:** the tree shows, at every level, which point or group is closest to which. k-means only says which cluster a point is in, not which other points are its closest relatives. The clustermap (the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md), section 8) uses exactly this tree to reorder the rows and columns of a heatmap so that similar ones sit together.
 
 Limitation:
 
-- **Big datasets:** the proximity matrix has $n \times n$ entries. With $10^6$ (ten lakh) points the matrix holds $10^{12}$ distances. At 8 bytes per number, $10^{12}$ distances take 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets (Figure 9).
+- **Big datasets:** the proximity matrix has $n \times n$ entries. With $10^6$ (ten lakh) points the matrix holds $10^{12}$ distances. At 8 bytes per number, $10^{12}$ distances take 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets (Figure 10).
 
 ![Memory for the full proximity matrix at 8 bytes per distance. The 200 customers of section 10 need 320 KB; a million points need 8 TB, far above 16 GB of RAM. Both axes are logarithmic](images/memory.png){width=85%}
 

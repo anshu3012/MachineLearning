@@ -40,7 +40,7 @@ Independent events **can** happen together. What makes them independent is that 
 
 > **Key point:** A coin has no memory; two dice do not influence each other.
 
-- **Coin tosses.** A fair coin has come up heads three times in a row. The probability of heads on the next toss is still $1/2$: the coin has no memory of earlier tosses. Believing that tails is now "due" is a common mistake called the **gambler's fallacy**. In a simulation of a million sequences of four tosses, the fourth toss was heads in 49.9% of the cases that started with three heads.
+- **Coin tosses.** A fair coin has come up heads three times in a row. The probability of heads on the next toss is still $1/2$: the coin has no memory of earlier tosses. Believing that tails is now "due" is a common mistake called the **gambler's fallacy** (G-2213). In a simulation of a million sequences of four tosses, the fourth toss was heads in 49.9% of the cases that started with three heads.
 - **Two dice.** Die 1 shows 3. The probability that die 2 shows 6 is still $1/6$: what one die shows does not affect the other.
 
 Check the definition with the dice. Let $A$ be "die 2 shows 6" and $B$ be "die 1 shows 3". Of the 36 equally likely outcomes, only (3, 6) is in both, so
@@ -133,5 +133,5 @@ Figure 6 shows the product: each word's probability is estimated on its own, the
 |---|---|
 | Independent events | Events where one happening does not change the probability of the other |
 | Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$ |
-| Gambler's fallacy | The mistaken belief that after a run of heads, tails is "due"; independent tosses have no memory |
+| Gambler's fallacy (G-2213) | The mistaken belief that after a run of heads, tails is "due"; independent tosses have no memory |
 | Dependent events | Events that are not independent: knowing one changes the probability of the other |

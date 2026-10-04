@@ -36,7 +36,7 @@ KNN does it in five steps:
 1. **Choose k**, the number of neighbours to consult, for example k = 3.
 2. **Measure** the distance from the query point to every training point. With 100 students, that is 100 distances. The usual choice is the **Euclidean distance** (G-715; the [KNN imputer Note](../39-knn-imputer/note.md), section 4.1): the square root of the summed squared differences, feature by feature.
 3. **Sort** the distances from smallest to largest.
-4. **Keep the k nearest** training points: the **neighbours** (G-1313).
+4. **Keep the k nearest** training points: the **neighbours** (G-1306).
 5. **Vote** (a **majority vote**, G-1146): each neighbour "says" its class, and the class with the most votes wins. If the 3 neighbours say 1, 1 and 0, the prediction is 1 (placed).
 
 Figure 1 runs these steps on one test tumour from the breast cancer data of section 3 (two scaled features, k = 5). Watch the circle grow until it holds exactly 5 training tumours; the vote is then 3 benign to 2 malignant, so the prediction is benign.
@@ -306,7 +306,7 @@ KNN is **lazy learning** (G-1057; **instance-based learning**, G-955, [Note 6](.
 
 So training is fast and prediction is slow. With 500,000 observations and 100 features, every single prediction needs 500,000 distances and a sort. On a website, a user who clicks "predict" and waits 3 seconds may simply leave; internet companies care a lot about **latency** (G-1048), the delay between a request and its answer.
 
-Figure 7 measures the two times on random data with 30 features. "Training" on 500,000 observations takes about 28 milliseconds, while predicting 1,000 new observations takes about 720 milliseconds, and the prediction time grows with n. The exact times depend on the computer and how busy it is; a re-run of the notebook on a busy machine was slower overall, but prediction was again about 30 times slower than training.
+Figure 7 measures the two times on random data with 30 features. "Training" on 500,000 observations takes about 28 milliseconds, while predicting 1,000 new observations takes about 720 milliseconds, and the prediction time grows with n. The exact times depend on the computer.
 
 ![Fit time and prediction time of KNN (brute-force search) as the training set grows](images/predict_time.png){height=38%}
 
@@ -316,7 +316,7 @@ Figure 7 measures the two times on random data with 30 features. "Training" on 5
 
 > **Key point:** With many features, the curse of dimensionality makes all points nearly equally far apart, and KNN depends entirely on distances.
 
-With many features, say 500, the **curse of dimensionality** (G-520; the [curse of dimensionality Note](../46-curse-of-dimensionality/note.md)) sets in. In high dimensions the farthest point is barely farther than the nearest one (Figure 5 of that Note: 67 times farther in 2 features, only 1.1 times in 1,000).
+With many features, say 500, the **curse of dimensionality** (G-520; the [curse of dimensionality Note](../46-curse-of-dimensionality/note.md)) sets in. In high dimensions the farthest point is barely farther than the nearest one (Figure 4 of that Note: 67 times farther in 2 features, only 1.1 times in 1,000).
 
 When every point is about equally far, the "nearest" neighbours are not really near, so their votes say little about the query point. KNN relies on nothing but distances, so once distances are distorted, its predictions are too (ISL §3.5). For very high-dimensional data, we either avoid KNN or first reduce the number of features.
 
@@ -369,7 +369,7 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 **Built from**
 
 - CampusX, "What is K Nearest Neighbors? | KNN Explained in Hindi | Simple Overview in 1 Video | CampusX", YouTube, https://www.youtube.com/watch?v=abnL_GUGub4
-- Starmer, J. (StatQuest). "K-nearest neighbors, Clearly Explained." statquest.org. The idea of placing a new point among labelled points and letting its nearest neighbours vote (Figure 1); the growing circle is our own.
+- StatQuest with Josh Starmer, "StatQuest: K-nearest neighbors, Clearly Explained", YouTube, https://www.youtube.com/watch?v=HVXime0nQeI. The idea of placing a new point among labelled points and letting its nearest neighbours vote (Figure 1); the growing circle is our own.
 
 **Other references**
 
@@ -382,13 +382,13 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 |---|---|
 | k (n_neighbors) | The number of neighbours that vote; KNN's main hyperparameter |
 | Query point | The new point whose class we want to predict |
-| Neighbours | The k training points closest to the query point |
+| Neighbours (G-1306) | The k training points closest to the query point |
 | Majority vote | Predicting the class that most of the neighbours have |
 | KNeighborsClassifier | scikit-learn's KNN classifier; `n_neighbors=5` by default |
 | Square-root rule | A rough starting value for k: about $\sqrt{n}$, made odd |
 | Decision surface | A plot colouring every point of the input space by the class the model would predict there |
 | meshgrid | NumPy function that builds every combination of x and y values: the grid for a decision surface |
 | Latency | The delay between a request and its answer; high for KNN on large data |
-| Inference | Learning how the features affect the target, rather than only predicting it |
-| Black box model | A model that gives predictions without showing how each feature contributed |
+| Inference (G-941) | Learning how the features affect the target, rather than only predicting it |
+| Black box model (G-311) | A model that gives predictions without showing how each feature contributed |
 | Minkowski distance | A family of distances: p = 2 is Euclidean, p = 1 is Manhattan |

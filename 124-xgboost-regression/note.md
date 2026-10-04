@@ -44,7 +44,7 @@ As in gradient boosting, the first model ignores the feature and predicts the me
 
 $$f_0 = \frac{4.5 + 11 + 6 + 8}{4} = \frac{29.5}{4} = 7.375$$
 
-The **residuals** (G-1685; pseudo-residuals, see the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md)) are actual minus predicted:
+The **residuals** (G-705; pseudo-residuals, see the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md)) are actual minus predicted:
 
 | Student | CGPA | Package | Prediction 1 | Residual 1 |
 |---|---|---|---|---|

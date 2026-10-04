@@ -94,11 +94,11 @@ With numbers: the first student of Figure 1 has the row $[1, 6.89]$. With the co
 
 > **Key point:** The vector of errors is $e = y - X\beta$. The sum of squared errors is $e^{\mathsf T}e$.
 
-For each student, the error is the real package minus the predicted one. This error on one observation is called a **residual** (G-1685). The residuals of all observations form a vector:
+For each student, the error is the real package minus the predicted one. This error on one observation is called a **residual** (G-705). The residuals of all observations form a vector:
 
 $$e = y - \hat{y} = y - X\beta$$
 
-The **sum of squared errors** (G-1913), $E = e_1^2 + e_2^2 + \dots + e_n^2$, is a row times a column: the **transpose** (G-2012) $e^{\mathsf T}$ (the same numbers written as a row) multiplied by $e$.
+The **sum of squared errors** (G-1684), $E = e_1^2 + e_2^2 + \dots + e_n^2$, is a row times a column: the **transpose** (G-2012) $e^{\mathsf T}$ (the same numbers written as a row) multiplied by $e$.
 
 $$E = e^{\mathsf T}e = (y - X\beta)^{\mathsf T}(y - X\beta)$$
 
@@ -131,7 +131,7 @@ $$E = y^{\mathsf T}y - 2y^{\mathsf T}X\beta + \beta^{\mathsf T}X^{\mathsf T}X\be
 
 > **Key point:** Differentiating E with respect to $\beta$ and setting it to zero gives $X^{\mathsf T}X\beta = X^{\mathsf T}y$.
 
-As in simple linear regression, the best coefficients sit at the bottom of the error bowl, where the derivative is zero. Now the derivative is taken with respect to the whole vector $\beta$: it is a vector of $m + 1$ **partial derivatives** (G-1457), one per coefficient, called the **gradient** (G-865), and all its entries must be zero.
+As in simple linear regression, the best coefficients sit at the bottom of the error bowl, where the derivative is zero. Now the derivative is taken with respect to the whole vector $\beta$: it is a vector of $m + 1$ **partial derivatives** (G-1457), one per coefficient, called the **gradient** (G-863), and all its entries must be zero.
 
 Two rules of **matrix calculus** (G-1176) do the work, the matrix versions of "the derivative of $ax$ is $a$" and "the derivative of $ax^2$ is $2ax$":
 
@@ -267,8 +267,8 @@ For most tabular data the number of features is small, and `LinearRegression` is
 | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression |
 | Inverse matrix | The matrix that undoes another: their product is the identity matrix |
-| Residual | The error on one observation: actual minus predicted value |
+| Residual (G-705) | The error on one observation: actual minus predicted value |
 | Closed-form solution | An answer given directly by a formula |
-| Ordinary least squares (OLS) | The closed-form method for linear regression: the coefficients with the smallest sum of squared errors |
+| Ordinary least squares (OLS) (G-1406) | The closed-form method for linear regression: the coefficients with the smallest sum of squared errors |
 | Column space | All the vectors that can be built as weighted sums of a matrix's columns |
 | Identity matrix | The square matrix with 1s on the diagonal and 0s elsewhere; multiplying by it changes nothing |

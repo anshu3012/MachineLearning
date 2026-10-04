@@ -26,7 +26,7 @@ The Note uses the dot product and its geometric form from the [dot product and c
 
 > **Key point:** A line in 2D becomes a plane in 3D and a hyperplane beyond; models that classify with a straight boundary need its equation in any dimension.
 
-In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$D the equivalent is a **hyperplane** (G-911; see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)).
+In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$-D the equivalent is a **hyperplane** (G-911; see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)).
 
 ML data is very often high-dimensional. Each **feature** (G-772; an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../70-perceptron-trick/note.md) and [SVM](../92-svm-intuition/note.md), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
 
@@ -58,7 +58,7 @@ Letters $x, y, z$ run out after three dimensions, so we number the axes instead:
 
 - **Line (2D):** $w_1x_1 + w_2x_2 + w_0 = 0$
 - **Plane (3D):** $w_1x_1 + w_2x_2 + w_3x_3 + w_0 = 0$
-- **Hyperplane ($n$D):** $w_1x_1 + w_2x_2 + \dots + w_nx_n + w_0 = 0$
+- **Hyperplane ($n$-D):** $w_1x_1 + w_2x_2 + \dots + w_nx_n + w_0 = 0$
 
 Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ becomes $2x_1 + 3x_2 - 6 = 0$: here $w_1 = 2$, $w_2 = 3$ and $w_0 = -6$. Figure 3 (left) draws it in the school form: slope $-a/b = -2/3$ and intercept $-c/b = 2$. The right panel plugs points into the equation, which section 4 writes as a dot product.
 
@@ -81,7 +81,7 @@ Both are column vectors, the default. Writing the dot product as a row times a c
    $$w^{\mathsf T}x + w_0 = 2 \times 3 + 3 \times 0 - 6 = 0$$
    so $[3, 0]$ lies on the line $2x_1 + 3x_2 - 6 = 0$ (Figure 3, right).
 
-This one equation is valid in 2D, 3D and $n$D: only the number of components of $w$ and $x$ changes. The equation is the same $w \cdot u + b$ that SVM uses in the [SVM maths Note](../93-svm-maths/note.md), with $b = w_0$.
+This one equation is valid in 2D, 3D and $n$-D: only the number of components of $w$ and $x$ changes. The equation is the same $w \cdot u + b$ that SVM uses in the [SVM maths Note](../93-svm-maths/note.md), with $b = w_0$.
 
 ## 5. What $w_0$ means
 
@@ -134,7 +134,7 @@ $$2 \times 3 + 3 \times (-2) = 0, \qquad 2 \times (-1.5) + 3 \times 1 = 0$$
 
 Figure 5 shows the plane $x_1 + 2x_2 + 2x_3 = 0$. Its coefficients form $w = [1, 2, 2]$, drawn in orange. The three blue vectors lie in the plane, for example $[2, -1, 0]$, with $1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$. The orange $w$ stands at 90° to all of them.
 
-So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$D we cannot draw it, but the argument of Section 6.1 never used the number of dimensions.
+So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$-D we cannot draw it, but the argument of Section 6.1 never used the number of dimensions.
 
 > **Python:** Checking that points lie on a hyperplane is one dot product per point.
 >
@@ -182,7 +182,7 @@ All hyperplanes with the same $w$ and different $w_0$ therefore share one normal
 |---|---|---|
 | Line (2D) | $w_1x_1 + w_2x_2 + w_0 = 0$ | $[w_1, w_2]$ |
 | Plane (3D) | $w_1x_1 + w_2x_2 + w_3x_3 + w_0 = 0$ | $[w_1, w_2, w_3]$ |
-| Hyperplane ($n$D) | $w^{\mathsf T}x + w_0 = 0$ | $w$ |
+| Hyperplane ($n$-D) | $w^{\mathsf T}x + w_0 = 0$ | $w$ |
 | Through the origin | $w^{\mathsf T}x = 0$ | $w$ |
 
 - The general form of a line grows into a hyperplane by adding one term per dimension; the sum of terms is a dot product.

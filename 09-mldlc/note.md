@@ -80,7 +80,7 @@ The MLDLC is not yet strictly defined, because ML is still a young field. One bo
 
 > **Key point:** Before doing anything, we decide exactly what we are building, for whom, at what cost and how.
 
-In a company, we work for customers, and every change of direction costs money. We cannot start, realise halfway that we planned the wrong thing, and start again. So the first stage is **framing the problem** (G-803): we answer the big questions before any work begins.
+In a company, we work for customers, and every change of direction costs money. We cannot start, realise halfway that we planned the wrong thing, and start again. So the first stage is **framing the problem** (G-802): we answer the big questions before any work begins.
 
 The questions we answer at this stage:
 
@@ -159,8 +159,8 @@ Three words help from here on. An **observation** (G-1374) is one record (one ro
 > **Key point:** Remove duplicates, deal with missing values and outliers, and put features on similar scales.
 
 - **Remove duplicates:** observations that appear more than once (**duplicate rows**, G-648).
-- **Handle missing values** (G-1235): empty cells. In Figure 2, the empty age was filled with the median, 28.
-- **Remove outliers** (G-1421): values far from the rest, such as the fare of 512 in Figure 5.
+- **Handle missing values** (G-1234): empty cells. In Figure 2, the empty age was filled with the median, 28.
+- **Remove outliers** (G-1420): values far from the rest, such as the fare of 512 in Figure 5.
 - **Scale values:** bring features to similar ranges. The standard term is **feature scaling** (G-767).
 
 Scaling matters because many algorithms compute distances between observations, and a feature in crores would outweigh one in decimals (see Section 7 of the [toy project Note](../13-toy-project/note.md)). One common way to scale is **standardization** (G-1874), the step that turned the age 28 into -0.10 in Figure 2 (see the [standardization Note](../24-standardization/note.md)).
@@ -258,7 +258,7 @@ Then we gather all the results to decide which model to use. **Model training** 
 
 > **Key point:** A performance metric is a number that tells us how well a model works. Each kind of problem has its own metrics.
 
-In the **evaluation** step, we measure every trained model with **performance metrics** (G-1488): numbers that tell us how well a model is working. They let us decide which model performs best. Common examples:
+In the **evaluation** step, we measure every trained model with **performance metrics** (G-1215): numbers that tell us how well a model is working. They let us decide which model performs best. Common examples:
 
 | Problem | Example metric |
 |---|---|
@@ -308,7 +308,7 @@ The result is one strong final model.
 
 > **Key point:** Users never see the model; they see a website or an app that uses it.
 
-Once we have a model that can make predictions, the main work is only beginning. We must turn it into software that people can use: a website, a mobile app or a desktop app. **Model deployment** (G-1252) means putting the model on a server so that it can answer users' requests.
+Once we have a model that can make predictions, the main work is only beginning. We must turn it into software that people can use: a website, a mobile app or a desktop app. **Model deployment** (G-592) means putting the model on a server so that it can answer users' requests.
 
 ### 9.2 How a deployed model answers a request
 
@@ -324,7 +324,7 @@ Figure 8 shows the usual setup.
 
 The server itself is rented from a cloud provider such as Heroku, AWS (Amazon Web Services) or GCP (Google Cloud Platform). Once deployed, the model is online and serving users' requests. Later Notes build complete websites around ML models in this way.
 
-> **Extra:** **JSON** (JavaScript Object Notation) is a plain-text format for structured data, for example `{"prediction": "placed"}`. Heroku ended its free plan on 28 November 2022 (Heroku 2022); Render still has a free plan for small demos (Render docs). Pickle files should only be loaded from trusted sources, because loading a pickle can run code (Python docs, `pickle`).
+> **Extra:** **JSON** (JavaScript Object Notation) is a plain-text format for structured data, for example `{"prediction": "placed"}`. Heroku no longer has a free plan (Heroku 2022); Render has one for small demos (Render docs). Pickle files should only be loaded from trusted sources, because loading a pickle can run code (Python docs, `pickle`).
 
 ## 10. Testing
 
@@ -479,11 +479,11 @@ Where the two differ:
 | SDLC | Software development life cycle: the standard process for building ordinary software |
 | MLDLC | Machine learning development life cycle: the guidelines for building an ML product from idea to product |
 | End-to-end product | A complete product, from raw data to software that users use |
-| Framing the problem | Deciding the goal, users, cost, team and approach before any work starts |
+| Framing the problem (G-802) | Deciding the goal, users, cost, team and approach before any work starts |
 | Data warehouse | A separate store of copied company data, safe to analyse without touching the live database |
 | ETL | Extract, transform, load: copying data from source systems into a warehouse |
 | Dirty data | Data with errors, gaps, duplicates or inconsistencies |
-| Data preprocessing | Changes made to the data before training, so an algorithm can use it |
+| Data preprocessing (G-539) | Changes made to the data before training, so an algorithm can use it |
 | Exploratory data analysis (EDA) | Studying the data with graphs and summaries to find its patterns |
 | Observation | One record: one row of the data table |
 | Feature | An input variable: one column of the data table |
@@ -493,19 +493,19 @@ Where the two differ:
 | Multivariate analysis | Studying three or more features together |
 | Imbalanced data | Data where one class has far more observations than another |
 | Feature engineering | Creating new features, or changing existing ones, to help the model |
-| Model training | Giving data to an algorithm so it learns the pattern |
-| Performance metric | A number that measures how well a model works |
+| Model training (G-1255) | Giving data to an algorithm so it learns the pattern |
+| Performance metric (G-1215) | A number that measures how well a model works |
 | Model selection | Choosing the best one or few algorithms after evaluation |
 | Hyperparameter tuning | Adjusting an algorithm's settings for the best performance |
 | Ensemble learning | Combining several models into one stronger model |
-| Model deployment | Putting a model on a server so users can reach it |
+| Model deployment (G-592) | Putting a model on a server so users can reach it |
 | Binary file | A file that is not plain text, such as a saved model |
 | Pickle | A Python tool for saving a model (or any object) to a file |
-| JSON | A plain-text format for structured data, used by APIs |
+| JSON (G-987) | A plain-text format for structured data, used by APIs |
 | Beta testing | Releasing a new version to a small group of trusted users first |
 | A/B testing | Comparing an old and a new version on two random groups of users |
 | Conversion rate | The share of people reached who become customers |
-| Feature scaling | Putting features on the same scale, so no feature dominates distances |
+| Feature scaling (G-767) | Putting features on the same scale, so no feature dominates distances |
 | Feature selection | Keeping only the useful features and dropping the rest |
 | Imputation | Filling in missing values, for example with the mean or median |
 | Rollback | Returning automatically to the last working version when something breaks |

@@ -132,7 +132,7 @@ In Figure 3, compare the green bars with the blue ones: the plain vote already g
 
 The vote scores **0.81**, clearly above every member (0.71, 0.73 and 0.67). Where the tree makes a jump that the line does not, and the SVR smooths both, the errors partly cancel in the average.
 
-`n_jobs=-1` trains the base models in parallel on all CPU cores. On small data like this it does not pay: in the Notebook one fit takes about 0.1 seconds on one core but several seconds with `n_jobs=-1` (the exact time depends on the machine and its load), because starting parallel work has a cost of its own (scikit-learn User Guide §10.3.1).
+`n_jobs=-1` trains the base models in parallel on all CPU cores. On small data like this it does not pay: in the Notebook one fit takes about 0.1 seconds on one core but several seconds with `n_jobs=-1`, because starting parallel work has a cost of its own (scikit-learn User Guide §10.3.1).
 
 ### 4.3 Weights
 

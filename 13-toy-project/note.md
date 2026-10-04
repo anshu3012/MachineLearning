@@ -63,7 +63,7 @@ The data is a **CSV file** (G-513; comma-separated values): a plain text table, 
 >
 > **pandas** is the main Python library for tables. A table in pandas is called a **DataFrame** (G-1441), usually named `df`.
 
-The table has four columns: `Unnamed: 0`, `cgpa`, `iq` and `placement`. `df.info()` shows 100 non-missing values in every column, so there are no **missing values** (G-1235) to fix.
+The table has four columns: `Unnamed: 0`, `cgpa`, `iq` and `placement`. `df.info()` shows 100 non-missing values in every column, so there are no **missing values** (G-1234) to fix.
 
 The first column, `Unnamed: 0`, is just a row number (the crossed-out grey column of Figure 3, section 5) left over from how the file was saved. The column carries no information, so we drop it:
 
@@ -249,7 +249,7 @@ Figure 8 shows the path. The website loads `model.pkl`, asks the user for an IQ 
 
 The Notebook builds this website on our own machine with Dash. To let other people use it, it must run on a server, for example on Heroku, AWS or Google Cloud. Deploying to these platforms is covered in later Notes.
 
-> **Extra:** Heroku used to offer free hosting for small apps, but its free plan ended in November 2022 (Heroku 2022). AWS and Google Cloud still offer limited free tiers for new accounts (AWS Free Tier; Google Cloud Free Program).
+> **Extra:** Heroku no longer has a free plan (Heroku 2022). AWS and Google Cloud offer limited free tiers for new accounts (AWS Free Tier; Google Cloud Free Program).
 
 This model is far from perfect: it learned from only 90 students and was not tuned at all. The later Notes go through each step of this workflow in depth.
 
@@ -289,7 +289,7 @@ This model is far from perfect: it learned from only 90 students and was not tun
 
 | Term | Meaning |
 |---|---|
-| Preprocessing | Cleaning and preparing data before training |
+| Preprocessing (G-539) | Cleaning and preparing data before training |
 | Exploratory data analysis (EDA) | Exploring data with summaries and plots to find patterns |
 | Model selection | Training several algorithms and keeping the best |
 | CSV file | A text file holding a table, with commas between values |
@@ -303,7 +303,7 @@ This model is far from perfect: it learned from only 90 students and was not tun
 | Test set | The part hidden during training, used to check the model |
 | Train-test split | Dividing the data into training and test sets |
 | scikit-learn | Python's main library for classical ML |
-| Scaling | Bringing input columns to similar ranges |
+| Scaling (G-767) | Bringing input columns to similar ranges |
 | Standardization | Scaling a column to mean 0 and standard deviation 1 |
 | Data leakage | Information from the test set leaking into training |
 | Logistic regression | A classification algorithm that finds a separating boundary |

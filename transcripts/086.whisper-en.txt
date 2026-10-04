@@ -1,0 +1,119 @@
+So now let's do a sample problem using Bayes theorem
+So let's say there is a factory
+Let's say there is a factory, the factory let's say manufactures these markers
+And there are three machines in this factory
+M1, M2 and M3
+So whatever is manufactured, all the markers that are being manufactured in this factory
+They are making M1, M2 and M3
+These are the three machines
+One more data is given that 20% of the production is done by M1
+So if there are 100 markers producing or getting manufactured
+20 out of those markers is made by M1
+30% is done by M2 and remaining 50% is done by M3
+This is the data
+So 50% is done by M1 and 50% is done by M2
+There is one more piece of data given
+That is, whatever it makes, it has a manufacturing defect of 5%
+Whatever it makes, it has a manufacturing defect of 3%
+And whatever it makes, it has a manufacturing defect of 1%
+This is the data, okay
+So if it is making out of 120, its 5% means 1 out of 20 will be bad
+Or 5 out of 100 will be bad
+Similarly, if it will make 100 out of 100, then 3 will be bad
+when he will make 100, then only one will be bad
+and no doubt he has more load on this and less load on this
+now the question is this
+this is the question
+question is, imagine
+I have a batch of markers
+I randomly picked one marker
+and I came to know that it is defective
+it is defective
+that defector came out
+you have to tell me the probability
+that it is coming from M3
+I guess you are not able to understand the question
+but quickly revise it
+there are 3 different machines in a factory
+20%-30%-50% manufacturing ratio
+5%-3%-1% manufacturing defect ratio
+and if I randomly pick up a marker from a sample
+you have to tell me
+So what is the probability of this thing being made from m3?
+And this is the problem that you have to solve.
+Now if you think carefully, first of all you should always write what all you have.
+So I already know this that P of m1 is, how much is being made from here?
+Total, divided by total how much is it? So that is 1 by 5, 20 by 100 probability.
+Similarly, the probability of N2 is 3 by 10 and similarly the probability of N3 is 1 by 2, we already know this, okay.
+What is this? What is the probability of this?
+The probability of this is that one thing is defective, let's say we denote defective from B, okay.
+the probability of being defective is given from where?
+from M1
+the probability of being defective is given from M2
+the probability of being defective is given from M3
+if you want to write this in conditional probability terms then you can write it like this
+probability of defective given M1 is equal to 5 by 100
+so you can write it like 1 by 20
+Probability of D given M2 is 3 by 100
+And probability of M3 as in probability of D given M3 is equal to 1 by 100
+So these are all my probabilities
+So this is in my question
+Now the most important thing that I have to remove
+Let me tell you one more thing
+if I randomly draw a sample and it turns out to be defective
+I have to tell that is it made of M3 or not
+what is its probability
+so if you ask me I would say
+I have to find out the probability of
+that item that we randomly drew out of the sample
+is from M3
+given it is defective
+this is what I have to find out
+given that it is defective
+is it in M3 or not
+I have to find out its probability
+And by Bayes Theorem, you know this, that this will be equal to probability of defective given M3 multiplied by probability of M3 divided by probability of D.
+I guess you remember the base theorem
+probability of A given B is equal to probability of B given A
+multiplied by P of A divided by P of B
+we have written this here
+this is the base theorem right
+now think for yourself
+I need these three things to calculate this
+and guess what I already have two things
+you can totally see
+that this thing will come from here
+and this thing
+There is only one thing that I need to calculate and that is this part, probability of D.
+So basically I have to find out, I have to find out that in overall data, if I draw
+a sample, then what is the probability of it being defective, I have to find out P of
+D.
+Now think about it, how can I find out P of defective?
+how many percent of the material is defective in the whole data, how will we find that out?
+think about it, total defective material out of the entire batch is basically coming from one of these machines
+so don't you think you can write it like this, probability of a defective piece is actually equal to
+probability of it being defective and coming from n1
+What does this mean? That the item is defective and comes from N1.
+Plus probability of defective and coming from N2 plus probability of defective and coming from N3.
+Think about it. If you read this in English or Hindi then you will actually understand what is happening.
+Total probability of being defective is actually the summation of these three individual probabilities.
+probability of a marker being defective and coming from M1 that is one way of getting
+a defective marker probability of being defective and coming from M2 that is the second way
+of getting a defective marker and probability of defective and coming from M3 this is the
+third way of getting a defective marker so there are only three ways from where we can
+get defective market and I have written them here I think you understood this now if you
+remember conditional probability, we had read that probability of A given B is actually
+equal to P A intersection B divided by P of B. What if I do this, that how do I multiply
+probability of defective given M1 multiplied by probability of M1
+I guess you are able to understand
+plus probability of B given M2 multiplied by P of M2
+plus probability of D given M3 multiplied by probability of M3
+so if I want to calculate PD, I have to solve this expression and guess what
+I have these 6 probabilities here, I will put them here and I will get my PD
+and I will replace this PD here and as soon as I solve this expression
+I will get this answer, so I guess you must be understanding that using base theorem
+and conditional probability you are able to solve a difficult, a seemingly difficult problem
+so easily.
+Okay.
+So once try to do it on copy-paste, I guess for sure you will be able to solve it.
+So thanks for watching.

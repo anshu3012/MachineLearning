@@ -76,7 +76,7 @@ With numbers: the first student's error of 0.21 becomes $0.21^2 = 0.044$. Averag
 
 $$\text{MSE} = 0.121$$
 
-**Advantage:** the square is smooth everywhere, so MSE can be differentiated. Smoothness is why MSE is used as the **loss function** (G-1130) that models minimise during training, as in the previous Note.
+**Advantage:** the square is smooth everywhere, so MSE can be differentiated. Smoothness is why MSE is used as the **loss function** (G-706) that models minimise during training, as in the previous Note.
 
 **Disadvantages:**
 
@@ -184,9 +184,18 @@ $$R^2 = 1 - \frac{4.85}{22.13} = 1 - 0.219 = 0.781$$
 - **$R^2 = 0$:** the model is no better than predicting the average.
 - **$R^2 < 0$:** the model is worse than predicting the average, which can happen on a test set with a bad model.
 
+Whether R² can be negative depends on which data it is computed on:
+
+- **On the training data** of a least-squares line, R² is always between 0 and 1. The flat average line is itself one of the candidate lines, and least squares picks the line with the smallest squared error, so the fitted line can never do worse than the average line: $SS_{res} \le SS_{tot}$.
+- **On test data** nothing guarantees this. The line was fitted to other observations, so it can miss the test observations by more than their own average does. Then $SS_{res} > SS_{tot}$ and R² is negative (scikit-learn `r2_score` docs).
+
 Here, $R^2 = 0.78$: CGPA explains about 78% of the variation in packages; the remaining 22% comes from things not in the data, such as interviews (the stochastic errors of the earlier Note).
 
 R² is also called the **coefficient of determination** (G-1717).
+
+The name R² is no accident. For simple linear regression, R² on the training data equals the square of the correlation coefficient $r$ between the feature and the target (see the [linear regression maths Note](../51-linear-regression-maths/note.md), section 5.1). For CGPA and package on the 160 training students, $r = 0.879$ and $r^2 = 0.879^2 = 0.773$, exactly the training R² in the table of Section 7.1.
+
+Squaring makes correlations easier to compare. A correlation of 0.7 gives $R^2 = 0.49$ and a correlation of 0.5 gives $R^2 = 0.25$: the first feature explains about twice as much of the variation as the second, which the raw values 0.7 and 0.5 do not show.
 
 ## 7. Adjusted R²
 
@@ -246,7 +255,8 @@ In Figure 7, adjusted R² on the training data stays flat at 0.772 however many 
 
 - MAE and RMSE are in the target's units; RMSE is always at least as large as MAE and reacts more to large errors.
 - MSE is the usual loss for training, because it can be differentiated.
-- R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse.
+- R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse (possible on test data, never on the training data of a least-squares line).
+- For one feature, training R² is the squared correlation $r^2$.
 - R² never falls on the training data when features are added; adjusted R² penalises each feature and so detects useless ones.
 
 ## 9. Sources
@@ -254,11 +264,12 @@ In Figure 7, adjusted R² on the training data stays flat at 0.772 however many 
 **Built from**
 
 - CampusX, "Regression Metrics | MSE, MAE & RMSE | R2 Score & Adjusted R2 Score", YouTube, https://www.youtube.com/watch?v=Ti7c-Hz7GSM
-- Starmer, J. (StatQuest). "R-squared, Clearly Explained!!!" statquest.org. The idea of comparing the variation around the mean line with the variation around the fitted line (Figure 6); drawing the errors as squares is our own.
+- StatQuest with Josh Starmer, "R-squared, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=bMccdk8EdGo. The link between R² and the squared correlation (section 6.3), and the idea of comparing the variation around the mean line with the variation around the fitted line (Figure 6); drawing the errors as squares is our own.
 
 **Other references**
 
 - James, G., Witten, D., Hastie, T. and Tibshirani, R. (2021). *An Introduction to Statistical Learning* (ISLR), 2nd ed. Springer. §6.1.3 (adjusted R²).
+- scikit-learn API reference, `sklearn.metrics.r2_score` (the score can be negative, because a model can be arbitrarily worse than predicting the mean). scikit-learn.org.
 - Kaufman, S., Rosset, S., Perlich, C. and Stitelman, O. (2012). Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM Transactions on Knowledge Discovery from Data* 6(4).
 
 ## 10. Key terms
@@ -273,7 +284,7 @@ In Figure 7, adjusted R² on the training data stays flat at 0.772 however many 
 | Mean squared error (MSE) | The average squared difference between actual and predicted values |
 | Root mean squared error (RMSE) | The square root of MSE, in the target's units |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean |
-| Residual sum of squares | The total squared error of the model's predictions |
+| Residual sum of squares (G-1684) | The total squared error of the model's predictions |
 | Total sum of squares | The total squared error of always predicting the mean |
 | Adjusted R² | R² with a penalty for the number of features |
 | Target leakage | Building a feature from the answer itself, so the model sees information it would not have in real use |

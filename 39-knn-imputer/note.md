@@ -48,6 +48,8 @@ An observation with two numbers is a point on a flat plane; one with three numbe
 
 Close points are similar observations. **Similarity** (G-1805) between observations is therefore measured as a distance: the smaller the distance, the more similar the observations.
 
+The [instance-based learning Note](../06-instance-vs-model-based/note.md) (section "How it works") draws this picture in 2D: a new point, the 3 points nearest to it, and their vote on its label. Imputation uses the same picture with one change: the neighbours' values are averaged instead of voted on.
+
 ### 3.2 The k nearest neighbours
 
 > **Key point:** k is the number of neighbours we ask; with k = 1 we copy the closest observation's value, with larger k we average the values of the k closest.
@@ -206,7 +208,7 @@ Replacing `KNNImputer` with `SimpleImputer()` (mean imputation, Note 36) and kee
 
 > **Key point:** When we hide ages we know and fill them back, the KNN imputer misses the true age by 9.76 years on average, mean imputation by 11.24 years.
 
-A fair test of an imputer is to hide values we know, fill them, and check the fills against the truth, like covering answers in a quiz and grading the guesses. We take the 714 passengers whose age is known and hide the ages of a random 20% of them. Each method fills the hidden ages from the other 80%. The **fill error** is the average gap, in years, between the filled age and the true age.
+A fair test of an imputer is to hide values we know, fill them, and check the fills against the truth, like covering answers in a quiz and grading the guesses. We take the 714 passengers whose age is known and hide the ages of a random 20% of them. Each method fills the hidden ages from the other 80%. The **fill error** (G-2197) is the average gap, in years, between the filled age and the true age.
 
 | Method | Fill error (years) |
 |---|---|
@@ -317,7 +319,7 @@ In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
 | KNN imputer | Filling a gap with the mean of that feature in the k observations nearest to the observation with the gap |
-| Nearest neighbours | The observations at the smallest distance from a given observation |
+| Nearest neighbours (G-1306) | The observations at the smallest distance from a given observation |
 | `n_neighbors` (k) | The number of nearest observations the KNN imputer averages; default 5 |
 | Euclidean distance | The straight-line distance between two observations: square root of the summed squared differences |
 | nan-Euclidean distance | The Euclidean distance over the features both observations have, scaled by (all features / used features) |
@@ -325,5 +327,5 @@ In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9
 | Uniform weighting | Every neighbour counts equally: the fill is their plain mean |
 | Distance weighting | Each neighbour counts in proportion to 1 / its distance, so nearer observations count more |
 | Donor | An observation that has a value in the feature being filled, so it can be a neighbour |
-| Fill error | The average gap between filled values and the true values they replace, measured on values we hid on purpose |
+| Fill error (G-2197) | The average gap between filled values and the true values they replace, measured on values we hid on purpose |
 | `KNNImputer` | scikit-learn's class for KNN imputation |

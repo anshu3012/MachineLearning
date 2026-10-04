@@ -47,7 +47,7 @@ In this formula $x_{i1}$ and $x_{i2}$ are the two **features** of student $i$ (i
 
 $$L = L\big(W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1}, b_{11}, b_{12}, W_{11}^{2}, W_{21}^{2}, b_{21}\big)$$
 
-$y = f(x)$ is a function of one variable; the loss is a function of nine. These nine numbers are the network's **trainable parameters** (G-1999): the values training is allowed to change. Picture the network as a box with 9 knobs, one per trainable parameter: turning any of them changes the loss, and training turns all of them until the loss is as small as possible.
+$y = f(x)$ is a function of one variable; the loss is a function of nine. These nine numbers are the network's **trainable parameters** (G-1065): the values training is allowed to change. Picture the network as a box with 9 knobs, one per trainable parameter: turning any of them changes the loss, and training turns all of them until the loss is as small as possible.
 
 ![Student 1's loss when one parameter is turned and the other eight stay at their starting values; the red dot is the start](images/knobs.png){height=48%}
 
@@ -127,7 +127,7 @@ The algorithm cannot see the curve; it only knows the slope where it stands. Two
 
 The update rule needs a slope to work with. A loss that moves only in jumps, such as a count of mistakes, is flat almost everywhere and gives no direction (see section 5.4 of the [perceptron loss Note](../1006-perceptron-loss/note.md)). Smooth activations and smooth losses are used so that every small change of a parameter changes the loss a little.
 
-The minus sign does the right thing in both cases (Figure 6): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-865, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
+The minus sign does the right thing in both cases (Figure 6): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-863, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
 
 ## 8. Why we need a learning rate
 
@@ -223,6 +223,6 @@ So a slope of zero means "no direction is downhill from here", which is true at 
 |---|---|
 | Rate of change | How much one quantity changes per unit change of another; the meaning of a derivative |
 | Negative gradient | The gradient with its sign flipped: the direction in which the loss falls fastest |
-| Divergence | Updates that overshoot more and more, so the parameter and the loss run away |
-| Convergence | The state where updates no longer change the parameters because the slope is about zero |
+| Divergence (G-628) | Updates that overshoot more and more, so the parameter and the loss run away |
+| Convergence (G-469) | The state where updates no longer change the parameters because the slope is about zero |
 | Local minimum | A valley of the loss that is lower than everything near it, but not the lowest overall |

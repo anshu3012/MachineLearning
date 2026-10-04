@@ -105,8 +105,6 @@ more customers stay, and keep paying, every month.
 
 So we leave the meeting with a clear goal. In our mind, the task is no longer "increase revenue"; it is "churn rate from 4% to 3.75%".
 
-> **Extra:** The 4% here is an assumed figure for the example, not a published Netflix number.
-
 ## 5. Step 2: Type of problem
 
 > **Key point:** We look at the big picture: what product we will build and how it will be used. Only then do we know whether the problem is supervised, and whether it is classification or regression.
@@ -318,8 +316,8 @@ The same habit is what separates people over time. Of the thousands of freshers 
 | Data engineer | The specialist who collects and organises data from company systems |
 | OLTP | Online transaction processing: the database that records every action as it happens |
 | Data warehouse | A store where data is copied and organised for analysis |
-| Metric | A number that tells whether the work is moving in the right direction |
+| Metric (G-1215) | A number that tells whether the work is moving in the right direction |
 | Precision | Of the cases we flagged, the share that were really positive |
-| Recall | Of the real positive cases, the share we flagged |
+| Recall (G-1641) | Of the real positive cases, the share we flagged |
 | Volatile | Changing quickly and unpredictably |
-| Inertia | A big organisation's resistance to changing direction once it has started |
+| Inertia (G-939) | A big organisation's resistance to changing direction once it has started |

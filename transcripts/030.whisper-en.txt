@@ -1,0 +1,338 @@
+Hello guys, welcome to my YouTube channel.
+So again we are doing feature engineering and in today's video we will start a new thing.
+This is called variable transformation.
+So in today's video we will cover these two parts.
+In today's video we will cover something called function transformer in scikit-learn.
+So let's start the video.
+So guys we are doing feature engineering.
+In feature engineering, like you saw that there are multiple things, what we are doing is feature,
+means till now we are doing feature transformation.
+Means you are doing different types of transformations in your columns.
+You are encoding them, if you have categorical data, you are filling missing values, you are scaling.
+Today we will learn a new thing and this is called mathematical transformation.
+If I tell you in very simple terms then the idea is very simple that you are applying a mathematical formula on your columns
+And transforming it into something else
+Now there are different types of transformations but what we are going to read is
+The first one is log transform, reciprocal transform and power transform in which we will study square and square root transform.
+Apart from this, there are some more complex transforms which we will study in the next video.
+One of them is Box-Cox transform which is very famous.
+And second, you Johnson transform.
+So, the idea is very simple that we have some data,
+we will apply these transformations on that data
+and we will see whether the performance of the model is improving or not.
+Now, the question is this,
+what happens after applying these transformations?
+What exactly happens to improve the performance of the model?
+The answer is that the distribution of your data is converted into a normal function or normal distribution.
+So, I hope you know about normal distribution.
+If you find a numerical quantity distribution and it is something like this, then we call it normal distribution.
+This is not a normal distribution. This is the PDF. Every number has a probability on y-axis and x-axis.
+What is the probability of being 7 in this distribution? What is the probability of being 10 in this distribution?
+This is a normal distribution. Generally, the data you will get will not be distributed normally.
+So the end goal of all these transformations is that it will normally distribute your data.
+Now the question arises that why should we normally distribute? What is the benefit?
+So understand one thing, statistics which you can say is the mother field of machine learning.
+Whenever a statistician works in it, no matter how complex the problem he is working on,
+if he ever sees normal distribution then he becomes happy.
+Normal distribution is such an important thing in the field of statistics.
+As soon as you see normal distribution, the statistician starts to see the way to solve the problem.
+Why is normal distribution so important? It depends on what kind of problem you are solving.
+It's just that the calculations around it become easy. Problem solving becomes easy.
+And if you talk about machine learning specifically,
+So in machine learning, your statistical algorithms like linear regression, logistic regression
+In this kind of algorithms, you take this assumption that your data is normal
+If it is not, then you want to make it
+There are some algorithms like decision tree or random forest
+They don't care if your data distribution is normal or not
+But if you are working with these kind of algorithms
+So here it makes a difference whether your data distribution is normal or not.
+So if you have a different type of distribution in your data,
+then you will have to bring its distribution in the normal distribution.
+And who does that work?
+They do all these transformations.
+So let me summarize it once.
+Some machine learning algorithms perform better on normal data.
+So if you are working with those machine learning algorithms, then you have to convert your data into normal distribution.
+And how will you do that? You will do that with these transformations.
+These 4-5 transformations that I told you. Apart from this, there are more transformations.
+In fact, if you want, you can do your own custom transformation.
+You can apply any formula, x square plus 2x. This is your transformation.
+So it depends on you but the end goal is that you should get normal distribution atleast close to normal distribution is your target.
+That is what you have to achieve. So I guess till now you understood the why part of this video that why we are doing all this.
+Now I will tell you that in the title of this video it is written function transformer. What is function transformer?
+So, in our machine learning library, scikit-learn, if you will notice, you will get to know that there are three different mathematical transformers.
+Among them, the most used one is function transformer, which we will study in this video.
+One more is power transformer and third one is quantile transformer.
+Now I am not covering quantile transformer in this series because I haven't used it much.
+In this video I will teach you function transformer and in next video I will teach you power transformer.
+By using function transformer, you can transform log, you can transform reciprocal, you can transform square and square root.
+In fact, you can also create your own custom function.
+By using power transform, we will learn two transforms. One will be Box-Cox and the other will be UO Johnson.
+We will do both of these tomorrow. So, our today's focus is going to be on this scikit-learn functionality, function transformer
+by which we will normally distribute the data. So, I hope everything is clear till now.
+Now, the question is that if I have a data, then how will I know if its distribution is currently normal or not?
+that I need to convert it to normal. How will I know this? There are 2-3 ways.
+The first way is that you call the visualization of Seaborn's distplot.
+So, what will it do? It will give your distribution plot.
+With this, you get an idea of how much is normally distributed.
+Like this is skewed on one side.
+The second method is to call the skew function of pandas.
+If it is 0 then it is correct, if it is negative or positive then it is skewed.
+The third method is called QQ plot.
+QQ plot is the most reliable way to find out
+whether the data you have is normally distributed or not.
+Now I will make a different video on QQplot in the future
+because it is a great thing and we should read it well.
+Obviously, it comes under statistics that how it works.
+But in today's video, I will give you a rough intuition that if you want to plot QQplot,
+then how will you do it and how will you read it so that at least you understand today's video.
+So, let's focus on QQplot. So, if you notice here, this is your QQplot and this is your PDF.
+This is QQplot and this is PDF. So, in QQplot, theoretical quantiles are on x-axis and data sample quantiles are on y-axis.
+We are not getting into technicalities at this point. I will teach you to read how you get to know whether the data is normally distributed or not.
+For example, look at this data. Its PDF tells us that it is normally distributed.
+The QQ plot of this will be that all the points will come on this 45 degree line.
+Like these are all the points. They will come on this line.
+If you are able to see this, then you should understand that this data is normally distributed.
+For example, in this case, data 2 peaked in the middle.
+In that case, your QQ plot will move away from that line and the line will also deviate a little and the angle will be reduced.
+If we go ahead, this is skewed data.
+One side is skewed. So in that case, your QQ plot will also start leaving a line from one side.
+It will rise up. I will show you one or two more examples.
+For example, this is skewed left. This data is skewed left.
+In this case, you can see from below, the points are leaving that line.
+If you talk about right skewed data, which is this one.
+Here you can see that you are leaving that line from above.
+And if you see some more examples, if you have fat tail data, then you will leave the line from both the sides.
+And if you have thin tails, then it is very close to the normal distribution.
+So most of the times it stays above that line.
+So if someone asks you, what is this? How to see QQ plots? It is very simple.
+The more you are above this line, the more your distribution is close to the normal distribution.
+The more you are running from this line and the slope of this line is changing, the more you are far from the normal distribution.
+So we will use QQ plot in today's video to see whether a given distribution is normal or not.
+So I guess you have understood everything.
+Now let's quickly discuss the transform that we are going to cover in today's video and that is log transform.
+Log transform funda is very simple.
+If you want to apply log transform on any data, suppose you have Titanic age data where you have given different age of all passengers.
+If you want to apply log transform on it, then you basically take log of every value, that's it.
+Take base 2 or 10, it depends on you.
+You just take its log and what happens by taking log is that this data gets normally distributed.
+Not completely, generally it is not like that, but as it is now, the current state, it gets more normally distributed than that.
+Now generally when should you use log transform? I will tell you that.
+Log transform first of all will not apply on your negative values because you cannot take log of negative values.
+Second, if you have a right skewed data, like this, on this kind of data, when you apply log transform,
+then it takes it to the center.
+Means, if someone asks you in the interview, on what kind of data should you apply log transform,
+then you will say, on right skewed data.
+And log transform, means you must be able to understand, what is the benefit of logging?
+that your very big values, for example, I will give you an example, suppose here you have 1, here you have 10, here you have 100 and here you have 1000.
+Obviously, I have not made this scale properly and this is a linear scale by the way.
+It is a linear scale. I should have made it better. But when you take its log, what will happen is that 1, 10, 100, 1000 and 10000 will come on the equivalent scale.
+So if you have any data which is bigger than the rest of the people, you will pick it up and plot it on the equal scale.
+So that is why this normal value starts coming.
+And as this normal value starts coming and everything starts looking linear,
+then your linear models like linear regression and logistic regression,
+they start performing better.
+I hope you got a little intuition of this.
+We will discuss this in detail when we will study linear regression in this playlist.
+But now just understand that what does law do?
+It converts your additive scale into multiplicative scale.
+1, 10, very far away 100 and very far away 1000
+if you bring that on log scale then everything comes equidistant
+so these values which are far away
+these also come close and look linearly distributed
+so in this kind of case your linear models performance improves
+that is why you use log transform
+ok
+now I will discuss 3 more transforms in this video with you
+One of them is the reciprocal transform, the second one is the square transform and the third one is the square root transform.
+Meaning 1 by x, x square and root over x.
+I will discuss these three transforms with you.
+So what happens in 1 by x, you are understanding that all your big values will be small values and small values will be big values.
+So it is a very different type of transform. Sometimes it is useful.
+Sometimes if you apply certain values in a kind of data, then you can get normally distributed data.
+Second is x square. This is specially used for left skewed data.
+You have to remember this. For left skewed data.
+And square root, to be honest, I personally never found it very useful.
+Till now I have not used this kind of data. But you can try this too.
+See, the end goal is that you run everything and see.
+You don't have that much idea from the beginning.
+Yes, you know that if you have right skewed data then you will put the log one, if left skewed then you will put the square one.
+But you should run all of them because at the end there is one line code.
+You have to use the one from which you are getting the best result.
+So in today's video I will show you four different transforms using function transformer class.
+That is the goal of today's video.
+So, I have taken an example for this video. Again, I will use the Titanic data set, but this time I will use only 3 columns, one will be age, one will be fair and one will be survived.
+Right, survived means whether it is saved or not. I am ignoring the other columns and I will show you that initially when you apply a machine learning algorithm without any transform,
+then the accuracy will not be that good and when you will do it with transform then the accuracy will be good.
+So, let's dive into the example. So guys, this is the code. I have already written the code.
+I will just go through the code and I will explain you line by line. So, these are all the libraries that I needed.
+So, NumPy and Pandas are there, we are using a new library called scipy.stats, we will use this to plot QQplot.
+After that PLT as in matplotlib and CBON, we keep using it.
+Train to split is there, accuracy score is there and crossvalidation score is there from model selection to do crossvalidation.
+And from linear model, I will show you two different algorithms like logistic regression and decision tree.
+And lastly I have function transformer class and column transformer class which we will use.
+So this was the first cell. Now first of all I am using the same train.csv titanic data.
+And you can notice that I am using only 3 columns.
+So if I run it then at this point if I run df.head is basically this.
+Now if you have worked on titanic data then you would know that there are some missing values in the age column
+And whenever we do transformations we don't need missing values there so we have to remove them
+I will quickly show you that there are some missing values here
+So if I run it, you can see that there are 177 missing values in our age column
+So I didn't do anything special, I called the fillna function of pandas
+and replaced all the missing values with the mean of age
+and after doing this, if I run this code again
+then I don't have any missing values
+so I solved the problem
+now first of all I extracted x and y
+what will be x?
+x will be age and fair
+that's why I wrote 1 to 3
+and survived will be my output column
+column. So this is xy extract. Like every feature engineering technique, here also we will split train test
+which I have done here. And now I will show you that the two numerical columns you have, age and fair,
+are they normally distributed or not. And I had told you two or three ways, we will use two of them.
+First we will plot pdf, second we will plot qqplot. So first I caught the age from x-train and here is the distribution of age in front of you.
+Why is the age distribution like this? Okay, it is here, I am sorry, I got confused. This is the age distribution.
+So, you can see that it is normally distributed, not completely, and the same thing is reflected in QQplot.
+Most of the times, you are near the line and then you are deviating at one or two places.
+So, I would say that it is not perfect and normally distributed, but it is close to normal distribution.
+Now, let's see the column with fair.
+So when I am running the column of fair, what I realized is that it is not normally distributed, in fact, it is right skewed and it is actually like this.
+If you have worked on the Titanic data set, then you would know that some passengers spent a lot of money to purchase the ticket and many people spent very less money.
+So it is not normally distributed and you can see that in the QQ plot as well. This is not normally distributed.
+H is closed and not fair at all. Since right is skewed, you know which transform to use.
+You can go for the log transform. Anyways, I am not applying any transform.
+I am simply making two objects of logistic regression and decision tree classifier.
+And what I am simply doing is, I am fitting on x-train and y-train,
+taking out the wipe rate and calculating the accuracy for both the algorithms.
+And by doing this, I am getting 64% accuracy in logistic regression and 68% accuracy in decision tree.
+Now the question is, what if I apply log transform on both my columns?
+What will be the benefit? I did the same. I called the function transformer class and the first parameter that you give in it is function.
+Which mathematical function do you want to apply? Here you can give your own function or you can give a built-in function.
+I have given here mp.log1p. What is the difference between mp.log and mp.log1p? I will tell you quickly.
+So log, mp.log simply applies log. But if you have 0 then it will be wrong.
+What does np.log1p do? It adds 1 to your value x.
+So, there will never be anything 0.
+So, this is the benefit.
+That's why people generally do np.log1p.
+But if there is nothing 0 in your data then you can also use log.
+Anyways, I used logp and this is my function transformer object.
+And keep in mind that I am putting it on both the columns.
+I am also doing transformation on age.
+and I am also doing it on fair. After doing this, what did I do? I calculated x-train-transform
+which came out as trf.fit-transform x-train and I also put transform on test like this.
+So, I got x-train-transform on which I will train and x-test-transform on which I will do prediction.
+So, I again made object of logistic regression and decision tree. I trained both.
+And this time I did train on x-train-transform which I created here and on y-train.
+To calculate y-pret, it should be x-test-transformed like this and then I calculated accuracy same to same.
+And on doing this, the results are coming like this.
+So you can see, after applying the transformation,
+there is no much difference in the decision tree.
+Because I had told you that there are certain algorithms
+on which there is no difference in the distribution of your data.
+Decision tree is one of those algorithms.
+But in your logistic regression, you can see an improvement.
+Because you have transformed the data.
+Now what happens is that whenever I see such improvements, I get a little scared and I try cross-validating to check whether it is really correct or not.
+Because if you just split train test, you do not get perfectly validated results as much as you get by cross-validating.
+So what did I do? I transformed all the x in this new variable x transform, again made two objects of CLF and decision tree and this time I did cross-val score.
+You haven't read the cross-file score yet, but I am simply splitting the train test 10 times,
+taking out accuracy every time and calculating the mean, so I will have more reliable results than once.
+And after doing this, I got this result. You can see that the decision tree is around 65
+and the logistic regression is around 67. So even after taking out the mean 10 times, if 67 is coming,
+So, I can say that there is an improvement.
+Now, let's see whether there is an improvement or not.
+So, what I am doing is, I will show you the QQ plot of Age Before Log Transformation
+and the QQ plot of Age After Log Transformation.
+So, I did the same thing.
+By the way, first I am showing you the Fair of X-train.
+The fair of x-train, that is, let me write it here, fair before log and fair after log, I am showing it.
+And when I plotted it, you can see guys that the fair one which was very far from the normal distribution,
+earlier it was looking like this, it has come very close.
+And this is one of the reasons due to which your improvement happened in accuracy.
+Let's see what is the scene in age.
+So I applied the same logic in age, before and after, and when I run it, I realized that the first one was better and later it got a little bad after applying this transformation.
+So sometimes it happens that your result gets bad as it is happening in this case because this data was not right skewed anyways.
+We forced a log transform on it.
+So then what I did, I thought let's do one thing, rather than applying log transform on both of the columns, age and fair,
+let's just put it on fair, let's leave the age, so then what I did, I made column transformer, I am doing the whole thing again,
+I made column transformer, in that I just passed function transformer, here is my function, and the column is only fair,
+And I am passing through the remainder, i.e. I am keeping the column of age as it is.
+And then I made a new X train transform, made a new X test transform and repeated the whole thing again.
+Logistic regression, decision tree and this time I trained on the new X and did prediction on the new test.
+And now I got the result, so there was not much difference.
+Means it came as it was coming in 67. Now I am not sure if I have done any mistake here or something.
+You can see this code once. There should have been some improvement but I am not sure why it didn't happen.
+But yeah, the right decision was that we do fair instead of age because accuracy is coming equally.
+So to transform an extra, your computation logic will go, power will go. So it's okay.
+Even by transforming a less, our same accuracy is coming. And again just to get sure,
+And we have put cross-valve score on this transformation and cross-valve score is still giving me the same result.
+Logistic regression 67%, decision tree 65%.
+So in a nutshell, we understood that the data here, the age was already normally distributed, almost.
+Fair was right skewed.
+So when I put log transform on fair and again put logistic regression, then our result improved.
+Second observation is that we were taking one more algorithm that was decision tree
+And there was no difference in decision tree
+Result of decision tree was same as in the beginning
+Same as after transformation
+Because decision tree is one of those algorithms
+Which doesn't matter what is the distribution of its data
+Linear regression, logistic regression is those algorithms which makes a difference
+So I guess you got this point clear
+Now I will quickly show you the other transformations
+which is reciprocal and square root.
+So I have written a function apply transform in which I will pass a function
+and the same logic is complete inside.
+It will make you two things.
+First, it will calculate your accuracy.
+Second, it will tell you how was your QQ plot before and after.
+Okay, so let's try this.
+So first of all, what am I doing?
+I'll show you that if I apply in transform, I'll send x to x, means no transformation is applied.
+So, the accuracy is the same 65. And QQ plot, basically I'm showing it as fair, both are same.
+Because we haven't applied any transformation. We are sending x and x is coming in reverse.
+Now I will show you the square one, it will return x square and if we run it, then it becomes 64, in fact, the accuracy has decreased a little.
+And here you can see that after the transform, the condition of the fair is worse.
+And this is also valid because you have applied it on right skewed data, if it was left skewed data then the result would have been better.
+Similarly, you can also apply cube if you want.
+So, by applying cube, it has decreased a lot.
+So, you can see that this power is not beneficial by applying polynomial.
+I will show you by applying square root.
+Square root is here.
+And by applying square root, it is coming out well.
+Square root is coming out well.
+Although, there is not much improvement here.
+In fact, it is not looking good. In fact, it is the same as it was initially.
+So, there is not much difference in applying square root on this particular distribution.
+Now, I will show you reciprocal.
+So, reciprocal is fun by x.
+And by applying this, some error came.
+And let's read what is the error.
+One reason may be that in our data, it may be 0 somewhere.
+So, what I am doing is, I am doing x plus 0.00001.
+So that the denominator is never 0.
+This can happen.
+If we run this.
+It is still happening.
+It is the same error.
+What if
+I do 0.1
+There is some error.
+Let's do one thing. Let's keep it in bracket.
+Yeah. So actually
+I was not handling things properly.
+But yeah.
+In fact, if I make it a little smaller, so that it doesn't make much difference.
+So yeah, again, not working that well. So our log transforming is performing best on this kind of data.
+But as I told you, if you just want to change a parameter at the end,
+If you want to change the value of a function, then you can send anything of your own.
+I mean, try it. You can actually send anything here. You can send np.sign here.
+When you sign NP dot, it decreased. But you can see here is your fair distribution.
+It became like a sign curve. So you can send any function. You can also send custom logic.
+But you should try. You can try whatever is your main one. You don't have to do anything.
+You have to give function transformer in a different function input.
+And you can try the rest of the flow. So what you should do after watching this video is
+video is, catch any other data set and apply transformations on it and see on what kind of data,
+what kind of transformation is helping. Then your knowledge will increase a little. So this was
+the talk about our function transformer. Now in the next video, we will do power transformer and
+there we will study Boxcox and EO Johnson. So that's it. Thanks for watching. Bye.

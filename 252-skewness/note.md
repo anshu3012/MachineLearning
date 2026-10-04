@@ -88,9 +88,7 @@ Figure 4 shows this as the skewness changes smoothly. Each shape keeps its peak 
 
 ![Skewness swept from 0 to 1.6 and to -1.6: the mode stays at the peak while the median and, further, the mean follow the long tail](images/skew_sweep.gif){height=50%}
 
-> **Extra:** The shapes in Figure 4 are gamma distributions, whose skewness is $2/\sqrt{k}$ for shape parameter $k$ (SciPy's `stats.gamma(k).stats(moments="s")` returns this value, and the figure script checks it in every frame), mirrored for negative skew. In every frame the order mode < median < mean (or its mirror) holds.
-
-The mode-median-mean order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005). The order does hold for the features of Figure 1.
+The mode-median-mean order is a rule of thumb, not a law: it can fail, for example in data with several peaks or in discrete data (von Hippel 2005).
 
 ## 5. The sample skewness formula
 

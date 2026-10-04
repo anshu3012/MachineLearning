@@ -1,0 +1,472 @@
+Hi guys welcome to my youtube channel
+In the last video we started multiple linear regression
+And we saw its mathematical intuition
+I am sorry, Geometric intuition and coding
+And I told you that we will learn to make this algorithm from scratch
+And for that you will have to learn
+What is the mathematical formulation behind it
+In this video we are going to see that only
+We will see that how can you
+Create a mathematical formulation from scratch
+For multiple linear regression
+regression so let's start the video so guys a quick summary we already know that there are two
+three types of linear regression one is simple linear regression one is multiple linear regression
+and the third one is polynomial simple linear regression happens when you have only one column
+and there is one column in output. CGPA is my input and output is on lags.
+Multiple is when you have multiple columns in input and you have only one column in output.
+For example, CGPA, gender and IQ is your input column and your output column is on lags.
+We are not talking about polynomial now.
+So now we remember that when we did simple linear regression we just plotted our points on x and y axis in a scatter plot
+and then we drew a line of linear regression which you also call as best fit line and to draw this line means to find out this equation
+and to find out this equation means to find the value of m and b
+Then we discussed that when we are in higher dimension then we find a hyper plane accordingly.
+In a 3D case, we will find a 2D plane. If we have more data than this then we find a hyper plane.
+And its equation was y is equal to beta 0 plus beta 1 x1 plus beta 2 x2 dot dot dot plus beta n xn.
+This was our equation. Now if we know the value of β0, β1 to βn, then if any new x1, x2, xn value is given to us, then we can easily calculate what y will be as in prediction.
+Now in today's video, we have to see how can we find β0, β1 till βn. We have to find out this thing.
+So now let's start the video. Before starting I would like to do a request and that is that you have to watch the whole video.
+This video may look a little difficult but trust me I will try very hard to make it easy for you.
+But I just want one thing from your side that you complete the video.
+If you complete the video, I guarantee you, you will understand the multiple linear regression code, I am sorry, the mathematical formulation from scratch.
+And guess what, if you understand this, it will help you a lot in your machine learning journey.
+Because once you learn to do things in higher dimension with one algorithm, you can apply those same concepts in another algorithm.
+Now let's start. For now, let's take a small example.
+The data we have is CGPA, we have IQ, we have gender, and we have LPA as our output column.
+and we can represent it from x1, x2, x3 and small y.
+Now one thing which personally bothered me when I was reading this from scratch
+that was notation. Wherever I used to get mathematical notation, I used to cry
+because then I used to not understand how things are working.
+So what I will do is, first I will show you very basic things
+then I will convert it into notation
+And I would hope that you will easily understand that notation.
+So now think, this data is in 4D.
+3 input columns, 1 output column.
+I cannot draw it on a graph.
+We can't see it.
+But if it was in a single 2D,
+then the equation would be this, mx plus b.
+Or you can write this as beta 0 plus beta 1x.
+where beta0 means b and m means beta1 in general form.
+So if we want to write in this form the equation of hyperplane,
+then it would be y is equal to beta0 plus beta1 x1 plus beta2 x2 plus beta3 x3.
+Now here I am using Y hat instead of Y because this is our prediction value.
+This Y and this Y will be different.
+This is actual which is in our data and this is predicted which we will get out with the help of this equation.
+Although this X1 is this one, X2 is this one and X3 is this one.
+Now think about it.
+Let's take an example.
+Let's say we have data of 100 students.
+So the shape of the data we have will be 100 rows, 4 columns.
+I guess there is no problem till here.
+Now I am doing one thing, try to understand.
+That I want to find the predicted y of every student.
+I am assuming that I have got the value of beta 0, beta 1, beta 2 and beta 3.
+Now, I want to calculate Y predicted of every 100 students.
+See, I already have their Y, their predicted value, their actual value.
+I have to calculate Y hat with the help of given X1, X2 and X3.
+So, see how I will write this thing.
+I am creating a matrix where this is Y1 hat,
+first student's predicted LPA, Y2 hat,
+Second student's predicted LPA, dot dot dot, Y100 hat, this is a matrix, now I can rewrite this matrix like this,
+look carefully, things will be a bit difficult from here, how will the value of Y1 hat come out?
+y1 hat will be y1 hat is equal to beta 0 plus beta 1 x11
+why did I write x11 because we are taking the first column value of first row
+means if I had 3 columns cgpa and iq and gender
+So, I am taking the CGPA value of first row because I am talking about the first student.
+So, I will write it. I would write it like this.
+Beta 0, Beta 1, X 1 1 means the CGPA value of the first student because what is X 1?
+CGPA. Beta 2, X 1 2. What is X 1 2?
+The value of IQ of the first student. Beta 3, X 1 3.
+What is this? The gender value of the first student.
+If I have to find Y2 predicted for the second student,
+then this will be Beta 0, Beta 1, X21, the CGPA value of the second student.
+Beta 2, X22, the IQ value of the second student.
+Beta 3, X23, this will be the gender value of the second student.
+Now if I extrapolate like this, then here again beta 0, beta 1, x 101
+This means the CGPA of 100 students
+Beta 2, x 102, the value of IQ of 100 students
+Beta 3, x 103, this is the value of gender of 100 students
+I guess you are able to understand, I simply converted this thing into this, and now I am calling this whole matrix as capital Y hat
+Till now I was writing everything in small y, capital Y hat represents the predicted LPA of all the 100 students
+Now I am scaling things up in difficulty, so listen carefully, now what I am doing is taking a small assumption
+Assumption is that I don't have 100 rows, I have N rows. I have got N rows. I guess you are understanding till here.
+And I don't have 4 columns. In fact, I will say 3 columns because 3 columns are input column, CGPA, IQ and gender.
+And the fourth column is output. We are not talking about that yet.
+Assume that we don't have 3 columns, instead we have m columns.
+Now you have to think how you will rewrite this matrix. Listen carefully.
+It is very simple. I will go slowly, if possible you can take a copy and sit.
+Y matrix, capital Y, this will be now Y1 hat, this is in small, Y2 hat, dot dot dot, how many rows do we have?
+We have N rows, so this will be YN hat, LPA of nth student and this will be equal to, look carefully,
+here it will be more complex, we are talking about first student, we are trying to find Y1, so it would be beta 0,
+Beta naught, beta naught x first student's first value is CGP, now CGP and many more values have come
+because M columns have come, so now I will not call by name, beta naught x 1 2, beta naught x 1 3, dot, dot, dot
+I have written beta naught again and again, I am sorry about this, it can be a little confusing here
+Yeah, so I would rewrite it. This would be beta1, this would be beta2, this would be beta3.
+And this would be betaM because we have M columns.
+So the corresponding beta value of the last column would be M.
+And here comes the value of the first student in the mth column.
+Let's write again for the second student.
+beta naught, beta 1, x second student's first value, beta 2, x second student's second value, beta 3, x second student's third value, dot dot dot, beta m, x second student's m value
+I hope you are able to understand little by little
+Now let's take it down and write it for nth student
+So for nth student it will be beta 0, beta 1, xn1, nth student's first value, beta 2, xn2, nth student's second value, beta 3, xn3, nth student's third value.
+I am sorry. And here it will be beta m x n m, nth student's mth column value. And this is our matrix.
+So I started with a specific case that we have 100 students and 4 columns. I converted that into a general case.
+That if you have n students and m columns then what will be your output. Now here we will use a smart technique
+to do a very smart thing. Look carefully. What I would do is, first of all I would move this to here.
+So that we have full space here. So look carefully guys. What am I doing? I am rewriting this matrix.
+In some time, you will understand why I am doing this.
+So, this matrix can be rewritten as, look carefully,
+1, x11, x12, x13...x1m.
+I have removed all the betas.
+1, x21, x22, x23..x2m
+for nth one
+1, xn1, xn2, xn3..xnm
+and here I am writing
+beta0, beta1, beta2, ..., betaM
+now from here you have to think what happened here
+so what I did is that I decomposed this matrix in the form of product of two matrices
+So, if this is my matrix A and this is my matrix B, then I am saying that A multiplied by B would be AB.
+And guess what, this will really happen. If you have studied matrix multiplication, then how does it work?
+You will pick up this first row and you will multiply this whole row with this entire matrix.
+1 will be multipled with β0. That will be this value.
+x11 will be multiplied by this value. You get this value.
+x12 will be multiplied by this value.
+x13 will be multiplied by this value.
+and this will be multiplied by this and you will get this value.
+Then what will you do?
+You will hold the second row.
+And you will hold the same row and will do the same thing.
+You will multiply by this matrix. So, beta naught into 1, this beta naught, beta 1 into x21 will be this.
+This multiplied by this would be this and so on. And by multiplying these two, you can easily form this matrix.
+Why did I do this? Let me show you. This thing is going to help us a lot in the future.
+Because now what I can do, I can write this whole matrix term very simply.
+Capital Y, this entire thing is capital Y is equal to, I am calling this matrix as X.
+And I am calling this matrix as beta. This is my equation guys.
+And just one second, this will be Y hat. I hope I have told you Y hat in the back also.
+This is the equation guys, if I have all the values of beta and if I have this X matrix, then I can easily predict Y hat.
+So Y hat matrix is equal to X matrix multiplied by the beta matrix.
+So now we have to calculate every value of beta matrix and we will see how to do that.
+So guys we have got the most important equation of our formulation.
+This is the equation Y matrix is equal to X matrix multiplied by beta matrix.
+Now I will quickly tell you how to say matrix in English.
+So Y matrix is basically the prediction of all the input rows.
+It is the matrix of every student's output salary.
+If you have 1000 students then there are 1000 values in this matrix.
+It is the prediction of every student's LPA.
+Beta is very simple. Beta is the matrix of all your coefficients.
+So if you are working in single 1D then this matrix will look like this.
+beta 0 and beta 1, you can call it B and MB. If you are working in 3D, it would be beta 0, beta 1 and beta 2.
+Basically, the more dimension you are in, the more coefficient value you have. Now comes what is X?
+Understanding of X is very important. X matrix is basically, listen carefully, if you have this data,
+gpa, gender and IQ
+suppose this is your input data
+and here you are calling it x1, x2, x3
+and you have different students
+ok
+you have different students
+like this is your first student, second student, third student
+so what is this value
+x11, x12, x13
+This is X21, X22, X23, X31, X32, X33.
+So basically if you remove your entire input data set and put 111 just in front of it,
+then this matrix, I am removing this, this matrix is your X.
+This is your X.
+Basically your entire input data and an extra column 11111 till the end. This is your X matrix.
+So understanding this equation is very important in matrix form. Now we have reached here.
+Let's move ahead. What we have to do next is that I have made a Y hat matrix in front of you.
+On which we were working. I also want to make a Y matrix. So what is Y matrix? It is capital Y.
+I can write capital Y matrix as y1, y2, dot, dot, dot, yn.
+So basically as soon as you get your data set, data frame,
+when you separate x and y, then y is basically the matrix of all actual output values.
+Now I am making one more new matrix by saying E.
+This E is Y matrix minus Y hat matrix
+Means you can write it like this
+What is Y matrix?
+Y1, Y2, dot dot dot, Yn
+And similarly what is your Y hat matrix?
+Y1 hat, Y2 hat, dot dot dot, Yn hat
+So E matrix would be y1 minus y1 hat, y2 minus y2 hat, dot dot dot, yn minus yn hat, this is my E matrix.
+Now let's go back a little bit and remember that when we did single linear regression
+there we found an error function and that was sigma of i is equal to 1n yi minus yi hat whole square
+So basically, how was the error coming out?
+If you had different points and this was your line,
+then you were taking this distance for every point.
+You used to call this as residual.
+And how was this residual?
+For the first point, this distance was y1 minus y1 hat whole square.
+We did square because square helps us in differentiation
+and we needed positive value.
+That's why we did square.
+And similarly, if we add all the points, then this formula would have come.
+This was the formula in single linear regression, in simple linear regression.
+Now, here I will say one thing and then I will prove it to you.
+So, I can write this same formula here.
+E is equal to small e matrix transpose small e matrix.
+and my E matrix is y1 minus y1 hat y2 minus y2 hat dot dot dot yn minus y1 yn hat
+this is my E
+I am saying that when you transpose E and multiply it with E then you will get this thing
+I guess you are able to understand
+if you are not able to understand then I will show you
+so what we are doing is first we are doing e transpose
+by doing e transpose it will become a row matrix and it will look like this
+y1 minus y1
+hat y2 minus y2 hat
+y3 minus y3 hat
+dot dot dot yn minus yn hat
+this is my transpose matrix and this is my normal matrix
+Y1 minus Y1's hat, Y2 minus Y2's hat, Y3 minus Y3's hat.
+I have put a square here by mistake, I am sorry.
+This will not be a square.
+And in the last, here will be Y1 minus Yn's hat.
+Now obviously, the shape of this matrix would be 1 cross n and this will be n cross 1.
+When you multiply them, then this n and this n are common, the result will be 1 single number i.e. 1 x 1, scalar will come.
+How? It is very simple. When you multiply these two, then this thing will be multiplied by this.
+then you will get y1 minus y1 hat square
+then this thing will be multiplied by this
+you will get plus y2 minus y2 hat square
+plus y3 minus y3 hat square plus dot dot dot plus yn minus yn square
+and if you write all of them in the form of summation
+then this will be I is equal to 1 to n yi minus yi hat square, this is what happened, and above I had written that your error function
+you can write it like this in the term of matrix, e transpose e, so I am doing the same, now what happened to my error function
+For multidimensional or multiple linear regression, my error function becomes E transpose E
+Now I can write E as Y minus Y hat in matrix form, it is capital Y, transpose of this
+And here I am multiplying Y, capital Y, Y hat. I just wrote this back
+Now one thing you might know, A plus B, if there are two matrices, their transpose is A to the power,
+means not A to the power, A transpose plus B transpose.
+This same thing works in minus as well, you must have read this in matrices, this would be A transpose minus B transpose.
+If I put this thing here, then I can rewrite this equation as Y capital transpose minus Y hat transpose.
+and y minus y hat is going on here, now you will remember this equation above, the equation we made, this one that y hat is equal to x beta,
+so what I will do is I will come down and in this equation wherever y hat is, in return I will put x beta,
+so it would become
+this y transpose as it is
+will remain
+this will come in place of y hat
+x beta
+transpose
+and here it will come
+y minus
+x beta
+let's multiply once
+what will happen by multiplying
+that it will come
+this term will be multiplied by these two
+so it will come y transpose
+y minus y transpose x beta, then this term will be multiplied by this two, then it will be minus x beta transpose y
+and here it will be plus x beta transpose x beta, this is my error function
+Now we just have to manipulate it a little more and after that we will discuss what we will do, first we will simplify it a little more.
+So guys, the first thing we will do in the next manipulation is that we have to prove these two terms equal.
+It's a good exercise actually, what you can do is pause the video for a while and think and try to prove these two equally.
+because in order to get the next answer, it is necessary to be equal to these two.
+Now I will prove it to you that these two terms are actually same.
+And for that, I will create a new page and here I will just write detour
+because we are taking a detour from our actual derivation.
+I have to prove that y transpose x beta and x beta's whole transpose y are same
+I have to prove this
+now see carefully, it will take a little logic to prove this thing, it is very simple, for some time we assume that the value of y is a and x beta is b
+So what I want to prove is that I can write it as A transpose B is equal to B transpose A.
+I want to prove this.
+This is what I want to prove.
+How will I do it? It is very simple.
+For now I will consider it as an equation.
+And now I am creating a new equation.
+What will be A transpose B's transpose?
+Think about it, you know A B transpose is B transpose A transpose, going by this logic this thing will become B transpose A
+Because A transpose transpose is actually A, this is equation 2
+Now think about it, this is RHS in this equation and this is RHS in this equation.
+These two are equal.
+This means if I want to prove this, then I just have to prove that A transpose B is equal to A transpose B's transpose.
+If I can prove this, then I will prove this equality and I will prove this equality too.
+Now understand for a while what we want to prove. If for a while I assume A transpose B as C.
+For a while. So I want to prove that C is equal to C transpose.
+Means I have to prove that when you transpose this matrix, it remains the same matrix.
+If I can prove this, then my work is done.
+Now think, what is C? C is A transpose B and in A transpose B, what is A? Y, Y transpose and what is B? X beta, this is my C, okay, basically this term, I am calling this C from now on, so if I could prove that Y transpose X beta is equal to, its transpose in fact is equal to Y transpose X beta,
+So my work is done, then I can say that this equation is true.
+Now this app can easily prove that the multiplication of these three matrices, the matrix that will come,
+its transpose and that matrix is same. I can actually prove this, it is very simple, watch carefully.
+Think about it, what is my y transpose? y transpose is a matrix, first of all y is a matrix
+where LPA of all my students is written like this and if I have n students then the shape of this matrix will be n cross 1
+n rows 1 column now if I transpose it then it will become 1 cross n so the shape of y transpose matrix is 1 cross n
+Let's talk about x. What was x? x was, if we have n rows and m columns, then it will be a matrix n cross m.
+But if we have 1, 1, 1 in front of it, then it will be m plus 1 columns.
+This means x has the shape of n cross m plus 1.
+What is beta? beta is beta naught beta one dot dot dot beta m for every column you have one coefficient plus intercept beta naught
+Means here also m plus one is there so the shape of this matrix will be m plus one rows multiplied by one column
+So its shape is m plus one multiplied by one
+Now we will multiply all three. You know the rule of matrix multiplication that these two will have to be same.
+So the shape of the output matrix will be this. So by multiplying y transpose and x, you will get 1 cross m plus 1.
+this matrix and when you multiply it with this
+m plus 1 multiplied by 1
+these two are same so your output will be this
+1 cross 1 which is basically a matrix like this
+now think if you take the transpose of this matrix
+then also that matrix is same
+it means I proved this thing
+and if I proved this thing
+then I also proved that
+these two terms
+this term and this term
+both are same so I will go back here and now what I will do I will rewrite I will come
+back and I will write that this equation can be rewritten as y transpose y minus both are
+same so 2 times y transpose x beta I have written this 2 times plus I will simplify
+This will be beta transpose x transpose x multiplied by beta.
+This is my error function guys.
+This is my loss function.
+Now if you remember that in simple linear regression,
+your loss function used to vary with your m and b in this way.
+And you had to find the minimum value.
+And when did you find the minimum value?
+when you take out the slope and make it equal to 0, right, we will do the same thing here, we will take out dE by dBeta,
+means I would do d by dBeta of this entire equation and make it equal to 0, I would just rewrite this and this will be equal to 0,
+This is what we have to do now. Now what we have to do is just solve it and our work will be done.
+We have made a lot of progress. Now see, first of all, when you do differentiation of this,
+there is no term of beta here, then it will be equal to zero.
+When you apply differentiation on this, then there is a beta here.
+So it will give you upside down. This will give you
+first of all this is 0, 0 minus 2y transpose x and then I have to differentiate d by d beta of
+this is a little complex term, beta transpose x transpose x beta equal to 0
+now why is this difficult because here beta is there but beta transpose is also there
+Because of this beta transpose, the differentiation of this matrix becomes a little difficult.
+Let's see how to solve that.
+Now guys, there is one last problem that it is a little difficult to differentiate this term.
+Okay.
+And for this, you have to read matrix differentiation.
+And at this point, I am not teaching this thing because it will take a little more extra time to teach this.
+Instead what I will do is, I will tell you the solution of this directly that what is the difference between these two.
+But in future if you are watching this video then check the description once.
+I will make a video in a few days on matrix differentiation.
+I will put the link of that in the description.
+You check it once.
+And by watching that video you will understand that how this result is coming from this differentiation.
+Okay.
+Matrix differentiation is not very difficult although.
+But we are not covering it now.
+Now listen carefully.
+that if you have some such equation A is equal to let's say A transpose X A
+these are three matrices and if you have to find D Y by D A
+it is the same situation here is beta and here is A
+here is X transpose T X instead of that I have written only X
+So its answer is 2xA transpose. This is its output.
+So the output will now be 0 minus 2. I am writing 0 again and again.
+It doesn't have any meaning now. So I would directly write 2 times y transpose x plus
+Now what will happen according to this, first 2 will come out, then x will come, x in our case is x transpose x and then beta transpose will come equal to 0.
+Now what will we do, we will take this negative term in RHS.
+So this would become 2x transpose x beta transpose is equal to 2 times y transpose x.
+This 2 and this 2 will be cancelled.
+And now we will have, we are very close to the solution.
+So this would become, we will take this to RHS.
+So this will be 1 by X transpose X, basically the inverse of this matrix.
+So we can write it like beta transpose is equal to Y transpose X X transpose X inverse of this matrix.
+Now if I transpose both the sides, then it would become y transpose x, x transpose x, minus 1, this whole transpose.
+So what will happen is that if this is a whole term and this is a whole term, then first of all in the right hand side, in the left hand side only beta will come.
+and here it will be X transpose X inverse of X transpose
+and here it will be Y transpose X transpose
+and we are rewriting this
+after rewriting it will become
+beta is equal to X transpose X inverse of X transpose
+And in this term, what will happen?
+This will become X transpose,
+because I am doing it a little higher,
+maybe you can't see it.
+So, you can see
+this is the whole transpose of A, B.
+So, it will become X transpose.
+And here will come the transpose of Y transpose.
+That is Y. Okay?
+Now, I am doing one thing
+and you understand why.
+I am simply writing this whole term
+X transpose X
+inverse.
+and X transpose Y. So, I am saying that when you transpose this term, then also the same term will come, the inverse will come.
+The reason for that is that this will be a square matrix and if you transpose the square matrix, then also your shape remains the same.
+It remains the same. You can cross check this. What was the shape of x?
+What were the number of rows? n. What were the number of columns? m cross
+m plus 1. This was the shape.
+And if you transpose this, then it will be
+m plus 1 with n. And if you
+again take out x transpose x
+then you are multiplying this with n m plus 1
+your new matrix will be m plus 1 cross m plus 1 square matrix
+and when you take out its inverse that will also be a square matrix
+and by transposing the square matrix you will be getting the same shape
+so that is why there is no impact and here is your final answer
+beta is equal to x transpose of x minus 1 x transpose y
+this is your final answer
+now let me explain it quickly
+what is x here
+x is nothing but
+x train
+right
+I just put 1 1 1 in front of it
+ok
+and what is y
+it is your y train
+all the actual y values, if you have both these things, then you can take out beta, and if you are working in 3D, then you will get 4 values,
+if you are working in 2D, then you will get 3 values, there is always one more value of intercept, I can actually do one last thing,
+that I can prove that when you solve the equation on both sides, then your shape will be the same, like what is the shape of beta,
+this beta is basically beta naught beta one dot dot dot beta n to beta m so its shape is m plus one cross one
+this is the shape now it means that when you multiply all the things in RHS then your shape should be same
+Now think, what will be the shape of X transpose X inverse, we have just taken out the form above
+M plus 1 multiplied by M plus 1. What is the shape of X?
+The shape of X is number of rows multiplied by M plus 1. There are so many columns.
+If you transpose this, it would become M plus 1 multiplied by N.
+So, the transpose of this x is m plus 1 times n and what is the shape of y?
+y is basically all your actual values. So, there are n rows and 1 column.
+So, this is n cross 1. Now, let's multiply them one by one.
+these two are same so this shape will be m plus one multiplied by m and this term as it is
+now these two are same so these two will be m plus one cross one and this is your beta shape
+so in short when you perform this operation then you get exactly the same values as your beta coefficients
+And that is how this entire problem is solved.
+I really hope you understood this whole thing.
+And if you want to understand it properly,
+then you might have to watch this video again and copy it yourself.
+Then you will understand this thing properly.
+If you want to understand it more properly,
+then read a little bit of matrix differentiation.
+You will understand each and everything.
+Now I will give you the answer to one last question.
+And guys, that question is why gradient descent?
+Right?
+If you remember, in the first video of Simple Linear Regression, I discussed one thing with you.
+That scikit-learn, our library, solves the problem of linear regression in two ways.
+So one of them is Closed Form Solution.
+Whose name is OLS. Ordinary Least Square.
+Means we find the value of all our coefficients by applying a formula.
+till now we have studied this, in simple linear regression also we have taken the formula
+and here also we have taken the formula, so this is OLS
+and then I said that there is one more way to solve which is gradient descent
+and then I told you that I had a lot of doubt that when there is OLS then what is the need of gradient descent
+So, I am going to discuss with you that OLS is simply giving us the value of all coefficients from this formula.
+Even then, you will see in the next video that we will be reading gradient descent.
+Why? The reason for that is this inverse operation.
+Let me show you something.
+So if you go to this article on Wikipedia, Computational Complexity of Mathematical Operations
+So you would see that below here matrix algebra has given computational complexity of different operations
+And you can see matrix inversion and if you have n cross n matrix
+So, the Gauss-Jordan elimination of this matrix is time complexity is n cube.
+n cube means if your x transpose x matrix which in our case was m plus 1 multiplied by m plus 1.
+What is m here? Number of columns that we have.
+Assume that we have 999 columns, which is a very big data set.
+So this will be the square matrix of 1000 x 1000,
+which means n here will be 1000.
+So this time complexity is 9 zeros as per n cube.
+So what I am trying to tell you is that we will have to do so many computations,
+to calculate this inverse too much. It means that when you will go to calculate this inverse on a big data set, it would take a lot of time which will make your algorithm slow.
+So it depends on the number of columns. If you have image based data or textual data or in general some big data then you may have a problem.
+So what is the solution? The solution is that we don't use this technique and we use a second technique which we call gradient descent.
+It's an approximation technique. Here you don't use the formula, you go slowly to the right value.
+So you will notice that when we will study gradient descent, our answer will still be the same as it used to be from OLS.
+and when you use scikit-learn then you have two options
+whenever you want to apply OLS then you use linear regression class
+most of the times this class works for you
+but if you want to use gradient descent then we have a class called SGD
+I have noticed that we don't have any big dimension data on which we can apply linear regression.
+So, you can use linear regression 95% of the time but you also have option of SGD regressor.
+So, I hope I have answered this question that why people study gradient descent like crazy people.
+Because gradient descent is a faster technique to find out these coefficients for much faster than OLS.
+So, this was the entire formulation guys. I really understand it may look difficult but I really feel it will be interesting at some level.
+So, you have to study it well. Now, in the next video, we will make our own class which will be exactly like the linear regression class of scikit-learn.
+And we will compare both side by side and see whether what we have made is working properly or not.
+So, that's it for the video guys. Thanks for watching. Bye.

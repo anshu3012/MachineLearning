@@ -36,7 +36,7 @@ The [encoder–decoder Note](../1068-encoder-decoder/note.md) built a translator
 
 > **Key point:** However long the sentence, its summary has the same fixed size.
 
-Read a sentence of 50 words once, close your eyes, and translate it. Few people can: the sentence is too long to hold in memory at once. The plain encoder–decoder is asked to do exactly this. The encoder reads the whole input and must pack it into one vector of fixed size, and the decoder must translate from that vector alone. For a short sentence the vector is enough; for a long one it is a **bottleneck** (G-326), and information from the start of the sentence is the most likely to be lost (SLP3 §14.8). Measurements show the effect: in Bahdanau et al. (2015, Figure 2) the translation quality of the plain encoder–decoder "dramatically drops as the length of the sentences increases" (see also the [history of LLMs Note](../1067-history-of-llms/note.md), section 4).
+Read a sentence of 50 words once, close your eyes, and translate it. Few people can: the sentence is too long to hold in memory at once. The plain encoder–decoder is asked to do exactly this. The encoder reads the whole input and must pack it into one vector of fixed size, and the decoder must translate from that vector alone. A single lost word can flip the meaning. In "Don't eat the delicious looking and smelling pizza", an encoder that has forgotten the first word by the end of the sentence hands the decoder the opposite instruction: eat the pizza. For a short sentence the vector is enough; for a long one it is a **bottleneck** (G-326), and information from the start of the sentence is the most likely to be lost (SLP3 §14.8). Measurements show the effect: in Bahdanau et al. (2015, Figure 2) the translation quality of the plain encoder–decoder "dramatically drops as the length of the sentences increases" (see also the [history of LLMs Note](../1067-history-of-llms/note.md), section 4).
 
 ### 3.2 The decoder side: the same summary at every step
 
@@ -177,7 +177,7 @@ Each row of the weight grid is one decoder step and sums to 1; each column is on
 
 - "she advised him to talk about his life in america ." → "elle lui conseilla de parler de sa vie en amérique ."
 
-The weights form a clear diagonal band: as the decoder writes the French sentence from left to right, its attention moves through the English sentence from left to right, with each step concentrated on one or two words (0.88 or more in most rows). The band sits on the matching word or one to two words to its right: writing "parler" (talk), the model looks mostly at the state of "about"; writing "vie" (life), at the state of "in". The shift is not a plotting offset: row $i$ holds exactly the weights used to write French word $i$, the English columns contain no `<start>` token, and a second attention model drawn by the same code with the same encoder lines up word for word ([Bahdanau vs Luong Note](../1070-bahdanau-vs-luong-attention/note.md), Figure 3). Attention weights are not a word alignment: each $h_j$ comes from a bidirectional RNN and is informed by the whole sentence (section 9), and Koehn and Knowles (2017, §3.5) report the same off-by-one-position attention in a trained system of this type whose translations were still of high quality. Here too the translation is exact, because the forward half of the state of "about" has already read "talk". All 12 × 11 = 132 weights of this pair are recomputed for every sentence; nothing in the grid is fixed in advance.
+The weights form a clear diagonal band: as the decoder writes the French sentence from left to right, its attention moves through the English sentence from left to right, with each step concentrated on one or two words (0.88 or more in most rows). The band sits on the matching word or one to two words to its right: writing "parler" (talk), the model looks mostly at the state of "about"; writing "vie" (life), at the state of "in". Attention weights are not a word alignment: each $h_j$ comes from a bidirectional RNN and is informed by the whole sentence (section 9), and Koehn and Knowles (2017, §3.5) report the same off-by-one-position attention in a trained system of this type whose translations were still of high quality. Here too the translation is exact, because the forward half of the state of "about" has already read "talk". All 12 × 11 = 132 weights of this pair are recomputed for every sentence; nothing in the grid is fixed in advance.
 
 ## 9. Notes on the original model
 
@@ -213,6 +213,7 @@ The model was trained on English–French translation, with a vocabulary of the 
 **Built from**
 
 - CampusX, "Attention Mechanism in 1 video | Seq2Seq Networks | Encoder Decoder Architecture", YouTube, https://www.youtube.com/watch?v=rj5V6q6-XUM
+- StatQuest with Josh Starmer, "Attention for Neural Networks, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=PSs6nxngL6k. 01:00–03:00 (the "Don't eat the delicious looking and smelling pizza" example: forgetting the first word flips the meaning).
 
 **Other references**
 

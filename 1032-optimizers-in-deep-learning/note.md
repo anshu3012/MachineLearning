@@ -56,7 +56,7 @@ The optimizer used so far is **gradient descent** (G-862):
 
 $$w_{t+1} = w_t - \eta\thinspace\nabla_w L(w_t)$$
 
-where $\eta$ (eta) is the **learning rate** (G-1068) and $\nabla_w L$ the **gradient** (G-865) of the loss with respect to the weights (see the [gradient descent Note](../57-gradient-descent/note.md)). We repeat the update for a chosen number of **epochs** (G-696; full passes over the training data).
+where $\eta$ (eta) is the **learning rate** (G-1068) and $\nabla_w L$ the **gradient** (G-863) of the loss with respect to the weights (see the [gradient descent Note](../57-gradient-descent/note.md)). We repeat the update for a chosen number of **epochs** (G-696; full passes over the training data).
 
 Its three variants differ only in the number of rows used for each update (see the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md)). With 500 rows and 10 epochs:
 
@@ -93,7 +93,7 @@ A value in between works best, but finding it for a given dataset takes trial an
 
 > **Key point:** A schedule lowers the learning rate during training, but its timetable is fixed before training starts, so it cannot adapt to the dataset.
 
-A **learning-rate schedule** (G-1074) changes the learning rate during training, usually lowering it after a set number of epochs or when the loss stops improving by a threshold (see section 6 of the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)). The schedule and the thresholds must be defined before training. Different datasets need different schedules, so a schedule that works well on one dataset may fail on another (Ruder 2016, §3).
+A **learning-rate schedule** (G-1070) changes the learning rate during training, usually lowering it after a set number of epochs or when the loss stops improving by a threshold (see section 6 of the [stochastic gradient descent Note](../59-stochastic-gradient-descent/note.md)). The schedule and the thresholds must be defined before training. Different datasets need different schedules, so a schedule that works well on one dataset may fail on another (Ruder 2016, §3).
 
 ### 5.3 One learning rate for every direction
 
@@ -127,7 +127,17 @@ The loss of a neural network is non-convex (a **non-convex function**, G-1333): 
 
 > **Key point:** At a saddle point the surface rises in one direction and falls in another. The slope there is zero and nearly zero on a wide plateau around it, so the updates almost stop.
 
-A **saddle point** (G-1718) is a point where the surface slopes up in one direction and down in another (see section 3.3 of the [Hessian Note](../603-hessian-and-multivariate-taylor/note.md)). At the saddle itself the gradient is zero, so the update $w_{t+1} = w_t - \eta \times 0$ leaves the weights unchanged. Saddle points are usually surrounded by a **plateau** (G-1503) where the gradient is close to zero in every direction, so gradient descent crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
+A **saddle point** (G-1718) is a point where the surface slopes up in one direction and down in another (see section 5.3 of the [Hessian Note](../603-hessian-and-multivariate-taylor/note.md)). At the saddle itself the gradient is zero, so the update $w_{t+1} = w_t - \eta \times 0$ leaves the weights unchanged. Saddle points are usually surrounded by a **plateau** (G-1503) where the gradient is close to zero in every direction, so gradient descent crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
+
+Figure 5 shows the crawl on the simplest saddle, $L = w_1^2 - w_2^2$, which rises along $w_1$ and falls along $w_2$. Gradient descent starts at $(1.5, 0.001)$, almost exactly on the ridge, with learning rate 0.1.
+
+![Gradient descent near a saddle point. Left: the surface $L = w_1^2 - w_2^2$ with the path (red dot: current position). Right: the length of each step, on a log scale](images/saddle_gd.gif){width=100%}
+
+1. **Steps 1 to 10:** the path runs down the ridge towards the centre. Each step is shorter than the last, because the slope along $w_1$ shrinks.
+2. **Around step 19:** the path is at the flat centre. The step length has fallen from 0.30 to 0.008, about 40 times shorter, and 17 of the 40 steps are shorter than a tenth of the first one.
+3. **After step 30:** the small slope along $w_2$ has slowly grown, and the path slides off the saddle towards lower loss.
+
+The saddle did not stop gradient descent, but most of the steps were spent on the plateau making almost no progress.
 
 > **Extra:** For deep networks, saddle points may be a bigger obstacle than local minima: Dauphin et al. (2014) argue that in high dimensions most points with zero gradient are saddles, not minima (cited in Ruder 2016, §3; see also Goodfellow et al. 2016, §8.2.3).
 
@@ -155,7 +165,7 @@ Momentum, RMSProp and Adam all keep an [exponentially weighted moving average](.
 
 ![The EWMA is the shared tool: Momentum averages the gradients, RMSProp the squared gradients, and Adam keeps both averages](images/ewma_users.png){width=80%}
 
-Figure 5 shows why the EWMA comes first: three of the five optimizers are built on it.
+Figure 6 shows why the EWMA comes first: three of the five optimizers are built on it.
 
 > **Extra:** Methods that use second derivatives, such as **Newton's method** (G-1321), can also handle steep and flat directions (see the [Hessian Note](../603-hessian-and-multivariate-taylor/note.md)), but they are too expensive for the millions of parameters of a deep network (Ruder 2016, §4). The optimizers above use only the gradient.
 
@@ -195,7 +205,7 @@ Figure 5 shows why the EWMA comes first: three of the five optimizers are built 
 | Optimisation problem | Finding the inputs (here the weights and biases) that make a function (here the loss) smallest |
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
-| Learning-rate schedule | A plan, fixed before training, for lowering the learning rate during training |
+| Learning-rate schedule (G-1070) | A plan, fixed before training, for lowering the learning rate during training |
 | Global minimum | The point with the lowest loss of all |
 | Local minimum | A point lower than everything around it, but not the lowest overall |
 | Saddle point | A point where the surface rises in one direction and falls in another; the gradient there is zero |

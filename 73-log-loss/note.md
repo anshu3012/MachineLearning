@@ -21,7 +21,7 @@ The sigmoid perceptron of the previous Note improved the **decision boundary** (
 
 Machine learning normally works differently, as in linear regression:
 
-1. Define a **loss function** (G-1130): a formula that measures how wrong a model is.
+1. Define a **loss function** (G-706): a formula that measures how wrong a model is.
 2. Find the coefficients where the loss is smallest, with a formula or with gradient descent.
 
 This Note builds the loss function for **logistic regression** (G-1120). The next Notes minimise it with gradient descent.
@@ -263,7 +263,7 @@ In Figure 8, watch the loss pass model 2's value by step 3 and keep falling whil
 | Term | Meaning |
 |---|---|
 | Decision boundary | The line (or surface) where the model's probability is exactly 0.5; one class is predicted on each side |
-| Loss function | A formula that measures how wrong a model's predictions are |
+| Loss function (G-706) | A formula that measures how wrong a model's predictions are |
 | Likelihood | The product, over all points, of the probabilities the model gives to their true classes |
 | Maximum likelihood estimation (MLE) | Choosing the parameters that make the likelihood as large as possible |
 | Log-likelihood | The log of the likelihood: the sum of the log probabilities |

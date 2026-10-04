@@ -16,11 +16,16 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/padding-stride]
 
 > **Key point:** Padding adds a border of zeros around the image so that convolution keeps the image's size and uses the border pixels as often as the others. A stride larger than 1 makes the filter jump several pixels at a time, which shrinks the feature map and the amount of work.
 
-A plain convolution (see the [convolution operation Note](../1042-convolution-operation/note.md)) has two side effects: the feature map is smaller than the image, and pixels near the border take part in fewer positions of the filter than pixels in the middle. **Padding** fixes both. **Strides** do the opposite of padding on purpose: they make the output smaller.
+A plain convolution (see the [convolution operation Note](../1042-convolution-operation/note.md)) has two side effects: the **feature map** (G-766) is smaller than the image, and pixels near the border take part in fewer positions of the **filter** (G-777) than pixels in the middle. **Padding** (G-1436) fixes both. **Strides** (G-1900) do the opposite of padding on purpose: they make the output smaller.
 
 ![A 3 × 3 filter slides over a 5 × 5 image surrounded by one ring of zeros (grey). The feature map keeps the size 5 × 5](images/padding_slide.gif){width=100% height=55%}
 
-Figure 1 shows convolution with padding. This Note covers the two problems, zero padding and its formula, Keras' `valid` and `same`, strides and their formula, and why strides are used.
+Figure 1 shows convolution with padding. This Note covers:
+
+- the two problems of plain convolution (section 3);
+- zero padding, its formula, and Keras' `valid` and `same` (section 4);
+- strides and their formula (section 5);
+- why strides are used (section 6).
 
 ## 2. Prerequisites
 
@@ -56,11 +61,15 @@ The corner pixels take part in only one convolution, while the centre pixel take
 
 > **Key point:** We do not change the filter; we enlarge the image with a border of zeros.
 
-We want the feature map to have the same size as the image: $n - f + 1 = n$. We cannot change the filter size, so we change the image. **Padding** adds rows and columns around the image, on the top, bottom, left and right. The added pixels are almost always 0, so the method is called **zero padding**.
+We want the feature map to have the same size as the image: $n - f + 1 = n$. We cannot change the filter size, so we change the image. **Padding** adds rows and columns around the image, on the top, bottom, left and right. The added pixels are almost always 0, so the method is called **zero padding** (G-2146).
 
 For a 5 × 5 image and a 3 × 3 filter, one ring of zeros turns the image into 7 × 7. The filter then fits in $7 - 3 + 1 = 5$ positions per row: the feature map is 5 × 5, the size of the original image (Figure 1).
 
 Padding also fixes the second problem: with one ring of zeros, the corner pixels are covered 4 times instead of once (Figure 2, right).
+
+![The width of the feature map after each 3 × 3 convolution layer on a 28 × 28 image, without padding (red) and with one ring of zeros (green). Sizes from Keras.](images/layer_sizes.png)
+
+Figure 3 shows the difference over many layers. Without padding, each layer takes 2 pixels off the width: 28, 26, 24, and after 13 layers only 2 × 2 is left. With one ring of zeros, every layer keeps 28 × 28, so we can stack as many layers as we like.
 
 ### 4.2 The formula with padding
 
@@ -79,8 +88,8 @@ To keep the size we need $2p = f - 1$, so $p = (f - 1)/2$: one ring for a 3 × 3
 
 Keras' `Conv2D` layer has two padding options (Keras documentation):
 
-- **`valid`:** no padding. The filter visits only positions where it fits inside the image. The output shrinks by $f - 1$.
-- **`same`:** Keras works out how much padding is needed and adds it evenly on the sides, so that with stride 1 the output has the same size as the input.
+- **`valid`** (G-155): no padding. The filter visits only positions where it fits inside the image. The output shrinks by $f - 1$.
+- **`same`** (G-139): Keras works out how much padding is needed and adds it evenly on the sides, so that with stride 1 the output has the same size as the input.
 
 > **Python:** The same three convolution layers, once with each padding option.
 >
@@ -110,18 +119,18 @@ So far the filter has moved one pixel to the right, and one pixel down at the en
 
 ![A 3 × 3 filter on a 7 × 7 image with stride 2: it jumps 2 pixels to the right and 2 pixels down, so it stops at only 3 × 3 positions](images/stride_slide.gif){width=100% height=55%}
 
-With stride 2 the filter starts at the top-left as usual, then jumps two pixels to the right, then two more (Figure 3). At the end of the row it comes down two pixels. A convolution with a stride larger than 1 is called a **strided convolution**.
+With stride 2 the filter starts at the top-left as usual, then jumps two pixels to the right, then two more (Figure 4). At the end of the row it comes down two pixels. A convolution with a stride larger than 1 is called a **strided convolution** (G-1901).
 
 ### 5.2 The formula with strides
 
 > **Key point:** Output $= \left\lfloor \dfrac{n + 2p - f}{s} \right\rfloor + 1$, where $\lfloor\ \rfloor$ means round down.
 
-The filter can start at positions $0, s, 2s, \dots$ as long as it still fits. The padded image leaves $n + 2p - f$ pixels of room, which allows that many steps of size $s$, plus the starting position (Dumoulin and Visin 2016, Relationship 6).
+The filter can start at positions $0, s, 2s, \dots$ as long as it still fits. The padded image leaves $n + 2p - f$ pixels of room, which allows that many steps of size $s$, plus the starting position (Dumoulin and Visin 2016, Relationship 6). The result is the general **output-size formula** (G-1427).
 
 1. **In words:** the room left for the filter, divided by the step, rounded down, plus one for the first position.
 2. **Formula:**
    $$\text{output size} = \left\lfloor \frac{n + 2p - f}{s} \right\rfloor + 1$$
-3. **Example:** $n = 7$, $f = 3$, $s = 2$, no padding: $\frac{7 - 3}{2} + 1 = 2 + 1 = 3$, a 3 × 3 feature map (Figure 3). With padding 1: $\frac{7 + 2 - 3}{2} + 1 = 3 + 1 = 4$, a 4 × 4 map. Even with padding, stride 2 makes the feature map smaller than the image.
+3. **Example:** $n = 7$, $f = 3$, $s = 2$, no padding: $\frac{7 - 3}{2} + 1 = 2 + 1 = 3$, a 3 × 3 feature map (Figure 4). With padding 1: $\frac{7 + 2 - 3}{2} + 1 = 3 + 1 = 4$, a 4 × 4 map. Even with padding, stride 2 makes the feature map smaller than the image.
 
 With $s = 1$ the formula becomes $n + 2p - f + 1$ again, and with $p = 0$ as well, $n - f + 1$.
 
@@ -130,6 +139,10 @@ With $s = 1$ the formula becomes $n + 2p - f + 1$ again, and with $p = 0$ as wel
 > **Key point:** If the last jump would push the filter past the edge, that position is skipped. Rounding down in the formula does exactly this.
 
 Take an image of 6 rows and 7 columns, a 3 × 3 filter and stride 2. Along a row, the filter fits at columns 0, 2 and 4: three positions. Down the columns it fits at rows 0 and 2. The next jump would start at row 4 and need rows 4, 5 and 6, but row 6 does not exist, so that position is skipped. The feature map is 2 × 3.
+
+![A 3 × 3 filter on an image of 6 rows and 7 columns with stride 2. It stops at 2 × 3 positions. The dashed red box in the last frame is the next jump down: it would need a row 6, which does not exist](images/stride_floor.gif){width=100% height=55%}
+
+In Figure 5, watch the last frame: the dashed red box sticks out below the image, so that position is never computed, and the bottom row of pixels is used by no window at all.
 
 The formula gives the same answer only if we round down:
 
@@ -164,6 +177,13 @@ A large stride makes the filter skip information. That is useful in two situatio
 1. **Only high-level features are needed.** With stride 1 the filter visits every position and captures fine, low-level detail. With stride 2 or 3 it samples the image more coarsely, so fine detail is lost and the coarser features remain (Goodfellow et al. 2016, §9.5: we skip positions "at the expense of not extracting our features as finely").
 2. **Less computation.** Fewer positions mean fewer multiplications, so training is faster. For a 224 × 224 image and one 3 × 3 filter with padding 1, stride 1 needs 451,584 multiplications, stride 2 needs 112,896 (a quarter) and stride 3 needs 50,625 (Notebook).
 
+![One vertical-edge filter on a 256 × 256 photo, with padding 1, at strides 1, 2 and 3. Darker means a stronger edge. The titles give the size of the feature map and the multiplications needed.](images/stride_photo.png)
+
+Figure 6 shows both reasons on a real photo:
+
+- **Detail.** At stride 1 the thin railings are separate lines. At stride 3 the map has 86 × 86 positions, and the railings blur into blocks: only the coarse edges survive.
+- **Computation.** The multiplications fall from 589,824 at stride 1 to 147,456 at stride 2 (a quarter) and 66,564 at stride 3 (about a ninth).
+
 The second reason mattered more when computers were slower. With today's computing power, networks are usually trained with stride 1, and strides are kept for particular problems.
 
 > **Extra:** On a colour image or on a volume of feature maps, padding adds zeros around every channel, and the stride moves the whole $f \times f \times c$ filter across the height and width, never through the depth. The output-size formula therefore applies to the height and width only (CS231n notes).
@@ -190,6 +210,7 @@ The second reason mattered more when computers were slower. With today's computi
 
 **Other references**
 
+- SciPy `ascent` test image (public domain), from the scipy/dataset-ascent repository, used for Figure 6 (copied from the [convolution operation Note](../1042-convolution-operation/note.md)).
 - Dumoulin, V. and Visin, F. (2016). A guide to convolution arithmetic for deep learning. arXiv:1603.07285. Relationships 1–6.
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §9.5 (zero padding, valid and same convolution, strides).
 - Keras API documentation: `Conv2D` and `MaxPooling2D` layers, keras.io/api/layers.
@@ -200,7 +221,7 @@ The second reason mattered more when computers were slower. With today's computi
 | Term | Meaning |
 |---|---|
 | Padding | Extra rows and columns added around an image before convolution |
-| Zero padding | Padding with pixels of value 0 |
+| Zero padding (G-2146) | Padding with pixels of value 0 |
 | `valid` padding | No padding; the output shrinks to $n - f + 1$ |
 | `same` padding | Just enough padding to keep the output the size of the input (with stride 1) |
 | Stride | The number of pixels the filter moves at each step |

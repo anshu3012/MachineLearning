@@ -135,8 +135,8 @@ University lectures and textbooks are accurate, but most of them write equations
 
 Any maths topic can be known in two ways:
 
-- **Numeric understanding:** knowing how to carry out the computation, such as a matrix product, a determinant or an eigenvalue.
-- **Geometric understanding:** knowing what the computation means as a picture. It is what lets us judge which tool fits a problem, feel why it works, and interpret the result.
+- **Numeric understanding** (G-2247): knowing how to carry out the computation, such as a matrix product, a determinant or an eigenvalue.
+- **Geometric understanding** (G-2248): knowing what the computation means as a picture. It is what lets us judge which tool fits a problem, feel why it works, and interpret the result.
 
 Both have their place. But many courses spend most of their time on the numeric half, while in practice a computer does that half and the human does the conceptual half.
 
@@ -214,6 +214,6 @@ In Figure 6, compare the two columns: on the left the ML only starts after every
 | Term | Meaning |
 |---|---|
 | Decoding notation | Shrinking a formula's indices to two or three cases and writing every case out by hand |
-| Numeric understanding | Knowing how to carry out a computation, such as a matrix product |
-| Geometric understanding | Knowing what a computation means as a picture: which tool fits, why it works, how to read the result |
+| Numeric understanding (G-2247) | Knowing how to carry out a computation, such as a matrix product |
+| Geometric understanding (G-2248) | Knowing what a computation means as a picture: which tool fits, why it works, how to read the result |
 | Contextual learning | Studying a maths topic together with the ML algorithm that uses it, instead of the whole subject up front |

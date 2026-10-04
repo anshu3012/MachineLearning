@@ -24,7 +24,7 @@ The [CNN intuition Note](../1040-cnn-intuition/note.md) gave three problems of a
 
 Having built a CNN from its parts ([convolution](../1042-convolution-operation/note.md), [padding and strides](../1043-padding-and-strides/note.md), [pooling](../1044-pooling/note.md), [LeNet-5](../1045-lenet-5/note.md)), we can now compare the two kinds of network directly: how they are alike, and how they differ.
 
-The similarity matters for the next Notes: if a **filter** (G-778) works like a node, then the backpropagation learned for ANNs carries over to CNNs (see the [backpropagation in a CNN Note](../1047-backpropagation-in-cnn/note.md)).
+The similarity matters for the next Notes: if a **filter** (G-777) works like a node, then the backpropagation learned for ANNs carries over to CNNs (see the [backpropagation in a CNN Note](../1047-backpropagation-in-cnn/note.md)).
 
 ## 2. Prerequisites
 

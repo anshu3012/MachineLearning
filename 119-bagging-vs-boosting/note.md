@@ -27,7 +27,7 @@ We have now seen both: bagging in the [bagging Note](../105-bagging-intuition/no
 
 > **Key point:** Bagging starts from low-bias, high-variance models and lowers their variance; boosting starts from high-bias, low-variance models and lowers their bias.
 
-We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). **Bagging** (G-2154) takes **low-bias, high-variance** models (G-1132), such as fully grown trees or KNN with a small k, and averages away much of their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Boosting attacks the trade-off from the opposite end.
+We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). **Bagging** (G-251) takes **low-bias, high-variance** models (G-1132), such as fully grown trees or KNN with a small k, and averages away much of their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Boosting attacks the trade-off from the opposite end.
 
 ### 2.1 Boosting: high bias, low variance models
 
@@ -63,6 +63,17 @@ The type of base model is the most important of the three differences.
 >
 > Boosting helps stumps most, bagging helps full trees most. AdaBoost with full trees is no better than one tree: the first tree already classifies every training observation correctly, its error is 0, and boosting stops after that single tree, since no mistakes are left to pass on.
 
+### 2.3 Watching the two errors move
+
+> **Key point:** Bagging starts with a good training fit and gains on new data as models are added; boosting starts poor on both and climbs on both.
+
+Figure 3 adds base models one at a time and tracks the accuracy on the training data and on test data, averaged over 20 fresh draws of the noisy circles (350 training and 150 test points each).
+
+- **Bagging (left).** One fully grown tree already scores 0.92 on its training data: the bias is low from the start. The gap down to its test accuracy, 0.78, is the variance. Adding trees averages part of that variance away, and the test accuracy rises to 0.82.
+- **Boosting (right).** One stump scores 0.63 on the training data and 0.60 on the test data: both are poor and close together, the mark of high bias and low variance. Each added stump lowers the bias, so both curves climb together, to 0.88 and 0.84 after 100 stumps.
+
+![Training accuracy (grey) and test accuracy (red) against the number of base models, averaged over 20 draws of the noisy circles. Left: bagging with fully grown trees. Right: AdaBoost with stumps.](images/error_curves.png){width=95%}
+
 ## 3. Difference 2: parallel against sequential learning
 
 > **Key point:** Bagging trains all its models side by side, independently; boosting trains them one after another, each depending on the one before.
@@ -71,7 +82,7 @@ The type of base model is the most important of the three differences.
 
 **Boosting is sequential** (**sequential learning**, G-1775; Figure 1, right). The data goes to model 1, which does its job and passes its mistakes on to model 2. Model 2 does its job and passes its own mistakes to model 3, and so on. Model 2 cannot start before model 1 has finished, because it learns from model 1's mistakes.
 
-Figure 3 runs both on the noisy circles of the Notebook, one base model per frame. Watch the marker sizes on the left. In bagging (top) each tree's sample is a fresh random draw: big and small markers land anywhere, whatever the earlier trees got wrong. In boosting (bottom) the weights pile up on the observations the stumps so far keep missing, near the border of the disc, so each stump depends on all the ones before it. The right panels show difference 1 as well: bagging's deep trees fit the training data at once (training accuracy 0.89 with one tree, 1.00 by 50), while boosting's stumps start weak (0.61) and climb stage by stage (0.85 after 100).
+Figure 4 runs both on the noisy circles of the Notebook, one base model per frame. Watch the marker sizes on the left. In bagging (top) each tree's sample is a fresh random draw: big and small markers land anywhere, whatever the earlier trees got wrong. In boosting (bottom) the weights pile up on the observations the stumps so far keep missing, near the border of the disc, so each stump depends on all the ones before it. The right panels show difference 1 as well: bagging's deep trees fit the training data at once (training accuracy 0.89 with one tree, 1.00 by 50), while boosting's stumps start weak (0.61) and climb stage by stage (0.85 after 100).
 
 ![Bagging (top: fully grown trees, each on its own random sample; marker size = copies drawn) against AdaBoost (bottom: stumps; marker size = weight from earlier mistakes) on the noisy circles, one base model per frame. Right: the vote so far; white means a split vote](images/parallel_vs_sequential.gif){height=60%}
 
@@ -85,7 +96,7 @@ When a new **query point** (G-1605) arrives, every trained base model gives its 
 
 **Bagging: equal votes.** Suppose four models answer 1, 1, 0 and 1. Every vote has the same weight, like a democracy, so the **majority vote** (G-1146) wins: three say 1, the output is 1 (Figure 1, left: every weight is 1).
 
-**Boosting: weighted votes.** Every model carries its own weight, its alpha (the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md), section 6). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects $0.8 + 1.5 = 2.3$ and class 0 collects 5, so the output is 0, although two of the three models said 1 (Figure 4).
+**Boosting: weighted votes.** Every model carries its own weight, its alpha (the [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md), section 6). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects $0.8 + 1.5 = 2.3$ and class 0 collects 5, so the output is 0, although two of the three models said 1 (Figure 5).
 
 ![Equal against weighted votes. Bagging: four models answer 1, 1, 0, 1 with weight 1 each, so 1 wins three votes to one. Boosting: three models answer 1, 1, 0 with alphas 0.8, 1.5 and 5 (box height), so 0 wins, 5 to 2.3](images/vote_weights.png){width=85%}
 

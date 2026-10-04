@@ -70,7 +70,7 @@ The idea behind step 4: points that are close together tend to share the same an
 
 This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered in detail in later Notes.
 
-> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ: the distance is $\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$, and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both features are put on the same scale (**feature scaling**, G-767; see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2 and 3 were found this way.
+> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ: the distance is $\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$, and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both features are put on the same scale (**feature scaling**, G-767; see Section 7 of the [toy project Note](../13-toy-project/note.md)). The neighbours in Figures 2, 3 and 5 were found this way.
 
 ### 3.2 No real training
 
@@ -79,6 +79,33 @@ This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered 
 Until the new student arrived, the algorithm did nothing with the data: it simply held on to it. Only when the question came did it look at the data and work out an answer.
 
 So in instance-based learning, there is no real training step. Putting off the work is why instance-based learning is also called **lazy learning** (G-1057): the method puts off the work until a question arrives (Mitchell 1997, §8.6).
+
+### 3.3 The vote, and why k matters
+
+> **Key point:** The prediction is a majority vote among the *k* nearest points. A different *k* can give a different answer.
+
+Step 4 of Figure 2 is a **majority vote** (G-1146): each of the *k* nearest students casts one vote for its own class, and the class with the most votes wins. The new point is called the **query point** (G-1605).
+
+Real data has **outliers** (G-1420): a few students with a good IQ and CGPA who were still not placed, or the reverse. Where the two classes meet, placed and not-placed students also sit side by side. In such a region the answer depends on how many neighbours vote. Figure 3 shows the vote for a query point with IQ 97.5 and CGPA 8.0.
+
+![The KNN vote for one new student (the star) as k grows. Outlined dots: the k nearest students. Right: the votes. Idea after StatQuest, "K-nearest neighbors, Clearly Explained".](images/knn_votes.gif)
+
+| *k* | Votes for placed | Votes for not placed | Prediction |
+|---|---|---|---|
+| 1 | 0 | 1 | not placed |
+| 3 | 2 | 1 | placed |
+| 5 | 3 | 2 | placed |
+| 11 | 6 | 5 | placed |
+
+1. **k = 1.** The single nearest student was not placed, so the prediction copies that one student. One neighbour decides everything.
+2. **k = 3 and more.** The circle grows, more neighbours vote, and that one student is outvoted: the prediction becomes *placed*.
+
+Two rules of thumb follow:
+
+- **Use an odd *k*** for two classes, so the vote cannot end in a tie.
+- **Small *k* is noisy:** a single outlier can flip the answer. **Large *k* is smoother,** but if *k* is too large, a class with few points is always outvoted.
+
+The best *k* is found by trying several values on data kept aside from training. The [KNN Note](../91-knn/note.md) covers that search.
 
 ## 4. Model-based learning
 
@@ -92,9 +119,18 @@ In **model-based learning**, the algorithm studies the training data and builds 
 
 For a **classification** (G-395) problem, the learned function is a **decision boundary** (G-555): a line (or curve) that separates the classes. Every point on one side is predicted *placed*; every point on the other side, *not placed*.
 
+How does the algorithm find that line? Figure 4 shows **logistic regression** (G-1120), a model-based classifier, learning it on our 60 students.
+
+![Logistic regression learning its decision boundary on the placement data, then dropping the training data. Green: placed; red: not placed; purple: the current decision boundary.](images/model_training.gif)
+
+1. **Start.** The line begins in a bad place: only 38 percent of the training students are on the correct side.
+2. **One training step.** The algorithm measures how wrong the line is with a **loss function** (G-706), a single number that is large when many students are on the wrong side, then turns and shifts the line a little to make that number smaller. Repeating this step is **gradient descent** (G-862).
+3. **After a few steps.** The loss falls from 1.094 to 0.259 after 2 steps, and 97 percent of the students are on the correct side. Later steps barely move the line (loss 0.142).
+4. **Training data dropped.** The model keeps three numbers, $w_1 = 1.36$, $w_2 = 2.72$ and $b = -0.53$ (for IQ and CGPA on the same scale), and nothing else. The new student, IQ 94.5 and CGPA 8.3, falls just above the line: *placed*, with probability 0.57.
+
 ![Same data, two approaches](images/two_approaches.png)
 
-Figure 3 shows both approaches on the same data, classifying the same new student:
+Figure 5 shows both approaches on the same data, classifying the same new student:
 
 - **Left (instance-based):** the answer comes from the 3 nearest stored students.
 - **Right (model-based):** the answer comes from the side of the learned boundary the student falls on. Both models were trained with scikit-learn.
@@ -105,14 +141,14 @@ Figure 3 shows both approaches on the same data, classifying the same new studen
 
 After training, a model-based algorithm keeps only the function. To classify a new student, we check which side of the decision boundary they fall on; the training points play no part.
 
-The function is described by a few numbers called **parameters** (G-1448). For example:
+The function is described by a few numbers called **parameters** (G-1450). For example:
 
 - in a straight-line model, the parameters are the line's **slope** (G-1823) and **intercept** (G-960);
 - in a neural network, the parameters are its **weights** (G-2106).
 
 ![What each approach keeps after training](images/what_is_kept.png)
 
-Figure 4 shows the difference in what is kept: the whole table for instance-based learning, just a few numbers for model-based learning.
+Figure 6 shows the difference in what is kept: the whole table for instance-based learning, just a few numbers for model-based learning.
 
 ### 4.3 Examples
 
@@ -143,6 +179,13 @@ The instance-based examples in the table come from Mitchell (1997, Ch. 8).
 | Storage | Small: just the parameters | Large: the whole dataset (1 GB of data = 1 GB stored) |
 | Other name | Eager learning | Lazy learning |
 
+Figure 7 measures the storage and prediction rows of the table as the training data grows, with KNN and logistic regression on more and more students from the same data generator.
+
+![What each approach costs as the training data grows: numbers kept after training (left) and time to answer 10,000 new students (right), both on log scales. Timings are from one machine.](images/cost_compare.png)
+
+- **Storage.** KNN keeps every value of every training student: 3,000 numbers for 1,000 students, 3 million for 1 million. Logistic regression keeps 3 numbers, whatever the size of the data.
+- **Prediction time.** KNN must search the stored students for each new one, so its answers slow down as the data grows (about 8 ms for 10,000 new students with 1,000 stored, about 29 ms with 1 million stored). Logistic regression computes one formula per student and takes about 0.1 ms at every size.
+
 The Notebook for this Note (`notebook.ipynb`) is a small app: move a new student with sliders and change *k*, and see what each approach predicts.
 
 ## 6. Summary
@@ -158,6 +201,7 @@ The Notebook for this Note (`notebook.ipynb`) is a small app: move a new student
 **Built from**
 
 - CampusX, "Instance-Based Vs Model-Based Learning | Types of Machine Learning", YouTube, https://www.youtube.com/watch?v=ntAOq1ioTKo
+- StatQuest with Josh Starmer, "StatQuest: K-nearest neighbors, Clearly Explained", YouTube, https://www.youtube.com/watch?v=HVXime0nQeI (the vote for different k, Section 3.3)
 
 **Other references**
 
@@ -172,11 +216,17 @@ The Notebook for this Note (`notebook.ipynb`) is a small app: move a new student
 | Distance | A number measuring how far apart two points are; small distance = similar |
 | Similarity | How alike two data points are |
 | K-nearest neighbours (KNN) | Predicting from the answers of the *k* closest stored points |
+| Majority vote | Predicting the class that most of the *k* nearest points belong to |
+| Query point | The new point whose class we want to predict |
+| Outlier | A value far from the rest of the data; here, a student whose result does not match similar students |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives |
 | Eager learning | Another name for model-based learning: all the work done up front |
 | Decision boundary | A line or curve that separates the classes in classification |
-| Parameters | The numbers that describe a learned model, e.g. slope and intercept |
+| Parameters (G-1450) | The numbers that describe a learned model, e.g. slope and intercept |
+| Logistic regression | A model-based classifier that learns a straight decision boundary |
+| Loss function (G-706) | A single number measuring how wrong a model is on the training data; training makes it smaller |
+| Gradient descent | Training by repeatedly nudging the parameters to make the loss smaller |
 | Feature | An input variable; one column of the data table |
 | Target | The output we predict |
 | Observation | One record; one row of the data table |
-| Feature scaling | Putting features on the same scale, so no feature dominates distances |
+| Feature scaling (G-767) | Putting features on the same scale, so no feature dominates distances |

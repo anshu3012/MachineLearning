@@ -241,7 +241,7 @@ Figure 9 draws these rates as nudges on three number lines, one per stage of the
 
 Most ML models are long chains of functions: a weighted sum, then a sigmoid, then a log loss. The chain rule is what turns their derivatives into a product of small, easy pieces. The [linear regression maths Note](../51-linear-regression-maths/note.md) already used it on $(y_i - m x_i - b)^2$, and the next Notes extend it to many variables.
 
-The smallest case of that use fits in three lines. One person has weight 2 and height 3. We predict height as $b + 1 \times$ weight and may only move the intercept $b$. The error on this person is the **residual** (G-1685), $r = 3 - (b + 2) = 1 - b$, and the loss is $r^2$.
+The smallest case of that use fits in three lines. One person has weight 2 and height 3. We predict height as $b + 1 \times$ weight and may only move the intercept $b$. The error on this person is the **residual** (G-705), $r = 3 - (b + 2) = 1 - b$, and the loss is $r^2$.
 
 1. Outer rate: $\dfrac{d(r^2)}{dr} = 2r$.
 2. Inner rate: $\dfrac{dr}{db} = -1$ (raising the intercept by 1 lowers the residual by 1).
@@ -271,7 +271,7 @@ Take $\cos x$ near $x = 0$. We want a simple polynomial $c_0 + c_1 x + c_2 x^2$ 
 
 1. **Match the value.** $\cos 0 = 1$, and the polynomial at 0 is $c_0$. So $c_0 = 1$.
 2. **Match the slope.** The slope of $\cos x$ at 0 is $-\sin 0 = 0$: the curve is flat at its top. The slope of the polynomial at 0 is $c_1$. So $c_1 = 0$.
-3. **Match the bend.** The cosine curves downwards at 0. The **second derivative**, the derivative of the derivative, measures this bend: for $\cos x$ it is $-\cos 0 = -1$. For the polynomial it is $2c_2$. So $2c_2 = -1$ and $c_2 = -\tfrac12$.
+3. **Match the bend.** The cosine curves downwards at 0. The **second derivative** (G-2249), the derivative of the derivative, measures this bend: for $\cos x$ it is $-\cos 0 = -1$. For the polynomial it is $2c_2$. So $2c_2 = -1$ and $c_2 = -\tfrac12$.
 
 The result is $\cos x \approx 1 - \tfrac12 x^2$. Check at $x = 0.1$: the polynomial gives $1 - 0.005 = 0.995$, and the true $\cos 0.1$ is $0.99500$ to five places.
 
@@ -396,7 +396,7 @@ Exactness for polynomials explains a result of the [XGBoost maths Note](../126-x
 | Quotient rule | $(f/g)' = (f'g - fg')/g^2$ |
 | Composition | $g \circ f$: apply $f$, then $g$; $(g \circ f)(x) = g(f(x))$ |
 | Rate of change | How much one quantity changes per unit change of another; the meaning of a derivative |
-| Second derivative | The derivative of the derivative; it measures how the curve bends |
+| Second derivative (G-2249) | The derivative of the derivative; it measures how the curve bends |
 | Taylor polynomial | The Taylor series cut after the $(x - x_0)^n$ term |
 | Maclaurin series | The Taylor series around $x_0 = 0$ |
 | Linearisation | Replacing a function near a point by its tangent line (its first-order Taylor polynomial) |

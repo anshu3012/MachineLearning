@@ -199,7 +199,7 @@ The coin shows both sides. With $p$ fixed at 0.5, the probabilities of all possi
 
 1. **In words:** the area under the likelihood curve, over every possible value of the parameter, is not 1.
 2. **Formula:**
-   $$\int_0^1 p^{5}\thinspace dp = \left[\frac{p^{6}}{6}\right]_0^1 = \frac{1}{6}$$
+   $$\int_0^1 p^{5}\thinspace dp = \left[\frac{p^{6}}{6}\right] _0^1 = \frac{1}{6}$$
 3. **Example:** the area is $0.167$, not 1. The Notebook confirms both sums: 1.000 for the probabilities, 0.167 for the likelihood area (Figure 7).
 
 ![Left: with p = 0.5 fixed, the probabilities of 0 to 5 heads add up to 1. Right: with five heads fixed, the area under the likelihood L(p) = p⁵ is 1/6.](images/sums.png)

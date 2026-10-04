@@ -38,7 +38,9 @@ Figure 2 shows some of the abilities that make up human intelligence. We use dif
 - problem solving, to crack a puzzle;
 - imagination, to create something new.
 
-Some of these abilities, such as logic, are well defined. Others, such as creativity or emotional intelligence, have no precise definition. An ability we cannot define is very hard to build into a machine.
+Some of these abilities, such as logic, are well defined. Others, such as creativity or emotional intelligence, have no precise definition. An ability we cannot define is very hard to build into a machine: we cannot measure creativity, and nobody knows "the equation of love", so we cannot tell a right result from a wrong one.
+
+The ability we can measure is **pattern recognition** (G-2169): finding regularities in data, such as which words mark a spam email. A pattern-recognition system can be scored, because each answer is right or wrong. For that reason, almost all AI in use today is pattern recognition.
 
 ### 2.2 Narrow AI and general AI
 
@@ -47,25 +49,29 @@ Some of these abilities, such as logic, are well defined. Others, such as creati
 - **Narrow AI** (G-1303): a system that performs one specific task, such as recognising faces, translating text or playing chess.
 - **Artificial general intelligence (AGI)** (G-184): a single machine with all the abilities in Figure 2, like a human.
 
+![Narrow AI and general AI](images/narrow_vs_general.png)
+
+Figure 3 shows the difference. On the left, each narrow system does one task and nothing else: the chess system cannot translate a sentence. On the right, one system would have every ability of Figure 2.
+
 AGI is the long-term goal of the field. Every AI system we use today is narrow AI.
 
 ## 3. Symbolic AI and expert systems
 
-> **Key point:** Early AI worked by having humans write down rules. Hand-written rules work for problems with clear rules and fails for everything else.
+> **Key point:** Early AI worked by having humans write down rules. Hand-written rules work for problems with clear rules and fail for everything else.
 
 ![Timeline of approaches to AI](images/timeline.png)
 
-Figure 3 shows how approaches to AI changed over time. Serious work on AI began in the 1950s.
+Figure 4 shows how approaches to AI changed over time. Serious work on AI began in the 1950s.
 
 The first approach was **symbolic AI** (G-1931): humans write down the knowledge a machine needs, as explicit rules. The machine then follows those rules.
 
-> **Extra:** Two dates mark the start of AI. In 1950 Alan Turing asked "Can machines think?" (Turing 1950), and in 1956 a summer workshop at Dartmouth gave the field its name, *artificial intelligence* (Russell and Norvig 2020, §1.3.1). The middle two eras in Figure 3 are approximate.
+> **Extra:** Two dates mark the start of AI. In 1950 Alan Turing asked "Can machines think?" (Turing 1950), and in 1956 a summer workshop at Dartmouth gave the field its name, *artificial intelligence* (Russell and Norvig 2020, §1.3.1).
 
 ### 3.1 How an expert system works
 
 > **Key point:** An expert system stores an expert's knowledge as rules and uses a program to apply them.
 
-The best-known product of symbolic AI is the **expert system** (G-726). Figure 4 shows how one is built and used.
+The best-known product of symbolic AI is the **expert system** (G-726). Figure 5 shows how one is built and used.
 
 ![How an expert system works](images/expert_system.png)
 
@@ -95,7 +101,7 @@ Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, a
 
 Instead of writing every rule by hand (explicit programming (G-730)), we give the machine data and the correct answers, and it finds the rules itself (see Section 3 of the [what is ML Note](../01-what-is-ml/note.md)). Finding the rules from examples is called **learning** (G-1073). Once a machine has learned, it can **predict** (G-1548): give an answer for new data it has never seen.
 
-> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 5), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression (G-1094)*).
+> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 6), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression (G-1094)*).
 
 ![A pattern in data: marks rise with hours studied (example data)](images/pattern_in_data.png)
 
@@ -103,7 +109,17 @@ Instead of writing every rule by hand (explicit programming (G-730)), we give th
 
 > **Key point:** We stop writing rules and start providing labelled examples.
 
-An ML model learns what a dog looks like from labelled photos, as children do (see Section 4.2 of the [what is ML Note](../01-what-is-ml/note.md)). Compared with symbolic AI:
+An ML model learns what a dog looks like from labelled photos, as children do (see Section 4.2 of the [what is ML Note](../01-what-is-ml/note.md)).
+
+![Labelled examples: twelve photos, each tagged "dog" or "not a dog" (Kaggle Cats vs Dogs dataset)](images/dog_photos.png)
+
+Figure 7 shows what the data looks like. The steps are:
+
+1. We show the system many photos, each with its label: "this is a dog", "this is not a dog".
+2. The system searches the photos for what the dog photos have in common. This search is the learning.
+3. After enough photos, the system can classify a photo it has never seen.
+
+Compared with symbolic AI:
 
 | Approach | What we do | Result |
 |---|---|---|
@@ -116,7 +132,7 @@ An ML model learns what a dog looks like from labelled photos, as children do (s
 
 **Deep Learning (DL)** (G-568) is a subset of ML that took off after about 2010.
 
-The process is the same as in ML. We give data to an algorithm and **train** (G-1997) it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
+The process is the same as in ML. We give data to an algorithm and **train** (G-1255) it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
 
 ### 5.1 Neural networks
 
@@ -142,12 +158,12 @@ Here CGPA, IQ and Certifications are the features. "Placed?" is the **target** (
 
 ![Feature selection in ML vs DL (student placement example)](images/features_ml_vs_dl.png)
 
-Figure 6 shows the difference:
+Figure 8 shows the difference:
 
 - **ML:** we decide which features matter and supply them. Choosing well requires a good understanding of the data. A useful feature we leave out can never be used by the model.
 - **DL:** we supply the raw data, and the network works out which information matters.
 
-Learning its own features makes DL valuable when nobody knows what the right features are. For example, nobody can list the features that make a photo a dog photo.
+Learning its own features makes DL valuable when nobody knows what the right features are. For example, to tell dogs from cats with ML we would have to describe each animal by hand-made features, such as the shape of the ears, the whiskers and the tail. Nobody can list all the features that make a photo a dog photo. A DL network takes the raw pixels and finds them itself. In the placement example, the same holds for a résumé: instead of counting certifications and backlogs by hand, we give the network the raw text.
 
 ### 5.3 Layers build up understanding
 
@@ -155,7 +171,7 @@ Learning its own features makes DL valuable when nobody knows what the right fea
 
 A neural network is organised in **layers** (G-1056) of neurons. Each layer works on the output of the layer before it. Adding layers lets the network detect more complex patterns, and a network with many layers is called *deep*.
 
-Figure 7 shows a network recognising a handwritten digit:
+Figure 9 shows a network recognising a handwritten digit:
 
 ![Layers of a neural network recognising a handwritten 7](images/layers_digit.gif)
 
@@ -163,15 +179,15 @@ Figure 7 shows a network recognising a handwritten digit:
 2. The next layer combines edges into **shapes**: a horizontal bar and a slanted line.
 3. The next layer combines the shapes into the answer: 7.
 
-> **Extra:** Nobody tells the layers to look for "edges" or "shapes". When researchers looked inside trained image networks, they found that the first layers respond to edges and blobs of colour, and later layers to larger parts such as faces or wheels (Zeiler and Fergus 2014, Fig. 2). Figure 7 is a simplified version of this.
+> **Extra:** Nobody tells the layers to look for "edges" or "shapes". When researchers looked inside trained image networks, they found that the first layers respond to edges and blobs of colour, and later layers to larger parts such as faces or wheels (Zeiler and Fergus 2014, Fig. 2). Figure 9 is a simplified version of this.
 
 ### 5.4 More data helps DL more
 
 > **Key point:** ML stops improving after a point. DL keeps improving as data grows.
 
-![Performance as the amount of data grows](images/data_vs_performance.png)
+![Performance as the amount of data grows (schematic)](images/data_vs_performance.gif)
 
-Figure 8 shows how performance changes as we add data:
+Figure 10 draws both curves from left to right, as the amount of data grows:
 
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
@@ -182,15 +198,17 @@ The steady gain with more data is why DL now outperforms ML on tasks with very l
 - object detection;
 - text and speech tasks.
 
-> **Extra:** Figure 8 is a sketch, not a measurement. A measured case: Sun et al. (2017) trained image networks on up to 300 million images, and performance on vision tasks kept rising, roughly by the same amount each time the data grew tenfold (a logarithmic increase).
+> **Extra:** Figure 10 is a sketch, not a measurement. A measured case: Sun et al. (2017) trained image networks on up to 300 million images, and performance on vision tasks kept rising, roughly by the same amount each time the data grew tenfold (a logarithmic increase).
 
 ## 6. Choosing between ML and DL
 
 > **Key point:** Lots of data, especially images, text or speech: use DL. Small or tabular data: use ML.
 
-DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 8 shows.
+DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 10 shows.
 
-Many organisations, such as banks and insurance companies, do not have that much data. For them, ML remains the standard choice.
+Most organisations do not have that much data. Banks, insurance companies and sports analytics firms work with small datasets, and for them ML remains the standard choice.
+
+A saying sums up the choice: where a needle is needed, we do not use a sword. DL is the sword: powerful, but the wrong tool for a small job.
 
 | Our data | Use |
 |---|---|
@@ -222,6 +240,7 @@ Many organisations, such as banks and insurance companies, do not have that much
 
 **Other references**
 
+- Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [Note 1049](../1049-cat-vs-dog-cnn/note.md)).
 - Russell, S. and Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*, 4th ed. Pearson.
 - Sun, C., Shrivastava, A., Singh, S. and Gupta, A. (2017). Revisiting Unreasonable Effectiveness of Data in Deep Learning Era. *ICCV*.
 - Turing, A. (1950). Computing Machinery and Intelligence. *Mind* 59(236).
@@ -232,17 +251,18 @@ Many organisations, such as banks and insurance companies, do not have that much
 | Term | Meaning |
 |---|---|
 | Artificial Intelligence (AI) | The field of building machines that show intelligence |
+| Pattern recognition (G-2169) | Finding regularities in data; the measurable part of intelligence that today's AI covers |
 | Narrow AI | AI that performs one specific task |
-| Artificial general intelligence (AGI) | A machine with all human abilities; does not exist yet |
+| Artificial general intelligence (AGI) (G-184) | A machine with all human abilities; does not exist yet |
 | Symbolic AI | AI built from rules written by humans |
 | Expert system | Symbolic AI system: an expert's rules plus a program that applies them |
 | Knowledge base | The set of rules inside an expert system |
 | Inference engine | The program that applies an expert system's rules |
 | Machine Learning (ML) | Using statistical techniques to let a machine find patterns in data |
 | Learning | Finding rules (patterns) from examples |
-| Predict | Give an answer for new, unseen data |
+| Predict (G-1548) | Give an answer for new, unseen data |
 | Deep Learning (DL) | ML using neural networks with many layers |
-| Train | Let a model learn by repeatedly reducing its errors |
+| Train (G-1255) | Let a model learn by repeatedly reducing its errors |
 | Neural network | A model of many connected simple units, loosely inspired by the brain |
 | Perceptron | The smallest unit of a neural network; an artificial neuron |
 | Feature | An input variable; one column of the data table |

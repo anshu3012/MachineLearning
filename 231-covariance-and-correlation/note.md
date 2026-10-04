@@ -27,7 +27,7 @@ A **feature** (G-772) is one variable of the data, one column of the table; an *
 Each measure fixes a blind spot of the one before:
 
 - **Mean** (G-1203): gives the centre of a feature, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
-- **Variance** (G-2078): gives the spread, and tells those two apart (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). But it looks at one feature at a time.
+- **Variance** (G-2074): gives the spread, and tells those two apart (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md)). But it looks at one feature at a time.
 - **Covariance** (G-496): the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step Note](../48-pca-step-by-step/note.md) (section 3.1) shows. Only a measure that uses both features together can tell them apart (Figure 2).
 
 ![Two tiny datasets with the same means and the same variances, 2/3 for each feature. The rising one has covariance +2/3, the falling one −2/3.](images/same_variance.png)
@@ -40,7 +40,7 @@ Covariance is taught in the [PCA step by step Note](../48-pca-step-by-step/note.
 
 $$\sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y) \qquad\qquad s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$$
 
-The sample version divides by $n - 1$ for the same reason as the sample variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md), section 4.3). For example, five employees (a sample) have experience $x$ = 2, 5, 8, 12, 13 years and monthly salary $y$ = 1, 2, 5, 12, 10 lakh rupees, with means $\bar{x} = 8$ and $\bar{y} = 6$.
+The sample version divides by $n - 1$ for the same reason as the sample variance (see the [measures of dispersion Note](../222-measures-of-dispersion/note.md), section 6). For example, five employees (a sample) have experience $x$ = 2, 5, 8, 12, 13 years and monthly salary $y$ = 1, 2, 5, 12, 10 lakh rupees, with means $\bar{x} = 8$ and $\bar{y} = 6$.
 
 | Employee | $x$ | $y$ | $x - \bar{x}$ | $y - \bar{y}$ | Product |
 |---|---|---|---|---|---|
@@ -144,7 +144,7 @@ Figure 6 sweeps $r$ from $-1$ to $+1$ on the same 60 random points. Watch the cl
 
 ![The same 60 random points with their correlation set to −1, −0.9, −0.6, −0.3, 0, 0.3, 0.6, 0.9 and +1 (standardized features). Red clouds fall, blue clouds rise, the grey cloud at 0 has no tilt.](images/r_sweep.gif)
 
-> **Extra:** Rules of thumb put names on $r$, but fields disagree. One common scale calls $|r|$ of 0.7 to 0.9 strong, 0.4 to 0.6 moderate and 0.1 to 0.3 weak; a medical scale calls 0.7 only moderate (Akoglu 2018, Table 1). On the first scale, the employees' $r = 0.957$ is strong and Figure 5's $r = 0.65$ is moderate.
+> **Extra:** Rules of thumb put names on $r$. One common scale calls $|r|$ of 0.7 to 0.9 strong, 0.4 to 0.6 moderate and 0.1 to 0.3 weak (Akoglu 2018, Table 1). On this scale, the employees' $r = 0.957$ is strong and Figure 5's $r = 0.65$ is moderate.
 
 ### 4.2 Few points can fake a strong correlation
 

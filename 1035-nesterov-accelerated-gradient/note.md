@@ -33,7 +33,22 @@ Figure 1 shows the difference. On this valley momentum needs 59 steps to bring t
 
 Momentum covers the early part of the road quickly: in the valley of Figure 1 it is close to the minimum within about 20 steps. Then it crosses the minimum, comes back, crosses again, and only settles once its velocity has died away.
 
-Lowering the **decay factor** (G-553) $\beta$ tames the swings, at the cost of some speed. On the more complex, non-convex losses of neural networks (**non-convex functions**, G-1333) the **oscillations** (G-1410) cost even more time. NAG offers another fix: keep the speed, and reduce the oscillations.
+Figure 2 shows the swings on the simplest loss, the bowl $L(w) = w^2/2$, from $w = -10$ with **learning rate** (G-1068) 0.1.
+
+![The weight on the bowl $L = w^2/2$ step by step: plain gradient descent and momentum with $\beta$ = 0.5, 0.8 and 0.9. The legend shows the step from which each run stays within 0.1 of the minimum](images/beta_sweep.gif){width=95%}
+
+| | First within 1 of the minimum | Furthest past the minimum | Stays within 0.1 from step |
+|---|---|---|---|
+| Gradient descent | step 22 | 0 | 44 |
+| Momentum, $\beta = 0.5$ | step 9 | 0 | 15 |
+| Momentum, $\beta = 0.8$ | step 5 | 3.32 | 42 |
+| Momentum, $\beta = 0.9$ | step 5 | 6.04 | 81 |
+
+- **Getting near is fast.** With $\beta = 0.9$ or 0.8, momentum is within 1 of the minimum after 5 steps; gradient descent needs 22.
+- **Settling is slow.** With $\beta = 0.9$ the weight shoots 6.04 past the minimum and keeps swinging until step 81, later than plain gradient descent (step 44).
+- **A smaller $\beta$ swings less.** With $\beta = 0.5$ there is no overshoot at all and the run settles by step 15.
+
+Lowering the **decay factor** (G-553) $\beta$ tames the swings, at the cost of some speed at the start (9 steps instead of 5 to get near). On the more complex, non-convex losses of neural networks (**non-convex functions**, G-1333) the **oscillations** (G-1410) cost even more time. NAG offers another fix: keep the speed, and reduce the oscillations.
 
 ## 4. Two pushes at once, or one after the other
 
@@ -49,7 +64,7 @@ NAG changes only **where the gradient is computed**. NAG first applies the momen
 
 ![One step near the minimum. Left, momentum: the momentum jump and the gradient step are both computed at $w_t$, where the slope still points right, so the step overshoots. Right, NAG: jump first, then measure the slope at the look-ahead point, which points back, so the step is corrected](images/lookahead.png){width=100%}
 
-Figure 2 shows one step near the minimum. Hinton's lecture slides put the difference in one line: first make a big jump in the direction of the previous accumulated gradient, then measure the gradient where you end up and make a correction; it is better to correct a mistake after you have made it (Hinton 2012, lecture 6c).
+Figure 3 shows one step near the minimum. Hinton's lecture slides put the difference in one line: first make a big jump in the direction of the previous accumulated gradient, then measure the gradient where you end up and make a correction; it is better to correct a mistake after you have made it (Hinton 2012, lecture 6c).
 
 ## 5. The update rule
 
@@ -70,7 +85,7 @@ Putting $v_t$ into the last line gives the whole step: $w_{t+1} = w_t - \beta v_
 
 ![Momentum (top) and NAG (bottom) step by step on the valley of Figure 1. Orange: the jump $\beta v_{t-1}$; blue: $-\eta$ times the gradient; purple dot: where the gradient is measured. Momentum measures at the current point, NAG at the look-ahead point](images/nag_lookahead_steps.gif){width=95%}
 
-Figure 3 applies the rule on the valley of Figure 1. Watch step 2: momentum measures the slope at a point on the valley floor, where nothing pushes back, so the jump carries it across; NAG measures at the look-ahead point on the far wall, whose slope points back and cancels the swing.
+Figure 4 applies the rule on the valley of Figure 1. Watch step 2: momentum measures the slope at a point on the valley floor, where nothing pushes back, so the jump carries it across; NAG measures at the look-ahead point on the far wall, whose slope points back and cancels the swing.
 
 ## 6. Why NAG overshoots less
 
@@ -86,7 +101,7 @@ If the momentum jump is a poor move that increases the loss, the gradient at the
 
 ![The weight over the steps. Left: the bowl $L = w^2/2$ from $w = -10$, $\eta = 0.1$, $\beta = 0.9$; NAG (purple) swings less far past the minimum and settles sooner than momentum (orange). Right: a curve with a local minimum from $w = -3$, $\eta = 0.05$, $\beta = 0.9$; momentum rolls on to the global minimum, NAG stays in the local one](images/overshoot.png){width=100%}
 
-Figure 4 (left) and Figure 1 measure the effect (Notebook):
+Figure 5 (left) and Figure 1 measure the effect (Notebook):
 
 | | Momentum | NAG |
 |---|---|---|
@@ -102,7 +117,7 @@ Figure 4 (left) and Figure 1 measure the effect (Notebook):
 
 Damping the oscillations has a possible downside. On a loss with a small dip on the way to a deeper one, momentum may build up enough speed to roll over the bump and out of the dip; NAG brakes earlier, so it may not gain that speed and can settle in the **local minimum** (G-1110).
 
-Figure 4 (right) shows exactly this on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$: with the same settings, momentum ends in the **global minimum** (G-848) near $w = 2.14$ and NAG in the local one near $-1.83$. Over 12 settings (two starts, three learning rates, two values of $\beta$), momentum reached the global minimum in 8 and NAG in 4, and NAG never escaped where momentum did not (Notebook). On such losses another optimizer may do better.
+Figure 5 (right) shows exactly this on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$: with the same settings, momentum ends in the **global minimum** (G-848) near $w = 2.14$ and NAG in the local one near $-1.83$. Over 12 settings (two starts, three learning rates, two values of $\beta$), momentum reached the global minimum in 8 and NAG in 4, and NAG never escaped where momentum did not (Notebook). On such losses another optimizer may do better.
 
 ## 8. NAG on real data: MNIST
 
@@ -112,13 +127,13 @@ We repeat the **MNIST** (G-1249) experiment of the [momentum Note](../1034-sgd-w
 
 - **data:** 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation;
 - **network:** hidden layers of 128 and 64 **ReLU** (G-1668) nodes;
-- **training:** **learning rate** (G-1068) 0.01, **batch size** (G-267) 64, 20 **epochs** (G-696), 3 seeds.
+- **training:** learning rate 0.01, **batch size** (G-267) 64, 20 **epochs** (G-696), 3 seeds.
 
 Only `nesterov` changes, at $\beta = 0.9$ and at $\beta = 0.99$.
 
 ![Training loss on MNIST per epoch, mean of 3 seeds. Left: $\beta = 0.9$, the two curves overlap. Right: $\beta = 0.99$, NAG (purple) mostly below momentum (orange)](images/mnist_nag.png){width=100%}
 
-Figure 5 and the Notebook give, as means over the 3 seeds:
+Figure 6 and the Notebook give, as means over the 3 seeds:
 
 | | $\beta = 0.9$: momentum | $\beta = 0.9$: NAG | $\beta = 0.99$: momentum | $\beta = 0.99$: NAG |
 |---|---|---|---|---|

@@ -1,0 +1,321 @@
+hi guys welcome to my youtube channel
+from today we are going to start learning all the machine learning algorithms one by one
+and today we will start the first machine learning algorithm
+that is linear regression
+so let's start the video
+so guys if you have ever done any machine learning course before
+or if you have studied machine learning in general
+even on a small level
+then you would know that
+the first algorithm that people study while starting machine learning
+is linear regression
+So why is linear regression taught? I can just give you one reason. Actually two reasons.
+First of all, linear regression is one of those algorithms which is easy to understand.
+Easy to understand. There are many machine learning algorithms where you will get confused about what is happening.
+means when you will study support vector machines or you have seen some PC
+those algorithms are like really difficult
+when you will enter deep learning those algorithms are really difficult
+and the biggest thing is that you can't even explain what is that
+you don't understand but linear regression is not one of those algorithms
+it is one of the most intuitive algorithms
+by looking at it you can understand mathematically what is happening
+so that's the first reason
+Second reason, whatever you will study in linear regression, you will see that you can implement the same things in further algorithms.
+So in a way, it's like this foundation algorithm which if you have studied well, then the journey of your further machine learning becomes easy.
+So because of these two things, linear regression is very important and obviously it is also useful.
+Since it is such an important algorithm, I will teach you linear regression in detail.
+I will try to keep things simple. I will also teach you Maths, no doubt about that.
+But I will teach you in a way that you will not face any problem.
+First of all, I will explain the landscape of linear regression.
+Means if you want to study linear regression then what all you have to study.
+Before that I guess you must be understanding that linear regression is a supervised machine learning algorithm.
+We have read that chart in types of machine learning.
+In types of machine learning it is supervised, unsupervised, semi-supervised.
+And in supervised you have regression and classification problem.
+So I guess you can understand from the name of linear regression that it solves the regression problem.
+Solving regression problem means that you will work on those datasets whose output column value will be numerical.
+I will give you some examples, don't worry about that.
+I was just giving you a revision that linear regression is a supervised machine learning algorithm.
+First of all this is clear.
+Now when you study linear regression then you will study three different types of linear regression.
+first one is simple linear regression, second one is multiple linear regression and third one is polynomial linear regression
+After this comes one more concept which we call regularization
+And by using this regularization you create different linear regression models
+But that is for the future
+First we are going to focus on these three
+And first let's see what are these three
+So simple linear regression is very simple
+this is such a linear regression problem where you have only one input column and one output column
+I can give you one example
+so let's say we have a data of a fourth year of a college whose placement is done
+now I have data in two columns
+1st column is how much is the CGPA of the students and 2nd is how much is their package
+means one valid CGPA means row could be a student that his CGPA is 6.66 and his salary is 3.01
+so here if you see in your data you have only 2 columns CGPA and package
+And here your first column is CGPA, this is your input column and your package is your output column.
+Why? Because your package depends on CGPA.
+So now if you want to solve a machine learning problem, then the problem can be that if someone tells you CGPA,
+then based on this data, you have to predict the package of that person.
+Now this is simple linear regression.
+In today's video, we will talk about Simple Linear Regression
+But you must be having a doubt in your mind
+What is Multiple Linear Regression?
+It is very simple
+If you have more than one input column
+Then it is converted into Multiple Linear Regression
+I can give you an example
+Let's say in the same scenario
+You have some additional data
+Like you have CGPA
+You also have gender
+that whether the child is a boy or a girl, what were the marks of 12th and from which state and how much is the package
+so now if you notice that you have 4 different columns in the input, the output is still the same
+but now if you get a new student, you ask him about his CGPA, gender, 12th marks and from which state he is
+So now if you are predicting the package of this then this is an example of multiple linear regression.
+We will focus on multiple linear regression but first our target is to learn simple linear regression very well.
+Because if you understand simple linear regression then you will not be able to understand multiple linear regression.
+And the third type, polynomial linear regression, I can give you an intro that
+It generally works when your data is linear.
+What if your data is not linear? In that case polynomial linear regression helps you.
+But that is a topic for another time.
+Now if you understood this introduction then in this video what we are going to do is
+We will understand the geometric intuition behind simple linear regression
+And then I will use a small data set
+And will explain you the whole work
+And then in the next video
+I will tell you the complete end to end maths behind simple linear regression
+And we will create our own simple linear regression algorithm from scratch
+So in these two videos, the end goal is to learn linear regression, simple linear regression very well.
+So now let's start simple linear regression. So let's start simple linear regression.
+And we will understand simple linear regression through an example. Because things become easy through an example.
+So we are taking the same example that we have the data of a fourth year student of a college
+The placement of those people
+And we have only two columns in the data
+One tells the CGPA of that particular student
+And second tells the package of lakhs per annum
+And our work is to make a model
+Which is obviously a linear regression model
+If you give it CGPA
+Then it will tell you the package
+So, this is what we have to build. Now, think about it guys, if you are given this problem, you are this guy, you are this team, actually you are leading this team who wants to make this a model.
+You can take it as a website where the user will put his CGPA in the website, he will get to know how much his placement will cost.
+So, you are going to build this website. Now, think about it, how would you approach this problem?
+Now simple question is, let's say I don't have this data, then how would I predict the package of a student?
+If someone would ask me how much is the package of a student in your college?
+If I had this data, then I would ask him, tell me how much is your CGPA?
+so based on this data i will give an answer but suppose i don't have any data so someone ask me that what is the package in your college
+so since i don't have any data the best thing that i can do is i can simply average the package of all the students that have been placed
+that 3.5 LPA will be the package if your placement is done. I will just say it like this.
+But obviously you can see that this is a very bad guess. This will vary.
+There will be a difference between your bad student and your good student's package.
+So this is poverty that we don't have data but we have data.
+So now I will tell you how to move ahead with data.
+So first of all what you have to do is to plot this data, you can plot this data, this is the plot of 200 students
+which was placed. Here on x-axis you can see CGPA and on y-axis your package. Now clearly one thing you can notice
+The first thing you will observe in this data is that your data is sort of linear. It is not completely linear.
+This is completely linear data. But our data is not completely linear, it is sort of linear.
+So the first question that came to my mind when I was studying linear regression was why?
+Why is this data not completely linear? I guess you know the answer.
+The reason is that it is a real world data set and in real world data set you have real world factors
+If you talk about this student then he is a student whose package is little more in his CGPA range
+so many CGPA people get less salary but this guy is an exception, he will get more salary, why?
+there can be any reason, maybe this guy is very strong, maybe his interview is very good, maybe the company in which he is placed
+that company gives more package, there can be any reason, right, and if you see this guy, in his CGPA range
+his package is very less, his CGPA should get more package, but why is it getting less?
+It may not be that special. It may be that IQ is less. It may be that the company it is going to gives less package.
+Anything can happen. I am just saying that real world data is affected by real world factors which you can't mathematically understand.
+How could you understand that the interview went wrong? There is no mathematical formula for this.
+How bad was the interview? We can't quantify it. There are certain factors and we call them stochastic errors.
+which we can't determine. Those are called stochastic errors. And due to stochastic errors, your data is sort of linear.
+Now if this data was completely linear, what would have been good? It would have been very easy. Think about it.
+We simply draw this line, which is passing through all these points. And now if someone asks me,
+Obviously, if I draw this line, then I know the equation of this line.
+The equation of the line is generally mx plus b.
+y and x are the variables.
+Basically, I know the value of m and b.
+And what is m and b? I guess you also know that.
+m is the slope.
+Basically, this theta.
+And what is b? y-intercept.
+Basically, this distance.
+If I get to know both of these things, then I will get to know the line equation.
+And if I get to know the line equation, then if a new person comes and says that this is my CGPA,
+then I will directly plot it on this line.
+Like this.
+And from here, I will remove its package.
+Because if you notice here, then X is representing CGPA and Y is representing the package.
+So I am just telling you that if your data was perfectly linear, then the work was very easy.
+You had to find an equation of a line which passes through all those points.
+And then using that line equation, in future you can find the package for any given CGPA.
+But unfortunately, the data we have is not perfectly linear. It is sort of linear.
+That's the question. What can we do? The answer is, since I have read it, I will tell you. You will still draw a line.
+You will still draw a line and this line will be called your best fit line. This line is called best fit line.
+Now why is it called the best fit line? Because this line is making the minimum mistake.
+Think about it, the perfect line is the one which passes through every point.
+In this scenario, you cannot make a perfect line.
+So what can you make as the next best thing?
+A line which passes through every point very closely.
+And that is what linear regression does.
+Thus, if someone asks you about linear regression, what does that algorithm do, then it is very simple.
+You will say that first of all I have to find out whether the dataset I am working on is linear or sort of linear or not.
+99.99% of the time, the data you will get will be linear but sort of linear.
+So what you have to do is, you have to draw a line on that sort of linear data.
+linear regression does this, it draws a line, drawing a line means that it finds such an M and such a B
+which will draw such a line which will make a minimum mistake on these points
+and to make a minimum mistake means to pass closest to every point, you can understand this by thinking
+that this line, suppose I have drawn a bit ugly, suppose this line, now if you are asked which line is the best fit line
+then obviously you will say line no.1 is best fit line, line no.2 is not, because line no.2 is passing from all the points
+because of that it can't be the best fit line, so in short, in summary linear regression is a very simple algorithm
+whose work is to draw a line on a sort of linear data and the speciality of that line is that it is a best fit line
+means it passes closely to all the points. That is how this entire algorithm works.
+Now to be honest I have not done this discussion with you that how M comes out and how B comes out.
+That discussion is reserved for the next video where we will develop a mathematical model from scratch.
+We will write this algorithm from scratch.
+We will do that in the next video.
+In this video, I just wanted to tell you
+what is the core geometric intuition behind this algorithm.
+So if you understood this,
+now we will do one thing.
+We will go to our code window
+and apply linear regression on an actual dataset.
+So guys, now let's start.
+I have this notebook.
+I actually have the same data which I had shown you.
+Placement.csv
+So, let me just run this code. So, you can see this is my data. I have data of 200 students.
+CGPA and package. Package is in LPA, lakhs per annum. So, you can see there is a student whose CGPA is 6.89.
+So, his package in LPA is 3.26. So, 5.12 has 1.98, 7.42 has 3.67. This is how we have data.
+I have plotted both the columns in the graph, so you can see my data is exactly the same as I showed you in the snapshot
+CGP on x-axis, package in LPA on y-axis, the biggest observation that you have to do is that your data is linearly aligned in this 2D space
+now what we have to do is we have to apply our algorithm on this data and create a model
+which if we give a new CGPA then it will tell us in what package it will be
+so it is very simple I have told you in the first video that what are the steps involved
+whenever you work with any machine learning algorithm
+your work is to separate x and y, x means your input columns and y means output columns, so I am doing the same,
+so x will be equal to df dot iloc all rows 0 to 1, this is my input and y that would be gf dot iloc all rows comma minus 1,
+This is my output, so I can quickly show you, this is X, my CGPA and this is Y, my target column package.
+Next, generally what we do is that we do train test split, we hide some data because we have to ask questions later
+that did you learn properly or not, so I am dividing data into two parts, randomly, training set by which I will train my model
+and then a test set by which i will take test or exam to know the answer of this cgk and if i know the real answer
+then i can always compare whether the results are correct or not so in this step you just have to write
+sklearn dot model selection you will import train test split and you are dividing your data in 4 arrays
+and here you are passing x, y we are giving our test size 0.2 means 20% data is going in test
+and I am doing random state 2 so that you can reproduce this result and now guys we are ready to apply our algorithm
+so you don't have to do anything you just have to import this class called linear regression from sklearn.linear model
+You have to make an object of this, LR and this is that object and this object has some methods and attributes
+One of them is fit, the work of fit is to train this model and you send your data while training
+Since this is a very small data, it will be trained very fast, see the model is trained and now we are ready to predict
+That's it. Now if you see your X-test, we have some numbers in X-test. CGPA of 112 and in Y-test,
+I have its corresponding package. So the package of 112 was 4.10. So what will I do? I will give this person's CGPA to my model
+and i will ask you to predict and i will check that how much close of 4.10 is coming
+how to do all this is very simple you will write lr.predict and here what you have to do
+from your xtest you have to pass the 0th item this code will give you error
+The reason for that is that your mybag.iloc we have to send 0th
+This code will give you an error because the algorithm you have trained
+The input shape that your algorithm is expecting is 1,1
+Means I want one row which has one column
+But what we are sending is actually 1D data, this is 1D, so what we have to do is we have to simply reshape it to 1,1
+And now I am getting this error because first I have to fetch it from values and here is our answer
+This is our answer. So according to my algorithm, the person whose CGPA is 8.58,
+its output as in its package should be 3.89. But in the original, the package used was 4.10.
+So our algorithm is a bit off. Let me give you one more example.
+Let's see the 7.15 one. This should be the second of our X test.
+7.15 and its package should be of 3.49. Let's see, here instead of 0, I am doing 1.
+And you can see, it is off again. 3.09 should have been 3.49.
+We are not getting very good results now. Next is 5.88. Its package should be of 2.08.
+And here I have written 2. And again, 2.08 to 2.38.
+It is not too much off, there is a difference of 20,000. The kid will be happy, I have made the algorithm.
+But whatever it is, that is how this entire thing is working. Now what can we do?
+In fact, I will show you 2-3 things that actually a line was drawn.
+While doing our work, linear regression actually drew a line. I will show you that line.
+So, what I will do is, first of all I will copy this entire code as it is so that you can see the whole data
+and then I will show you how the regression line is being made.
+So, at this point I am not going to explain the code that much but you will understand it in some time.
+So, I am going to pass dfcgp and over here I am going to pass lr.predict x.reshape 200
+Actually, I don't need to run it on x, I can just write xtrain or rather xtest
+yeah, xtest is fine, and okay, yeah my bad, I have given the complete data here, there are 200 rows in this
+and what I have predicted, I have predicted only 40 rows, that is why there is an error, so I will do one thing
+If I pass Xtest, now we can get the line. I have sent equal rows in both and my work is done.
+What I will do is I will just change the color to red so that you can see this line.
+In fact, let's do one thing. This line is a bit small because there is less data in the test.
+What I will do is I will instead use Xtrain in both the places.
+The same result will be there, you will be able to see the whole data.
+So you can see guys, this was the line which my linear regression algorithm has searched.
+It said that for this data, this line is the best fit line.
+And if it has searched the line, it means that it must have searched two things.
+First slope of the line, second y intercept.
+Now I will show you what is the value of that slope and what is the value of that y intercept.
+Let me show you. So if your linear model is trained, then in its object, you have some attributes.
+The first attribute is QF underscore which is the coefficient. And see here guys, this is your slope. 0.55.
+This is actually your m value. I am storing it in m. This is your slope. And similarly, you can also find out
+your intercept and that value is minus 0.89, this is your b, mx plus b
+and now your line equation is y is equal to mx plus b
+so if you give a new x, means if you give a new CGP
+So you have B and M, you will calculate Y and Y is your package.
+So in fact this is what happened behind the scenes, I will show you.
+So your first person, what is his CGPA? 8.5 and what was our answer for this?
+When we put 0 here, our answer was 3.89. Why did it come? Let me show you.
+So what am I doing? I am writing M multiplied by CGPA.
+CGPA will be 8.58. So I'll copy this 8.58 plus B value and multiply it. This is the value 3.89
+which you can see here. So behind the scenes, your linear regression algorithm is finding M and B value
+means it is finding a line and using that m and b value it is giving you a package for a new cgpa value
+the good part is that even if your cgpa is not in your data then also you can calculate its package
+Let's say I have a student whose CGPA is 9.5 and his package should be 4.40.
+I guess you are able to understand the power here.
+Someone's CGPA is 100, I can't know.
+His salary should be 54 lakhs.
+Obviously, there is an upper limit that you can't go above 10.
+But my model is not following that restriction because it is a line.
+So the more you increase x, the more you will see the value of y.
+So that's it guys, that is how linear regression works.
+I made you do the code first because we are mostly from computer science background.
+And if we start understanding through codes, then maths will be easy.
+I could have taught you maths earlier, but you got scared and left.
+So I thought why not do coding first.
+So yeah, if there are some errors, ignore it, just run the code once, you will be able to see how something is working.
+Now the last thing, I told you about the mathematical interpretation of linear regression, that it draws a line,
+best fit line, but it has one more meaning, and I want to explain that meaning to you.
+So look, we understood through maths that linear regression is looking for a line on your data, best fit line.
+It means y is equal to mx plus b in which m and b values are being searched.
+Fine, I understood mathematically.
+But what is its human intuition?
+How do I explain myself? How do I explain a child? What does it mean?
+Means in this y, if I reframe this equation,
+so basically for our model package is equal to m times cgpa plus b value
+in short we are doing this only
+we have made a mathematical relationship between package and cgpa
+that if i will be given cgpa and i will be asked to tell the package
+So I will multiply this number in that, M and add this number B, that will be my package.
+Linear regression is actually doing this only. So let's understand what is the human understandable intuition of M and B.
+M means, you can actually call M as weightage. Weightage.
+It means that how much the package depends on your CGPA. This is its meaning.
+If value of M is very less then your package will depend very less on CGPA
+And if value of M is very high then your package will depend very much on CGPA
+what does slope tell? if this slope is very less, then it means that its unit change will be very less
+but if slope is very high, then it means that for very little unit change, there will be very high unit change
+Slope is telling this only. So this M or you call it slope, it actually tells the weightage of this variable on this variable.
+Now if you understand this, then let's talk about this B. What is B?
+If you want to understand the meaning of B, then what should you do? You make B zero.
+If you change B to 0, then this will become a formula. Package is equal to M multiplied by CGP.
+If CGP is 0, then your package will also become 0. But this doesn't seem right.
+This might be an extreme case. Let me give you another example.
+If you have this kind of data, X would be input experience in years and your Y would be package.
+Suppose this is your problem. I am taking a different example to explain B.
+Now what is the formula here? Package is equal to M times experience plus B.
+But this B is equal to zero. So this means package is equal to M times experience.
+Now suppose there is a fresher. So what will be his experience? Zero. But according to this equation,
+then his package should be zero. Means going by this logic, fresher should not get salary.
+But fresher gets salary. And that salary is B. This is called offset.
+this is offset that tomorrow if this term becomes zero then also my value of y will be something
+and that will be equal to that p okay so this was a little bit of human understandable intuition
+of linear regression okay m became weight that how much depends on the input column output column
+and b becomes offset that tomorrow if your input column is gone then also there will be some value in y okay
+So, this was the intuition plus coding video guys.
+I hope you understood a little bit.
+And now in the next video, things will be a little bit complex.
+We will develop a mathematical model.
+Where we will find a formula for calculating M or B.
+And then we will code that formula.
+Means we will make our own linear regression class.
+And I will give you side by side comparison of scikit-learn class and our class.
+So that's it for the video. I hope you enjoyed it. Thanks for watching. Bye.

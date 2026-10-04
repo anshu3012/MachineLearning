@@ -119,9 +119,9 @@ The parts of the LSTM cell are called **gates** (G-825), and there are three of 
 
 | Gate | What it does | In the story |
 |---|---|---|
-| **Forget gate** (G-794) | decides what to remove from the long-term memory | Vikram dies: remove Vikram |
-| **Input gate** (G-951) | decides what new information to add to the long-term memory | Vikram Junior becomes king: add him |
-| **Output gate** (G-1423) | decides what to read out of the long-term memory as output, and produces the short-term memory for the next time step | at the end: answer "good or bad" |
+| **Forget gate** (G-793) | decides what to remove from the long-term memory | Vikram dies: remove Vikram |
+| **Input gate** (G-950) | decides what new information to add to the long-term memory | Vikram Junior becomes king: add him |
+| **Output gate** (G-1422) | decides what to read out of the long-term memory as output, and produces the short-term memory for the next time step | at the end: answer "good or bad" |
 
 ![The three gates placed on the long-term memory. The forget gate multiplies the cell state (removes), the input gate adds to it, and the output gate reads from it to give $h_t$. The examples come from the story of section 4](images/three_gates.png){width=100%}
 
@@ -227,6 +227,6 @@ An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at
 | Cell state ($c_t$) | The LSTM's long-term memory path |
 | Hidden state ($h_t$) | The LSTM's short-term memory path, also its output at each step |
 | Gate | A part of the LSTM cell that controls what moves into, out of, or along the cell state |
-| Forget gate | Removes information from the cell state |
-| Input gate | Adds new information to the cell state |
-| Output gate | Produces the output and the next hidden state from the cell state |
+| Forget gate (G-793) | Removes information from the cell state |
+| Input gate (G-950) | Adds new information to the cell state |
+| Output gate (G-1422) | Produces the output and the next hidden state from the cell state |

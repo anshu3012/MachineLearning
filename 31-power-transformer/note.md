@@ -208,7 +208,7 @@ No feature is negative, but three contain many zeros.
 
 As always, we split first: 80% for training (824 rows) and 20% for testing (206 rows), with `random_state=42`.
 
-> **Extra:** The data is the "Concrete Compressive Strength" dataset by I-Cheng Yeh (Yeh 1998), from the UCI Machine Learning Repository. The full file is small (about 60 KB), so it is kept whole in `data/`.
+> **Extra:** The data is the "Concrete Compressive Strength" dataset by I-Cheng Yeh (Yeh 1998), from the UCI Machine Learning Repository.
 
 ### 6.2 Baseline: no transform
 
@@ -439,13 +439,13 @@ Figure 10 applies one fixed formula, $\log(1 + x)$, and Yeo-Johnson to the same 
 | Observation | One record, one row of the data table |
 | Power transformer | A transform that raises each feature to a learned power $\lambda$ to make it close to normal |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms |
-| Lambda ($\lambda$) | The power used by a power transform, learned separately for each feature |
+| Lambda ($\lambda$) (G-1038) | The power used by a power transform, learned separately for each feature |
 | Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0 |
 | Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default |
 | method | The `PowerTransformer` parameter that picks `"box-cox"` or `"yeo-johnson"` |
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each feature |
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1 |
 | Log-likelihood | The score of the $\lambda$ search: higher when a normal curve explains the transformed values better |
-| Maximum likelihood | Choosing the parameter value under which the observed data is most likely; used to find $\lambda$ |
+| Maximum likelihood (G-1191) | Choosing the parameter value under which the observed data is most likely; used to find $\lambda$ |
 | Bimodal | A distribution with two peaks |
-| R² score | How much of the variation in a regression target the model explains: 1 is perfect, 0 is no better than the average |
+| R² score (G-1717) | How much of the variation in a regression target the model explains: 1 is perfect, 0 is no better than the average |

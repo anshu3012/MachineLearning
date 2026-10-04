@@ -26,7 +26,7 @@ Figure 1 recalls the difference on a made-up model of house prices with two usef
 
 **The problem.** Choosing between Ridge and Lasso needs knowledge of the features: are most of them useful, or only a few? With four features we can tell. With hundreds or thousands of features, nobody can check them one by one, so there is no way to choose in advance.
 
-**The fix.** There is no need to choose. **Elastic Net regression** (G-668) adds both penalties to the loss at once, each with its own strength, and the two strengths are tuned like any other hyperparameter.
+**The fix.** There is no need to choose. **Elastic Net regression** (G-667) adds both penalties to the loss at once, each with its own strength, and the two strengths are tuned like any other hyperparameter.
 
 ## 2. The loss function
 
@@ -215,7 +215,7 @@ In practice, Elastic Net with l1_ratio tuned by cross-validation covers all thre
 
 | Term | Meaning |
 |---|---|
-| Elastic Net regression | Linear regression with both the L1 and the L2 penalty |
+| Elastic Net regression (G-667) | Linear regression with both the L1 and the L2 penalty |
 | l1_ratio | The share of the total penalty given to the L1 (Lasso) part |
 | Grouping effect | Elastic Net's tendency to give correlated features similar coefficients instead of keeping only one |
 | ElasticNetCV | scikit-learn's Elastic Net that picks alpha and l1_ratio by cross-validation |

@@ -20,6 +20,14 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 
 **AdaBoost** (G-167) is the first **boosting** (G-318) algorithm we study. Boosting was previewed in the [ensemble learning Note](../101-ensemble-learning/note.md), section 4.4: models trained in series, each one focusing on the mistakes of the one before. Figure 1 shows how AdaBoost does it.
 
+Compared with a **random forest** (G-1611; the [random forest Note](../108-random-forest-intro/note.md)), AdaBoost changes three things:
+
+| | Random forest | AdaBoost |
+|---|---|---|
+| Base model | full-size decision trees | **decision stumps**: trees with one split (section 2.2) |
+| Vote | every tree's vote counts the same | each stump has its own **say**, larger when it made fewer mistakes (section 4.3) |
+| Order | trees are built independently; order does not matter | stumps are built in sequence; each one is shaped by the mistakes of the one before (section 4.2) |
+
 This Note gives the core idea for classification, on a picture. The next Notes fill in the numbers: how the say of each model is computed, and how the mistakes are passed on.
 
 > **Extra:** The name is short for **Adaptive Boosting**: each stage adapts to the mistakes of the stages before. Yoav Freund and Robert Schapire published it in 1995 (Freund and Schapire, 1997). One of its first big uses was fast face detection (Viola and Jones, 2001). Deep learning has since taken over that job.
@@ -194,6 +202,7 @@ With more stages, the boundary can bend in more places and fit more complicated 
 **Built from**
 
 - CampusX, "How Adaboost Classifier Works? | Geometric Intuition", YouTube, https://www.youtube.com/watch?v=sFKnP0iP0K0
+- StatQuest with Josh Starmer, "AdaBoost, Clearly Explained", YouTube, https://www.youtube.com/watch?v=LsK-xG1cLYA
 
 **Other references**
 

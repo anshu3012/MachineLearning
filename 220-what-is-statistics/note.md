@@ -84,7 +84,7 @@ Different ways of building samples are called **sampling techniques** (G-1738); 
 
 > **Key point:** A number that describes the population is a parameter (Greek letters); the same number computed from a sample is a statistic (Latin letters).
 
-A number computed from the whole population, such as India's true average salary, is a **parameter**. The same number computed from a sample is a **statistic** (G-1880), and we use it as an estimate of the parameter.
+A number computed from the whole population, such as India's true average salary, is a **parameter** (G-2276). The same number computed from a sample is a **statistic** (G-1880), and we use it as an estimate of the parameter.
 
 The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different.
 
@@ -115,7 +115,7 @@ The mean and variance are covered in the [measures of central tendency Note](../
 
 Inferential statistics has a set of standard tools. Each gets its own Note later:
 
-- **Hypothesis testing** (G-913): we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called **statistical tests** (G-1883).
+- **Hypothesis testing** (G-913): we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called **statistical tests** (G-1881).
 - **Confidence intervals** (G-446): we estimate a population parameter from a sample and give a range that most likely contains it.
 - **ANOVA** (G-203; analysis of variance): compares the means of several groups at once.
 - **Regression:** models how one variable depends on others. The [linear regression Notes](../50-simple-linear-regression/note.md) use it as an ML algorithm.
@@ -196,13 +196,13 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 |---|---|
 | Statistics | The branch of mathematics for collecting, analysing, interpreting and presenting data |
 | Inferential statistics | Statistics that draws conclusions about a population from a sample |
-| Inference | A conclusion about a population drawn from a sample |
+| Inference (G-943) | A conclusion about a population drawn from a sample |
 | Population | The entire group of individuals or objects we want to study |
-| Parameter | A number that describes the population, such as $\mu$ |
+| Parameter (G-2276) | A number that describes the population, such as $\mu$ |
 | Statistic | A number computed from a sample, such as $\bar{x}$; an estimate of a parameter |
 | Sampling techniques | Ways of drawing a good sample from a population |
 | Hypothesis testing | Checking a claim about a population parameter with a sample |
-| Statistical test | A procedure for hypothesis testing |
+| Statistical test (G-1881) | A procedure for hypothesis testing |
 | ANOVA | Analysis of variance: a test comparing the means of several groups |
 | Chi-square test | A statistical test for categorical variables |
 | Feature | One variable of the data, one column of the table |

@@ -58,7 +58,7 @@ In Figure 3, watch the three lines leave 1. A factor of 2 gives 16 after 4 uses 
 
 Two more conditions make this a problem in practice:
 
-- **Depth:** the problem only appears in **deep neural networks** (G-571), with many hidden layers, because only they have long chains of factors.
+- **Depth:** the problem only appears in **deep neural networks** (G-570), with many hidden layers, because only they have long chains of factors.
 - **Activation:** the problem appears with **sigmoid** or **tanh**. Both squash a huge input range into a small output range (0 to 1, or $-1$ to 1), so their slopes are small.
 
 ### 3.2 Where the small factors come from
@@ -201,7 +201,7 @@ The spikes in the green curve come from the large learning rate of 0.5, chosen s
 > keras.layers.Dense(10, activation="relu")
 > ```
 
-ReLU has its own weakness, the **dying ReLU** (G-651): a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both come with the activation function Notes later.
+ReLU has its own weakness, the **dying ReLU** (G-650): a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both come with the activation function Notes later.
 
 ### 6.3 Initialise the weights properly
 
@@ -310,10 +310,10 @@ With clipping the same network produces finite numbers: the loss falls from 12,1
 
 | Term | Meaning |
 |---|---|
-| Deep neural network | A neural network with many hidden layers |
+| Deep neural network (G-570) | A neural network with many hidden layers |
 | Exploding gradient | Gradients growing huge as they pass back through many layers, making updates erratic |
 | ReLU | The activation $\max(0, z)$; slope 0 for negative inputs and 1 for positive ones |
-| Dying ReLU | A ReLU node whose input stays negative, so its slope and updates stay 0 |
+| Dying ReLU (G-650) | A ReLU node whose input stays negative, so its slope and updates stay 0 |
 | Leaky ReLU | A ReLU variant with a small slope for negative inputs, so nodes do not die |
 | Glorot (Xavier) and He initialisation | Ways to choose the spread of random starting weights from the layer sizes |
 | Batch normalisation | A layer that re-centres and re-scales the values passing between layers during training |

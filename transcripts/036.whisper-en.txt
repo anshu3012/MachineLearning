@@ -1,0 +1,328 @@
+Hi guys, welcome to my YouTube channel.
+We are studying missing data imputation.
+In the last video, we studied complete case analysis,
+where we learned that if you have data missing in any column,
+then if you want, you can remove that whole row.
+From today, in the next 3-4 videos,
+we are going to focus on how we can fill missing values.
+Today's video will be totally dedicated to numerical data.
+In another video, I will tell you how to impute categorical data.
+So, let's start the video.
+Guys, if you talk about numerical data,
+there are two ways using which you can impute missing values.
+One is univariate imputation.
+And the second one is multivariate imputation.
+What is the difference between the two?
+If you have multiple columns, let's say 1, 2, 3, 4.
+And in a particular row, in column number 2, there is a value missing.
+Now if you use the other values of the same column to fill this value,
+so that is univariate imputation, so you can take out mean and median of other values
+randomly you can select one of them, basically if you are applying any statistical technique on the same column
+then you are doing univariate imputation, whereas if I extend the same example
+let's say these are our 4 columns and again in a particular row we have a single missing value
+And to fill this, if you are taking the help of 3, 4 and 1,
+if you are taking the help of 3 values, then this is multivariate imputation.
+Here we will study 2 techniques in multivariate.
+We will study KNN imputer and we will study iterative imputer.
+We are studying these 2 in different videos.
+So in today's video, we are focusing on univariate imputation
+and that too on top of numerical data.
+This is applicable in univariate and multivariate categorical data also.
+But what we are going to study today is all about numerical data.
+Now we will see 4 different cases.
+We will learn to fill 4 different values.
+First would be we will learn to fill mean and median values.
+This is the simplest technique.
+Second, we will learn to fill any arbitrary value, 100, 99, 999, minus 1, to fill any one value.
+Third, we will learn how to use end of distribution to fill missing values.
+I am not telling about this now.
+And lastly, to fill any random value.
+And lastly, I will teach you how to select the best technique from these 4 using scikit-learn.
+So that is the agenda for this video.
+And there is a chance that the video will be big so you will have to be a bit patient.
+Only then you will understand.
+So let's start with mean and median imputation.
+So I will give you a small example.
+There is a numerical column H which has a value like this.
+or missing values, something like this. So, in this kind of scenario, what you can do is, you can do mean or median imputation.
+Means, wherever your missing value is, instead of that, you can replace the mean or median value of this whole distribution.
+You can use any one of them.
+Now, many people ask when to use mean and when to use median.
+It is very simple.
+If your distribution is very normal,
+if it is normally distributed,
+then it is very simple.
+You can use mean directly.
+Actually, mean, median and mode will behave the same.
+If your distribution is skewed,
+like this,
+then in this case, your mean shifts a little.
+so median is a better candidate. So I hope you are understanding this thing. Now what is the benefit of mean and median imputation?
+What is the benefit? The first benefit is that this imputation technique is very simple.
+Means simply you have to calculate mean and median and replace all the missing values. This is very very easy to implement.
+Second, when you deploy your machine learning model on the server, it becomes easy to recreate or reuse it.
+So simplicity is very important.
+Second, it doesn't have any other benefit.
+It's just simple. There is no other reason.
+It will give you good results if you have less missing values.
+If you have more than 5% missing values, then it is not that reliable, so you can do this in a hurry, but mostly you will not use it, at least you will not use it in production.
+What is its disadvantage? Its biggest disadvantage is that it changes the shape of your distribution.
+Meaning, when there were missing values, the distribution was something like this and when you replaced it with mean values,
+then the shape of the distribution became something like this. So, it changes the distribution.
+And this is an obvious thing. If you replace all of them with mean, then obviously the shape of your distribution will change.
+Second, here outliers come. I will show you by doing this practically.
+Some extra outliers come which are not outliers. Your system starts understanding them as outliers.
+Third is that the age column's relationship with the other columns also changes.
+So this is called co-variance or co-relation changes.
+And these three things are not good if you talk about machine learning.
+Your distribution should not change a lot.
+Outliers should not come without a reason.
+And your variable whose values you are filling, its relationship should not change with others when you are filling values.
+So all these three things are wrong. So you have to do it after seeing. Sometimes you will get this work but mostly it is risky.
+Now when to use? In two cases. First when data is missing completely at random.
+then only you should do it. Second, if the data is less missing like less than 5% if the data is missing then you should apply it.
+But you will see on the internet that people use it anyways because it is a very simple technique. But if there are sophisticated techniques
+then you should try everything. Which I will show you in the last section that how can you automatically select the best imputation technique.
+So now let's see how is the practical coding of mean and median.
+So this is the whole thing related to mean and median.
+Now let's switch to the coding part.
+Here I will show you two different ways of imputation of mean and median.
+One using pandas.
+There is a function called fill enable.
+You can use that.
+Or you can use scikit learn.
+Now honestly you should use scikit-learn but the problem of scikit-learn is that it is a little difficult code while writing
+And when you transform your columns then it makes your data frame numpy array
+So it is not clear to see, so these are the two key disadvantages
+But apart from that it is useful when you use scikit-learn because you can put the same thing in pipeline
+you can put grid search cv on it, you can put the same thing in production, so in the end you have to do it using scikit-learn,
+so I am telling you both the approaches, I will also show you how to do it in pandas, and I will also show you how to do it in scikit-learn,
+rest you have to decide on yourself which one you want to do, I would suggest do it with scikit-learn, anyways,
+I have imported these libraries and I have taken a data set of titanic, I have made some changes in it, I have kept only 4 columns, I have removed the rest, this is kind of my version of titanic
+age, fare, family, family is actually the summation of parent child and sibling spouse and survived column, so I have 4 numerical columns
+And now what I have done intentionally is that there was already missing data in age, you must be knowing.
+I have introduced the missing data randomly in the fair as well, around 5%.
+I will show you, so if I show you this, df.isnal.mean, you can see that 19% of your data is missing in age.
+In the fair, I have removed 5% of the data from myself.
+No data is missing in the family and no data is missing in the survived.
+My target in this video is to impute and fill the missing values of age and fair using mean median imputation.
+First of all, I will show you that you always do train test split.
+You have always done this.
+After doing train test split, here is my shape.
+712 rows are coming in Xtrain and 179 rows are coming in Xtest.
+I don't know what I said but whatever it is.
+And now if you see in X-train, there are so many missing values.
+Around 20% in age and around 5% in fair.
+It is uniformly divided in train and test.
+Now what I did, I took out the mean of age and the median of age.
+Took out the mean of fair and the median of fair.
+Because I have to fill with these values.
+And I stored it in these four variables.
+The code after that is very simple.
+I have made 4 new columns for 2 age and 2 fair, so in the first column of age I am replacing it with the median column
+and in the second column I am replacing it with the mean column and I am also applying the same thing on the fair column
+so you can see the age of X-strain is fillna median age and the age of X-strain is fillna mean age
+And as soon as I run this, you can ignore the warnings at this point, we are actually doing changes on a portion of the data frame, so that warning is coming, it's okay, there is no problem.
+And now I did Xtrain.sample, so you can see, this is my original age column, which has missing values, and this is my imputed age column according to mean.
+So, all the missing values in this, like see here, let's hope it comes, yes, see this.
+In age, it is a missing value, here it is imputed with mean value and all the other values will remain as it is same.
+Wherever there will be missing values, there only your, sorry, this is, yes, this is median.
+It is replaced with median here, here it is replaced with mean.
+And I have applied the same thing on fair.
+So I did my work by using pandas.
+Now after that whenever you do these imputations, you should see 3-4 things.
+First of all, you should see the variance. What is the change in variance?
+Variance means how much you are deviating from mean.
+Generally, when you do mean-median imputation, your variance shrinks.
+because if your value goes to mean then obviously your variance will be reduced because what is variance?
+It is the square sum of distance from mean. So here you can see that the age variable in the original data
+it had variance of 204 but as soon as I put the median imputation then it became 161.98
+and when I put the mean imputation then it became 161.82. So you have to always remember this
+that whenever you will put mean or median imputation on any distribution or numerical data
+your variance will shrink, you just have to take care that it shouldn't shrink too much
+there shouldn't be drastic changes, if drastic changes are happening then that is a red flag
+same with fair, in fair our variance is 2448 and it hasn't reduced too much
+and the reason for this is that there are very less missing values in fair
+So that's why there are not much changes. In age, there are 20% missing values, so there is a big change.
+I am saying air again and again, I am sorry. In the case of age, you have to be a little careful that what you have done may not give you good results.
+So I hope you understand till here. The second thing you should know is how the change in distribution came.
+So I have written this code and this is the change of fair and this is the change of age.
+So in age, you can see that the blue curve is my original age, the original distribution which has missing values.
+And this orange and this green is my median and mean distribution.
+And you can see that your distribution has changed a lot.
+on the center. The reason is that there are more values on the mean and median. So because of more values on the center,
+the probability there is higher. So this is a red flag. This kind of drastic change should not happen.
+If I am applying the same thing on the fair, then you would see that you can see only one curve.
+And the reason is that all three curves are overlapping on each other. This means that the previous distribution
+and the distribution after imputation, both mean and median, both are almost same in fact.
+I can see a little orange shade in some places but apart from that it's good.
+You should not be afraid to see this, this is fine.
+If the distribution is same, that is a green flag that you can do this thing.
+And lastly you should check covariance, that how is your covariance.
+Means your column has not changed its interaction with other columns.
+Like for age, if you see the interaction with fair, then it was 70.
+Covariance was 70, with family it was minus 6.49.
+If you talk about age mean, now it is 55.
+So the interaction with fair has reduced.
+and there are some changes with the family member and same goes with age median
+here also changes have come so again changes are not good
+many changes are not good and you can run the same thing on correlation also
+although in correlation you will see some small changes because correlation is between minus 1 and 1
+there is no such limit in covariance and lastly you should run the boxplot
+Like here, when I ran the boxplot on age, age median and age mean,
+you can see that in my original data, there were very few outliers.
+But as soon as I ran age median, that is, I imputed the missing values from the median,
+then my IQR, the interquartile range, shrank.
+And because of that, both my sides got outliers,
+which normally are not considered outliers.
+So again, this is also not good.
+And the same behavior is in the case of mean and median.
+So this is also a red flag. And if you talk about this, if you talk about fair, then in fair you would see that there are no changes in before and after.
+Your IQR is the same, your outliers are the same, so there is no major change. So in short, if we talk about the present,
+then if you ask me, then I would have used mean-median imputation for fair because there were no red flags.
+Whereas I don't do it for age because consistently I am getting red flags.
+Covariance correlation is changing, outliers are coming, distribution is changing.
+All this is not good. You will find a better imputation technique than this.
+Lastly, I will show you one more thing that how you can use scikit-learn.
+I did the same work again. I took train test print on the same data.
+Now I made two imputers. By the way, I am going to use this class called simple imputer.
+This is the class of scikit-learn and you have only these values in it.
+The parameters are missing values. You can do it on NAND or you can replace 0. You can replace any value.
+Means you can consider any value as missing value. But generally people keep NP.NAND. That is the default value.
+You don't have to do anything more than this. After that you are asked what is the strategy?
+In strategy you have options like mean, median, most frequent. You use most frequent when you have categorical data.
+And lastly, constant. We will use this when we will use arbitrary one after some time.
+I will show you. Don't worry. You use fill value when you have strategy constant.
+Which we will discuss after some time. And apart from this, what else is there?
+There is something called add indicator. I will tell you this separately.
+But yeah, this is what simple imputer is. So what I have done, I have made two different
+Now what I am doing, I just want to show you that in one single data, in two different columns,
+using a simple imputer, you can use two different strategies to impute missing data.
+Basically in simple words, I am applying median on the column of age and mean on the column of fair.
+I just wanted to tell you this, I said a very complex statement but what I want to do is,
+I want to show you that if you want to use different strategies on different columns in the same data, then how can you do it?
+So that's what I have done here. I made imputer 1. Simple imputer, strategy median. Simple imputer, strategy mean.
+There are two different imputers and then I made a column transformer. In column transformer, I passed these two things.
+So in the first imputer, I passed age. In the second imputer, I passed fair.
+So, this will make sure that the median will be on the age and the mean will be on the fair.
+It is random, I have not decided anything like this, I just wanted to show you.
+Then we have done trf.fit.
+What happened in this step is that it will be trained.
+And here you can see that what is the statistics of imputer 1?
+You can see 28.75. So, this is actually the median value of age.
+Similarly, when I put the statistics on the second one, then this is 32.61, this is the mean value of fair.
+Now you just don't have to do anything in the last step, you have to put this transform on the X train and also on the X test.
+And after doing this, your work will be done. Here is your data.
+So always remember one thing, never forget this.
+You will fit it on the training data, you will find the mean and median of the training data
+But you will transform it on the X-test also
+To transform the X-test also, you will use the mean value of the training data
+So always remember this, some people make mistakes here
+Now we are done with the first strategy
+Now we will move on to the second one
+Arbitrary value imputation
+So, in arbitrary value imputation what you do is that you fill all the missing values from one value.
+It could be any value, like mostly you use this technique more in case of categorical variables.
+What you do there is that you replace all the missing values with the word missing.
+So that your machine learning algorithm or model understands that data was missing here.
+and it could somehow differentiate those observations from those observations
+I am sorry, I mean your machine learning model could differentiate
+such observations which had data versus such observations which did not have data
+so that is why you use this technique in categorical data
+but you can also use this same technique in the case of numerical
+in the case of numerical what you do is you use some arbitrary number
+So it could be 0 or it could be minus 1 or it could be 99 or 999 something which is not in your data.
+Like if you are talking about age then you can put 99 or minus 1. So this is up to you.
+The whole idea is that you are trying to create a difference between observations where data is there
+versus such observations where there is no data.
+That is the whole idea behind this technique.
+The benefit here is that you can apply it very easily.
+Easy to apply.
+And the disadvantage you can say is the same as in your last technique.
+First, your graph or PDF gets distorted.
+Second, your variance also changes and third your co-variance and co-relation with other columns also changes.
+So co-variance also changes. But still you do it because you want to create a difference.
+Again this technique is not used that much honestly. Especially if you talk about numerical data then it is not used that much.
+But since we are covering everything then I am telling you this technique also.
+Now, I will quickly show you how the whole thing will look in the code itself.
+I have written the same code on the same data set.
+What I will do this time, you can see what I am doing this time, I am making new columns.
+And I am making two new columns per missing column, per missing value column.
+For age, I am creating age underscore 99 column in which I am replacing all the missing values with 99.
+and I am making a new column by saying age-1 where I am replacing all the missing values of age with minus 1
+and same with fair, in fair I am replacing it with 999 and replacing it with minus 1
+and after doing this if you notice then your variance will change
+you can see variance was 204 initially
+If we do 99, it becomes 951 and if we do minus 1, it becomes more actually.
+And same goes with your fair column. It becomes 2448 to 47000.
+But again, there is no problem in this. This technique is done so that you can create difference.
+If you talk about distribution, then you can see distributions here.
+blue one is normal with missing values, orange one is 99 and here you can see that you have come a little below mean
+and one more kind of peak has come on the side of 99 because there are a lot of values of 99. Similarly, in the case of age-1, this peak has come
+because there are a lot of values of negative 1, and I have kept the same thing on fair, you can see it once,
+if you analyze the covariance, then you will see that it changes, so there is nothing new here, and same goes with correlation,
+and if you want to use it in scikit-learn, then it is exactly the same technique, what you do here too,
+when you are calling the simple imputer class, you make the strategy constant, and you can give whatever fill value you want,
+I have written a code here that how you can fill two different values on two different columns, its code is written here.
+You can just go through the code, you won't get anything new here.
+So in summary, when you replace with arbitrary value, there are two conditions, I forgot to mention one important thing.
+You do this especially when you think that data is not missing at random.
+This is very important.
+You replace it with mean and median when you think that data is completely missing at random.
+Here if you think that data is not randomly missing,
+it is missing in chunks, it is not random, then there you use this technique that you just tell that data is missing here.
+Rest of the work is handled by your algorithm. But again this technique is not used that much considering there are better techniques available.
+But if you want to study then you can. Now we are going to discuss next, end of distribution imputation.
+See, this imputation technique, it is just an extension of last one, Arbitrary Value Imputation, which we saw earlier.
+In Arbitrary Value Imputation, what you do is, you replace missing values with any arbitrary number.
+Now, what happens is, it is difficult to find the arbitrary value or it is difficult to find the best possible value.
+so in this comes end of distribution imputation
+here what you do is that you take any value of the end of your distribution
+instead of 99 or 999 or minus 1
+means here there are two cases
+if the imputation you are applying on the column is normally distributed
+So you use this value for imputation, mean plus 3 times sigma.
+Sigma means standard deviation or you use mean minus 3 times sigma.
+Because you might know that on one standard deviation, 34% population is there.
+So 64% here, then on two standard deviations, it goes up to 87% and on 3, it goes up to 97%.
+So whatever is on this side of 3 is an outlier.
+So you replace all the missing values with that outlier value if your data is normally distributed.
+If your data is skewed, then you use IQR Proximity Rule, you call it IQR Proximity Rule.
+In this, the value you replace with is calculated like this, your value is Q1 minus 1.5 times IQR if you have skewed data like this.
+Or you can use Q3 plus 1.5 times IQR
+Where IQR is Q3 minus Q1
+And you know that Q3 and Q1 is 25th percentile of Q1
+And 75th percentile is Q3
+So in short, if I summarize
+So, end of distribution imputation and arbitrary value imputation are the same thing.
+In arbitrary, you replace the missing value with any number.
+Because the end goal of both imputation is to tell that there is a missing value here.
+It is your job to bring the importance of missing value on the surface.
+So, either put this value which is not in your data or take these extreme values which are at the end of your distribution.
+so that it doesn't mismatch with the values of the data
+so in both the cases you are doing the same thing
+you are just presenting the missingness feature in the data in front of your model
+so either you do it using arbitrary
+where you take any random number which is not in the data
+or you use end of distribution imputation
+where you use these techniques to find out that number
+so I am not coding it separately
+Here the same things are applicable, here also when you apply it, then the benefit is that again it is easy to use.
+Meaning it is not a big deal to calculate these values and this advantage will remain the same, your PDF will be changed, your covariance will be changed, your variance can increase or decrease.
+And when to use this? When your data is not missing at random.
+If you are able to understand that your data is not randomly missing then you will use it just like the arbitrary one.
+So this was our third technique. Now we will discuss our fourth technique i.e. Random Sample Imputation.
+In fact, let's do one thing guys, these two topics which are left,
+random sample imputation and how to automatically select the best imputation technique,
+I will make a separate video on these two topics because I think this video is already very big,
+maybe more than 30 minutes.
+And the good part is that random sample imputation is a special technique.
+It is applicable on your categorical data as well as on numerical data.
+And there are some very good things in it, so we will discuss it in another video.
+And same with this topic, automatically select best imputation technique.
+So let's not cover these topics in this video.
+In this video, you just have to see and understand these three techniques.
+Mean, median, arbitrary and end of distribution.
+So yeah, I hope you understood the video.
+It will be slightly technical probably, but if you use the notebook properly, then I think you will understand.
+So that's it for today's video. Thanks for watching. Bye.

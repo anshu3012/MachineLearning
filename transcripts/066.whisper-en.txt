@@ -1,0 +1,365 @@
+Hi guys welcome to my youtube channel
+we are studying ridge regression
+and we have studied ridge regression in detail
+and today we will study
+last video regarding
+ridge regression
+so in this video i am going to
+talk about 5 key understandings
+that you should take away
+from ridge regression
+so what happens is that we know what we are doing
+how to code
+how to use the code of scikit learn
+but the core results you have to take
+which you have to understand, we often miss it. So, I have made a different video for this.
+I will discuss in 5 points with you regarding ridge regression. After that, if you watch this video,
+I don't think after that you will have any doubt in ridge regression. So, let's start the video.
+So, you already know that ridge regression means to add something in your loss function.
+We will discuss what we will add. And because of that added term, regularization happens.
+Regularization means overfitting reduces, the value of your coefficients decreases.
+I have shown you mathematically why this happens. So in short, this happens.
+This is your original loss function and you add this term in it.
+This term is nothing but lambda w1 square w2 square dot dot dot wn square
+The number of input columns you have, the number of coefficients you have
+And this term, you also call it shrinkage coefficient
+Shrinkage coefficient
+By adding this term, your changes start coming and your overfitting starts reducing
+This is the key understanding of this thing
+Now I will discuss 5 things with you which I might have discussed before or not, but it was important to discuss them separately.
+So let's start with the first understanding. The first understanding is that after applying ridge regression,
+you can take all these understandings as an interview question. Someone can ask you this question.
+This could be the first question. How the coefficients get affected?
+Means if you apply ridge regression, then what effect does it have on the corresponding coefficients of all your input columns?
+As you increase the value of lambda, so lambda as you know can vary from 0 to positive infinity.
+So 0 means applying simple linear regression.
+Think about it, if you make lambda to zero, then there will be no regularization and you will work for linear regression.
+So if you increase lambda from zero to a very big number, then you may be asked in the interview that what is the difference between all your coefficients.
+The answer is all the coefficients shrink or decrease towards zero.
+But they never become zero.
+It will go very close to zero but it will not become zero.
+Let me show you this using a graph.
+So I have plotted this graph on the load diabetes data set.
+So first I imported it and made a data frame and in this data frame you can see we have so many input columns
+and this is our target column. So I split train test and then I applied ridge regression on it
+for four different values of lambda.
+once by keeping 0, once by keeping 10, once by keeping 100, once by keeping 1000, so I gradually increased the value of lambda
+and every time whatever was the value of coefficients, I kept storing it and then I printed it using this graph
+so you can see this is the output, now you will say that there is not much difference, similarly it is coming
+If you notice carefully on alpha is equal to 0, the scale of y is from 750 to 750.
+Coefficient is in the range of 750 but as soon as you change it from 0 to 10,
+you can see that your y axis shrinks and comes in the range of 60 to minus 40
+and all your bars are between 60 to minus 40.
+It means your coefficient is shrinking.
+we have shrunk it more to 100, so you can see now it has come in the range of 8 to minus 4
+and then in 100 to 1000, it has come in the range of 0.8 to minus 0.4
+so as you have done 1000, you can see all of these coefficients, what are all these coefficients?
+every time it is talking about one particular coefficient
+like this bar is talking about the coefficient of age, second bar is talking about the coefficient of sex
+and so on. And you can see all of these coefficients after the lambda value of 1000, they are very close to 0.
+That's why I was telling you that if someone asks you in an interview that tell me what will be the condition of the coefficients
+if the value of lambda increases a lot? Your answer should be that all of them will shrink a lot and their value will be very close to 0.
+But it will not be 0.
+None of these terms are 0.
+You can see none of the terms are 0.
+Sex is still a bit close.
+But it is not 0.
+In ridge regression you always have to remember that your coefficients value is not 0.
+So that is the first key understanding which I want you to understand regarding ridge regression.
+Now, let's move on to the second question or the second understanding.
+So, here a question is asked that the big coefficients,
+suppose you have x1, x2, x3 and y, this is your data
+and when you applied linear regression, normal linear regression on it,
+then you got to know that the value of w1 is 1000,
+W2's value is 10 and W3's value is 1.
+This means to calculate the value of y, x1 is the most important,
+w2 is less important and x3 is the least important.
+Now the question is that when you apply ridge regression
+and if you take the value of lambda as big or if you increase it towards infinity
+then how will you decrease all these coefficients?
+the question is that if the coefficient is very high then what will happen to it?
+so the answer is that the higher the coefficient like here it is 1000
+it will decrease it more rapidly
+understand this
+if your particular coefficient is more
+then it will decrease more rapidly
+in comparison to that coefficient
+which is not that much bigger
+this is very important thing
+which you have to understand
+let me show you again with the help of a graph
+so I have taken some alphas again
+from 0 to 10000
+and again I am storing all the coefficients on the same dataset
+and you can see that all the coefficients that were big
+like see this coefficient
+516
+this came down to 0.07
+you can see here I am increasing the alpha value
+and what is happening with every particular coefficient
+I have added in this data frame
+similarly you catch this 561
+this is also going down a lot, if you take minus 895, this is also going down a lot, whereas the small ones like age
+that is fine, that means there is not much decrease in it, but the big ones, there is a very strong decrease in them,
+you can convey this same information through a graph, which I have made here, let me show you that graph,
+This is the graph. You can see some coefficients here, like this yellow coefficient is our S5.
+How much was the initial value of S5? 861. It was very big. And see how fast it is.
+Here in the x-axis, there is lambda. As you increase the value of lambda, this coefficient falls down very fast.
+And it comes equal to the rest. Similarly, if you catch the purple one.
+The purple one is S1, which is very much in negative, minus 895. If you see this too, then it decreases with lambda very fast and moves towards the black line.
+What is this black line? This thick black line is the line of zero, the line of zero of the coefficient.
+And you can see that your coefficient is not zero, all of them are converging towards zero, but they will never reach the zero line.
+It will always be closer to 0. You can see here when I applied lambda for 10000, all the values are close to 0 but there is no 0.
+You have to always remember these two points. First, as you increase the lambda, the value of your coefficients decreases and goes near 0.
+Second, it is not zero.
+And third, the values which are bigger,
+they have more impact of regularization in comparison to those coefficients
+whose value is not that much.
+I guess you have clearly understood these two points.
+The next key point that we will discuss is
+that what effect does regularization have on bias and variance.
+The topic which we saw before starting regularization
+that was bias-variance trade-off and there I told you that there are three techniques to improve bias-variance trade-off in machine learning
+and one of them was regularization which we are studying right now. So it should be absolutely important that you know
+that by applying regularization what happens in bias and variance of any model. So to explain this I will show you this diagram
+This diagram I have shown you in the first video of ridge regression.
+Here is a non-linear data on which I have fitted a red color model.
+And the degree of this model is degree 16. It is a polynomial.
+And you can see that it is trying very hard to pass through every point in this data.
+means it is showing the tendency of overfitting.
+Overfitting means the bias is low,
+meaning the results are good on the training data,
+but unfortunately variance is high.
+Now as you are increasing the value of alpha,
+I have made two more curves.
+So in the green curve, the value of alpha is 20
+and you can see because of that value,
+the tendency of your model to touch every point has reduced and the generalization error has improved
+although you are making more mistakes on the training data but due to doing so, it is possible that your test data results can be improved
+means the variance can be reduced, so in the green case you can clearly say that you have increased the bias but reduced the variance
+and there is a blue line where the value of alpha is very high, 200, you can see that now this data has started to under fit
+this model has started to under fit which means now the result will not be good on the training data nor on the test data
+and this is the case of under fitting, means your bias and variance both are high
+In short, the idea is that bias and variance depends on the value of your lambda
+If you keep the value of lambda very small, close to 0, then your bias will decrease
+Because your model is overfitting and your variance will increase
+If you increase the value of lambda, then your model is showing the tendency to under fit,
+so the bias will increase, under fitting will happen, not exactly under fitting,
+under fitting happens for very big values and variance will decrease.
+So if you plot this in graph, where you have lambda in x-axis,
+if you are starting from zero and this is a very big value of 1000
+so if you talk about bias
+as you increase the lambda
+your bias will start increasing
+for a very small value the bias will be less
+but gradually your bias will improve
+improve as in increase
+and it will show the opposite variance
+means for a very small value, variance will be high
+and for a very big value, variance will be low
+this is the curve
+this is the graph
+i will plot this same graph using a data
+i have already coded this
+here you can see i have also generated a non-linear data
+this is the same non-linear data which i have shown you
+same to same
+i have split it into train test
+And then I took polynomial of degree 15
+Better results were coming from 16 to 15 in the graph
+So I took 15
+And after that I used this library
+To calculate bias and variance
+The name of this library is MLExtend
+It is a very useful library
+It has a function of bias, variance, decomp
+What does this function do?
+For any particular lambda value
+It will calculate the bias and variance.
+So what I did is, I took different lambda values
+in the range from 0 to 30.
+I took 100 different values.
+And I did all this calculation in a loop.
+And every time the bias and variance was coming,
+I kept adding it in the list.
+And then when I plotted it,
+you can see, this is the result.
+This is the result.
+The red curve here, the orange curve is the bias.
+so you can see for a very small value, the bias was less, see this graph
+I said this is the bias curve, for a very small value, the bias is less and for a very big value, the bias of lambda is very high
+you can see the same thing here, and if you see the variance, then for a very small value, the variance was very high
+but as you increased the value of lambda or alpha, then the variance decreased like this
+and your generalization error is always the sum of these two, so it will keep floating above, like this blue term is doing,
+so if anyone asks you regarding bias and variance in the scenario of regularization, then you just have to remember this diagram,
+that what will happen for very small values of alpha, what will happen for lambda, and what will happen for very big values,
+if you remember this graph, trust me you will never make a mistake in bias and variance related questions,
+I would recommend you to go and run this code by yourself. It is a very lovely library function.
+You will learn it immediately. In fact, it is so simple that you can write it yourself from scratch.
+I will show it to you in a video. But yeah, that's the whole idea behind this entire thing.
+One more thing. By looking at this graph, you will understand that
+that what should be the appropriate value of alpha or lambda, right?
+How much should it be?
+Like if you take the example of this graph,
+then in this graph, you can clearly see that we...
+See, this is the point where both of these curves are intersecting, right?
+We need a value of lambda for which the bias is less and variance is also less, okay?
+So, technically you should take something between this zone and this zone.
+Because generally you want to keep the bias a little lower.
+Keeping variance low as well.
+So, that is the region where variance is passing very close to the bias.
+And the value of bias is still low.
+So, technically this value, we will get the best result of lambda on this value.
+So always remember that the intersecting point is a little bit earlier, where the bias is a little bit below and the variance is around.
+You have to choose such a point in this curve. So this curve becomes very important in that sense.
+So now let's move to the next point where we will discuss that what is the impact of lambda on your loss function.
+So you know after applying regularization, after applying ridge regression, your loss function becomes this.
+We have seen this many times. This is the loss function after applying regularization.
+So now the question is that as you increase this lambda, what happens with this loss function?
+This is the question. So we try to read it in a simple way.
+So I am taking a case where there is only one input column and one output column
+Means you have to calculate two coefficients M and B
+In this also I assume that B is constant
+The value of B is not changing
+So M is just varying
+This means I can rewrite this equation as this
+And assume the value of B is 0
+Let's say, anything is possible. It is a constant. We have assumed that it is 0.
+So, this will become m xi square lambda m square.
+So, you can see that this L is a function of m.
+Here, everything else is a constant. yi is in the data, xi is in the data.
+Only the value of m can increase or decrease and you have to tune the lambda as well.
+So what we have to do is we have to make a graph where we will keep L and M here and then we will plot this graph for a particular lambda.
+Then we will change the value of lambda, we will plot this graph again, we will change the value of lambda again, we will plot this graph again.
+And by doing this we will understand the impact of the values of lambda on the loss function.
+I have already made this graph and the results are very interesting.
+I would show you. Just give me one second. I will just move this marker to this side of the page.
+And let's move this over here. So we did exactly the same work.
+We generated this data set. We have been working with this data set for many days.
+1D data set as in 2D data set and I have also applied linear regression on it
+so that I get to know the correct values of M and B.
+So clearly in the case of this data set, the value of M should be somewhere near to 27
+and I know the value of intercept which is minus 2.29.
+So what I have done here is that I have considered B as constant with a value of 0
+and now I have considered B as minus 2.29.
+But B is constant, B is not varying, M is varying and then what I did, I made a function CALCULATELOSS
+which if you give an M and an alpha then it will calculate the loss and give it to you based on this formula
+obviously this formula on its basis and then I made one by saying PREDICT and this graph is main
+you can easily understand this code by batting it, it is very simple.
+For different lambda values, I have again and again plotted the equation of L and M.
+So you can see, when the value of lambda was 0 for the first time, then the graph that was printed is this blue one.
+This blue one is the graph when lambda's value was, just give me one minute,
+when the value of lambda, here you can see, lambda and alpha are the same thing.
+When the value of alpha was 0, at that time it is a blue curve.
+and you can see the minimum value of this graph is near to 27
+obviously on x axis
+this is not alpha this has to be m
+this graph is between loss and m so you can see
+the minimum value of lambda is equal to 0 in blue graph
+That is somewhere close to 25 or 27. Then we increased lambda by 10.
+So now you can see this graph is of orange. It shifted a little.
+It rose a little and became a little thinner.
+And now your minimum value is shifting a little and going towards 0.
+The minimum value of m, the solution is shifting towards minimum.
+As you are increasing it, see the green curve is for alpha equal to 20, it shifted a little more and you came this way.
+And while doing this, when you did the value of alpha 100, this graph went up immediately and this is its value very close to 0.
+So, I guess you will understand this thing on a more intuitive level that why when you increase the value of lambda,
+then the value of your coefficients gets decreased to 0 because actually your loss function
+gets up slowly and starts moving towards the origin and starts shrinking.
+Earlier if your loss function was like this then by increasing the value of lambda it is shrinking
+and getting up slowly like this and going towards 0.
+If you want to see the same case in 3D, when you have two different coefficients
+So, you can see that through animation in this picture.
+So, I will just clear out this entire thing.
+Otherwise, it will be a distraction.
+So, you can see that we have plotted the loss function on two coefficients.
+Beta 1 and beta 2.
+And you can see that slowly your loss function is going towards the center.
+Where the origin is.
+Both the points where it is 0, it is moving towards that.
+So obviously when your loss function will go to that side, then the value of your coefficients will also change.
+And this is what is happening over here.
+So this is a very important intuition.
+This intuition explains why the value of your coefficients reaches zero while reducing.
+And in both 1D and 2D, I have shown you visually what is happening.
+Now, I would recommend you to run this code by yourself, it is not a very difficult code, we have run two loops and calculated the loss value, that's it, it is very simple.
+But the intuition is very important that how the loss function changes when the values of lambda or alpha are changed, okay?
+So that's it, this was the fourth point.
+The last key point that we are going to discuss is that, this question is asked in interviews actually,
+that why ridge regression was named as ridge
+so honestly its answer is a bit difficult
+for this we have to read one thing
+hard constraint ridge regression
+so till now whatever we were reading that was
+soft constraint ridge regression
+we have to read this new thing
+And this is a little difficult so I am planning to shoot a different video for this.
+But for now I would just like to give you an intuition that why is it called ridge?
+See ridge is called because the answer to this is hidden in this diagram.
+So if you know that our loss function of ridge regression is a combination of two things.
+MSE basically whole square of yi minus yi hat plus lambda times this.
+So if you consider this as a different function and this as a different function
+and let's assume that we have two coefficients beta1 and beta2
+so how can you rewrite this whole thing?
+you can rewrite this equation as
+sigma i is equal to
+1 to n
+yi minus
+actually there will be 3 coefficients
+beta naught and intercept term
+so it would become
+beta naught plus
+beta 1 x i1
+plus beta 2
+x i2
+this will be your msc term
+ok
+msc term
+and here it will be lambda times
+lambda times
+beta 1 square
+and beta 2 square
+ok, this will be the second term
+ok, so if we plot them separately
+then this equation
+this is
+this circle corresponds to this term
+for a particular
+value of this radius
+you have to calculate the value of radius
+through hyperparameter tuning
+and this is
+the contour plot of your loss function
+first we made it in 3D
+and then we projected it in 2D
+now what you have to do is
+if you haven't applied regularization
+then your solution would be this
+this is the point
+it is called OLS estimate
+because here your loss function
+is taking minimum value for beta1 and beta2. But since you have to minimize both the terms,
+you have to minimize this term also, so you have to find a solution for this too.
+So your solution will come out somewhere on the boundary of these two.
+So depending on your loss function, this circle will always remain like this.
+Whenever your solution will come out, it will come out on the perimeter of this circle.
+and there will always be a solution which will be nearest to this solution, since your solution is always coming out on the periphery of this circle
+coming out on the perimeter or coming out on the ridge, that is why this type of regularization technique is known as ridge regression
+this is the reason for this, but we will study this in a little more detail, I know you might have some doubts
+what exactly happened, how this circle was formed, and what will be its radius, we will discuss all these points in more detail.
+In fact, I will also make a plot and show you how it is formed.
+But for now, understand that because your solution is always lying on the perimeter of this circle,
+it is lying on the boundary, it is lying on the ridge, that is why we call this regression technique as ridge regression.
+So, those are the 5 points which I wanted to discuss with you.
+Now, some practical tips. In fact, just one practical tip.
+You should mostly apply ridge regression when the number of input columns is greater than or equal to 2.
+In the case of 2 or more than 2, ridge regression should be applied.
+there is only one input and one output, in this case, ridge regression is not that useful.
+So, the more input columns you have, the more coefficients you will have
+and the more coefficients you have to regularize,
+then ridge regression will be useful to you, it is not that useful in very less.
+So, that's it, we have read a lot of things.
+We will read one more thing, the problem of hard constraint,
+I will add that video in the future in this playlist.
+but now we are ready to move on to lasso regression
+which is the next topic so that's it guys thanks for watching bye

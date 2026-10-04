@@ -46,7 +46,7 @@ How the perceptron learns its weights comes in the next three Notes.
 In Figure 1, the data enters on the left. Each **feature** (G-772; an input variable, one column of the data table) gets one input node: $x_1$ and $x_2$.
 
 - The connection from each input carries a **weight** (G-2106; $w_1$, $w_2$; see the [what is deep learning Note](../1002-what-is-deep-learning/note.md)). The weight says how strongly that input counts.
-- One extra input is always 1. Its connection carries the **bias** (G-284) $b$. The bias lets the line sit anywhere, not only through the origin.
+- One extra input is always 1. Its connection carries the **bias** (G-284) $b$. The bias sets how easily the perceptron outputs 1, and it lets the line sit anywhere, not only through the origin (section 3.4).
 
 The weights and the bias are the numbers the perceptron learns. Together they are its [parameters](../06-instance-vs-model-based/note.md) (G-1448): the numbers a trained model is described by.
 
@@ -74,6 +74,33 @@ The classic perceptron uses the [step function](../70-perceptron-trick/note.md) 
 
 > **Extra:** Whether $z = 0$ counts as 1 or 0 is a convention. The [perceptron trick Note](../70-perceptron-trick/note.md) uses $z > 0$, here we use $z \geq 0$. The two rules give different outputs only when $z$ is exactly 0, that is, for points lying exactly on the line.
 
+### 3.4 The bias as a threshold
+
+> **Key point:** The perceptron outputs 1 when the weighted sum of the inputs is at least −b. So the bias sets how large the weighted sum must be before the output switches to 1.
+
+In plain words, the bias decides how easily the perceptron says 1. A large positive bias makes it say 1 for almost any input; a large negative bias makes it hard to convince.
+
+The standard term for this switching point is the **threshold** (G-2261). The steps:
+
+1. The step function outputs 1 when $z \geq 0$.
+2. $z$ is the weighted sum plus the bias: $z = (w_1x_1 + w_2x_2) + b$.
+3. So the output is 1 exactly when $w_1x_1 + w_2x_2 \geq -b$. The threshold is $-b$.
+
+For example, with $b = -10$ the perceptron outputs 1 only when the weighted sum reaches 10.
+
+Figure 2 shows the threshold on real data: the perceptron trained in section 8 on 100 students, $z = 5.82\thinspace x_1 + 1.48\thinspace x_2 + b$, with the weights kept and only $b$ changed.
+
+![The bias as a threshold. Left: the step output against the weighted sum; the jump sits at −b. Right: the same perceptron on the input plane; the line z = 0 moves sideways without turning. The bias goes from 4 down to −4.](images/bias_threshold.gif){width=90%}
+
+| Bias $b$ | Threshold $-b$ | Students given output 1 | Training accuracy |
+|---|---|---|---|
+| 4 | −4 | 62 of 100 | 88 percent |
+| 1 (the trained value) | −1 | 49 of 100 | 97 percent |
+| −4 | 4 | 32 of 100 | 82 percent |
+
+- **Left panel:** as $b$ falls, the jump of the step function slides to the right, and fewer students pass it.
+- **Right panel:** the same change, seen on the two inputs. The line $z = 0$ keeps its direction, because the weights set the direction. The bias only moves the line parallel to itself. With $b = 0$ the line passes through the origin, so without a bias the perceptron could only draw lines through the origin.
+
 ## 4. Training and prediction
 
 > **Key point:** Training finds the weights and bias from labelled data. Prediction puts a new **observation** (G-1374; one record, one row of the data table) through the perceptron with those fixed numbers.
@@ -87,7 +114,7 @@ Like any ML algorithm, the perceptron works in two stages:
 
 Suppose training gave $w_1 = 1$, $w_2 = 2$ and $b = 3$. A new student has IQ 100 and CGPA 5.1. Section 3.2 already computed $z = 113.2$. Since $z \geq 0$, the step function outputs 1: we predict this student will be placed.
 
-Figure 2 runs prediction on real data: the perceptron trained in section 8 on 100 students, with both inputs standardized (**standardization**, G-1874: rescaled to mean 0 and standard deviation 1). Its learned numbers are $w_1 = 5.82$, $w_2 = 1.48$ and $b = 1$.
+Figure 3 runs prediction on real data: the perceptron trained in section 8 on 100 students, with both inputs standardized (**standardization**, G-1874: rescaled to mean 0 and standard deviation 1). Its learned numbers are $w_1 = 5.82$, $w_2 = 1.48$ and $b = 1$.
 
 ![Prediction with a trained perceptron, $z = 5.82 x_1 + 1.48 x_2 + 1$ on standardized CGPA and resume score. For each student the inputs flow in, z fills a bar (green if positive, red if negative), the step function fires 1 or 0, and the student lands on the plane in that colour. At the end all 100 students appear with the line z = 0 between the two regions](images/perceptron_fire.gif){width=100%}
 
@@ -109,7 +136,7 @@ With $n$ inputs, $z$ is the sum of $n$ products plus the bias. The summation and
 
 ![A biological neuron and a perceptron, part by part](images/neuron_vs_perceptron.png)
 
-The nervous system is a network of billions of **neurons**, the brain cells (**neuron**, G-1318). Figure 3 sets one beside a perceptron:
+The nervous system is a network of billions of **neurons**, the brain cells (**neuron**, G-1318). Figure 4 sets one beside a perceptron:
 
 | Neuron | Role | Perceptron |
 |---|---|---|
@@ -127,6 +154,10 @@ Neurons connect to each other to form the nervous system; perceptrons connect to
 2. **Processing:** inside a neuron, electrochemical reactions decide the output, and scientists still do not fully understand them. Inside a perceptron there are exactly two operations: a weighted sum and a step.
 3. **Neuroplasticity** (G-1319): the connections between neurons get stronger or weaker over time, disappear, or form anew; this is how we learn new skills. A trained perceptron's connections (its weights) do not change.
 
+![Neuroplasticity: connections between neurons get stronger, get weaker, vanish and appear over time; the weights of a trained perceptron stay fixed](images/neuroplasticity.png){width=90%}
+
+Figure 5 draws the third difference.
+
 So the perceptron is weakly inspired by the neuron. Calling it a model of the brain would be wrong.
 
 ## 6. Weights as feature importance
@@ -136,6 +167,16 @@ So the perceptron is weakly inspired by the neuron. Calling it a model of the br
 Suppose training on the placement data gave $w_1 = 2$ for IQ, $w_2 = 4$ for CGPA and $b = 1$. The weight of CGPA is twice the weight of IQ. So, for this model, CGPA matters about twice as much as IQ in deciding placement.
 
 In this way the weights tell us the **feature importance** (G-764) of each input. The bias does not belong to any input; its role is to shift the line (Section 7).
+
+Figure 6 shows what a weight does to the decision. It takes the trained perceptron of section 8, $z = 5.82\thinspace x_1 + 1.48\thinspace x_2 + 1$ on standardized CGPA ($x_1$) and resume score ($x_2$), keeps $w_1$ and $b$, and changes only $w_2$.
+
+![The line z = 0 as the resume-score weight w2 grows from 0 to 8, with w1 = 5.82 and b = 1 fixed, over the 100 students of section 8.](images/weight_turn.gif)
+
+1. **$w_2 = 0$.** The resume score has no say: only CGPA decides, and the line is vertical. Training accuracy is already 97 percent.
+2. **$w_2 = 1.48$, the trained value.** The resume score counts a little; the line leans slightly. Accuracy is 97 percent.
+3. **$w_2 = 5.82$, equal to $w_1$.** Both inputs count equally, and the line runs diagonally. Accuracy falls to 81 percent, because in this data CGPA matters far more than the resume score.
+
+The bigger a weight compared with the others, the more the line turns to follow that input.
 
 > **Extra:** Reading weights as importance is only fair when the inputs are on the same scale. IQ runs to about 150 while CGPA stops at 10, so a weight on IQ is multiplied by much bigger numbers. Standardize the inputs first (see the [standardization Note](../24-standardization/note.md)) and then compare the size of the weights. Section 8 shows a case where the raw weights even get the sign wrong.
 
@@ -147,6 +188,14 @@ Rename $w_1, w_2, b$ as $A, B, C$ and $x_1, x_2$ as $x, y$. Then $z = 0$ reads $
 
 - $z \geq 0$ is the region on the positive side of the line: predict 1, placed.
 - $z < 0$ is the region on the negative side: predict 0, not placed.
+
+Figure 7 shows where this line comes from, for the same trained perceptron.
+
+![The perceptron of section 8 in 3D. First z is a tilted plane above the students; it crosses height 0 along the line z = 0; then the step function turns z into two flat terraces, 1 and 0.](images/z_plane.gif)
+
+1. **z is a plane.** For every point of the input plane, $z = 5.82\thinspace x_1 + 1.48\thinspace x_2 + 1$ gives a height. Together the heights form a tilted plane: high above the placed students, below zero under the others.
+2. **The plane crosses zero along a line.** Where the height is exactly 0, we get the line $z = 0$, the blue line.
+3. **The step flattens it.** The step function replaces every positive height by 1 and every negative height by 0, so the tilted plane becomes two flat terraces that meet at the blue line.
 
 So a trained perceptron is nothing more than a line that splits the plane into two **decision regions** (G-557), one per class. This line is the perceptron's decision boundary. One line gives exactly two regions, so the perceptron is a **binary classifier** (G-302): it separates exactly two classes.
 
@@ -186,9 +235,9 @@ So the learned line is $40.26\thinspace x_1 - 36\thinspace x_2 - 25 = 0$, with $
 
 ![The perceptron's line and its two regions, before and after standardizing the inputs](images/decision_regions.png)
 
-Figure 4 (left) colours each region by the class the perceptron predicts there. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
+Figure 8 (left) colours each region by the class the perceptron predicts there. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
 
-The fix is to standardize the inputs first (Figure 4, right). Training accuracy rises to 97%, and the weights become 5.82 for CGPA and 1.48 for resume score. On scaled inputs the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
+The fix is to standardize the inputs first (Figure 8, right). Training accuracy rises to 97%, and the weights become 5.82 for CGPA and 1.48 for resume score. On scaled inputs the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
 
 Why raw inputs hurt here: each training step moves the weights by about 7 (the size of a CGPA or a resume score) but the bias by only 1, because the bias's input is the constant 1. This data needs a large bias, so the bias is like a walker taking baby steps beside two runners: training ends before the bias gets where it needs to be.
 
@@ -214,6 +263,7 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 | Activation (step) | 1 if $z \geq 0$, else 0 | placed or not |
 
 - A perceptron is a weighted sum plus a bias, followed by an activation function.
+- The bias is a threshold: the output is 1 when the weighted sum is at least $-b$. Changing the bias moves the line without turning it.
 - Training finds the weights and bias; prediction applies them to a new observation.
 - It is loosely inspired by a neuron (dendrites, nucleus, axon) but far simpler, and its weights are fixed once trained.
 - On standardized inputs, larger weights mean more important inputs.
@@ -224,6 +274,7 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 **Built from**
 
 - CampusX, "What is a Perceptron? Perceptron Vs Neuron | Perceptron Geometric Intuition", YouTube, https://www.youtube.com/watch?v=X7iIKPoZ0Sw
+- Sanderson, G. (3Blue1Brown), "But what is a neural network? | Deep learning chapter 1", 2017, https://www.youtube.com/watch?v=aircAruvnKk (the bias as the level the weighted sum must pass)
 
 **Other references**
 
@@ -235,9 +286,10 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 |---|---|
 | Perceptron | A model that computes a weighted sum of its inputs plus a bias and passes it through an activation function |
 | Bias (of a perceptron) | The weight on a constant input of 1; it shifts the boundary away from the origin |
+| Threshold (of a perceptron) (G-2261) | The value the weighted sum must reach for the output to be 1; it equals $-b$ |
 | Summation ($z$) | The weighted sum $w_1x_1 + w_2x_2 + \dots + b$ inside a perceptron |
 | Activation function | The function that turns $z$ into the output, bringing it into a fixed range |
-| Neuron | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on |
+| Neuron (G-1318) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on |
 | Dendrites, nucleus, axon | The input branches, the processing centre and the output fibre of a neuron |
 | Neuroplasticity | The brain's connections strengthening, weakening, vanishing or forming over time |
 | Feature importance (weights) | Reading the size of a weight as how much its input matters, fair only on scaled inputs |

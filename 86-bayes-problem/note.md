@@ -108,7 +108,50 @@ The three posteriors add up to 1, as they must: the marker came from some machin
 > {m: joint[m] / p_D for m in prior}             # 0.417, 0.375, 0.208
 > ```
 
-## 6. The pattern for Naive Bayes
+## 6. Another way to see it: a medical test
+
+> **Key point:** A test does not give the final answer; it updates the prior. Posterior odds = prior odds × Bayes factor.
+
+The marker problem has the same shape as a famous question about medical tests. The machines become "has cancer" and "does not have cancer"; "defective" becomes "the test is positive".
+
+A screening test is given to 1000 women. What we know:
+
+- **Prior:** 1 percent have breast cancer, so 10 women are sick and 990 are healthy.
+- **Sensitivity** (G-1641; recall, [Note 77](../77-precision-recall-f1/note.md)): the test is positive for 90 percent of the sick women: $P(+ \mid \text{cancer}) = 0.9$.
+- **False positive rate** (G-749): the test is also positive for 9 percent of the healthy women: $P(+ \mid \text{healthy}) = 0.09$.
+
+A woman tests positive. What is the chance that she has cancer? The test sounds "90 percent accurate", so many people answer 9 in 10. Count instead, exactly as with the markers:
+
+1. **Sick and positive:** $10 \times 0.9 = 9$ women (true positives).
+2. **Healthy and positive:** $990 \times 0.09 \approx 89$ women (false positives).
+3. **All positives** (the evidence, by total probability): $9 + 89 = 98$.
+4. **Posterior:** $P(\text{cancer} \mid +) = 9/98 \approx 0.092$, about 1 in 11.
+
+The healthy group is so large that its few false positives (89) swamp the true positives (9). This posterior is the **precision** (G-1547) of the test; in medicine it is called the positive predictive value.
+
+The lesson: the test did not decide anything. The test moved the chance from 1 in 100 (the prior) to about 1 in 11 (the posterior). A test **updates** the prior.
+
+### 6.1 The size of the update: the Bayes factor
+
+> **Key point:** Bayes factor = P(evidence | yes) / P(evidence | no). Multiply the prior odds by it to get the posterior odds.
+
+How strong is the update? A positive result is $0.9 / 0.09 = 10$ times more likely for a sick woman than for a healthy one. This ratio of the two likelihoods is the **Bayes factor** (G-2215).
+
+The Bayes factor works on **odds** (G-1376): the number of "yes" cases to the number of "no" cases.
+
+1. **Prior odds:** 10 sick to 990 healthy, that is $1 : 99$.
+2. **Multiply by the Bayes factor:** $1 \times 10 : 99 = 10 : 99$. These are the posterior odds.
+3. **Back to a probability:** 10 sick for every 99 healthy, so $10 / (10 + 99) = 0.092$. The same answer as the count.
+
+The rule is exact, and it follows from the count above: among the positives, the sick are scaled by 0.9 and the healthy by 0.09, so their ratio is multiplied by $0.9/0.09$.
+
+![A test with sensitivity 0.9 and false positive rate 0.09 (Bayes factor 10), for priors from 1 in 1000 to 1 in 10. Left: expected true and false positives among 1000 women. Right: the posterior P(cancer | positive). The title gives the update in odds.](images/medical.gif)
+
+In Figure 5, watch the same test give very different answers as the prior changes. At a prior of 1 in 1000 a positive result means about 1 percent; at 1 in 100, 9 percent; at 1 in 10, the odds $1 : 9$ become $10 : 9$, which is 53 percent. The test is the same each time; only the prior differs.
+
+The Bayes factor also previews Naive Bayes: each feature multiplies the score of a class by its own likelihood, one factor per feature ([Note 87](../87-naive-bayes-intuition/note.md)).
+
+## 7. The pattern for Naive Bayes
 
 > **Key point:** For each class: prior × likelihood. Divide by their total. The largest posterior wins.
 
@@ -122,24 +165,29 @@ Since the evidence is the same for every class, step 2 does not change which cla
 
 ![The three Naive Bayes steps on the marker problem](images/nb_pattern.png){width=95%}
 
-Figure 5 runs the three steps on the marker numbers: M1 has the largest score both before and after dividing by 0.024.
+Figure 6 runs the three steps on the marker numbers: M1 has the largest score both before and after dividing by 0.024.
 
-## 7. Summary
+## 8. Summary
 
 - Priors: production shares; likelihoods: defect rates; posterior: which machine, given a defect.
 - Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$.
 - Answer: $P(M3 \mid D) = 0.208$; M1 is the most likely source (0.417).
+- Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 9/98 = 0.092. Posterior odds = prior odds × Bayes factor ($1 : 99$ times 10 is $10 : 99$).
 
-## 8. Sources
+## 9. Sources
 
 **Built from**
 
 - CampusX, "Naive Bayes Classifier | Part 5 | Problem based upon Bayes Theorem", YouTube, https://www.youtube.com/watch?v=aAEHjXDHtbE
+- Sanderson, G. (3Blue1Brown), "The medical test paradox, and redesigning Bayes' rule", YouTube, https://www.youtube.com/watch?v=lG4VkPoG3ko (the 1000-women example, the test as an update, the Bayes factor and the odds form; Figure 5 is our own chart of those numbers)
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
 | Law of total probability | $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the $A_i$ are mutually exclusive and cover every case |
 | Probability tree | A diagram in which each path multiplies the probabilities along its branches |
+| Bayes factor (G-2215) | The ratio of the two likelihoods, $P(\text{evidence} \mid \text{yes}) / P(\text{evidence} \mid \text{no})$; it multiplies the prior odds to give the posterior odds |
+| Odds | The number of "yes" cases to the number of "no" cases, such as $1 : 99$ |
+| False positive rate (G-749) | The share of real negatives that test positive |
 | Joint probability | The probability that two events happen together, $P(A \cap B)$ |

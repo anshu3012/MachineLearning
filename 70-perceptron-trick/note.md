@@ -34,7 +34,7 @@ Take a dataset of students. Each student is one **observation** (G-1374; one rec
 
 ![Linearly separable data and data that no straight line can split](images/separable.png){height=42%}
 
-Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane** (G-911). A few points on the wrong side are fine: the data only needs to be almost separable.
+Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane** (G-911). The divider between the two classes is the model's **decision boundary** (G-555): points on one side are predicted placed, points on the other side not placed. A few points on the wrong side are fine: the data only needs to be almost separable.
 
 Logistic regression draws a straight divider, just as linear regression fits a straight line. So on data like Figure 1 (right), where one class surrounds the other, it cannot do well.
 
@@ -99,6 +99,14 @@ Figure 4 draws the loop.
 
 Each misclassified point "pulls" the line towards itself until it is on the correct side. After enough pulls, the line settles between the classes.
 
+One way to picture the loop: the line asks each picked student, "are you on the right side?" A correctly classified student answers "yes, leave the line alone". A misclassified student answers "no, come towards me".
+
+Figure 5 runs the loop on 24 students of Figure 1 (12 placed, 12 not placed, both features standardised). Crosses mark misclassified students, and the red ring marks the student picked in that frame. Watch the two kinds of frame. When the ringed student is on the correct side, the line stays. When the ringed student is a cross, the line turns a little towards it (the dashed line is the line before). The start line gets 14 students wrong; after 36 picks, 11 of which moved the line, no student is misclassified and the loop stops.
+
+![The perceptron trick on 24 students, learning rate 0.1. Each frame picks one student (red ring). Correct side: the line stays. Wrong side (cross): the line moves towards the student; the dashed line is the line before the move. The run stops after 36 picks, when no student is misclassified.](images/loop_run.gif)
+
+The frame titles also show $y - \hat y$, the quantity that Section 7.3 uses to write the whole loop as one rule.
+
 An everyday picture: a farmer builds a fence between sheep and goats. Each time a goat is found on the sheep side, the farmer nudges the fence a little towards that goat; repeated nudges carry the fence past it. Animals already on the right side cause no change. After enough nudges, every animal is on its own side.
 
 ## 6. Moving the line towards a point
@@ -115,7 +123,7 @@ Append a 1 to the point, $(5, 2, 1)$, and subtract it from the coefficients $(2,
 
 $$(2 - 5,\ 3 - 2,\ 5 - 1) = (-3,\ 1,\ 4) \quad\Rightarrow\quad -3x + y + 4 = 0$$
 
-Now the point gives $-15 + 2 + 4 = -9 < 0$: it is on the negative side, as it should be (Figure 5, left).
+Now the point gives $-15 + 2 + 4 = -9 < 0$: it is on the negative side, as it should be (Figure 6, left).
 
 ### 6.2 A positive point on the negative side
 
@@ -125,7 +133,7 @@ The point $(-3, -2)$ belongs to the positive class, but gives $-6 - 6 + 5 = -7 <
 
 $$(2 - 3,\ 3 - 2,\ 5 + 1) = (-1,\ 1,\ 6) \quad\Rightarrow\quad -x + y + 6 = 0$$
 
-Now it gives $3 - 2 + 6 = 7 > 0$: positive side (Figure 5, right).
+Now it gives $3 - 2 + 6 = 7 > 0$: positive side (Figure 6, right).
 
 ![One update for each kind of mistake](images/update.png){height=55%}
 
@@ -141,7 +149,7 @@ With $\eta = 0.1$, the first example gives $(2 - 0.5,\ 3 - 0.2,\ 5 - 0.1) = (1.5
 
 ![The perceptron trick in small steps, learning rate 0.1. First, the negative point (5, 2) sits on the positive (green) side; each step subtracts $0.1 \times (5, 2, 1)$ from the coefficients, its value falls by 3 (21, 18, 15, ...), and at step 8 the point is on the negative side. Then the positive point $(-3, -2)$; each step adds $0.1 \times (-3, -2, 1)$, its value rises by 1.4 from $-7$, and it crosses at step 6. The dashed line is the start line $2x + 3y + 5 = 0$](images/small_steps.gif){width=100%}
 
-In Figure 6, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount, because, writing the point as $p = (x, y, 1)$, $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$: the change is $0.1 \times (25 + 4 + 1) = 3$ for $(5, 2)$ and $0.1 \times (9 + 4 + 1) = 1.4$ for $(-3, -2)$.
+In Figure 7, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount, because, writing the point as $p = (x, y, 1)$, $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$: the change is $0.1 \times (25 + 4 + 1) = 3$ for $(5, 2)$ and $0.1 \times (9 + 4 + 1) = 1.4$ for $(-3, -2)$.
 
 ## 7. Writing the algorithm compactly
 
@@ -163,7 +171,7 @@ The same sum works for any number of features, just with more terms. In vectors 
 
 For a student with CGPA 7.5 and IQ 110, the observation is $x = (1,\ 7.5,\ 110)$. The model computes $w_0 \times 1 + w_1 \times 7.5 + w_2 \times 110$. If the result is above 0, it predicts placed (1); otherwise not placed (0). The rule "1 if positive, else 0" is a **step function** (G-1889) of $w \cdot x$.
 
-Figure 7 applies it to the three points of Sections 3 and 6 with the line $2x + 3y + 5 = 0$, that is $w = (5, 2, 3)$. The values 12 and 21 land on the step at 1, the value $-12$ at 0. The point $(5, 2)$ is predicted 1 but belongs to the negative class, so $y - \hat y = -1$ in the rule below, and the update subtracts, exactly as in Section 6.1.
+Figure 8 applies it to the three points of Sections 3 and 6 with the line $2x + 3y + 5 = 0$, that is $w = (5, 2, 3)$. The values 12 and 21 land on the step at 1, the value $-12$ at 0. The point $(5, 2)$ is predicted 1 but belongs to the negative class, so $y - \hat y = -1$ in the rule below, and the update subtracts, exactly as in Section 6.1.
 
 ![The step function turns w · x into a prediction. With the line 2x + 3y + 5 = 0: (2, 1) gives 12 and ŷ = 1, (5, 2) gives 21 and ŷ = 1, (−4, −3) gives −12 and ŷ = 0.](images/step_rule.png)
 
@@ -183,6 +191,8 @@ $$w_{\text{new}} = w_{\text{old}} + \eta\thinspace(y - \hat{y})\thinspace x$$
 | 0 | 1 | $-1$ | $w - \eta x$: subtract (negative point on the positive side) |
 
 So the loop needs no if-statements: for each random point, compute $\hat{y}$ and apply the rule.
+
+Figure 5 shows all four rows at work. Every frame where the line stays is one of the first two rows ($y - \hat y = 0$). Picks 1 to 3, where a not-placed student sits on the green side, are the last row ($-1$, subtract). Picks 4 and 7, where a placed student sits on the blue side, are the third row ($+1$, add).
 
 > **Python:** The perceptron trick.
 >
@@ -229,9 +239,10 @@ So the loop needs no if-statements: for each random point, compute $\hat{y}$ and
 | Perceptron trick | Moving a line towards each misclassified point until the classes are separated |
 | Linearly separable | Data whose classes a straight line, plane or hyperplane can split |
 | Hyperplane | The flat divider in more than three dimensions |
+| Decision boundary | The line, plane or hyperplane that separates the predicted classes |
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
 | Observation | One record: one row of the data table |
 | Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0 |
 | Step function | A function that outputs 1 for positive inputs and 0 otherwise |
-| Convergence | The point where training stops changing, here when no point is misclassified |
+| Convergence (G-469) | The point where training stops changing, here when no point is misclassified |

@@ -95,7 +95,7 @@ The second cost turned out to be the real limit.
 
 > **Key point:** The transformer removes the RNN completely and uses attention alone. Every word of the input is processed at the same time, so training runs in parallel and is far faster.
 
-In 2017 a team at Google Brain and Google Research published "Attention Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no LSTM. It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called **self-attention** (G-1764), where the words of one sentence attend to each other), dense layers, normalization layers and embeddings.
+In 2017 a team at Google Brain and Google Research published "Attention Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no LSTM. It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called **self-attention** (G-1763), where the words of one sentence attend to each other), dense layers, normalization layers and embeddings.
 
 ![Top: an LSTM processes one word per step, because each word needs the state left by the word before. Bottom: a transformer processes all the words of the sentence in the same step](images/parallel.png){width=90%}
 
@@ -143,8 +143,6 @@ Two such models appeared in 2018:
 GPT (Radford et al. 2018) was a language model in the ULMFiT sense, but built on a transformer. BERT (Devlin et al. 2019) used a different pre-training task, a **masked language model** (G-1170): some words of the input are hidden, and the model predicts them using the words on both sides. Both could be fine-tuned with little data for sentiment analysis, question answering, named entity recognition and more, and both set new records. The difference between encoder-only and decoder-only models is explained in the transformer Notes.
 
 OpenAI kept scaling GPT up. Each new version had many more **parameters** (G-1450) (weights) than the last (Figure 7): 117 million in GPT-1, 1.5 billion in GPT-2 (Radford et al. 2019) and 175 billion in GPT-3 (Brown et al. 2020). At this size people started to say **large** language model.
-
-The GPT-1 number needs a note. The GPT-1 paper gives the model's layers and sizes but no parameter count (Radford et al. 2018, §4.1). The figure of 117 million comes from the GPT-2 paper, which lists 117M for its smallest model and calls that model "equivalent to the original GPT" (Radford et al. 2019, §2.3 and Table 2). The weights OpenAI later published for that smallest GPT-2 model hold **124.4 million** parameters when counted (124,439,808; Notebook; the model's page also says 124M). Neither paper states the reason, but a count explains it: with GPT-1's 40,000-token vocabulary and 512 positions, the same 12 blocks hold about 116 million parameters, while GPT-2's 50,257 tokens and 1,024 positions give 124.4 million. So the 117M label fits the original GPT's sizes, not the released GPT-2 file (worked out in the [decoder-only GPT Note](../1087-decoder-only-gpt/note.md)).
 
 ![Parameter counts from the original papers, on a log scale: each step up is ten times more. GPT-3 has about 1,500 times the parameters of GPT-1](images/model_sizes.png){width=82%}
 
@@ -233,7 +231,7 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 | BLEU score | A measure of translation quality: how many word sequences of a translation match a human reference |
 | Attention | A mechanism that lets each output step weigh all input positions and focus on the useful ones |
 | Transformer | A seq2seq architecture built from attention and dense layers, with no RNN, that processes all words in parallel |
-| Self-attention | Attention in which the words of one sequence attend to each other |
+| Self-attention (G-1763) | Attention in which the words of one sequence attend to each other |
 | Transfer learning | Reusing a model trained on one task as the starting point for a related task |
 | Pre-training | The first, general training of a model on a large dataset |
 | Fine-tuning | Training a pre-trained model further on a small dataset for a specific task |

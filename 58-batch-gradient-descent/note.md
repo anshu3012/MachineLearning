@@ -48,7 +48,7 @@ and there are $m + 1$ coefficients to find. Batch gradient descent:
 
 3. **Repeat** for a fixed number of epochs.
 
-The loss used here is the **mean squared error loss** (G-1202), $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$. Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same **learning rate** (G-1068) works for small and large datasets.
+The loss used here is the **mean squared error loss** (G-1201), $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$. Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same **learning rate** (G-1068) works for small and large datasets.
 
 Figure 2 shows step 2 on real data: the run of Section 4 on the diabetes data, with 10 features. All 10 coefficients start at 1 and the intercept at 0. At every epoch each one moves by its own derivative, at the same time. The intercept jumps to 150.5 in the first epoch, because its derivative is just the average error; the 10 coefficients grow slowly towards the OLS values (diamonds), the large ones such as bmi and s5 first.
 
@@ -223,6 +223,6 @@ Stochastic and mini-batch gradient descent, in the next two Notes, solve these t
 | Batch gradient descent | Gradient descent that uses all training observations for every update |
 | Stochastic gradient descent (SGD) | Gradient descent that uses one random observation for every update |
 | Mini-batch gradient descent | Gradient descent that uses a small random group of observations for every update |
-| Mean squared error loss | The average squared error; its derivatives do not grow with the number of observations |
-| Vectorisation | Writing a computation as operations on whole arrays instead of Python loops |
+| Mean squared error loss (G-1201) | The average squared error; its derivatives do not grow with the number of observations |
+| Vectorisation (G-2083) | Writing a computation as operations on whole arrays instead of Python loops |
 | Early stopping | Stopping training when the score on held-out data is best, before full convergence |

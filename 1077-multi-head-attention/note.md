@@ -104,7 +104,7 @@ $Z_1$ holds the head-1 outputs of "money" and "bank" as its two rows; $Z_2$ hold
 
 > **Key point:** Join the heads' outputs side by side, then multiply by a learned matrix $W_O$. The result has the same shape as the input.
 
-Each word now has two 4-number vectors. Placing $Z_1$ and $Z_2$ side by side (**concatenation** (G-437)) gives $Z'$, of shape $2 \times 8$. But the output of the layer should have the same shape as its input, $2 \times 4$, so that the next layer can treat it like the embeddings. One more learned matrix, $W_O$ of shape $8 \times 4$, does this:
+Each word now has two 4-number vectors. Placing $Z_1$ and $Z_2$ side by side (**concatenation** (G-436)) gives $Z'$, of shape $2 \times 8$. But the output of the layer should have the same shape as its input, $2 \times 4$, so that the next layer can treat it like the embeddings. One more learned matrix, $W_O$ of shape $8 \times 4$, does this:
 
 $$Z = Z'\thinspace W_O = [\thinspace Z_1 \thickspace\thickspace Z_2\thinspace]\thinspace W_O$$
 
@@ -308,7 +308,7 @@ Clark et al. (2019) found the same kinds of heads across all 144 heads of BERT: 
 | $h$ | The number of heads; 8 in the transformer |
 | $d_{\text{model}}$ | The number of values in each word's vector at the layer's input and output; 512 in the transformer |
 | $d_k$, $d_v$ | The size of each head's query and key vectors ($d_k$) and value vectors ($d_v$); $d_{\text{model}}/h = 64$ in the transformer |
-| Concatenation | Placing vectors or matrices side by side to form one longer vector or wider matrix |
+| Concatenation (G-436) | Placing vectors or matrices side by side to form one longer vector or wider matrix |
 | $W_O$ | The learned output matrix that mixes the concatenated head outputs back to $d_{\text{model}}$ numbers per word |
 | Contextual embedding | A word vector that depends on the other words of the sentence |
 | BERT | A published transformer trained on a large amount of English text; BERT-base has 12 layers of 12 heads |

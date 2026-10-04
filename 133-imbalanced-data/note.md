@@ -269,11 +269,13 @@ SMOTE is popular, but whether to use it is much debated, because of five disadva
 
 1. **SMOTE cannot handle categorical features.** Interpolating between category 0 and category 1 can give 0.7, which is not a category (Figure 8, left).
 2. **SMOTE is slow on large data.** SMOTE needs a nearest-neighbour search, which measures many distances and becomes slow with many observations or many features.
-3. **SMOTE depends on $k$.** With $k = 1$, every new point lies on the segment to the single nearest neighbour, so the new points have little variety. With a very large $k$, neighbours can be far away and new points appear all over the feature space. The middle is hard to find; $k = 5$ is the usual default, but the best value depends on the data.
+3. **SMOTE depends on $k$.** With $k = 1$, every new point lies on the segment to the single nearest neighbour, so the new points have little variety. With a very large $k$, neighbours can be far away and new points appear all over the feature space. The middle is hard to find; $k = 5$ is the usual default, but the best value depends on the data. Figure 9 shows all three cases on our training data.
 4. **SMOTE is sensitive to outliers.** A noisy minority point far from the others gets picked too, and the segments to its neighbours cross the majority region, so one noisy observation creates more noisy observations (Figure 8, right). Our own data shows this: the red outlier at the bottom of Figure 5, right, pulls a trail of orange points down with it.
 5. **The new observations may not be realistic.** Nothing guarantees that the invented points follow the true distribution of the population. They follow the straight lines between existing points, which real data may not.
 
 ![Two SMOTE failures: a new point between two categories, and an outlier that spreads new points into the majority](images/smote_problems.png){width=90%}
+
+![The 278 new SMOTE points (orange) on our training data for k = 1, 5 and 20. With k = 1 the new points line up on a few short segments; with k = 20 almost every minority point is a neighbour of every other, and the new points spread over the area between them, into the majority.](images/smote_k.png){width=100%}
 
 > **Extra:** imbalanced-learn has variants aimed at some of these problems (imbalanced-learn user guide, Over-sampling). `SMOTENC` handles a mix of numeric and categorical features (for a categorical feature it takes the most common category among the neighbours instead of interpolating). `BorderlineSMOTE` creates points only near the class boundary, and `ADASYN` creates more points where the minority is hardest to learn.
 
@@ -322,7 +324,7 @@ Ensemble methods ([ensemble learning Note](../101-ensemble-learning/note.md)) su
 
 ![A balanced random forest: every tree is trained on a balanced sample, then the trees vote](images/balanced_rf.png){height=42%}
 
-In Figure 9, the training data has 900 majority and 300 minority observations. Each sample takes 300 minority observations and 300 majority observations drawn at random, 600 observations in all, and one tree is trained on it. To predict, every tree votes and the majority vote wins: here 1, 0 and 1 give 1.
+In Figure 10, the training data has 900 majority and 300 minority observations. Each sample takes 300 minority observations and 300 majority observations drawn at random, 600 observations in all, and one tree is trained on it. To predict, every tree votes and the majority vote wins: here 1, 0 and 1 give 1.
 
 Undersampling (section 5) threw most majority observations away for good. Here each tree throws different observations away, so together the trees still see most of the majority class. On our data, 100 trees each draw 21 of the 299 majority observations, so a given observation is missed by every tree with probability $(1 - 1/299)^{2100} \approx 0.001$.
 
@@ -368,7 +370,7 @@ With 900 observations of class 1 and 100 observations of class 0, we might give 
 
 ![The line logistic regression learns as the weight of class 0 grows from 1 to 50](images/class_weight.png){width=90%}
 
-Figure 10 shows the effect. With weight 1 (no weighting), the line sits below the red points; at 5, 25 and 50 it moves further up into the majority class. The bigger the weight, the more pressure on the model to classify the minority correctly:
+Figure 11 shows the effect. With weight 1 (no weighting), the line sits below the red points; at 5, 25 and 50 it moves further up into the majority class. The bigger the weight, the more pressure on the model to classify the minority correctly:
 
 | Weight of class 0 | Accuracy | Precision (0) | Recall (0) |
 |---|---|---|---|
@@ -428,7 +430,7 @@ $$\frac{\partial L_i}{\partial z_i} = b\thinspace(1 - y_i)\thinspace p_i - a\thi
 > y_pred = (p > 0.5).astype(int)
 > ```
 >
-> A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (G-865; first derivative) and **Hessian** (G-887; second derivative) of each observation's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities (XGBoost docs, Custom Objective), so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
+> A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (G-863; first derivative) and **Hessian** (G-887; second derivative) of each observation's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities (XGBoost docs, Custom Objective), so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
 
 With $b = 1$ (the ordinary log loss), XGBoost finds 2 of the 7 minority test observations. With $b = 3.5$ it finds 3 (recall **0.43**, precision 0.38). Section 10 repeats the comparison on real data, where the effect is clear.
 
@@ -455,7 +457,7 @@ The toy test set has only 7 minority observations, so one observation found or m
 | XGBoost, ordinary log loss | 0.83 | 0.54 | 0.65 | 0.953 |
 | XGBoost, custom loss (minority mistakes cost 10) | 0.56 | 0.77 | 0.65 | 0.953 |
 
-Figure 11 draws the table's first two columns. Three things stand out:
+Figure 12 draws the table's first two columns. Three things stand out:
 
 ![Minority precision against minority recall on the mammography data. Each arrow goes from a model as is to the same model with a fix: every fix moves right (more calcifications found) and down (more false alarms)](images/tradeoff.png){width=90%}
 

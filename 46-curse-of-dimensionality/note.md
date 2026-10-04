@@ -147,7 +147,7 @@ In high dimensions, every point is far from every other point. The nearest neigh
 > **Key point:** Too many dimensions cause two problems: lower performance and more computation.
 
 1. **Performance decreases.** Useless features spread the data thin and push the truly similar points apart (Section 4.3). In Figure 2, accuracy fell from 96% to 80%.
-2. **Computation increases.** Every extra feature is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 features took about 1.6 times as long as with 64 in the Notebook run, and 2.4 times in the run behind Figure 5 (timings vary from run to run and machine to machine).
+2. **Computation increases.** Every extra feature is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 features took about 1.6 to 2.4 times as long as with 64, depending on the run.
 
 Figure 5 draws both problems on the red-line experiment of Figure 2. As random features are added, the share of images whose nearest other image shows the same digit falls from 98.8 to 72.5 percent, and the time to score the model keeps climbing.
 

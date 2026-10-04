@@ -28,7 +28,7 @@ Figure 1 shows the whole topic. Every column goes to the transformer that fixes 
 
 Take customer data with four features:
 
-- **age:** numerical, but some values are **missing values** (G-1235). Age needs **imputation** (G-927) to fill them.
+- **age:** numerical, but some values are **missing values** (G-1234). Age needs **imputation** (G-927) to fill them.
 - **city:** nominal categories. City needs one-hot encoding.
 - **gender:** nominal categories. Gender also needs one-hot encoding.
 - **review:** ordinal categories, such as good and excellent. Review needs ordinal encoding.
@@ -364,7 +364,7 @@ Calling **`set_output(transform="pandas")`** (G-1780) once makes every later `fi
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer |
 | transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples |
 | remainder | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"` |
-| passthrough | The `remainder` option that keeps untouched columns unchanged |
+| passthrough (G-1460) | The `remainder` option that keeps untouched columns unchanged |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean |
 | fit_transform | Fit and transform in one call; used on the training set only |
 | np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side |

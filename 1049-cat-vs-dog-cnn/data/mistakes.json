@@ -1,0 +1,21 @@
+{
+ "plain": {
+  "train_acc": 0.9912430644035339,
+  "val_acc": 0.7565143101238787,
+  "n_val": 4682,
+  "n_wrong": 1140,
+  "wrong_conf_over_90": 789,
+  "wrong_conf_over_99": 503,
+  "wrong_median_conf": 0.9816251397132874
+ },
+ "bn_dropout": {
+  "train_acc": 0.8988680243492126,
+  "val_acc": 0.7804357112345152,
+  "n_val": 4682,
+  "n_wrong": 1028,
+  "wrong_conf_over_90": 512,
+  "wrong_conf_over_99": 183,
+  "wrong_median_conf": 0.8995133638381958
+ },
+ "both_wrong": 467
+}

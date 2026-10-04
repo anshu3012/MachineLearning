@@ -209,9 +209,9 @@ Figure 5 continues the example for 10 iterations at full precision. With linear 
 
 ![The three fills after each iteration, with linear regression and with scikit-learn's default BayesianRidge; the dotted line is the true hidden value](images/convergence.png){width=100%}
 
-> **Extra:** Keeping only two decimals at each step makes the hand-calculated numbers drift slightly from the full-precision ones. Iteration 1 gives 31.60 for Marketing instead of 31.56, and iteration 2 gives 23.83, 11.23 and 39.39. The final values are the same.
+> **Extra:** Rounding to two decimals at each step makes the hand numbers differ slightly from the full-precision ones (31.56 against 31.60 for Marketing in iteration 1); the settled values are the same.
 
-> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every **residual** (G-1685), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is **extrapolation** (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
+> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every **residual** (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is **extrapolation** (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
 
 ## 8. The iterative imputer in scikit-learn
 
@@ -364,11 +364,11 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 | Chained equations | One prediction model per feature, each using the latest fills of the others |
 | Iteration (MICE) | One pass that re-predicts the gaps of every feature once, in order |
 | Iteration 0 | The starting table, with every gap filled by its feature's mean |
-| Convergence | The point where the fills hardly change between two iterations |
+| Convergence (G-472) | The point where the fills hardly change between two iterations |
 | `IterativeImputer` | scikit-learn's class for MICE; still experimental |
 | `enable_iterative_imputer` | The import that switches on the experimental `IterativeImputer` |
 | `BayesianRidge` | A linear regression that pulls its weights toward 0 a little; the default model of `IterativeImputer` |
-| `max_iter` | The largest number of iterations `IterativeImputer` runs; default 10 |
+| `max_iter` (G-112) | The largest number of iterations `IterativeImputer` runs; default 10 |
 | `tol` | The size of change below which `IterativeImputer` stops early; default 0.001 |
 | `sample_posterior` | Draw each fill at random from the model's spread, giving several plausible filled tables |
 | Multiple imputation | Making several filled copies of the data to see how unsure the fills are |

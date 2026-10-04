@@ -244,10 +244,10 @@ In Figure 7, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the p
 
 | Term | Meaning |
 |---|---|
-| Threshold | The probability cut-off that turns a predicted probability into a class |
+| Threshold (G-1970) | The probability cut-off that turns a predicted probability into a class |
 | True positive rate (TPR) | The fraction of real positives the model flags; the same as recall |
 | False positive rate (FPR) | The fraction of real negatives the model wrongly flags |
-| Sensitivity | Another name for the true positive rate (recall) |
+| Sensitivity (G-1641) | Another name for the true positive rate (recall) |
 | Specificity | The fraction of real negatives the model correctly clears, TN / (TN + FP); equal to 1 − FPR |
 | ROC curve | A plot of TPR against FPR for every threshold |
 | AUC | The area under the ROC curve; a single score from 0.5 (random) to 1 (perfect) |

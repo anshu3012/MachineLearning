@@ -33,7 +33,9 @@ ML learns from data, so without data there is nothing to learn.
 - **While learning:** data comes ready-made, as CSV files from sites like Kaggle or from course material.
 - **In a company:** we usually have to gather it ourselves. The two main ways are calling an **API** (G-204; a service that returns data on request) and **web scraping** (G-2105; writing code that extracts data from web pages).
 
-Both ways bring their own problems, because we are pulling large amounts of data from systems we do not control. Both are covered in later Notes.
+![Where data comes from](images/collecting_data.png)
+
+Figure 2 shows the three routes. Both company routes bring their own problems, because we are pulling large amounts of data from systems we do not control. Both are covered in later Notes.
 
 ## 3. Not enough data
 
@@ -45,13 +47,13 @@ Both ways bring their own problems, because we are pulling large amounts of data
 
 Suppose we have two algorithms: A is clearly better than B. We give A a small dataset and B a much larger one. Very often, B ends up performing better.
 
-Researchers tested this on a language task: choosing the right word in sentences such as "*to* / *two* / *too*". They trained several very different algorithms on more and more data. As the data grew, the algorithms' accuracies came closer and closer together (Figure 2; Géron 2019, Ch. 1).
+Researchers tested this on a language task: choosing the right word in sentences such as "*to* / *two* / *too*". They trained several very different algorithms on more and more data. As the data grew, the algorithms' accuracies came closer and closer together (Figure 3; Géron 2019, Ch. 1).
 
 ![With enough data, the choice of algorithm matters less](images/data_effectiveness.png)
 
 This effect is known as the **unreasonable effectiveness of data** (G-2055). The catch: few projects have that much data. Most of us work with small or medium datasets, where the choice of algorithm still matters a lot.
 
-> **Extra:** The word-choice experiment is by Michele Banko and Eric Brill at Microsoft (Banko and Brill 2001). The phrase "the unreasonable effectiveness of data" comes from a 2009 article of that name by three Google researchers (Halevy et al. 2009). Figure 2 illustrates the idea; it does not show their measurements.
+> **Extra:** The word-choice experiment is by Michele Banko and Eric Brill at Microsoft (Banko and Brill 2001). The phrase "the unreasonable effectiveness of data" comes from a 2009 article of that name by three Google researchers (Halevy et al. 2009). Figure 3 illustrates the idea; it does not show their measurements.
 
 ### 3.2 Labelled data is scarce
 
@@ -73,19 +75,27 @@ Our data is a **sample** (G-1731): a small part of everything that exists in the
 
 ![A non-representative sample suggests the wrong pattern](images/non_representative.png)
 
-In Figure 3, we collected data only from one narrow range (blue points), so the best fit to our sample is a rising straight line (orange). The full data (grey points) shows that the real pattern rises and then falls (green). A model trained on our sample would make badly wrong predictions for large inputs.
+In Figure 4, we collected data only from one narrow range (blue points), so the best fit to our sample is a rising straight line (orange). The full data (grey points) shows that the real pattern rises and then falls (green). A model trained on our sample would make badly wrong predictions for large inputs.
 
 ### 4.2 Sampling noise and sampling bias
 
 > **Key point:** A sample can be unrepresentative because it is too small (noise) or because of how it was collected (bias).
 
-The two names come from Géron (2019, Ch. 1). Suppose we run a survey: *which team will win the T20 World Cup?* Figure 4 shows three ways to do it.
+The two names come from Géron (2019, Ch. 1). Suppose we run a survey: *which team will win the T20 World Cup?* Figure 5 shows three ways to do it.
 
 ![Three ways to run the same survey](images/survey_designs.png)
 
 - **Sampling noise** (G-1737): the sample is so small that the result depends on luck. Asking 5 random fans can give almost any answer.
 - **Sampling bias** (G-1734): the way we collect the data favours some answers. Asking 1000 fans, all of them Indian, gives a large sample, but almost all will say "India". Asking fans abroad does not fix this if most of the fans we reach are still Indian.
 - **Representative:** ask, say, 100 local fans in every country that is playing. Every team gets a fair chance.
+
+Figure 6 runs both kinds of survey on real data: the 891 passengers of the Titanic training set, of whom 38.4 percent survived. Each survey estimates that share from a sample, and we repeat each survey 40 times.
+
+![Sampling noise and sampling bias on the Titanic passengers. Blue: surveys of passengers picked at random from everyone. Red: surveys of first-class passengers only. Dashed line: the true share who survived.](images/sampling_survey.gif)
+
+1. **Small random samples: noise.** With 5 passengers per survey, the random estimates range from 0 to 100 percent. Each one depends on which 5 passengers we happened to pick.
+2. **Larger random samples.** With 200 passengers, they gather around the dashed line, between 32 and 52 percent. More data shrinks sampling noise.
+3. **Biased samples.** Asking first-class passengers only, the estimates gather around 63 percent, however many we ask: 62.9 percent on average with 200 passengers. First-class passengers survived more often, so this way of collecting the data favours "survived".
 
 A large sample does not protect against bias: a huge but skewed dataset is still skewed.
 
@@ -96,11 +106,11 @@ A large sample does not protect against bias: a huge but skewed dataset is still
 Real data is messy:
 
 - errors and typos,
-- **missing values** (G-1235; empty cells),
-- **outliers** (G-1421; values far from the rest, often mistakes),
+- **missing values** (G-1234; empty cells),
+- **outliers** (G-1420; values far from the rest, often mistakes),
 - the same thing written in different formats.
 
-No algorithm can make good predictions from bad data. The rule is often summed up as **garbage in, garbage out** (G-824; Figure 5).
+No algorithm can make good predictions from bad data. The rule is often summed up as **garbage in, garbage out** (G-824; Figure 7).
 
 ![Garbage in, garbage out, and where the time goes](images/gigo.png)
 
@@ -127,7 +137,7 @@ Data often contains **features** (G-772; input variables, one column each in the
 
 ![Dropping an irrelevant feature and combining two others](images/feature_selection.png)
 
-Figure 6 shows the result. Choosing, removing and creating features like this is called **feature engineering** (G-761). Deciding which features to keep is hard, and gets easier with experience.
+Figure 8 shows the result. Choosing, removing and creating features like this is called **feature engineering** (G-761). Deciding which features to keep is hard, and gets easier with experience.
 
 ## 7. Overfitting and underfitting
 
@@ -143,7 +153,18 @@ People overfit too. Someone moves to Gurgaon, pays 500 rupees for one movie tick
 
 ![Underfitting, a good fit and overfitting on the same 12 points](images/fitting.gif)
 
-The last stage of Figure 7 shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the good fit.
+The last stage of Figure 9 shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the good fit.
+
+Why does a perfect score on the training data go with a bad score on new data? Figure 10 answers by raising the model's complexity one step at a time, from degree 1 to degree 11, on the same 12 points.
+
+![Training error and new-data error as the model gets more complex. Left: blue dots are the 12 training points, orange diamonds are 12 of the 300 new points, and each orange segment is one new point's error. Right: both errors for every degree so far. Idea after StatQuest, "Machine Learning Fundamentals: Bias and Variance".](images/train_test_error.gif)
+
+1. **The two kinds of data.** The curve is fitted to the blue points only: the **training set** (G-2002). The orange points are new: the model never saw them. They play the role of a **test set** (G-1962).
+2. **Training error only falls.** Each extra degree lets the curve bend closer to the blue points: 0.47 at degree 1, 0.21 at degree 3, 0.00 at degree 11.
+3. **New-data error falls, then rises.** The error on the orange points falls from 0.55 at degree 1 to 0.32 at degree 3, stays near 0.30 up to degree 6, then climbs, unevenly, to 0.67 at degree 11.
+4. **What went wrong.** To pass through every blue point, the degree-11 curve must swing far between them. The orange segments show the cost: new points that fall between the blue ones are far from the curve.
+
+So a model is judged by its error on data it did not train on, never by its training error. [Note 62](../62-bias-variance/note.md) studies this trade-off in full.
 
 Overfitting is one of the biggest challenges in ML. For every algorithm in these Notes, we will ask how it can overfit and how to prevent it.
 
@@ -151,7 +172,7 @@ Overfitting is one of the biggest challenges in ML. For every algorithm in these
 
 > **Key point:** An underfit model is too simple to capture the pattern, so it is bad on all data.
 
-**Underfitting** (G-2035) is the opposite: the model is too simple for the data. In the first stage of Figure 7, a straight line cannot follow the wave in the data. The line does badly on the training data and on new data alike.
+**Underfitting** (G-2035) is the opposite: the model is too simple for the data. In the first stage of Figure 9, a straight line cannot follow the wave in the data. The line does badly on the training data and on new data alike.
 
 The middle stage is a **good fit** (G-852): it follows the overall wave and ignores the small noise in individual points. Its error on new data is the lowest of the three.
 
@@ -165,7 +186,7 @@ The Notebook for this Note (`notebook.ipynb`) has a slider for model complexity,
 
 A model is never the end product. The model is a part of some software that helps users: a recommender inside a website, a fraud detector inside a banking app.
 
-So after building the model, we have to **integrate** it (**integration**, G-957) into that software, and the software may run on many platforms (Figure 8).
+So after building the model, we have to **integrate** it (**integration**, G-957) into that software, and the software may run on many platforms (Figure 11).
 
 ![One model, many platforms](images/integration.png)
 
@@ -185,7 +206,7 @@ As covered in Notes 4 and 5:
 - **Batch learning:** to update the model, we take it offline, retrain it on all the data, and upload it again, over and over.
 - **Online learning:** the model updates itself on the server, which is harder to build and riskier to run.
 
-**Deployment** (G-593), putting a model on a server for users, is itself difficult. Cloud providers such as AWS (Amazon), Google Cloud and Microsoft Azure offer services for it, but they are not yet as smooth as the tools for ordinary software. Monitoring a live model and fixing it in real time still takes a lot of effort.
+**Deployment** (G-592), putting a model on a server for users, is itself difficult. Cloud providers such as AWS (Amazon), Google Cloud and Microsoft Azure offer services for it, but they are not yet as smooth as the tools for ordinary software. Monitoring a live model and fixing it in real time still takes a lot of effort.
 
 ## 10. Cost
 
@@ -198,7 +219,7 @@ At scale, the costs are surprising. A model used by 10,000 or 100,000 people nee
 - monitoring;
 - testing.
 
-Each of these has costs that are easy to miss while building the model (Figure 9).
+Each of these has costs that are easy to miss while building the model (Figure 12).
 
 ![The model is a small part of the whole system](images/hidden_costs.png)
 
@@ -206,7 +227,7 @@ Managing all of this is a growing field of its own, **MLOps** (G-1244; machine l
 
 The best way to learn these challenges is to go one step further than building a model: turn it into a real product, deploy it on a server and let real users use it.
 
-> **Extra:** A well-known paper on these hidden costs is *Hidden Technical Debt in Machine Learning Systems* (Sculley et al. 2015). Its Figure 1 makes the same point as Figure 9: the ML code is a small box in a much larger system.
+> **Extra:** A well-known paper on these hidden costs is *Hidden Technical Debt in Machine Learning Systems* (Sculley et al. 2015). Its Figure 1 makes the same point as Figure 12: the ML code is a small box in a much larger system.
 
 ## 11. Summary
 
@@ -232,9 +253,11 @@ The best way to learn these challenges is to go one step further than building a
 **Built from**
 
 - CampusX, "Challenges in Machine Learning | Problems in Machine Learning", YouTube, https://www.youtube.com/watch?v=WGUNAJki2S4
+- StatQuest with Josh Starmer, "Machine Learning Fundamentals: Bias and Variance", YouTube, https://www.youtube.com/watch?v=EuBBz3bI-aA (comparing fits on the training set and the testing set, Figure 10)
 
 **Other references**
 
+- Kaggle. *Titanic: Machine Learning from Disaster*, training set (891 passengers). kaggle.com/c/titanic.
 - Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras and TensorFlow*, 2nd ed. O'Reilly. Ch. 1, "Main Challenges of Machine Learning".
 - Banko, M. and Brill, E. (2001). Scaling to Very Very Large Corpora for Natural Language Disambiguation. *Proceedings of ACL*.
 - Halevy, A., Norvig, P. and Pereira, F. (2009). The Unreasonable Effectiveness of Data. *IEEE Intelligent Systems* 24(2).
@@ -244,7 +267,7 @@ The best way to learn these challenges is to go one step further than building a
 
 | Term | Meaning |
 |---|---|
-| API | A service that returns data when our code asks for it |
+| API (G-204) | A service that returns data when our code asks for it |
 | Web scraping | Writing code that extracts data from web pages |
 | Unreasonable effectiveness of data | With enough data, different algorithms perform about the same |
 | Labelled data | Data whose observations include the correct output |
@@ -255,15 +278,17 @@ The best way to learn these challenges is to go one step further than building a
 | Representative sample | A sample that reflects the whole situation fairly |
 | Sampling noise | An unrepresentative sample caused by being too small |
 | Sampling bias | An unrepresentative sample caused by how the data was collected |
-| Missing values | Empty cells in the data |
-| Outliers | Values far from the rest, often mistakes |
+| Missing values (G-1234) | Empty cells in the data |
+| Outliers (G-1420) | Values far from the rest, often mistakes |
 | Garbage in, garbage out | Bad input data always gives bad results |
 | Data cleaning | Fixing errors, gaps and inconsistencies in data |
 | Feature engineering | Choosing, removing and creating features |
 | BMI | Body mass index: weight (kg) divided by height (m) squared |
 | Overfitting | Learning the training data too closely, noise included; fails on new data |
+| Training set | The data a model learns from |
+| Test set | Data kept aside, never learned from, used to measure a model on new data |
 | Underfitting | Being too simple to capture the pattern; fails on all data |
 | Good fit | Capturing the pattern while ignoring the noise |
 | Software integration | Building a model into the software that users use |
-| Deployment | Putting a model on a server so users can reach it |
+| Deployment (G-592) | Putting a model on a server so users can reach it |
 | MLOps | Running and maintaining ML models in production |

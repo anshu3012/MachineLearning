@@ -183,6 +183,8 @@ The same steps for 2 and 3 standard deviations:
 
 The 68-95-99.7 pattern is the **empirical rule** (G-53) of the [z-score outliers Note](../42-outliers-zscore/note.md), now derived from the z-table instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
 
+A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up: $1 - \Phi(4.4) \approx 0.000005$. Roughly speaking, most good batsmen sit within one or two standard deviations of the mean, and only the very greatest approach three.
+
 ### 6.1 Using the rule without a table
 
 > **Key point:** The rule gives the middle; symmetry splits what is left over into two equal tails. Together they answer "below" and "above" questions in the head.
@@ -196,8 +198,6 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 
 ![Tail areas from the rule: the middle 68 percent leaves 32, split into two tails of 16; below z = 1 lies 68 + 16 = 84 percent; beyond 2 standard deviations each tail holds 2.5 percent. Idea after Khan Academy, "ck12.org exercise: Standard normal distribution and the empirical rule"](images/tails_from_rule.gif)
 
-A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up: $1 - \Phi(4.4) \approx 0.000005$. Roughly speaking, most good batsmen sit within one or two standard deviations of the mean, and only the very greatest approach three.
-
 ## 7. Where the normal distribution is used in data science
 
 > **Key point:** Outlier detection, the assumptions of some ML models, hypothesis testing, and the central limit theorem.
@@ -205,7 +205,7 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 1. **Outlier detection.** For a feature that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (the z-score method, see the [z-score outliers Note](../42-outliers-zscore/note.md)). For the Titanic ages the limits are $29.70 \pm 3 \times 14.53$, from $-13.88$ to $73.28$ years. No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged as **outliers** (G-1420; Figure 9).
 
    ![The 714 Titanic ages with the mean and the +1, +2 and +3 standard deviation lines. Only the passengers aged 74 and 80 (circled) lie beyond 73.28.](images/age_outliers.png){height=36%}
-2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (G-1685; the errors) are normal, not the inputs (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). Linear and logistic regression also tend to work better on normal-looking inputs (see the [function transformer Note](../30-function-transformer/note.md)), and a Gaussian mixture model is built from normal curves (see the [density estimation Note](../243-density-estimation-kde/note.md)).
+2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (G-705; the errors) are normal, not the inputs (see the [linear regression assumptions Note](../56-linear-regression-assumptions/note.md)). Linear and logistic regression also tend to work better on normal-looking inputs (see the [function transformer Note](../30-function-transformer/note.md)), and a Gaussian mixture model is built from normal curves (see the [density estimation Note](../243-density-estimation-kde/note.md)).
 3. **Hypothesis testing** (G-913). Many statistical tests assume that the data, or a statistic computed from it, is normally distributed.
 4. **The central limit theorem** (G-364). Averages of samples from almost any distribution, normal or not, follow approximately a normal distribution, more closely as the samples grow (Pishro-Nik §7.1.2). This result, the topic of a later Note, is what makes the normal distribution central to inferential statistics.
 

@@ -27,9 +27,14 @@ This Note explains why, using the **bias-variance trade-off** (G-288), and shows
 
 > **Key point:** A random forest is bagging with fully grown trees: each tree keeps the bias low, and averaging many of them removes most of the variance.
 
-We want low **bias** (G-287) and low **variance** (G-2078), but a single model usually trades one for the other (the [bias-variance Note](../62-bias-variance/note.md)). **Bagging** (G-2154) escapes this by averaging low-bias, high-variance models (G-1132), each trained on its own random sample, a **bootstrap sample** (G-319), so a change in the data is spread across many models (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Think of many people guessing the number of sweets in a jar: each guess is off, some high and some low, but the average of the guesses lands close to the truth.
+Two words carry this Note (both from the [bias-variance Note](../62-bias-variance/note.md)):
 
-A random forest applies this to **fully grown** **decision trees** (G-561; no `max_depth`). Each tree fits its training data almost perfectly, so the forest starts with low bias; averaging hundreds of them keeps the bias low and cuts the variance. Figure 2 shows the recipe. The next two sections measure the effect.
+- **Bias** (G-287): the error of a model that is too simple to follow the true pattern, such as a straight line through curved data. The model is wrong even on its own training data.
+- **Variance** (G-2074): how much the fitted model changes when the training data changes. A model that hugs every training point fits them perfectly, then fits new data badly.
+
+We want both low, but a single model usually trades one for the other. **Bagging** (G-251) escapes this by averaging low-bias, high-variance models (G-1132), each trained on its own random sample, a **bootstrap sample** (G-319), so a change in the data is spread across many models (the [bagging Note](../105-bagging-intuition/note.md), section 3.2). Think of many people guessing the number of sweets in a jar: each guess is off, some high and some low, but the average of the guesses lands close to the truth.
+
+A random forest applies this to **fully grown** **decision trees** (G-561; no `max_depth`). Each tree fits its training data almost perfectly, so the forest starts with low bias; averaging hundreds of them keeps the bias low and cuts the variance. Figure 2 shows the recipe. The next two sections measure the effect. Averaging helps most when the trees differ from one another; the random choice of features at each split, which makes them differ more, is the subject of the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md).
 
 ![A random forest is bagging with fully grown trees. Each bootstrap sample grows one deep tree with low bias and high variance; averaging the 500 trees (or taking their majority vote) keeps the low bias and cancels most of the variance](images/forest_flow.png){width=90%}
 

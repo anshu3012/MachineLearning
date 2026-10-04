@@ -39,7 +39,7 @@ Vectors can be multiplied, but not in the ordinary sense. There are two products
 
 ML uses the dot product almost everywhere, and the cross product rarely. This Note is about the dot product.
 
-> **Extra:** The usual cross product is defined for 3D vectors. For two 3D vectors it gives a third vector perpendicular to both, whose length is the area of the parallelogram they span. A product with these properties exists only in 3 and 7 dimensions (Massey 1983). ML meets it only in a few places.
+> **Extra:** The usual cross product is defined for 3D vectors. For two 3D vectors it gives a third vector perpendicular to both, whose length is the area of the parallelogram they span. ML meets it only in a few places.
 
 ## 3. Computing the dot product
 
@@ -62,7 +62,7 @@ Both vectors must have the same number of components; otherwise some component w
 
 > **Key point:** A row of shape 1 x n times a column of shape n x 1 gives a 1 x 1 result: the dot product. So $a \cdot b = a^{\mathsf T} b$.
 
-The dot product can also be written as a matrix multiplication. Write $a$ as a row vector (shape $1 \times n$) and $b$ as a column vector (shape $n \times 1$), as in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 7).
+The dot product can also be written as a matrix multiplication. Write $a$ as a row vector (shape $1 \times n$) and $b$ as a column vector (shape $n \times 1$), as in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 5).
 
 ![A row of shape 1 x 3 times a column of shape 3 x 1 gives a 1 x 1 result, the dot product](images/row_times_column.png)
 
@@ -212,7 +212,7 @@ With numbers: $p = [1, 2, 3]$ and $q = [2, 4, 5]$ have cosine similarity 0.996 (
 
 > **Key point:** Turn every summary into a vector, compute the cosine similarity with the movie the user liked, and recommend the movies with the smallest angles.
 
-The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6) turned movie summaries into **bag-of-words** (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
+The [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 4) turned movie summaries into **bag-of-words** (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
 
 For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = *this is 2023*:
 
@@ -266,7 +266,6 @@ Word counts are never negative, so for texts the cosine similarity always lies b
 
 **Other references**
 
-- Massey, W. S. (1983). "Cross products of vectors in higher dimensional Euclidean spaces." *The American Mathematical Monthly* 90(10), 697–701.
 - Manning, C. D., Raghavan, P. and Schütze, H. (2008). *Introduction to Information Retrieval*. Cambridge University Press. §6.3.1.
 
 ## 9. Key terms

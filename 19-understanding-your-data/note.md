@@ -263,7 +263,7 @@ The rows of the table mean:
 >    $$s = \sqrt{\frac{186.8}{5 - 1}} = \sqrt{46.7} \approx 6.83.$$
 >    A typical age among these five is about 7 years away from 31.2.
 >
-> pandas divides by $n - 1$, not $n$. This **sample standard deviation** corrects for the fact that a sample tends to look a little less spread out than the whole population it came from (see Section 4.3 of the [measures of dispersion Note](../222-measures-of-dispersion/note.md)).
+> pandas divides by $n - 1$, not $n$. This **sample standard deviation** corrects for the fact that a sample tends to look a little less spread out than the whole population it came from (see Section 6 of the [measures of dispersion Note](../222-measures-of-dispersion/note.md)).
 
 ### 7.2 Percentiles
 
@@ -347,6 +347,21 @@ For example, if we add the first two passengers to the table a second time, `dup
 
 ![Three patterns of points and their correlation values](images/correlation_patterns.png)
 
+What does the size of $r$ measure? It measures how close the points lie to a straight line, not how steep that line is. Figure 8 shows both halves of the statement on 40 example points (idea after StatQuest, "Pearson's Correlation, Clearly Explained"):
+
+1. The points start exactly on a rising line: $r = 1$.
+2. The points move away from the line step by step, and $r$ falls: 0.9, 0.7, 0.4, and 0 when no line is left.
+3. The points go back onto a line, and the line is made gentle and then steep. Every point is still on the line, so $r$ stays 1 both times.
+
+![Forty example points spread away from a line, r falling from 1 to 0; then back on a line whose slope changes while r stays 1](images/corr_spread.gif)
+
+A large $r$ therefore says "knowing one feature pins down the other closely". It says nothing about how much the second feature changes per unit of the first.
+
+Two warnings go with every correlation:
+
+- **Correlation is not causation.** A high $r$ says that two features move together. It does not say that one causes the other (**causation**, G-359); something else may drive both. The [covariance and correlation Note](../231-covariance-and-correlation/note.md) treats this in full.
+- **A few points prove little.** A straight line passes through any two points, so two observations always give $r = 1$ or $r = -1$. The more observations behind an $r$, the more we can trust it.
+
 Not every feature in a dataset helps predict the target. Finding and removing the useless ones is an important part of ML, and correlation with the target is a quick first check.
 
 > **Extra:** The Pearson correlation, step by step.
@@ -373,11 +388,11 @@ We only care how each feature relates to the target, `Survived`. So we compute a
 >
 > `df.corr()` gives a table of the correlation of every numerical column with every other. `["Survived"]` keeps one column of that table. `numeric_only=True` tells pandas to skip text columns.
 
-Figure 8 shows the result. `Survived` with itself is exactly 1, as every column is with itself, so it is left out.
+Figure 9 shows the result. `Survived` with itself is exactly 1, as every column is with itself, so it is left out.
 
 ![Correlation of each numerical column with Survived](images/corr_survived.png)
 
-- **Fare, +0.26:** a positive link. Richer passengers had more expensive tickets, and they were among the first taken to the lifeboats.
+- **Fare, +0.26:** a positive link. Passengers with more expensive tickets survived more often. Fare goes with class: the mean fare was 84.15 in first class and 13.68 in third, and 63% of first-class passengers survived against 24% of third-class passengers. The number shows that fare and survival move together; it does not show why (section 9.1).
 - **Pclass, -0.34:** the strongest link, and negative. As the class number goes up (from first towards third), the chance of survival goes down. Most of those who died travelled in third class, the cheapest.
 - **PassengerId, -0.01:** essentially no link. As expected for a running number, this column will not help a model.
 
@@ -387,7 +402,7 @@ The correlation check is useful at the start, and we repeat it later, after clea
 
 > **Extra:** Correlation has two limits worth remembering:
 >
-> - **Text columns are skipped.** `Sex` is missing from Figure 8, yet it matters most: coded as female 1 and male 0, its correlation with `Survived` is +0.54.
+> - **Text columns are skipped.** `Sex` is missing from Figure 9, yet it matters most: coded as female 1 and male 0, its correlation with `Survived` is +0.54.
 > - **Only straight-line links count.** A feature with $r$ near 0 can still be related to the target in a curved or more complex way, so a low $r$ is a hint, not proof, that a column is useless.
 
 ## 10. Summary
@@ -414,6 +429,7 @@ The correlation check is useful at the start, and we repeat it later, after clea
 **Built from**
 
 - CampusX, "Understanding Your Data | Day 19 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=mJlRTUuVr04
+- StatQuest with Josh Starmer, "Pearson's Correlation, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=xZ_z8KWkhXE
 
 **Other references**
 
@@ -439,4 +455,5 @@ The correlation check is useful at the start, and we repeat it later, after clea
 | Median | The middle value of sorted data; the 50% percentile |
 | Duplicate row | A row identical to another row in every column |
 | Correlation | How two features move together, from -1 to +1 |
-| Pearson correlation coefficient | The usual measure of correlation, written $r$; the one `df.corr()` computes |
+| Causation | A cause-and-effect relationship: changing one thing changes the other |
+| Pearson correlation coefficient (G-1474) | The usual measure of correlation, written $r$; the one `df.corr()` computes |

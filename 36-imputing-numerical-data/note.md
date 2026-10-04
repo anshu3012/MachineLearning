@@ -43,7 +43,11 @@ After every imputation we check what it did to the column. We compare four thing
 
 For a normal distribution, the mean, median and mode are all equal, so either choice gives the same value. For a skewed distribution, the long tail pulls the mean towards it, away from the bulk of the data. The median stays in the middle of the data, so it is the better choice there.
 
-Figure 2 shows both cases on the Titanic training data of Section 3. `Age` is close to symmetric: its mean (29.79) and median (28.75) almost coincide. `Fare` is strongly right-skewed: a few very expensive tickets pull the mean up to 32.62, more than twice the median of 14.46.
+Figure 2 shows the pull on nine real fares from the training data of Section 3 (the smallest fare, the largest, and seven spread evenly between them). Their mean, 75.5, is higher than eight of the nine fares, because the one fare of 512 drags it up. Their median, 14.46, sits inside the crowd. Now raise the largest fare step by step to 5,000: the mean runs after it, to 574.1, while the median does not move at all. The median only looks at which value is in the middle, not at how far away the largest one is.
+
+![Nine training fares on a number line. As the largest fare is raised from 512 to 5,000, the mean moves from 75.5 to 574.1; the median stays at 14.46. Idea after Khan Academy, "Mean and standard deviation versus median and IQR".](images/mean_runs_away.gif)
+
+Figure 3 then shows both cases on all of the Titanic training data of Section 3. `Age` is close to symmetric: its mean (29.79) and median (28.75) almost coincide. `Fare` is strongly right-skewed: a few very expensive tickets pull the mean up to 32.62, more than twice the median of 14.46.
 
 ![Mean and median of Age (nearly symmetric) and Fare (right-skewed, shown up to 300; the largest fare is 512)](images/mean_median_position.png){width=100%}
 
@@ -113,7 +117,7 @@ The same is done for `Fare`, with median 14.46 and mean 32.62. The test set is f
 
 > **Key point:** Mean or median imputation always lowers the variance, and the more values are missing, the more it drops.
 
-The **variance** (G-2078) measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is. Figure 3 shows it on the training ages: the 148 filled values form one tall bar at the mean, and the band of one standard deviation narrows.
+The **variance** (G-2074) measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is. Figure 4 shows it on the training ages: the 148 filled values form one tall bar at the mean, and the band of one standard deviation narrows.
 
 ![The 712 training ages before and after mean imputation. The 148 filled ages (red) stack at the mean; the band of one standard deviation narrows from 15.5 to 44.1 to 17.1 to 42.5.](images/variance_shrink.gif)
 
@@ -137,7 +141,7 @@ The **variance** (G-2078) measures the average squared distance from the mean. E
 
 > **Key point:** For `Age`, a tall peak appears at the fill value; for `Fare`, the curves before and after lie on top of each other.
 
-Figure 4 draws the density curve (KDE, Note 20) of each column before and after imputation. Blue is the original column with its gaps skipped; orange is median imputed; green dashed is mean imputed.
+Figure 5 draws the density curve (KDE, Note 20) of each column before and after imputation. Blue is the original column with its gaps skipped; orange is median imputed; green dashed is mean imputed.
 
 ![Density of Age and Fare before and after mean and median imputation: Age gains a tall peak at the centre, Fare barely changes](images/mean_median_kde.png){width=100%}
 
@@ -161,7 +165,7 @@ For `Age`, the peak grows from about 0.03 to about 0.05, and the curve becomes n
 | `Age` median imputed | 0.092 | $-0.243$ |
 | `Age` mean imputed | 0.088 | $-0.245$ |
 
-The relationship with `Family` weakened by about a fifth. Figure 5 shows why. Every filled age sits at the same value, 29.8, whatever the passenger's family size, so the 148 filled points form a flat line with no trend. Mixed in with the real points, that flat line pulls the correlation towards 0.
+The relationship with `Family` weakened by about a fifth. Figure 6 shows why. Every filled age sits at the same value, 29.8, whatever the passenger's family size, so the 148 filled points form a flat line with no trend. Mixed in with the real points, that flat line pulls the correlation towards 0.
 
 ![Age against Family in the 712 training rows (jittered sideways). Left: the 564 known ages. Right: after mean imputation, the 148 filled ages (red) all sit at 29.8 and carry no trend, so the correlation weakens from −0.299 to −0.245.](images/age_family_scatter.png)
 
@@ -180,7 +184,7 @@ For `Fare`, the covariance with `Family` only moved from 17.26 to 16.48 (median)
 
 > **Key point:** Imputing `Age` narrows its box, and the number of outliers jumps from 7 to 69.
 
-Figure 6 shows box plots before and after. A box plot draws the middle half of the data as a box, from the first quartile (Q1) to the third (Q3). Points more than 1.5 box-lengths beyond the box are outliers (Note 20).
+Figure 7 shows box plots before and after. A box plot draws the middle half of the data as a box, from the first quartile (Q1) to the third (Q3). Points more than 1.5 box-lengths beyond the box are outliers (Note 20).
 
 ![Box plots before and after imputation: the Age box narrows and many new outliers appear on both sides; Fare is unchanged](images/mean_median_box.png){width=100%}
 
@@ -221,7 +225,7 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 
 `"most_frequent"` fills with the mode, used mainly for categorical columns (next Note). `"constant"` is used for arbitrary value and end of distribution imputation (Sections 5 and 6).
 
-> **Extra:** `add_indicator=True` adds the **missing indicator** (G-1233) of Note 35, covered in its own Note. Since scikit-learn 1.5, `strategy` may also be a function, such as `np.nanmax`. A column with no values at all is dropped with a warning when the strategy is not `"constant"`, unless `keep_empty_features=True`, which keeps it filled with 0 (scikit-learn docs, SimpleImputer).
+> **Extra:** `add_indicator=True` adds the **missing indicator** (G-1233) of Note 35, covered in its own Note.
 
 ### 4.2 A different strategy per column
 
@@ -242,7 +246,7 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 >
 > The other columns pass through unchanged, because of `remainder="passthrough"`. **`set_output(transform="pandas")`** (G-1780) makes `transform` return a DataFrame with column names instead of a bare numpy array.
 
-Figure 7 runs the two steps on six test rows with gaps: `fit` learns the training median of `Age` and the training mean of `Fare`, and `transform` writes those values into every gap, test rows included.
+Figure 8 runs the two steps on six test rows with gaps: `fit` learns the training median of `Age` and the training mean of `Fare`, and `transform` writes those values into every gap, test rows included.
 
 ![SimpleImputer on six test rows with gaps (red). fit learns median Age 28.75 and mean Fare 32.62 from the training set; transform fills every gap with them (orange).](images/imputer_fit_transform.gif)
 
@@ -286,7 +290,7 @@ We fill `Age` with 99 and with $-1$, and `Fare` with 999 and with $-1$, each int
 | `Age` variance | 204.35 | 951.73 | 318.09 |
 | `Fare` variance | 2,448.20 | 47,219.20 | 2,378.57 |
 
-Figure 8 shows the distributions. For `Age`, each fill value creates a second hump: at 99 (red) or at $-1$ (purple dashed), and the main peak drops. For `Fare`, 999 flattens the curve; $-1$ sits next to the many cheap tickets, so its curve almost matches the original.
+Figure 9 shows the distributions. For `Age`, each fill value creates a second hump: at 99 (red) or at $-1$ (purple dashed), and the main peak drops. For `Fare`, 999 flattens the curve; $-1$ sits next to the many cheap tickets, so its curve almost matches the original.
 
 ![Density of Age and Fare after arbitrary value imputation: a new hump appears at 99 or at -1](images/arbitrary_kde.png){width=100%}
 
@@ -343,13 +347,11 @@ The fill value, step by step:
    $$31.28 + 1.5 \times 23.38 = 66.34.$$
    The left end, $7.90 - 35.07 = -27.17$, is an impossible fare, so we use the right end.
 
-> **Extra:** The library Feature-engine uses $Q_3 + 3 \times \text{IQR}$ by default when its IQR rule is chosen, to land further out (Feature-engine docs, EndTailImputer). Both versions follow the same idea.
-
 ### 6.3 On real data
 
 > **Key point:** The end values create a hump at the edge of the distribution and change the variance, just as arbitrary values do.
 
-Figure 9 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values land at the far right, creating a second hump there, and the variance rises from 204.35 to 465.07. For `Fare`, the 36 filled values make only a small bump, and the variance moves from 2,448.20 to 2,378.92.
+Figure 10 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values land at the far right, creating a second hump there, and the variance rises from 204.35 to 465.07. For `Fare`, the 36 filled values make only a small bump, and the variance moves from 2,448.20 to 2,378.92.
 
 ![Density before and after end of distribution imputation; the dotted line is the fill value](images/end_of_distribution.png){width=100%}
 
@@ -389,13 +391,13 @@ Figure 9 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 **Built from**
 
 - CampusX, "Handling missing data | Numerical Data | Simple Imputer", YouTube, https://www.youtube.com/watch?v=mCL2xLBDw8M
+- Khan Academy, "Mean and standard deviation versus median and IQR", YouTube, https://www.youtube.com/watch?v=qNKOi08NxHs (the mean-against-median picture of section 2.1)
 
 **Other references**
 
 - scikit-learn User Guide, *Common pitfalls and recommended practices*, section "Data leakage".
 - scikit-learn API reference, `SimpleImputer`.
 - pandas API reference, `DataFrame.cov` and `DataFrame.corr`.
-- Feature-engine API reference, `EndTailImputer` (parameter `fold`).
 
 ## 9. Key terms
 
@@ -409,9 +411,8 @@ Figure 9 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values lan
 | Target | The output we predict |
 | Observation | One record: one row of the data table |
 | Covariance | How two features move together; positive if they rise together, no fixed limits |
-
 | Correlation | Covariance rescaled to lie between $-1$ and $1$ |
-| `strategy` | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant |
+| `strategy` (G-150) | The `SimpleImputer` parameter choosing the fill rule: mean, median, most_frequent or constant |
 | `fill_value` | The value `SimpleImputer` uses with `strategy="constant"` |
 | `statistics_` | The fill values a fitted `SimpleImputer` has learned, one per column |
 | `fillna` | The pandas method that replaces every `NaN` with a given value |

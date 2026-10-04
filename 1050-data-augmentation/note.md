@@ -13,13 +13,18 @@ tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentat
 
 ## 1. Overview
 
-> **Key point:** **Data augmentation** makes new training images from the ones we have by changing them slightly: flipping, rotating, shifting, zooming, shearing. The label stays the same, so we get more varied training data for free. On 2,000 photos of cats and dogs, augmentation shrank the gap between training and validation accuracy from 0.28 to 0.02 and raised the test accuracy from 72.4% to 78.2%.
+> **Key point:** **Data augmentation** (G-531) makes new training images from the ones we have by changing them slightly: flipping, rotating, shifting, zooming, shearing. The label stays the same, so we get more varied training data for free. On 2,000 photos of cats and dogs, augmentation shrank the gap between training and validation accuracy from 0.28 to 0.02 and raised the test accuracy from 72.4% to 78.2%.
 
 Deep learning needs a lot of data, and collecting and labelling images is slow and expensive. Data augmentation is a simple, smart way around part of the problem: every training image is changed a little, at random, each time the network sees it (Figure 1). A cat photo that is flipped or turned a few degrees still shows a cat, so the network gets a "new" labelled example without anyone taking a new photo.
 
 ![The same photo as the network might see it in twelve different epochs: each time a new random combination of flip, rotation, shift, zoom and shear](images/aug_animation.gif){width=60%}
 
-This Note covers why augmentation helps, the common transformations, how to apply them in Keras, and an experiment on cats and dogs with and without augmentation.
+This Note covers:
+
+- why augmentation helps (section 3);
+- the common transformations (section 4);
+- how to apply them in Keras (section 5);
+- an experiment on cats and dogs with and without augmentation (section 6).
 
 ## 2. Prerequisites
 
@@ -28,7 +33,7 @@ This Note covers why augmentation helps, the common transformations, how to appl
 
 ## 3. Why augment
 
-> **Key point:** Two reasons: data is scarce and costly in many fields, and augmentation reduces overfitting by showing the network variations that do not change the label.
+> **Key point:** Two reasons: data is scarce and costly in many fields, and augmentation reduces **overfitting** (G-1429) by showing the network variations that do not change the label.
 
 ### 3.1 More data when data is expensive
 
@@ -38,11 +43,20 @@ This Note covers why augmentation helps, the common transformations, how to appl
 
 Take a start-up that wants to detect malaria from microscope images of blood cells. Every image must come from a real patient and be labelled by an expert, so even 1,000 images cost a lot, and 10,000 cost far more. Medical image analysis is a standard example of a field without big data (Shorten and Khoshgoftaar 2019, abstract). Augmentation lets such a team get more out of the images it has.
 
+How much more? Figure 2 trains the small network of section 6 on 500, 1,000 and 2,000 photos of cats and dogs, without and with augmentation, and tests each on the same 1,000 photos.
+
+![Test accuracy of the section 6 network for three training-set sizes, without (blue) and with (green) augmentation. Dots: 4 runs each; lines: their means.](images/data_size.png)
+
+- **At every size, augmentation helps:** 63.0% against 69.3% with 500 photos, 67.6% against 76.3% with 1,000, and 73.1% against 79.3% with 2,000.
+- **Augmentation can stand in for more photos:** the network trained on 1,000 augmented photos scores higher than the one trained on 2,000 plain photos.
+
+These runs used a GPU, which does not repeat results exactly, so each point is the mean of 4 runs; the 2,000-photo numbers differ slightly from those of section 6, which come from separate runs.
+
 ### 3.2 Less overfitting
 
 > **Key point:** If every cat in the training photos looks to the left, the network may learn "looks left" as a cat feature. Flipped copies teach it that cats look both ways.
 
-Suppose that, by chance, every cat in our training photos faces left. A network can pick up "faces left" as a sign of a cat, a feature that is useless, even harmful, for new photos. Flipping the photos left to right gives cats facing right too, and the network learns that the direction does not matter. Augmentation removes such accidental patterns, so the network **generalises** better: it performs well on photos it has not seen.
+Suppose that, by chance, every cat in our training photos faces left. A network can pick up "faces left" as a sign of a cat, a feature that is useless, even harmful, for new photos. Flipping the photos left to right gives cats facing right too, and the network learns that the direction does not matter. Augmentation removes such accidental patterns, so the network **generalises** (G-838) better: it performs well on photos it has not seen.
 
 Goodfellow et al. (2016, §7.4) call dataset augmentation "a particularly effective technique for a specific classification problem: object recognition". AlexNet, the winner of the 2012 ImageNet competition (the [pretrained models Note](../1051-pretrained-models/note.md)), used random shifts and horizontal flips, and its authors report that "without this scheme, our network suffers from substantial overfitting" (Krizhevsky et al. 2012, §4.1).
 
@@ -54,10 +68,10 @@ Goodfellow et al. (2016, §7.4) call dataset augmentation "a particularly effect
 
 > **Key point:** Each transformation is applied at random, within a range; every call gives a different image.
 
-Figure 2 shows the five transformations used most often, each applied twice to the same photo:
+Figure 3 shows the five transformations used most often, each applied twice to the same photo:
 
-- **Horizontal flip:** mirror the image left to right.
-- **Rotation:** turn the image by a random angle, here up to 40 degrees either way.
+- **Horizontal flip** (G-903): mirror the image left to right.
+- **Rotation** (with shift, zoom and shear: G-1710): turn the image by a random angle, here up to 40 degrees either way.
 - **Shift (translation):** move the image up, down, left or right, here by up to 20% of its size.
 - **Zoom:** enlarge or shrink the image, here by up to 20%.
 - **Shear:** slant the image, as if pushing the top sideways while holding the bottom, here by up to 20%.
@@ -72,13 +86,13 @@ Shorten and Khoshgoftaar (2019, pp. 7–8) list the same basic manipulations, to
 
 Not every transformation suits every problem. A vertical flip would show cats upside down, with their legs up and their head down. Real cat photos almost never look like that, so vertical flips teach the network nothing useful, and we leave them out.
 
-Shorten and Khoshgoftaar (2019, p. 7) call this the **safety** of an augmentation: "its likelihood of preserving the label post-transformation. For example, rotations and flips are generally safe on ImageNet challenges such as cat versus dog, but not safe for digit recognition tasks such as 6 versus 9". Goodfellow et al. (2016, §7.4, p. 237) give the same warning for letters: "b" and "d" differ only by a horizontal flip.
+Shorten and Khoshgoftaar (2019, p. 7) call this the **safety** (G-1719) of an augmentation: "its likelihood of preserving the label post-transformation. For example, rotations and flips are generally safe on ImageNet challenges such as cat versus dog, but not safe for digit recognition tasks such as 6 versus 9". Goodfellow et al. (2016, §7.4, p. 237) give the same warning for letters: "b" and "d" differ only by a horizontal flip.
 
 ### 4.3 Filling the empty pixels
 
-> **Key point:** A shift or rotation leaves empty pixels at the edges. `fill_mode` decides what goes there: the nearest edge pixel, a mirror image, a constant colour, or the opposite edge.
+> **Key point:** A shift or rotation leaves empty pixels at the edges. `fill_mode` (G-80) decides what goes there: the nearest edge pixel, a mirror image, a constant colour, or the opposite edge.
 
-When the image moves, some pixels at the edge have no source any more. Figure 3 shows a large shift, 30% to the right and down, filled four ways:
+When the image moves, some pixels at the edge have no source any more. Figure 4 shows a large shift, 30% to the right and down, filled four ways:
 
 - **nearest:** repeat the nearest edge pixel, which smears the border;
 - **reflect:** mirror the image at its edge;
@@ -91,7 +105,7 @@ The choice depends on the data. For photos that already have a black border, `co
 
 ## 5. Augmentation in Keras
 
-> **Key point:** Keras 3 offers random image layers such as `RandomFlip`, `RandomRotation` and `RandomZoom`. Placed at the start of the model, they change every training batch and do nothing during prediction.
+> **Key point:** Keras 3 offers **random preprocessing layers** (G-1615) such as `RandomFlip`, `RandomRotation` and `RandomZoom`. Placed at the start of the model, they change every training batch and do nothing during prediction.
 
 ### 5.1 The random layers
 
@@ -118,13 +132,15 @@ The choice depends on the data. For photos that already have a black border, `co
 >
 > `RandomRotation` takes its range as a fraction of a full turn, so 40 degrees is $40/360$. The layers expect a batch, hence `expand_dims`. `training=True` switches the randomness on; every call returns a different image.
 
-> **Extra:** Older code uses `ImageDataGenerator` from `keras.preprocessing.image`, with arguments such as `rotation_range=40`, `zoom_range=0.2` and `horizontal_flip=True`, and the methods `flow` (for arrays) and `flow_from_directory` (for class folders). The class is deprecated: the TensorFlow documentation recommends loading images with `image_dataset_from_directory` and transforming them with preprocessing layers instead, and Keras 3 no longer provides it under `keras.preprocessing.image` (TensorFlow documentation, `ImageDataGenerator`; Notebook). One trap in old code: its `shear_range` is an angle in degrees (tf-keras source, `ImageDataGenerator` docstring), so `shear_range=0.2` slants an image by only 0.2 degrees, not by 20%.
+> **Extra:** Older code uses `ImageDataGenerator` (G-95) from `keras.preprocessing.image`, with arguments such as `rotation_range=40`, `zoom_range=0.2` and `horizontal_flip=True`, and the methods `flow` (for arrays) and `flow_from_directory` (for class folders). The class is deprecated: the TensorFlow documentation recommends loading images with `image_dataset_from_directory` and transforming them with preprocessing layers instead, and Keras 3 no longer provides it under `keras.preprocessing.image` (TensorFlow documentation, `ImageDataGenerator`; Notebook). One trap in old code: its `shear_range` is an angle in degrees (tf-keras source, `ImageDataGenerator` docstring), so `shear_range=0.2` slants an image by only 0.2 degrees, not by 20%.
 
 ### 5.2 Augmentation only during training
 
 > **Key point:** Validation and test photos are never augmented: we want to measure the model on real photos as they are.
 
-Augmentation changes the training photos only. The validation and test photos stay as they are, because they stand for the real photos the model will meet. The random layers handle this by themselves: "During inference time, the output will be identical to input" (Keras documentation, `RandomFlip`). In the Notebook, calling the pipeline with `training=False` returns the photo unchanged, while two calls with `training=True` return two different images.
+Augmentation changes the training photos only. The validation and test photos stay as they are, because they stand for the real photos the model will meet. The random layers handle this by themselves: "During inference time, the output will be identical to input" (Keras documentation, `RandomFlip`). Figure 5 shows it on the kitten photo, with the three random layers of section 6.1. With `training=True` each call returns a different image: a new flip, angle and zoom every time. With `training=False` all three calls return the photo exactly as it was.
+
+![The augmentation pipeline of section 6.1 called three times in training mode (top) and three times in inference mode (bottom).](images/train_vs_infer.png)
 
 Also note that the network never trains on the original photos as such. In each epoch, every training photo passes through the random layers and the network sees only the transformed version: a different one each epoch (Figure 1).
 
@@ -136,7 +152,7 @@ Also note that the network never trains on the original photos as such. In each 
 
 > **Key point:** A deliberately small dataset, a small CNN, the same training settings; the only change is the three augmentation layers.
 
-To imitate a project with little data, we use only 1,000 cat and 1,000 dog photos for training from the cats-vs-dogs dataset of the [cat vs dog CNN Note](../1049-cat-vs-dog-cnn/note.md), plus 500 + 500 for validation and 500 + 500 for a final test. The model is the small CNN of the Keras blog post "Building powerful image classification models using very little data" (Chollet 2016): three convolution layers with 32, 32 and 64 filters, each followed by max pooling, then a dense layer of 64 nodes, dropout of 0.5 and a sigmoid output; photos of $150 \times 150$, batches of 16, the RMSprop optimizer.
+To imitate a project with little data, we use only 1,000 cat and 1,000 dog photos for training from the cats-vs-dogs dataset of the [cat vs dog CNN Note](../1049-cat-vs-dog-cnn/note.md), plus 500 + 500 for validation and 500 + 500 for a final test. The model is the small CNN of the Keras blog post "Building powerful image classification models using very little data" (Chollet 2016): three convolution layers with 32, 32 and 64 filters, each followed by **max pooling** (G-1182), then a dense layer of 64 nodes, **dropout** (G-639) of 0.5 and a **sigmoid** (G-1798) output; photos of $150 \times 150$, batches of 16, the **RMSProp** (G-1697) optimizer.
 
 The augmented model adds three layers at its start, as in Chollet (2021, ch. 8): `RandomFlip("horizontal")`, `RandomRotation(0.1)` (up to 36 degrees) and `RandomZoom(0.2)`.
 
@@ -162,7 +178,7 @@ The augmented model adds three layers at its start, as in Chollet (2021, ch. 8):
 >
 > `Rescaling(1 / 255)` divides the pixels by 255 inside the model. The model without augmentation is the same list without the three random layers.
 
-Both models train for 60 epochs, three times each with different seeds; the Note quotes the means.
+Both models train for 60 **epochs** (G-696), three times each with different seeds; the Note quotes the means.
 
 ### 6.2 Results
 
@@ -179,9 +195,9 @@ Both models train for 60 epochs, three times each with different seeds; the Note
 | Validation loss: lowest (epoch), then at epoch 60 | 0.57 (7), then 3.78 | 0.53 (38), then 0.55 |
 | Test accuracy (1,000 photos), range of 3 seeds | 72.4% (69.5–75.5%) | 78.2% (76.2–80.2%) |
 
-**Without augmentation, the model overfits fast** (Figure 4, left). Its training accuracy climbs to 96.7% by epoch 25 and 98.2% by epoch 60, but its validation accuracy stops near 70% after about 7 epochs. From then on the validation loss rises steadily, from 0.57 at epoch 7 to 3.78 at epoch 60: the model becomes more and more confident on photos it gets wrong. With only 2,000 photos, it learns the training photos themselves rather than what cats and dogs look like.
+**Without augmentation, the model overfits fast** (Figure 6, left). Its training accuracy climbs to 96.7% by epoch 25 and 98.2% by epoch 60, but its validation accuracy stops near 70% after about 7 epochs. From then on the validation loss rises steadily, from 0.57 at epoch 7 to 3.78 at epoch 60: the model becomes more and more confident on photos it gets wrong. With only 2,000 photos, it learns the training photos themselves rather than what cats and dogs look like.
 
-**With augmentation, the two curves stay together** (Figure 4, right). The gap at epoch 60 is 0.023 instead of 0.276, and the validation loss stays near its lowest value. Because every epoch shows new versions of the photos, the model cannot memorise them, and it has to learn features that survive a flip, a rotation or a zoom.
+**With augmentation, the two curves stay together** (Figure 6, right). The gap at epoch 60 is 0.023 instead of 0.276, and the validation loss stays near its lowest value. Because every epoch shows new versions of the photos, the model cannot memorise them, and it has to learn features that survive a flip, a rotation or a zoom.
 
 **Augmentation learns more slowly at first, then better.** At epoch 5 the model without augmentation is ahead on validation accuracy (69.4% against 62.5%), since its training photos are easier: always the same ones. By epoch 10 both reach 70.4%. After that only the augmented model keeps improving, to 76.8% at epoch 60, and it ends 5.8 points higher on the 1,000 test photos.
 
@@ -224,7 +240,7 @@ Augmentation is not a full substitute for more data: the new versions are variat
 | Term | Meaning |
 |---|---|
 | Data augmentation | Creating new training examples by random, label-preserving changes to existing ones |
-| Generalise | Perform well on new data, not only on the training data |
+| Generalise (G-838) | Perform well on new data, not only on the training data |
 | Horizontal flip | Mirroring an image left to right |
 | Rotation, shift, zoom, shear | Turning, moving, enlarging or shrinking, and slanting an image |
 | Safety (of an augmentation) | Whether a transformation keeps the label true |

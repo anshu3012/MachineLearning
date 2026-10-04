@@ -187,12 +187,12 @@ Finding the model between too simple and too complex is the practical goal: we a
 | Feature | An input variable: one column of the data table |
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
-| Bias | Error from a model being too simple to capture the true relationship |
-| Variance | How much a model's predictions change when it is trained on a different sample of data |
+| Bias (G-287) | Error from a model being too simple to capture the true relationship |
+| Variance (G-2073) | How much a model's predictions change when it is trained on a different sample of data |
 | Underfitting | A model too simple for the pattern: high error on training and test data |
 | Overfitting | A model that fits the training data, noise included, and does badly on new data |
 | Bias-variance trade-off | Lowering bias by adding complexity tends to raise variance, and the reverse |
 | Noise (irreducible error) | Randomness in the data that no model can predict |
 | Regularisation | Penalising large coefficients to reduce a model's variance |
-| Bagging | Averaging many models trained on different samples of the data to reduce variance |
+| Bagging (G-251) | Averaging many models trained on different samples of the data to reduce variance |
 | Boosting | Combining many simple models in sequence, each fitted to the errors left by the ones before |

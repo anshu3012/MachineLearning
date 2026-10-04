@@ -113,3 +113,24 @@ def animate(name, X, f, *, kernel=None, op="conv", stride=1, pad=0, fmt=lambda v
     sheet.save(here / f"{name}_frames.png")
     shutil.rmtree(tmp)
     return np.array(vals).reshape(n_r, n_c)
+
+
+def save_gif(figs, name, here, *, fps=2.0, hold=4, keys=(0, 1, 2, -1), width=1100, height=520, out_width=900):
+    """Write a list of Plotly figures as name.gif plus a 2 x 2 key-frame sheet name_frames.png (for the PDF)."""
+    here = Path(here)
+    tmp = here / f".{name}_frames"
+    tmp.mkdir(exist_ok=True)
+    n = len(figs)
+    pio.write_images(figs, [tmp / f"{k:03d}.png" for k in range(n)], width=width, height=height)
+    for k in range(n, n + hold):
+        shutil.copy(tmp / f"{n - 1:03d}.png", tmp / f"{k:03d}.png")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(tmp / "%03d.png"), "-vf",
+                    f"scale={out_width}:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
+                    str(here / f"{name}.gif")], check=True)
+    imgs = [Image.open(tmp / f"{k % n:03d}.png").convert("RGB") for k in keys]
+    w, h = imgs[0].size
+    sheet = Image.new("RGB", (2 * w + 16, 2 * h + 16), "white")
+    for i, im in enumerate(imgs):
+        sheet.paste(im, ((i % 2) * (w + 16), (i // 2) * (h + 16)))
+    sheet.save(here / f"{name}_frames.png")
+    shutil.rmtree(tmp)

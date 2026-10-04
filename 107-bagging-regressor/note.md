@@ -68,7 +68,7 @@ Why the mean is smoother, step by step:
 2. Each bagged tree saw a different bootstrap sample, so it puts its jumps at different values of x (Figure 3, grey trees).
 3. The mean of 50 step functions with jumps in different places has many small steps instead of a few large ones, which looks like a smooth curve.
 
-In the terms of the bias-variance trade-off (G-288), each tree keeps its low bias, and averaging removes much of its **variance** (G-2078), the swing of its prediction from one training sample to another (Breiman, 1996, section 1).
+In the terms of the bias-variance trade-off (G-288), each tree keeps its low bias, and averaging removes much of its **variance** (G-2074), the swing of its prediction from one training sample to another (Breiman, 1996, section 1).
 
 Figure 3 builds the bagging regressor of Figure 2b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77) into a smooth curve (0.95 with 50 trees).
 

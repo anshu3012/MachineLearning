@@ -40,7 +40,7 @@ Figure 1 shows the first problem on real data. The review is the same in every s
 
 > **Key point:** As the number of time steps grows, the RNN cannot keep information from the early steps.
 
-In sequential data, later items depend on earlier ones. When the sequence is short, an RNN handles this well. When the sequence becomes long, with many time steps, the RNN cannot remember the early steps by the time it reaches the late ones. A simple RNN behaves like a person with short-term memory loss: recent events are clear, older ones are gone.
+In sequential data, later items depend on earlier ones. When the sequence is short, an RNN handles this well. When the sequence becomes long, with many time steps, the RNN cannot remember the early steps by the time it reaches the late ones. A simple RNN behaves like a person with short-term memory loss, such as the hero of the film *Ghajini*: recent events are clear, older ones are gone.
 
 ### 3.2 An example: predicting the next word
 
@@ -74,6 +74,23 @@ The information is in the data in every case: only the distance changes. The RNN
 ## 4. Why: the vanishing gradient through time
 
 > **Key point:** The gradient of $W_i$ is a sum of short-term terms (recent inputs) and long-term terms (distant inputs). Each long-term term contains a long product of factors $\partial h_t/\partial h_{t-1}$, which shrinks towards 0. So the weights learn almost only from recent inputs.
+
+**The idea on one weight.** Take the one-node RNN of the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md), section 4.1, unrolled over many time steps, and look only at the feedback weight $w_h$. The first input travels to the last step through the red arrows, and every arrow multiplies it by $w_h$.
+
+1. **In words:** one multiplication by the same weight per time step. After many steps, the first input has been multiplied by that weight many times over.
+2. **Formula:** after $d$ steps, the first input is multiplied by $w_h^{\thinspace d}$.
+3. **Example:** with $w_h = 2$ and 4 steps, $2^4 = 16$. With 50 steps, $2^{50} \approx 1.1 \times 10^{15}$: a huge number. With $w_h = 0.5$ and 50 steps, $0.5^{50} \approx 8.9 \times 10^{-16}$: practically 0.
+
+The same power appears in the gradient that training sends back to the first input (sections 4.1 to 4.3 derive it). Gradient descent needs steps of a sensible size:
+
+- A huge gradient gives huge steps. The weights jump around instead of settling at a good value: the **exploding gradient**.
+- A gradient near 0 gives steps so small that the weights hardly move, and training ends before they get anywhere: the **vanishing gradient**.
+
+![The same factor multiplied once per step back through time, for four factors (log scale). Below 1 the product falls towards 0 (vanishing); at 1 it stays; above 1 it grows without limit (exploding). The red line is the $0.72^{99}$ of section 4.3; the orange and blue lines are the two examples of section 6.1 (idea after StatQuest, "Recurrent Neural Networks (RNNs), Clearly Explained!!!")](images/power_steps.gif)
+
+In Figure 3, watch the lines spread apart as the steps add up: after 10 steps the largest product is about 1,500 times the smallest; after 99 steps it is more than $10^{31}$ times the smallest.
+
+The rest of this section finds the exact factor for a real RNN, which is not $w_h$ alone but $w_h$ times the slope of tanh.
 
 ### 4.1 Short-term and long-term terms
 
@@ -112,7 +129,7 @@ $$\frac{\partial h_{100}}{\partial h_{99}} \cdots \frac{\partial h_2}{\partial h
 3. **Example:** the slope of tanh is between 0 and 1 (see the [activation functions Note](../1027-activation-functions/note.md)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is $0.8 \times 0.9 = 0.72$, and 99 of them give
    $$0.72^{99} \approx 7.5 \times 10^{-15}$$
 
-   The red line of Figure 6 (section 6.1) draws this product step by step.
+   The red line of Figure 3 draws this product step by step.
 
 The long-term term is practically 0. Its whole contribution to the gradient disappears, and the gradient is made almost entirely of short-term terms. The weights are therefore updated to fit the **recent** inputs, and the influence of distant inputs is not learned. That is the long-term dependency problem, and it is a **vanishing gradient problem** (see the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)): the farther the input, the smaller its gradient.
 
@@ -126,7 +143,7 @@ The [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) me
 
 ![The gradient travelling back through an untrained SimpleRNN without activation on IMDB reviews, with $W_h$ set to $s$ times an orthogonal matrix (all eigenvalues of magnitude 1). Left: gradient size by distance, relative to the last word (log scale); dotted: $s^d$. Right: the size reached so far. Each step multiplies the gradient by about $s$](images/gradient_travel.gif){width=100%}
 
-The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\thinspace Q$, where $Q$ is an **orthogonal matrix** (G-1407; every eigenvalue has magnitude exactly 1), so every eigenvalue of $W_h$ has magnitude $s$. Figure 3 shows the result:
+The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\thinspace Q$, where $Q$ is an **orthogonal matrix** (G-1407; every eigenvalue has magnitude exactly 1), so every eigenvalue of $W_h$ has magnitude $s$. Figure 4 shows the result:
 
 | $s$ | Gradient 50 steps back, relative to the last word | $s^{50}$ |
 |---|---|---|
@@ -134,7 +151,7 @@ The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_
 | 1.0 | 1.2 | 1 |
 | 1.1 | 141 | 117 |
 
-The measured ratios follow $s^{50}$: only the size of the shared weight decides whether the gradient vanishes, stays or explodes. In Figure 3, watch the three solid lines stay close to their dotted $s^d$ lines all the way to 199 steps back.
+The measured ratios follow $s^{50}$: only the size of the shared weight decides whether the gradient vanishes, stays or explodes. In Figure 4, watch the three solid lines stay close to their dotted $s^d$ lines all the way to 199 steps back.
 
 ### 4.5 The trained RNN on real reviews
 
@@ -148,24 +165,24 @@ We train a SimpleRNN with 32 nodes on 10,000 IMDB reviews (their last 200 words)
 |---|---|---|---|---|---|---|
 | Relative gradient, mean of 5 runs | 1 | 0.98 | 0.67 | 0.35 | 0.15 | 0.048 |
 
-Figure 4 shows the gradient shrinking with distance: beyond the last few words, the farther a word is from the end, the weaker the training signal it sends the weights. At 180 steps, the signal is about 20 times weaker than for the last word.
+Figure 5 shows the gradient shrinking with distance: beyond the last few words, the farther a word is from the end, the weaker the training signal it sends the weights. At 180 steps, the signal is about 20 times weaker than for the last word.
 
-The decay is slower than the $0.72^{99}$ of section 4.3. Keras starts $W_h$ as an orthogonal matrix (Keras documentation, `SimpleRNN`, `recurrent_initializer="orthogonal"`), so every eigenvalue of $W_h$ has magnitude 1 at the start: the $s = 1.0$ case of Figure 3, where $W_h$ alone neither shrinks nor grows the gradient. The shrinking left over comes from the tanh slopes, which are below 1. Starting $W_h$ well is one of the fixes of the next section, built into Keras.
+The decay is slower than the $0.72^{99}$ of section 4.3. Keras starts $W_h$ as an orthogonal matrix (Keras documentation, `SimpleRNN`, `recurrent_initializer="orthogonal"`), so every eigenvalue of $W_h$ has magnitude 1 at the start: the $s = 1.0$ case of Figure 4, where $W_h$ alone neither shrinks nor grows the gradient. The shrinking left over comes from the tanh slopes, which are below 1. Starting $W_h$ well is one of the fixes of the next section, built into Keras.
 
-> **Extra:** *The first words of the window.* At the far right of Figure 4, the curve rises again: from 0.048 at 180 steps to 0.077 at 199. The cause is where the window starts. Each 200-word window starts from $h_0 = 0$ (the Keras default), so the first hidden states are still small: their size grows from 0.33 at the first step to 1.39 at the fifteenth, and is 1.41 to 1.71 in the rest of the window (Notebook, mean of 5 runs). A small $h_t$ means a tanh slope $1 - h_t^2$ close to 1: 0.996 at the first step, against 0.90 to 0.94 in the rest of the window. Each backward step multiplies the gradient by $W_h$ with its columns scaled by these slopes (section 4.3, Extra), and the gradient of a word's vector, $\partial L/\partial x_t$, is scaled by the slope at its own step too. Larger slopes shrink the gradient less, so the first words of the window get a slightly larger gradient than the words just after them.
+> **Extra:** *The first words of the window.* At the far right of Figure 5, the curve rises again: from 0.048 at 180 steps to 0.077 at 199. The cause is where the window starts. Each 200-word window starts from $h_0 = 0$ (the Keras default), so the first hidden states are still small: their size grows from 0.33 at the first step to 1.39 at the fifteenth, and is 1.41 to 1.71 in the rest of the window (Notebook, mean of 5 runs). A small $h_t$ means a tanh slope $1 - h_t^2$ close to 1: 0.996 at the first step, against 0.90 to 0.94 in the rest of the window. Each backward step multiplies the gradient by $W_h$ with its columns scaled by these slopes (section 4.3, Extra), and the gradient of a word's vector, $\partial L/\partial x_t$, is scaled by the slope at its own step too. Larger slopes shrink the gradient less, so the first words of the window get a slightly larger gradient than the words just after them.
 
 ## 5. Fixing the vanishing gradient
 
 > **Key point:** Four options: a different activation, a better initialisation of $W_h$, skip connections through time, or an LSTM. In practice the LSTM won.
 
-1. **A different activation function.** The slope of tanh is between 0 and 1, which shrinks every factor. **ReLU** (G-1668) and **Leaky ReLU** (G-1064; see the [ReLU variants Note](../1028-relu-variants/note.md)) have slope 1 for positive inputs, so they do not shrink the factor; the factor is then $w_h$ alone (Figure 5).
+1. **A different activation function.** The slope of tanh is between 0 and 1, which shrinks every factor. **ReLU** (G-1668) and **Leaky ReLU** (G-1064; see the [ReLU variants Note](../1028-relu-variants/note.md)) have slope 1 for positive inputs, so they do not shrink the factor; the factor is then $w_h$ alone (Figure 6).
 2. **Better weight initialisation.** If $W_h$ starts with factors below 1, the product vanishes. Starting $W_h$ as the **identity matrix** (G-915; 1 on the diagonal, 0 elsewhere), an **identity initialisation** (G-914), makes a multiplication by $W_h$ leave the gradient unchanged at the start of training. Le, Jaitly and Hinton (2015) combined ReLU with an identity-initialised $W_h$ and found it comparable to an LSTM on their four benchmarks.
 3. **Skip connections through time** (G-1819). Connections from a state several time steps back directly to the present give the gradient shorter paths. With a delay of $d$ steps, gradients shrink with $\tau/d$ instead of $\tau$ steps (Goodfellow §10.9.1).
 4. **Switch to an LSTM.** The LSTM was designed for exactly this problem, the "insufficient, decaying error backflow" of recurrent networks (Hochreiter and Schmidhuber 1997). Gated RNNs, the **LSTM** (G-1123) and the **GRU** (G-826), are the most effective sequence models used in practical applications (Goodfellow §10.10), so the usual choice is to move to one (see the [LSTM Note](../1061-lstm/note.md)).
 
 ![The slope of the activation, which multiplies $w_h$ at every backward step. tanh's slope (red) is 1 only at 0 and smaller everywhere else, so each step shrinks the gradient. ReLU's slope (blue) is exactly 1 for every positive input, so the factor is $w_h$ alone](images/slopes.png){width=95%}
 
-In Figure 5, compare the two curves at the same input: wherever tanh's slope is below ReLU's, a tanh RNN loses more of the gradient at every step.
+In Figure 6, compare the two curves at the same input: wherever tanh's slope is below ReLU's, a tanh RNN loses more of the gradient at every step.
 
 > **Python:** The first two fixes in Keras.
 >
@@ -189,13 +206,11 @@ Now the long-term terms become so large that they dominate the short-term ones, 
 2. **Formula:** with ReLU, the slope is 1 for a positive input (and 0 for a negative one), so the factor is $w_h$ and the product over $t$ steps is $w_h^{t}$.
 3. **Example:** with $w_h = 1.1$ and 100 steps, $1.1^{100} \approx 13{,}781$; with $w_h = 1.5$, $1.5^{100} \approx 4 \times 10^{17}$.
 
-![The same factor multiplied once per step back through time, for four factors (log scale). Below 1 the product falls towards 0 (vanishing); at 1 it stays; above 1 it grows without limit (exploding). The orange and blue lines are the two examples above; the red line is the $0.72^{99}$ of section 4.3](images/power_steps.gif)
-
-In Figure 6, watch the lines spread apart as the steps add up: after 10 steps the largest product is about 1,500 times the smallest; after 99 steps it is more than $10^{31}$ times the smallest.
+Figure 3 (section 4) draws both examples: the orange and blue lines.
 
 Two situations make it likely:
 
-- **ReLU with large recurrent weights.** ReLU does not squash: its slope is 1 for every positive input. If the recurrent weights are initialised large, nothing keeps the product small, and it explodes. The $s = 1.1$ line of Figure 3 shows the same growth with no activation at all.
+- **ReLU with large recurrent weights.** ReLU does not squash: its slope is 1 for every positive input. If the recurrent weights are initialised large, nothing keeps the product small, and it explodes. The $s = 1.1$ line of Figure 4 shows the same growth with no activation at all.
 - **A high learning rate.** The gradient itself does not depend on the learning rate, but the step does: $\Delta W = \eta\thinspace\partial L/\partial W$. A large gradient times a large $\eta$ gives a huge step, which throws the weights far away, the case shown in section 7.1 of the [exploding gradients Note](../1018-vanishing-exploding-gradients/note.md).
 
 Goodfellow §10.7 notes that gradients over many steps vanish most of the time and explode rarely, but with much damage to the optimisation.
@@ -235,6 +250,7 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 **Built from**
 
 - CampusX, "Problems with RNN | 100 Days of Deep Learning", YouTube, https://www.youtube.com/watch?v=AWHSZzp96kM
+- StatQuest with Josh Starmer, "Recurrent Neural Networks (RNNs), Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=AsNTP8Kwu80. 11:00–15:30 (one feedback weight raised to the number of unrolled steps: 2 to the power 50 explodes, 0.5 to the power 50 vanishes; steps too large or too small).
 
 **Other references**
 

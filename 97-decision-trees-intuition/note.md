@@ -209,7 +209,7 @@ In data, disorder means uncertainty about the class. If a set of observations is
 
 **The idea: entropy is average surprise.** Pick one observation at random from a set and look at its class. A common class is no surprise; a rare class is a big surprise. Take dataset 2 of section 6.3, with 1 yes and 4 no: drawing a "no" (share 0.8) is expected, drawing the "yes" (share 0.2) is surprising. So the surprise must go up as the share $p$ goes down.
 
-The simplest choice, $1/p$, fails one test. A class with share 1 is certain, so its surprise should be 0, but $1/1 = 1$. Taking the log fixes it, because $\log_2 1 = 0$. The **surprise** of a class with share $p$ is therefore
+The simplest choice, $1/p$, fails one test. A class with share 1 is certain, so its surprise should be 0, but $1/1 = 1$. Taking the log fixes it, because $\log_2 1 = 0$. The **surprise** (G-2221) of a class with share $p$ is therefore
 
 $$\text{surprise} = \log_2 \frac{1}{p}$$
 
@@ -516,7 +516,7 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 | Hyper-cuboid | A box in many dimensions: the region a tree's cuts carve out |
 | CART | Classification and regression trees: the tree algorithm used for both kinds of problem |
 | Entropy | A measure of disorder: $-\sum p_i \log_2 p_i$; 0 when pure, 1 for a 50/50 two-class node |
-| Surprise | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise |
+| Surprise (G-2221) | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution |
 | Information gain | The drop in entropy from a parent to its weighted children; the tree splits on the highest |
 | Gini impurity | A measure of impurity: $1 - \sum p_i^2$; 0 when pure, 0.5 for a 50/50 two-class node |

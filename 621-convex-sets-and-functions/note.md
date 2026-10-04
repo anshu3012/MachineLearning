@@ -95,7 +95,7 @@ Checking every chord is impossible in practice. When derivatives exist, three sh
 Walk along a curve from left to right and watch its slope.
 
 1. **In words:** on a cup-shaped part, the slope starts negative, rises through 0 at the bottom, and keeps rising. On a hump-shaped part, the slope does the opposite: it falls from positive through 0 to negative. A rising slope means the derivative of the slope, the second derivative, is positive.
-2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down**. Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the chord test of Section 3 and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
+2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down** (G-2256). Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the chord test of Section 3 and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
 3. **Example:** the function $q(w) = w^2(w - 1)^2$ of Figure 3, with slope $q'(w) = 2w(w - 1)(2w - 1)$ and second derivative $q''(w) = 12w^2 - 12w + 2$.
    - $q''$ is 0 at $w = 0.211$ and $w = 0.789$, the **inflection points** (G-945) where the bending changes direction.
    - Outside them $q'' > 0$: $q$ curves up, convex there. Between them $q'' < 0$: at $w = 0.5$, $q''(0.5) = 3 - 6 + 2 = -1$, so $q$ curves down there.
@@ -111,7 +111,7 @@ In Figure 4, watch the tangent line and the middle graph together. In the green 
 - $f''(c) < 0$: the curve is a hump, so $c$ is a local maximum;
 - $f''(c) = 0$: the test says nothing.
 
-For $q$: $q'(0) = 0$ and $q''(0) = 2$, a minimum; $q'(0.5) = 0$ and $q''(0.5) = -1$, a maximum; $q'(1) = 0$ and $q''(1) = 2$, a minimum. This is the **second derivative test**.
+For $q$: $q'(0) = 0$ and $q''(0) = 2$, a minimum; $q'(0.5) = 0$ and $q''(0.5) = -1$, a maximum; $q'(1) = 0$ and $q''(1) = 2$, a minimum. This is the **second derivative test** (G-2257).
 
 **The one-variable condition.** A function with a second derivative is convex exactly when $f''(x) \ge 0$ for every $x$: it curves up, or stays straight, everywhere. Then every flat point passes the second derivative test as a minimum, never a maximum.
 
@@ -121,7 +121,7 @@ For $q$: $q'(0) = 0$ and $q''(0) = 2$, a minimum; $q'(0.5) = 0$ and $q''(0.5) = 
 
 > **Key point:** $f$ is convex exactly when $f(\mathbf{y}) \ge f(\mathbf{x}) + \nabla f(\mathbf{x})(\mathbf{y} - \mathbf{x})$ for all $\mathbf{x}$, $\mathbf{y}$: the tangent plane at any point underestimates $f$ everywhere.
 
-The right-hand side is the tangent plane of $f$ at $\mathbf{x}$, the first-order Taylor approximation of the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 4).
+The right-hand side is the tangent plane of $f$ at $\mathbf{x}$, the first-order Taylor approximation of the [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 3).
 
 1. **In words:** the tangent line or plane at any point never rises above the graph. This test is the **first-order condition** (G-781).
 2. **Formula:** a differentiable $f$ is convex if and only if, for all $\mathbf{x}$ and $\mathbf{y}$ (Boyd and Vandenberghe §3.1.3),
@@ -144,7 +144,7 @@ The first-order condition gives the most useful fact about convex functions in o
 
 > **Key point:** A twice-differentiable $f$ is convex exactly when its Hessian is positive semi-definite (no negative eigenvalues) at every point; in one variable, $f''(x) \ge 0$ everywhere.
 
-With several variables the function must curve up along every direction, and the second derivative becomes the **Hessian matrix** (G-888). The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 3.3) showed that the signs of the Hessian's eigenvalues give the local shape: all positive is a bowl, mixed signs a saddle. A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532) (see the [SVD geometry Note](../610-svd-geometry/note.md)). Convexity asks for this at every point, not just one.
+With several variables the function must curve up along every direction, and the second derivative becomes the **Hessian matrix** (G-888). The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 5.3) showed that the signs of the Hessian's eigenvalues give the local shape: all positive is a bowl, mixed signs a saddle. A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532) (see the [SVD geometry Note](../610-svd-geometry/note.md)). Convexity asks for this at every point, not just one.
 
 1. **In words:** the function must curve upwards (or stay flat) in every direction, everywhere. This test is the **second-order condition** (G-1761).
 2. **Formula:**
@@ -290,8 +290,8 @@ For the convex ones, the answer does not depend on the starting point or the sol
 | Jensen's inequality | For a convex function, the function of a weighted average is at most the weighted average of the function |
 | Softplus | The function $\ln(1 + e^z)$, a smooth convex curve whose derivative is the sigmoid |
 | Strictly convex function | A function whose curve lies strictly below every chord between two different points; it has at most one minimum |
-| Concave up, concave down | Calculus names for a cup-shaped (convex) and a hump-shaped (concave) part of a curve |
-| Second derivative test | At a flat point, $f'' > 0$ means a local minimum, $f'' < 0$ a local maximum, $f'' = 0$ no conclusion |
+| Concave up, concave down (G-2256) | Calculus names for a cup-shaped (convex) and a hump-shaped (concave) part of a curve |
+| Second derivative test (G-2257) | At a flat point, $f'' > 0$ means a local minimum, $f'' < 0$ a local maximum, $f'' = 0$ no conclusion |
 | First-order condition | A differentiable function is convex exactly when every tangent plane lies on or below its graph |
 | Second-order condition | A twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere |
 | Convex optimisation problem | Minimising a convex function subject to convex inequality constraints and affine equality constraints |

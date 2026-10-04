@@ -43,7 +43,7 @@ Figure 1 shows the most common kind, **max pooling** (G-1182). This Note covers:
 
 > **Key point:** 222 × 222 × 100 numbers of 4 bytes each: 19.7 MB per image, 1.97 GB per batch of 100.
 
-Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each **filter** (G-778) gives a **feature map** (G-766) of $224 - 3 + 1 = 222$ by 222 (see the [convolution operation Note](../1042-convolution-operation/note.md)), so the layer outputs a volume of 222 × 222 × 100.
+Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each **filter** (G-777) gives a **feature map** (G-766) of $224 - 3 + 1 = 222$ by 222 (see the [convolution operation Note](../1042-convolution-operation/note.md)), so the layer outputs a volume of 222 × 222 × 100.
 
 1. **In words:** count the numbers in the volume and multiply by 4 bytes, the size of one 32-bit floating-point number.
 2. **Formula:**
@@ -242,7 +242,7 @@ Global pooling can replace the Flatten layer before the fully connected layers. 
 
 > **Key point:** Pooling throws away location, which hurts tasks where location matters, and it discards 75% of the values.
 
-1. **Lost location.** Translation invariance helps when only the presence of a feature matters, as in image classification. In some computer vision tasks the location is the answer, such as **image segmentation**, which divides an image into regions and must say exactly which pixels belong to the car. There, pooling can hurt: if a task relies on preserving precise spatial information, pooling on all features can increase the training error (Goodfellow et al. 2016, §9.4).
+1. **Lost location.** Translation invariance helps when only the presence of a feature matters, as in image classification. In some computer vision tasks the location is the answer, such as **image segmentation** (G-2268), which divides an image into regions and must say exactly which pixels belong to the car. There, pooling can hurt: if a task relies on preserving precise spatial information, pooling on all features can increase the training error (Goodfellow et al. 2016, §9.4).
 2. **Lost information.** 2 × 2 pooling with stride 2 turns 16 values into 4: it keeps a quarter and discards exactly 75% of the values (CS231n notes).
 
 Whether to pool depends on the application.
@@ -293,4 +293,4 @@ Whether to pool depends on the application.
 | Translation invariance | The output stays (almost) the same when the input is shifted slightly |
 | Translation equivariance | The output shifts in the same way as the input; a property of convolution |
 | `MaxPooling2D` | The Keras layer for 2D max pooling: `MaxPooling2D(pool_size, strides)` |
-| Image segmentation | Dividing an image into regions by saying which pixels belong to which object |
+| Image segmentation (G-2268) | Dividing an image into regions by saying which pixels belong to which object |

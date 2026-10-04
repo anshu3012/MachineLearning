@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, step/model, c
 
 ## 1. Overview
 
-> **Key point:** A word embedding gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". **Self-attention** (G-1764) is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings** (G-462), in which each word's vector depends on the words around it.
+> **Key point:** A word embedding gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". **Self-attention** (G-1763) is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings** (G-462), in which each word's vector depends on the words around it.
 
 Every **natural language processing** (G-1305; NLP) application, whether sentiment analysis, named entity recognition or machine translation, starts from words, and computers work with numbers. The first step is always to turn words into numbers. Word embeddings do this well, but they have one weakness: they are **static** (G-1877), the same in every sentence. Self-attention is the transformer's answer to that weakness, and it is the core of the transformer (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md)).
 
@@ -26,7 +26,7 @@ This Note explains **what** self-attention does and why it is needed. The next N
 ## 2. Prerequisites
 
 - [One-hot encoding](../27-one-hot-encoding/note.md): a category as a vector of 0s with one 1.
-- [Vectors and feature vectors](../360-vectors-and-feature-vectors/note.md), section 6.2: bag of words.
+- [Vectors and feature vectors](../360-vectors-and-feature-vectors/note.md), section 4.2: bag of words.
 - [RNN sentiment analysis](../1057-rnn-sentiment-analysis/note.md), section 6: word embeddings and Keras' `Embedding` layer.
 - [Dot product and cosine similarity](../362-dot-product-and-cosine-similarity/note.md): how similar two vectors are.
 
@@ -36,7 +36,7 @@ This Note explains **what** self-attention does and why it is needed. The next N
 
 Turning text into numbers is called **vectorization** (G-2084). The early methods count words (Figure 2):
 
-- **One-hot encoding** (G-1379) lists the **vocabulary** (G-2093; the distinct words) and writes each word as a vector with a 1 at its own place. For the vocabulary mat, cat, rat: mat is $[1, 0, 0]$, cat is $[0, 1, 0]$, rat is $[0, 0, 1]$. The sentence "mat cat mat" becomes $[1,0,0],\ [0,1,0],\ [1,0,0]$.
+- **One-hot encoding** (G-1379) lists the **vocabulary** (G-2092; the distinct words) and writes each word as a vector with a 1 at its own place. For the vocabulary mat, cat, rat: mat is $[1, 0, 0]$, cat is $[0, 1, 0]$, rat is $[0, 0, 1]$. The sentence "mat cat mat" becomes $[1,0,0],\ [0,1,0],\ [1,0,0]$.
 - **Bag of words** (G-250) counts how often each vocabulary word appears in a sentence: "mat cat mat" becomes $[2, 1, 0]$ (two mats, one cat, no rat) and "cat rat rat" becomes $[0, 1, 2]$.
 - **TF-IDF** improves bag of words by weighting each count by how rare the word is across documents (SLP3 ch. 5).
 
@@ -160,12 +160,12 @@ How the box computes its output, and how it learns to do so for a particular tas
 
 | Term | Meaning |
 |---|---|
-| Vectorization | Turning words or text into vectors of numbers |
-| Vocabulary | The list of distinct words in the data |
+| Vectorization (G-2084) | Turning words or text into vectors of numbers |
+| Vocabulary (G-2092) | The list of distinct words in the data |
 | Bag of words | A sentence as the count of each vocabulary word in it |
 | Word embedding | A dense vector of real numbers for each word, learned so that words used similarly get similar vectors |
 | Static embedding | An embedding that gives a word the same vector in every sentence |
 | Average meaning | What a static embedding stores: the word's meaning averaged over all its uses in the training corpus |
 | Contextual embedding | A vector for a word that depends on the other words of the sentence it appears in |
-| Self-attention | A mechanism that takes the embeddings of all the words of a sequence and returns a contextual embedding for each |
+| Self-attention (G-1763) | A mechanism that takes the embeddings of all the words of a sequence and returns a contextual embedding for each |
 | PPMI | Positive pointwise mutual information: a score of how much more often two words appear together than by chance, with negative scores set to 0 |

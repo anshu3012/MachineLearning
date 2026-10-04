@@ -85,6 +85,9 @@ In Figure 3, regression fits a line that gives a number for any input. Classific
 | Is this email spam? | Yes / No | Classification |
 | Will it rain today? | Yes / No | Classification |
 | Is there a dog in this image? | Yes / No | Classification |
+| How many dogs are in this image? | A number | Regression |
+
+The last two rows have the same input, an image. Only the target decides the type.
 
 ## 3. Unsupervised learning
 
@@ -94,7 +97,17 @@ In Figure 3, regression fits a line that gives a number for any input. Classific
 
 > **Key point:** No target means no prediction. The algorithm describes the data instead.
 
-In **unsupervised learning** (G-2058), the data has only features. For example, we have the IQ and CGPA of students, but no placement target.
+In **unsupervised learning** (G-2058), the data has only features. For example, we have the IQ and CGPA of students, but no placement target. Figure 4 shows the same table as Figure 2 with the target column removed.
+
+![The same table with and without the target column](images/unsupervised_data.png)
+
+Figure 5 shows the same change on a scatter plot of 90 example students.
+
+![One dataset, seen three ways: with a target (supervised), with the target removed, and after clustering (example data)](images/sup_to_unsup.gif)
+
+1. **Supervised.** Every dot has a colour: placed or not placed. The colour is the target, so an algorithm can learn to predict it.
+2. **Target removed.** Every dot is grey. Only IQ and CGPA are left, and there is nothing to predict.
+3. **Unsupervised.** A clustering algorithm (Section 3.2) looks only at IQ and CGPA and colours the three groups it finds. The groups are not "placed" and "not placed": the algorithm never saw that column.
 
 Without a target, we cannot predict anything. Unsupervised learning performs four other jobs:
 
@@ -107,7 +120,7 @@ Without a target, we cannot predict anything. Unsupervised learning performs fou
 
 > **Key point:** Clustering finds groups of similar observations, without being told what the groups are.
 
-**Clustering** (G-401) splits the data into groups (**clusters**, G-399) of similar observations. Figure 4 shows students plotted by IQ and CGPA; the algorithm found three groups on its own.
+**Clustering** (G-401) splits the data into groups (**clusters**, G-399) of similar observations. Figure 6 shows students plotted by IQ and CGPA; the algorithm found three groups on its own.
 
 ![Clustering: groups found without labels](images/clustering.png)
 
@@ -118,6 +131,8 @@ What the groups give us:
 - **Customer segments:** an e-commerce site can group its customers by how they behave and treat each group differently.
 
 With two features we could spot the groups by eye. Clustering also works with hundreds of features, where no human can see the groups.
+
+**Hierarchical clustering** (G-893; see [Note 131](../131-hierarchical-clustering/note.md)) goes one step further and finds groups within groups, for example sub-segments inside each customer segment.
 
 ### 3.3 Dimensionality reduction
 
@@ -130,7 +145,7 @@ Each feature is a **dimension** (G-610). (A tensor's dimensions mean something e
 
 **Dimensionality reduction** (G-611) removes the extra features.
 
-*Example: house prices.* Number of rooms and number of washrooms carry related information. We can combine them into one feature, area (Figure 5).
+*Example: house prices.* Number of rooms and number of washrooms carry related information. We can combine them into one feature, area (Figure 7).
 
 ![Combining two related features into one](images/feature_extraction.png)
 
@@ -140,11 +155,11 @@ When an algorithm such as PCA computes the new features from the data instead, w
 
 **Visualisation.** A graph can show at most 3 dimensions. To see data with hundreds of features, we reduce them to 2 or 3 features and plot those.
 
-*Example: handwritten digits.* Each digit is an 8 x 8 grid of pixels, which makes 64 features, one per pixel. Figure 6 reduces them to 3 features: images of the same digit land close together.
+*Example: handwritten digits.* Each digit is an 8 x 8 grid of pixels, which makes 64 features, one per pixel. Figure 8 reduces them to 3 features: images of the same digit land close together.
 
 ![Handwritten digits: 64 features reduced to 3](images/digits_3d.png)
 
-The technique used for Figure 6 is **PCA** (principal component analysis, G-1562), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 6 as a 3D plot that we can rotate.
+The technique used for Figure 8 is **PCA** (principal component analysis, G-1469), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 8 as a 3D plot that we can rotate.
 
 > **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 features (LeCun et al. 1998). The idea is the same.
 
@@ -160,7 +175,7 @@ The technique used for Figure 6 is **PCA** (principal component analysis, G-1562
 
 ![Anomaly detection: one point far from the rest](images/anomaly.png)
 
-In Figure 7, almost all transactions are small and close to home. The red one, large and 42 km away, is far from every normal point, so the system flags it.
+In Figure 9, almost all transactions are small and close to home. The red one, large and 42 km away, is far from every normal point, so the system flags it.
 
 ### 3.5 Association rule learning
 
@@ -168,13 +183,11 @@ In Figure 7, almost all transactions are small and close to home. The red one, l
 
 **Association rule learning** (G-218) looks for "if this, then that" patterns in data. Its classic use is deciding which products a shop places next to each other.
 
-*Example: a supermarket.* We scan all the bills from the last one or two years (Figure 8). Suppose milk appears in 8 of 100 bills, and eggs appear in 6 of those 8. Then people who buy milk usually buy eggs as well, so the shop places the two together.
+*Example: a supermarket.* We scan all the bills from the last one or two years (Figure 10). Suppose milk appears in 8 of 100 bills, and eggs appear in 6 of those 8. Then people who buy milk usually buy eggs as well, so the shop places the two together.
 
 ![Association rules: from past bills to shelf placement](images/association_rules.png)
 
-A famous case: an analysis of shopping baskets at a US store chain found that customers buying baby diapers in the evening often also bought beer. Hidden patterns like this are hard to spot by hand and easy for an algorithm.
-
-> **Extra:** The diapers-and-beer story is usually told about Walmart, but it traces back to a 1992 study of shopping baskets at Osco Drug stores, which did find beer and diapers bought together in the evening. The shops never moved the two products together, so the popular claim that shelf placement boosted sales is a legend (Power 2002). The beer-and-diapers find is still the standard example of association rules.
+A famous case: an analysis of shopping baskets at a US store chain found that customers buying baby diapers in the evening often also bought beer (Power 2002). Hidden patterns like this are hard to spot by hand and easy for an algorithm.
 
 ## 4. Semi-supervised learning
 
@@ -184,7 +197,7 @@ Labels are **expensive**. Collecting inputs is easy; for example, we can downloa
 
 **Semi-supervised learning** (G-1768) works with data where only a small part is labelled. We label a few observations, and the algorithm labels the rest automatically.
 
-*Example: Google Photos* (Figure 9).
+*Example: Google Photos* (Figure 11).
 
 1. The app groups photos by the faces in them, without knowing any names. This step is unsupervised.
 2. We tag one photo with a name, such as "Dad".
@@ -194,15 +207,26 @@ Labels are **expensive**. Collecting inputs is easy; for example, we can downloa
 
 One human label replaced hundreds.
 
+How does one label reach a whole group? Similar observations sit close together, so a label can hop from each observation to its **nearest neighbours** (G-1306), the observations closest to it. Figure 12 shows the hops on the 90 students of Figure 6.
+
+![Label propagation on the 90 students of Figure 6. Stars: the three students labelled by hand. Grey links join each student to its 5 nearest neighbours; a white dot has no label yet.](images/label_spreading.gif)
+
+1. **Start.** We label one student in each group by hand (the stars). The other 87 have no label.
+2. **Each step.** Every student looks at its linked neighbours, adds up the labels they carry, and takes the strongest one. The three hand labels never change.
+3. **The spread.** After step 1, 24 of the 90 students have a label; after step 2, 68; after step 3, 89; after step 4, all 90.
+4. **The result.** Every student ends up with the label of its own group, although only three were labelled by hand.
+
+This method is called **label propagation** (G-2172) (Zhu and Ghahramani 2002). It works only when observations with the same label sit close together, as the three groups do here.
+
 ## 5. Reinforcement learning
 
-> **Key point:** In reinforcement learning, there is no data. An agent learns by acting, getting rewards or punishments, and improving its rules.
+> **Key point:** In reinforcement learning, there is no ready-made dataset. An agent collects its own experience by acting, gets rewards or punishments, and improves its rules.
 
 ### 5.1 Agent, environment, policy and reward
 
 > **Key point:** The agent acts, the environment rewards or punishes, and the agent updates its policy. Repeat.
 
-**Reinforcement learning (RL)** (G-1660) starts with no data at all. The algorithm learns from its own experience, getting better over time.
+**Reinforcement learning (RL)** (G-1660) starts with no ready-made dataset: nobody hands the algorithm a table of examples with correct answers. The algorithm produces its own data by acting. Each action, and the reward or punishment that follows it, is one piece of experience, and the algorithm learns from this experience, getting better over time (Sutton and Barto 2018, §1.1).
 
 The parts of an RL system:
 
@@ -211,11 +235,11 @@ The parts of an RL system:
 - **Policy** (G-1512): the agent's rule book, saying which action to take in each situation.
 - **Reward / punishment** (G-1690): feedback from the environment after each action, good or bad.
 
-Figure 10 shows the loop:
+Figure 13 shows the loop:
 
 1. The agent observes the environment.
-2. The agent takes an action according to its policy.
-3. The agent receives a reward or punishment.
+2. Following its policy, the agent takes an action.
+3. The environment returns a reward or punishment.
 4. The agent updates its policy.
 
 The goal is to collect as much reward and as little punishment as possible.
@@ -226,7 +250,7 @@ The goal is to collect as much reward and as little punishment as possible.
 
 > **Key point:** A bad result changes the policy, so the next choice is better.
 
-Figure 11 shows an agent that can walk to fire or to water.
+Figure 14 shows an agent that can walk to fire or to water.
 
 ![An agent learning to choose water over fire](images/rl_fire_water.gif)
 
@@ -256,12 +280,12 @@ RL is harder to set up than the other types, but its use is growing fast.
 | Unsupervised: anomaly detection | Inputs only | Flag unusual observations | Card fraud |
 | Unsupervised: association rules | Inputs only | Find items that go together | Milk and eggs |
 | Semi-supervised | A few labels, many unlabelled observations | Label the rest | Google Photos faces |
-| Reinforcement | No data; rewards from an environment | Learn the best actions | AlphaGo |
+| Reinforcement | No ready-made data; experience and rewards collected from an environment | Learn the best actions | AlphaGo |
 
 - To identify a supervised problem, look at the **target**: number $\rightarrow$ regression, category $\rightarrow$ classification.
 - No target $\rightarrow$ unsupervised.
 - Few labels $\rightarrow$ semi-supervised.
-- No data, only feedback $\rightarrow$ reinforcement.
+- No ready-made data, only feedback on the agent's own actions $\rightarrow$ reinforcement.
 
 ## 7. Sources
 
@@ -274,6 +298,8 @@ RL is harder to set up than the other types, but its use is growing fast.
 - DeepMind (2016). *AlphaGo*. deepmind.google, research/breakthroughs/alphago.
 - LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11).
 - Power, D. (2002). What is the "true story" about data mining, beer and diapers? *DSS News*, 10 November 2002.
+- Sutton, R. S. and Barto, A. G. (2018). *Reinforcement Learning: An Introduction*, 2nd ed. MIT Press. §1.1.
+- Zhu, X. and Ghahramani, Z. (2002). Learning from Labeled and Unlabeled Data with Label Propagation. Technical Report CMU-CALD-02-107, Carnegie Mellon University.
 
 ## 8. Key terms
 
@@ -286,7 +312,7 @@ RL is harder to set up than the other types, but its use is growing fast.
 | Observation | One record; one row of the data table |
 | Labelled data | Data that includes the target |
 | Numerical data | Data made of numbers |
-| Categorical data | Data made of categories |
+| Categorical data (G-351) | Data made of categories |
 | Regression | Supervised learning with a numerical output |
 | Classification | Supervised learning with a categorical output |
 | Unsupervised learning | Learning from inputs only, to find structure |
@@ -295,10 +321,11 @@ RL is harder to set up than the other types, but its use is growing fast.
 | Dimension | One feature |
 | Dimensionality reduction | Reducing the number of features while keeping the information |
 | Feature extraction | New features computed from existing ones by an algorithm such as PCA |
-| PCA | Principal component analysis, a dimensionality reduction technique |
+| PCA (G-1469) | Principal component analysis, a dimensionality reduction technique |
 | Anomaly detection | Finding observations that do not fit the pattern of the rest |
 | Association rule learning | Finding items that tend to occur together |
 | Semi-supervised learning | Learning from a few labelled observations and many unlabelled ones |
+| Label propagation (G-2172) | Semi-supervised method in which labels hop from labelled observations to their nearest neighbours, step by step |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments |
 | Agent | The learner in reinforcement learning |
 | Environment | The world the agent acts in |

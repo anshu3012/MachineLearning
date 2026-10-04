@@ -76,7 +76,7 @@ Figure 1 shows the steps. Preparing the data is the same as in the [toy project 
 > df["Exited"].value_counts()  # 0: 7963, 1: 2037
 > ```
 
-The checks find no **missing values** (G-1235) and no duplicated rows (**duplicate rows**, G-648). About 8,000 customers stayed and 2,000 left, so the classes are imbalanced (**imbalanced data**, G-921), 4 to 1. The imbalance matters for reading accuracy, as Section 6 shows (see also the [imbalanced data Note](../133-imbalanced-data/note.md)).
+The checks find no **missing values** (G-1234) and no duplicated rows (**duplicate rows**, G-648). About 8,000 customers stayed and 2,000 left, so the classes are imbalanced (**imbalanced data**, G-921), 4 to 1. The imbalance matters for reading accuracy, as Section 6 shows (see also the [imbalanced data Note](../133-imbalanced-data/note.md)).
 
 The two text columns are balanced enough: France 5,014, Germany 2,509, Spain 2,477; male 5,457, female 4,543.
 
@@ -109,6 +109,13 @@ A network only takes numbers, so Geography and Gender are one-hot encoded (**one
 We separate X (11 columns) from y (`Exited`) and split 80/20 with `train_test_split` (a **train-test split**, G-1998), as in the [toy project Note](../13-toy-project/note.md). The split leaves 8,000 training observations and 2,000 test observations.
 
 The features live on very different scales: Balance and EstimatedSalary run to six digits, NumOfProducts is 1 to 4. With such inputs the weights take much longer to settle during training (the forward propagation Note shows what raw inputs do to a sigmoid, in section 2). So before a network sees any data we **standardize** (G-1875) every feature to mean 0, standard deviation 1 (see the [standardization Note](../24-standardization/note.md)).
+
+![The 11 features of the 8,000 training customers. Left: raw values; right: after standardizing. Each box spans the middle half of a feature's values, and the whiskers reach towards its extremes.](images/scales.png)
+
+Figure 2 shows the problem and the fix:
+
+- **Raw (left):** Balance reaches 250,899 and EstimatedSalary 199,971, while Age stops at 92, NumOfProducts at 4 and the 0/1 columns at 1. On a shared axis, nine of the eleven features are squashed against zero.
+- **Standardized (right):** every feature is centred on 0 with a spread of about 1, so no feature dominates the weighted sums just because its numbers are big.
 
 > **Python:** Split, then scale.
 >
@@ -145,7 +152,7 @@ We start small:
 - a **hidden layer** (G-890) of 3 perceptrons;
 - an **output layer** (G-1424) of 1 perceptron.
 
-All of them use the **sigmoid** (G-1798) activation, so the output is the probability that the customer leaves. Figure 2(a) shows this 11-3-1 network.
+All of them use the **sigmoid** (G-1798) activation, so the output is the probability that the customer leaves. Figure 3(a) shows this 11-3-1 network.
 
 ![The two churn networks. Every input reaches every node of the next layer; the numbers are the trainable parameters of each layer.](images/architecture.png)
 
@@ -180,7 +187,7 @@ A **dense layer** (G-583; also **fully connected layer**) is a layer in which ev
 | dense_1 (Dense) | (None, 1) | 4 |
 | **Total** | | **40** |
 
-The counts follow the rule of the [MLP notation Note](../1008-mlp-notation/note.md): one weight per pair of connected nodes, one bias per node. Into the hidden layer, $11 \times 3 + 3 = 36$; into the output, $3 \times 1 + 1 = 4$. Training must find these 40 numbers, the **trainable parameters** (G-1999). `None` in the output shape stands for the number of observations fed in at once, which can be anything.
+The counts follow the rule of the [MLP notation Note](../1008-mlp-notation/note.md): one weight per pair of connected nodes, one bias per node. Into the hidden layer, $11 \times 3 + 3 = 36$; into the output, $3 \times 1 + 1 = 4$. Training must find these 40 numbers, the **trainable parameters** (G-1065). `None` in the output shape stands for the number of observations fed in at once, which can be anything.
 
 ## 5. Compiling and training
 
@@ -192,7 +199,7 @@ The counts follow the rule of the [MLP notation Note](../1008-mlp-notation/note.
 
 Compiling tells Keras how the model will be trained. Two settings are needed:
 
-- **Loss:** the number that training makes smaller. For two classes with a sigmoid output it is **binary cross-entropy** (G-304), also called log loss (see the [log loss Note](../73-log-loss/note.md) and the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8).
+- **Loss:** the number that training makes smaller. For two classes with a sigmoid output it is **binary cross-entropy** (G-303), also called log loss (see the [log loss Note](../73-log-loss/note.md) and the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8).
 - **Optimizer** (G-1401): the method that updates the weights to reduce the loss, a variant of **gradient descent** (G-862). We use **Adam** (G-169), which is fairly robust to its settings (Goodfellow et al. 2016, §8.5.3); optimizers are taught in later Notes.
 
 > **Python:** Compiling.
@@ -207,6 +214,15 @@ Compiling tells Keras how the model will be trained. Two settings are needed:
 
 `fit` does the training. We give it the scaled training inputs, the training outputs and the number of **epochs** (G-696): how many times the network goes through the whole training set (see the [gradient descent Note](../57-gradient-descent/note.md)). We choose 10.
 
+In plain words, `fit` repeats one small loop: show the network a few customers, measure how wrong it is, and change the weights a little. Figure 4 draws the loop.
+
+![What `fit` does. The 8,000 training customers are cut into 250 batches of 32. For each batch: predict, compute the loss, update the 40 parameters. 250 updates make one epoch.](images/fit_loop.png)
+
+1. **Predict:** forward propagation on one batch of 32 customers.
+2. **Loss:** the binary cross-entropy between those 32 predictions and the true labels.
+3. **Update:** the optimizer changes all 40 parameters a little, in the direction that lowers that loss.
+4. **Repeat** with the next batch. After 250 batches every customer has been used once: one epoch is over, and Keras prints its loss.
+
 > **Python:** Training for 10 epochs.
 >
 > ```python
@@ -218,6 +234,15 @@ Keras prints one line per epoch. The loss falls quickly at first, then more slow
 | Epoch | 1 | 2 | 3 | 5 | 10 |
 |---|---|---|---|---|---|
 | Loss | 0.713 | 0.569 | 0.502 | 0.455 | 0.430 |
+
+What does the falling loss change? Figure 5 follows the network's predicted probability of leaving for each of the 2,000 test customers (`model.predict` after every epoch).
+
+![The 11-3-1 network's predicted probability of leaving for the 2,000 test customers, before training and after each of its 10 epochs. Red: customers who really left; blue: customers who stayed. Dashed line: the 0.5 threshold of section 6.](images/prob_epochs.gif)
+
+1. **Before training.** The random starting weights give every customer a probability around 0.6 (the highest is 0.694), so 1,965 of the 2,000 customers would be predicted to leave.
+2. **Epochs 1 to 5.** The probabilities slide down together, and their average falls from 0.59 to 0.21, close to the share of customers who left in the data (2,037 of 10,000). That share is no accident: if a model gives every customer the same probability, the log loss is lowest when that probability equals the share of leavers.
+3. **Epochs 6 to 10.** The probabilities start to spread out: leavers drift to the right and stayers to the left. The highest probability climbs back from 0.424 (after epoch 5) to 0.498.
+4. **After epoch 10.** Not one probability has crossed 0.5, so with the threshold of section 6 the network predicts "stays" for every customer. Section 6.2 shows what that does to accuracy.
 
 > **Extra:** Each epoch line also shows `250/250`. Keras does not update the weights once per epoch: by default it updates them after every **batch** (G-263) of 32 observations (Keras docs, `Model.fit`), which is **mini-batch gradient descent** (G-1222; see the [mini-batch gradient descent Note](../60-mini-batch-gradient-descent/note.md)). 8,000 observations / 32 = 250 updates per epoch. The `batch_size` argument of `fit` changes this (the **batch size**, G-267).
 
@@ -273,9 +298,31 @@ The first network scores 79.25% **accuracy** (G-162; the share of correct predic
 
 ![Confusion matrices on the 2,000 test customers. The first network never predicts "leaves"; the second finds 189 of the 415 leavers.](images/confusion.png)
 
-Figure 3 (left) confirms it: the first network predicted "leaves" for nobody. After 10 epochs its probabilities run from 0.069 to 0.498: even the most likely leaver falls just short of the 0.5 threshold. Such a result is the trap of accuracy on imbalanced data, described in section 6 of the [accuracy and confusion matrix Note](../76-accuracy-confusion-matrix/note.md). The **confusion matrix** (G-449) shows it at once; accuracy alone hides it.
+Figure 6 (left) confirms it: the first network predicted "leaves" for nobody. After 10 epochs its probabilities run from 0.069 to 0.498: even the most likely leaver falls just short of the 0.5 threshold. Such a result is the trap of accuracy on imbalanced data, described in section 6 of the [accuracy and confusion matrix Note](../76-accuracy-confusion-matrix/note.md). The **confusion matrix** (G-449) shows it at once; accuracy alone hides it.
 
 > **Extra:** The exact result depends on the random starting weights. With four other seeds, the same network flags 35 to 128 customers as leaving and scores 79.9% to 80.7% (Notebook). Averaged over all five seeds it scores 80.1%, under one point above the 79.25% of always answering "stays". Either way, a network this small, trained for 10 epochs, has barely learned the pattern: trained for 100 epochs instead, it reaches 83.4%.
+
+### 6.3 Moving the threshold
+
+> **Key point:** The network's probabilities do rank the customers. A lower threshold turns that ranking into leavers found, at the price of false alarms.
+
+The first network flags nobody only because the threshold sits at 0.5. Its probabilities still carry information: in Figure 5, the customers who left sit further right than those who stayed. Figure 7 keeps the trained network fixed and slides the threshold down.
+
+![The threshold as a slider, on the first network's probabilities for the 2,000 test customers. Everything to the right of the dashed line is predicted "leaves". The threshold moves from 0.5 down to 0.1.](images/threshold_slide.gif){width=85%}
+
+Two more scores describe each position (both from the [precision, recall and F1 Note](../77-precision-recall-f1/note.md)): **precision** (G-1547), the share of flagged customers who really left, and **recall** (G-1641), the share of the 415 leavers that were flagged.
+
+| Threshold | Flagged | Really left | Accuracy | Precision | Recall |
+|---|---|---|---|---|---|
+| 0.5 | 0 | 0 | 79.2 percent | none flagged | 0 percent |
+| 0.4 | 209 | 130 | 81.8 percent | 62 percent | 31 percent |
+| 0.25 | 559 | 259 | 77.2 percent | 46 percent | 62 percent |
+| 0.1 | 1,440 | 387 | 46.0 percent | 27 percent | 93 percent |
+
+- **From 0.5 to 0.4:** the network finds 130 leavers, and the accuracy rises above the 79.25 percent of always answering "stays".
+- **Lower still:** recall keeps rising, but more and more of the flagged customers are people who stayed, so precision and accuracy fall.
+
+No retraining happened: the same 40 parameters give every row of the table. The threshold is a separate choice, made for the cost of each kind of mistake.
 
 ## 7. Improving the network
 
@@ -298,7 +345,7 @@ Changes 3 and 4 add parameters, so the network can fit more complex patterns. To
 
 > **Key point:** 11-11-11-1 with ReLU: 132 + 132 + 12 = 276 parameters.
 
-Figure 2(b) shows the new network. Counting its parameters:
+Figure 3(b) shows the new network. Counting its parameters:
 
 1. **In words:** for each layer, weights from every node before plus one bias per node.
 2. **Formula:** $n_{l-1}\thinspace n_l + n_l$ per layer, added up.
@@ -346,17 +393,17 @@ We want the loss to fall and the accuracy to rise on **both** sets. If the train
 
 > **Extra:** `validation_split` takes the **last** 20% of the rows, not a random 20% (Keras docs, `Model.fit`). Our rows were already shuffled by `train_test_split`, so that is fine; on data sorted by date or by class, shuffle first or pass `validation_data=(X_val, y_val)` instead.
 
-On the test set the second network scores **86.45%**, against 79.25%. Figure 3 (right) shows what changed: it now finds 189 of the 415 customers who left, while wrongly flagging only 45 who stayed.
+On the test set the second network scores **86.45%**, against 79.25%. Figure 6 (right) shows what changed: it now finds 189 of the 415 customers who left, while wrongly flagging only 45 who stayed.
 
 ## 8. Training curves
 
 > **Key point:** `fit` returns a History object: the loss and accuracy of every epoch, on both sets. Plotting them shows how training went and whether it overfits.
 
-`fit` returns a **History** object (G-900). Its `.history` attribute is a dictionary with one list per quantity, one value per epoch: `loss`, `accuracy`, `val_loss` and `val_accuracy`. Plotting these lists against the epoch number gives the **training curves** (G-2001; also **learning curves**) in Figure 4.
+`fit` returns a **History** object (G-900). Its `.history` attribute is a dictionary with one list per quantity, one value per epoch: `loss`, `accuracy`, `val_loss` and `val_accuracy`. Plotting these lists against the epoch number gives the **training curves** (G-2001; also **learning curves**) in Figure 8.
 
 ![Training curves of the second network: training (blue) and validation (orange) loss and accuracy over 100 epochs](images/curves.png)
 
-Reading Figure 4:
+Reading Figure 8:
 
 - **Loss (left):** both losses fall fast for about 10 epochs, then slowly. The training loss keeps falling to the end; the validation loss is lowest around epoch 40 (0.355) and then creeps up to 0.359.
 - **Accuracy (right):** both rise together at first; after about 20 epochs training accuracy stays roughly 1 point above validation accuracy.
@@ -389,6 +436,7 @@ The gap between the two curves measures overfitting. Here it is small, but it is
 - Keras: `Sequential` + `Dense` layers, `summary`, `compile` (loss, optimizer, metrics), `fit` (epochs, validation split), `predict`.
 - Binary classification: one sigmoid output node, binary cross-entropy loss, threshold 0.5 on the probability.
 - On imbalanced data, compare accuracy with always predicting the majority class, and look at the confusion matrix.
+- The threshold is a choice: lowering it trades precision for recall without retraining.
 - Improve by changing epochs, activation, nodes and layers; watch the training curves for a gap that signals overfitting.
 
 ## 10. Sources
@@ -409,15 +457,15 @@ The gap between the two curves measures overfitting. Here it is small, but it is
 | Keras workflow | Build, compile, fit, predict: the four steps of every Keras model |
 | Sequential model | A Keras model whose layers form one stack, each feeding the next |
 | Dense (fully connected) layer | A layer whose every node receives the output of every node in the layer before |
-| `keras.Input` | The first item of a Sequential model; gives the shape of one input observation |
+| `keras.Input` (G-97) | The first item of a Sequential model; gives the shape of one input observation |
 | `model.summary()` | Prints each layer's output shape and number of trainable parameters |
 | Compile | Choosing the loss, the optimizer and the metrics before training |
 | Adam | The optimizer used in these projects; optimizers are taught later |
 | `fit` | Trains the model on given inputs and outputs for a number of epochs |
-| Batch | The observations used for one weight update; Keras uses 32 by default |
-| `get_weights()` | Returns a layer's weight matrix and bias vector |
+| Batch (G-263) | The observations used for one weight update; Keras uses 32 by default |
+| `get_weights()` (G-85) | Returns a layer's weight matrix and bias vector |
 | Threshold (classification) | The probability above which a prediction counts as class 1 |
-| Metric | A score reported during training, such as accuracy, that training does not minimise |
+| Metric (G-1215) | A score reported during training, such as accuracy, that training does not minimise |
 | `validation_split` | The share of the training observations Keras holds back as a validation set |
 | History object | What `fit` returns: the loss and metrics of every epoch |
 | Training curves (learning curves) | Loss or accuracy plotted against the epoch, for the training and validation sets |

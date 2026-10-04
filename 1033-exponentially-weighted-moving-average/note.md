@@ -42,7 +42,15 @@ Take the temperature recorded day by day: day 1, day 2, day 3 and so on. The EWM
 1. **Newer values count more.** On day 3, the value of day 3 gets more weight than the value of day 1, because it came later.
 2. **Every value fades with time.** When days 4 and 5 arrive, day 3 is no longer the newest. Its weight drops, and it keeps dropping every day after.
 
-The formula in section 4 is built to obey exactly these two rules. Section 6 proves it does.
+Figure 2 shows both rules at work on Delhi's first 21 days of 2013.
+
+![The EWMA built day by day on Delhi's first 21 days of 2013. Each day the average (blue) moves one tenth of the way from yesterday's average towards today's temperature (orange); the dotted line is the gap, the arrow the move.](images/ewma_steps.gif)
+
+1. **Day 1.** The average starts at the first temperature, 10.0 °C.
+2. **Day 2.** The temperature is 7.4 °C, 2.6 °C below the average. The average moves one tenth of that gap, to 9.74 °C.
+3. **Every day after.** The average again moves one tenth of the way towards the new temperature. A single cold or warm day nudges it a little; a run of warm days pulls it up steadily.
+
+Each move gives today's value a say of one tenth, so today counts more than any single earlier day. And each new move dilutes all the earlier ones a little more, so an old day's influence keeps shrinking. The formula in section 4 is built to obey exactly these two rules. Section 6 proves it does.
 
 ## 4. The formula
 
@@ -71,7 +79,7 @@ The second choice gives more accurate values at the start, so it is the one we p
 
 ![The first 40 days of 2013. Starting from $V_0 = 0$ (orange), the EWMA needs weeks to climb up to the data; starting from $V_0 = \theta_1$ (blue), it is on the data from day 1](images/ewma_start.png){width=90%}
 
-On the Delhi data (Figure 2), the zero start reads 1.0 °C on a day of 10 °C. The two curves still differ by 3.5 °C on day 10 and 1.2 °C on day 20, and only agree within 0.1 °C from day 44 on (Notebook). The zero start's error shrinks by a factor $\beta$ every day, so it fades, but slowly.
+On the Delhi data (Figure 3), the zero start reads 1.0 °C on a day of 10 °C. The two curves still differ by 3.5 °C on day 10 and 1.2 °C on day 20, and only agree within 0.1 °C from day 44 on (Notebook). The zero start's error shrinks by a factor $\beta$ every day, so it fades, but slowly.
 
 > **Extra:** Optimizers start their averages at 0, so they face exactly this start-up error. Adam removes it with a correction factor (see the [Adam Note](../1038-adam/note.md)). Time series books call the starting value $\ell_0$ and estimate it from the data (Hyndman and Athanasopoulos 2021, §8.1).
 
@@ -89,7 +97,7 @@ A handy way to think about $\beta$: the EWMA behaves roughly like a plain averag
 
 ![The EWMA of Delhi's 2013 temperatures as $\beta$ changes. Small $\beta$ hugs the data; large $\beta$ gives a smooth trend](images/ewma_betas.gif){width=95%}
 
-Figure 3 shows the curve for $\beta$ from 0.1 to 0.98. In the formula, $\beta$ multiplies $V_{t-1}$, the part that carries the past. So $\beta$ decides how much the past is valued:
+Figure 4 shows the curve for $\beta$ from 0.1 to 0.98. In the formula, $\beta$ multiplies $V_{t-1}$, the part that carries the past. So $\beta$ decides how much the past is valued:
 
 - **$\beta$ large (0.98):** the past dominates. The curve is smooth and changes slowly.
 - **$\beta$ small (0.1):** the present dominates. The curve follows every value and is very spiky.
@@ -128,7 +136,7 @@ The oldest value, $\theta_1$, is multiplied by $\beta^3$; $\theta_2$ by $\beta^2
 
 ![Weight of the value $k$ steps in the past. With $\beta = 0.5$ the weights die out within a few steps; with $\beta = 0.9$ they fade slowly](images/ewma_weights.png){width=95%}
 
-The weights fall by a constant factor at every step, like an exponential curve, which is where the name "exponentially weighted" comes from (Figure 4).
+The weights fall by a constant factor at every step, like an exponential curve, which is where the name "exponentially weighted" comes from (Figure 5).
 
 > **Extra:** Why $1/(1-\beta)$? The weight $\beta^k$ has fallen to about $1/e \approx 0.37$ of the newest weight after $k = 1/(1-\beta)$ steps, because $\ln\beta \approx -(1 - \beta)$ when $\beta$ is close to 1, so $\beta^{1/(1-\beta)} = e^{\ln\beta/(1-\beta)} \approx e^{-1}$. For $\beta = 0.9$: $0.9^{10} = 0.35$. The newest $1/(1-\beta)$ values together carry about two thirds of the total weight: 0.65 for $\beta = 0.9$ (10 values) and 0.64 for $\beta = 0.98$ (50 values) (Notebook). So "the last $1/(1-\beta)$ values" is a rough guide, not a sharp window: older values still count, just less.
 

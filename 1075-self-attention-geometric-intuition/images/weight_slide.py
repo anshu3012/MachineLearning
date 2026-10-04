@@ -36,8 +36,8 @@ def frame(w):
     for p, text, col, xs, ys in ((v_m, "v<sub>money</sub>", GREEN, 0, 18), (v_b, "v<sub>bank</sub>", GREEN, 44, -4),
                                  (y_note, f"the Note's weight, {W_NOTE:.3f}", PURPLE, 118, 14)):
         fig.add_annotation(x=p[0], y=p[1], text=text, showarrow=False, xshift=xs, yshift=ys, font=dict(color=col, size=19))
-    fig.add_annotation(x=0.03, y=0.97, xref="paper", yref="paper", showarrow=False, align="left", xanchor="left",
-                       yanchor="top", font=dict(size=20),
+    fig.add_annotation(x=0.98, y=0.04, xref="paper", yref="paper", showarrow=False, align="left", xanchor="right",
+                       yanchor="bottom", font=dict(size=20), bgcolor="white",
                        text=f"weight of bank on money: <b>w = {w:.2f}</b><br>"
                             f"<span style='color:{PURPLE}'>y<sub>bank</sub> = ({y[0]:.2f}, {y[1]:.2f})</span><br>"
                             f"{100 * w:.0f} percent of the way to v<sub>money</sub>")

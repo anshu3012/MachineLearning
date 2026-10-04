@@ -177,7 +177,7 @@ The density of one observation under parameters $\theta$ is written $p(x \mid \t
 
 > **Key point:** $\hat\theta = \arg\max_\theta L(\theta)$: the parameter value that makes the likelihood largest.
 
-1. **In words:** the **likelihood function** (G-2153) multiplies the density of every observation, for a given $\theta$. The maximum likelihood estimate is the $\theta$ that makes this product largest.
+1. **In words:** the **likelihood function** (G-1085) multiplies the density of every observation, for a given $\theta$. The maximum likelihood estimate is the $\theta$ that makes this product largest.
 2. **Example:** for the mice with $\sigma = 2$, the largest likelihood is $2.59 \times 10^{-5}$, and the $\mu$ that reaches it is 32. The MLE is 32, not $2.59 \times 10^{-5}$.
 3. **Formula:**
    $$L(\theta) = \prod_{i=1}^{n} p(x_i \mid \theta), \qquad \hat\theta_{\text{ML}} = \arg\max_{\theta}\thinspace L(\theta)$$
@@ -365,7 +365,7 @@ Figure 9 runs the Notebook's simulation for more sample sizes. Watch the orange 
 | Term | Meaning |
 |---|---|
 | Fitting a distribution | Choosing a family of distributions for data, then choosing its parameters |
-| Likelihood function $L(\theta)$ | The product of the densities (or probabilities) of all observations, as a function of the parameters with the data fixed |
+| Likelihood function $L(\theta)$ (G-1085) | The product of the densities (or probabilities) of all observations, as a function of the parameters with the data fixed |
 | $\theta$ (theta) | One symbol for all the parameters of a model |
 | Maximum likelihood estimation (MLE) | Fitting parameters by making the likelihood of the observed data as large as possible |
 | Maximum likelihood estimate $\hat\theta_{\text{ML}}$ | The parameter value where the likelihood function is highest |

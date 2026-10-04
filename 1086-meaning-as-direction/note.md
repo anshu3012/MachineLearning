@@ -21,7 +21,7 @@ The [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md) introd
 We use two real embedding tables:
 
 1. **GloVe** (G-851), 100 numbers per word, trained on 6 billion tokens of Wikipedia and news text (Pennington et al. 2014). We keep its 100,000 most frequent words.
-2. **GPT-2 small's token-embedding table** (G-1982), 768 numbers per **token** (G-1981), the first layer of a real transformer (Radford et al. 2019).
+2. **GPT-2 small's token-embedding table** (G-1980), 768 numbers per **token** (G-1981), the first layer of a real transformer (Radford et al. 2019).
 
 Figure 1 shows the central idea on real GloVe vectors. Watch the orange arrow "woman − man" being lifted onto "king": its tip lands near "queen", but not on it.
 
@@ -187,5 +187,5 @@ Two links to later Notes:
 | Plural direction | The average of the arrows from singular to plural nouns, scaled to length 1 |
 | GloVe | Word vectors trained so that dot products match the logs of co-occurrence probabilities (Pennington et al. 2014) |
 | Token | The unit a language model reads: a word or a piece of a word |
-| Token-embedding table | GPT-2's table of 50,257 vectors of 768 numbers, one per token |
+| Token-embedding table (G-1980) | GPT-2's table of 50,257 vectors of 768 numbers, one per token |
 | Co-occurrence probability | $P_{ik}$: how likely word $k$ is to appear near word $i$ in the training text |

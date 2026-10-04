@@ -120,6 +120,10 @@ Stacking in the strict sense uses the idea of K-fold cross-validation ([pipeline
 4. **Retrain the base models on all of D_train.** Which of the 4 linear regressions do we keep? None of them. We train linear regression, the decision tree and KNN once more on all 800 observations, and these are the base models used for prediction.
 5. **Evaluate** the stack on the 200 test observations, as in blending.
 
+Figure 6 plays steps 1 to 3, one fit per frame. Watch the orange fold: the fold being predicted is never among the grey folds the model was trained on, and its 200 predictions fill one cell of that model's column. After 12 fits the three columns are full.
+
+![K-fold stacking with K = 4, one fit per frame. Left: the four folds of the training set; grey folds train the base model, the orange fold is predicted. Right: the meta-model's training data, one column of out-of-fold predictions per base model, filling 200 observations at a time.](images/oof_fill.gif)
+
 Note the order: the meta-model is trained first (step 3), the final base models afterwards (step 4).
 
 Compared with blending, nothing is thrown away: every observation of D_train trains the final base models, and every observation also gives the meta-model one example. The price is K times more training. scikit-learn's `StackingClassifier` implements this approach (scikit-learn docs), and it is the one described in the textbooks: the meta-model learns from cross-validated predictions (ESL §8.8; Wolpert 1992).
@@ -134,7 +138,7 @@ The intuition: blending is like a student who keeps 20 of 100 practice questions
 
 ![Two layers of base models and a meta-model, trained with blending on three hold-out sets of 300 observations](images/multilayer.png){height=40%}
 
-Nothing forces a single layer of base models. In Figure 6, three models M1, M2, M3 form layer 1, three more models M4, M5, M6 form layer 2, and M7 is the meta-model. Every model of layer 1 feeds every model of layer 2: the layers are **fully connected**. This is **multi-layer stacking** (G-1271). Any algorithm can sit anywhere: linear regression, KNN, a decision tree, gradient boosting, XGBoost, a random forest, even a neural network.
+Nothing forces a single layer of base models. In Figure 7, three models M1, M2, M3 form layer 1, three more models M4, M5, M6 form layer 2, and M7 is the meta-model. Every model of layer 1 feeds every model of layer 2: the layers are **fully connected**. This is **multi-layer stacking** (G-1271). Any algorithm can sit anywhere: linear regression, KNN, a decision tree, gradient boosting, XGBoost, a random forest, even a neural network.
 
 With blending, 1,000 students are split into 900 for training and 100 for testing, and the 900 into three sets of 300 (DT1, DT2, DT3):
 
@@ -212,7 +216,7 @@ The meta-model's weights show whom it trusts: 2.31 for the random forest's proba
 
 ![Test accuracy of the base models alone, soft voting and four kinds of stacking on the heart data (KNN scaled)](images/accuracies.png){height=40%}
 
-Figure 7 compares, with the scaled KNN:
+Figure 8 compares, with the scaled KNN:
 
 - **soft voting** (averaging the three probabilities, [voting classifier Note](../103-voting-classifier/note.md)): 0.885;
 - **blending by hand** (193 patients for the base models, 49 for the meta-model): 0.820;
@@ -248,7 +252,7 @@ To see it, we change only the training size: 60, 120 or 242 patients for trainin
 
 ![Mean test accuracy of blending and K-fold stacking on the heart data, for 60, 120 and 242 training patients, averaged over 100 random splits](images/blend_vs_stack.png){height=40%}
 
-Figure 8 shows the result. With 60 training patients, stacking reaches 0.787 and blending 0.753, a gain of 3.5 points. With 120 patients the gain is 1.2 points (0.814 against 0.801). With all 242 patients both methods are close (0.815 against 0.812): with more data, the 20% that blending holds out matters less. The result matches the textbook advice: use cross-validation instead of a single hold-out set when data is scarce (ESL §7.10.1).
+Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and blending 0.753, a gain of 3.5 points. With 120 patients the gain is 1.2 points (0.814 against 0.801). With all 242 patients both methods are close (0.815 against 0.812): with more data, the 20% that blending holds out matters less. The result matches the textbook advice: use cross-validation instead of a single hold-out set when data is scarce (ESL §7.10.1).
 
 > **Extra:** The gain is an average, not a guarantee on every split. With 60 training patients, stacking scores higher on 74 of the 100 splits, ties on 5 and loses on 21; the standard error of the mean gain is 0.6 points. With 242 patients the mean gain, 0.3 points, is no larger than its standard error (0.3 points), so on this data the two methods are level once the training set is that big.
 
@@ -294,4 +298,4 @@ Figure 8 shows the result. With 60 training patients, stacking reaches 0.787 and
 | Validation set | The hold-out part of the training data in blending, on which the meta-model is trained |
 | Out-of-fold prediction | A prediction for an observation made by a model trained on the other folds, never on that observation |
 | Multi-layer stacking | Stacking with more than one layer of base models below the meta-model |
-| Passthrough | Giving the meta-model the original features as well as the base models' predictions |
+| Passthrough (G-1461) | Giving the meta-model the original features as well as the base models' predictions |

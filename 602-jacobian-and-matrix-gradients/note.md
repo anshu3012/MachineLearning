@@ -57,7 +57,7 @@ ML is full of such functions: a neural network layer turns a vector of inputs in
 
 > **Key point:** Around any one point, a smooth function looks more and more like a linear transformation the further we zoom in. That linear transformation is its **local linear map** (G-1108).
 
-Follow one point while $\mathbf{f}$ moves the grid, and zoom in on a small cell around it. The rays and arcs are still curved, but over a tiny region they are almost straight, almost parallel and almost evenly spaced: the three signs of a linear transformation from Section 2.1. The smaller the region, the better the match. A function that behaves like this is called **locally linear**.
+Follow one point while $\mathbf{f}$ moves the grid, and zoom in on a small cell around it. The rays and arcs are still curved, but over a tiny region they are almost straight, almost parallel and almost evenly spaced: the three signs of a linear transformation from Section 2.1. The smaller the region, the better the match. A function that behaves like this is called **locally linear** (G-2250).
 
 ![The polar map bends a straight $(r, \theta)$ grid into rays and arcs. Then we zoom on the orange cell at $(2, \pi/6)$: as the cell shrinks (shown magnified to a fixed size), its curved image (orange) becomes the parallelogram spanned by the Jacobian's columns times the cell's sides (green). Zoom-in idea after Khan Academy, "Local linearity for a multivariable function"](images/local_linear.gif)
 
@@ -89,7 +89,7 @@ In Figure 3, watch the green arrow while $h$ shrinks. For the step along $r$ it 
 
 Each column of Section 4.1 holds the partial derivatives of all $m$ outputs with respect to one input. Placing the $n$ columns side by side gives a matrix.
 
-1. **In words:** entry $(i, j)$ is the partial derivative of output $i$ with respect to input $j$. Row $i$ is the **gradient** (G-865) of $f_i$.
+1. **In words:** entry $(i, j)$ is the partial derivative of output $i$ with respect to input $j$. Row $i$ is the **gradient** (G-863) of $f_i$.
 2. **Formula:** the **Jacobian** (G-980) is
    $$J = \frac{d\mathbf{f}}{d\mathbf{x}} = \begin{bmatrix} \dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n} \cr\vdots & & \vdots \cr\dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{m \times n}, \qquad J_{ij} = \frac{\partial f_i}{\partial x_j}$$
 3. **Example:** for polar coordinates, differentiate each output with respect to $r$ and to $\theta$:
@@ -141,7 +141,7 @@ A linear map needs no approximation: the "best local linear map" is the map itse
 
 ### 5.1 Recap: the determinant is an area factor
 
-The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md) introduced the **determinant** (G-598): the factor by which a linear transformation scales every area. A unit square becomes a parallelogram, and the parallelogram's area is $|\det|$. If $\hat{\jmath}$ ends up on the other side of $\hat{\imath}$, the plane has been flipped over like a sheet of paper; this reversed **orientation** makes the determinant negative.
+The [eigenvectors and eigenvalues Note](../530-eigenvectors-and-eigenvalues/note.md) introduced the **determinant** (G-598): the factor by which a linear transformation scales every area. A unit square becomes a parallelogram, and the parallelogram's area is $|\det|$. If $\hat{\jmath}$ ends up on the other side of $\hat{\imath}$, the plane has been flipped over like a sheet of paper; this reversed **orientation** (G-2251) makes the determinant negative.
 
 ![The unit square under $A$ (rows $[1, 3]$, $[-2, 0]$) becomes a parallelogram of area 6. Then $\hat{\imath}$ swings towards $\hat{\jmath}$: the area shrinks to 0 when they line up, and past that point the square flips over and the determinant turns negative (red). Idea after 3Blue1Brown, "The determinant | Chapter 6, Essence of linear algebra"](images/det_sign.gif)
 
@@ -361,8 +361,8 @@ The backward pass has one step per forward step, each a multiplication by a loca
 | Numerator layout | Writing derivatives with outputs as rows and inputs as columns |
 | Polar coordinates | Describing a point by its distance $r$ from the origin and its angle $\theta$: $(r\cos\theta, r\sin\theta)$ |
 | Local linear map | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian |
-| Locally linear | Said of a function that looks more and more like a linear transformation as we zoom in on any point |
-| Orientation | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant |
+| Locally linear (G-2250) | Said of a function that looks more and more like a linear transformation as we zoom in on any point |
+| Orientation (G-2251) | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant |
 | Jacobian determinant | $\det J$: the factor by which a function scales small areas or volumes near a point |
 | Chain rule with Jacobians | The Jacobian of a composition is the product of the Jacobians, in the same order |
 | Least-squares loss | $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$ |

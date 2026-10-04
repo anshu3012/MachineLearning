@@ -101,7 +101,7 @@ Divide the top and bottom of $p_k$ by $e^{z_{\max}/T}$, where $z_{\max}$ is the 
 
 $$p_k = \frac{e^{(z_k - z_{\max})/T}}{\sum_j e^{(z_j - z_{\max})/T}}$$
 
-- **$T \to 0$:** every exponent $(z_j - z_{\max})/T$ with $z_j < z_{\max}$ goes to $-\infty$, so its term goes to 0. Only the top token's term stays at $e^0 = 1$. Its probability goes to 1: picking with $T \to 0$ is **greedy decoding**. (If several tokens tie for the top, they share the probability equally.)
+- **$T \to 0$:** every exponent $(z_j - z_{\max})/T$ with $z_j < z_{\max}$ goes to $-\infty$, so its term goes to 0. Only the top token's term stays at $e^0 = 1$. Its probability goes to 1: picking with $T \to 0$ is **greedy decoding**. Greedy decoding is the **argmax** (G-212) of the [loss functions Note](../1014-dl-loss-functions/note.md), section 9.1: training needs the softmax, and argmax only reads off the answer afterwards; here it reads off the next token.
 - **$T \to \infty$:** every exponent goes to 0, every term to $e^0 = 1$, and every $p_k$ to $1/V$: a uniform pick from the vocabulary.
 
 On GPT-2 small's real logits the Notebook confirms both limits: at $T = 0.01$ the top token has 0.954 (its runner-up is only 0.04 logits behind, so $T$ must be this small); at $T = 10{,}000$ every token has $1.99 \times 10^{-5} = 1/50{,}257$.
@@ -249,7 +249,7 @@ Facts can appear at different depths. The Notebook repeats the lens on three oth
 | Logit | A raw score before the softmax; one per vocabulary token |
 | Temperature $T$ | The number every logit is divided by before the softmax; low $T$ sharpens, high $T$ flattens |
 | Greedy decoding | Always choosing the top token; the limit $T \to 0$ |
-| Sampling | Choosing the next token at random, with the softmax probabilities |
+| Sampling (G-1739) | Choosing the next token at random, with the softmax probabilities |
 | Entropy | $-\sum_k p_k \log_2 p_k$, in bits: how spread out a distribution is |
 | Top $k$ sampling | Sampling only among the $k$ most likely tokens |
 | Nucleus (top $p$) sampling | Sampling only among the smallest set of tokens whose probabilities add up to at least $p$ |

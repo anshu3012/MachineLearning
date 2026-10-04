@@ -196,7 +196,7 @@ The $x +$ part, a **residual connection** (G-1681), and the full block are expla
 
 With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 parameters: $\gamma$ and $\beta$ for each of the 512 features, all trainable. A `BatchNormalization` layer of the same size holds 2,048, of which 1,024 are the non-trainable moving means and variances (Notebook).
 
-> **Extra:** Two later variations are common. The most common transformer architecture today is the **prenorm** (G-1556) version, which applies the layer norm before the attention and feed-forward sub-layers; the original transformer is the **postnorm** version, with the norm after them (Jurafsky and Martin, SLP3 §7.2–7.3). Current models also often use **RMSNorm** (G-1696; Zhang and Sennrich 2019, §4, Eq. 4), which divides by the root mean square of the vector and skips subtracting the mean (SLP3 §7.2.2 and §7.8).
+> **Extra:** Two later variations are common. The most common transformer architecture today is the **prenorm** (G-1545) version, which applies the layer norm before the attention and feed-forward sub-layers; the original transformer is the **postnorm** version, with the norm after them (Jurafsky and Martin, SLP3 §7.2–7.3). Current models also often use **RMSNorm** (G-1696; Zhang and Sennrich 2019, §4, Eq. 4), which divides by the root mean square of the vector and skips subtracting the mean (SLP3 §7.2.2 and §7.8).
 
 ## 8. Summary
 
@@ -235,7 +235,7 @@ With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 paramete
 |---|---|
 | Feature | An input variable, one column of the data table; inside a network, one node's value or one dimension of a word vector |
 | Observation | One record of the data, one row of the table; in a transformer, one word vector |
-| Normalisation | Transforming values to chosen statistics, usually mean 0 and variance 1 |
+| Normalisation (G-1348) | Transforming values to chosen statistics, usually mean 0 and variance 1 |
 | Batch normalisation | Standardising each feature over the observations of the mini-batch, then applying $\gamma$ and $\beta$ |
 | Layer normalisation | Standardising each observation over its features, then applying $\gamma_j$ and $\beta_j$ per feature |
 | Padding | Extra positions, here zero vectors, that make all sentences of a batch the same length |

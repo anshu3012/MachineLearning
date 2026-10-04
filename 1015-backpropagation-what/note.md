@@ -330,6 +330,6 @@ Updating after every single observation, as here, is **stochastic gradient desce
 | Backpropagation | The algorithm that trains a neural network: forward pass, loss, then the chain rule backwards to get every weight's gradient, then a gradient-descent update |
 | Linear activation | No activation: a node outputs its weighted sum plus bias unchanged |
 | Initialisation | Choosing the starting values of the weights and biases |
-| Gradient of the loss | The collection of the derivatives of the loss with respect to every weight and bias |
-| Convergence | The point where further updates no longer lower the loss |
-| tf.GradientTape | TensorFlow's tool that records a computation and returns its exact derivatives automatically |
+| Gradient of the loss (G-863) | The collection of the derivatives of the loss with respect to every weight and bias |
+| Convergence (G-469) | The point where further updates no longer lower the loss |
+| tf.GradientTape (G-88) | TensorFlow's tool that records a computation and returns its exact derivatives automatically |

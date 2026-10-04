@@ -17,12 +17,12 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/determinant
 
 > **Key point:** The eigenvalues of a matrix $A$ are the numbers $\lambda$ that make $A - \lambda I$ squish space flat, $\det(A - \lambda I) = 0$; the eigenvectors are the vectors it squishes to zero; and when there are enough of them, they form a basis in which $A$ is just a diagonal matrix.
 
-The [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4) defined eigenvectors and eigenvalues: an **eigenvector** (G-666) of a matrix is a vector the matrix only stretches or shrinks, without turning it, and its **eigenvalue** (G-665) is the stretch factor, so $A\mathbf{v} = \lambda\mathbf{v}$. Its Figure 4 showed this for the matrix $A$ with columns $[3, 0]$ and $[1, 2]$: $[1, 0]$ is stretched by 3 and $[-1, 1]$ by 2. There, NumPy found them.
+The [PCA step by step Note](../48-pca-step-by-step/note.md) (section 4) defined eigenvectors and eigenvalues: an **eigenvector** (G-666) of a matrix is a vector the matrix only stretches or shrinks, without turning it, and its **eigenvalue** (G-665) is the stretch factor, so $A\mathbf{v} = \lambda\mathbf{v}$. Its Figure 5 showed this for the matrix $A$ with columns $[3, 0]$ and $[1, 2]$: $[1, 0]$ is stretched by 3 and $[-1, 1]$ by 2. There, NumPy found them.
 
 This Note goes deeper, with the same matrix:
 
 - why eigenvectors come as whole lines, and what they tell us about a transformation (Section 2);
-- how to find eigenvalues and eigenvectors by hand (Sections 3 and 4, and Figures 3 and 4);
+- how to find eigenvalues and eigenvectors by hand (Sections 3 and 4, and Figures 4 and 5);
 - transformations with no eigenvectors, one line of them, or every vector (Section 5);
 - the eigenbasis, which turns a matrix into a diagonal one and makes its powers easy (Section 6).
 
@@ -48,13 +48,21 @@ So "the eigenvectors" really means whole lines of them: any non-zero multiple of
 
 Eigenvalues need not be positive. An eigenvalue of $-\tfrac{1}{2}$ means the eigenvector is flipped to point the other way and squished to half its length. What matters is that it stays on its line.
 
+A reflection shows both kinds at once (Figure 2). The matrix with rows $[0, 1]$ and $[1, 0]$ swaps the two components of every vector, which mirrors the plane across the line $y = x$.
+
+- A vector on the mirror line does not move: $[2, 2]$ lands on $[2, 2]$. It is an eigenvector with eigenvalue 1.
+- A vector at 90° to the mirror line is flipped to the other side: $[1, -1]$ lands on $[-1, 1] = -1 \times [1, -1]$. It stays on its line, so it is an eigenvector with eigenvalue $-1$.
+- Any other vector leaves its line: $[3, 1]$ lands on $[1, 3]$.
+
+![Reflection across the line y = x. Green: the two eigenvector lines, one kept in place (eigenvalue 1) and one flipped (eigenvalue −1). Red: [3, 1] is knocked off its line. Example after Khan Academy, "Introduction to eigenvalues and eigenvectors", with our own mirror line.](images/reflection.png){height=38%}
+
 ### 2.1 Why eigenvectors describe a transformation well
 
 > **Key point:** The columns of a matrix depend on the coordinate system; the eigenvectors and eigenvalues describe what the transformation itself does.
 
 Picture a rotation in 3D. Its $3 \times 3$ matrix is nine numbers that are hard to read. But a vector that stays on its own span during a rotation is the **axis of rotation** (G-241), and its eigenvalue must be 1, because a rotation never stretches anything. "Turn by some angle around this axis" is a far clearer description than nine numbers.
 
-Figure 2 shows one. The rotation turns space by up to 120° about the line through $[1, 1, 1]$. The three basis vectors sweep round on circles and leave their lines, but the green axis vector does not move at all: $R\mathbf{u} = 1 \cdot \mathbf{u}$. At 120° the rotation sends $\hat{\imath}$ to $\hat{\jmath}$, $\hat{\jmath}$ to $\hat{k}$ and $\hat{k}$ to $\hat{\imath}$, and NumPy confirms that 1 is its only real eigenvalue.
+Figure 3 shows one. The rotation turns space by up to 120° about the line through $[1, 1, 1]$. The three basis vectors sweep round on circles and leave their lines, but the green axis vector does not move at all: $R\mathbf{u} = 1 \cdot \mathbf{u}$. At 120° the rotation sends $\hat{\imath}$ to $\hat{\jmath}$, $\hat{\jmath}$ to $\hat{k}$ and $\hat{k}$ to $\hat{\imath}$, and NumPy confirms that 1 is its only real eigenvalue.
 
 ![A rotation about the axis through [1, 1, 1], from 0 to 120 degrees. Red: the basis vectors x, y and z, turned off their lines. Green: the axis, an eigenvector with eigenvalue 1, which never moves.](images/rotation_axis.gif)
 
@@ -91,7 +99,7 @@ Squishing space into a lower dimension is measured by the determinant.
 > 1. **In words:** multiply the diagonal entries and subtract the product of the other two.
 > 2. **Formula:**
 >    $$\det \begin{bmatrix} a & b \cr c & d \end{bmatrix} = ad - bc$$
-> 3. **Example:** for the matrix $A$ with rows $[3, 1]$ and $[0, 2]$, $\det A = 3 \times 2 - 1 \times 0 = 6$: the unit square becomes a parallelogram of area 6 (Figure 3, top left). For the squishing matrix with rows $[2, -1]$ and $[1, -0.5]$, $\det = 2 \times (-0.5) - (-1) \times 1 = 0$: zero area, the plane is flat.
+> 3. **Example:** for the matrix $A$ with rows $[3, 1]$ and $[0, 2]$, $\det A = 3 \times 2 - 1 \times 0 = 6$: the unit square becomes a parallelogram of area 6 (Figure 4, top left). For the squishing matrix with rows $[2, -1]$ and $[1, -0.5]$, $\det = 2 \times (-0.5) - (-1) \times 1 = 0$: zero area, the plane is flat.
 >
 > A determinant of 0 means the transformation squishes space into a lower dimension, and that is exactly when it has no inverse (see the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), section 7). In NumPy: `np.linalg.det(A)`.
 
@@ -101,7 +109,7 @@ $$\det(A - \lambda I) = 0$$
 
 ![Turning the knob $\lambda$: $A - \lambda I$ squishes the unit square flat exactly when $\lambda$ is an eigenvalue of $A$](images/det_knob.gif)
 
-Figure 3 shows this with a knob. As $\lambda$ turns from 0 upwards, $A - \lambda I$ changes, and so does the area of the parallelogram it makes from the unit square. The area hits 0, the square squished flat, at $\lambda = 2$ and again at $\lambda = 3$: the eigenvalues.
+Figure 4 shows this with a knob. As $\lambda$ turns from 0 upwards, $A - \lambda I$ changes, and so does the area of the parallelogram it makes from the unit square. The area hits 0, the square squished flat, at $\lambda = 2$ and again at $\lambda = 3$: the eigenvalues.
 
 ### 3.3 Two worked examples
 
@@ -112,13 +120,19 @@ Figure 3 shows this with a knob. As $\lambda$ turns from 0 upwards, $A - \lambda
    $$\det \begin{bmatrix} a - \lambda & b \cr c & d - \lambda \end{bmatrix} = (a - \lambda)(d - \lambda) - bc = 0$$
 3. **Example:** for $A$ with rows $[3, 1]$ and $[0, 2]$,
    $$\det(A - \lambda I) = (3 - \lambda)(2 - \lambda) - 1 \times 0 = (3 - \lambda)(2 - \lambda)$$
-   which is 0 only for $\lambda = 3$ and $\lambda = 2$, the two stretch factors of Section 2. This polynomial is the curve in Figure 3.
+   which is 0 only for $\lambda = 3$ and $\lambda = 2$, the two stretch factors of Section 2. This polynomial is the curve in Figure 4.
 
 A second matrix, with columns $[2, 1]$ and $[2, 3]$:
 
 $$\det \begin{bmatrix} 2 - \lambda & 2 \cr1 & 3 - \lambda \end{bmatrix} = (2 - \lambda)(3 - \lambda) - 2 = \lambda^2 - 5\lambda + 4 = (\lambda - 1)(\lambda - 4)$$
 
 So its eigenvalues are 1 and 4. An eigenvalue of 1 means its eigenvectors do not move at all: $[-2, 1]$ lands on $[2 \times (-2) + 2 \times 1,\ 1 \times (-2) + 3 \times 1] = [-2, 1]$. And $[1, 1]$ lands on $[4, 4]$, stretched by 4.
+
+A third matrix gives a negative eigenvalue by hand. For rows $[1, 2]$ and $[4, 3]$:
+
+$$\det \begin{bmatrix} 1 - \lambda & 2 \cr4 & 3 - \lambda \end{bmatrix} = (1 - \lambda)(3 - \lambda) - 8 = \lambda^2 - 4\lambda - 5 = (\lambda - 5)(\lambda + 1)$$
+
+So its eigenvalues are 5 and $-1$. $[1, 2]$ lands on $[1 + 4,\ 4 + 6] = [5, 10]$, stretched by 5. $[1, -1]$ lands on $[1 - 2,\ 4 - 3] = [-1, 1]$, flipped.
 
 > **Extra:** The polynomial $\det(A - \lambda I)$ is called the **characteristic polynomial** (G-376) of $A$. For an $n \times n$ matrix it has degree $n$, so there are at most $n$ eigenvalues. Real libraries do not solve this polynomial: finding polynomial roots is very sensitive to rounding errors, so eigenvalue routines use iterative methods instead (Trefethen and Bau, Lecture 25). The polynomial is the idea, not the algorithm.
 
@@ -135,7 +149,7 @@ Once we know an eigenvalue, the eigenvectors are the solutions of $(A - \lambda 
    $$A - 2I = \begin{bmatrix} 1 & 1 \cr0 & 0 \end{bmatrix}, \qquad \begin{bmatrix} 1 & 1 \cr0 & 0 \end{bmatrix}\begin{bmatrix} x \cr y \end{bmatrix} = \begin{bmatrix} x + y \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
    so $y = -x$: every vector on the line through $[-1, 1]$. For $\lambda = 3$, $A - 3I$ has rows $[0, 1]$ and $[0, -1]$, so $(A - 3I)[x, y] = [y, -y]$, which is zero only when $y = 0$: the x-axis.
 
-In Figure 3 (bottom left), $A - 2I$ squishes the plane onto the x-axis, and the line $y = -x$ is what it crushes to the origin. Figure 4 shows the squish happening. The grid and the vectors move from where they start to where $A - \lambda I$ sends them. For $\lambda = 2$, every green vector on the line through $[-1, 1]$ shrinks to the origin, while $[1, 1]$ survives as $[2, 0]$. For $\lambda = 3$, the whole x-axis is crushed instead.
+In Figure 4 (bottom left), $A - 2I$ squishes the plane onto the x-axis, and the line $y = -x$ is what it crushes to the origin. Figure 5 shows the squish happening. The grid and the vectors move from where they start to where $A - \lambda I$ sends them. For $\lambda = 2$, every green vector on the line through $[-1, 1]$ shrinks to the origin, while $[1, 1]$ survives as $[2, 0]$. For $\lambda = 3$, the whole x-axis is crushed instead.
 
 ![The plane moves under A − 2I (top) and A − 3I (bottom). Green: vectors on the eigenvector line, sent to the origin. Red: [1, 1], which is not an eigenvector and survives.](images/null_line.gif)
 
@@ -156,7 +170,7 @@ In Figure 3 (bottom left), $A - 2I$ squishes the plane onto the x-axis, and the 
 
 > **Key point:** A 2D transformation can have no real eigenvectors (rotation), only one line of them (shear), or every vector (uniform scaling).
 
-Figure 5 shows three special cases, each checked with the determinant.
+Figure 6 shows three special cases, each checked with the determinant.
 
 ![Three transformations with very different eigenvectors](images/special_cases.png)
 
@@ -209,11 +223,11 @@ Usually the basis vectors are not eigenvectors. But if a matrix has enough eigen
 
 ![A grid drawn along the eigenvectors $\mathbf e_1 = [1, 0]$ and $\mathbf e_2 = [-1, 1]$; applying $A$ only stretches its lines, so $\mathbf{v} = 1\thinspace\mathbf e_1 + 1\thinspace\mathbf e_2$ lands on $3\thinspace\mathbf e_1 + 2\thinspace\mathbf e_2$, then $9\thinspace\mathbf e_1 + 4\thinspace\mathbf e_2$](images/eigenbasis_grid.gif)
 
-Figure 6 shows why the eigenbasis makes $A$ diagonal. Watch the coordinates in the corner: in the grid of eigenvectors, $A$ multiplies the first coordinate by 3 and the second by 2 and never mixes them, which is exactly what $D$ does. Applying $A$ a second time multiplies them by 3 and 2 again, so $A^2$ is $D^2$ in eigen-coordinates.
+Figure 7 shows why the eigenbasis makes $A$ diagonal. Watch the coordinates in the corner: in the grid of eigenvectors, $A$ multiplies the first coordinate by 3 and the second by 2 and never mixes them, which is exactly what $D$ does. Applying $A$ a second time multiplies them by 3 and 2 again, so $A^2$ is $D^2$ in eigen-coordinates.
 
 Reading $P D^k P^{-1}$ from right to left (as in the [matrix multiplication as composition Note](../510-matrix-multiplication-as-composition/note.md)): convert to eigenbasis coordinates, scale each coordinate $k$ times, convert back.
 
-Not every matrix has an eigenbasis. The shear of Figure 5 has only one line of eigenvectors, not enough to span the plane, so it cannot be made diagonal this way. Writing a matrix as $PDP^{-1}$ is the **eigen-decomposition**, or **diagonalisation** (G-602), listed among the factorisations of the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md).
+Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of eigenvectors, not enough to span the plane, so it cannot be made diagonal this way. Writing a matrix as $PDP^{-1}$ is the **eigen-decomposition**, or **diagonalisation** (G-602), listed among the factorisations of the [linear algebra roadmap Note](../350-linear-algebra-roadmap/note.md).
 
 > **Python:** Checking the example.
 >
@@ -233,7 +247,7 @@ Not every matrix has an eigenbasis. The shear of Figure 5 has only one line of e
 
 > **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues are 1 and 0.4. Day after day, the 0.4 part shrinks to nothing ($0.4^{30}$ is about $10^{-12}$), and any starting split of users settles on the eigenvector of eigenvalue 1, scaled to sum to 1: $[0.833, 0.167]$. Google's original PageRank ranked web pages with exactly this kind of eigenvector (Page et al. 1999), and the trick of multiplying repeatedly to find the top eigenvector is called **power iteration** (G-1537).
 >
-> Figure 7 runs it. Two very different starting splits, all users on A or all on B, are multiplied by $T$ day after day. Each day the eigenvalue-0.4 part of the split shrinks to 0.4 times its size, so both splits slide onto the green eigenvector line and settle at $[0.833, 0.167]$ within about ten days.
+> Figure 8 runs it. Two very different starting splits, all users on A or all on B, are multiplied by $T$ day after day. Each day the eigenvalue-0.4 part of the split shrinks to 0.4 times its size, so both splits slide onto the green eigenvector line and settle at $[0.833, 0.167]$ within about ten days.
 
 ![Power iteration with the one-day matrix T. Left: each day's split of users as a point; both starting splits slide onto the green eigenvector of eigenvalue 1. Right: the share of users on page A settles at 0.833 from either start.](images/power_iteration.gif)
 
@@ -243,6 +257,8 @@ Not every matrix has an eigenbasis. The shear of Figure 5 has only one line of e
 |---|---|---|---|
 | columns $[3, 0]$, $[1, 2]$ | $(3 - \lambda)(2 - \lambda)$ | 3, 2 | x-axis; line through $[-1, 1]$ |
 | columns $[2, 1]$, $[2, 3]$ | $(\lambda - 1)(\lambda - 4)$ | 1, 4 | line through $[-2, 1]$; line through $[1, 1]$ |
+| rows $[1, 2]$, $[4, 3]$ | $(\lambda - 5)(\lambda + 1)$ | 5, $-1$ | line through $[1, 2]$; line through $[1, -1]$ |
+| reflection across $y = x$ | $\lambda^2 - 1$ | 1, $-1$ | line through $[1, 1]$; line through $[1, -1]$ |
 | rotation by 90° | $\lambda^2 + 1$ | none real | none |
 | shear | $(1 - \lambda)^2$ | 1 | x-axis only |
 | scaling by 2 | $(2 - \lambda)^2$ | 2 | every vector |
@@ -258,6 +274,8 @@ Not every matrix has an eigenbasis. The shear of Figure 5 has only one line of e
 **Built from**
 
 - Sanderson, G. (3Blue1Brown), "Eigenvectors and eigenvalues | Chapter 14, Essence of linear algebra", 2016, 3blue1brown.com/lessons/eigenvalues, https://www.youtube.com/watch?v=PFDu9oVAE-g
+- Khan Academy, "Introduction to eigenvalues and eigenvectors | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=PhfbEr2btGQ
+- Khan Academy, "Example solving for the eigenvalues of a 2x2 matrix | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=pZ6mMVEE89g
 
 **Other references**
 

@@ -93,7 +93,7 @@ The aim of the score is not to approximate some exact function; it is to find wh
 | general | $s_i^\top W_a h_j$ | one matrix $W_a$ |
 | concat | $v_a^\top \tanh(W_a [s_i; h_j])$ | $W_a$ and $v_a$, as in Bahdanau |
 
-The dot score requires $s_i$ and $h_j$ to have the same size; the general score lifts that requirement and lets the model learn which directions of similarity matter (SLP3 §14.8). Because the score multiplies the two states, this family is called **multiplicative attention** (G-1138; Vaswani et al. 2017, section 3.2.1).
+The dot score requires $s_i$ and $h_j$ to have the same size; the general score lifts that requirement and lets the model learn which directions of similarity matter (SLP3 §14.8). Because the score multiplies the two states, this family is called **multiplicative attention** (G-1137; Vaswani et al. 2017, section 3.2.1).
 
 1. **In words:** multiply the decoder state and each encoder state element by element and add up (dot), or first transform the encoder state by a learned matrix (general).
 2. **Formula:**
@@ -178,7 +178,7 @@ The Bahdanau numbers differ slightly from those of the [attention Note](../1069-
 
 ![Attention weights of the three trained models on the same real test sentence. Bahdanau and Luong dot both translate it exactly; Luong general puts all its weight on the final full stop](images/attention_three.png){width=100%}
 
-Figure 6 shows why the general model did badly. On the test sentence "she advised him to talk about his life in america .", the dot model's weights form a clean diagonal: "elle" looks at "she", "lui" at "him", "conseillé" at "advised", "parler" at "talk", "vie" at "life", "amérique" at "america". Bahdanau's model also forms a band, but it often sits to the right of the matching word ("parler" looks at "about"); with the same encoder, data and plotting code the dot model does not shift, so the shift is no plotting offset. Attention weights need not match a word alignment, and the same off-by-one attention has been reported in a trained Bahdanau-type system ([attention Note](../1069-attention-mechanism/note.md), section 8). The general model puts a weight of 1 on the final "." at every step. Its context vector is then the same at every step: the state of the last word, whose forward half has read the whole sentence. The model has turned itself back into a plain encoder–decoder with one fixed summary, and its translation of this sentence goes wrong at the end ("elle lui conseilla de parler en vie de sa vie .").
+Figure 6 shows why the general model did badly. On the test sentence "she advised him to talk about his life in america .", the dot model's weights form a clean diagonal: "elle" looks at "she", "lui" at "him", "conseillé" at "advised", "parler" at "talk", "vie" at "life", "amérique" at "america". Bahdanau's model also forms a band, but it often sits to the right of the matching word ("parler" looks at "about"). Attention weights need not match a word alignment, and the same off-by-one attention has been reported in a trained Bahdanau-type system ([attention Note](../1069-attention-mechanism/note.md), section 8). The general model puts a weight of 1 on the final "." at every step. Its context vector is then the same at every step: the state of the last word, whose forward half has read the whole sentence. The model has turned itself back into a plain encoder–decoder with one fixed summary, and its translation of this sentence goes wrong at the end ("elle lui conseilla de parler en vie de sa vie .").
 
 > **Extra:** Luong et al. (2015, Table 1) compared their full systems with earlier attention systems on English–German: with unknown-word replacement, their single model with global attention and the dot score reached 20.5 BLEU (Table 4) and their best single model, with local attention, 20.9, against 19.0 for an RNNsearch (Bahdanau-style) system of Jean et al. (2015) with the same replacement. Their systems differ in more than the attention (stacked LSTMs, reversed input, dropout), so the gap is not due to the score function alone.
 
@@ -216,7 +216,7 @@ Figure 6 shows why the general model did badly. On the test sentence "she advise
 | Term | Meaning |
 |---|---|
 | Bahdanau attention (additive) | Attention whose score is a one-hidden-layer network on the previous decoder state and an encoder state: $v^\top \tanh(W_a s_{i-1} + U_a h_j)$ |
-| Luong attention (multiplicative) | Attention whose score multiplies the current decoder state with an encoder state: $s_i^\top h_j$ or $s_i^\top W_a h_j$ |
+| Luong attention (multiplicative) (G-1137) | Attention whose score multiplies the current decoder state with an encoder state: $s_i^\top h_j$ or $s_i^\top W_a h_j$ |
 | Score function | The function that gives the raw score $e_{ij}$ of encoder state $j$ for decoder step $i$ |
 | Dot score | $s_i^\top h_j$; needs no parameters and states of equal size |
 | General score | $s_i^\top W_a h_j$, with a learned matrix $W_a$ |

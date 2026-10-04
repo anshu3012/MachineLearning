@@ -119,4 +119,4 @@ The die of Section 3 follows the same rule: $P(3 \text{ or } 6) = 1/6 + 1/6 = 1/
 |---|---|
 | Mutually exclusive events | Events that cannot happen at the same time; their intersection has probability 0 |
 | Union (A ∪ B) | The event that A or B (or both) happens |
-| Addition rule | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events, $P(A \cup B) = P(A) + P(B)$ |
+| Addition rule (G-173) | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events, $P(A \cup B) = P(A) + P(B)$ |

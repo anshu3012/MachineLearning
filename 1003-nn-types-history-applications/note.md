@@ -53,7 +53,7 @@ MLPs work on any supervised problem, regression or classification. Adding hidden
 
 An image is a grid of pixels, and what matters in it (an edge, a corner) is small and can sit anywhere. So the network looks at the image through a small window. In part 2 of Figure 2, a 3 × 3 filter slides over the digit one stop at a time; at each stop it writes one number, and the numbers form a new grid called a **feature map** (G-766).
 
-A layer that slides small filters over an image in this way is a **convolutional layer** (G-483), taught in the CNN Notes. A **convolutional neural network (CNN)** (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
+A layer that slides small filters over an image in this way is a **convolutional layer** (G-480), taught in the CNN Notes. A **convolutional neural network (CNN)** (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
 
 ### 2.3 Recurrent neural network (RNN) and LSTM
 
@@ -63,7 +63,7 @@ A sentence arrives one word at a time, and each word only makes sense with the w
 
 MLPs and CNNs have none. They are **feed-forward networks** (G-775): information moves in one direction only, from the first layer to the last. In a **recurrent neural network (RNN)** (G-1647), the output of a hidden layer is fed back into the network, so earlier inputs influence later ones. In part 3 of Figure 2, the words "the film was good" enter one by one; after each word the red loop carries the hidden layer's output back, and the hidden layer ends up holding all four words.
 
-A popular improved variant is the **LSTM** (G-1136) (long short-term memory). RNNs and LSTMs are used heavily in natural language processing: voice assistants such as Google Now, Siri and Cortana, and chatbots.
+A popular improved variant is the **LSTM** (G-1123) (long short-term memory). RNNs and LSTMs are used heavily in natural language processing: voice assistants such as Google Now, Siri and Cortana, and chatbots.
 
 ### 2.4 Autoencoder
 
@@ -292,11 +292,11 @@ GANs generate data that never existed: photos of people who never lived, a predi
 |---|---|
 | Multi-layer perceptron (MLP) | Many perceptrons organised in layers: input, hidden and output |
 | Convolutional neural network (CNN) | A network with at least one convolutional layer; the standard network for images |
-| Convolutional layer | A layer that slides small filters over an image |
-| Feature map | The grid of numbers a filter produces as it slides over the image |
+| Convolutional layer (G-480) | A layer that slides small filters over an image |
+| Feature map (G-766) | The grid of numbers a filter produces as it slides over the image |
 | Feed-forward network | A network in which information moves only from the first layer to the last |
 | Recurrent neural network (RNN) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence |
-| LSTM (long short-term memory) | An improved RNN that remembers over longer sequences |
+| LSTM (long short-term memory) (G-1123) | An improved RNN that remembers over longer sequences |
 | Autoencoder | A network with a narrow middle layer that learns to compress data and rebuild it |
 | Generative adversarial network (GAN) | A generator and a discriminator competing, so that the generator learns to create realistic new data |
 | Generator | The GAN network that creates new data |

@@ -51,7 +51,12 @@ Figure 1 is the level-curve picture of the [Lagrange multipliers Note](../620-la
 
 Figure 2 runs the ruler. Watch the thick orange part of the line: it is the set of plans that earn exactly $p$, and it shrinks to a single point at the last corner. The last frame previews Section 2.4.
 
-Because the answer is at a corner, checking the corners is enough for a small problem:
+A second way to see it needs no ruler. A corner of the region is called a **vertex** (G-2258).
+
+1. **Along an edge** the profit changes in a straight line. On the edge from $(3, 0)$ to $(3, 1)$ it rises evenly from 9 to 11. A point between two vertices always earns something in between, so it is never better than the better end.
+2. **Inside the region** there is still room to make a little more of A or of B, and each extra batch adds profit. So an inside point is never the best.
+
+Only the vertices are left. Because the answer is at a corner, checking the corners is enough for a small problem:
 
 | Corner | Profit $3x_1 + 2x_2$ |
 |---|---|
@@ -61,7 +66,18 @@ Because the answer is at a corner, checking the corners is enough for a small pr
 | $(1.5, 2.5)$ | 9.5 |
 | $(0, 3)$ | 6 |
 
-The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profit lines were parallel to an edge, every point of that edge would tie, but a corner would still be among the best points. Real solvers do not list corners; they use methods such as interior-point methods (Boyd and Vandenberghe, Ch. 11).
+The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profit lines were parallel to an edge, every point of that edge would tie, but a corner would still be among the best points. With many products and many constraints there are far too many vertices to list. The **simplex algorithm** (G-2259) avoids listing them: it walks from one vertex to a neighbouring vertex, and only ever to a better one. Figure 3 first cuts out the region one constraint at a time and then runs the walk on the workshop.
+
+1. Start at $(0, 0)$, profit 0.
+2. Choose a direction. A batch of A earns 3 and a batch of B earns 2, so move along $x_1$ until a constraint stops us: the vertex $(3, 0)$, profit 9.
+3. Look at the next neighbour, $(3, 1)$: profit 11, better. Move there.
+4. Look at the next neighbour, $(1.5, 2.5)$: profit 9.5, worse. No neighbour is better, so stop.
+
+The walk visited 3 of the 5 vertices and ends at the same answer as the table, $(3, 1)$ with profit 11. Stopping is safe because a linear program is a convex problem, and in a convex problem every local minimum is a global minimum (see the [convex sets and functions Note](../621-convex-sets-and-functions/note.md)): a vertex with no better neighbour is the best of all.
+
+![The workshop region cut out one constraint at a time (oven, flour, demand), then the walk from vertex to vertex: profit 0, 9, 11. The next vertex earns 9.5 (red), so the walk stops at $(3, 1)$. Idea after StatQuest, "Optimization with Linear Programming (and the Simplex Algorithm), Main Ideas!!!"; our own problem](images/simplex_walk.gif)
+
+Real solvers use the simplex algorithm or interior-point methods (for the latter, Boyd and Vandenberghe, Ch. 11).
 
 ### 2.3 The dual of a linear program
 
@@ -78,7 +94,7 @@ We follow the recipe of the [Lagrange multipliers Note](../620-lagrange-multipli
    $$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \cr-2 \end{bmatrix} + 2\begin{bmatrix} 1 \cr1 \end{bmatrix} + 1\begin{bmatrix} 1 \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
    The dual value is $-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 3 \times 1) = -11$, the same as the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. Strong duality holds, as it does for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
 
-Figure 3 shows what the equality $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$ means at the best corner. Each active constraint has a normal arrow pointing out of the region: $[1, 1]$ for the oven and $[1, 0]$ for demand. The profit direction $[3, 2]$ is 2 oven arrows plus 1 demand arrow. Every way of raising profit therefore pushes against an active wall, which is why no feasible move can improve on the corner; the weights 2 and 1 are the multipliers.
+Figure 4 shows what the equality $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$ means at the best corner. Each active constraint has a normal arrow pointing out of the region: $[1, 1]$ for the oven and $[1, 0]$ for demand. The profit direction $[3, 2]$ is 2 oven arrows plus 1 demand arrow. Every way of raising profit therefore pushes against an active wall, which is why no feasible move can improve on the corner; the weights 2 and 1 are the multipliers.
 
 ![The dual condition at the best corner (3, 1). The profit direction −c = [3, 2] (red) equals 2 times the oven normal [1, 1] (orange) plus 1 times the demand normal [1, 0] (green): non-negative weights, the multipliers 2 and 1.](images/lp_normals.png)
 
@@ -98,7 +114,7 @@ The multipliers are the shadow prices of the [Lagrange multipliers Note](../620-
 
 ![The best profit re-solved with one more unit of each resource. Oven: 13, up by 2. Flour: 11, unchanged. Demand: 12, up by 1. The rises are the multipliers.](images/shadow_bars.png)
 
-Figure 4 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
+Figure 5 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
 
 > **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (G-1374; one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
 
@@ -118,7 +134,7 @@ Figure 4 draws the last column of the table. Flour is not the bottleneck: 3 bags
 
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}
 
-Without constraints, the gradient $Q\mathbf{x} + \mathbf{c}$ is zero at $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. That point is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 5). It does not have to be a corner, as it would for a linear program.
+Without constraints, the gradient $Q\mathbf{x} + \mathbf{c}$ is zero at $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. That point is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 6). It does not have to be a corner, as it would for a linear program.
 
 ### 3.2 Solving it with the KKT conditions
 
@@ -130,7 +146,7 @@ $$2x_1 + x_2 - 8 + \lambda = 0, \qquad x_1 + 2x_2 - 7 + \lambda = 0, \qquad x_1 
 
 Subtracting the second from the first gives $x_1 - x_2 = 1$; with $x_1 + x_2 = 2$ this means $x_1 = 1.5$, $x_2 = 0.5$. Then $\lambda = 8 - 3 - 0.5 = 4.5$.
 
-Figure 6 shows the stationarity condition at the answer. The downhill direction $-\nabla f = [4.5, 4.5]$ points straight out of the edge, exactly $\lambda = 4.5$ times the edge's normal $[1, 1]$. It has no part along the edge, so sliding along the edge cannot lower $f$, and stepping out of the triangle is not allowed.
+Figure 7 shows the stationarity condition at the answer. The downhill direction $-\nabla f = [4.5, 4.5]$ points straight out of the edge, exactly $\lambda = 4.5$ times the edge's normal $[1, 1]$. It has no part along the edge, so sliding along the edge cannot lower $f$, and stepping out of the triangle is not allowed.
 
 ![The quadratic program at its answer (1.5, 0.5) (star). The downhill direction $-\nabla f = [4.5, 4.5]$ (red) is 4.5 times the normal of the active edge $x_1 + x_2 = 2$; the unconstrained minimum (3, 2) lies outside the triangle.](images/qp_kkt.png)
 
@@ -149,7 +165,7 @@ The checks of the **KKT conditions** (G-1013): both coordinates are positive, so
    $$\mathbf{x} = -\tfrac13 \begin{bmatrix} 2(-3.5) - (-2.5) \cr-(-3.5) + 2(-2.5) \end{bmatrix} = \begin{bmatrix} 1.5 \cr0.5 \end{bmatrix}, \qquad D = -\tfrac12 \times 6.5 - 4.5 \times 2 = -12.25$$
    where $6.5 = \tfrac13(2 \times 12.25 - 2 \times 8.75 + 2 \times 6.25)$. The dual maximum equals the primal minimum $-12.25$.
 
-Figure 7 draws $D$ along the edge multiplier, with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
+Figure 8 draws $D$ along the edge multiplier, with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
 
 ![The dual function of the quadratic program along the edge multiplier λ (the other two multipliers at 0): a concave curve below the primal minimum −12.25 (dashed), touching it at λ = 4.5.](images/qp_dual.png)
 
@@ -207,6 +223,7 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 **Built from**
 
 - Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020, Chapter 7.
+- StatQuest with Josh Starmer, "Optimization with Linear Programming (and the Simplex Algorithm), Main Ideas!!!", YouTube, https://www.youtube.com/watch?v=h5o1n1QMcmM (Section 2.2, Figure 3)
 
 **Other references**
 
@@ -218,6 +235,8 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
 | Term | Meaning |
 |---|---|
+| Vertex (G-2258) | A corner of the feasible region; a linear program always has a best point at a vertex |
+| Simplex algorithm (G-2259) | Solving a linear program by walking from vertex to neighbouring vertex, always to a better one, until no neighbour is better |
 | Linear program | Minimising a linear function subject to linear inequality constraints |
 | Polytope | The region where a set of linear inequalities all hold: a polygon in two dimensions |
 | Quadratic program | Minimising a convex quadratic function subject to linear inequality constraints |

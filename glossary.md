@@ -34,7 +34,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-28">G-28</span> | $h$ | The number of heads; 8 in the transformer. | [DL Note 1077](1077-multi-head-attention/note.md) |
 | <span id="G-29">G-29</span> | $h^{(l)}_t$ | The hidden state of layer $l$ at time step $t$. | [DL Note 1065](1065-deep-rnns/note.md) |
 | <span id="G-30">G-30</span> | $H_{\text{enc}}$ | The output of the last encoder block: one vector per input word, read by every decoder block. | [DL Note 1083](1083-transformer-decoder/note.md) |
-| <span id="G-31">G-31</span> | $H_{enc}$ | The encoder's final output, one row per input word. | [DL Note 1082](1082-cross-attention/note.md) |
 | <span id="G-32">G-32</span> | $N(\mu, \sigma^2)$ | A normal distribution with mean $\mu$ and variance $\sigma^2$. | [Maths Note 250](250-normal-distribution/note.md) |
 | <span id="G-33">G-33</span> | $O_{ij}$ | The output of node $j$ in layer $i$. | [DL Note 1008](1008-mlp-notation/note.md) |
 | <span id="G-34">G-34</span> | $P(X = x)$ | The probability that the random variable $X$ takes the value $x$. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
@@ -52,6 +51,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-46">G-46</span> | .dt accessor | The pandas tool that applies date and time methods to every value of a datetime column. | [Note 34](34-date-and-time/note.md) |
 | <span id="G-47">G-47</span> | .str accessor | The pandas tool that applies a text method to every value of a column. | [Note 33](33-mixed-variables/note.md) |
 | <span id="G-48">G-48</span> | 0-1 loss | A loss that counts 1 for every misclassified point and 0 for every correct one. | [DL Note 1006](1006-perceptron-loss/note.md) |
+| <span id="G-2236">G-2236</span> | 10% condition | When sampling without replacement, keep the sample at most 10% of the population so the observations are roughly independent. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | <span id="G-49">G-49</span> | 2D density plot | A plot of the joint density of two numerical columns, usually as filled contours. | [Maths Note 253](253-pdf-and-cdf-in-practice/note.md) |
 | <span id="G-50">G-50</span> | 3D scatter plot | A scatter plot of three numerical columns on three axes. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
 | <span id="G-51">G-51</span> | 4-3-2-1 network | A network described by its layer sizes, input first. | [DL Note 1008](1008-mlp-notation/note.md) |
@@ -88,9 +88,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-82">G-82</span> | `fillna` | The pandas method that replaces every `NaN` with a given value. | [Note 36](36-imputing-numerical-data/note.md) |
 | <span id="G-83">G-83</span> | `find`, `find_all` | Return the first matching tag, or a list of all matching tags. | [Note 18](18-web-scraping/note.md) |
 | <span id="G-84">G-84</span> | `fit` | Trains the model on given inputs and outputs for a number of epochs. | [DL Note 1011](1011-customer-churn-ann/note.md) |
-| <span id="G-86">G-86</span> | `get_weights()` | Returns a layer's weight matrix and bias vector. | [DL Note 1011](1011-customer-churn-ann/note.md) |
-| <span id="G-85">G-85</span> | `get_weights()` / `set_weights()` | Keras methods that read and replace a model's weight and bias arrays. | [DL Note 1029](1029-weight-initialization/note.md) |
-| <span id="G-87">G-87</span> | `get_weights` | Keras method that returns every weight and bias array of a model. | [DL Note 1026](1026-regularization-in-dl/note.md) |
+| <span id="G-85">G-85</span> | `get_weights()` / `set_weights()` | Keras methods that read and replace the weight and bias arrays of a model or a layer, as a list of arrays. | [DL Note 1029](1029-weight-initialization/note.md) |
 | <span id="G-88">G-88</span> | `GradientTape` | TensorFlow's tool that records a computation and returns its gradients automatically. | [DL Note 1047](1047-backpropagation-in-cnn/note.md) |
 | <span id="G-89">G-89</span> | `GridSearchCV` | The scikit-learn class that cross-validates every combination of settings in a grid and keeps the best. | [Note 29](29-pipelines/note.md) |
 | <span id="G-90">G-90</span> | `hp.Choice` | Declares a hyperparameter that takes one value from a list. | [DL Note 1039](1039-keras-tuner/note.md) |
@@ -100,12 +98,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-94">G-94</span> | `image_dataset_from_directory` | The Keras function that loads photos from class folders as batches of (images, labels). | [DL Note 1049](1049-cat-vs-dog-cnn/note.md) |
 | <span id="G-95">G-95</span> | `ImageDataGenerator` | The older, now deprecated Keras class for image augmentation. | [DL Note 1050](1050-data-augmentation/note.md) |
 | <span id="G-96">G-96</span> | `include_top=False` | The `keras.applications` option that loads a model without its dense top. | [DL Note 1053](1053-transfer-learning/note.md) |
-| <span id="G-97">G-97</span> | `Input` | The Keras object that stands for a model's input and fixes its shape. | [DL Note 1054](1054-keras-functional-api/note.md) |
+| <span id="G-97">G-97</span> | `Input` (`keras.Input`) | The Keras object that stands for a model's input and fixes the shape of one input row. | [DL Note 1054](1054-keras-functional-api/note.md) |
 | <span id="G-98">G-98</span> | `IterativeImputer` | scikit-learn's class for MICE; still experimental. | [Note 40](40-iterative-imputer-mice/note.md) |
 | <span id="G-99">G-99</span> | `json_normalize` | pandas function that turns nested JSON into flat columns. | [Note 17](17-fetching-data-from-api/note.md) |
 | <span id="G-100">G-100</span> | `keras.applications` | The Keras module that provides famous pretrained networks with their weights. | [DL Note 1051](1051-pretrained-models/note.md) |
 | <span id="G-101">G-101</span> | `keras.datasets.mnist` | Keras's built-in copy of MNIST, already split 60,000 / 10,000. | [DL Note 1012](1012-mnist-ann/note.md) |
-| <span id="G-102">G-102</span> | `keras.Input` | The first item of a Sequential model; gives the shape of one input row. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | <span id="G-103">G-103</span> | `keras.layers.Attention` | Keras' Luong-style dot-product attention layer. | [DL Note 1076](1076-why-self-attention/note.md) |
 | <span id="G-104">G-104</span> | `keras.optimizers.SGD` | Plain gradient descent in Keras, with a fixed learning rate. | [DL Note 1016](1016-backpropagation-how/note.md) |
 | <span id="G-105">G-105</span> | `kernel_initializer` | The `Dense` argument that chooses how a layer's weight matrix starts; default `glorot_uniform`. | [DL Note 1030](1030-xavier-he-initialization/note.md) |
@@ -139,13 +136,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-133">G-133</span> | `RepeatVector` | Keras layer that repeats one vector at several time steps. | [DL Note 1058](1058-types-of-rnn/note.md) |
 | <span id="G-134">G-134</span> | `reset_after` | Keras option: apply the reset gate after (default) or before the matrix product. | [DL Note 1064](1064-gru/note.md) |
 | <span id="G-135">G-135</span> | `restore_best_weights` | `EarlyStopping` setting that puts back the weights of the best epoch at the end. | [DL Note 1022](1022-early-stopping/note.md) |
-| <span id="G-136">G-136</span> | `return_sequences=True` | Makes a Keras recurrent layer return its hidden state at every time step; needed on every stacked layer but the last. | [DL Note 1065](1065-deep-rnns/note.md) |
-| <span id="G-137">G-137</span> | `return_sequences` | SimpleRNN argument: `False` returns the last hidden state, `True` returns every hidden state. | [DL Note 1057](1057-rnn-sentiment-analysis/note.md) |
+| <span id="G-136">G-136</span> | `return_sequences` | Argument of a Keras recurrent layer: `False` returns only the last hidden state, `True` returns the hidden state at every time step; `True` is needed on every stacked layer but the last. | [DL Note 1065](1065-deep-rnns/note.md) |
 | <span id="G-138">G-138</span> | `rho` | Keras' name for RMSProp's decay factor $\beta$; default 0.9. | [DL Note 1037](1037-rmsprop/note.md) |
 | <span id="G-139">G-139</span> | `same` padding | Just enough padding to keep the output the size of the input (with stride 1). | [DL Note 1043](1043-padding-and-strides/note.md) |
 | <span id="G-140">G-140</span> | `sample(n)` | The pandas method that draws `n` values at random from a Series or DataFrame. | [Note 38](38-missing-indicator-random-sample/note.md) |
 | <span id="G-141">G-141</span> | `sample_posterior` | Draw each fill at random from the model's spread, giving several plausible filled tables. | [Note 40](40-iterative-imputer-mice/note.md) |
-| <span id="G-142">G-142</span> | `set_weights` / `get_weights` | Keras methods to write and read a model's weights and biases, as a list of arrays. | [DL Note 1016](1016-backpropagation-how/note.md) |
 | <span id="G-143">G-143</span> | `shuffle=False` | Keras setting that keeps the rows in their original order in every epoch. | [DL Note 1016](1016-backpropagation-how/note.md) |
 | <span id="G-144">G-144</span> | `SimpleRNN` | The Keras layer for a basic RNN; input shape (batch size, time steps, input features). | [DL Note 1056](1056-rnn-forward-propagation/note.md) |
 | <span id="G-145">G-145</span> | `statistics_` | The fill values a fitted `SimpleImputer` has learned, one per column. | [Note 36](36-imputing-numerical-data/note.md) |
@@ -176,21 +171,21 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-170">G-170</span> | AdamW | Adam with true weight decay applied directly to the weights, not through the loss. | [DL Note 1026](1026-regularization-in-dl/note.md) |
 | <span id="G-171">G-171</span> | Adaptive learning rate | A learning rate that changes during training according to the gradients seen so far. | [DL Note 1036](1036-adagrad/note.md) |
 | <span id="G-172">G-172</span> | Add and norm | The step after each transformer sub-layer: LayerNorm(x + Sublayer(x)). | [DL Note 1079](1079-layer-normalization/note.md) |
-| <span id="G-173">G-173</span> | Addition rule | For mutually exclusive events, $P(A \cup B) = P(A) + P(B)$. | [Note 84](84-mutually-exclusive-events/note.md) |
+| <span id="G-173">G-173</span> | Addition rule (general addition rule) | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, for any two events; for mutually exclusive events the last term is 0, so $P(A \cup B) = P(A) + P(B)$. | [Note 84](84-mutually-exclusive-events/note.md) |
 | <span id="G-174">G-174</span> | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
 | <span id="G-175">G-175</span> | Adjusted Rand index (ARI) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random. | [Maths Note 640](640-gaussian-mixture-models/note.md) |
-| <span id="G-176">G-176</span> | Adjusted Rand score | A number that is 1.0 when two labelings group the points identically, whatever the label numbers. | [Note 130](130-kmeans-from-scratch/note.md) |
 | <span id="G-177">G-177</span> | Adjusted R² | R² with a penalty for the number of input columns. | [Note 52](52-regression-metrics/note.md) |
 | <span id="G-178">G-178</span> | Affine transformation | A linear transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | <span id="G-179">G-179</span> | Agent | The learner in reinforcement learning. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-180">G-180</span> | Agglomerative clustering | Bottom-up hierarchical clustering: start with one cluster per point and merge the closest pair repeatedly. | [Note 131](131-hierarchical-clustering/note.md) |
 | <span id="G-181">G-181</span> | AgglomerativeClustering | scikit-learn's class for agglomerative clustering. | [Note 131](131-hierarchical-clustering/note.md) |
 | <span id="G-182">G-182</span> | Aggregate | One summary number (mean, median, maximum, ...) computed from a group of values. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
-| <span id="G-183">G-183</span> | Aggregation | Combining the base models' predictions into one: mode for classes, mean for numbers. | [Note 105](105-bagging-intuition/note.md) |
+| <span id="G-183">G-183</span> | Aggregation (in an ensemble) | Combining the base models' predictions into one: mode for classes, mean for numbers. | [Note 105](105-bagging-intuition/note.md) |
 | <span id="G-184">G-184</span> | AGI (artificial general intelligence) | A machine with all the abilities of human intelligence. Does not exist yet. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-185">G-185</span> | AI winter | A period when funding and interest in AI collapse. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-186">G-186</span> | Alert | A warning in the report about a column that may need attention. | [Note 22](22-pandas-profiling/note.md) |
 | <span id="G-187">G-187</span> | AlexNet | The deep network on GPUs that won ImageNet 2012. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
+| <span id="G-2164">G-2164</span> | Algorithm chooser | A flowchart from a problem's properties to suitable algorithms. | [Note 1](01-course-map/note.md) |
 | <span id="G-191">G-191</span> | Alignment | Which input words each output word relates to; read from the cross-attention weights. | [DL Note 1082](1082-cross-attention/note.md) |
 | <span id="G-188">G-188</span> | Alignment grid | A plot of all $\alpha_{ij}$ of a sentence pair, output words against input words. | [DL Note 1069](1069-attention-mechanism/note.md) |
 | <span id="G-189">G-189</span> | Alignment model | The small feed-forward network that computes $e_{ij}$ from $s_{i-1}$ and $h_j$. | [DL Note 1069](1069-attention-mechanism/note.md) |
@@ -215,9 +210,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-208">G-208</span> | Arbitrary value imputation | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. | [Note 36](36-imputing-numerical-data/note.md) |
 | <span id="G-209">G-209</span> | Architecture (of a network) | How a network's nodes are connected: how many, of what kind, and which connections. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-210">G-210</span> | arg max | The value of the variable that makes an expression largest. | [Note 88](88-naive-bayes-maths/note.md) |
-| <span id="G-211">G-211</span> | Arg min | The value of a variable that makes an expression smallest, written $\arg\min$. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
+| <span id="G-211">G-211</span> | Arg min (argmin) | The value of a variable that makes an expression smallest, written $\arg\min$. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
 | <span id="G-212">G-212</span> | argmax | The position of the largest value; on 10 class probabilities, the predicted class. | [DL Note 1012](1012-mnist-ann/note.md) |
-| <span id="G-213">G-213</span> | argmin | The values of the variables that make an expression smallest. | [DL Note 1006](1006-perceptron-loss/note.md) |
 | <span id="G-214">G-214</span> | Array | The programming name for a tensor (as in NumPy). | [Note 11](11-tensors/note.md) |
 | <span id="G-215">G-215</span> | Artificial Intelligence (AI) | The field of building machines that show intelligence. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-216">G-216</span> | Artificial neural network (ANN) | The simplest neural network: neurons in layers, each layer connected to the next by weights. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
@@ -237,8 +231,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-230">G-230</span> | Autocorrelation | Each residual is related to the one before it in row order. | [Note 56](56-linear-regression-assumptions/note.md) |
 | <span id="G-231">G-231</span> | Autoencoder | A network with a narrow middle layer that learns to compress data and rebuild it. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-232">G-232</span> | Automatic differentiation | Software that computes exact derivatives of a program by the chain rule on its elementary operations; reverse mode is backpropagation. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
-| <span id="G-235">G-235</span> | Autoregressive | Producing one output at a time, each fed back as input for the next, as the decoder does during prediction. | [DL Note 1083](1083-transformer-decoder/note.md) |
-| <span id="G-233">G-233</span> | Autoregressive (causal) generation | Choosing each next word from the words already chosen. | [DL Note 1081](1081-masked-self-attention/note.md) |
+| <span id="G-233">G-233</span> | Autoregressive (causal) generation | Producing one output at a time, each chosen from the outputs already produced and fed back as input for the next. | [DL Note 1081](1081-masked-self-attention/note.md) |
 | <span id="G-234">G-234</span> | Autoregressive model | A model that generates a sequence one item at a time, each item conditioned on the items it generated before. | [DL Note 1081](1081-masked-self-attention/note.md) |
 | <span id="G-236">G-236</span> | Average linkage | Cluster distance = mean of all distances between the two clusters' points. | [Note 131](131-hierarchical-clustering/note.md) |
 | <span id="G-237">G-237</span> | Average meaning | What a static embedding stores: the word's meaning averaged over all its uses in the training corpus. | [DL Note 1072](1072-what-is-self-attention/note.md) |
@@ -255,7 +248,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-248">G-248</span> | Backward elimination | Feature selection that starts with all columns and removes the worst at a time. | [Note 23](23-what-is-feature-engineering/note.md) |
 | <span id="G-249">G-249</span> | Backward pass | Computing the gradient of the loss for every tensor, from the output back to the input. | [DL Note 1048](1048-backpropagation-cnn-layers/note.md) |
 | <span id="G-250">G-250</span> | Bag of words | Turning a text into a vector of word counts over the vocabulary. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
-| <span id="G-2154">G-2154</span> | Bagging | Averaging many models trained on different samples of the data to reduce variance. | [Note 62](62-bias-variance/note.md) |
 | <span id="G-251">G-251</span> | Bagging (bootstrap aggregation) | Averaging many models trained on different samples of the data to reduce variance. | [Note 101](101-ensemble-learning/note.md) |
 | <span id="G-252">G-252</span> | Bagging regressor | A bagging ensemble of regressors that predicts the mean of their predictions. | [Note 107](107-bagging-regressor/note.md) |
 | <span id="G-253">G-253</span> | BaggingClassifier | scikit-learn class for bagging, pasting, random subspaces and random patches in classification. | [Note 106](106-bagging-classifier/note.md) |
@@ -267,13 +259,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-259">G-259</span> | base environment | The environment the installer creates, holding conda itself. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-260">G-260</span> | Base model | One of the models inside an ensemble. | [Note 101](101-ensemble-learning/note.md) |
 | <span id="G-261">G-261</span> | Base prediction ($F_0$) | The first model of gradient boosting; for regression, the mean of the target. | [Note 120](120-gradient-boosting-intuition/note.md) |
+| <span id="G-2270">G-2270</span> | Baseline | A simple rule whose score a model must beat to show it has learned something. | [DL Note 1063](1063-lstm-next-word-prediction/note.md) |
 | <span id="G-262">G-262</span> | Basis | A linearly independent set of vectors that spans the whole space. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
-| <span id="G-268">G-268</span> | Batch | A small group of observations processed together, here 32 photos. | [DL Note 1049](1049-cat-vs-dog-cnn/note.md) |
 | <span id="G-263">G-263</span> | Batch (mini-batch) | A small group of training observations used for one update; Keras uses 32 by default. | [Note 60](60-mini-batch-gradient-descent/note.md) |
 | <span id="G-264">G-264</span> | Batch gradient descent | Gradient descent that uses all training rows for every update. | [Note 58](58-batch-gradient-descent/note.md) |
 | <span id="G-265">G-265</span> | Batch learning | Training on the whole dataset at once, offline, then deploying. | [Note 4](04-batch-learning/note.md) |
 | <span id="G-266">G-266</span> | Batch normalisation | A layer that re-centres and re-scales the values passing between layers during training. | [DL Note 1018](1018-vanishing-exploding-gradients/note.md) |
 | <span id="G-267">G-267</span> | Batch size | The number of rows in each batch; a hyperparameter. | [Note 60](60-mini-batch-gradient-descent/note.md) |
+| <span id="G-2215">G-2215</span> | Bayes factor | The ratio of the two likelihoods, $P(\text{evidence} \mid \text{yes}) / P(\text{evidence} \mid \text{no})$; it multiplies the prior odds to give the posterior odds. | [Note 86](86-bayes-problem/note.md) |
 | <span id="G-269">G-269</span> | Bayes' theorem | $P(A \mid B) = P(B \mid A) P(A) / P(B)$: the rule that reverses a conditional probability. | [Note 85](85-bayes-theorem/note.md) |
 | <span id="G-270">G-270</span> | Bayesian optimisation | Tuning that models the score as a function of the hyperparameters and uses all earlier trials to choose the next one. | [Note 134](134-optuna/note.md) |
 | <span id="G-271">G-271</span> | Bayesian statistics | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem. | [Note 85](85-bayes-theorem/note.md) |
@@ -289,7 +282,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-281">G-281</span> | best_score_ | The best mean cross-validated score found by a search. | [Note 29](29-pipelines/note.md) |
 | <span id="G-282">G-282</span> | Beta testing | Releasing a new version to a small group of trusted users first. | [Note 9](09-mldlc/note.md) |
 | <span id="G-283">G-283</span> | BFGS | The most used quasi-Newton update; keeps the Hessian stand-in symmetric and positive definite. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
-| <span id="G-287">G-287</span> | Bias | Error from a model being too simple to capture the true relationship. | [Note 62](62-bias-variance/note.md) |
+| <span id="G-287">G-287</span> | Bias (of a model) | Error from a model being too simple to capture the true relationship. | [Note 62](62-bias-variance/note.md) |
 | <span id="G-284">G-284</span> | Bias (of a perceptron) | The weight on a constant input of 1; it shifts the boundary away from the origin. | [DL Note 1004](1004-perceptron/note.md) |
 | <span id="G-285">G-285</span> | Bias correction | Dividing an EWMA started at 0 by $1 - \beta^t$ so it is not too small in the first steps. | [DL Note 1038](1038-adam/note.md) |
 | <span id="G-286">G-286</span> | Bias vector ($b^{k}$) | The biases of all nodes of layer $k$. | [DL Note 1010](1010-forward-propagation/note.md) |
@@ -300,6 +293,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-292">G-292</span> | Bidirectional RNN | Two RNNs reading a sequence in opposite directions, their hidden states joined at every time step. | [DL Note 1066](1066-bidirectional-rnn/note.md) |
 | <span id="G-293">G-293</span> | Big model | The paper's larger transformer: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, 213 million parameters. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
 | <span id="G-294">G-294</span> | Big picture | The end product and how it will be used, which decides the type of ML problem. | [Note 14](14-framing-ml-problem/note.md) |
+| <span id="G-2269">G-2269</span> | Bigram | A pair of consecutive words; the bigram rule guesses the word that most often follows the previous one. | [DL Note 1063](1063-lstm-next-word-prediction/note.md) |
 | <span id="G-295">G-295</span> | BiLSTM, BiGRU | A bidirectional RNN made of LSTM or GRU layers. | [DL Note 1066](1066-bidirectional-rnn/note.md) |
 | <span id="G-296">G-296</span> | Bimodal | A distribution with two peaks. | [Note 31](31-power-transformer/note.md) |
 | <span id="G-298">G-298</span> | Bin | One of the equal ranges a histogram splits the data into. | [Note 20](20-univariate-analysis/note.md) |
@@ -308,16 +302,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-300">G-300</span> | Binarization | Turning a continuous column into 0 or 1 by comparing it with one threshold. | [Note 32](32-binning-binarization/note.md) |
 | <span id="G-301">G-301</span> | Binarizer | scikit-learn's class for binarization, with parameters `threshold` and `copy`. | [Note 32](32-binning-binarization/note.md) |
 | <span id="G-302">G-302</span> | Binary classifier | A model that separates exactly two classes. | [DL Note 1004](1004-perceptron/note.md) |
-| <span id="G-303">G-303</span> | Binary cross entropy (log loss) | The average cross entropy for two classes, the loss function of logistic regression. | [Note 73](73-log-loss/note.md) |
-| <span id="G-304">G-304</span> | Binary cross-entropy | The log loss $-y\log a - (1 - y)\log(1 - a)$ used for two classes. | [DL Note 1047](1047-backpropagation-in-cnn/note.md) |
+| <span id="G-303">G-303</span> | Binary cross entropy (log loss) | The average cross entropy for two classes, $-y\log a - (1 - y)\log(1 - a)$ per row; the loss function of logistic regression. | [Note 73](73-log-loss/note.md) |
 | <span id="G-305">G-305</span> | Binary file | A file that is not plain text, such as a saved model. | [Note 9](09-mldlc/note.md) |
 | <span id="G-306">G-306</span> | Binary image classification | Sorting photos into one of two classes, such as cat or dog. | [DL Note 1049](1049-cat-vs-dog-cnn/note.md) |
 | <span id="G-307">G-307</span> | Binning | Grouping a numerical column into ranges that act as categories. | [Note 23](23-what-is-feature-engineering/note.md) |
 | <span id="G-308">G-308</span> | Binomial distribution | The distribution of the number of successes in $n$ independent trials with the same success probability. | [Note 102](102-voting-ensemble/note.md) |
 | <span id="G-309">G-309</span> | Binomial experiment | A fixed number $n$ of independent Bernoulli trials with the same success probability $p$. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
+| <span id="G-2246">G-2246</span> | Binomial test (exact test) | A test of a proportion that adds up binomial probabilities of every count as rare as the observed one or rarer. | [Maths Note 570](570-choosing-a-hypothesis-test/note.md) |
 | <span id="G-310">G-310</span> | Bivariate analysis | Studying two variables together. | [Note 20](20-univariate-analysis/note.md) |
-| <span id="G-312">G-312</span> | Black box | A model whose inner workings are hidden: we see only its inputs and outputs. | [DL Note 1052](1052-visualizing-cnn/note.md) |
-| <span id="G-311">G-311</span> | Black box model | A model that gives predictions without showing how each input contributed. | [Note 91](91-knn/note.md) |
+| <span id="G-311">G-311</span> | Black box model (black box) | A model whose inner workings are hidden: it gives predictions without showing how each input contributed. | [Note 91](91-knn/note.md) |
 | <span id="G-313">G-313</span> | Blank map | A feature map that is entirely zero for a given photo: its pattern is nowhere in the photo. | [DL Note 1052](1052-visualizing-cnn/note.md) |
 | <span id="G-314">G-314</span> | Blending | Stacking in which the meta-model is trained on the base models' predictions for a hold-out validation set. | [Note 127](127-stacking-blending/note.md) |
 | <span id="G-315">G-315</span> | BLEU score | A measure of translation quality: how many word sequences of a translation match a human reference. | [DL Note 1067](1067-history-of-llms/note.md) |
@@ -341,11 +334,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-333">G-333</span> | Broadcasting | NumPy stretching a scalar (or smaller array) to match a bigger array before an operation. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | <span id="G-334">G-334</span> | Buying behaviour | The pattern of what a customer buys. | [Note 8](08-applications-of-ml/note.md) |
 | <span id="G-335">G-335</span> | Byte pair encoding (BPE) | A way to build a vocabulary by repeatedly merging the most frequent pair of symbols. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
-| <span id="G-337">G-337</span> | C | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Note 81](81-logistic-hyperparameters/note.md) |
+| <span id="G-337">G-337</span> | C (LogisticRegression) | The inverse of the regularisation strength in LogisticRegression; smaller C means stronger regularisation. | [Note 81](81-logistic-hyperparameters/note.md) |
 | <span id="G-336">G-336</span> | C (SVM) | The weight on the classification error; a large C means few mistakes and a narrow margin, a small C a wide margin. | [Note 94](94-svm-soft-margin/note.md) |
 | <span id="G-338">G-338</span> | Cache memory | A small, fast memory inside the processor that holds data used again and again. | [Note 123](123-xgboost-intro/note.md) |
 | <span id="G-339">G-339</span> | Calculus | The branch of mathematics about change: differentiation and integration. | [Maths Note 440](440-role-of-maths-in-ml/note.md) |
 | <span id="G-340">G-340</span> | CalibratedClassifierCV | scikit-learn wrapper that gives a classifier, such as an SVM, calibrated probabilities. | [Note 103](103-voting-classifier/note.md) |
+| <span id="G-2223">G-2223</span> | California housing data | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn. | [Note 99](99-regression-trees/note.md) |
 | <span id="G-341">G-341</span> | Callback | An object whose code Keras runs at set points during training, for example after every epoch. | [DL Note 1022](1022-early-stopping/note.md) |
 | <span id="G-342">G-342</span> | Candidate cell state ($\tilde c_t$) | Output of the tanh layer: new values that could be added to the cell state. | [DL Note 1062](1062-lstm-architecture/note.md) |
 | <span id="G-343">G-343</span> | Candidate hidden state ($\tilde h_t$) | The proposed new memory, built by a tanh layer from the reset memory and the input. | [DL Note 1064](1064-gru/note.md) |
@@ -354,16 +348,14 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-346">G-346</span> | cars.csv | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders. | [Note 100](100-dtreeviz/note.md) |
 | <span id="G-347">G-347</span> | CART | Classification and regression trees: the tree algorithm used for both kinds of problem. | [Note 97](97-decision-trees-intuition/note.md) |
 | <span id="G-348">G-348</span> | CatBoost | Yandex's gradient boosting library, with built-in handling of categorical columns. | [Note 123](123-xgboost-intro/note.md) |
-| <span id="G-349">G-349</span> | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class). | [Note 79](79-softmax-regression/note.md) |
-| <span id="G-350">G-350</span> | Categorical cross-entropy | $-\sum_j y_j \log \hat{y}_j$ with one-hot labels; the loss for more than two classes, with a softmax output. | [DL Note 1014](1014-dl-loss-functions/note.md) |
+| <span id="G-349">G-349</span> | Categorical cross entropy | $-\sum_j y_j \log \hat{y}_j$ with one-hot labels: the average of −log(probability of the true class); the loss for more than two classes, with a softmax output. | [Note 79](79-softmax-regression/note.md) |
 | <span id="G-351">G-351</span> | Categorical data (categorical column) | Data made of categories: labels rather than numbers. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-352">G-352</span> | Categorical distribution | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
 | <span id="G-353">G-353</span> | CategoricalNB | scikit-learn's Naive Bayes for categorical inputs. | [Note 89](89-naive-bayes-code/note.md) |
 | <span id="G-354">G-354</span> | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order. | [Note 26](26-ordinal-label-encoding/note.md) |
 | <span id="G-356">G-356</span> | Category | One of the fixed groups of a categorical column. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-355">G-355</span> | Category share | The rows in one category divided by the rows that have a value. | [Note 37](37-missing-categorical-data/note.md) |
-| <span id="G-357">G-357</span> | Causal (look-ahead) mask | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it. | [DL Note 1081](1081-masked-self-attention/note.md) |
-| <span id="G-358">G-358</span> | Causal mask | The mask that stops each position from attending to later positions; used in training and at inference. | [DL Note 1084](1084-transformer-inference/note.md) |
+| <span id="G-357">G-357</span> | Causal (look-ahead) mask | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it; used in training and at inference. | [DL Note 1081](1081-masked-self-attention/note.md) |
 | <span id="G-359">G-359</span> | Causation | A cause-and-effect relationship: changing one thing changes the other. | [Maths Note 231](231-covariance-and-correlation/note.md) |
 | <span id="G-360">G-360</span> | ccp_alpha | Cost-complexity pruning strength: the penalty per leaf when a grown tree is pruned back. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | <span id="G-362">G-362</span> | Cell | One block of a notebook, holding either code or Markdown. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
@@ -379,6 +371,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-370">G-370</span> | Chain rule with Jacobians | The Jacobian of a composition is the product of the Jacobians, in the same order. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | <span id="G-372">G-372</span> | Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3. | [Note 45](45-feature-construction-splitting/note.md) |
 | <span id="G-373">G-373</span> | Chained equations | One prediction model per column, each using the latest fills of the others. | [Note 40](40-iterative-imputer-mice/note.md) |
+| <span id="G-2272">G-2272</span> | Change $\Delta e$ | The attention output read as an update: it is added to the word's own vector by the residual connection. | [DL Note 1075](1075-self-attention-geometric-intuition/note.md) |
 | <span id="G-374">G-374</span> | Change of basis matrix | A matrix $P$ whose columns are the new basis vectors. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | <span id="G-375">G-375</span> | Channel | One colour layer of an image (red, green or blue). | [Note 11](11-tensors/note.md) |
 | <span id="G-376">G-376</span> | Characteristic polynomial | $\det(A - \lambda I)$; its roots are the eigenvalues. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
@@ -393,7 +386,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-385">G-385</span> | Chunk | A piece of a file, read as a small DataFrame. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-387">G-387</span> | Churn | Customers leaving a platform or service. | [Note 14](14-framing-ml-problem/note.md) |
 | <span id="G-386">G-386</span> | Churn rate | The percentage of customers who leave during a given period. | [Note 14](14-framing-ml-problem/note.md) |
-| <span id="G-389">G-389</span> | Class | An attribute that labels tags; used to select the right ones. | [Note 18](18-web-scraping/note.md) |
+| <span id="G-389">G-389</span> | Class (HTML) | An attribute that labels tags; used to select the right ones. | [Note 18](18-web-scraping/note.md) |
 | <span id="G-388">G-388</span> | Class prior | The share of training rows in a class. | [Note 87](87-naive-bayes-intuition/note.md) |
 | <span id="G-390">G-390</span> | class_sep | make_classification setting for how far apart the classes are. | [Note 71](71-perceptron-code/note.md) |
 | <span id="G-391">G-391</span> | class_weight | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes. | [Note 81](81-logistic-hyperparameters/note.md) |
@@ -441,9 +434,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-433">G-433</span> | Compression | Storing data in less space. | [Note 11](11-tensors/note.md) |
 | <span id="G-434">G-434</span> | Computation graph | A function broken into elementary steps, each a node, with arrows for the flow of values. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | <span id="G-435">G-435</span> | Concat score | $v_a^\top \tanh(W_a[s_i; h_j])$, the additive form. | [DL Note 1070](1070-bahdanau-vs-luong-attention/note.md) |
-| <span id="G-437">G-437</span> | Concatenation | Placing two vectors one after the other to form one longer vector. | [DL Note 1066](1066-bidirectional-rnn/note.md) |
 | <span id="G-436">G-436</span> | Concatenation ($[h_{t-1}, x_t]$) | Joining two vectors end to end into one longer vector. | [DL Note 1062](1062-lstm-architecture/note.md) |
 | <span id="G-438">G-438</span> | Concave function | The negative of a convex function; every chord lies on or below its graph. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
+| <span id="G-2256">G-2256</span> | Concave up, concave down | Calculus names for a cup-shaped (convex) and a hump-shaped (concave) part of a curve. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
+| <span id="G-2165">G-2165</span> | Concept | One idea on the Course map. | [Note 1](01-course-map/note.md) |
+| <span id="G-2162">G-2162</span> | Concept map | How Concepts are connected by Links. | [Note 1](01-course-map/note.md) |
 | <span id="G-439">G-439</span> | conda | A package and environment manager for Python and other software. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-440">G-440</span> | conda-forge | A free, community-run conda channel. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-441">G-441</span> | Condition number | $\sigma_1 / \sigma_n$: how much a matrix can magnify errors when we solve with it. | [Maths Note 611](611-computing-the-svd/note.md) |
@@ -457,6 +452,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-449">G-449</span> | Confusion matrix | A table counting predictions for every pair of actual and predicted class. | [Note 76](76-accuracy-confusion-matrix/note.md) |
 | <span id="G-450">G-450</span> | Connection object | The open link to a database (`conn`) that queries go through. | [Note 16](16-working-with-json-and-sql/note.md) |
 | <span id="G-451">G-451</span> | Connector | A library that lets Python talk to a database. | [Note 16](16-working-with-json-and-sql/note.md) |
+| <span id="G-2238">G-2238</span> | Conservative degrees of freedom | The hand-calculation shortcut $\min(n_1, n_2) - 1$ for a two-sample t-test; Welch's formula is closer to exact. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | <span id="G-452">G-452</span> | Consistency (of an estimator) | Getting closer to the true parameter value as the amount of data grows. | [Maths Note 631](631-maximum-likelihood-estimation/note.md) |
 | <span id="G-453">G-453</span> | Constituency parsing | Finding the grammatical tree of a sentence: its phrases and how they nest. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
 | <span id="G-454">G-454</span> | Constrained form | Writing regularisation as a hard limit on the size of the coefficients. | [Note 66](66-ridge-key-points/note.md) |
@@ -475,8 +471,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-467">G-467</span> | Continuous uniform distribution $U(a, b)$ | A continuous variable spread evenly between $a$ and $b$, with density $1/(b - a)$. | [Maths Note 261](261-uniform-and-log-normal/note.md) |
 | <span id="G-468">G-468</span> | Contour plot | A map of a surface seen from above, with lines joining points of equal height. | [Note 57](57-gradient-descent/note.md) |
 | <span id="G-469">G-469</span> | Converge | To settle at a minimum, with steps becoming negligible. | [Note 57](57-gradient-descent/note.md) |
-| <span id="G-472">G-472</span> | Convergence | The point where the fills hardly change between two iterations. | [Note 40](40-iterative-imputer-mice/note.md) |
 | <span id="G-470">G-470</span> | Convergence (k-means) | The point where the centroids stop moving between rounds, so the algorithm stops. | [Note 128](128-kmeans-intuition/note.md) |
+| <span id="G-472">G-472</span> | Convergence (MICE) | The point where the fills hardly change between two iterations. | [Note 40](40-iterative-imputer-mice/note.md) |
 | <span id="G-471">G-471</span> | Convergence speed | How many epochs a method needs to reach a good solution, as opposed to the time per epoch. | [DL Note 1020](1020-gradient-descent-in-neural-networks/note.md) |
 | <span id="G-473">G-473</span> | ConvergenceWarning | A warning that the solver stopped at max_iter before reaching the minimum. | [Note 81](81-logistic-hyperparameters/note.md) |
 | <span id="G-474">G-474</span> | Conversion rate | The share of people reached who become customers. | [Note 8](08-applications-of-ml/note.md) |
@@ -488,9 +484,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-480">G-480</span> | Convolution layer | A layer that slides small filters over its input to find features. | [DL Note 1040](1040-cnn-intuition/note.md) |
 | <span id="G-481">G-481</span> | Convolution operation | Sliding a filter over an input, multiplying cell by cell and adding at each position. | [DL Note 1042](1042-convolution-operation/note.md) |
 | <span id="G-482">G-482</span> | Convolutional base | The convolution and pooling layers of a CNN, which find features in the image. | [DL Note 1053](1053-transfer-learning/note.md) |
-| <span id="G-483">G-483</span> | Convolutional layer | A layer that slides small filters over an image. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-484">G-484</span> | Convolutional neural network (CNN) | A network with at least one convolutional layer; the standard network for images. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-485">G-485</span> | Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. | [Note 68](68-lasso-sparsity/note.md) |
+| <span id="G-2241">G-2241</span> | Coordinates (of a vector) | Its components read as walking instructions from the origin to the tip. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | <span id="G-486">G-486</span> | Core point | A point with at least MinPts points within eps. | [Note 132](132-dbscan/note.md) |
 | <span id="G-487">G-487</span> | Corrected resampled t-test | A paired t-test for cross-validation scores that allows for the overlap between training sets. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | <span id="G-490">G-490</span> | Correlation | How two columns move together, from -1 to +1. | [Note 19](19-understanding-your-data/note.md) |
@@ -498,8 +494,10 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-489">G-489</span> | Correlation test | A t-test of $H_0: \rho = 0$, using $t = r\sqrt{n-2}/\sqrt{1-r^2}$ with $n - 2$ degrees of freedom. | [Maths Note 570](570-choosing-a-hypothesis-test/note.md) |
 | <span id="G-491">G-491</span> | Cosine similarity | The cosine of the angle between two vectors, from -1 to 1. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | <span id="G-492">G-492</span> | Cost function | Another name for the loss function, read as a function of the model's parameters. | [Maths Note 590](590-convex-and-non-convex-cost-functions/note.md) |
+| <span id="G-2222">G-2222</span> | Cost-complexity pruning | Growing a tree fully, then cutting back the leaves that buy the least fit: keep the subtree with the lowest leaf impurity + $\alpha$ × number of leaves. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | <span id="G-493">G-493</span> | Cost-sensitive learning | Changing the learning so that mistakes on some classes cost more. | [Note 133](133-imbalanced-data/note.md) |
 | <span id="G-494">G-494</span> | Count plot | A bar chart with one bar per category, as tall as its frequency. | [Note 20](20-univariate-analysis/note.md) |
+| <span id="G-2160">G-2160</span> | Course map | The overview that ties all Notes together, in four views. | [Note 1](01-course-map/note.md) |
 | <span id="G-496">G-496</span> | Covariance | How two columns move together: positive if they rise together, negative if not. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-495">G-495</span> | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the columns. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-497">G-497</span> | Covariate shift | A change in the distribution of a model's inputs while the input-output relationship stays the same. | [DL Note 1031](1031-batch-normalization/note.md) |
@@ -545,7 +543,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-536">G-536</span> | Data matrix | The feature vectors of a dataset stacked as rows. | [Maths Note 500](500-linear-transformations-and-matrices/note.md) |
 | <span id="G-537">G-537</span> | Data mining | Using ML on data to extract patterns too hidden for graphs. | [Note 1](01-what-is-ml/note.md) |
 | <span id="G-538">G-538</span> | Data pipeline | A channel that carries data from one point to another. | [Note 17](17-fetching-data-from-api/note.md) |
-| <span id="G-539">G-539</span> | Data preprocessing | Changes made to the data before training, so an algorithm can use it. | [Note 9](09-mldlc/note.md) |
+| <span id="G-539">G-539</span> | Data preprocessing (preprocessing) | Cleaning and preparing the data before training, so an algorithm can use it. | [Note 9](09-mldlc/note.md) |
 | <span id="G-540">G-540</span> | Data type (dtype) | The kind of values a column holds, such as `int64`, `float64` or `str`. | [Note 19](19-understanding-your-data/note.md) |
 | <span id="G-541">G-541</span> | Data warehouse | A separate store of copied company data, safe to analyse without touching the live database. | [Note 9](09-mldlc/note.md) |
 | <span id="G-544">G-544</span> | Database | A program that stores data as tables and answers queries. | [Note 16](16-working-with-json-and-sql/note.md) |
@@ -575,8 +573,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-567">G-567</span> | Deep belief network | Hinton's 2006 many-layered network, trained with unsupervised pre-training. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-568">G-568</span> | Deep Learning (DL) | Machine Learning that uses neural networks with many layers; finds features by itself. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-569">G-569</span> | Deep LSTM, deep GRU | A deep RNN whose recurrent layers are LSTM or GRU layers. | [DL Note 1065](1065-deep-rnns/note.md) |
-| <span id="G-570">G-570</span> | Deep network | A neural network with many hidden layers. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
-| <span id="G-571">G-571</span> | Deep neural network | A neural network with many hidden layers. | [DL Note 1018](1018-vanishing-exploding-gradients/note.md) |
+| <span id="G-570">G-570</span> | Deep network (deep neural network) | A neural network with many hidden layers. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-572">G-572</span> | Deep reinforcement learning | Reinforcement learning with deep neural networks. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-573">G-573</span> | Deep RNN (stacked RNN) | An RNN with two or more recurrent layers stacked on top of each other, all unfolded through time. | [DL Note 1065](1065-deep-rnns/note.md) |
 | <span id="G-574">G-574</span> | Default direction | The side of a split that rows with a missing value follow. | [Note 123](123-xgboost-intro/note.md) |
@@ -597,8 +594,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-589">G-589</span> | Density-connected | Linked by a chain of core points with every step at most eps. | [Note 132](132-dbscan/note.md) |
 | <span id="G-590">G-590</span> | Dependent events | Events that are not independent: knowing one changes the probability of the other. | [Note 83](83-independent-events/note.md) |
 | <span id="G-591">G-591</span> | Dependent variable | The output column (y). | [Note 13](13-toy-project/note.md) |
-| <span id="G-592">G-592</span> | Deploy | Move a model from development to production. | [Note 4](04-batch-learning/note.md) |
-| <span id="G-593">G-593</span> | Deployment | Putting a model on a server so users can reach it. | [Note 7](07-challenges-in-ml/note.md) |
+| <span id="G-592">G-592</span> | Deployment (deploy, model deployment) | Moving a model from development to production: putting it on a server so users can reach it. | [Note 4](04-batch-learning/note.md) |
 | <span id="G-594">G-594</span> | Depth | The number of questions on the longest path from a tree's root to a leaf. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | <span id="G-595">G-595</span> | Derivative | The slope of a function at a point. | [Note 51](51-linear-regression-maths/note.md) |
 | <span id="G-596">G-596</span> | Descriptive statistics | Numbers that summarise data, such as count, mean, spread and percentiles. | [Note 19](19-understanding-your-data/note.md) |
@@ -633,20 +629,20 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-625">G-625</span> | Distributed computing | Sharing one job between several machines (nodes), coordinated by a master node. | [Note 123](123-xgboost-intro/note.md) |
 | <span id="G-626">G-626</span> | Distribution | How a column's values spread over their range. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-627">G-627</span> | Distributive law | $a \cdot (b + c) = a \cdot b + a \cdot c$. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
-| <span id="G-628">G-628</span> | Diverge | To move further away with each step, the loss growing instead of shrinking. | [Note 57](57-gradient-descent/note.md) |
-| <span id="G-629">G-629</span> | Divergence | Updates that overshoot more and more, so the parameter and the loss run away. | [DL Note 1017](1017-backpropagation-why/note.md) |
+| <span id="G-628">G-628</span> | Diverge (divergence) | To move further away with each step: the updates overshoot more and more, so the loss grows instead of shrinking. | [Note 57](57-gradient-descent/note.md) |
 | <span id="G-630">G-630</span> | Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly. | [Note 131](131-hierarchical-clustering/note.md) |
 | <span id="G-632">G-632</span> | Domain | The set of allowed inputs of a function. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | <span id="G-631">G-631</span> | Domain knowledge | Knowledge of the field the data comes from. | [Note 23](23-what-is-feature-engineering/note.md) |
 | <span id="G-633">G-633</span> | Donor | A row that has a value in the column being filled, so it can be a neighbour. | [Note 39](39-knn-imputer/note.md) |
+| <span id="G-2230">G-2230</span> | Dot plot | A frequency table drawn with one dot per observation, stacked over its value. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
 | <span id="G-634">G-634</span> | Dot product | Multiply matching components of two vectors and add; $u^{\mathsf T}x$. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-635">G-635</span> | Dot score | $s_i^\top h_j$; needs no parameters and states of equal size. | [DL Note 1070](1070-bahdanau-vs-luong-attention/note.md) |
 | <span id="G-636">G-636</span> | Downsampling | Reducing the height and width of a feature map. | [DL Note 1044](1044-pooling/note.md) |
+| <span id="G-2167">G-2167</span> | Draft / confirmed | Guessed from titles / checked against a written Note. | [Note 1](01-course-map/note.md) |
 | <span id="G-637">G-637</span> | dropna | The pandas method that drops rows (or columns) with missing values. | [Note 35](35-complete-case-analysis/note.md) |
 | <span id="G-639">G-639</span> | Dropout | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. | [DL Note 1024](1024-dropout/note.md) |
 | <span id="G-638">G-638</span> | Dropout rate ($p$) | The probability that each node of a layer is switched off in a training step. | [DL Note 1024](1024-dropout/note.md) |
 | <span id="G-640">G-640</span> | dtreeviz | A Python library that draws decision trees with the training data shown at every node. | [Note 100](100-dtreeviz/note.md) |
-| <span id="G-641">G-641</span> | dtype | The data type of a column, such as `int64`, `float64` or `str`. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-642">G-642</span> | Dual problem | Maximise the dual function $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$ over multipliers $\boldsymbol{\lambda} \ge 0$. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | <span id="G-643">G-643</span> | Dual vector | The vector whose dot product computes a given linear transformation to numbers. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | <span id="G-644">G-644</span> | Duality | The correspondence between vectors and linear transformations to numbers: each is a dot product with exactly one vector. | [Maths Note 520](520-dot-product-and-duality/note.md) |
@@ -655,7 +651,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-646">G-646</span> | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1. | [Note 27](27-one-hot-encoding/note.md) |
 | <span id="G-648">G-648</span> | Duplicate row | A row identical to another row in every column. | [Note 19](19-understanding-your-data/note.md) |
 | <span id="G-649">G-649</span> | Durbin-Watson statistic | A number from 0 to 4 measuring autocorrelation of residuals; about 2 means none. | [Note 56](56-linear-regression-assumptions/note.md) |
-| <span id="G-651">G-651</span> | Dying ReLU | A ReLU node whose input stays negative, so its slope and updates stay 0. | [DL Note 1018](1018-vanishing-exploding-gradients/note.md) |
 | <span id="G-650">G-650</span> | Dying ReLU problem | ReLU nodes ending up with a negative weighted sum for every input, so they output 0 and stop learning. | [DL Note 1028](1028-relu-variants/note.md) |
 | <span id="G-652">G-652</span> | Dynamic programming | Solving a problem by reusing the stored solutions of its overlapping sub-problems. | [DL Note 1019](1019-mlp-memoization/note.md) |
 | <span id="G-653">G-653</span> | Dynamic search space | A search space in which some hyperparameters exist only for some values of another, such as the algorithm. | [Note 134](134-optuna/note.md) |
@@ -665,15 +660,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-657">G-657</span> | Eckart–Young theorem | The truncated SVD is the closest rank-$k$ matrix to $A$; its spectral error is $\sigma_{k+1}$. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | <span id="G-658">G-658</span> | Economy rate | A bowler's runs conceded per over. | [Note 45](45-feature-construction-splitting/note.md) |
 | <span id="G-661">G-661</span> | Edge | A place where the intensity changes sharply. | [DL Note 1042](1042-convolution-operation/note.md) |
-| <span id="G-659">G-659</span> | Edge detector | A filter whose feature map is large along edges of one direction. | [DL Note 1042](1042-convolution-operation/note.md) |
+| <span id="G-659">G-659</span> | Edge detector (filter) | A filter whose feature map is large along edges of one direction. | [DL Note 1042](1042-convolution-operation/note.md) |
+| <span id="G-2263">G-2263</span> | Edge detector (hidden node) | A node whose weights are positive on a strip of pixels and negative around it, so it switches on when that strip holds a stroke. | [DL Note 1009](1009-mlp-intuition/note.md) |
 | <span id="G-660">G-660</span> | Edge TPU | A small Google chip for running networks on drones, watches and glasses. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-662">G-662</span> | Effective learning rate | The learning rate a parameter actually gets after AdaGrad's division: $\eta/(\sqrt{v_t}+\epsilon)$. | [DL Note 1036](1036-adagrad/note.md) |
 | <span id="G-663">G-663</span> | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-664">G-664</span> | Eigenbasis | A basis made of eigenvectors of a matrix. | [Maths Note 530](530-eigenvectors-and-eigenvalues/note.md) |
 | <span id="G-665">G-665</span> | Eigenvalue | The factor by which a matrix stretches its eigenvector. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-666">G-666</span> | Eigenvector | A vector that a matrix only stretches or shrinks, without turning it. | [Note 48](48-pca-step-by-step/note.md) |
-| <span id="G-668">G-668</span> | Elastic Net | Linear regression with a mix of the L1 and L2 penalties. | [Note 63](63-ridge-regression-intuition/note.md) |
-| <span id="G-667">G-667</span> | Elastic Net regression | Linear regression with both the L1 and the L2 penalty. | [Note 69](69-elastic-net/note.md) |
+| <span id="G-667">G-667</span> | Elastic Net regression (Elastic Net) | Linear regression with both the L1 and the L2 penalty. | [Note 69](69-elastic-net/note.md) |
 | <span id="G-669">G-669</span> | ElasticNetCV | scikit-learn's Elastic Net that picks alpha and l1_ratio by cross-validation. | [Note 69](69-elastic-net/note.md) |
 | <span id="G-670">G-670</span> | Elbow curve | A plot of WCSS against the number of clusters k. | [Note 128](128-kmeans-intuition/note.md) |
 | <span id="G-671">G-671</span> | Elbow method | Choosing k at the point where the elbow curve bends from steep to flat. | [Note 128](128-kmeans-intuition/note.md) |
@@ -710,8 +705,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-702">G-702</span> | Equally likely outcomes | Outcomes that all have the same probability, such as the faces of a fair die. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | <span id="G-703">G-703</span> | Equation of a hyperplane | $w^{\mathsf T}x + w_0 = 0$: one equation for a line, plane or hyperplane in any dimension. | [Maths Note 363](363-equation-of-a-hyperplane/note.md) |
 | <span id="G-704">G-704</span> | Equiprobable | Equally likely. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
-| <span id="G-705">G-705</span> | Error (residual) | The gap between an actual value and the model's prediction. | [Note 50](50-simple-linear-regression/note.md) |
-| <span id="G-706">G-706</span> | Error function (loss function) | A formula for how wrong the model is; here the sum of squared errors. | [Note 51](51-linear-regression-maths/note.md) |
+| <span id="G-705">G-705</span> | Error (residual) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. | [Note 50](50-simple-linear-regression/note.md) |
 | <span id="G-707">G-707</span> | errors="coerce" | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. | [Note 33](33-mixed-variables/note.md) |
 | <span id="G-708">G-708</span> | Estimated PMF | Each value's share of many repeated trials, used as its probability. | [Maths Note 241](241-pmf-and-discrete-cdf/note.md) |
 | <span id="G-709">G-709</span> | estimator | The base model that bagging copies (formerly base_estimator). | [Note 106](106-bagging-classifier/note.md) |
@@ -771,18 +765,19 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-762">G-762</span> | Feature extraction | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). | [Note 23](23-what-is-feature-engineering/note.md) |
 | <span id="G-764">G-764</span> | Feature importance | A column's share of all the impurity reduction in a tree; the shares add up to 1. | [Note 99](99-regression-trees/note.md) |
 | <span id="G-763">G-763</span> | Feature importance (weights) | Reading the size of a weight as how much its input matters, fair only on scaled inputs. | [DL Note 1004](1004-perceptron/note.md) |
-| <span id="G-766">G-766</span> | Feature map | The grid of numbers a filter produces; large where the filter's pattern is present. | [DL Note 1042](1042-convolution-operation/note.md) |
 | <span id="G-765">G-765</span> | Feature map ($\phi$) | The explicit transformation of a point into the higher-dimensional space. | [Note 96](96-kernel-trick-code/note.md) |
-| <span id="G-767">G-767</span> | Feature scaling | Putting columns on the same scale, so no column dominates distances. | [Note 6](06-instance-vs-model-based/note.md) |
+| <span id="G-766">G-766</span> | Feature map (CNN) | The grid of numbers a filter produces; large where the filter's pattern is present. | [DL Note 1042](1042-convolution-operation/note.md) |
+| <span id="G-767">G-767</span> | Feature scaling (scaling) | Putting columns on the same scale, so no column dominates distances. | [Note 6](06-instance-vs-model-based/note.md) |
 | <span id="G-768">G-768</span> | Feature selection | Keeping only the useful input columns and dropping the rest. | [Note 23](23-what-is-feature-engineering/note.md) |
+| <span id="G-2219">G-2219</span> | Feature space | The space whose axes are the features; the feature map takes the data into a higher-dimensional one. | [Note 95](95-kernel-trick-intuition/note.md) |
 | <span id="G-769">G-769</span> | Feature splitting | Breaking a column that holds several facts into one column per fact. | [Note 45](45-feature-construction-splitting/note.md) |
 | <span id="G-770">G-770</span> | Feature transformation | Changing a column into a form the model can use better. | [Note 23](23-what-is-feature-engineering/note.md) |
 | <span id="G-771">G-771</span> | Feature vector | The vector of input values of one data point. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | <span id="G-773">G-773</span> | feature_importances_ | The fitted attribute holding the feature importance of every column. | [Note 99](99-regression-trees/note.md) |
 | <span id="G-775">G-775</span> | Feed-forward network | A network in which information moves only from the first layer to the last. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-774">G-774</span> | Feed-forward network (FFN) | Two dense layers, 512 → 2048 with ReLU → 512, inside each block. | [DL Note 1080](1080-transformer-encoder/note.md) |
-| <span id="G-776">G-776</span> | Fence | A limit 1.5 IQR beyond the box; values past it are possible outliers. | [Note 20](20-univariate-analysis/note.md) |
-| <span id="G-778">G-778</span> | Filter | A small grid of learned weights that a convolution layer slides over its input. | [DL Note 1052](1052-visualizing-cnn/note.md) |
+| <span id="G-776">G-776</span> | Fence (fences) | A limit 1.5 IQR beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. | [Note 20](20-univariate-analysis/note.md) |
+| <span id="G-2197">G-2197</span> | Fill error | The average gap between filled values and the true values they replace, measured on values we hid on purpose. | [Note 39](39-knn-imputer/note.md) |
 | <span id="G-777">G-777</span> | Filter (kernel) | A small matrix of weights slid over the image; its depth equals the input's channels. | [DL Note 1042](1042-convolution-operation/note.md) |
 | <span id="G-779">G-779</span> | Fine-tuning | Training a pre-trained model further on a small dataset for a specific task. | [DL Note 1067](1067-history-of-llms/note.md) |
 | <span id="G-780">G-780</span> | First moment $m_t$ | The EWMA of the gradient: an estimate of its mean. | [DL Note 1038](1038-adam/note.md) |
@@ -796,9 +791,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-788">G-788</span> | Flatten layer | A layer that reshapes a multi-dimensional input into one dimension; no parameters. | [DL Note 1012](1012-mnist-ann/note.md) |
 | <span id="G-789">G-789</span> | Flattening | Reshaping a matrix into one long vector so that derivatives stay matrices. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | <span id="G-790">G-790</span> | FLOP | One floating-point operation; training cost is counted in FLOPs. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
+| <span id="G-2227">G-2227</span> | Fold | One of the equal blocks the data is cut into for cross-validation; each fold is the test block once. | [Note 112](112-random-forest-tuning/note.md) |
 | <span id="G-791">G-791</span> | For loop | Code that repeats once for each item of a collection. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-792">G-792</span> | Forest-level hyperparameters | The settings that shape the forest itself: n_estimators, max_features, bootstrap, max_samples. | [Note 111](111-random-forest-hyperparameters/note.md) |
-| <span id="G-794">G-794</span> | Forget gate | Removes information from the cell state. | [DL Note 1061](1061-lstm/note.md) |
 | <span id="G-793">G-793</span> | Forget gate ($f_t$) | Sigmoid layer whose output scales each entry of $c_{t-1}$, removing information. | [DL Note 1062](1062-lstm-architecture/note.md) |
 | <span id="G-795">G-795</span> | Format string | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. | [Note 34](34-date-and-time/note.md) |
 | <span id="G-796">G-796</span> | Forward and backward RNN | The left-to-right and the right-to-left halves of a bidirectional RNN. | [DL Note 1066](1066-bidirectional-rnn/note.md) |
@@ -808,7 +803,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-800">G-800</span> | FPGA | A reprogrammable chip: fast and low-power, but expensive. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-801">G-801</span> | Frame | One image in a video. | [Note 11](11-tensors/note.md) |
 | <span id="G-802">G-802</span> | Framing an ML problem | Turning a business problem into a precise ML task that can be built and measured. | [Note 14](14-framing-ml-problem/note.md) |
-| <span id="G-803">G-803</span> | Framing the problem | Deciding the goal, users, cost, team and approach before any work starts. | [Note 9](09-mldlc/note.md) |
 | <span id="G-804">G-804</span> | Fraud detection | Spotting dishonest transactions; here the outliers are what we want to find. | [Note 41](41-what-are-outliers/note.md) |
 | <span id="G-805">G-805</span> | Freeze | Mark a layer's weights as not trainable, so that training leaves them unchanged. | [DL Note 1053](1053-transfer-learning/note.md) |
 | <span id="G-808">G-808</span> | Frequency | How many times a value or category occurs. | [Note 20](20-univariate-analysis/note.md) |
@@ -816,8 +810,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-807">G-807</span> | Frequency distribution table | A table of each value or category with the number of times it occurs. | [Maths Note 223](223-frequency-tables-and-graphs/note.md) |
 | <span id="G-809">G-809</span> | Frobenius norm | The square root of the sum of all squared entries of a matrix, $\sqrt{\sum\sigma_i^2}$. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | <span id="G-810">G-810</span> | Full SVD | The SVD with square $U$ and $V$, and $\Sigma$ the same shape as $A$. | [Maths Note 610](610-svd-geometry/note.md) |
-| <span id="G-811">G-811</span> | Fully connected (Dense) layer | A layer in which every node is connected to every input. | [DL Note 1045](1045-lenet-5/note.md) |
-| <span id="G-812">G-812</span> | Fully connected (FC) layer | A Dense layer: every node connected to every node of the next layer. | [DL Note 1040](1040-cnn-intuition/note.md) |
 | <span id="G-813">G-813</span> | Fully grown tree | A tree split until every leaf is pure; usually overfits. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | <span id="G-814">G-814</span> | func | The `FunctionTransformer` parameter that holds the function to apply. | [Note 30](30-function-transformer/note.md) |
 | <span id="G-816">G-816</span> | Function | A rule that assigns exactly one output to every input, written $f: \mathbb{R} \to \mathbb{R}$, $x \mapsto f(x)$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
@@ -826,8 +818,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-818">G-818</span> | Functional API | The Keras way of building a model as a graph of layers, by calling each layer on its input. | [DL Note 1054](1054-keras-functional-api/note.md) |
 | <span id="G-819">G-819</span> | FunctionTransformer | scikit-learn's class that applies any function we give it to the data. | [Note 30](30-function-transformer/note.md) |
 | <span id="G-820">G-820</span> | Gain (XGBoost) | Similarity of the two children minus similarity of the parent; the split with the largest gain is chosen. | [Note 124](124-xgboost-regression/note.md) |
-| <span id="G-823">G-823</span> | gamma | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. | [Note 96](96-kernel-trick-code/note.md) |
+| <span id="G-2213">G-2213</span> | Gambler's fallacy | The mistaken belief that after a run of heads, tails is "due"; independent tosses have no memory. | [Note 83](83-independent-events/note.md) |
 | <span id="G-821">G-821</span> | Gamma ($\gamma$, `min_split_loss`) | Minimum gain a split must exceed to be kept; default 0. | [Note 124](124-xgboost-regression/note.md) |
+| <span id="G-823">G-823</span> | gamma (RBF kernel) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. | [Note 96](96-kernel-trick-code/note.md) |
 | <span id="G-822">G-822</span> | Gamma distribution | A family of right-skewed continuous distributions with a shape and a scale parameter. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | <span id="G-824">G-824</span> | Garbage in, garbage out | Bad input data always gives bad results. | [Note 7](07-challenges-in-ml/note.md) |
 | <span id="G-825">G-825</span> | Gate | A part of the LSTM cell that controls what moves into, out of, or along the cell state. | [DL Note 1061](1061-lstm/note.md) |
@@ -840,16 +833,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-832">G-832</span> | Gaussian process | A model that predicts a value and its uncertainty at every point; a common surrogate. | [Note 134](134-optuna/note.md) |
 | <span id="G-833">G-833</span> | GaussianNB | scikit-learn's Gaussian Naive Bayes. | [Note 90](90-gaussian-naive-bayes/note.md) |
 | <span id="G-834">G-834</span> | GELU | Gaussian Error Linear Unit, $x\thinspace\Phi(x)$: a smooth activation used in GPT's MLPs. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
-| <span id="G-835">G-835</span> | General addition rule | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, for any two events. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | <span id="G-836">G-836</span> | General contextual embedding | A contextual embedding computed without learned parameters, the same for every task. | [DL Note 1073](1073-self-attention-step-by-step/note.md) |
 | <span id="G-837">G-837</span> | General score | $s_i^\top W_a h_j$, with a learned matrix $W_a$. | [DL Note 1070](1070-bahdanau-vs-luong-attention/note.md) |
-| <span id="G-838">G-838</span> | Generalisation | How well a model performs on new data it was not trained on. | [Note 71](71-perceptron-code/note.md) |
-| <span id="G-839">G-839</span> | Generalise | Perform well on new data, not only on the training data. | [DL Note 1050](1050-data-augmentation/note.md) |
+| <span id="G-838">G-838</span> | Generalisation (generalise) | How well a model performs on new data it was not trained on. | [Note 71](71-perceptron-code/note.md) |
 | <span id="G-840">G-840</span> | Generative adversarial network (GAN) | A generator and a discriminator competing, so that the generator learns to create realistic new data. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-841">G-841</span> | Generative AI | Models that create new content such as text, images, code or video. | [DL Note 1071](1071-introduction-to-transformers/note.md) |
 | <span id="G-842">G-842</span> | Generative process | A step-by-step recipe that produces data from a model. | [Maths Note 640](640-gaussian-mixture-models/note.md) |
 | <span id="G-843">G-843</span> | Generator | The GAN network that creates new data. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-844">G-844</span> | Geometric mean | The $n$-th root of the product of $n$ values; the average of growth factors. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
+| <span id="G-2248">G-2248</span> | Geometric understanding | Knowing what a computation means as a picture: which tool fits, why it works, how to read the result. | [Maths Note 580](580-learning-maths-for-ml/note.md) |
 | <span id="G-845">G-845</span> | get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$. | [Note 27](27-one-hot-encoding/note.md) |
 | <span id="G-846">G-846</span> | get_feature_names_out | `OneHotEncoder` method that returns the names of the new columns. | [Note 27](27-one-hot-encoding/note.md) |
 | <span id="G-847">G-847</span> | Gini impurity | A measure of impurity: $1 - \sum p_i^2$; 0 when pure, 0.5 for a 50/50 two-class node. | [Note 97](97-decision-trees-intuition/note.md) |
@@ -862,14 +854,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-854">G-854</span> | Google Colab | Google's browser-based Jupyter notebooks, saved in Google Drive. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-855">G-855</span> | GPT | Generative Pre-trained Transformer: a decoder-only transformer trained to predict the next token. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
 | <span id="G-856">G-856</span> | GPU | A graphics chip that runs deep learning maths much faster than a CPU. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
-| <span id="G-865">G-865</span> | Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase. | [Note 57](57-gradient-descent/note.md) |
 | <span id="G-857">G-857</span> | Gradient $g_i$ | First derivative of row $i$'s loss with respect to the previous prediction. | [Note 126](126-xgboost-maths/note.md) |
+| <span id="G-863">G-863</span> | Gradient (of the loss) | The vector of the partial derivatives of the loss with respect to every weight and bias; it points in the direction of steepest increase. | [DL Note 1015](1015-backpropagation-what/note.md) |
 | <span id="G-858">G-858</span> | Gradient as a row vector | $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$, the convention that makes the chain rule a matrix product. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | <span id="G-859">G-859</span> | Gradient boosting | A boosting algorithm that starts from a simple guess and adds trees one by one, each trained on the mistakes (pseudo-residuals) of the ensemble so far. | [Note 120](120-gradient-boosting-intuition/note.md) |
 | <span id="G-860">G-860</span> | Gradient checking | Testing a gradient formula against finite-difference estimates, using the relative error. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | <span id="G-861">G-861</span> | Gradient clipping | Scaling a gradient down to a maximum size before the update. | [DL Note 1018](1018-vanishing-exploding-gradients/note.md) |
 | <span id="G-862">G-862</span> | Gradient descent | Finding the lowest point of a function by repeated small steps downhill. | [Note 57](57-gradient-descent/note.md) |
-| <span id="G-863">G-863</span> | Gradient of the loss | The collection of the derivatives of the loss with respect to every weight and bias. | [DL Note 1015](1015-backpropagation-what/note.md) |
 | <span id="G-864">G-864</span> | Gradient routing | In max pooling's backward pass, sending each gradient only to the position of its window's maximum. | [DL Note 1048](1048-backpropagation-cnn-layers/note.md) |
 | <span id="G-866">G-866</span> | Grand mean | The mean of all values from all groups together. | [Maths Note 572](572-one-way-anova/note.md) |
 | <span id="G-867">G-867</span> | Grand total | The sum of every cell of a contingency table: the size of the whole sample. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
@@ -889,8 +880,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-881">G-881</span> | He normal | Starting weights from a normal distribution with standard deviation $\sqrt{2/\text{fan-in}}$; for ReLU. | [DL Note 1030](1030-xavier-he-initialization/note.md) |
 | <span id="G-882">G-882</span> | He uniform | Starting weights spread evenly between $\pm\sqrt{6/\text{fan-in}}$; for ReLU. | [DL Note 1030](1030-xavier-he-initialization/note.md) |
 | <span id="G-883">G-883</span> | Head | One complete self-attention with its own $W_Q$, $W_K$, $W_V$, inside a multi-head attention layer. | [DL Note 1077](1077-multi-head-attention/note.md) |
-| <span id="G-884">G-884</span> | Header | The line of a file that holds the column names. | [Note 15](15-working-with-csv/note.md) |
-| <span id="G-885">G-885</span> | Headers | Extra information sent with a request, such as the User-Agent. | [Note 18](18-web-scraping/note.md) |
+| <span id="G-884">G-884</span> | Header (of a file) | The line of a file that holds the column names. | [Note 15](15-working-with-csv/note.md) |
+| <span id="G-885">G-885</span> | Headers (HTTP) | Extra information sent with a request, such as the User-Agent. | [Note 18](18-web-scraping/note.md) |
 | <span id="G-886">G-886</span> | Heatmap | A table drawn as coloured cells, darker for larger values. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | <span id="G-887">G-887</span> | Hessian $h_i$ | Second derivative of row $i$'s loss with respect to the previous prediction. | [Note 126](126-xgboost-maths/note.md) |
 | <span id="G-888">G-888</span> | Hessian matrix | The symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$; it measures curvature. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
@@ -917,6 +908,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-908">G-908</span> | Hyperparameter importance | How much each hyperparameter affected the score in a study; the values add up to 1. | [Note 134](134-optuna/note.md) |
 | <span id="G-909">G-909</span> | Hyperparameter tuning | Trying several hyperparameter values and keeping the best. | [Note 29](29-pipelines/note.md) |
 | <span id="G-911">G-911</span> | Hyperplane | A flat surface in more than three dimensions; the model for three or more input columns. | [Note 53](53-multiple-linear-regression/note.md) |
+| <span id="G-2214">G-2214</span> | Hypothesis (Bayes' theorem) | The statement whose probability we want, such as "Steve is a librarian" or "the email is spam". | [Note 85](85-bayes-theorem/note.md) |
 | <span id="G-912">G-912</span> | Hypothesis function | A model written as a function $h(x)$ that maps an input to a prediction. | [Note 115](115-adaboost-intuition/note.md) |
 | <span id="G-913">G-913</span> | Hypothesis testing | Checking a claim about a population parameter with a sample. | [Maths Note 220](220-what-is-statistics/note.md) |
 | <span id="G-914">G-914</span> | Identity initialisation | Starting the recurrent weight matrix as the identity matrix. | [DL Note 1060](1060-problems-with-rnn/note.md) |
@@ -925,6 +917,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-917">G-917</span> | ILSVRC | The ImageNet Large Scale Visual Recognition Challenge: 1,000 classes, about 1.2 million training photos. | [DL Note 1051](1051-pretrained-models/note.md) |
 | <span id="G-918">G-918</span> | Image captioning | Producing a sentence that describes an image. | [DL Note 1058](1058-types-of-rnn/note.md) |
 | <span id="G-919">G-919</span> | Image classification | Deciding what a picture contains, e.g. dog or not dog. | [Note 1](01-what-is-ml/note.md) |
+| <span id="G-2268">G-2268</span> | Image segmentation | Dividing an image into regions by saying which pixels belong to which object. | [DL Note 1044](1044-pooling/note.md) |
 | <span id="G-920">G-920</span> | ImageNet | A very large labelled image dataset with a yearly classification competition. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-921">G-921</span> | Imbalanced data | Data in which one class is much rarer than another. | [Note 9](09-mldlc/note.md) |
 | <span id="G-922">G-922</span> | imbalanced-learn | A Python library (`imblearn`) of resampling techniques and balanced ensembles, with a `fit_resample` method. | [Note 133](133-imbalanced-data/note.md) |
@@ -936,17 +929,16 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-928">G-928</span> | Inactive constraint | An inequality constraint that holds strictly at the answer; its multiplier is 0. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | <span id="G-929">G-929</span> | include_bias | PolynomialFeatures setting that adds a column of 1s. | [Note 61](61-polynomial-regression/note.md) |
 | <span id="G-930">G-930</span> | Increasing function | A function whose output grows whenever its input grows, such as the log; it keeps the position of a maximum. | [Maths Note 631](631-maximum-likelihood-estimation/note.md) |
-| <span id="G-931">G-931</span> | Incremental learning | Training on small pieces of data over time (the opposite of batch). | [Note 4](04-batch-learning/note.md) |
-| <span id="G-932">G-932</span> | Incremental training | Training in small steps, keeping what was learned before. | [Note 5](05-online-learning/note.md) |
+| <span id="G-931">G-931</span> | Incremental learning (incremental training) | Training on small pieces of data over time, keeping what was learned before (the opposite of batch learning). | [Note 4](04-batch-learning/note.md) |
 | <span id="G-933">G-933</span> | Independent and identically distributed (i.i.d.) | Values that do not affect each other and all come from the same distribution. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | <span id="G-934">G-934</span> | Independent events | Events where one happening does not change the probability of the other. | [Note 83](83-independent-events/note.md) |
 | <span id="G-935">G-935</span> | Independent models | Models whose mistakes are unrelated, so one being wrong says nothing about the others. | [Note 102](102-voting-ensemble/note.md) |
 | <span id="G-936">G-936</span> | Independent two-sample t-test | A t-test comparing the means of two separate, non-overlapping groups. | [Maths Note 301](301-one-sample-t-test/note.md) |
 | <span id="G-937">G-937</span> | Independent variables | The input columns (X). | [Note 13](13-toy-project/note.md) |
 | <span id="G-938">G-938</span> | Index | The row labels of a DataFrame. | [Note 15](15-working-with-csv/note.md) |
-| <span id="G-939">G-939</span> | Inertia | A big organisation's resistance to changing direction once it has started. | [Note 14](14-framing-ml-problem/note.md) |
+| <span id="G-939">G-939</span> | Inertia (of an organisation) | A big organisation's resistance to changing direction once it has started. | [Note 14](14-framing-ml-problem/note.md) |
 | <span id="G-940">G-940</span> | inertia_ | The WCSS of a fitted `KMeans` model. | [Note 129](129-kmeans-code/note.md) |
-| <span id="G-943">G-943</span> | Inference | A conclusion about a population drawn from a sample. | [Maths Note 220](220-what-is-statistics/note.md) |
+| <span id="G-943">G-943</span> | Inference (statistics) | A conclusion about a population drawn from a sample. | [Maths Note 220](220-what-is-statistics/note.md) |
 | <span id="G-941">G-941</span> | Inference (vs prediction) | Learning how the inputs affect the output, rather than only predicting it; not the deployment sense (running a trained model) nor inferential statistics. | [Note 91](91-knn/note.md) |
 | <span id="G-942">G-942</span> | Inference engine | The part of an expert system that applies the rules to answer a question. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-944">G-944</span> | Inferential statistics | Statistics that draws conclusions about a population from a sample. | [Maths Note 220](220-what-is-statistics/note.md) |
@@ -955,7 +947,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-947">G-947</span> | Initialisation | Choosing the starting values of the weights and biases. | [DL Note 1015](1015-backpropagation-what/note.md) |
 | <span id="G-948">G-948</span> | Input / output | The columns we know / the column we want to predict. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-949">G-949</span> | Input feeding | Luong's option of feeding $\tilde h_{i-1}$ into the next decoder step. | [DL Note 1070](1070-bahdanau-vs-luong-attention/note.md) |
-| <span id="G-951">G-951</span> | Input gate | Adds new information to the cell state. | [DL Note 1061](1061-lstm/note.md) |
 | <span id="G-950">G-950</span> | Input gate ($i_t$) | Sigmoid layer whose output filters the candidate values before they are added. | [DL Note 1062](1062-lstm-architecture/note.md) |
 | <span id="G-952">G-952</span> | Input layer | The first layer, with one node per input column. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-953">G-953</span> | Inspect | Browser tool that shows which tag draws each part of a page. | [Note 18](18-web-scraping/note.md) |
@@ -997,7 +988,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-989">G-989</span> | JSON viewer | A tool that lays out JSON text as a tree to show its structure. | [Note 17](17-fetching-data-from-api/note.md) |
 | <span id="G-990">G-990</span> | Jupyter | Tool for notebooks that mix code, output and text. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-991">G-991</span> | JupyterLab | The program that runs Jupyter notebooks in a web browser. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
-| <span id="G-993">G-993</span> | k | The number of clusters k-means makes; chosen by us. | [Note 128](128-kmeans-intuition/note.md) |
+| <span id="G-993">G-993</span> | k (k-means) | The number of clusters k-means makes; chosen by us. | [Note 128](128-kmeans-intuition/note.md) |
 | <span id="G-992">G-992</span> | k (n_neighbors) | The number of neighbours that vote; KNN's main hyperparameter. | [Note 91](91-knn/note.md) |
 | <span id="G-994">G-994</span> | k-distance plot | Sorted distances from every point to its k-th nearest point, used to choose eps. | [Note 132](132-dbscan/note.md) |
 | <span id="G-996">G-996</span> | k-means | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. | [Note 32](32-binning-binarization/note.md) |
@@ -1009,11 +1000,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1003">G-1003</span> | Keras | The high-level interface built into TensorFlow for defining and training networks. | [DL Note 1001](1001-dl-scope-and-prerequisites/note.md) |
 | <span id="G-1001">G-1001</span> | Keras Tuner | A Python library (`keras_tuner`) that searches for good hyperparameters of a Keras model. | [DL Note 1039](1039-keras-tuner/note.md) |
 | <span id="G-1002">G-1002</span> | Keras workflow | Build, compile, fit, predict: the four steps of every Keras model. | [DL Note 1011](1011-customer-churn-ann/note.md) |
-| <span id="G-1009">G-1009</span> | Kernel | The running Python process behind a notebook. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
-| <span id="G-1004">G-1004</span> | Kernel (SVM) | The function that maps the data to the higher-dimensional space (not the Jupyter kernel). | [Note 95](95-kernel-trick-intuition/note.md) |
+| <span id="G-1009">G-1009</span> | Kernel (Jupyter) | The running Python process behind a notebook. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
+| <span id="G-2273">G-2273</span> | Kernel (KDE) | A small symmetric bump with area 1, placed on each point to build a KDE curve. | [Note 20](20-univariate-analysis/note.md) |
+| <span id="G-2274">G-2274</span> | Kernel (Keras) | Keras' name for a layer's weight matrix. | [DL Note 1026](1026-regularization-in-dl/note.md) |
+| <span id="G-1004">G-1004</span> | Kernel (SVM) | A function of two points, $K(a, b)$, that returns their dot product in the higher-dimensional space, $\phi(a) \cdot \phi(b)$, directly from the original values (not the Jupyter kernel). | [Note 95](95-kernel-trick-intuition/note.md) |
 | <span id="G-1005">G-1005</span> | Kernel density estimate (KDE) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-1006">G-1006</span> | Kernel function $K(a, b)$ | A function that returns $\phi(a) \cdot \phi(b)$ directly from the original points. | [Note 96](96-kernel-trick-code/note.md) |
-| <span id="G-1007">G-1007</span> | Kernel transformation | Applying a kernel to the data. | [Note 95](95-kernel-trick-intuition/note.md) |
+| <span id="G-1007">G-1007</span> | Kernel transformation | A loose name for lifting the data to the higher-dimensional space with the feature map $\phi$. | [Note 95](95-kernel-trick-intuition/note.md) |
 | <span id="G-1008">G-1008</span> | Kernel trick | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. | [Note 95](95-kernel-trick-intuition/note.md) |
 | <span id="G-1011">G-1011</span> | Key | The vector a word offers to be compared with a query. | [DL Note 1073](1073-self-attention-step-by-step/note.md) |
 | <span id="G-1010">G-1010</span> | Key and value | The vectors of the positions being looked at: in cross-attention, the input words. | [DL Note 1082](1082-cross-attention/note.md) |
@@ -1033,19 +1026,20 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1025">G-1025</span> | L1 norm | The sum of the absolute values of the components. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | <span id="G-1026">G-1026</span> | L1 regularisation | Another name for the absolute-value penalty used by Lasso. | [Note 67](67-lasso-regression/note.md) |
 | <span id="G-1027">G-1027</span> | l1_ratio | The share of the total penalty given to the L1 (Lasso) part. | [Note 69](69-elastic-net/note.md) |
-| <span id="G-1028">G-1028</span> | L2 norm | The usual magnitude: square root of the sum of squared components. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
+| <span id="G-1028">G-1028</span> | L2 norm (norm, magnitude, length of a vector) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | <span id="G-1029">G-1029</span> | L2 regularisation | Another name for the squared-coefficient penalty used by Ridge. | [Note 63](63-ridge-regression-intuition/note.md) |
 | <span id="G-1032">G-1032</span> | Label | The true class of an example, here the digit an image shows. | [DL Note 1012](1012-mnist-ann/note.md) |
 | <span id="G-1030">G-1030</span> | Label encoding | Replacing the classes of the target by 0, 1, 2, ...; for the output column only. | [Note 26](26-ordinal-label-encoding/note.md) |
+| <span id="G-2172">G-2172</span> | Label propagation | Semi-supervised method in which labels hop from labelled observations to their nearest neighbours, step by step. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-1031">G-1031</span> | Label smoothing | Replacing the one-hot target by $(1-\varepsilon)$ on the correct word plus $\varepsilon/K$ on every word. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
 | <span id="G-1033">G-1033</span> | LabelEncoder | scikit-learn's class for label encoding the target. | [Note 26](26-ordinal-label-encoding/note.md) |
 | <span id="G-1034">G-1034</span> | Labelled data | Data that includes the output column. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-1035">G-1035</span> | labels_ | The cluster number of every training row, after fitting. | [Note 129](129-kmeans-code/note.md) |
 | <span id="G-1036">G-1036</span> | Lagrange multiplier | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | <span id="G-1037">G-1037</span> | Lagrangian | The objective plus each constraint function times its multiplier: $f + \sum_i \lambda_i g_i$. | [Maths Note 620](620-lagrange-multipliers/note.md) |
-| <span id="G-1040">G-1040</span> | Lambda | A one-line Python function without a name, such as `lambda x: x**2`. | [Note 30](30-function-transformer/note.md) |
-| <span id="G-1038">G-1038</span> | Lambda ($\lambda$) | The power used by a power transform, learned separately for each column. | [Note 31](31-power-transformer/note.md) |
 | <span id="G-1039">G-1039</span> | Lambda ($\lambda$, `reg_lambda`) | Regularisation parameter added to the denominators; shrinks scores and outputs; default 1. | [Note 124](124-xgboost-regression/note.md) |
+| <span id="G-1038">G-1038</span> | Lambda ($\lambda$, power transform) | The power used by a power transform, learned separately for each column. | [Note 31](31-power-transformer/note.md) |
+| <span id="G-1040">G-1040</span> | Lambda (Python) | A one-line Python function without a name, such as `lambda x: x**2`. | [Note 30](30-function-transformer/note.md) |
 | <span id="G-1041">G-1041</span> | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. | [Note 31](31-power-transformer/note.md) |
 | <span id="G-1042">G-1042</span> | Language modelling | Training a model to predict the next word of a text. | [DL Note 1067](1067-history-of-llms/note.md) |
 | <span id="G-1043">G-1043</span> | Laplace approximation | Approximating a distribution near its peak by a normal distribution built from the Hessian. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
@@ -1073,18 +1067,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1065">G-1065</span> | Learnable (trainable) parameters | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. | [DL Note 1046](1046-cnn-vs-ann/note.md) |
 | <span id="G-1066">G-1066</span> | Learned positional embedding | A trainable vector per position, learned like a word embedding. | [DL Note 1078](1078-positional-encoding/note.md) |
 | <span id="G-1073">G-1073</span> | Learning | Finding rules (patterns) from examples. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
+| <span id="G-2163">G-2163</span> | Learning path | Which Notes to read before which. | [Note 1](01-course-map/note.md) |
 | <span id="G-1068">G-1068</span> | Learning rate ($\eta$) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. | [Note 5](05-online-learning/note.md) |
 | <span id="G-1067">G-1067</span> | Learning rate ($\eta$) in gradient boosting | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. | [Note 120](120-gradient-boosting-intuition/note.md) |
 | <span id="G-1069">G-1069</span> | Learning rate (AdaBoost) | A multiplier on every weak learner's alpha; values below 1 slow learning. | [Note 118](118-adaboost-hyperparameters/note.md) |
-| <span id="G-1070">G-1070</span> | Learning rate scheduler | A rule that changes the learning rate as training goes on. | [DL Note 1021](1021-improving-a-neural-network/note.md) |
-| <span id="G-1071">G-1071</span> | Learning rate warm-up | Starting training with a very small learning rate and raising it over the first epochs. | [DL Note 1021](1021-improving-a-neural-network/note.md) |
-| <span id="G-1072">G-1072</span> | Learning schedule | A rule that changes the learning rate during training, usually shrinking it. | [Note 59](59-stochastic-gradient-descent/note.md) |
-| <span id="G-1074">G-1074</span> | Learning-rate schedule | A plan, fixed before training, for lowering the learning rate during training. | [DL Note 1032](1032-optimizers-in-deep-learning/note.md) |
-| <span id="G-1075">G-1075</span> | Learning-rate warm-up | Starting training with a small learning rate and raising it over the first steps; 4,000 steps in the paper. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
+| <span id="G-1070">G-1070</span> | Learning rate scheduler (learning schedule) | A rule that changes the learning rate as training goes on, usually lowering it. | [DL Note 1021](1021-improving-a-neural-network/note.md) |
+| <span id="G-1071">G-1071</span> | Learning rate warm-up | Starting training with a very small learning rate and raising it over the first epochs or steps (4,000 steps in the transformer paper). | [DL Note 1021](1021-improving-a-neural-network/note.md) |
 | <span id="G-1076">G-1076</span> | Least-squares loss | $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | <span id="G-1077">G-1077</span> | LeCun initialisation | Normal starting weights with standard deviation $\sqrt{1/\text{fan-in}}$; Keras' `lecun_normal`. | [DL Note 1030](1030-xavier-he-initialization/note.md) |
 | <span id="G-1078">G-1078</span> | Left null space | The output directions perpendicular to every column; spanned by the remaining $\mathbf{u}_i$. | [Maths Note 611](611-computing-the-svd/note.md) |
-| <span id="G-2152">G-2152</span> | Left singular vector ($\mathbf u_i$) | An output direction of the SVD; a column of $U$. | [Maths Note 610](610-svd-geometry/note.md) |
 | <span id="G-1079">G-1079</span> | Left singular vector ($\mathbf{u}_i$) | An output direction of the SVD; a column of $U$. | [Maths Note 610](610-svd-geometry/note.md) |
 | <span id="G-1080">G-1080</span> | LeNet-5 | LeCun et al.'s 1998 CNN for handwritten digits: two conv-pool blocks, then 120, 84 and 10 nodes. | [DL Note 1045](1045-lenet-5/note.md) |
 | <span id="G-1081">G-1081</span> | Leptokurtic | Excess kurtosis above 0: fatter tails than normal. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
@@ -1092,8 +1083,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1083">G-1083</span> | LiDAR | A sensor that measures distances to nearby objects with laser light. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-1084">G-1084</span> | LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use. | [Note 123](123-xgboost-intro/note.md) |
 | <span id="G-1086">G-1086</span> | Likelihood | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. | [Maths Note 630](630-probability-vs-likelihood/note.md) |
-| <span id="G-1085">G-1085</span> | Likelihood function $L(\theta \mid \text{data})$ | The likelihood as a function of the parameters, with the data held fixed. | [Maths Note 630](630-probability-vs-likelihood/note.md) |
-| <span id="G-2153">G-2153</span> | Likelihood function $L(\theta)$ | The product of the densities (or probabilities) of all observations, as a function of the parameters with the data fixed. | [Maths Note 631](631-maximum-likelihood-estimation/note.md) |
+| <span id="G-1085">G-1085</span> | Likelihood function $L(\theta \mid \text{data})$ | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. | [Maths Note 630](630-probability-vs-likelihood/note.md) |
 | <span id="G-1087">G-1087</span> | Limit | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0). | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | <span id="G-1088">G-1088</span> | Line plot | A scatter plot with the dots joined in order, used when x is time. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | <span id="G-1089">G-1089</span> | Linear activation | $f(z) = z$: the node outputs its weighted sum unchanged; used in the output layer for regression. | [DL Note 1013](1013-graduate-admission-ann/note.md) |
@@ -1103,7 +1093,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1093">G-1093</span> | Linear program | Minimising a linear function subject to linear inequality constraints. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
 | <span id="G-1094">G-1094</span> | Linear regression | An algorithm that fits the straight line closest to all the points. | [Note 23](23-what-is-feature-engineering/note.md) |
 | <span id="G-1095">G-1095</span> | Linear relationship | A relationship between two columns that follows a straight line. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
-| <span id="G-1097">G-1097</span> | Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced. | [Note 48](48-pca-step-by-step/note.md) |
+| <span id="G-1097">G-1097</span> | Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-1096">G-1096</span> | Linear transformation to the number line | A function from vectors to numbers that keeps evenly spaced dots evenly spaced; its matrix is $1 \times n$. | [Maths Note 520](520-dot-product-and-duality/note.md) |
 | <span id="G-1098">G-1098</span> | Linear variants of ReLU | ReLU variants with a straight line on the negative side: Leaky ReLU and PReLU. | [DL Note 1028](1028-relu-variants/note.md) |
 | <span id="G-1099">G-1099</span> | Linearisation | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
@@ -1111,14 +1101,17 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1101">G-1101</span> | Linearly dependent | At least one vector is a linear combination of the others, so it adds nothing to the span. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | <span id="G-1102">G-1102</span> | Linearly independent | Every vector adds a new direction to the span. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | <span id="G-1103">G-1103</span> | Linearly separable | Data whose classes a straight line, plane or hyperplane can split. | [Note 70](70-perceptron-trick/note.md) |
+| <span id="G-2166">G-2166</span> | Link | A labelled connection between two Concepts. | [Note 1](01-course-map/note.md) |
 | <span id="G-1104">G-1104</span> | Linkage | The rule for the distance between two clusters. | [Note 131](131-hierarchical-clustering/note.md) |
 | <span id="G-1105">G-1105</span> | List of grids | Several parameter grids passed together, so incompatible values never meet. | [Note 112](112-random-forest-tuning/note.md) |
 | <span id="G-1106">G-1106</span> | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-1107">G-1107</span> | Load balancing | Spreading requests across servers so all users are served quickly. | [Note 9](09-mldlc/note.md) |
+| <span id="G-2204">G-2204</span> | Loading (loading score) | One entry of an eigenvector: the weight of one original feature in a principal component. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-1108">G-1108</span> | Local linear map | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | <span id="G-1109">G-1109</span> | Local maximum | A point higher than everything near it but not the highest overall. | [Maths Note 641](641-expectation-maximization/note.md) |
 | <span id="G-1110">G-1110</span> | Local minimum | A point lower than everything around it, but not the lowest overall. | [Note 57](57-gradient-descent/note.md) |
 | <span id="G-1111">G-1111</span> | Local optimum (k-means) | A clustering where k-means has stopped but a better one exists, caused by a bad start. | [Note 130](130-kmeans-from-scratch/note.md) |
+| <span id="G-2250">G-2250</span> | Locally linear | Said of a function that looks more and more like a linear transformation as we zoom in on any point. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
 | <span id="G-1112">G-1112</span> | Log transform | Replacing each value with its logarithm; pulls in a long right tail. | [Note 30](30-function-transformer/note.md) |
 | <span id="G-1113">G-1113</span> | Log-likelihood | The log of the likelihood: the sum of the log probabilities. | [Note 73](73-log-loss/note.md) |
 | <span id="G-1114">G-1114</span> | Log-log plot | A plot of $\ln y$ against $\ln x$, on which a power law is a straight line. | [Maths Note 262](262-pareto-and-power-law/note.md) |
@@ -1136,33 +1129,27 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1125">G-1125</span> | Long-term dependency problem | A simple RNN's failure to learn long-term dependencies, caused by the vanishing gradient through time. | [DL Note 1060](1060-problems-with-rnn/note.md) |
 | <span id="G-1127">G-1127</span> | Look-ahead point | Where the momentum jump alone would take the weights: $w_t - \beta v_{t-1}$. | [DL Note 1035](1035-nesterov-accelerated-gradient/note.md) |
 | <span id="G-1128">G-1128</span> | Lookup table | The stored probabilities that Naive Bayes computes during training. | [Note 89](89-naive-bayes-code/note.md) |
-| <span id="G-1130">G-1130</span> | Loss function | A formula that measures how wrong a model's predictions are. | [Note 73](73-log-loss/note.md) |
-| <span id="G-1129">G-1129</span> | Loss function (error function) | The error of the model on one training row. | [DL Note 1014](1014-dl-loss-functions/note.md) |
+| <span id="G-706">G-706</span> | Loss function (error function) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. | [Note 51](51-linear-regression-maths/note.md) |
 | <span id="G-1131">G-1131</span> | Loss weight | A number that scales one output's loss in the total loss of a multi-output model. | [DL Note 1054](1054-keras-functional-api/note.md) |
 | <span id="G-1132">G-1132</span> | Low bias, high variance algorithm | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. | [Note 105](105-bagging-intuition/note.md) |
-| <span id="G-1133">G-1133</span> | Lower and upper limit | The two ends of a confidence interval. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
+| <span id="G-1133">G-1133</span> | Lower and upper limit (of a confidence interval) | The two ends of a confidence interval. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | <span id="G-1134">G-1134</span> | Lower bound $B(\theta; q)$ | A function below the log-likelihood everywhere, equal to it when $q$ are the current responsibilities. | [Maths Note 641](641-expectation-maximization/note.md) |
 | <span id="G-1135">G-1135</span> | LPA | Lakh rupees per annum: a salary in hundreds of thousands of rupees per year. | [Note 50](50-simple-linear-regression/note.md) |
-| <span id="G-1136">G-1136</span> | LSTM (long short-term memory) | An improved RNN that remembers over longer sequences. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
-| <span id="G-1137">G-1137</span> | Luong (dot) attention | Attention between a decoder state and the encoder states, scored by their dot product. | [DL Note 1076](1076-why-self-attention/note.md) |
-| <span id="G-1138">G-1138</span> | Luong attention (multiplicative) | Attention whose score multiplies the current decoder state with an encoder state: $s_i^\top h_j$ or $s_i^\top W_a h_j$. | [DL Note 1070](1070-bahdanau-vs-luong-attention/note.md) |
+| <span id="G-1137">G-1137</span> | Luong attention (multiplicative, dot) | Attention between a decoder state and the encoder states, scored by multiplying them: $s_i^\top h_j$ (dot) or $s_i^\top W_a h_j$. | [DL Note 1076](1076-why-self-attention/note.md) |
 | <span id="G-1139">G-1139</span> | M-step | Re-estimate the parameters as responsibility-weighted averages, with the responsibilities held fixed. | [Maths Note 641](641-expectation-maximization/note.md) |
 | <span id="G-1140">G-1140</span> | Machine Learning (ML) | Using statistics to let a machine find patterns (rules) in data by itself. | [Note 1](01-what-is-ml/note.md) |
 | <span id="G-1141">G-1141</span> | Machine translation | Translating a sentence from one language into another. | [DL Note 1058](1058-types-of-rnn/note.md) |
 | <span id="G-1142">G-1142</span> | Maclaurin series | The Taylor series around $x_0 = 0$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | <span id="G-1143">G-1143</span> | Macro average | The plain mean of a metric over all classes. | [Note 77](77-precision-recall-f1/note.md) |
-| <span id="G-1144">G-1144</span> | Magnitude | The number part of a quantity, as opposed to its unit. | [Note 25](25-normalization/note.md) |
+| <span id="G-1144">G-1144</span> | Magnitude (of a quantity) | The number part of a quantity, as opposed to its unit. | [Note 25](25-normalization/note.md) |
 | <span id="G-1145">G-1145</span> | Majority class | The class with the most rows in imbalanced data. | [Note 133](133-imbalanced-data/note.md) |
 | <span id="G-1146">G-1146</span> | Majority vote | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. | [Note 91](91-knn/note.md) |
 | <span id="G-1147">G-1147</span> | make_blobs | scikit-learn function that generates points around chosen centres. | [Note 129](129-kmeans-code/note.md) |
-| <span id="G-1148">G-1148</span> | make_circles | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset. | [Note 96](96-kernel-trick-code/note.md) |
 | <span id="G-1149">G-1149</span> | make_classification | scikit-learn function that creates random classification data. | [Note 71](71-perceptron-code/note.md) |
 | <span id="G-1150">G-1150</span> | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names. | [Note 29](29-pipelines/note.md) |
-| <span id="G-1151">G-1151</span> | make_moons | scikit-learn function that creates two interlocking half-moon classes. | [Note 80](80-polynomial-logistic-regression/note.md) |
 | <span id="G-1152">G-1152</span> | make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class. | [Note 29](29-pipelines/note.md) |
 | <span id="G-1153">G-1153</span> | make_regression | scikit-learn function that generates data following a linear pattern plus noise. | [Note 53](53-multiple-linear-regression/note.md) |
 | <span id="G-1154">G-1154</span> | Many-to-many RNN | An RNN that takes a sequence and produces a sequence; also called sequence-to-sequence. | [DL Note 1058](1058-types-of-rnn/note.md) |
-| <span id="G-1156">G-1156</span> | Many-to-one | An RNN task with a sequence as input and a single output. | [DL Note 1059](1059-backpropagation-through-time/note.md) |
 | <span id="G-1155">G-1155</span> | Many-to-one RNN | An RNN that reads a sequence and gives one output at the end. | [DL Note 1058](1058-types-of-rnn/note.md) |
 | <span id="G-1157">G-1157</span> | MAP rule | Maximum a posteriori: predict the class with the largest posterior probability. | [Note 88](88-naive-bayes-maths/note.md) |
 | <span id="G-1158">G-1158</span> | MAR | Missing at random: the gaps depend on another, recorded column. | [Note 35](35-complete-case-analysis/note.md) |
@@ -1196,6 +1183,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1186">G-1186</span> | max_leaf_nodes | The cap on the number of leaves; the tree grows best-first until it is reached. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | <span id="G-1187">G-1187</span> | max_samples | The number or share of rows each base model gets. | [Note 106](106-bagging-classifier/note.md) |
 | <span id="G-1188">G-1188</span> | MaxAbsScaler | scikit-learn's class for max-abs scaling. | [Note 25](25-normalization/note.md) |
+| <span id="G-2217">G-2217</span> | Maximal margin classifier | The classifier that separates the classes with the largest possible margin; the hard-margin SVM. | [Note 92](92-svm-intuition/note.md) |
 | <span id="G-1189">G-1189</span> | Maximum a posteriori (MAP) estimation | Choosing the parameters with the largest posterior: minimise NLL minus the log prior. | [Maths Note 633](633-mle-in-machine-learning/note.md) |
 | <span id="G-1190">G-1190</span> | Maximum likelihood estimate $\hat\theta_{\text{ML}}$ | The parameter value where the likelihood function is highest. | [Maths Note 631](631-maximum-likelihood-estimation/note.md) |
 | <span id="G-1191">G-1191</span> | Maximum likelihood estimation (MLE) | Fitting parameters by making the likelihood of the observed data as large as possible. | [Maths Note 631](631-maximum-likelihood-estimation/note.md) |
@@ -1205,12 +1193,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1194">G-1194</span> | Mean absolute error (MAE) | The average absolute difference between actual and predicted values. | [Note 52](52-regression-metrics/note.md) |
 | <span id="G-1195">G-1195</span> | Mean centring | Subtracting the mean from every value, so the column's mean becomes 0. | [Note 24](24-standardization/note.md) |
 | <span id="G-1196">G-1196</span> | Mean decrease in impurity (MDI) | Impurity-based feature importance: a column's share of the total weighted impurity decrease of its splits, averaged over the trees; also called Gini importance. | [Note 114](114-feature-importance/note.md) |
+| <span id="G-2237">G-2237</span> | Mean difference ($\mu_d$) | The mean of the per-subject differences in a paired design; the paired t-test tests $\mu_d = 0$. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
 | <span id="G-1197">G-1197</span> | Mean imputation | Filling every gap with the mean of the column's known values. | [Note 36](36-imputing-numerical-data/note.md) |
 | <span id="G-1198">G-1198</span> | Mean normalization | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. | [Note 25](25-normalization/note.md) |
 | <span id="G-1199">G-1199</span> | Mean of a random variable | Another name for its expected value. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | <span id="G-1200">G-1200</span> | Mean square (MSB, MSW) | A sum of squares divided by its degrees of freedom: a variance. | [Maths Note 572](572-one-way-anova/note.md) |
 | <span id="G-1201">G-1201</span> | Mean squared error (MSE) | The average squared difference between actual and predicted values. | [Note 52](52-regression-metrics/note.md) |
-| <span id="G-1202">G-1202</span> | Mean squared error loss | The average squared error; its derivatives do not grow with the number of rows. | [Note 58](58-batch-gradient-descent/note.md) |
 | <span id="G-1204">G-1204</span> | mean(axis=0) | The mean of each column of an array. | [Note 130](130-kmeans-from-scratch/note.md) |
 | <span id="G-1205">G-1205</span> | Measure of central tendency | A single number for the typical, central value of a column. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | <span id="G-1206">G-1206</span> | Measure of dispersion | A number that describes how spread out a column is around its centre. | [Maths Note 222](222-measures-of-dispersion/note.md) |
@@ -1222,14 +1210,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1212">G-1212</span> | Mesokurtic | Excess kurtosis of 0, like every normal distribution. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | <span id="G-1213">G-1213</span> | Meta-model | The model in stacking that is trained on the base models' predictions. | [Note 101](101-ensemble-learning/note.md) |
 | <span id="G-1214">G-1214</span> | method | The `PowerTransformer` parameter that picks `"box-cox"` or `"yeo-johnson"`. | [Note 31](31-power-transformer/note.md) |
-| <span id="G-1215">G-1215</span> | Metric | A number that tells whether the work is moving in the right direction. | [Note 14](14-framing-ml-problem/note.md) |
+| <span id="G-1215">G-1215</span> | Metric (performance metric) | A number that measures how well a model works, and so tells whether the work is moving in the right direction. | [Note 14](14-framing-ml-problem/note.md) |
 | <span id="G-1216">G-1216</span> | MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer. | [Note 40](40-iterative-imputer-mice/note.md) |
 | <span id="G-1217">G-1217</span> | Min-max scaling | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. | [Note 25](25-normalization/note.md) |
 | <span id="G-1218">G-1218</span> | min_frequency | `OneHotEncoder` parameter that merges rare categories into one column. | [Note 27](27-one-hot-encoding/note.md) |
 | <span id="G-1219">G-1219</span> | min_impurity_decrease | The smallest weighted impurity decrease a split must give to be made. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | <span id="G-1220">G-1220</span> | min_samples_leaf | The smallest number of rows every leaf must keep. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | <span id="G-1221">G-1221</span> | min_samples_split | The smallest number of rows a node must hold to be split. | [Note 98](98-decision-tree-hyperparameters/note.md) |
-| <span id="G-1223">G-1223</span> | Mini-batch | A small group of data points used for one training step. | [Note 5](05-online-learning/note.md) |
 | <span id="G-1222">G-1222</span> | Mini-batch gradient descent | Gradient descent that uses a small random group of rows for every update. | [Note 58](58-batch-gradient-descent/note.md) |
 | <span id="G-1224">G-1224</span> | Miniforge | A small installer with only conda and Python, using conda-forge. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-1225">G-1225</span> | Minimax inequality | For any function of two arguments, the max of the min is at most the min of the max. | [Maths Note 620](620-lagrange-multipliers/note.md) |
@@ -1242,7 +1229,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1232">G-1232</span> | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing". | [Note 37](37-missing-categorical-data/note.md) |
 | <span id="G-1233">G-1233</span> | Missing indicator | A 0/1 column recording whether a value was missing. | [Note 35](35-complete-case-analysis/note.md) |
 | <span id="G-1234">G-1234</span> | Missing value | An empty entry, shown by pandas as `NaN`. | [Note 15](15-working-with-csv/note.md) |
-| <span id="G-1235">G-1235</span> | Missing values | Empty cells in the data. | [Note 7](07-challenges-in-ml/note.md) |
 | <span id="G-1236">G-1236</span> | Mixed partial derivative | A second partial derivative with respect to two different variables, such as $\partial^2 f/\partial y\,\partial x$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | <span id="G-1237">G-1237</span> | Mixed variable | A column holding both numerical and categorical data. | [Note 33](33-mixed-variables/note.md) |
 | <span id="G-1238">G-1238</span> | Mixture weight $\pi_k$ | The share of the mixture given to component $k$; weights are non-negative and add up to 1. | [Maths Note 640](640-gaussian-mixture-models/note.md) |
@@ -1260,18 +1246,17 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1250">G-1250</span> | Modality | A kind of data, such as text, images or audio. | [DL Note 1071](1071-introduction-to-transformers/note.md) |
 | <span id="G-1251">G-1251</span> | Mode | The most common value of a column. | [Note 23](23-what-is-feature-engineering/note.md) |
 | <span id="G-1256">G-1256</span> | Model | The logic produced by training, used to give outputs for new inputs. | [Note 1](01-what-is-ml/note.md) |
-| <span id="G-1252">G-1252</span> | Model deployment | Putting a model on a server so users can reach it. | [Note 9](09-mldlc/note.md) |
 | <span id="G-1253">G-1253</span> | Model drift / concept drift | A model's accuracy dropping as the real world changes; sometimes called model rot. | [Note 4](04-batch-learning/note.md) |
 | <span id="G-1254">G-1254</span> | Model selection | Training several algorithms and keeping the best. | [Note 13](13-toy-project/note.md) |
-| <span id="G-1255">G-1255</span> | Model training | Giving data to an algorithm so it learns the pattern. | [Note 9](09-mldlc/note.md) |
 | <span id="G-1257">G-1257</span> | Model-based learning | Learning a mathematical function from the data and predicting with it. | [Note 6](06-instance-vs-model-based/note.md) |
 | <span id="G-1258">G-1258</span> | Momentum (optimizer) | Gradient descent that moves by a velocity, an exponentially decaying average of past gradients. | [DL Note 1034](1034-sgd-with-momentum/note.md) |
 | <span id="G-1259">G-1259</span> | monotonic_cst | Setting that forces predictions to only rise or only fall as a column grows. | [Note 111](111-random-forest-hyperparameters/note.md) |
 | <span id="G-1260">G-1260</span> | Monotonicity | Whether a column's values only go up, or only go down, from row to row. | [Note 22](22-pandas-profiling/note.md) |
 | <span id="G-1261">G-1261</span> | Moore's law | The number of transistors on a chip doubles about every two years. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
-| <span id="G-1262">G-1262</span> | Moore–Penrose pseudo-inverse ($A^{+}$) | $V\Sigma^{+}U^{\mathsf T}$: the SVD inverted with zero singular values left at zero. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
+| <span id="G-1262">G-1262</span> | Moore–Penrose pseudo-inverse ($A^{+}$) | A generalised inverse for matrices that are not square or have no inverse: $V\Sigma^{+}U^{\mathsf T}$, the SVD inverted with zero singular values left at zero. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | <span id="G-1263">G-1263</span> | More extreme | Having as much or more evidence against $H_0$, in the direction(s) of $H_1$. | [Maths Note 300](300-p-values/note.md) |
 | <span id="G-1264">G-1264</span> | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode. | [Note 37](37-missing-categorical-data/note.md) |
+| <span id="G-2267">G-2267</span> | Moving average | The list of averages a sliding window gives: each output is the mean of the numbers under the window. | [DL Note 1042](1042-convolution-operation/note.md) |
 | <span id="G-1265">G-1265</span> | Moving mean and moving variance | Running averages of each node's batch mean and variance, kept during training and used for prediction. | [DL Note 1031](1031-batch-normalization/note.md) |
 | <span id="G-1266">G-1266</span> | Multi-class classification | Predicting one of more than two classes; here one of 1,159 words. | [DL Note 1063](1063-lstm-next-word-prediction/note.md) |
 | <span id="G-1267">G-1267</span> | Multi-class output layer | An output layer with one node per class; the highest output gives the prediction. | [DL Note 1009](1009-mlp-intuition/note.md) |
@@ -1287,6 +1272,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1277">G-1277</span> | MultinomialNB | Naive Bayes for count data, such as word counts. | [Note 90](90-gaussian-naive-bayes/note.md) |
 | <span id="G-1278">G-1278</span> | Multiple imputation | Making several filled copies of the data to see how unsure the fills are. | [Note 40](40-iterative-imputer-mice/note.md) |
 | <span id="G-1279">G-1279</span> | Multiple linear regression | Linear regression with several input columns. | [Note 50](50-simple-linear-regression/note.md) |
+| <span id="G-2212">G-2212</span> | Multiplication rule | $P(A \cap B) = P(A \mid B) \times P(B)$: the chance of both is the chance of one times the chance of the other given the first. | [Note 82](82-conditional-probability/note.md) |
 | <span id="G-1280">G-1280</span> | Multivariate analysis | Studying more than two variables together. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-1281">G-1281</span> | Multivariate chain rule | The derivative through intermediate variables: multiply along each path and add the paths; a row gradient times a matrix of inner derivatives. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | <span id="G-1282">G-1282</span> | Multivariate imputation | Imputation that also uses the other columns. | [Note 35](35-complete-case-analysis/note.md) |
@@ -1304,8 +1290,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1294">G-1294</span> | n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all. | [Note 104](104-voting-regressor/note.md) |
 | <span id="G-1295">G-1295</span> | Nabla ($\nabla$) | The symbol for the gradient. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | <span id="G-1296">G-1296</span> | Naive assumption | The assumption that the inputs are conditionally independent given the class. | [Note 87](87-naive-bayes-intuition/note.md) |
-| <span id="G-1298">G-1298</span> | Naive Bayes | A classification algorithm based on Bayes' theorem (later Notes). | [Note 82](82-conditional-probability/note.md) |
-| <span id="G-1297">G-1297</span> | Naive Bayes classifier | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. | [Note 87](87-naive-bayes-intuition/note.md) |
+| <span id="G-1297">G-1297</span> | Naive Bayes classifier (Naive Bayes) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. | [Note 87](87-naive-bayes-intuition/note.md) |
 | <span id="G-1299">G-1299</span> | Name tokens | The tokens of the athlete's name in the prompt. | [DL Note 1089](1089-mlp-stores-facts/note.md) |
 | <span id="G-1300">G-1300</span> | Named entity recognition (NER) | Marking the words of a sentence that are entities, such as times and places. | [DL Note 1058](1058-types-of-rnn/note.md) |
 | <span id="G-1301">G-1301</span> | named_steps | Dictionary of a pipeline's steps, from each name to its object. | [Note 29](29-pipelines/note.md) |
@@ -1313,27 +1298,25 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1303">G-1303</span> | Narrow AI | AI that does one specific task. All AI today is narrow. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-1304">G-1304</span> | NaT | "Not a time": the missing value of a datetime column. | [Note 34](34-date-and-time/note.md) |
 | <span id="G-1305">G-1305</span> | Natural language processing (NLP) | The part of ML that works with human language. | [Note 8](08-applications-of-ml/note.md) |
-| <span id="G-1306">G-1306</span> | Nearest neighbours | The rows at the smallest distance from a given row. | [Note 39](39-knn-imputer/note.md) |
+| <span id="G-1306">G-1306</span> | Nearest neighbours (neighbours) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. | [Note 39](39-knn-imputer/note.md) |
 | <span id="G-1307">G-1307</span> | Nearly perpendicular | Two directions whose angle is close to 90 degrees, so their cosine is close to 0. | [DL Note 1090](1090-superposition/note.md) |
 | <span id="G-1308">G-1308</span> | Negative gradient | Minus the derivative of the loss with respect to the prediction; the direction that lowers the loss fastest. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
 | <span id="G-1309">G-1309</span> | Negative hyperplane ($\pi^-$) | The copy of the separating hyperplane moved out until it touches the first negative point. | [Note 92](92-svm-intuition/note.md) |
 | <span id="G-1310">G-1310</span> | Negative log-likelihood (NLL) | Minus the log-likelihood; minimised instead of maximising the likelihood. | [Maths Note 631](631-maximum-likelihood-estimation/note.md) |
 | <span id="G-1311">G-1311</span> | Negative power | $a^{-n} = 1/a^{n}$. | [Maths Note 560](560-poisson-distribution/note.md) |
 | <span id="G-1312">G-1312</span> | Negative skew (left skew) | A long tail on the left: a few very small values. | [Note 20](20-univariate-analysis/note.md) |
-| <span id="G-1313">G-1313</span> | Neighbours | The k training points closest to the query point. | [Note 91](91-knn/note.md) |
 | <span id="G-1314">G-1314</span> | Neocognitron | Fukushima's 1980 model of S-cells and C-cells, a forerunner of CNNs. | [DL Note 1041](1041-cnn-vs-visual-cortex/note.md) |
 | <span id="G-2158">G-2158</span> | Nested cross-validation | Cross-validation with the whole tuning search inside each outer fold, so the chosen model is scored on data the search never saw. | [Note 112](112-random-forest-tuning/note.md) |
 | <span id="G-1315">G-1315</span> | Nesterov accelerated gradient (NAG) | Momentum that computes the gradient at the look-ahead point instead of the current point. | [DL Note 1035](1035-nesterov-accelerated-gradient/note.md) |
 | <span id="G-1316">G-1316</span> | Neural network | The model DL uses, loosely inspired by neurons in the brain. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
-| <span id="G-1318">G-1318</span> | Neuron | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on. | [DL Note 1004](1004-perceptron/note.md) |
+| <span id="G-1318">G-1318</span> | Neuron (biological) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on. | [DL Note 1004](1004-perceptron/note.md) |
 | <span id="G-1317">G-1317</span> | Neuron (in a network) | One unit of a neural network; in an ANN, a perceptron. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-1319">G-1319</span> | Neuroplasticity | The brain's connections strengthening, weakening, vanishing or forming over time. | [DL Note 1004](1004-perceptron/note.md) |
 | <span id="G-1320">G-1320</span> | Newton step | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. | [Note 122](122-gradient-boosting-classification/note.md) |
 | <span id="G-1321">G-1321</span> | Newton's method | Repeatedly jumping to the minimum of the second-order Taylor polynomial: $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | <span id="G-1322">G-1322</span> | Next-word predictor | A model that takes some text and predicts the word that comes next. | [DL Note 1063](1063-lstm-next-word-prediction/note.md) |
-| <span id="G-1323">G-1323</span> | NLP | Natural language processing: ML on text. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | <span id="G-1324">G-1324</span> | Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root. | [Note 100](100-dtreeviz/note.md) |
-| <span id="G-1325">G-1325</span> | Node-level column sampling | Drawing a new random set of columns before every split (random forest). | [Note 110](110-bagging-vs-random-forest/note.md) |
+| <span id="G-1325">G-1325</span> | Node-level feature sampling (node-level column sampling) | Drawing a new random set of features before every split (random forest). | [Note 110](110-bagging-vs-random-forest/note.md) |
 | <span id="G-1326">G-1326</span> | Noise ($\varepsilon$) | The random part of a target that the model's prediction does not explain. | [Maths Note 633](633-mle-in-machine-learning/note.md) |
 | <span id="G-1327">G-1327</span> | Noise (irreducible error) | Randomness in the data that no model can predict. | [Note 62](62-bias-variance/note.md) |
 | <span id="G-1328">G-1328</span> | Noise floor | The flat run of small singular values that random noise produces. | [Maths Note 612](612-low-rank-approximation/note.md) |
@@ -1350,14 +1333,13 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1339">G-1339</span> | Non-saturating function | A function with no upper limit on its output, such as ReLU for positive inputs. | [DL Note 1027](1027-activation-functions/note.md) |
 | <span id="G-1340">G-1340</span> | Non-sequential data | Data whose features can be listed in any order without changing the meaning, such as a table row. | [DL Note 1055](1055-why-rnn/note.md) |
 | <span id="G-1341">G-1341</span> | Non-trainable parameter | A stored number that gradient descent does not update, such as a moving mean. | [DL Note 1031](1031-batch-normalization/note.md) |
-| <span id="G-1342">G-1342</span> | Norm (magnitude, length) of a vector | Its distance from the origin, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$; strictly the L2 norm. | [Note 93](93-svm-maths/note.md) |
 | <span id="G-1343">G-1343</span> | Normal distribution | A symmetric, bell-shaped distribution. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-1344">G-1344</span> | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression. | [Note 54](54-multiple-lr-maths/note.md) |
 | <span id="G-1345">G-1345</span> | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy. | [Note 54](54-multiple-lr-maths/note.md) |
 | <span id="G-1346">G-1346</span> | Normal vector | A vector perpendicular to a line, plane or hyperplane; for $w^{\mathsf T}x + w_0 = 0$ it is $w$. | [Maths Note 363](363-equation-of-a-hyperplane/note.md) |
-| <span id="G-1348">G-1348</span> | Normalisation | Transforming values to chosen statistics, usually mean 0 and variance 1. | [DL Note 1079](1079-layer-normalization/note.md) |
+| <span id="G-1348">G-1348</span> | Normalisation (in a network) | Transforming values to chosen statistics, usually mean 0 and variance 1. | [DL Note 1079](1079-layer-normalization/note.md) |
 | <span id="G-1347">G-1347</span> | Normalisation (of weights) | Dividing every weight by their sum so they add up to 1. | [Note 116](116-adaboost-step-by-step/note.md) |
-| <span id="G-1349">G-1349</span> | Normalization | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. | [Note 25](25-normalization/note.md) |
+| <span id="G-1349">G-1349</span> | Normalization (feature scaling) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. | [Note 25](25-normalization/note.md) |
 | <span id="G-1350">G-1350</span> | Normalized importances | Importances divided by their total, so they add up to 1. | [Note 114](114-feature-importance/note.md) |
 | <span id="G-1351">G-1351</span> | Normalizing inputs | Bringing every input column of a network to the same scale before training, by standardization or normalization. | [DL Note 1023](1023-data-scaling-in-ann/note.md) |
 | <span id="G-1352">G-1352</span> | Not commutative | The order of the factors matters: $AB \neq BA$ in general. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
@@ -1375,10 +1357,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1364">G-1364</span> | Nullity matrix | A picture of the whole table with missing values drawn as white lines. | [Note 22](22-pandas-profiling/note.md) |
 | <span id="G-1365">G-1365</span> | Number of samples ($k$) | How many samples are drawn; different from the sample size $n$. | [Maths Note 272](272-estimating-a-mean-with-the-clt/note.md) |
 | <span id="G-1366">G-1366</span> | Numerator layout | Writing derivatives with outputs as rows and inputs as columns. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
+| <span id="G-2247">G-2247</span> | Numeric understanding | Knowing how to carry out a computation, such as a matrix product. | [Maths Note 580](580-learning-maths-for-ml/note.md) |
 | <span id="G-1367">G-1367</span> | Numerical data | Data made of numbers. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-1368">G-1368</span> | Numerical derivative | An estimate of a derivative from a difference quotient with a small step $h$. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | <span id="G-1369">G-1369</span> | NumPy | Python's library for arrays and linear algebra. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
-| <span id="G-1373">G-1373</span> | Objective | The metric the tuner maximises or minimises, such as `val_accuracy`. | [DL Note 1039](1039-keras-tuner/note.md) |
+| <span id="G-1373">G-1373</span> | Objective (Keras Tuner) | The metric the tuner maximises or minimises, such as `val_accuracy`. | [DL Note 1039](1039-keras-tuner/note.md) |
 | <span id="G-1372">G-1372</span> | Objective function | The quantity an algorithm tries to make as large or as small as possible. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-1370">G-1370</span> | Objective function (Optuna) | The function a search optimises: it takes a trial's hyperparameter values and returns a score. | [Note 134](134-optuna/note.md) |
 | <span id="G-1371">G-1371</span> | Objective function (XGBoost) | The quantity XGBoost minimises: the loss plus a regularisation term. | [Note 126](126-xgboost-maths/note.md) |
@@ -1414,24 +1397,22 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1403">G-1403</span> | Ordinal data | Categorical data whose categories have a natural order, such as Poor < Average < Good. | [Note 26](26-ordinal-label-encoding/note.md) |
 | <span id="G-1404">G-1404</span> | Ordinal encoding | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. | [Note 26](26-ordinal-label-encoding/note.md) |
 | <span id="G-1405">G-1405</span> | OrdinalEncoder | scikit-learn's class for ordinal encoding; takes the order through `categories`. | [Note 26](26-ordinal-label-encoding/note.md) |
-| <span id="G-1406">G-1406</span> | Ordinary least squares (OLS) | The closed-form method for linear regression: the line with the smallest sum of squared errors. | [Note 51](51-linear-regression-maths/note.md) |
+| <span id="G-1406">G-1406</span> | Ordinary least squares (OLS, least squares) | The closed-form method for linear regression: the line with the smallest sum of squared errors. | [Note 51](51-linear-regression-maths/note.md) |
+| <span id="G-2251">G-2251</span> | Orientation | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
+| <span id="G-2240">G-2240</span> | Origin | The point where the axes cross; the tail of every vector in linear algebra. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | <span id="G-1408">G-1408</span> | Orthogonal | Perpendicular; for non-zero vectors, dot product 0. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | <span id="G-1407">G-1407</span> | Orthogonal matrix | A square matrix with orthonormal columns; it rotates or flips, and its inverse is its transpose. | [Maths Note 610](610-svd-geometry/note.md) |
 | <span id="G-1409">G-1409</span> | Orthonormal | Vectors of length 1 that are all perpendicular to each other. | [Maths Note 610](610-svd-geometry/note.md) |
 | <span id="G-1410">G-1410</span> | Oscillation | Swinging back and forth past the minimum before settling. | [DL Note 1035](1035-nesterov-accelerated-gradient/note.md) |
-| <span id="G-2159">G-2159</span> | Out-of-bag (OOB) evaluation | Testing a bagging model by predicting each training observation with only the base models that never saw it. | [Note 113](113-oob-score/note.md) |
 | <span id="G-1411">G-1411</span> | Out-of-bag (OOB) evaluation, OOB score | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. | [Note 113](113-oob-score/note.md) |
-| <span id="G-1412">G-1412</span> | Out-of-bag rows | The rows a base model never saw because its bootstrap sample missed them (about 37%). | [Note 105](105-bagging-intuition/note.md) |
-| <span id="G-1413">G-1413</span> | Out-of-core computing | Training on data bigger than the RAM by loading it chunk by chunk. | [Note 123](123-xgboost-intro/note.md) |
-| <span id="G-1414">G-1414</span> | Out-of-core learning | Training on data too big for memory by feeding it in chunks, offline. | [Note 5](05-online-learning/note.md) |
+| <span id="G-1412">G-1412</span> | Out-of-bag observations (out-of-bag rows) | The observations a base model never saw because its bootstrap sample missed them (about 37%). | [Note 105](105-bagging-intuition/note.md) |
+| <span id="G-1413">G-1413</span> | Out-of-core learning (out-of-core computing) | Training on data too big for the memory (RAM) by loading it chunk by chunk, offline. | [Note 123](123-xgboost-intro/note.md) |
 | <span id="G-1415">G-1415</span> | Out-of-fold prediction | A prediction for a row made by a model trained on the other folds, never on that row. | [Note 127](127-stacking-blending/note.md) |
 | <span id="G-1416">G-1416</span> | Out-of-vocabulary (OOV) token | A placeholder, `[UNK]`, for words not in the vocabulary. | [DL Note 1057](1057-rnn-sentiment-analysis/note.md) |
 | <span id="G-1417">G-1417</span> | Outcome | The single result of one trial, such as heads or a 3. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | <span id="G-1418">G-1418</span> | Outer product | $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$, the matrix of all products $\delta_i\delta_j$; more copies give tensors. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | <span id="G-1420">G-1420</span> | Outlier | A value far from the rest of the data. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-1419">G-1419</span> | Outlier detection | Setting a lower and an upper limit; values outside them are outliers. | [Note 41](41-what-are-outliers/note.md) |
-| <span id="G-1421">G-1421</span> | Outliers | Values far from the rest, often mistakes. | [Note 7](07-challenges-in-ml/note.md) |
-| <span id="G-1423">G-1423</span> | Output gate | Produces the output and the next hidden state from the cell state. | [DL Note 1061](1061-lstm/note.md) |
 | <span id="G-1422">G-1422</span> | Output gate ($o_t$) | Sigmoid layer whose output filters $\tanh(c_t)$ to give $h_t$. | [DL Note 1062](1062-lstm-architecture/note.md) |
 | <span id="G-1424">G-1424</span> | Output layer | The last layer, which gives the prediction. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-1425">G-1425</span> | Output value (classification) | sum of residuals / ($\sum p(1-p) + \lambda$), in log-odds. | [Note 125](125-xgboost-classification/note.md) |
@@ -1455,16 +1436,16 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1443">G-1443</span> | Parallel learning | Training the base models independently, so they can all be trained at once (bagging). | [Note 119](119-bagging-vs-boosting/note.md) |
 | <span id="G-1444">G-1444</span> | Parallel processing | Splitting one job among several processor cores working at the same time. | [Note 123](123-xgboost-intro/note.md) |
 | <span id="G-1445">G-1445</span> | Parallel training | Training in which all positions of a sequence are computed at the same time. | [DL Note 1071](1071-introduction-to-transformers/note.md) |
-| <span id="G-1448">G-1448</span> | Parameter | A named setting passed to a function, like `sep=";"`. | [Note 15](15-working-with-csv/note.md) |
+| <span id="G-1448">G-1448</span> | Parameter (of a function) | A named setting passed to a function, like `sep=";"`. | [Note 15](15-working-with-csv/note.md) |
+| <span id="G-2276">G-2276</span> | Parameter (of a population) | A number that describes the population, such as $\mu$. | [Maths Note 220](220-what-is-statistics/note.md) |
 | <span id="G-1446">G-1446</span> | Parameter grid | A dictionary of hyperparameter names and the values to try for each. | [Note 112](112-random-forest-tuning/note.md) |
 | <span id="G-1447">G-1447</span> | Parameter sharing | Using the same weights at different positions or time steps. | [DL Note 1055](1055-why-rnn/note.md) |
-| <span id="G-1450">G-1450</span> | Parameters | The numbers that describe a learned model, e.g. slope and intercept. | [Note 6](06-instance-vs-model-based/note.md) |
 | <span id="G-1449">G-1449</span> | Parameters (of a distribution) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. | [Maths Note 240](240-random-variables-and-distributions/note.md) |
+| <span id="G-1450">G-1450</span> | Parameters (of a model) | The numbers that describe a learned model, e.g. slope and intercept. | [Note 6](06-instance-vs-model-based/note.md) |
 | <span id="G-1451">G-1451</span> | Parametric density estimation | Assuming a named distribution and estimating its parameters from the data. | [Maths Note 243](243-density-estimation-kde/note.md) |
 | <span id="G-1452">G-1452</span> | Parametric ReLU (PReLU) | Leaky ReLU whose negative slope $a$ is learned during training, one per node. | [DL Note 1028](1028-relu-variants/note.md) |
 | <span id="G-1453">G-1453</span> | Pareto distribution | A power-law distribution starting at $x_m$, with PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$. | [Maths Note 262](262-pareto-and-power-law/note.md) |
 | <span id="G-1454">G-1454</span> | Parse, parser | Read text and build a structure from it; the part that does this. | [Note 18](18-web-scraping/note.md) |
-| <span id="G-1455">G-1455</span> | Parser | The part of a program that reads text and splits it into pieces. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-1456">G-1456</span> | Part-of-speech tagging | Labelling every word of a sentence with its part of speech. | [DL Note 1058](1058-types-of-rnn/note.md) |
 | <span id="G-1457">G-1457</span> | Partial derivative | The slope of a function of several variables in one variable, holding the others fixed. | [Note 51](51-linear-regression-maths/note.md) |
 | <span id="G-1458">G-1458</span> | partial_fit | A scikit-learn method that continues training from where the model left off. | [Note 5](05-online-learning/note.md) |
@@ -1477,7 +1458,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1465">G-1465</span> | Path (in the chain rule) | One route through the computation from the loss to a weight; the derivative is the sum over all paths. | [DL Note 1059](1059-backpropagation-through-time/note.md) |
 | <span id="G-1466">G-1466</span> | Patience | The number of epochs without improvement that early stopping waits before stopping. | [DL Note 1022](1022-early-stopping/note.md) |
 | <span id="G-1467">G-1467</span> | Pattern | The relationship between input and output that the algorithm discovers. | [Note 1](01-what-is-ml/note.md) |
-| <span id="G-1469">G-1469</span> | PCA | Principal component analysis, a dimensionality reduction technique. | [Note 3](03-types-of-ml/note.md) |
+| <span id="G-2169">G-2169</span> | Pattern recognition | Finding regularities in data; the measurable part of intelligence that today's AI covers. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
+| <span id="G-1469">G-1469</span> | PCA (principal component analysis) | Principal component analysis: an unsupervised feature extraction technique for dimensionality reduction that builds new columns along the directions of greatest variance. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-1468">G-1468</span> | PCA through the SVD | Taking the principal components from $V$ of the centred data, with variances $\sigma_i^2/n$ and scores $U\Sigma$. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | <span id="G-1470">G-1470</span> | pd.crosstab | pandas function that counts how often each pair of values from two columns occurs. | [Note 89](89-naive-bayes-code/note.md) |
 | <span id="G-1471">G-1471</span> | pd.cut | The pandas function that puts values into intervals we give it. | [Note 32](32-binning-binarization/note.md) |
@@ -1490,6 +1472,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1478">G-1478</span> | penalty=None | LogisticRegression setting that switches regularisation off. | [Note 75](75-logistic-gradient-descent/note.md) |
 | <span id="G-1479">G-1479</span> | Per-row seed | A seed taken from a row's own values, so the same input always gets the same random fill. | [Note 38](38-missing-indicator-random-sample/note.md) |
 | <span id="G-1483">G-1483</span> | Percentile | The value below which a given share of the data lies. | [Note 19](19-understanding-your-data/note.md) |
+| <span id="G-2234">G-2234</span> | Percentile bootstrap interval | The middle 95% (2.5th to 97.5th percentile) of the means of many resamples drawn with replacement from one sample. | [Maths Note 280](280-confidence-intervals-z-procedure/note.md) |
 | <span id="G-1480">G-1480</span> | Percentile location | The position $(p/100) \times (n+1)$ of the $p$-th percentile in sorted data. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
 | <span id="G-1481">G-1481</span> | Percentile method (percentile rule) | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any column. | [Note 44](44-outliers-percentile/note.md) |
 | <span id="G-1482">G-1482</span> | Percentile rank | The percentile at which a given value falls: $(X + 0.5Y)/n \times 100$. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
@@ -1497,7 +1480,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1484">G-1484</span> | Perceptron loss | $\max(0, -y f(x))$ per point, with labels $\pm 1$: 0 when correct, $\lvert f(x) \rvert$ when not. | [DL Note 1006](1006-perceptron-loss/note.md) |
 | <span id="G-1485">G-1485</span> | Perceptron trick | Moving a line towards each misclassified point until the classes are separated. | [Note 70](70-perceptron-trick/note.md) |
 | <span id="G-1487">G-1487</span> | Perfect separation | When a line splits the training classes with no mistakes; unregularised weights then grow without limit. | [Note 75](75-logistic-gradient-descent/note.md) |
-| <span id="G-1488">G-1488</span> | Performance metric | A number that measures how well a model works. | [Note 9](09-mldlc/note.md) |
 | <span id="G-1489">G-1489</span> | Periodic function | A function that repeats after a fixed interval, its period. | [DL Note 1078](1078-positional-encoding/note.md) |
 | <span id="G-1490">G-1490</span> | Permutation importance | The drop in a model's test score when one column's values are shuffled. | [Note 114](114-feature-importance/note.md) |
 | <span id="G-1491">G-1491</span> | permutation_importance | scikit-learn function (in `sklearn.inspection`) that computes permutation importance. | [Note 114](114-feature-importance/note.md) |
@@ -1509,6 +1491,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1497">G-1497</span> | pip | Python's own package manager, which installs from PyPI. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-1499">G-1499</span> | Pipeline | One object that bundles several processing steps and a model. | [Note 13](13-toy-project/note.md) |
 | <span id="G-1498">G-1498</span> | Pipeline (class) | The scikit-learn class (in `sklearn.pipeline`) that builds a pipeline from a list of (name, object) tuples. | [Note 29](29-pipelines/note.md) |
+| <span id="G-2161">G-2161</span> | Pipeline map | Where each Concept sits among the 14 steps of an ML project. | [Note 1](01-course-map/note.md) |
 | <span id="G-1500">G-1500</span> | Pivot table | A grid with one column's values as rows, another's as columns, and a third in the cells. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
 | <span id="G-1501">G-1501</span> | Pixel | One dot of an image, stored as one or more numbers. | [Note 11](11-tensors/note.md) |
 | <span id="G-1502">G-1502</span> | Plane | A flat surface in 3D; the model for two input columns. | [Note 53](53-multiple-linear-regression/note.md) |
@@ -1554,25 +1537,21 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1542">G-1542</span> | Power transformer | A transform that raises each column to a learned power $\lambda$ to make it close to normal. | [Note 31](31-power-transformer/note.md) |
 | <span id="G-1543">G-1543</span> | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note). | [Note 30](30-function-transformer/note.md) |
 | <span id="G-1544">G-1544</span> | PPMI | Positive pointwise mutual information: a score of how much more often two words appear together than by chance, with negative scores set to 0. | [DL Note 1072](1072-what-is-self-attention/note.md) |
-| <span id="G-1545">G-1545</span> | Pre-LN transformer | A transformer variant with layer normalisation inside the residual branch, which trains without warm-up. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
+| <span id="G-1545">G-1545</span> | Pre-LN transformer (prenorm) | A transformer variant with layer normalisation at the input of each sub-layer, inside the residual branch, instead of after the addition; it trains without warm-up. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
 | <span id="G-1546">G-1546</span> | Pre-training | The first, general training of a model on a large dataset. | [DL Note 1067](1067-history-of-llms/note.md) |
 | <span id="G-1547">G-1547</span> | Precision | Of all items predicted positive, the fraction that really are positive. | [Note 14](14-framing-ml-problem/note.md) |
-| <span id="G-1548">G-1548</span> | Predict | Use a trained model to give an answer for new data it has not seen. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
+| <span id="G-1548">G-1548</span> | Predict (prediction, inference) | Use a trained model to give an answer for new data it has not seen, with no correct output available. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-1549">G-1549</span> | predict_proba | scikit-learn method that returns predicted probabilities instead of classes. | [Note 78](78-roc-auc/note.md) |
-| <span id="G-1550">G-1550</span> | Prediction ($\hat{y}$) | The value the model gives for an input; the hat marks a prediction. | [Note 51](51-linear-regression-maths/note.md) |
-| <span id="G-1551">G-1551</span> | Prediction (inference) | Using a trained model on new inputs, with no correct output available. | [DL Note 1081](1081-masked-self-attention/note.md) |
+| <span id="G-1550">G-1550</span> | Prediction ($\hat{y}$) | The value the model gives for an input whose true output is not known; the hat marks a prediction. | [Note 51](51-linear-regression-maths/note.md) |
 | <span id="G-1552">G-1552</span> | Prediction path | The nodes a row passes through, from the root to the leaf that predicts it. | [Note 100](100-dtreeviz/note.md) |
 | <span id="G-1553">G-1553</span> | Predictive maintenance | Repairing a machine before it breaks, based on predicted faults. | [Note 8](08-applications-of-ml/note.md) |
 | <span id="G-1554">G-1554</span> | Preferred stimulus | The pattern, such as an edge of one orientation, that a cell responds to most. | [DL Note 1041](1041-cnn-vs-visual-cortex/note.md) |
 | <span id="G-1555">G-1555</span> | Prefix | The first few words of a sentence. | [DL Note 1063](1063-lstm-next-word-prediction/note.md) |
-| <span id="G-1556">G-1556</span> | Prenorm | Placing LayerNorm at the input of each sub-layer instead of after the addition. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
-| <span id="G-1557">G-1557</span> | Preprocessing | Cleaning and preparing data before training. | [Note 13](13-toy-project/note.md) |
 | <span id="G-1558">G-1558</span> | Pretrained model | A network already trained by someone else on a large dataset, reused for our own predictions. | [DL Note 1051](1051-pretrained-models/note.md) |
 | <span id="G-1559">G-1559</span> | Primal problem | The original constrained problem, in the variables $\mathbf{x}$. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | <span id="G-1560">G-1560</span> | Primary visual cortex (V1) | The first area of the cortex that processes visual signals. | [DL Note 1041](1041-cnn-vs-visual-cortex/note.md) |
 | <span id="G-1561">G-1561</span> | Primitive feature | A basic feature such as an edge, found by the first layers. | [DL Note 1040](1040-cnn-intuition/note.md) |
 | <span id="G-1563">G-1563</span> | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most. | [Note 47](47-pca-geometric-intuition/note.md) |
-| <span id="G-1562">G-1562</span> | Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new columns along the directions of greatest variance. | [Note 47](47-pca-geometric-intuition/note.md) |
 | <span id="G-1565">G-1565</span> | Prior | The probability of an event before any evidence is seen. | [Note 85](85-bayes-theorem/note.md) |
 | <span id="G-1564">G-1564</span> | Prior $p(\theta)$ | A distribution over the parameters expressing what we believe before seeing data. | [Maths Note 633](633-mle-in-machine-learning/note.md) |
 | <span id="G-1566">G-1566</span> | Probabilistic interpretation | Reading the model's output as the probability of the positive class. | [Note 72](72-sigmoid-function/note.md) |
@@ -1606,14 +1585,15 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1594">G-1594</span> | Pyramid structure | Hidden layers with fewer neurons in each later layer, such as 64-32-16; an old rule of thumb, not needed. | [DL Note 1021](1021-improving-a-neural-network/note.md) |
 | <span id="G-1595">G-1595</span> | PyTorch | Meta's deep learning library, most used in research. | [DL Note 1001](1001-dl-scope-and-prerequisites/note.md) |
 | <span id="G-1596">G-1596</span> | Q-Q plot | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. | [Note 30](30-function-transformer/note.md) |
+| <span id="G-2252">G-2252</span> | Quadratic approximation | The tangent plane plus the terms $\tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$; the second-order Taylor polynomial. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | <span id="G-1597">G-1597</span> | Quadratic form | An expression like $x^{\mathsf T}Ax$: a sum of squared and cross terms of a vector's components. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | <span id="G-1598">G-1598</span> | Quadratic program | Minimising a convex quadratic function subject to linear inequality constraints. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
-| <span id="G-1599">G-1599</span> | Quantiles | Values that cut sorted data into equal-sized groups. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
+| <span id="G-1599">G-1599</span> | Quantiles | Values that cut sorted data into equal-sized groups; a fraction $p$ of the values lie below the quantile $Q(p)$. | [Maths Note 230](230-percentiles-and-box-plots/note.md) |
 | <span id="G-1600">G-1600</span> | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes. | [Note 30](30-function-transformer/note.md) |
 | <span id="G-1601">G-1601</span> | Quarter | One of four three-month parts of a year. | [Note 34](34-date-and-time/note.md) |
 | <span id="G-1602">G-1602</span> | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. | [Note 19](19-understanding-your-data/note.md) |
 | <span id="G-1603">G-1603</span> | Quasi-Newton method | Newton's method with the Hessian replaced by a matrix built from gradient changes. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
-| <span id="G-1606">G-1606</span> | Query | A request for data, written in SQL. | [Note 16](16-working-with-json-and-sql/note.md) |
+| <span id="G-1606">G-1606</span> | Query (SQL) | A request for data, written in SQL. | [Note 16](16-working-with-json-and-sql/note.md) |
 | <span id="G-1604">G-1604</span> | Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1`. | [Note 17](17-fetching-data-from-api/note.md) |
 | <span id="G-1605">G-1605</span> | Query point | The new point whose class we want to predict. | [Note 91](91-knn/note.md) |
 | <span id="G-1607">G-1607</span> | Query, key, value vectors | The three projections of a word's embedding, used to ask, to be compared, and to be mixed. | [DL Note 1075](1075-self-attention-geometric-intuition/note.md) |
@@ -1636,8 +1616,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1624">G-1624</span> | Randomized SVD | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | <span id="G-1625">G-1625</span> | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations. | [Note 99](99-regression-trees/note.md) |
 | <span id="G-1626">G-1626</span> | Range | The largest value minus the smallest. | [Maths Note 222](222-measures-of-dispersion/note.md) |
-| <span id="G-1629">G-1629</span> | Rank | The number of axes of a tensor (ndim in NumPy). | [Note 11](11-tensors/note.md) |
 | <span id="G-1627">G-1627</span> | Rank (of a matrix) | The number of linearly independent columns. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
+| <span id="G-1629">G-1629</span> | Rank (of a tensor) | The number of axes of a tensor (ndim in NumPy). | [Note 11](11-tensors/note.md) |
 | <span id="G-1628">G-1628</span> | Rank collapse | All word vectors of a sentence becoming the same vector after many attention layers without residual connections. | [DL Note 1080](1080-transformer-encoder/note.md) |
 | <span id="G-1630">G-1630</span> | Rank-$k$ approximation (truncated SVD) | The sum of the first $k$ layers, $\hat{A}_k = U_k\Sigma_kV_k^{\mathsf T}$. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | <span id="G-1631">G-1631</span> | Rank-1 layer | One term $\sigma_i\mathbf{u}_i\mathbf{v}_i^{\mathsf T}$ of the SVD written as a sum. | [Maths Note 612](612-low-rank-approximation/note.md) |
@@ -1653,8 +1633,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1641">G-1641</span> | Recall (sensitivity) | Of all items that really are positive, the fraction the model found. | [Note 14](14-framing-ml-problem/note.md) |
 | <span id="G-1642">G-1642</span> | Receptive field | The area of the image that one cell (or one unit of a network) responds to. | [DL Note 1041](1041-cnn-vs-visual-cortex/note.md) |
 | <span id="G-1643">G-1643</span> | Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values. | [Note 30](30-function-transformer/note.md) |
-| <span id="G-1644">G-1644</span> | Recommendation engine | A model that suggests items, such as movies, to users. | [Note 4](04-batch-learning/note.md) |
-| <span id="G-1645">G-1645</span> | Recommender system | A system that suggests items a user is likely to like. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
+| <span id="G-1644">G-1644</span> | Recommendation engine (recommender system) | A model that suggests items, such as movies, that a user is likely to like. | [Note 4](04-batch-learning/note.md) |
 | <span id="G-1646">G-1646</span> | Recurrent layer | A hidden layer whose output at one time step is an input to itself at the next. | [DL Note 1056](1056-rnn-forward-propagation/note.md) |
 | <span id="G-1647">G-1647</span> | Recurrent neural network (RNN) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-1648">G-1648</span> | Recursion | A function that calls itself on smaller inputs. | [DL Note 1019](1019-mlp-memoization/note.md) |
@@ -1679,6 +1658,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1668">G-1668</span> | ReLU | An activation function used in most deep networks, taught in a later Note. | [DL Note 1009](1009-mlp-intuition/note.md) |
 | <span id="G-1667">G-1667</span> | ReLU mask | The 0/1 matrix $\mathbb{1}[Z > 0]$ that ReLU's backward pass multiplies by. | [DL Note 1048](1048-backpropagation-cnn-layers/note.md) |
 | <span id="G-1669">G-1669</span> | remainder | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"`. | [Note 28](28-column-transformer/note.md) |
+| <span id="G-2260">G-2260</span> | Representation | A set of features that describes the data; a good one stays the same when unimportant details (such as handwriting) change. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-1670">G-1670</span> | Representation learning (feature learning) | Letting the algorithm discover useful features from raw data, instead of engineering them by hand. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
 | <span id="G-1671">G-1671</span> | Representation power | The variety of patterns a network can express; grows with more nodes and layers. | [DL Note 1065](1065-deep-rnns/note.md) |
 | <span id="G-1672">G-1672</span> | Representative sample | A sample that reflects the whole situation fairly. | [Note 7](07-challenges-in-ml/note.md) |
@@ -1689,19 +1669,18 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1677">G-1677</span> | Research hypothesis | Another name for the alternative hypothesis: the idea that came out of research. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | <span id="G-1678">G-1678</span> | Reset (modulated) memory | $r_t \odot h_{t-1}$: the old memory scaled by the reset gate. | [DL Note 1064](1064-gru/note.md) |
 | <span id="G-1679">G-1679</span> | Reset gate ($r_t$) | A sigmoid layer's output that decides how much of each entry of the old memory is used to build the candidate. | [DL Note 1064](1064-gru/note.md) |
-| <span id="G-1685">G-1685</span> | Residual | The error on one data point: actual minus predicted value. | [Note 56](56-linear-regression-assumptions/note.md) |
 | <span id="G-1680">G-1680</span> | Residual block | A block whose input is added to its output, giving the gradient a shortcut. | [DL Note 1018](1018-vanishing-exploding-gradients/note.md) |
 | <span id="G-1681">G-1681</span> | Residual connection | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. | [DL Note 1080](1080-transformer-encoder/note.md) |
 | <span id="G-1682">G-1682</span> | Residual dropout | Dropout applied to each sub-layer's output before the residual addition. | [DL Note 1085](1085-transformer-end-to-end/note.md) |
+| <span id="G-2207">G-2207</span> | Residual plot | The residuals plotted above and below a flat zero line, against a feature or the predicted value. | [Note 56](56-linear-regression-assumptions/note.md) |
 | <span id="G-1683">G-1683</span> | Residual stream | The token vector that passes from block to block, to which every sub-layer adds its output. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
-| <span id="G-1684">G-1684</span> | Residual sum of squares | The total squared error of the model's predictions. | [Note 52](52-regression-metrics/note.md) |
+| <span id="G-1684">G-1684</span> | Residual sum of squares (sum of squared errors, SSE) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. | [Note 52](52-regression-metrics/note.md) |
 | <span id="G-1686">G-1686</span> | Response | What `requests.get` returns: the status code plus the reply. | [Note 17](17-fetching-data-from-api/note.md) |
 | <span id="G-1687">G-1687</span> | Responsibility $r_{nk}$ | The posterior probability that component $k$ produced point $n$. | [Maths Note 640](640-gaussian-mixture-models/note.md) |
 | <span id="G-1688">G-1688</span> | Retina | The 2D sheet of light-sensitive cells at the back of the eye. | [DL Note 1041](1041-cnn-vs-visual-cortex/note.md) |
 | <span id="G-1689">G-1689</span> | Retrain | Train a model again, here from scratch on old + new data. | [Note 4](04-batch-learning/note.md) |
 | <span id="G-1690">G-1690</span> | Reward / punishment | Good / bad feedback after an action. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-1691">G-1691</span> | Ridge regression | Linear regression with a penalty on the sum of squared coefficients. | [Note 63](63-ridge-regression-intuition/note.md) |
-| <span id="G-2151">G-2151</span> | Right singular vector ($\mathbf v_i$) | An input direction of the SVD; a column of $V$. | [Maths Note 610](610-svd-geometry/note.md) |
 | <span id="G-1692">G-1692</span> | Right singular vector ($\mathbf{v}_i$) | An input direction of the SVD; a column of $V$. | [Maths Note 610](610-svd-geometry/note.md) |
 | <span id="G-1693">G-1693</span> | Right-tailed and left-tailed test | One-tailed tests for $H_1: \mu > \mu_0$ and $H_1: \mu < \mu_0$. | [Maths Note 292](292-errors-power-and-tails/note.md) |
 | <span id="G-1694">G-1694</span> | River | A Python library for online machine learning. | [Note 5](05-online-learning/note.md) |
@@ -1722,6 +1701,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1707">G-1707</span> | Rotation matrix $M_k$ | The fixed matrix that turns the encoding of any position $p$ into that of $p + k$. | [DL Note 1078](1078-positional-encoding/note.md) |
 | <span id="G-1710">G-1710</span> | Rotation, shift, zoom, shear | Turning, moving, enlarging or shrinking, and slanting an image. | [DL Note 1050](1050-data-augmentation/note.md) |
 | <span id="G-1711">G-1711</span> | Row and column totals | The sums in the margins of a contingency table; each counts one whole event. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
+| <span id="G-2245">G-2245</span> | Row form | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left. | [Maths Note 510](510-matrix-multiplication-as-composition/note.md) |
 | <span id="G-1712">G-1712</span> | Row sampling | Giving each base model a random subset of the rows. | [Note 108](108-random-forest-intro/note.md) |
 | <span id="G-1713">G-1713</span> | Row space | The span of the rows of a matrix; spanned by the $\mathbf{v}_i$ with $\sigma_i > 0$. | [Maths Note 611](611-computing-the-svd/note.md) |
 | <span id="G-1714">G-1714</span> | Row vector | A vector written as one row, shape $1 \times n$. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
@@ -1741,10 +1721,11 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1727">G-1727</span> | Sample size ($n$) | The number of values in one sample. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | <span id="G-1728">G-1728</span> | Sample skewness $G_1$ | The third moment of the standardized values with a small-sample correction; what pandas' `skew()` returns. | [Maths Note 252](252-skewness/note.md) |
 | <span id="G-1729">G-1729</span> | Sample space | The set of all possible outcomes of an experiment. | [Note 82](82-conditional-probability/note.md) |
+| <span id="G-2229">G-2229</span> | Sample variance $s^2$ | The squared distances from the sample mean, summed and divided by $n - 1$. | [Maths Note 222](222-measures-of-dispersion/note.md) |
 | <span id="G-1730">G-1730</span> | Sample weight | A number attached to each row saying how important it is; AdaBoost starts every row at 1/n. | [Note 116](116-adaboost-step-by-step/note.md) |
 | <span id="G-1732">G-1732</span> | sample_weight | The argument of `fit` that tells a scikit-learn model how much each row counts. | [Note 117](117-adaboost-from-scratch/note.md) |
 | <span id="G-1733">G-1733</span> | Sampler | In Optuna, the algorithm that suggests the next trial's hyperparameter values. | [Note 134](134-optuna/note.md) |
-| <span id="G-1739">G-1739</span> | Sampling | Choosing the next token at random, with the softmax probabilities. | [DL Note 1088](1088-unembedding-and-sampling/note.md) |
+| <span id="G-1739">G-1739</span> | Sampling (text generation) | Choosing the next token at random, with the softmax probabilities. | [DL Note 1088](1088-unembedding-and-sampling/note.md) |
 | <span id="G-1734">G-1734</span> | Sampling bias | An unrepresentative sample caused by how the data was collected. | [Note 7](07-challenges-in-ml/note.md) |
 | <span id="G-1736">G-1736</span> | Sampling distribution | The distribution of a statistic computed from many independent samples of the same size from one population. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
 | <span id="G-1735">G-1735</span> | Sampling distribution of the sample mean | The distribution of the means of many samples of size $n$. | [Maths Note 271](271-sampling-distribution-and-clt/note.md) |
@@ -1756,7 +1737,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1742">G-1742</span> | Scalar product | Another name for the dot product, whose result is a scalar. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | <span id="G-1744">G-1744</span> | Scale (in SciPy) | SciPy's parameter for the exponential distribution, the average wait $1/\lambda$. | [Maths Note 632](632-mle-for-common-distributions/note.md) |
 | <span id="G-1745">G-1745</span> | Scaled dot-product attention | $\text{softmax}(QK^T/\sqrt{d_k})\,V$: self-attention with the scores divided by $\sqrt{d_k}$. | [DL Note 1074](1074-scaled-dot-product-attention/note.md) |
-| <span id="G-1748">G-1748</span> | Scaling | Bringing input columns to similar ranges. | [Note 13](13-toy-project/note.md) |
 | <span id="G-1746">G-1746</span> | Scaling (a vector) | Multiplying or dividing every component of a vector by a scalar. | [Maths Note 361](361-magnitude-distance-and-scalar-operations/note.md) |
 | <span id="G-1747">G-1747</span> | Scaling factor | The number $1/\sqrt{d_k}$ that multiplies every score. | [DL Note 1074](1074-scaled-dot-product-attention/note.md) |
 | <span id="G-1749">G-1749</span> | Scatter plot | One dot per row, with one numerical column on each axis. | [Note 21](21-bivariate-multivariate-analysis/note.md) |
@@ -1765,26 +1745,29 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1753">G-1753</span> | Score | Likelihood × prior for a class; proportional to the posterior. | [Note 87](87-naive-bayes-intuition/note.md) |
 | <span id="G-1752">G-1752</span> | Score function | The function that gives the raw score $e_{ij}$ of encoder state $j$ for decoder step $i$. | [DL Note 1070](1070-bahdanau-vs-luong-attention/note.md) |
 | <span id="G-1754">G-1754</span> | Scott's rule | A rule-of-thumb bandwidth: $s \times n^{-1/5}$. | [Maths Note 243](243-density-estimation-kde/note.md) |
+| <span id="G-2205">G-2205</span> | Scree plot | A bar chart of each component's share of the total variance (eigenvalue ÷ sum of eigenvalues). | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-1755">G-1755</span> | SDLC | Software development life cycle: the standard process for building ordinary software. | [Note 9](09-mldlc/note.md) |
 | <span id="G-1756">G-1756</span> | Search space | The ranges or lists of values each hyperparameter may take during tuning. | [Note 134](134-optuna/note.md) |
 | <span id="G-1757">G-1757</span> | Secant equation | $B_{k+1}\mathbf{s} = \mathbf{y}$: the Hessian stand-in must reproduce the last gradient change. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | <span id="G-1758">G-1758</span> | Secant line | A straight line through two points of a curve. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
+| <span id="G-2249">G-2249</span> | Second derivative | The derivative of the derivative; it measures how the curve bends. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
+| <span id="G-2257">G-2257</span> | Second derivative test | At a flat point, $f'' > 0$ means a local minimum, $f'' < 0$ a local maximum, $f'' = 0$ no conclusion. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | <span id="G-1759">G-1759</span> | Second moment $v_t$ | The EWMA of the squared gradient: an estimate of its mean square. | [DL Note 1038](1038-adam/note.md) |
 | <span id="G-1760">G-1760</span> | Second partial derivative | A partial derivative of a partial derivative, such as $\partial^2 f/\partial x^2$. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
+| <span id="G-2253">G-2253</span> | Second partial derivative test | At a stationary point of a function of two inputs, $D = f_{xx}f_{yy} - f_{xy}^2$: $D > 0$ a minimum or maximum (by the sign of $f_{xx}$), $D < 0$ a saddle point, $D = 0$ no answer. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | <span id="G-1761">G-1761</span> | Second-order condition | A twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | <span id="G-2157">G-2157</span> | Selection bias | The optimism of a score that was picked as the best of many noisy scores. | [Note 112](112-random-forest-tuning/note.md) |
 | <span id="G-1762">G-1762</span> | SelectKBest | scikit-learn class that scores every column and keeps the `k` best. | [Note 29](29-pipelines/note.md) |
-| <span id="G-1764">G-1764</span> | Self-attention | Attention in which the words of one sequence attend to each other. | [DL Note 1067](1067-history-of-llms/note.md) |
-| <span id="G-1763">G-1763</span> | Self-attention (intra-attention) | Attention in which the queries, keys and values all come from one sequence. | [DL Note 1076](1076-why-self-attention/note.md) |
+| <span id="G-1763">G-1763</span> | Self-attention (intra-attention) | Attention in which the words of one sequence attend to each other: the queries, keys and values all come from that sequence. | [DL Note 1076](1076-why-self-attention/note.md) |
 | <span id="G-1765">G-1765</span> | Self-normalising | Keeping the activations of every layer at mean 0 and standard deviation 1 without a separate normalisation step. | [DL Note 1028](1028-relu-variants/note.md) |
 | <span id="G-1766">G-1766</span> | SELU | Scaled ELU, $\lambda \approx 1.0507$ times ELU with $\alpha \approx 1.6733$; self-normalising. | [DL Note 1028](1028-relu-variants/note.md) |
 | <span id="G-1767">G-1767</span> | Semester | One of two six-month halves of a year. | [Note 34](34-date-and-time/note.md) |
 | <span id="G-1768">G-1768</span> | Semi-supervised learning | Learning from a few labelled rows and many unlabelled ones. | [Note 3](03-types-of-ml/note.md) |
+| <span id="G-2275">G-2275</span> | Sensitivity (of a model) | How much the prediction changes when the input changes a little. | [DL Note 1026](1026-regularization-in-dl/note.md) |
 | <span id="G-1769">G-1769</span> | Sentiment analysis | Deciding whether a text expresses a positive or negative opinion. | [Note 8](08-applications-of-ml/note.md) |
 | <span id="G-1770">G-1770</span> | Separator | The character between values on a line, such as `,` or a tab. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-1771">G-1771</span> | Sequence-to-sequence (seq2seq) model | A model whose input and output are both sequences. | [DL Note 1058](1058-types-of-rnn/note.md) |
 | <span id="G-1772">G-1772</span> | Sequence-to-sequence (seq2seq) task | A task with a sequence as input and a sequence as output, possibly of different lengths, such as translation. | [DL Note 1067](1067-history-of-llms/note.md) |
-| <span id="G-1773">G-1773</span> | Sequence-to-sequence task | A task whose input and output are both sequences, possibly of different lengths. | [DL Note 1068](1068-encoder-decoder/note.md) |
 | <span id="G-1774">G-1774</span> | Sequential data | Data fed one piece after another, in order. | [Note 5](05-online-learning/note.md) |
 | <span id="G-1775">G-1775</span> | Sequential learning | Training the base models one after another, each depending on the previous ones (boosting). | [Note 119](119-bagging-vs-boosting/note.md) |
 | <span id="G-1776">G-1776</span> | Sequential model | A Keras model whose layers form one stack, each feeding the next. | [DL Note 1011](1011-customer-churn-ann/note.md) |
@@ -1813,6 +1796,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1799">G-1799</span> | Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\, x \cdot x' + r)$. | [Note 95](95-kernel-trick-intuition/note.md) |
 | <span id="G-1800">G-1800</span> | Sign function | Returns +1 for a positive number and -1 for a negative one. | [Note 115](115-adaboost-intuition/note.md) |
 | <span id="G-1801">G-1801</span> | Significance level ($\alpha$) | The probability of rejecting $H_0$ when it is actually true; fixed before the test, usually 0.05. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
+| <span id="G-2266">G-2266</span> | SiLU (Swish) | Sigmoid linear unit, $z\thinspace\sigma(z)$: the input times its sigmoid; close to GELU. | [DL Note 1028](1028-relu-variants/note.md) |
 | <span id="G-1805">G-1805</span> | Similarity | How alike two data points are. | [Note 6](06-instance-vs-model-based/note.md) |
 | <span id="G-1802">G-1802</span> | Similarity measure | A number that says how alike two vectors are. | [Maths Note 362](362-dot-product-and-cosine-similarity/note.md) |
 | <span id="G-1804">G-1804</span> | Similarity score | (sum of residuals)$^2$ / (number of residuals + $\lambda$): how much a leaf's residuals agree. | [Note 124](124-xgboost-regression/note.md) |
@@ -1821,6 +1805,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1807">G-1807</span> | Simple cell | A V1 cell that responds to an edge of one orientation at one place in a small receptive field. | [DL Note 1041](1041-cnn-vs-visual-cortex/note.md) |
 | <span id="G-1808">G-1808</span> | Simple linear regression | Linear regression with one input column. | [Note 50](50-simple-linear-regression/note.md) |
 | <span id="G-1809">G-1809</span> | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean. | [Note 28](28-column-transformer/note.md) |
+| <span id="G-2259">G-2259</span> | Simplex algorithm | Solving a linear program by walking from vertex to neighbouring vertex, always to a better one, until no neighbour is better. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
 | <span id="G-1810">G-1810</span> | Simulated annealing | Lowering the learning rate gradually so the search settles down. | [Note 59](59-stochastic-gradient-descent/note.md) |
 | <span id="G-1811">G-1811</span> | Single linkage | Cluster distance = distance of the closest pair of points. | [Note 131](131-hierarchical-clustering/note.md) |
 | <span id="G-1812">G-1812</span> | Singular value ($\sigma_i$) | A stretch factor of a matrix: the length of $A\mathbf{v}_i$; never negative, listed largest first. | [Maths Note 610](610-svd-geometry/note.md) |
@@ -1829,9 +1814,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1815">G-1815</span> | Sinusoidal positional encoding | The fixed encoding of Vaswani et al.: sines in even dimensions, cosines in odd ones, frequencies $1/10000^{2i/d_{\text{model}}}$. | [DL Note 1078](1078-positional-encoding/note.md) |
 | <span id="G-1816">G-1816</span> | Size | The total number of items: the product of the shape. | [Note 11](11-tensors/note.md) |
 | <span id="G-1817">G-1817</span> | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. | [Note 20](20-univariate-analysis/note.md) |
-| <span id="G-1818">G-1818</span> | Skip (residual) connection | A connection that adds a block's input to the block's output. | [DL Note 1054](1054-keras-functional-api/note.md) |
 | <span id="G-1819">G-1819</span> | Skip connection through time | A connection from a hidden state several steps back directly to the present. | [DL Note 1060](1060-problems-with-rnn/note.md) |
-| <span id="G-1820">G-1820</span> | Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane; 0 if it is on the correct side. | [Note 94](94-svm-soft-margin/note.md) |
+| <span id="G-1820">G-1820</span> | Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane, in margin units ($\xi_i > 1$: wrong side of $\pi$); 0 if it is on the correct side. | [Note 94](94-svm-soft-margin/note.md) |
 | <span id="G-1821">G-1821</span> | Slater's condition | Some point satisfies every inequality constraint strictly; together with convexity it guarantees strong duality. | [Maths Note 621](621-convex-sets-and-functions/note.md) |
 | <span id="G-1822">G-1822</span> | slice(0, 10) | Python object meaning positions 0 up to, not including, 10. | [Note 29](29-pipelines/note.md) |
 | <span id="G-1823">G-1823</span> | Slope | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. | [Note 50](50-simple-linear-regression/note.md) |
@@ -1863,6 +1847,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1848">G-1848</span> | Sparsity $S$ | The probability that a feature is 0 in an observation; high sparsity means the feature is rarely active. | [DL Note 1090](1090-superposition/note.md) |
 | <span id="G-1850">G-1850</span> | Sparsity-aware split finding | Choosing, at each split, the side (left or right) for missing values by comparing the gain of both. | [Note 123](123-xgboost-intro/note.md) |
 | <span id="G-1851">G-1851</span> | Spatial arrangement | Where each pixel sits relative to the others. | [DL Note 1040](1040-cnn-intuition/note.md) |
+| <span id="G-2209">G-2209</span> | Specificity | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP). | [Note 77](77-precision-recall-f1/note.md) |
 | <span id="G-1852">G-1852</span> | Spectral norm | The largest stretch of a matrix, $\lVert M\rVert_2 = \sigma_1$. | [Maths Note 612](612-low-rank-approximation/note.md) |
 | <span id="G-1853">G-1853</span> | splitter | "best" searches every threshold; "random" draws thresholds at random. | [Note 98](98-decision-tree-hyperparameters/note.md) |
 | <span id="G-1855">G-1855</span> | Splitting | Dividing a node's rows into parts according to a question. | [Note 97](97-decision-trees-intuition/note.md) |
@@ -1894,14 +1879,12 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1880">G-1880</span> | Statistic | A number computed from a sample, such as $\bar{x}$; an estimate of a parameter. | [Maths Note 220](220-what-is-statistics/note.md) |
 | <span id="G-1881">G-1881</span> | Statistical hypothesis test | A method of statistical inference that decides whether the data sufficiently supports a hypothesis about a population parameter. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | <span id="G-1882">G-1882</span> | Statistical moments | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
-| <span id="G-1883">G-1883</span> | Statistical test | A procedure for hypothesis testing. | [Maths Note 220](220-what-is-statistics/note.md) |
 | <span id="G-1884">G-1884</span> | Statistics | The branch of mathematics for collecting, analysing, interpreting and presenting data. | [Maths Note 220](220-what-is-statistics/note.md) |
 | <span id="G-1885">G-1885</span> | statsmodels | A Python library for statistical models and tests. | [Note 56](56-linear-regression-assumptions/note.md) |
 | <span id="G-1886">G-1886</span> | Status code | A number saying how a request went: 200 OK, 401, 404, 500. | [Note 17](17-fetching-data-from-api/note.md) |
 | <span id="G-1887">G-1887</span> | Status quo | Another name for the null hypothesis: the current state of things. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | <span id="G-1888">G-1888</span> | Steepest ascent | The direction in which $f$ increases fastest: the direction of the gradient. | [Maths Note 601](601-partial-derivatives-and-gradients/note.md) |
 | <span id="G-1889">G-1889</span> | Step function | A function that outputs 1 for positive inputs and 0 otherwise. | [Note 70](70-perceptron-trick/note.md) |
-| <span id="G-1890">G-1890</span> | step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name. | [Note 29](29-pipelines/note.md) |
 | <span id="G-1893">G-1893</span> | Stochastic | Involving randomness. | [Note 59](59-stochastic-gradient-descent/note.md) |
 | <span id="G-1891">G-1891</span> | Stochastic error | A random, unmeasurable influence that scatters data around its trend. | [Note 50](50-simple-linear-regression/note.md) |
 | <span id="G-1892">G-1892</span> | Stochastic gradient descent (SGD) | Gradient descent that uses one random row for every update. | [Note 58](58-batch-gradient-descent/note.md) |
@@ -1923,8 +1906,6 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1909">G-1909</span> | Sub-network | The smaller network left after some nodes are switched off; it shares the full network's weights. | [DL Note 1024](1024-dropout/note.md) |
 | <span id="G-1910">G-1910</span> | Subgradient | A slope used at a corner of a function, where the ordinary derivative does not exist. | [DL Note 1006](1006-perceptron-loss/note.md) |
 | <span id="G-1911">G-1911</span> | Subscription | A model where customers pay a fixed amount every month (or year). | [Note 14](14-framing-ml-problem/note.md) |
-| <span id="G-1913">G-1913</span> | Sum of squared errors | The squares of all the errors added up; the quantity the best-fit line makes smallest. | [Note 50](50-simple-linear-regression/note.md) |
-| <span id="G-1912">G-1912</span> | Sum of squared errors (SSE) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest. | [Note 99](99-regression-trees/note.md) |
 | <span id="G-1914">G-1914</span> | Sum of squares (SST, SSB, SSW) | Total, between-group and within-group squared distances; $SST = SSB + SSW$. | [Maths Note 572](572-one-way-anova/note.md) |
 | <span id="G-1915">G-1915</span> | Summation ($z$) | The weighted sum $w_1x_1 + w_2x_2 + \dots + b$ inside a perceptron. | [DL Note 1004](1004-perceptron/note.md) |
 | <span id="G-1917">G-1917</span> | Superposition | Storing more features than there are dimensions, as nearly perpendicular directions. | [DL Note 1090](1090-superposition/note.md) |
@@ -1938,9 +1919,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1923">G-1923</span> | Support vectors | The training points that lie on $\pi^+$ or $\pi^-$; they alone fix the SVM line. | [Note 92](92-svm-intuition/note.md) |
 | <span id="G-1925">G-1925</span> | Sure (certain) event | The whole sample space; probability 1. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | <span id="G-1926">G-1926</span> | Surge pricing | Raising fares when demand is much higher than supply. | [Note 8](08-applications-of-ml/note.md) |
+| <span id="G-2221">G-2221</span> | Surprise | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise. | [Note 97](97-decision-trees-intuition/note.md) |
 | <span id="G-1927">G-1927</span> | Surrogate model | The model of the unknown score function that Bayesian optimisation builds from the trials. | [Note 134](134-optuna/note.md) |
 | <span id="G-1928">G-1928</span> | Survival function | One minus the CDF: the probability of a value above $x$; `sf` in scipy. | [Maths Note 270](270-bernoulli-and-binomial/note.md) |
-| <span id="G-1929">G-1929</span> | SVD (singular value decomposition) | A factorisation that works for any matrix, square or not. | [Maths Note 350](350-linear-algebra-roadmap/note.md) |
 | <span id="G-1930">G-1930</span> | Switches | The stored positions of the maxima, needed for max pooling's backward pass. | [DL Note 1048](1048-backpropagation-cnn-layers/note.md) |
 | <span id="G-1931">G-1931</span> | Symbolic AI | Early AI where humans write the knowledge as rules. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-1932">G-1932</span> | Symmetric matrix | A square matrix equal to its own transpose. | [Maths Note 610](610-svd-geometry/note.md) |
@@ -1959,9 +1940,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1945">G-1945</span> | Tangent line | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
 | <span id="G-1946">G-1946</span> | Tangent plane | The flat plane that touches a surface at a point with the same gradient; the first-order Taylor approximation. | [Maths Note 603](603-hessian-and-multivariate-taylor/note.md) |
 | <span id="G-1947">G-1947</span> | Tanh (hyperbolic tangent) | The activation $(e^{z}-e^{-z})/(e^{z}+e^{-z})$, an S-curve from $-1$ to 1 with derivative $1 - \tanh^2(z)$. | [DL Note 1027](1027-activation-functions/note.md) |
-| <span id="G-1949">G-1949</span> | Target | The output we predict, such as the class. | [DL Note 1027](1027-activation-functions/note.md) |
+| <span id="G-1949">G-1949</span> | Target | The output column we predict, such as the class; also called the label. | [DL Note 1027](1027-activation-functions/note.md) |
+| <span id="G-2185">G-2185</span> | Target encoding | Replacing each category by the mean of the target for that category, learned on training rows only. | [Note 27](27-one-hot-encoding/note.md) |
 | <span id="G-1948">G-1948</span> | Target leakage | Building an input column from the answer itself, so the model sees information it would not have in real use. | [Note 52](52-regression-metrics/note.md) |
-| <span id="G-1950">G-1950</span> | Target, label | Other names for the output column. | [Note 3](03-types-of-ml/note.md) |
 | <span id="G-1951">G-1951</span> | Targeted marketing | Advertising only to the people most likely to buy. | [Note 8](08-applications-of-ml/note.md) |
 | <span id="G-1952">G-1952</span> | Task-specific contextual embedding | A contextual embedding computed with parameters learned from the task's data. | [DL Note 1073](1073-self-attention-step-by-step/note.md) |
 | <span id="G-1953">G-1953</span> | Taylor polynomial | The Taylor series cut after the $(x - x_0)^n$ term. | [Maths Note 600](600-derivatives-of-one-variable/note.md) |
@@ -1973,16 +1954,17 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1958">G-1958</span> | TensorFlow Playground | A website that trains small neural networks in the browser and shows their boundaries. | [DL Note 1007](1007-problem-with-perceptron/note.md) |
 | <span id="G-1960">G-1960</span> | Terminal region | The part of the input space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$. | [Note 121](121-gradient-boosting-regression-maths/note.md) |
 | <span id="G-1961">G-1961</span> | Terminal velocity | The step size momentum reaches when every gradient is the same: $\eta g/(1-\beta)$. | [DL Note 1034](1034-sgd-with-momentum/note.md) |
+| <span id="G-2211">G-2211</span> | Test accuracy | Accuracy on data not used for training, an estimate of performance on new data. | [Note 80](80-polynomial-logistic-regression/note.md) |
 | <span id="G-1962">G-1962</span> | Test set | The part hidden during training, used to check the model. | [Note 13](13-toy-project/note.md) |
 | <span id="G-1963">G-1963</span> | Test statistic | The number a test computes from the sample to make its decision, such as $z$ or $t$. | [Maths Note 290](290-null-and-alternative-hypotheses/note.md) |
 | <span id="G-1964">G-1964</span> | Text generator | A next-word predictor run in a loop, each predicted word added to the text. | [DL Note 1063](1063-lstm-next-word-prediction/note.md) |
-| <span id="G-1965">G-1965</span> | tf.GradientTape | TensorFlow's tool that records a computation and returns its exact derivatives automatically. | [DL Note 1015](1015-backpropagation-what/note.md) |
 | <span id="G-1966">G-1966</span> | Theoretical (classical) probability | Favourable outcomes divided by all outcomes, for equally likely outcomes. | [Maths Note 331](331-empirical-and-theoretical-probability/note.md) |
 | <span id="G-1967">G-1967</span> | Theoretical distribution | The known distribution that data is compared with, for example on a Q-Q plot. | [Maths Note 260](260-kurtosis-and-qq-plots/note.md) |
 | <span id="G-1968">G-1968</span> | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). | [Note 30](30-function-transformer/note.md) |
 | <span id="G-1969">G-1969</span> | Thin (reduced) SVD | The SVD with only the columns of $U$ that meet the diagonal of $\Sigma$. | [Maths Note 610](610-svd-geometry/note.md) |
-| <span id="G-1971">G-1971</span> | Threshold | The value that separates 0 from 1 in binarization. | [Note 32](32-binning-binarization/note.md) |
+| <span id="G-1971">G-1971</span> | Threshold (binarization) | The value that separates 0 from 1 in binarization. | [Note 32](32-binning-binarization/note.md) |
 | <span id="G-1970">G-1970</span> | Threshold (classification) | The probability above which a prediction counts as class 1. | [DL Note 1011](1011-customer-churn-ann/note.md) |
+| <span id="G-2261">G-2261</span> | Threshold (of a perceptron) | The value the weighted sum must reach for the output to be 1; it equals $-b$. | [DL Note 1004](1004-perceptron/note.md) |
 | <span id="G-1972">G-1972</span> | Tidy data | Data with one observation per row and one atomic value per cell. | [Note 45](45-feature-construction-splitting/note.md) |
 | <span id="G-1973">G-1973</span> | Tied weights | Using the same matrix for the token embedding and the output layer. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
 | <span id="G-1974">G-1974</span> | Time axis and depth axis | The two directions of an unfolded deep RNN: time steps and layers. | [DL Note 1065](1065-deep-rnns/note.md) |
@@ -1992,10 +1974,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1978">G-1978</span> | Timestamp | pandas' type for a single point in time. | [Note 34](34-date-and-time/note.md) |
 | <span id="G-1979">G-1979</span> | Title | The word before a name, such as Mr, Mrs, Miss or Master. | [Note 45](45-feature-construction-splitting/note.md) |
 | <span id="G-1981">G-1981</span> | Token | One unit of text the model reads or writes; here, one word. | [DL Note 1068](1068-encoder-decoder/note.md) |
-| <span id="G-1980">G-1980</span> | Token embedding matrix $W_E$ | The learned table with one vector per token; in GPT-2 also used as the output matrix. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
-| <span id="G-1982">G-1982</span> | Token-embedding table | GPT-2's table of 50,257 vectors of 768 numbers, one per token. | [DL Note 1086](1086-meaning-as-direction/note.md) |
-| <span id="G-1983">G-1983</span> | Tokenisation | Splitting a text into tokens. | [DL Note 1080](1080-transformer-encoder/note.md) |
-| <span id="G-1984">G-1984</span> | Tokenization | Splitting a text into words (tokens). | [DL Note 1057](1057-rnn-sentiment-analysis/note.md) |
+| <span id="G-1980">G-1980</span> | Token embedding matrix $W_E$ | The learned table with one vector per token (50,257 vectors of 768 numbers in GPT-2); in GPT-2 also used as the output matrix. | [DL Note 1087](1087-decoder-only-gpt/note.md) |
+| <span id="G-1983">G-1983</span> | Tokenisation (tokenization) | Splitting a text into tokens. | [DL Note 1080](1080-transformer-encoder/note.md) |
 | <span id="G-1988">G-1988</span> | Top | The dense layers at the end of a CNN, which turn features into classes. | [DL Note 1053](1053-transfer-learning/note.md) |
 | <span id="G-1985">G-1985</span> | Top $k$ sampling | Sampling only among the $k$ most likely tokens. | [DL Note 1088](1088-unembedding-and-sampling/note.md) |
 | <span id="G-1986">G-1986</span> | Top activations | The photos (or patches) that give a feature map its largest values. | [DL Note 1052](1052-visualizing-cnn/note.md) |
@@ -2008,11 +1988,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-1994">G-1994</span> | Toy model of superposition | $x' = \text{ReLU}(W^TWx + b)$ with more features than hidden numbers, trained to rebuild its input. | [DL Note 1090](1090-superposition/note.md) |
 | <span id="G-1995">G-1995</span> | TPE | Tree-structured Parzen Estimator, Optuna's default Bayesian sampler. | [Note 134](134-optuna/note.md) |
 | <span id="G-1996">G-1996</span> | TPU | Google's chip built only for deep learning maths. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
-| <span id="G-1997">G-1997</span> | Train | Let a model learn by making predictions, measuring its errors and adjusting to reduce them. | [Note 2](02-ai-vs-ml-vs-dl/note.md) |
 | <span id="G-1998">G-1998</span> | Train-test split | Dividing the data into training and test sets. | [Note 13](13-toy-project/note.md) |
-| <span id="G-1999">G-1999</span> | Trainable parameter | A weight or bias whose value training must find. | [DL Note 1008](1008-mlp-notation/note.md) |
-| <span id="G-2003">G-2003</span> | Training | The step in which an algorithm learns the pattern from data. | [Note 1](01-what-is-ml/note.md) |
 | <span id="G-2000">G-2000</span> | Training (a perceptron) | Finding its weights and bias from labelled data. | [DL Note 1005](1005-perceptron-trick/note.md) |
+| <span id="G-1255">G-1255</span> | Training (model training) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. | [Note 9](09-mldlc/note.md) |
 | <span id="G-2001">G-2001</span> | Training curves (learning curves) | Loss or accuracy plotted against the epoch, for the training and validation sets. | [DL Note 1011](1011-customer-churn-ann/note.md) |
 | <span id="G-2002">G-2002</span> | Training set | The part of the data the model learns from. | [Note 13](13-toy-project/note.md) |
 | <span id="G-2004">G-2004</span> | Transfer function | Another name for the activation function. | [DL Note 1027](1027-activation-functions/note.md) |
@@ -2025,8 +2003,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2011">G-2011</span> | Translation invariance | The output stays (almost) the same when the input is shifted slightly. | [DL Note 1044](1044-pooling/note.md) |
 | <span id="G-2012">G-2012</span> | Transpose | A matrix or vector with rows and columns swapped. | [Note 48](48-pca-step-by-step/note.md) |
 | <span id="G-2013">G-2013</span> | Tree-based algorithm | An algorithm that splits the data with simple conditions; hardly affected by outliers. | [Note 41](41-what-are-outliers/note.md) |
-| <span id="G-2014">G-2014</span> | Tree-level column sampling | Drawing one random set of columns per tree, before the tree is grown; every split of that tree uses only those columns (bagging). | [Note 110](110-bagging-vs-random-forest/note.md) |
-| <span id="G-2016">G-2016</span> | Trial | In Optuna, one run of the objective function with one set of hyperparameter values. | [Note 134](134-optuna/note.md) |
+| <span id="G-2014">G-2014</span> | Tree-level feature sampling (tree-level column sampling) | Drawing one random set of features per tree, before the tree is grown; every split of that tree uses only those features (bagging). | [Note 110](110-bagging-vs-random-forest/note.md) |
+| <span id="G-2016">G-2016</span> | Trial (hyperparameter tuning) | One run of a tuner (Optuna, Keras Tuner) with one set of hyperparameter values: one model built, trained and scored. | [Note 134](134-optuna/note.md) |
 | <span id="G-2015">G-2015</span> | Trial (probability) | One run of a random experiment; it gives exactly one outcome. | [Maths Note 330](330-events-and-types-of-events/note.md) |
 | <span id="G-2017">G-2017</span> | Trimmed mean | The mean after removing a fixed share of the smallest and largest values. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | <span id="G-2019">G-2019</span> | Trimming | Removing the rows that hold outliers. | [Note 41](41-what-are-outliers/note.md) |
@@ -2034,7 +2012,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2020">G-2020</span> | True negative (TN) | Predicted negative, and actually negative. | [Note 76](76-accuracy-confusion-matrix/note.md) |
 | <span id="G-2021">G-2021</span> | True positive (TP) | Predicted positive, and actually positive. | [Note 76](76-accuracy-confusion-matrix/note.md) |
 | <span id="G-2022">G-2022</span> | True positive rate (TPR) | The fraction of real positives the model flags; the same as recall. | [Note 78](78-roc-auc/note.md) |
-| <span id="G-2023">G-2023</span> | Truncated normal | A normal distribution with values beyond two standard deviations redrawn. | [DL Note 1030](1030-xavier-he-initialization/note.md) |
+| <span id="G-2023">G-2023</span> | Truncated normal | A normal distribution restricted to a range and rescaled so its area is 1; it keeps its bell shape inside the range. Keras' normal initialisers cut at two standard deviations: values beyond are redrawn. | [DL Note 1030](1030-xavier-he-initialization/note.md) |
 | <span id="G-2024">G-2024</span> | TruncatedSVD | scikit-learn's rank-$k$ SVD without centring; works on sparse matrices. | [Maths Note 613](613-svd-in-machine-learning/note.md) |
 | <span id="G-2025">G-2025</span> | TSV file | Like a CSV file, with tabs between values. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-2026">G-2026</span> | Tukey's HSD | A post-hoc test comparing every pair of groups with the overall Type I error held at $\alpha$. | [Maths Note 572](572-one-way-anova/note.md) |
@@ -2074,7 +2052,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2059">G-2059</span> | Unsupervised pre-training | Setting a network's starting weights with a network trained layer by layer, instead of at random. | [DL Note 1003](1003-nn-types-history-applications/note.md) |
 | <span id="G-2060">G-2060</span> | Update gate ($z_t$) | A sigmoid layer's output that decides, entry by entry, how much of the candidate replaces the old memory. | [DL Note 1064](1064-gru/note.md) |
 | <span id="G-2061">G-2061</span> | Updates per epoch | $\lceil n / \text{batch size} \rceil$: the number of batches in one pass over the data. | [DL Note 1020](1020-gradient-descent-in-neural-networks/note.md) |
-| <span id="G-2062">G-2062</span> | Upper / lower limit | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers. | [Note 42](42-outliers-zscore/note.md) |
+| <span id="G-2062">G-2062</span> | Upper / lower limit (outlier detection) | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers. | [Note 42](42-outliers-zscore/note.md) |
 | <span id="G-2063">G-2063</span> | Upsampling (resampling by weight) | Drawing a new dataset in which each row is picked with probability equal to its weight. | [Note 116](116-adaboost-step-by-step/note.md) |
 | <span id="G-2064">G-2064</span> | User-Agent | A short text a browser sends to say what it is. | [Note 15](15-working-with-csv/note.md) |
 | <span id="G-2065">G-2065</span> | UTF-8 | The most common encoding, and `read_csv`'s default. | [Note 15](15-working-with-csv/note.md) |
@@ -2085,9 +2063,9 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2070">G-2070</span> | Vanishing gradient | Gradients shrinking towards 0 as they pass through many layers, which slows learning. | [DL Note 1018](1018-vanishing-exploding-gradients/note.md) |
 | <span id="G-2071">G-2071</span> | Variable | One column of a dataset. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-2072">G-2072</span> | Variable-length many-to-many | Many-to-many whose output length can differ from its input length. | [DL Note 1058](1058-types-of-rnn/note.md) |
-| <span id="G-2078">G-2078</span> | Variance | The average squared distance of values from their mean; a measure of spread. | [DL Note 1074](1074-scaled-dot-product-attention/note.md) |
 | <span id="G-2073">G-2073</span> | Variance (of a model) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. | [Note 62](62-bias-variance/note.md) |
 | <span id="G-2074">G-2074</span> | Variance (of data) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). | [Note 47](47-pca-geometric-intuition/note.md) |
+| <span id="G-2228">G-2228</span> | Variance around a point $v$ | The average squared distance of the values to $v$; smallest when $v$ is the sample mean. | [Maths Note 222](222-measures-of-dispersion/note.md) |
 | <span id="G-2075">G-2075</span> | Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other inputs predict input $j$; above 5 signals multicollinearity. | [Note 56](56-linear-regression-assumptions/note.md) |
 | <span id="G-2076">G-2076</span> | Variance of a random variable | $\mathrm{Var}(X) = E[(X - E[X])^2]$: the expected squared distance from the expected value. | [Maths Note 332](332-expected-value-and-variance/note.md) |
 | <span id="G-2077">G-2077</span> | Variance reduction | The drop in mean squared error from a node to its children; the regression version of information gain. | [Note 99](99-regression-trees/note.md) |
@@ -2095,17 +2073,17 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2079">G-2079</span> | Vector (geometric view) | A point in a coordinate system, drawn as an arrow from the origin. | [Maths Note 360](360-vectors-and-feature-vectors/note.md) |
 | <span id="G-2080">G-2080</span> | Vector addition | Adding matching components; geometrically, placing the second arrow's tail at the first arrow's tip. | [Maths Note 490](490-linear-combinations-span-and-basis/note.md) |
 | <span id="G-2082">G-2082</span> | Vector-valued function | $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$: several numbers in, several numbers out; a stack of $m$ ordinary functions. | [Maths Note 602](602-jacobian-and-matrix-gradients/note.md) |
-| <span id="G-2083">G-2083</span> | Vectorisation | Writing a computation as operations on whole arrays instead of Python loops. | [Note 58](58-batch-gradient-descent/note.md) |
-| <span id="G-2084">G-2084</span> | Vectorization | Converting data such as text into vectors of numbers. | [Note 11](11-tensors/note.md) |
+| <span id="G-2083">G-2083</span> | Vectorisation (of code) | Writing a computation as operations on whole arrays instead of Python loops. | [Note 58](58-batch-gradient-descent/note.md) |
+| <span id="G-2084">G-2084</span> | Vectorization (of data) | Converting data such as text into vectors of numbers. | [Note 11](11-tensors/note.md) |
 | <span id="G-2085">G-2085</span> | Velocity $v$ | The direction and size of the current move, built from past gradients: $v_t = \beta v_{t-1} + \eta\,\nabla L(w_t)$. | [DL Note 1034](1034-sgd-with-momentum/note.md) |
 | <span id="G-2086">G-2086</span> | Venn diagram | A picture of events as circles inside a rectangle; overlaps show shared outcomes. | [Maths Note 340](340-venn-diagrams-and-contingency-tables/note.md) |
 | <span id="G-2087">G-2087</span> | verbose | scikit-learn setting that prints progress messages during training. | [Note 106](106-bagging-classifier/note.md) |
+| <span id="G-2258">G-2258</span> | Vertex | A corner of the feasible region; a linear program always has a best point at a vertex. | [Maths Note 622](622-linear-and-quadratic-programming/note.md) |
 | <span id="G-2088">G-2088</span> | VGG16 | A CNN of 13 convolution layers (all 3 × 3) in 5 blocks plus 3 dense layers, trained on ImageNet. | [DL Note 1052](1052-visualizing-cnn/note.md) |
 | <span id="G-2089">G-2089</span> | View Page Source | Browser option that shows a page's raw HTML. | [Note 18](18-web-scraping/note.md) |
 | <span id="G-2090">G-2090</span> | Virtual environment | A separate folder of Python and packages for one project. | [Note 12](12-setup-anaconda-jupyter-colab/note.md) |
 | <span id="G-2091">G-2091</span> | Vision Transformer (ViT) | A transformer that reads an image as a sequence of small patches. | [DL Note 1071](1071-introduction-to-transformers/note.md) |
-| <span id="G-2093">G-2093</span> | Vocabulary | The list of unique words in a set of texts. | [Note 11](11-tensors/note.md) |
-| <span id="G-2092">G-2092</span> | Vocabulary ($V$) | The list of distinct words (tokens) of the target language; the output layer has one node per word. | [DL Note 1083](1083-transformer-decoder/note.md) |
+| <span id="G-2092">G-2092</span> | Vocabulary ($V$) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. | [DL Note 1083](1083-transformer-decoder/note.md) |
 | <span id="G-2094">G-2094</span> | Volatile | Changing quickly and unpredictably. | [Note 14](14-framing-ml-problem/note.md) |
 | <span id="G-2095">G-2095</span> | Voting classifier | A classifier that combines several trained classifiers by voting. | [Note 103](103-voting-classifier/note.md) |
 | <span id="G-2096">G-2096</span> | Voting ensemble | Several models trained on the same data, combined by majority vote (classification) or mean (regression). | [Note 102](102-voting-ensemble/note.md) |
@@ -2118,8 +2096,8 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2103">G-2103</span> | Weak duality | Every value of the dual function is at most the primal minimum. | [Maths Note 620](620-lagrange-multipliers/note.md) |
 | <span id="G-2104">G-2104</span> | Weak learner | A model whose accuracy is only a little better than random guessing. | [Note 115](115-adaboost-intuition/note.md) |
 | <span id="G-2105">G-2105</span> | Web scraping | Writing code that extracts data from web pages. | [Note 7](07-challenges-in-ml/note.md) |
-| <span id="G-2111">G-2111</span> | Weight | A number saying how much a value counts in a weighted mean. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | <span id="G-2106">G-2106</span> | Weight (in a network) | A learned number on a connection between two neurons. | [DL Note 1002](1002-what-is-deep-learning/note.md) |
+| <span id="G-2111">G-2111</span> | Weight (in a weighted mean) | A number saying how much a value counts in a weighted mean. | [Maths Note 221](221-measures-of-central-tendency/note.md) |
 | <span id="G-2108">G-2108</span> | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor. | [Note 65](65-ridge-gradient-descent/note.md) |
 | <span id="G-2107">G-2107</span> | Weight decay factor | $1 - \eta\lambda$, the factor by which L2 regularisation shrinks every weight at each update. | [DL Note 1026](1026-regularization-in-dl/note.md) |
 | <span id="G-2109">G-2109</span> | Weight matrix ($W^{k}$) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$. | [DL Note 1010](1010-forward-propagation/note.md) |
@@ -2135,6 +2113,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2120">G-2120</span> | weights | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance. | [Note 103](103-voting-classifier/note.md) |
 | <span id="G-2121">G-2121</span> | Welch's ANOVA | A version of ANOVA that does not assume equal variances. | [Maths Note 572](572-one-way-anova/note.md) |
 | <span id="G-2122">G-2122</span> | Welch's t-test | The two-sample t-test that does not assume equal variances. | [Maths Note 302](302-two-sample-and-paired-t-tests/note.md) |
+| <span id="G-2181">G-2181</span> | Whisker | The line from the box to the last value inside the fence. | [Note 20](20-univariate-analysis/note.md) |
 | <span id="G-2123">G-2123</span> | Winsorization | Capping with limits set by percentiles. | [Note 41](41-what-are-outliers/note.md) |
 | <span id="G-2124">G-2124</span> | Wisdom of the crowd | The combined judgement of many is often more accurate than any one member's. | [Note 101](101-ensemble-learning/note.md) |
 | <span id="G-2125">G-2125</span> | With replacement | Sampling in which each drawn item is put back, so it can be drawn again. | [Note 105](105-bagging-intuition/note.md) |
@@ -2157,7 +2136,7 @@ Every ML term in the notes, in plain English, with the Note that first explains 
 | <span id="G-2142">G-2142</span> | Z-table | A table of $\Phi(z)$ for many values of $z$, used to find normal probabilities. | [Maths Note 251](251-standard-normal-and-z-table/note.md) |
 | <span id="G-2143">G-2143</span> | Z-test (one-sample) | A test of a population mean when $\sigma$ is known and $\bar{X}$ is normal, using $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. | [Maths Note 291](291-rejection-region-and-z-test/note.md) |
 | <span id="G-2144">G-2144</span> | Zero initialisation | Starting every weight (and bias) at 0; with ReLU or tanh nothing trains. | [DL Note 1029](1029-weight-initialization/note.md) |
-| <span id="G-2146">G-2146</span> | Zero padding | Padding with pixels of value 0. | [DL Note 1043](1043-padding-and-strides/note.md) |
+| <span id="G-2146">G-2146</span> | Zero padding (image) | Padding with pixels of value 0. | [DL Note 1043](1043-padding-and-strides/note.md) |
 | <span id="G-2145">G-2145</span> | Zero padding (text) | Adding all-zero word vectors to shorter texts so that every text has the same length. | [DL Note 1055](1055-why-rnn/note.md) |
 | <span id="G-2147">G-2147</span> | Zero-ablation | Setting a part's output to 0 and running the rest of the model unchanged, to see what that part does. | [DL Note 1089](1089-mlp-stores-facts/note.md) |
 | <span id="G-2148">G-2148</span> | Zero-centred activation | An activation whose outputs average about 0, positive and negative. | [DL Note 1027](1027-activation-functions/note.md) |

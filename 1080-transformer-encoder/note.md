@@ -259,8 +259,6 @@ The Notebook measures it on a real IMDB review (its first 30 words, random 64-nu
 
 Without residual connections, one block is enough: all 30 words get the same vector, and that vector has nothing left of any word's input. With residual connections the words stay distinct and close to their inputs for several blocks. In these untrained blocks the words still drift together by 12 blocks; residual connections slow the collapse rather than stop it, in line with Dong et al.'s "mitigating". Training then has a signal to work with in every word.
 
-> **Extra:** A common explanation, that residual connections stop the gradient from vanishing, needs care. He et al. (2016a, §4.1) argue that the degradation of their plain networks is "unlikely to be caused by vanishing gradients", since their layers were normalised and the gradients had healthy sizes. Our encoder agrees: before training, the gradient reaching the embedding layer of a 6-block review classifier was not smaller without residual connections (size 0.067 on average over 3 random starts) than with them (0.025). What the plain stack loses is the information in each word, as Figure 8 shows.
-
 ### 7.2 Why the feed-forward network
 
 > **Key point:** Attention mixes words; the feed-forward network transforms each word on its own, with a ReLU in between. Its ReLU is the block's only element-wise activation.
@@ -337,7 +335,7 @@ Figure 9 draws the table. Going from 2 to 6 blocks adds 2.1 BLEU; going to 8 add
 | Encoder block | One layer of the encoder: multi-head attention and a feed-forward network, each followed by add and norm; the encoder stacks 6 |
 | Sub-layer | One of the two parts of an encoder block: multi-head attention or the feed-forward network |
 | Token | One unit of text the model reads, such as a word or a piece of a word |
-| Tokenisation | Splitting a text into tokens |
+| Tokenisation (G-1983) | Splitting a text into tokens |
 | $d_{\text{model}}$ | The number of values in every word vector inside the transformer: 512 in the paper |
 | Residual connection | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection |
 | Add and norm | A residual addition followed by layer normalisation: $\text{LayerNorm}(x + \text{Sublayer}(x))$ |

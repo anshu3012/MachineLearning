@@ -99,7 +99,16 @@ None of these can be captured as a feature in the data. Such hard-to-measure, ra
 
 Since no line can pass through every point, linear regression draws the line that is wrong by the least overall: the **best-fit line** (G-280). A tailor making one ready-made shirt size for a group does the same: no one gets a perfect fit, but the size is chosen so that the total misfit is as small as possible.
 
-For each student, the **error** is the vertical gap between their real package and the line's prediction. A good line keeps all these gaps small. Figure 3 compares three lines on the 160 training students.
+For each student, the error is the vertical gap between their real package and the line's prediction. The standard name for this gap is the **residual** (G-705):
+
+$$\text{residual} = \text{actual} - \text{predicted}$$
+
+Two students show how the sign works (both appear in the table of Section 4.2):
+
+- CGPA 8.58: actual 4.10 LPA, predicted 3.89. Residual $= 4.10 - 3.89 = +0.21$. The point is **above** the line, so the residual is positive.
+- CGPA 5.88: actual 2.08 LPA, predicted 2.38. Residual $= 2.08 - 2.38 = -0.30$. The point is **below** the line, so the residual is negative.
+
+A good line keeps all the residuals small. Figure 3 compares three lines on the 160 training students; the thin red segments are the residuals.
 
 ![Three lines and their total squared error](images/best_fit.gif)
 
@@ -107,7 +116,24 @@ For each student, the **error** is the vertical gap between their real package a
 2. **A steeper line**: 52.0. Better, but it overshoots at high CGPA.
 3. **The best-fit line**: 16.6, the smallest possible total.
 
-The total used is the **sum of squared errors** (G-1913): each gap is squared, so that gaps above and below the line both count, and then all are added. How the best $m$ and $b$ are found from this is the subject of the next Note.
+The total used is the **sum of squared errors** (G-1684), also called the sum of squared residuals. The squares are needed because plain residuals cancel: a $+0.21$ and a $-0.30$ add up to almost nothing, although both predictions are off. Squaring makes every residual positive, so that gaps above and below the line both count, and then all are added. Fitting a line by making this sum as small as possible is called the method of **least squares** (ordinary least squares, G-1406).
+
+### 3.5 Turning the line to find the lowest total
+
+> **Key point:** As the line turns, the sum of squared residuals first falls and then rises. The best-fit line is at the bottom of this valley.
+
+Figure 4 looks for the best line step by step.
+
+1. Start with the flat line at the average package, 3.00. Its sum of squared residuals is 73.0.
+2. Turn the line a little about the centre of the data (the black cross). The residuals shrink: the sum falls to 54.6, then 39.8, then 28.6.
+3. Keep turning. At slope 0.558 the sum reaches 16.6, its lowest value.
+4. Turn further and the line becomes too steep. The residuals grow again: at slope 1.05 the sum is back up at 60.5.
+
+![The line turns about the centre of the 160 training students (left). Each slope tried adds one point to the right panel: its sum of squared residuals. The points trace a valley; its lowest point, 16.6 at slope 0.558, is the best-fit line. Idea after StatQuest, "The Main Ideas of Fitting a Line to Data".](images/rotate_valley.gif)
+
+The right panel of Figure 4 plots the sum against the slope. The points form a valley with one lowest point, and the best-fit line is the line at that point. At the bottom of the valley the curve is flat: its own slope is 0. The next Note uses exactly this fact to compute the best $m$ and $b$ directly, without trying slopes one by one.
+
+Figure 4 changes only the slope. A line has two numbers to choose, $m$ and $b$, and over both of them the sum of squared residuals forms a bowl instead of a valley. The [next Note](../51-linear-regression-maths/note.md) (section 4.1) draws that bowl.
 
 ## 4. Linear regression in scikit-learn
 
@@ -162,7 +188,7 @@ The first test student has a CGPA of 8.58 and was offered 4.10 LPA. The model pr
 | 6.22 | 2.33 | 2.57 |
 | 4.57 | 1.94 | 1.65 |
 
-The predictions are close, but not exact: the stochastic errors of Section 3.3 cannot be predicted from CGPA. Figure 4 shows all 40 test students: every prediction (orange diamond) sits on the line at the student's CGPA, and the grey segment is the gap to the real package.
+The predictions are close, but not exact: the stochastic errors of Section 3.3 cannot be predicted from CGPA. Figure 5 shows all 40 test students: every prediction (orange diamond) sits on the line at the student's CGPA, and the grey segment is the gap to the real package.
 
 ![The 40 test students: real packages (blue), predictions on the best-fit line (orange), and the gap between them (grey). The first test student, CGPA 8.58, is 0.21 LPA above the line.](images/test_predictions.png)
 
@@ -201,7 +227,7 @@ The result is exactly the prediction from `lr.predict`. All `predict` does is pu
 
 ![The slope and the intercept of the best-fit line](images/slope_intercept.png)
 
-The slope is the change in the output for one unit of change in the input (the green triangle in Figure 5). Here, every extra CGPA point adds 0.56 LPA to the predicted package.
+The slope is the change in the output for one unit of change in the input (the green triangle in Figure 6). Here, every extra CGPA point adds 0.56 LPA to the predicted package.
 
 So $m$ acts like a **weight**: it says how strongly the output depends on the input.
 
@@ -212,7 +238,7 @@ So $m$ acts like a **weight**: it says how strongly the output depends on the in
 
 > **Key point:** The intercept is the line's value when the input is 0. Sometimes it has a real meaning, sometimes it does not.
 
-The intercept is where the line crosses the vertical axis: the prediction for an input of 0. Here, $b = -0.90$ LPA at CGPA 0 (the red point in Figure 5).
+The intercept is where the line crosses the vertical axis: the prediction for an input of 0. Here, $b = -0.90$ LPA at CGPA 0 (the red point in Figure 6).
 
 An intercept of $-0.90$ has no real meaning: no student has a CGPA of 0, and a negative salary is impossible. The intercept is just where the line has to start so that it fits the students we do have, between CGPA 4 and 10.
 
@@ -235,7 +261,8 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 
 - Linear regression is supervised and predicts a number; simple linear regression uses one input.
 - Real data is "sort of linear": a linear trend plus scatter from stochastic errors.
-- The best-fit line is the line with the smallest sum of squared errors.
+- A residual is actual minus predicted: positive above the line, negative below.
+- The best-fit line is the line with the smallest sum of squared errors (least squares): the bottom of the valley in Figure 4.
 - In scikit-learn: `LinearRegression().fit(X_train, y_train)`, then `predict`.
 - The trained model is two numbers: `coef_` (slope, the input's weight) and `intercept_` (the starting value).
 - The line keeps going beyond the data; predictions far outside the training range are unreliable.
@@ -245,6 +272,9 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 **Built from**
 
 - CampusX, "Simple Linear Regression | Code + Intuition | Simplest Explanation in Hindi", YouTube, https://www.youtube.com/watch?v=UZPfbG0jNec
+
+- StatQuest with Josh Starmer, "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression.)", YouTube, https://www.youtube.com/watch?v=PaFPbb66DxQ (turning the line and the valley of section 3.5)
+- Khan Academy, "Introduction to residuals and least squares regression", YouTube, https://www.youtube.com/watch?v=yMgFHbjbAW8 (residual = actual − predicted and its sign)
 
 **Other references**
 
@@ -265,8 +295,9 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 | Intercept | The line's value when the input is 0; $b$ in $y = mx + b$ |
 | Stochastic error | A random, unmeasurable influence that scatters data around its trend |
 | Best-fit line | The line with the smallest total error over all the training points |
-| Error (residual) | The gap between an actual value and the model's prediction |
-| Sum of squared errors | The squares of all the errors added up; the quantity the best-fit line makes smallest |
+| Error (residual) | The gap between an actual value and the model's prediction: actual minus predicted |
+| Sum of squared errors (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest |
+| Least squares (ordinary least squares) (G-1406) | Fitting a line by making the sum of squared errors as small as possible |
 | coef_ | The fitted slope (one per feature) in scikit-learn |
 | intercept_ | The fitted intercept in scikit-learn |
 | Extrapolation | Predicting for inputs outside the range of the training data |

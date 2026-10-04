@@ -58,7 +58,7 @@ For point $i$, the actual package is $y_i$ and the line predicts $\hat y_i$, the
 
 $$d_i = y_i - \hat y_i$$
 
-This signed vertical gap is the **residual** (G-1685) of observation $i$: positive when the point lies above the line, negative when it lies below.
+This signed vertical gap is the **residual** (G-705) of observation $i$: positive when the point lies above the line, negative when it lies below.
 
 ### 3.2 Adding the errors up
 
@@ -79,7 +79,7 @@ Figure 4 puts the two choices side by side: the orange square grows faster for l
 
 ![What one residual d adds to the total: d squared (orange) against the absolute value of d (blue). Residuals of 1, 2 and 3 add 1, 4 and 9 when squared.](images/square_vs_abs.png)
 
-The total is called the **error function** or **loss function** (G-706); for squared errors it is the **sum of squared errors** (G-1913):
+The total is called the **error function** or **loss function** (G-706); for squared errors it is the **sum of squared errors** (G-1684):
 
 $$E = \sum_{i=1}^{n} (y_i - \hat y_i)^2$$
 
@@ -169,7 +169,7 @@ $$m = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 | Slope | $m = \dfrac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}$ |
 | Intercept | $b = \bar{y} - m\bar{x}$ |
 
-The top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2078) of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
+The top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2074) of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
 Figure 8 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
 
@@ -203,6 +203,28 @@ Figure 9 draws this line on the training students. As Step 1 promised, the line 
 
 These are the numbers `LinearRegression` reported. scikit-learn reaches them by a different route: instead of these sums, `LinearRegression` solves the same least-squares problem with a matrix method, `scipy.linalg.lstsq` (scikit-learn docs, LinearRegression). The same problem has the same answer, so both give the same $m$ and $b$.
 
+### 5.1 Another way to see the slope: correlation
+
+> **Key point:** The slope is the correlation times the ratio of the two spreads: $m = r \times s_y / s_x$.
+
+The $m$ formula can be rewritten with the **Pearson correlation coefficient** $r$ (G-1474) of the [understanding your data Note](../19-understanding-your-data/note.md). Write $s_x$ and $s_y$ for the standard deviations of CGPA and package. Correlation is covariance divided by both standard deviations, so covariance $= r \times s_x \times s_y$, and
+
+$$m = \frac{\text{covariance}}{\text{variance of } x} = \frac{r \times s_x \times s_y}{s_x^2} = r \times \frac{s_y}{s_x}$$
+
+On the training students $r = 0.879$, $s_x = 1.068$ and $s_y = 0.678$:
+
+$$m = 0.879 \times \frac{0.678}{1.068} = 0.558$$
+
+Figure 10 reads this as a recipe for drawing the line:
+
+1. Start at the point of means $(\bar{x}, \bar{y})$; the line always passes through it (Section 4.2).
+2. Step right by one standard deviation of CGPA, $s_x = 1.07$.
+3. Step up by $r \times s_y = 0.879 \times 0.678 = 0.60$.
+
+![The best-fit line drawn from the point of means: right by s_x, up by r × s_y. Dashed: the line if r were 1 (up a full s_y) and if r were 0 (flat at the average package). Idea after Khan Academy, "Calculating the equation of a regression line".](images/slope_r.png){height=36%}
+
+The dashed lines in Figure 10 are the two extremes. With a perfect correlation, $r = 1$, the line would rise a full $s_y$ for each $s_x$. With no correlation, $r = 0$, the line would be flat at the average package: CGPA would tell us nothing, and the best prediction would be the average for everyone. Our $r = 0.879$ takes the line 88 percent of the way from flat to the $r = 1$ line.
+
 ## 6. Our own linear regression class
 
 > **Key point:** A class with fit (the two formulas) and predict (the line equation) reproduces scikit-learn's LinearRegression for one feature.
@@ -229,7 +251,7 @@ These are the numbers `LinearRegression` reported. scikit-learn reaches them by 
 >
 > `X_train` here is a plain 1-D NumPy array of CGPAs. NumPy works on whole arrays at once, so the sums need no loop.
 
-The predictions match scikit-learn's to every digit shown. Figure 10 draws the class's output on the 40 test students: our line lies exactly on scikit-learn's.
+The predictions match scikit-learn's to every digit shown. Figure 11 draws the class's output on the 40 test students: our line lies exactly on scikit-learn's.
 
 ![On the 40 test students, the line of our MyLR class (dashed blue) lies on top of scikit-learn's LinearRegression line (orange). Diamonds: the first three test predictions, 3.8911, 3.0932 and 2.3846.](images/my_vs_sklearn.png)
 
@@ -252,6 +274,7 @@ The predictions match scikit-learn's to every digit shown. Figure 10 draws the c
 - Errors are squared so they do not cancel, large errors count more, and the function can be differentiated.
 - The error function is a bowl in $(m, b)$; the best line is its bottom, where both partial derivatives are zero.
 - The best line always passes through $(\bar{x}, \bar{y})$.
+- The slope is also $r \times s_y / s_x$: correlation times the ratio of the spreads.
 - scikit-learn's `LinearRegression` solves the same least-squares problem (with `scipy.linalg.lstsq`) and gets the same $m$ and $b$.
 
 ## 8. Sources
@@ -259,7 +282,8 @@ The predictions match scikit-learn's to every digit shown. Figure 10 draws the c
 **Built from**
 
 - CampusX, "Simple Linear Regression | Mathematical Formulation | Coding from Scratch", YouTube, https://www.youtube.com/watch?v=dXHIDLPKdmA
-- Starmer, J. (StatQuest), "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression)", statquest.org. The intuition of turning a line and watching the squared errors change, behind Figure 5; we redraw it with our own data.
+- Starmer, J. (StatQuest), "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression)", YouTube, https://www.youtube.com/watch?v=PaFPbb66DxQ. The intuition of turning a line and watching the squared errors change, behind Figure 5; we redraw it with our own data.
+- Khan Academy, "Calculating the equation of a regression line", YouTube, https://www.youtube.com/watch?v=FGesqq22TCM (the slope as r × s_y / s_x, section 5.1)
 
 **Other references**
 
@@ -275,11 +299,11 @@ The predictions match scikit-learn's to every digit shown. Figure 10 draws the c
 | Observation | One record: one row of the data table |
 | Closed-form solution | An answer given directly by a formula of ordinary operations |
 | Non-closed-form solution | An answer reached by improving a guess step by step |
-| Ordinary least squares (OLS) | The closed-form method for linear regression: the line with the smallest sum of squared errors |
+| Ordinary least squares (OLS) (G-1406) | The closed-form method for linear regression: the line with the smallest sum of squared errors |
 | Gradient descent | A step-by-step method that walks downhill on the error function |
 | Prediction ($\hat{y}$) | The value the model gives for an input; the hat marks a prediction |
-| Residual | The signed vertical gap $y_i - \hat y_i$ between an observation and the line |
-| Error function (loss function) | A formula for how wrong the model is; here the sum of squared errors |
+| Residual (G-705) | The signed vertical gap $y_i - \hat y_i$ between an observation and the line |
+| Error function (loss function) (G-706) | A formula for how wrong the model is; here the sum of squared errors |
 | Derivative | The slope of a function at a point |
 | Tangent line | The straight line that touches a curve at one point; its slope is the derivative there |
 | Partial derivative | The slope of a function of several variables in one variable, holding the others fixed |

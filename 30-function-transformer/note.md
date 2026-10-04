@@ -104,8 +104,6 @@ where $\Phi^{-1}$ turns a probability into the $z$-value with that much of the n
 
 The same construction works against any distribution: cut that distribution's curve into slices instead. In this Note the comparison is always with the normal.
 
-> **Extra:** scipy's `probplot` uses a slightly different rule for the probabilities (Filliben's estimate; SciPy docs, `scipy.stats.probplot`), so its $z$-values differ a little, but the picture is the same.
-
 ### 4.2 Reading a Q-Q plot
 
 > **Key point:** The closer the points lie to the straight red line, the closer the data is to a normal distribution.
@@ -553,7 +551,6 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 
 - Hosmer, D. W., Lemeshow, S. and Sturdivant, R. X. (2013). *Applied Logistic Regression*, 3rd ed. Wiley. Chapter 1.
 - Kutner, M. H., Nachtsheim, C. J., Neter, J. and Li, W. (2005). *Applied Linear Statistical Models*, 5th ed. McGraw-Hill. Section 1.8, Normal error regression model.
-- SciPy documentation. `scipy.stats.probplot`. docs.scipy.org.
 - Wilk, M. B. and Gnanadesikan, R. (1968). Probability Plotting Methods for the Analysis of Data. *Biometrika* 55(1), 1-17.
 
 ## 11. Key terms
@@ -578,4 +575,4 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | func | The `FunctionTransformer` parameter that holds the function to apply |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note) |
 | QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes |
-| Lambda | A one-line Python function without a name, such as `lambda x: x**2` |
+| Lambda (G-1040) | A one-line Python function without a name, such as `lambda x: x**2` |

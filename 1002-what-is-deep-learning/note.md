@@ -66,6 +66,18 @@ The [types of neural networks Note](../1003-nn-types-history-applications/note.m
 
 > **Key point:** Representation learning means the algorithm finds the useful features in raw data by itself, instead of us engineering them by hand.
 
+Start with a task that looks easy: read a handwritten 3. Figure 3 shows three 3s written by three people.
+
+![Three handwritten 3s from the MNIST digits, each 28 by 28 pixels, and (in red) the pixels that are ink in all three](images/three_threes.png)
+
+We see the same digit three times. The pixels do not agree:
+
+1. Each image is a grid of $28 \times 28 = 784$ pixels. The three 3s put ink on 137, 100 and 100 of them.
+2. Only 34 pixels are ink in all three images (the red panel).
+3. So a hand-written rule such as "these pixels must be dark" fits one 3 and fails on the next.
+
+A rule on raw pixels does not work. We need descriptions that stay the same when the handwriting changes, such as "a curve open to the left, twice". Such a description is a **feature**, and a set of features that describes the data well is a **representation** (G-2260). Writing these features by hand for every digit, face or word is not practical, so we let the algorithm find them.
+
 A more technical definition reads: deep learning is part of the broader family of ML methods based on artificial neural networks **with representation learning**. Its algorithms use multiple layers to progressively extract higher-level features from the raw input.
 
 **Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. Representation learning replaces manual [feature engineering](../23-what-is-feature-engineering/note.md) (G-761): the machine both learns the features and uses them.
@@ -85,7 +97,21 @@ The second half of the technical definition says how the layers share the work. 
 2. The next layers combine edges into **shapes**.
 3. The deepest layers combine shapes into **high-level concepts**: a face, a digit, a letter.
 
+How can a neuron detect an edge at all? Its weights are positive on a short strip of pixels and negative around the strip, so its weighted sum is large only when that strip is bright and its surroundings are dark. Section 4.5 of the [MLP intuition Note](../1009-mlp-intuition/note.md) shows one such neuron.
+
 The output layer then gives the answer. Section 5.3 of the [AI vs ML vs DL Note](../02-ai-vs-ml-vs-dl/note.md) animates the same idea for a handwritten 7.
+
+We can watch representation learning happen. Figure 4 trains a small network on the MNIST handwritten digits (LeCun et al. 1998) and looks inside it.
+
+![Representation learning on MNIST. Each dot is one test image of a 3, 5 or 8. First frame: the raw pixels; later frames: the 32 numbers of the network's last hidden layer after 0 to 10 epochs. Each view is squeezed to two dimensions with PCA.](images/hidden_rep.gif)
+
+1. **The network.** It takes the 784 pixels of a digit, passes them through hidden layers of 64 and 32 neurons, and outputs one of 10 digits.
+2. **Raw pixels.** Squeezed to two dimensions, the 3s, 5s and 8s overlap: only 56 percent of them have a nearest neighbour of the same digit.
+3. **Before training (epoch 0).** The hidden layer holds random features, and the digits are just as mixed (48 percent).
+4. **Training.** After each **epoch** (G-696), one pass over the 60,000 training images, the hidden layer's 32 numbers group the digits better: 64, 69 and 78 percent after 1, 2 and 5 epochs.
+5. **After 10 epochs.** The three digits form three clear groups (87 percent), and the network labels 96.9 percent of the test images correctly.
+
+Nobody told the network which features to compute. It changed its hidden layer, step by step, into numbers that keep similar digits together: the representation it learned.
 
 ## 3. Why deep learning became famous
 
@@ -112,7 +138,7 @@ Few methods reach that many fields.
 
 ![The fields where deep learning is used, as listed in section 3.1](images/fields_fan.png){width=80%}
 
-Figure 3 shows the reach: one family of methods, ten very different fields.
+Figure 5 shows the reach: one family of methods, ten very different fields.
 
 ### 3.2 Performance
 
@@ -126,7 +152,7 @@ In most of these fields, the best results today come from DL. In March 2016 the 
 
 ![The five differences of sections 4.1 to 4.5 as a trade: what DL costs and what it gives](images/dl_tradeoffs.png){width=75%}
 
-Figure 4 is the balance this section weighs: four costs on the left, two gains on the right.
+Figure 6 is the balance this section weighs: four costs on the left, two gains on the right.
 
 ### 4.1 Data
 
@@ -139,6 +165,15 @@ DL is **data hungry** (G-534): its results become reliable only with a lot of da
 > **Key point:** ML trains on an ordinary CPU; DL needs a GPU, because it multiplies very large matrices.
 
 A neural network does huge numbers of matrix multiplications. A [GPU](../12-setup-anaconda-jupyter-colab/note.md) (G-856) with plenty of memory does them in parallel, while a CPU does them slowly. So ML runs on cheap hardware, and DL needs costly hardware.
+
+Figure 7 measures the difference on one laptop. Each point is the time to multiply two square matrices of random numbers, the operation a network repeats millions of times.
+
+![Time to multiply two n by n matrices on a laptop CPU and a laptop GPU, with TensorFlow. Labels: how many times faster the GPU is.](images/cpu_vs_gpu.png)
+
+- **Small matrices** ($256 \times 256$): the GPU is 2.7 times faster.
+- **Large matrices** ($8192 \times 8192$): the CPU takes 1.6 seconds and the GPU 0.13 seconds, 12.5 times faster.
+
+The bigger the matrices, the more of the work the GPU can do at the same time, and the larger its lead.
 
 ### 4.3 Training time and prediction time
 
@@ -162,7 +197,7 @@ Letting the network extract the features is representation learning (section 2.3
 
 > **Key point:** A trained network is a black box: it cannot say why it gave an answer. Linear models and decision trees can.
 
-**Interpretability** (G-965) is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a [black box](../91-knn/note.md) (G-312): it gives an answer without the reasons.
+**Interpretability** (G-965) is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a [black box](../91-knn/note.md) (G-311): it gives an answer without the reasons.
 
 Interpretability matters wherever we must justify a decision. Suppose a social network bans users based on their comments, using a DL model. A banned user asks why, and we have no answer.
 
@@ -192,7 +227,7 @@ Since DL is so strong, why not use it everywhere? Because on small or tabular da
 
 > **Key point:** Five forces: large public datasets, faster hardware, easy frameworks, ready-made architectures, and a large community.
 
-The core ideas of neural networks are decades old (the [history section](../1003-nn-types-history-applications/note.md) tells the story), yet DL became famous only around 2012. Figure 5 shows the five forces behind the change.
+The core ideas of neural networks are decades old (the [history section](../1003-nn-types-history-applications/note.md) tells the story), yet DL became famous only around 2012. Figure 8 shows the five forces behind the change.
 
 ![The five forces that made deep learning practical](images/why_now.png){height=42%}
 
@@ -296,9 +331,11 @@ None of the above would exist without people. Researchers worked on neural netwo
 **Built from**
 
 - CampusX, "What is Deep Learning? Deep Learning Vs Machine Learning | Complete Deep Learning Course", YouTube, https://www.youtube.com/watch?v=fHF22Wxuyw4
+- Sanderson, G. (3Blue1Brown), "But what is a neural network? | Deep learning chapter 1", 2017, https://www.youtube.com/watch?v=aircAruvnKk (the three different 3s; an edge neuron's weights)
 
 **Other references**
 
+- LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11). (The MNIST digits.)
 - Silver et al., "Mastering the game of Go without human knowledge", *Nature*, 2017 (AlphaGo against Lee Sedol, March 2016).
 - NVIDIA, "CUDA Toolkit Archive" (CUDA Toolkit 1.0, June 2007), developer.nvidia.com.
 - Raina, Madhavan and Ng, "Large-scale Deep Unsupervised Learning using Graphics Processors", ICML 2009.
@@ -317,7 +354,9 @@ None of the above would exist without people. Researchers worked on neural netwo
 | Input layer | The first layer, with one node per feature |
 | Output layer | The last layer, which gives the prediction |
 | Hidden layer | Any layer between the input and output layers |
-| Deep network | A neural network with many hidden layers |
+| Epoch | One pass of training over all the training data |
+| Deep network (G-570) | A neural network with many hidden layers |
+| Representation (G-2260) | A set of features that describes the data; a good one stays the same when unimportant details (such as handwriting) change |
 | Representation learning (feature learning) | Letting the algorithm discover useful features from raw data, instead of engineering them by hand |
 | Data hungry | Needing a lot of data before results become reliable |
 | Public dataset | A labelled dataset released for anyone to use |

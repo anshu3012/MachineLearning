@@ -16,7 +16,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ## 1. Overview
 
-> **Key point:** A **measure of dispersion** (G-1206) says how spread out a feature is around its centre: range, **variance** (G-2078), **standard deviation** (G-1871), **mean absolute deviation** (G-1193) and **coefficient of variation** (G-408) each do this differently.
+> **Key point:** A **measure of dispersion** (G-1206) says how spread out a feature is around its centre: range, **variance** (G-2074), **standard deviation** (G-1871), **mean absolute deviation** (G-1193) and **coefficient of variation** (G-408) each do this differently.
 
 ![Variance of 3, 2, 1, 5, 4: each value's distance from the mean, squared and averaged](images/deviations.png)
 
@@ -60,7 +60,7 @@ Salaries in India show the problem. Some of the richest people in the world live
 
 > **Key point:** Variance is the average squared distance from the mean.
 
-A better measure uses every value, not just the two extremes. We measure how far each value sits from the mean, and then average those distances. Squaring each distance first stops them cancelling (section 4.1). The result is the **variance** (G-2078).
+A better measure uses every value, not just the two extremes. We measure how far each value sits from the mean, and then average those distances. Squaring each distance first stops them cancelling (section 4.1). The result is the **variance** (G-2074).
 
 When the data is the whole **population** (G-1525), every member of the group we care about, the mean is the **population mean** $\mu$ (G-1524) and the variance is written $\sigma^2$. When the data is a **sample** (G-1731), a small part of the population, the mean is the **sample mean** $\bar{x}$ (G-1725). The [central tendency Note](../221-measures-of-central-tendency/note.md) teaches both means. This section works with the population version; section 6 changes it for a sample.
 
@@ -131,7 +131,7 @@ We almost never have the whole population. We have a sample, and we use it to es
 1. we do not know $\mu$, so we measure the distances from the sample mean $\bar{x}$ instead;
 2. we divide by $n - 1$ instead of $n$.
 
-With both changes, the **sample variance** is
+With both changes, the **sample variance** (G-2229) is
 
 $$s^2 = \frac{1}{n - 1}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
@@ -145,7 +145,7 @@ The reason in one sentence: the values sit closer to their own sample mean than 
 
 > **Key point:** The average squared distance to a point $v$ is smallest when $v$ is the sample mean, so it is always smaller around $\bar{x}$ than around $\mu$.
 
-Take five Titanic ages, 53, 30, 19, 41 and 28, a random sample of the 714 known ages. Their sample mean is 34.2; the mean of all 714 ages is $\mu = 29.7$. Now pick any point $v$ on the age axis, and compute the **variance around $v$**: square each value's distance to $v$, then divide by $n$. Then slide $v$ and repeat. In Figure 5, watch the orange line slide along the ages while the lower panel traces the result.
+Take five Titanic ages, 53, 30, 19, 41 and 28, a random sample of the 714 known ages. Their sample mean is 34.2; the mean of all 714 ages is $\mu = 29.7$. Now pick any point $v$ on the age axis, and compute the **variance around $v$** (G-2228): square each value's distance to $v$, then divide by $n$. Then slide $v$ and repeat. In Figure 5, watch the orange line slide along the ages while the lower panel traces the result.
 
 ![Slide a point v along five ages: the average squared distance to v traces a U whose bottom is the sample mean; a second sample does the same; absolute distances give a V with a sharp corner](images/variance_around_v.gif)
 
@@ -300,7 +300,7 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 | Feature | One variable of the data, one column of the table |
 | Observation | One record, one row of the table |
 | Range | The largest value minus the smallest |
-| Variance around a point $v$ | The average squared distance of the values to $v$; smallest when $v$ is the sample mean |
-| Sample variance $s^2$ | The squared distances from the sample mean, summed and divided by $n - 1$ |
+| Variance around a point $v$ (G-2228) | The average squared distance of the values to $v$; smallest when $v$ is the sample mean |
+| Sample variance $s^2$ (G-2229) | The squared distances from the sample mean, summed and divided by $n - 1$ |
 | Bessel's correction | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average |
 | ddof | NumPy and pandas argument: the number subtracted from $n$ in the variance's denominator |

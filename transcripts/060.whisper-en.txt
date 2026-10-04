@@ -1,0 +1,196 @@
+Hi guys, welcome to my YouTube channel. We are studying Gradient Descent. We have also
+studied the types of gradient descent. We have covered two types so far. The first one
+was the most simple variant of gradient descent. That was batch gradient descent. And after
+that we studied stochastic gradient descent. And today we are going to study the third
+and the last variant. That is mini batch gradient descent. So let's start the video. So as
+As I have already told you that the three variants of gradient descent vary on the fact that how frequently you update your coefficients.
+So your first variant that was batch gradient descent, in that you update once after seeing the whole data.
+It means you do one update per epoch. After one full epoch, after looking at the value of all the rows, I take an update once.
+That is batch gradient descent. And obviously this was slow. To solve this, stochastic gradient descent came.
+stochastic means random and here if you have N rows of data then you take N updates per epoch
+this was fast means here you don't need that many epochs because your algorithm converges very fast
+especially if you have large data set. So this is preferable when you have big data and when you have non-convex function
+because since this is random, it sometimes jumps from your local minima and takes you to global minima.
+Whereas batch gradient descent is suitable for small data set and convex data sets.
+Although in practice batch gradient descent is used very less.
+Stochastic gradient descent has only one problem that it is too random.
+Means in the end also you don't have to get the most optimal solution.
+You will have a good solution which will work properly.
+But will it be the best solution? Not necessary.
+Second, if you repeat it again and again then there is a chance that the answer will be different.
+So the thing between these two is Mini Batch Gradient Descent which we will cover in this video.
+So in mini batch gradient descent there is a concept of batch. So batch means group of rows.
+Let's say you originally had n rows. Let's say 1000. Now what you can do is you can create batches in it.
+Suppose you have created batches of 100, then total batches will be 10 batches.
+Now in every epoch you will update as much as your batches.
+Basically you will look at one batch and then update, then second batch and then update,
+then third batch and then update and so on.
+So here you do batches update per epoch, so if you had 1000 rows and you made batches of 100
+So it means you will take 10 updates in one epoch, if you had made batches of 10 then you would have taken 100 updates per epoch
+Now, mini batch is actually in between batch and stochastic.
+Think about it. If you have n rows and you set your batch size to be equal to n.
+So, think about it. How many updates will you make in one epoch?
+You will make only one update per epoch. And who does this?
+batch gradient descent. If you take batch size 1, then you will get n batches, so you will get n updates per epoch.
+So that is stochastic gradient descent. So mini batch gradient descent is the general form or you can say it is the middle form.
+By tweaking this parameter, you can get both batch gradient descent as well as mini batch gradient descent.
+So that's it. Whatever is in the middle of both the worlds, you are coming there, try to take advantage of both the worlds.
+If your stochastic is more random, then the way to reduce its randomness is mini batch.
+that's it and that is why we use mini batch gradient descent
+it is used a lot in deep learning
+in linear regression mostly you use stochastic gradient descent
+it depends on the situation that you are facing
+sometimes mini batch can give you better results
+but mostly you use stochastic
+so now what we will do is we will write the code from scratch
+we will see some visualizations
+and then we will see how to use it in cyclic learning
+So guys, I have made a new file by the name of minibatch gradient descent from scratch
+and here I have pasted exactly the same code which I had written for batch gradient descent in the previous video.
+So I will quickly run this. We will try our class on the low diabetes data set.
+There are 442 rows, 10 input columns.
+We have split the train test and trained the linear regression model of scikit-learn
+So that we have an idea of what should be our correct answer
+And you can see this is the correct answer
+This is our intercept value and these are our slope values
+And R2 score is coming out to be around 0.43
+So the output from the class we will make should come in this round
+Then I made this class in the batch gradient descent video and we will reuse this class only.
+We will have to make some changes like there is no need to make any changes in predict.
+All the changes will be mostly in fit and in init we will need one more change.
+That is that you will ask for batch size as a hyper parameter from the front.
+So what I am doing is creating one more parameter here called batch size.
+So from there I will be told from the front that how much is the batch size.
+36, 64, in this way the general numbers can be given or whatever the front one can give.
+And here I will create a class attribute by the name of batch size.
+This will be equal to whatever will be given to me. This will be the only change in this method.
+Also, I will change the name of this class to mbgd, mini batch gradient descent.
+Now we come to the main, in our fit method. In fit method, first of all you will do intercept as 0 and all coefficients as 1.
+this step is correct, after that what we have to do is, we have to run a loop inside epox
+again, for j in the range of integer of extreme dot shape of zero divided by self dot bat
+size. So, suppose the data size is 100 rows and someone told me that he wants batch size of 10.
+So, the total number of batches will be 10. So, this inner loop will run 10 times. Always remember,
+the inner loop will run as many times as the batches. And how will you calculate the number of batches?
+total number of rows divided by batch size. I have put a colon here and I will do the rest of the thing in this loop.
+And now it is very simple. Now what I have to do is in the inner loop I have to randomly generate some ids.
+Basically, I will randomly select the rows in a batch.
+So, if my batch size is 10, then I will enter in the loop and select 10 random rows and work on them.
+First of all, I am calling random.
+Import the random module.
+And inside the random module, I will write it over here.
+I will show you which function I am using.
+random.randent
+I will just google it.
+I don't remember what it is.
+random generating multiple random numbers in python
+So, we will use, not this one, we will use a function called random.sample.
+So, random.sample, here you tell in which range you want to generate numbers and here you tell how many numbers you want to generate.
+So, in this given range, you have generated 10 numbers, we will use this code.
+So, we will write, I will just remove these comments for now.
+So, I will generate IDs and this will be equal to random.sample.
+What will be the range? The range will be same as my total rows.
+That will be my range. So, basically, extreme.shape 0,
+comma, how many IDs to generate?
+As much as my batch size.
+So if the batch size is 10, then in this given range, from 0 to this given range, 10 IDs will be generated
+And then I have to work on these 10 rows of IDs
+So now the y hat will come out for these 10 rows as in batch size
+So in np. I will not take the full x-train, I will take the subset of it and how will it come out?
+It will come out like this. So I applied fancy indexing of numpy.
+So I can show you, if our x-train is this and if I pass this list in it, then I will get 10 rows.
+These are the 10 rows.
+So, randomly we have selected these 10 rows.
+Now, we will find y hat on it.
+Basically, these 10 rows which are randomly selected,
+we will remove y predicted from them.
+And once y predicted is removed,
+we will use it to remove the derivative of intercept.
+And for that, we have to write idx instead of y train.
+means in y-train subset of these 10 rows will be subtracted with y-hat
+its shape and its shape will be same
+after that you will update, there will be no change in update code
+after that you will update the derivative of coefficient
+here idx will come again and in x-train also idx will come
+So basically whatever the operation was, we have run it on the subsets, that's it, nothing special happened.
+And the next code will be exactly the same. So I will just cross check whether this code is correct or not.
+And I think it is fine. So let's do one thing, let's run it. And now I will make an object of it.
+Mg, Mbr, mini batch gradient descent regressor
+Mb, here I have to give three things, I have to give one
+Batch size, I am giving batch size
+Integer of x-train dot shape's zero
+Divided by 10
+So, what is the shape of the X-train now?
+The shape of the X-train is 353 and the integer of 353 divided by 10 would be 35.
+So, my batch will be 35 rows in total and the inner loop will run 10 times.
+So, this is my batch size.
+I have taken learning rate as 0.01 and I have taken epox as for now 50
+So this is my object, we are training it using the fit method
+I will pass x train and y train and you can see we are getting the results
+Our actual intercept value was 151, we are getting 154.
+Now by changing batch size, learning rate and epox, you can improve the performance.
+Let's check the R2 score.
+So ypred is equal to mbr.predict xtest and finally r2score ytest and ypred is coming out to be 0.43 only.
+here also 0.43 was coming, you can change these values, if you take the batch size of 20, no, if you divide it from 20, then now it will be the batch size of 17, the number of batches will increase,
+So there is not much difference. If I take 50, then there is some difference.
+If I increase the learning rate, then it decreased. If I decrease a little, then it also decreased.
+I guess we are going to the optimum here. If we increase this a little to 75 let's say.
+So, by increasing the epox, the performance is getting improved.
+So, you have hyperparameters, you can try various values.
+In 100 epox, you are getting around 45 R2 score.
+So, run it once.
+It is a very simple implementation of mini batch gradient descent.
+We didn't have to do anything special.
+We created batches randomly.
+And we are running our algorithm on it.
+Now, I'll show you some visualizations so that your understanding will be more concrete about mini batch gradient descent.
+So guys, I have made this visualization, again a contour plot for this. This is our mini batch gradient descent.
+So I'll just write it down. This is batch, this is stochastic and this is mini batch.
+I would just like to show you a general pattern. You can see that batch gradient descent is
+like very straight, it is reaching the solution in a very straight way, it is slow whereas
+stochastic gradient descent is taking random abrupt steps and at the end it is reaching
+But if you see mini batch, you would see that this behavior is in between of both.
+If you catch batch and stochastic, then this behavior is in between of both.
+It is not too random and not too straight.
+If you change the batch size in this, then you would see that you can tune this behavior more according to your requirement.
+Here also you will notice a problem that as soon as it reaches the right place, it goes around in an indecisive way.
+So we discussed its solution in the video of Stochastic Gradient Descent that you can use something called Learning Schedule.
+What you do in Learning Schedule is that you don't take a fixed learning rate.
+Instead, as you are moving towards the solution, you reduce your learning rate.
+This reduces the random behaviour and you don't go near the actual solution
+You can implement a learning schedule but you have to write the code yourself
+Or you can use SGD regressor
+So that's it, I didn't want to show much here
+I just wanted to show you that the behaviour of mini batch gradient descent
+really lies between stochastic and batch
+So now we will see one last thing that is how to use minibatch gradient descent using scikit-learn.
+So guys I have created the code how to do minibatch gradient descent in scikit-learn.
+Honestly you will use the SGD regressor class but there you don't have a direct option to set the batch size.
+I will show you what is Jugaad. First of all, I imported SGD regressor and then I made an object of it
+in which I told two things that my learning rate would be constant and its value would be 0.2.
+Why did I take 0.2 because I was getting the best results on this. You can run the other values and see.
+Now, what you can do here is that in SGD regressor class, there is a method called partial fit where you can send subset of x-train and y-train.
+It is written here that perform one epoch of stochastic gradient descent on given samples.
+It will run only one epoch explicitly. It is written here that internally this method uses max iteration equal to 1.
+It means whenever you run this method, it will run in the data only once. So what I did was I ran it for 100.
+Means I explicitly set epoch to 100 and inside this I took batch size 35 and generated index value.
+I generated 35 random index values and I called partial fit and sent the 35 random rows of x-train only for training.
+And I did this in a loop 100 times.
+And after doing this, here are my coefficients and here is my intercept and here is my outcome 0.36.
+You can change it, for example, by doing 0.1, it has improved a little more.
+So you can tune this, but this is how you do mini batch gradient descent using SGD regressor.
+You don't have a direct way, there is no hyperparameter of batch size.
+If you are working in deep learning, there is a library called Keras,
+there is a batch size parameter for it, so you don't have to put such a thing there.
+But unfortunately, you don't have any option here, so you will have to do this.
+So, yeah, that's it for this video.
+We have studied gradient descent in detail.
+I hope you understood all the types.
+Again, I would request that you don't just watch the video.
+Try to write the code with your own hands.
+Try to do the mathematical formulation once by writing it on a copy
+Then it will sit in your mind more
+If possible, you may need multiple viewings of the video
+But this is one concept that if you master
+Then you will be able to do many algorithms and deep learning very easily
+So with that, that's it for the video
+Thanks for watching, bye

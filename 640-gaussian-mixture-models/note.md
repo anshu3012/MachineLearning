@@ -206,7 +206,7 @@ We follow the book's proof of Theorem 11.1 in one dimension.
 
 1. **In words:** differentiate $\ell$ with respect to one mean, $\mu_k$, set the result to 0, and solve for $\mu_k$.
 2. **Formula:** by the chain rule, the derivative of $\log p(x_n)$ is $1/p(x_n)$ times the derivative of $p(x_n)$. Only the $k$-th term of the sum contains $\mu_k$, and the derivative of a normal density with respect to its mean is the density times $(x_n - \mu_k)/\sigma_k^2$. So
-   $$\frac{\partial\ell}{\partial\mu_k} = \sum_{n=1}^{N} \underbrace{\frac{\pi_k N(x_n \mid \mu_k, \sigma_k^2)}{\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)}}_{r_{nk}} \cdot \frac{x_n - \mu_k}{\sigma_k^2} = \frac{1}{\sigma_k^2}\sum_{n=1}^{N} r_{nk}(x_n - \mu_k)$$
+   $$\frac{\partial\ell}{\partial\mu_k} = \sum_{n=1}^{N} \underbrace{\frac{\pi_k N(x_n \mid \mu_k, \sigma_k^2)}{\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)}} _{r_{nk}} \cdot \frac{x_n - \mu_k}{\sigma_k^2} = \frac{1}{\sigma_k^2}\sum_{n=1}^{N} r_{nk}(x_n - \mu_k)$$
    The fraction is exactly the responsibility. Setting the sum to 0 and solving:
    $$\mu_k = \frac{\sum_n r_{nk}\thinspace x_n}{\sum_n r_{nk}} = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace x_n$$
 3. **Example:** with the responsibilities of Section 6.2, component 1 gets

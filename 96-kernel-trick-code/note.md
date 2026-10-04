@@ -271,7 +271,7 @@ Things to try:
 
 | Term | Meaning |
 |---|---|
-| make_circles (G-1148) | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset |
+| make_circles (G-110) | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset |
 | Feature map ($\phi$) (G-765) | The explicit transformation of a point into the higher-dimensional space |
 | Kernel function $K(a, b)$ (G-1006) | A function that returns $\phi(a) \cdot \phi(b)$ directly from the original points |
 | degree | The degree of SVC's polynomial kernel; default 3 |

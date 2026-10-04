@@ -179,7 +179,7 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 > **Key point:** 95% is the common compromise between being right often and giving a useful, narrow range.
 
-The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 5.1). In Figure 4 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
+The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md) (section 6.1). In Figure 4 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
 
 The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
 

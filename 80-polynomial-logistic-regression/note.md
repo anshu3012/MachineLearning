@@ -99,7 +99,7 @@ Figure 2 raises the degree one step per frame. Watch the decision boundary (blac
 
 - **Degree 1:** plain logistic regression, a straight line. The line misclassifies the tips of both moons.
 - **Degree 2:** a gentle curve, little better.
-- **Degrees 3 and 4:** the boundary bends around the moons. Test accuracy jumps to 0.93.
+- **Degrees 3 and 4:** the boundary bends around the moons. **Test accuracy** (G-2211) jumps to 0.93.
 - **Degrees 10 and 25:** the boundary develops odd loops and islands far from the data. Training accuracy keeps rising, but test accuracy falls to about 0.92, and the gap between the two grows from 0.012 to 0.045.
 
 As with polynomial regression, the degree controls flexibility. Too low a degree gives **underfitting** (G-2035): the boundary is too simple for the pattern. Too high a degree gives **overfitting** (G-1429): the boundary follows single training points. The degree is a **hyperparameter** (G-910), chosen by comparing scores on data not used for training. Here degree 3 is best.
@@ -148,5 +148,5 @@ On real data with strongly non-linear patterns, decision trees, random forests o
 |---|---|
 | Polynomial features | New features made from powers and products of the original features |
 | Decision boundary | The line or curve where the model switches from predicting one class to the other |
-| make_moons | scikit-learn function that creates two interlocking half-moon classes |
-| Test accuracy | Accuracy on data not used for training, an estimate of performance on new data |
+| make_moons (G-111) | scikit-learn function that creates two interlocking half-moon classes |
+| Test accuracy (G-2211) | Accuracy on data not used for training, an estimate of performance on new data |

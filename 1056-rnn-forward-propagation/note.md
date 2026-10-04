@@ -47,7 +47,7 @@ Take a sentiment analysis task: the input is a movie review, and the **target** 
 | movie was bad | 0 |
 | movie was not good | 0 |
 
-These reviews use 5 unique words, the **vocabulary** (G-2093): movie, was, good, bad, not. With **one-hot encoding** (G-1379), each word becomes a vector of 5 numbers with a single 1:
+These reviews use 5 unique words, the **vocabulary** (G-2092): movie, was, good, bad, not. With **one-hot encoding** (G-1379), each word becomes a vector of 5 numbers with a single 1:
 
 | Word | Vector |
 |---|---|
@@ -75,7 +75,7 @@ In general the shape of one observation is (time steps, input features).
 
 > **Key point:** Keras' `SimpleRNN` layer takes (batch size, time steps, input features). Shorter reviews are padded to the longest one.
 
-Keras processes several reviews at once. The three reviews above, sent together, form a **batch** (G-268): a **tensor** (G-1957) of shape $(3, 4, 5)$, with 3 reviews, 4 time steps (the longest review has 4 words) and 5 input features (Figure 2). The two 3-word reviews get one zero vector as **padding** (G-1436) (padding and its cost are covered in the [why RNNs Note](../1055-why-rnn/note.md)).
+Keras processes several reviews at once. The three reviews above, sent together, form a **batch** (G-263): a **tensor** (G-1957) of shape $(3, 4, 5)$, with 3 reviews, 4 time steps (the longest review has 4 words) and 5 input features (Figure 2). The two 3-word reviews get one zero vector as **padding** (G-1436) (padding and its cost are covered in the [why RNNs Note](../1055-why-rnn/note.md)).
 
 ![The batch of the three reviews. Each review is a table with one row per time step and one column per input feature; each row is a word's one-hot vector. The 3-word reviews get a grey row of zeros, so the batch has shape (3, 4, 5)](images/batch_tensor.png){width=100%}
 
@@ -338,7 +338,7 @@ Figure 7 sums up the whole computation.
 | Observation | One record of the data, here one review |
 | Feature | An input variable; here one of the 5 positions of a word vector |
 | Target | The output we predict, here the sentiment |
-| Vocabulary | The set of unique words in the data |
+| Vocabulary (G-2092) | The set of unique words in the data |
 | Time step | One position in the sequence; word $j$ enters at $t = j$ |
 | Recurrent layer | A hidden layer whose output at one time step is an input to itself at the next |
 | Hidden state ($h_t$) | The recurrent layer's output at time step $t$; the network's summary of the inputs so far |

@@ -14,7 +14,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 
 ## 1. Overview
 
-> **Key point:** At prediction time (**inference**) the transformer has no target sentence. The encoder runs once and turns the input sentence into $H_{\text{enc}}$. The decoder then runs once per output word: at step 1 its input is `<start>` alone; at each later step it is `<start>` plus every word chosen so far. Only the last position's vector goes through the linear layer and the softmax, the most likely word is chosen, and it is appended to the input. The loop stops at `<end>`. The **causal mask** (G-358) stays on, exactly as in training.
+> **Key point:** At prediction time (**inference**) the transformer has no target sentence. The encoder runs once and turns the input sentence into $H_{\text{enc}}$. The decoder then runs once per output word: at step 1 its input is `<start>` alone; at each later step it is `<start>` plus every word chosen so far. Only the last position's vector goes through the linear layer and the softmax, the most likely word is chosen, and it is appended to the input. The loop stops at `<end>`. The **causal mask** (G-357) stays on, exactly as in training.
 
 The [transformer decoder Note](../1083-transformer-decoder/note.md) followed the transformer during training, when the whole target sentence is known and every position is computed in one pass. This Note follows the same trained model when it is used: a new English sentence comes in, and the French translation has to be written word by word (Figure 1).
 
@@ -41,7 +41,7 @@ The Notebook trains a small transformer on 40,000 English–French sentence pair
 | Decoder runs | once per sentence pair | once per output word |
 | Positions used at the output | all (one loss term each) | only the last (it gives the next word) |
 | Causal mask | on | on |
-| Way of working | **non-autoregressive** (G-1331): all positions in parallel | **autoregressive** (G-235): each new word depends on the earlier ones |
+| Way of working | **non-autoregressive** (G-1331): all positions in parallel | **autoregressive** (G-233): each new word depends on the earlier ones |
 
 Figure 2 counts the decoder runs for "we're friends .".
 
@@ -53,7 +53,7 @@ In training the correct French sentence is in the data, so the decoder can recei
 
 > **Key point:** A small transformer with the paper's design, trained with teacher forcing for 25 epochs on 40,000 short sentence pairs (about 4 minutes on a GPU), translates unseen sentences with a BLEU score of 41.4.
 
-The data and the test set are those of the [encoder–decoder Note](../1068-encoder-decoder/note.md): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, **dropout** (G-639) 0.1, Adam with the paper's **learning-rate warm-up** (G-1075) schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
+The data and the test set are those of the [encoder–decoder Note](../1068-encoder-decoder/note.md): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, **dropout** (G-639) 0.1, Adam with the paper's **learning-rate warm-up** (G-1071) schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
 
 | | Paper's base model | This Note's model |
 |---|---|---|
@@ -112,7 +112,7 @@ Choosing the most likely word at every step is **greedy decoding** (G-870), the 
 - the cross-attention computes a $2 \times 3$ table: both French positions against the 3 English words;
 - the decoder's output is 2 vectors.
 
-Both vectors could go through the output layer, but the one for `<start>` would only predict "nous" again, which was chosen at step 1. Only the last vector, the one for "nous", is used: it predicts "sommes" with probability 1.000.
+Both vectors could go through the output layer, but the one for `<start>` would only predict "nous" again, which was chosen at step 1. Only the last vector, the one for "nous", is used: it predicts "sommes" with probability 1.000. The last vector can do this job because attention has already moved into it what it needs from every earlier word and from the English sentence (the [unembedding and sampling Note](../1088-unembedding-and-sampling/note.md), section 4).
 
 **Step 3 and later.** Each step adds one word: `<start> nous sommes` gives "amies" (0.961; the masculine "amis" is second with 0.036), `<start> nous sommes amies` gives "." (1.000), and `<start> nous sommes amies .` gives `<end>` (1.000).
 
@@ -169,9 +169,11 @@ With the mask, the vector of `<start>` at step 8 is exactly the vector of `<star
 
 All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 4 translations in 10 change. Without the mask, the earlier positions take in words they never saw during training, a kind of input the model was not trained on. Individual sentences can go either way (without the mask, "they are alone ." becomes the correct "ils sont seuls ." instead of "ils sont seule ."), but on average the translations get worse.
 
-> **Extra:** Because the earlier positions never change, their keys and values do not change either. Recomputing them at every step wastes time. The **KV cache** (G-1022) stores the key and value vectors of every position the first time they are computed and reuses them at later steps, so each step only computes the query, key and value of the new word (SLP3 §7.8). The cache is correct only because of the property measured above: with the mask, adding a word does not change what was computed before.
+> **Extra:** Because the earlier positions never change, their keys and values do not change either. Recomputing them at every step wastes time. The **KV cache** (G-1022) stores the key and value vectors of every position the first time they are computed and reuses them at later steps, so each step only computes the query, key and value of the new word (SLP3 §7.8). The cache is correct only because of the property measured above: with the mask, adding a word does not change what was computed before. Figure 7 counts the saving for "i think you're right .": over the 8 decoder steps, recomputing gives $1 + 2 + \dots + 8 = 36$ key and value vectors per attention layer, the cache gives 8.
 
-> **Extra:** Greedy decoding never revisits a choice, as the "vous"/"tu" step showed. **Beam search** (G-272) keeps several candidate sentences at each step and chooses the most probable complete sentence at the end (SLP3 §13.4). The paper's translations used beam search with 4 candidates (Vaswani et al. 2017, §6.1).
+![Key and value vectors per decoder step for "i think you're right .". Left: without a cache, every step recomputes all positions so far (orange). Right: with the KV cache, each step computes only the new word's and reuses the rest (grey)](images/kv_cache.gif){height=50%}
+
+> **Extra:** Greedy decoding never revisits a choice, as the "vous"/"tu" step showed. **Beam search** (G-272) keeps several candidate sentences at each step and chooses the most probable complete sentence at the end (SLP3 §13.4). The paper's translations used beam search with 4 candidates (Vaswani et al. 2017, §6.1). Text generators such as GPT often use a third way: they draw the next word at random from the probabilities, which is called **sampling** (G-1739; the [unembedding and sampling Note](../1088-unembedding-and-sampling/note.md), section 6).
 
 ## 8. Summary
 
@@ -205,12 +207,13 @@ All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 
 
 | Term | Meaning |
 |---|---|
-| Inference | Using a trained model on new inputs, with no correct output available |
-| Autoregressive | Producing one output at a time, each fed back as input for the next; the decoder at inference |
+| Inference (G-1548) | Using a trained model on new inputs, with no correct output available |
+| Autoregressive (G-233) | Producing one output at a time, each fed back as input for the next; the decoder at inference |
 | Non-autoregressive | Producing all output positions at once; the decoder during training |
 | $H_{\text{enc}}$ | The encoder's output for the input sentence: one vector per input token, computed once and reused at every step |
 | Greedy decoding | Choosing the most probable word at each step |
-| Causal mask | The mask that stops each position from attending to later positions; used in training and at inference |
+| Causal mask (G-357) | The mask that stops each position from attending to later positions; used in training and at inference |
 | BLEU score | A measure of translation quality: how many word sequences of a translation match human reference translations |
+| Sampling (G-1739) | Choosing the next word at random, with the softmax probabilities, instead of always taking the most probable |
 | KV cache | Storing the key and value vectors of earlier positions so that each new step computes them only for the new word |
 | Beam search | A decoding method that keeps several candidate sentences at each step and picks the most probable complete one |

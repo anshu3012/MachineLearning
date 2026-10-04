@@ -56,7 +56,7 @@ A normal distribution has two parameters:
 - **$\mu$, the mean:** the centre of the distribution. Changing it slides the curve left or right without changing its shape.
 - **$\sigma$, the standard deviation:** the spread. A larger $\sigma$ makes the curve wider and lower; a smaller one makes it narrower and taller (the area stays 1).
 
-Figure 2 shows both effects on the heights. Watch the peak height and the area: moving $\mu$ changes neither, while changing $\sigma$ changes the peak and keeps the area at 1. Figure 5 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) shows the same effects, and the Notebook (`notebook.ipynb`) has two sliders to try them.
+Figure 2 shows both effects on the heights. Watch the peak height and the area: moving $\mu$ changes neither, while changing $\sigma$ changes the peak and keeps the area at 1. Figure 7 of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) shows the same effects, and the Notebook (`notebook.ipynb`) has two sliders to try them.
 
 ![The heights curve N(68, 3²) with its mean moved from 62 to 74, then its standard deviation changed from 1.5 to 5; the peak height and the area are printed in every frame](images/param_sweep.gif){height=45%}
 

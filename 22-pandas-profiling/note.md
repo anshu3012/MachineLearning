@@ -293,7 +293,7 @@ So at a glance we learn which **features** (input variables, one column each) re
 >
 > The default "Auto" heatmap picks a suitable coefficient for each pair: Spearman's for two numerical columns, and Cramér's V when a categorical column is involved. The Auto heatmap is how the report found the strong link between `Sex` and `Survived` in the alerts: `Sex` is text, so Pearson's r cannot include it at all. Every pair above 0.5 on the Auto heatmap gets a "High correlation" alert (0.5 is the library's default `threshold`).
 
-> **Extra:** Next to each Heatmap tab is a Table tab with the exact numbers behind the colours. Older versions of the library also had a button that showed a short explanation of each coefficient.
+> **Extra:** Next to each Heatmap tab is a Table tab with the exact numbers behind the colours.
 
 ## 7. Missing values: how many, and where
 
@@ -327,7 +327,7 @@ The last section shows real rows, in two tabs: First rows and Last rows. They gi
 
 > **Key point:** We run a profiling report first on every new dataset, read it section by section, and write down what we notice.
 
-The report covers in seconds what took three Notes by hand. The report does not replace understanding: it lists facts, and we decide what they mean. A good way to use it:
+The report covers in seconds what took three Notes by hand. The report does not replace understanding: it lists facts, and we decide what they mean. A good way to use it (Figure 12):
 
 1. Build the report as soon as we get a new dataset.
 2. Read it in order: Overview and Alerts, then each variable, then Interactions, Correlations and Missing values.
@@ -390,6 +390,6 @@ Reading reports becomes faster with practice. Running the library on three or fo
 | Median absolute deviation (MAD) | The median distance of the values from their median |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row |
-| Pearson's r | The correlation coefficient for straight-line relationships between two numerical columns |
+| Pearson's r (G-1474) | The correlation coefficient for straight-line relationships between two numerical columns |
 | Cramér's V | A measure of the link between two categorical columns, from 0 to 1 |
 | Nullity matrix | A picture of the whole table with missing values drawn as white lines |

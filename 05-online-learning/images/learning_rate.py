@@ -1,5 +1,8 @@
 """Learning rate in online learning: how fast a model follows a value that changes.
-Simulation: each step the model moves a fraction (the learning rate) of the way towards the newest data point."""
+Simulation: each step the model moves a fraction (the learning rate) of the way towards the newest data point.
+A still (png, pdf) plus Plotly frames -> ffmpeg GIF that draws the three models step by step through time."""
+import shutil
+import subprocess
 from pathlib import Path
 import numpy as np
 import plotly.graph_objects as go
@@ -20,21 +23,38 @@ def simulate(rate, steps=300, seed=0):
     return truth, data, estimate
 
 
-if __name__ == "__main__":
+def draw(n=300):
+    """The chart up to time step n."""
     fig = go.Figure()
     truth, data, _ = simulate(0.1)
     t = np.arange(len(truth))
-    fig.add_trace(go.Scatter(x=t, y=data, mode="markers", marker=dict(color=GREY, size=4, opacity=0.35), name="incoming data"))
-    fig.add_trace(go.Scatter(x=t, y=truth, mode="lines", line=dict(color="black", width=2, dash="dash"), name="true value"))
+    fig.add_trace(go.Scatter(x=t[:n], y=data[:n], mode="markers", marker=dict(color=GREY, size=4, opacity=0.35), name="incoming data"))
+    fig.add_trace(go.Scatter(x=t[:n], y=truth[:n], mode="lines", line=dict(color="black", width=2, dash="dash"), name="true value"))
     for rate, colour, label in [(0.01, BLUE, "learning rate 0.01: too slow"),
                                 (0.1, GREEN, "learning rate 0.1: balanced"),
                                 (0.7, RED, "learning rate 0.7: too jumpy")]:
-        fig.add_trace(go.Scatter(x=t, y=simulate(rate)[2], mode="lines", line=dict(color=colour, width=3), name=label))
-    fig.add_vline(x=120, line=dict(color=GREY, width=2, dash="dot"))
-    fig.add_annotation(x=122, y=82, xanchor="left", text="the world changes", showarrow=False, font=dict(size=16, color=GREY))
+        fig.add_trace(go.Scatter(x=t[:n], y=simulate(rate)[2][:n], mode="lines", line=dict(color=colour, width=3), name=label))
+    fig.update_xaxes(range=[-5, 305])
+    if n > 120:
+        fig.add_vline(x=120, line=dict(color=GREY, width=2, dash="dot"))
+        fig.add_annotation(x=122, y=82, xanchor="left", text="the world changes", showarrow=False, font=dict(size=16, color=GREY))
     fig.update_layout(template="simple_white", width=1000, height=520, font=dict(family="Latin Modern Roman", size=17),
                       title=dict(text="How the learning rate changes what an online model learns", x=0.5),
                       xaxis_title="Time (new data points)", yaxis_title="Value", yaxis_range=[-5, 85],
                       legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0.85)"), margin=dict(l=70, r=30, t=70, b=60))
+    return fig
+
+
+if __name__ == "__main__":
+    fig = draw()
     fig.write_image(here / "learning_rate.png", scale=2)
     fig.write_image(here / "learning_rate.pdf")
+    tmp = here / ".lr_frames"
+    tmp.mkdir(exist_ok=True)
+    for j, n in enumerate(list(range(10, 301, 10)) + [300] * 8):
+        draw(n).write_image(tmp / f"{j:03d}.png")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", "5", "-i", str(tmp / "%03d.png"), "-vf",
+                    "scale=820:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=64[p];[b][p]paletteuse",
+                    str(here / "learning_rate.gif")], check=True)
+    shutil.copy(here / "learning_rate.png", here / "learning_rate_frames.png")   # the PDF shows the finished chart
+    shutil.rmtree(tmp)

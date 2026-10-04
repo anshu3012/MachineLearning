@@ -15,7 +15,7 @@ tags: [subject/ml, area/probability, step/foundations, concept/conditional-proba
 
 > **Key point:** The probability of A given B, P(A | B), is the probability of A once we know B has happened. P(A | B) equals P(A ∩ B) / P(B).
 
-The next Notes build the **Naive Bayes** (G-1298) classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
+The next Notes build the **Naive Bayes** (G-1297) classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
 
 **Conditional probability** (G-444) answers questions of the form "how likely is A, now that we know B is true?". Conditional probability is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
 
@@ -121,7 +121,7 @@ Multiply both sides of the definition by $P(B)$:
 
 $$P(A \cap B) = P(A \mid B) \times P(B)$$
 
-In words: for both to happen, B must happen, and then A must happen given B. This is the **multiplication rule**. The same event can be built from the other side, starting with A:
+In words: for both to happen, B must happen, and then A must happen given B. This is the **multiplication rule** (G-2212). The same event can be built from the other side, starting with A:
 
 $$P(A \cap B) = P(B \mid A) \times P(A)$$
 
@@ -175,7 +175,7 @@ Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is Ba
 | Event | A set of outcomes, such as "the sum is at most 10" |
 | Intersection (A ∩ B) | The event that both A and B happen |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$ |
-| Multiplication rule | $P(A \cap B) = P(A \mid B) \times P(B)$: the chance of both is the chance of one times the chance of the other given the first |
+| Multiplication rule (G-2212) | $P(A \cap B) = P(A \mid B) \times P(B)$: the chance of both is the chance of one times the chance of the other given the first |
 | Dependent events | Events where knowing one changes the probability of the other |
 | Reduced sample space | The outcomes that remain possible once the condition is known |
-| Naive Bayes | A classification algorithm based on Bayes' theorem (later Notes) |
+| Naive Bayes (G-1297) | A classification algorithm based on Bayes' theorem (later Notes) |

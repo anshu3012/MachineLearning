@@ -25,7 +25,7 @@ There are three standard regularised versions of linear regression:
 |---|---|---|
 | **Ridge regression** (G-1691) | sum of squared coefficients | **L2 regularisation** (G-1029) |
 | **Lasso regression** (G-1047) | sum of absolute coefficients | L1 regularisation |
-| **Elastic Net** (G-668) | a mix of both | |
+| **Elastic Net** (G-667) | a mix of both | |
 
 Figure 1 draws the three penalties for a single coefficient $\beta$. All three are 0 when the coefficient is 0 and grow with its size, so all three push coefficients towards 0. They differ in how: the square is gentle on small coefficients ($0.5^2 = 0.25$) and harsh on large ones ($2^2 = 4$), while the absolute value charges the same rate everywhere and has a sharp corner at 0. That corner is why Lasso can set coefficients exactly to 0 (the [Lasso sparsity Note](../68-lasso-sparsity/note.md)).
 
@@ -173,7 +173,7 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 | Ridge regression | Linear regression with a penalty on the sum of squared coefficients |
 | L2 regularisation | Another name for the squared-coefficient penalty used by Ridge |
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1) |
-| Elastic Net | Linear regression with a mix of the L1 and L2 penalties |
+| Elastic Net (G-667) | Linear regression with a mix of the L1 and L2 penalties |
 | λ (lambda), alpha | The strength of the regularisation penalty; alpha in scikit-learn |
 | Shrinkage | The pulling of coefficients towards 0 by a penalty |
 | Feature | An input variable: one column of the data table |

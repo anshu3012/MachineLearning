@@ -47,7 +47,7 @@ Done separately, these are three pieces of code. With a pipeline they become one
 
 > **Key point:** Every input the model ever sees needs exactly the same preprocessing, and a pipeline guarantees that.
 
-The training set, the test set and every future input must go through the same preprocessing. The future inputs are the important case: once a model is **deployed** (G-593) to a server, for example behind a website, each new input arrives raw. A raw input may have missing values to fill and categories to encode before the model can use it.
+The training set, the test set and every future input must go through the same preprocessing. The future inputs are the important case: once a model is **deployed** (G-592) to a server, for example behind a website, each new input arrives raw. A raw input may have missing values to fill and categories to encode before the model can use it.
 
 Without a pipeline, every preprocessing step must be written a second time in the website's code. With a pipeline, the steps travel with the model, so nothing has to be repeated.
 
@@ -508,8 +508,6 @@ The diagram makes it easy for anyone to see what the pipeline does:
 4. select the best columns;
 5. train the tree.
 
-> **Extra:** Older scikit-learn versions needed `set_config(display="diagram")` first. The diagram has been the default since version 1.1 (scikit-learn release notes, 1.1).
-
 ### 7.2 Pulling out fitted steps
 
 > **Key point:** `named_steps` is a dictionary from each step's name to its fitted object.
@@ -590,7 +588,7 @@ A **hyperparameter** (G-910) is a setting of an algorithm that we choose before 
 
 **`GridSearchCV`** (G-89) does the search automatically. The search cross-validates the pipeline once for each value and keeps the value with the best average score.
 
-For a single model, we would name the parameter just `max_depth`. In a pipeline, scikit-learn needs to know which step the parameter belongs to, so the name is **`step__parameter`** (G-1890): the step's name, two underscores, then the parameter. Our tree is the step named `trf5`, so the name is `trf5__max_depth`.
+For a single model, we would name the parameter just `max_depth`. In a pipeline, scikit-learn needs to know which step the parameter belongs to, so the name is **`step__parameter`** (G-146): the step's name, two underscores, then the parameter. Our tree is the step named `trf5`, so the name is `trf5__max_depth`.
 
 > **Python:** Tuning max_depth inside the pipeline.
 >
@@ -724,7 +722,6 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 
 **Other references**
 
-- scikit-learn release notes. Version 1.1. scikit-learn.org/stable/whats_new.
 - scikit-learn API reference. `sklearn.feature_selection.chi2`. scikit-learn.org.
 - scikit-learn User Guide. Common pitfalls and recommended practices; Model persistence. scikit-learn.org.
 
@@ -752,7 +749,7 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data |
 | Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth` |
 | Hyperparameter tuning | Trying several hyperparameter values and keeping the best |
-| GridSearchCV | scikit-learn class that cross-validates every value in a grid and keeps the best |
-| step__parameter | How a pipeline step's parameter is named: step name, two underscores, parameter name |
+| GridSearchCV (G-89) | scikit-learn class that cross-validates every value in a grid and keeps the best |
+| step__parameter (G-146) | How a pipeline step's parameter is named: step name, two underscores, parameter name |
 | pickle | Python's tool for saving an object to a file and loading it back |
 | joblib | A library that saves and loads Python objects like pickle, better suited to large arrays |

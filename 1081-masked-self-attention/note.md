@@ -145,7 +145,7 @@ Masked self-attention is then
 
 $$\text{MaskedAttention}(Q, K, V) = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}} + M\right) V$$
 
-(SLP3 eq. 7.34). The paper puts it in one sentence: "We implement this inside of scaled dot-product attention by masking out (setting to $-\infty$) all values in the input of the softmax which correspond to illegal connections" (Vaswani et al. 2017, §3.2.3). Because it hides everything after the current word, the mask is called a **causal mask** (G-358; look-ahead mask).
+(SLP3 eq. 7.34). The paper puts it in one sentence: "We implement this inside of scaled dot-product attention by masking out (setting to $-\infty$) all values in the input of the softmax which correspond to illegal connections" (Vaswani et al. 2017, §3.2.3). Because it hides everything after the current word, the mask is called a **causal mask** (G-357; look-ahead mask).
 
 ### 6.2 One row by hand
 
@@ -178,7 +178,7 @@ The weights above come from random, untrained matrices. Figure 7 runs the same s
 
 ![Masked self-attention in a trained decoder, as a grid of dots (rows: the word being computed). Raw scores $q \cdot k$ (blue positive, red negative), divided by $\sqrt{d_k}$, masked with $-\infty$ above the diagonal, then the softmax of each row](images/trained_grid.gif){height=55%}
 
-> **Extra:** The grid of dots, with the dot's size for the score, follows Sanderson's "Attention in transformers, step-by-step" (3Blue1Brown, 2024). His grid puts the queries in columns and normalises each column; we keep the convention of the paper and of our Notes, with queries in rows and the softmax applied to each row. The two pictures are the same maths, transposed.
+> **Extra:** The grid of dots, with the dot's size for the score, follows Sanderson's "Attention in transformers, step-by-step" (3Blue1Brown, 2024).
 
 ## 7. Checking the three claims
 
@@ -200,8 +200,6 @@ Keras' `MultiHeadAttention` layer has a `use_causal_mask` (G-154) argument that 
 >
 > out, w = mha(X, X, use_causal_mask=True, return_attention_scores=True)
 > ```
-
-Keras itself does not add a true $-\infty$. Keras replaces the masked scores by $-10^9$, takes the softmax, and then sets the masked weights to 0 (Keras source, `keras/src/layers/activations/softmax.py`, version 3.15). The future weights are exactly 0 either way.
 
 ### 7.2 No information from the future
 
@@ -290,7 +288,7 @@ The encoder has no mask: it reads a whole input sentence that is fully known, bo
 |---|---|
 | Autoregressive model | A model that generates a sequence one item at a time, each item conditioned on the items it generated before |
 | Autoregressive (causal) generation | Choosing each next word from the words already chosen |
-| Prediction (inference) | Using a trained model on new inputs, with no correct output available |
+| Prediction (inference) (G-1548) | Using a trained model on new inputs, with no correct output available |
 | Teacher forcing | During training, feeding the decoder the correct previous word instead of its own prediction |
 | Data leakage | Training a model with information that will not be available when the model is used |
 | Mask matrix $M$ | A matrix added to the attention scores: 0 where attention is allowed, $-\infty$ where it is blocked |

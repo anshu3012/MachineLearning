@@ -1,0 +1,141 @@
+hi guys welcome to my youtube channel we are studying how to impute missing values
+and in the last video we studied how to impute numerical data
+in this video we will focus on categorical data so let's start the video
+so just like numerical data you also have 2-3 techniques in categorical data
+primarily we will focus on 2 techniques
+First is that you replace it with the most frequent value
+and second is that you create a new category by the name of missing
+Apart from this, there are some other ways like filling with random values
+but all these techniques are applicable on numerical data as well
+That's why I will cover them in a different video
+So let's start with the first one, most frequent missing imputation.
+So if you remember in numerical data, if the data was missing completely at random
+and only 5% or less values were missing then you were suggested to do mean or median imputation.
+basically replace all the missing values with mean or median
+in categorical data you cannot have mean or median
+that's why you replace with mode
+mode means the data which is frequently in your variable
+like if you are talking about a column called city
+which has different values like Mumbai
+Delhi and Kolkata
+Mumbai, then Delhi and then Kolkata. So, all the missing values you have, you will replace them using Mumbai.
+Now, you can apply this same technique on numerical data as well because there will be some mode in numerical data as well.
+But actually, the mean and median approach performs better there. That's why no one uses the mode approach in numerical data.
+The approach of mode is quite used in categorical data.
+Here you should have 1-2 approaches, 1-2 assumptions.
+First, again what I told you, missing completely at random.
+Second, there should be one thing that your different categories,
+like Mumbai, Delhi, and Kolkata,
+so your mode should come into the data much more than the rest.
+I hope you are able to understand this.
+The good part about this technique is that it is very easy to implement.
+You can easily replicate it in the production environment.
+The downside is that it changes the distribution of your data.
+I will show you in a while.
+That's it.
+I will quickly tell you one more technique.
+Missing category imputation.
+Suppose you have some data called city and it has three values Mumbai, Delhi, Kolkata
+But there are many values missing like 10% or more than that.
+So in this case you don't replace it with mode because if you replace it with mode then you don't get the right results.
+So instead what you should do is that you make it a new category by the name of missing.
+So wherever you have any values, you write missing there.
+So in a way now you have 4 categories in your data.
+Mumbai, missing, Kolkata and Delhi.
+So you are doing this specially so that you can tell your machine learning algorithm that this data was missing.
+and the rest of the data was not missing. We used the same approach in the case of numerical data as well, if you remember.
+We used two methods there as well. One was arbitrary values where we used 99 or 999 or minus 1 or whatever we used
+to tell our algorithm that this data is missing and this data is not missing. The rest of the work was handled automatically by your algorithm.
+Here since you can't use 99 and all this, instead you use missing word.
+So you have to use this when your data is not randomly missing and many values are missing.
+And this approach is also very easy to implement because you just have to create a new category.
+And its downside as such is nothing special. It's just that a randomness comes in your data which is not good.
+you are not imputing, you are simply telling that the value is missing, then it does not give such a good result, but it works well at its level.
+So, I will quickly explain these two approaches through code. So, if I go to the code, here I have taken a new data set,
+this is a housing data set, very famous on Kaggle, Advanced Regression Housing Data Set and it has a lot of columns actually,
+It has around 85 columns, but I am showing you only 3 columns.
+In these 3 columns, the first column is Fireplace Quality,
+second is Garage Quality and third is Sale Price.
+So basically, what is the quality of the fireplace in any house?
+What is the quality of the garage?
+Sale Price, how much is it sold in the house?
+Fireplace Quality is categorical, Garage Quality is also categorical.
+Sale Price is your target and it is numerical,
+which means it is a regression problem.
+I have selected two columns in which 50% values are missing in one column and 5% values are missing in the second column.
+Now I will show you by working on garage quality where less values are missing.
+If you see the categories in this, then there are four categories.
+TA, FA, GD, EX, PO. Now I have not analyzed this data set very carefully but GD means good, EX means excellent, PO means poor.
+TA and FA also means something, I guess FA will be fair. TA I don't understand right now. But whatever it is, TA is the most in my data and there are obviously missing values.
+Here 5% missing values are also there. So what approach are we applying here first?
+By the way, I came to the wrong notebook. First, we will do frequency value imputation.
+The same data set has been used in both the notebooks. So don't worry about that.
+Same thing everything. So the same 47% missing data in the fireplace and 5% missing data in the garage quality.
+And these are the same categories. So if I remove mode in the garage quality,
+So obviously you know that TA is coming the most. So here is our TA, our mode, most frequent value.
+Now I am showing you that we are plotting KDE plot, PDF plot of sale price for all those rows
+where the value of garage quality is TA. And then we are plotting PDF of sale price for all those rows
+where the value of garage quality is null, we are comparing them side by side
+and by doing comparison we can understand that see this legend
+where there is TA that is blue and house with NA missing values is orange
+so you can see that our blue one is a little
+less in height like the shape of distribution is less peaked
+in comparison to the missing one. Now what I will do is, I will replace the missing ones with the mode value
+and I will show the changes in this graph. So what we are doing is, we are storing the PA value in a variable temp
+so that we can use it later. Basically, I am storing this blue curve so that I can see it later.
+After that, this is the most important step, here I am using the fillna function of pandas to impute the missing values by TA.
+I am replacing all the missing values with TA.
+If I look at the categories, you can see that the height of TA has increased because you replaced all the missing values with TA, so TA has increased.
+Now we are plotting the same graph. This is my original one and this is my new TA one.
+And by running this, you could see that both of them are matching perfectly.
+The previous condition and now the condition after TA is exactly the same.
+And this happened because your missing values are very less, so there is not much difference in distribution.
+Means it happened like the previous one. So this is a good thing.
+Next, I will show you the same thing on the column where 50% values are missing.
+This is fireplace quality.
+There is one more problem here.
+These two categories are almost equal.
+This should not happen.
+Whenever you are replacing from the most frequent,
+you want one category to dominate the rest of the categories.
+This is not happening here.
+I hope, I have a feeling that the result will not be that good.
+Here we got to know that GD is the most frequent category and I did the same thing here.
+I made a sale price pdf where the value of the fireplace quality is good and made a sale price pdf where the fireplace quality is missing.
+And you can see that our curve is this. The orange one is again of missing values and the blue one is of GD values.
+And now if we do imputation, again I have temporarily stored it and here I have filled it with GD and now you can see that this one has become too much GD in comparison to TA because obviously there were a lot of missing values, there were 50% missing values and now when I did so you can see that even now the distribution is not similar, it's still different because you had a lot of missing values and your category was
+it was not dominating because of both the reasons you are not mapping your pdf which is not a good thing
+so if you are given an option that here you should put frequent value imputation or not
+then you should not put on this column this will not give you good results
+so this was a small discussion with you and now what are we doing
+I am telling you that how can you do the same thing by using scikit-learn although we have already discussed this.
+We have split train test, imported simple imputer class and here what you have to use in strategy is most frequent.
+And you have to pass x-train and x-test in imputer.fit-transform.
+If you take out statistics then you will understand that for your first column GD is the most frequent category
+And in the second one, TA is the most frequent category.
+And that's it. You can just go ahead and provide this in any algorithm and it will do its work.
+So this was the first imputation technique, the most frequent one.
+Let me quickly tell you about the missing category imputation as well.
+It is the same data set, everything is exactly the same.
+So you can see everything is exactly the same like this.
+And what I am doing here is that I am replacing my missing values with missing words.
+So what this will do is, this will create a completely new category by the name of missing.
+That's it. This is what happens here.
+That you give a completely new category to all your missing values, missing.
+And then it is treated in a different way through your algorithm.
+And lastly, I have shown in this notebook that how can you implement the same logic using scikit-learn.
+So in scikit-learn, you don't have to do anything, you have to keep the strategy constant,
+you have to make the fill value missing as you learned in the same numerical data case in the last video.
+And here if you take out statistics, then in both the columns you are replacing your missing data with missing words.
+So this was a very small video on categorical data.
+I just wanted to divide everything into categories and cover this topic, handling missing data.
+That's why I am separating numerical and categorical.
+And after that I will separate random and one or two different techniques.
+And the videos of multivariate imputation will be different.
+So I hope you understood this entire video.
+I will share the notebooks.
+You guys just go through them once.
+I hope you will understand.
+Okay.
+So that's it.
+Thanks for watching.

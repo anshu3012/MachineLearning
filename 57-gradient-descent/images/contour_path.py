@@ -9,6 +9,8 @@ from common import x100, y100, BLUE, ORANGE, RED, GREEN, GREY, FONT
 here = Path(__file__).parent
 m, b, lr = -127.82, 150.0, 0.001
 ms, bs, cost = [m], [b], [float(np.sum((y100 - m * x100 - b) ** 2))]
+g0 = (-2 * np.sum((y100 - m * x100 - b) * x100), -2 * np.sum(y100 - m * x100 - b))
+assert (round(g0[0]), round(g0[1])) == (-25362, 28641)          # the gradient at the start, quoted in section 6
 for _ in range(30):
     gb = -2 * np.sum(y100 - m * x100 - b)
     gm = -2 * np.sum((y100 - m * x100 - b) * x100)

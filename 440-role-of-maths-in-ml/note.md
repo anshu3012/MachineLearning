@@ -25,7 +25,7 @@ Figure 1 shows the four branches and the job each one does. This Note gives a fi
 
 > **Key point:** Linear algebra gives us the containers for data (vectors, matrices and tensors) and the operations that act on a whole container at once.
 
-**Linear algebra** (G-1090) stores every kind of data (tables, text, images, video) as vectors, **matrices** (G-1180) and **tensors** (G-1957), and acts on a whole container in one step; section 3 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) explains why ML needs it. How each kind of data becomes a tensor is shown in the [tensors Note](../11-tensors/note.md).
+**Linear algebra** (G-1090) stores every kind of data (tables, text, images, video) as vectors, **matrices** (G-1180) and **tensors** (G-1957), and acts on a whole container in one step; section 6 of the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) explains why ML needs it. How each kind of data becomes a tensor is shown in the [tensors Note](../11-tensors/note.md).
 
 ![Three rows of the placement data as a table and as a matrix. Each column of the matrix is a vector](images/table_matrix.png){width=75%}
 
@@ -65,7 +65,7 @@ Often the data leaves a grey zone, where no answer is certain. Suppose we want t
 
 Figure 5 draws the grey zone: both groups overlap there, so we predict the class with the larger share.
 
-Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../87-naive-bayes-intuition/note.md) (G-1298) work: compute the probability of every class, then pick the largest. The rules of probability are taught from the [random experiments and events Note](../330-events-and-types-of-events/note.md) to the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md), and [Bayes' theorem](../85-bayes-theorem/note.md) builds on them.
+Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../87-naive-bayes-intuition/note.md) (G-1297) work: compute the probability of every class, then pick the largest. The rules of probability are taught from the [random experiments and events Note](../330-events-and-types-of-events/note.md) to the [joint, marginal and conditional probability Note](../341-joint-marginal-conditional-probability/note.md), and [Bayes' theorem](../85-bayes-theorem/note.md) builds on them.
 
 ## 5. Statistics: drawing conclusions from data
 
@@ -114,5 +114,5 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 | Term | Meaning |
 |---|---|
 | Calculus | The branch of mathematics about change: differentiation and integration |
-| Error | The gap between a model's prediction and the true value |
+| Error (G-705) | The gap between a model's prediction and the true value |
 | Optimisation | Changing a model step by step until its error is as small as possible |

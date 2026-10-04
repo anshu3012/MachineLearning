@@ -1,0 +1,425 @@
+Hi guys welcome to my youtube channel
+We are studying classification matrix
+In last video we studied two things
+Accuracy and confusion matrix
+And there we also studied type 1 and type 2 error
+And then we discussed that in some cases
+Accuracy is not a good matrix
+In fact it can mislead you
+It can mislead you
+So we discussed that we will study two more matrix
+which can help you when accuracy is not helping you
+and their name is precision and recall
+in this video we will read precision, recall and another metric which we call F1 score
+so let's start the video
+now guys before starting, before discussing about precision and recall
+I am giving you revision again that when accuracy can fail
+I told you in the last video that if you have an imbalanced data set
+If the ratio of two classes in your data is imbalanced, one class is very high and the other is very low, then we call it an imbalanced ratio.
+An example of this is that we are making a model that will detect whether there is a terrorist in the video at the airport or not.
+and in real time the data we had, there were not 999 terrorists and only one person was a terrorist
+so now clearly you can see that there is an imbalance between the two classes
+not a terrorist, there is a huge imbalance between terrorists
+now if you make a model which says that there is no terrorist
+so if you draw the confusion matrix of this model then it will look something like this
+terrorist was, terrorist was detected
+There are no such heard
+There were terrorists and not detect the terrorists
+There are only one such man
+There was not terrorist
+Terrorists were detected
+There are not such any men
+There was not terrorist, and terrorists were not detected
+The remaining 999 is still present
+This is the confusion matrix
+Do you know how accuracy from the confusion matrix is taken out of the model?
+You add these diagonal elements
+and you divide them from total
+So, this will be the accuracy of this model, 99.9%.
+So, clearly, accuracy is failing here. This is not an ideal scenario where you should use accuracy.
+So, what is the solution? We have two solutions.
+We can either use precision or recall.
+So, first, we will study about precision.
+So, let's start with precision.
+Before studying precision, what I will do is I will ask you a simple question. Your work will be to pause the video and answer it.
+Suppose you are a manager in a company and you gave your two juniors a project to make an email spam classifier.
+And you said that we will deploy the same model on our website whose model will be better.
+let's say you work in Gmail, so now both of them have made a model, this is model A and this is model B,
+this is a model of two different people and there is a normal confusion matrix and now your job is to select one by looking at both of them,
+So pause the video and try to find out whether you will deploy A or B.
+At this point, if you pay attention, then the accuracy of both the models is exactly the same.
+Look, how many numbers are these? 800. In both the cases, it is 800 divided by 1000, so the accuracy of both the models is 80%.
+So, on the basis of accuracy, you can't differentiate between the two.
+Now comes the question, what can be done on the basis of what?
+So, if you see here, the difference is in these two numbers.
+There is a difference in these two numbers.
+Right?
+So, you have already read, this is called false positive and this is called false negative.
+Okay?
+So if you see, model A's false positive is greater than model B's false positive.
+So false positive of A is greater than false positive of B, whereas false negative of A is less than false negative of B.
+We have these two relationships.
+Now let's discuss both these types of errors according to this problem.
+So what does false positive tell us?
+False positive tells us that there was an email which was not spam but our model considered it as spam.
+What does false positive tell us?
+False positive tells us that you called a not spam email as spam.
+this is one type of mistake whereas false negative is that you called a spam as not spam
+now think which is the most dangerous mistake out of both
+to call an email as spam which is not spam is one type of mistake
+i.e. do not call such email as spam which is spam, this is another type of mistake
+which is more dangerous than both
+i guess you are able to understand, imagine your placement
+and the company in front of you sent you a mail
+that reply to this mail that you want placement
+and that mail was categorized as spam
+whereas it was not spam
+so you lost your job
+so obviously in this case the most dangerous mistake is
+false positive mistake
+false positive mistake
+so we will select that model
+which will reduce false positive
+mistake
+and that model is model B
+here
+you are reducing more dangerous
+mistake so as a manager
+you will deploy B
+you will deploy model B
+now this is called
+precision
+this is called precision
+Precision is the definition of proportion of predicted positives versus true positives.
+Let's read in this language, I got confused.
+What proportion of predicted positives is truly positive?
+So, all the things that you have called positive, how many of them are actually positive?
+This is called precision. Listen again.
+In all the things that you have predicted as positive, which things are actually positive?
+This ratio is called precision.
+And how is it taken out?
+It is taken out using this formula.
+True positive divided by the sum of true positive and false positive.
+Means, you said so many things are positive, how many of these things are really positive, you have to find this ratio.
+And how will you find it? You will divide the true positive by the total number of things you said are positive.
+Now if we go up, then if we calculate the precision of both the models, then you will get the answer quickly.
+I am erasing it once. So, in this case, if you find the precision of model A,
+Precision of model A would be 102 positive divided by 100 plus 30.
+And here, the precision of model B would be 100 divided by 100 plus 10.
+Now if you think about it, if there is a bigger number in the denominator, then Precision of A will be less than Precision of B.
+Which means the Precision of model B is more.
+So on what basis will you select model B?
+That the Precision of this model is higher than the Precision of model A.
+And that's it. This is Precision.
+That's it. Just make sure you understood this whole thing.
+Now let's talk about the second classification matrix which is recall.
+Let me give you an example to explain recall.
+And that example is on your screen.
+Suppose you are a manager again and you are creating a model for a hospital client.
+You are making a model which will detect by looking at the chest X-ray whether there is cancer or not.
+You again gave your two juniors to make two different models, and you said that whichever model is better, we will deploy it in our software.
+So this is model A and this is model B. Both the models have been made, now as a manager, your job is to decide which model you want to deploy.
+So, pause the video once again and decide which model you will deploy from these two.
+So, as you can see, again if you go to calculate the accuracy, the accuracy of both the models is 90%.
+Because the diagonal elements are same.
+So, the accuracy of model A and model B is again 90%.
+So, you can't differentiate the accuracies.
+So how can you differentiate? You can differentiate on the basis of type 1 error or type 2 error.
+On the basis of false positive or false negative. So here you see, this is false positive and this is false negative.
+Now let's discuss in detail about the type 1 error and type 2 error.
+so what will be false positive here, by the way here 1 means cancer detected and 0 means no cancer detected
+so false positive means you detected cancer in a patient but he didn't have cancer, that is false positive
+and what is false negative, someone had cancer but your model said he doesn't have cancer, this is the difference
+now think again, false positive is more dangerous for you or false negative is more dangerous for you
+you told a patient that he doesn't have cancer, this is more dangerous
+or you told a patient who had cancer that he doesn't have cancer, that is more dangerous
+obviously the one who has cancer and you didn't tell him, that is more dangerous
+because he will live his life in a chill manner and then one day he will die
+Right, more dangerous in this case is false negative, so here you can see model B is giving more false negative and model A is giving less false negative.
+So clearly you can see, based on this fact, you can say that you will deploy model A because it is reducing false negative errors, type 2 errors.
+And this is called Recall.
+So again according to definition, what proportion of actual positives is correctly classified?
+How many of the positives are actually positive?
+That is, how many of the people who actually had cancer were detected with cancer?
+That is what recall is and the formula to get it out is true positive divided by the sum of true positive plus false negative.
+This is the formula.
+Now if we go up and if we get out in both these cases, what will be the recall?
+So recall of A would be 1000 divided by 1200.
+Recall of B will be 1000 divided by 1500. Since this number is big, Recall of B will be small and you can prove that since Recall of A is greater than Recall of B, you will select model A.
+and that is what recall is, so at the end, if you don't have the support of accuracy, then you have two more metrics, one is precision and the other is recall
+but in the process of using these two, you will have to understand the nature of your problem, are the mistakes of type 1 more dangerous or type 2 more dangerous
+If the mistakes of type 1 are more dangerous, then you will catch the high precision model.
+If the mistakes of type 2 are more dangerous, then you will catch the high recall model.
+So I hope you are clearly understanding the discussion till here.
+Now guys sometimes what will happen is that you will get stuck in such a problem where you will not know that type 1 error is more difficult or type 2 error is more problematic.
+I will give you an example.
+Let's say you are making a classifier which will predict whether there is a cat or a dog in that photo.
+It's a binary classifier. Output 1 is dog and output 0 is cat.
+Now we don't know which is more dangerous between type 1 error and type 2 error.
+What is type 1 error? You told a cat to be a dog.
+What is type 2 error? You told a dog to be a cat.
+Now here you cannot say that this model is high precision model or high recall model.
+In this case, you have to see both the things.
+And it is a little difficult to see both the things.
+Especially because there is a trade-off between both.
+There is a trade-off between precision and recall.
+If you go to increase the precision, then the recall decreases.
+And if you go to increase the recall, then the precision decreases.
+I will talk about this in detail in another video.
+But at this point, if you are working with a problem where you cannot define that type 1 is more dangerous or type 2 error.
+In that case, you have to see both things and it is difficult to see both things together.
+That is why people introduced a third metric which we call F1 score.
+Now F1 score is not a special thing in itself.
+It is basically a combination of precision and recall.
+You can say that we take out the average of precision and recall, but this average is not an arithmetic mean, it is not even a geometric mean, it is a harmonic mean.
+If you look at the formula of F1 score, the formula of F1 score is 2 times PR divided by P plus R.
+2 times the value of precision multiplied by the value of recall divided by precision plus recall.
+Now why this was done? Because what you want is that if there is anything less in your model, in your model, in your precision or recall, then you will want to penalize that model.
+Let me explain it better.
+Harmonic mean is such a mathematical thing which is always on the side of lower value.
+Let me give you an example.
+Assume that the value of precision is 0 and the value of recall is 100.
+Let's assume that there is no such model.
+So, if you have calculated F1 score using arithmetic mean then you would have done P plus R divided by 2 and going by this logic your F1 score would be 50.
+But since you have used harmonic mean, now if you will calculate F1 score then it will be 0 which is closer to precision value which is 0.
+It means that your F1 score penalizes the model if anything is less than the precision or recall.
+It means that you will always be on the lower side.
+What will F1 score do? It will always be on the lower side.
+I will give you one more example.
+Suppose you have a model, model A.
+Its precision and recall both are 80.
+I have one more model, model B.
+and its precision is 60 and its recall is 100.
+Now if you calculate, if you take out the average of both,
+if you take out the average of F1 score, then it will be 80 divided by,
+sorry, 80 plus 80 divided by 2 means 80.
+And here also 100 plus 60 divided by 2 is equal to 80.
+but we don't take out like this, we take out harmonic mean
+so if we take out harmonic mean, then it will be
+2 times 160 divided by
+I am sorry, what am I doing?
+2 times 80 into 80 divided by
+160, okay
+2 and 40 is done and
+this will be again 80, so this model's F1
+score is actually 80, if you
+If you take out the second one, then it will be 2 times 60 into 100 divided by 60 plus 100.
+You can calculate it and see. This value is 75.
+Since in this case, the precision is less, then your F1 score is less and it is 75.
+So what did it do? It penalized model B that why your precision is less.
+If your precision is less, then F1 score will also be less.
+The property of harmonic mean is that it is always on the side of lower value and not on the side of higher value.
+The property of arithmetic mean is that it is always in the center.
+If this is the line, arithmetic mean will always be in the center and harmonic mean will be somewhere here on the lower side.
+So the whole idea of using this formula is to penalize the lower value.
+If the precision or recall of your model is less then your F1 score will be on that side, you will penalize.
+So this is a single metric which helps you to understand the performance of your model.
+So now if you understood precision, recall and F1 score, I will quickly show you how you can calculate all this in scikit-learn.
+So this is the same example where I made two models for heart disease prediction, I made a logistic regression model, I made a decision tree model and now what I did since both my models have been trained, I imported these three metrics from sklearn.metrics, recall score, precision score, F1 score.
+First of all, I have plotted your confusion matrix for logistic regression model.
+After that, I have calculated precision, recall, and F1 score using these three formulas.
+And this is the result guys. So, precision for this is 0.82, recall is 1.
+F1 score is 0.82. That is 0.90.
+By the way, I have written it wrong here. This has to be decision tree.
+When I did the same thing for decision tree model, I plotted confusion matrix, calculated precision,
+calculated recall and calculated F1 score, so this was the result.
+My precision was 0.79, my recall was 0.93 and that is why my F1 score is tilted towards precision.
+So that is how you calculate Precision, Recall and F1 score using scikit-learn.
+So this discussion is over. Now I will teach you something which you generally don't get anywhere else.
+Because when I was trying to read that thing, I didn't get enough resources.
+So we are going to read that if you have multi-class classification,
+means you have more than two classes and there is no case of binary classification
+so in that case how do you calculate precision, recall and F1 score
+we will read that next
+so guys now we will learn that how do you calculate precision and recall values in multi class classification setup
+now there is a slight warning
+in multi class scenario precision and recall is calculated in a different way
+In fact, I will discuss with you that what is the difference between binary classification which has 2 classes and multi classification which has more than 2, let's say 3 classes.
+So the difference is that when you do 2 class classification then mostly you have yes or no type of classes.
+If there is cancer then no, if there is spam then no, if there will be rain then no, if there will be placement then no.
+So we actually focus more on positive class.
+Like in email spam classifier whether there is spam or not is more focused.
+In cancer detection class whether there is cancer or not is more focused.
+Whether there will be placement or not, placement is more focused.
+Okay, means one is more focused.
+So whenever we talk, we always talk in the terms of 1.
+So if I show you, when I taught you precision,
+See what I wrote here.
+I wrote that what proportion of predicted positives is truly positive.
+See, the whole focus this time is on positive.
+Positive means above the class of 1.
+There is no focus above 0.
+But actually what happens is that behind the scenes,
+When you talk about pure mathematics, then you focus on both the classes.
+When you take out the precision, then you don't just take out the precision of the positive one.
+You also take out the precision of the negative one behind the scenes.
+In fact, I can prove you this.
+Now if I go back and the code I just showed you, what we did in this code, when we took out the precision score, then a single value was coming, but actually behind the scenes, not a single value was calculated, two values were calculated, one for the positive class and one for the negative class, let me show you.
+so if i have to run all again, now see if i calculate precision score again
+and here i put ytest and here i put ypred1 and here is a hidden parameter called average
+if i select its value as none, see here i have two different precision values
+this is for 1st label and this is for 2nd label
+but which one do we calculate?
+this one was for 1st label
+this was for 1st and this was for 0
+similarly if I copy this again
+and give vibrate 2
+then we are getting 0.77
+We always catch the precision of the one class and leave the zero one.
+In binary classification, you do the same thing. Same goes with recall score also.
+In fact, let me show you. If I take out the recall score here, then the second one is 1.
+And when you go here too, then the second recall is 1. Similarly, if I do vibrate 2 here,
+So the second one is 0.93 and here you can see recall is 0.93
+So I just want to tell you that when you calculate recall values
+So you don't do it for just one class
+You do it for all the classes
+But in binary classification generally what is done is
+That you talk about the positive one
+Because your whole focus is on the positive one
+Now if you understand this
+so let's go back to multi classification, now in multi classification, let me show you an example
+suppose we have an example where we are making a classifier and we have 3 classes, dog, cat and rabbit
+and our model has given you a confusion matrix by plotting, this is the confusion matrix, now focus on the red box
+Don't focus outside the red box right now. Focus on the whole red box.
+So you can see predicted values are at the top and your actual values are at the bottom.
+So this is the predicted versus actual confusion matrix.
+Now what I did here is I made a new column by saying total.
+Now what this total is doing is adding these values.
+25 plus 5 plus 10, 40. 0 plus 30 plus 4, 34. 4 plus 10 plus 20, 34. So, this total is basically row-wise summation.
+And similarly, I have made a row by saying one more total, where I am adding in this way.
+I am adding column-wise like this. Like this. Now, you might think what is he telling us?
+Just give me one minute, I will erase it, so if I remove this, then we can discuss that what are these two total values telling us?
+So what is this total value telling us? This total value is telling us that how many dogs are there in the data?
+Originally, how many dogs are there in the data? 40 dogs. Originally, how many cats are there in the data? 34 cats.
+Originally, how many rabbits are there? 34 rabbits are there.
+And what is this total telling us?
+It is telling us how much prediction my model did.
+So, it told 29 as dog, 45 as cat and 34 as rabbit.
+So, this is telling us the actual total and this is telling us the predicted total.
+Now, what we have to do is, we have to calculate the precision of this model.
+Now how will we calculate the precision? First we will calculate the precision of the dog, then we will calculate the precision of the cat and then we will calculate the precision of the rabbit.
+All the classes will have the precision calculated. Now what is precision? We had read in the definition that the number of people you have predicted, how many of them are truly in that class.
+that is what precision is, so if I come here, let's talk about dog's precision, we are talking about dog's precision,
+precision of dog class, we have to find out that the total number of dogs we have predicted, how many of them were really dogs,
+so we have predicted the total number, 29, so 29 will come here, and how many of them are really dogs, 25, so this value will come 25,
+And when we will calculate it, I will show you quickly, I have opened the calculator, 25 divided by 29 is equal to 0.86, the precision for dog class is 0.86, now we will calculate precision for cat, so how many total predictions we have done in cat, 45, how many cats are there in them, 30.
+So, this would be 30 by 45. So, if I go back and clear it and write 30 divided by 45.66.
+So, here 0.66 is my precision. Now, I will calculate for rabbit.
+For rabbit, total predictions are 34. And how many rabbits are there? 20.
+So this value will be 20 divided by 34.
+So if I go back and clear and write 20 divided by 34, this is 0.58.
+So here it will be 0.58.
+Now what we have to do? We have to calculate combined precision.
+Now what is the method to calculate combined precision?
+There are two methods. One is you calculate macro precision.
+Calculate Macro Precision.
+What happens in Macro Precision?
+Take out the average of the precision of all three classes.
+So you will write 0.86 plus 0.66 plus 0.58 divided by 3.
+Let's see how much number is coming.
+So, we will do 0.86 plus 0.66 plus 0.58 equal to 2.1 divided by 3, 0.7.
+So, the macro precision value of this model is 0.70.
+So this is Macro Precision, where you take out the average of every class' precision.
+The second thing is Weighted Precision.
+Weighted Precision.
+In this case, what do you do?
+You multiply every Precision value with the weight of the class.
+Let me tell you what this means.
+First, I am writing all the Precision values.
+and then I will multiply it with the weight of the class
+so how will the weight of the class be?
+basically, what is the total number of items?
+40 plus 68
+108 items
+out of which how many dogs are there?
+40, so this will be
+40 divided by 108
+plus 34 divided by 108
+And 34 divided by 108. This is your weighted precision. I will quickly show you how much this value will be.
+I have cleared it. I have written 40 divided by, in fact, I will show you the value by calculating it.
+So guys, this value is 0.71, so its macro precision value is 0.70 and weighted precision value is 0.71.
+Now when you should use macro and when you should use weighted, I guess you are able to understand.
+If all your classes are equal, almost, their ratio is equal, not imbalanced but balanced, then you will use macro precision.
+If your classes are very imbalanced, one is very high and one is very low, then you will use weighted precision.
+Since here all the classes are running almost equally, then you can use macro precision value.
+So this is how you calculate precision for a multi-class problem.
+Now I will give you a quick tour of how to calculate recall.
+Okay guys, now we will calculate Recall. Just like Precision, you will calculate Recall of all three classes individually.
+First of all, you will calculate Recall of Dog, then Recall of Cat and then Recall of Rabbit.
+Now what is Recall? Recall is how many of the items in a particular class have been classified correctly.
+so if i go back, if you want to find recall of dog, then total dogs are 40, out of those how many are classified correctly?
+that is 25, that is the recall value, if you want to find recall of, let's calculate this also,
+So, we'll go to the calculator. 25 divided by 40 would be 0.62. So, this is 0.62. Recall of cat, what will happen?
+How many are your total cats? 34 and how many of them did you classify correctly? 30.
+So, this value will be 30 divided by 34. So, 30 divided by 34 is 0.88.
+And then you will find recall for rabbit class. So, you had 34 total rabbits.
+and how many of them are classified correctly? only 20
+so the recall value of this class will be
+20 divided by 34
+that is 0.58
+so this is 0.58
+and now what will you do? again you have two options
+either you can take out macro recall
+It is just the average of these three values or you can calculate weighted recall.
+What will you do for weighted recall? You will multiply it with weight as you did with precision.
+And you will get a single value. So I am doing one thing, as I have filled the precision here,
+In the same way, I will fill the recall so that I can show you how to calculate F1 values.
+So, first is 0.62, second is 0.88 and third is 0.58, okay.
+Now, we have learnt to calculate precision and recall in multi-class setup.
+Now, if you want to calculate F1 score, then how to do that?
+It is very simple guys.
+You do the same thing in F1 score.
+First, you will calculate F1 score of dog class.
+Then, you will calculate F1 score of cat class.
+And then, you will calculate F1 score of rabbit class.
+Now, to calculate F1 score of dog class, what you have to do is
+2 times precision of dog class
+multiplied by recall of dog class
+divided by precision of dog class plus
+recall of dog class so you can see
+if someone ask you what is precision of dog class
+then precision of dog class is this 0.86
+ok what is recall of dog class 0.62
+what you will do you will remove this
+and from this you will get F1 score for dog class
+then similarly you will get F1 score for cat class
+so this will be PC, RD, PC plus RD
+basically you will take this value of precision
+and this value of recall
+similarly for rabbit case you will take this value of precision
+and this value of rabbit
+Now you have again 3 F1 scores, F1 for dog, F1 of cat and F1 of rabbit.
+Now again you have 2 options, first is you get macro F1 score or you get weighted F1 score.
+okay, same as you did in recall and precision case, and that is how you do it guys, that is how you do it, it is so simple, now if there are 3 classes or 10 classes, it doesn't matter, you can do this work very easily, now I will show you the same thing through code, what you have to do, I am showing you the code of MNIST, the code of MNIST, where we have, there are 10 classes, there are different digits from 0 to 9, so there are 10 classes,
+We will apply this logic on this. So I am running this code once. It will take some time.
+So here I am importing from sklearn.metrics. I will import precision score, recall score and F1 score.
+let me first show you the values of precision
+so i would write precision score
+and i would pass
+ytest
+comma
+ypred1 logistic regression's
+output and here
+i have to write in average first
+none if i write none in average
+then what will happen every class
+precision will be calculated separately
+and i will be able to see it
+so there are 10 different classes
+This is the precision of 2, this is the precision of 1, this is the precision of 2, and this is the precision of 9, the precision of every class is seen separately, if you would have written the same code here, with recall score, then you would have got these recall values for every class individually, and similarly if you would have written F1 here, then this would have been your F1 score, now if you don't want different values, you want a single value, then what will you do, you will do the value of average, macro,
+As soon as you do macro, then macro will be calculated as an average and a single value will come.
+So this is the macro precision value of this algorithm.
+Similarly, if I do macro here also, then I would get this.
+Okay? And if I do macro here also, then I would get this.
+Okay? If you want weighted, then you will write,
+weighted, and weighted is coming here.
+Here is your weighted.
+And that is how you calculate. Now if you are having problem in calculating all this, then there is a single way in scikit-learn.
+There is a function which we call classification report. I will run that and show you.
+Import classification report. What will it do? It will calculate everything together and give it to you.
+classification report, ytest, ypred1, and see this guys, first of all, you are getting the precision recall and F1 score of every particular class,
+this support is telling how many times that particular class is in the data, so 0 is 821 times, 1 is 962 times, in this way you can see that for every class you have individual precision recall and F1 score,
+And then, macro average is of all three things. By the way, accuracy is also given here.
+And macro average is of precision, recall and F1 score. And weighted average is of precision, recall and F1 score.
+And if you don't want to do each one of them individually, classification report will generate everything for you.
+and that's it guys, that's it, we had to read only this much, with a lot of clarification, we covered this whole thing, now we will see the next classification metric in the next video, thanks for watching, bye

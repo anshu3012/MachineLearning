@@ -141,7 +141,7 @@ Disadvantages:
 - **They are less powerful** for an effect in a known direction. Because $\alpha$ is split, a larger effect is needed to reject $H_0$. For the training program with a true mean of 52, a two-tailed test at 5% has power 0.59 against 0.71 for the right-tailed test.
 - **They are not designed for a directional hypothesis.** The question "is the weight different from 100 g?" is not "is it lower?".
 
-> **Extra:** Two corrections to common claims. First, a two-tailed test does not lower the overall Type I error rate: it is $\alpha$ in total, exactly as for a one-tailed test, only split across two tails. Second, when a two-tailed test rejects $H_0$, the sign of $z$ does tell the direction: $z = -2.5$ means the mean is below 100 g. What the two-tailed test gives up is power in each single direction, not the ability to report one.
+> **Extra:** The overall Type I error rate of a two-tailed test is still $\alpha$, only split across two tails. And when a two-tailed test rejects $H_0$, the sign of $z$ tells the direction: $z = -2.5$ means the mean is below 100 g.
 
 ### 5.2 One-tailed tests: pros and cons
 

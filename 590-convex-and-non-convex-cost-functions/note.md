@@ -26,7 +26,7 @@ Figure 1 shows the difference on real losses. Both maps fit the same 21 points; 
 
 > **Key point:** We fix the data and treat the loss as a function of the model's parameters; one parameter gives a curve, two give a surface, many give a surface we can no longer draw.
 
-A **loss function** (G-1130), or **cost function** (G-492), measures how far a model's predictions are from the true values (see the [regression metrics Note](../52-regression-metrics/note.md)). During training the data is fixed. What changes are the parameters, so we read the loss as a function of the parameters:
+A **loss function** (G-706), or **cost function** (G-492), measures how far a model's predictions are from the true values (see the [regression metrics Note](../52-regression-metrics/note.md)). During training the data is fixed. What changes are the parameters, so we read the loss as a function of the parameters:
 
 $$\text{loss} = L(\text{parameters})$$
 
@@ -41,6 +41,18 @@ The number of parameters sets the shape we can draw:
 Figure 2 shows the idea with one parameter. The 21 points never move. Only the slope $m$ of the line $y = mx$ changes, from $-1$ to 3. Each slope gives the line its own errors (red sticks), and so its own loss: a point on the curve on the right. At $m = -1$ the loss is 6.18; at $m = 1.02$ it reaches its lowest value, 0.18.
 
 ![The loss as a function of one parameter. Left: the line y = mx on the fixed data, with its errors, as the slope m changes from −1 to 3. Right: the mean squared error for each m; the lowest point is m = 1.02, loss 0.18.](images/loss_of_m.gif)
+
+The curve is built one point at a time. Each row below is one try: choose a slope, measure the errors of that line, and average their squares.
+
+| Slope $m$ | Loss |
+|---|---|
+| $-1$ | 6.18 |
+| 0 | 1.71 |
+| 1 | 0.18 |
+| 2 | 1.58 |
+| 3 | 5.91 |
+
+Plotting the five pairs gives five points of a U shape; trying every slope in between fills in the curve of Figure 2.
 
 Whether this function is convex decides how easy its lowest point is to find.
 
@@ -101,7 +113,9 @@ A non-convex function gives no such promise. In Figure 3 (right), $g$ has a dip 
 
 > **Key point:** Gradient descent only sees the local slope, so on a non-convex loss it settles in whichever dip it reaches first, which may be a local minimum with a worse loss than the global one.
 
-Gradient descent steps downhill and stops where the slope is zero (see the [gradient descent Note](../57-gradient-descent/note.md)). At a local minimum the slope is zero too, so the algorithm has no way to tell that a deeper dip exists elsewhere.
+Picture a ball placed on a hilly track. The ball rolls downhill and comes to rest at the bottom of whichever valley lies below its starting point. The ball cannot know that a deeper valley lies behind the next hill.
+
+Gradient descent behaves like the ball. It steps downhill and stops where the slope is zero (see the [gradient descent Note](../57-gradient-descent/note.md)). At a local minimum the slope is zero too, so the algorithm has no way to tell that a deeper dip exists elsewhere.
 
 ![Gradient descent on $g(w) = w^4 - 4w^2 + w$ with learning rate 0.02, started at $w = -2$ (green) and $w = 2$ (orange). Key frames: the two starts, after two steps, after 30 steps, and the two end points](images/two_starts.gif)
 
@@ -132,7 +146,7 @@ The chord test confirms it. Between $(m, b) = (-1, 0)$ and $(3, 0)$, the midpoin
 
 $$\text{curve: } L(1, 0) = 0.18, \qquad \text{chord: } 0.5 \times 6.18 + 0.5 \times 5.91 = 6.05$$
 
-In two dimensions the chord is a straight line through the parameter plane, and the surface stays below it. Figure 5 (left) walks along that straight line from $(-1, 0)$ to $(3, 0)$ and plots the loss on the way: a U-shaped curve that stays under the dashed chord everywhere. The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 3.3) proves this holds for every linear regression loss: its Hessian never has a negative eigenvalue.
+In two dimensions the chord is a straight line through the parameter plane, and the surface stays below it. Figure 5 (left) walks along that straight line from $(-1, 0)$ to $(3, 0)$ and plots the loss on the way: a U-shaped curve that stays under the dashed chord everywhere. The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) (Section 5.3) proves this holds for every linear regression loss: its Hessian never has a negative eigenvalue.
 
 ### 5.2 A tiny neural network: two minima and a ridge
 
@@ -198,6 +212,8 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 **Built from**
 
 - CampusX, "Difference between convex & non-convex cost function; what happens when cost function is non-convex?", YouTube, https://www.youtube.com/watch?v=TXVtbgaEyms
+- Starmer, J. (StatQuest), "Gradient Descent, Step-by-Step", YouTube, https://www.youtube.com/watch?v=sDv4f4s2SB8
+- Sanderson, G. (3Blue1Brown), "Gradient descent, how neural networks learn | Deep Learning Chapter 2", YouTube, https://www.youtube.com/watch?v=IHZwWFHWa-w
 
 **Other references**
 

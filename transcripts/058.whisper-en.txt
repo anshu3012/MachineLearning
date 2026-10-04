@@ -1,0 +1,570 @@
+Hi guys, welcome to my YouTube channel.
+In the last video, we studied Gradient Descent in detail.
+In the next three videos, we are going to discuss the types of Gradient Descent.
+So let's start our discussion with the first type.
+So we already know that Gradient Descent is an optimization algorithm.
+And we use it in many different machine learning algorithms to reach solutions.
+There are three most important types of gradient descent, the first one is batch gradient descent,
+the second one is stochastic gradient descent and the third one is mini batch gradient descent.
+In today's video we will study about batch gradient descent, in the next video we will
+and in the third one mini batch. We will study every type in detail and do mathematical formulation
+although mathematical formulation is not very different, just a small change happens due to which there are three different types
+so there is no difference in mathematical formulation. Changes will come in coding, so we will also look at the code
+we will also compare it side by side and we will also study when and which type of gradient descent is correct to use.
+Now you might be thinking on what basis these three different types are there.
+Means what is the basis on which you differentiate that I am getting three different types.
+So actually if you remember the last video, one more thing guys if you are watching this video
+Before that you have to watch the previous video because we will discuss everything above the previous video.
+So it is absolutely mandatory that you watch this video after watching the last video.
+Otherwise you may not understand it completely.
+So in the last video we saw that if you are solving a problem in linear regression
+and you have to find the equation of a line
+and to find the equation of a line you have to find m and b
+so how does gradient descent solve this problem
+that you start from any random value of m and b
+and then while iterating, while running the loop
+while changing these values you reach the correct values
+and every time what you do in the loop
+you update m and b
+how do you update m
+M is the new value of M. M's old value minus learning rate. Learning rate is a number.
+And you multiply this with the slope. What is the slope? The slope of your loss function.
+With respect to Dm. The old one. Okay. You subtract that. This is the equation. Okay.
+Similarly, to find B new, you take B old.
+multiply the slope with learning rate at b equal to 0
+and in this case what is this slope?
+differentiation of your loss function with respect to db
+actually it should be called del L by del D
+similarly it should be called del L by del M
+because these are partial derivatives
+because this L was the function of both M and B
+So whenever this happens, you get partial derivatives which we call gradient from where the name of this algorithm came.
+Now what is the main distinction here is that when you use batch gradient descent,
+then you use your whole data to calculate this slope.
+So if you have 300 rows in your data,
+So, you take this update after seeing the whole 300 rows.
+I hope you are able to understand.
+That you saw the whole 300 rows and then took one single update.
+That is batch gradient descent.
+So, in the last video, whatever we had coded, that was actually batch gradient descent.
+That was batch gradient descent.
+Now this is very slow, means this algorithm is very slow and it has some computational problems, we will discuss about it.
+There is a way to avoid this, Stochastic Gradient Descent.
+In Stochastic, these updates are done on the basis of one single row.
+By looking at one row, you decide how much error you are getting and then you make changes in M and B.
+So, this is obviously a little fast but it is error prone.
+It is fast, it converts quickly, results come quickly, computation has to be done less.
+So, this is especially suitable for larger datasets.
+We will study this in detail in the next video when we will study stochastic gradient descent.
+Third one is Mini Batch Gradient Descent. This is between Batch Gradient Descent and Stochastic Gradient Descent.
+It balances. So in this you define a batch size. So let's say you have defined a batch size of 30.
+Suppose you originally had 300 rows, now your update of m and b will be after seeing 30 rows
+Means when you will run on dataset once, you will update 10 times
+Whereas if you are applying batch gradient descent, then you will run on 300 once and apply one update
+Whereas if you were doing Stochastic gradient descent then you would have put 300 updates on it.
+I hope you are able to understand.
+The number of rows, the number of updates, Stochastic gradient descent.
+After all the rows, one single update, Batch gradient descent.
+And then to decide a number that the batch size will be this much, that is Mini batch gradient descent.
+Generally, Stochastic Gradient Descent is used more. Stochastic Gradient Descent and then Mini Batch Gradient Descent are sometimes implemented.
+Batch Gradient Descent is a bit rare and it is specially used when you have convex functions like in the case of Linear Regression.
+If you have convex function then Batch Gradient Descent can be used.
+But there is a condition that the data should not be too big, because if the data is too big, then the calculations are not possible.
+Why is it not possible? We will discuss this when I will tell you by writing the code.
+So in short, we had to read batch gradient descent in this video, but guess what, the batch gradient descent that we read in the last video was correct.
+So what I have planned is that in this video I will only teach you batch gradient descent but for more than 2D
+Means if you remember then in the last video the code that we had written, the mathematical formulation that we had made
+That was on 2D data, on some kind of data like this, CGPA, LPA, this was X, this was Y, so 2D data
+This type of data, so here obviously you have to take out only two coefficients M and B
+But what if you have such data, basically if you have multiple linear regression case
+If you have CGPA also, if you have IQ also, if you have gender also and if you have LPA
+So in this case what will be your coefficients, I told you this in multiple linear regression
+this time if you want to predict y then you will get beta0 plus beta1x1
+this is x1 plus beta2x2 iq is x2 plus beta3x3 gender is x3
+so this time how many coefficients you have to find out
+beta0, beta1, beta2 and beta3
+Basically, add plus 1 to all the columns in your input
+Add the intercept term, you have to get that many coefficients
+So, what if you have an ND data
+N dimensional data
+In that case, you will have N plus 1 coefficients
+Beta naught, beta 1, beta 2, beta N
+So, in this video, we will learn to apply gradient descent
+to an n-dimensional data set
+and we will learn that how can we get the value of these coefficients together
+using gradient descent
+till now whatever formulation we did
+that was essentially restricted to a 2D data set
+obviously in real world scenario you will get very less 2D data sets
+in real world scenario you have to do mostly multiple linear regression
+you get more than 2D data
+So today's class will be about formulating, mathematically formulating what is in nd plus you have to write its code also.
+We will do this whole work in today's video. So I hope you got the whole perspective.
+Now let's dive into the mathematical perspective or formulation of batch gradient descent for n-dimensional data.
+So guys let's start with the mathematical formulation.
+and see honestly the formulation is a little difficult the mathematics is difficult so what i
+will do is i will change things according to me so that you can understand a little better
+okay so for now rather than assuming that we have an n-dimensional data set what we will assume is
+that we have a data set of 3 columns.
+Assume that the data we have is CGPA, IQ, and LPA.
+So this will become X1, this will become X2, and this will become Y.
+And for now, I assume that I have only 2 rows of data.
+That means I have data of only 2 students.
+So the first student has got 8.1 as CGPA, 93 as IQ and 3.2 as LPA package, second one has got 7.5, 95 and 3.5
+Suppose I have only this much data, the shape of my data is 2,3.
+I am intentionally starting with such small data because after some time I will convert it into n columns.
+Don't worry about that. Now let's start our discussion.
+Now in this case if you want to calculate Y as in LPA, then what will be the formula?
+Since there are more than one input column, formula will become beta0 plus beta1 x1 where x1 is CGPA plus beta2 x2 where x2 is IQ.
+So now in this case I have to calculate three things, beta naught, beta 1 and beta 2.
+When we had studied gradient descent earlier, there we had to take out only two coefficients, m and p.
+Now since one extra column has come, here we have to calculate one extra coefficient.
+Now what I am doing, first of all I will tell you how you will start applying gradient descent.
+Step 1 will be like always that you will start with random values
+So generally your intercept term in this case beta0 this will be 0
+Generally you start intercept term from 0 and your coefficients beta1, beta2, beta3 or beta4
+So, you initialize them with 1. That is the general norm.
+There are more initialization techniques, but here you generally start with this pattern.
+Now what you have to do is, you have to apply gradient descent.
+Means you will decide an epoch, suppose epoch is 100 and you will decide a learning rate, let's say 0.1.
+Now what you have to do is, since you have 3 coefficients, you have to update all 3.
+because you have started all three of them with random value
+so you will write beta0 is equal to
+beta0 minus learning rate times slope
+ok
+beta1 is equal to beta1 minus learning rate
+slope
+and beta2 is equal to beta2 minus learning rate
+times slope. Now you must be thinking that what will be the slope to be calculated. So your loss function will be
+actually beta0, beta1 and beta2. It will be a function of three variables. Means it will be a 4D graph.
+Where beta0 will be on one axis, beta1 will be on one axis, beta2 will be on one axis and loss will be on one axis.
+So obviously I can't show you the graph by plotting, but this graph will be a graph in a 4 dimensional plane.
+Now you have to find the slope in that graph, so in that 4 dimensional graph, when you find the slope at any point,
+it will have 3 components, one component will be in the direction of beta0, one component will be in the direction of beta1 and one component will be in the direction of beta2.
+So, simply you have to find the equation of your loss and differentiate it with respect to beta0, beta1 and beta2.
+So, this loss is this one when you are differentiating your loss function with respect to beta0.
+This slope is this one when you are differentiating your loss function with respect to beta1
+and this is when you are differentiating your loss function with respect to beta2
+Now if you have n dimensional data then how many derivatives you have to calculate?
+n plus 1 from beta0 to beta n so this is what you have to do
+You have to calculate more than one n plus one derivative from the number of columns
+And you have to update such n plus one equations in the loop
+That's it. That is what you have to do
+Now I will explain you some things with this simplified data
+And if you understand that then you will understand how to handle n dimensional data
+Trust me
+So first of all I will show you this, then I will show you this and then I will show you this and when you will see these three things then you will automatically understand
+that if anything else happens like beta 3 or beta 4 or beta n, how will that be calculated?
+You will understand this immediately. Let's now focus our attention to how to calculate
+the derivative of your loss function with respect to the intercept term that is beta 0.
+See how we will do this. We will go very slowly, it is very simple. You will understand,
+Don't worry about this. What is our loss function? If we take mean squared error, it is 1 by n, where n is the number of rows.
+i is equal to 1 to n, yi minus yi hat. If you remember, I didn't take 1 by n in the last video.
+Actually it doesn't matter. At the end what we have to do is, we have to find the value of beta0, beta1, and beta2 which will minimize this loss.
+So the values of beta0, beta1, and beta2 which will minimize this loss will also minimize the loss without 1 by n.
+So the answer is same. It does not matter. It's just that I recently noticed that
+All the good institutions like MIT, Stanford and their professors take 1 by n here.
+So, I am applying 1 by n here to be correct. But honestly, if you don't apply 1 by n here, it does not matter.
+The thing which will minimize your total loss will also minimize your mean loss. That's the logic.
+So, it doesn't matter. So, anyways, this is my loss function. This is my mean squared error.
+This is my MSE. And here obviously it will be square. I am sorry. Here it will be square. Now if we look carefully guys
+So what am I doing? For my given data, I am expanding it. In my data, if you remember, number of rows is 2
+And the number of columns, in the input, I am not adding the output, I am calculating y, that is 2.
+It is 2 plus 1, in two inputs and one output. Now I am expanding it.
+So I am writing it like this, since I have only two rows, then what will be the value of n? 2.
+So I can write it like this, 1 by 2 multiplied by, now I can expand the summation because the value of n is only 2.
+So I can write it like this y1 minus whole square of y1 hat plus whole square of y2 minus whole square of y2 hat
+I can write it like this because my data is only this much correct
+My data is only this much correct
+So this is y1 if you think this term is y1 and this term is y2
+Now what I have to do? I have to find y1 hat. How to find y1 hat? It is very simple. You know its formula.
+The formula to find y1 hat, in fact the formula to find yi hat of any particular row is beta0 plus x,
+Look at one more thing, otherwise there will be confusion, this whole thing is my x, this entire thing is my x, now what can I call the first term in this?
+What can I call this first term?
+I can call this first term as X11
+Understand this carefully
+What can I call this second term?
+X12
+What can I call this third term?
+X21
+And what can I call this fourth term?
+X22
+I gave a simple notation
+Now going by that logic
+Think about it
+If for this first row
+I have to calculate prediction. Means I have to get Y1 hat. So what will be its formula?
+Its formula is very simple. Its formula will be this. Let me do one thing. I will cut it and I will bring it down.
+So that this discussion becomes easy with you. So yeah. See, if I have to do prediction for this first term, first row
+So I know that my formula to calculate y would be beta 0 plus beta 1 x1 plus beta 2 x2.
+Now if I have to calculate y1 hat then I have to write beta 0 plus beta 1.
+Now since we are talking about this first row, then the value of beta 1 will be multiplied by this 8.1.
+Or I can write it as x11 plus beta2 multiplied by this. This will be x12. Similarly, when I take out y2 hat,
+it will be beta0 plus beta1 multiplied by this. So it would be x21 plus beta2 x22.
+So I am just telling you that how will you get this y1 hat and y2 hat because we have y1, this is y1, we also have y2, this is y2.
+I just have to replace y1 hat and y2 hat. So what will I do? I will expand this whole term and I will write it like this.
+This will become y1 minus in place of y2 hat I would write beta0 minus beta1 x11 minus beta2 x12
+this will be my first term, square of this
+plus, my second term will be
+y2 minus
+beta0 minus beta1
+x21 minus
+beta2 x22
+whole square
+this is my loss function
+now what I have to calculate
+I have to calculate del L
+by del beta naught. I have to differentiate this whole equation in respect of beta naught.
+So if I can write it like this, 1 by 2, first I will differentiate this term.
+I will differentiate this term. So by differentiating this, it will be 2 times
+y1 minus, this whole term, this whole term, it will come as it is here, but I am writing it as y1 hat again.
+I am writing it back as y1 hat. And now what am I doing? By applying chain rule, I am differentiating this whole thing again.
+So 2 times this is done. Now when we will differentiate this whole thing, think about it.
+There is no beta naught in this, so this term will become 0. If it is in this, then minus 1 will come here.
+So you will have for this one minus 1. In this one, there is no beta naught, so this will also become 0.
+In this one also there is no beta naught, so this will also become 0.
+So this means, when you will do the differentiation of this whole term in net, then you will get this, which you can see here.
+And going by the same logic, the differentiation of your second term will also be 2 times y2 minus y2 hat and here minus 1.
+Now, I am taking out minus 2, minus 2 by 2, I have taken out minus 2 and what will come inside?
+y1 minus y1 hat plus y2 minus y2 hat. What are we calculating?
+We are calculating del L by del beta naught. Now, I am not canceling this.
+Why am I not doing it? There is a reason for it. The reason for it is that now let's assume that I don't have 2, I have n rows.
+Till now I was assuming that I have only 2 rows. Now if I had n rows, then how would this equation be done?
+Here minus 2 is common, in return of this 2 comes n. And in this bracket you would have for every row this term.
+Here third row is for y3 minus y3 hat plus dot dot dot plus yn minus y1 yn hat
+Now if you want to write this whole term by simplifying then it will be
+minus 2 n sigma i is equal to 1 to n yi minus yi hat
+and here is your del L by del beta naught
+this is your first derivative which you have just calculated
+this is the first derivative
+this is the equation of this derivative
+of this slope
+you have just calculated this
+so now we have the initial value of beta naught
+we have the learning rate and we have this equation
+In this equation, you can simply put the value of beta0, current value and your work will be done.
+So, we have calculated this. Now we will calculate this equation.
+So, again in order to calculate this second slope with respect to beta1, what I will do is,
+I will first cut this thing because we will again take two rows and then we will convert it to n.
+I think this makes it easy to understand. So I will just copy this and I will go down and paste it here so that it remains in front of you.
+So guys, once again I am writing the loss function, our loss function is
+sigma 1 by 2, 2 because there are 2 rows, i is equal to 1 to 2
+yi minus yi hat whole square, by expanding it and writing
+1 by 2 y1 minus y1 hat whole square plus y2 minus y2 hat whole square.
+Now after this I had fitted y1 hat in it, so this was done.
+I am just repeating this so that it sits in your mind, there is no other reason.
+y1-beta0-beta1x11-beta2x12 whole square
+plus y2-beta0-beta0x21-beta2x22 whole square
+Now I have to perform this differentiation with respect to beta1.
+So first I differentiate this term and this term will follow the same logic.
+So this term will be equal to 1 by 2, this is common outside.
+And this whole term will come as it is because of chain rule.
+So 2 times y1 and this much term I am writing it as y1 hat, so it would be minus y1 hat and now we are differentiating this whole term.
+So when you will differentiate this whole term then this term will become 0, this time beta naught term will also become 0, beta 2 term will also become 0.
+Only this term has beta1 in it.
+So when you differentiate this,
+minus beta1 x11 with respect to beta1,
+you will get minus x11.
+This means you will multiply this term with minus x11.
+And I guess you are understanding in the second one.
+Here also it will be 2 times y2 minus y2 hat and this time you will multiply with this.
+I am sorry, there is a mistake, this should be 1. So x21 will come here, minus x21.
+Now if you think, if I again convert this for end, then how can you write this whole thing?
+You can write this whole thing like this, look carefully, it is very simple, we will write del L, del beta 1 will be equal to
+If I take this minus 2 out, then here minus 2, in return of 2 will come n, because now we are doing it for n rows
+and inside will be y1 minus y1 hat here will be x11 plus y2 minus y2 hat and here will be x21
+plus y3 minus y3 hat and here will be x31 plus dot dot dot plus yn minus yn hat and here will be xn1
+Now think about it. Let's write it in a more simplified way.
+By writing it in a simplified way it will be
+minus 2 divided by n sigma i is equal to 1 to n
+and when you simplify this term
+it will be yi minus yi hat
+and see here there are two numbers 1 and 1
+then there are 2 numbers, 2 and 1, then there are 2 numbers, 3 and 1, and by doing this n and 1, so you can see
+the second number is 1, this is constant, the first number is varying in respect to i, so you can write this x i 1,
+see carefully, I have written this, XI1, now this is your DL by DEL BETA 1, now the only thing to think is that
+everything is fine, I am able to understand everything, only thing to understand is that what is this XI1 representing in our data
+So look at this guys, this is my 1st row, this is my 2nd row, same way I will have 3rd row, same way I will have 4th row and same way I will have nth row and it is x1.
+So if you talk about this 1st data then it is x11. If you talk about this one then it is x21.
+If you talk about the 1st item of 3rd row then it is x31. If you talk about the 1st item of last row then it is x1, n1.
+This means if you want to write this whole column collectively then you can write X i1
+So this means what is this X i1 representing?
+The data of your first column
+So if you want to understand what is happening here
+So if you want to write with respect to beta 1
+Then you have to multiply with the values of first column
+Because beta1 is the weight of this column, beta2 is the weight of this column and if there are more columns, then it will be the same.
+So you just have to understand what this x i1 is representing. It is representing all the values of your column.
+After some time, it will be more clear. Now think and see. I am asking you a simple question.
+What will be del L by del beta2?
+If you think then you will get the answer
+If someone ask you after showing this whole thing
+What will be del L by del beta2?
+I guess you will be able to understand
+It will be same
+Everything will be same
+Only one thing will be different
+And what is that?
+that is here in place of 1 you will write 2 and what is xi2? xi2 is all the values of your second column
+all these values, all these values, I hope you are understanding, so it is very simple that whenever you have to calculate derivatives
+of any particular coefficient terms, then you just have to use all the values in that particular column for that.
+If someone asks you that if you have m columns, let's say you have m columns, then the last beta you will have will be beta m.
+so if you want to write general equation
+for any number of columns, you can write it like this
+yi- yi hat xim
+whatever m you put here, you will put the same m here
+and that's the general formula
+when you want to find the loss function in any column or coefficient
+then you have to multiply this term with the corresponding column of that particular coefficient
+with its values
+and that's it, this is its mathematical formulation
+now we will use this to write our code
+to write our code, we will use this mathematical formulation.
+So I hope you understood, once you will do it with a copy pen, you will understand better.
+So guys, what I am doing in coding, first I am using linear regression of scikit-learn,
+using that class, first I am removing the value of actual coefficients and intercept from my data set.
+So that by looking at it, I can understand whether my gradient descent class is performing correctly or not.
+So you can see the setup is very simple. I have imported the library.
+I am using this dataset, load diabetes. I believe I have used this before also.
+In this, you have 10 input columns and 1 output column. There is a regression problem.
+There are 442 rows. So I have imported this.
+The benefit of built-in data sets is that you don't have to do any pre-processing.
+So that is why it is good.
+So you can see the shape of the data.
+In your input, there is 442,10 and in your output, there is a column of 442 rows.
+I have performed the train test split.
+I have trained my model.
+And after that, I am looking at my coefficients here.
+And I am looking at my intercept C.
+Here I have 10 input columns.
+So for each of the column, I will have one coefficient, beta 1, beta 2, beta 3 till beta 10.
+And one intercept will be beta naught. So you can see, this is my answer.
+So in this first thing, you have got 10 values, one for each column.
+So there are 10 values, 1, 2, 3, 4, 5 and below also 5, 10.
+And this is your intercept term.
+So when we will make gradient descent class, our target will be to calculate these 11 values.
+And after that I just calculated the swipe rate and R2 score
+So it gave me 0.43
+So that is the setup
+Now we will make our class from here
+So it is very simple
+We will start with our class
+Let's call it GD Regressor
+Here we will have our constructor
+In constructor we will get some things like learning rate, if learning rate is not provided then I will take 0.01 as default.
+What is epox, if nothing is provided then I will take 100.
+And here I will define certain things, first will be coefficients.
+initially i am defining it as none self.intercept i am also considering it as none
+self.lr as in learning rate will be equal to the learning rate provided to me
+and self.epox would be equal to epox which i am getting from above
+so this is my setup now i have to make two more methods
+One is fit, in which I will get x-train and y-train and I will do something here and then I have to make one more method, predict
+where I will get self and x-test and I have to do something again. This is the skeleton code.
+Now let's focus on our fit method.
+So what you have to do in the fit method, first of all you have to initialize, init your coefficients
+Now see guys, initializing the intercept is very simple because it is a single number
+So you know that initially we take our intercept as 0
+So we will write self.intercept is equal to 0
+And I told you that all the coefficients are initialized from 1
+But the question is how will I know that how many coefficients do I have
+Where is this information?
+This information is in x-train
+The shape of x-train will tell me how many columns are there in my data, so if I show you the shape of x-train
+So this is it, 353 rows 10 columns, so from this I can understand that there are 10 columns in my data
+Means how many coefficients should I have? 10, so what will I do? I will initialize an array
+self.coefficient will be equal to np.once and what will be the shape of this initialized array?
+whatever will be the shape of the x-train and its first number, this number, so according to this data
+it will automatically initialize this array. Now what I will do is I will quickly show you
+that everything is being initialized properly or not
+so I will print self.intercept and self.coefficient
+so this is my class right now
+and I am making an object of this
+GEDR as in gradient descent regressor
+this is the object of GED regressor class
+so if I fit GEDR dot and send here
+X train and Y train. This is my initialization of intercept term and this is 10 ones. 5 and 5, so initialization is happening.
+Now what I have to do? I have to run a loop on every epoch. So I will write for i in self.epochs.
+Now in this loop, I have to update all the coefficients and the intercept.
+This is what I have to do.
+So first I will update the intercept because it is a little easy.
+So the rule to update the intercept is self dot intercept will be equal to self dot intercept
+minus learning rate self dot learning rate multiplied by the derivative of the loss function
+with respect to the intercept right so basically what we have to do we have to go here this
+is the formula this is the formula which I have to implement ok so here if you notice
+that what I have to do, if I have to calculate this, let's call this thing to be equal to intercept underscore dev
+as an intercept derivative, if I have to calculate this, then we have to calculate this whole thing for this.
+Now if you notice in this whole thing, what is it? Let's study it a little bit. First of all, see what is yi?
+So yi is basically your output column, your target column, every value of it. The output column in your training data is yi.
+or in short you can say your y-train, this is your yi, what is yi hat, so yi hat is your model
+which will predict over your input data, so if in your input data there are 353 rows
+so when you will give these 353 x's to your model, then it will do a prediction, 353 predictions, that will be my y-hat, so yi is y-train
+its basically a matrix of 353 values and your y-hat is also a matrix of 353 values
+Basically, this term is actually subtraction of two matrices.
+One matrix is Y-train and one matrix is Y-pred or Y-hat.
+Now, let's talk about what is this.
+What is this?
+What can be done by summing and dividing by the total number?
+Think about it.
+If you replace this whole quantity y minus y hat with a single term, let's say x
+If you replace it with xi, then sigma i is equal to 1, say n, xi 1 by n, what does this mean?
+It means that you are taking out the mean of x. Right? Summation divided by total number is mean calculation.
+So I am just saying that first you will find out this matrix. This is not necessary to find out. This is Y-train.
+Then you will find out this matrix. If you will subtract these two matrices, then you will get a third matrix in which there will be only 353 rows.
+Or there will be only 353 items. Because if there are 353 items in your first matrix, there are 353 items in the second too.
+subtract both of them, you will get a new matrix in which there will be 353 items and then you are calculating the mean of that 353 items matrix
+you are calculating the mean, one single number and then you are multiplying that single number with minus 2 which will again be a single number
+scalar and then you are multiplying that whole intercept derivative with learning rate which is again a single number
+And then you are subtracting it from self.intercept which is 0.
+So 0 minus that number will again be a single number.
+And that will be your new intercept.
+So I am just telling you that your intercept will always be a scalar.
+It will be a single number.
+So we don't have to do anything.
+We have to calculate the value of intercept there.
+So I will write it over here.
+intercept there will be equal to minus 2 multiplied by NP dot mean of Y train minus Y hat
+this is the expression this is the expression
+means minus 2 NP dot mean Y train Y hat
+Now here I have everything, I have minus 2, I can take out the mean, I have the value of y-train, what I don't have is y-hat.
+So now what I have to do is for every x-train row, I have to calculate y-hat and how does y-hat come out?
+If you understand, how to calculate y hat, what is the formula of y hat?
+Assume you have 3 columns, x1, x2, x3 and then you have y and you have these values.
+So for this first row, if you want to get y hat, then how to get y hat?
+y hat will be equal to beta 0 plus beta 1 with this value
+you will call this x11 plus beta 2 x12 plus beta 3 x13
+if you want to find y2 hat then you will find like this
+beta0 plus beta1 x21 plus beta2 x22 plus beta3 x23
+So if I want this whole term then I can break it down
+What I can write is, I can write it like this
+beta0 plus x11 x12 x13 multiplied by beta1 beta2 beta3
+Basically, I am doing the dot product of these two, so I can write it like this y hat is equal to
+np dot beta matrix as in coefficient matrix
+comma the first row of your x-train, this first row, right
+and do plus in that, beta naught, you will get the y prediction for a particular row
+But if you want you can do it all at once. This is called vectorization. Let me show you how it is done.
+Suppose I have to calculate prediction for all rows at once. Then my formula will be like this.
+beta naught plus np dot whole x-train comma my coefficient matrix.
+See how it will work. What is the shape of the extreme? 353, 10. Right?
+And what is the shape of my coefficients? 10, 1. There are 10 coefficients.
+Now the dot product of these two will be same. How many values will you get? 353, 1.
+And what is beta naught? Beta naught is a scalar.
+So when you multiply this scalar with this, you will get a new matrix in which there will be 353 comma 1 items.
+And what are these 353 values? These are your y-pride values for each of your row.
+How many rows did you have? 353. So your y-pride has also come out.
+So I am just saying that you have to calculate this y-pride or y-hat here.
+is actually very easy. You have to simply write np.xtrain,self.coefficient plus self.intercept.
+That's it. In one step, I will get the matrix with 353 values and then I will subtract it
+then again I will get a new matrix, I will calculate its mean, I will multiply it with
+minus 2, that will be my derivative and I will multiply it with learning rate and that
+is how I will update my intercept value. So now what I will do is, I will just print
+I will just print out the shape of y hat and that's it. This is the code. I am taking number
+I am taking a lot of epochs to be equal to 1 and I am training the model and the model is broken
+Int object is not iterable, the reason is that we cannot run on self.epochs, we have to run it in range
+Now we have run epox equal to 1 and see the shape of y hat is 353 and the value of intercept has increased from 0 to 3.
+It is improving. How much is the actual? When we took out the actual, it was 151. So it reached from 0 to 3 with one iteration.
+Now let's do one thing, let's run this code again and now I am not printing it, it was just to show you.
+And let's take 10 epochs, let's see if the values are changing or not.
+So at the end of 10 epochs, the value of intercept is 27.
+So we are able to take the update correctly.
+If we take 100, so you can see we are able to reach 130.
+So the intercept work is done guys.
+we have to focus on updating our coefficients. So guys now after we have learned to update the intercept
+now we have to update the coefficients. Means we have to calculate how the new value of self. all coefficients
+will come out. The new value of all coefficients will be equal to self.coefficient minus, let me write one line
+so that we get clarity, multiplied by self-taught learning rate times, we can call it coefficient
+underscore derivative. We actually have to find 10 derivatives, think about it, there are 10 columns
+we have to find 10 derivatives, del L divided by del L by del beta 1, del L by del beta 2, dot dot dot
+we will get 10 derivatives together. This is already a matrix which has 10 numbers.
+Self dot learning rate is a single number. As soon as you multiply the matrix of 10 numbers,
+this will also be a matrix of 10 numbers. And when this 10 matrix will be subtracted,
+you will again get a matrix which will have only 10 numbers and that will be your updated coefficients.
+So the most tricky part is that you have to find the derivative of all the coefficients in one single step.
+If you remember, we had learnt that if you want to find the derivative of a single coefficient,
+then the formula is this, you multiply the matrix of y train minus y hat from the first column.
+If you have to take out del beta 2, then you have to multiply y train minus y hat matrix.
+Now this is second column. How can we do this thing at once? We have to learn this.
+And actually it is not very difficult to understand.
+Suppose we have only two columns x1, x2 and this was our y and then we have calculated y.
+Suppose there are any values here, there is no difference in values, now if someone tells me to take out del L by del beta 1
+Then its formula would be 2 by n, n is 2 here, sigma i is equal to 1 to n, yi minus yi hat and I have to multiply from the first column
+Now I can write this in the form of matrix multiplication that I will divide it by minus 2 by n
+First I will take out this matrix, first I will take out y matrix, so what is y? 5 and 7
+Then I will take out y hat matrix, what is this? 6 and 8
+So from this I get y-y8 matrix and this becomes 5-6, 5-6 which you can call as minus 1 and 7-8 again minus 1.
+This is my matrix and I have to multiply this with this matrix 1 by 3.
+So basically I have to do matrix multiplication as in dot product like this.
+So, if you multiply these two, then you will get minus 1 into 1, minus 1 and minus 3 means minus 4 plus your minus 1, minus 1, minus 3, minus 4, whatever it is.
+Means basically, you get a single number minus 8, you divide it by minus 2 by 2 and this becomes your 8.
+So, I am just saying that derivative of L with respect to beta1 comes as a single number. Similarly, if you take out del L by del B2, then also what would you do?
+You would multiply your y minus y hat matrix with this column, with 2, 4. This y minus y hat matrix is minus 1, minus 1 and here comes 2, 4.
+again you get a single number, you multiply it by minus 2 by n whose value is 2, so you can do all the calculations by doing this
+but what if I have to do all these calculations together, in that case what I would have done, I would have written y minus y hat
+matrix, I would have directly multiplied it with this whole matrix. And what would I get from this?
+1, 2, 3, 4. And I would have multiplied this whole thing with minus 2 by n. And if you see,
+this multiplication is 1 comma 2 and this is 2 comma 2. So the output will be 1 comma 2.
+So, I will get two numbers in matrix X and Y. So, this X will be this number and this Y will be this number.
+So, basically I am telling you that if you want to get all the derivatives together then the trick is to do dot product.
+You have to simply do the dot product between yi minus yi hat and your whole x train.
+And you have to multiply this whole thing with minus 2 divided by n, where n is your total number of rows in your data.
+goes in your data. And this will give you, think about it, in your case your Y train which you are calling YI is 353.
+Similarly your YI hat is also 353. So by subtracting these two, the matrix you will get will also be 353 by 1.
+In your x-train there are 353,10 columns, so this is the shape of your x-train, if you bring it here and write here 353,1
+So now, let's transpose this. What will happen by doing transpose?
+It doesn't make any difference internally. NumPy handles it.
+Broadcasting operation happens. So this transpose is handled automatically.
+This becomes 1,353. And when you do dot product.
+I am not taking it properly. Just one second. I will take it properly.
+When you transpose it, then it will become 1,353 and you are dot producting it from 353,10.
+These two are same so you will get a new matrix of 1,10.
+So basically you are getting a matrix of 10 numbers and you are multiplying it with this scalar.
+So again you are getting a matrix whose shape is 1,10 and what is all this?
+This is the derivative of all your coefficients
+This is your coefficient derivative
+So I am just saying that you have to go back
+And you have to write this code
+Look carefully
+You have to simply write this code
+Coefficient's derivative is equal to
+Minus 2 times
+Np dot
+And dot product of what?
+y train minus y hat and you will do dot product with x train and whatever matrix of 10 numbers
+you will divide it with number of rows in your data which is x train dot shape of 0
+and that's it guys this is your code.
+This is your update rule for all the coefficients and now if we run it, in fact, we will do one thing quickly, we will also write the code of predict.
+So if I get Xtest, then I have to simply return whatever Xtest is coming, I have to make it a dot product Xtest and my dot product will be self.coefficient matrix.
+and I will add self.intercept value in it.
+Now let's run this.
+Let's take our epochs to be initially 100
+and learning rate to be 0.01
+and run it.
+This is the number.
+Now you can see clearly that our actual values were 151 and the numbers are a little big here.
+Here the numbers that we have are not that correct.
+So we can do one thing, we can cross check by taking out R2 score.
+So we can write YPRED is equal to GDR.CREDIT and we will pass our X test.
+And then we will calculate R2 score by passing our X test and Y bread.
+And you can see that it is performing very badly right now.
+So what you can do to tune it is that you can increase the learning rate a little.
+Let's say we have done 0.1.
+We are running it again.
+And you can see improvement is coming.
+I am increasing the number of epochs a little.
+Let's say 1000.
+See slowly these numbers are increasing.
+These numbers are increasing.
+All of them.
+And you can see we are already at 39. If I increase the learning rate by 0.5, see we are already reaching 0.45.
+Although you will notice that our numbers are a little different in comparison to the above numbers.
+They are a little different, but that much difference will come in your approach.
+If you will fine tune a little more, then maybe you will be able to get more accurate numbers.
+But clearly you can see our method is kind of outperforming the above linear regression.
+It is not like that, if you take out the cross valve score then it will not be possible.
+But you can see that we are reaching somewhere close.
+You just have to fine tune a little more and that is how it will work.
+So yeah, that's it.
+What did we learn in today's video?
+We learned to apply gradient descent in n dimension from scratch.
+Although the title of the video is batch gradient descent, but we are reading gradient descent only because normal gradient descent is batch gradient descent.
+Now in the next video, we will study stochastic gradient descent.
+So that's it for the video guys. Thanks for watching. Bye.

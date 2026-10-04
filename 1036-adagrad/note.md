@@ -63,7 +63,11 @@ $$\frac{\partial L}{\partial m} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i)\th
 
 For every student with $x_i = 0$, the term in $\partial L/\partial m$ is 0. With 90 of 100 students at 0, only 10 terms remain, so the sum is small and every update of $m$ is small. In $\partial L/\partial b$ every term counts, so the sum, and every update of $b$, is large. At the start $(-4, -4)$ the gradients are $\partial L/\partial m = -3.39$ and $\partial L/\partial b = -15.92$ (Notebook).
 
-The move in the $(m, b)$ plane is the sum of the two updates. A large update in $b$ and a small one in $m$ point the path almost straight along $b$, which is the "L" of Figure 1. To head straight for the minimum, the two updates must be of comparable size.
+The move in the $(m, b)$ plane is the sum of the two updates. A large update in $b$ and a small one in $m$ point the path almost straight along $b$, which is the "L" of Figure 1.
+
+The path turns once $b$ is close to its best value. After 10 steps of gradient descent the gradients are $\partial L/\partial b = 0.10$ and $\partial L/\partial m = -0.94$: almost nothing is left to gain along $b$, so the small gradient of $m$ now sets the direction, and the path crawls along $m$ (computed with `images/shared.py`).
+
+To head straight for the minimum, the two updates must be of comparable size.
 
 ## 5. The idea: shrink the learning rate where the gradients are large
 

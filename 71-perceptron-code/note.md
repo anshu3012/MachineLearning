@@ -205,6 +205,6 @@ Logistic regression keeps adjusting the boundary even when every training point 
 |---|---|
 | make_classification | scikit-learn function that creates random classification data |
 | class_sep | make_classification setting for how far apart the classes are |
-| Generalisation | How well a model performs on new data it was not trained on |
+| Generalisation (G-838) | How well a model performs on new data it was not trained on |
 | Margin (gap) | The distance from a separating line to the nearest point of a class |
 | Decision boundary | The line (in general, the surface) where a classifier's prediction switches from one class to the other |

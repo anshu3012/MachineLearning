@@ -314,6 +314,6 @@ Training works as before. Backpropagation through time (see the [BPTT Note](../1
 | Target | The output we predict, here the sentiment |
 | Representation power | The variety of patterns a network can express; grows with more nodes and layers |
 | Time axis and depth axis | The two directions of an unfolded deep RNN: time steps and layers |
-| $h_t^{(l)}$ | The hidden state of layer $l$ at time step $t$ |
+| $h_t^{(l)}$ (G-29) | The hidden state of layer $l$ at time step $t$ |
 | Hierarchical representation | Features built in levels: simple ones in lower layers, more abstract ones in higher layers |
-| `return_sequences=True` | Makes a Keras recurrent layer return its hidden state at every time step; needed on every stacked layer but the last |
+| `return_sequences=True` (G-136) | Makes a Keras recurrent layer return its hidden state at every time step; needed on every stacked layer but the last |

@@ -1,9 +1,8 @@
-"""Clustering students by IQ and CGPA with no labels. Example data."""
+"""Clustering students by IQ and CGPA with no labels. Example data. Plotly: a scatter coloured by the group found."""
 from pathlib import Path
+
 import numpy as np
-import pandas as pd
-import seaborn as sns
-import seaborn.objects as so
+import plotly.graph_objects as go
 from sklearn.cluster import KMeans
 
 here = Path(__file__).parent
@@ -18,16 +17,16 @@ names = {}
 for k in range(3):
     centre = X[labels == k].mean(0)
     names[k] = min(centres, key=lambda n: np.hypot((centres[n][0] - centre[0]) / 20, centres[n][1] - centre[1]))
-df = pd.DataFrame({"IQ": X[:, 0], "CGPA": X[:, 1], "Group found": [names[k] for k in labels]})
+COL = dict(zip(centres, ["#4C78A8", "#F58518", "#54A24B"]))
 
-plot = (
-    so.Plot(df, x="IQ", y="CGPA", color="Group found")
-    .add(so.Dot(pointsize=10))
-    .scale(color=["#4C78A8", "#F58518", "#54A24B"])
-    .label(title="Clustering: 3 groups found without any labels  (example data)")
-    .layout(size=(8.5, 5))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
-            "axes.titlesize": 15, "axes.labelsize": 15})
-)
-plot.save(here / "clustering.png", dpi=200, bbox_inches="tight")
-plot.save(here / "clustering.pdf", bbox_inches="tight")
+if __name__ == "__main__":
+    fig = go.Figure()
+    for k in sorted(names, key=lambda k: list(centres).index(names[k])):
+        fig.add_scatter(x=X[labels == k, 0], y=X[labels == k, 1], mode="markers", name=names[k],
+                        marker=dict(size=12, color=COL[names[k]]))
+    fig.update_layout(template="simple_white", width=950, height=560, font=dict(family="Latin Modern Roman", size=20),
+                      title=dict(text="Clustering: 3 groups found without any labels  (example data)", x=0.5),
+                      xaxis=dict(title="IQ", showgrid=True), yaxis=dict(title="CGPA", showgrid=True),
+                      legend=dict(title="Group found"), margin=dict(l=80, r=30, t=70, b=70))
+    fig.write_image(here / "clustering.png", scale=2)
+    fig.write_image(here / "clustering.pdf")

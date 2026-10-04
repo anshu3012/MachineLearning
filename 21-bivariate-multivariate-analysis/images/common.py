@@ -1,14 +1,11 @@
 """Shared data, colours and theme for this Note's figures (imported by the other scripts)."""
 from pathlib import Path
 import pandas as pd
-import seaborn as sns
 
 here = Path(__file__).parent
 data = here.parent / "data"
 BLUE, ORANGE, GREEN, RED, GREY = "#4C78A8", "#F58518", "#54A24B", "#E45756", "#6B6B6B"
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-THEME = {**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
-         "axes.titlesize": 15, "axes.labelsize": 15}
 FONT = dict(family="Latin Modern Roman", size=17)
 
 
@@ -16,9 +13,11 @@ def load(name):
     return pd.read_csv(data / f"{name}.csv")
 
 
-def save_so(plot, name):
-    plot.save(here / f"{name}.png", dpi=200, bbox_inches="tight")
-    plot.save(here / f"{name}.pdf", bbox_inches="tight")
+def layout(fig, title, x, y, width=900, height=540, **kw):
+    """The house style for a simple chart: white background, grid on the value axis, centred title."""
+    fig.update_layout(template="simple_white", width=width, height=height, font=FONT, title=dict(text=title, x=0.5),
+                      xaxis_title=x, yaxis_title=y, margin=dict(l=80, r=20, t=70, b=70), **kw)
+    return fig
 
 
 def save_px(fig, name):

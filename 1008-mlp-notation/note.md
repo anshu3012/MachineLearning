@@ -21,7 +21,7 @@ A **multi-layer perceptron (MLP)** (G-1270) is many **perceptrons** (G-1486) org
 
 This Note does two things, both on the network in Figure 1:
 
-1. Count its **trainable parameters** (G-1999): the weights and biases that training must find.
+1. Count its **trainable parameters** (G-1065): the weights and biases that training must find.
 2. Fix a standard **notation** for biases, outputs and weights.
 
 ## 2. The setup: layers and data
@@ -142,6 +142,12 @@ A weight sits on a connection between two nodes, so it needs three numbers:
 
 Figure 5 decodes one weight: $W_{42}^{1}$ is the red connection from node 4 of layer 0 into node 2 of layer 1.
 
+Figure 6 reads five weights the same way, one index at a time.
+
+![Reading a weight's name in three steps, for $W_{11}^{1}$, $W_{42}^{1}$, $W_{13}^{1}$, $W_{22}^{2}$ and $W_{11}^{3}$: the layer it enters lights up, then the node it leaves (blue), then the node it enters (orange), and the connection turns red](images/weight_walk.gif)
+
+For each weight, watch the order: first the top index picks the layer, then the first bottom index picks the node on the left end of the connection, then the second bottom index picks the node on the right end.
+
 So $W_{ij}^{k}$ reads "into layer $k$, from node $i$ to node $j$". The four highlighted weights in Figure 4:
 
 | Weight | Enters layer | Leaves node | Enters node |
@@ -198,9 +204,9 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 
 | Term | Meaning |
 |---|---|
-| Trainable parameter | A weight or bias whose value training must find |
+| Trainable parameter (G-1065) | A weight or bias whose value training must find |
 | Layer number | The position of a layer, from 0 for the input layer to the output layer |
 | 4-3-2-1 network | A network described by its layer sizes, input first |
 | $b_{ij}$ | The bias of node $j$ in layer $i$ |
 | $O_{ij}$ | The output of node $j$ in layer $i$ |
-| $W_{ij}^{k}$ | The weight entering layer $k$, from node $i$ of layer $k-1$ to node $j$ of layer $k$ |
+| $W_{ij}^{k}$ (G-37) | The weight entering layer $k$, from node $i$ of layer $k-1$ to node $j$ of layer $k$ |

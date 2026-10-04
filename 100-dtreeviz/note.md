@@ -36,7 +36,7 @@ scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or ex
 
 The drawing has several weaknesses:
 
-- **Features appear as indexes.** The split "$x_3 \le 0.8$" does not say which feature $x_3$ is. With many features we cannot remember every index position. ($x_3$ is the petal width.)
+- **Features appear as indexes.** The split $x_3 \le 0.8$ does not say which feature $x_3$ is. With many features we cannot remember every index position. ($x_3$ is the petal width.)
 - **Some information is noise for most readers**, such as the Gini value (**Gini impurity**, G-847) of every node (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 8).
 - **Some information is hard to read:** `value = [0, 49, 5]` means 0 setosa, 49 versicolor and 5 virginica, but we must remember the class order.
 - **The data is invisible.** We see the threshold 0.8 but not why the split falls there.
@@ -149,6 +149,16 @@ Following the red path:
 3. **#12**, petal length $\le 4.85$? Yes (4.8), so it goes to #13.
 4. **#13**, sepal width $\le 3.10$? No (3.2), so it reaches leaf **#15**: versicolor.
 
+Figure 5 shows the same four questions as cuts on the data. Each question keeps only the training flowers that answer it the same way as our flower.
+
+![The prediction path of Figure 4 as a shrinking region of the petal-length / petal-width plane. Bright dots: training flowers that are still on the path; faded dots: flowers already sent elsewhere. Black star: the new flower.](images/path_region.gif)
+
+1. **Start.** All 150 training flowers are on the path.
+2. **#0, petal width > 0.80.** The region loses its bottom strip; the 50 setosa flowers leave, and 100 remain.
+3. **#2, petal width > 1.75.** Only the top part is left: 46 flowers, almost all virginica.
+4. **#12, petal length ≤ 4.85.** The region becomes a small corner, and 3 flowers remain. All three sit at exactly the same point, petal length 4.8 and petal width 1.8: one versicolor and two virginica.
+5. **#13, sepal width > 3.10.** Petal measurements cannot separate those three, so the tree asks about sepal width, a third feature that this plane does not show. One flower remains, the versicolor with sepal width 3.2, and leaf #15 predicts versicolor.
+
 The flower really is a versicolor, and the prediction is right. Note, though, that leaf #15 holds a single training flower: the tree trusts one example here.
 
 With `show_just_path=True`, dtreeviz draws only the nodes on the path and leaves out the rest of the tree, which helps when the tree is large.
@@ -183,20 +193,22 @@ Petal width was asked twice on the path ($> 0.80$, then $> 1.75$), and the two c
 
 > **Key point:** The tree's `feature_importances_` shows which features it relied on; for iris, petal width does almost all the work.
 
-The **feature importance** (G-764) of a feature (the [regression trees Note](../99-regression-trees/note.md), section 7.5) is its share of all the impurity reduction in the tree. Figure 5 shows it for the fully grown iris tree.
+The **feature importance** (G-764) of a feature (the [regression trees Note](../99-regression-trees/note.md), section 7.5) is its share of all the impurity reduction in the tree. Figure 6 shows it for the fully grown iris tree.
 
 ![Feature importance of the fully grown iris tree](images/importance.png){height=24%}
 
 The shares of the total are:
 
-- petal width, 0.923;
-- petal length, 0.064;
-- sepal width, 0.013;
-- sepal length, 0 (never used).
+| Feature | Share of the total |
+|---|---|
+| petal width | 0.923 |
+| petal length | 0.064 |
+| sepal width | 0.013 |
+| sepal length | 0 (never used) |
 
 The exact values depend on the training data. In the Notebook, over 20 different training splits of iris, petal width and petal length always come first and second, but the two sepal features swap places half of the time.
 
-> **Extra:** In dtreeviz 2.x, `viz.instance_feature_importance(x)` shows the importance computed only along one observation's prediction path (dtreeviz source, `trees.py`). The importance of the whole tree is the scikit-learn attribute `clf.feature_importances_`, which Figure 5 plots.
+> **Extra:** In dtreeviz 2.x, `viz.instance_feature_importance(x)` shows the importance computed only along one observation's prediction path (dtreeviz source, `trees.py`). The importance of the whole tree is the scikit-learn attribute `clf.feature_importances_`, which Figure 6 plots.
 
 ## 7. The whole tree on one plot
 
@@ -213,17 +225,28 @@ The `cars.csv` sample data from dtreeviz lists 392 cars with four columns:
 - engine size (**ENG**, cubic inches);
 - cylinders (**CYL**).
 
-With **WGT** as the only input and MPG as the output, every split of the tree is on WGT. A regression tree of depth 3 makes 7 cuts and 8 leaves, and each leaf predicts its mean MPG (Figure 6). In dtreeviz 2.x this view is `viz.rtree_feature_space(features=["WGT"])`.
+With **WGT** as the only input and MPG as the output, every split of the tree is on WGT. A regression tree of depth 3 makes 7 cuts and 8 leaves, and each leaf predicts its mean MPG (Figure 7). In dtreeviz 2.x this view is `viz.rtree_feature_space(features=["WGT"])`.
 
 ![A depth-3 regression tree on one input: every cut is on the weight axis](images/cars_univar.png){height=33%}
 
 Heavier cars use more fuel: the staircase steps down from about 33 MPG for the lightest cars to about 13 MPG for the heaviest.
 
+Figure 8 builds the same staircase one split at a time.
+
+![The staircase of Figure 7 built split by split. Orange dotted line: the newest cut. Red: the prediction, one flat step per region.](images/cars_staircase.gif){height=45%}
+
+1. **No split.** The tree predicts one number for every car: 23.4 MPG, the mean of all 392 cars.
+2. **Split 1.** The first cut is at WGT = 2,764. The single line breaks into two steps: 29.4 MPG, the mean of the lighter cars, and 17.8 MPG, the mean of the heavier cars.
+3. **Splits 2 and 3.** Each of the two regions is cut again (at 2,217 and at 3,658), which gives 4 steps.
+4. **Splits 4 to 7.** Each of the 4 regions is cut once more, which gives the 8 steps of Figure 7.
+
+Each split replaces one flat step by two, and each new step sits at the mean MPG of its own cars. A deeper tree only adds more, shorter steps.
+
 ### 7.2 Two inputs: a step surface in 3D
 
 > **Key point:** With two inputs, each leaf is a rectangle of the input plane, and the prediction is a flat step over it.
 
-With **WGT** and **ENG** as inputs, the cuts are lines on the WGT-ENG plane, and each leaf is a rectangle with a flat height, its mean MPG (Figure 7). In dtreeviz 2.x this view is `viz.rtree_feature_space3D(features=["WGT", "ENG"])`. The root split here is on engine size, at 190.5 cubic inches.
+With **WGT** and **ENG** as inputs, the cuts are lines on the WGT-ENG plane, and each leaf is a rectangle with a flat height, its mean MPG (Figure 9). In dtreeviz 2.x this view is `viz.rtree_feature_space3D(features=["WGT", "ENG"])`. The root split here is on engine size, at 190.5 cubic inches.
 
 ![A depth-3 regression tree on two inputs: a surface of flat steps over the data](images/cars_bivar.png){height=45%}
 
@@ -242,8 +265,8 @@ This picture is exactly the idea of the [regression trees Note](../99-regression
 | `viz.view(show_node_labels=True)` | node numbers (depth-first) | Figure 4 |
 | `viz.view(fancy=False)` | plain boxes, no histograms | |
 | `viz.explain_prediction_path(row)` | the path as one range per feature | section 6.5 |
-| `clf.feature_importances_` | each feature's share of the impurity reduction | Figure 5 |
-| `viz.rtree_feature_space(...)`, `viz.rtree_feature_space3D(...)` | all cuts of a regression tree over the data | Figures 6 and 7 |
+| `clf.feature_importances_` | each feature's share of the impurity reduction | Figure 6 |
+| `viz.rtree_feature_space(...)`, `viz.rtree_feature_space3D(...)` | all cuts of a regression tree over the data | Figures 7 and 9 |
 
 - scikit-learn's default drawing names features by index and hides the data; dtreeviz shows names, data and thresholds together.
 - The depth-2 iris tree splits on petal width at 0.80 (50 setosa) and at 1.75 (54 mostly versicolor, 46 mostly virginica).

@@ -50,7 +50,7 @@ Steps 3 to 5 are the loop of the [binning Note](../32-binning-binarization/note.
 
 > **Key point:** k-means cannot find the number of clusters by itself; we must tell it k.
 
-**k** is the number of clusters we want. k-means does not work it out from the data: looking at the students, it cannot decide whether there should be 3 or 4 groups. Choosing k is our job.
+**k** is the number of clusters we want. k-means does not work it out from the data: looking at the students, it cannot decide whether there should be 3 or 4 groups. Choosing k is our job. Not every clustering method asks for k first: hierarchical clustering (the [hierarchical clustering Note](../131-hierarchical-clustering/note.md)) builds a tree of merges and lets us choose the number of clusters afterwards.
 
 The requirement sounds odd: if we cannot plot data with many features, how can we know k? Section 5 answers this with the elbow method. Until then we assume we know it: k = 3 for the students.
 
@@ -88,6 +88,8 @@ After each move we compare the centroids with where they were in the previous ro
 
 In Figure 1, round 2 hands most bottom-left students, and the lone orange student on the left, to the blue centroid, which is now nearer to them. Round 3 moves the last one, the student at the very bottom. In round 4 no point changes cluster, so no centroid moves, and three clean clusters remain (bottom right).
 
+The clusters k-means ends with depend on the random start of step 2. A poor start can leave poor clusters, however many rounds we run. The usual fix is to run k-means several times from different random starts and keep the run with the lowest WCSS (section 5.1); scikit-learn does this with `n_init`. The [k-means from scratch Note](../130-kmeans-from-scratch/note.md), section 9, shows a bad start and the fix.
+
 ## 5. Choosing k: the elbow method
 
 > **Key point:** Run k-means for k = 1, 2, 3, ..., plot the WCSS of each, and pick the k where the curve bends from steep to flat: the **elbow method** (G-671).
@@ -118,6 +120,10 @@ To draw the **elbow curve** (G-670), we run k-means once for each k and record t
 2. **k = 2:** k-means makes two clusters; we compute WCSS of each and add them.
 3. **k = 3, 4, ...:** the same, up to 10, 15 or 20.
 
+Figure 4 plays these steps on the Old Faithful data of section 5.4. Each frame raises k by one: the left panel shows the clusters k-means finds, and the right panel adds that k's WCSS to the curve. Watch how much the curve drops from k = 1 to k = 2, and how little after that.
+
+![The elbow curve built one k at a time on the 272 Old Faithful eruptions. Left: the clusters for the current k (crosses: centroids). Right: the WCSS of every k tried so far.](images/elbow_build.gif)
+
 Going much beyond 20 is rarely useful. A business will not treat its customers in 50 different ways.
 
 ### 5.3 WCSS always falls as k grows
@@ -134,14 +140,14 @@ So the curve starts high at k = 1 and falls towards 0 as k approaches the number
 
 > **Key point:** The elbow point is where WCSS stops falling fast: adding one more cluster after it gains little.
 
-Figure 4 is the elbow curve for a real dataset: 272 eruptions of the Old Faithful geyser, each described by two features, the eruption's duration and the waiting time before it (standardized, as section 4.3 recommends). The dataset also labels every eruption as short or long: two kinds. WCSS falls from 544 at k = 1 to 80 at k = 2. After that it hardly moves: 56 at k = 3, 44 at k = 4, 34 at k = 5.
+Figure 5 is the elbow curve for a real dataset: 272 eruptions of the Old Faithful geyser, each described by two features, the eruption's duration and the waiting time before it (standardized, as section 4.3 recommends). The dataset also labels every eruption as short or long: two kinds. WCSS falls from 544 at k = 1 to 80 at k = 2. After that it hardly moves: 56 at k = 3, 44 at k = 4, 34 at k = 5.
 
 ![Elbow curve: WCSS against k for the 272 Old Faithful eruptions (standardized); the curve bends at k = 2](images/elbow.png)
 
 The **elbow point** (G-672) is where the curve bends, the k after which the fall flattens out. Here it is k = 2, the two kinds of eruption:
 
 - Going from 1 to 2 clusters cuts WCSS by 85%: the second cluster was worth it.
-- Going from 2 to 3, and beyond, barely helps: the extra clusters only split real groups in pieces (Figure 5).
+- Going from 2 to 3, and beyond, barely helps: the extra clusters only split real groups in pieces (Figure 6).
 
 ![k-means on the 272 eruptions with k = 2 (left), the elbow, and k = 3 (right). The two clusters at k = 2 agree with the dataset's short and long label for 99% of the eruptions; k = 3 cuts the long eruptions in two](images/faithful_k.png){width=100%}
 
@@ -171,6 +177,7 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 **Built from**
 
 - CampusX, "K-Means Clustering Algorithm | Geometric Intuition | Clustering | Unsupervised Learning", YouTube, https://www.youtube.com/watch?v=5shTLzwAdEc
+- StatQuest with Josh Starmer, "StatQuest: K-means clustering", YouTube, https://www.youtube.com/watch?v=4b5d3muPQmA
 
 **Other references**
 
@@ -182,7 +189,7 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 
 | Term | Meaning |
 |---|---|
-| k | The number of clusters k-means makes; chosen by us |
+| k (G-993) | The number of clusters k-means makes; chosen by us |
 | Centroid initialization | Picking the first k centroids, here at random from the data |
 | Convergence (k-means) | The point where the centroids stop moving between rounds, so the algorithm stops |
 | WCSS (inertia) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid |

@@ -36,7 +36,7 @@ Figure 2 puts the symbols on the cricket table: each feature column is one $x_i$
 
 > **Key point:** P(Cₖ | x) is proportional to P(x | Cₖ) P(Cₖ) = P(x₁, ..., xₙ, Cₖ).
 
-By Bayes' theorem,
+We want the probability of each class given the features. Bayes' theorem turns that question round, into the probability of the features given the class, which the training data can count:
 
 $$P(C_k \mid x) = \frac{P(x \mid C_k)\thinspace P(C_k)}{P(x)}$$
 
@@ -56,7 +56,9 @@ $$P(C_k \mid x) \propto P(x_1, x_2, \dots, x_n, C_k)$$
 
 > **Key point:** Peel off one variable at a time with P(A, B) = P(A | B) P(B). The rule is exact.
 
-Apply $P(A \cap B) = P(A \mid B)\thinspace P(B)$ with $A = x_1$ and $B = (x_2, \dots, x_n, C_k)$:
+The probability of all the features and the class together is hard to count directly. The multiplication rule of the conditional probability Note, $P(A \cap B) = P(A \mid B)\thinspace P(B)$, splits it into smaller pieces, one variable at a time. For two events: the chance of "toss lost and win" is the chance of a win times the chance of a lost toss given a win, $5/8 \times 1/5 = 1/8$, and indeed 1 of the 8 matches is a win after a lost toss.
+
+Apply the same rule with $A = x_1$ and $B = (x_2, \dots, x_n, C_k)$:
 
 $$P(x_1, \dots, x_n, C_k) = P(x_1 \mid x_2, \dots, x_n, C_k)\thickspace P(x_2, \dots, x_n, C_k)$$
 
@@ -88,6 +90,19 @@ $$P(x_1, \dots, x_n, C_k) \approx P(x_1 \mid C_k)\thinspace P(x_2 \mid C_k) \cdo
 
 Figure 4 shows what the assumption removes: the red links between features. Each remaining factor needs only one feature and the class, which the training data can count reliably.
 
+### 5.1 One factor, checked on the cricket data
+
+> **Key point:** The chain-rule factor rests on 1 match; the naive factor rests on 5.
+
+Take the first factor for the class win, with the query of the intuition Note (toss lost, Mumbai, sunny).
+
+1. **The chain-rule factor** is $P(\text{toss lost} \mid \text{Mumbai}, \text{sunny}, \text{win})$. Only the wins played in Mumbai in sunny weather count. There is 1 such match, and its toss was won. The estimate is $0/1 = 0$, from a single match.
+2. **The naive factor** is $P(\text{toss lost} \mid \text{win})$. All 5 wins count, and the toss was lost in 1 of them. The estimate is $1/5 = 0.2$.
+
+![One factor on the five winning matches. Left: the chain-rule factor can use only the win played in Mumbai in sunny weather. Right: the naive factor uses all five wins.](images/factor_check.png){width=85%}
+
+Figure 5 shows the rows each estimate uses. The chain-rule factor is exact in principle, but one match cannot give a reliable estimate, and a 0 wipes out the whole product. The naive factor gives up exactness and gains data: every factor is counted over all the matches of the class.
+
 ## 6. The formula and the MAP rule
 
 > **Key point:** Score each class by P(Cₖ) Π P(xᵢ | Cₖ) and predict the largest: the maximum a posteriori rule.
@@ -104,7 +119,7 @@ $$\hat{y} = \underset{k \in \lbrace1, \dots, K\rbrace}{\arg\max}\thickspace P(C_
 
 (**$\arg\max$** (G-210) means "the $k$ that gives the maximum".) This is the **maximum a posteriori (MAP) rule** (G-1157). On the cricket example, it gives 0.040 for win and 0.056 for loss, so $\hat{y}$ = loss.
 
-Figure 5 builds the two scores one factor at a time, for a match where the toss was lost, the venue was Mumbai and the weather sunny. Win starts ahead on its prior, 5/8 against 3/8. The second factor turns it round: only 1 of the 5 wins came after a lost toss, against 2 of the 3 losses. From there on loss stays ahead.
+Figure 6 builds the two scores one factor at a time, for a match where the toss was lost, the venue was Mumbai and the weather sunny. Win starts ahead on its prior, 5/8 against 3/8. The second factor turns it round: only 1 of the 5 wins came after a lost toss, against 2 of the 3 losses. From there on loss stays ahead.
 
 ![The MAP rule on the cricket example, one factor per frame: the prior, then the probability of each observed feature given the class. Win leads on the prior (0.625 against 0.375) but falls behind after the toss factor; the final scores are 0.040 and 0.056, so the prediction is loss. Log scale.](images/score_build.gif)
 
@@ -125,7 +140,7 @@ An everyday picture: two friends tell us the same rumour, but both read it in th
 
 ![Copying a feature makes Naive Bayes over-confident](images/duplicate.png){height=40%}
 
-Figure 6 shows the effect on the cricket prediction: each extra copy of the "toss" feature pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
+Figure 7 shows the effect on the cricket prediction: each extra copy of the "toss" feature pushes $P(\text{loss})$ further, from 58% with one copy to 99.4% with five, although no new information was added.
 
 In practice, Naive Bayes often still picks the right class even when its independence assumption is wrong, because only the **order** of the scores matters for the prediction. Its probabilities, however, tend to be too extreme, so they should not be trusted as exact (Domingos and Pazzani 1997; scikit-learn user guide §1.9).
 

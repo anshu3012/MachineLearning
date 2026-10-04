@@ -264,4 +264,4 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 | Capping | Replacing every value beyond a limit with the limit itself |
 | Winsorization | Capping with limits set by percentiles |
 | Discretization | Turning numbers into ranges (bins), so extreme values join the last range |
-| Percentile rule | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers |
+| Percentile rule (G-1481) | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers |

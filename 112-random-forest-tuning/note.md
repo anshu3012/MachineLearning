@@ -64,7 +64,7 @@ The random forest does not always win. But a large study of 179 classifiers on 1
 
 > **Key point:** 61 test observations give a noisy score; 10-fold cross-validation trains and tests 10 times and averages, a more reliable number.
 
-A single split of 61 observations can be lucky or unlucky: which 61 patients should be the test set? Instead of choosing, we use every part of the data as the test set once. Cut the data into blocks, train on all the blocks but one, test on the block left out, then rotate so that every block is tested once, and average the scores. This procedure is **cross-validation** (G-510; the [pipelines Note](../29-pipelines/note.md), section 8), and the blocks are called **folds**.
+A single split of 61 observations can be lucky or unlucky: which 61 patients should be the test set? Instead of choosing, we use every part of the data as the test set once. Cut the data into blocks, train on all the blocks but one, test on the block left out, then rotate so that every block is tested once, and average the scores. This procedure is **cross-validation** (G-510; the [pipelines Note](../29-pipelines/note.md), section 8), and the blocks are called **folds** (G-2227).
 
 Figure 3 runs it on the heart data with the default random forest. Watch the orange test block move one place per round. With 4 folds the four accuracies are 0.76, 0.80, 0.91 and 0.83, mean 0.825. With 10 folds, the common choice, each fold is scored by a model trained on the other 9, and the mean is 0.832.
 
@@ -296,7 +296,7 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 
 | Term | Meaning |
 |---|---|
-| Fold | One of the equal blocks the data is cut into for cross-validation; each fold is the test block once |
+| Fold (G-2227) | One of the equal blocks the data is cut into for cross-validation; each fold is the test block once |
 | Parameter grid | A dictionary of hyperparameter names and the values to try for each |
 | List of grids | Several parameter grids passed together, so incompatible values never meet |
 | Selection bias | The optimism of a score that was picked as the best of many noisy scores |

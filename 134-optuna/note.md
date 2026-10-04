@@ -498,7 +498,7 @@ At first it explores all three. For a while it favours gradient boosting, then i
 | Expected improvement | How much better than the best score so far a point is expected to be, given the surrogate's mean and uncertainty |
 | Gaussian process | A model that predicts a value and its uncertainty at every point; a common surrogate |
 | Study | In Optuna, one optimisation session: a collection of trials aimed at optimising the objective function |
-| Trial | In Optuna, one run of the objective function with one set of hyperparameter values |
+| Trial (G-2016) | In Optuna, one run of the objective function with one set of hyperparameter values |
 | Objective function | The function a search optimises: it takes a trial's values and returns a score |
 | Sampler | In Optuna, the algorithm that suggests the next trial's hyperparameter values |
 | TPE | Tree-structured Parzen Estimator, Optuna's default Bayesian sampler |

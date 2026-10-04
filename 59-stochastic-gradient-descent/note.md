@@ -150,7 +150,7 @@ Near the minimum, every new observation still pushes the coefficients in its own
 
 > **Key point:** Making the learning rate shrink over time lets SGD move fast at first and settle down near the end.
 
-The fix for the jitter is a **learning schedule** (G-1072): a learning rate that decreases as training goes on. Big steps early on cover distance quickly; small steps later let SGD settle close to the minimum.
+The fix for the jitter is a **learning schedule** (G-1070): a learning rate that decreases as training goes on. Big steps early on cover distance quickly; small steps later let SGD settle close to the minimum.
 
 A common schedule is
 
@@ -255,8 +255,8 @@ Mini-batch gradient descent, the next Note, sits between the two and is what mos
 | Stochastic gradient descent (SGD) | Gradient descent that updates the coefficients after each single random observation |
 | Local minimum | A point lower than everything around it, but not the lowest overall |
 | Online learning | Training step by step on data as it arrives |
-| Learning schedule | A rule that changes the learning rate during training, usually shrinking it |
+| Learning schedule (G-1070) | A rule that changes the learning rate during training, usually shrinking it |
 | SGDRegressor | scikit-learn's linear regression trained with stochastic gradient descent |
 | eta0 | The starting learning rate in SGDRegressor |
-| max_iter | The maximum number of epochs in SGDRegressor |
+| max_iter (G-115) | The maximum number of epochs in SGDRegressor |
 | Simulated annealing | An optimisation method that lowers a "temperature" step by step so the search settles into a low state; the idea behind shrinking learning rates |

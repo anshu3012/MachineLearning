@@ -143,7 +143,7 @@ Figure 5 shows why there is a better way. A few brands, such as Maruti and Hyund
 
 So we keep only the most frequent categories and merge all the rare ones into a single new category, called "other" or "uncommon". Here, keeping every brand with more than 100 cars leaves 12 brands plus "uncommon": 13 columns instead of 32. Grouping rare categories is useful whenever some categories are very common and others very rare.
 
-> **Extra:** Target encoding, another answer for columns with very many categories. **Target encoding** replaces each category by the mean of the target over the training rows of that category, so the column stays one column. In the training set of section 7.2, Maruti becomes about 4.02 lakh rupees (the mean selling price of its 1962 cars), Hyundai 4.61 lakh and BMW 41.69 lakh. Two cautions come with it:
+> **Extra:** Target encoding, another answer for columns with very many categories. **Target encoding** (G-2185) replaces each category by the mean of the target over the training rows of that category, so the column stays one column. In the training set of section 7.2, Maruti becomes about 4.02 lakh rupees (the mean selling price of its 1962 cars), Hyundai 4.61 lakh and BMW 41.69 lakh. Two cautions come with it:
 >
 > - **Rare categories.** Opel has one training car, sold for 68,000 rupees; a mean of one row is not reliable. So the encoder mixes each category's mean with the overall mean (6.41 lakh here), and leans on the overall mean when the category has few rows.
 > - **Leakage.** The codes are built from the target, so a row's own target must not be used to encode that row; otherwise the model sees the answer during training, a form of **data leakage** (G-535). The standard fix is to split the training set into folds and encode each fold with means from the other folds (k-fold target encoding).
@@ -425,7 +425,7 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 | Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1 |
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category |
-| Target encoding | Replacing each category by the mean of the target for that category, learned on training rows only |
+| Target encoding (G-2185) | Replacing each category by the mean of the target for that category, learned on training rows only |
 | get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$ |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory |

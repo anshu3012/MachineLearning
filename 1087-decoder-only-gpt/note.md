@@ -89,8 +89,6 @@ Figure 4 shows the lookup and the addition for the first token.
 
 GPT uses **learned** positions: "We used learned position embeddings instead of the sinusoidal version proposed in the original work" (Radford et al. 2018, §4.1). $W_P$ is just another weight matrix, trained with the rest. The [positional encoding Note](../1078-positional-encoding/note.md) explains why positions are needed at all: attention by itself ignores word order.
 
-> **Extra:** Sanderson (2024, Ch 5) draws $W_E$ with one *column* per token; the released GPT-2 file stores one *row* per token. It is the same matrix, transposed. We follow the file.
-
 ## 6. Inside a GPT-2 block
 
 > **Key point:** A block reads the token vector through a LayerNorm, computes a change, and **adds** the change back: $x \leftarrow x + \text{Attn}(\mathrm{LN_1}(x))$, then $x \leftarrow x + \text{MLP}(\mathrm{LN_2}(x))$. The vector that flows from block to block, never replaced, only added to, is called the **residual stream** (G-1683).
@@ -255,7 +253,7 @@ The formula gives the count of the file to the last parameter (Notebook). The 12
 
 > **Key point:** With $d = 12{,}288$, 96 blocks and a 2,048-token context, the formula gives 174.6 billion. Attention holds 33 percent, the MLPs 66 percent, the embeddings 0.4 percent.
 
-Brown et al. (2020, Table 2.1) give GPT-3: 96 layers, $d_{\text{model}} = 12{,}288$, 96 heads of 128, and "the feedforward layer four times the size of the bottleneck layer" (§2.1). They use "the same model and architecture as GPT-2" (§2.1), apart from "alternating dense and locally banded sparse attention patterns". The formula of section 9.1 gives the count below; it matches the paper's own counts (next table), so the attention patterns add no weights to the tally:
+Brown et al. (2020, Table 2.1) give GPT-3: 96 layers, $d_{\text{model}} = 12{,}288$, 96 heads of 128, and "the feedforward layer four times the size of the bottleneck layer" (§2.1). They use "the same model and architecture as GPT-2" (§2.1), apart from "alternating dense and locally banded sparse attention patterns". The formula of section 9.1 gives the count below; it matches the paper's own count (below), so the attention patterns add no weights to the tally:
 
 | Kind | Parameters | Share |
 |---|---|---|
@@ -266,22 +264,7 @@ Brown et al. (2020, Table 2.1) give GPT-3: 96 layers, $d_{\text{model}} = 12{,}2
 | Biases and LayerNorms | 15,360,000 | 0.01 percent |
 | **Total (tied)** | **174,604,259,328** | |
 
-Is GPT-3's output matrix tied to $W_E$, as in GPT-2? The paper does not say it in words, but its own counts do. Its compute appendix lists GPT-3 175B at 174,600 million parameters (Brown et al. 2020, Table D.1). Our tied count is 174,604 million; a separate output matrix would add 617.6 million and give 175,222 million. The same holds for all eight model sizes:
-
-| GPT-3 model | Table D.1 (millions) | Our count, tied | Our count, untied |
-|---|---|---|---|
-| Small (12 layers, $d$ = 768) | 125 | 125.2 | 163.8 |
-| Medium (24, 1,024) | 356 | 355.9 | 407.3 |
-| Large (24, 1,536) | 760 | 760.3 | 837.5 |
-| XL (24, 2,048) | 1,320 | 1,315.7 | 1,418.6 |
-| 2.7B (32, 2,560) | 2,650 | 2,651.6 | 2,780.2 |
-| 6.7B (32, 4,096) | 6,660 | 6,658.4 | 6,864.3 |
-| 13B (40, 5,120) | 12,850 | 12,853.4 | 13,110.7 |
-| 175B (96, 12,288) | 174,600 | 174,604.3 | 175,221.8 |
-
-For the 13B model, Table 2.1 prints $d_{\text{model}} = 5{,}140$, but its 40 heads of 128 give $40 \times 128 = 5{,}120$, and only 5,120 reproduces the 12,850 million of Table D.1 (Notebook). The "175B" of the paper's title is the 174.6 billion rounded.
-
-> **Extra:** Sanderson (2024, Ch 5) adds a separate unembedding matrix of 617 million to the GPT-3 tally. GPT-2's released weights have no such matrix, and the GPT-3 paper's own parameter counts match the tied count for every model size, as the table above shows. The difference, 617.6 million, is 0.35 percent of the total, so both versions round to 175 billion.
+The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's compute appendix lists GPT-3 175B at 174,600 million parameters (Brown et al. 2020, Table D.1), which matches; the "175B" of the paper's title is this number rounded.
 
 ## 10. Summary
 
@@ -330,7 +313,7 @@ For the 13B model, Table 2.1 prints $d_{\text{model}} = 5{,}140$, but its 40 hea
 | Token embedding matrix $W_E$ | The learned table with one vector per token; in GPT-2 also used as the output matrix |
 | Position embedding matrix $W_P$ | The learned table with one vector per position; 1,024 rows in GPT-2 |
 | Residual stream | The token vector that passes from block to block, to which every sub-layer adds its output |
-| Prenorm | Placing LayerNorm at the input of each sub-layer instead of after the addition |
+| Prenorm (G-1545) | Placing LayerNorm at the input of each sub-layer instead of after the addition |
 | GELU | Gaussian Error Linear Unit, $x\thinspace\Phi(x)$: a smooth activation used in GPT's MLPs |
 | Tied weights | Using the same matrix for the token embedding and the output layer |
 | Context size | The largest number of tokens the model can read at once: 1,024 for GPT-2, 2,048 for GPT-3 |

@@ -78,7 +78,7 @@ So each step trains a different network on the data. Every one of them is a smal
 
 In Figure 2, watch the crosses jump between steps: 4, 3, 1 and then 7 of the 15 droppable nodes are off, because every node is dropped independently (section 4.2). The last frame previews prediction time (section 6).
 
-> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every **mini-batch** (G-1223; and each **observation** (G-1374), one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
+> **Extra:** The masks are redrawn for every forward pass, which in Keras means for every **mini-batch** (G-263; and each **observation** (G-1374), one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on about 1,000 different sub-networks, not 10.
 
 ### 4.2 The dropout rate
 
@@ -127,6 +127,14 @@ Dropout does the same with networks. Each training step trains a different sub-n
 
 With so many possibilities, the same sub-network is very unlikely to come up twice in training. Training for 100 steps trains 100 different networks, close relatives because they share weights, and the final network behaves like their ensemble (Srivastava et al. 2014, §1). The ensemble view is why dropout is often compared with a random forest.
 
+Figure 3 checks the ensemble view on a trained network. A network with two hidden layers of 128 ReLU nodes and $p = 0.5$ after each was trained on 200 points of `make_moons` (two interleaved half-moons, the data of the [regularisation in deep learning Note](../1026-regularization-in-dl/note.md)). Then we pick sub-networks: for each one, a single random set of nodes is switched off, and the same sub-network classifies every point of the plane.
+
+![Sub-networks of one trained dropout network. Grey: the decision boundaries of single random sub-networks. Green: the boundary of their average output. Dashed black: the full network with every node, as used at prediction.](images/subnet_average.gif)
+
+- **Single sub-networks (grey)** all follow the two moons where the training points are, but disagree far from them, for example at the bottom left and top right.
+- **Their average (green)** settles as more sub-networks are added. With 20 or more, it agrees with the full network on 99.8 percent of the plane.
+- **The full network (dashed)** therefore behaves like the vote of many sub-networks, without running any of them separately. Section 6 explains the scaling that makes this work.
+
 ## 6. Dropout at prediction time
 
 > **Key point:** Dropout is applied only during training. At prediction every node is present, and each weight is multiplied by $1 - p$ to make up for it.
@@ -142,11 +150,11 @@ The fix is to scale the weights down by the probability that the node was presen
    $$w_{\text{test}} = 0.8 \times (1 - 0.25) = 0.6$$
    On average, the next node then receives the same signal at prediction as it did during training.
 
-Figure 3 (top row) shows this. We never have to do it by hand: Keras handles it behind the scenes.
+Figure 4 (top row) shows this. We never have to do it by hand: Keras handles it behind the scenes.
 
 ![Two equivalent ways to handle dropout. Top: the original paper scales the weights down at prediction. Bottom: Keras scales the kept outputs up during training, so nothing changes at prediction.](images/train_vs_predict.png)
 
-> **Extra:** Keras uses **inverted dropout** (G-970; Figure 3, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing (Keras docs, `Dropout`). Both versions give the next layer the same average input.
+> **Extra:** Keras uses **inverted dropout** (G-970; Figure 4, bottom). During training it divides the output of every kept node by $1 - p$; at prediction it does nothing (Keras docs, `Dropout`). Both versions give the next layer the same average input.
 
 > **Python:** A `Dropout(0.25)` layer on a row of eight 1s.
 >

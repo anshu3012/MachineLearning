@@ -1,0 +1,29 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../tools/tikz-style.tex}
+\usetikzlibrary{matrix}
+\begin{document}
+\begin{tikzpicture}
+  \tikzset{tab/.style={matrix of nodes, nodes={minimum width=2.1cm, minimum height=0.8cm, anchor=center, draw=cgrey!50},
+           column 1/.style={nodes={fill=cblue!12}}, column 2/.style={nodes={fill=cblue!12}},
+           row 1/.style={nodes={font=\sffamily\bfseries}}}}
+  \matrix (s) [tab, column 3/.style={nodes={fill=corange!15}}]
+  {
+    IQ  & CGPA & Placed? \\
+    78  & 7.1  & Yes \\
+    111 & 8.9  & Yes \\
+    72  & 6.3  & No  \\
+  };
+  \node[title, text=corange, above=0.3cm of s] {Supervised};
+  \node[note, below=0.2cm of s] {features + target\\[2pt] we can predict ``Placed?''};
+  \matrix (u) [tab, right=3.4cm of s]
+  {
+    IQ  & CGPA \\
+    78  & 7.1  \\
+    111 & 8.9  \\
+    72  & 6.3  \\
+  };
+  \node[title, text=cblue, above=0.3cm of u] {Unsupervised};
+  \node[note, below=0.2cm of u] {features only\\[2pt] nothing to predict: find structure};
+  \draw[arrow] (s.east) -- node[note, above] {remove the} node[note, below] {target column} (u.west);
+\end{tikzpicture}
+\end{document}

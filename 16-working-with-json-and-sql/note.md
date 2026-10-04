@@ -142,7 +142,7 @@ On 3 October 2026, one rupee was worth 0.0104 US dollars, 0.00923 euros and 1.64
 
 ![A nested JSON reply becomes one row per currency](images/json_url.png){height=60%}
 
-> **Extra:** The URL still worked when this Note was written (October 2026). The reply now includes a key `WARNING_UPGRADE_TO_V6`: the provider wants users to move to a newer version that needs a free sign-up key. In case the old address stops working, the Notebook falls back to a saved copy, `data/exchange_rates_INR.json`.
+> **Extra:** In case the address stops working, the Notebook falls back to a saved copy, `data/exchange_rates_INR.json`.
 
 ## 6. Getting an SQL database ready
 
@@ -309,11 +309,11 @@ There are other ways to work with SQL from Python, but this one is simple and co
 | Observation | One record of the data, one row of the table |
 | Feature | An input variable a model learns from |
 | Target | The output a model predicts |
-| API | A service that programs send requests to; it usually replies in JSON |
+| API (G-204) | A service that programs send requests to; it usually replies in JSON |
 | JSON Lines | A JSON file with one object per line, read with `lines=True` |
 | SQL (Structured Query Language) | The language for asking a database for data |
 | Database | A program that stores data as tables and answers queries |
-| Query | A request for data, written in SQL |
+| Query (G-1606) | A request for data, written in SQL |
 | Database server | A program that holds databases and answers queries, such as MySQL |
 | XAMPP | A free package that runs a web server and a MySQL server on one computer |
 | phpMyAdmin | A web page for creating and managing MySQL databases |

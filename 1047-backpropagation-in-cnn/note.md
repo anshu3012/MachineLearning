@@ -28,7 +28,7 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 ## 2. Prerequisites
 
 - The [backpropagation Notes](../1015-backpropagation-what/note.md), [how it runs](../1016-backpropagation-how/note.md) and [why it works](../1017-backpropagation-why/note.md): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
-- The [CNN vs ANN Note](../1046-cnn-vs-ann/note.md): a **filter** (G-778) works like a node, its values are weights.
+- The [CNN vs ANN Note](../1046-cnn-vs-ann/note.md): a **filter** (G-777) works like a node, its values are weights.
 - The [convolution operation Note](../1042-convolution-operation/note.md) and the [pooling Note](../1044-pooling/note.md).
 - The [log loss Note](../73-log-loss/note.md) and the [sigmoid derivative Note](../74-sigmoid-derivative/note.md).
 
@@ -68,13 +68,13 @@ Only two places in the network hold parameters:
 | $W_2$ | weights of the output node | 1 × 4 | 4 |
 | $b_2$ | bias of the output node | 1 × 1 | 1 |
 
-The total is $9 + 1 + 4 + 1 = 15$ **trainable parameters** (G-1999). ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
+The total is $9 + 1 + 4 + 1 = 15$ **trainable parameters** (G-1065). ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
 
 ### 3.3 The loss
 
 > **Key point:** Binary cross-entropy (log loss), the same loss as in logistic regression.
 
-For one image with target $y$ and prediction $a_2 = \hat{y}$, the loss is the **binary cross-entropy** (G-304) (see the [log loss Note](../73-log-loss/note.md)):
+For one image with target $y$ and prediction $a_2 = \hat{y}$, the loss is the **binary cross-entropy** (G-303) (see the [log loss Note](../73-log-loss/note.md)):
 
 $$L = -y\log a_2 - (1 - y)\log(1 - a_2)$$
 
@@ -235,7 +235,7 @@ In Figure 6, the images of 0s (blue) push every weight one way and the images of
 |---|---|
 | Logical diagram | A drawing of a network as a chain of tensors linked by operations |
 | Forward propagation | Computing the prediction from the input, operation by operation |
-| Trainable parameter | A number changed by gradient descent: filter values, weights and biases |
-| Binary cross-entropy | The log loss $-y\log a - (1 - y)\log(1 - a)$ used for two classes |
+| Trainable parameter (G-1065) | A number changed by gradient descent: filter values, weights and biases |
+| Binary cross-entropy (G-303) | The log loss $-y\log a - (1 - y)\log(1 - a)$ used for two classes |
 | $\partial L/\partial Z_2 = a_2 - y$ | The error at a sigmoid output with log loss |
 | `GradientTape` | TensorFlow's tool that records a computation and returns its gradients automatically |

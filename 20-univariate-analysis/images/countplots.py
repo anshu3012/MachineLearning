@@ -1,27 +1,22 @@
 """Count plots of four categorical Titanic columns: how many passengers fall in each group."""
 from pathlib import Path
 import pandas as pd
-import seaborn as sns
-import seaborn.objects as so
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 here = Path(__file__).parent
 df = pd.read_csv(here.parent / "data" / "titanic_train.csv")
 cols = ["Survived", "Pclass", "Sex", "Embarked"]
-# long table: one row per (column, group) with its count
-counts = pd.concat(
-    [df[c].astype(str).value_counts().sort_index().rename_axis("group").reset_index().assign(column=c) for c in cols], ignore_index=True
-)
-plot = (
-    so.Plot(counts, x="group", y="count", text="count")
-    .facet(col="column", wrap=2, order=cols)
-    .share(x=False)
-    .add(so.Bar(color="#4C78A8", alpha=0.85))
-    .add(so.Text(valign="bottom", offset=3, fontsize=13))
-    .limit(y=(0, 730))
-    .label(x="", y="Passengers", title="{}".format)
-    .layout(size=(8, 6.5))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
-            "axes.titlesize": 15, "axes.labelsize": 15})
-)
-plot.save(here / "countplots.png", dpi=200, bbox_inches="tight")
-plot.save(here / "countplots.pdf", bbox_inches="tight")
+fig = make_subplots(2, 2, subplot_titles=cols, vertical_spacing=0.16, horizontal_spacing=0.12)
+for i, c in enumerate(cols):
+    counts = df[c].astype(str).value_counts().sort_index()
+    row, col = i // 2 + 1, i % 2 + 1
+    fig.add_trace(go.Bar(x=counts.index, y=counts.values, text=counts.values, textposition="outside",
+                         marker=dict(color="#4C78A8", opacity=0.85)), row, col)
+    fig.update_xaxes(type="category", row=row, col=col)
+    fig.update_yaxes(range=[0, 730], showgrid=True, title="Passengers" if col == 1 else None, row=row, col=col)
+fig.update_layout(template="simple_white", width=900, height=760, showlegend=False,
+                  font=dict(family="Latin Modern Roman", size=18), margin=dict(l=80, r=20, t=50, b=40))
+fig.update_annotations(font_size=20)
+fig.write_image(here / "countplots.png", scale=2)
+fig.write_image(here / "countplots.pdf")

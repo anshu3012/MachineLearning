@@ -238,7 +238,7 @@ When there are no outliers, the mean is the better summary: it uses every value,
 | Sample mean ($\bar{x}$) | The mean of the values in a sample |
 | Multimodal | Having more than one mode (two modes: bimodal) |
 | Weighted mean | A mean in which each value is multiplied by a weight saying how much it counts |
-| Weight | A number saying how much a value counts in a weighted mean |
+| Weight (G-2111) | A number saying how much a value counts in a weighted mean |
 | Trimmed mean | The mean after removing a fixed share of the smallest and largest values |
 | Trimming percentage | The share of values removed from each end for a trimmed mean |
 | Geometric mean | The $n$-th root of the product of $n$ values; the average of growth factors |

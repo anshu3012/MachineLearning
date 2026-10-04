@@ -74,7 +74,7 @@ For a Keras `Dense` layer with weight matrix of shape (inputs, nodes), fan-in is
 
 > **Key point:** Many inputs: smaller weights, so the sum stays moderate. Few inputs: larger weights, so the sum is not too small.
 
-The rule is to draw the weights with **variance** (G-2078) $1/n$, where $n$ is the fan-in. The **standard deviation** (G-1871) is then $\sqrt{1/n}$, and that is the number we multiply the **standard normal** (G-1873) numbers by.
+The rule is to draw the weights with **variance** (G-2074) $1/n$, where $n$ is the fan-in. The **standard deviation** (G-1871) is then $\sqrt{1/n}$, and that is the number we multiply the **standard normal** (G-1873) numbers by.
 
 1. **In words:** multiply standard normal numbers by $\sqrt{1/\text{fan-in}}$.
 2. **Formula:**
@@ -82,6 +82,18 @@ The rule is to draw the weights with **variance** (G-2078) $1/n$, where $n$ is t
 3. **Example:** with 250 inputs, $\sqrt{1/250} = 0.063$, so the weights are mostly between about $-0.19$ and 0.19. With only 2 inputs, $\sqrt{1/2} = 0.71$: fewer inputs, larger weights.
 
 The intuition is a balance. If there are many inputs, each weight is made small so that the sum $\sum w_i x_i$ does not grow too big. If there are few inputs, each weight is made larger so that the sum is not too small. Think of a chain of loudspeakers, each feeding the next: if every speaker turns the sound down, the last one is silent; if every one turns it up, the last one distorts. Each speaker's volume knob must be set so that the sound leaves it as loud as it came in.
+
+Figure 3 tests the rule. One node adds $n$ products $w_i x_i$ with standard normal inputs, and we draw 4,000 such weighted sums for each of three ways of scaling the weights, while the fan-in $n$ grows from 2 to 1,000.
+
+![The weighted sum z of one node as its fan-in grows from 2 to 1,000, 4,000 draws per histogram. Top: weights 0.01 × randn. Middle: weights 1 × randn. Bottom: weights randn × $\sqrt{1/n}$](images/fan_in_sweep.gif){width=90%}
+
+Watch the width of each histogram as $n$ grows:
+
+- **$0.01 \times$ randn (top):** $z$ stays a needle at 0. Its standard deviation is 0.01 with 2 inputs and still only 0.32 with 1,000.
+- **$1 \times$ randn (middle):** the histogram flattens and runs off the axis. The standard deviation grows from 1.43 to 15.7 with 250 inputs and 31.8 with 1,000.
+- **randn $\times \sqrt{1/n}$ (bottom):** the histogram keeps the same shape for every $n$, with standard deviation 1.01, 1.00 and 1.00 for 2, 250 and 1,000 inputs.
+
+Only the scale that depends on the fan-in gives every layer size a weighted sum of the same size.
 
 > **Extra:** Why exactly $1/n$? For independent $w_i$ and $x_i$ with mean 0, the variance of a product is the product of the variances, $\text{Var}(wx) = E[w^2x^2] - (E[wx])^2 = E[w^2]\thinspace E[x^2] - 0 = \text{Var}(w)\thinspace\text{Var}(x)$, and variances of independent terms add (see the [expected value and variance Note](../332-expected-value-and-variance/note.md) for variance). So
 > $$\text{Var}(z) = \text{Var}\Big(\sum_{i=1}^{n} w_i x_i\Big) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$$
@@ -119,6 +131,10 @@ The variant with fan-in plus fan-out is the one used more often, and the one Ker
    $$L = \sqrt{\frac{6}{500}} = \sqrt{0.012} = 0.110$$
    so the weights lie between $-0.110$ and 0.110.
 
+![The 62,500 starting weights of a 250 × 250 layer, drawn with Xavier normal (blue) and Xavier uniform (orange).](images/xavier_shapes.png)
+
+Figure 4 draws both versions for this layer. The normal weights pile up near 0 and thin out towards $\pm 0.2$; the uniform weights spread evenly between $-0.110$ and 0.110 and stop there. Their variances are the same, 0.0040, so a layer receives signals of the same size from either.
+
 > **Extra:** The 6 comes from the variance of a uniform distribution: values spread evenly between $-L$ and $L$ have density $1/(2L)$ and mean 0, so their variance is $\int_{-L}^{L} \frac{x^2}{2L}\thinspace dx = \frac{L^2}{3}$. Setting $L^2/3 = 2/(\text{fan-in} + \text{fan-out})$ gives $L^2 = 6/(\text{fan-in} + \text{fan-out})$. So Xavier uniform has exactly the same variance as Xavier normal; only the shape differs. Above, $0.110^2/3 = 0.004$, the variance $0.063^2$ of the normal version.
 
 ## 5. He initialisation
@@ -137,6 +153,14 @@ The variant with fan-in plus fan-out is the one used more often, and the one Ker
 3. **Example:** fan-in 250:
    $$\sigma = \sqrt{\frac{2}{250}} = 0.089, \qquad L = \sqrt{\frac{6}{250}} = 0.155$$
    Both have variance $2/250 = 0.008$, since $0.155^2/3 = 0.008$.
+
+Why twice as much? Figure 5 shows what ReLU does to the size of the signal.
+
+![100,000 weighted sums z, symmetric around 0 (left), and the same values after ReLU (right). The mean square falls from 1.00 to 0.50.](images/relu_half.png)
+
+- **Before ReLU (left):** the weighted sums are spread evenly on both sides of 0, with mean square 1.00.
+- **After ReLU (right):** every negative value has become 0, about half of them. The positive half is unchanged, so the mean square is now 0.50.
+- **Over many layers:** a layer with Xavier's variance passes on a signal that ReLU then halves, so the signal halves at every layer. Doubling the weights' variance, $2/\text{fan-in}$, puts back exactly what ReLU removes.
 
 > **Extra:** Why the 2? ReLU sets every negative $z$ to 0. If $z$ is symmetric around 0, the positive half keeps its $z^2$ and the negative half contributes 0, so $E[\text{ReLU}(z)^2] = \tfrac{1}{2}E[z^2]$: the size (mean square) of the signal halves at every layer. Doubling the weights' variance makes up for exactly that loss (He et al. 2015). Figure 1 shows it: with ReLU, Xavier's spread lets the standard deviation fall from 0.59 to 0.023 over 10 layers, while He's keeps it between 0.83 and 0.73.
 
@@ -161,7 +185,7 @@ Both rules come from the variance argument of section 3.3 and were tested in the
 
 We reuse the network of section 6.3 of the [weight initialisation Note](../1029-weight-initialization/note.md):
 
-- **data:** 300 standardised `make_moons` (G-1151) **observations** (G-1374; records), each with two **features** (G-772; input variables) and a class as **target** (G-1949; the output we predict);
+- **data:** 300 standardised `make_moons` (G-111) **observations** (G-1374; records), each with two **features** (G-772; input variables) and a class as **target** (G-1949; the output we predict);
 - **network:** four hidden layers of 10 tanh nodes;
 - **training:** plain **SGD** (G-1892) with **learning rate** (G-1068) 0.1, 100 **epochs** (G-696).
 
@@ -183,7 +207,7 @@ Now every weight matrix is drawn as standard normal numbers times $\sqrt{1/\text
 > model.set_weights(new)
 > ```
 
-The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weights move: one first-layer weight goes from 0.58 to 2.04. Figure 3 (left) shows the **decision boundary** (G-555), the line between the two predicted classes, following the moons.
+The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weights move: one first-layer weight goes from 0.58 to 2.04. Figure 6 (left) shows the **decision boundary** (G-555), the line between the two predicted classes, following the moons.
 
 ### 6.2 With Keras' initialisers
 

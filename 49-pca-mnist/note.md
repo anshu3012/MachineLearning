@@ -98,8 +98,6 @@ Figure 2 shows what "keep what matters" looks like. It rebuilds one image, the 5
 
 ![One MNIST image rebuilt from its first 1, 5, 20, 50, 100 and 300 principal components (PCA fitted on all 70,000 images). Left of each pair: the original 784 pixels.](images/reconstruct.gif)
 
-> **Extra:** Timings depend on the machine and on what else runs on it. On a busy shared machine the same two runs took 120 to 200 seconds and 1.5 to 3 seconds. The gap stays more than tenfold.
-
 ### 4.2 Accuracy as k grows
 
 > **Key point:** Accuracy climbs steeply over the first 20 components, peaks around 30 to 75, and then slowly drifts back to the all-pixel level.
@@ -118,7 +116,7 @@ How many components do we need? Figure 3 repeats the experiment for k from 1 to 
 
 So 50 components, 6% of the original features, give the best result in this run.
 
-> **Extra:** Are the later components useful? Components 51 to 784 alone give 54%, so they hold a little information. Next to the first 50, though, they act like noise for KNN: shuffling each of them across images (same spread, no link to the label) leaves accuracy unchanged, 96.8% real against 97.0% shuffled. Components 101 to 300 behave the same way (97.1% with shuffled ones). Dropping them removes small, unhelpful differences, which is why 50 components beat all 784 pixels. All results come from one split with 8,400 test images, so one image is 0.012 points.
+> **Extra:** Are the later components useful? Components 51 to 784 alone give 54%, so they hold a little information. Next to the first 50, though, they act like noise for KNN: shuffling each of them across images (same spread, no link to the label) leaves accuracy unchanged, 96.8% real against 97.0% shuffled. Components 101 to 300 behave the same way (97.1% with shuffled ones). Dropping them removes small, unhelpful differences, which is why 50 components beat all 784 pixels.
 
 ### 4.3 What standardising would do
 
@@ -188,7 +186,7 @@ After `fit`, a `PCA` object keeps the results of its eigen-decomposition (from t
 
 The eigenvalues are large because the pixels run from 0 to 255, so their variances are in the thousands. Each eigenvector has 784 numbers because it is a direction in the 784-dimensional pixel space. Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines. Figure 7 draws the first six, fitted on all 70,000 MNIST images. PC1 looks like a 0: its red ring and blue centre add up the ink of a round digit and subtract the ink of a thin, central one such as a 1, so a 0 scores high and a 1 scores low on PC1. Measured on all 70,000 images, the average PC1 score is about 1,000 for the 0s and about −840 for the 1s, the two extremes of the ten digits.
 
-![The first six eigenvectors of MNIST, each reshaped to 28 × 28 (PCA fitted on all 70,000 images). Red pixels count positively, blue negatively. The variance shares, 9.7, 7.2 and 6.1 percent for the first three, match the table within 0.1 point.](images/eigen_pictures.png){height=48%}
+![The first six eigenvectors of MNIST, each reshaped to 28 × 28 (PCA fitted on all 70,000 images). Red pixels count positively, blue negatively.](images/eigen_pictures.png){height=48%}
 
 The first three components together hold only 23% of the variance. So little variance explains why the 2D and 3D pictures overlap so much: they show only a small part of what makes the images different.
 

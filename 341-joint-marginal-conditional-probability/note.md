@@ -261,8 +261,6 @@ The same for every class:
 
 About 76% of third-class passengers died, against 53% in second class and 37% in first. Figure 6 (left) draws these against the marginal $P(\text{died}) = 0.616$: class 3 lies above it and classes 1 and 2 below.
 
-Cutting the probabilities short before dividing gives a wrong answer for class 1: $0.08 / 0.23 \approx 0.35$ instead of 0.370. Dividing the counts, $80/216$, avoids the error.
-
 ### 4.5 The other direction
 
 > **Key point:** $P(\text{class 3} \mid \text{died}) \approx 0.678$ is a different question from $P(\text{died} \mid \text{class 3}) \approx 0.758$: the condition sets which total we divide by.
@@ -312,7 +310,7 @@ The three relations between two events were described in words in the [random ex
 
 For independent events the conditional probability equals the marginal one; the joint probability is the product of the marginals. The general rule $P(A \cap B) = P(A \mid B)\thinspace P(B)$ holds for every pair of events; independence is the special case $P(A \mid B) = P(A)$.
 
-Mutually exclusive events have no outcome in common: their **intersection** is empty, $P(A \cap B) = 0$. (The union is not empty: it holds the outcomes of both events.) Heads and tails on one toss, or odd and even on one die, are mutually exclusive.
+Mutually exclusive events have no outcome in common: their **intersection** is empty, $P(A \cap B) = 0$. Heads and tails on one toss, or odd and even on one die, are mutually exclusive.
 
 Drawing cards with replacement gives independent draws; without replacement the first draw changes the second, so the draws are dependent (worked with spades in the [random experiments and events Note](../330-events-and-types-of-events/note.md), section 4.4).
 

@@ -54,7 +54,7 @@ The second need is a relationship between two different sequences: for every Fre
 
 Figure 2 shows both needs for the next word after "je veux de la". The mechanism that computes the French-to-English table is cross-attention:
 
-- **self-attention** (G-1764) relates the items of **one** sequence to each other;
+- **self-attention** (G-1763) relates the items of **one** sequence to each other;
 - **cross-attention** relates the items of one sequence to the items of **another**.
 
 ## 4. Input: two sequences instead of one
@@ -254,8 +254,8 @@ Tasks whose input and output are of different kinds, such as audio and text, or 
 | Cross-attention | Attention in which the queries come from one sequence and the keys and values from another; in the transformer decoder, queries from the decoder and keys and values from the encoder output |
 | Encoder–decoder attention | The paper's name for cross-attention; also called source attention |
 | $X_{dec}$ | The decoder's representation of the output sentence, one row per output position, entering cross-attention |
-| $H_{enc}$ | The encoder's final output, one row per input word |
-| Query | The vector of the position that is looking: in cross-attention, an output position |
+| $H_{enc}$ (G-30) | The encoder's final output, one row per input word |
+| Query (G-1607) | The vector of the position that is looking: in cross-attention, an output position |
 | Key and value | The vectors of the positions being looked at: in cross-attention, the input words |
 | Alignment | Which input words each output word relates to; read from the cross-attention weights |
 | Multimodal | Involving more than one kind of data, such as text and images or text and sound |

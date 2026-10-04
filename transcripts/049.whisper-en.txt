@@ -1,0 +1,425 @@
+So now guys we have done a lot of discussion, we understood the theory of PCA.
+We have also run our own code to see how PCA works step by step.
+Now what we will do is we will work on an actual data set and use the PCA implementation of scikit-learn.
+Because at the end you have to use scikit-learn, that is the best implementation.
+So, MNIST data set which is very famous data set, we will work on this.
+MNIST data set is basically a collection of images.
+And in every image there are handwritten digits like this.
+There are handwritten digits written by different people from 0 to 9.
+And this is a classification task. Here you have to analyze the value of all the pixels and predict which digit is written here.
+We will do this work first without PCA and then with PCA.
+so what i will do is i will go to my browser and i'll search for digit recognition caggle and
+this is the first link where you will get the data and over here this is the page
+first i'll go to code and i'll click on new notebook
+I will also rename this notebook to PCA demo PCA demo and I will run this cell so this
+will give me the path of my data so you can see the this is the path of our data set so
+so i will work on train i am not going to touch test.csv so df is equal to pd.readcsv
+and i will pass this and now if i show you how our data looks so guys this is our data
+So, our MNIST data set has one image which consists of 28 x 28 pixels.
+So, in this direction there are 28 pixels and in this direction there are 28 pixels.
+So, if you multiply both of them, you get in total of 784 pixels.
+So, what they have done is that they have made each pixel into one column.
+and in total we have 42,000 images
+so I have stored the value of every pixel in tabular form
+that is why the shape of my table is 42,000 images
+cross 784 columns
+basically one column for each pixel
+And here 785 column is there because the first column is the label.
+Means it is telling which digit's photo is there in this image.
+So if the digit is 8 then the value of the label will be 8.
+You can see.
+So if I do a sample in place of the head.
+You would see that by luck this image which has come out.
+The digit in this image is 8.
+I can actually show it to you. What I can do is I can use matplotlib. So I will import matplotlib.pyplot as plt and if I use plt.imshow image show
+and here if I pass df dot iloc row number 18306
+and if I reshape it to 28 comma 28
+ok one more thing is that I don't want all the columns
+I want row number this but I want columns one onwards
+because first column is label and I just want pixels data
+So, if I run it, it will throw an error. We have to remove its values because otherwise it is a series.
+And you can see that this is actually an image of 8. If I randomly draw any other sample,
+So, this sample is 0, 13051. So, if I write 13051 here and if I run it, you can see that it is actually 0.
+So, that is how this entire thing is arranged that you have a 28x28 pixels image.
+you picked all the pixels like this, you picked the first row of pixels and kept it like this.
+So these are your first 28 columns. Then you picked the second one and kept it next to it.
+Your next 28 columns are made. And in this way you did till the last row.
+So in this way, basically you converted 2D to 1D. That's it. That is what you have done.
+So, we have got the data clearly. Now what I will do is, I will quickly run a machine learning algorithm on it.
+And I will show you what kind of accuracy we are able to reach. So, first of all we have to extract x and y as you normally do.
+So, we would write df.iloc, I want all the rows and I want columns 1 onwards.
+and y is equal to df dot iloc
+I want all rows and column 0
+after that we will split train test
+from sklearn dot model selection
+import train test split
+xtrain xtest ytrain ytest
+is equal to train test split x comma y comma test size is equal to 0.2 random state is equal to 42
+ok and now if i take out the shape of my x train then it is 33600 so out of 42000 images i have taken 33000 images
+So I just roughly put it in my training set and the rest 8000 something I put in my test set.
+Now I simply, there is no missing data here, there is no problem, it's a perfect data set.
+So I am calling an algorithm sklearn.neighbours and I am importing k-nearest, k-neighbours classify,
+KNN is a very famous algorithm and I am writing KNN is equal to the object of K-Neighbours classifier
+and I am using default settings and now I am writing knn.fit .
+So if you know how KNN works then I guess you have roughly idea that what you are doing in KNN
+that you are taking the distance of every particular image from the rest of the images
+then you are getting to know which are the most similar images of your given image
+and then you are getting to know the label of those similar images
+so if your similar images are 8 then your given image will also be 8
+so that is how canon works
+but I guess you are getting to know that canon will take a lot of time to work
+because what you are doing exactly is that you are calculating the distance of one given point with the remaining 33000 points in a 784 dimensional space
+then you are sorting it and finding out which are the nearest neighbours and then you are finding out their label
+so this is a very time consuming task, so when I will write knn.predict xtest
+and when I will put it in YPRED, this step will take a lot of time because you are working with a very high dimensional data
+and that is why it will take so much time and that is why we are learning PCA, right?
+The main objective of PCA is that you reduce the number of dimensions so that you don't have to do that much computation.
+But still, I will show you by running it once and before doing this, I will also measure just to show you how much time it is taking.
+So, I will import the time module and I will write start is equal to time.time
+and when it will be done then I will print out time.time minus start
+just to show you how many seconds it will take to execute this thing.
+So, I am running it and pausing the video.
+So guys, it didn't take much time. It took around 13 seconds.
+Mostly because I am running on Kaggle. Kaggle's hardware is much better than my machine.
+It took a lot of time on my machine. It took around 13 seconds.
+And my model did the prediction.
+And now when I calculated the accuracy score,
+we are getting a very impressive 96% accuracy,
+which is not bad at all.
+Now what I will do is I will use PCA and I will try to gain this much accuracy but with less number of columns.
+So what you have to do in PCA first is that you have to standardize your data.
+I have told you this. So you would write sklearn.preprocessing import standard scaler
+I am making an object for this. Scaler is equal to standard scaler
+And I am writing Xtrain is equal to scalar.fit transform Xtrain and xtest is equal to scalar.transform xtest
+We have entered all the data as means.
+Now next step is that we will use PCA here.
+So for that you have to write from sklearn.decomposition import PCA
+and you will make an object of it.
+So let's say the object is PCA.
+PCA, here you have to tell that how many principal components you have to take
+so there is a hyperparameter and components
+its value if you don't give anything let's say you give none
+then you will get the same principal components as the columns in your data
+784 but if you want you can reduce it to 100 or 200 it's up to you
+so let's say for now we are taking none
+creating the same number of principal components.
+Now what you will do is you will write pca.
+fit transform and
+you will transform your x string and you will
+store it in x string and same for xtest
+you will write pca. transform
+xtest. So what did you do in this step?
+First of all, you have found your eigenvectors and eigenvalues and then you have shifted your data to that new coordinate axis.
+And now your data is in a transformed coordinate system and you can apply any algorithms on it.
+So, will take some time obviously because we are working on high dimensional data.
+Done. Now we are ready guys. So now if I show you the shape of X-train.
+If I show you the shape of X-train, then you can see that there are still 784 columns.
+Now I just showed you by doing this. Now what I do is I take only 100 principal components.
+So, we will make 784. From that, the top 100, the best principal components, I will just take that.
+I will transform it again. And if you see the shape, then you can see the number of rows is the same.
+The number of columns has decreased to 100. So, rather than having 784 columns, now you have only 100 columns in the transform space.
+Now you will train this data.
+So you would again use knn is equal to k-neighbors-classifier.
+I am using the same settings.
+You would write knn.fit and you would pass x-train, y-train.
+We are using this transformed.
+And I guess I made a mistake, that mistake is that it was already transformed and I transformed it again.
+So what I will do is quickly I will run this cell once and I will also extract x and y and I will also train test split one more time.
+And this time I will change the name of these variables.
+I will call, let's do scaling again.
+And this code of PCA will also remain.
+I am keeping its name as TRF as in transformed.
+So that there will be no confusion from my original X-train.
+Because I will do this step multiple times.
+So if you see the shape of X-train at this point, it is still 784.
+But if you see the shape of x-train transformed, then you would see that we have only 100 columns.
+So we have transformed from 784 dimensional plane to 100 dimensional plane.
+Now we have to apply k-nearest neighbors. But we have to apply k-nearest neighbors not on x-train but on x-train transformed.
+and this is my model, train is done
+and now I will take out
+ypred is equal to
+knn dot
+predict
+and we will pass our
+xtest
+transformed, I will just check
+I have put trf with xtest also
+ok, and again
+it will take some time
+done
+and now I will write accuracy score
+and I will pass
+ytest and I will pass vibrate and you can see I am getting 95% accuracy. Try to understand
+guys, when you started, your data had 784 columns. Your accuracy came to 96% on the
+same algorithm. You applied PCA. After applying PCA, you transformed your data from 784 dimensions
+from 4 dimension to 100 dimension
+and then when you put the same algorithm
+using the same settings
+you can see you are already getting 95%
+so if you do some
+changes
+what changes you do
+let's say you increase the number of components
+to 200 and run the whole code
+again you transformed
+and this time your
+x transformed
+is 200 and again
+you made object of k nearest neighbor
+again trained the model and again did the prediction
+done and the accuracy
+I don't know if it increased or not
+but that is what you do
+you increase it till the time you don't get the best possible accuracy
+okay
+so what I will do is
+I will write a piece of code
+for I in
+range of
+from 1 to
+785
+So, this code will run 784 times and I am just repeating everything in the loop.
+So, I am creating a PCA object like this and here the number of components is i instead of 200.
+Means when the loop will run for the first time then you will use only one component.
+When it will run for the second time then you will use two principal components.
+When it will run for the fifth time then you will use five principal components.
+So, I will train the model every time and calculate the accuracy just to show you that as your principal components are increasing, your accuracy will also increase.
+So, next is that you will write this step, you will transform your data.
+Data has been transformed, after that in the next step you will make your k-n-n object
+After that you will fit and after that you will predict and lastly you will print the accuracy score
+That is what we are going to do inside a loop
+So I will run this and you would see that when you are taking one single principal component
+then your accuracy is coming out to be only 25% but when you are taking two principal components
+two best ones then the accuracy shot up to 32%, on taking three it went up to 51%, on fourth it went up to 66%,
+after that 73%, after that 82% and you can see that the principal components that you are adding
+your accuracy is increasing. Gradually, the rate of increase decreases because your main principal components are the starting ones.
+Like if you go later, these principal components are not that important. So if you let this loop continue,
+then you will see that gradually you are reaching that 95-96% stage. It is possible that you will never reach 96% accuracy.
+But if you are reaching 95.5 also by reducing your data by half, then obviously you will prefer this.
+That is why people prefer PCA. So what I will do is, I will keep it running.
+The result that comes in the end, you will get it in this notebook.
+After the video, you can run it by yourself. But I hope the idea is clear.
+We discussed that PCA is used for two things.
+First, to reduce the dimensionality of your data so that you don't have to do so many computations for a high dimensional data.
+So, you can see that this problem is being solved. There is one more reason why PCA is used, that is visualization.
+So, if a data is in 784 dimensional space, I cannot visualize how that data is. So, you visualize it in 2D or 3D.
+So we have seen the first thing, now we will see the second thing, how to visualize this data in 3D or 2D.
+So guys, now comes the cool visualization time. I have already written the code, but to be honest, there is no difficult code.
+So what I did, once again I made an object of PCA and this time I have made sure that number of components, as in principal components, I only need two.
+and I have transformed both my X-train and X-test and here is my X-train, so since there will be only two columns,
+here are those two columns, so basically my every image is in two dimensions, my every data point is in two dimensions
+and then what I did, I plotted a 2D scatter plot using plotly, plotly is a visualization library,
+Honestly, you can use matplotlib or seaborn but I used plotly so that if I hover over those points
+then I will also know whether that point is 0 or 1 or 2 or 3 or 9.
+Basically for dynamic visualization.
+And when I run this code, here is our visualization in 2D.
+So when you bring that 784 dimensional data in 2D, this is the outcome and it is so beautiful.
+you can see here all the points are there, like there are 33000 points
+and each of them is from a different class, not each of them, there are 9, there are 10 groups
+all the 0s are on one side, these are all 0s, so if I hover you can see
+the color is telling what is the label, so this is 0
+the blue ones are all 2
+the red ones are 1
+the purple ones are 7
+This green is 9, in the hidden blue at the back is 8, and so on.
+So you can see that there is also a hidden yellow at the back,
+that means there are other points above it.
+So you can see that when I took a snapshot in 2D of that 784 dimensional data,
+then these yellow points went behind, they were hidden.
+So you can clearly see that in 2D, yes, we are not able to take a good snapshot,
+but you will still get a little idea of what is going on.
+But it will be more fun when we will see it in 3D. So what did I do? I repeated the same steps again
+but this time for 3D. So I kept the number of components as 3 and transformed the whole space
+and this is my X-train transform. So now my every image has become a 3D coordinate or vector.
+So you can see each image has got 3 values, one in X direction, one in Y direction and one in Z direction.
+And when I plotted this, the results were very good.
+This is the result guys. This is the result in 3D.
+So I will make it a little bigger.
+And you can see that I will make it smaller for a while.
+And now let's analyze this.
+So the best part about Plotly is that you can interact with this graph.
+And while interacting, you would see that some digits which look very different are really very different.
+See, like 0 and on this side, if you catch this green 9 or if you catch this orange, orange is 7.
+So, this orange and this pink shade here are not overlapping each other at all.
+So, I guess you are able to understand because 0 and 7 look very different types.
+But if you see this, in this visualization, you can see in this part, your green and your yellow,
+these two are exactly the same, means you are not able to differentiate between these two because apparently these digits are same.
+What is green and yellow? See, green is 3 and your, I am sorry, what I did, I cancelled it.
+So green is 3 and yellow is 2, so 2 and 3 are giving kind of similar results and one more thing, if you see your blue is also very close to green.
+If you see at this angle, in fact what I do is I close all the others, I am closing 6, 5, 4, 7, 0, 9, 1 and 2.
+You can see how these two are very similar, mostly, because if you think then 3 and 8 are also similar,
+means 3 and 8 means 3 is basically half 8, so you can see you can see something of that kind in this data.
+So this is beautiful, means when I plotted it for the first time, all I felt was happiness,
+i.e. it was fun to see it, it was fun to interact with it, what you do is you catch different colors and see them together
+that how they are behaving, like if I remove 3 and 8 and let's say 1, I bring 0 and 9, then see there is a little intersection at one point
+intersection because you have to make 0 sort of structure while drawing 9.
+Similarly, if you study 9 and 1 together, then you can see that there is a little
+because while making 9, you have to draw 1 and you can see this with 4 let's say.
+So, somehow there is a similarity between 4 and 9.
+So just go on and just enjoy this visualization.
+More than anything, you will learn.
+You can just feel the maths about it.
+So I hope I have shown you the visualization.
+Now there are 2-3 more topics left.
+Let's cover them quickly.
+So now guys, after that stunning visualization,
+I want to show you one more thing.
+So when you fit your PCA object
+and it does its work, so it has some attributes, one of them is explained variance and one more attribute is explained variance ratio.
+So first I will show you what is explained variance. So if I run this, since we have done the whole thing for 3,
+for 3 x's. So my explained variance is also these 3 numbers. Now if you think then you will get the answer
+that what is this explained variance representing? The answer is that we were singing a song a while ago
+eigenvectors, eigenvalue, right. So the explained variance here, this is nothing but the eigenvalue.
+These are the eigenvalues which you were calling lambda. Since we needed 3 principal components,
+maximum, since we have 784 eigenvectors, but we have chosen only top 3, that is why we have only
+These are only the eigenvalues of the top 3.
+Now you must be thinking that you have accepted the eigenvalues and these are the eigenvalues.
+Where are the eigenvectors?
+You also have that after performing this step.
+You have to just type pca.components underscore
+And when you will run this, you will get a set of 3 vectors in the 784 dimensional space.
+So if you take out its shape, then you would find that there are 3 vectors and every vector has 784 components
+because these are the vectors of 784 dimensional space.
+I guess you are understanding what I am saying.
+When you have 3 axes and if you want to take out your eigenvectors in this,
+So obviously there will be 3 components in the vectors, x, y and z.
+If you take out 2 eigenvectors like this then obviously what will be your shape?
+2 eigenvectors, 3 because these eigenvectors are working in your 3 axes.
+So I am saying exactly the same thing.
+You have a coordinate space of 784 dimensions and you have to take out 3 vectors from this.
+So what will be its shape? 3 vectors, 784 components of that space.
+If you would have taken more vectors, let's say 100 vectors, then the shape would be 100, 784.
+So the shape of one vector would be 784.
+That is what we can see here.
+And this is your eigenvectors, about which we were talking.
+And by using this we will transform all our points.
+It happens automatically when you call fit transform.
+That transformation happens automatically.
+You don't have to do it.
+But yeah, what we have studied and what we are doing practically,
+you can see that there is similarity in that.
+Now we will answer a very important question.
+What I did till now is that I took 100 out of 784 and I said that I will get the correct result on 100
+And actually when there were 784 components, you were getting 96% accuracy and with 100 you were getting 95%
+Then I ran a loop, but now what we will do is that we will find the optimum number
+That how much number you have, then it will be best
+Means you should take the same principal components, we will discuss this next.
+So let's discuss how to find out the optimum number of principal components required
+so that our work can be done.
+So what happens is, in principle first of all you have your own values
+which you denote with lambda.
+So if you apply PC on a 784 dimensional space, then you will get 784 principal components with values of lambda 1, lambda 2, lambda 3, lambda 784.
+Now, this lambda1 tells that how much variance this particular principal component can explain of your original data alone.
+Eigenvalues tell that how much variance this particular principal component can explain of your original data alone.
+That is why their name was also explained variance.
+So, you will find out that every vector, every eigenvector explains how much percent of variance.
+This value, this is not in percent.
+This is not in percent.
+Okay.
+That is why you might have noticed that here 40 was coming, then 29 was coming, then 26 was coming.
+So, now what we have to do is, we have to convert this into percentage.
+So, if I want to find out the percentage of the first one, then what I will do is,
+I will write lambda 1 divided by lambda 1 plus lambda 2 plus lambda 3 dot dot dot lambda 784
+and this number I will multiply by 100 and this will be the percentage value
+So whatever percentage value will come, this particular vector alone is explaining that much variance of original data.
+And you have to explain at least 90% variance by adding the total.
+So this means that you will take the values in which you will reach 90.
+Let's take an example that lambda 1 is explaining 30% variance.
+Lambda 2 is explaining 25% variance, our 3rd eigenvector is doing 15, our 4th is doing 10, our 5th is doing 5 and after that it is decreasing.
+So, 30 plus 25 is 55, 55 plus 15 is 70, 80 is 85.
+So, let's assume that if you add up to lambda 15.
+Means, if you take 15 components, lambda 1, 2, lambda 15,
+then you are crossing 90%.
+So, you will take 15 components because you have to complete 90% variance.
+Okay.
+So, I hope you are understanding this.
+Let me summarize it once if it is looking a bit complex.
+Every single eigenvalue tells us that the corresponding eigenvector explains the variance of the original data.
+But this is not the percentage value.
+You convert this into the percentage value.
+You divide your eigenvalue by the sum of all the eigenvalues and multiply it by 100.
+That is the percentage of variance explained by a particular eigenvector.
+Now what you have to do is, you have to take as many components as the percentage of the components is 90.
+That's it. This is the rule.
+So if I show you, first of all, if you want the percentage value that how much percentage of the first vector is working,
+then what you will do is, you will simply write this, PCA dot explained variance ratio.
+It is working automatically. Although it is in percentage, it is not multiplied in hundreds.
+If you multiply it in hundreds, then this will give you 5.
+So the first eigenvector is explaining 5% variance of original data. Obviously it is very less.
+The second one is doing 4%. The next one is doing 3%.
+Means if you add the first 3 top eigenvectors, then they are explaining 12% variance of data.
+100% variance to 12% obviously it is very less so now let's find out what is the optimum number on this data set
+so what I will do is I will perform PCA one last time and this time I will not put a restriction on the number of components
+So I will take none here.
+It will take some time.
+And PCA is performed.
+Now if you see PCA dot explained variance
+then its shape will be 784 because all your principal components are here.
+And if you take out components
+PCA dot components
+then now you will have 784 vectors in 784 dimensional space
+Means its shape is 784 vectors as in 784 principal components in 784 dimensional space.
+Now what you have to do, if you see here, then PCA.explained variance ratio
+is telling me that this explains 5%, this explains 4%, this explains 3% and slowly the number is decreasing.
+Now what I will do, I will apply cumulative sum.
+So, first when it will happen then this value will come, then the second value will be the sum of these two,
+then the third value will be the sum of these three, then the fourth value will be the sum of these four and so on.
+And I will see at which point I am reaching at 90.
+So, what I am doing, I am calling np.cumulativeSum function on this thing, on explainedVariousRatio.
+And what will the cumulative sum do? It will give me a new array, so you can see here 5%, here 9, 5 plus 4, here 13, because the next one was 2 point something,
+16, 19, here 61, here 70, if I go a little lower, we have reached 86, and here guys, at this place, 90 is coming for the first time.
+Now what I will do is, rather than manually counting which number is coming on 90, I will plot a graph.
+You can see at last it is becoming 1 only.
+So what I will do is, I will write plt.plot and I will pass this entire thing.
+and you would see that we will get a graph and by studying that graph we will understand immediately
+that how many components to take, so here on x-axis is the number of components, on y-axis is how much your variance is explained
+so you can see gradually the graph increases and then settles towards 1
+so how much do I want? I want 90, so here at this place I will cut, I am coming somewhere here
+And you can see around 200, my 90% variance is being explained.
+I can also see that where 95% variance is being explained, around 400.
+So that is how you do it. You just have to plot this graph on your data set.
+And you will get to know how many components you need.
+Always remember this rule of thumb, if you explain 90% variance of your data,
+your work will be done and you will get good results.
+And that's it guys, that is how you do this entire thing and I would encourage you to go to any other data set and do this whole thing, okay.
+Means first apply PCA, then compare whether you are getting results with PCA or not without PCA, then try to visualize it.
+After that you find out how many components you need in order to explain 90% variance, okay.
+So that would be a great exercise, now there is only one last topic left that when does PCA not help, we will see that next.
+So guys reading PCA for the first time is a magical experience, you will feel very powerful and you will feel that you can visualize any high dimensional data in 2D or 3D.
+And it happens most of the times but sometimes it does not happen.
+So what we are doing now is we are going to discuss certain scenarios where PCA will not be able to help you.
+And the reason is not that there is a problem in PCA, the reason is that your data does not allow PCA to work.
+Like I am showing you three cases, so the first case is that the data you have is a circle.
+And the variance on your x-axis and the variance on your y-axis is equal.
+Now if you rotate the axis in any way, you calculate the eigenvectors, then the new coordinate space also has the same problem.
+Even in that, if your variance is equal on x and y, then who will you remove? You can't remove anyone.
+So if you can't reduce from 2 and only 2 is left, then what is the use of doing PCA?
+Right, so sometimes it can happen that in higher dimensional spaces, your data is aligned in such a way
+that the variance, no matter how many eigenvectors you find, your variance across all the axes is almost equal.
+In that case, there is no use in applying PC. Okay, so that's one case.
+Second case is that if you have this kind of data where when you will do projection,
+As soon as you will do the projection of the upper point, all the points will come and fall here.
+And when you will do the projection of the lower point, all the points will come and fall in the same range.
+So when you are taking the snapshot of the data from a small dimension,
+you will not be able to differentiate between two points and it will be very overlapping.
+In short, it won't be fun and there won't be any result of your PCA.
+So this is one more case.
+Third is that there is a specific pattern in your data.
+Like here y is equal to x square. This is a pattern.
+Now if you loose it, if you bring it in one dimension,
+then all these points will come like this.
+So in a way your pattern in higher dimension, you are loosing that pattern.
+So that piece of information is loosing in PCA and your model might not be able to work that much better.
+It could work with any kind of data. You have sine curve.
+So all the sine curves will fall here.
+So it will not be known that it was originally sine curve in higher dimension.
+I guess you are able to understand.
+If your data is taking a special form in higher dimension and you are projecting it in lower dimension and losing it,
+then that important bit of information gets lost and then your PCA doesn't perform as well as you expect.
+So these are some cases where PCA doesn't work properly but apart from that yes, beautiful algorithm works very well
+and gives very powerful results. So I know this has been probably the longest video of this series.
+I don't know, maybe it's been an hour but if you look at it completely then there is a request from you to do it practically and think about it.
+The best thing about PCA is that if you think about it then you will understand more.
+So it's also a thinking exercise.
+So that's it for the video guys.
+Thanks for watching. Bye.

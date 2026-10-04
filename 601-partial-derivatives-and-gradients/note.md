@@ -20,7 +20,7 @@ This Note follows Chapter 5 (Section 5.2) of *Mathematics for Machine Learning* 
 
 ![Contour map of $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ with gradient arrows: each crosses the contour lines at right angles and points uphill](images/gradient_arrows.png){height=48%}
 
-A loss depends on many parameters at once. Figure 1 shows such a function of two inputs as a contour map: each line joins points of equal height, and the lowest point is in the middle. At every point, the **gradient** (G-865) is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step **gradient descent** (G-862) takes.
+A loss depends on many parameters at once. Figure 1 shows such a function of two inputs as a contour map: each line joins points of equal height, and the lowest point is in the middle. At every point, the **gradient** (G-863) is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step **gradient descent** (G-862) takes.
 
 Earlier Notes already used these ideas:
 
@@ -56,7 +56,14 @@ Figure 2 marks four inputs of the running example on its contour map. Each input
 
 > **Key point:** Nudge only $x_i$ by $h$, take the difference quotient, and let $h \to 0$.
 
-The [linear regression maths Note](../51-linear-regression-maths/note.md) defined the **partial derivative** (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md):
+A one-variable derivative answers: if we nudge the input a little, how many times bigger is the change in the output? With two inputs the question needs one more detail: nudge **which** input? Figure 3 tries both on our bowl at $(1, 1)$, where $f = 4$.
+
+1. Nudge only $x_1$ by 0.1. The output moves from 4 to $f(1.1, 1) = 4.31$: a change of 0.31, about 3 times the nudge.
+2. Go back, and nudge only $x_2$ by 0.1. The output moves from 4 to $f(1, 1.1) = 4.52$: a change of 0.52, about 5 times the nudge.
+
+![The point $(1, 1)$ in the input plane (left) and the single output number $f$ on a number line (right). A nudge of 0.1 in $x_1$ alone moves the output by 0.31; the same nudge in $x_2$ alone moves it by 0.52. Idea after Khan Academy, "Partial derivatives, introduction"](images/nudge_lines.gif){height=50%}
+
+The same function responds differently to each input. Each of the two ratios tells only part of the story of how $f$ changes, which is where the name comes from. The [linear regression maths Note](../51-linear-regression-maths/note.md) defined the **partial derivative** (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md):
 
 1. **In words:** move only $x_i$ by a step $h$, divide the change in $f$ by $h$, and let $h$ shrink to 0.
 2. **Formula:**
@@ -75,7 +82,7 @@ Because the other variables are frozen, they behave like numbers. All the rules 
 1. **In words:** to differentiate with respect to $x_1$, read $x_2$ as a fixed number, and the other way round.
 2. **Formula:** for $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$,
    $$\frac{\partial f}{\partial x_1} = 2x_1 + x_2, \qquad \frac{\partial f}{\partial x_2} = x_1 + 4x_2$$
-   In $\partial f / \partial x_1$, the term $x_1 x_2$ is "$x_1$ times a constant", so its derivative is that constant $x_2$; the term $2x_2^2$ is a constant, so its derivative is 0.
+   In $\partial f / \partial x_1$, the term $x_1 x_2$ is $x_1$ times a constant, so its derivative is that constant $x_2$; the term $2x_2^2$ is a constant, so its derivative is 0.
 3. **Example:** at $(1, 1)$: $\partial f / \partial x_1 = 2 + 1 = 3$ and $\partial f / \partial x_2 = 1 + 4 = 5$.
 
 The chain rule works the same way inside a partial derivative. For $g(x, y) = (x + y^2)^2$ at $(1, 2)$, where the inside is $x + y^2 = 5$:
@@ -86,9 +93,11 @@ $$\frac{\partial g}{\partial x} = 2(x + y^2) \cdot 1 = 10, \qquad \frac{\partial
 
 > **Key point:** Fixing $x_2$ cuts the surface along a curve in the $x_1$ direction; $\partial f / \partial x_1$ is the slope of its tangent line.
 
-Figure 3 shows the surface of our bowl. Fixing $x_2 = 1$ cuts it along the orange curve, a function of $x_1$ alone. Its tangent line at $(1, 1)$ has slope 3: that is $\partial f / \partial x_1$. Fixing $x_1 = 1$ instead gives the green curve, whose tangent line has slope 5: that is $\partial f / \partial x_2$.
+Figure 4 shows the surface of our bowl. Fixing $x_2 = 1$ cuts it along the orange curve, a function of $x_1$ alone. Its tangent line at $(1, 1)$ has slope 3: that is $\partial f / \partial x_1$. Fixing $x_1 = 1$ instead gives the green curve, whose tangent line has slope 5: that is $\partial f / \partial x_2$.
 
 ![The surface $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ cut along $x_2 = 1$ (orange) and along $x_1 = 1$ (green); the thick lines are the tangent lines at $(1, 1)$](images/partial_slices.png){height=42%}
+
+The slice picture needs a surface, so it only works for two inputs. The nudge picture of Figure 3 needs no surface: nudge one input, watch the one output number. That reading still works for a loss with a million parameters.
 
 The two tangent lines together span a flat plane that touches the surface at $(1, 1)$, the tangent plane. The [Hessian and multivariate Taylor Note](../603-hessian-and-multivariate-taylor/note.md) uses it to approximate the surface.
 
@@ -121,19 +130,42 @@ Figure 1 draws the gradient as an arrow at many points of the contour map. Three
 - **It crosses contour lines at right angles.** Along a contour line $f$ does not change at all, so the steepest direction is straight across it.
 - **Its length is the steepness.** Arrows are long where contour lines are packed close together, and short near the flat bottom.
 
+**The hiker.** Think of the surface as a hillside and stand on it. Which way should we walk to climb fastest? Figure 5 answers by doing it. The contour map lies under the bowl, and the orange gradient arrow is drawn on the map under the hiker. At every step the hiker reads the arrow and walks that way. The path heads straight away from the lowest point and gets steeper: the steepness readout, the length of the gradient, grows from 0.9 to 6.5.
+
+![A hiker (black dot) climbs the bowl by always stepping along the gradient arrow (orange) drawn on the contour map below. The dashed shadow of the path crosses every contour line at a right angle, and the arrow grows as the surface gets steeper. Idea after Khan Academy, "Gradient and graphs"; our own function](images/hiker.gif){height=50%}
+
+**Why at right angles?** Figure 6 zooms in on $(1, 1)$ until the contour lines $f = 4$ and $f = 4.1$ look like two straight, parallel lines.
+
+1. Every arrow from the first line to the second raises $f$ by the same amount, 0.1.
+2. The arrows have different lengths: 0.024, 0.019, 0.017, 0.019, 0.024.
+3. The steepest direction gains that 0.1 over the shortest distance.
+4. The shortest path between two parallel lines goes straight across, at a right angle to both.
+
+So the steepest direction is perpendicular to the contour line, and it is the direction of the gradient $[3, 5]$. The shortest length also checks the third bullet: 0.1 of height over a distance of 0.017 is a slope of $0.1 / 0.017 \approx 5.83$, the length of the gradient, $\sqrt{3^2 + 5^2}$.
+
+![Zooming in on $(1, 1)$: the contour lines $f = 4$ (blue) and $f = 4.1$ (purple) become straight and parallel. Of the arrows that raise $f$ by 0.1, the shortest (orange, length 0.017) crosses at a right angle and points along the gradient $[3, 5]$. Idea after Khan Academy, "Gradient and contour maps"; our own function](images/contour_zoom.gif){height=45%}
+
 At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [gradient descent](../57-gradient-descent/note.md) steps in, $\mathbf x_{\text{new}} = \mathbf{x} - \eta\thinspace\nabla f(\mathbf{x})$.
 
-> **Extra:** The slope in any direction follows from the gradient. For a unit vector $\mathbf{u}$ (length 1), the **directional derivative** (G-614) is the dot product $\nabla f \cdot \mathbf{u}$. At $(1, 1)$:
->
-> - along $\mathbf{u} = [1, 0]$ it is $3$, the partial derivative $\partial f / \partial x_1$;
-> - along the gradient itself, $\mathbf{u} = [3, 5]/\sqrt{34}$, it is $\sqrt{34} = 5.83$, the largest possible;
-> - along $\mathbf{u} = [5, -3]/\sqrt{34}$, at right angles to the gradient, it is $(15 - 15)/\sqrt{34} = 0$: we walk along the contour line.
->
-> A dot product with a unit vector is largest when the two point the same way (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md)). This alignment is why the gradient is the direction of **steepest ascent** (G-1888).
+### 4.3 The slope in any direction
+
+> **Key point:** The slope of $f$ along a unit vector $\mathbf{u}$ is the dot product $\nabla f \cdot \mathbf{u}$; it is largest when $\mathbf{u}$ points along the gradient.
+
+The partial derivatives give the slope along the two axes. A hiker can walk in any direction, so we need the slope along any arrow.
+
+1. **In words:** a small step along $\mathbf{u} = [a, b]$ is $a$ small steps in $x_1$ plus $b$ small steps in $x_2$. Each $x_1$ step changes $f$ at the rate $\partial f/\partial x_1$, each $x_2$ step at the rate $\partial f/\partial x_2$. Add the two.
+2. **Formula:** for a unit vector $\mathbf{u} = [a, b]$ (length 1), the **directional derivative** (G-614) is
+   $$\nabla_{\mathbf{u}} f = a\thinspace\frac{\partial f}{\partial x_1} + b\thinspace\frac{\partial f}{\partial x_2} = \nabla f \cdot \mathbf{u}$$
+3. **Example:** at $(1, 1)$, where $\nabla f = [3, 5]$:
+   - along $\mathbf{u} = [1, 0]$ it is $3$, the partial derivative $\partial f / \partial x_1$;
+   - along the gradient itself, $\mathbf{u} = [3, 5]/\sqrt{34}$, it is $\sqrt{34} = 5.83$, the largest possible;
+   - along $\mathbf{u} = [5, -3]/\sqrt{34}$, at right angles to the gradient, it is $(15 - 15)/\sqrt{34} = 0$: we walk along the contour line.
+
+A dot product with a unit vector is the length of the gradient times the cosine of the angle between the two, so it is largest when the two point the same way (see the [dot product and cosine similarity Note](../362-dot-product-and-cosine-similarity/note.md)). This alignment is why the gradient is the direction of **steepest ascent** (G-1888), and why its length, 5.83, is the slope in that direction: the same number Figure 6 found from the shortest arrow.
 
 ![At $(1, 1)$ a unit direction $\mathbf{u}$ turns full circle (left); the slope $\nabla f \cdot \mathbf{u}$ is traced against its angle (right): 3 along the $x_1$-axis, a peak of 5.83 when $\mathbf{u}$ lines up with $\nabla f = [3, 5]$, 0 along the contour line, $-5.83$ straight downhill](images/direction_sweep.gif)
 
-Figure 4 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
+Figure 7 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
 
 ## 5. Rules for gradients
 
@@ -162,7 +194,7 @@ $$\frac{\partial}{\partial \mathbf{x}}\thinspace\mathbf{a}^{\mathsf T}\mathbf{x}
 
 ![Gradient rules as additions of arrows at $\mathbf{x} = (1, 1)$. Left, sum rule: the gradient of $f + \mathbf{a}^{\mathsf T}\mathbf{x}$ is $\nabla f = [3, 5]$ plus $\mathbf{a}^{\mathsf T} = [1, 2]$, giving $[4, 7]$. Right, product rule: $2 \times [1, 2]$ plus $3 \times [3, -1]$ gives the gradient $[11, 1]$.](images/rule_arrows.png)
 
-Figure 5 draws both rules as arrows added tip to tail. A gradient is a vector, so the sum rule adds two arrows. The product rule adds two arrows too, each one gradient scaled by the value of the other factor: $\mathbf{a}^{\mathsf T}$ scaled by 2 and $\mathbf{b}^{\mathsf T}$ scaled by 3.
+Figure 8 draws both rules as arrows added tip to tail. A gradient is a vector, so the sum rule adds two arrows. The product rule adds two arrows too, each one gradient scaled by the value of the other factor: $\mathbf{a}^{\mathsf T}$ scaled by 2 and $\mathbf{b}^{\mathsf T}$ scaled by 3.
 
 ## 6. The chain rule with several variables
 
@@ -174,7 +206,7 @@ This rule is the **multivariate chain rule** (G-1281), the several-variable form
 
 > **Key point:** The rate of change of $f$ with $t$ is the sum over both paths of (slope of $f$ along the path) times (rate of the intermediate variable): a row vector times a column vector.
 
-Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for example a point moving around a circle: $x_1 = \cos t$, $x_2 = \sin t$. How fast does $f(x_1, x_2)$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 6).
+Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for example a point moving around a circle: $x_1 = \cos t$, $x_2 = \sin t$. How fast does $f(x_1, x_2)$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 9).
 
 ![The multivariate chain rule: multiply the derivatives along each path from $t$ to $f$, then add the paths](images/chain_paths.png){height=34%}
 
@@ -184,6 +216,12 @@ Suppose $x_1$ and $x_2$ are themselves functions of one variable $t$, for exampl
 3. **Example:** our bowl on the circle. At $t = \pi/2$ the point is $(0, 1)$, where $\nabla f = [0 + 1,\ 0 + 4] = [1, 4]$. The point moves with velocity $[-\sin t, \cos t] = [-1, 0]$:
    $$\frac{df}{dt} = 1 \cdot (-1) + 4 \cdot 0 = -1$$
    At $t = 0$ the point is $(1, 0)$, $\nabla f = [2, 1]$, velocity $[0, 1]$, so $df/dt = 1$.
+
+We can check the rule the long way, without it. Put the circle into the bowl first: $f = \cos^2 t + \cos t \sin t + 2\sin^2 t$, a function of $t$ alone. Using $\cos^2 t + \sin^2 t = 1$ and $\cos t \sin t = \tfrac12 \sin 2t$, it becomes $f = 1 + \sin^2 t + \tfrac12 \sin 2t$. The one-variable rules give
+
+$$\frac{df}{dt} = 2\sin t\cos t + \cos 2t = \sin 2t + \cos 2t$$
+
+At $t = \pi/2$ the value is $0 + (-1) = -1$, and at $t = 0$ it is $0 + 1 = 1$: the same two answers. The long way needs a new round of algebra for every function. The chain rule gives the same result from two small pieces that are already known, the gradient and the velocity.
 
 The first form is a $1 \times 2$ row times a $2 \times 1$ column, giving a $1 \times 1$ number. The chain rule is where the row-vector convention pays off: the gradient sits on the left and the shapes fit with no transposing.
 
@@ -197,7 +235,7 @@ $$\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x_1}\frac{\partial 
 
 1. **In words:** both equations at once are one row vector times one matrix.
 2. **Formula:**
-   $$\frac{df}{d(s, t)} = \underbrace{\begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix}}_{\partial f / \partial \mathbf{x}} \underbrace{\begin{bmatrix} \dfrac{\partial x_1}{\partial s} & \dfrac{\partial x_1}{\partial t} \cr\dfrac{\partial x_2}{\partial s} & \dfrac{\partial x_2}{\partial t} \end{bmatrix}}_{\partial \mathbf{x} / \partial (s, t)}$$
+   $$\frac{df}{d(s, t)} = \underbrace{\begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix}} _{\partial f / \partial \mathbf{x}} \underbrace{\begin{bmatrix} \dfrac{\partial x_1}{\partial s} & \dfrac{\partial x_1}{\partial t} \cr\dfrac{\partial x_2}{\partial s} & \dfrac{\partial x_2}{\partial t} \end{bmatrix}} _{\partial \mathbf{x} / \partial (s, t)}$$
 3. **Example:** our bowl with $x_1 = s + t$ and $x_2 = st$, at $s = 1$, $t = 2$. Then $x_1 = 3$, $x_2 = 2$, so $\nabla f = [2 \cdot 3 + 2,\ 3 + 4 \cdot 2] = [8, 11]$. The inner derivatives are $\partial x_1/\partial s = 1$, $\partial x_1/\partial t = 1$, $\partial x_2/\partial s = t = 2$, $\partial x_2/\partial t = s = 1$:
    $$\begin{bmatrix} 8 & 11 \end{bmatrix} \begin{bmatrix} 1 & 1 \cr2 & 1 \end{bmatrix} = \begin{bmatrix} 8 + 22 & 8 + 11 \end{bmatrix} = \begin{bmatrix} 30 & 19 \end{bmatrix}$$
 
@@ -244,7 +282,7 @@ Hand-derived gradients are easy to get wrong, and a wrong gradient makes trainin
 >
 > `np.eye(2)` gives the rows $[1, 0]$ and $[0, 1]$, so `p + h * e` nudges one parameter at a time.
 
-Figure 7 shows how the size of the step $h$ affects the check on this loss. The one-sided difference $(L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p}))/h$ is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (the Extra on central differences in the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md)).
+Figure 10 shows how the size of the step $h$ affects the check on this loss. The one-sided difference $(L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p}))/h$ is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (the Extra on central differences in the [derivatives of one variable Note](../600-derivatives-of-one-variable/note.md)).
 
 ![Relative error of the numerical gradient against the step h, on the three-point loss at m = 1, b = 0. Orange: one-sided difference, error shrinking with h until rounding takes over. Blue: central difference, exact for this quadratic loss except for rounding, which grows as h shrinks. Dashed: the $10^{-6}$ threshold.](images/gradcheck_h.png)
 
@@ -270,7 +308,14 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 **Built from**
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 5.2, remark on verifying a gradient implementation (MML).
-- Sanderson, G. (Khan Academy). "Why the gradient is the direction of steepest ascent", *Multivariable calculus*. khanacademy.org/math/multivariable-calculus/multivariable-derivatives/gradient-and-directional-derivatives. Figure 4 recreates its idea with our own function and code.
+- Khan Academy, "Partial derivatives, introduction", YouTube, https://www.youtube.com/watch?v=AXqhWeUEtQU (Figure 3)
+- Khan Academy, "Partial derivatives and graphs", YouTube, https://www.youtube.com/watch?v=dfvnCHqzK54
+- Khan Academy, "Gradient", YouTube, https://www.youtube.com/watch?v=tIpKfDc295M
+- Khan Academy, "Gradient and graphs", YouTube, https://www.youtube.com/watch?v=_-02ze7tf08 (Figure 5)
+- Khan Academy, "Gradient and contour maps", YouTube, https://www.youtube.com/watch?v=ZTbTYEMvo10 (Figure 6)
+- Khan Academy, "Directional derivative", YouTube, https://www.youtube.com/watch?v=N_ZRcLheNv0
+- Khan Academy, "Why the gradient is the direction of steepest ascent", YouTube, https://www.youtube.com/watch?v=TEB2z7ZlRAw (Figure 7 recreates its idea with our own function and code)
+- Khan Academy, "Multivariable chain rule", YouTube, https://www.youtube.com/watch?v=NO3AqAaAE6o
 
 **Other references**
 

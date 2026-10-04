@@ -79,7 +79,7 @@ Many ML problems predict a yes/no outcome:
 - is an email spam or not;
 - does a patient have a certain disease or not.
 
-The **target** (G-1949; the output we predict) of each **observation** (G-1374; one record, one row of the data table) is a Bernoulli variable, and a **binary classifier** (G-302) such as **logistic regression** (G-1120) estimates its $p$ for every observation. The Bernoulli variant of **Naive Bayes** (G-1298) assumes that each **feature** (G-772; an input variable, one column of the data table) is a Bernoulli variable, such as "this word is present or not": each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (scikit-learn §1.9.4; see also the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
+The **target** (G-1949; the output we predict) of each **observation** (G-1374; one record, one row of the data table) is a Bernoulli variable, and a **binary classifier** (G-302) such as **logistic regression** (G-1120) estimates its $p$ for every observation. The Bernoulli variant of **Naive Bayes** (G-1297) assumes that each **feature** (G-772; an input variable, one column of the data table) is a Bernoulli variable, such as "this word is present or not": each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (scikit-learn §1.9.4; see also the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md)).
 
 > **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution** (G-352), the many-outcome version of Bernoulli (Murphy 2012, §2.3.2, which calls it the multinoulli distribution).
 

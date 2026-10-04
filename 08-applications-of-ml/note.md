@@ -79,6 +79,10 @@ The company cannot simply increase the stock of every product:
 
 So before the sale, a data analyst takes the sales data of past years, including past Great Indian Festival sales. Using **data mining** (G-537; searching large amounts of data for useful patterns) and ML algorithms, the analyst works out which products to stock up on and which to leave alone.
 
+![Deciding what to stock before a sale](images/stocking.png)
+
+Figure 2 shows the flow: past sales go in, and for each product a prediction comes out that sorts it into "stock up" or "leave alone".
+
 A wrong decision here can cost crores of rupees. Every e-commerce site that runs sales, such as Myntra and Flipkart, makes this decision the same way.
 
 > **Extra:** Predicting how much of a product will sell in the future is called **demand forecasting** (G-580). Because the output is a number, it is a **regression** (G-1655) problem ([Note 3](../03-types-of-ml/note.md)). The same idea comes back in transportation (Section 5.2).
@@ -98,7 +102,7 @@ The store can then sell these profiled numbers to other companies. Such sales ar
 
 ![From bills to profiles to targeted SMS](images/targeted_marketing.png)
 
-Figure 2 shows why the profile is worth money. Suppose a gym wants new members.
+Figure 3 shows why the profile is worth money. Suppose a gym wants new members.
 
 - **Without the data:** it sends SMS to 1 lakh (100,000) random people. Very few of them are interested, so the **conversion rate** (G-474; the share of people reached who become customers) is very low.
 - **With the data:** it buys the numbers of 100 people the store knows are health-conscious. These 100 SMS bring about the same results as 1 lakh random ones.
@@ -127,7 +131,7 @@ Without these three uses of ML (stocking, profiles, placement), retail companies
 
 > **Key point:** An ML model screens every loan application first. Only low-risk applications reach a human loan officer.
 
-Not everyone who applies for a loan gets one. The applicant first submits a profile, which then goes through two stages of checks (Figure 3).
+Not everyone who applies for a loan gets one. The applicant first submits a profile, which then goes through two stages of checks (Figure 4).
 
 ![Two-stage loan screening](images/loan_screening.png)
 
@@ -138,6 +142,16 @@ The ML stage decides which applications reach the officer:
 
 - **High similarity** to past defaulters (say 80 out of 100): the model reports an 80% chance that this person will not repay. Such a score is a red alarm, and the application is rejected.
 - **Low similarity** (say 10, 15 or 20): the application is passed on to the loan officer.
+
+Where should the bank draw the line? Figure 5 shows the ML stage on real loans: the German credit dataset, 1,000 past borrowers, 300 of whom did not repay (Hofmann 1994).
+
+![The ML stage of loan screening on 300 real applicants it has never seen. Each dot is one applicant: red did not repay, green did. Applicants to the right of the cut-off are rejected; the rest go to the loan officer.](images/loan_threshold.gif)
+
+1. **Training.** A model learns from 700 past borrowers how the profiles of those who did not repay differ from the rest. It is a **logistic regression** (G-1120), a classifier that outputs a probability.
+2. **Scoring.** It gives each of the other 300 applicants a chance of not repaying, out of 100. Most red dots sit to the right of most green dots, but the two groups overlap.
+3. **A strict cut-off, 80.** The model rejects only 12 applicants: 9 who did not repay and 3 who did. Almost everyone reaches the loan officer.
+4. **A looser cut-off, 50.** It rejects 38 of the 90 who did not repay, and also 20 of the 210 who did.
+5. **The trade-off.** Lowering the cut-off catches more future defaulters, but turns away more good customers. Where to put it is a business decision: in this dataset's own guidance, lending to someone who will not repay is counted as five times as costly as turning away someone who would (Hofmann 1994).
 
 > **Extra:** Predicting "will repay / will not repay" is a **classification** (G-395) problem ([Note 3](../03-types-of-ml/note.md)). In banking it is called **credit scoring** (G-502), and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
 
@@ -167,7 +181,7 @@ The reason becomes clear from the driver's side. Ola and Uber each have two apps
 
 ![Surge pricing in an office area in the evening](images/surge_pricing.png)
 
-Figure 4 shows why this happens.
+Figure 6 shows why this happens.
 
 - **Demand:** an office area in the evening. People are leaving work, and many of them open the app to book a cab.
 - **Supply:** only 3 cabs are in the area.
@@ -209,7 +223,7 @@ Suppose the robot that puts the engine into each car breaks down. Every car need
 
 To avoid this, companies like Tesla fit their robotic arms with **IoT sensors** (G-971; Internet of Things: devices that measure something and send the readings over the internet). The sensors constantly record metrics such as temperature, **RPM** (G-1715; revolutions per minute, how fast a motor turns) and pressure, and send them to a server.
 
-A fault does not appear all at once: it builds up gradually. Figure 5 shows a motor whose RPM slowly drops from 300 to 299, then 298, then 295. This small, steady drop is a signal that a fault is developing.
+A fault does not appear all at once: it builds up gradually. Figure 7 shows a motor whose RPM slowly drops from 300 to 299, then 298, then 295. This small, steady drop is a signal that a fault is developing.
 
 ![Predictive maintenance: repairing before the breakdown](images/predictive_maintenance.png)
 
@@ -241,7 +255,7 @@ As an example, consider a small website that rates movies from their reviews:
 
 ![Sentiment analysis of movie reviews](images/sentiment_analysis.png)
 
-Figure 6 shows three real reviews of *Dunkirk* and the labels the model gave them. "Brilliant cinematography" reads as praise, and the model labels it positive. "I was very disappointed ... left me feeling cheated" reads as unhappy, and the model labels it negative.
+Figure 8 shows three real reviews of *Dunkirk* and the labels the model gave them. "Brilliant cinematography" reads as praise, and the model labels it positive. "I was very disappointed ... left me feeling cheated" reads as unhappy, and the model labels it negative.
 
 > **Extra:** A natural way to turn the labels into a score out of 10 is the share of positive reviews:
 >
@@ -259,7 +273,7 @@ For many years, Twitter earned very little money. Facebook and Google had become
 
 The example below shows how such a plan could work. The example is an illustration only: there is no proof that Twitter did exactly this.
 
-Suppose an election is coming in a state, and people tweet about it under one hashtag. Figure 7 shows the plan step by step.
+Suppose an election is coming in a state, and people tweet about it under one hashtag. Figure 9 shows the plan step by step.
 
 ![How sentiment analysis of tweets can turn into profit](images/twitter_plan.png)
 
@@ -276,8 +290,6 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 >
 > - Twitter earns money by **licensing its data**: selling other companies access to the stream of tweets. In 2014 Twitter bought Gnip, a company that resold that data (Twitter 10-K 2014).
 > - A 2011 study, *Twitter mood predicts the stock market*, found that the mood of tweets helped predict moves of the Dow Jones index a few days later (Bollen et al. 2011).
->
-> Twitter was founded in 2006 and made its first full-year profit only in 2018 (Twitter 10-K 2014; Twitter 10-K 2018).
 
 ## 8. Summary
 
@@ -316,10 +328,10 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 
 **Other references**
 
+- Hofmann, H. (1994). *Statlog (German Credit Data)*. UCI Machine Learning Repository; OpenML dataset 31, "credit-g", with its cost matrix. https://www.openml.org/d/31
 - Bollen, J., Mao, H. and Zeng, X. (2011). Twitter Mood Predicts the Stock Market. *Journal of Computational Science* 2(1).
 - Thomas, L., Edelman, D. and Crook, J. (2002). *Credit Scoring and Its Applications*. SIAM.
 - Twitter, Inc. (2015). *Form 10-K for the fiscal year 2014*. US Securities and Exchange Commission, sec.gov (EDGAR).
-- Twitter, Inc. (2019). *Form 10-K for the fiscal year 2018*. US Securities and Exchange Commission.
 
 ## 10. Key terms
 
@@ -336,6 +348,7 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 | Conversion rate | The share of people reached who become customers |
 | Association rule learning | Finding items that are often bought or occur together |
 | Past defaulters | Past borrowers who did not repay their loan |
+| Logistic regression | A classifier that outputs a probability for each observation |
 | Credit scoring | Predicting whether a loan applicant will repay |
 | Surge pricing | Raising fares when demand is much higher than supply |
 | Delivery routing | Planning the most efficient route for deliveries |

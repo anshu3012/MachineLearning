@@ -48,7 +48,7 @@ The third difference is what kurtosis measures. Each number is a new perspective
 In statistics these numbers are called **moments** (G-1882): averages of the distances from the mean raised to a power. The first four are:
 
 - **1st moment:** the mean.
-- **2nd moment:** the **variance** (G-2078), the average squared distance from the mean. The standard deviation is its square root, so the two carry the same information.
+- **2nd moment:** the **variance** (G-2074), the average squared distance from the mean. The standard deviation is its square root, so the two carry the same information.
 - **3rd moment:** skewness, from the cubed distances.
 - **4th moment:** kurtosis, from the distances raised to the fourth power.
 
@@ -156,7 +156,7 @@ So analysts plot the return distribution of an asset and compute its kurtosis. I
 
 Many methods assume that a feature is normally distributed, so "how do we know whether a feature is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in the [function transformer Note](../30-function-transformer/note.md) (section 4); the Q-Q plot is the most informative and gets a second look below.
 
-The third way is a **statistical test** (G-1883). The **Shapiro-Wilk test** (G-1788) (see the [one-sample t-test Note](../301-one-sample-t-test/note.md), section 5) and the **Anderson-Darling test** (G-200) decide with the help of a **p-value** (G-1433); they come after hypothesis testing.
+The third way is a **statistical test** (G-1881). The **Shapiro-Wilk test** (G-1788) (see the [one-sample t-test Note](../301-one-sample-t-test/note.md), section 5) and the **Anderson-Darling test** (G-200) decide with the help of a **p-value** (G-1433); they come after hypothesis testing.
 
 > **Extra:** For the 150 iris sepal lengths of Section 7.3, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even small departures from normality (Ghasemi and Zahediasl 2012), so they are best read together with a Q-Q plot.
 
@@ -174,7 +174,7 @@ The shape never changed; only the sample grew. A small p-value on a large sample
 
 > **Key point:** A Q-Q plot pairs each sorted data value with the matching quantile of a theoretical distribution; the quantiles can come from cutting the curve into equal-area strips, or from the percentiles of a large generated sample.
 
-How to read a Q-Q plot, and a five-value build, are in the [function transformer Note](../30-function-transformer/note.md) (section 4.1 and its Extra). Here we build the plot twice: first on 15 values, where every point can be followed by eye, and then from percentiles (see the [percentiles and box plots Note](../230-percentiles-and-box-plots/note.md)), which needs no formula.
+How to read a Q-Q plot, and a five-value build, are in the [function transformer Note](../30-function-transformer/note.md) (sections 4.1 and 4.2). Here we build the plot twice: first on 15 values, where every point can be followed by eye, and then from percentiles (see the [percentiles and box plots Note](../230-percentiles-and-box-plots/note.md)), which needs no formula.
 
 ### 7.1 Fifteen values, one point each
 
@@ -259,7 +259,7 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 > **Key point:** Fat tails make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
 
-The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../30-function-transformer/note.md) (Figure 2). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
+The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../30-function-transformer/note.md) (Figure 5). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
 
 Figure 8 shows the fat-tail shape on 1,000 standardized values from the peaked, fat-tailed **Laplace distribution** (G-1044), the Notebook's check. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
 

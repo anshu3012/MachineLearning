@@ -131,7 +131,7 @@ In Figure 3, watch the last step: we multiplied by 100 and then divided by 100, 
 
 $$(-1)(0.17) + (+1)(0.83) = 0.66$$
 
-This number, the average gain per bet over many bets, is the **expected value** of the bet, written $E[X] = 0.66$. Each single bet still wins or loses a whole rupee; 0.66 is what we gain per bet *on average*. With the unrounded probabilities $37/213$ and $176/213$ the value is $139/213 = 0.65$ (notebook, section 3a).
+This number, the average gain per bet over many bets, is the **expected value** of the bet, written $E[X] = 0.66$. Each single bet still wins or loses a whole rupee; 0.66 is what we gain per bet *on average*.
 
 **A second bet.** Now the friend pays us 10 rupees if the next person has heard of the film, and we pay 1 rupee if not. The outcomes change, the probabilities do not:
 
@@ -226,7 +226,7 @@ Its expected value is $0(0.1) + 1(0.15) + 2(0.4) + 3(0.25) + 4(0.1) = 2.1$ worko
 2. squared, so that distances below and above the mean both count as positive;
 3. weighted by the probability of that value.
 
-| $x$ | $(x - 2.1)^2$ | $	imes P$ | term |
+| $x$ | $(x - 2.1)^2$ | $\times P$ | term |
 |---|---|---|---|
 | 0 | 4.41 | 0.1 | 0.4410 |
 | 1 | 1.21 | 0.15 | 0.1815 |
@@ -311,8 +311,6 @@ $$\mathrm{Var}(X) = E[X^2] - 2\mu^2 + \mu^2 = E[X^2] - \mu^2$$
 
 Both formulas are used constantly, for discrete and continuous random variables alike.
 
-> **Extra:** The middle step is sometimes justified by calling $2X$ and $E[X]$ "independent". Independence is not what is used: $E[X]$ is a constant, and constants come out of an expected value by the scaling rule. Independence matters for $E[XY] = E[X]\thinspace E[Y]$ (Grinstead and Snell, Theorem 6.4), which is not needed here. Grinstead and Snell derive the shortcut exactly this way, as Theorem 6.6 of section 6.2.
-
 > **Python:** Both formulas, and the simulated rolls.
 >
 > ```python
@@ -369,7 +367,7 @@ The expected value says where the outcomes centre; the variance says how much a 
 
 **Other references**
 
-- Grinstead, C. M. and Snell, J. L. (1997). *Introduction to Probability*, 2nd ed. American Mathematical Society. §6.1 (Theorems 6.2, 6.4) and §6.2 (Theorems 6.6, 6.9).
+- Grinstead, C. M. and Snell, J. L. (1997). *Introduction to Probability*, 2nd ed. American Mathematical Society. §6.1 (Theorem 6.2) and §6.2 (Theorem 6.9).
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer. §15.2, eq. 15.1.
 
 ## 7. Key terms

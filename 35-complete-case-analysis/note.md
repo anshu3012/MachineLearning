@@ -33,7 +33,7 @@ We use three words for the parts of a data table. A **feature** (G-772) is an in
 
 A **missing value** (G-1234) is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see "Handling missing values" in the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
-> **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier` and, since versions 1.3 and 1.4, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them (scikit-learn docs, Estimators that handle NaN values).
+> **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier`, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them (scikit-learn docs, Estimators that handle NaN values).
 
 ## 3. The two options: remove or impute
 
@@ -147,6 +147,10 @@ Figure 4 makes each kind happen on purpose, using the `experience` column of the
 | MAR: 80% of rows with no relevant experience | 22% | 11.0 years |
 | MNAR: 80% of rows with under 5 years | 21% | 11.9 years |
 
+Figure 5 shows two of these cases as a process. The grey bars are all the rows; the green bars are the rows CCA keeps as more and more values are hidden. On the left (MCAR) every bar shrinks by the same share, so the shape holds and the green mean line stays on the dotted one. On the right (MNAR) only the bars under 5 years shrink, and the mean line slides to the right, from 9.9 to 11.9 years.
+
+![Rows hidden step by step in the experience column. Left, at random (MCAR): every bar shrinks alike and the mean stays at 9.9 years. Right, only under 5 years (MNAR): the left bars shrink and the mean of the rows kept rises to 11.9 years.](images/rows_vanish.gif)
+
 Under MCAR, CCA removed the most rows but left the mean unchanged. Under MAR and MNAR it removed fewer rows, yet the mean rose by one to two years: the people who remained had more experience than the people who left.
 
 > **Extra:** No check on the data we have can prove that it is MCAR. A test can only find evidence *against* MCAR (Little 1988). What we can do is check that dropping the rows changes nothing visible. Section 8 does exactly this.
@@ -188,7 +192,7 @@ The column itself carries almost no information: only 50 of its values exist. Re
 
 **Disadvantages:**
 
-1. **It can throw away a large part of the data.** Each row is dropped if *any* of the chosen columns has a gap, so the losses add up across columns (Figure 5).
+1. **It can throw away a large part of the data.** Each row is dropped if *any* of the chosen columns has a gap, so the losses add up across columns (Figure 6).
 2. **It distorts the data when the gaps are not random.** If the data is MAR or MNAR, the dropped rows carry information the model never sees, as Figure 4 showed.
 3. **The deployed model cannot handle missing values.** The model was trained only on complete rows. Once deployed, a new row may arrive with a gap, and the model has no way to deal with it.
 
@@ -206,7 +210,7 @@ The third point is the biggest. Because of it, CCA is used less often than imput
 
 The data describes applicants for a data science job: 19,158 rows and 13 columns. Its features include the candidate's ID, city, the **city development index** of that city (a score from 0 to 1), gender, relevant experience, university enrolment, education level, major subject, years of experience, company size and type, and hours of data science training. The target is 1 if the candidate was hired and 0 if not.
 
-Figure 6 shows the share of missing values in every column.
+Figure 7 shows the share of missing values in every column.
 
 ![Share of missing values per column: green columns are under 5%, red columns are above](images/missing_share.png)
 
@@ -271,7 +275,7 @@ The five columns are each missing at most 4%, yet together they cost 10.3% of th
 
 For each numerical column, we draw the histogram of the full column and of the CCA column on the same axes. Both use **density** on the vertical axis, so that bars from 19,158 rows and from 17,182 rows have comparable heights.
 
-Figure 7 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves (**KDE** (G-1005), Note 20), red solid before and green dashed after.
+Figure 8 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves (**KDE** (G-1005), Note 20), red solid before and green dashed after.
 
 ![Histograms (top) and density curves (bottom) of the three numerical columns, before and after CCA: the shapes are almost identical](images/numeric_before_after.png){width=100%}
 
@@ -306,7 +310,7 @@ In this file, `experience` runs from 0 to 20. The last bar is so tall because th
 
 A categorical column has no histogram of numbers, so we compare the share of each category instead. If Graduates are 62% of the data before CCA, they should still be about 62% after.
 
-Figure 8 and the tables below show the shares for the two categorical columns.
+Figure 9 and the tables below show the shares for the two categorical columns.
 
 ![Share of each category before and after CCA: every pair of bars is nearly equal](images/category_shares.png){width=100%}
 
@@ -364,7 +368,7 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 
 - Rubin, D. B. (1976). Inference and Missing Data. *Biometrika* 63(3), 581–592.
 - Little, R. J. A. (1988). A Test of Missing Completely at Random for Multivariate Data with Missing Values. *Journal of the American Statistical Association* 83(404), 1198–1202.
-- scikit-learn User Guide, *Imputation of missing values*, section "Estimators that handle NaN values"; release highlights for versions 1.3 and 1.4.
+- scikit-learn User Guide, *Imputation of missing values*, section "Estimators that handle NaN values".
 
 ## 11. Key terms
 
@@ -378,7 +382,6 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
 | Observation | One record: one row of the data table |
-
 | MCAR | Missing completely at random: the gaps have no relation to any value in the data |
 | MAR | Missing at random: the gaps depend on another, recorded column |
 | MNAR | Missing not at random: the gaps depend on the missing value itself |

@@ -147,7 +147,7 @@ The model has 10,789 parameters (Notebook). To predict, we pass both inputs toge
 
 > **Key point:** A skip connection adds a block's input to the block's output. The functional API expresses it with an `Add` layer that receives two tensors.
 
-A **skip connection** (G-1818; also called a **residual connection**, G-1681) lets the input of a block jump over the block's layers and be added to their output (Figure 5b). The ResNet networks of the [pretrained models Note](../1051-pretrained-models/note.md) are built from such blocks, and the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) explains why they help very deep networks train. "A common use case for this is residual connections" of models that are "not connected sequentially, which the Sequential API cannot handle" (Keras documentation, The Functional API).
+A **skip connection** (G-1681; also called a **residual connection**, G-1681) lets the input of a block jump over the block's layers and be added to their output (Figure 5b). The ResNet networks of the [pretrained models Note](../1051-pretrained-models/note.md) are built from such blocks, and the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) explains why they help very deep networks train. "A common use case for this is residual connections" of models that are "not connected sequentially, which the Sequential API cannot handle" (Keras documentation, The Functional API).
 
 > **Python:** A block of two convolutions with a skip connection.
 >
@@ -232,7 +232,7 @@ A model with two outputs needs two losses, one per output. Keras lets us pass th
 
 ![The worked example as bars. Without weights, the age part (9.0) is 30 times the gender part (0.3), so training would mostly reduce the age error. With a weight of 0.1 on age, the two parts are 0.9 and 0.3](images/loss_weights.png){width=95%}
 
-The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years (the [loss functions Note](../1014-dl-loss-functions/note.md)). The gender output uses **binary cross-entropy** (G-304), the loss for a yes-or-no target with a sigmoid output.
+The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years (the [loss functions Note](../1014-dl-loss-functions/note.md)). The gender output uses **binary cross-entropy** (G-303), the loss for a yes-or-no target with a sigmoid output.
 
 > **Extra:** The base is frozen and the photos are not augmented, so the base turns each photo into the same 8,192 numbers in every epoch. The Notebook therefore runs every photo through the base once and trains only the two branches on the stored numbers. The model is the same; only the repeated work is skipped.
 
@@ -296,8 +296,8 @@ The two branches in this model share no trainable layer, only the frozen base, s
 | Topology | The pattern of connections between a network's layers |
 | Multi-output model | A model that predicts several targets at once, each from its own output layer |
 | Multi-input model | A model that takes several inputs, such as a photo and a table |
-| `Input` | The Keras object that stands for a model's input and fixes its shape |
+| `Input` (G-97) | The Keras object that stands for a model's input and fixes its shape |
 | `Concatenate` | A layer that joins vectors end to end into one longer vector |
-| Skip (residual) connection | A connection that adds a block's input to the block's output |
+| Skip (residual) connection (G-1681) | A connection that adds a block's input to the block's output |
 | `Add` | A layer that adds tensors of the same shape element by element |
 | Loss weight | A number that scales one output's loss in the total loss of a multi-output model |

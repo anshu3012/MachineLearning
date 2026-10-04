@@ -130,7 +130,7 @@ From such observations the meta-model learns a weight for each base model: more 
 
 > **Key point:** One algorithm, many copies, each trained on a different random sample of the observations; the answers are then voted or averaged.
 
-**Bagging** (G-2154) is short for **bootstrap aggregation**. All base models use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
+**Bagging** (G-251) is short for **bootstrap aggregation**. All base models use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
 
 Suppose the data D has 1,000 students and we decide to show each model 500 of them. We draw 500 observations at random, with replacement (each drawn observation is put back, so the same one can be drawn twice), to make D1 and train model 1 on it. Then we draw another 500 the same way for D2, and so on. Drawing random samples like this is called **bootstrapping** (G-322).
 

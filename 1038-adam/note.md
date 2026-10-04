@@ -43,6 +43,10 @@ Figure 1 shows both ideas at work on the students data of the [AdaGrad Note](../
 | [AdaGrad](../1036-adagrad/note.md) | a learning rate per parameter (sparse features) | the learning rate only shrinks |
 | [RMSProp](../1037-rmsprop/note.md) | forget old gradients | no correction for starting at 0 |
 
+![The two lines of optimizers. Left (blue): speed from past gradients. Right (orange): a learning rate per parameter. Adam takes the average of gradients from the left line and the average of squared gradients from the right line](images/family_tree.png){width=85%}
+
+Figure 2 draws the table as a family tree. Follow the two coloured arrows into Adam: the blue one brings momentum's average of past gradients, the orange one brings RMSProp's average of squared gradients.
+
 The two lines of improvement are independent, so it makes sense to combine them. Adam is perhaps best seen as a combination of RMSProp and momentum, with a few important differences (Goodfellow et al. 2016, §8.5.3).
 
 ## 4. The update rule
@@ -71,7 +75,7 @@ The parts come from the earlier optimizers:
 
 ![Adam, $\eta = 0.5$, on the students data, step by step. Left: the path with corrected averages (red) and with the raw ones (dotted orange). Right, for the bias $b$ of the red run: the gradient (grey dots) with $m$ raw and corrected (top), and the gradient's size with $\sqrt{v}$ raw and corrected (bottom)](images/adam_moments.gif){width=95%}
 
-Figure 2 runs the rule on the students data of the [AdaGrad Note](../1036-adagrad/note.md). Watch the right panels: the raw averages start near 0 (at step 1, $\sqrt{v}$ is 0.50 while the gradient's size is 15.9), and the corrected ones start on the gradient. With the raw averages the first step is 2.24 long instead of 0.71, and the path overshoots to $b = 7.7$ before it comes back; section 5 explains why.
+Figure 3 runs the rule on the students data of the [AdaGrad Note](../1036-adagrad/note.md). Watch the right panels: the raw averages start near 0 (at step 1, $\sqrt{v}$ is 0.50 while the gradient's size is 15.9), and the corrected ones start on the gradient. With the raw averages the first step is 2.24 long instead of 0.71, and the path overshoots to $b = 7.7$ before it comes back; section 5 explains why.
 
 ## 5. Bias correction
 
@@ -94,7 +98,7 @@ With $\beta_1 = 0.9$ the factor reaches 1 within a few dozen steps; with $\beta_
 
 ![EWMAs of a noisy gradient with mean 1 (true second moment 1.25), started at 0. The raw averages (orange) start near 0 and climb slowly, very slowly for $\beta_2 = 0.999$; the corrected ones (blue) are on target from the first step](images/bias_correction.png){width=100%}
 
-Figure 3 shows both averages on a noisy gradient. At step 10, the raw $v$ is 0.012 against a true value of 1.25; corrected, it is 1.22 (Notebook).
+Figure 4 shows both averages on a noisy gradient. At step 10, the raw $v$ is 0.012 against a true value of 1.25; corrected, it is 1.22 (Notebook).
 
 Without the correction, early steps would be badly scaled: at $t = 1$ in the example above, $m_1/\sqrt{v_1} = 0.2/\sqrt{0.004} = 3.16$ instead of 1, a first step more than three times too large. Kingma and Ba (2015, §3) point out that leaving the correction out leads to much larger initial steps. RMSProp keeps an uncorrected second-moment estimate, which may be strongly biased early in training (Goodfellow et al. 2016, §8.5.3).
 
@@ -112,7 +116,11 @@ On the **elongated bowl** (G-673) of the IIT feature (Figure 1), each optimizer 
 | RMSProp, $\beta = 0.9$ | 0.3 | 48 | yes: up to 0.15 from the best |
 | Adam | 0.5 | 42 | no |
 
-Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around once, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one (a **convex function**, G-476) the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks (**non-convex functions**, G-1333).
+![The loss above its minimum at every step for the five runs of the table, on a log scale. The dashed line is the 0.01 target; the legend gives the step at which each run first gets below it.](images/loss_gap.png)
+
+Figure 5 shows the same runs step by step. The step counts in the table are the first time a run gets within 0.01; the curves show what happens next. Gradient descent and AdaGrad keep falling smoothly. Momentum and Adam cross the line, swing back above it, and settle in smaller and smaller swings. RMSProp falls fastest at first, then jumps back up near step 105 and keeps bouncing around 0.01 to the end.
+
+Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around a few times, each swing smaller, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one (a **convex function**, G-476) the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks (**non-convex functions**, G-1333).
 
 ## 7. Adam on real data: MNIST
 
@@ -127,7 +135,7 @@ The setup:
 
 ![Training loss on MNIST per epoch for six optimizers, mean of 3 seeds](images/mnist_all.png){width=95%}
 
-Figure 4 and the Notebook give, as means over 3 seeds:
+Figure 6 and the Notebook give, as means over 3 seeds:
 
 | | SGD | Momentum | NAG | AdaGrad | RMSProp | Adam |
 |---|---|---|---|---|---|---|

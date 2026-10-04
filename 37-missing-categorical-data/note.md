@@ -345,6 +345,6 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing" |
 | Arbitrary value imputation | Filling gaps with a value that cannot occur naturally, such as 99, -1 or "Missing" |
 | Category share | The rows in one category divided by the rows that have a value |
-| `strategy="most_frequent"` | The `SimpleImputer` setting for mode imputation |
-| `strategy="constant"` | The `SimpleImputer` setting that fills every gap with `fill_value` |
+| `strategy="most_frequent"` (G-148) | The `SimpleImputer` setting for mode imputation |
+| `strategy="constant"` (G-147) | The `SimpleImputer` setting that fills every gap with `fill_value` |
 | `statistics_` | The fill values a fitted `SimpleImputer` learned, one per column |

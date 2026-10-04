@@ -116,7 +116,7 @@ The training error rose, and the test error fell by a quarter. In Figure 1 (top 
 
 The data is again made up: two clouds of points with two features, class 1 centred at $(0.6, 0.6)$ and class 0 at $(-0.6, -0.6)$, each with standard deviation 1. The clouds overlap, so some points of each class sit in the other's region: a straight line separates them reasonably, but not perfectly. There are 200 training points and 200 validation points.
 
-The network is the same as in section 3, with 2 inputs and a **sigmoid** (G-1798) output node for binary classification, trained with **binary cross-entropy** (G-304) for 500 epochs.
+The network is the same as in section 3, with 2 inputs and a **sigmoid** (G-1798) output node for binary classification, trained with **binary cross-entropy** (G-303) for 500 epochs.
 
 ### 4.2 The results
 

@@ -65,7 +65,7 @@ The weights and biases that give the smallest loss are the trained network. How 
 
 Strictly, the two words mean different things:
 
-- **Loss function** (G-1130, also called **error function**): the error on a single training observation, e.g. $(y_i - \hat y_i)^2$.
+- **Loss function** (G-706, also called **error function**): the error on a single training observation, e.g. $(y_i - \hat y_i)^2$.
 - **Cost function** (G-492): the average of the losses over a batch of observations, or over the whole training set, e.g. $\frac{1}{n}\sum (y_i - \hat y_i)^2$.
 
 Four students show the difference:
@@ -234,7 +234,7 @@ In Figure 7, watch the green line leave the orange MAE line and climb to the blu
 
 When the output is a probability, the loss should be near 0 if the network gives the true class a high probability, and very large if it gives the true class a probability near 0. Minus the log of that probability behaves this way: $-\log 1 = 0$, $-\log 0.5 = 0.69$ and $-\log 0.01 = 4.6$.
 
-**Binary cross-entropy** (G-304), also called **log loss**, is this loss for two classes, and the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../73-log-loss/note.md):
+**Binary cross-entropy** (G-303), also called **log loss**, is this loss for two classes, and the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../73-log-loss/note.md):
 
 $$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y}), \qquad J = -\frac{1}{n}\sum_{i=1}^{n}\big[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\big]$$
 
@@ -297,7 +297,7 @@ The squared error's slope can never be steeper than $-2$, however wrong the pred
 
 > **Key point:** $k$ classes means $k$ output nodes with softmax, and one-hot encoded labels.
 
-Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** (G-350) is the loss of softmax regression (see section 4.2 of the [softmax regression Note](../79-softmax-regression/note.md)). For one observation with $k$ classes:
+Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** (G-349) is the loss of softmax regression (see section 4.2 of the [softmax regression Note](../79-softmax-regression/note.md)). For one observation with $k$ classes:
 
 $$L = -\sum_{j=1}^{k} y_j \log \hat y_j = -y_1 \log \hat y_1 - y_2 \log \hat y_2 - y_3 \log \hat y_3$$
 
@@ -434,6 +434,6 @@ Loss functions are not limited to these. Other problems have their own losses (F
 | L1 loss | Another name for the mean absolute error used as a training loss |
 | Huber loss | Half the squared error for errors up to $\delta$, a straight line beyond; MSE for small errors, MAE for large ones |
 | $\delta$ (Huber) | The error size where Huber loss switches from squared to absolute; a hyperparameter |
-| Categorical cross-entropy | $-\sum_j y_j \log \hat y_j$ with one-hot labels; the loss for more than two classes, with a softmax output |
+| Categorical cross-entropy (G-349) | $-\sum_j y_j \log \hat y_j$ with one-hot labels; the loss for more than two classes, with a softmax output |
 | Sparse categorical cross-entropy | Categorical cross-entropy with integer labels: $-\log \hat y_c$ for the true class $c$ |
 | KL divergence, focal loss, triplet loss | Losses for variational autoencoders, object detection and embeddings, taught with those networks |

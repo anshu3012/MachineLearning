@@ -48,7 +48,7 @@ Tossing a coin meets both: it can land heads or tails, and before the toss nobod
 
 > **Key point:** A trial is one run of the random experiment.
 
-A **trial** (G-2016) is a single execution of a random experiment. Tossing the coin once is one trial; tossing it again is a second trial.
+A **trial** (G-2015) is a single execution of a random experiment. Tossing the coin once is one trial; tossing it again is a second trial.
 
 Every trial produces exactly one outcome. Repeating an experiment means running more trials of it.
 
@@ -276,7 +276,7 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 
 | Term | Meaning |
 |---|---|
-| Trial | One run of a random experiment; it gives exactly one outcome |
+| Trial (G-2015) | One run of a random experiment; it gives exactly one outcome |
 | Outcome | The single result of one trial, such as heads or a 3 |
 | Simple (elementary) event | An event with exactly one outcome |
 | Compound event | An event with two or more outcomes |

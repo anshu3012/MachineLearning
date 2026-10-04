@@ -41,6 +41,10 @@ The loss is a function of the weights and biases, so we can draw it against them
 
 Reading a contour plot takes practice. Where the surface is flat, the height changes slowly, so the rings lie far apart. Where it is steep, they crowd together.
 
+![The three views. Left: one weight, L(w) = w²/2, a curve. Middle: two weights, the narrow valley L = (w₁² + 100w₂²)/2 of Figure 1, a surface. Right: the same valley from above; note the axes: w₂ spans only −1 to 1.](images/loss_views.png)
+
+Figure 2 draws all three. The contour plot on the right shows the valley of Figure 1: its rings look round only because the $w_2$ axis is stretched ten times. The loss climbs as fast over 1 unit of $w_2$ as over 10 units of $w_1$, so across the valley the rings are packed ten times closer.
+
 ## 4. Why plain gradient descent struggles
 
 > **Key point:** Deep learning losses are non-convex. Local minima, saddle points with their flat surroundings, and high curvature all slow plain gradient descent down or trap it.
@@ -50,6 +54,14 @@ The losses of neural networks are non-convex (**non-convex functions**, G-1333; 
 1. **Local minima** (G-1110): a dip where the slope is zero. Starting from an unlucky point, gradient descent stops there and returns a sub-optimal solution.
 2. **Saddle points** (G-1718): the surface rises in one direction and falls in another, and the slope changes very slowly over a wide flat region. Updates are proportional to the slope, so they become tiny there and training slows down.
 3. **High curvature** (G-521): a bend with a small radius, such as the steep sides of a narrow valley. Gradient descent zigzags across the bend instead of following it.
+
+![Plain gradient descent on the three obstacles. Left: from w = −3 it stops in the small dip (learning rate 0.05). Middle: on the saddle L = w₁² − w₂², starting almost on the ridge, its steps shrink to almost nothing near the flat centre before it slides off. Right: on the narrow valley (learning rate 0.019) it zigzags across the steep sides.](images/obstacles.png)
+
+Figure 3 shows each obstacle with plain gradient descent:
+
+- **Local minimum (left):** the curve of section 8, from $w = -3$. The steps stop at $w = -1.83$, in the small dip, although a deeper minimum lies to the right.
+- **Saddle point (middle):** the first step has length 0.30; near the flat centre the steps shrink to 0.008, about 40 times shorter, before the path slowly slides off along the falling direction.
+- **High curvature (right):** across the valley the slope is steep, so every step overshoots to the other side, while the progress along the valley is small.
 
 Batch, stochastic and mini-batch gradient descent handle these poorly (see section 8 of the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md) for their paths). Momentum was designed for exactly these situations (Goodfellow et al. 2016, §8.3.2):
 
@@ -90,7 +102,7 @@ Each step now has two parts: the push of the past velocity, and the current grad
 
 ![Momentum's steps on the valley of Figure 1, drawn head to tail: the old velocity times $\beta$ (orange), then $-\eta$ times the gradient at the current point (blue); their sum is the step (green).](images/momentum_vectors.gif){width=95%}
 
-Figure 2 draws each step as these two arrows placed head to tail. Watch the arrows: across the valley the orange and blue arrows often point opposite ways and cancel, while along the valley the orange arrow, the remembered push, carries most of the motion. Momentum damps the zig-zag across a narrow valley and builds speed along it (Goh 2017).
+Figure 4 draws each step as these two arrows placed head to tail. Watch the arrows: across the valley the orange and blue arrows often point opposite ways and cancel, while along the valley the orange arrow, the remembered push, carries most of the motion. Momentum damps the zig-zag across a narrow valley and builds speed along it (Goh 2017).
 
 ### 6.1 Why the zigzag fades and speed builds
 
@@ -109,7 +121,7 @@ Whether gradient descent bounces depends on the step size. On $L = (w_1^2 + 100w
 
 ![The first 60 steps on the valley, from $(-10, 0.4)$. Top: $w_2$, the position across the valley. Bottom: $w_1$, the position along it. Gradient descent at $\eta = 0.01$ (green) sits on the valley floor after one step; at $\eta = 0.019$ (blue) it zigzags. Momentum ($\eta = 0.01$, $\beta = 0.9$, orange) swings slowly across and races along](images/momentum_zigzag.png){width=95%}
 
-Figure 3 puts the three runs side by side (Notebook):
+Figure 5 puts the three runs side by side (Notebook):
 
 - **Gradient descent, $\eta = 0.019$:** $w_2$ changes sign at all 20 of the first 20 steps, moving 0.334 per step on average.
 - **Momentum, $\eta = 0.01$:** $w_2$ changes sign 8 times and moves 0.189 per step. At step 3, for example, the remembered velocity term is $+0.324$ and the new gradient term is $-0.36$; they nearly cancel, so the step across is only 0.036. The swing still fades slowly: by steps 40 to 49, $|w_2|$ is still up to 0.05, against 0.006 for the zigzagging gradient descent.
@@ -119,7 +131,7 @@ The update rule explains both speeds. Write the velocity as $v_t = w_t - w_{t+1}
 
 $$w_{t+1} = (1 + \beta - \eta\lambda)\thinspace w_t - \beta\thinspace w_{t-1}.$$
 
-The two roots of $z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$ multiply to $\beta$. When $(1 + \beta - \eta\lambda)^2 < 4\beta$ they are complex with equal size, so each has size $\sqrt{\beta}$: the weight swings and the swing shrinks by $\sqrt{0.9} \approx 0.95$ per step. With $\eta = 0.01$, $\beta = 0.9$ the condition holds in both directions ($0.9^2 = 0.81$ across and $1.89^2 \approx 3.57$ along, both below 3.6). Along the valley, gradient descent shrinks the distance only by $1 - 0.01 = 0.99$ per step, so momentum's $0.95$ is far faster there. Across the valley, the $0.95$ is slower than the $0.9$ of gradient descent at $\eta = 0.019$, which is why the orange swing in Figure 3 lingers. On this valley the gain from momentum is the speed along it.
+The two roots of $z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$ multiply to $\beta$. When $(1 + \beta - \eta\lambda)^2 < 4\beta$ they are complex with equal size, so each has size $\sqrt{\beta}$: the weight swings and the swing shrinks by $\sqrt{0.9} \approx 0.95$ per step. With $\eta = 0.01$, $\beta = 0.9$ the condition holds in both directions ($0.9^2 = 0.81$ across and $1.89^2 \approx 3.57$ along, both below 3.6). Along the valley, gradient descent shrinks the distance only by $1 - 0.01 = 0.99$ per step, so momentum's $0.95$ is far faster there. Across the valley, the $0.95$ is slower than the $0.9$ of gradient descent at $\eta = 0.019$, which is why the orange swing in Figure 5 lingers. On this valley the gain from momentum is the speed along it.
 
 Momentum increases the step for directions whose gradients point the same way and reduces it for directions whose gradients change sign (Ruder 2016, §4.1). On the valley $L = (w_1^2 + 100w_2^2)/2$ from $(-10, 0.4)$, with $\eta = 0.01$ for both, after 20 steps gradient descent has moved $w_1$ from $-10$ to $-8.18$, while momentum is already at $-1.18$, close to the minimum at 0 (Notebook). To bring the loss below 0.01:
 
@@ -141,7 +153,7 @@ $\beta$ is the **decay factor** (G-553): it decides how fast the influence of pa
 
 ![The weight over 100 steps on $L = w^2/2$ from $w = -10$, $\eta = 0.1$. $\beta = 0$ creeps in; $\beta = 0.5$ arrives quickly; $\beta = 0.9$ overshoots and swings before settling; $\beta = 1$ swings between $-10$ and 10 forever](images/beta_effect.png){width=95%}
 
-Figure 4 shows all four. With $\beta = 1$, the weight is still swinging between about $-10$ and 10 after 100 steps (Notebook).
+Figure 6 shows all four. With $\beta = 1$, the weight is still swinging between about $-10$ and 10 after 100 steps (Notebook).
 
 > **Extra:** Goodfellow et al. (2016, §8.3.2) explain the decay as friction. The velocity's decay acts like viscous drag, a force proportional to $-v$, as if the particle moved through syrup. Without it ($\beta = 1$) the particle would slide down one side of the valley and up the other forever, like a hockey puck on frictionless ice.
 
@@ -151,12 +163,12 @@ Figure 4 shows all four. With $\beta = 1$, the weight is still swinging between 
 
 ![Two balls roll down a curve with a small dip (local minimum) and a deeper one (global minimum), $\eta = 0.05$. Plain gradient descent (blue) stops in the small dip. Momentum (orange, $\beta = 0.9$) rolls over the bump, overshoots the global minimum and swings before settling](images/momentum_ball.gif){width=95%}
 
-Figure 5 shows two effects on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$, starting at $w = -3$:
+Figure 7 shows two effects on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$, starting at $w = -3$:
 
 1. **Faster.** The orange ball gains speed as it rolls; the blue ball moves at the pace of the slope.
 2. **Out of a local minimum.** The blue ball stops in the small dip near $w = -1.83$ (loss 1.15). The orange ball has enough speed to climb out, crosses the bump, and ends in the global minimum near $w = 2.14$ (loss $-1.24$) (Notebook).
 
-The same speed has a price: **overshooting** (G-1430). The orange ball does not stop at the **global minimum** (G-848): it shoots past to $w = 2.85$, comes back, and swings with shrinking amplitude before settling. In Figure 4, $\beta = 0.9$ crosses the minimum again and again for the same reason. As the decay factor makes the old velocities fade, the swings die out, but the time spent swinging is wasted.
+The same speed has a price: **overshooting** (G-1430). The orange ball does not stop at the **global minimum** (G-848): it shoots past to $w = 2.85$, comes back, and swings with shrinking amplitude before settling. In Figure 6, $\beta = 0.9$ crosses the minimum again and again for the same reason. As the decay factor makes the old velocities fade, the swings die out, but the time spent swinging is wasted.
 
 Momentum is still faster than plain gradient descent, but these oscillations make it slower than optimizers that damp them. The biggest problem of momentum is its momentum. The next optimizer, Nesterov accelerated gradient, reduces the swings.
 
@@ -176,7 +188,7 @@ Each is trained with 3 seeds and the curves are averaged.
 
 ![Training loss on MNIST per epoch, mean of 3 seeds. Same learning rate 0.01; momentum 0.9 (orange) against plain SGD (blue)](images/mnist_momentum.png){width=90%}
 
-Figure 6 and the Notebook give:
+Figure 8 and the Notebook give:
 
 | | Plain SGD | SGD with momentum 0.9 |
 |---|---|---|
@@ -228,7 +240,7 @@ Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps a
 
 **Other references**
 
-- Goh, G. (2017). Why momentum really works. *Distill*, distill.pub/2017/momentum. Introduction: momentum's added inertia damps oscillations and carries the descent through narrow valleys (the statement cited with Figure 2). The two-arrow drawing, data and code are our own.
+- Goh, G. (2017). Why momentum really works. *Distill*, distill.pub/2017/momentum. Introduction: momentum's added inertia damps oscillations and carries the descent through narrow valleys (the statement cited with Figure 4). The two-arrow drawing, data and code are our own.
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §8.3.2 Momentum (algorithm 8.2, eq. 8.17, the physical analogy).
 - Polyak, B. T. (1964). Some methods of speeding up the convergence of iteration methods. *USSR Computational Mathematics and Mathematical Physics* 4(5), 1–17.
 - Ruder, S. (2016). An overview of gradient descent optimization algorithms. arXiv:1609.04747. §4.1 Momentum.

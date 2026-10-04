@@ -74,6 +74,10 @@ The hierarchy has a second benefit, **transfer learning** (G-2005; also from the
 - At the primitive level (lines, edges, simple shapes) the two kinds of face look alike.
 - So instead of training a new network from scratch, we keep the trained early layers and retrain only the last layers on monkey faces.
 
+![Transfer learning. The early and middle layers of a network trained on human faces are copied into a network for monkey faces; only the last layers are trained again.](images/transfer_faces.png){width=85%}
+
+Figure 3 shows the reuse: the copied layers already detect lines, edges and simple shapes, so the new network only has to learn the last step. The [transfer learning Note](../1053-transfer-learning/note.md) does this in code.
+
 How many layers, then: 3, 30 or 300? We keep adding hidden layers while the results improve, and stop as soon as the network starts to overfit (section 4.4).
 
 ### 3.2 Neurons per layer
@@ -90,6 +94,13 @@ For the hidden layers there is no hard and fast rule; people go by experience. A
 Experiments later showed that the pyramid makes little difference: three hidden layers of 32 neurons each perform about the same as 64-32-16. So the pyramid is an option, not a rule.
 
 What does matter is that every layer has a **sufficient** number of neurons. Figure 2 (c) shows why. With 2 inputs and a first hidden layer of only 1 neuron, that one neuron has to carry every primitive feature; whatever it ignores is lost, and later layers cannot recover it. So we start with more neurons than we think we need, and reduce them only if the network overfits.
+
+Figure 4 tests both points on the MNIST handwritten digits (see the [MNIST Note](../1012-mnist-ann/note.md)): networks with ReLU hidden layers, trained for 10 epochs with Adam, each the average of 3 random starts.
+
+![Test accuracy on MNIST. Left: a pyramid against three equal layers with the same number of weights. Right: a first hidden layer of 1, 2 or 32 neurons, followed by two layers of 32.](images/shapes.png)
+
+- **Pyramid or not (left).** A 64-32-16 pyramid and three equal layers of 58, both with about 53,000 weights, score 97.2 percent each: the shape makes no difference here.
+- **A starved first layer (right).** With 32 neurons in the first hidden layer the network scores 96.3 percent. With 2 it scores 70.6 percent, and with 1 only 42.8 percent, although the two layers after it still have 32 neurons each. Whatever the first layer cannot pass on, the later layers never see.
 
 ### 3.3 Learning rate and optimizer
 
@@ -112,6 +123,15 @@ An **optimizer** (G-1401) is the rule that turns the gradients into weight updat
 | Results on new data | better, a proven approach | often worse (Keskar et al. 2017) |
 
 The upper limit of a large batch depends on the memory of the **GPU** (G-856).
+
+Figure 5 measures the first and third rows of the table on MNIST, with the 32-32-32 network of Figure 4 trained for 10 epochs at each batch size.
+
+![Batch size on MNIST, one GPU, mean of 2 random starts. Left: seconds per epoch. Right: test accuracy after 10 epochs.](images/batch_size.png)
+
+- **Speed (left).** With batches of 8, one epoch is 7,500 weight updates and takes 5.9 seconds. With batches of 512 it is 118 updates and takes 0.4 seconds; beyond that the GPU is already busy and the time stops falling.
+- **Results (right).** Batches of 8 to 512 all reach about 96 percent. Batches of 2,048 reach 94.2 percent and batches of 8,192 only 89.6 percent.
+
+Part of that drop is simple counting: in 10 epochs, batches of 8,192 make only 80 weight updates, against 75,000 for batches of 8. A larger learning rate with a warm-up, below, is how large batches make up for the missing updates.
 
 To keep the speed of large batches and still get good results, some researchers use a **learning rate warm-up** (G-1071): the learning rate starts very small in the first epochs and is then increased quickly. Training with large batches and a warm-up is both fast and accurate.
 
@@ -137,7 +157,7 @@ How long should we train? Some people try 100 epochs, then 500, then 1,000. The 
 
 ![The four problems and where each fix is taught. Green chips name the fix and its Note](images/fix_notes.png){width=85%}
 
-Figure 3 is the right half of Figure 1 as a reading list: each fix points to the Note that teaches it.
+Figure 6 is the right half of Figure 1 as a reading list: each fix points to the Note that teaches it.
 
 ### 4.1 Vanishing and exploding gradients
 
@@ -220,5 +240,5 @@ Two techniques speed up training:
 | Pyramid structure | Hidden layers with fewer neurons in each later layer, such as 64-32-16; an old rule of thumb, not needed |
 | Optimizer | The rule that turns gradients into weight updates, such as plain gradient descent or Adam |
 | Learning rate warm-up | Starting training with a very small learning rate and raising it over the first epochs |
-| Learning rate scheduler | A rule that changes the learning rate as training goes on |
+| Learning rate scheduler (G-1070) | A rule that changes the learning rate as training goes on |
 | Unsupervised pre-training | Training a network's early layers on unlabelled data before training it on the labelled data |

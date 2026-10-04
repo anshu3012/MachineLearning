@@ -54,7 +54,7 @@ We can picture $g$ as a gate between what flows into a node and what flows out. 
 
 > **Key point:** Two hidden layers of 32 nodes with linear activations reach 50% accuracy on two circles, the same as guessing. With ReLU the same network reaches 100%.
 
-The data is `make_circles` (G-1148) from scikit-learn. Each **observation** (G-1374; one record, one row of the data table) has:
+The data is `make_circles` (G-110) from scikit-learn. Each **observation** (G-1374; one record, one row of the data table) has:
 
 - two **features** (G-772; input variables) $x_1$ and $x_2$, its position on the plane;
 - a **target** (G-1949; the output we predict): class 1 for the inner ring, class 0 for the outer ring.
@@ -85,7 +85,7 @@ Stacked matrices without an activation multiply into a single matrix (see the [m
 
 1. **In words:** the first layer computes $a_1 = W_1 a_0 + b_1$; the second feeds that into $a_2 = W_2 a_1 + b_2$; multiplying out gives one weight matrix and one bias.
 2. **Formula:**
-   $$a_2 = W_2(W_1 a_0 + b_1) + b_2 = \underbrace{W_2 W_1}_{W'}\thinspace a_0 + \underbrace{W_2 b_1 + b_2}_{b'}$$
+   $$a_2 = W_2(W_1 a_0 + b_1) + b_2 = \underbrace{W_2 W_1} _{W'}\thinspace a_0 + \underbrace{W_2 b_1 + b_2} _{b'}$$
 3. **Example:** with single numbers $W_1 = 2$, $b_1 = 1$, $W_2 = 3$, $b_2 = -1$:
    $$a_2 = 3(2x + 1) - 1 = 6x + 2$$
    Two layers, and the result is still a straight line in $x$.
@@ -108,7 +108,7 @@ The relationship between $z$ and $g(z)$ must not be a straight line, as section 
 
 > **Key point:** Gradient descent needs the derivative of the activation at every step, so it must exist.
 
-**Backpropagation** (G-247) multiplies the activation's **derivative** (G-595) into every **gradient** (G-865) (see the [backpropagation how Note](../1016-backpropagation-how/note.md)). Without a derivative there is no gradient, no update and no training.
+**Backpropagation** (G-247) multiplies the activation's **derivative** (G-595) into every **gradient** (G-863) (see the [backpropagation how Note](../1016-backpropagation-how/note.md)). Without a derivative there is no gradient, no update and no training.
 
 The property is important but not strict. ReLU has no derivative at exactly $z = 0$ and is still the most used activation (section 8.2 explains how this is handled).
 
@@ -123,6 +123,14 @@ A network with a million nodes trained on a million observations for 100 epochs 
 > **Key point:** Outputs with mean about 0, some positive and some negative, act like normalised inputs to the next layer and make training converge faster.
 
 A **zero-centred** activation function (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see the [standardization Note](../24-standardization/note.md)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
+
+Figure 3 shows the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like sigmoid outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same learning rate, 2.5.
+
+![Stochastic gradient descent on one node with two weights. Left: inputs all positive. Right: the same inputs centred on 0. Grey: contours of the loss; black dot: start; star: the target weights.](images/zigzag.gif)
+
+1. **Each step's direction.** The gradient of the squared error is $(\hat y - y)(a_1, a_2)$. With positive inputs, both parts have the sign of $\hat y - y$, so every orange step moves both weights up or both down: along a diagonal.
+2. **The valley.** With positive inputs the loss forms a long, narrow valley (left contours). Steps along the diagonal keep overshooting across it.
+3. **The result.** After 20 steps the positive-input node is still 1.01 away from the target; the centred one is 0.10 away. Centred inputs make the loss contours round, so the steps head straight for the target (LeCun et al. 1998, §4.3).
 
 ### 5.5 Non-saturating
 
@@ -178,7 +186,7 @@ Because $a_{21}$ and $a_{22}$ are both positive, both gradients take the sign of
 
 ![(a) With all-positive inputs, one update moves every weight into a node the same way: only the green quadrants are possible. (b) When the best weights need one weight up and the other down, gradient descent has to zigzag](images/sign_restriction.png){width=95%}
 
-Figure 3 shows the consequence. If reaching the minimum needs $w_{21}$ to grow while $w_{22}$ shrinks, no single step can do that. Gradient descent zigzags, like driving to a place on our left when we are not allowed to turn left, and it converges slowly (LeCun et al. 1998).
+Figure 4 shows the consequence. If reaching the minimum needs $w_{21}$ to grow while $w_{22}$ shrinks, no single step can do that. Gradient descent zigzags, like driving to a place on our left when we are not allowed to turn left, and it converges slowly (LeCun et al. 1998).
 
 The Notebook checks the sign rule with one hidden layer of 10 nodes feeding a sigmoid output, for one observation. With sigmoid hidden nodes, the 10 gradients of the output node's weights all have the same sign (`++++++++++`). With tanh hidden nodes they are mixed (`-+-+++++-+`).
 
@@ -216,6 +224,10 @@ Advantages:
 2. **Differentiable** everywhere.
 3. **Zero-centred.** Outputs are both positive and negative. The gradients of the weights into a node can then have different signs, and training is faster than with the sigmoid (LeCun et al. 1998, §4.4). In the Notebook, over all 300 observations, a 128-node tanh layer has mean output 0.000 with half the values positive, while a sigmoid layer has mean 0.500 with every value positive.
 
+![The outputs of one freshly initialised 128-node layer for the 300 circles observations, with three activations: 38,400 values each. Dashed line: 0.](images/layer_outputs.png)
+
+Figure 5 shows those layer outputs. The sigmoid's values all sit above 0, around 0.5. The tanh values spread evenly on both sides of 0, so the next layer receives inputs centred on 0, as in the right half of Figure 3. ReLU's values are 0 or positive, never negative: ReLU is not zero-centred either (section 8.2).
+
 Disadvantages:
 
 1. **Saturating.** For large $|z|$ the slope is 0, so tanh also suffers from the vanishing gradient.
@@ -241,7 +253,28 @@ Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not th
 
 ![Two ReLUs (dotted) and their difference (green): flat, rising, flat. No straight line has two corners](images/relu_bend.png){width=80%}
 
-Figure 4 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is **piecewise linear** (G-1496).
+Figure 6 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is **piecewise linear** (G-1496).
+
+**How the bends fit data.** A network makes the same move with its own weights. Take a drug that works at a medium dosage and fails at a low and a high one: three observations, dosage 0, 0.5 and 1, with targets 0, 1 and 0. A network with two ReLU hidden nodes and a ReLU before the output fits them in six steps, one per frame of Figure 7:
+
+1. **Node 1** computes $\max(0,\ 1.70 \times \text{dosage} - 0.85)$: flat at 0 up to dosage 0.5, then a rising line.
+2. **Its output weight, $-40.8$,** flips the bent line and stretches it downwards.
+3. **Node 2,** times its output weight, gives the straight line $34.0 \times \text{dosage}$.
+4. **The output node adds the two:** a wedge with its corner at dosage 0.5.
+5. **The output bias, $-16$,** moves the wedge down until only its tip is above 0.
+6. **The final ReLU** sets every negative value to 0. A narrow peak is left.
+
+![Two ReLU nodes fitting three points, one operation per frame: the bent line of node 1, its output weight, the straight line of node 2, their sum, the bias, the final ReLU. Numbers after StatQuest, "Neural Networks Pt. 3: ReLU In Action!!!"](images/relu_wedge.gif){width=95%}
+
+Check the three observations:
+
+| Dosage | Node 1 $\times\ (-40.8)$ | Node 2 line | Sum $- 16$ | After the final ReLU |
+|---|---|---|---|---|
+| 0 | 0 | 0 | $-16$ | 0 |
+| 0.5 | 0 | 17.0 | 1.0 | 1.0 |
+| 1 | $0.85 \times (-40.8) = -34.7$ | 34.0 | $-16.7$ | 0 |
+
+Each ReLU node contributes one bent line. The weights and biases slide, flip and stretch these lines, and their sum is a new shape with one corner per node. More nodes give more corners, so the network can follow more complicated patterns.
 
 **2. Non-saturating in the positive region.** For positive $z$ the output grows without limit and the slope stays 1, so the gradient does not vanish there.
 
@@ -259,7 +292,7 @@ Figure 4 shows the result: a curve with two corners. The ReLU decision boundary 
 
 **2. Not zero-centred.** Like the sigmoid's, ReLU's outputs are never negative, with the same effect on the gradient signs as in section 6.3. [Batch normalisation](../1031-batch-normalization/note.md) (G-266) addresses this: it normalises the values passed between layers.
 
-**3. The dying ReLU problem** (G-650). A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see section 6.2 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)). The causes and the fixes are in the [ReLU variants Note](../1028-relu-variants/note.md).
+**3. The dying ReLU problem** (G-650). A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see section 6.2 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md)). The causes and the fixes are in the [ReLU variants Note](../1028-relu-variants/note.md). The same Note (section 6.3) introduces GELU and SiLU, the smooth versions of ReLU used in transformers.
 
 > **Python:** Choosing activations in Keras.
 >
@@ -298,6 +331,7 @@ Figure 4 shows the result: a curve with two corners. The ReLU decision boundary 
 **Built from**
 
 - CampusX, "Activation Functions in Deep Learning | Sigmoid, Tanh and Relu Activation Function", YouTube, https://www.youtube.com/watch?v=7LcUkgzx3AY
+- StatQuest with Josh Starmer, "Neural Networks Pt. 3: ReLU In Action!!!", YouTube, https://www.youtube.com/watch?v=68BZ5f7P94E (the dosage example of section 8.1: two ReLU nodes building a shape, Figure 7)
 
 **Other references**
 

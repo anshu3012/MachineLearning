@@ -1,0 +1,111 @@
+Hi guys, welcome to my YouTube channel.
+We are studying logistic regression and when we started studying logistic regression,
+I told you the first assumption that logistic regression works only when there is linear behavior in your data.
+If the data is non-linear, then logistic regression cannot behave and perform that well.
+In that case, you have to use some other machine learning algorithms
+like decision trees, random forest, SVM, but today I will tell you a small trick
+by which if you want you can apply logistic regression on non-linear data also
+so let's start the video
+so guys let's say we have a data set where we have 3 columns x1, x2 and y
+where x1 and x2 are our input columns and y is our output column
+0 or 1
+now if you look here carefully
+then you can clearly see that in our data
+the relationship is
+non-linear
+right, so if we apply
+logistic regression on it
+we will not get that good result
+ok, so
+what can we do
+is there any trick by which we can
+get better result
+the answer is yes
+and few days ago
+When you were studying linear regression, you had studied polynomial linear regression.
+You can apply exactly that technique on logistic regression also.
+So if you remember, what you have to do is, for every feature of yours,
+you can convert it into a polynomial of degree whatever you choose.
+So let's say you choose degree to be equal to 2.
+In that case, how will you convert your data set?
+For x1, you will have new columns x1 to the power 0, x1 to the power 1, and x to the power 2.
+Similarly for x2, you will have x to the power 0, x to the power 1, and x to the power 2.
+This means that where your shape was of 2 columns, now it will be converted into 6 columns.
+Y will remain the same, there will be no changes in Y.
+And as you add this, now for each of the columns you will find one coefficient.
+So for this W1, for this W2, for this W3 and so on.
+For this W6 and W0 will be your intercept.
+Now as you introduce these polynomial features, you will be able to work on non-linear data.
+The more you increase the degree, like if you make degree equal to 3, then you will have 4 columns per input column.
+X to the power 0, X to the power 1, X to the power 2 and X to the power 3.
+And you might remember when you studied linear regression, I told you that the more you increase the degree, the more the case of overfitting and the more you decrease the case of underfitting.
+So if you have this type of non-linear data, you can check for different degree values how your output is coming.
+So here there is nothing special to discuss in theory.
+If you don't have much idea how to apply polynomial features, I will put the link of the previous video in the description.
+You can see that once. In this video, I will show you how we apply polynomial features on this dataset and calculate logistic regression.
+I will tell you both the cases. In the beginning, I will show you degree equal to 1 as in without any polynomial features,
+I will show you by applying logistic regression and then I will show you by applying for different degrees.
+And you would see that your performance will improve as you increase the degree.
+So let me switch back to code. So you can see I have already written this code.
+It is a very simple code. First I have imported all the libraries.
+After that, I have imported my data set. This is my data set. X and Y are my two input columns.
+Class is my output column. After that, I have extracted X and Y and plotted the data.
+I have shown you the same data earlier. Now, I have to apply logistic regression on it.
+So, I have imported logistic regression class and made an object of it.
+I trained my model by passing X and Y and here is the decision boundary of this model.
+So you can see that logistic regression will always draw a line.
+If you are applying normal logistic regression then it will try to classify the data by drawing a line.
+And you can see this line is passing through this particular place.
+And you can clearly see that there are misclassifications happening.
+There are certain orange points which are in blue region and there are certain blue points.
+blue points which is in orange region. So what I did is I took out the accuracy score
+and it is coming out to be 83% right now. It is 83% accuracy. Now the question is can
+we improve it? And the answer is yes. What will we do? We will import the polynomial
+features class from pre-processing. We will make an object by saying poly. We will give
+We will give 3 and include bias is false or true, it doesn't make much difference.
+And we will transform our x using fit transform.
+I run this code as it is and then I took out accuracy.
+You can see my accuracy has improved and now it is giving me an accuracy of 90%.
+So what I did is to make this thing a little bit flexible, I made a function of my own.
+Plot Decision Boundary, where you will provide 3 things, X, Y and Degree.
+The default value of Degree is 1, means if you will not provide Degree, then the normal logistic regression will be applied automatically.
+If you will provide Degree, then the logistic regression of that Degree will be applied.
+The code inside is very simple, I have made a poly object, I have transformed X,
+By making an object of logistic regression, I have run the data on X-transform and I have made the next code to plot the graph.
+So, it's okay there, there is no need to enter much, you can use this code directly.
+And first of all, I have sent you the value of degree, normal logistic regression.
+This is exactly the same curve that you saw above. This and this is exactly same.
+You can see the accuracy is also coming out to be 0.83.
+After that what I did? I increased the degree a little and see this guys, this is degree equal to 2.
+Now this is not a line, this is not a single line since we have introduced polynomial features.
+Now this is a curve, a polynomial whose degree is 2. But still no special accuracy has been improved.
+Still our yellow points are misclassified and some blue points are misclassified.
+So what I did? I increased the degree and made it 3 and by making it 3 you can see a lot of improvement has been done.
+Now, this curve is actually fitting much better than the line that we had in the case of degree equal to 1.
+Accuracy also increased to 0.9.
+And after that, I tried for 4.
+There is no significant improvement.
+There is a slight improvement in 5.
+This will probably perform better on new data.
+6 was also not significant.
+7, the odd numbers that I noticed on this data had good improvement, then I ran it on 25, so I didn't get anything special
+and it started getting overfitting, it started running behind a small point, so I guess 3 or 5 is the optimum value
+on which you will get the best results, so in short, this is a very small video, but if you ever get non-linear data
+and you have only logistic regression to apply
+then simply call polynomial features and transform the features
+and apply logistic regression
+generally you will get better results than vanilla logistic regression
+but if the data is non-linear
+then in that case you get better performance than logistic regression
+that is why in case of non-linear algorithm this technique is not used much
+It's just that we are studying logistic regression, so I want to tell you everything.
+So this is also a technique that you can apply.
+But generally, as much as I have seen in my experience,
+on real world non-linear data sets,
+a decision tree or a random forest performs better than this technique.
+So it is not required.
+But again, for knowledge sake, we have studied this.
+So I hope you don't have any problem.
+If you have any doubt related to polynomial regression,
+Do check the video which I have put in the description. All your doubts will be cleared.
+So that's it guys. Thanks for watching. Bye.

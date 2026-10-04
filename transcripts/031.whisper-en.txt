@@ -1,0 +1,234 @@
+Hello guys, welcome to my YouTube channel.
+In the last video, we had started mathematical transformations and in this video, we will continue it.
+Today, we will learn a new scikit-learn class named Power Transformer.
+And we will see two new mathematical transforms.
+One of them is Box-Hawks and the other one is E.O. Johnson.
+So, let's start.
+So guys, just to summarize again, we have started studying mathematical transformations.
+Basically, there are three classes in scikit-learn to support these mathematical transformations.
+One was function transformer which we did yesterday.
+Through which we studied log transform, square transform and square root transform.
+And today we are going to do the second one which we call power transformer.
+this is also a class and in this we will study two different transformers one is named box
+cox and the other one is named yoo johnson ok there is one more i told you in the last
+video we call this as quantile transformer but we will not discuss this because it is
+is not that important. So today's entire focus would be on this part. So let's start
+a discussion around Box-Cox transform. So first of all its name is very nice name Box-Cox.
+It's actually two computer scientists. One of them's name was Box and the other's name
+was Cox, probably their surname. In fact they collaborated because their name is very nice
+it was making a better sound
+and eventually they gave this
+transform, it's a very very important
+transform
+and by using this transform
+again what happens, you know
+you can convert any given
+distribution
+if you have any data
+and it has any distribution
+you can convert it to normal distribution
+using
+this transform, in fact this
+transform is a general transform
+In fact, its special case is log transform and square root transform.
+So, what happens here is that this is the formula.
+Like this is your input variable, any column.
+And you apply these transformations on it depending on the value of your lambda.
+And what is lambda basically? Lambda is the power.
+So, what you actually do here is that you try to calculate the power.
+that how much power of x will be right, x square will be right, x cube will be right, x 1.5 will be right,
+how much power will be right, this is what you have to find out here. So if you read here, then it is written
+the exponent here is a variable called lambda. That varies over the range of minus 5 to 5.
+Whenever you will apply box-cox transform, then your highest value will be 5 and lowest will be minus 5.
+and in the process of searching we examine all the values of lambda.
+So you try all the values. You try 1.5, 1.6, 1.7.
+You try all the values and finally we choose the optimal value
+which results in the best approximation to a normal distribution for your variable.
+The value for which the best normal distribution is created
+you take the same value of lambda. That is how you do it.
+Now, what is exactly internal working? This is a little difficult and it is beyond the scope of this video.
+But I can tell you that there are two techniques to find out this thing.
+One of them is maximum likelihood which you will read sometime especially when you will read logistic regression.
+And second is Bayesian statistics. This is a completely different field of statistics where there are many tools and formulas to solve this kind of problem.
+it comes under inferential statistics. But trust me, at this point as a machine learning engineer, as a data scientist,
+you should just understand what is happening rather than how it is happening. At this point, it would be sufficient.
+So, this was Box-Cox Transform. One important thing you have to remember is that Box-Cox Transform is strictly applicable
+to only numbers that are greater than zero. Zero will not work and negative will not work at all.
+So these are the two restrictions of Box-Cox and who solves these two restrictions?
+U.O. Johnson transform and this transform, again two computer scientists came up with it
+and this is a kind of variation of Box-Cox transform and whatever variation is there
+it comes only from this thing that it can work on the values of negative and zero
+So if you read here, it is written here
+This transformation is somewhat of an adjustment to the box-cox transformation by which we can apply it to negative numbers.
+That's it. So, Funda is very simple guys. What you have to do is, you have to use the power transformer class of scikit-learn
+in which you will get both these implementations. And wherever you feel that you have such a distribution which is not normal
+and you are using an algorithm which works well on normal distributed data like linear regression, logistic regression, KNN
+all these algorithms, then what you have to do is you have to apply both these transformations and see
+because at the end you have to do parameter tuning and from that you will get to know whether you should apply boxcocks
+or you should go with EO Johnson. So now what I am doing is I am showing you an example
+I took the data set of a concrete material from Kaggle
+and on that data set I will again
+this is basically a regression problem
+I will predict the strength of concrete
+and I will use linear regression as my model
+and I will show you
+that without transformation
+results are not that good
+as much as you will use boxcocks and ego johnson and i will also show you distributions
+so let's start so guys here is the notebook first of all i have taken all the imports
+these are very simple imports you already know and i have taken this import for plotting qqplot
+so that we can understand that how normal is the distribution of any particular column
+So, I have run them. Apart from this, I have imported train test split, cross valve score, linear regression, R2 score and this is my power transformer.
+You will get it in pre-processing. You have to import these many things. After that, I have taken this data set and downloaded it or imported it.
+And this is my data set guys. This is a different type of data set. I have taken this data set because some columns are not normal.
+They are not distributed normally. So I will be able to clearly show you that you will need to convert it to normal distribution.
+So you can see this is basically a data set related to concrete. These are your input columns.
+Cement, blast furnace, slag, fly ash, water. If you have ever studied physical chemistry then you might be remembering.
+super plasticizer and many more things, age of the concrete material and in the last its strength is predicted.
+I don't know the units but this is the data that we have. So now I have to predict the strength for all this given data.
+It's a regression problem. Now I will quickly tell you the shape. The shape is very simple.
+There are 1000 rows roughly and 9 columns.
+After that, I checked whether there are missing values or not, because there is a problem in transforming missing values.
+Fortunately, there is no missing value here. It is a very good data set.
+I tried to figure out one more thing, whether the values are negative or zero.
+Because if it is negative or zero, then it will not look like BoxCox.
+Unfortunately, there are some columns here, like zero is the minimum value in blast furnace snag.
+fly ash, super plasticizer and that's it. There is no negative value anywhere but the minimum value is 0.
+So this was the problem. I have come up with an idea which I will share with you.
+So first of all I extracted x and y. This is simple. After that I did train to split. Again it is simple.
+And now what I did is I created a model of linear regression without any transformation and trained on this data.
+And I calculated R2 score. And by calculating R2 score, I can see R2 score of 62.
+Now if I want to be sure, I cross-validated 10 times. And after doing that, I came to know that the condition is worse than that.
+In fact, it is of 46. When you are taking out the meme by doing it 10 times, then actually the result is a little worse.
+Now I am showing you all the columns in my input except the strength column and how is the distribution of all the columns.
+I will show you its displot and its qqplot and you will see that there is a lot of mess here.
+So you can see, it is taking time to plot. So you can see the cement one is still fine and you can understand this from your qqplot.
+Most of the time you are on that 45 degree line only.
+Blast Furnace Snag is right skewed.
+Fly Ash is Bi-model.
+Water is fine.
+Super Plasticizer is right skewed Bi-model.
+Coarse Aggregate is looking the best till now.
+Fine Aggregate is also looking fine.
+The worst condition is of age.
+So, apparently, there are many concrete materials whose age is less and some concrete materials whose age is very less and you can see that in the QQ plot also.
+So, the condition is not good of age and 1-2 columns and due to which your result is not that good.
+One more thing, I have not done scaling here.
+You should have done scaling regularly but now I will forcefully, because I will do scaling twice, without transformation and with transformation also.
+So, the impact of scaling will be equal to both, so I haven't done it yet, you can do it if you want.
+Scaling will for sure improve your result, this is for sure.
+Now, what did I do? Now I thought of applying Box-Cox Transform.
+So, it is very simple, you have to import PowerTransformer class, this is the class, this is the PowerTransformer class.
+It is very simple, it is written here, apply a PowerTransform feature wise to make data more Gaussian like.
+means normally distributed. Power transforms are a family of parametric monotonic transformations
+that are applied to make data more Gaussian like. This is useful for modeling issues related
+to, you will read this term when you will do linear regression. In linear regression
+it is one of the main assumptions. We will discuss this. Don't worry about this. Or
+other situations where normality is desired. Currently power transformer supports the Boxcox
+and UO Johnson transform, the optimal parameter for stabilizing variance and minimizing skewness
+is estimated through maximum likelihood, which I told you that the lambda that is calculated
+is done in two ways, either it is done in the way of maximum likelihood or it is done
+in the way of Bayesian statistics, here the implementation is, since it is machine learning
+based implementation, here your maximum likelihood is through, okay, boxcox requires input data
+to be strictly positive. Not even zero, not even negative. While Liu Johnson supports both positive and negative data.
+By default, zero mean unit variance normalization is applied to the transformed data.
+This means that there is a parameter called standardized here, whose default value is true.
+This means that when this transformation will be applied, then by default standardization will be done automatically.
+So actually there will be no need to scale. Internally standard scaler is being applied.
+So now I am doing one thing, I have made a power transformer. By the way, the method here is by default EO Johnson.
+Because as much as I have noticed on all the data sets, there mostly EO Johnson gives better results in comparison to Boxcox.
+And the second benefit is that it also considers negative data. So that's why they have made default EO Johnson.
+But first I used Boxcox. Now what was the problem in Boxcox that I had zero data.
+I have added a very small value in X-train. So if I have 0 anywhere, then it will be 0.00001.
+So there was not much difference, just my box-to-box transform was applied.
+In fact, I read this joke somewhere in a blog. They said that if you have 0, then add a small value to it.
+That's what I did here. I transformed my X-train and my X-test.
+One more thing, what happens is that you have 8 columns here, if you notice that there are 8 columns in your input.
+You are transforming 8 of the 8 columns. Right.
+Means you calculate one lambda value for each of your columns.
+Okay.
+Which you have seen here.
+This.
+You are calculating one lambda for each input column.
+Basically, one lambda is coming out for each column.
+By which power you are raising it and transforming it.
+So I did the same thing that when I applied transformation here,
+after that this PT which was my object, I made a dot in it and fetched lambdas underscore.
+It will give me all the lambdas of every column and I converted it into a data frame.
+And you would see that for cement it is basically 0.177.
+which means if there is a value in your cement like 540
+then you are raising 540 by the power of 0.177
+this will be your transformation
+Similarly Blast Furnace Snack, suppose it is 30, so you will raise it by the power of 0.02
+That is what you are doing. Internally, after calculating these lambdas, transformation is applied like this only
+You are taking every x and raising it with the power of lambda. So that is what is happening here
+So just clear this in your mind. I hope you understood
+Now that I have transformed x-train and x-test, I again made an object of linear regression
+And I trained XTRAIN, TRANSFORMED and YTRAIN.
+And I did prediction, put it in vibrate 2 and run it.
+So, it became 80.
+Like how much was coming up?
+It was coming up 62.
+Although after cross validation it became 46.
+But here instead of 62, it became 80.
+So, you can see our R2 score improved immediately.
+Now, I didn't want to be too happy.
+That's why I applied cross valve score 10 times and after doing that I came to know that it is not a matter of happiness, it is 0.66.
+And 0.66 is actually good because our cross valve score was 0.46 without transformation and now it is 0.66.
+So it is an improvement of 0.2, that is a very good improvement.
+Now I will show you one last thing. I am showing you again by doing side by side comparison.
+Before transformation and after transformation disk plot. I have run this.
+And before that I will have to run this also. Just one second.
+I had converted it in the data frame but I didn't convert it in the data frame.
+I will have to do it.
+Just one second.
+Yup, this is the code.
+So, I will just copy it over here.
+what i am doing is that my x transformed is numpy array
+i am converting it into data frame so that i can plot the graph and show you
+so see this guys i have plotted the graphs of before and after
+so on the left side you have the graph of before transformation of every column
+on the right side of after transformation
+In cement, you can see there is a slight transformation, which is making your right skewed a little bit normal, which is good.
+Look here, this was a lot of right skewed, it was not able to distribute it properly normally, but the bimodal and both the models are normally distributed.
+Same goes with this one, fly ash, it looks like it was water.
+Super plasticizer has also been improved a little, course aggregate is also looking like that, fine aggregate is also looking like that
+Age, the most improvement has come in age, it has taken the right skewed data, standardized it and made it normally distributed
+So you can see how your transformation is being applied
+Now the last thing that I did was that I applied UO Johnson this time.
+So I made a new object PT1 and didn't give any value in the power transformer.
+So by default value is UO Johnson.
+And again I repeated all the work.
+And after repeating all the work, this time my R2 score was 81.
+Last time 80 was coming, this time 81.
+So I saw some improvement more.
+And here also I have all these lambdas.
+These are all my lambdas.
+So if you see then most of the column's lambdas are very similar to boxcox but there are some changes which is making our EO johnson different.
+And again instead of not being confident you can see the actual results by applying crossvalve score.
+And here is the actual result. Last time it was 0.66 and this time it is 0.68.
+So you can see we started with 0.46 and after that we are able to reach 0.66 by applying boxcox and 0.68 by applying EO johnson.
+Now one last thing I have done is that here also I have done one thing that I have plotted side by side
+Your before transformation and after eo johnson transformation and mostly you will not see any difference in the result
+It will be very similar to your boxcox, the differences are very minute because there are not many negative values here
+As soon as there are negative values, boxcox doesn't work.
+And lastly, I made a data frame where I compared both the lambdas.
+So you can see in boxcox, I don't know, it is a bit old, I will run it again.
+I don't know, there are some slight changes in the value.
+But whatever it is, 0.169 is boxcox cement, 0.174 is.
+The most difference is seen in fly ash.
+Little difference is seen in water. Super plasticizer is fine. This is slightly different.
+And there is a big difference in age. There is a difference of 10. So that is how this thing works.
+What you have to do is that you have to call this power transformer class. I will simply tell you and summarize it.
+If you are using linear regression or algorithms which rely on normally distributed data
+Then you have to check if the columns are normally distributed or not
+Mostly you will not get it if you are working on real world data
+There is a big chance that you will not get normally distributed data
+Then you have to apply power transformer class
+If you want you can apply function transformer
+But mostly what I have noticed is that the performance of power transformer performs better than function transformer.
+Log transforms better than square root. But you can try both the things.
+You have to select the one in which you will get the best result in your project.
+So with that our mathematical transformation part is complete.
+We are going to start the next part. How to impute missing values.
+So I hope you like the video. If so guys please consider subscribing. That's it. Thanks for watching. Bye.

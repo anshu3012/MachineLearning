@@ -48,7 +48,7 @@ Each review is one **observation** (G-1374; one record of the data), and its lab
 
 ![Integer encoding of two sentences: build the vocabulary and number its words, replace every word by its number, then pad the shorter sequence with 0](images/integer_encoding.png){width=100%}
 
-1. **Vocabulary.** List the unique words of the whole document, the **vocabulary** (G-2093), and give each one an integer: hi is 1, there is 2, how is 3, are is 4, you is 5.
+1. **Vocabulary.** List the unique words of the whole document, the **vocabulary** (G-2092), and give each one an integer: hi is 1, there is 2, how is 3, are is 4, you is 5.
 2. **Replace.** Write every sentence as the integers of its words: "hi there" becomes $[1, 2]$ and "how are you" becomes $[3, 4, 5]$.
 3. **Pad.** The sequences have different lengths, so we use **padding** (G-1436): add zeros at the start or the end of the shorter ones until all have the same length: $[1, 2, 0]$ and $[3, 4, 5]$. The integer 0 is kept for padding, so no word gets it.
 
@@ -58,7 +58,7 @@ Figure 2 shows the three steps.
 
 > **Key point:** Keras' `TextVectorization` layer lower-cases the text, strips punctuation, splits it into words, builds the vocabulary and replaces each word by its index, in one step.
 
-Splitting a text into words is **tokenization** (G-1984). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
+Splitting a text into words is **tokenization** (G-1983). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
 
 Take a document of 10 short cheering slogans, such as "go india", "india india" and "jeetega bhai jeetega india jeetega". `adapt` reads the document and builds the vocabulary, most frequent word first. The Notebook prints 19 entries:
 
@@ -152,7 +152,7 @@ Each review is 50 integers. At time step 1 the first integer enters the recurren
 
 > **Key point:** `return_sequences=False` (the default) returns only the last hidden state. `return_sequences=True` returns the hidden state of every time step.
 
-The recurrent layer computes a hidden state at every time step (Figure 4). The argument `return_sequences` (G-137) chooses which of them leave the layer. With `return_sequences=False`, only the last one leaves the layer; the others stay inside and only feed the next time step. Sentiment analysis needs one answer per review, after the last word, so `False` is right here.
+The recurrent layer computes a hidden state at every time step (Figure 4). The argument `return_sequences` (G-136) chooses which of them leave the layer. With `return_sequences=False`, only the last one leaves the layer; the others stay inside and only feed the next time step. Sentiment analysis needs one answer per review, after the last word, so `False` is right here.
 
 ![The SimpleRNN of section 5 unrolled over a review's 50 integers. Top: with `return_sequences=False` only $h_{50}$ goes on to the sigmoid output. Bottom: with `True` every hidden state leaves the layer, one per word](images/return_sequences.png){width=100%}
 
@@ -162,9 +162,11 @@ Some tasks need an output at every word: **named entity recognition** (G-1300) l
 
 > **Key point:** Binary cross-entropy, Adam, 5 epochs, the test reviews as validation data. Raw integers give a test accuracy near a coin toss.
 
-We compile with **binary cross-entropy** (G-304) loss and the **Adam** (G-169) optimizer, train for 5 **epochs** (G-696) and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
+We compile with **binary cross-entropy** (G-303) loss and the **Adam** (G-169) optimizer, train for 5 **epochs** (G-696) and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
 
 Only 50 words per review and only 5 epochs make the task harder. But the embedding model of section 7 gets the same 50 words and the same 5 epochs and reaches 0.80. The main difference between the two models is how a word enters the RNN (the embedding model also keeps only the 10,000 most frequent words), so the representation of the words is what holds this model back.
+
+**Why raw integers are a poor input.** The integer of a word is only its rank in a frequency list. In the IMDB data "great" is 87, "excellent" is 321 and "awful" is 373 (Notebook). Read as quantities, these numbers say that "excellent" is almost the same as "awful" and far from "great". Two words with the same meaning get unrelated numbers, so what the network learns about "great" does not carry over to "excellent". Section 6 replaces the single arbitrary number by a few learned ones.
 
 ## 6. Word embeddings
 
@@ -256,11 +258,21 @@ The green lines of Figure 1 show the embedding model. Test accuracy levels off a
 
 Figure 6 plots the learned vectors of 8 positive, 8 negative and 8 neutral words. Nobody told the network which words are positive. Goodfellow §12.4.2 explains the pattern: words that share features learned by the model end up close together. The only label this model learns from is the sentiment, and Figure 6 shows its embedding sorting the words by sentiment along one direction.
 
+**How the vectors get there.** Figure 7 shows the same 24 words before training and after each epoch. Watch the green and red points: they start mixed in one small cloud and move apart, mostly during the first epoch.
+
+![The embedding of the model of Figure 6 during training (seed 0): the 24 words before training and after each of the 5 epochs. The vectors start as small random numbers; training moves positive words (green) one way and negative words (red) the other, while neutral words (grey) stay near the middle (idea after StatQuest, "Word Embedding and Word2Vec, Clearly Explained!!!")](images/embedding_training.gif){width=95%}
+
+1. **Before training,** $E$ holds small random numbers, so the positions say nothing: the average first number is $-0.01$ for the positive words and $-0.02$ for the negative words (Notebook).
+2. **At every training step,** backpropagation changes the rows of $E$ for the words of the reviews in the batch, each in the direction that lowers the loss. The rows of $E$ are weights like any others.
+3. **Words used in the same kind of review get the same kind of push.** "Great" and "excellent" appear mostly in positive reviews, so their rows are moved the same way; "worst" and "awful" are moved the opposite way. After one epoch the average first number is $0.19$ for the positive words and $-0.29$ for the negative words.
+
+Nobody placed similar words together: they end up together because they help the prediction in the same way.
+
 The trained model can also be watched while it reads. We take the first test review of 20 to 30 words, with no rare word, that the model classifies correctly (Notebook, last section), and record the hidden state after every word. Applying the output layer to each hidden state gives the prediction the model would make if the review stopped there.
 
-![The trained embedding model reads a negative test review word by word. Top: the 32 numbers of the hidden state after each word (blue positive, red negative). Bottom: the prediction if the review stopped at that word. The prediction falls from 0.97 to 0.09 at "worst" and ends at 0.005](images/running_review.gif){width=100%}
+![The trained embedding model reads a negative test review word by word. Top: the 32 numbers of the hidden state after each word (blue positive, red negative). Bottom: the prediction if the review stopped at that word. The prediction falls from 0.98 to 0.17 at "worst", climbs back to 0.77 at "ever", then falls for good and ends at 0.013](images/running_review.gif){width=100%}
 
-In Figure 7, watch the column for "worst": the hidden state changes colour there, and the later words keep it on the negative side.
+In Figure 8, watch the column for "worst": the hidden state changes colour there. The next words pull the prediction part of the way back, and "script is unfunny" settles it on the negative side.
 
 ### 7.4 Learned or pre-trained embeddings
 
@@ -292,6 +304,7 @@ A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a 
 **Built from**
 
 - CampusX, "RNN Sentiment Analysis | RNN Code Example in Keras | CampusX", YouTube, https://www.youtube.com/watch?v=JgnbwKnHMZQ
+- StatQuest with Josh Starmer, "Word Embedding and Word2Vec, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=viZrOnJclY0. 02:00–10:00 (arbitrary numbers for words of the same meaning; the embedding as weights learned by backpropagation; words plotted by their weights before and after training).
 
 **Other references**
 
@@ -309,8 +322,8 @@ A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a 
 | Sentiment analysis | Predicting whether a text is positive or negative |
 | Observation | One record of the data, here one review |
 | Target | The output we predict, here the sentiment label |
-| Vocabulary | The set of unique words in the data, each with an integer index |
-| Tokenization | Splitting a text into words (tokens) |
+| Vocabulary (G-2092) | The set of unique words in the data, each with an integer index |
+| Tokenization (G-1983) | Splitting a text into words (tokens) |
 | Integer encoding | Replacing each word by its index in the vocabulary |
 | Out-of-vocabulary (OOV) token | A placeholder, `[UNK]`, for words not in the vocabulary |
 | Padding | Adding zeros to sequences so that all have the same length |

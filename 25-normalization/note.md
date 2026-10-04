@@ -408,8 +408,8 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 | Feature | An input variable, one column of the data table |
 | Target | The output we predict |
 | Observation | One record, one row of the data table |
-| Normalization | Rescaling numerical columns to a common scale with no units; a family of techniques |
-| Magnitude | The number part of a quantity, as opposed to its unit |
+| Normalization (G-1349) | Rescaling numerical columns to a common scale with no units; a family of techniques |
+| Magnitude (G-1144) | The number part of a quantity, as opposed to its unit |
 | Min-max scaling | Subtract the column's minimum and divide by its range, giving values from 0 to 1 |
 | MinMaxScaler | scikit-learn's class for min-max scaling |
 | Unit square | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns |

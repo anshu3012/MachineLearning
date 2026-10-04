@@ -1,0 +1,486 @@
+Hi guys, welcome to my YouTube channel.
+We have started to study algorithms.
+In the last class, we started to study our first algorithm which was linear regression.
+We are studying linear regression part by part.
+First of all, we have started simple linear regression.
+Where you are studying how linear regression works in a single variable.
+In the last video, if you remember, we understood intuition behind this algorithm.
+And we have applied simple linear regression on a practical example.
+Now as promised, what I am going to do in today's video, I will tell you end-to-end maths of this algorithm.
+And I will also create this algorithm in Python with scratch.
+And then what we will do, the implementation of cyclic learning and what we have made,
+we will compare them side by side and see whether the results are similar or not.
+So, before starting the video, just to let you know, the video will be long because we have to cover a lot of things and it will be in two parts.
+So, in the first part, we will read the complete mathematical formulation and in the second part, we will code it.
+So, that's it for the introduction. Let's start.
+Okay, so before starting a quick revision, we are working on a data set where we have one input variable and one output variable.
+In the data set we took, CGPA was the input column and the package was the output column.
+and our data was looking like this
+it was not perfectly linear
+it was sort of linear
+means as the CGPA is increasing
+the amount of your package is also increasing
+then we decided that
+if this data was perfectly linear
+then we would have drawn a line
+and we could have done things with that line's equations
+but unfortunately this data is not linear
+so we came up with a second solution
+that we will draw a best fit line
+What is the best fit line? A line which passes all the points closely, and if we want to find this line, then we have to find y is equal to mx plus b
+And to find this, we need two things, m and b, and we saw that the algorithm of linear regression that scikit-learn has calculated exactly these two things
+So the whole idea is that you have to find such a value of m and b which will create such a line segment
+which will make a minimum mistake on this data or pass it from the closest.
+So in our mathematical formulation, the North star will remain the same.
+we will move in the same direction that we have to remove the value of m and b.
+This is the summary. Now the value of m and b can be removed in two different ways.
+So there are two different solutions available. So the first solution is closed form solution.
+And the second solution is non-closed form solution.
+Now you might ask what is closed form solution? Closed form solution sounds very difficult.
+But actually it is very simple. So if you go and read on Wikipedia,
+then if you can make a mathematical formula of something, that is a closed form solution for it.
+In mathematics, a closed form expression is a mathematical expression expressed using a finite number of standard operations.
+It may contain constants, variables, certain where alone operations like plus, minus, division, multiplication and functions like these.
+But here you don't do differentiation and integration.
+So, if I show you an example of closed form solution, then this is it.
+You must have studied in your childhood how to solve quadratic equation and its answer is this.
+So, since to find out x, you are putting values in a formula and taking out the value of x.
+This is a closed form solution.
+Whereas, in a non closed form solution, you have to use approximation techniques to reach that value.
+So I am telling you that when you work in linear regression then there are two ways to calculate the value of m and b
+One is direct formula which I will show you in some time
+And this technique is called OLS ordinary least squares
+So first we will learn this technique because it is simple and our scikit-learn uses this technique internally in its linear regression class.
+Now comes the question that what is the second technique?
+So the second technique is an approximation based technique where you have to do things using differentiation.
+Here the technique you use in machine learning is called gradient descent.
+So, this is a very famous technique. In fact, if you watch most of the books and YouTube videos,
+there you would find out that people are solving linear regression in terms of gradient descent only.
+So, when I was studying linear regression for the first time and when I came to know that there are two different solutions,
+the same work is done by OLS and the same work is done by gradient descent,
+The first question that you must be thinking is that if I have a direct formula of something then why will I use a technique like gradient descent?
+The answer is that when you work in higher dimension like now you have only 1D data, only CGP but if these dimensions increase then it becomes very difficult for M and B to find the answer by applying this formula in higher dimension.
+there you get efficient technique called gradient descent
+in short both techniques are available but if you are working on small number of dimensions
+then you should do OLS because it would take less mathematics and time and all
+but as dimensions increase there is a problem here
+what is that problem I will discuss with you
+because of which you use gradient descent
+And that is why in many books and YouTube videos, you will see that people teach Gradient Descent directly.
+But in the linear regression class of scikit-learn, internally OLS is implemented, not Gradient Descent.
+There is one more class which we call SGD Regressor.
+Gradient Descent is implemented in this class.
+So if you want to do linear regression through OLS then use linear regression class.
+If you want to do linear regression through gradient descent then you have SGD regressor.
+I will teach you both. But today our focus is that how we can use OLS to get value of M and B.
+And the good part is that I have direct formula available and that formula is this.
+Let me show you. So, this is the formula of B. To calculate B, Y bar minus M X bar.
+Here, what is Y? How much is the package? And what is X? CGP. Right?
+So, if you have the value of M, then you can calculate the value of B. But where is the value of M?
+So, there is a formula for the value of m, a little scary, but not that scary.
+xi minus x bar, yi minus y bar, divided by sigma i is equal to 1 to n, xi minus x bar whole square.
+This is the formula. So, first obviously you will calculate m, and after calculating m, you will calculate b.
+Now understand one or two things that what is this X bar and Y bar. These are mean values.
+So X bar is mean of CGPA, Y bar is mean of package. And what is this XI and YI representing?
+The CGPA of the current row and the package of the current row.
+So yeah, in a nutshell, the linear regression class of scikit-learn was giving you the answers using these two formulas.
+But we will not stop here.
+We will study linear regression in such a way that we are inventing it.
+That is my plan.
+I want to teach you in such a way that you feel that we are inventing it.
+So I will teach you from scratch how these formulas come out.
+And then when those formulas will come out, you would see that you are getting the same results, then we will convert it into a class like the class of linear regression.
+So let's start that. So guys, let's start the discussion from the basics and create the mathematical formulation from scratch.
+We will talk about it and then convert it into Maths.
+So, in a nutshell, let's revise once again that the points we have are sort of linear
+and I have to draw the best fit line on them and draw the best fit line means I have to get the value of m and b.
+Now, what is the best fit line? Best fit line is the line which will try to pass from the very near of every point.
+This means that this distance from point to line, I will draw it, this distance will try to minimize this distance for every point.
+Because think about it, the best line, the perfect line would pass over all these, then this distance would never happen.
+But this line is not able to pass to everyone, so in respect of every point, there is a little error of this line.
+Now what if I have to find that line which will minimize all the errors.
+So for that first of all let's do one thing, let's create a mathematical expression for this total error.
+So, at the end, this difference is a distance in this coordinate plane.
+So, if I call this distance as d1 in this first point,
+in this respect I call it as d2, in this respect I call it as d3, d4, d5 and d6.
+So, if I want to find the total error or total distance,
+So you can write it like this, d1 plus d2 plus d3 dot dot dot plus dn, n is signifying the total number of points
+or how many students you have. Now what if I tell you that I will add by doing square, the total error that I am taking out,
+I want to square it and add it. I guess you can understand the reason for this.
+Clearly the reason for this is that the errors are above and below the line.
+Since I want to find the total error, positive and negative will start canceling out each other.
+What I want is that I make it square so that all distances are positive, right?
+Now you can clearly ask the question, so boss why are you not doing this?
+Mod D1 plus mod D2 plus mod D3 and so on.
+Why am I not using modulus instead of square?
+I can give you two reasons for this.
+Reason one is that I want to penalize outliers who are very far points.
+And reason 2 is that we have to differentiate this whole expression at one place.
+And you might know that the graph of mod is like this.
+It is continuous but not differentiable at origin.
+So when we will go to differentiate it, we will not be able to differentiate it.
+Whereas when you take square, you can find the differentiation of square at any point.
+So that is why I took square. Now some people will ask that you could have taken 4 too.
+2 to the power 4, 2 to the power 8, 2 to the power 16. So I will tell you don't joke.
+Obviously when 2 works then why will you do 4. It is simple logic.
+So I can write the term of error like this also.
+I used to get scared of sigma notation in my childhood. Slowly I became comfortable with machine learning.
+I guess you understand what I have written here.
+C, focus on this, this is our error function, this is our error function, it is also called as loss function in machine learning lingo
+sometimes you represent it with J, the good books of machine learning they represent it with J and I am representing it with E
+So yeah, if you see, I got an expression for my line segment.
+Now what can I say, what I used to say earlier, I used to say that give me a line segment which tries to pass through all the points from very near.
+Now what I will say, give me such M and B which minimize the value of this equation.
+I want an M and B because of which the value of this equation will be minimum.
+Now let's do one thing, let's decompose this error function a little more.
+We are reducing the abstraction a little bit.
+So watch carefully.
+Now think about it, if you catch any distance,
+this is a distance, if you catch it,
+what does this distance actually represent?
+This is a very important thing.
+So, this distance represents that this point should have been here but this point is here.
+Means, according to my line, this point should have been here but this point is here in reality.
+And that is why my line is making so many mistakes on this point.
+And this mistake is in terms of y, means in terms of package.
+Means, if your point would have been here, then its x would have been the same, CGPA would have been the same as it is in the original.
+Where is the difference coming? In y value. So according to my data, my actual y means the actual package of this person is here.
+But the line that is predicting the package of this person is here. So this distance is the error in respect to that particular student.
+My model is saying that your package should be less but in reality its package is more.
+So, for this particular student, there will be a point with X and Y value.
+Now, I don't know which number point it is. So, I am calling its actual Y value as YI.
+Because I don't know which point it is. And I am calling its prediction as YI hat.
+Generally, in machine learning, you represent the prediction with hat.
+So it means this distance DI can actually be written like
+YI means actual Y value minus YI hat
+For every point the error now can be rewritten as this formula
+Here what is YI telling?
+How much is the actual package in the data?
+and yi hat tells that according to my model, what will be the package of this student
+the difference in this is our error for every point, for every student
+and what will be the total error?
+the error for one student, add all the errors of the students, that is our total error
+and that equation is written here
+so what I will do is, I will just rewrite this equation
+I will just rewrite this equation like this
+so error will now become sigma of i is equal to 1 to n
+And here you will get whole square of yi minus yi hat instead of di
+Now if you want to find the average error then you can divide it by 1 by n
+But I am not finding the average error, I am finding the total error
+You will see in many places that people are working by finding the average error
+I am not taking the average error, I am just taking the total error
+So guys, we have to find a line which will minimize the value of this equation.
+Because there can be many lines.
+This can be a line, this can be a line, this can be a line, this can be a line.
+We need an M and B which when we put in this formula,
+then the value of this formula will be minimum.
+Now immediately a bell will ring in your mind and you will say, but boss there is no M and B here.
+So for any value of M and B, from where will this value change?
+Valid question. There is no M and B. It is not visible in front, it is hidden.
+Look carefully. How to calculate YI hat? Think about it.
+How will you calculate the package of any student?
+If you have m and b, then what will you do? m xi plus b. This is your yi hat.
+Will you get the line equation right? So I am just saying that your yi hat is actually equal to m xi plus b.
+So if I replace this in this formula and write e is equal to
+Actually, I will write it like this, E is equal to sigma i is equal to 1 to n, yi minus mxi minus b whole square.
+So, if you look carefully, we need such m and b for which the value of this whole expression is minimum.
+Now here we have m and b, the other two terms are actually constant, you can't control them.
+yi is the package of that particular point, xi is the CGPA of that particular point.
+This is in the data, you can't change it.
+You can only change m and b, by changing these two things you can increase or decrease this error.
+And this is actually logical, think about it, you have the option of taking any line segment.
+But you only want to pick up that line segment, that M and B, which will minimize the value of this equation.
+And think about it, in a 2D coordinate system, there can be many lines, but how will you go from one line to another line?
+You have to choose another line, like you don't like this line, you have to go to this line, so you do only two transformations in 2D space.
+One transformation is when you keep your slope fixed and bring this line up or down
+Means you vary B and keep M constant
+And the second way is that you rotate the line like this
+Keeping your intercept fixed
+Means I am saying that it is very logical that your error function depends on M and B
+See error function is just like any normal function
+For example, f of x. f of x means that your function depends on only one variable, x.
+That means if you change the value of x, your value of y will change. So this function is of x.
+Whereas your error function is of two things, m and b, slope and intercept.
+That means if you increase or decrease the value of slope and intercept, then your error function will also be impacted.
+So I am telling you that in 2D space there are only two ways to move a line, either you turn its slope or you increase or decrease its intercept or do both things together.
+And that is why your error function depends on your m and b. So we have covered a lot of distance in the nutshell.
+Now we have a mathematical formulation, we have a direction where we will move.
+We have got the error function which depends on two things, m and b, and you will write it as yi minus m xi minus b whole square.
+Now, in the next step, I have to find such a value of m and b for which this whole value becomes minimum.
+That is my line segment. Let's do that.
+Now guys, let's discuss that when we say that y is a function of x, then what does it mean?
+So, you must have seen this notation in many places.
+It means y is a function of x.
+It means that when you change the values of x, then changes come in y.
+So, in a way, x is like a setting knob for y.
+If we apply this logic on our error function, then we actually have two tuning knobs, M and B.
+Meaning, if we rotate M, there will be changes in E and if we rotate B, there will be changes in E.
+And obviously, if we rotate both of them, there will be changes in E.
+Now, I want to discuss with you that individually if we rotate M and individually if we rotate B,
+What will be the changes in E? That is our next discussion point.
+So, I will divide this discussion into two parts.
+First, I will talk about M individually.
+Then, I will talk about B individually.
+So, let's start our discussion with M.
+So, let's assume for some time that our B's value is 0.
+It's a constant. It doesn't vary.
+So, now you can write your error function like this.
+So E is now just the function of m, now only one tuning knob is left, m, this is equal to 1 to n, yi minus m xi, b has become 0, square, right.
+Now look carefully, I have to find out what changes will come in E by rotating m, okay.
+and I will not do this work mathematically, I will do it intuition wise, I made a graph here, M on X axis and E on Y axis
+I have to find out what is the change of E for every value of M, I will show you regression diagram again, these are our lines
+means these are our points, and assume for some time that this is our regression line, it will pass from origin because b is 0,
+now keep one thing in mind, b is constant, you can't make changes in b, you can only make changes in m,
+means you can just rotate like this, you can't take it up or down, you just have this movement,
+So this means one line can be this, one line can be this, one line can be on y-axis.
+So basically you can rotate around this origin at 360 degrees.
+Now listen carefully, here a very important thing will come.
+Assume that the value of m is 10, so the error is 50.
+These are all imagined numbers, this will not happen in reality.
+Assume that when m value is 10, then e value is 50.
+Now what I did is, I rotated it a little bit and came towards the points.
+Now think, will this line make more mistakes at this point or this line?
+I guess you are understanding that the second line since it moved towards the points,
+it will make less mistakes, right, like something will come here, means as you increase the slope, then this point is coming here,
+if you increase a little more, then now the point will come here, now you increased a little more, then now the mistakes will start increasing again like this,
+you increased a little more, the mistakes will start increasing, increased a little more, I hope you understand that by rotating M,
+there is some kind of change in E, means first it is increasing, then decreasing, then increasing
+I am not saying that it is a perfect parabolic relationship, it could be anything, we don't know exactly
+but we know that there is some kind of curve, we have seen a little bit
+Now let's do the same discussion by taking B, this time let's consider M as constant and value of M as 1.
+Now let's do the same discussion using B.
+So now your function will be of b and your formula will change to yi-xi-b whole square
+If I do the same thing again and I plot E for B, then this time I guess you are able to understand that
+now what you are doing is that you are starting from any B value and this time your M is constant.
+Means you can't go like this, you can take it up or down.
+Suppose you have started from this point, the value of B is 10, and the value of E at this point is 15, so you have started from here.
+Now you have taken this line a little higher, and you have taken this line, obviously this line will make fewer mistakes, so your error will be reduced.
+Then you will take it a little up and the mistakes will increase again.
+So here also you can see that a similar relationship is coming between E and B.
+Not the exact relationship, again it can be anything, we don't know.
+But there is some kind of relationship like this.
+So in short, if I tell you that the relationship of B and E is something like this.
+And the relationship of E and M is also something like this.
+Now we take both of them together.
+and let's plot a 3D graph where on this side is B, on this side is M and here is A
+now you have to imagine that how this graph will be in 3D
+I will help you by showing you how it actually happens
+so I just have to search this term gradient descent GIF
+And I can show you how this graph works. This is actually an image.
+I will open it in a new tab. Open image in new tab.
+And here guys, look at this. So, these people have represented M and B with theta 1 and theta 0.
+And this is their error function. So, you can see that this error function is actually in the form of mountain and valley.
+Right, in the form of Pahadi and Khai. What I will do is I will copy this image, I will go back and I will paste it over here.
+Just give me one minute yaar. Yeah. Now we will talk about this in detail.
+We will talk in detail. Yes. So guys see, our error function will be something like this.
+there you will have mountains, like your certain M, I will write it here. This thing is M and this thing is B.
+So if you try to understand this graph, then for certain values of M and B, your error will be maximum like this.
+And for certain values of m and b, your value will be the minimum of error.
+So whenever you are on the mountain, you are working on the value of m and b which is increasing the error.
+And whenever you are in the valley, you are working on the value of m and b which is making the error minimum.
+So obviously what kind of m and b value do we need?
+We need the value of m and b where the value of the error function is minimum.
+This was our formulation.
+But how will we know the value of m and p in between this whole mountain and khai
+I guess you have read this much calculus and you have read the concept of maxima and minima
+You will also know that if you differentiate the equation of your error function and make it equal to zero
+So, you get to know that, see, I am skipping a point, whenever you are at minimum, your slope is 0.
+Right. And to find the slope, you have to find the derivative and make it equal to 0.
+Right. So, we will do the same. We will find the derivative of our error function, both with respect to m as well as b.
+And we will make both equal to 0.
+Now if this was a single equation, if it was only depending on x, then I would have simply taken de by dx and made it 0.
+But this equation is something like this. f is a function of x as well as y. So e is a function of m as well as b.
+So what I will have to do is I will have to use partial derivatives.
+So, I have to take out del E by del M and do zero and I have to do del E by del B equal to zero.
+And by solving these two, I will get two equations and from those two equations, we have two unknowns M and B.
+We will calculate the value of these two and that is the way forward.
+So, till now we have started the discussion from scratch.
+Now we have reached this point that we have to do differentiation, equal to zero and extract the value of M and B.
+We will do that next.
+So guys, we don't have to think much from here, we just have to do maths.
+First we will solve the equation of b and when we get the equation of b, we will solve the equation of m.
+That's the plan. So let's start.
+So we have to find out del E by del B and this will be equal to del by del B
+And my equation is yi-mxi-b whole square.
+Now, there is no need to be afraid of the summation.
+You think that you have to differentiate once for every student.
+This is the meaning.
+So, what can you do quietly?
+You can take out this summation and send the differentiation inside.
+So, you can rewrite it like this.
+By the way, you have to make it equal to zero.
+So you can rewrite it like this, sigma, I am not writing from i equal to 1 to n, you have understood now.
+del by del b of yi minus mxi minus b whole square equal to 0, I have to do this.
+Now obviously to do this differentiation, I will have to use chain rule, I hope you know chain rule.
+Otherwise if you search one youtube, you will know.
+So, sigma is outside and after applying chain rule, this 2 will come out and you will multiply yi minus mxi minus b
+and then you will differentiate this whole thing. So, its differentiation with respect to b will be 0.
+Its differentiation with respect to b will be 0. Its differentiation with respect to b will be minus 1.
+So, you can put that minus 1 here, minus 2, okay, equal to 0, right.
+Now, if you divide both the sides by minus 2, then you will have
+sigma of yi minus mxi minus b equal to 0.
+I am bringing everything here.
+So, now what I am doing is that I can separate every term with sigma.
+So, I will write sigma yi minus sigma mxi minus sigma b equal to 0.
+Now, I am dividing both the sides by n.
+And you will remember that n is the total number of students.
+So, I have divided this by n, this by n, this by n, this by n.
+Now, it is very simple guys.
+Now, you see what is this?
+this is sigma i is equal to 1 say n yi divided by n means mean of y so what will you do write this y bar
+and if i take out m from here then rest of the term sigma xi divided by n that is also mean of x
+and now see here what is sigma b so if i have n points so basically i am saying b plus b plus b plus b dot dot dot plus b n times
+so this will be n b so this will be n b divided by n equal to 0 this n and this n will be cancelled and this will be y bar m x bar equal to b
+Or you can write it like this, b is equal to y bar minus m x bar, here is my equation.
+But guess what, when I showed you in the beginning, it was this only.
+See this, focus on this.
+Right, we have taken it out.
+Now we will fit this b in the second one and we have to take out the equation of m.
+So now what I will do is, in the equation of E, first I will fit the value of B.
+So the equation of E is this, yi minus m xi and minus b.
+So I will fit this term.
+So here it will be minus y bar plus m x bar whole square.
+Now what I have to do is, I have to find out the partial derivative of E with respect to m.
+So, again the same thing will happen, sigma will come out and you have to write del of del m yi minus m xi minus y bar plus m x bar whole square equal to zero.
+And again the chain rule will be applied, so your whole term will come out twice.
+Obviously, here is sigma, minus mxi minus y bar plus mx bar, okay.
+And then you have to differentiate this whole thing.
+So, if you differentiate one by one, then this term will be zero, this term will be minus xi, this term will be zero, this term will be plus x bar, okay.
+And what we can do is, we can subtract minus 1 from here, so this entire thing will become minus 2
+yi minus mxi minus y bar plus mx bar and here will be x bar, x bar will not come out, just one second, xi minus x bar equal to 0.
+Now what we will do is simple manipulations. We will divide both sides from minus 2, so we will have
+sigma of yi minus mxi minus y bar plus mx bar xi minus x bar equal to 0. Now let's rearrange inside
+So, this would become sigma of yi minus y bar and if I take out minus m common, then inside will be xi minus x bar multiplied by xi minus x bar equal to 0.
+Now, if I multiply this term inside, then it will be sigma yi minus y bar xi minus x bar minus m xi minus x bar whole square equal to 0.
+Now if I multiply sigma inside then it will be sigma yi minus y bar xi minus x bar is equal to m times sigma xi minus x bar whole square
+Now if I take out m, then it will be sigma i is equal to 1, and this will be xi minus x bar yi minus y bar, here it will be n, and here it will be sigma i is equal to 1 to n, xi minus x bar whole square.
+And that is your m guys. That is your m. Right? This same m, if you have noticed, was above.
+Here. See. We have calculated the same thing below. Okay?
+So that's it. We have calculated the value of m and b exactly from scratch through the first principles.
+Now we will move to the next step. By using these two values, we will create a python class
+which will do exactly the same work as the linear regression class of scikit-learn.
+So, let's do that.
+So guys, now I will just create a new class.
+I will give any name of that class.
+And I will make a full-fledged class where you can train your model.
+You can test your model as in you can predict it.
+So, see it is very simple.
+You have to start with a class.
+Let's say I have named this class
+My LR, my linear regression. If you have a class then you have to put a constructor in it.
+Here is my constructor and initially I am initializing two things.
+M, its value is none in the beginning and B, its value is also none in the beginning.
+Now, since this is a machine learning algorithm, there should be two methods in it.
+first will be fit, which you use to train your model, so it will get two things, one will get xtrain and one will get ytrain
+and there will be some code in it and apart from this there will be one more function called predict
+in this you will get only one input and that is xtest and there will be some code in it too
+Now what we have to do? It is very simple. We will get X train from here and Y train and we have to train our model.
+In linear regression, training the model means calculating the value of M and B.
+I am doing one more thing. I will also write the code which will use this class.
+So that I can show you by running it.
+So I am going to use the same data set which I used in the last video.
+So, that was placements.csv. I am storing it in a variable and this is df.head. This
+was the data set. Now, I will extract x and y separately. So, x would be df.iloc, all
+rows, 0th column, dot values. Why did I do dot values? Because I want to extract numpy
+And y is equal to df dot iloc first column dot values.
+So this is my x, these are all my cgpa values.
+And this is my y, these are the values of my package.
+In the next step, I will split train test.
+So I will write xtrain, xtest, ytrain, ytest and here I will write x, y, test size equals
+0.2 and random state equals 2. We had kept random state 2 in the last video also. Now
+Now what I have to do is, I will do one thing and show you that at this point I will quickly print out x-train.shape
+This will help me to understand whether my data is coming or not
+So at this point my x-train's shape is 160
+Now what am I doing? I am making an object of LR of my LR class.
+And near LR, now fit and predict, these are the two methods.
+Here I will pass my x-train, my y-train.
+And you can see I am getting the same shape.
+So this means I am able to receive x-train and y-train here.
+Now what I have to do guys, it is very simple.
+I have these two methods of calculating M and B. First I will calculate M and to calculate M I will first calculate the numerator.
+I will calculate this numerator and then I will calculate the denominator separately. By dividing both, I will get M.
+So first of all I have to calculate the numerator, what is the numerator, numerator is basically for every row, for every point, for every student you will calculate this value
+And then you will add the value of every student, this is your numerator, so we don't have to do anything, we will run a loop here, now there is no point to write this code
+we will run this loop for i in the range of x-train.shape of 0
+this loop will rotate 160 times because if you run this code
+even after coming out, you would see that it is 160
+so this code will rotate 160 times
+and here I am making a variable called as numerator which is initially 0
+and a variable called as denominator which is initially 0
+now what I have to do is, first of all for every student
+the number of times this loop is running, I am talking about one student
+what I have to do for that is, I have to find these two values x i and x bar
+What is Xi? It is the Ith value of Xtrain. If it is the first student then it is the CGPA of the first student minus the mean of Xtrain.
+When I will talk about the first student then it is the CGPA of the first student in Xtrain.
+If I print x-train, you would see that first student's CGPA is 7.14 and if I take out mean, then mean is this.
+So what I did is, I took out this for the first student and I have to multiply this with y-train's first item,
+first item as in ith item minus
+y train's
+mean
+right
+and this entire value
+this entire value
+this is the value of every student
+I
+am adding this in the numerator
+and then again adding it in the numerator
+so for the first time numerator is zero
+when you are talking about first student
+then for first student you calculate this value
+put it in numerator
+then when you are talking about second student
+then you are calculating this value for second student
+and add the value of first student
+in that
+and do this 160 times
+this is your numerator
+and do you know denominator
+in denominator case what you have to do
+you have to write denominator plus
+you have to basically
+multiply xi minus x bar twice
+so you just have to copy this
+and
+again paste it like this
+this is your denominator
+and after doing this you will come out of the loop
+nothing is going wrong
+I will just check
+you will come out of the loop
+don't know why this tab is misbehaving
+and you will write self.m is equal to
+numerator divided by denominator
+that's your slope and then you will calculate b self.b is equal to its formula is ytrain.mean
+minus slope multiplied by xtrain.mean so you will write ytrain.mean minus m as in self.m
+multiplied by extreme.mean and I will put it in a bracket to improve readability
+and now I will print it and show you what is your self.m and what is your self.b
+ok, invalid syntax, ok, so here a bracket will be used, so here guys I have mismatched some brackets
+now it is fine and now let's run this code, it is run and now what we will do
+again we will make an object and after fitting LR. you can see my m value is this and my b value is this
+now if you remember in the last video we used scikit-learn
+we used scikit-learn and did the same work with same random state and all
+So there if you remember, we checked in the last that what is our M and what is our B
+If you remember, our M was 0.55 and our B was 0.896111
+Here it is, as it is same
+Because I told you that linear regression, the one of scikit-learn is using the same formula internally
+Now I will quickly show you the code of test, as in I will show you the code of predict
+So whenever I will get any X-test, what I have to return?
+I have to return mx plus b, so I would write self dot m multiplied by X-test plus self dot b
+That's it
+So, if I show you here, here we might have calculated for someone, we had calculated for Xtest 0, 3.89 was coming, we will do the same work, we will calculate for Xtest 0.
+So, this is my xtest and its zeroth item is this. I will write LR dot predict of xtest
+zero and I have returned it. It's not working. What if I print it or rather I print it over
+over here. Let's see, none value is coming. Why none is coming? We are getting xtest and when we are multiplying it in xtest,
+let's do one thing. This is a useless debugging guys, I am sorry. Let's print xtest. So if I go here and again,
+oh my bad, I have not made an object again. Since we have made changes here in the class, then you have to create
+we have to create it. That was the mistake. This is the value of my slope and B and I am writing 8.58
+which is my value and 3.89 is being predicted. Exactly the same thing was predicted here guys.
+So that's it. We have made our own algorithm and it is working. There is only one problem with this implementation.
+This is simple linear regression, it will not work for multiple linear regression, whereas when you use the implementation of scikit-learn, then it also works for multiple linear regression, but don't worry, we will read multiple linear regression and improve this code in such a way that it will handle the simple case as well as the multiple case.
+Now, what is your task? Write this code by yourself. If you understand something, there is nothing that you can't do.
+It's fairly simple, fairly straightforward. You should definitely try it. And you will learn by doing this.
+So, that's it for the video. I hope you liked it. If so, guys, please consider subscribing.
+you guys don't subscribe
+i like it
+so yeah that's it
+thanks for watching bye

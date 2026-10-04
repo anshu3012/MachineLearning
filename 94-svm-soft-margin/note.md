@@ -24,6 +24,25 @@ The hard-margin SVM of the [SVM maths Note](../93-svm-maths/note.md) needs data 
 
 > **Key point:** The hard-margin constraints allow no exceptions, so a single point on the wrong side leaves the problem without a solution.
 
+### 2.1 One outlier, in one dimension
+
+> **Key point:** One outlier drags the hard-margin threshold right next to the other class. Allowing that one mistake puts the threshold back between the two main groups.
+
+Take the iris petal lengths of the [SVM intuition Note](../92-svm-intuition/note.md): setosa petals up to 1.9 cm, versicolor petals from 3.0 cm, and the best threshold in the middle of the gap. Now add one made-up outlier: a flower labelled setosa with a 2.9 cm petal, right next to the versicolor flowers (the diamond in Figure 2).
+
+1. **No mistakes allowed.** The threshold must keep the outlier on the setosa side, so it is squeezed between 2.9 and 3.0 cm: threshold 2.95 cm, margin 0.1 cm. A new flower with a 2.8 cm petal is then called setosa, although it sits next to the versicolor flowers and 0.9 cm from the nearest ordinary setosa.
+2. **One mistake allowed.** Give up the outlier and the threshold moves back to 2.60 cm, between the two main groups, with a margin of 1.4 cm. The outlier is now misclassified, but the new flower is called versicolor, which is what its neighbours say.
+
+![Iris petal lengths with one made-up outlier (diamond), and a linear SVM as the price of a mistake, C, falls from 1000 to 1. The threshold (black) moves from 2.95 cm, squeezed against the versicolor flowers, back to 2.60 cm; the margin (grey band) grows from 0.1 to 1.4 cm. The new flower (star) takes the colour of its predicted species. Idea after StatQuest, "Support Vector Machines Part 1 (of 3): Main Ideas!!!", shown there on mouse weights.](images/outlier_1d.gif)
+
+In Figure 2, watch the black threshold and the grey margin as mistakes become cheaper. The number C in the titles is the price of a mistake; Section 6 defines it.
+
+The second threshold is wrong on one training flower but should do better on new flowers. In the language of the [bias-variance trade-off](../62-bias-variance/note.md) (G-288): allowing a mistake adds a little bias, and removes a lot of variance, because one unusual point no longer decides where the threshold goes. A margin that is allowed to contain or misclassify points is a **soft margin**. How many mistakes to allow is chosen by cross-validation (Section 6).
+
+### 2.2 The same failure in the formula
+
+> **Key point:** With one constraint per point and no exceptions, a single point on the wrong side leaves the problem without a solution.
+
 The hard-margin SVM solves:
 
 $$\underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
@@ -46,7 +65,7 @@ $$\underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \quad = \quad \
 
 With numbers, for the best line of the SVM intuition Note, $\lVert w \rVert = 0.899$: the margin $2/0.899 = 2.22$ is as large as possible exactly when $0.899/2 = 0.45$ is as small as possible. The rewritten problem is still the hard-margin SVM; only the form has changed, because a minimisation is easier to add terms to.
 
-Figure 2 shows why the two forms agree. As $\lVert w \rVert$ grows, the margin $2/\lVert w \rVert$ falls and the term $\lVert w \rVert / 2$ rises, so the smallest $\lVert w \rVert$ the constraints allow is the best choice for both.
+Figure 3 shows why the two forms agree. As $\lVert w \rVert$ grows, the margin $2/\lVert w \rVert$ falls and the term $\lVert w \rVert / 2$ rises, so the smallest $\lVert w \rVert$ the constraints allow is the best choice for both.
 
 ![The margin 2/‖w‖ (blue) and the term ‖w‖/2 (orange) against the length of w. The first falls where the second rises, so the same ‖w‖ makes the margin largest and the term smallest; marked: ‖w‖ = 0.899, margin 2.22, term 0.45.](images/max_min.png)
 
@@ -73,17 +92,17 @@ The Greek letter $\xi$ is "xi" (some texts use $\zeta$, "zeta"). Each training p
 During training, each class is judged against its **own** hyperplane: green points against $\pi^+$, red points against $\pi^-$. (The middle line $\pi$ is only used later, to classify new points.)
 
 - A green point on or above $\pi^+$, or a red point on or below $\pi^-$, is fine: $\xi_i = 0$.
-- A green point below $\pi^+$, or a red point above $\pi^-$, is an error point. Its $\xi_i$ is its distance from its own hyperplane, measured in the wrong direction.
+- A green point below $\pi^+$, or a red point above $\pi^-$, is an error point. Its $\xi_i$ says how far it is from its own hyperplane, in the wrong direction. The unit is the margin itself: the gap from $\pi$ to $\pi^+$ counts as 1. So $\xi_i = 1$ means the point sits exactly on $\pi$, and $\xi_i > 1$ means it has crossed to the wrong side of $\pi$.
 
 So an error point may be inside the margin but still on the correct side of $\pi$, or right across $\pi$ on the wrong side. The further it is from where it should be, the larger its $\xi_i$.
 
-Figure 3 shows the two error points of a soft-margin SVM. The green point $(6, 4.3)$ lies below $\pi^+$, even below $\pi$: $\xi = 1.33$. The red point $(2.8, 5.2)$ lies above $\pi^-$ and above $\pi$: $\xi = 1.32$. Every other point has $\xi = 0$.
+Figure 4 shows the two error points of a soft-margin SVM. The green point $(6, 4.3)$ lies below $\pi^+$, even below $\pi$: $\xi = 1.33$. The red point $(2.8, 5.2)$ lies above $\pi^-$ and above $\pi$: $\xi = 1.32$. Every other point has $\xi = 0$.
 
 ![The slack ξ of the two points that break their constraints (orange); all other points have ξ = 0](images/slack.png){height=45%}
 
-Minimising $\sum \xi_i$ therefore means minimising these distances: keeping the errors few and small.
+Minimising $\sum \xi_i$ therefore means keeping the errors few and small.
 
-> **Extra:** Precisely, the slack is $\xi_i = \max\bigl(0,\ 1 - y_i (w^T x_i + b)\bigr)$, and the hard constraint is loosened to $y_i (w^T x_i + b) \geq 1 - \xi_i$ with $\xi_i \geq 0$. This $\xi_i$ is measured in the units of the margin, where the distance from $\pi$ to $\pi^+$ counts as 1. The distance in the plot is $\xi_i / \lVert w \rVert$: for the green point, $1.33 / 0.900 = 1.48$. A point with $0 < \xi_i \leq 1$ is inside the margin but still correctly classified; $\xi_i > 1$ means it is on the wrong side of $\pi$.
+> **Extra:** Precisely, the slack is $\xi_i = \max\bigl(0,\ 1 - y_i (w^T x_i + b)\bigr)$, and the hard constraint is loosened to $y_i (w^T x_i + b) \geq 1 - \xi_i$ with $\xi_i \geq 0$. The distance in the plot, in the units of the axes, is $\xi_i / \lVert w \rVert$: for the green point, $1.33 / 0.900 = 1.48$. A point with $0 < \xi_i \leq 1$ is inside the margin but still correctly classified; $\xi_i > 1$ means it is on the wrong side of $\pi$.
 
 ## 5. The soft-margin loss
 
@@ -96,11 +115,11 @@ The two terms pull in different directions:
 
 The last step is a weight on the classification error, a positive number $C$. In words: find the line that balances a wide margin against small errors, with $C$ deciding how much the errors count. As a formula, the soft-margin SVM solves:
 
-$$\underset{w,\thinspace b}{\arg\min}\ \underbrace{\frac{\lVert w \rVert}{2}}_{\text{margin error}} + C \underbrace{\sum_{i=1}^{n} \xi_i}_{\text{classification error}}$$
+$$\underset{w,\thinspace b}{\arg\min}\ \underbrace{\frac{\lVert w \rVert}{2}} _{\text{margin error}} + C \underbrace{\sum_{i=1}^{n} \xi_i} _{\text{classification error}}$$
 
-With numbers, for the line of Figure 3 with $C = 1$: $\lVert w \rVert / 2 = 0.900 / 2 = 0.45$ and $\sum \xi_i = 1.33 + 1.32 = 2.65$, so the loss is $0.45 + 1 \times 2.65 = 3.10$. The same mistakes with $C = 10$ would cost $0.45 + 26.52 = 26.97$, which is why a larger C pushes the line to fix them. Figure 4 stacks the two parts for both values of $C$: the margin error is a thin slice either way, and the classification error takes over as $C$ grows.
+With numbers, for the line of Figure 4 with $C = 1$: $\lVert w \rVert / 2 = 0.900 / 2 = 0.45$ and $\sum \xi_i = 1.33 + 1.32 = 2.65$, so the loss is $0.45 + 1 \times 2.65 = 3.10$. The same mistakes with $C = 10$ would cost $0.45 + 26.52 = 26.97$, which is why a larger C pushes the line to fix them. Figure 5 stacks the two parts for both values of $C$: the margin error is a thin slice either way, and the classification error takes over as $C$ grows.
 
-![The soft-margin loss of the line of Figure 3 as two stacked parts: margin error 0.45 (blue) and C times the classification error 2.65 (orange). C = 1 gives 3.10; C = 10 gives 26.97.](images/loss_bars.png)
+![The soft-margin loss of the line of Figure 4 as two stacked parts: margin error 0.45 (blue) and C times the classification error 2.65 (orange). C = 1 gives 3.10; C = 10 gives 26.97.](images/loss_bars.png)
 
 ## 6. The hyperparameter C
 
@@ -111,11 +130,11 @@ $C$ (G-336) is a [**hyperparameter**](../29-pipelines/note.md) (G-910): a tuning
 - **Large C** (say 1,000 or 10,000): the classification error dominates. The algorithm stops caring about the width of the margin and concentrates on misclassifying no point.
 - **Small C** (say 0.1, 0.01 or 0.001): the margin error dominates. The algorithm keeps the margin wide even if some points end up misclassified.
 
-Figure 5 lowers C step by step on the same data and pauses at three values. Watch the margin widen as the fine for mistakes falls, while more points need slack (orange). With $C = 1000$ the margin is only 0.37 wide, but no point is misclassified. With $C = 1$ it is 2.22 wide with two mistakes; with $C = 0.05$ it is 4.65 wide.
+Figure 6 lowers C step by step on the same data and pauses at three values. Watch the margin widen as the fine for mistakes falls, while more points need slack (orange). With $C = 1000$ the margin is only 0.37 wide, but no point is misclassified. With $C = 1$ it is 2.22 wide with two mistakes; with $C = 0.05$ it is 4.65 wide.
 
 ![C falling from 1000 to 0.03. Large C: a narrow margin and no mistakes. Small C: a wide margin and some mistakes (ringed); orange sticks are the slacks ξ](images/c_sweep.gif){height=36%}
 
-Neither extreme is right in general. A model with no training mistakes and a thin margin may be fitting outliers; a model with a very wide margin may ignore real structure. So we pick C for each dataset with cross-validation (ISL §9.2.2; ISL's budget C works the other way round), usually through a grid search over values such as 0.001, 0.01, ..., 1,000.
+Neither extreme is right in general. A model with no training mistakes and a thin margin may be fitting outliers; a model with a very wide margin may ignore real structure. So we pick C for each dataset with cross-validation (ISL §9.2.2), usually through a grid search over values such as 0.001, 0.01, ..., 1,000.
 
 > **Python:** In scikit-learn, `C` is an argument of `SVC`; its default is 1.
 >
@@ -150,7 +169,7 @@ The soft-margin loss has the same shape as the loss of regularised logistic regr
 
 scikit-learn's `LogisticRegression` also has a `C` and no $\lambda$ (see the [logistic regression hyperparameters Note](../81-logistic-hyperparameters/note.md)), following the same convention as SVM: a larger C means less regularisation in both (scikit-learn docs, `LogisticRegression`).
 
-> **Extra:** Written with $z = y_i(w^T x_i + b)$, the hinge loss of one point is $\max(0, 1 - z)$ and the log loss is $\log(1 + e^{-z})$ (the same log loss as before, with target values $\pm 1$). Figure 6 compares them. The hinge loss is exactly 0 for every point beyond its own hyperplane ($z \geq 1$), so those points do not affect the line at all; only points on or inside the margin matter, which is why SVM depends only on its support vectors. The log loss never quite reaches 0, so every point keeps pulling a little.
+> **Extra:** Written with $z = y_i(w^T x_i + b)$, the hinge loss of one point is $\max(0, 1 - z)$ and the log loss is $\log(1 + e^{-z})$ (the same log loss as before, with target values $\pm 1$). Figure 7 compares them. The hinge loss is exactly 0 for every point beyond its own hyperplane ($z \geq 1$), so those points do not affect the line at all; only points on or inside the margin matter, which is why SVM depends only on its support vectors. The log loss never quite reaches 0, so every point keeps pulling a little.
 >
 > ![Hinge loss and log loss for one point, against z = y(wᵀx + b)](images/hinge.png){height=32%}
 
@@ -170,7 +189,7 @@ The hard-margin SVM forbids any point inside the margin. The soft-margin SVM rel
 | Knob | none | C |
 
 - $\arg\max 2/\lVert w \rVert$ equals $\arg\min \lVert w \rVert / 2$.
-- Slack $\xi_i$: 0 on the correct side of a point's own hyperplane, otherwise its distance from that hyperplane.
+- Slack $\xi_i$: 0 on the correct side of a point's own hyperplane, otherwise how far the point is past it, in margin units ($\xi_i > 1$: wrong side of $\pi$).
 - Loss = margin error + C × classification error (hinge loss).
 - Large C: narrow margin, few mistakes. Small C: wide margin, more mistakes. Tune C by cross-validation.
 - C plays the role of $1/\lambda$, as in `LogisticRegression`.
@@ -180,6 +199,7 @@ The hard-margin SVM forbids any point inside the margin. The soft-margin SVM rel
 **Built from**
 
 - CampusX, "Mathematics of Support Vector Machine | Soft Margin SVM", YouTube, https://www.youtube.com/watch?v=utqrvIFAE1k
+- StatQuest with Josh Starmer, "Support Vector Machines Part 1 (of 3): Main Ideas!!!", YouTube, https://www.youtube.com/watch?v=efR1C6CvhmE (the one-dimensional outlier, the soft margin and the bias-variance reason for it; Figure 2 recreates it on iris petal lengths)
 
 **Other references**
 

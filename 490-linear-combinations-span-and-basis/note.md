@@ -183,6 +183,8 @@ With numbers:
 - $[1, 2]$ and $[2, 4]$ are dependent, since $[2, 4] = 2\thinspace[1, 2]$. Their span is a line.
 - $[1, 2]$ and $[3, 1]$ are independent. Their span is the whole plane.
 - $[2, 0, 1]$, $[0, 2, 1]$ and $[2, 2, 2]$ are dependent, since the third is the sum of the first two.
+- $[1, 2]$, $[3, 1]$ and $[4, 3]$ are dependent, since $[4, 3] = [1, 2] + [3, 1]$. The first two already span the plane, so a third 2D vector has nowhere new to point.
+- $[2, 0, 0]$, $[0, 3, 0]$ and $[0, 0, 5]$ are independent. Each one has a non-zero component where the other two have 0, so no combination of two of them can build the third. Their span is all of 3D.
 
 > **Python:** NumPy's `matrix_rank` counts how many independent directions a set of vectors has. Put the vectors in as columns; if the count is smaller than the number of vectors, they are dependent.
 >
@@ -198,7 +200,7 @@ With numbers:
 
 > **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../27-one-hot-encoding/note.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../54-multiple-lr-maths/note.md), section 7).
 
-> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$, where $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 4.2).
+> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$, where $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
 
 ## 8. Basis
 
@@ -242,6 +244,7 @@ Figure 7 shows the three cases with the target $[3, -2]$:
 
 - Sanderson, G. (3Blue1Brown), "Vectors | Chapter 1, Essence of linear algebra", 2016, 3blue1brown.com/lessons/vectors, https://www.youtube.com/watch?v=fNk_zzaMoSs
 - Sanderson, G. (3Blue1Brown), "Linear combinations, span, and basis vectors | Chapter 2, Essence of linear algebra", 2016, 3blue1brown.com/lessons/span, https://www.youtube.com/watch?v=k7RM-ot2NWY
+- Khan Academy, "Introduction to linear independence | Vectors and spaces | Linear Algebra | Khan Academy", YouTube, https://www.youtube.com/watch?v=CrV1xCWdY-g
 
 **Other references**
 

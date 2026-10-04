@@ -97,7 +97,7 @@ where $\bar{x}$ is the sample mean, $\mu_0$ the mean claimed by $H_0$, $s$ the s
 The one-sample t-test needs four things:
 
 1. **Random sampling.** The sample is a random, representative subset of the population. Picking all the chips packets from one shop shelf would not be.
-2. **Independence.** One **observation** (one record, here one measured item) does not influence another. The weight of one chips packet does not affect the weight of the next. When we sample without replacement, a common check is the **10% condition**: the sample is at most 10% of the population.
+2. **Independence.** One **observation** (one record, here one measured item) does not influence another. The weight of one chips packet does not affect the weight of the next. When we sample without replacement, a common check is the **10% condition** (G-2236): the sample is at most 10% of the population.
 3. **Normality.** The sampling distribution of $\bar{X}$ must be roughly normal. Any one of these is enough:
    - the population itself is normal;
    - $n \ge 30$, so the central limit theorem makes $\bar{X}$ approximately normal (see the [central limit theorem Note](../271-sampling-distribution-and-clt/note.md));
@@ -270,5 +270,5 @@ In Figure 8, watch the zoomed panel: the green $t$ stops 0.012 short of the dash
 | T statistic | The value of $t$ computed from the sample in a t-test |
 | Independent two-sample t-test | A t-test comparing the means of two separate, non-overlapping groups |
 | Paired t-test (dependent t-test) | A t-test comparing two linked measurements of the same subjects, through their differences |
-| 10% condition | When sampling without replacement, keep the sample at most 10% of the population so the observations are roughly independent |
+| 10% condition (G-2236) | When sampling without replacement, keep the sample at most 10% of the population so the observations are roughly independent |
 | `alternative` (scipy) | The argument of scipy's tests that sets the direction of $H_1$: `"two-sided"`, `"less"` or `"greater"` |

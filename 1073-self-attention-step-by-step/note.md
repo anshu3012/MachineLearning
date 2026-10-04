@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 
 ## 1. Overview
 
-> **Key point:** **Self-attention** (G-1764) builds each word's new vector as a **weighted sum** of the embeddings of all the words in the sentence. The weights come from **dot products** (how similar two words are), normalised by a **softmax** (G-1830). Each embedding plays three roles, **query**, **key** (G-1011) and **value** (G-2068), so three learned matrices $W_Q$, $W_K$, $W_V$ turn it into three vectors, one per role. For a whole sentence at once: $Y = \text{softmax}(QK^{\top})\thinspace V$.
+> **Key point:** **Self-attention** (G-1763) builds each word's new vector as a **weighted sum** of the embeddings of all the words in the sentence. The weights come from **dot products** (how similar two words are), normalised by a **softmax** (G-1830). Each embedding plays three roles, **query**, **key** (G-1011) and **value** (G-2068), so three learned matrices $W_Q$, $W_K$, $W_V$ turn it into three vectors, one per role. For a whole sentence at once: $Y = \text{softmax}(QK^{\top})\thinspace V$.
 
 The [what is self-attention Note](../1072-what-is-self-attention/note.md) treated self-attention as a box: static embeddings go in, contextual embeddings come out. This Note opens the box. We build self-attention from first principles, as if inventing it:
 
@@ -39,8 +39,8 @@ The [what is self-attention Note](../1072-what-is-self-attention/note.md) treate
 
 Take two short phrases, "money bank grows" and "river bank flows". "Bank" means something different in each, but a static embedding gives it the same vector in both. Suppose we describe each word not by itself but as a mix of the words around it:
 
-$$\text{bank}_{\text{new}} = 0.29\thinspace\text{money} + 0.52\thinspace\text{bank} + 0.19\thinspace\text{grows}$$
-$$\text{bank}_{\text{new}} = 0.25\thinspace\text{river} + 0.54\thinspace\text{bank} + 0.21\thinspace\text{flows}$$
+$$\text{bank} _{\text{new}} = 0.29\thinspace\text{money} + 0.52\thinspace\text{bank} + 0.19\thinspace\text{grows}$$
+$$\text{bank} _{\text{new}} = 0.25\thinspace\text{river} + 0.54\thinspace\text{bank} + 0.21\thinspace\text{flows}$$
 
 The left-hand sides are the same word, but the right-hand sides differ, because the neighbours differ. The meaning of "bank" now depends on its context (Figure 2).
 
@@ -110,7 +110,7 @@ Nothing in the computation for "grows" waits for the computation for "bank": eac
 
 1. **In words:** put the embeddings of the $N$ words as the rows of a matrix; multiply it by its own transpose to get all the scores; apply the softmax to each row; multiply the weights by the embeddings.
 2. **Formula:** with $X$ of shape $N \times n$ (one row per word),
-   $$S = XX^{\top}\ (N \times N), \qquad W = \text{softmax}_{\text{rows}}(S), \qquad Y = WX\ (N \times n)$$
+   $$S = XX^{\top}\ (N \times N), \qquad W = \text{softmax} _{\text{rows}}(S), \qquad Y = WX\ (N \times n)$$
    Entry $(i, j)$ of $S$ is $e_i \cdot e_j = s_{ij}$, and row $i$ of $Y$ is $y_i$.
 3. **Example:** for "money bank grows", $X$ is $3 \times 50$ (3 words, 50 numbers each), $S$ and $W$ are $3 \times 3$ (Figure 3, left) and $Y$ is $3 \times 50$. For "i put my money in the bank", $X$ is $7 \times 50$, $S$ is $7 \times 7$ and $Y$ is again $7 \times 50$. In the Notebook, the matrix version gives exactly the same numbers as a loop over the words, one at a time. Figure 4 shows the shapes.
 
@@ -198,7 +198,7 @@ To make a new vector from an old one, scaling alone (making it longer or shorter
 
 The computation of section 4 stays the same; each use of an embedding is replaced by the vector for its role. For "bank":
 
-$$s_{2j} = q_{\text{bank}} \cdot k_j, \qquad w_{2j} = \text{softmax}_j(s_{2j}), \qquad y_{\text{bank}} = \sum_j w_{2j}\thinspace v_j$$
+$$s_{2j} = q_{\text{bank}} \cdot k_j, \qquad w_{2j} = \text{softmax} _j(s_{2j}), \qquad y_{\text{bank}} = \sum_j w_{2j}\thinspace v_j$$
 
 ### 8.3 All words at once
 
@@ -213,9 +213,26 @@ The matrix form of section 5 carries over (Figure 7, and SLP3 eq. 7.33):
 
 ![Self-attention with learned matrices, for a whole sentence at once](images/qkv.png){width=100%}
 
+**The same steps with every number.** Give the three words invented embeddings of 2 numbers, and reuse the matrices $W_Q$, $W_K$, $W_V$ of section 8.1. Figure 8 runs the computation, one matrix operation per frame.
+
+$$X = \begin{pmatrix} 1 & 2 \cr2 & 0 \cr0 & 1 \end{pmatrix} \quad \text{(rows: money, bank, grows)}$$
+
+1. **Queries, keys, values:** each row of $X$ times each matrix.
+   $$Q = XW_Q = \begin{pmatrix} 3 & 2 \cr2 & 0 \cr1 & 1 \end{pmatrix}, \quad K = XW_K = \begin{pmatrix} 2 & 1 \cr0 & 2 \cr1 & 0 \end{pmatrix}, \quad V = XW_V = \begin{pmatrix} 2 & 1 \cr4 & 0 \cr0 & 0.5 \end{pmatrix}$$
+2. **Scores:** every query with every key. For the query of "money", $(3, 2)$: with the key of "money", $3 \times 2 + 2 \times 1 = 8$; with the key of "bank", $3 \times 0 + 2 \times 2 = 4$; with the key of "grows", $3 \times 1 + 2 \times 0 = 3$.
+   $$QK^{\top} = \begin{pmatrix} 8 & 4 & 3 \cr4 & 0 & 2 \cr3 & 2 & 1 \end{pmatrix}$$
+3. **Weights:** the softmax of each row. For the row of "grows", $(3, 2, 1)$: $e^3 = 20.09$, $e^2 = 7.39$, $e^1 = 2.72$, total $30.19$, so the weights are $0.67$, $0.24$, $0.09$.
+   $$\text{softmax}(QK^{\top}) = \begin{pmatrix} 0.98 & 0.02 & 0.01 \cr0.87 & 0.02 & 0.12 \cr0.67 & 0.24 & 0.09 \end{pmatrix}$$
+4. **Output:** each row of weights mixes the rows of $V$. For "grows": $0.67 \times (2, 1) + 0.24 \times (4, 0) + 0.09 \times (0, 0.5) = (2.31, 0.71)$.
+   $$Y = \begin{pmatrix} 2.02 & 0.98 \cr1.80 & 0.93 \cr2.31 & 0.71 \end{pmatrix}$$
+
+![The worked example, one operation per frame: $X$; then $Q$, $K$, $V$; the scores $QK^{\top}$; the weights after a softmax on each row (darker = larger); and $Y$, the weights times $V$ (a full numeric walk-through after StatQuest, "The matrix math behind transformer neural networks, one step at a time!!!"; the numbers are our own)](images/matrix_walk.gif){width=100%}
+
+In Figure 8, watch the row of "money" in the weights: a score of 8 against 4 and 3 already takes 0.98 of the weight, because the softmax works with $e$ to the power of the score. Large scores make the softmax nearly all-or-nothing, which is the problem the next Note solves.
+
 The order matters: $QK^{\top}$, queries times the transpose of the keys, so that entry $(i, j)$ is $q_i \cdot k_j$.
 
-The self-attention inside a transformer works this way, with one more step: the scores are divided by $\sqrt{d_k}$ before the softmax. Why that scaling is needed is the subject of the [scaled dot-product attention Note](../1074-scaled-dot-product-attention/note.md).
+The self-attention inside a transformer works this way, with one more step: the scores are divided by $\sqrt{d_k}$ before the softmax. Why that scaling is needed is the subject of the [scaled dot-product attention Note](../1074-scaled-dot-product-attention/note.md). Inside a transformer, $Y$ also does not replace $X$: it is added to $X$, so attention supplies a change to each word's vector (the residual connection of the [transformer encoder Note](../1080-transformer-encoder/note.md)).
 
 ## 9. Learned matrices on real reviews
 
@@ -249,7 +266,7 @@ The three runs of each model agree to within 0.004. Both models have exactly the
 
 > **Key point:** Without parameters, each word mostly attends to itself. After training, almost every word attends to "terrible".
 
-What did the matrices learn? Figure 8 takes a real 10-word stretch from a test review, "and the rest of the cast rendered terrible performances the", and shows the attention weights of both models.
+What did the matrices learn? Figure 9 takes a real 10-word stretch from a test review, "and the rest of the cast rendered terrible performances the", and shows the attention weights of both models.
 
 ![Attention weights on a real review. Left: without parameters, each word borrows mostly from itself and spreads the rest evenly. Right: with learned $W_Q$, $W_K$, $W_V$, almost every word borrows most from "terrible", the word that decides the sentiment](images/weights_review.png){width=100%}
 
@@ -282,6 +299,7 @@ For this task, the learned matrices turned self-attention into a detector of sen
 **Built from**
 
 - CampusX, "Self Attention in Transformers | Deep Learning | Simple Explanation with Code!", YouTube, https://www.youtube.com/watch?v=-tCKPl_8Xb8
+- StatQuest with Josh Starmer, "The matrix math behind transformer neural networks, one step at a time!!!", YouTube, https://www.youtube.com/watch?v=KphmOJnLAdI. 04:30–12:00 (self-attention written out as matrices with every number: queries, keys and values, the scores, the row softmax, the weighted values).
 - Sanderson, G. (3Blue1Brown), "Attention in transformers, step-by-step | Deep Learning Chapter 6", 2024, 3blue1brown.com/lessons/attention, https://www.youtube.com/watch?v=eMlx5fFNoYc. 5:52–10:03 (an imagined head in which nouns' queries look for preceding adjectives and adjectives' keys answer; the attention pattern drawn as a grid of dots).
 
 **Other references**
@@ -295,10 +313,10 @@ For this task, the learned matrices turned self-attention into a detector of sen
 
 | Term | Meaning |
 |---|---|
-| Self-attention | A mechanism that gives each word of a sequence a new vector: a weighted sum over all the words, with weights from query–key similarity |
+| Self-attention (G-1763) | A mechanism that gives each word of a sequence a new vector: a weighted sum over all the words, with weights from query–key similarity |
 | Score | The dot product of a query with a key: how well two words match |
 | Attention weight | A score after the softmax; the weights of one word sum to 1 |
-| Query | The vector of the word whose new vector is being computed; it is compared with every key |
+| Query (G-1607) | The vector of the word whose new vector is being computed; it is compared with every key |
 | Key | The vector a word offers to be compared with a query |
 | Value | The vector a word contributes to the weighted sum |
 | $W_Q$, $W_K$, $W_V$ | The learned matrices that turn an embedding into its query, key and value vectors; the same for every word |

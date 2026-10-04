@@ -59,7 +59,7 @@ So stage 1 says "probability 0.6" for every student, whatever the CGPA. With a t
 | 4 | 8.15 | 1 | 0.6 | 0.4 |
 | 5 | 9.60 | 1 | 0.6 | 0.4 |
 
-A **residual** (G-1685) is the actual class minus the predicted probability. Residuals are always computed from probabilities, never from log-odds. Figure 2 draws them: each residual is the gap from the dashed line at 0.6 to the student's class, 0 or 1.
+A **residual** (G-705) is the actual class minus the predicted probability. Residuals are always computed from probabilities, never from log-odds. Figure 2 draws them: each residual is the gap from the dashed line at 0.6 to the student's class, 0 or 1.
 
 ![Stage 1 predicts probability 0.6 for every student. The residuals are the gaps from 0.6 to the actual class: -0.6 for the two students not placed, +0.4 for the three placed](images/residuals.png){height=32%}
 

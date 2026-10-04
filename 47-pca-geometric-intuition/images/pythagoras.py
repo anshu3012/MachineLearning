@@ -18,6 +18,8 @@ K = int(np.argmax(Z[:, 1] - Z[:, 0]))          # the flat farthest above the 45-
 ANG = np.arange(0, 180, 0.5)
 BEST = float(ANG[np.argmax([((Z @ [np.cos(np.radians(a)), np.sin(np.radians(a))]) ** 2).mean() for a in ANG])])
 assert round(TOTAL, 2) == 2.66 and 44 <= BEST <= 46
+_c0, _c45 = Z[K][0] ** 2, (Z[K] @ [np.cos(np.radians(BEST)), np.sin(np.radians(BEST))]) ** 2
+assert [round(float(v), 2) for v in (Z[K] @ Z[K], _c0, _c45)] == [6.52, 4.26, 6.36]    # numbers quoted in section 4.1
 
 
 def base(title, rng):

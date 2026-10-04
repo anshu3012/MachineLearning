@@ -415,7 +415,7 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 | Parallel processing | Splitting one job among several processor cores working at the same time |
 | Column block | XGBoost's storage of the data one sorted column per block, so each core can work on one feature |
 | Cache memory | A small, fast memory inside the processor that holds data used again and again |
-| Out-of-core computing | Training on data bigger than the RAM by loading it chunk by chunk |
+| Out-of-core computing (G-1413) | Training on data bigger than the RAM by loading it chunk by chunk |
 | Distributed computing | Sharing one job between several machines (nodes), coordinated by a master node |
 | GPU | Graphics processing unit: a processor with thousands of small cores for many small calculations at once |
 | Sparsity-aware split finding | Choosing, at each split, the side (left or right) for missing values by comparing the gain of both |

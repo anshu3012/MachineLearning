@@ -1,0 +1,484 @@
+Hi guys, welcome to my YouTube channel.
+In the last video, we had studied ridge regression.
+And we saw how it can save you from overfitting.
+In today's video, we will see the exact maths behind ridge regression.
+And then we will write the code of ridge regression from scratch.
+As you know, there is a class called ridge in scikit-learn.
+we will replicate that class by building our own class.
+So let's start the video. So just to give you some context, we discussed this in the last class,
+in the last video that the machine learning model
+that you make using linear regression, if you are making it for two variables
+then you have to find two coefficients for it,
+we have to find a coefficient and an intercept
+and overfitting can happen when the value of coefficient is very high
+if the value of coefficient means the value of slope is very high
+it means y will depend highly on x
+so this can lead to overfitting
+means if your slope is very high
+so this can lead to overfitting
+and if your slope is very low
+This can lead to under-fitting.
+So what was the solution?
+The solution was that you
+loss, basically
+I will explain what exactly happens after some time.
+But the idea is
+that you want to reduce
+the value of this M
+as in the value of this coefficient.
+And you want to bring it
+to the right place.
+By doing this
+the bias of this model
+increases.
+It means the result on training data gets a little bad but in turn the variance gets reduced in bias-variance trade-off.
+If you increase the bias then the variance will get reduced.
+So now let's see that how exactly we can decrease the value of this slope.
+So, what happens is that when you perform linear regression at that time, the cost function which we have already studied a lot about,
+the cost function is this. This is the cost function. You add a term to this cost function.
+And generally what is that term? If you are doing 2D linear regression, then that term is lambda times m square.
+What is M? M is the slope.
+So now, rather than minimizing this thing, you have to minimize this entire thing.
+And what is happening due to the addition of this term is that the overall slope that will come out,
+the overall M that will come out, for which this value will be minimum,
+that will be lesser than when only this term is present in your loss function.
+So, now what I will do is I will show you a derivation that really by adding this term, you are able to reduce the value of m.
+Let's see how it happens.
+So guys, to see the next derivation, you have to watch the video of simple linear regression which I had shot few days back.
+I will put the link of that in the description.
+Same to same, the same derivation will happen.
+Only in that derivation, this term will be added.
+So, if you remember our loss function, you can write it like this,
+i is equal to 1 to n, yi minus m xi minus b whole square plus lambda m square.
+Now, what you have to do is, you have to differentiate it in two terms,
+means you will have to do del L by del B and del L by del M and you will do both equal to 0
+and with this you will get the value of B and with this you will get the value of M.
+We have done this exact thing earlier. In fact, this flow where you differentiate with B
+there is no change in this. What you studied in simple linear regression and what you are studying here
+There is no difference between these two. Whatever the difference is, it is in terms of m.
+So what am I doing? I am assuming that you have seen that video and I am not doing derivation again.
+I will tell you directly that when you will calculate the value of b by doing derivation,
+then the value of b is y bar minus m x bar. What is y bar here?
+The mean of y data and what is x bar? The mean of x data.
+And what is m? m is your slope.
+Now we will see this flow where the main difference will come.
+So let's do that.
+So I will come down and in our loss function I will make a change.
+And the change would be this, that here I will fill this thing in place of yi minus mxi minus b.
+So this will be y bar minus mx bar whole square plus lambda m square.
+And now what I will do is, I will differentiate with respect to m.
+Okay, so what will happen first, I guess you know this much, first you will differentiate this term, then you will differentiate this term, then you will get 2 times sigma i is equal to 1 to n, yi minus mxi minus y bar minus mx bar's whole square, I am sorry, whole square will not come, it has been differentiated.
+and then you will differentiate every term individually with respect to m
+so you will get this term will be zero and this term will be minus xi
+this term will be zero and this term will be minus x
+Okay, this becomes plus. My bad, it should have been plus here because
+when it will be multiplied by minus, it would be plus. So, my bad.
+So, this would be plus x bar plus, when you will differentiate this with respect to m,
+it will give you 2 lambda m. And you have to set it equal to 0.
+I guess you understand till here. So, we can rewrite this entire thing as
+What we can do is, we can subtract minus 1 common from here, so this would become minus 2 sigma i is equal to 1 to n
+yi minus y bar minus mxi plus mx bar.
+And here will be xi minus x bar because we subtracted minus 1 common from here
+plus 2 lambda m equal to 0.
+Now we can rewrite it by writing this
+lambda m, this is positive, this is here, this 2 is removed, this 2 is also removed
+minus sigma i is equal to 1 to n
+yi minus y bar
+minus m times
+xi minus x bar.
+and we are multiplying it by xi minus x bar and this is equal to 0
+so we are almost getting there now what we will do is
+we will expand these terms so lambda m minus sigma i is equal to 1 to n
+this term will be multiplied by both so it would become yi minus y bar
+X bar multiplied by XI minus X bar minus M times XI minus X bar square equal to zero.
+Now I am multiplying both sides with minus so this will become lambda M minus YI minus Y bar
+xi minus x bar plus sigma i is equal to 1 to n
+m times xi minus x bar whole square equal to 0
+now you can see that we have m in two terms
+so this term has m in it
+so I will bring them together and take it to this side
+So, this would become lambda m plus m sigma i is equal to 1 to n
+xi minus x bar whole square equal to sigma yi minus y bar xi minus x bar
+Now, we have taken out m common from here.
+So, this would become sigma i is equal to 1 to n yi minus y bar xi minus x bar divided by sigma i is equal to 1 to n xi minus x bar whole square plus lambda.
+so if guys this is it means we have to derive this, we have derived it, you take out the value of m like this, this is the value of m
+this is the value of m, if you compare it with normal linear regression, in normal linear regression also the answer was almost same
+there was only one difference that there was no lambda below, let me show you what this whole interpretation is saying
+This was the answer when we did simple linear regression. This was not the term of lambda.
+This is the difference. This is original linear regression and the above one is ridge regression.
+What happens in ridge regression? When you calculate m, then you divide by lambda.
+means whatever thing is in denominator you add lambda in it, now what is lambda, lambda is a hyperparameter
+which you call alpha, so now how much alpha you will keep, now first of all think if your lambda value is 0
+then this and this both are same thing, means for lambda is equal to 0 you will perform linear regression only
+If you do the value of lambda as 10, then the value of m will decrease because you increased the denominator.
+Similarly, if you do the value of 100, then it will increase even more.
+So, if you are keeping anything positive in lambda, then there will be some change in m.
+If you make it 0, then there will be no change.
+And if there is a change in m, then automatically there will be a change in b too.
+Because how is b calculated? y bar minus m x bar.
+And that's it. That is why regularization works. That is how ridge regression works.
+At the end, when we added lambda m square in our loss function,
+it only benefited that the formula of calculating m at the end,
+a term was added in the denominator and that term was lambda, your hyperparameter.
+So, the more lambda you keep, the less m will decrease.
+And that's it. In the same way, ridge regression works in 2D.
+Now I will show you this code and then you will see that this is the thing that is reducing the value of m.
+So guys, I have already made this file and I have imported the ridge regression class and run the code.
+so that when we make a class, we can compare it side by side, the results that are coming, okay.
+So, I am consistently using this data set in this whole series.
+Basically, we have generated a linear data, one input column, one output column, and this is the data set.
+So, what I have done first, I have imported the linear regression class, trained it,
+calculated the coefficient and intercept value, okay.
+Then I called ridge regression class and set the value of alpha as 10.
+After that I trained the model and you can see that on alpha equal to 10,
+the value of my slope decreased a bit from 27 to 24.
+Similarly, there was some impact on your intercept too.
+Just to show you again, I calculated the value of alpha by adding 100 also.
+So you can see it is very less. It came to 12. From 24 it came to 12.
+And just again to show you, I have plotted all three regression lines on the same plot.
+So you can see, this is the result.
+On my actual data, the linear regression line without any regularization, that is the red line.
+Whose slope is the highest, if you look carefully.
+After that comes the green line, when your alpha value was equal to 10, so the slope has decreased a little.
+And when you have done the slope 100 times, the orange line, you can see, you have decreased the slope a lot.
+And now it is gradually entering the under-fitting category.
+So, I guess the optimum will be 1 or maybe 10.
+You will be able to see the results by calculating the R2 score.
+So anyways, just to show you visually how ridge regularization works, I have made this diagram for you.
+Now what we will do is we will make our own class. Let's create a class. Let's call it MeraRidge.
+And here we will add our constructor. There will be a self in constructor.
+And we will be told the value of alpha, if nothing is told then we will assume 0.1
+self.alpha would be equal to alpha
+self.m would be equal to none
+self.b would be equal to none
+then we will create our fit method
+it will have self, x, y
+and here you will calculate the value of m and b
+and then you will have predict
+in predict we will write x-train and y-train
+It will be more correct. And here let's write Xtest and let's make it pass.
+Now see guys, what you have to do is first by using this formula, you have to first calculate the value of M.
+So to calculate the value of M, I will calculate the numerator separately and the denominator separately.
+I am writing here, Numerator will be equal to, you can see, what we have to do is,
+initially we put the numerator as 0 and the denominator also initially put as 0.
+Then what we have to do is, we have to run the loop and we have to find this summation.
+So, what I will do is, I would calculate, I would run this loop for i in range of x-train dot shape of 0.
+the more rows there are, the more this loop will run
+and every time you will add in numerator
+numerator plus
+this term
+yi minus y bar
+so you would write
+in bracket
+yi
+means y train
+ith value
+minus
+y train
+dot mean
+you will calculate this
+and you will multiply it with the same thing of x-train
+so copy paste this would become x-train
+and this would also become the mean of x-train
+similarly while calculating the denominator
+you have to calculate this thing
+so you would write denominator plus
+I would write this
+and we will multiply it with same thing
+ok
+here in plus
+this lambda will come
+and lambda is self.alpha
+self.alpha
+ok
+and when this loop will complete
+i will come out and calculate
+self.m
+and this will be equal to
+numerator divided by denominator
+and self.b would be equal to
+ytrain.mean minus self.m times xtrain.mean
+So, let's take it in a bracket
+and let's also print out the value of self.m and self.b
+So, this is it. Let's run it once. If we want to run it, then we are making an object by saying reg.
+My reg class. Alpha's value is 10. So that we can compare. We have taken it out for 10.
+so 10 and now here we will write reg.fit and we will pass x,y and this is something very different
+what a great man you are, I made a very big stupid mistake
+what we are doing is while calculating the denominator we are adding self.alpha every time
+obviously you will not do this, once you calculate the denominator completely
+after that you add alpha.
+So the big mistake is that
+without self.add in the loop,
+you will do it here.
+When you will calculate
+the whole denominator,
+you add alpha in that. My bad.
+It was quite stupid.
+Let's run it once again.
+And you can see, this is our answer.
+24.95
+minus 2.12
+If we go up, then
+when the value of alpha was 10,
+24.95 minus 2.12. Let's see if we set 100 then the result is 12.93 minus 1.42.
+So what we will do is we will set it to 100 and here it is 12.93 minus 1.42.
+So we have made exactly same class which is in the code of bridge regression of scikit-learn.
+So, try to write this code by yourself. Now, we will do the same thing for n-dimensional space and n-dimensional data.
+And we will make this code general. So, yeah that's it.
+So, now guys we have applied 1D, actually 2D data with ridge regression and scratch.
+Now we will take that same concept in higher dimension, when we have n dimensional data.
+So suppose we have this data, x1, x2, ..., xn and y.
+Means we have n input columns and one output column.
+Means we have total of n plus 1 columns and total of m rows.
+We have this data. Now we have to apply ridge regression on this.
+So how will we apply? So you already know that in n dimension also your loss function is in this form.
+From 1 to m, m is the number of rows, yi minus yi hat whole square.
+Now in multiple linear regression video I have explained you that how you can bring it in the form of matrix.
+You can bring it in the form of matrix like this.
+Let's say for some time we assume that the weights that we have to calculate, the coefficients that we have to calculate
+will be W1, W2, dot dot dot, Wn.
+For every input column you will calculate one coefficient.
+We are calling it W and there will be a W0, intercept term.
+So in total I have to find the value of n plus 1 coefficient to solve this problem.
+So how can you write this problem in matrix form?
+You can write this.
+You can write xw minus y transpose xw minus y.
+Now how did this come?
+For this you have to watch the previous video.
+I have explained it in detail. I am not explaining it again because it would take around 10 minutes.
+There is no point. You can watch the previous video.
+I will just tell you what is y here. So y is basically this column.
+This entire output column. So this will be a matrix where all the values of output column will be there.
+How many values will be there in total? M values will be there because here m rows are there.
+Next, what is W? W is again a matrix where W0, W1, dot dot dot, Wn, so the shape of this matrix is n cross 1, n cross 1 rows are there.
+And what is x? x is basically this matrix, 1 1 1 dot dot dot 1, x 1 1, x 1 2, dot dot dot, x 1 n.
+x21, x22, ..x, 2n, ..x, m1, x, m2, ..x, mn
+Basically you have extracted all these values
+You have extracted all these values
+And put 1 in front of them
+Okay, I have told you all this in the previous session
+So these are the matrices
+These are the matrices.
+So, if I am working with n-dimensional data,
+then I can write my loss function in this form.
+I will rewrite the loss function.
+The loss function is
+X W minus Y
+This is the matrix, its transpose
+X W minus Y
+This is done for normal linear regression.
+This is for normal linear regression.
+Now, I have to apply ridge regression on it.
+i.e. i have to add a regularization term in it
+and what will be that regularization term?
+that regularization term is
+lambda w square
+and what is w here?
+w is again a matrix
+means this
+i am writing here
+this term can be rewritten as
+lambda w0 square
+plus lambda w1 square
+square plus lambda w2 square dot dot dot plus lambda wn square this thing and this thing is the same
+okay if I take out lambda common then inside will come w0 square plus w1 square plus w2 square dot
+dot dot wn square okay now what I can do I can write this whole thing like this think and see
+You can do it. What will be W transpose? W transpose will be this thing.
+W naught, W1, W2, dot dot dot, Wn. And what will be W? W will be this.
+Now think about it. If you apply dot product on both of them, then you will get this thing.
+So basically, we can write our loss function of ridge regression like this.
+You can rewrite this loss function in matrix form.
+And that would be loss is equal to xw minus y transpose xw minus y plus lambda w transpose w.
+This is your loss function for ridge regression for n-dimensional data.
+Now what we have to do is, we have to differentiate this whole thing with respect to W.
+Means we have to find dL by dW and here matrix differentiation will happen.
+And by doing it equal to 0, we have to find the value of W matrix.
+We have done this, only one extra term has come, this one, rest we have already worked with this thing.
+Now I am doing one thing, first I am simplifying this whole thing a little bit.
+So I will rewrite it as L is equal to, you know if A minus B transpose is there, then you can write it as A transpose minus B transpose.
+So you are doing the same, you are writing xw transpose minus y transpose multiplied by xw minus y plus lambda w transpose w.
+Now you know that A is the transpose of B, B transpose A transpose.
+Going by that logic, this will become W transpose X transpose minus Y transpose multiplied by X W minus Y plus lambda W transpose W.
+We are simplifying a little more, we are expanding the terms.
+So, this will be W transpose X transpose X transpose sorry X W minus W transpose X transpose Y minus Y transpose X W plus Y transpose Y plus lambda W transpose W.
+Now, I guess you know that I told you in the last video that these terms are actually same.
+I told you this again in the last video, I will not tell you again, it will take 5 minutes more.
+You will have to watch the previous video once. These two terms are same.
+And now we are almost there where we will perform differentiation.
+So now we will just rewrite this whole thing for the last time.
+W transpose X transpose X W minus
+Since these two terms are same, I am writing this.
+2 times W transpose X transpose Y
+plus Y transpose Y
+plus Lambda W transpose W
+This is my final loss function.
+And now I have to differentiate it with respect to the matrix W.
+So I have to take out DL by DW.
+So clearly you can see that we have to differentiate it on all fours.
+This term is already understood that it will become zero.
+To differentiate the rest of the people, I am keeping a guide in front of you.
+So this is a pdf sheet of a university where the formula of how to differentiate matrices is given.
+We will use this formula as a guide. So here if you see in this first term, we have W transpose W.
+We have to differentiate with W but W transpose W and this is some constant X transpose X.
+So you can see the same scenario here that if you have X transpose, I am sorry, if you have X transpose X and B is a constant
+So, when you will differentiate it with X, then you will get 2BX.
+Means, you just have to do this much that here will come 2 times B.
+What is B? X transpose X. And what will come in return of W transpose W?
+Your W. Okay. I guess you understood this first term.
+You can do it immediately by looking at this formula.
+Next, here I have to differentiate according to W transpose, so you can see if you have something like this
+X transpose B and if you want to differentiate it with X then it is just B
+This means here you can simply write 2X transpose Y plus this would be 0 plus
+Now is the differentiation of W transpose W. So you can see this is its differentiation 2x means this will be 2 lambda W.
+And now I have to make it equal to 0. So now what we will do is we will remove all these 2's.
+So it will become X transpose X W plus lambda W is equal to X transpose Y.
+If I take W from here, then it will be X transpose X plus lambda identity matrix.
+Because you cannot take W directly, lambda is a scalar, so we have to put identity matrix here.
+And this is my W is equal to X transpose Y.
+And now if I take this whole term here, then it will be W is equal to X transpose X plus lambda I inverse X transpose Y.
+And that's it guys. This is the solution for ridge regression.
+This is the solution.
+If you remember, if you are watching the video, then W is equal to X transpose X inverse X transpose Y.
+Here again this lambda term came along with an identity matrix.
+And this is an identity matrix whose shape will be n cross 1 comma n cross 1.
+Means if you have 3 columns then it will be 4 by 4 identity matrix.
+So what is happening because of this?
+Due to the addition of this term, all your coefficients will be calculated.
+From W0 to Wn, the value of all of them will decrease.
+The more you increase the lambda, the more your value will decrease.
+So this is the formulation, I would recommend you to watch the previous video.
+I have given the link in the description.
+and try to derive it on your own on a pen and paper
+there is matrix differentiation, I will also share this link
+use this as a guide or invest some more time
+and learn the differentiation of matrices
+then it will be better
+but right now this is the thing
+and we will code this using python
+so let's code now
+which we have just derived mathematically
+so we need a data set
+in which there are more than one input columns then I used this load diabetes data set again
+we have used this many times, X Y extracted, train test split and here in this line
+I imported the class of ridge of scikit-learn and here I kept alpha is equal to 0.1
+I kept the value of lambda 0.1 and solver is equal to Cholesky whatever it is
+means if you go to this class then here you get solver, so solver has different values
+SVD, Cholesky, LSQR, SAG, SAGA, so internally this class can do ordinary least square or
+can apply gradient descent also, so I am using Cholesky which internally will use the exact
+will use the exact function which we are using. So I have selected this solver and I have fitted it on my data
+and then I have calculated the wipe rate and when I took out the R2 score then it was around 0.46.
+If I print coefficients and intercepts then these are the coefficients and intercepts. Now what I have to do is
+I have to make my own class so that I can see the same answer.
+So let's create that class.
+The class name will be MeraRidge.
+We will create a constructor.
+The constructor will get one thing.
+The value of alpha which is initially 0.1.
+And here we are making some things.
+Like alpha will be equal to whatever the value of alpha is.
+self.coefficient is initially none
+self.intercept is initially none
+then we have fit method
+where you will get self, x train and y train
+you will do something
+and we will have
+predict, self, x train, y train. What am I doing? My bad. It should be xtest and you will return something.
+For now, let's write pass here. So, this is my skeleton code. Now, see guys, it is very simple.
+What we have to do? First of all, we have to write this code basically to calculate w.
+So what am I doing? First of all, I am making the matrix of x. What will be the matrix of x?
+The matrix of x-train, which is the matrix of x-train, in the beginning you just have to put 1.
+So you will write this code. This is the code. This is our x-train.
+Here in every row, the first digit should be 1. How will we do that?
+for that we will use np.insert
+which we did in last class
+np.insert
+apply on x-train
+put 1 on 0th position
+axis should be 1
+and you can see
+in every row the first number
+is becoming 1
+so we will copy this code
+and write here
+x-train is now equal to
+this
+Now what we have to do is, we have Y already, Y is Y train, we just have to calculate I.
+I I told you, what will be I? I will be an identity matrix whose shape will be n cross 1, n cross 1.
+What is n here? Number of columns, so I will write capital I is equal to NP dot identity
+identity and here you will pass x-train.shape 1
+number of columns
+and now you have to calculate result
+result will be equal to
+np.linearalgebra.inverse
+and you have to calculate inverse of this inside thing
+First of all, you will write np.xtrain.transpose
+First of all, you will write x by writing this code
+Then you will add lambda i
+So you would write self.alpha multiplied by i
+And whatever result you get, you will dot product it with X transpose.
+So you would write X train dot transport and whatever result you get, you will dot product it with Y train.
+And this will give you your W matrix.
+Now you have to extract all the coefficients from it.
+And you have to extract the term of intercept.
+you know that the first term in the result will be your intercept and the rest of the terms will be your coefficients
+so you would write 1 onwards in the result and that's it guys
+That's it. This is our code.
+Now if I run it, I will write the code here also.
+return np.xtest with self.coefficient
+and we have to add intercept in the answer.
+That's my class, that is my class. Now what will I do? I will go here and I will create a regressor object of my class.
+My reg, here I will pass, I am leaving alpha as 0.1, I had kept 0.1 above also, so let's leave 0.1.
+and
+reg.fit
+xtrain
+and ytrain
+then we
+calculate ypret
+this will be equal to
+reg.
+predict
+xtest
+let's print
+the r2 score
+ytest
+comma
+ypret
+print uh these two terms also so
+let's run this and you can see 0.46
+point four six nine three zero point four six nine two zero nine three zero nine two zero
+r and here one fifty point eight nine r here one fifty point eight four r here forty four
+4.0 minus 241 is 452 and here it is almost same, you will see the difference in some places
+like I will show you, like see here, this term is minus 164 and this term is minus 165
+so I got a question in my mind that why this difference is coming, difference should not come
+If their class and our class are using the same formula then there shouldn't be any difference.
+So I did some research and I came to know that apparently what they are doing is
+that in this identity matrix which will look like this 1,0,0 if it is 3 by 3
+they are making the first term as 0.
+And they are doing this because they don't want to apply this logic on the intercept coefficient i.e. W0.
+So when I did the same thing, let me show you.
+What did I do? I wrote I is equal to 0.
+I wrote this code and now when I run this code again, I am getting the exact same answer.
+the exact same answer which is 44.020, 150.890, see now if you compare side by side,
+the exact same answer is coming, minus 164.98, minus 164.98, so apparently they are using the same formula,
+they are just changing one thing and that is this, and honestly I haven't got a clear answer yet,
+actually I didn't get the time, I was very sure that what I am doing is correct,
+But when I saw the difference in the answer, I thought that there is something wrong.
+So when I did the research, I understood that this is the solution.
+But why is there such a solution, it will take me some time to figure out.
+So if you know the reason for this, then write it in the comments.
+I will pin your comment.
+So yeah, that's it. This is the code.
+And you can just play with this code. Try writing by yourself once.
+And that's it. You can make ridge regression by yourself.
+You don't need their class.
+Especially if you have a small data set.
+If you have a big data set, then this thing will create a problem.
+The problem that was there, what was the problem?
+Time complexity.
+In a very big data set, time complexity increases a lot.
+It becomes of the order of n cube.
+Then what is the solution?
+You apply gradient descent.
+So what will we do in the next video?
+We will learn how to apply gradient descent in ridge regression.
+So that's it. Thanks for watching. Bye.

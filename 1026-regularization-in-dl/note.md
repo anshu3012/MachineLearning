@@ -206,7 +206,7 @@ The network reaches 100% training accuracy. Its decision boundary (Figure 1, lef
 > ])
 > ```
 >
-> The **kernel** is Keras' name for a layer's weight matrix; `kernel_regularizer` penalises the weights only, which matches the rule that biases are not penalised. A separate `bias_regularizer` exists but is rarely used.
+> The **kernel** (G-2274) is Keras' name for a layer's weight matrix; `kernel_regularizer` penalises the weights only, which matches the rule that biases are not penalised. A separate `bias_regularizer` exists but is rarely used.
 
 The decision boundary (Figure 1, middle) is now a clean shape of a few straight segments that follows the two moons, which should do much better on new data. In Figure 5 (middle) the training and validation curves move side by side for all 2,000 epochs:
 
@@ -316,7 +316,7 @@ Both losses in the table are the binary cross-entropy alone, so the rows can be 
 - **$\lambda$ from 0.003 to 0.1: a good fit.** The validation loss is at its lowest, 0.13 to 0.19, and close to the training loss.
 - **$\lambda$ of 0.3 or 1: underfitting.** The penalty now outweighs the data. At $\lambda = 1$ every weight has decayed to about 0, the network predicts the same class everywhere, and even the training accuracy is 54%.
 
-The last column tests the reason given in section 5. The **sensitivity** is how much the predicted probability changes, on average, when a training point is moved by 0.1 along one of its two features. It falls from 0.058 without a penalty to about 0.045 in the good range and 0.025 at $\lambda = 0.3$: smaller weights make the prediction react less to small changes in the input.
+The last column tests the reason given in section 5. The **sensitivity** (G-2275) is how much the predicted probability changes, on average, when a training point is moved by 0.1 along one of its two features. It falls from 0.058 without a penalty to about 0.045 in the good range and 0.025 at $\lambda = 0.3$: smaller weights make the prediction react less to small changes in the input.
 
 In practice $\lambda$ is chosen like any hyperparameter: try several values and keep the one with the best validation score (see the [Keras Tuner Note](../1039-keras-tuner/note.md)).
 
@@ -361,11 +361,11 @@ In practice $\lambda$ is chosen like any hyperparameter: try several values and 
 | Piecewise linear | Made of straight segments joined at bends; the shape of a ReLU network's decision boundary |
 | Capacity | A model's ability to fit a wide variety of functions; too much capacity for the data leads to overfitting |
 | Penalty term | The extra term added to the cost to discourage large weights |
-| $\lambda$ (lambda) | The strength of the penalty; a hyperparameter |
+| $\lambda$ (lambda) (G-2150) | The strength of the penalty; a hyperparameter |
 | Weight decay | Another name for L2 regularisation in neural networks: every update shrinks each weight by a fixed factor |
-| Sensitivity | How much the prediction changes when the input changes a little |
+| Sensitivity (G-2275) | How much the prediction changes when the input changes a little |
 | Weight decay factor | $1 - \eta\lambda$, the factor by which L2 regularisation shrinks every weight at each update |
 | `kernel_regularizer` | Keras `Dense` setting that adds an L1 or L2 penalty on the layer's weights |
-| Kernel | Keras' name for a layer's weight matrix |
-| `get_weights` | Keras method that returns every weight and bias array of a model |
+| Kernel (G-2274) | Keras' name for a layer's weight matrix |
+| `get_weights` (G-85) | Keras method that returns every weight and bias array of a model |
 | AdamW | Adam with true weight decay applied directly to the weights, not through the loss |

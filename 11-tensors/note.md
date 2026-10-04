@@ -168,7 +168,7 @@ ML algorithms work only with numbers, so text must be turned into numbers first.
 
 One simple method is **one-hot encoding** (G-1379; the [one-hot encoding Note](../27-one-hot-encoding/note.md) applies it to categorical columns):
 
-1. List every unique word: the **vocabulary** (G-2093). For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
+1. List every unique word: the **vocabulary** (G-2092). For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
 2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], riya = [0, 1, 0, 0], and so on.
 3. Each sentence becomes a matrix with one row per word. "Hi Rahul" has 2 words, so its shape is (2, 4).
 
@@ -226,7 +226,7 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
 2. **Formula:** $\text{storage (bytes)} = \text{size} \times 4$.
 3. **Example:** $\text{size} = 4 \times 1800 \times 480 \times 720 \times 3 = 7{,}464{,}960{,}000$ numbers, so storage $= 7{,}464{,}960{,}000 \times 4 = 29{,}859{,}840{,}000$ bytes: about 30 billion bytes.
 
-Converted to gigabytes, that is about 27.8 GB if 1 GB means $1024^3$ bytes (the usual convention in computing), or 29.9 GB if 1 GB means $10^9$ bytes. Either way, four one-minute videos need around 28 to 30 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data (**compression**, G-433): they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than its raw 7.5 GB.
+Converted to gigabytes (1 GB = $1024^3$ bytes), that is about 27.8 GB: four one-minute videos need about 28 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data (**compression**, G-433): they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than its raw 7.5 GB.
 
 The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note in NumPy: from a scalar to a real photo (shape (427, 640, 3)) and the video storage calculation.
 
@@ -272,15 +272,15 @@ The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note i
 | Matrix | A table of numbers: a 2D tensor |
 | Array | The programming name for a tensor (as in NumPy) |
 | Axis | One direction along which a tensor's items are arranged |
-| Rank | The number of axes of a tensor (`ndim` in NumPy) |
+| Rank (G-1629) | The number of axes of a tensor (`ndim` in NumPy) |
 | Shape | The number of items along each axis |
 | Size | The total number of items: the product of the shape |
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
 | Observation | One record: one row of the data table |
 | X, y | Usual names for the feature table and the target column |
-| Vectorization | Converting data such as text into vectors of numbers |
-| Vocabulary | The list of unique words in a set of texts |
+| Vectorization (G-2084) | Converting data such as text into vectors of numbers |
+| Vocabulary (G-2092) | The list of unique words in a set of texts |
 | Time series | Data recorded at regular time intervals |
 | Pixel | One dot of an image, stored as one or more numbers |
 | Channel | One colour layer of an image (red, green or blue) |

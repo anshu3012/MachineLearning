@@ -258,10 +258,7 @@ The Notebook codes these four lines in NumPy with random weights (4 units, 3-num
 > # columns in the order z, r, candidate
 > ```
 
-> **Extra:** Two conventions differ between sources, and Keras follows the original paper on both.
->
-> - **Which side $z$ weighs.** Cho et al. (2014, eq. 7) and Keras write $h_t = z_t \odot h_{t-1} + (1 - z_t) \odot \tilde h_t$: $z$ weighs the old memory. Chung et al. (2014, eq. 5) write it the other way round, as we do. The two are the same model: a gate trained one way learns the complement $1 - z$ of the other, because $\sigma(-a) = 1 - \sigma(a)$. The Notebook's check gives Keras the negated update-gate weights and gets identical hidden states.
-> - **Where the reset gate acts.** The formula of step 2 (Cho et al. 2014, eq. 8 in the arXiv version; Chung et al. 2014) multiplies the old memory by $r_t$ before the weight matrix. Chung et al. (2014, footnote 1) note that the original GRU applied $r_t$ after the matrix product, $\tanh(x_t W + r_t \odot (h_{t-1} U))$, and that both forms performed as well as each other. Keras' default, `reset_after=True`, is this second form, with a separate bias for the recurrent part; `reset_after=False` gives the form of step 2 (Keras documentation, `GRU`). In the Notebook the two forms give hidden states that differ by at most 0.02 on the same weights.
+> **Extra:** Keras and Cho et al. (2014, eq. 7) write the blend the other way round, $h_t = z_t \odot h_{t-1} + (1 - z_t) \odot \tilde h_t$, so there $z$ weighs the old memory. The model is the same: a gate trained one way learns $1 - z$ of the other. Keras' default `reset_after=True` also applies the reset gate after the matrix product, with a second bias (section 9.1); `reset_after=False` gives the form of step 2 (Keras documentation, `GRU`).
 
 ## 9. GRU or LSTM
 

@@ -64,9 +64,26 @@ Figure 2 builds it for the example. Each category has its observed and expected 
 
 > **Key point:** If $H_0$ is true, $\chi^2$ follows a chi-square distribution: never negative, skewed to the right, with one parameter, the degrees of freedom.
 
+### 3.1 Built from squared normal draws
+
+> **Key point:** Square a draw from the standard normal distribution and we get a chi-square value with 1 degree of freedom; add $k$ squared draws and we get $k$ degrees of freedom.
+
+To judge whether $\chi^2 = 3.48$ is large, we need to know which values $\chi^2$ takes by chance. The curve that answers this is built from the standard normal distribution (see the [standard normal Note](../251-standard-normal-and-z-table/note.md)) in two steps. Figure 3 runs them.
+
+1. **Square one draw.** Take a number $z$ from the standard normal distribution and square it. Most draws lie between $-1$ and 1, and squaring a number below 1 makes it smaller still, so most squares pile up next to 0. A square of 4 needs a draw of 2 or $-2$, which is rare. A square is never negative.
+2. **Add several squares.** Add the squares of 2 independent draws, then of 3, then of 5. The sum is rarely near 0 now, because all the draws would have to be small at once. The peak leaves 0 and the whole curve moves to the right.
+
+![Left: 20,000 draws from the standard normal distribution. Right: the histogram of one squared draw, then of the sum of 2, 3 and 5 squared draws, with the chi-square density of 1, 2, 3 and 5 degrees of freedom (red). Idea after Khan Academy, "Chi-square distribution introduction".](images/squared_normals.gif)
+
+The distribution of a sum of $k$ squared standard normal draws is the **chi-square distribution** (G-378), and $k$ is its **degrees of freedom** (G-578; df). This is its definition.
+
+### 3.2 The curves and the tail area
+
+> **Key point:** More degrees of freedom move the curve to the right; the p-value is the area to the right of our $\chi^2$.
+
 ![Chi-square densities for four degrees of freedom](images/chi2_curves.png){height=35%}
 
-The **chi-square distribution** (G-378) is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [t-procedure Note](../282-t-procedure/note.md)), it has one parameter, the **degrees of freedom** (G-578; df). Figure 3 shows four of them:
+The chi-square distribution is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [t-procedure Note](../282-t-procedure/note.md)), it has one parameter, the degrees of freedom. Figure 4 shows four of them:
 
 - with 1 or 2 df, the density is highest at 0 and falls steadily;
 - with more df, the peak moves right and the curve spreads out;
@@ -74,7 +91,7 @@ The **chi-square distribution** (G-378) is a continuous distribution on the posi
 
 Only large $\chi^2$ values count as evidence against $H_0$, so the p-value is always the **right-tail** area beyond our $\chi^2$ (a **right-tailed test**, G-1693). The 5% **critical values** (G-504) are 3.84 for 1 df, 5.99 for 2 df and 7.81 for 3 df.
 
-> **Extra:** Where the distribution comes from: the sum of the squares of $k$ independent standard normal variables follows a chi-square distribution with $k$ df (this is its definition). Each $(O - E)/\sqrt{E}$ is roughly normal for large counts, but the terms are not independent, because the counts must add up to $n$. Pearson (1900) showed that $\chi^2$ still follows a chi-square distribution for large samples, with one df lost to that constraint. The notebook checks this: 200,000 samples of 60 people drawn with the census shares of section 4 true give a mean $\chi^2$ of 2.00, equal to $df = 2$, and 4.9% of them pass the 5% critical value 5.99.
+> **Extra:** Why the statistic of section 2 follows this curve. Each $(O - E)/\sqrt{E}$ is roughly normal for large counts, so $\chi^2$ is a sum of squared, roughly normal terms. The terms are not independent, because the counts must add up to $n$. Pearson (1900) showed that $\chi^2$ still follows a chi-square distribution for large samples, with one df lost to that constraint. The notebook checks this: 200,000 samples of 60 people drawn with the census shares of section 4 true give a mean $\chi^2$ of 2.00, equal to $df = 2$, and 4.9% of them pass the 5% critical value 5.99.
 
 ## 4. The goodness-of-fit test
 
@@ -114,7 +131,7 @@ The degrees of freedom are $k - 1 = 2$: once two expected counts are known, the 
 
 ![Goodness of fit for the age groups: the counts (left) and the p-value as a tail area (right)](images/goodness_of_fit.png)
 
-Figure 4 shows both halves of the test. On the left, more children and fewer adults were observed than expected. On the right, $\chi^2 = 3.48$ sits below the critical value 5.99, and the red tail area beyond it is $p = 0.175$.
+Figure 5 shows both halves of the test. On the left, more children and fewer adults were observed than expected. On the right, $\chi^2 = 3.48$ sits below the critical value 5.99, and the red tail area beyond it is $p = 0.175$.
 
 Since $0.175 > 0.05$, we fail to reject $H_0$: the sample is consistent with the census proportions. The gaps on the left are within what chance produces in 60 people.
 
@@ -164,7 +181,9 @@ The **chi-square test of independence** (G-380) asks whether two categorical fea
 
 > **Key point:** Independence means $P(A \text{ and } B) = P(A)\thinspace P(B)$; multiplied by $n$, this gives $E = \text{row total} \times \text{column total} / n$.
 
-Two events are independent when the probability of both is the product of their probabilities (see the [independent events Note](../83-independent-events/note.md)). The **marginal probabilities** (G-1165) come from the totals (see the [joint and marginal probability Note](../341-joint-marginal-conditional-probability/note.md)).
+Start from the plain idea. Of the 60 people, 34 are female: a share of $34/60 = 56.7$ percent. If age group has nothing to do with gender, every age group should have that same share of women. So of the 20 children we expect $20 \times 0.567 = 11.33$ to be girls, and of the 26 adults $26 \times 0.567 = 14.73$ to be women.
+
+The same rule in the language of probability: two events are independent when the probability of both is the product of their probabilities (see the [independent events Note](../83-independent-events/note.md)). The **marginal probabilities** (G-1165) come from the totals (see the [joint and marginal probability Note](../341-joint-marginal-conditional-probability/note.md)).
 
 1. **In words:** the expected count of a cell is its row total times its column total, divided by the grand total.
 2. **Formula:**
@@ -182,7 +201,7 @@ All six expected counts:
 
 The expected table has the same totals as the observed one; only the inside is spread out "as if independent".
 
-Figure 5 sets the observed and expected tables side by side, with the third table holding each cell's contribution to $\chi^2$, computed in the next section. The darkest contribution cells are the elderly men (4 observed, 6.07 expected) and the adult men (14 observed, 11.27 expected).
+Figure 6 sets the observed and expected tables side by side, with the third table holding each cell's contribution to $\chi^2$, computed in the next section. The darkest contribution cells are the elderly men (4 observed, 6.07 expected) and the adult men (14 observed, 11.27 expected).
 
 ![The test of independence for gender by age group. Left: observed counts. Middle: counts expected if gender and age group were independent, row total × column total / 60. Right: each cell's (O − E)² / E; the six add up to χ² = 2.50.](images/independence_table.png)
 
@@ -245,7 +264,7 @@ The four contributions are 65.4, 105.0, 35.6 and 57.1, so $\chi^2 = 263.1$ with 
 
 ![Titanic passengers by class and outcome: observed counts and counts expected under independence](images/titanic_class.png)
 
-The crosstab of class against survival was drawn as a heatmap in the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md). Figure 6 compares its observed counts with the expected ones. First class has far more survivors than independence predicts, third class far fewer. The survival rates were 63%, 47% and 24% for the three classes, against 38% overall.
+The crosstab of class against survival was drawn as a heatmap in the [bivariate analysis Note](../21-bivariate-multivariate-analysis/note.md). Figure 7 compares its observed counts with the expected ones. First class has far more survivors than independence predicts, third class far fewer. The survival rates were 63%, 47% and 24% for the three classes, against 38% overall.
 
 The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \times 10^{-23}$. We reject $H_0$: survival depended on class.
 
@@ -271,7 +290,7 @@ The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \tim
 >
 > With large expected counts the test keeps its 5% promise. With two rare categories and tiny samples, the false-alarm rate drifts away from 5%, more than double in one case and about half in the other, so the p-value can no longer be trusted.
 
-Figure 7 shows why. With large expected counts the simulated $\chi^2$ values spread smoothly along the chi-square curve. With expected counts below 1, only a few count patterns are possible, so $\chi^2$ can take only a few values: it piles up on a handful of spikes that the smooth curve cannot describe, and the share beyond the 5% line (dashed) is wrong.
+Figure 8 shows why. With large expected counts the simulated $\chi^2$ values spread smoothly along the chi-square curve. With expected counts below 1, only a few count patterns are possible, so $\chi^2$ can take only a few values: it piles up on a handful of spikes that the smooth curve cannot describe, and the share beyond the 5% line (dashed) is wrong.
 
 ![Simulated χ² values with H₀ true, 200,000 samples each (bars), against the chi-square distribution with 2 df (curve). Left: every expected count is at least 12, and the curve fits. Middle and right: expected counts of 0.4 and 0.5 make χ² pile up on a few values, and the share beyond the 5% critical value (dashed) becomes 11.2% or 2.7%.](images/small_counts.png)
 
@@ -289,7 +308,7 @@ $\chi^2$ grows with the sample size: the same pattern in 10 times as many observ
 
 For class and survival, $V = \sqrt{102.9 / 891} = 0.34$. Both relationships are significant, but sex was the stronger predictor of survival. In scipy: `stats.contingency.association(table, method="cramer")`.
 
-Figure 8 shows why the rescaling is needed. The Titanic sex-by-survival table is shrunk to a tenth and grown to ten times its size, keeping the same pattern. $\chi^2$ grows with the number of passengers, from 26.3 to 263.1 to 2,630.5, but $V$ stays at 0.54 every time.
+Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is shrunk to a tenth and grown to ten times its size, keeping the same pattern. $\chi^2$ grows with the number of passengers, from 26.3 to 263.1 to 2,630.5, but $V$ stays at 0.54 every time.
 
 ![Left: the Titanic sex-by-survival pattern with a tenth, the actual and ten times the passengers. χ² (blue, log scale) grows with the sample; Cramér's V stays 0.54. Right: V for sex (0.54) and for class (0.34) against survival.](images/cramers_v.png)
 
@@ -319,6 +338,9 @@ Figure 8 shows why the rescaling is needed. The Titanic sex-by-survival table is
 **Built from**
 
 - Krish Naik, "Tutorial 32- All About P Value,T test,Chi Square Test, Anova Test and When to Use What?", YouTube, https://www.youtube.com/watch?v=YrhlQB3mQFI
+- Khan Academy, "Chi-square distribution introduction | Probability and Statistics | Khan Academy", YouTube, https://www.youtube.com/watch?v=dXB3cUGnaxQ
+- Khan Academy, "Pearson's chi square test (goodness of fit) | Probability and Statistics | Khan Academy", YouTube, https://www.youtube.com/watch?v=2QeDRsxSF9M
+- Khan Academy, "Contingency table chi-square test | Probability and Statistics | Khan Academy", YouTube, https://www.youtube.com/watch?v=hpWdDmgsIRE
 
 **Other references**
 

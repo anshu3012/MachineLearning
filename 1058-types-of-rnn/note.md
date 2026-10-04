@@ -166,6 +166,10 @@ A 3D output (batch, time steps, values) means one prediction per time step; a 2D
 | Many-to-many, different lengths | sequence | sequence, other length | encoder reads all, then decoder writes | machine translation |
 | One-to-one | one value | one value | one step, no recurrence | image classification |
 
+Figure 8 runs the four RNN types side by side, one time step per frame. Watch when each row takes an input (blue) and when it gives an output (green): the difference between the types is only this timing.
+
+![The four types on one time axis, with the examples of this Note. Many-to-one gives its output at the last step only; one-to-many takes its input at the first step only; same-length many-to-many gives an output at every input; with different lengths, the encoder reads all 4 words before the decoder writes 5](images/types_timeline.gif){width=100%}
+
 - RNN types are named by whether the input and the output are sequences.
 - Many-to-one reads the whole sequence and predicts once; Keras' default `return_sequences=False`.
 - One-to-many turns one input into a sequence, as in image captioning.

@@ -70,7 +70,7 @@ Take the four words "Amazon is a website" as $x_1, x_2, x_3, x_4$.
 
 1. **The forward RNN** (blue in Figure 1) is the RNN we know. The forward RNN starts from $\overrightarrow h_0$, zeros or random numbers, reads Amazon, is, a, website, and produces $\overrightarrow h_1, \dots, \overrightarrow h_4$.
 2. **The backward RNN** (green) is a second, separate RNN with its own weights. The backward RNN starts from zeros at the other end, reads website, a, is, Amazon, and produces $\overleftarrow h_4, \dots, \overleftarrow h_1$.
-3. **At every time step**, the two hidden states are **concatenated** (G-437; placed one after the other in a single vector), and the output layer turns the joined vector into $\hat y_t$.
+3. **At every time step**, the two hidden states are **concatenated** (G-436; placed one after the other in a single vector), and the output layer turns the joined vector into $\hat y_t$.
 
 The two RNNs do not feed each other: the outputs of the forward states are not connected to the inputs of the backward states, and the other way round (Schuster and Paliwal 1997). They meet only at the output.
 
@@ -293,7 +293,7 @@ The same constraint limits parallel computation: Google's translation system kep
 | Unidirectional RNN | An RNN that reads in one direction only, so its output at $t$ depends only on inputs up to $t$ |
 | Forward and backward RNN | The left-to-right and the right-to-left halves of a bidirectional RNN |
 | BiLSTM, BiGRU | A bidirectional RNN made of LSTM or GRU layers |
-| Concatenation | Placing two vectors one after the other to form one longer vector |
+| Concatenation (G-436) | Placing two vectors one after the other to form one longer vector |
 | Named entity recognition (NER) | Labelling the names in a text with their type, such as person, location or organisation |
 | Part-of-speech tagging | Labelling every word of a sentence with its grammatical class, such as noun or verb |
 | Observation | One record of the data, here one sentence |

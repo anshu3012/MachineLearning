@@ -14,9 +14,16 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-project]
 
 ## 1. Overview
 
-> **Key point:** We build a CNN that looks at a photo and says "cat" or "dog", and train it on about 19,000 real photos. It learns quickly, but it **overfits**: after 10 epochs its training accuracy is 99.1% while its validation accuracy is only 78.9%. Adding batch normalisation and dropout narrows the gap a little and halves the final validation loss, but does not remove the overfitting. The trained network still labels two new photos correctly.
+> **Key point:** We build a CNN that looks at a photo and says "cat" or "dog", and train it on about 19,000 real photos. It learns quickly, but it **overfits** (**overfitting**, G-1429): after 10 epochs its training accuracy is 99.1% while its validation accuracy is only 78.9%. Adding batch normalisation and dropout narrows the gap a little and halves the final validation loss, but does not remove the overfitting. The trained network still labels two new photos correctly.
 
-This Note puts the CNN Notes into practice. The task is **binary image classification**: the input is a colour photo, and the **target** (the output we predict) is one of two classes, cat or dog. We load the photos from folders, scale their pixels, design a CNN of our own, train it, watch it overfit, try two remedies, and finally use it on new photos.
+This Note puts the CNN Notes into practice. The task is **binary image classification** (G-306): the input is a colour photo, and the **target** (G-1949; the output we predict) is one of two classes, cat or dog. The steps:
+
+1. load the photos from folders, in batches (sections 3 and 4);
+2. scale their pixels (section 5);
+3. design a CNN of our own (section 6);
+4. train it and watch it overfit (section 7);
+5. try two remedies (section 8);
+6. use the network on new photos (section 9).
 
 ![Six photos from the dataset with their label and original size. Every photo has a different size, so all are resized to 256 × 256 before training](images/samples.png){width=100%}
 
@@ -40,11 +47,15 @@ PetImages/
     Dog/   0.jpg  1.jpg  2.jpg ...
 ```
 
-Each photo is one **observation** (one record of the data). Its class is not written in a table: the folder it sits in is its label.
+Each photo is one **observation** (G-1374; one record of the data). Its class is not written in a table: the folder it sits in is its label.
 
-A small number of files are damaged or are not real JPEG photos. The official Keras example deletes every file whose header lacks the "JFIF" marker of a JPEG (Keras documentation, Image classification from scratch); doing the same removes 1,590 files, the same number the example reports, and leaves 23,410: 11,742 cats and 11,670 dogs (Notebook).
+A small number of files are damaged or are not real JPEG photos. The official Keras example deletes every file whose header lacks the "JFIF" marker of a JPEG (Keras documentation, Image classification from scratch); doing the same removes 1,590 files, the same number the example reports, and leaves 23,410 photos: 11,741 cats and 11,669 dogs. (Each folder also holds a `Thumbs.db` file, which is not a photo; counting it gives 11,742 and 11,670.)
 
 The photos come in many sizes. Among 300 photos picked at random, the widths run from 120 to 500 pixels and the heights from 100 to 500, and there are 200 different sizes (Notebook; Figure 1). A CNN expects every input to have the same shape, so every photo will be resized to one size.
+
+![The width and height of all 23,410 photos, one dot each, and the single size every photo is resized to.](images/sizes.png)
+
+Over the whole dataset (Figure 2) there are 6,559 different sizes. The most common, 500 × 375, covers a quarter of the photos; no photo is wider or taller than 500 pixels.
 
 Training a CNN on photos takes a lot of computation, and a GPU makes it much faster (the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 5.2). Without a GPU of our own, a free online notebook service such as Google Colab offers one.
 
@@ -62,11 +73,11 @@ We could read every file ourselves, put all photos in one big array and train on
 2. **Formula:** $\text{memory} = \text{photos} \times 256 \times 256 \times 3 \times \text{bytes per value}$
 3. **Example:** $18{,}728 \times 196{,}608 = 3.68$ billion bytes, about 3.7 GB as bytes, and $4 \times 3.68 = 14.7$ GB as 32-bit numbers.
 
-Instead, Keras reads the photos in **batches**: small groups, here 32 photos. Only the current batch has to be in memory; when the network has learned from it, the next batch is read. An object that hands out data piece by piece in this way is called a **generator**.
+Instead, Keras reads the photos in **batches** (G-263): small groups, here 32 photos. Only the current batch has to be in memory; when the network has learned from it, the next batch is read. An object that hands out data piece by piece in this way is called a **generator** (G-843).
 
 ### 4.2 `image_dataset_from_directory`
 
-> **Key point:** Give it the folder, how to label, the batch size and the image size; it returns a dataset of (images, labels) batches.
+> **Key point:** `image_dataset_from_directory` (G-94): give it the folder, how to label, the batch size and the image size; it returns a dataset of (images, labels) batches.
 
 > **Python:** Training and validation datasets from one folder.
 >
@@ -78,9 +89,13 @@ Instead, Keras reads the photos in **batches**: small groups, here 32 photos. On
 >     validation_split=0.2, subset="both", seed=1337)
 > ```
 >
-> `labels="inferred"` takes each photo's label from its folder. With `label_mode="int"` the folders get the numbers 0, 1, ... in alphabetical order: `Cat` is 0 and `Dog` is 1. `image_size=(256, 256)` resizes every photo, so each batch has the shape $(32, 256, 256, 3)$. `validation_split=0.2` with `subset="both"` keeps 20% of the photos apart for validation; the `seed` fixes which ones.
+> `labels="inferred"` takes each photo's label from its folder. With `label_mode="int"` the folders get the numbers 0, 1, ... in alphabetical order: `Cat` is 0 and `Dog` is 1. `image_size=(256, 256)` resizes every photo, so each batch has the shape $(32, 256, 256, 3)$. `validation_split=0.2` with `subset="both"` keeps 20% of the photos apart as the **validation set** (G-2067); the `seed` fixes which ones.
 
-The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an **epoch**, takes $\lceil 18{,}728 / 32 \rceil = 586$ batches. The function's defaults are `batch_size=32` and `image_size=(256, 256)` (Keras documentation, `image_dataset_from_directory`).
+![The first training batch served by the call above: 32 photos, resized to 256 × 256 (drawn smaller here), each labelled by its folder.](images/batch.png)
+
+Figure 3 shows the first batch it serves: 32 photos of all kinds, now all square, with labels 0 (cat) and 1 (dog), 16 of each here. The square resize stretches photos that were not square, which the network has to live with.
+
+The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an **epoch** (G-696), takes $\lceil 18{,}728 / 32 \rceil = 586$ batches. The function's defaults are `batch_size=32` and `image_size=(256, 256)` (Keras documentation, `image_dataset_from_directory`).
 
 ## 5. Scaling the pixels
 
@@ -103,9 +118,9 @@ Pixel values run from 0 to 255. Large, unscaled inputs make gradient descent slo
 
 ## 6. The CNN
 
-> **Key point:** Three blocks of convolution (32, 64, 128 filters) and max pooling, then Flatten and dense layers of 128, 64 and 1 node. Of its 14.8 million parameters, 99.3% sit in the first dense layer.
+> **Key point:** Three blocks of convolution (32, 64, 128 **filters**, G-777) and **max pooling** (G-1182), then Flatten and dense layers of 128, 64 and 1 node. Of its 14.8 million parameters, 99.3% sit in the first dense layer.
 
-The design follows the general pattern of the [CNN architecture Note](../1045-lenet-5/note.md): convolution and pooling blocks that grow the number of filters while the maps shrink, then fully connected layers (Figure 2).
+The design follows the general pattern of the [CNN architecture Note](../1045-lenet-5/note.md): convolution and pooling blocks that grow the number of filters while the maps shrink, then fully connected layers (Figure 4).
 
 ![The CNN: three convolution (blue) and max-pooling (orange) blocks, Flatten, and three dense layers. Under each layer: its output size and its number of parameters](images/cnn.png){width=100%}
 
@@ -128,7 +143,7 @@ The design follows the general pattern of the [CNN architecture Note](../1045-le
 > model.summary()
 > ```
 >
-> The output layer has one node with a sigmoid: its value is the probability that the photo shows a dog (label 1).
+> The output layer has one node with a **sigmoid** (G-1798): its value is the probability that the photo shows a dog (label 1).
 
 Each output size follows from the formula of the [padding and strides Note](../1043-padding-and-strides/note.md): a $3 \times 3$ convolution without padding removes 2 pixels ($256 \to 254$), and $2 \times 2$ pooling with stride 2 halves the size, rounding down ($254 \to 127$). After three blocks the photo has become $30 \times 30 \times 128$, which Flatten turns into $30 \times 30 \times 128 = 115{,}200$ numbers.
 
@@ -152,9 +167,9 @@ The model has 14,847,297 parameters in total, and the first dense layer alone ho
 > history = model.fit(train_ds, epochs=10, validation_data=val_ds)
 > ```
 >
-> `binary_crossentropy` is the loss for a two-class problem with a sigmoid output (the [loss functions Note](../1014-dl-loss-functions/note.md)). `history.history` keeps the training and validation accuracy and loss of every epoch, for plotting.
+> `binary_crossentropy` (**binary cross-entropy**, G-303) is the loss for a two-class problem with a sigmoid output (the [loss functions Note](../1014-dl-loss-functions/note.md)). `history.history` keeps the training and validation accuracy and loss of every epoch, for plotting.
 
-We trained the model three times with different random seeds; Figure 3 shows all three runs and their mean.
+We trained the model three times with different random seeds; Figure 5 shows all three runs and their mean.
 
 ![The plain CNN: training (blue) and validation (orange) accuracy and loss over 10 epochs. Thin lines: 3 runs with different seeds; thick lines: their mean](images/curves.png){width=100%}
 
@@ -168,7 +183,7 @@ We trained the model three times with different random seeds; Figure 3 shows all
 
 (Means of 3 seeds; Notebook.)
 
-The two curves tell different stories (Figure 3). The training accuracy rises every epoch, from 65% to 99%, and the training loss falls almost to 0. The validation accuracy reaches about 80% by epoch 2 or 3 and then stays there, moving between 79% and 80%. The validation loss is lowest at epoch 3 (0.44) and then climbs every epoch, to 1.34 at epoch 10: on the photos it gets wrong, the model becomes more and more confident. By epoch 10 the gap between training and validation accuracy is 0.20.
+The two curves tell different stories (Figure 5). The training accuracy rises every epoch, from 65% to 99%, and the training loss falls almost to 0. The validation accuracy reaches about 80% by epoch 2 or 3 and then stays there, moving between 79% and 80%. The validation loss is lowest at epoch 3 (0.44) and then climbs every epoch, to 1.34 at epoch 10: on the photos it gets wrong, the model becomes more and more confident. By epoch 10 the gap between training and validation accuracy is 0.20.
 
 Such a growing gap between training and validation performance is **overfitting**: the model fits details of its own training photos that do not hold for new photos (the [regularisation Note](../1026-regularization-in-dl/note.md)). The [early stopping Note](../1022-early-stopping/note.md) shows how to stop training near the epoch where the validation loss is lowest.
 
@@ -181,8 +196,8 @@ The [regularisation Note](../1026-regularization-in-dl/note.md) lists the ways t
 - **More data.** The best remedy, but here we already use every photo we have.
 - **Data augmentation:** create new training photos from the existing ones, by flipping, rotating or zooming them. The [data augmentation Note](../1050-data-augmentation/note.md) covers it.
 - **L1 or L2 regularisation:** penalise large weights.
-- **Dropout:** switch off random nodes during training (the [dropout Note](../1024-dropout/note.md)).
-- **Batch normalisation:** normalise each layer's values over the batch; it also has a mild regularising effect (the [batch normalisation Note](../1031-batch-normalization/note.md)).
+- **Dropout** (G-639): switch off random nodes during training (the [dropout Note](../1024-dropout/note.md)).
+- **Batch normalisation** (G-266): normalise each layer's values over the batch; it also has a mild regularising effect (the [batch normalisation Note](../1031-batch-normalization/note.md)).
 - **A simpler model:** fewer layers or fewer nodes.
 
 We try two of them together. A `BatchNormalization` layer goes after each of the three convolution layers, and a `Dropout(0.1)` layer after each of the two hidden dense layers. Everything else stays the same, and again we train 3 times.
@@ -212,9 +227,28 @@ We try two of them together. A `BatchNormalization` layer goes after each of the
 | Gap (training minus validation), epoch 10 | 0.202 | 0.171 |
 | Validation loss: lowest (epoch), then at epoch 10 | 0.44 (3), then 1.34 | 0.46 (5), then 0.76 |
 
-The two additions help, but only a little (Figure 4; Notebook). The validation accuracy at epoch 10 rises from 78.9% to 80.3%, the gap shrinks from 0.20 to 0.17, and the final validation loss is about half as large (0.76 against 1.34). The model with batch normalisation and dropout learns more slowly at first (61% validation accuracy after one epoch, against 73%), so it starts to overfit later: its gap stays below 0.05 until epoch 5. By epoch 10 it is overfitting too. Its training accuracy is 97.4%, and its validation loss has risen since epoch 5.
+The two additions help, but only a little (Figure 6; Notebook). The validation accuracy at epoch 10 rises from 78.9% to 80.3%, the gap shrinks from 0.20 to 0.17, and the final validation loss is about half as large (0.76 against 1.34). The model with batch normalisation and dropout learns more slowly at first (61% validation accuracy after one epoch, against 73%), so it starts to overfit later: its gap stays below 0.05 until epoch 5. By epoch 10 it is overfitting too. Its training accuracy is 97.4%, and its validation loss has risen since epoch 5.
 
 Dropout of 0.1 removes only one node in ten, and the mild regularising effect of batch normalisation is a side benefit rather than a cure (the [batch normalisation Note](../1031-batch-normalization/note.md)). Stronger remedies for this model are more varied training data, which the [data augmentation Note](../1050-data-augmentation/note.md) creates, and stopping near the epoch of the lowest validation loss.
+
+### 8.1 What the mistakes look like
+
+> **Key point:** The overfitted CNN is not unsure about the photos it gets wrong: in 69% of its mistakes it gives the wrong answer a probability above 0.9. With batch normalisation and dropout this share falls to 50%.
+
+A rising validation loss with a flat validation accuracy (section 7) means that the wrong answers are becoming more confident. To see it photo by photo, we trained each model once more (seed 0, 10 epochs; script `experiments/mistakes.py`) and kept the probability each gives to every validation photo.
+
+| One run of each model | Plain CNN | With batch normalisation + dropout |
+|---|---|---|
+| Validation accuracy | 75.7% | 78.0% |
+| Validation photos labelled wrongly (of 4,682) | 1,140 | 1,028 |
+| ... with a probability above 0.9 for the wrong class | 789 (69%) | 512 (50%) |
+| ... with a probability above 0.99 for the wrong class | 503 | 183 |
+
+(Single runs, so the accuracies differ a little from the 3-seed means above.)
+
+![The 12 validation photos the plain CNN gets wrong with the highest confidence. Above each: the true label, the plain CNN's answer and the answer of the CNN with batch normalisation and dropout, each with the probability the model gives to its answer](images/mistakes.png){width=100%}
+
+Figure 7 shows the plain CNN's 12 most confident mistakes. For every one of them it gives the wrong class a probability that rounds to 100%. The regularised model gets 4 of the 12 right, and on some of the others it is less sure (58%, 52%). 467 validation photos are labelled wrongly by both models.
 
 ## 9. Predicting a new photo
 
@@ -286,7 +320,7 @@ Both models label both photos correctly and with near certainty, even though the
 | Binary image classification | Sorting photos into one of two classes, such as cat or dog |
 | Observation | One record of the data: here, one photo |
 | Target | The output we predict: here, cat (0) or dog (1) |
-| Batch | A small group of observations processed together, here 32 photos |
+| Batch (G-263) | A small group of observations processed together, here 32 photos |
 | Generator | An object that hands out data piece by piece, so that not all of it has to be in memory |
 | `image_dataset_from_directory` | The Keras function that loads photos from class folders as batches of (images, labels) |
 | Epoch | One pass over all the training observations |

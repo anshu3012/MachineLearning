@@ -38,9 +38,9 @@ As the [LSTM Note](../1061-lstm/note.md) showed, the cell at time step $t$ recei
 
 | Gate | Job | Area in Figure 1 |
 |---|---|---|
-| **Forget gate** (G-794) | remove unneeded information from the cell state | red |
-| **Input gate** (G-951) | add new important information to the cell state | blue |
-| **Output gate** (G-1423) | compute the hidden state $h_t$ from the cell state | orange |
+| **Forget gate** (G-793) | remove unneeded information from the cell state | red |
+| **Input gate** (G-950) | add new important information to the cell state | blue |
+| **Output gate** (G-1422) | compute the hidden state $h_t$ from the cell state | orange |
 
 The forget gate and the input gate together update the cell state, from $c_{t-1}$ to $c_t$. Both decide on the basis of the current input $x_t$ and the previous hidden state $h_{t-1}$.
 
@@ -118,7 +118,7 @@ Take 3 units and a 4-number input $x_t$. Then $h_{t-1}$ and $c_{t-1}$ have 3 num
 
 ![The forget gate's layer. The 3 numbers of $h_{t-1}$ and the 4 numbers of $x_t$ are joined into one input of 7 numbers, fully connected to 3 sigmoid units. Their 3 outputs form $f_t$](images/gate_layer.png){width=85%}
 
-Figure 3 draws the layer. Joining two vectors end to end is **concatenation** (G-437), written $[h_{t-1}, x_t]$: here 3 + 4 = 7 numbers. The 7 inputs connect to all 3 nodes, so the layer has $7 \times 3 = 21$ weights, collected in the matrix $W_f$, and 3 biases $b_f$.
+Figure 3 draws the layer. Joining two vectors end to end is **concatenation** (G-436), written $[h_{t-1}, x_t]$: here 3 + 4 = 7 numbers. The 7 inputs connect to all 3 nodes, so the layer has $7 \times 3 = 21$ weights, collected in the matrix $W_f$, and 3 biases $b_f$.
 
 1. **In words:** concatenate the previous hidden state and the current input, multiply by the forget gate's weights, add its biases and apply the sigmoid.
 2. **Formula:**

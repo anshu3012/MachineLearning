@@ -6,16 +6,16 @@ title: "Course Map"
 
 > **Key point:** The Course map ties every Note together. It shows where each idea sits in an ML project, how ideas connect, what to read first, and which algorithm to choose.
 
-The Notes each teach one lesson. The Course map shows how those lessons fit together, in four views:
+The Notes each teach one lesson. The **Course map** (G-2160) shows how those lessons fit together, in four views:
 
 | View | Question it answers |
 |---|---|
-| **Pipeline map** | Where does this idea sit in a real ML project? |
-| **Concept map** | How is this idea connected to the others? |
-| **Learning path** | Which Notes should I read first? |
-| **Algorithm chooser** | Which algorithm suits my problem? |
+| **Pipeline map** (G-2161) | Where does this idea sit in a real ML project? |
+| **Concept map** (G-2162) | How is this idea connected to the others? |
+| **Learning path** (G-2163) | Which Notes should I read first? |
+| **Algorithm chooser** (G-2164) | Which algorithm suits my problem? |
 
-Each idea on the map is a **Concept**. Concepts already taught in a written Note are **confirmed**; the others are **draft**, shown faint, and are checked against their source when their Note is written. So far, 335 of 335 Concepts are confirmed.
+Each idea on the map is a **Concept** (G-2165). Concepts already taught in a written Note are **confirmed**; the others are **draft** (G-2167), shown faint, and are checked against their source when their Note is written. So far, 335 of 335 Concepts are confirmed.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -448,7 +448,7 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 > **Key point:** Concepts are joined by five kinds of Link. Following the Links shows why each idea exists and what it is for.
 
-Every Link has one of five types:
+Every **Link** (G-2166) has one of five types:
 
 | Link | Meaning | Example |
 |---|---|---|
@@ -500,7 +500,18 @@ The full map has 335 Concepts, too many for one page, so each topic has its own 
 
 > **Key point:** Before each Note, read the Notes it builds on.
 
-Each row lists a Note's Concepts and the Notes to read first. Notes marked *coming* or *deferred* are not written yet.
+A Note is easiest to read when the ideas it uses are already familiar. The Notes that teach those ideas are its **prerequisites**: the Notes to read first. Each prerequisite has prerequisites of its own, so the reading order grows backwards from the Note we want, one round at a time.
+
+![The reading order for the perceptron Note (1004), grown backwards. Round 1 adds the three Notes it builds on; round 2 adds the Notes that those build on. Arrows point from a prerequisite to the Note that needs it.](images/learning_path.gif)
+
+Figure 20 builds the reading order for the perceptron Note (Note 1004) step by step:
+
+1. **Goal.** We want to read Note 1004.
+2. **Round 1.** Its row in the table below lists Notes 71, 363 and 520: the perceptron trick in code, the equation of a hyperplane and the dot product.
+3. **Round 2.** Each of those three has its own row. Note 71 builds on Notes 6, 57, 61 and 70; Note 363 on Note 362; Note 520 on Note 360.
+4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
+
+Each row of the table lists a Note's Concepts and the Notes to read first, with at most the four most recent. A row comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3: when a Concept of the Note builds on another Concept, the latest earlier Note that teaches that other Concept is read first. Notes marked *coming* or *deferred* are not written yet.
 
 | No. | Concepts | Read first | Note |
 |---|---|---|---|
@@ -803,7 +814,7 @@ Each row lists a Note's Concepts and the Notes to read first. Notes marked *comi
 
 ![The Algorithm chooser (draft)](images/algorithm_chooser.png)
 
-Figure 8 is a starting point, not a rule: in practice we try several suitable algorithms and compare them on a test set. It is a draft until the algorithm Notes are written.
+Figure 21 is a starting point, not a rule: in practice we try several suitable algorithms and compare them on a test set. It is a draft until the algorithm Notes are written.
 
 ## 6. Sources
 
@@ -820,11 +831,11 @@ Figure 8 is a starting point, not a rule: in practice we try several suitable al
 
 | Term | Meaning |
 |---|---|
-| Course map | The overview that ties all Notes together, in four views |
-| Pipeline map | Where each Concept sits among the 14 steps of an ML project |
-| Concept map | How Concepts are connected by Links |
-| Learning path | Which Notes to read before which |
-| Algorithm chooser | A flowchart from a problem's properties to suitable algorithms |
-| Concept | One idea on the Course map |
-| Link | A labelled connection between two Concepts |
-| Draft / confirmed | Guessed from titles / checked against a written Note |
+| Course map (G-2160) | The overview that ties all Notes together, in four views |
+| Pipeline map (G-2161) | Where each Concept sits among the 14 steps of an ML project |
+| Concept map (G-2162) | How Concepts are connected by Links |
+| Learning path (G-2163) | Which Notes to read before which |
+| Algorithm chooser (G-2164) | A flowchart from a problem's properties to suitable algorithms |
+| Concept (G-2165) | One idea on the Course map |
+| Link (G-2166) | A labelled connection between two Concepts |
+| Draft / confirmed (G-2167) | Guessed from titles / checked against a written Note |

@@ -87,7 +87,7 @@ If Levene's test says the variances differ, we use **Welch's t-test** (G-2122), 
 
 In Figure 2, watch the left bar: field A's part is three times field B's, because its plants vary more and there are fewer of them. On the right, the red tails shrink as $t$ moves out to $-2.44$.
 
-Hand calculations often use a simpler, **conservative** degrees of freedom, the smaller sample size minus one: $22 - 1 = 21$, which gives $p = 0.024$. Software uses Welch's formula (33.8 here), which is closer to exact (Welch 1947); both give the same decision here (notebook, section 0).
+Hand calculations often use a simpler, **conservative** degrees of freedom (G-2238), the smaller sample size minus one: $22 - 1 = 21$, which gives $p = 0.024$. Software uses Welch's formula (33.8 here), which is closer to exact (Welch 1947); both give the same decision here (notebook, section 0).
 
 **The formula.**
 
@@ -205,7 +205,7 @@ Before-and-after studies are the more common of the two.
 **One population of differences.** The two designs ask different questions:
 
 - **two-sample:** two populations, one independent sample from each; we estimate the difference of their means, $\mu_1 - \mu_2$;
-- **paired:** one population; each subject is measured twice, we take each subject's difference, and we estimate the **mean difference** $\mu_d$.
+- **paired:** one population; each subject is measured twice, we take each subject's difference, and we estimate the **mean difference** (G-2237) $\mu_d$.
 
 For example, a running coach suspects that shoe brand H gives faster lap times than brand Z. Six runners each run one lap in each brand, in an order set by a coin flip. Each runner gives one difference, $d$ = time in Z $-$ time in H, so the six differences form one sample from one population. Faster in H means $d > 0$:
 
@@ -375,5 +375,5 @@ Figure 7 runs the test on scikit-learn's breast cancer data (569 tumours): scale
 | Welch's t-test | The two-sample t-test that does not assume equal variances |
 | Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test |
 | Paired observations | Two measurements that belong to the same subject or matched pair |
-| Mean difference ($\mu_d$) | The mean of the per-subject differences in a paired design; the paired t-test tests $\mu_d = 0$ |
-| Conservative degrees of freedom | The hand-calculation shortcut $\min(n_1, n_2) - 1$ for a two-sample t-test; Welch's formula is closer to exact |
+| Mean difference ($\mu_d$) (G-2237) | The mean of the per-subject differences in a paired design; the paired t-test tests $\mu_d = 0$ |
+| Conservative degrees of freedom (G-2238) | The hand-calculation shortcut $\min(n_1, n_2) - 1$ for a two-sample t-test; Welch's formula is closer to exact |

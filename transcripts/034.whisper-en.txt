@@ -1,0 +1,150 @@
+Hello guys, welcome to my YouTube channel.
+So we are still doing feature engineering.
+In the last video, we learned that if you have mixed variables in a column,
+means if you have a column of alphabets and numbers mixed together,
+then how do you handle it?
+In today's video, we are going to discuss an even more important thing,
+which is how to handle date and time based columns.
+So this will happen many times in your machine learning journey
+When you will work on a data set where there will be date, time or both in the columns.
+So we are going to see how to handle them in this video.
+So let's start our discussion.
+So to be honest guys, there are no concepts in today's video.
+It's basically a code walkthrough video.
+Where I have written a code, where I have discussed all the functions that you can use.
+In order to handle date and time.
+We will read that only.
+If you have date and time then these are very useful columns because they have more hidden information hidden in them.
+Let's take an example that we have a column which has a date. Date could be like 23 August 2012.
+Now this is a value of one column, but there is a lot of information hidden in it, like which day of the month is 23, which month is August or 8th month, which year is right.
+Apart from this, there are many other things hidden like what is the day of the week?
+Means, is it Monday or Tuesday?
+Which quarter is this going on?
+Right?
+Which semester is this going on?
+Okay?
+Which year of the decade is this going on?
+So, there is a lot of hidden information like this.
+Is this date weekend or not?
+Okay?
+So, these small things help a lot.
+Like, a few days ago, I was working on a project where I was making an expense tracker app.
+where we used to provide analysis on how a user is spending.
+Now there this date column becomes very important because at what time he is spending,
+if we have to take out this, he is spending more on weekends or on weekdays,
+we have to take out this or in which month he spends more, we have to take out this.
+Taking out this kind of information was very important in that project.
+So that's what I am saying that if you have date or time,
+There is a lot of hidden information like time is given, let's say 60 will never come, let's say 40.
+So here you have information of hour, minute and seconds.
+All the information hidden in these variables becomes very useful sometimes.
+And in today's video we will see how to extract these hidden pieces of information.
+Or how you can subtract two dates and take out things. We will see all these things in today's video.
+Now I would like today's video to be like a reference material for you.
+That in future if you get any date or time related challenge, you can come back to this video and see the code.
+Or you can see how I handled things. So let's start with the coding part.
+So for today's video, I have taken two data sets, one is called orders.csv and the other one is called messages.csv.
+So all the date related work will be done by orders.csv and all the time related work will be done by messages.csv.
+I will quickly run these cells.
+This is my order data frame. Here we have a data set of e-commerce website where on which date, which product, in which city, how many times it was sold.
+This is the data set we have. And along with this, I have created another data set. I have not created it actually, I have picked it up from Kaggle.
+Second is this. This is a chatting data set.
+This is the data set of the website or app where the users chat.
+On which timestamp that message was sent and what was that message.
+Most likely, this is an outside website or a chatting application.
+So, what is written here, I don't understand.
+We don't even need that.
+Now, we will first focus on the date.
+But before that, I would like to show you that when you import a data set in Pandas by default,
+then its date and time column is by default object i.e. string.
+So if you let that string remain, then you won't be able to do everything that I am going to show you in this video.
+Your first duty is to change its data type and convert it to date and time.
+I am showing you that here.
+As soon as I did date.info, I can clearly see that the date column is an object.
+Object means now I can't remove month, day etc. from it. I have to change it.
+Similarly, here the time, I have run it there too.
+So you would see that the date we have is again an object.
+Right, so now what we have to do first, we have to work with date, so what I did, first of all I wrote this code,
+I called pd.toDateTime function and passed this column of the first data frame and again stored it in the same column value,
+and after doing this, as soon as I put date.info on the first data frame, guys please don't get confused,
+the name of my first data frame is date, on which I will work related to date and the name of second is time,
+I will do all the time related work. So now we will work on date for a long time.
+So here you can see, as I did date.info, my date column has become a date time object.
+So now we can apply the functions on it which I am going to do.
+So let's do it one by one. First of all I will show you how can you extract year from a date.
+It is very simple, you just have to write the name of your column, dot dt, dt means date time, dot year and whatever information will come, it will come in panda series, I put it in this column and as soon as I run the data frame, you can see that I have extracted the year from this and made a new column, 2019, 2018, if I do a sample here, then you will be able to see better what results are coming.
+So, if I write 5 here, so yeah, mostly it is a record of these 2 years, I guess.
+So, we are able to extract year from date. Similarly, you can also extract month, it is very simple.
+This time, we have to do dt.month and run this code. See here, it is 12, so 12 came here.
+8 is here, 8 came here, 10 is here, 10 came here. If you want the name of month,
+then you have to use this function name instead of attribute.
+month underscore name bracket. And now see I have one more column, 12 means December, 8 means August,
+1st means January. Next is if we want to extract days, which day of the month was going on,
+then for that you just have to do dt.day and here is your answer. See this is 10th day, 15th day, 23rd day and so on.
+If you want to know the date of the week, then you have to call this attribute day of week.
+So by running this, the 10th was the first day of the week, the 17th was the 5th day of the week, and the 6th is the 6th day of the week.
+If you want the name of the day of the week, like you are telling the number here, then you just have to call day underscore name.
+And when you will call it and run it, then you will get to know that it is starting from Tuesday.
+I don't know why it is starting from Tuesday.
+Tuesday, Wednesday, Tuesday, Saturday is 5th, Sunday is 6th, Monday is 7th.
+Okay, it's okay, there is no problem.
+I thought it will start from Monday but it is starting from Tuesday.
+I will have to check the documentation once.
+But anyways, there is no problem.
+There is no problem till it is uniform.
+Next, you can also find out whether that particular date is on the weekend or not.
+For that, you have to apply a little hack.
+You have to use this function, i.e., Sunday or Saturday.
+I am applying it on the column of DateOfWeekName, on this column.
+I am checking whether this day is one of these two and then I am applying np.where.
+It is a very simple logic. If you know both NumPy and Pandas, then you will understand this logic.
+And to run this, see here, Tuesday 0, Wednesday 0, but Saturday and Sunday is 1.
+So you can easily find out that the date you are talking about, was it on the weekend or not.
+Next is extract week of the year.
+So there are 52 or 53 weeks in a year.
+If you want, you can get the week number.
+So you don't have to do anything, you just have to do dt.week, that's it.
+As soon as you run the code, this date 12 December 2019 is the 50th week. Similarly, 8 August 2018 is the 33rd week.
+You can also extract quarter. It is very simple. You have to do dt.quarter and as soon as you do this, you get this quarter.
+So the first date was December, so 4th quarter, October is 4th quarter, August is 3rd quarter, January is 1st quarter.
+Similarly, going by the same logic, you can extract semesters too. There are 2 semesters in a year, 1st and 2nd.
+It won't come out directly. Here also you just have to do this, date quarter is in 1, 2 and you have to apply the logic of NP where.
+and after doing this, you will get this semester in the last. So fourth quarter means second semester, first quarter means first semester.
+So you can try this too. One more important thing, if you want to extract time between two dates,
+If you want to remove the gap, it is very easy. I imported the date time module and imported today's date.
+Here is today's date, April 21st, 2021. So now you don't have to do anything.
+As soon as you minus your date column from today, you will get everything.
+So here you can see 498 days and 16 hours, 2 minutes, 16 seconds and whatever is ahead.
+This came out for every date. If you just want days, then you just have to take out dt.days from this difference and see it is giving you the day.
+Similarly, if you want to take out the month pass, then you have to work a little hard. What you have to do is today minus this and then divide that thing by this thing.
+At this point, you can remember that there is a function called np.time.delta64 in which you will give this input and then you will round it.
+Then it will give you the month, like 16 months passed, 32 months, 30 months, 20 months. Similarly, you can try more things here.
+Instead of m, you can try hours, how many hours have passed, how many seconds have passed, you can get all this.
+I'll tell you that in the next section. Now let's discuss about time.
+We'll use the second data frame, time. It has two things, date and message.
+Obviously, I don't need this message column. I'll do all the work on date column.
+But here also the same problem is that this date is also an object.
+I can quickly show you. If I click info, you can see that this is also an object.
+If it is an object, then it is not of my use. So what I did again, I passed my column in pd.to underscore datetime and put it back in the same column.
+And after running this code, now by doing time.info, you can see that this datetime object has been created.
+Now what you can do is, from this given time, you can extract hours, minutes and seconds using the same syntax, dt.hour, dt.minute, dt.second.
+And I have done that. And see guys, from this time, I have extracted these three things.
+If you want, then a given date and time, here both things are together.
+You can extract the part of time separately from it using dt.time.
+I have also done that and shown you. And you can see that this was my complete date time.
+Now I only have time. So if you want to work on time only, then you can apply this processing.
+Similarly, you can find time difference. You have to do the same thing.
+So what we have to do? Today minus time date, these things are coming. If you want to take out in seconds, then you have to put time delta 64, here you have to put month, here you have to put seconds.
+Obviously, seconds will be very much, so this is 10 to the power 8, it is very much, seconds have passed. If you want to take out minutes, then you have to put m in time delta 64, small m, capital M for months, small m for minutes.
+So, this is 10 to the power 6 and you will get the difference in hours which is in thousands.
+So, that's it. That's all I had to do.
+You may not need more than this.
+In one or two places, you may have to work on time zones but it is very rare.
+For that, you can easily Google. You will get the codes of Stack Overflow.
+So, what you can do is you can just download this notebook.
+So try it once and if you want to use it in any existing project then use it.
+But yeah, this is more or less what we have to do to handle date and time.
+This was a small topic so we are finishing it quickly.
+So I hope you liked the video.
+If so guys, please consider subscribing and sharing.
+So yeah, that's it. Thanks for watching. Bye.

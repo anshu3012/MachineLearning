@@ -47,7 +47,7 @@ The earlier Notes teach each part in depth. Here each part gets a one-line recap
 2. **LSTMs and GRUs remember better, but stay sequential.** An LSTM adds a protected long-term memory, the cell state (the [LSTM Note](../1061-lstm/note.md)); a GRU does the same with one memory and two gates (the [GRU Note](../1064-gru/note.md)). Both still compute step $t$ from step $t-1$. The paper names the cost: "This inherently sequential nature precludes parallelization within training examples" (Vaswani et al. 2017, §1, p. 2).
 3. **The encoder–decoder squeezes a sentence into one vector.** Translation needs an output of a different length from the input. An LSTM encoder reads the input into one **context vector** (G-461), and an LSTM decoder writes the output from it (the [encoder–decoder Note](../1068-encoder-decoder/note.md)). Long sentences do not fit: in the [attention Note](../1069-attention-mechanism/note.md), without attention, BLEU fell from 14.3 on the shortest sentences to 5.9 on the longest.
 4. **Attention removes the bottleneck.** The decoder gets a fresh context vector at every step, a weighted mix of all encoder states. On the same data, test BLEU rose from 9.8 to 25.7 (the [attention Note](../1069-attention-mechanism/note.md)). Luong's dot-product score was both better and faster than Bahdanau's small network: BLEU 31.6 against 25.1, and 22 against 51 seconds per epoch (the [Bahdanau and Luong Note](../1070-bahdanau-vs-luong-attention/note.md)). But the encoder and decoder were still LSTMs.
-5. **Self-attention drops the recurrence.** If attention can relate any two words directly, the LSTM is no longer needed. In **self-attention** (G-1764) the words of one sentence attend to each other, all at the same time (the [what is self-attention](../1072-what-is-self-attention/note.md) and [why "self"](../1076-why-self-attention/note.md) Notes). On a GPU, an LSTM step's time grew 3.9 times from 16 to 256 words, while a self-attention step stayed near 1 millisecond (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md)). The paper's conclusion states the result: "the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention" (Vaswani et al. 2017, §7, p. 10).
+5. **Self-attention drops the recurrence.** If attention can relate any two words directly, the LSTM is no longer needed. In **self-attention** (G-1763) the words of one sentence attend to each other, all at the same time (the [what is self-attention](../1072-what-is-self-attention/note.md) and [why "self"](../1076-why-self-attention/note.md) Notes). On a GPU, an LSTM step's time grew 3.9 times from 16 to 256 words, while a self-attention step stayed near 1 millisecond (the [introduction to transformers Note](../1071-introduction-to-transformers/note.md)). The paper's conclusion states the result: "the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention" (Vaswani et al. 2017, §7, p. 10).
 
 Self-attention alone brings new problems: it ignores word order, it has one point of view, and in the decoder it would see future words. The rest of the transformer fixes these (section 6).
 
@@ -177,7 +177,7 @@ Byte-pair encoding splits words into smaller pieces (the [transformer encoder No
 | Base | 100,000 | about 0.4 s | 12 hours |
 | Big | 300,000 | 1.0 s | 3.5 days |
 
-(Vaswani et al. 2017, §5.2, p. 7.) The Notebook checks the arithmetic: $100{,}000 \times 0.4$ s is 11.1 hours, and $300{,}000 \times 1.0$ s is 3.47 days.
+(Vaswani et al. 2017, §5.2, p. 7.)
 
 The **big** model is wider: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, dropout 0.3, 213 million parameters, against 65 million for the base model (Table 3, bottom row, p. 9).
 
@@ -277,7 +277,7 @@ The test sets are newstest2014. BLEU (the [history of LLMs Note](../1067-history
 - **English–German:** the big model beats the best earlier result, the ConvS2S ensemble, by 2.04 BLEU, at 3.3 times less training cost. The base model beats every earlier model and ensemble at 2.9 times less cost than the cheapest of them with a listed cost, ConvS2S.
 - **English–French:** the big model beats every single model, at about a fifth (0.19) of the cost of MoE. The three ensembles score just below it but cost 35 to 52 times more.
 
-The text of §6.1 gives the English–French score of the big model as 41.0, while the abstract and Table 2 give 41.8; we use the table. The paper also averaged the last 5 saved copies of the weights (checkpoints) for the base model and the last 20 for the big model (§6.1, p. 8).
+The paper also averaged the last 5 saved copies of the weights (checkpoints) for the base model and the last 20 for the big model (§6.1, p. 8).
 
 ### 8.2 What changing each part does (Table 3)
 
@@ -419,7 +419,7 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 | Target | The output the model must learn to produce; here, the French sentence and, at each position, the correct next word |
 | Base model | The paper's standard transformer: $N = 6$, $d_{\text{model}} = 512$, 8 heads, $d_{\text{ff}} = 2048$, 65 million parameters |
 | Big model | The paper's larger transformer: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, 213 million parameters |
-| Learning-rate warm-up | Starting training with a small learning rate and raising it over the first steps; 4,000 steps in the paper |
+| Learning-rate warm-up (G-1071) | Starting training with a small learning rate and raising it over the first steps; 4,000 steps in the paper |
 | Inverse square root decay | Lowering the learning rate in proportion to $1/\sqrt{\text{step}}$ after the warm-up |
 | Residual dropout | Dropout applied to each sub-layer's output before the residual addition |
 | Label smoothing | Replacing the one-hot target by $(1-\varepsilon)$ on the correct word plus $\varepsilon/K$ on every word |
@@ -430,4 +430,4 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 | Checkpoint averaging | Averaging the weights of the last few saved copies of a model |
 | Beam search | Decoding that keeps several candidate sentences at each step |
 | Constituency parsing | Finding the grammatical tree of a sentence: its phrases and how they nest |
-| Pre-LN transformer | A transformer variant with layer normalisation inside the residual branch, which trains without warm-up |
+| Pre-LN transformer (G-1545) | A transformer variant with layer normalisation inside the residual branch, which trains without warm-up |

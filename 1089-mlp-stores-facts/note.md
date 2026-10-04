@@ -239,7 +239,7 @@ What does survive from the toy: the MLP block works on each token alone and adds
 |---|---|
 | MLP block | The feed-forward part of a transformer block: up-projection, activation, down-projection, added back to the token's vector |
 | $W_{\text{up}}$, $W_{\text{down}}$ | The first (widening) and second (narrowing) matrices of the MLP block; in GPT-2, `c_fc` and `c_proj` |
-| Neuron | One of the middle values of the MLP block (3,072 per block in GPT-2 small); active when positive |
+| Neuron (G-1317) | One of the middle values of the MLP block (3,072 per block in GPT-2 small); active when positive |
 | AND gate | A rule that outputs "yes" only when all its inputs are "yes" |
 | Key, value (in an MLP) | Geva et al.'s names for a row of the first matrix (a pattern detector) and the matching direction of the second matrix (what gets written) |
 | Zero-ablation | Setting a part's output to 0 and running the rest of the model unchanged, to see what that part does |

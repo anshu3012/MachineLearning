@@ -29,7 +29,7 @@ Textbooks list them in slightly different ways; these five are the core ones (IS
 
 Three words first. A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-The first two assumptions concern the features; the last three concern the **residuals** (G-1685), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
+The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
 
 ![The 60 test observations: actual target against predicted target. Each stick is one residual, the vertical gap to the dashed diagonal of perfect predictions (blue: actual above, red: actual below). Assumptions 3 to 5 are about these sticks.](images/residuals_def.png)
 
@@ -93,7 +93,7 @@ The standard check is the **variance inflation factor (VIF)** (G-2075). For each
 
 In words: the VIF of a feature is one divided by the part of it the other features cannot explain.
 
-$$\text{VIF}_j = \frac{1}{1 - R_j^2}$$
+$$\text{VIF of feature } j = \frac{1}{1 - R_j^2}$$
 
 where $R_j^2$ is the R² of predicting feature $j$ from the others. With numbers: if the others explain 80% of a feature ($R_j^2 = 0.8$), its VIF is $1 / 0.2 = 5$, the usual danger line. If they explain none of it, the VIF is 1.
 
@@ -115,13 +115,43 @@ A quicker, rougher check is a **heatmap** (G-886) of the correlations between th
 
 > **Extra:** If VIF is high, two simple fixes are to drop one of the related features, or to combine them into one feature, such as their average after scaling (ISL §3.3.3). Ridge regression, a later Note, was also designed for related features (Hoerl and Kennard).
 
-## 4. Assumption 3: normal residuals
+## 4. The residual plot
+
+> **Key point:** A residual plot puts every residual above or below a flat zero line. Random scatter around zero means the model fits; any shape means an assumption is broken.
+
+The last three assumptions are all checked on one kind of picture, so we build it by hand first. Take four points, $(1, 2)$, $(2, 3)$, $(3, 7)$ and $(4, 8)$. Their least-squares line is $\hat y = 2.2x - 0.5$.
+
+1. **Compute each residual,** actual minus predicted:
+
+   | $x$ | actual $y$ | predicted $\hat y = 2.2x - 0.5$ | residual |
+   |---|---|---|---|
+   | 1 | 2 | 1.7 | $+0.3$ |
+   | 2 | 3 | 3.9 | $-0.9$ |
+   | 3 | 7 | 6.1 | $+0.9$ |
+   | 4 | 8 | 8.3 | $-0.3$ |
+
+2. **Draw a flat line at 0.** It stands for the fitted line.
+3. **Plot each residual** at its $x$: above the zero line when the point lies above the fitted line, below when it lies below.
+
+Figure 5 does these steps one point at a time. The result is the **residual plot** (G-2207): the fitted line laid flat, with only the errors left to look at.
+
+![Building a residual plot from four points. Left: the points, the least-squares line and each residual as a stick (green above the line, red below). Right: the same sticks moved onto a flat zero line. Idea after Khan Academy, "Residual plots".](images/residual_plot_build.gif)
+
+How to read a residual plot:
+
+- **Points scattered evenly above and below 0, with no shape:** the line describes the data well.
+- **A curve,** for example above 0, then below, then above again: the relationship is not a straight line. Assumption 1 is broken, and a non-linear model such as [polynomial regression](../61-polynomial-regression/note.md) fits better (Figure 7, left).
+- **A funnel or a wave:** assumptions 4 and 5 below.
+
+With several features there is no single $x$ to put on the horizontal axis, so the predicted value $\hat y$ is used instead. The reading rules stay the same.
+
+## 5. Assumption 3: normal residuals
 
 > **Key point:** The residuals should follow a bell-shaped (normal) distribution centred on 0: most errors small, few large, positive and negative alike.
 
 When the model is right on average, its errors should scatter around 0: many small errors and few large ones, as often too high as too low. Such a bell-shaped spread is a **normal distribution** (G-1343).
 
-Two checks, both on the residuals (Figure 5, top):
+Two checks, both on the residuals (Figure 6, top):
 
 - **Histogram or density plot:** roughly a bell centred on 0. Here it is, apart from a small bump.
 - **Q-Q plot** (G-1596; from the function transformer Note): the points should lie on the straight line. Here they do, with small wiggles.
@@ -130,35 +160,35 @@ Two checks, both on the residuals (Figure 5, top):
 
 > **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** (G-1788) gives a **p-value** (G-1433); above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl 2012).
 
-## 5. Assumption 4: homoscedasticity
+## 6. Assumption 4: homoscedasticity
 
 > **Key point:** The residuals should have the same spread for small and large predictions. A funnel shape (heteroscedasticity) breaks the assumption.
 
 **Homoscedasticity** (G-902) means "same scatter": the size of the errors does not depend on the size of the prediction. Its opposite, **heteroscedasticity** (G-889), is common (ISL §3.3.3): for example, a house-price model that is off by a few thousand on cheap houses and by much more on expensive ones.
 
-The check is a scatter plot of residuals against predicted values (Figure 5, bottom left). The plot should look like an even band around 0, with no shape. Here it does: the spread is roughly the same from the lowest to the highest prediction.
+The check is a scatter plot of residuals against predicted values (Figure 6, bottom left). The plot should look like an even band around 0, with no shape. Here it does: the spread is roughly the same from the lowest to the highest prediction.
 
-Figure 6 (middle) shows what heteroscedasticity looks like: a funnel that widens to the right.
+Figure 7 (middle) shows what heteroscedasticity looks like: a funnel that widens to the right.
 
 ![What failed assumptions look like (made-up data)](images/violations.png)
 
 > **Extra:** Heteroscedasticity does not make the coefficients wrong on average, but it makes the model's uncertainty estimates wrong: the confidence intervals and p-values that statistics packages report (Wooldridge §8.1). One fix is to take the log or square root of the target. The log shrinks large values more than small ones, and can turn a funnel into an even band (ISL §3.3.3).
 
-## 6. Assumption 5: no autocorrelation of the residuals
+## 7. Assumption 5: no autocorrelation of the residuals
 
 > **Key point:** One residual should not predict the next. Plotted in row order, the residuals should jump around randomly, not drift in waves.
 
 **Autocorrelation** (G-230) means each residual is related to the one before it: if the model was too high on one observation, it is also too high on the next. Autocorrelation is common in **time series** (G-1975) data, measurements taken at points in time (ISL §3.3.3).
 
-The check is to plot the residuals in row order (Figure 5, bottom right). They should jump up and down with no pattern. Here they do.
+The check is to plot the residuals in row order (Figure 6, bottom right). They should jump up and down with no pattern. Here they do.
 
-Figure 6 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. One cause is a missing feature that changes slowly from one observation to the next, such as a time trend: the model cannot see the trend, so the trend shows up in the residuals. Figure 7 shows this test (details in the Extra below): residuals of a model that misses a slow wave form the same wave; adding the wave as a feature leaves random jumps. Autocorrelation makes the model look more certain than it is: its confidence intervals come out too narrow (ISL §3.3.3).
+Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. One cause is a missing feature that changes slowly from one observation to the next, such as a time trend: the model cannot see the trend, so the trend shows up in the residuals. Figure 8 shows this test (details in the Extra below): residuals of a model that misses a slow wave form the same wave; adding the wave as a feature leaves random jumps. Autocorrelation makes the model look more certain than it is: its confidence intervals come out too narrow (ISL §3.3.3).
 
 ![Residuals in row order for data built as y = 2x + 3 sin(t/25) + noise. Left: a model on x alone leaves the slow wave in its residuals (Durbin-Watson 0.40). Right: with sin(t/25) added as a feature, the residuals jump randomly (Durbin-Watson 2.09).](images/autocorr_fix.png)
 
-> **Extra:** The **Durbin-Watson statistic** (G-649) puts a number on autocorrelation: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative (statsmodels docs). Here it is 2.31, close to 2: no sign of autocorrelation. To test the missing-trend cause, the notebook makes data $y = 2x + 3\sin(t/25) + \text{noise}$, with $t$ the observation number. Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 6 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
+> **Extra:** The **Durbin-Watson statistic** (G-649) puts a number on autocorrelation: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative (statsmodels docs). Here it is 2.31, close to 2: no sign of autocorrelation. To test the missing-trend cause, the notebook makes data $y = 2x + 3\sin(t/25) + \text{noise}$, with $t$ the observation number. Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 7 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
 
-## 7. Summary
+## 8. Summary
 
 | Assumption | What it means | How to check | This data |
 |---|---|---|---|
@@ -172,11 +202,12 @@ Figure 6 (right) shows positive autocorrelation: long runs above 0 followed by l
 - A failed assumption does not stop the model from running; it makes its coefficients or uncertainty estimates untrustworthy.
 - Residual plots should look like random noise; any shape (curve, funnel, wave) points to a broken assumption.
 
-## 8. Sources
+## 9. Sources
 
 **Built from**
 
 - CampusX, "What are the main Assumptions of Linear Regression? | Top 5 Assumptions of Linear Regression", YouTube, https://www.youtube.com/watch?v=EmSNAtcHLm8
+- Khan Academy, "Residual plots", YouTube, https://www.youtube.com/watch?v=VamMrPZ-8fc (building a residual plot by hand and reading it, section 4)
 
 **Other references**
 
@@ -187,7 +218,7 @@ Figure 6 (right) shows positive autocorrelation: long runs above 0 followed by l
 - **Wooldridge**: J. M. Wooldridge, *Introductory Econometrics: A Modern Approach*, Cengage. Chapter 8, Heteroskedasticity (§8.1, consequences for OLS).
 - **statsmodels docs**: statsmodels documentation, `statsmodels.stats.stattools.durbin_watson`.
 
-## 9. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
@@ -195,7 +226,8 @@ Figure 6 (right) shows positive autocorrelation: long runs above 0 followed by l
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
 | Assumption (of a model) | A condition the data must meet for the model's results to be reliable |
-| Residual | The error on one data point: actual minus predicted value |
+| Residual (G-705) | The error on one data point: actual minus predicted value |
+| Residual plot (G-2207) | The residuals plotted above and below a flat zero line, against a feature or the predicted value |
 | Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other features predict feature $j$; above 5 signals multicollinearity |
 | Homoscedasticity | The residuals have the same spread for all predicted values |
 | Heteroscedasticity | The spread of the residuals changes with the predicted value, often as a funnel |

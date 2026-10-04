@@ -152,8 +152,6 @@ The result on the first six rows:
 
 > **Extra:** Why `.astype("Int64")`. A NumPy integer column cannot hold NaN, so `pd.to_numeric` returns floats: 5.0, 3.0, NaN. The option `downcast="integer"`, often seen in older code, cannot change this while a NaN is present, and the column stays float. **`Int64`** (capital I) is pandas' **nullable integer** (G-1363) type: whole numbers plus a missing marker, shown as `<NA>` (pandas user guide, "Nullable integer data type").
 
-> **Extra:** Older code builds the categorical part with `np.where(num.isnull(), df["number"], np.nan)`. `np.where` returns a plain NumPy array of mixed objects. `df["number"].where(num.isna())` gives the same values and keeps pandas' `str` type.
-
 ## 5. Splitting a Type 1 column: Cabin
 
 > **Key point:** A regular expression pulls out the digits; the first character gives the deck letter.
@@ -199,15 +197,15 @@ The result, on some first rows and on every unusual kind of value:
 
 Figure 6 shows the same rows as the table: watch the unusual values, where only the first deck letter and the first number survive.
 
+Figure 7 runs the split one row at a time. Each row's first character lands in `cabin_cat` and its first run of digits in `cabin_num`; the heading says what happens to each unusual value.
+
+![Cabin split row by row for the six rows of the table: the first character goes to cabin_cat (orange), the first run of digits to cabin_num (blue); a missing part stays NaN.](images/cabin_rows.gif)
+
 After the split, `cabin_cat` has only 8 categories, the decks A to G and T (right of Figure 4). C is the most common deck, then B.
 
 > **Extra:** Some values break the simple rule. A passenger booked into several cabins, such as `C23 C25 C27`, keeps only the first number, 23. `F G73` gives deck F, although the cabin is G73. `D` and `T` have no number, so `cabin_num` is missing. These are 14 of the 147 values; check them before relying on the split.
 
-> **Extra:** Three changes from older pandas code:
->
-> - Without the `r`, `"(\d+)"` makes Python 3.12 and later print a `SyntaxWarning: invalid escape sequence` (Python docs, What's New in Python 3.12).
-> - `str.extract` returns text, so `cabin_num` would hold the strings `"85"` and `"123"`. `pd.to_numeric` turns them into numbers.
-> - In pandas 3, `cabin_cat` has the `str` dtype, and its missing values are NaN.
+> **Extra:** `str.extract` returns text, so on its own `cabin_num` would hold the strings `"85"` and `"123"`. `pd.to_numeric` turns them into numbers.
 
 ## 6. Splitting a Type 1 column: Ticket
 
@@ -215,7 +213,7 @@ After the split, `cabin_cat` has only 8 categories, the decks A to G and T (righ
 
 `Ticket` is messier: 681 different values in 891 rows. Most tickets are a prefix and a number, such as `A/5 21171` or `PC 17599`, but many are digits only, such as `113803`.
 
-The rule, shown in Figure 7:
+The rule, shown in Figure 8:
 
 1. Split the value at its spaces into pieces.
 2. **Number part:** the last piece, converted with `pd.to_numeric(..., errors="coerce")`.
@@ -250,8 +248,6 @@ The 681 tickets have become 43 ticket categories plus a number. Four tickets rea
 
 > **Extra:** The 43 categories still repeat themselves. `A/5`, `A/5.`, `A./5.` and `A.5.` are the same prefix written four ways, and so are `SC/Paris` and `SC/PARIS`. Removing dots and slashes and upper-casing, `.str.replace(r"[./]", "", regex=True).str.upper()`, cuts the 43 down to 29. `STON/O 2.` and `STON/O2.` still differ, because the space split the first one into two pieces.
 
-> **Extra:** Older code does the same with `df["Ticket"].apply(lambda s: s.split()[-1])`. The `.str` methods do it without a hand-written function, and they skip missing values instead of failing on them.
-
 ## 7. Filling the gaps the split leaves
 
 > **Key point:** Splitting creates NaNs on purpose; fill the numerical ones with a value that makes sense and the categorical ones with a label such as "missing".
@@ -265,7 +261,7 @@ Many scikit-learn models do not accept missing values (scikit-learn User Guide, 
 
 ![The gaps of the Type 2 split (rows 0, 1 and 4), before and after filling](images/fill_gaps.png){width=90%}
 
-Figure 8 shows both fills on three rows of the `number` split.
+Figure 9 shows both fills on three rows of the `number` split.
 
 > **Python:** Filling the gaps.
 >
@@ -335,7 +331,6 @@ The new features are then ready for the earlier Notes' tools: one-hot encoding f
 
 - pandas release notes. What's new in 3.0.0 (dedicated string data type by default). pandas.pydata.org/docs/whatsnew.
 - pandas user guide. Nullable integer data type. pandas.pydata.org/docs/user_guide/integer_na.html.
-- Python documentation. What's New in Python 3.12: invalid escape sequences now raise SyntaxWarning. docs.python.org.
 - scikit-learn User Guide. Imputation of missing values. scikit-learn.org.
 
 ## 10. Key terms

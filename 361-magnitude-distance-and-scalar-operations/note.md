@@ -109,7 +109,7 @@ A lot of ML algorithms compute Euclidean distances inside. The clearest example 
 
 Figure 3 runs this on five 3D vectors in two classes. The query vector $[1, 1, 1]$ is 1.00 from $[1, 2, 1]$ and at least 2.83 from all others. Its nearest neighbour is in class 0, so the query is classed 0.
 
-The same distance appears in [K-means clustering](../128-kmeans-intuition/note.md), which groups points around their nearest centre, and in recommender systems, as in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 6.3).
+The same distance appears in [K-means clustering](../128-kmeans-intuition/note.md), which groups points around their nearest centre, and in recommender systems, as in the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md) (section 4.3).
 
 ## 4. Operations with a scalar
 
@@ -213,8 +213,8 @@ Dividing a vector by its own magnitude scales it to length 1, giving the **unit 
 
 | Term | Meaning |
 |---|---|
-| Magnitude (norm, length) of a vector | Its distance from the origin: $\sqrt{x_1^2 + \dots + x_n^2}$ |
-| L2 norm | The usual magnitude: square root of the sum of squared components |
+| Magnitude (norm, length) of a vector (G-1028) | Its distance from the origin: $\sqrt{x_1^2 + \dots + x_n^2}$ |
+| L2 norm (G-1028) | The usual magnitude: square root of the sum of squared components |
 | L1 norm | The sum of the absolute values of the components |
 | Shifting | Adding or subtracting a scalar to every component of a vector |
 | Broadcasting | NumPy stretching a scalar (or smaller array) to match a bigger array before an operation |

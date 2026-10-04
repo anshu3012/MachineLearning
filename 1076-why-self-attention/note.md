@@ -39,7 +39,7 @@ This Note answers two questions:
 
 Recall the setting of the [attention mechanism Note](../1069-attention-mechanism/note.md). We translate the English sentence "Turn off the light." into French, "Éteins la lumière.", a pair taken from the English–French dataset used in these Notes. An **LSTM** (G-1123) encoder reads the 4 English words and keeps a hidden state after each: $h_1, h_2, h_3, h_4$. An LSTM decoder writes the 3 French words, with a hidden state $s_i$ at each step.
 
-The plain encoder–decoder hands the decoder one context vector for the whole sentence. Attention gives the decoder a fresh context vector $c_i$ at every step, a weighted mix of all encoder states. With the dot-product score of **Luong attention** (G-1138; Luong et al. 2015), the context vector comes from three equations:
+The plain encoder–decoder hands the decoder one context vector for the whole sentence. Attention gives the decoder a fresh context vector $c_i$ at every step, a weighted mix of all encoder states. With the dot-product score of **Luong attention** (G-1137; Luong et al. 2015), the context vector comes from three equations:
 
 1. **Scores:** $e_{ij} = s_i \cdot h_j$, how well encoder state $j$ matches what the decoder needs at step $i$.
 2. **Weights:** $\alpha_{ij} = \text{softmax}_j(e_{ij})$, so the weights of one step sum to 1.
@@ -78,11 +78,15 @@ The decoder state acts as the **query**: at step $i$ the decoder asks which inpu
 
 Figure 3 lines the equations up row by row. Everything in grey is the same on both sides; only the coloured vectors are swapped.
 
+![Luong attention turning into self-attention. The French row leaves, the English sentence takes its place and asks itself, and in each equation the decoder state becomes a query (blue), the encoder state becomes a key (orange) where it is compared and a value (green) where it is mixed](images/equation_morph.gif){height=50%}
+
+Figure 4 plays the same substitution as a movement. Watch the top first: the French words that were asking leave, and a copy of the English sentence moves up to ask instead. Then watch the equations: only the names of the vectors change, and the three steps (scores, weights, output) stay where they are.
+
 ## 5. Why self-attention is attention
 
 > **Key point:** The mathematics is the same. One function, and one Keras layer, computes both.
 
-Since the three equations are the same, one function computes both kinds of attention (Figure 4). The Notebook writes it once:
+Since the three equations are the same, one function computes both kinds of attention (Figure 5). The Notebook writes it once:
 
 ![One function, two calls. Fed the French decoder states as queries and the English states as keys and values, it relates two sequences; fed the queries, keys and values of one sentence, it relates the sentence to itself](images/one_function.png){width=100%}
 
@@ -117,7 +121,7 @@ In self-attention the queries, keys and values all come from the same sentence. 
 
 The "self" therefore describes where the inputs come from, not a different calculation. Keras' `MultiHeadAttention` layer shows this directly: it takes a `query` sequence and a `value` sequence. Called with the English sentence as both, it does self-attention and returns $4 \times 4$ weights; called with the French states as the query and the English sentence as the value, the same layer returns $3 \times 4$ weights (Notebook). The second use, between the decoder and the encoder of a transformer, is called **cross-attention** (G-507) and has its own [cross-attention Note](../1082-cross-attention/note.md).
 
-> **Extra:** The middle panel of Figure 5 shows why self-attention needs its projection matrices. Without $W_Q$ and $W_K$, the query and the key of a word are the same vector, and the dot product of a vector with itself (its squared length) is usually the largest score: "off" and "the" put all their weight on themselves. Jurafsky and Martin (SLP3 draft, ch. 7, section on attention) note the same: in the simple version, "the softmax weight will likely be highest for $x_i$, since $x_i$ is very similar to itself". Separate query, key and value matrices, from the [self-attention step by step Note](../1073-self-attention-step-by-step/note.md), let a word look for something other than itself (right panel).
+> **Extra:** The middle panel of Figure 6 shows why self-attention needs its projection matrices. Without $W_Q$ and $W_K$, the query and the key of a word are the same vector, and the dot product of a vector with itself (its squared length) is usually the largest score: "off" and "the" put all their weight on themselves. Jurafsky and Martin (SLP3 draft, ch. 7, section on attention) note the same: in the simple version, "the softmax weight will likely be highest for $x_i$, since $x_i$ is very similar to itself". Separate query, key and value matrices, from the [self-attention step by step Note](../1073-self-attention-step-by-step/note.md), let a word look for something other than itself (right panel).
 
 ## 7. Summary
 
@@ -152,10 +156,10 @@ The "self" therefore describes where the inputs come from, not a different calcu
 
 | Term | Meaning |
 |---|---|
-| Query | The vector that asks which other positions are useful: the decoder state in Luong attention, $q_i$ in self-attention |
+| Query (G-1607) | The vector that asks which other positions are useful: the decoder state in Luong attention, $q_i$ in self-attention |
 | Key | The vector compared with the query by a dot product |
 | Value | The vector mixed into the output, weighted by the attention weights |
-| Luong (dot) attention | Attention between a decoder state and the encoder states, scored by their dot product |
+| Luong (dot) attention (G-1137) | Attention between a decoder state and the encoder states, scored by their dot product |
 | Self-attention (intra-attention) | Attention in which the queries, keys and values all come from one sequence |
 | Inter-sequence attention | Attention between two different sequences, such as an output and an input sentence |
 | Cross-attention | The transformer's attention from the decoder (queries) to the encoder (keys and values) |

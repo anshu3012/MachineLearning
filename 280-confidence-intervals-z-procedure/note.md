@@ -251,7 +251,7 @@ The z-procedure needs $\sigma$ and a normal sampling distribution. The **bootstr
 3. **Repeat** 10,000 times. The means pile up into a histogram (bottom panel): it shows how much the mean of 12 such ages moves from sample to sample.
 4. **Keep the middle 95%.** Cut off the lowest 2.5% and the highest 2.5% of the 10,000 means. The cut points, the 2.5th and 97.5th percentiles, are the interval: **23.2 to 35.0 years**. It contains the true mean of all 714 known ages, 29.70.
 
-This is called a **percentile bootstrap interval**. The same four steps work for a median, a standard deviation or any other statistic, where no simple formula exists.
+This is called a **percentile bootstrap interval** (G-2234). The same four steps work for a median, a standard deviation or any other statistic, where no simple formula exists.
 
 The formula route with this sample uses $s$ in place of the unknown $\sigma$, which the [t-procedure Note](../282-t-procedure/note.md) teaches: it gives 21.9 to 35.8 years (Figure 7, black). The bootstrap interval is a little narrower. With only 12 values that is a weakness: in the Notebook, over 2000 samples of 12 ages, the 95% bootstrap interval contained the true mean in 91.3% of samples, the t-interval in 95.1%. With small samples the formula is safer; the bootstrap shines for statistics that have no formula.
 
@@ -291,8 +291,8 @@ The formula route with this sample uses $s$ in place of the unknown $\sigma$, wh
 | Confidence interval | A range of plausible values for a population parameter, computed from a sample: point estimate $\pm$ margin of error |
 | Confidence level | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$ |
 | Margin of error | The distance from the point estimate to either end of a confidence interval |
-| Lower and upper limit | The two ends of a confidence interval |
+| Lower and upper limit (G-1133) | The two ends of a confidence interval |
 | Z-procedure | The confidence interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, used when $\sigma$ is known |
 | Critical value | The z (or t) value that leaves $\alpha/2$ in each tail; 1.96 for 95% on the standard normal curve |
-| Percentile bootstrap interval | The middle 95% (2.5th to 97.5th percentile) of the means of many resamples drawn with replacement from one sample |
+| Percentile bootstrap interval (G-2234) | The middle 95% (2.5th to 97.5th percentile) of the means of many resamples drawn with replacement from one sample |
 | $\alpha$ | One minus the confidence level: the share of intervals that miss the parameter |

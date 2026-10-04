@@ -63,7 +63,7 @@ Students applying to universities abroad take the **GRE** and **TOEFL** (G-869) 
 > df.duplicated().sum()   # 0
 > ```
 
-There are no **missing values** (G-1235) and no duplicated rows, and every column is already numeric. The chance of admission averages 0.72 and runs from 0.34 to 0.97.
+There are no **missing values** (G-1234) and no duplicated rows, and every column is already numeric. The chance of admission averages 0.72 and runs from 0.34 to 0.97.
 
 ## 3. Preparing the inputs
 
@@ -72,6 +72,14 @@ There are no **missing values** (G-1235) and no duplicated rows, and every colum
 The serial number is a row label with no pattern in it, so we drop it. The other 7 columns are the features, and `Chance of Admit` is the target. A test size of 0.2 gives 400 training and 100 test students.
 
 The features differ widely in size: a GRE score of 337 sits next to an SOP rating of 4.5. As in the other two projects, unequal scales slow training down, so we scale. This time we use **min-max scaling** (G-1217) rather than **standardization** (G-1874): min-max scaling is the usual choice when every feature has a known minimum and maximum (see the [normalization Note](../25-normalization/note.md), section 10). GRE stops at 340, TOEFL at 120, the ratings at 5, so every feature is bounded. After scaling, each feature runs from 0 to 1.
+
+![The 7 features of the 400 training students. Left: raw values; right: after min-max scaling. Each box spans the middle half of a feature's values.](images/scales.png)
+
+Figure 1 shows the effect. Raw, GRE runs from 290 to 340 and TOEFL from 92 to 120, while CGPA, the ratings and Research all sit below 10. Min-max scaling subtracts each feature's training minimum and divides by its range, so every feature fills the same interval from 0 to 1:
+
+$$x_{\text{scaled}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}$$
+
+For example, a GRE score of 316 becomes $(316 - 290) / (340 - 290) = 0.52$.
 
 > **Python:** Splitting and min-max scaling.
 >
@@ -100,6 +108,16 @@ The features differ widely in size: a GRE score of 337 sits next to an SOP ratin
 
 In classification the output node squeezes its **weighted sum** (G-2119) into a probability with a **sigmoid** (G-1798) or **softmax** (G-1830). In regression we want the number itself, so the output node uses the **linear activation**: it returns its input unchanged, $f(z) = z$. With a linear output and the mean squared error loss, a single perceptron is **linear regression** (G-1094; see the [perceptron loss Note](../1006-perceptron-loss/note.md), section 8).
 
+![The numbers an output node can give with three activations. Shaded: the outputs it can reach. Linear reaches any number; sigmoid only 0 to 1; ReLU nothing below 0.](images/output_range.png)
+
+Figure 2 compares three choices for the output node:
+
+1. **Linear** returns $z$ itself, so the node can output any number: a price of 250,000, a temperature of $-5$, a chance of 0.72.
+2. **Sigmoid** squeezes every $z$ into 0 to 1. A target of 250,000 or $-5$ is out of its reach, however the weights are set.
+3. **ReLU** turns every negative $z$ into 0, so a target of $-5$ is out of reach.
+
+A network can only be right if its output node can produce the target, and only the linear node can produce every number.
+
 The rule: **for regression, the output layer has one node per number to predict, with the linear activation.** Hidden layers keep a non-linear activation such as **ReLU** (G-1668); otherwise the whole network would collapse into one linear model (see the [MLP intuition Note](../1009-mlp-intuition/note.md), section 3.4).
 
 > **Extra:** A linear output is not limited to 0 to 1, and in our results one prediction from each network comes out slightly above 1 (up to 1.01). Since the target here is a proportion, a sigmoid output node would keep every prediction inside 0 to 1. The linear output is the general rule because most regression targets, such as prices or temperatures, have no such limit.
@@ -110,7 +128,7 @@ The rule: **for regression, the output layer has one node per number to predict,
 
 ![The two admission networks. Both end in one linear node; the numbers are the trainable parameters of each layer.](images/architecture.png)
 
-Figure 1(a) shows the first network:
+Figure 3(a) shows the first network:
 
 - the **input layer** (G-952) has 7 nodes, one per feature;
 - the **hidden layer** (G-890) has 7 ReLU nodes;
@@ -174,7 +192,7 @@ For regression the usual loss is **mean squared error (MSE)**: the average of th
 
 The first network scores **$R^2 = -0.06$**: worse than predicting the average 0.725 for every student. In numbers, its mean squared error on the test set is 0.0204, while always predicting the average gives 0.0193, and $1 - 0.0204 / 0.0193 = -0.06$.
 
-Figure 2 (left) shows why: after 10 epochs the loss is still falling steeply. The network simply has not finished learning, like a cake taken out of the oven halfway through its baking time.
+Figure 4 (left) shows why: after 10 epochs the loss is still falling steeply. The network simply has not finished learning, like a cake taken out of the oven halfway through its baking time.
 
 > **Extra:** The Notebook checks that the number of epochs matters most. Over three random starts, the same one-layer network reaches $R^2$ between 0.42 and 0.78 after 100 epochs, against $-16.4$ to 0.19 after 10 epochs.
 
@@ -187,7 +205,7 @@ Figure 2 (left) shows why: after 10 epochs the loss is still falling steeply. Th
 Two changes, as in the other projects:
 
 1. **More epochs:** 100 instead of 10, so the weights have time to settle.
-2. **One more hidden layer** of 7 ReLU nodes (Figure 1(b)): $56 + 56 + 8 = 120$ parameters.
+2. **One more hidden layer** of 7 ReLU nodes (Figure 3(b)): $56 + 56 + 8 = 120$ parameters.
 
 > **Python:** The second network.
 >
@@ -203,11 +221,21 @@ Two changes, as in the other projects:
 >                      validation_split=0.2)
 > ```
 
-The test R² rises to **0.80**. Figure 2 (right) shows the loss falling fast in the first few epochs and then levelling off near 0.004. The training and validation losses stay together all the way (0.0037 and 0.0037 at the end): the network is **not overfitting** (**overfitting**, G-1429). A few more epochs might lower the loss a little further.
+The test R² rises to **0.80**. Figure 5 shows the climb, epoch by epoch, on the 100 test students.
+
+![The second network's predicted chance against the actual chance for the 100 test students, after 0 to 100 epochs. Dashed: perfect predictions; dotted orange: always predicting the average, which scores R² = 0.](images/pred_epochs.gif)
+
+1. **Before training,** the random weights give scattered answers: R² is −6.13, far worse than always predicting the average.
+2. **After 5 epochs,** the points have moved towards the dashed line but are still spread out: R² is −0.94.
+3. **After 10 epochs,** R² is −0.34. Like the first network, which was stopped after 10 epochs at R² = −0.06, this one has not finished learning yet.
+4. **After 20 epochs,** R² passes 0 (0.23): the network now beats always predicting the average.
+5. **After 50 and 100 epochs,** the points close in on the dashed line: R² is 0.73 and then 0.80.
+
+Figure 4 (right) shows the loss falling fast in the first few epochs and then levelling off near 0.004. The training and validation losses stay together all the way (0.0037 and 0.0037 at the end): the network is **not overfitting** (**overfitting**, G-1429). A few more epochs might lower the loss a little further.
 
 ![Predicted against actual chance of admission for the 100 test students. Points on the dashed line are perfect predictions.](images/pred_vs_actual.png)
 
-Figure 3 shows the difference on the test students. The first network's predictions scatter widely around the dashed line of perfect predictions; the second network's hug it, with a few misses among students with a low chance.
+Figure 6 shows the difference on the test students. The first network's predictions scatter widely around the dashed line of perfect predictions; the second network's hug it, with a few misses among students with a low chance.
 
 > **Extra:** On this small table of 400 rows, plain linear regression on the same scaled inputs scores $R^2 = 0.82$, slightly better than our network (see the [multiple linear regression Note](../53-multiple-linear-regression/note.md)). The relationship here is close to linear, and a network needs much data and tuning before its extra flexibility pays off. Deep learning shines on large data and on images, text and sound, not necessarily on small tables (see the [what is deep learning Note](../1002-what-is-deep-learning/note.md), section 4; Grinsztajn et al. 2022).
 
@@ -246,5 +274,5 @@ The three projects side by side:
 |---|---|
 | Linear activation | $f(z) = z$: the node outputs its weighted sum unchanged; used in the output layer for regression |
 | Regression output layer | One node per predicted number, with the linear activation |
-| Mean squared error loss | The loss for regression in Keras: the average squared difference between true and predicted values |
+| Mean squared error loss (G-1201) | The loss for regression in Keras: the average squared difference between true and predicted values |
 | GRE, TOEFL | Exams taken by students applying to graduate programmes abroad; the first two inputs of the admission data |

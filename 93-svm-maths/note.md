@@ -151,7 +151,7 @@ The whole formula for the margin relies on these constraints. If a red point ent
 
 ## 5. The margin in terms of w
 
-> **Key point:** Project the vector between two support vectors onto the unit vector w/$\lVert w \rVert$. The result is d = $2/\lVert w \rVert$.
+> **Key point:** Project the vector between two support vectors onto the unit vector $w / \lVert w \rVert$. The result is d = $2/\lVert w \rVert$.
 
 ### 5.1 The derivation
 
@@ -159,7 +159,7 @@ The whole formula for the margin relies on these constraints. If a red point ent
 
 Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Figure 5). The vector from $x_1$ to $x_2$ is $x_2 - x_1$. The vector crosses the margin, but at a slant, so its length is not the margin.
 
-![The margin is the projection of $x_2 - x_1$ onto the unit vector w/$\lVert w \rVert$](images/distance.png){height=38%}
+![The margin is the projection of $x_2 - x_1$ onto the unit vector $w / \lVert w \rVert$](images/distance.png){height=38%}
 
 The **shortest** distance between the two edges is measured perpendicular to them, that is along $w$. So we project $x_2 - x_1$ onto the [unit vector](../48-pca-step-by-step/note.md) in the direction of $w$, which is $w$ divided by its length (its **norm**, here the **L2 norm**, G-1028) $\lVert w \rVert$:
 
@@ -197,6 +197,8 @@ $$w^\ast, b^\ast= \underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert}
 The problem is a **constrained optimisation** (G-455) problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
 
 Figure 6 shows the search in two dimensions. Every direction of $w$ is one candidate. For each direction, the widest margin that still obeys every constraint is the gap between the lowest green point and the highest red point, measured along $w$. Sweeping the direction from 60 to 120 degrees traces a curve with a single peak: 2.22, at the direction of the SVM's $w$. The optimiser finds this peak without drawing the curve.
+
+Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$: the smaller the length of $w$, the wider the margin. The [soft-margin Note](../94-svm-soft-margin/note.md) uses this minimising form, and gives the standard textbook version, $\tfrac{1}{2}\lVert w \rVert^2$.
 
 ![The optimisation as a search over directions of w, on the 16 points of the SVM intuition Note. Left: for one direction, the line in the middle of the widest gap it allows (dashed: $\pi^+$ and $\pi^-$). Right: that widest margin against the angle of w; the maximum, 2.22, is at the direction of the SVM's w.](images/margin_sweep.gif)
 
@@ -256,7 +258,7 @@ The formulation of this Note is called the **hard-margin SVM** (G-879): it works
 | Term | Meaning |
 |---|---|
 | Decision rule (SVM) | Predict +1 if $w \cdot u + b \geq 0$ and −1 otherwise |
-| Norm of a vector | The length of a vector, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$ |
+| Norm of a vector (G-1028) | The length of a vector, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$ |
 | Constraint | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point |
 | Constrained optimisation | Maximising or minimising a function while keeping one or more constraints true |
 | Hard-margin SVM | The SVM that allows no point inside the margin or on the wrong side; it needs perfectly separable data |

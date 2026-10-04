@@ -36,11 +36,11 @@ Figure 1 shows the simplest vector there is: an arrow in a 2D plane from the ori
 
 Say a car moves at 5 km/h. That one number tells us how fast, but not which way. A single number like this is a **scalar** (G-1743). Now say the car moves at 5 km/h to the east. We have added a direction, and the pair "how much, which way" is a **vector** (G-2081). Speed is a scalar; velocity, speed with a direction, is a vector.
 
-We draw a vector as an arrow. The length of the arrow is its size, called its **magnitude** (G-1144); the way the arrow points is its **direction** (G-613). In Figure 2, the left panel is the scalar: one number, no arrow. The middle panel draws "5 km/h east" three times, at three different places. All three arrows have length 5 and point east, so they are the same vector: only the size and the direction count, not where the arrow is drawn.
+We draw a vector as an arrow. The length of the arrow is its size, called its **magnitude** (G-1028); the way the arrow points is its **direction** (G-613). In Figure 2, the left panel is the scalar: one number, no arrow. The middle panel draws "5 km/h east" three times, at three different places. All three arrows have length 5 and point east, so they are the same vector: only the size and the direction count, not where the arrow is drawn.
 
 ![A scalar has only a size; a vector has a size and a direction; in linear algebra the arrow starts at the origin. Idea after Khan Academy, "Vector intro for linear algebra"](images/same_vector.png)
 
-Linear algebra adds one habit. To compare vectors easily, it always draws the arrow with its tail at the **origin**, the point where the axes cross (Figure 2, right). The arrow $[5, 0]$ moves 5 along $x$ and nothing along $y$: 5 km/h east. The arrow $[3, 4]$ has the same length, 5, but a different direction. How to compute that length is the topic of the [magnitude, distance and scalar operations Note](../361-magnitude-distance-and-scalar-operations/note.md).
+Linear algebra adds one habit. To compare vectors easily, it always draws the arrow with its tail at the **origin** (G-2240), the point where the axes cross (Figure 2, right). The arrow $[5, 0]$ moves 5 along $x$ and nothing along $y$: 5 km/h east. The arrow $[3, 4]$ has the same length, 5, but a different direction. How to compute that length is the topic of the [magnitude, distance and scalar operations Note](../361-magnitude-distance-and-scalar-operations/note.md).
 
 ### 2.2 Three views: arrow, list and point
 
@@ -66,7 +66,7 @@ Many arrows at once make a crowded picture. So when we have many vectors, as in 
 
 Start with 2D coordinate geometry from school: a horizontal $x$-axis, a vertical $y$-axis and the origin where they meet, with tick marks one unit apart. In Figure 1, the point $(3, 4)$ means: from the origin, move 3 units in the $x$ direction, then 4 units in the $y$ direction. The arrow from the origin to that point is the **vector** (G-2079) $a = [3, 4]$, with its tail at the origin and its head at the point.
 
-The individual numbers of a vector are its **components** (G-429), also called its **coordinates**. They are walking instructions:
+The individual numbers of a vector are its **components** (G-429), also called its **coordinates** (G-2241). They are walking instructions:
 
 1. The first component says how far to walk along the $x$-axis: positive to the right, negative to the left.
 2. The second says how far to walk parallel to the $y$-axis after that: positive up, negative down.
@@ -150,7 +150,7 @@ The summaries are text, and ML algorithms do not work with text. So we must turn
 
 > **Key point:** List every unique word (the vocabulary); each text becomes a vector with one count per vocabulary word.
 
-There are many techniques for this in **NLP** (G-1323) (natural language processing, the part of ML that works with text). The simplest is **bag of words** (G-250):
+There are many techniques for this in **NLP** (G-1305) (natural language processing, the part of ML that works with text). The simplest is **bag of words** (G-250):
 
 1. Collect the vocabulary (see the [tensors Note](../11-tensors/note.md)): every unique word in all the texts.
 2. Give each vocabulary word one dimension.
@@ -314,15 +314,15 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 | Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices |
 | Scalar | A single number, with a size but no direction (a speed) |
 | Vector (geometric view) | An arrow from the origin with a magnitude and a direction; its tip is a point in a coordinate system |
-| Magnitude | The length of a vector's arrow: its size |
+| Magnitude (G-1028) | The length of a vector's arrow: its size |
 | Direction | The way a vector's arrow points |
-| Origin | The point where the axes cross; the tail of every vector in linear algebra |
-| Coordinates (of a vector) | Its components read as walking instructions from the origin to the tip |
+| Origin (G-2240) | The point where the axes cross; the tail of every vector in linear algebra |
+| Coordinates (of a vector) (G-2241) | Its components read as walking instructions from the origin to the tip |
 | Component | One number of a vector, how far to walk along one axis |
 | Dimension of a vector | The dimension of the space it lives in: its number of components |
 | Feature vector | The vector of feature values of one observation |
-| Recommender system | A system that suggests items a user is likely to like |
-| NLP | Natural language processing: ML on text |
+| Recommender system (G-1644) | A system that suggests items a user is likely to like |
+| NLP (G-1305) | Natural language processing: ML on text |
 | Bag of words | Turning a text into a vector of word counts over the vocabulary |
 | Row vector | A vector written as one row, shape $1 \times n$ |
 | Data matrix | The feature vectors of a dataset stacked as rows |

@@ -24,10 +24,8 @@ A **feature** (G-772) is an input variable (one column of the data table), an **
 Three facts to keep in mind:
 
 - PCA is **unsupervised** (G-2058): it uses only the features, never the target.
-- PCA is old (Section 1, Extra) and widely used.
+- PCA is old and widely used.
 - The full mathematics of PCA is involved. This Note builds the geometric intuition; the step-by-step mathematics comes in the next Note.
-
-> **Extra:** PCA was first described by Karl Pearson in 1901 and developed further, under the name "principal components", by Harold Hotelling in 1933 (Pearson 1901; Hotelling 1933).
 
 ### 1.1 The photographer
 
@@ -74,7 +72,7 @@ Imagine shining a light so each point casts a shadow on the x-axis. Dropping eac
 - On the rooms axis (orange), the shadows stretch from 1 to 5.
 - On the grocery shops axis (green), they cover only a short stretch.
 
-The data is spread out along rooms and bunched up along grocery shops. So we keep rooms. The size of this spread is measured by the **variance** (G-2078) of the shadows: 1.33 for rooms and 0.10 for grocery shops.
+The data is spread out along rooms and bunched up along grocery shops. So we keep rooms. The size of this spread is measured by the **variance** (G-2074) of the shadows: 1.33 for rooms and 0.10 for grocery shops.
 
 Feature selection by spread therefore keeps the features with the largest variance.
 
@@ -280,7 +278,6 @@ Section 4.1 showed the same choice from the other side: the direction of maximum
 **Other references**
 
 - Pearson, K. (1901). On lines and planes of closest fit to systems of points in space. *Philosophical Magazine*, 2(11), 559–572.
-- Hotelling, H. (1933). Analysis of a complex of statistical variables into principal components. *Journal of Educational Psychology*, 24(6), 417–441.
 - Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd edition, Theorem 5.2.6. Duxbury.
 
 ## 9. Key terms
@@ -289,9 +286,9 @@ Section 4.1 showed the same choice from the other side: the direction of maximum
 |---|---|
 | Feature | An input variable: one column of the data table |
 | Observation | One record: one row of the data table |
-| Principal component analysis (PCA) | An unsupervised feature extraction technique that builds new features along the directions of greatest variance |
+| Principal component analysis (PCA) (G-1469) | An unsupervised feature extraction technique that builds new features along the directions of greatest variance |
 | Projection | Dropping each point onto an axis or line, like casting a shadow |
 | Centred data | Data whose mean is 0: the mean of each feature has been subtracted |
-| Variance | The average squared distance of the points from their mean |
+| Variance (G-2074) | The average squared distance of the points from their mean |
 | Mean absolute deviation | The average absolute distance of the points from their mean |
 | Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most |

@@ -112,7 +112,7 @@ Figure 4 shows what the conversion buys us.
 
 The table itself looks the same before and after: only `orders.info()` shows the new type. The same conversion can be done while reading the file, with `parse_dates=["date"]` in `read_csv` ([Note 15](../15-working-with-csv/note.md), Section 15).
 
-> **Extra:** The `[us]` in `datetime64[us]` is the **resolution**: the smallest step the column can store, here one microsecond. Older pandas always used nanoseconds and showed `datetime64[ns]`. Since pandas 3, text is parsed at microsecond resolution (pandas release notes, 3.0.0). The dates and every result in this Note are the same either way.
+> **Extra:** Older pandas shows `datetime64[ns]` instead of `datetime64[us]`. The dates and every result in this Note are the same either way.
 
 > **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row (pandas release notes, 2.0.0, "Datetimes are now parsed with a consistent format"). The single guessed format causes two surprises with day/month dates:
 >
@@ -344,7 +344,7 @@ $$\frac{498.668}{30.436875} = 16.38 \thickspace\rightarrow\thickspace16 \text{ m
 
 **Way 2: count calendar months.** Subtract the month numbers, counting 12 for each year in between.
 
-$$\text{months} = 12 \times (\text{year}_\text{today} - \text{year}_\text{date}) + (\text{month}_\text{today} - \text{month}_\text{date})$$
+$$\text{months} = 12 \times (\text{year of today} - \text{year of date}) + (\text{month of today} - \text{month of date})$$
 
 For row 0: $12 \times (2021 - 2019) + (4 - 12) = 24 - 8 = 16$ months.
 
@@ -487,7 +487,7 @@ The unit letters are case-sensitive:
 **Other references**
 
 - ISO 8601-1:2019. Date and time: Representations for information interchange, Part 1 (week dates). International Organization for Standardization.
-- pandas release notes. What's new in 1.1.0, 2.0.0 and 3.0.0. pandas.pydata.org/docs/whatsnew.
+- pandas release notes. What's new in 1.1.0 and 2.0.0. pandas.pydata.org/docs/whatsnew.
 
 ## 11. Key terms
 

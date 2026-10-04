@@ -123,14 +123,13 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 
 ### 4.2 Common misreadings
 
-> **Extra:** Each of these statements about $p = 0.03$ is wrong. They follow misinterpretations 1, 2, 4, 7 and 9 in the list of Greenland et al. (2016); the second and third are two sides of misinterpretation 1.
+> **Extra:** Each of these statements about $p = 0.03$ is wrong. They are among the misinterpretations listed by Greenland et al. (2016).
 >
 > - **"About 3 experiments in 100 would give exactly our result."** The p-value counts results **as or more extreme**, not exactly ours. For 53 heads, exactly 53 has probability 0.067, while the p-value is 0.309.
 > - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. The probability of $H_0$ would need **Bayes' theorem** (G-269) and a prior (see the [Bayes theorem Note](../85-bayes-theorem/note.md)).
 > - **"There is a 97% chance that $H_1$ is true."** Same mistake, the other way round.
 > - **"The result happened by chance with probability 3%."** The p-value assumes chance alone (that is what $H_0$ says); it does not measure the probability of chance.
 > - **"A small p-value means a large or important effect."** With a huge sample, a tiny difference gives a tiny p-value. The p-value measures evidence, not size: a training program that adds 0.1 cars a day can be "highly significant" and useless. Figure 4 shows it for the right-tailed z-test with $\sigma = 5$: with the true effect fixed at 0.1 cars a day, the p-value drops below 0.05 once the sample passes about 6,765 employees, and keeps falling.
-
 > - **"A p-value above 0.05 proves $H_0$."** A p-value above 0.05 means only that the evidence was not strong enough (see the [null and alternative hypotheses Note](../290-null-and-alternative-hypotheses/note.md)).
 
 ![The p-value of the right-tailed z-test at a true effect of 0.1 cars a day (σ = 5), for samples of 10 to 100,000 employees. The effect never changes; only the sample size does.](images/p_vs_n.png){height=34%}

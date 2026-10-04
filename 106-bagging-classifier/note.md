@@ -116,7 +116,7 @@ We make a dataset of 10,000 observations and 10 features with `make_classificati
 
 Bagging scores **0.945**, against 0.9265 for one tree. Training takes a while: 500 trees are trained instead of one. `n_jobs=-1` spreads them over every CPU core.
 
-> **Extra:** Older code passes the base model as `base_estimator=`. The name `base_estimator` was deprecated in scikit-learn 1.2 and removed in 1.4; the current name is `estimator` (scikit-learn 1.2 release notes; `BaggingClassifier` API docs, versions 1.3 and 1.4). Also, `max_samples` now defaults to `None`, which means "as many observations as the training set", the same as the old default of 1.0 (`BaggingClassifier` API docs, version 1.9).
+> **Extra:** Older code passes the base model as `base_estimator=`. The name `base_estimator` was deprecated in scikit-learn 1.2 and removed in 1.4; the current name is `estimator` (scikit-learn 1.2 release notes; `BaggingClassifier` API docs, versions 1.3 and 1.4).
 
 ### 3.3 Which observations and features each tree got
 
@@ -253,7 +253,7 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 - Breiman, L. (1996). "Bagging Predictors". *Machine Learning* 24(2), 123–140, sections 1 and 6.3.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 15.2, equation 15.1.
 - scikit-learn developers. Release notes, version 1.2 (December 2022), `base_estimator` renamed to `estimator`. scikit-learn.org, whats_new/v1.2.
-- scikit-learn developers. API reference, `sklearn.ensemble.BaggingClassifier`, versions 1.3 ("`base_estimator` ... will be removed in 1.4"), 1.4 (no `base_estimator`) and 1.9 (`max_samples=None`). scikit-learn.org, modules/generated/sklearn.ensemble.BaggingClassifier.
+- scikit-learn developers. API reference, `sklearn.ensemble.BaggingClassifier`, versions 1.3 ("`base_estimator` ... will be removed in 1.4") and 1.4 (no `base_estimator`). scikit-learn.org, modules/generated/sklearn.ensemble.BaggingClassifier.
 
 ## 8. Key terms
 

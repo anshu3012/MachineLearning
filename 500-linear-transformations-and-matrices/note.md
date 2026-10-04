@@ -232,5 +232,5 @@ Only step 1 is a linear transformation. The weights here are illustrative number
 | Column space | The span of the columns of a matrix: every output it can produce |
 | Data matrix | The feature vectors of a dataset stacked as rows |
 | Diagonal matrix | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor |
-| Linear (transformation) | Keeps lines straight and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$ |
+| Linear (transformation) (G-1097) | Keeps lines straight and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$ |
 | Affine transformation | A linear transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$ |

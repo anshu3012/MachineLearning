@@ -89,7 +89,7 @@ The notation $\lbrace(x_i, y_i)\rbrace_{i=1}^{n}$ in Figure 1 simply means this 
 
 > **Key point:** We use half the squared error, $L = \frac{1}{2}(y - F(x))^2$. Any loss works, as long as it can be differentiated.
 
-A **loss function** (G-1130) measures how wrong a prediction is ([regression metrics Note](../52-regression-metrics/note.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
+A **loss function** (G-706) measures how wrong a prediction is ([regression metrics Note](../52-regression-metrics/note.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
 
 For regression we take the squared error with a factor of one half.
 
@@ -140,7 +140,7 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
 3. **Example:** for the first tree ($m = 1$) the current model is $F_0 = 142.41$:
    $$r_{11} = 192.26 - 142.41 = 49.85, \quad r_{21} = 144.26 - 142.41 = 1.85, \quad r_{31} = 90.71 - 142.41 = -51.70$$
 
-The derivative of the loss is its **gradient** (G-865), the same quantity gradient descent follows ([gradient descent Note](../57-gradient-descent/note.md)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a **pseudo-residual** (G-1589).
+The derivative of the loss is its **gradient** (G-863), the same quantity gradient descent follows ([gradient descent Note](../57-gradient-descent/note.md)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a **pseudo-residual** (G-1589).
 
 Figure 5 draws this for each startup. Watch the sign: where the loss slopes down (startup 1) the residual is positive and the green arrow says "predict more"; where it slopes up (startup 3) the residual is negative; startup 2 sits almost at the bottom, so its residual is almost 0.
 
@@ -276,7 +276,7 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed |
 | Runge's phenomenon | The large swings of a high-degree polynomial near the ends of the interval it is fitted on |
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives |
-| Arg min | The value of a variable that makes an expression smallest, written $\arg\min$ |
+| Arg min (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$ |
 | Negative gradient | Minus the derivative of the loss with respect to the prediction; the direction that lowers the loss fastest |
 | Terminal region | The part of the feature space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$ |
 | Leaf value ($\gamma_{jm}$) | The constant a leaf adds to the model, chosen to minimise the loss of the observations in that leaf |

@@ -229,7 +229,7 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 
 ![The case study's intervals for the mean Titanic fare: one sample of 30 at 95% and 50%, ten samples of 30 averaged with n = 30 (wrong) and pooled with n = 300; dashed: the true mean 33.30](images/fare_intervals.png){height=40%}
 
-> **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30, or a method that does not assume normality, such as the bootstrap percentile interval that seaborn uses (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md); Efron and Tibshirani 1993, ch. 13). For small samples from a skewed population, the simple percentile interval is known to fall short of its promised coverage as well, and the t-interval does at least as well up to about 35 values (Hesterberg 2015). The notebook confirms this on the same 4000 samples: the bootstrap percentile interval contains the true mean 86.2% of the time for $n = 30$ and 92.8% for $n = 100$, the same as the t-interval. On data this skewed, the larger sample is what helps.
+> **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see the [estimating a mean Note](../272-estimating-a-mean-with-the-clt/note.md)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30. The bootstrap percentile interval that seaborn uses (see the [z-procedure Note](../280-confidence-intervals-z-procedure/note.md)) does no better on the same 4000 samples: 86.2% for $n = 30$ and 92.8% for $n = 100$. On data this skewed, the larger sample is what helps.
 
 ## 9. Summary
 
@@ -262,8 +262,6 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 - Student [W. S. Gosset] (1908). "The probable error of a mean." *Biometrika* 6(1), 1–25.
 - Zabell, S. L. (2008). "On Student's 1908 article 'The probable error of a mean'." *Journal of the American Statistical Association* 103(481), 1–7.
 - Casella, G. and Berger, R. L. (2002). *Statistical Inference*, 2nd ed. Duxbury. §5.3.
-- Efron, B. and Tibshirani, R. J. (1993). *An Introduction to the Bootstrap*. Chapman and Hall. Chapter 13.
-- Hesterberg, T. C. (2015). "What teachers should know about the bootstrap: resampling in the undergraduate statistics curriculum." *The American Statistician* 69(4), 371–386.
 
 ## 11. Key terms
 

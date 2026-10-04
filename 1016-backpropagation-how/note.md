@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 The [backpropagation what Note](../1015-backpropagation-what/note.md) built the algorithm and its 9 derivatives for a 2-2-1 regression network. This Note runs it:
 
 1. **Regression:** the same network and data, trained for several epochs with our own NumPy code, then with Keras.
-2. **Classification:** the same architecture with sigmoid activations and **binary cross-entropy** (G-304). The derivatives change, so we derive them, then train again.
+2. **Classification:** the same architecture with sigmoid activations and **binary cross-entropy** (G-303). The derivatives change, so we derive them, then train again.
 
 ![Average loss per epoch for our code and for Keras, started from the same weights](images/loss_curves.png){height=33%}
 
@@ -351,7 +351,7 @@ Figure 10 shows the symmetry problem at work, with the larger learning rate 0.1 
 
 | Term | Meaning |
 |---|---|
-| `set_weights` / `get_weights` | Keras methods to write and read a model's weights and biases, as a list of arrays |
+| `set_weights` / `get_weights` (G-85) | Keras methods to write and read a model's weights and biases, as a list of arrays |
 | `batch_size=1` | Keras setting that updates the weights after every single row |
 | `shuffle=False` | Keras setting that keeps the rows in their original order in every epoch |
 | `keras.optimizers.SGD` | Plain gradient descent in Keras, with a fixed learning rate |

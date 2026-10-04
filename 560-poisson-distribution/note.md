@@ -54,7 +54,7 @@ For example, a firefly lights up 3 times in 10 seconds on average. The Poisson d
 
 ### 2.2 Notation
 
-> **Key point:** $Y \sim \text{Po}(\lambda)$ reads "$Y$ follows a Poisson distribution with rate $\lambda$".
+> **Key point:** $Y \sim \text{Po}(\lambda)$ reads: $Y$ follows a Poisson distribution with rate $\lambda$.
 
 A distribution is often written as a short name with its **parameters** (G-1448) in brackets. The symbol $\sim$ reads "follows":
 
@@ -232,8 +232,6 @@ More examples with $\lambda = 4$:
 
 > **Key point:** A binomial count with many trials and a small success probability is close to a Poisson count with $\lambda = np$.
 
-> **Extra:** This whole section is extra material.
-
 A website has 1000 visitors a day, and each visitor buys with probability 0.004. The number of buyers is binomial, $B(1000, 0.004)$, with mean $np = 4$. The count is also, very nearly, $\text{Po}(4)$.
 
 ![A day cut into n moments, each with a question with probability 4/n (top); the binomial PMF B(n, 4/n) (bars) settles onto the Poisson PMF with $\lambda = 4$ (dots) as n grows from 5 to 1000](images/binomial_limit.gif){height=45%}
@@ -250,11 +248,42 @@ With 10 trials the binomial is narrower than the Poisson: its variance $np(1-p) 
 
 The binomial limit is where the Poisson distribution comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. The approximation needs $n$ large and $p$ small (Ross §4.7). For example, at $n = 20$ and $p = 0.05$ the notebook finds a largest gap of about 0.01, and the gap grows when $p$ is larger.
 
+### 7.1 Cutting the day finer
+
+> **Key point:** Treating each hour as one trial misses hours with two questions; cutting the day into ever smaller moments removes that flaw, and the binomial count becomes the Poisson count.
+
+The forum of section 3 gets 4 questions a day on average. We can try to count them with a binomial distribution, in three steps.
+
+1. **Hours as trials.** Cut the day into 24 hours and call each hour a trial: a question arrives in it or not. The mean must stay $np = 4$, so $p = 4/24$. The count is $B(24, 4/24)$, which gives $P(7) = 0.0557$.
+2. **The flaw.** Two questions can arrive in the same hour, and a trial can only count one success. The hour is too coarse.
+3. **Finer moments.** Cut the day into 1440 minutes, with $p = 4/1440$: two questions in one minute are rare, and $P(7) = 0.0595$. Seconds are better still. Letting the number of moments $n$ grow without limit removes the flaw completely, and $P(7)$ settles at the Poisson value 0.0595 of section 3.3.
+
+The top strip of Figure 8 is this cutting: the same day, in more and more cells.
+
+### 7.2 Deriving the PMF
+
+> **Key point:** Write the binomial PMF with $p = \lambda / n$, split it into four factors, and let $n$ grow: two factors go to 1, one goes to $e^{-\lambda}$, and $\lambda^k / k!$ is left unchanged.
+
+The derivation needs one fact about $e$: for any number $a$, the value of $(1 + a/n)^n$ gets closer and closer to $e^{a}$ as $n$ grows. With $a = -4$ and $n = 1000$, $(1 - 4/1000)^{1000} = 0.0182$, against $e^{-4} = 0.0183$.
+
+1. **Start from the binomial PMF** for $k$ successes in $n$ trials, with $p = \lambda/n$:
+   $$P(Y = k) = \frac{n!}{k!\thinspace(n-k)!} \left(\frac{\lambda}{n}\right)^{k} \left(1 - \frac{\lambda}{n}\right)^{n-k}$$
+2. **Simplify the factorials.** $n!/(n-k)!$ is the product of the top $k$ numbers, $n(n-1)\cdots(n-k+1)$. For example $7!/5! = 7 \times 6$.
+3. **Regroup into four factors:**
+   $$P(Y = k) = \frac{n(n-1)\cdots(n-k+1)}{n^{k}} \times \frac{\lambda^{k}}{k!} \times \left(1 - \frac{\lambda}{n}\right)^{n} \times \left(1 - \frac{\lambda}{n}\right)^{-k}$$
+4. **Let $n$ grow**, one factor at a time:
+   - The first factor is a product of $k$ fractions, $\frac{n}{n} \times \frac{n-1}{n} \times \cdots$, each close to 1. It goes to 1. At $n = 1000$ and $k = 7$ it is 0.979.
+   - The second factor has no $n$ in it and stays $\lambda^{k}/k!$.
+   - The third factor goes to $e^{-\lambda}$, by the fact about $e$ above.
+   - The fourth factor is a number close to 1 raised to a fixed power. It goes to 1. At $n = 1000$, $\lambda = 4$ and $k = 7$ it is 1.028.
+5. **Result:**
+   $$P(Y = k) = \frac{\lambda^{k}\thinspace e^{-\lambda}}{k!}$$
+
+The result is the Poisson PMF of section 3, with $k$ in place of $y$. The $e^{-\lambda}$ in it is what is left of "no question in almost every moment", and the $k!$ comes from the binomial coefficient.
+
 ## 8. When a count is Poisson, and where it is used
 
 > **Key point:** Events must happen one at a time, independently, at a constant average rate; then counts of arrivals, calls, clicks or defects are Poisson.
-
-> **Extra:** This whole section is extra material.
 
 A count follows a Poisson distribution when these three conditions hold (Ross §4.7):
 
@@ -295,6 +324,8 @@ In machine learning, a **target** (G-1949; the output we predict) that is a coun
 **Built from**
 
 - 365 Data Science, "Data Science & Statistics Tutorial: The Poisson Distribution", YouTube, https://www.youtube.com/watch?v=BbLfV0wOeyc
+- Khan Academy, "Poisson process 1 | Probability and Statistics | Khan Academy", YouTube, https://www.youtube.com/watch?v=3z-M6sbGIZ0
+- Khan Academy, "Poisson process 2 | Probability and Statistics | Khan Academy", YouTube, https://www.youtube.com/watch?v=Jkr4FSrNEVY
 
 **Other references**
 

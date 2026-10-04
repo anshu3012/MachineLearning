@@ -173,7 +173,7 @@ Only $w_1$, $w_2$ and $b$ can change; the inputs $x_{i1}, x_{i2}$ and labels $y_
 
 $$w_1, w_2, b = \underset{w_1, w_2, b}{\arg\min}\ \frac{1}{n} \sum_{i=1}^{n} \max\big(0,\ -y_i f(x_i)\big)$$
 
-**argmin** (G-213) means "the values of the variables that make the expression smallest". We find them with gradient descent: start with any values, then repeat for a number of epochs
+**argmin** (G-211) means "the values of the variables that make the expression smallest". We find them with gradient descent: start with any values, then repeat for a number of epochs
 
 $$w_1 \leftarrow w_1 - \eta\thinspace\frac{\partial L}{\partial w_1}, \qquad w_2 \leftarrow w_2 - \eta\thinspace\frac{\partial L}{\partial w_2}, \qquad b \leftarrow b - \eta\thinspace\frac{\partial L}{\partial b}$$
 
@@ -309,6 +309,6 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 |---|---|
 | 0-1 loss | A loss that counts 1 for every misclassified point and 0 for every correct one |
 | Perceptron loss | $\max(0, -y f(x))$ per point, with labels $\pm 1$: 0 when correct, $\lvert f(x) \rvert$ when not |
-| argmin | The values of the variables that make an expression smallest |
+| argmin (G-211) | The values of the variables that make an expression smallest |
 | Subgradient | A slope used at a corner of a function, where the ordinary derivative does not exist |
 | SGDClassifier | scikit-learn's linear classifier trained with SGD, with a choice of loss (perceptron, log loss, hinge, ...) |

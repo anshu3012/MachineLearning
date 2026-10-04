@@ -1,15 +1,10 @@
 """Flights: total passengers per year (groupby year, sum), drawn as a line plot."""
-import seaborn.objects as so
-from common import load, save_so, THEME, BLUE
+import plotly.graph_objects as go
+from common import load, layout, save_px, BLUE
 
 yearly = load("flights").groupby("year", as_index=False)["passengers"].sum()
-plot = (
-    so.Plot(yearly, x="year", y="passengers")
-    .add(so.Line(color=BLUE, linewidth=3))
-    .add(so.Dot(color=BLUE, pointsize=8))
-    .scale(x=so.Continuous().tick(every=1))
-    .label(x="Year", y="Passengers (thousands)", title="Air passengers per year, 1949 to 1960")
-    .layout(size=(8, 4.6))
-    .theme(THEME)
-)
-save_so(plot, "line_flights")
+fig = go.Figure(go.Scatter(x=yearly.year, y=yearly.passengers, mode="lines+markers", line=dict(color=BLUE, width=4), marker=dict(size=10)))
+layout(fig, "Air passengers per year, 1949 to 1960", "Year", "Passengers (thousands)")
+fig.update_xaxes(dtick=1, showgrid=True)
+fig.update_yaxes(showgrid=True, rangemode="tozero")
+save_px(fig, "line_flights")

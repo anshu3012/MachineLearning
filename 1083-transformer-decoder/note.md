@@ -21,7 +21,7 @@ The [transformer encoder Note](../1080-transformer-encoder/note.md) built the le
 
 ![The transformer with the decoder in full. Bottom right: the input steps for the French sentence. Middle: one decoder block, repeated 6 times; red arrows are the residual connections. Left (grey): the encoder, whose output enters every cross-attention. Top: the output layer, which gives a probability for every French word at every position](images/decoder_architecture.png){height=70%}
 
-The decoder behaves differently during training and during prediction. During training the whole correct output sentence is known, so all its positions are processed at once. During prediction the output is written one word at a time. This Note follows the **training** (G-2003) case; prediction is the subject of the [transformer inference Note](../1084-transformer-inference/note.md).
+The decoder behaves differently during training and during prediction. During training the whole correct output sentence is known, so all its positions are processed at once. During prediction the output is written one word at a time. This Note follows the **training** (G-1255) case; prediction is the subject of the [transformer inference Note](../1084-transformer-inference/note.md).
 
 We follow one real sentence pair from the English–French corpus of the Keras examples through the decoder: "we're friends ." and its translation "nous sommes amis .". Along the way we count shapes and parameters and check the counts against Keras.
 
@@ -219,16 +219,7 @@ Keras' `count_params()` gives exactly these numbers (Notebook). The cross-attent
 | Shared embedding, about $37{,}000 \times 512$ | 18,944,000 |
 | **Total** | **about 63 million** |
 
-The paper lists 65 million parameters for its base model (Vaswani et al. 2017, Table 3), 2 million more than our 63 million. Table 3 itself shows where the gap sits. Its rows (C) change only the number of blocks $N$, so they separate the blocks from the rest:
-
-| $N$ (Table 3) | Paper's total | Blocks: $N \times 7{,}356{,}416$ | Rest, outside the blocks | Rest $\div$ 512 |
-|---|---|---|---|---|
-| 2 | 36 million | 14.7 million | 21.3 million | about 41,600 |
-| 4 | 50 million | 29.4 million | 20.6 million | about 40,200 |
-| 6 (base) | 65 million | 44.1 million | 20.9 million | about 40,700 |
-| 8 | 80 million | 58.9 million | 21.1 million | about 41,300 |
-
-Here $7{,}356{,}416$ is one encoder block plus one decoder block. Our block count agrees with the paper: from $N = 2$ to $N = 8$ the paper's total grows by $44$ million, $7.3$ million per pair of blocks. The whole difference is in the rest, which is almost entirely the shared embedding: the paper's totals fit a table of about 41,000 rows of 512 numbers (the totals are rounded to the nearest million, hence the spread), not the 37,000 we assumed from "a shared source-target vocabulary of about 37000 tokens" (§5.1). The paper does not give its exact vocabulary size, so we keep the 37,000 of §5.1 in the table above.
+The paper lists 65 million parameters for its base model (Vaswani et al. 2017, Table 3). The 2 million gap sits in the embedding: the paper gives its vocabulary only as "about 37000 tokens" (§5.1), and its totals fit a table of about 41,000 rows. The block counts agree with the paper: from $N = 2$ to $N = 8$ blocks its total grows by 7.3 million per pair of blocks, our $7{,}356{,}416$ for one encoder block plus one decoder block.
 
 ## 8. The output layer: linear and softmax
 
@@ -239,7 +230,7 @@ After the sixth block, each French position has a 512-number vector, and we need
 1. **Linear.** A dense layer with no activation, 512 inputs and $V$ nodes, one node per word of the French vocabulary. Its weights $W_3$ are $512 \times V$ plus $V$ biases. Its outputs, one unnormalised score per word, are called **logits** (G-1122).
 2. **Softmax.** The **softmax function** (G-1830) turns the $V$ logits of each position into $V$ probabilities that sum to 1 (the [loss functions Note](../1014-dl-loss-functions/note.md)).
 
-The **vocabulary** (G-2093) is the list of all distinct words of the French side of the data. A larger vocabulary means more nodes: with the Notebook's $V = 8{,}004$, the layer has $512 \times 8{,}004 + 8{,}004 = 4{,}106{,}052$ parameters, about as many as one decoder block.
+The **vocabulary** (G-2092) is the list of all distinct words of the French side of the data. A larger vocabulary means more nodes: with the Notebook's $V = 8{,}004$, the layer has $512 \times 8{,}004 + 8{,}004 = 4{,}106{,}052$ parameters, about as many as one decoder block.
 
 1. **In words:** multiply each position's vector by $W_3$ and add the bias to get one score per word, then exponentiate each score and divide by the sum of the exponentials.
 2. **Formula:** for the vector $y_i$ of position $i$,
@@ -322,4 +313,4 @@ The untrained decoder's most likely word is "mit" at all 5 positions. Picking th
 | Vocabulary ($V$) | The list of distinct words (tokens) of the target language; the output layer has one node per word |
 | Logit | The unnormalised score the linear layer gives a word, before the softmax |
 | Non-autoregressive | Producing all output positions at once, as the decoder does during training |
-| Autoregressive | Producing one output at a time, each fed back as input for the next, as the decoder does during prediction |
+| Autoregressive (G-233) | Producing one output at a time, each fed back as input for the next, as the decoder does during prediction |

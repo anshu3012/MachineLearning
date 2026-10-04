@@ -42,12 +42,12 @@ Figure 1 shows LeNet-5. This Note covers:
 Almost every CNN follows the pattern of Figure 2. The sequence of layers is the **CNN architecture** (G-403):
 
 1. **Input:** an image, for example an RGB image of 32 × 32 × 3.
-2. **Convolution layer:** (G-480) a set of **filters** (G-778) (kernels), say 3, each with 3 channels because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
+2. **Convolution layer:** (G-480) a set of **filters** (G-777) (kernels), say 3, each with 3 channels because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
 3. **Non-linearity:** an activation function such as ReLU applied to every number of the feature maps.
 4. **Pooling layer** (G-1520): shrinks the volume.
 5. **Repeat** steps 2–4 as many times as needed: a second convolution, a second pooling, and so on.
 6. **Flatten:** turn the final 3D volume into one long 1D vector of numbers.
-7. **Fully connected layers** (G-811): the Dense layers of an ANN, as many as the problem needs.
+7. **Fully connected layers** (G-583): the Dense layers of an ANN, as many as the problem needs.
 8. **Output layer** (G-1424): one node with sigmoid for binary classification, or one node per class with softmax for multi-class classification.
 
 The convolution and pooling blocks extract the features; the fully connected part uses them to classify. The CS231n notes write the same pattern as INPUT → [[CONV → RELU] × N → POOL?] × M → [FC → RELU] × K → FC.
@@ -222,7 +222,7 @@ In Figure 6, the validation curve reaches the ANN's line at epoch 2 and levels o
 |---|---|
 | CNN architecture | The sequence of layers of a CNN: convolution and pooling blocks, Flatten, fully connected layers, output |
 | Flatten layer | A layer that turns a volume into a 1D vector; no parameters |
-| Fully connected (Dense) layer | A layer in which every node is connected to every input |
+| Fully connected (Dense) layer (G-583) | A layer in which every node is connected to every input |
 | LeNet-5 | LeCun et al.'s 1998 CNN for handwritten digits: two conv-pool blocks, then 120, 84 and 10 nodes |
 | Average pooling | Pooling that keeps the mean of each window; used in LeNet-5 |
 | ImageNet | A large image classification benchmark and competition that produced many CNN architectures |

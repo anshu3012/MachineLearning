@@ -88,7 +88,7 @@ For these two reasons a dead node is called permanently dead.
 
 > **Key point:** On the moons data, a learning rate of 10 kills 41% and 69% of the nodes in two hidden layers, and a bias of $-1$ kills 72% and 100%; accuracy drops to guessing. Leaky ReLU and ELU with the same bias reach 89% and 96%.
 
-The Notebook trains a network with two hidden layers of 32 nodes on 500 standardised observations of `make_moons` (G-1151; two features, two classes), with plain **stochastic gradient descent (SGD)** (G-1892) for 200 **epochs** (G-696). The Notebook then counts the nodes whose $z$ is negative for every training observation.
+The Notebook trains a network with two hidden layers of 32 nodes on 500 standardised observations of `make_moons` (G-111; two features, two classes), with plain **stochastic gradient descent (SGD)** (G-1892) for 200 **epochs** (G-696). The Notebook then counts the nodes whose $z$ is negative for every training observation.
 
 ![Share of nodes whose $z$ is negative on every training observation, after 200 epochs, with the training accuracy. For ReLU these nodes are dead; for Leaky ReLU and ELU they still pass a gradient](images/dead_nodes.png){width=95%}
 
@@ -99,6 +99,15 @@ Figure 3 shows the results:
 - **ReLU, bias $-1$:** 72% and 100% dead from the very start, and still the same after 200 epochs. Accuracy 50%.
 
 The deaths are permanent. Training the learning-rate-10 network for 20 more epochs changes the weights into its 13 dead first-layer nodes by exactly 0, as section 3.1 predicts.
+
+Figure 4 follows the same runs through training, on a log scale so that the first epoch is visible.
+
+![The share of nodes negative on every training observation during training, for the runs of Figure 3. The time axis is logarithmic; the learning-rate-10 run is also shown after each batch of its first epoch.](images/dead_over_time.gif)
+
+1. **Learning rate 10 (red).** The nodes die during the very first epoch. After 8 of its 16 batches, 41% of the first-layer nodes are negative everywhere; after that the share never moves again.
+2. **Bias $-1$ with ReLU (grey).** 72% and 100% of the nodes start negative everywhere and stay so for all 200 epochs: a flat line.
+3. **Bias $-1$ with Leaky ReLU (blue) and ELU (green).** The same nodes start negative, but their slope is not 0, so their weights keep changing. The ELU shares start falling within 3 epochs; the Leaky ReLU shares from epoch 8 in the first layer and epoch 11 in the second, where they drop from 100% to 38% by epoch 27.
+4. **Learning rate 0.1 (dotted).** Few nodes are ever negative everywhere.
 
 ## 4. Three ways to prevent dead nodes
 
@@ -213,7 +222,7 @@ The special property is being **self-normalising** (G-1765): the outputs of a SE
 
 ![Standard deviation of the activations through 30 layers of 256 nodes, with no training. SELU stays at 1; ELU and ReLU shrink layer after layer](images/selu_layers.png){width=85%}
 
-Figure 4 shows this in the Notebook. Standard-normal inputs pass through 30 layers with the same random weights for each activation. With SELU the standard deviation is 1.00 at layer 1 and still 1.00 at layer 30. With ReLU it is 0.59 at layer 1 and $4 \times 10^{-5}$ at layer 30.
+Figure 5 shows this in the Notebook. Standard-normal inputs pass through 30 layers with the same random weights for each activation. With SELU the standard deviation is 1.00 at layer 1 and still 1.00 at layer 30. With ReLU it is 0.59 at layer 1 and $4 \times 10^{-5}$ at layer 30.
 
 The disadvantage of SELU is adoption. SELU is used in few places so far, for three reasons:
 
@@ -221,7 +230,7 @@ The disadvantage of SELU is adoption. SELU is used in few places so far, for thr
 - its paper has 9 pages plus a 93-page appendix of proofs;
 - less research builds on it.
 
-> **Extra:** Self-normalisation rests on assumptions in the paper: inputs with mean 0 and variance 1, and weights drawn with variance $1/\text{inputs}$ (Klambauer et al. 2017). Keras' documentation for `selu` therefore asks for `kernel_initializer="lecun_normal"` (as in Figure 4) and for `AlphaDropout` instead of ordinary dropout, which the paper shows disturbs the mean and variance. Starting weights are the subject of the [weight initialisation Note](../1029-weight-initialization/note.md).
+> **Extra:** Self-normalisation rests on assumptions in the paper: inputs with mean 0 and variance 1, and weights drawn with variance $1/\text{inputs}$ (Klambauer et al. 2017). Keras' documentation for `selu` therefore asks for `kernel_initializer="lecun_normal"` (as in Figure 5) and for `AlphaDropout` instead of ordinary dropout, which the paper shows disturbs the mean and variance. Starting weights are the subject of the [weight initialisation Note](../1029-weight-initialization/note.md).
 
 > **Python:** ELU and SELU in Keras.
 >
@@ -230,6 +239,42 @@ The disadvantage of SELU is adoption. SELU is used in few places so far, for thr
 > keras.layers.Dense(32, activation="selu",
 >                    kernel_initializer="lecun_normal")
 > ```
+
+### 6.3 GELU and SiLU: smooth versions of ReLU
+
+> **Key point:** GELU is $z\thinspace\Phi(z)$ and SiLU is $z\thinspace\sigma(z)$: the input times a number between 0 and 1 that grows with the input. Both look like ReLU with a smooth bend and a small dip below 0. Transformers use them.
+
+ReLU makes a hard choice: it keeps $z$ when $z$ is positive and replaces it by 0 when $z$ is negative. A softer rule makes the same choice at random, with odds that depend on $z$:
+
+1. **Keep or drop.** The node's value $z$ is kept with probability $p(z)$ and replaced by 0 otherwise. This is [dropout](../1024-dropout/note.md) (G-639) with a rate that depends on the input.
+2. **The odds follow the input.** A large positive $z$ is almost always kept; a very negative $z$ is almost always dropped.
+3. **Take the average.** Over many random choices the average output is $z \times p(z) + 0 \times (1 - p(z)) = z\thinspace p(z)$. Using this average as the activation function needs no randomness at all.
+
+The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the standard normal **cumulative distribution function** (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$.
+
+1. **In words:** the input times the probability of keeping it.
+2. **Formula:**
+   $$\text{GELU}(z) = z\thinspace\Phi(z)$$
+3. **Example:**
+
+| $z$ | $-2$ | $-1$ | 0 | 1 | 2 |
+|---|---|---|---|---|---|
+| $\Phi(z)$, probability of being kept | 0.02 | 0.16 | 0.50 | 0.84 | 0.98 |
+| GELU, $z\thinspace\Phi(z)$ | $-0.05$ | $-0.16$ | 0 | 0.84 | 1.95 |
+
+![GELU built point by point. Left: the probability $\Phi(z)$ of keeping the input. Right: the average output $z\thinspace\Phi(z)$, one dot per input, then the whole curve, then ReLU and SiLU for comparison. Idea after StatQuest, "The GELU, SiLU and SwiGLU activation functions, clearly explained!!!"](images/gelu_build.gif){width=100%}
+
+Figure 6 builds the curve from these five values. Watch the red dot on the left: its height is the number that multiplies the input on the right.
+
+The **SiLU** (G-2266) (sigmoid linear unit, also called **Swish**) uses the **sigmoid** (G-1798) for $p$, a curve of almost the same shape as $\Phi$: $\text{SiLU}(z) = z\thinspace\sigma(z)$. For example $\text{SiLU}(-1) = -1 \times 0.269 = -0.27$ and $\text{SiLU}(1) = 0.73$.
+
+Compared with ReLU (last frame of Figure 6):
+
+- **For large positive $z$** both are almost $z$, like ReLU, so they do not saturate there.
+- **For negative $z$** the output is a small negative number, not 0: GELU dips to $-0.17$ and returns towards 0. The slope is not exactly 0, so a node with a slightly negative $z$ still receives a gradient.
+- **At 0** the curve bends smoothly; there is no corner.
+
+GELU is the activation inside GPT's feed-forward layers; its use there is in section 6.4 of the [GPT Note](../1087-decoder-only-gpt/note.md).
 
 ## 7. Summary
 
@@ -247,12 +292,14 @@ The disadvantage of SELU is adoption. SELU is used in few places so far, for thr
 - Causes: a high learning rate and a large negative bias. Fixes: a lower learning rate, a bias starting at 0.01, or a variant.
 - Linear variants (Leaky ReLU, PReLU) put a straight line on the negative side; non-linear ones (ELU, SELU) a curve.
 - SELU keeps activations at mean 0 and standard deviation 1 across layers.
+- GELU, $z\thinspace\Phi(z)$, and SiLU, $z\thinspace\sigma(z)$, are smooth versions of ReLU: the input times a keep-probability that grows with the input.
 
 ## 8. Sources
 
 **Built from**
 
 - CampusX, "Relu Variants Explained | Leaky Relu | Parametric Relu | Elu | Selu | Activation Functions Part 2", YouTube, https://www.youtube.com/watch?v=2OwWs7Hzr9g
+- StatQuest with Josh Starmer, "The GELU, SiLU and SwiGLU activation functions, clearly explained!!!", YouTube, https://www.youtube.com/watch?v=2FaI2Fen1mQ (section 6.3: GELU and SiLU as the average of input-dependent dropout, Figure 6)
 
 **Other references**
 
@@ -277,4 +324,6 @@ The disadvantage of SELU is adoption. SELU is used in few places so far, for thr
 | Parametric ReLU (PReLU) | Leaky ReLU whose negative slope $a$ is learned during training, one per node |
 | ELU | Exponential linear unit: $z$ for $z \ge 0$, $\alpha(e^{z} - 1)$ for $z < 0$ |
 | SELU | Scaled ELU, $\lambda \approx 1.0507$ times ELU with $\alpha \approx 1.6733$; self-normalising |
+| GELU | Gaussian error linear unit, $z\thinspace\Phi(z)$: the input times the standard normal probability of a value below it; a smooth version of ReLU |
+| SiLU (Swish) (G-2266) | Sigmoid linear unit, $z\thinspace\sigma(z)$: the input times its sigmoid; close to GELU |
 | Self-normalising | Keeping the activations of every layer at mean 0 and standard deviation 1 without a separate normalisation step |

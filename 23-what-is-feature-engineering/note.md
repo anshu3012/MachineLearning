@@ -149,7 +149,7 @@ When we use an algorithm that is sensitive to outliers, it is our job to deal wi
 
 > **Key point:** When columns have very different ranges, the column with the biggest numbers dominates; scaling puts all columns on a similar range.
 
-When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../13-toy-project/note.md), section 7). **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../24-standardization/note.md) and the [normalization Note](../25-normalization/note.md).
+When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../13-toy-project/note.md), section 7). Figure 2 of the [standardization Note](../24-standardization/note.md) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../24-standardization/note.md) and the [normalization Note](../25-normalization/note.md).
 
 ### 6.6 Other transformations
 
@@ -308,4 +308,4 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 | Feature selection | Keeping only the useful columns and dropping the rest |
 | MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels |
 | Feature extraction | Building completely new columns from the old ones with an algorithm |
-| PCA | Principal component analysis: an extraction technique that rotates the axes and keeps the most useful new ones |
+| PCA (G-1469) | Principal component analysis: an extraction technique that rotates the axes and keeps the most useful new ones |

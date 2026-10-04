@@ -36,7 +36,7 @@ Capping with percentile limits has its own name: **winsorization** (G-2123).
 
 > **Key point:** A percentile is a count: the share of the values that lie below a given value.
 
-A percentile tells where a value stands among all the others. A student whose exam score is at the 50th percentile has half the class behind them; a student at the 99th percentile has 99 percent of the class behind them. The highest score sits at the top, the 100th percentile.
+A percentile tells where a value stands among all the others. A student whose exam score is at the 50th percentile has half the class behind them; a student at the 99th percentile has 99 percent of the class behind them. The highest score sits at the top, the 100th percentile, and the lowest at the bottom, the 0th.
 
 The $p$-th **percentile** (G-1483) is the value that $p$% of the feature's values lie below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's **percentile rank** (G-1482).
 
@@ -50,7 +50,7 @@ Figure 2 finds a percentile rank by counting, on the heights of 14 people from t
 
 ![A percentile by counting on 14 heights: 7 dots lie below 69 inches (50th percentile); counting the dot at 69 as well gives 8 of 14 (57th percentile) (idea after Khan Academy, "Calculating percentile")](images/percentile_count.gif)
 
-Both rules are in use, and on small data they give different answers. This Note uses the first one, "below"; pandas' `quantile` also interpolates between neighbouring values (Extra at the end of this section). The 10,000 heights of Section 4 are all different, so there the two counting rules differ by one person out of 10,000.
+Both rules are in use. This Note uses the first one, "below".
 
 ### 2.2 From percentiles to limits
 
@@ -63,6 +63,8 @@ The usual **cut-offs** (G-526) are the 1st and the 99th percentile. Other common
 - 5th and 95th: cuts more, 5% at each end;
 - 0.5th and 99.5th: cuts less, 0.5% at each end.
 
+The cut-offs are always symmetric: whatever share we cut off at the top, we cut off the same share at the bottom.
+
 The limits, step by step:
 
 1. **In words:** the lower limit is the value that 1% of the values lie below; the upper limit is the value that 99% lies below.
@@ -74,7 +76,7 @@ Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the t
 
 ![The 10,000 heights sorted by rank; the 1st and 99th percentiles are the heights at ranks 100 and 9,900, and the 100 shortest and 100 tallest lie beyond them](images/sorted_heights.png)
 
-> **Extra:** "Between" needs a rule, because 1% of the values rarely ends exactly on one value. pandas uses **linear interpolation** (G-1092) by default: it computes the position $(n - 1) \times p = 9{,}999 \times 0.01 = 99.99$ in the sorted column (counting from 0) and goes 99% of the way from the value at position 99 to the value at position 100. Other tools use other rules, so their limits can differ slightly (pandas docs, `Series.quantile`; Hyndman and Fan 1996 compare nine such rules).
+> **Extra:** "Between" needs a rule, because 1% of the values rarely ends exactly on one value. pandas uses **linear interpolation** (G-1092) by default: it computes the position $(n - 1) \times p = 9{,}999 \times 0.01 = 99.99$ in the sorted column (counting from 0) and goes 99% of the way from the value at position 99 to the value at position 100 (pandas docs, `Series.quantile`).
 
 ## 3. Trimming and capping (winsorization)
 
@@ -82,9 +84,7 @@ Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the t
 
 **Trimming** (G-2019), which removes the rows, and **capping** (G-345), which moves each value onto the limit it crossed, work as in the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers), with the percentile limits as the limits.
 
-When the capping limits are percentiles, the technique is called **winsorization**, after the statistician who proposed it. Trimming with percentiles has no special name; it is simply trimming.
-
-> **Extra:** The name honours the statistician Charles P. Winsor, a colleague of John Tukey, who introduced the box plot (Note 20). The two worked on these methods together (Hastings et al. 1947), and Tukey credited Winsor with converting him to statistics (Brillinger 2002, §6.3).
+When the capping limits are percentiles, the technique is called **winsorization**, after the statistician Charles P. Winsor (Hastings et al. 1947). Trimming with percentiles has no special name; it is simply trimming.
 
 ### 3.1 Variants of capping
 
@@ -239,7 +239,7 @@ Only the minimum and maximum change much: they are now exactly the limits. Figur
 > **Extra:** Two shortcuts give the same kind of result.
 >
 > - pandas: **`clip`** (G-70), as in `df["Height"].clip(lower_limit, upper_limit)`, gives exactly the same column as the two `np.where` calls.
-> - SciPy has a ready-made function, `scipy.stats.mstats.winsorize(values, limits=(0.01, 0.01))`. `winsorize` caps at the most extreme value that is kept (58.1345 and 74.7857), not at the interpolated percentile, so its limits differ in the fourth decimal. The `np.where` code is short enough that the extra library is not needed.
+> - SciPy has a ready-made function, `scipy.stats.mstats.winsorize(values, limits=(0.01, 0.01))`. The `np.where` code is short enough that the extra library is not needed.
 
 ## 8. Choosing the cut-offs
 
@@ -271,7 +271,7 @@ The limits follow the same train-only rule as the z-score limits of the [z-score
 > - **Training set**, 8,000 rows: 80 below the lower limit, 80 above the upper limit.
 > - **Test set**, 2,000 rows: 23 below, 16 above.
 >
-> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, as expected from random sampling. Each test height has a 1% chance of falling below the training limit, so out of 2,000 we expect about 20, give or take about 4 (the standard deviation $\sqrt{2000 \times 0.01 \times 0.99} = 4.4$). The 23 and 16 we see are well within that. Trimming the training set leaves 7,840 rows; the Notebook shows both steps.
+> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, as expected from random sampling. Trimming the training set leaves 7,840 rows; the Notebook shows both steps.
 
 ## 10. Strengths and limits of the percentile method
 
@@ -334,9 +334,7 @@ This Note closes the outlier group. Figure 8 applies all three rules to the same
 **Other references**
 
 - pandas documentation, API reference, `pandas.Series.quantile`. pandas.pydata.org.
-- Hyndman, R. J. and Fan, Y. (1996). Sample quantiles in statistical packages. *The American Statistician*, 50(4), 361–365.
 - Hastings, C., Mosteller, F., Tukey, J. W. and Winsor, C. P. (1947). Low moments for small samples: a comparative study of order statistics. *Annals of Mathematical Statistics*, 18(3), 413–426.
-- Brillinger, D. R. (2002). John W. Tukey: his life and professional contributions. *Annals of Statistics*, 30(6), 1535–1575.
 
 ## 14. Key terms
 
@@ -349,7 +347,7 @@ This Note closes the outlier group. Figure 8 applies all three rules to the same
 | Percentile rank | The percentile at which a given value falls |
 | Trimming | Removing the rows that hold outliers |
 | Capping | Replacing every value beyond a limit with the limit itself |
-| Percentile method | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any feature |
+| Percentile method (G-1481) | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any feature |
 | Winsorization | Capping with limits set by percentiles: values beyond a limit are replaced with the limit |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95 |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default |

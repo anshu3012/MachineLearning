@@ -24,7 +24,7 @@ tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundatio
 - **first-order:** each step uses only the first derivative (the slope);
 - **differentiable function:** the function must have a slope everywhere.
 
-In ML, the function is the **loss function** (G-1130; for linear regression, the sum of squared errors) and the parameters are the model's coefficients. Nearly all of deep learning is trained with a version of gradient descent (Goodfellow Ch. 8).
+In ML, the function is the **loss function** (G-706; for linear regression, the sum of squared errors) and the parameters are the model's coefficients. Nearly all of deep learning is trained with a version of gradient descent (Goodfellow Ch. 8).
 
 Throughout, a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row, here one data point), and the **target** (G-1949) is the output we predict. We learn gradient descent on linear regression because we can check the answer against OLS, whose normal equation becomes slow with many features (see [section seven of the multiple linear regression maths Note](../54-multiple-lr-maths/note.md)); most models have no direct formula at all.
 
@@ -106,6 +106,18 @@ Figure 3 shows the loss curve $L(b)$ and the steps.
 3. **Step 3:** at $b = 29.11$ the slope is $23.6$. The step is $2.36$, so $b = 26.75$.
 4. **Steps 4 and 5:** $b = 26.28$, then $26.18$, almost exactly the OLS value 26.16.
 
+| Step | $b$ before | Slope | Step $= 0.1 \times$ slope | $b$ after |
+|---|---|---|---|---|
+| 1 | 100.00 | 590.7 | 59.07 | 40.93 |
+| 2 | 40.93 | 118.1 | 11.81 | 29.11 |
+| 3 | 29.11 | 23.6 | 2.36 | 26.75 |
+| 4 | 26.75 | 4.7 | 0.47 | 26.28 |
+| 5 | 26.28 | 0.9 | 0.09 | 26.18 |
+
+Figure 4 shows the same five steps from both sides at once. On the left, the line slides down towards the four points and its residuals (red) shrink. On the right, the point slides down the loss curve; the black tangent is the slope at the current $b$, and the green arrow is the step. Watch the arrow: 59.07, then 11.81, then 2.36. As the tangent flattens, the arrow shrinks.
+
+![Gradient descent on b, seen on the data (left) and on the loss curve (right). Each frame prints b, the slope and the step. Idea after StatQuest, "Gradient Descent, Step-by-Step".](images/twin_descent.gif)
+
 Each slope is about one fifth of the previous one, so each step shrinks too. Nothing in the rule tells the algorithm to slow down: the flattening curve does it. Here the distance to the bottom shrinks to exactly one fifth at every step (the Extra below shows why).
 
 > **Extra:** Why exactly one fifth? With $m$ fixed, call $b^\ast$ the best intercept, where the slope is zero: $\sum (y_i - m x_i - b^\ast) = 0$. Then
@@ -122,7 +134,7 @@ Each slope is about one fifth of the previous one, so each step shrinks too. Not
 
 > **Key point:** Too small and gradient descent crawls; too large and it overshoots and can run away. The right value is found by trying.
 
-The learning rate is a **hyperparameter** (G-910): a setting we choose, not a value the algorithm learns. Figure 4 starts from the same $b = 100$ with three learning rates.
+The learning rate is a **hyperparameter** (G-910): a setting we choose, not a value the algorithm learns. Figure 5 starts from the same $b = 100$ with three learning rates.
 
 ![Three learning rates from the same start](images/learning_rates.png)
 
@@ -146,9 +158,14 @@ Each epoch updates both at once, using the current values of both:
 
 $$m_{\text{new}} = m_{\text{old}} - \eta \frac{\partial L}{\partial m} \qquad b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b}$$
 
-The vector of these **partial derivatives** (G-1457) is called the **gradient** (G-865); it points uphill, so stepping against it goes downhill. Stepping down against the gradient gives the method its name.
+The vector of these **partial derivatives** (G-1457) is called the **gradient** (G-863); it points uphill, in the direction where the loss rises fastest, so stepping against it goes downhill. Stepping down against the gradient gives the method its name.
 
-Figure 5 runs this on 100 points, starting far away at $m = -127.8$, $b = 150$, with learning rate 0.001 for 30 epochs.
+The gradient can be read one number at a time. At the starting point of Figure 6 it is $(-25{,}362,\ 28{,}641)$:
+
+- **The sign** of each number gives the direction for that parameter: negative for $m$, so $m$ must increase; positive for $b$, so $b$ must decrease.
+- **The size** says how much the loss reacts to that parameter right now. A number three times larger would mean a small change to that parameter moves the loss three times as much. Here the two sizes are similar, so the first step moves both by a similar amount: $m$ by $+25.4$ and $b$ by $-28.6$.
+
+Figure 6 runs this on 100 points, starting far away at $m = -127.8$, $b = 150$, with learning rate 0.001 for 30 epochs.
 
 ![Gradient descent on m and b: the path and the loss per epoch](images/contour_path.png)
 
@@ -186,7 +203,7 @@ On 80 training points with learning rate 0.001 and 50 epochs:
 | OLS (`LinearRegression`) | 28.126 | $-2.271$ | 0.6345 |
 | Gradient descent | 28.159 | $-2.300$ | 0.6344 |
 
-Gradient descent gets within 0.03 of the exact answer: an approximation, but a very close one. Figure 6 shows the run. The line starts steep ($m = 100$, $b = -120$) and swings onto the OLS line within about 20 epochs; the loss falls from about 1.5 million to about 24,000 and then levels off.
+Gradient descent gets within 0.03 of the exact answer: an approximation, but a very close one. Figure 7 shows the run. The line starts steep ($m = 100$, $b = -120$) and swings onto the OLS line within about 20 epochs; the loss falls from about 1.5 million to about 24,000 and then levels off.
 
 ![The GDRegressor class at work on the 80 training points: the line after each epoch (orange) closing in on the OLS line (dashed), and the loss per epoch on a log scale.](images/class_fit.gif)
 
@@ -196,7 +213,7 @@ Gradient descent gets within 0.03 of the exact answer: an approximation, but a v
 
 > **Key point:** Linear regression's loss is convex: one bowl with no false dips, and gradient descent with a small enough learning rate finds its bottom. Other losses can trap it in a local minimum or slow it on a flat stretch.
 
-Gradient descent only follows the local slope, so the shape of the loss function decides how well it works (Figure 7).
+Gradient descent only follows the local slope, so the shape of the loss function decides how well it works (Figure 8).
 
 ![Convex and non-convex loss functions](images/loss_shapes.png)
 
@@ -204,13 +221,17 @@ Gradient descent only follows the local slope, so the shape of the loss function
 - **Non-convex, with a local minimum:** a straight line between two points can cut through the curve. Then there can be several dips: a **local minimum** (G-1110; lowest only in its neighbourhood) and a **global minimum** (G-848; lowest of all). Started near the local one, gradient descent settles there and stops, unaware that a better answer exists.
 - **A plateau** (G-1503): a nearly flat stretch has a tiny slope, so the steps become tiny and progress almost stops. With too few epochs, the algorithm halts before leaving the plateau. In more dimensions, a related trouble spot is a **saddle point** (G-1718), flat in one direction and curved in another.
 
+Figure 9 runs gradient descent on the middle curve of Figure 8 from two starting points, with the same learning rate. Picture each run as a ball rolling downhill. Start A rolls into the global minimum (loss 0.23). Start B rolls into the local minimum (loss 1.44) and stays there: the slope is zero, so the steps are zero. Where gradient descent ends depends on where it starts.
+
+![Two runs of gradient descent on the same non-convex curve (learning rate 0.07). Start A reaches the global minimum; start B stops in the local minimum. The ball-rolling picture follows 3Blue1Brown, "Gradient descent, how neural networks learn".](images/two_starts.gif){height=40%}
+
 > **Extra:** Neural networks have non-convex losses (Goodfellow §8.2). One remedy is to start from several different points and keep the best result. Others, such as **momentum** (Goodfellow §8.3.2) and adaptive learning rates (Goodfellow §8.5), come with neural networks.
 
 ## 9. The effect of feature scaling
 
 > **Key point:** When features are on very different scales, the loss bowl becomes a long, narrow valley and gradient descent zigzags slowly. Scaling the features makes the bowl round and the descent fast.
 
-With two features, the shape of the loss depends on their scales. Picture walking down a steep, narrow gorge: every step toward the bottom of the gorge throws you against the other wall, and you make little progress along it. Figure 8 compares the same made-up data, with feature 2 eight times larger in scale than feature 1, before and after standardising.
+With two features, the shape of the loss depends on their scales. Picture walking down a steep, narrow gorge: every step toward the bottom of the gorge throws you against the other wall, and you make little progress along it. Figure 10 compares the same made-up data, with feature 2 eight times larger in scale than feature 1, before and after standardising.
 
 ![The effect of scaling the inputs on gradient descent](images/scaling_effect.png)
 
@@ -241,6 +262,8 @@ Features should therefore be scaled (**standardisation** (G-1874) or normalisati
 **Built from**
 
 - CampusX, "Gradient Descent From Scratch | End to End Gradient Descent | Gradient Descent Animation", YouTube, https://www.youtube.com/watch?v=ORyfPJypKuU
+- StatQuest with Josh Starmer, "Gradient Descent, Step-by-Step", YouTube, https://www.youtube.com/watch?v=sDv4f4s2SB8 (the data and the loss curve side by side, with each step's slope and step size, Figure 4)
+- Sanderson, G. (3Blue1Brown), "Gradient descent, how neural networks learn | Deep Learning Chapter 2", YouTube, https://www.youtube.com/watch?v=IHZwWFHWa-w (the ball rolling into different valleys, Figure 9; reading the sizes of the gradient's components, section 6)
 
 **Other references**
 
@@ -258,9 +281,9 @@ Features should therefore be scaled (**standardisation** (G-1874) or normalisati
 | Optimisation algorithm | A method for finding the parameter values that make a function as small (or large) as possible |
 | Learning rate ($\eta$) | The number the slope is multiplied by to get the step size |
 | Epoch | One full update of the parameters using the whole training set |
-| Gradient | The vector of partial derivatives of the loss; it points in the direction of steepest increase |
+| Gradient (G-863) | The vector of partial derivatives of the loss; it points in the direction of steepest increase |
 | Converge | To settle at a minimum, with steps becoming negligible |
-| Diverge | To move further away with each step, the loss growing instead of shrinking |
+| Diverge (G-628) | To move further away with each step, the loss growing instead of shrinking |
 | Contour plot | A map of a surface seen from above, with lines joining points of equal height |
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; every local minimum is the global one |
 | Local minimum | A point lower than everything around it, but not the lowest overall |

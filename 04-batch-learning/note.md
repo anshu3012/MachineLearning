@@ -45,7 +45,7 @@ Moving a model from development to production is called **deploying** (G-592) it
 
 > **Key point:** All the data $\rightarrow$ train $\rightarrow$ test $\rightarrow$ deploy. Training happens once, before deployment.
 
-**Batch learning** (G-265) is the conventional way to train an ML model: we use **the whole dataset at once**. Batch learning is not **incremental** (G-931): we do not feed the data in small groups of observations (**mini-batches**, G-1223) over time.
+**Batch learning** (G-265) is the conventional way to train an ML model: we use **the whole dataset at once**. Batch learning is not **incremental** (G-931): we do not feed the data in small groups of observations (**mini-batches**, G-263) over time.
 
 Training on a large dataset is slow and expensive, so it is rarely done on the production server. Instead, a data scientist or ML engineer trains the model **offline**, on their own machine. Training offline is why batch learning is also called **offline learning** (G-1377).
 
@@ -86,13 +86,25 @@ Once deployed, a batch model is **static** (a **static model**, G-1878): it keep
 
 Figure 3 sketches the effect (an illustration, not measured data). Performance slowly drops after each deployment and jumps back up each time we retrain.
 
+Figure 4 measures the same effect on real data: the Electricity dataset, 45,312 half-hour records of the New South Wales electricity market from May 1996 to December 1998 (Harries 1999; OpenML dataset 151).
+
+![A batch model on the Electricity market data. Orange: trained once on the first 4 weeks and never retrained. Blue: retrained from scratch on all data so far, every 4 weeks. Each line is the accuracy on each following week, averaged over 8 weeks.](images/stale_measured.gif)
+
+1. **The task.** For each half hour, predict whether the price goes up or down compared with the last 24 hours. The features are the time of day and the prices and demand in two states.
+2. **The first model.** A **logistic regression** (G-1120; a classifier taught in [Note 72](../72-sigmoid-function/note.md)) is trained on the first 4 weeks (the grey strip). Both lines start from this same model.
+3. **Frozen.** The orange model is never retrained. As the market changes, its accuracy falls from about 78 percent to below 60 percent within five months.
+4. **Retrained.** The blue model is retrained every 4 weeks on all the data so far, so it keeps up with the market.
+5. **The result.** Over the 130 weeks, the retrained model is right 73.3 percent of the time and the frozen one 68.0 percent: 5.4 points better on average.
+
+Both lines go up and down together because some weeks are harder to predict for any model. The gap between them is the cost of a stale model.
+
 > **Extra:** The slow loss of accuracy is often called **model drift** (G-1253). When the cause is that the link between the **features** (G-772; the input variables) and the **target** (G-1949; the output we predict) changes over time, the change is called **concept drift** (Gama et al. 2014, §2.1).
 
 ### 4.2 Retraining on a schedule
 
 > **Key point:** Combine old and new data, retrain from scratch, test, redeploy, and repeat.
 
-To keep a batch model current, we **retrain** (G-1689) it on a regular schedule. Figure 4 shows the cycle:
+To keep a batch model current, we **retrain** (G-1689) it on a regular schedule. Figure 5 shows the cycle:
 
 ![The batch retraining cycle](images/retrain_cycle.png)
 
@@ -103,6 +115,17 @@ To keep a batch model current, we **retrain** (G-1689) it on a regular schedule.
 5. We wait, and repeat.
 
 How often we repeat depends on how long training takes, which depends on how much data we have. Common schedules are every 24 hours or once a week.
+
+On the Electricity data of Figure 4, more frequent retraining gives a more accurate model:
+
+| Retrain the model | Average weekly accuracy |
+|---|---|
+| never | 68.0 percent |
+| every 13 weeks | 72.4 percent |
+| every 4 weeks | 73.3 percent |
+| every week | 73.7 percent |
+
+Each extra retrain costs another full training run on all the data, so the schedule is a trade-off between accuracy and training cost.
 
 ## 5. Problems with batch learning
 
@@ -126,6 +149,10 @@ Retraining means bringing the model back, training it on new data and uploading 
 - Software running on a satellite once it is in orbit.
 - A device installed on a moving train.
 
+![Retraining needs a path to the deployed model](images/no_connection.png)
+
+Figure 6 shows the difference. A retrained model reaches a server over the network at any time. The other three devices have no working link, so the new model cannot be uploaded and the old one stays in use.
+
 In these cases, we cannot update the model frequently, so batch learning is a poor fit.
 
 ### 5.3 Slow to react
@@ -138,7 +165,7 @@ Now a big story breaks, such as the 2016 demonetisation announcement in India. E
 
 ![Breaking news reaches the feed a day late](images/news_lag.png)
 
-Figure 5 shows the problem:
+Figure 7 shows the problem:
 
 - Users want the news **now**, but the model learns about the new interest only at the next retrain, up to 24 hours later.
 - When it does update, the feed fills up with news that is already a day old.
@@ -172,6 +199,7 @@ The Notebook for this Note (`notebook.ipynb`) has a slider for the retraining sc
 **Other references**
 
 - Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M. and Bouchachia, A. (2014). A Survey on Concept Drift Adaptation. *ACM Computing Surveys* 46(4).
+- Harries, M. (1999). *Splice-2 Comparative Evaluation: Electricity Pricing*. Technical report, University of New South Wales. The data as OpenML dataset 151, "electricity" (normalised by A. Bifet), https://www.openml.org/d/151
 
 ## 8. Key terms
 
@@ -180,11 +208,11 @@ The Notebook for this Note (`notebook.ipynb`) has a slider for the retraining sc
 | Server | A computer that is always on and that users reach over the internet |
 | Development environment | Our own machine, where we build and train a model |
 | Production environment | The server where a model serves real users |
-| Deploy | Move a model from development to production |
+| Deploy (G-592) | Move a model from development to production |
 | Batch learning | Training on the whole dataset at once, offline, then deploying |
 | Offline learning | Another name for batch learning |
-| Incremental learning | Training on small pieces of data over time (the opposite of batch) |
-| Recommendation engine | A model that suggests items, such as movies, to users |
+| Incremental learning (G-931) | Training on small pieces of data over time (the opposite of batch) |
+| Recommendation engine (G-1644) | A model that suggests items, such as movies, to users |
 | Static model | A model that learns nothing new after deployment |
 | Retrain | Train a model again, here from scratch on old + new data |
 | Model drift / concept drift | A model's accuracy dropping as the real world changes |

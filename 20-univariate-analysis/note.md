@@ -162,7 +162,16 @@ So a categorical column has two graphs: the count plot for counts, the pie chart
 
 Numerical columns are more interesting. Their values are not a few groups but any number in a range: an age can be 22, 22.5 or 71. So we cannot count each value; we count ranges instead.
 
-A **histogram** (G-899) splits the range of the column into equal intervals called **bins**. The histogram counts the values in each bin and draws one bar per bin. For ages from 0 to 80, eight bins of 10 years each would give 0-10, 10-20, and so on up to 70-80.
+Suppose we mark every passenger's age as a dot on a line. With 714 known ages the dots land on top of each other and hide each other, so the line cannot show where the ages are common. Stacking the dots fixes that, and Figure 5 shows how (idea after StatQuest, "Histograms, Clearly Explained"):
+
+1. Mark each age as a dot on a line.
+2. Cut the range into equal intervals, here 5 years wide.
+3. Stack the dots that fall in the same interval.
+4. Draw a bar as tall as each stack.
+
+![The 714 Titanic ages turned into a histogram: dots on a line, 5-year bins, one stack of dots per bin, one bar per stack](images/hist_build.gif)
+
+The finished graph is a **histogram** (G-899), and the equal intervals are called **bins**. The histogram counts the values in each bin and draws one bar per bin. In Figure 5 the tallest bar, ages 20 to 25, holds 114 passengers.
 
 The result shows the **distribution** (G-626) of the data: how the values spread out, where most of them sit, and where few do. Whenever we meet a numerical column, a histogram is the first graph to try.
 
@@ -170,7 +179,7 @@ The result shows the **distribution** (G-626) of the data: how the values spread
 
 > **Key point:** Too few bins hide the shape of the data; too many make it noisy. We try a few and keep the one that shows the shape best.
 
-The number of bins changes the picture (Figure 5):
+The number of bins changes the picture (Figure 6):
 
 - **Too few (5 bins):** each bar covers 16 years, and the shape is lost.
 - **About right (16 bins):** each bar covers 5 years, and the shape is clear.
@@ -194,9 +203,19 @@ With 16 bins, the shape of `Age` is clear. Few passengers were very young or ver
 
 > **Key point:** A density plot draws a smooth curve over the histogram; the curve, called the KDE, estimates the probability density function of the column.
 
-A **density plot** (G-587) is a histogram with a smooth curve drawn along the tops of its bars (Figure 6). The curve is a **kernel density estimate (KDE)**: a smoothed version of the histogram, so the shape is easier to see.
+A **density plot** (G-587) is a histogram with a smooth curve drawn along the tops of its bars (Figure 7). The curve is a **kernel density estimate (KDE)**: a smoothed version of the histogram, so the shape is easier to see.
 
 ![Histogram of the ages scaled to density, with the KDE curve on top](images/density.png)
+
+How is the curve built? Figure 8 shows the steps:
+
+1. Put one small bell-shaped bump on each passenger's age. Every bump has the same width and the same area.
+2. Add up the heights of all the bumps at every point along the x axis. Where many ages sit close together, many bumps overlap and the sum is high.
+3. The sum is the KDE curve.
+
+![The KDE curve built as a sum of bumps: five passengers, then 50, then all 714](images/kde_bumps.gif)
+
+With five passengers the single bumps are easy to see. With all 714, the sum is the smooth curve of Figure 7. The bump is called the **kernel** (G-2273), which gives the kernel density estimate its name; here it is the bell-shaped Gaussian curve (SciPy docs, `gaussian_kde`).
 
 The curve estimates the column's **probability density function (PDF)**. The x axis shows the age; the y axis shows the **density** (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare.
 
@@ -217,25 +236,31 @@ The PDF matters again in bivariate and multivariate analysis, where we compare s
 
 > **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible outliers.
 
-A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 7). The summary is built from the median and percentiles of the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2, "Percentiles").
+A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 9). The summary is built from the median and percentiles of the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2, "Percentiles").
 
 ![The parts of a box plot, drawn for the Titanic ages](images/box_anatomy.png)
 
 The five numbers, from left to right:
 
-- **Minimum:** the lower end of the left whisker.
+- **Minimum:** the smallest value in the column.
 - **Q1:** the 25th percentile, the left edge of the box. A quarter of the values lie below it.
 - **Median:** the 50th percentile, the line inside the box.
 - **Q3:** the 75th percentile, the right edge of the box. Three quarters of the values lie below it.
-- **Maximum:** the upper end of the right whisker.
+- **Maximum:** the largest value in the column.
 
 The box holds the middle half of the data. Its width, Q3 - Q1, is the **interquartile range (IQR)**.
 
 ### 8.1 Whiskers and outliers
 
-> **Key point:** The whiskers stop at 1.5 IQR beyond the box; any value further out is drawn as a dot and flagged as a possible outlier.
+> **Key point:** The whiskers stop at the last value within 1.5 IQR of the box; any value further out is drawn as a dot and flagged as a possible outlier.
 
-In a box plot, the minimum and maximum are not simply the smallest and largest values. They are calculated limits, called **fences**, set 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). A value outside the fences is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
+The simplest box plot runs its whiskers all the way to the minimum and the maximum. A single extreme value would then stretch a whisker across the page. So the box plot that plotting libraries draw, and the one used in this Note, adds a rule. It sets two calculated limits, called **fences**, 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). Each **whisker** (G-2181) stops at the last real value inside its fence. A value outside the fences is drawn as a separate dot and is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
+
+The fences are sometimes called the "minimum" and "maximum" of the box plot. They are not: the minimum and maximum of the five-number summary are real values of the column (0.42 and 80 for the ages, section 9), while the fences are calculated (-6.69 and 64.81 below) and need not be values of the column at all. When the column has no value beyond a fence, the whisker on that side does end at the minimum or maximum, as the left whisker of Figure 9 does at 0.42.
+
+Figure 10 builds the box plot of the ages one part at a time: the median, the box, the fences, the whiskers and the outliers.
+
+![A box plot built step by step from the 714 ages: median, box, fences, whiskers, outliers](images/box_build.gif)
 
 > **Extra:** The fences, step by step.
 >
@@ -247,7 +272,7 @@ In a box plot, the minimum and maximum are not simply the smallest and largest v
 >    $$\text{IQR} = 38 - 20.125 = 17.875$$
 >    $$\text{upper fence} = 38 + 1.5 \times 17.875 = 38 + 26.81 = 64.81$$
 >    $$\text{lower fence} = 20.125 - 26.81 = -6.69$$
->    No age is below $-6.69$, so there are no low outliers. Eleven passengers aged 65 to 80 lie above 64.81: these are the dots on the right of Figure 7.
+>    No age is below $-6.69$, so there are no low outliers. Eleven passengers aged 65 to 80 lie above 64.81: these are the dots on the right of Figures 9 and 10.
 >
 > Each whisker is drawn to the last real value inside its fence: 0.42 on the left and 64 on the right.
 
@@ -257,7 +282,7 @@ Spotting outliers is the main use of a box plot: it shows them at a glance. When
 
 > **Key point:** The box plot of `Fare` is squeezed to the left, with a long trail of outliers up to 512.
 
-Figure 8 shows the box plot of `Fare`. The box sits far to the left: half of all fares are below 14.45, and three quarters below 31. To the right trail 116 outliers, the most extreme being three tickets at 512.33, many times what most passengers paid.
+Figure 11 shows the box plot of `Fare`. The box sits far to the left: half of all fares are below 14.45, and three quarters below 31. To the right trail 116 outliers, the most extreme being three tickets at 512.33, many times what most passengers paid.
 
 ![Box plot of the Titanic fares](images/fare_box.png)
 
@@ -291,7 +316,7 @@ Graphs show the shape; numbers pin down the details. For `Age`:
 
 > **Key point:** Skewness measures how lopsided a distribution is: 0 means symmetric, positive means a long tail to the right, negative a long tail to the left.
 
-The density curve also tells us whether the data is symmetric. Figure 9 shows the three cases.
+The density curve also tells us whether the data is symmetric. Figure 12 shows the three cases.
 
 ![Three shapes of distribution, with the mean and median of each](images/skew_shapes.png)
 
@@ -301,7 +326,7 @@ The density curve also tells us whether the data is symmetric. Figure 9 shows th
 
 **Skewness** (G-1817) turns this shape into one number. A value of 0 means perfectly symmetric, a positive value means skewed to the right, and a negative value means skewed to the left. The further from 0, the more lopsided the data.
 
-For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fare` has 4.79, heavily skewed to the right, which matches its long trail of outliers in Figure 8.
+For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fare` has 4.79, heavily skewed to the right, which matches its long trail of outliers in Figure 11.
 
 > **Python:** Skewness.
 >
@@ -322,7 +347,7 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 >
 > pandas multiplies $g_1$ by a small correction for sample size, $\sqrt{n(n-1)}/(n-2)$ (Joanes and Gill 1998), so `skew()` gives 1.70 for these five values. With hundreds of rows, the correction hardly matters.
 
-> **Extra:** Skew also pulls the mean towards the tail, as Figure 9 shows. In right-skewed data the mean is above the median: for `Fare`, 32.20 against 14.45. So the median describes a skewed column's typical value better than the mean.
+> **Extra:** Skew also pulls the mean towards the tail, as Figure 12 shows. In right-skewed data the mean is above the median: for `Fare`, 32.20 against 14.45. So the median describes a skewed column's typical value better than the mean.
 
 ## 11. Summary
 
@@ -339,7 +364,7 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 - First decide whether a column is numerical or categorical; the type decides the graphs.
 - For categorical columns: `value_counts`, a count plot and a pie chart.
 - For numerical columns: a histogram (try a few bin counts), a density plot, a box plot, and the summary numbers.
-- A box plot flags values beyond 1.5 IQR from the box as possible outliers.
+- A box plot flags values beyond 1.5 IQR from the box as possible outliers. The fences are calculated limits, not the minimum and maximum of the data.
 - Skewness of 0 means symmetric; positive means a long right tail, negative a long left tail.
 - Every graph should lead to a finding, and every finding to its likely reason.
 
@@ -348,12 +373,15 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 **Built from**
 
 - CampusX, "EDA using Univariate Analysis | Day 20 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=4HyTlbHUKSw
+- StatQuest with Josh Starmer, "StatQuest: Histograms, Clearly Explained", YouTube, https://www.youtube.com/watch?v=qBigTkBLU6g
+- Khan Academy, "Box and whisker plot | Descriptive statistics", YouTube, https://www.youtube.com/watch?v=b2C9I8HuCe4
 
 **Other references**
 
 - Cleveland, W. and McGill, R. (1984). Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods. *Journal of the American Statistical Association* 79(387).
 - Joanes, D. N. and Gill, C. A. (1998). Comparing Measures of Sample Skewness and Kurtosis. *Journal of the Royal Statistical Society, Series D (The Statistician)* 47(1), 183-189.
 - seaborn release notes. v0.11.0 (September 2020). seaborn.pydata.org/whatsnew.
+- SciPy documentation. `scipy.stats.gaussian_kde`. docs.scipy.org.
 - Tukey, J. W. (1977). *Exploratory Data Analysis*. Addison-Wesley.
 
 ## 13. Key terms
@@ -380,7 +408,9 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 | Box plot | A graph of the five-number summary, with outliers drawn as dots |
 | Five-number summary | Minimum, Q1, median, Q3 and maximum |
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data |
-| Fence | A limit 1.5 IQR beyond the box; values past it are possible outliers |
+| Fence (G-776) | A calculated limit 1.5 IQR beyond the box; values past it are possible outliers |
+| Whisker (G-2181) | The line from the box to the last value inside the fence |
+| Kernel (G-2273) | The small bump placed on each value to build a KDE curve |
 | Outlier | A value far from the rest of the data |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail |
 | Normal distribution | A symmetric, bell-shaped distribution |

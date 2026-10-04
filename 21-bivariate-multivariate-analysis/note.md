@@ -68,7 +68,7 @@ The Titanic columns are the same as in the Note on understanding data: `SibSp` c
 
 A **scatter plot** (G-1749) puts one numerical column on the x-axis and another on the y-axis, and draws one dot per observation (one row). In the tips data, each dot is one bill: its total on x, its tip on y.
 
-Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly **linear relationship** (G-1095), one that follows a straight line.
+The first frame of Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly **linear relationship** (G-1095), one that follows a straight line.
 
 The tips themselves explain the line: they are close to a fixed share of the bill. Half of all tips lie between 13% and 19% of the bill, with a median of 15%. A few dots break the trend, such as a 7-dollar bill with a 5-dollar tip, but the general direction is clear.
 
@@ -84,9 +84,9 @@ A scatter plot has room for more information than its two axes. Three settings e
 - **style:** marker shape shows a category. Here, circles are non-smokers and crosses smokers.
 - **size:** dot size shows a number. Here, bigger dots are bigger parties.
 
-![Total bill vs tip, with sex, smoker and party size added](images/scatter_tips.png)
+![Total bill vs tip, with one more column added per frame: sex as colour, smoker as marker shape, party size as dot size](images/scatter_tips.gif)
 
-Figure 2 uses all three. Figure 2 shows five columns at once: the bill, the tip, the customer's sex, whether they smoke, and how many people were at the table. Showing more than two columns at once is multivariate analysis.
+Figure 2 adds the three settings one at a time; watch the same 244 dots gain a colour, then a shape, then a size. The last frame shows five columns at once: the bill, the tip, the customer's sex, whether they smoke, and how many people were at the table. Showing more than two columns at once is multivariate analysis.
 
 Reading it, the bills and tips far from the main cloud (the biggest ones) mostly come from male customers. The biggest dots also sit towards the right: larger parties run up larger bills.
 
@@ -249,9 +249,9 @@ Figure 7 shows the result for three columns:
 
 ![Survival rate by class, sex and port of boarding](images/survival_rates.png)
 
-The ports raise a new question: why would the boarding port matter? A plot rarely ends the analysis; each finding suggests the next question to check.
+The ports raise a new question: why would the boarding port matter? A plot rarely ends the analysis; EDA works like detective work, where each answer suggests the next question to check.
 
-> **Extra:** The next question can be answered with another crosstab. Of the Cherbourg passengers, 51% travelled first class, against 20% at Southampton and 3% at Queenstown; Cherbourg also had a larger share of women (43%, against 32% at Southampton). Class and sex explain most of the port effect. Overall, 55% of Cherbourg passengers survived against 34% from Southampton, but within the same class and sex the gap mostly shrinks: first-class women 98% against 96%, first-class men 40% against 35%. Third-class women are the exception (65% against 38%).
+> **Extra:** The next question can be answered with another crosstab. Of the Cherbourg passengers, 51% travelled first class, against 20% at Southampton and 3% at Queenstown; Cherbourg also had a larger share of women (43%, against 32% at Southampton). Class and sex explain most of the port effect.
 
 > **Extra:** Older code writes `titanic.groupby("Embarked").mean()["Survived"]`. In pandas 2 and later this raises an error (pandas release notes, 2.0.0), because `mean` cannot average text columns such as `Name`. Selecting the column first, `groupby("Embarked")["Survived"].mean()`, avoids the problem and is faster.
 
@@ -352,7 +352,7 @@ A **pivot table** (G-1500) reshapes long data into a grid: one column's values b
 >
 > `index` gives the rows and `columns` the columns. If several rows fall into one cell, `pivot_table` averages them; here each cell has exactly one.
 
-> **Extra:** The month names are text, so a CSV file loses their calendar order and the table comes out alphabetical (Apr, Aug, Dec...). `table.reindex(["Jan", "Feb", ..., "Dec"])` puts them back in order. The copy that seaborn downloads keeps the order, because `load_dataset` stores `month` as a category with the months in calendar order (seaborn source, `load_dataset`).
+> **Extra:** The month names are text, so a CSV file loses their calendar order and the table comes out alphabetical (Apr, Aug, Dec...). `table.reindex(["Jan", "Feb", ..., "Dec"])` puts them back in order. The copy that seaborn downloads keeps the calendar order.
 
 As a heatmap (Figure 11), a 12 by 12 table of numbers becomes easy to read:
 
@@ -404,7 +404,7 @@ The column tree does the same for the years. Neighbouring years with similar tra
 **Other references**
 
 - Frey, B., Savage, D. and Torgler, B. (2011). Behavior under Extreme Conditions: The Titanic Disaster. *Journal of Economic Perspectives* 25(1).
-- seaborn documentation. `seaborn.barplot`; release notes v0.11.0; source of `seaborn.load_dataset`. seaborn.pydata.org.
+- seaborn documentation. `seaborn.barplot`; release notes v0.11.0. seaborn.pydata.org.
 - Silverman, B. (1986). *Density Estimation for Statistics and Data Analysis*. Chapman and Hall.
 - pandas release notes. What's new in 2.0.0. pandas.pydata.org/docs/whatsnew.
 
@@ -422,7 +422,7 @@ The column tree does the same for the years. Neighbouring years with similar tra
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size |
 | Bar plot | One bar per category, its height the mean of a numerical column |
 | Box plot | A summary of a column's spread by its median, quartiles and outliers |
-| KDE plot | A smooth estimate of a column's PDF, built from the data |
+| KDE plot (G-1005) | A smooth estimate of a column's PDF, built from the data |
 | Crosstab | A table counting the rows for every pair of categories of two columns |
 | Heatmap | A table drawn as coloured cells, darker for larger values |
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together |

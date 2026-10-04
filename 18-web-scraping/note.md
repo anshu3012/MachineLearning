@@ -103,7 +103,7 @@ Figure 2 puts the two requests side by side. Watch the User-Agent line: it is th
 
 ![The same request without and with a browser User-Agent, as AmbitionBox answered it in 2022](images/request_reply.png)
 
-> **Extra:** A 403 comes from the server deciding to block us. The block is not caused by **robots.txt** (G-1698), a different thing: a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309, "These rules are not a form of access authorization"). Section 12 comes back to it.
+> **Extra:** A 403 comes from the server deciding to block us. A related file is **robots.txt** (G-1698): a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309). Section 12 comes back to it.
 
 > **Extra:** What changed since this code was written (checked October 2026).
 >
@@ -154,7 +154,7 @@ Figure 3 shows the HTML of one company on the list page. Everything about TCS si
 
 `prettify()` prints the HTML with one tag per line, indented by depth, so the nesting is easy to follow. `prettify()` changes nothing; it only helps us read.
 
-> **Extra:** The second argument chooses the **parser** (G-1455), the part that reads the HTML. `"html.parser"` is built into Python. `"lxml"` is faster (Beautiful Soup docs, "Installing a parser") and is included in Anaconda, but in a plain Python setup, including our environment, it needs `pip install lxml` first; without it, `BeautifulSoup(webpage, "lxml")` stops with `FeatureNotFound`. For one page at a time the difference in speed does not matter.
+> **Extra:** The second argument chooses the **parser** (G-1454), the part that reads the HTML. `"html.parser"` is built into Python. `"lxml"` is faster (Beautiful Soup docs, "Installing a parser") and is included in Anaconda, but in a plain Python setup, including our environment, it needs `pip install lxml` first; without it, `BeautifulSoup(webpage, "lxml")` stops with `FeatureNotFound`. For one page at a time the difference in speed does not matter.
 
 ## 6. Finding the right tags with Inspect
 
@@ -444,12 +444,12 @@ Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in th
 | HTML | The language web pages are written in: a tree of nested tags |
 | Tag | One element of HTML, such as `<h2>TCS</h2>` |
 | Attribute | A `name="value"` setting inside an opening tag |
-| Class | An attribute that labels tags; used to select the right ones |
+| Class (G-389) | An attribute that labels tags; used to select the right ones |
 | Server | The computer that hosts a website and answers requests |
 | Request, response | What we send to a server, and what it sends back |
 | Status code | The number in a response saying how the request went (200 OK, 403 refused) |
 | requests | Python library for downloading web pages |
-| Headers | Extra information sent with a request, such as the User-Agent |
+| Headers (G-885) | Extra information sent with a request, such as the User-Agent |
 | Bot | A program that visits websites automatically |
 | robots.txt | A file at a site's root listing what bots are asked not to visit |
 | View Page Source | Browser option that shows a page's raw HTML |

@@ -99,7 +99,7 @@ Plotted against the hours, the tree's prediction is a staircase: flat within eac
 
 > **Key point:** We can see the gaps at 3 and 6 by eye; the algorithm needs a rule.
 
-In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". The algorithm needs a rule that scores every possible cut. Classification trees use information gain (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 9); regression trees use the squared error.
+In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". With several inputs, such as hours, CGPA and attendance together, no single graph shows the pattern, so nobody can place the cuts by eye either. The algorithm needs a rule that scores every possible cut. Classification trees use information gain (the [decision tree intuition Note](../97-decision-trees-intuition/note.md), section 9); regression trees use the squared error.
 
 ### 4.2 Scoring one threshold: the sum of squared errors
 
@@ -107,12 +107,12 @@ In Figure 1 the groups are separated by visible gaps, so we could place the cuts
 
 Take a threshold $t$ between two neighbouring points. The threshold splits the observations into a left group ($x \le t$) and a right group ($x > t$). Each group predicts its own mean. The gap between a point's actual mark and its group's mean is its **residual** (the [simple linear regression Note](../50-simple-linear-regression/note.md)), its error.
 
-1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** (G-1912) of that threshold.
+1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** (G-1684) of that threshold.
 2. **Formula:**
    $$\text{SSE}(t) = \sum_{x_i \le t} \left(y_i - \bar y_{\text{left}}\right)^2 + \sum_{x_i > t} \left(y_i - \bar y_{\text{right}}\right)^2$$
 3. **Example:** 5 students with hours 1, 2, 4, 5, 8 and marks 40, 46, 88, 90, 58. Try $t = 3$ (between 2 and 4):
-   - left: 40 and 46, mean 43, so $\text{SSE}_{\text{left}} = (-3)^2 + 3^2 = 18$;
-   - right: 88, 90, 58, mean 78.67, so $\text{SSE}_{\text{right}} = 9.33^2 + 11.33^2 + (-20.67)^2 = 642.7$;
+   - left: 40 and 46, mean 43, so $\text{SSE(left)} = (-3)^2 + 3^2 = 18$;
+   - right: 88, 90, 58, mean 78.67, so $\text{SSE(right)} = 9.33^2 + 11.33^2 + (-20.67)^2 = 642.7$;
    - total: $\text{SSE}(3) = 18 + 642.7 = 660.7$.
 
 The other thresholds score worse: $t = 1.5$ gives 1,443.0, $t = 4.5$ gives 1,880.0 and $t = 6.5$ gives 2,136.0. So $t = 3$ is the best first split for these 5 students.
@@ -152,13 +152,21 @@ Add a second input: each student's CGPA so far. Now there are two inputs, hours 
 
 For every split, the tree:
 
-1. finds the best threshold on **hours** and its SSE, $\text{SSE}_{\text{hours}}$;
-2. finds the best threshold on **CGPA** and its SSE, $\text{SSE}_{\text{CGPA}}$;
+1. finds the best threshold on **hours** and its SSE, $\text{SSE(hours)}$;
+2. finds the best threshold on **CGPA** and its SSE, $\text{SSE(CGPA)}$;
 3. splits on whichever input has the **smaller** SSE.
 
 In 3D, each split is a plane parallel to one axis that cuts the cloud of points in two. The search then repeats inside each part, with hours and CGPA competing again at every node, until the stopping rule leaves too few observations to split; each final part predicts the mean of its observations.
 
-Figure 5 shows the result on 80 students, viewed from above: each box is a leaf, shaded by its predicted mark. The first split is on hours ($\le 2.8$), and the next ones mix hours (at 6.0) and CGPA. Within each range of hours, a higher CGPA means a higher prediction.
+Figure 5 plays this competition on 80 students, viewed from above (darker points have higher marks). At each node the dashed lines are the two candidates, the bars are their SSEs, and the winner becomes a solid cut:
+
+- **All 80 students:** the best cut on hours ($\le 2.80$) has an SSE of 14,438; the best cut on CGPA ($\le 7.60$) has 21,513. Hours wins.
+- **Students with hours $> 2.8$:** hours wins again, at 6.0 (SSE 2,896 against 8,979 for CGPA).
+- **Students with hours $\le 2.8$:** now CGPA wins, at 6.90 (SSE 437 against 1,599 for hours).
+
+![Two inputs competing for each split. Left: the 80 students on the hours-CGPA plane, with the best threshold on hours (blue) and on CGPA (orange) for the current node. Right: the SSE of each; the smaller one makes the cut.](images/two_inputs_race.gif)
+
+Figure 6 shows the finished tree, grown one level further: each box is a leaf, shaded by its predicted mark. The first split is on hours ($\le 2.8$), and the next ones mix hours (at 6.0) and CGPA. Within each range of hours, a higher CGPA means a higher prediction.
 
 ![A regression tree with two inputs: each box predicts one mean mark](images/two_inputs.png){height=36%}
 
@@ -169,7 +177,7 @@ Figure 5 shows the result on 80 students, viewed from above: each box is a leaf,
 `DecisionTreeRegressor` has exactly the hyperparameters of the classifier (the [hyperparameters Note](../98-decision-tree-hyperparameters/note.md)): `splitter`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_leaf_nodes`, `min_impurity_decrease` and `max_features`, with the same effects. The difference is the **criterion**, which measures error instead of impurity:
 
 - `"squared_error"` (default): the mean squared error, MSE (the [regression metrics Note](../52-regression-metrics/note.md)); leaves predict the mean.
-- `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less (ESL §10.6). The `absolute_error` criterion is slower to train: about 1.4 times slower than `squared_error` on the Boston data in the Notebook (the exact ratio depends on the machine).
+- `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less (ESL §10.6). The `absolute_error` criterion is slower to train: about 1.4 times slower than `squared_error` on the Boston data in the Notebook.
 - `"poisson"`: for counts, such as the number of visits (sklearn UG §1.10.7.2).
 
 Neither criterion wins on every dataset (the Boston grid in section 7.2 picks `"absolute_error"`), so the criterion is settled by tuning.
@@ -180,7 +188,7 @@ Neither criterion wins on every dataset (the Boston grid in section 7.2 picks `"
 
 > **Key point:** Depth 1 is a single step; depth 5 follows the curve; depth 15 chases every point.
 
-Figure 6 trains trees of four depths on 150 noisy points along a wave and scores them on 50 test points with $R^2$.
+Figure 7 trains trees of four depths on 150 noisy points along a wave and scores them on 50 test points with $R^2$.
 
 ![Regression trees of depth 1, 2, 5 and 15 on a noisy wave](images/depth_fits.png){height=50%}
 
@@ -262,7 +270,7 @@ When a grid becomes too large, **`RandomizedSearchCV`** (G-1625) is the faster a
 
 With its default settings, `DecisionTreeRegressor` never stops early: it splits until each leaf holds observations with the same target value, often a single observation (section 4.4). Such a tree copies the training data perfectly, noise included. Memorised noise is why tree size must be tuned: "a very large tree might overfit the data, while a small tree might not capture the important structure", so the right size should be chosen from the data (ESL §9.2.2).
 
-The effect is clearest on a large dataset with a noisy target. We use the **California housing data**: 20,640 districts of California in 1990, with 8 features (input variables) such as median income and house age, and the median house value as the target (sklearn California housing). Each district is one observation.
+The effect is clearest on a large dataset with a noisy target. We use the **California housing data** (G-2223): 20,640 districts of California in 1990, with 8 features (input variables) such as median income and house age, and the median house value as the target (sklearn California housing). Each district is one observation.
 
 The experiment changes one thing only, the tree's settings:
 
@@ -271,7 +279,7 @@ The experiment changes one thing only, the tree's settings:
 3. **tuned tree:** run `GridSearchCV` over `max_depth` (4 to 12, or `None`) and `min_samples_leaf` (1, 5, 20, 50) **on the training set only**, and keep its best tree;
 4. score both trees on the test set, which the search never saw.
 
-The Notebook repeats this over 20 random splits and averages the scores (Figure 7).
+The Notebook repeats this over 20 random splits and averages the scores (Figure 8).
 
 ![Average R² over 20 train-test splits of the California housing data](images/tuning_gain.png){height=32%}
 
@@ -289,7 +297,7 @@ Picture 90 random people and pick the tallest. That person is tall, but part of 
 
 The Notebook measures it. On 10 fresh shuffles of 5-fold cross-validation (only the folds change), the Boston grid's winning setting scores **0.663**, not 0.725. To report an honest score, either re-score the winner on fresh folds, or test it on data the search never saw, as in section 7.3.
 
-Figure 8 shows the 90 scores of the grid. The winner stands at the top of a smooth climb, a little above its neighbours; on fresh folds it drops to 0.663, back among the pack.
+Figure 9 shows the 90 scores of the grid. The winner stands at the top of a smooth climb, a little above its neighbours; on fresh folds it drops to 0.663, back among the pack.
 
 ![The 90 settings of the Boston grid, sorted by their cross-validated R² on the grid's 5 folds. The winner (orange) scores 0.725; re-scored on 10 fresh shuffles of 5-fold cross-validation, the same setting scores 0.663 (dashed).](images/selection_bias.png)
 
@@ -301,7 +309,7 @@ A trained tree also tells us which features it relied on. Its attribute **`featu
 
 ![Feature importance of the tuned tree on the Boston data](images/feature_importance.png){height=34%}
 
-Figure 9 shows them for the tuned Boston tree of section 7.2:
+Figure 10 shows them for the tuned Boston tree of section 7.2:
 
 - **RM** (rooms per home) is by far the most important feature, at 0.47;
 - then **LSTAT** (0.29) and **CRIM** (0.11);
@@ -335,6 +343,7 @@ Feature importance is useful for **feature selection** (the [curse of dimensiona
 **Built from**
 
 - CampusX, "Regression Trees | Decision Trees Part 3", YouTube, https://www.youtube.com/watch?v=RANHxyAvtM4
+- StatQuest with Josh Starmer, "Regression Trees, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=g9c66TUylZ4
 
 **Other references**
 
@@ -352,13 +361,13 @@ Feature importance is useful for **feature selection** (the [curse of dimensiona
 |---|---|
 | Regression tree | A decision tree whose leaves predict numbers: the mean output of their training observations |
 | DecisionTreeRegressor | scikit-learn's regression tree |
-| Sum of squared errors (SSE) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest |
+| Sum of squared errors (SSE) (G-1684) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest |
 | Variance reduction | The drop in mean squared error from a node to its children; the regression version of information gain |
 | squared_error | DecisionTreeRegressor's default criterion: split by mean squared error, leaves predict the mean |
 | absolute_error | A criterion that splits by mean absolute error; leaves predict the median |
 | RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations |
 | Feature importance | A feature's share of all the impurity reduction in a tree; the shares add up to 1 |
 | feature_importances_ | The fitted attribute holding the feature importance of every feature |
-| California housing data | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn |
+| California housing data (G-2223) | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn |
 | Selection bias | The best of many scores looks better than it really is, because part of its win is luck |
 | Boston housing data | 506 Boston districts, 13 inputs and the median home value; removed from scikit-learn in version 1.2 |

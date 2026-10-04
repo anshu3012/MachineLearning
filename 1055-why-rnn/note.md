@@ -33,7 +33,7 @@ The RNN itself, its formula and its code come in the next Note.
 - [MLP intuition Note](../1009-mlp-intuition/note.md): layers of nodes, weights and biases.
 - [Forward propagation Note](../1010-forward-propagation/note.md): how many weights a fully connected layer has.
 - [One-hot encoding Note](../27-one-hot-encoding/note.md): turning a category into a vector of 0s with a single 1.
-- [Vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md), section 6.2: bag of words.
+- [Vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md), section 4.2: bag of words.
 
 ## 3. Sequential data
 
@@ -72,11 +72,11 @@ Suppose we want a model that reads a short review and predicts its sentiment: 1 
 | food tasted bad | 3 | 0 |
 | we loved the music | 4 | 1 |
 
-A network works with numbers, not words, so the first step is to turn words into vectors. The simplest way is **one-hot encoding** (G-1379; the [one-hot encoding Note](../27-one-hot-encoding/note.md)): list every distinct word in the training data (the **vocabulary**, G-2093), then write each word as a vector of 0s with a 1 at that word's place in the list. Our three reviews use 12 distinct words, so each word becomes a vector of length 12.
+A network works with numbers, not words, so the first step is to turn words into vectors. The simplest way is **one-hot encoding** (G-1379; the [one-hot encoding Note](../27-one-hot-encoding/note.md)): list every distinct word in the training data (the **vocabulary**, G-2092), then write each word as a vector of 0s with a 1 at that word's place in the list. Our three reviews use 12 distinct words, so each word becomes a vector of length 12.
 
 To give a whole review to an ANN, we stack its word vectors one after another into one long input vector (Figure 3):
 
-1. **In words:** the input size is the number of words times the vocabulary size. A **fully connected layer** (G-811) then has one weight per input per node.
+1. **In words:** the input size is the number of words times the vocabulary size. A **fully connected layer** (G-583) then has one weight per input per node.
 2. **Formula:** with $T$ words, a vocabulary of $V$ words and $h$ hidden nodes,
    $$\text{inputs} = T \times V, \qquad \text{weights} = T \times V \times h$$
 3. **Example:** review 1 has $T = 5$ and $V = 12$, so $5 \times 12 = 60$ inputs. With $h = 4$ hidden nodes the first layer has $60 \times 4 = 240$ weights.
@@ -151,7 +151,7 @@ We can see the effect on the IMDB data. We train a small ANN on the first 50 wor
 
 The words are the same, yet accuracy falls steadily as they move (Figure 6): from 67.9% to 57.4% after a shift of 20 positions, where 50% is guessing. The network had tied what it learned to particular positions, exactly as Goodfellow et al. describe. (The 68% at shift 0 is modest because this small ANN sees only the first 50 words and a 1,000-word vocabulary; the drop, not the level, is the point. Averaged over 3 seeds; Notebook section 5.)
 
-> **Extra:** Bag of words (the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md), section 6.2) avoids the length problem by counting each word instead of placing it, so every text becomes one vector of length $V$. The price is that the order is gone completely: "dog bites man" and "man bites dog" give exactly the same count vector, $(1, 1, 1)$ for (bites, dog, man). Bag of words throws away exactly what makes the data sequential.
+> **Extra:** Bag of words (the [vectors and feature vectors Note](../360-vectors-and-feature-vectors/note.md), section 4.2) avoids the length problem by counting each word instead of placing it, so every text becomes one vector of length $V$. The price is that the order is gone completely: "dog bites man" and "man bites dog" give exactly the same count vector, $(1, 1, 1)$ for (bites, dog, man). Bag of words throws away exactly what makes the data sequential.
 
 ## 6. The idea behind an RNN
 
@@ -239,7 +239,7 @@ The next Notes build up the RNN family step by step: the simple RNN, the types o
 | Sequential data | Data whose items come in an order that carries meaning, such as words in a sentence or prices over time |
 | Non-sequential data | Data whose features can be listed in any order without changing the meaning, such as a table row |
 | Recurrent neural network (RNN) | A neural network that reads a sequence one item at a time, with the same weights at every step, and carries a memory forward |
-| Vocabulary | The list of distinct words a text model knows |
+| Vocabulary (G-2092) | The list of distinct words a text model knows |
 | Zero padding (text) | Adding all-zero word vectors to shorter texts so that every text has the same length |
 | Recurrent layer | A hidden layer whose output at one step is an input to itself at the next (the feedback loop) |
 | Parameter sharing | Using the same weights at different positions or time steps |

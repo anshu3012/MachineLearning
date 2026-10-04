@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-rnn, area/dl-transformers, step/model, con
 
 > **Key point:** An encoder–decoder turns one sequence into another of a different length. The **encoder**, an LSTM, reads the input word by word and hands its final state, the **context vector**, to the **decoder**, a second LSTM that writes the output word by word until it produces an end token. During training the decoder is fed the correct previous word (**teacher forcing**); during prediction it is fed its own previous word.
 
-Translating "nice to meet you" into Hindi gives "aap se mil kar achha laga": a sequence goes in and a sequence of a different length comes out. The [history of LLMs Note](../1067-history-of-llms/note.md) calls such tasks **sequence-to-sequence tasks** (G-1773) and places the encoder–decoder (Sutskever et al. 2014) as the first stage of the road to the transformer. This Note opens the architecture up: what sits inside each block, how the whole thing is trained, how it predicts, and the improvements used in the original paper.
+Translating "nice to meet you" into Hindi gives "aap se mil kar achha laga": a sequence goes in and a sequence of a different length comes out. The [history of LLMs Note](../1067-history-of-llms/note.md) calls such tasks **sequence-to-sequence tasks** (G-1772) and places the encoder–decoder (Sutskever et al. 2014) as the first stage of the road to the transformer. This Note opens the architecture up: what sits inside each block, how the whole thing is trained, how it predicts, and the improvements used in the original paper.
 
 ![A trained encoder–decoder translating a real English sentence into French, one decoder step per frame: the five most likely words at each step, and the chosen word (orange), which becomes the next input](images/greedy_decoding.gif){height=55%}
 
@@ -78,7 +78,7 @@ The decoder is a different LSTM from the encoder: the two do not share weights. 
 2. At step 2 it receives the word from step 1 and the updated states, and outputs the second word.
 3. The decoder continues until it outputs the special token **`<end>`**, and then stops.
 
-The `<end>` token is what lets the decoder choose the output length. Sutskever et al. (2014, section 2) use a single end-of-sentence symbol `<EOS>` for both roles.
+The `<end>` token is what lets the decoder choose the output length.
 
 To output a word, the decoder's hidden state passes through a dense layer with a **softmax** (G-1830) activation, with one unit per word of the output vocabulary. The softmax gives a probability for every word, and the word with the highest probability is the output of that step.
 
@@ -118,7 +118,7 @@ Both LSTMs start with random weights. The first observation goes through the net
 
 ![Training on one observation. The decoder's input at each step (green) is the previous gold word, not the model's own prediction (red)](images/seq2seq_training.png){width=100%}
 
-Feeding the gold word instead of the prediction is called **teacher forcing** (G-1955). If a wrong word were fed back, every later step would build on the mistake, and early in training most predictions are wrong. With teacher forcing every step learns from a correct history, which speeds up training (SLP3 §14.7.1). Section 7 measures the effect.
+Feeding the gold word instead of the prediction is called **teacher forcing** (G-1955). If a wrong word were fed back, every later step would build on the mistake, and early in training most predictions are wrong. With teacher forcing every step learns from a correct history, which speeds up training (SLP3 §14.7.1). Teacher forcing also fixes the length during training: the decoder runs for exactly as many steps as the gold sentence has tokens, whether or not it predicted `<end>` at the right step. Section 7 measures the effect.
 
 In code, teacher forcing is just a shift. The decoder's input is the gold target sentence with `<start>` in front; its target is the same sentence with `<end>` at the back:
 
@@ -130,7 +130,7 @@ In code, teacher forcing is just a shift. The decoder's input is the gold target
 
 > **Key point:** Each decoder step is a classification over the output vocabulary, so the loss is categorical cross-entropy, summed or averaged over the steps.
 
-At every step the decoder picks one word out of 7: a multi-class classification. The loss is **categorical cross-entropy** (G-350; the [loss functions Note](../1014-dl-loss-functions/note.md)), computed at every step.
+At every step the decoder picks one word out of 7: a multi-class classification. The loss is **categorical cross-entropy** (G-349; the [loss functions Note](../1014-dl-loss-functions/note.md)), computed at every step.
 
 1. **In words:** at each step, take minus the natural log of the probability the model gave to the correct word. Add the steps up (or average them).
 2. **Formula:** with $V$ words in the vocabulary and the one-hot target $y_t$,
@@ -282,6 +282,7 @@ The details, from Sutskever et al. (2014, sections 3.1–3.6):
 **Built from**
 
 - CampusX, "Encoder Decoder | Sequence-to-Sequence Architecture | Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=KiL74WsgxoA
+- StatQuest with Josh Starmer, "Sequence-to-Sequence (seq2seq) Encoder-Decoder Neural Networks, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=L8HKweZIOmg. 13:00–14:30 (teacher forcing: feed the known correct token, and stop at the known sentence length).
 
 **Other references**
 
@@ -295,7 +296,7 @@ The details, from Sutskever et al. (2014, sections 3.1–3.6):
 
 | Term | Meaning |
 |---|---|
-| Sequence-to-sequence task | A task whose input and output are both sequences, possibly of different lengths |
+| Sequence-to-sequence task (G-1772) | A task whose input and output are both sequences, possibly of different lengths |
 | Encoder | The LSTM that reads the input sequence and summarises it |
 | Context vector | The encoder's final hidden and cell states, handed to the decoder |
 | Decoder | The LSTM that writes the output sequence, one token per step, starting from the context vector |

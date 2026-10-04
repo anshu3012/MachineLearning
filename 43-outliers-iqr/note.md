@@ -56,7 +56,7 @@ The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its 
 
 ![Quartiles by hand on the marks of nine students: sort, mark the median, take the middle of each half, and draw the box (idea after Khan Academy, "How to calculate interquartile range IQR")](images/quartiles_by_hand.gif)
 
-> **Extra:** pandas computes quartiles a little differently. The steps above take the middle of each half. pandas' `quantile` places the percentile between two neighbouring sorted values, in proportion to its position (**linear interpolation**, G-1092; [Note 44](../44-outliers-percentile/note.md)). On these nine values pandas gives $Q_1 = 17$ and $Q_3 = 38$, not 14 and 38.5. On the 1,000 marks both ways give $Q_1 = 17$ and $Q_3 = 44$. Every number in the rest of this Note comes from pandas' `quantile`.
+> **Extra:** pandas' `quantile` places a percentile between two neighbouring sorted values, in proportion to its position (**linear interpolation**, G-1092; [Note 44](../44-outliers-percentile/note.md)). On these nine values it gives $Q_1 = 17$ and $Q_3 = 38$; on the 1,000 marks both ways give $Q_1 = 17$ and $Q_3 = 44$, the numbers used in the rest of this Note.
 
 ### 3.2 From the IQR to the fences
 
@@ -323,11 +323,11 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 | Feature | An input variable: one column of the data table |
 | Observation | One record: one row of the data table |
 | Target | The output a model predicts |
-| IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed features |
+| IQR method (IQR proximity rule) (G-972) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed features |
 | Percentile | The value below which a given share of the sorted data lies |
 | Quartiles | $Q_1$, the median and $Q_3$: the 25th, 50th and 75th percentiles |
 | Interquartile range (IQR) | $Q_3 - Q_1$: the width of the middle half of the data |
-| Fences | $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$; values beyond them are outliers |
+| Fences (G-776) | $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$; values beyond them are outliers |
 | Trimming | Removing the rows that hold outliers |
 | Capping | Replacing every value beyond a limit with the limit itself |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position |

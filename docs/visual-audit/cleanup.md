@@ -17,3 +17,13 @@
 - 1039: MNIST tuner results are not reproducible; .logs/1039-notebook.ipynb no longer matches the Note. Seed it or re-record one run and update the Note from it.
 - 1003 nn_flows.gif is 3.4 MB (over 3 MB); re-encode
 - PDF pages not opened for new figures in 1005-1023 (9 Notes) and 1064-1089: check in the final PDF pass
+- Figure numbers shifted in many Notes during the rewrites (e.g. 25, 26, 27, 30, 33, 35, 36; 1004 cites Note 13 'Figure 5', now 7): sweep all cross-Note 'Figure N' citations and fix
+- New Key terms needing glossary IDs so far: Dot plot (223), Target encoding (27), Fold (112), Hypothesis (85), Specificity (78), 10% condition (301), Mean difference, Conservative df (302), Locally linear, Orientation (602), Loading scores (613), Strictly convex / Concave up-down / Second derivative test (621), plus round 3 reports
+- Glossary: new terms Binomial test (570), Multiplication rule (82), Gambler's fallacy (83), Bayes factor (86), Maximal margin classifier (92), feedback loop (1056); fix meanings G-1004/G-1007 (kernel = phi(a).phi(b), per Note 95), G-173 (general addition rule), G-1820 (slack in margin units)
+- PDF pages not viewed for ML_04 Notes (79-95)
+- Sweep cross-Note 'Section N' citations too (603 was reordered; 590 and 621 fixed by hand; other reordered Notes: 85, 108, 222, 282, 572, 602, 610, 631, 1005)
+- Glossary: Second derivative, Quadratic approximation, Second partial derivative test (600/603), Vertex, Simplex algorithm (622), SiLU (1028), Surprise (97), Cost-complexity pruning (98), Loading, Scree plot (48), Residual plot (56), Whisker, Kernel (20)
+- DECISION NEEDED: Kaggle Cats vs Dogs photo arrays (01 dog_cat_photos.npz, 1049 batch.npz; 1049 samples.npz is already committed) vs the house rule 'never store dataset images'. New ones are gitignored for now.
+- 1049: mistakes.npz (12 dataset photos) also held out of git; mistakes figure shows people from the dataset (hands, torso, one person from behind) - part of the photo decision
+- 1049: the single seed-0 run for the mistakes figure gave batch-norm training accuracy 89.9% vs the table's 97.4% 3-seed mean: check before relying on it
+- Whisper: 013 and 032 audio download failed; retry

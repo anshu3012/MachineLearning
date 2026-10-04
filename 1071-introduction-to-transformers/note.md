@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 
 ## 1. Overview
 
-> **Key point:** A **transformer** (G-2007) is a neural network architecture for sequence-to-sequence tasks. Like earlier models it has an encoder and a decoder, but it contains no RNN or LSTM: it is built on a form of attention called **self-attention** (G-1764), so it processes all the words of a sentence at the same time. Parallel processing makes training fast, fast training makes huge datasets usable, and huge datasets made transfer learning possible for text.
+> **Key point:** A **transformer** (G-2007) is a neural network architecture for sequence-to-sequence tasks. Like earlier models it has an encoder and a decoder, but it contains no RNN or LSTM: it is built on a form of attention called **self-attention** (G-1763), so it processes all the words of a sentence at the same time. Parallel processing makes training fast, fast training makes huge datasets usable, and huge datasets made transfer learning possible for text.
 
 The deep learning Notes so far have met three families of networks, each made for one kind of data: the ANN for tabular data, the CNN for images and the RNN for sequences such as text. The **transformer** is a fourth architecture, made for **sequence-to-sequence** (G-1772) tasks: a sequence goes in and a sequence comes out, as in machine translation, question answering and text summarisation (the [history of LLMs Note](../1067-history-of-llms/note.md), section 3).
 
@@ -283,8 +283,8 @@ Many more applications exist; Islam et al. (2023) survey them by field, from NLP
 | Term | Meaning |
 |---|---|
 | Transformer | An encoder–decoder neural network built on self-attention and dense layers, with no RNN, that processes all positions of a sequence at once |
-| Self-attention | Attention in which the words of one sequence attend to each other; the transformer's main building block |
-| Sequence-to-sequence task | A task with a sequence as input and a sequence as output, such as translation |
+| Self-attention (G-1763) | Attention in which the words of one sequence attend to each other; the transformer's main building block |
+| Sequence-to-sequence task (G-1772) | A task with a sequence as input and a sequence as output, such as translation |
 | Sequential training | Training in which step $t$ must wait for step $t-1$, as in an RNN; it cannot be spread over many processors |
 | Parallel training | Training in which all positions of a sequence are computed at the same time |
 | Natural language processing (NLP) | The field of making computers work with human language |

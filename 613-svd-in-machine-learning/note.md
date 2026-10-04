@@ -283,7 +283,7 @@ Figure 7 puts the two answers side by side: the red bars miss every student by 1
 
 | Term | Meaning |
 |---|---|
-| Loading scores | The entries of a principal component's unit vector: how many parts of each feature make up the component |
+| Loading scores (G-2204) | The entries of a principal component's unit vector: how many parts of each feature make up the component |
 | PCA through the SVD | Taking the principal components from $V$ of the centred data, with variances $\sigma_i^2/n$ and scores $U\Sigma$ |
 | Randomized SVD | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data |
 | Latent semantic analysis (LSA) | Describing documents by their top $k$ singular directions of the document-word matrix, so that texts on one topic align |

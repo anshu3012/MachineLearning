@@ -50,7 +50,7 @@ Two choices define a model: how the prediction depends on $x$ (a line, a sigmoid
 
 > **Key point:** If $y$ is the prediction plus normal noise, the NLL is the sum of squared errors divided by $2\sigma^2$, plus a constant. Minimising it is least squares.
 
-First, the usual way to fit a line, from the [linear regression maths Note](../51-linear-regression-maths/note.md). Measure each point's **residual** (G-1685), the vertical gap between the point and the line; square it, so that gaps above and below the line cannot cancel; add the squares up. The total is the **sum of squared errors** (G-1913). Turn the line a little and measure again. The line with the smallest total is the **ordinary least squares** (G-1406) line. This section shows that maximum likelihood, with one assumption about the noise, picks exactly the same line.
+First, the usual way to fit a line, from the [linear regression maths Note](../51-linear-regression-maths/note.md). Measure each point's **residual** (G-705), the vertical gap between the point and the line; square it, so that gaps above and below the line cannot cancel; add the squares up. The total is the **sum of squared errors** (G-1684). Turn the line a little and measure again. The line with the smallest total is the **ordinary least squares** (G-1406) line. This section shows that maximum likelihood, with one assumption about the noise, picks exactly the same line.
 
 ### 3.1 The model
 

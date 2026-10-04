@@ -1,0 +1,181 @@
+Hi guys, welcome to my YouTube channel.
+We are studying ridge regression and this is the first regularization technique.
+First, we have studied its intuition.
+After that, we have studied how to make it from scratch.
+We have studied its mathematical formulation.
+Now, in today's video, we will learn how to perform ridge regression through gradient descent.
+Since it is a regression technique, it can be solved by ordinary least square as we saw in the last video
+and it can be solved through gradient descent as we will see in today's video.
+So let's start the video.
+So guys the formulation is pretty much similar as you saw in the last video for ordinary least square.
+I am writing your loss function in vector form.
+Normally, the loss function of linear regression is written like this.
+You can write this in vector form very easily.
+This equation is made in vector form.
+X W minus Y transpose X W minus Y.
+This is the loss function in vector form.
+How can you get this out of this?
+I have already told you this in a video.
+I will put the link of that video in the description.
+Now, since we are applying ridge regression here,
+we will give this in plus.
+And we can rewrite the loss function in this way.
+xw y transpose xw minus y plus lambda w transpose w.
+How did this come? I told you this in the last video.
+Now let's quickly do the revision of what is x, what is w, what is y.
+So if you have a data set where x1, x2, ...,xn are the input columns and one is the output column
+and you have total m rows in your data
+then your x matrix will be equal to
+1x11, 1x2, 1x3, 1n
+1x21, x22, x23, x2n
+1 x m1, x m2, x m3, x mn. This is your x matrix. What is your y? Your y is simply y1, y2 dot dot dot, ym.
+All your output values which are in this column. And what is your w? Your w is again a matrix
+matrix where from w0 to w1, w2, wn there are n plus 1 items. And that's it. This is the
+loss function on which we will work. We saw this in the last video also. Now what we have
+In gradient descent, if you remember, if you have w1, w0, w1, dot, dot, dot, wn parameters,
+then you have to take updates for every parameter.
+So you can take updates like this
+w0 is equal to w0 minus learning rate times
+del L by del w0
+Similarly if you want to update w1
+then that is w1 minus learning rate
+del L by del w1
+Similarly if you want to update wn
+then you write this wn minus learning rate times
+del L by del WN. If you want to write all this collectively in one single equation then you can write it like this
+that delta w is equal to w old
+or it will be wrong to write like this, just one second
+you will write
+w new is equal to w old
+minus learning rate times delta l by delta w
+what is this delta l by delta w telling
+this is the gradient
+So basically this is a matrix where you have del L by del W0, del L by del W1, dot dot dot, del L by del Wn.
+This is your collective form. Now what we have to do is, we have to remove this.
+we just have to find out this, that is, when you put the whole L with the whole W matrix,
+L will become your matrix, when you differentiate it with respect to W matrix,
+then whatever answer you get, you will fit it here, you will always have W old,
+you just have to replace it with this value.
+So now we will find the derivative of our loss function with respect to the W matrix.
+What was the W matrix? This was the W matrix.
+With respect to this, we will differentiate this loss function.
+So see, it is very simple actually.
+You will write, I am writing the loss function once again
+X W minus Y transpose X W minus Y plus Lambda W transpose W
+Now if you do this cross multiplication
+Before that if you apply transpose then it will become W transpose X transpose minus Y transpose
+This will come in first bracket
+here it will remain as it is, plus lambda w this, one more thing I am doing, in both the equations, I am multiplying by 1 by 2,
+means in both the parts, I am multiplying by 1 by 2, why am I doing it, it will help further, there is no problem with this,
+this is for mathematical convenience, there will be no problem with this, let me show you why I did this,
+So, here 1 by 2 will be multiplied by W transpose X transpose XW minus Y transpose XW minus
+Just one second, I just got confused
+So, first we will multiply this by this and then we will multiply this by this.
+So, it will be W transpose X transpose Y.
+Then we are multiplying these two minus Y transpose W X and then we are multiplying these two.
+So, it would be plus Y transpose Y.
+And plus will be half lambda W transpose W.
+Now you know that these two terms are same.
+I have proved this.
+Please watch that video.
+And because of that we can write it like
+is equal to half w transpose x transpose xw minus 2 times y transpose wx
+plus y transpose y plus half lambda w transpose w
+Now we will start differentiating.
+If you will differentiate this.
+I have shown you in the last video.
+We are taking out dL by dW.
+We are differentiating every term with respect to W.
+When you will differentiate this.
+It would give you 2 times X transpose X W minus
+Its differentiation will be 2 times y transpose x
+Its differentiation will be 0
+And here its differentiation will be 2 lambda w
+Ok
+This will be the differentiation
+Now if you notice this 2 and this 2 will be cut
+This and this will be common and will be cut from this 2
+That's why I kept half so that this 2 doesn't come
+It doesn't make any difference
+It is just multiplying by 2. It does not make any changes.
+Now, here your x transpose xw minus y transpose x plus lambda w.
+And that's it guys. This is your dl by dw.
+Or you can call this as del l by del w.
+Now you just have to start with a w value, start with 0, 1, .., 1, at nth position start with 1
+Means this will be your w0 value at starting time, this will be w1, .., and this will be wn value
+This will be the starting point, you will start with this w and then what you will do
+you will multiply w minus learning rate times this in epoch
+dL by dW you will multiply this by this
+and this will be the first time, by that you will minus this, Eta is the learning rate here
+and you will do this as many epochs as possible and after that your W will be your final answer.
+And that's the code guys, exactly this code we will implement using Python.
+So it's very simple, you don't have to do anything, just after differentiating, these terms are coming in W
+And because of this, your values of the provision will decrease.
+So yeah, that's the mathematical formulation.
+Now let's see how to code this.
+Okay guys, before moving on to the coding part, I have made a small mistake.
+I am rectifying it.
+The mistake is very small actually.
+The mistake is that I had told you that this term and this term is same.
+and then I had kept this second term
+means I had considered this and this equal and I had kept this as 2 times
+but instead what I should have done is that I should have kept this by ignoring this
+means here this term should have been 2W transpose X transpose Y
+And then what happens after that, here rather than y transpose x, we get x transpose y.
+And then going further down, here my equation which I finally got, here also we get x transpose y.
+So, if I want to write correctly, I will write it once. So, the correct dl by dw would be equal to x transpose xw minus x transpose y plus lambda w.
+W. This will be the best. And you will fit this DL by DW in this equation. Again and again inside a loop which will run Epoch times.
+That's it. We will write the same code in some time. So that was the mistake. We have clarified it. Now let's move on to the coding part.
+I have already written the code because what is unnecessary is that the video gets too big.
+So I took the same load diabetes data set.
+First I ran train to split on it.
+And then I will show you how you can apply gradient descent regression using scikit-learn.
+For this you have to use SGD regressor.
+Obviously it will use the stochastic gradient descent version.
+and here I have set this parameter as penalty L2 like L2 norm and max iteration is 500, learning rate is 0.8
+learning rate type is constant, I am not applying learning schedule, value of alpha is 0.001
+i.e. my tuning parameter is lambda, its value is 0.001
+and by running this code, I was getting 0.44 R2 score
+then there is one more way, if you want you can apply gradient descent using ridge class also
+here you just have to set alpha value, max iteration set and solver set
+so here there are different solvers, I have shown you
+you will get different different solvers
+So, from here to these 3 solvers, they use gradient descent and these 3 solvers solve ordinary least square using formula.
+So, we set this formula and when we run this, our R2 score was coming out to be 0.46.
+And these are all my parameters, all my slopes and this is my intercept.
+Then I made my own class, my rich gd, in input I am getting epox, learning rate, alpha, I set everything, initialized coefficients,
+initialized intercept and then in fit method I took x-train and y-train input and first of all I made a matrix called theta,
+In this theta matrix, total will be n plus 1 term and n terms will be coefficients.
+Basically, all these will be coefficients and one extra term will be intercept.
+So, it will start from intercept and all other coefficients will be there.
+That is theta.
+Then, I transformed my x-train and put 1, 1, 1, 1 in front of all.
+And then, in the loop, I found the derivative every time using this formula.
+And this is the same formula which we have written here.
+You can see, first of all, I took out the dot product of x-train, transpose and x-train, this part.
+Then I took out its dot product with theta, I am calling it theta, I am calling this w matrix as theta.
+Then I subtracted it from x-train, transpose and y-train, from this dot product.
+And then I have to add self.alpha multiplied by theta.
+This lambda is the alpha and this w is the theta.
+And then I have updated theta again and again by multiplying by learning rate with the derivative.
+And when the value of theta finally came, the first value of theta was the intercept and all the values after that were the coefficients.
+I calculated that and run it and made an object here.
+So I have run it for 500, alpha is 0.001, learning rate is 0.005.
+And after running this, my output is 0.47.
+So somehow, I don't know, my code is giving better results than the other two on the same number of epochs.
+Here also I trained at 500, so it came to 0.46 and here it is coming to 0.44.
+There are some differences but the reason for that is that internally SGD one is using stochastic gradient descent
+and in the ridge one, it is weird that I was not able to set the learning rate here.
+Here there is no formula to set the learning rate, maybe it will automatically figure out whether the learning rate will be correct.
+But yeah, that's it. This is the code and this is the output.
+So what I would suggest you is to go and download this file and run it for different inputs as in different parameter values with different data sets.
+and whatever your outcome is, if you document it once, you will understand it better.
+But yeah, that is how gradient descent is applied.
+In this, we have done batch gradient descent.
+You can also apply stochastic gradient descent.
+You can also apply mini-batch gradient descent.
+And that's it. That is how it is done.
+My idea was that you have to understand end-to-end ridge regression.
+Many people study ridge regression on the surface and leave.
+but my point was that you can see the whole end to end by yourself by coding
+then you can understand better. So yeah that's it for the video guys. Thanks for watching. Bye.

@@ -75,7 +75,7 @@ Lasso found which of the 16 power features matter without being told.
 
 > **Key point:** Coefficients that reach 0 remove their features from the model. So Lasso selects features while it trains.
 
-A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. Zero coefficients make Lasso a tool for **feature selection** (G-768; see the [feature engineering Note](../23-what-is-feature-engineering/note.md)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
+A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. A model in which many coefficients are exactly 0 is a **sparse model** (G-1844). Zero coefficients make Lasso a tool for **feature selection** (G-768; see the [feature engineering Note](../23-what-is-feature-engineering/note.md)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
 
 Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2).
 
@@ -92,6 +92,16 @@ At alpha 0.1, Lasso drops three features and loses almost no accuracy (0.43 agai
 
 Ridge cannot do this. Ridge shrinks an unhelpful coefficient to, say, 0.2, but the feature stays in the model.
 
+**A test with useless features.** Suppose we predict a mouse's size from its weight, its diet, its astrological sign and the airspeed of a swallow. The last two are useless. Ridge would shrink their coefficients but keep them in the equation; Lasso can remove them (StatQuest, "Regularization Part 2"). Figure 4 runs this test on the diabetes data. We add 10 columns of pure random noise, on the same scale as the 10 real features, and fit both models.
+
+![Coefficients on the diabetes split with 10 extra columns of random noise (shaded). Ridge with alpha 0.1 (blue) gives every noise column a non-zero coefficient. Lasso with alpha 0.3 (orange) sets all 10 noise coefficients to exactly 0 and keeps bmi, bp, s3 and s5. Both score test R² 0.40.](images/useless.png)
+
+- **Ridge** (alpha 0.1) gives all 10 noise columns a coefficient, some as large as $-131$.
+- **Lasso** (alpha 0.3) sets all 10 to exactly 0 and keeps four real features: bmi, bp, s3 and s5.
+- Both reach test R² 0.40, against 0.38 for plain linear regression on the 20 columns.
+
+The result does not depend on one lucky draw of noise: over 100 different draws, Lasso zeroes 9.65 of the 10 noise columns on average, and Ridge none (script `useless.py`).
+
 > **Extra:** Why call bmi, bp and s5 the most useful three? Among all 120 possible sets of three features, these three give plain linear regression the best cross-validated R² (0.485).
 
 > **Extra:** Feature selection is why Lasso is often preferred when the data has many columns, some of which are probably irrelevant: Lasso tends to do best when only a few features really matter (ISL §6.2.2). Fewer features also means a simpler model that is easier to explain (ISL §6.2.2).
@@ -100,7 +110,7 @@ Ridge cannot do this. Ridge shrinks an unhelpful coefficient to, say, 0.2, but t
 
 > **Key point:** The coefficients hit 0 one at a time. The size of a coefficient does not decide when it goes: the large s2 goes second, while bmi and s5 survive longest.
 
-Figure 4 follows each coefficient as alpha grows on a log scale.
+Figure 5 follows each coefficient as alpha grows on a log scale.
 
 ![Lasso coefficient paths on the diabetes data](images/paths.png){height=45%}
 
@@ -132,7 +142,7 @@ We use the same method as the [Ridge key points Note](../66-ridge-key-points/not
 | 1 | 2.52 | 0.38 | 6.90 |
 | 3 | 5.20 | 0.19 | 9.40 |
 
-Figure 5 shows the experiment. At a tiny alpha the 200 fitted curves fan out, most of all at the edges: high variance. At alpha 3 every fit is a flat line at the average, the same for every draw: almost no variance, but far from the true curve. At alpha 0.1 the fits hug the true parabola.
+Figure 6 shows the experiment. At a tiny alpha the 200 fitted curves fan out, most of all at the edges: high variance. At alpha 3 every fit is a flat line at the average, the same for every draw: almost no variance, but far from the true curve. At alpha 0.1 the fits hug the true parabola.
 
 ![Bias and variance of Lasso on a degree-16 polynomial. Left: 30 of the 200 fitted curves (blue), their average (orange) and the true curve (dashed) for each alpha. Right: bias², variance and expected test error, built up alpha by alpha; the error is lowest at alpha 0.1.](images/bias_variance.gif)
 
@@ -148,7 +158,7 @@ Take the one-feature example again and hold the intercept at $-2.29$, so the los
 
 $$L(m) = \sum_{i=1}^{n}(y_i - m x_i + 2.29)^2 + \lambda|m|$$
 
-Figure 6 draws this curve while $\lambda$ grows from 0 to 8,000.
+Figure 7 draws this curve while $\lambda$ grows from 0 to 8,000.
 
 ![The Lasso loss against the slope for λ = 0, 2000, 5000 and 8000](images/lasso_loss_curve.gif){height=50%}
 
@@ -165,6 +175,10 @@ Figure 6 draws this curve while $\lambda$ grows from 0 to 8,000.
 
 The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, so its lowest point only approaches 0 (the Ridge key points Note). The next Note derives this precisely.
 
+Figure 8 puts the two loss curves next to each other, with the same $\lambda$ in both panels. Watch the red dots. On the left, the Ridge curve stays a smooth bowl; its lowest point glides towards 0 and is still at 0.30 when $\lambda = 8{,}000$. On the right, the Lasso curve grows a corner at $m = 0$, and from $\lambda = 5{,}000$ the lowest point sits exactly on that corner.
+
+![The Ridge loss (left) and the Lasso loss (right) against the slope, for the same λ from 0 to 8,000. The red dot marks the lowest point: Ridge's glides towards 0 without reaching it; Lasso's reaches exactly 0 at λ = 5,000 and stays. Idea after StatQuest, "Ridge vs Lasso Regression, Visualized!!!"](images/side_by_side.gif)
+
 > **Extra:** Why do the two penalties behave so differently near 0? Look at how hard each penalty pushes, which is its slope. The slope of $\lambda m^2$ is $2\lambda m$: at $m = 0.1$ it is only $0.2\lambda$, and it fades to 0 as $m$ approaches 0, so Ridge stops pushing. The slope of $\lambda|m|$ is $\lambda$ for every positive $m$: it pushes with the same force all the way to 0.
 
 ## 8. Ridge or Lasso?
@@ -179,13 +193,13 @@ The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, s
 | Best when | most features matter | only some features matter |
 | Closed-form formula | yes | no (solved step by step) |
 
-The "best when" row follows ISL §6.2.2. Lasso has no closed-form formula because the absolute values make the answer non-linear in $y$ (ESL §3.4.2). With strongly correlated features, Lasso tends to keep only one of the group, and Ridge has been seen to predict better (Zou and Hastie 2005, §1).
+The "best when" row follows ISL §6.2.2: Lasso does a little better when many features are useless, Ridge when most are useful (also StatQuest, "Regularization Part 2"). Lasso has no closed-form formula because the absolute values make the answer non-linear in $y$ (ESL §3.4.2). With strongly correlated features, Lasso tends to keep only one of the group, and Ridge has been seen to predict better (Zou and Hastie 2005, §1).
 
-Figure 7 puts the two side by side on the diabetes split, both with alpha 0.1. Ridge keeps all ten coefficients non-zero; Lasso sets age, s2 and s4 to exactly 0 and pays only 0.02 of test R² for it.
+Figure 9 puts the two side by side on the diabetes split, both with alpha 0.1. Ridge keeps all ten coefficients non-zero; Lasso sets age, s2 and s4 to exactly 0 and pays only 0.02 of test R² for it.
 
 ![Coefficients on the diabetes split with alpha 0.1. Ridge (blue, test R² 0.45) keeps all ten features; Lasso (orange, test R² 0.43) sets age, s2 and s4 exactly to 0.](images/ridge_vs_lasso.png)
 
-Both shrink the largest coefficients, raise bias, lower variance and are tuned through $\lambda$. The difference that matters in practice is that Lasso can remove features. **Elastic Net** (G-668; a later Note) combines both penalties.
+Both shrink the largest coefficients, raise bias, lower variance and are tuned through $\lambda$. The difference that matters in practice is that Lasso can remove features. **Elastic Net** (G-667; a later Note) combines both penalties.
 
 > **Python:** Lasso in scikit-learn.
 >
@@ -213,6 +227,8 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 **Built from**
 
 - CampusX, "Lasso Regression | Intuition and Code Sample | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=HLF4bFbBgwk
+- StatQuest with Josh Starmer, "Regularization Part 2: Lasso (L1) Regression", YouTube, https://www.youtube.com/watch?v=NGf0voTMlcs. The useless-variables example (Section 4) and the Ridge-or-Lasso guidance (Section 8).
+- StatQuest with Josh Starmer, "Ridge vs Lasso Regression, Visualized!!!", YouTube, https://www.youtube.com/watch?v=Xm2C_gTAl8c. The side-by-side loss curves (Figure 8), redrawn on our own data.
 
 **Other references**
 

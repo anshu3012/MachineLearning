@@ -183,7 +183,7 @@ A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of S
 
 This Note writes a point as a column and puts the matrix on its left, $W\mathbf{x}$. A data table stores each point as a row, so many libraries write the same step with the point on the left. Turning rows into columns is the **transpose** (G-2012); it flips a matrix across its diagonal, so the rows of $W$ become the columns of $W^{\mathsf T}$.
 
-1. **In words:** in row form, each point is a $1 \times 2$ row, and it is multiplied on the right by the transposed matrix.
+1. **In words:** in **row form** (G-2245), each point is a $1 \times 2$ row, and it is multiplied on the right by the transposed matrix.
 2. **Example:** the stage of Section 2.1, with the seat as the row $[2 \ \ 1]$. $T_1^{\mathsf T} = T_1$, so the first turn gives $[2 \ \ 1]\thinspace T_1^{\mathsf T} = [-2 \ \ {-1}]$. The second uses $T_2^{\mathsf T}$, whose columns are $[0, 1]$ and $[-1, 0]$: row times first column is $-2 \times 0 + (-1) \times 1 = -1$, row times second column is $-2 \times (-1) + (-1) \times 0 = 2$. The seat lands on $[-1 \ \ 2]$, as before.
 3. **Formula:** the two forms are transposes of each other,
    $$(T_2T_1\mathbf{x})^{\mathsf T} = \mathbf{x}^{\mathsf T}\thinspace T_1^{\mathsf T}\thinspace T_2^{\mathsf T}$$
@@ -257,5 +257,5 @@ The collapse is why the hidden layers of a network end with a non-linear activat
 | Not commutative | The order of the factors matters: $AB \neq BA$ in general |
 | Associativity | $(AB)C = A(BC)$: the grouping of a product does not matter |
 | Transpose | Turning the rows of a matrix into its columns; $(AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}$ |
-| Row form | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left |
+| Row form (G-2245) | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left |
 | Shape rule | $(m \times n)(n \times p) = m \times p$; the inner sizes must match |

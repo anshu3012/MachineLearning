@@ -82,7 +82,7 @@ The Extra below gives the formula, and Figure 3 plots it.
 
 ESL Figure 15.1 shows this gain on spam email data, and section 4.3 repeats the comparison on the same data.
 
-> **Extra:** Why does difference between the trees matter so much? Suppose each tree's prediction has **variance** (G-2078) $\sigma^2$, its spread around its average and any two trees are correlated by $\rho$ (0: unrelated, 1: identical).
+> **Extra:** Why does difference between the trees matter so much? Suppose each tree's prediction has **variance** (G-2074) $\sigma^2$, its spread around its average and any two trees are correlated by $\rho$ (0: unrelated, 1: identical).
 >
 > 1. **In words:** the variance of the average of $n$ trees has a part that more trees can remove and a part, set by the correlation, that they cannot.
 > 2. **Formula:**
@@ -196,7 +196,7 @@ The random forest makes about 13% fewer mistakes than bagging (4.7% against 5.4%
 
 | Term | Meaning |
 |---|---|
-| Tree-level feature sampling | Drawing one random set of features per tree, before the tree is grown; every split of that tree uses only those features (bagging) |
-| Node-level feature sampling | Drawing a new random set of features before every split (random forest) |
+| Tree-level feature sampling (G-2014) | Drawing one random set of features per tree, before the tree is grown; every split of that tree uses only those features (bagging) |
+| Node-level feature sampling (G-1325) | Drawing a new random set of features before every split (random forest) |
 | export_text | scikit-learn function that prints a trained tree as indented text |
 | Correlation between base models | How alike two base models' predictions are; the less alike, the more an ensemble cuts variance |

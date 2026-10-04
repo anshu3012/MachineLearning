@@ -83,7 +83,7 @@ Figure 5 slices the plane of Figure 2 at three fixed values of feature2. Each sl
 
 ![Slices of the fitted plane at feature2 = −1, 0 and 1. One step along feature1 adds 58.6 (orange); one step in feature2 lifts the whole line by 29.1 (red)](images/coef_slices.png){height=40%}
 
-So the coefficients act as **weights** (G-2111): in Figure 2, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ.
+So the coefficients act as **weights** (G-2111): in Figure 2, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ. A coefficient near 0 means the target hardly depends on that feature.
 
 > **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. **Standardising** (G-1874) the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 2 the comparison is fair: both inputs from `make_regression` already have a standard deviation of about 1.
 
@@ -112,6 +112,8 @@ The example data has 100 observations, 2 features and some noise, made with scik
 >
 > `make_regression` (G-1153) invents data that follows a linear pattern plus random noise; `random_state` fixes it so the numbers repeat.
 
+The metrics of the [regression metrics Note](../52-regression-metrics/note.md) are computed exactly as before: the errors are now gaps to the plane instead of gaps to the line. With several features, adjusted R² (section 7 of that Note) is the fairer score, because it charges a penalty for each feature.
+
 On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook). Figure 6 shows the test predictions for all three: as the noise falls, the points close in on the diagonal of perfect predictions.
 
 ![Predicted against actual target on the 20 test observations, for the same recipe with noise 50, 25 and 0](images/noise_fit.png)
@@ -137,6 +139,7 @@ On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise ad
 **Built from**
 
 - CampusX, "Multiple Linear Regression | Geometric Intuition & Code", YouTube, https://www.youtube.com/watch?v=ashGekqstl8
+- StatQuest with Josh Starmer, "Multiple Regression, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=EkAQAi3a4js (R² is computed as in simple regression; adjusted R² for the extra parameters)
 
 **Other references**
 

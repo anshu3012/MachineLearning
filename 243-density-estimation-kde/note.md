@@ -113,9 +113,7 @@ Figure 3 fits the same normal curve to the first 10, 30, 100 and all 1,000 value
 
 ![Normal PDFs fitted to the first 10, 30, 100 and 1,000 values of the sample (orange) against the true PDF with mean 50 and standard deviation 5 (dashed).](images/more_data.gif)
 
-> **Extra:** `sample.std()` in NumPy divides by $n$, not $n - 1$. With 1,000 values the difference is tiny (4.944 against 4.946); see Bessel's correction in the [measures of dispersion Note](../222-measures-of-dispersion/note.md).
-
-> **Extra:** Older code fits this kind of curve with `sns.distplot`, which seaborn has deprecated (seaborn 0.13 docs). `distplot` drew a KDE (Section 5) by default (`kde=True`, `fit=None`), not a fitted normal, so its curve can differ slightly from the parametric one even on the same data. Today we use `sns.histplot(x, stat="density", kde=True)` for a histogram with a KDE, and compute a fitted normal with `scipy.stats.norm` as above.
+> **Extra:** Older code draws this kind of plot with `sns.distplot`, which seaborn has deprecated (seaborn 0.13 docs). Today we use `sns.histplot(x, stat="density", kde=True)` for a histogram with a KDE, and compute a fitted normal with `scipy.stats.norm` as above.
 
 ## 4. Non-parametric density estimation
 
@@ -146,7 +144,7 @@ The **kernel density estimate** (KDE, G-1005) is the smooth curve drawn over a h
 
 Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 5, left) shows two groups with nothing in between. No famous distribution has that shape, so we use a KDE.
 
-1. **Choose a kernel.** A **kernel** (G-1009) is a small, symmetric bump with area 1. The most used one is the **Gaussian kernel** (G-828): the normal curve.
+1. **Choose a kernel.** A **kernel** (G-2273) is a small, symmetric bump with area 1. The most used one is the **Gaussian kernel** (G-828): the normal curve.
 2. **Put one kernel on every point.** Each data point becomes the centre (mean) of its own normal curve (Figure 5, right, dotted).
 3. **Give all kernels the same width.** The standard deviation of each bump is the **bandwidth** (G-257), $h$. The bandwidth is a setting we choose.
 4. **Add up.** At every $x$, add the heights of all the bumps at that $x$. Where many points sit close together, many bumps overlap and the sum is high. Dividing by the number of points keeps the total area at 1.
@@ -295,11 +293,11 @@ If the sample does not represent the population, for example because of **sampli
 | Underlying distribution | The distribution that produced the data points |
 | Parametric density estimation | Assuming a named distribution and estimating its parameters from the data |
 | Non-parametric density estimation | Estimating a PDF from the data with no assumption about its shape |
-| Kernel density estimation | Building a PDF by adding a kernel centred on every data point |
-| Kernel | A small symmetric bump with area 1, placed on each point in a KDE |
+| Kernel density estimation (G-1005) | Building a PDF by adding a kernel centred on every data point |
+| Kernel (G-2273) | A small symmetric bump with area 1, placed on each point in a KDE |
 | Gaussian kernel | A kernel shaped like the normal curve; the usual default |
 | Bandwidth | The width (for a Gaussian kernel, the standard deviation) of each kernel; sets the KDE's smoothness |
-| Gaussian mixture model | A density built as a weighted sum of a few normal curves |
+| Gaussian mixture model (G-829) | A density built as a weighted sum of a few normal curves |
 | `KernelDensity` | scikit-learn's KDE; `score_samples` returns log densities |
 | `bw_adjust` | seaborn's multiplier on its default KDE bandwidth |
 | Scott's rule | A rule-of-thumb bandwidth: $s \times n^{-1/5}$ |

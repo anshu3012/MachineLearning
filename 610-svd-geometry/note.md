@@ -351,8 +351,8 @@ The two agree for one important family. A **symmetric matrix** (G-1932) equals i
 |---|---|
 | Singular value decomposition (SVD) | Writing any matrix as $A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal |
 | Singular value ($\sigma_i$) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first |
-| Right singular vector ($\mathbf v_i$) | An input direction of the SVD; a column of $V$ |
-| Left singular vector ($\mathbf u_i$) | An output direction of the SVD; a column of $U$ |
+| Right singular vector ($\mathbf v_i$) (G-1692) | An input direction of the SVD; a column of $V$ |
+| Left singular vector ($\mathbf u_i$) (G-1079) | An output direction of the SVD; a column of $U$ |
 | Singular value equation | $A\mathbf v_i = \sigma_i\mathbf u_i$ |
 | Orthonormal | Vectors of length 1 that are all perpendicular to each other |
 | Orthogonal matrix | A square matrix with orthonormal columns; it rotates or flips, and its inverse is its transpose |

@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, st
 
 **Batch normalisation** (G-266; BN; Ioffe and Szegedy 2015) is an algorithmic method that makes the training of deep neural networks faster and more stable. We already standardise the inputs of a network to mean 0 and **standard deviation** (G-1871) 1 (see the [data scaling Note](../1023-data-scaling-in-ann/note.md)). But the outputs of each hidden layer are the inputs of the next one, and nobody scales those.
 
-Batch normalisation scales those hidden-layer outputs, inside the network. For a chosen hidden layer, it takes the values of each node over the current **mini-batch** (G-1223) and brings them to mean 0 and standard deviation 1. The normalisation step is applied right before or right after the **activation function** (G-165).
+Batch normalisation scales those hidden-layer outputs, inside the network. For a chosen hidden layer, it takes the values of each node over the current **mini-batch** (G-263) and brings them to mean 0 and standard deviation 1. The normalisation step is applied right before or right after the **activation function** (G-165).
 
 ![Batch normalisation of one node over a batch of 4 observations: normalise with the batch's mean and variance, then scale by $\gamma$ and shift by $\beta$, then apply the activation](images/bn_steps.png){width=80%}
 
@@ -193,6 +193,14 @@ Figure 5 shows how the first of these moving means got there. It starts at 0, fo
 3. **A mild regularising effect.** Each node's mean and variance come from the current batch, so they change a little from batch to batch, and so do the activations. The small random noise reduces **overfitting** (G-1429) slightly. Usually the effect is a side benefit that does not replace [dropout](../1024-dropout/note.md), although Ioffe and Szegedy (2015) could remove dropout from their network.
 4. **Less impact of weight initialisation.** Without normalisation the loss is stretched, and a poor start (see the [weight initialisation Note](../1029-weight-initialization/note.md)) takes a long way to recover. With a better-shaped loss, the minimum can be reached from many different starts, so the choice of starting weights matters less (Ioffe and Szegedy 2015).
 
+Figure 6 tests the first two advantages on the circles networks of section 7, trained with plain SGD at six learning rates, 5 runs each.
+
+![Validation accuracy after 100 epochs of plain SGD for six learning rates, without (red) and with (green) batch normalisation. Dots: single runs; lines: their mean. Shaded: 0.9 and above.](images/lr_range.png)
+
+- **Without batch normalisation (red),** the best learning rate, 0.3, reaches a mean of 0.80, and at every rate at least one run stays near 0.50, no better than guessing.
+- **With batch normalisation (green),** the mean is above 0.9 for every learning rate from 0.03 to 1.0: a hundred-fold range in which the choice hardly matters.
+- **At learning rate 3,** both get worse. Batch normalisation widens the safe range; it does not remove the upper limit.
+
 Batch normalisation also addresses ReLU's outputs not being zero-centred (see section 8.2 of the [activation functions Note](../1027-activation-functions/note.md)): the next layer receives values centred on $\beta$, which starts at 0.
 
 ## 7. Batch normalisation in Keras
@@ -242,7 +250,7 @@ The 10 non-trainable parameters are the moving means and variances: 6 in the fir
 
 The setup:
 
-- **data:** `make_circles` (G-1148), 500 observations on two concentric circles, with two features and the circle as **target** (G-1949; the output we predict), standardised, a classic dataset that is hard to separate;
+- **data:** `make_circles` (G-110), 500 observations on two concentric circles, with two features and the circle as **target** (G-1949; the output we predict), standardised, a classic dataset that is hard to separate;
 - **models:** the one above, and the same without its two batch normalisation layers;
 - **training:** **Adam** (G-169) for 200 **epochs** (G-696), batch size 32, holding back 20% of the observations as a **validation set** (G-2067).
 
@@ -250,7 +258,7 @@ A network this small depends a lot on its random start (without batch normalisat
 
 ![Validation accuracy on concentric circles. Thin lines: 5 runs each; thick lines: their mean. With batch normalisation (green) the mean rises faster and ends higher](images/val_accuracy.png){width=95%}
 
-Figure 6 and the Notebook give:
+Figure 7 and the Notebook give:
 
 | | Without | With batch normalisation |
 |---|---|---|

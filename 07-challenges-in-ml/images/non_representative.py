@@ -1,9 +1,8 @@
-"""A non-representative sample tells the wrong story. Simulated data."""
+"""A non-representative sample tells the wrong story. Simulated data. Plotly: scatter plus two lines."""
 from pathlib import Path
+
 import numpy as np
-import pandas as pd
-import seaborn as sns
-import seaborn.objects as so
+import plotly.graph_objects as go
 
 here = Path(__file__).parent
 rng = np.random.default_rng(2)
@@ -14,27 +13,21 @@ in_sample = (x_all > 1) & (x_all < 3.5)          # we only collected data from o
 
 slope, intercept = np.polyfit(x_all[in_sample], y_all[in_sample], 1)
 xs = np.linspace(0, 10, 100)
-points = pd.DataFrame({"x": x_all, "y": y_all,
-                       "Data": np.where(in_sample, "our sample", "data we never collected")})
-lines = pd.concat([pd.DataFrame({"x": xs, "y": slope * xs + intercept, "Line": "fitted to our sample"}),
-                   pd.DataFrame({"x": xs, "y": true(xs), "Line": "the real pattern"})], ignore_index=True)
+BLUE, LIGHT, ORANGE, GREEN = "#4C78A8", "#C8C8C8", "#F58518", "#54A24B"
 
-labels = pd.DataFrame({"x": [9.6, 9.6], "y": [slope * 9.6 + intercept, true(9.6) - 9],
-                       "t": ["fitted to our sample", "the real pattern"], "Line": ["fitted to our sample", "the real pattern"]})
-
-plot = (
-    so.Plot(points, x="x", y="y")
-    .add(so.Dot(pointsize=7), color="Data")
-    .add(so.Line(linewidth=3.5), data=lines, x="x", y="y", color="Line", legend=False)
-    .add(so.Text(halign="right", valign="bottom", fontsize=14, offset=6), data=labels, x="x", y="y", text="t", color="Line", legend=False)
-    .scale(color={"our sample": "#4C78A8", "data we never collected": "#C8C8C8",
-                  "fitted to our sample": "#F58518", "the real pattern": "#54A24B"})
-    .limit(y=(0, 110))
-    .label(x="Input", y="Output", color="",
-           title="A small, one-sided sample suggests the wrong pattern  (simulated data)")
-    .layout(size=(9, 5))
-    .theme({**sns.axes_style("whitegrid"), "font.family": "Latin Modern Roman", "font.size": 14,
-            "axes.titlesize": 15, "axes.labelsize": 15})
-)
-plot.save(here / "non_representative.png", dpi=200, bbox_inches="tight")
-plot.save(here / "non_representative.pdf", bbox_inches="tight")
+fig = go.Figure()
+fig.add_scatter(x=x_all[~in_sample], y=y_all[~in_sample], mode="markers", name="data we never collected",
+                marker=dict(size=9, color=LIGHT))
+fig.add_scatter(x=x_all[in_sample], y=y_all[in_sample], mode="markers", name="our sample", marker=dict(size=9, color=BLUE))
+fig.add_scatter(x=xs, y=slope * xs + intercept, mode="lines", line=dict(color=ORANGE, width=4), showlegend=False)
+fig.add_scatter(x=xs, y=true(xs), mode="lines", line=dict(color=GREEN, width=4), showlegend=False)
+fig.add_annotation(x=9.6, y=slope * 9.6 + intercept, text="fitted to our sample", showarrow=False, xanchor="right",
+                   yanchor="bottom", yshift=12, font=dict(color=ORANGE, size=20))
+fig.add_annotation(x=9.6, y=true(9.6) - 20, text="the real pattern", showarrow=False, xanchor="right", yanchor="bottom",
+                   font=dict(color=GREEN, size=20))
+fig.update_layout(template="simple_white", width=1000, height=580, font=dict(family="Latin Modern Roman", size=20),
+                  title=dict(text="A small, one-sided sample suggests the wrong pattern  (simulated data)", x=0.5),
+                  xaxis=dict(title="Input", showgrid=True), yaxis=dict(title="Output", range=[0, 110], showgrid=True),
+                  legend=dict(x=0.02, y=0.98), margin=dict(l=80, r=30, t=70, b=70))
+fig.write_image(here / "non_representative.png", scale=2)
+fig.write_image(here / "non_representative.pdf")

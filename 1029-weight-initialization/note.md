@@ -81,7 +81,7 @@ With **ReLU** (G-1668), $a_{11} = \max(0, 0) = 0$; with **tanh** (G-1947), $a_{1
 
 The weights are 0 after the first update, so the same happens again, forever. Only the output bias, whose gradient is just $\partial L/\partial \hat{y}$, can move. The network predicts one constant for every input.
 
-We check this in Keras on 300 observations of `make_moons` (G-1151; two features, two classes), with two ReLU hidden nodes and a sigmoid output. We overwrite Keras' starting weights with zeros and train for 100 epochs:
+We check this in Keras on 300 observations of `make_moons` (G-111; two features, two classes), with two ReLU hidden nodes and a sigmoid output. We overwrite Keras' starting weights with zeros and train for 100 epochs:
 
 - every hidden and output weight is still exactly 0;
 - only the output bias moved, to $-0.0024$;
@@ -148,6 +148,8 @@ $$z_{11} = 0.5\thinspace x_1 + 0.5\thinspace x_2 + 0.5 = z_{12}$$
 
 is now some non-zero value, so $a_{11} = a_{12} \ne 0$. But the two are equal, which is exactly the situation of section 4.3. Every weight leaving one input gets the same gradient, the nodes stay identical, and the layer acts like one node.
 
+The stuck classifier in section 8 of the [backpropagation how Note](../1016-backpropagation-how/note.md), where every weight starts at 0.1, is this same problem.
+
 The Notebook confirms it with 3 hidden nodes and 100 epochs:
 
 | Activation | Weights from $x_1$ | Weights from $x_2$ | Accuracy |
@@ -155,6 +157,13 @@ The Notebook confirms it with 3 hidden nodes and 100 epochs:
 | ReLU | 0.312, 0.312, 0.312 | $-0.842$, $-0.842$, $-0.842$ | 88% |
 | Tanh | 0.192, 0.192, 0.192 | $-0.544$, $-0.544$, $-0.544$ | 88% |
 | Sigmoid | 0.744, 0.744, 0.744 | $-2.062$, $-2.062$, $-2.062$ | 88% |
+
+Figure 4 follows the ReLU row of the table through training, next to the same network with Keras' random start.
+
+![The weights from input x1 into the 3 ReLU hidden nodes during 100 epochs. Left: every weight and bias started at 0.5. Right: Keras' random start.](images/twins.gif)
+
+- **Started at 0.5 (left).** The three weights rise to about 1, fall back and settle at 0.312. They move as one line from the first epoch to the last, because at every step the three nodes receive the same gradient.
+- **Random start (right).** The three weights start at different values, receive different gradients and end at $-2.27$, $-0.13$ and 0.19: three nodes doing three different jobs.
 
 The network trains, but only as a linear model. Sections 4 and 5 together lead to one rule: every weight must start at a different value. The way to get that is to draw the starting weights at random.
 
@@ -196,7 +205,7 @@ The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh 
 
 ![Training loss of the four-layer network with plain SGD. Started from 0.01 × standard normal, tanh and ReLU stay at 0.693 for 100 epochs. Started from Keras' default, both fall to near 0](images/small_init_loss.png){width=85%}
 
-Figure 4 shows the four loss curves. The only difference between the flat and the falling ones is the starting weights.
+Figure 5 shows the four loss curves. The only difference between the flat and the falling ones is the starting weights.
 
 > **Extra:** With the **Adam** (G-169) optimizer (learning rate 0.01) instead of plain SGD, the tanh network does learn (loss 0.27, accuracy 87%) while the ReLU network stays stuck at 0.693. Adam divides each step by the recent size of that weight's gradients, so the step size does not depend on how small the gradients are (Kingma and Ba 2015). Adam therefore hides the vanishing gradient in the weights, as the Extra in section 4.3 of the [vanishing gradients Note](../1018-vanishing-exploding-gradients/note.md) explains, but does not always rescue training.
 
@@ -220,7 +229,7 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
 
 This is the [exploding gradient problem](../1018-vanishing-exploding-gradients/note.md).
 
-Figure 5 follows the tanh signal through 10 layers of the same wide network instead of 3. Watch the three rows split apart:
+Figure 6 follows the tanh signal through 10 layers of the same wide network instead of 3. Watch the three rows split apart:
 
 - with $0.01 \times$ randn, the values close in on 0, about 4 times tighter at every layer;
 - with $1 \times$ randn, they sit at $-1$ and 1 from the first layer on;

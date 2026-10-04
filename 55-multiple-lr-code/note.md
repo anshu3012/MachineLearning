@@ -75,7 +75,7 @@ An **R² score** (G-1717) of 0.44 means the 10 measurements explain less than ha
 Figure 2 shows where the number comes from. R² compares two sums of squares on the 89 test patients:
 
 - **total:** each actual value minus the mean of the actual values (blue), squared and added up: 491,740;
-- **residual** (G-1685): each actual value minus its prediction (orange), squared and added up: 275,407.
+- **residual** (G-705): each actual value minus its prediction (orange), squared and added up: 275,407.
 
 Then $R^2 = 1 - 275{,}407 / 491{,}740 = 0.44$. Watch the two rows: the model's errors (orange) spread less widely than the plain distances from the mean (blue), but not by much.
 
@@ -197,7 +197,7 @@ Figure 5 plots these errors on a log scale, where each step up the axis means 10
 | Target | The output we predict |
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised features, and disease progression one year later |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression |
-| R² score | 1 minus the model's squared error divided by the squared error of always predicting the mean |
+| R² score (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean |
 | Multicollinearity | A relationship between features, so that one can be calculated from the others |
 | np.insert | NumPy function that inserts values into an array at a given position |
 | @ (matrix multiplication) | Python's operator for multiplying matrices and vectors |

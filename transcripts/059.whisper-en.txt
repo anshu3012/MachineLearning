@@ -1,0 +1,507 @@
+Hello guys, welcome to my YouTube channel.
+We are studying gradient descent and we were studying types of gradient descent in gradient descent.
+In the last video, we studied the most vanilla gradient descent, batch gradient descent.
+And today we will study stochastic gradient descent which is probably the most used gradient descent.
+So let's start our discussion.
+So before starting the discussion, I would like to tell you what was the problem in batch gradient descent
+because of which we needed another type of gradient descent
+so if you remember we saw that if you want to calculate the coefficients of batch gradient descent
+then you have to calculate the derivative of loss function in respect to every particular coefficient
+like here you can see that if you want to calculate dL by d beta1 then this is the derivative
+Now if you focus on this derivative, then there is a summation part in the derivative.
+So what you have to do is, when you have to calculate the derivative, you have to calculate the derivative of n terms.
+You have to remember that whenever you have to calculate the derivative, you have to calculate the derivative of n terms.
+And what are those n terms? Number of rows in your data.
+So I am just showing you by doing a calculation that why a problem can happen.
+Let's say in our data there are 1000 rows.
+Very easily you can get 10,000 rows in the data.
+And the columns that you have.
+Suppose you have 5 columns.
+There are 5 input columns in the data.
+So for 5 input columns you will have 6 coefficients.
+And suppose you have kept your epoch as 50.
+So first of all, what are you doing in the loop 50 times?
+You are doing 1000 derivatives for a single coefficient 50 times in the loop.
+So for 6 coefficients, you will do 6000 derivatives.
+And these 6,000 derivatives multiplied by 50 will be, I don't know, 4, 0.
+So, you have to calculate 30,00,000 derivatives.
+Now, if you increase this number.
+Suppose you have 1,00,000 rows.
+Or you can say 10 to the power 5.
+Okay?
+And you have 100 columns.
+10 to the power 2.
+And your epoch is 1000.
+10 to the power 3.
+So, then how many total derivatives do you have to calculate?
+Total derivatives would be 10 to the power of 5 plus 2 plus 3 which means we have to calculate 10 to the power of 10 derivatives.
+And this means that you will have to do a lot of computation and it will make your algorithm very slow on big data.
+If you have 1 lakh rows and 100 columns then obviously the data is very big.
+That is why you can clearly see that you have to do 10 to the power 10 calculations or derivatives.
+That is way too much calculation to do for a single data set.
+That is why it is said that with big data sets, batch gradient descent is not that good.
+So when you enter deep learning, the two most important things you do in deep learning are
+one is CNN on images and other is RNN on text and both are high dimensional data
+and that is why you will perform batch gradient descent
+you will mostly use stochastic gradient descent or mini batch gradient descent
+you use one of these two
+So the first problem is that you have to do a lot of computation which will make the algorithm slow.
+There is no problem in a small dataset, it is fine in a small dataset and you are using it.
+Obviously it exists so its utility will also be there.
+The second problem is that if you remember, last time we wrote the whole code of this.
+We wrote the whole code of this and this was the code.
+And in this code, in one step, I told you that if you want to calculate Y hat simultaneously for all rows,
+then you will have to do this step.
+NP dot product of X train as in your entire input data and your coefficient matrix and you will add intercept in it.
+Now, what is a very big problem? By the way, this process is called vectorization.
+This is known as vectorization.
+But this vectorization is a good thing, you don't have to run a loop, you can use numpy dot product and do your work.
+But the big problem is that you are loading this entire x-train in the RAM at the same time.
+If you want to perform this operation, then for this you have to put the entire x-train in the RAM at the same time.
+Only then this calculation can be done.
+But unfortunately, if you have a very big X-train, then you will not be able to perform this operation.
+If this system requirement is surpassed, then you will not be able to perform this operation.
+You will get memory out error and that's it, your restriction will come.
+Second problem is of hardware. If you are working on a machine where RAM is less then there is a chance that you will not be able to apply batch gradient descent with big data.
+That is why there is a requirement for some other form of gradient descent. There is no problem in gradient descent, there is a problem in its implementation.
+So can we improve it by doing any implementation change?
+The answer is yes.
+And the solution is Stochastic Gradient Descent which we will discuss now.
+So guys, the biggest difference in Stochastic Gradient Descent is that
+what you do in Batch Gradient Descent is that
+after looking at the whole data in a single epoch,
+you update your coefficients once.
+If you remember this code, you were running a loop on Epoxy and in each iteration of the loop, you were updating your coefficients and intercepts.
+It means that after seeing the whole data, you take a single update on your coefficients.
+That is what you do.
+What happens in Stochastic Gradient Descent?
+In Stochastic Gradient Descent, you just update by seeing a single row.
+Then you look at the second row and update.
+then you look at the third row and update it, so if you have N rows, then in a single epoch, you will do N updates
+because of these frequent updates, you reach your correct answer a little early, means you will not need that many epochs
+you will not need that many epochs, you will converge very quickly, probably in 5 or 10 epochs, depends on the data
+Whereas, when you are in batch gradient descent, then in one epoch, you are taking only one update.
+That is, after looking at the whole rows, you are taking one single update.
+That is why you need more number of epochs.
+And then in more number of epochs, you have to look at all the data again and find the derivative of all.
+So, in that way, your Stochastic Gradient Descent becomes faster because it requires less number of epochs.
+Second, I have told you that here you have to load all the data at once in memory.
+Now, since in Stochastic Gradient Descent, you are deciding by looking at only one row at a time,
+that how much update will be there, so here you don't use the whole data and use only one row in one bar.
+So no matter how big the data is, even if it is of 1 GB, in just one bar, in one iteration,
+it means with one single row, whose memory is very less. So your hardware requirement never fails.
+So you can see in both aspects, Stochastic Gradient Descent improves your performance.
+First, it gives you faster convergence, faster convergence means that you will get less number of epochs because you are taking more updates.
+Second, you don't have to load all the data at once in memory due to which your algorithm will never break,
+and you will be able to handle even if you have low memory machine.
+Now one more thing is done here which is very important
+and that comes from this thing that the name of this algorithm is Stochastic.
+So if you google this word, then Stochastic means
+having a random probability distribution or pattern
+that may be analyzed statistically but may not be predicted precisely.
+Now when you run stochastic gradient descent, you have to update a single row in the loop every time.
+You have to update a single row by looking at it.
+But you don't pick up that row sequentially.
+For example, if the loop is running for the first time, it does not mean that you will pick up the first row.
+No, you will not do that.
+You will randomly select that out of these n rows, which row should I look at and decide the update.
+So this row is selected randomly.
+And this word comes from here, Stochastic.
+So the benefit of Stochastic is that you see faster convergence.
+You converge very fast.
+But the disadvantage of this is that it does not give a steady solution.
+It does not give a steady solution.
+This means that you will run the Stochastic algorithm and Stochastic gradient descent on the same data again and again.
+You will get different answers.
+Because you are selecting the data randomly.
+So random updates are happening.
+Although those random updates will take you near the answer.
+But it does not mean that they will give you the right answer.
+They will give you the thing near the right answer.
+And it also varies. This time something else came, next time something else came, next time something else came. It varies.
+Now, this randomness also has a benefit. We will discuss that after some time. But now just understand that there will be some randomness.
+In your answer, in your solution, there will be some randomness. So you would say that what is the benefit?
+Then you will use batch gradient descent only. So you will do it. If you have small data then you will use it.
+But if you have a lot of data, then batch gradient descent is not a solution.
+Then you have only one option left, stochastic gradient descent.
+And that stochastic gradient descent provides you a slightly imprecise solution.
+If you understood this discussion, what I will do is, I will quickly show you in code
+how to implement this whole thing.
+So guys, I have made a file and I have exactly copied and pasted this file from the previous video's code.
+We are using same to same diabetes data set and I have calculated everything till R2 score and kept it here as it is.
+Same to same, for reference. You can see, it is the same thing.
+and now we will make our own class
+SGD Regressor
+Stochastic Gradient Descent Regressor
+so what we have to do for that
+I will simply copy paste this entire code
+and then I will do modifications in it
+if you have not seen the last video
+then it is a request that you watch the previous video
+where I have taught batch gradient descent
+so things would become easier
+now see guys
+here I will do changes
+So, in our constructor, first of all I am changing its name to SGD regressor, in our constructor we need no changes, we need two things from the user,
+0.01 learning rate is default and epox 100 is default
+and everything is fine here
+in fit method
+we will do all the work in the loop again
+from scratch
+predict function as it is will remain
+whatever difference will come in the code will come in fit
+ok
+so see let's start
+First of all, we will write for i in self.epox, you will run in epox, now what did you do inside this?
+You directly, by rotating once, calculated y hat, calculated the prediction of every row
+and then you calculated the derivative of intercept and the derivative of coefficient
+but here you don't have to work on all the rows together
+Now you have to run a loop, so you will run one more loop for j in self dot, actually it will come here,
+here also it will come range of, sorry, range of self dot epochs and here it will come for j in range of self,
+not self, Xtrain.shape 0
+so this loop will run as many times as you have rows
+and every time what you are doing in rows is
+first of all you are generating a random number
+so I am calling that number IDX
+and this will be equal to
+np.random.randint
+and in this
+I have to tell in low
+0
+and in high
+extreme.
+shape
+0
+so basically what I am doing
+every time I am generating a random integer
+like this
+Every time a random integer is generated.
+We have 353 rows in Xtrain.
+So this number will always be between 0 and 353.
+And we will randomly select an index like this.
+Now what we have to do is to calculate prediction for that particular index.
+For that particular index we have to calculate prediction.
+For that particular index row in X-train there are 353 rows.
+Let's say we got 50 from IDX.
+So we will extract 50th row and calculate its prediction.
+So the step where you used to take out Y-hat and it was a matrix.
+In our case it would not be a matrix.
+matrix, it would be a scalar, a single number and here instead of multiplying from the whole extreme, what you will do is
+you will multiply from the row of idx, as I am showing you, let's say the value of idx is 42, so you will subtract 42 from the extreme
+then you will do dot product from self.coefficient
+assume self.coefficient is this
+I will quickly do it in front of you
+so let's say this is our self.coefficient
+self is not defined let's call it coefficient
+and our intercept is initially 0
+Now what you have to do is, to find out Y hat, you will do this calculation, so I will copy this and I will paste it over here, so you can see we will have 42 for IDX and we are doing this calculation outside of the class, it will be coefficient and it will be this and you can see a single number is coming, so my Y prediction is a single number, okay, that's what I wanted to show you, so now this matrix is not there.
+Last time it was a matrix of numbers because you were collecting Y hat collectively all the day.
+Now you are not doing this. Now what will you do?
+If you want to update the intercept, then this is the code to update the intercept.
+But to update the intercept, you will need the derivative of the intercept.
+And you used to calculate the derivative of the intercept like this.
+Copy this was intercept derivative and its formula was this
+See this was the formula for intercept derivative
+If I write it clearly here
+When we took out del L by del beta naught
+So, it was coming out to be 2 by m sigma i is equal to 1 to m yi minus yi hat.
+This was the derivative.
+But if you notice, this was to take out all the rows collectively.
+But now we are not working on all the rows.
+We are working on only one single row.
+so think that do we need this summation?
+we don't need this summation
+and do you need this m?
+now m will be 1 because you are taking it out for a single row
+so this formula will be transformed into
+yi minus yi hat
+here i is that idx
+that idx that we have calculated
+so it means you don't need to do mean
+since in y-train all the rows, it's a matrix, all the rows have output value
+but which row do I want? idx and y-hat is already a single value
+so this is also a single value, if you subtract both
+single value as in scalar will come, if you multiply it with minus 2, then scalar will come.
+And then we did this, we updated it.
+So this update is done. Now let's talk about updating coefficients.
+So this is the code to update coefficients.
+So I will copy this and I will paste it over here.
+So now for this also I will have to calculate coefficient derivative.
+And the coefficient derivative will come out by copying and pasting this code.
+Now I will show you what will be the change in this.
+When we were talking about batch GD, when we took it out, this came out.
+So what we used to do here, minus 2 by n, sigma of yi minus yi hat and along with it xi1
+Means the whole value of the first column if you are talking about x beta 1
+Now what you will do, first of all you don't need this summation because you are talking about a single row
+The value of n will be 1 because you have only one row and the value of this whole column
+In return you will need the value of only one single row, that's it.
+So you just don't have to do anything in this formula. You have to just make one change and that is instead of multiplying with Y train you would multiply with X train of IDX and similarly in Y train also you will write IDX.
+So this is a single number and think about its shape, if you have a data whose shape is xcrane.shape is 353 by 10
+So its one single row's shape will be 1 comma 10 and when you are dot producting it with one single number scalar
+from 1,1 then you will get 10 numbers in resultant
+you will get 10 numbers and these 10 numbers will be
+your 10 of 10 coefficients which are in this matrix
+and then you will do further work in this way
+and that's it guys this is the only difference
+this is the difference in the code of stochastic gradient descent
+and batch gradient descent
+you can see it side by side
+now what we will do is we will run it
+And let's see how its performance comes.
+Obviously, I will show you that you will not need as much epochs as you were getting here.
+I will show you that. So, let's do some experiment.
+I will just move my tablet.
+So, we are coming to SGD regressor and we are doing this.
+We are first of all running the code.
+and i will just remove all of this and i will create an object of sgd regressor
+here i will pass my learning rate to be equal to 0.01 and i will pass epox to be equal to 50
+and here I am writing sgd, sgd.fit and you can see our numbers are already coming here
+And now I will calculate the wipe rate, wipe rate will be equal to SGD.PREDICT and I will pass my X-test.
+And then I will calculate the R2 score by passing Y-test and wipe rate.
+And you can see already I am getting 0.43.
+If I put the same thing here, here if I put the value of epoch 50 and I put the learning rate to be equal to 0.01, then let's do one thing, let's run the code from above, maybe I haven't run it.
+Just give me one minute, will be quick. Everything is fine. Around 43 and see, it is not giving you a good result in such a small epoch.
+It will take more epochs. If we give 100, then its result will improve. If we increase the learning rate or the epoch, then its result will improve more.
+Whereas if you try to reduce the results, let's say I am trying 25, it has reduced a little,
+I will try with 30, 40 is coming, I will try 35, 41, I will try 40, 45, and again 50,
+I guess we are getting the right result around 50, whereas here you can see that we are not able to converge on the right result even at 100.
+So you can see this point is being proved that your stochastic gradient descent, it converges faster.
+It converges faster to the solution. But every time the solution will be different.
+Every time the solution will be different. Means if you see, if you already see these numbers that these numbers are like this.
+Now if I run this code again, see the numbers are changing because it is stochastic.
+You are taking random points every time and you are getting random answers although they will be around the solution but they will come in some difference.
+So this is a problem but since that random number is very near, it is a bit imprecise but still there is no problem.
+If you are reaching close to the solution on a big data set then that is good enough.
+So I hope you understood this distinction that what is the difference between Stochastic gradient descent and Batch gradient descent.
+Now I will prove you one more point and that point is that what is the time difference between both the algorithms?
+What is the time difference? What is the fast? So what I will do is I am importing the time module
+and here at this point i am creating a variable called start
+whose value is time.time
+and when the model is trained
+after that i am printing out
+that
+time taken is
+comma time.time
+minus start
+It will tell me in seconds that how much time it took to train the model.
+So, I will create a new object and run it.
+It took 0.0088 to train this model.
+And if we write the same code here also.
+Import time and if we come here and write
+start is equal to time dot time and print the time taken is time dot time minus start
+so you can see here it is taking a lot of time and it will take a lot of time if you think
+because the factor is very small, some people get confused and I will tell you that quickly
+let's talk about time comparison, I am asking you a question, pause the video and try to think the answer
+that if the number of epochs is fixed
+suppose E is equal to 100
+the value of epochs is 100
+which means you have to run 100 epochs
+suppose you run 100 epochs on batch
+and 100 epochs on stochastic
+Think about which algorithm will be faster. You can pause the video and think about this.
+The answer is batch will be faster. Right? Think about it.
+Although stochastic was brought because it is fast as in it reaches the solution fast.
+It does not mean that stochastic gradient descent will be faster on same number epochs.
+If you have 100 epochs, then how many number of updates will you do here?
+100. You will update once in every epoch. Whereas in stochastic, how many updates will you do?
+100 multiplied by n, where n is the number of rows.
+This means faster is batch for equal number of epochs.
+But since stochastic doesn't require that many epochs, that is why this number goes down and overall convergence of stochastic is faster on bigger data sets.
+This data set is not that big, so please don't get confused in this.
+Always remember this, it is logical and commonsensical that since you have to update for every row in every epoch,
+So the number of updates will increase if the epochs are same for both. But since we have to take less epochs,
+that's why stochastic converges faster and gives you solution in less time, especially on bigger datasets.
+So if you can see here that stochastic is taking more time, you said that stochastic will take lesser time.
+But it is not like that. It is applicable when you are working on a big dataset and your convergence is getting faster.
+So, please don't be confused. You will say that something is coming and something is not coming.
+You have to understand the major difference between them.
+So, I hope you understood this whole difference.
+Now, I will show you some visualizations.
+And after the visualization, I will do some more discussions with you regarding Stochastic Gradient Descent.
+So guys, here I have made some animations and I will share the code of these animations with you so that you can also experiment.
+There are two different visualizations here.
+So one is how your line starts from the wrong place and reaches the right place.
+And the second one is that in your cost function, this is basically 2D data.
+means there is one input column and one output column. So, this is the case of M and B,
+the case of slope and intercept. There are no multiple coefficients here. So, the second visualization
+there is M on x-axis as in slope and B on y-axis as in intercept.
+And let me explain these two visualizations once. The first visualization in this one
+This one is for batch gradient descent and the second one is for stochastic gradient descent.
+Here you can clearly see in the first visualization that you are starting from the wrong point and improving at every point.
+and eventually after 30 epochs, you are reaching the correct place, whereas in the second diagram, first of all this is not an epoch, I have written this by mistake, this is not an epoch, you would see that it is running till 100, actually this model which I have trained, this model is trained only for one epoch, for one single epoch, but why is this count going till 100, because there are 100 numbers here, so 100 times your slope and intercept has been updated,
+like here only 30 times because 30 epochs are running but here only one epoch is there, 100 rows are there
+that's why 100 updates are there so rather than epoch I should have written update here
+so you can see what is the difference here that at every point it is not necessary that you are improving
+at some points it may be that you have performed badly from last time but eventually over a period of time
+you would notice that you are reaching at the right place.
+Like here in batch gradient descent, you would see that
+you are trying to reach better position than last time at every point.
+Stochastic gradient descent does not guarantee this.
+In stochastic gradient descent, it is possible that step number n plus 1
+is worse than step number n.
+Means the next step can be worse than the previous step.
+you will see inconsistency or lack of confidence in the working of this algorithm.
+For example, it is moving very confidently towards its target. It is a little hesitant whether it is right or wrong.
+And eventually, over a period of time, it is reaching the right place. That is the first visualization which will tell you
+how Stochastic Gradient Descent works. And obviously, the behavior is justified because you can see
+If you are trying to reach the right path with the help of a single point, then it is possible that the particular point on which you are relying may tell you something wrong.
+So that is why this kind of graph is coming.
+Second, here you see this is the cost function and the darkest shade is your minimum cost.
+I have shown you the cost function, in 3D, your cost function looks something like this.
+I have shown you in 3D, it was something like this.
+So this minimum region, you had to start from here and reach here.
+This contour plot is telling that you started from here, from the values of m and b.
+And you have reached here very consistently, gradually, moving in the right direction.
+Whereas if you focus on the behavior of Stochastic Gradient Descent
+Since you are relying on only one point, your decision making is very rash
+You are reaching from anywhere but over a period of time you are reaching the right place
+See how much randomness is there, how much stochastic nature is showing
+And that is the main difference. But this is faster. This whole thing took only one epoch and this took 30 epochs.
+So you can see, every time if you run this loop separately then you would get different results.
+I have taken a snapshot so the same result is coming every time.
+But the more you run it separately, the more you see this graph separately.
+I have shared these codes with you. You run it once and see.
+And you would see that the nature of stochastic gradient descent is stochastic, random.
+But again, it will try to reach the correct solution, not the exact correct solution, but nearby.
+So, this visualization is extremely important guys.
+I would suggest that you watch this carefully.
+So guys, now let's discuss when you should use stochastic gradient descent.
+There are two really important cases where you should apply Stochastic Gradient Descent.
+The first one is if you have got big data.
+Big data means many rows and many columns.
+If you have a very big data set, then Stochastic Gradient Descent will converge faster
+and it will give you good results.
+Batch will be very slow and there is a chance that it will not be able to run because you will not be able to run vectorization.
+The second case is when you have a non-convex function.
+So what is a non-convex function?
+I told you that if you connect any two points of a function, then if the curve of your function is cutting that line, then this is a non-convex function.
+whereas if you have a convex function and if you draw a line segment on any of its two points
+then the curve of your equation will not intersect it, this is convex
+in short you can understand that in convex there will be a global minima and no local minima
+whereas in your non-convex function you can have a global minima and you can also have local minimas
+So, what is the problem in this type of function, obviously in linear regression you have convex function but when you will study further
+in logistic regression or SVM or when you will study in deep learning then you will get non-convex functions there
+and what is the problem in those non-convex functions that if you initialize your coefficients from wrong place
+So there is a chance that you can get stuck in the local minima means the solution that you will get will be a suboptimal solution
+whereas you had the best solution to show you. You will be unlucky. Basically, you become unlucky because of where you started.
+So here I have shown in a 3D diagram that a non-convex cost function looks like this.
+If you think about it, if you make a contour plot of it, like I have shown you the contour plot.
+This is contour plot. So, the darkest region in it is the minima.
+And the brightest region is your maxima.
+So, if you make a contour plot of it in this way, then you would find that in its contour plot,
+two dark shades will come.
+means like there is one single dark oval, here two will come, so one will come at this place representing this minima
+and there will be a bigger minima over here. Now as you are starting from this place, so you are slowly reaching your actual solution
+but if by mistake you started from somewhere here, then it is possible that you will get stuck here
+whereas your actual solution was here, obviously this is your m value and this is your b value
+so actual value of m should be this and actual value of b should be this
+but according to your solution actual value of m will be this and actual value of b will be this
+obviously the model is not performing that well
+so in this kind of situation batch gradient descent is very bad
+because it stops smoothly on the solution
+but your stochastic gradient descent is correct in this type of scenario because its behaviour is like this
+so it is possible that it will enter your local minima and exit
+because it has that kind of velocity and momentum which makes it take jumps
+because everything is random so it takes jumps
+and because of that jump it may exit this local minima
+And then it reaches here while searching.
+This work cannot be done by batch gradient descent.
+This work can only be done by stochastic gradient descent.
+Obviously, you have to carefully monitor the learning rate.
+Only then you will be able to do this work.
+But yes, this can give you a very impossible thing.
+And that is that it can reach the global minima by leaving the local minima.
+So, these are two cases where batch gradient descent is very useful.
+Big data and second non-convex functions.
+So guys, there is one more problem in stochastic gradient descent.
+And that problem is that even if you converge to the solution in a very random way,
+but after coming very close to the solution, because of the randomness involved,
+involved, your solution fluctuates a lot. You can see that we are already close to the
+right solution but still this method will fluctuate. And where it will go after fluctuating
+is not known. And this is not a good thing. As soon as you come close to your solution,
+your fluctuation should decrease so that you stay close to the optimal solution.
+So this is a problem in stochastic gradient descent and to solve this a concept is used which is called learning schedule.
+So learning schedule is a concept where you do one thing and that thing is that you vary your learning rate.
+Till now, you must have noticed that in all epochs, your learning rate is constant.
+But if you want, you can also vary it.
+In fact, I will show you.
+Here, I have made a function called learning rate.
+In this, you give an input called t.
+You give this input t and return this.
+Now t0 value is 5 and t1 value is 50, so t will depend on what will be your learning rate and how will you get t?
+t is this, so you calculate this i, i is basically the current epoch, x dot shape is 0, basically how many rows you have
+and j is the current item of the inner loop.
+So in a way, I am making learning rate a function of i and i is epoch.
+So I am making learning rate a function of epoch.
+Means as epoch will change, learning rate will change.
+So if you try this a little bit, I had written a code on it that if your n is 100,
+100 means you have number of rows is 100 and if you consider your epoch, for now it is
+1. I tried for 1. So you would see that when this whole process starts, then your first
+learning rate will be 0.1. You can easily calculate that. I will be 0, J will be 0. So
+So basically T0 divided by T1 will be 5 divided by 50 will be 0.1.
+And when this loop will end after 100 times, then the learning rate of LR will be 0.03.
+So you can see as you are moving forward, your learning rate is decreasing.
+And when your learning rate will decrease, your fluctuation will start stabilizing with decreased learning rate.
+So you can make a lot of functions like this, there are a lot of functions, this is a very simple function, but if I had applied this, I will share this notebook with you.
+As soon as I applied this, my result improved a little more in stochastic gradient descent. So learning schedule is an important concept.
+Here it is not used as much in linear regression as it is used in deep learning. But nevertheless, you should know what learning schedules are.
+In short, learning schedules means you vary your learning rate with epochs and as you move forward, you decrease your learning rate.
+So that it becomes a little stable.
+Now we are doing one last thing.
+In scikit-learn, there is an implementation of stochastic gradient descent.
+There is a class called SGD regressor.
+I will run that once and show you.
+So guys, this is the class that I was talking about SGD regressor.
+It is a very useful class and it has internally stochastic gradient descent implemented.
+The good thing about this class is that it can work on different types of loss functions.
+So here you can keep different loss functions.
+The squared loss is the same on which we are working.
+So you can also have Huber loss, epsilon insensitive, squared epsilon insensitive.
+Basically, you can implement SVM regressor of support vector machine through this class.
+We will discuss all this. I am just saying that this class is a general sort of class which can apply gradient descent over different machine learning algorithms.
+Because at the end gradient descent is nothing but minimizing your loss function and getting the value of parameters.
+So, if you give different laws, then your solution will be different. So, this is a flexible class.
+It is not only for linear regression, it can also work for other algorithms. This is what I was saying.
+Apart from this, you can apply penalty as in regularization. We have not studied regularization yet.
+We will study it. This is related to alpha regularization. L1 ratio is related to regularization.
+Max iteration is epochs, how many epochs you want to run. Tolerance is basically how much you want to stop earlier.
+Means you don't want to run till 1000 epochs. If you are getting the best solution earlier, then stop earlier.
+For that you use tolerance that if the value of your previous parameter and the value of the parameter after iteration is less than this,
+is less, then you will not work further, you will stop there only, this means your parameters are not improving
+shuffle again to shuffle the data, so that randomness increases, epsilon is related to some other loss function
+we don't care about it, random state, I told you that whenever you apply stochastic gradient descent
+your answer will keep changing. If you fix the random state then at least for a particular random state value
+your result will be consistent. Learning rate, here you can use different strategies. The first one is constant
+where your learning rate will not vary at all. From the first to the last epoch, the learning rate will remain the same.
+Second is optimal and inverse scaling and then adaptive.
+These are the three techniques to implement your learning schedule.
+We are not studying about this right now.
+Eta 0 is basically the initial value of your learning rate.
+If you take it as constant, then the value of Eta 0 throughout will be constant.
+If you take the other two, then the value of your learning rate will vary.
+Power T is again related to inverse scaling strategy.
+If you keep early stopping true, your tolerance will come in the picture and if your model is already stabilizing, then you stop there.
+After that, these things are nothing special.
+So what did I do? I implemented the same class here.
+And I set these parameters, max iteration as in epox 100, learning rate constant, eta0 is equal to 0.01.
+And I run it, trained the model and then did the prediction.
+So this was the outcome that I was getting.
+So here we had to run 100 epochs.
+The class that we had made was giving us around 0.42 R2 score in 40 epochs.
+This difference is because the code written in this class is different from what we have written over here.
+But somehow our result is performing well on this particular dataset.
+We are able to convert in less epochs. Now I will have to see what is the code behind it.
+But whatever it is, this is the class that you will use. Obviously, you do not use your own class.
+We made it so that you get an idea of how the whole thing is working.
+But mostly whenever you apply gradient descent while using linear regression, you use this SGD regressor class.
+So I just showed you by running it. Now what you have to do is pick up any data set and put SGD regressor on it.
+Change the value of parameters, change the epox etc. and play with it. Machine learning is all about performing experiments.
+The more experiments you perform, the more knowledge you will have. So that was stochastic gradient descent guys.
+I hope you liked the video.
+In the next video, we will discuss mini batch gradient descent,
+which will be the last type of gradient descent that we will discuss.
+And then we will move ahead.
+Okay.
+So that's it for the video.
+Thanks for watching.
+Bye.

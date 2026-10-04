@@ -1,0 +1,432 @@
+Hello guys, welcome to my YouTube channel.
+In the last three videos, we learned how to handle missing values in your data.
+And in today's video, we will cover the same topic.
+So let's start the video.
+So just to give you some perspective, we have read three videos till now.
+In the first video, we saw complete case analysis.
+Where if there is any missing value in your data, you remove that complete row.
+We learned this.
+In the next video, we discussed how to handle numerical missing data.
+We saw three techniques there.
+After that, we learned how to handle categorical missing data.
+Here also, we saw two techniques.
+We covered these three videos till now.
+In today's video, we are going to discuss three different topics together.
+So first of all, we will discuss a special technique which you can apply on both categorical and numerical data.
+It's called Random Value Imputation.
+Imputation through random numbers.
+Then in the second topic, we will study a new concept which is called Missing Indicator.
+What is this? We will discuss it later.
+And in the last part of this video, we will discuss a technique
+by which you can automatically tune the correct parameter of a simple imputer using Grid Search CV.
+So we can write it as Automatic Selection of Parameter.
+We will cover these three topics in today's video.
+And as soon as this is done, our univariate data imputation will be completed.
+then we will move to multivariate data imputation where we will study two things
+KNN imputer in tomorrow's class and iterative imputer in its next class or video
+so this is the plan total will be 6 videos in this playlist on missing value imputation
+so today is the fourth video
+so let's start with the first thing
+what is random imputation
+So random imputation is a very simple concept but it is used quite a lot. I will explain what happens here.
+Let's say you have a column in which you have a lot of values and in between there are missing values like this.
+So now you have to fill these missing values. So how do you fill these missing values? By using random numbers.
+At first time it seems a little weird that what will be the benefit of doing it with random numbers.
+But these are not normal random numbers.
+You select these random numbers randomly from other numbers that are present in your column.
+These numbers present like here is 26, here is 32, here is 56, here is 41
+So the number you will select here, you will select a random number from all of them.
+So it is not like you are using any number from 1 to 100. No.
+You will randomly select the number from the numbers in your data and fill it in the missing places.
+That is the whole concept.
+The good part about this concept is that it can be applied to both numerical as well as categorical columns.
+Think about it, if you have a column by the name of sex or gender.
+Now there is male, female, female, male, then there are missing values.
+So how will these missing values be filled?
+By these values.
+The values given here, you will randomly select one of these values and fill this missing value.
+So this technique is very simple.
+The concept is that you select any of the values which are already present in your data randomly and replace them with missing values.
+That is the whole idea. Now the biggest benefit of this is that it is easy.
+Think about it, how easy it is to apply. Although you will not be able to do this in sklearn.
+You will not be able to do this. This feature is not given to you in sklearn. You have to do this work in pandas.
+But still it's an easy task. The best part of this technique is that the distribution of your data or variance is intact.
+It is saved. Like all the techniques we have studied till now like mean median imputation or arbitrary value.
+In which we studied, we noticed one thing that the distribution of your data
+If it was like this before, then it might have changed a bit when you used to do imputation
+But when you do imputation through random numbers
+If the distribution of your data is this, then it will be almost the same
+Distribution and variance remains intact almost the same
+If you think why this happens, then it is very simple
+See, this is your distribution, now what does it mean, the values here are the most available in your data, the probability of getting these numbers is the most.
+So when you randomly pick up the numbers, even then the same numbers will come more, basically these numbers will come more, whose probability is higher.
+understand one thing, you have taken a lot of numbers and put them in a bag
+now in that 60 to 70 numbers are the most
+so when you randomly take any number then the probability of coming between 60 to 70 will also be high
+and the probability of randomly coming out of these numbers will be less
+similarly the probability of coming out of these numbers will be same
+so when you fill those numbers by taking them out
+So your variance and the shape of your data is almost similar.
+And this is a very good thing.
+When you are dealing with linear algorithms like linear regression, logistic regression.
+There the shape of your data, the shape of your distribution and the variance is intact.
+This is a very good thing.
+Although this technique does not work so well on decision tree based algorithms.
+Because you are inducing randomness in the data.
+So not necessarily it is a good thing.
+So the simple thing is that you mostly use the random technique
+when you apply linear algorithms on your data
+and not tree based algorithms.
+We have discussed why your variance and data distribution remains the same.
+One problem is that your co-variance with other variables
+gets disturbed a little bit.
+Covariance means the relationship with others gets messed up and the reason is that you have introduced randomness in the data.
+So we have discussed some key points.
+Another disadvantage of this technique is that it is memory heavy for deployment.
+As we need to store the original training set to extract values from and replace any incoming observation.
+Means when you deploy this model on the server,
+then as soon as a new data comes on the server,
+the value of age is missing,
+then from which number will you replace it?
+From the number which will be randomly extracted from the training data.
+So this means in the training data,
+all the values of age,
+you have to keep them on your server,
+so that as soon as the missing value of age comes,
+you can generate a random number from here and replace it.
+But the problem in this technique is that if your training data is very big, then this big data will consume your memory on the server.
+Not a good thing, right?
+And the third thing that we have just discussed is that it is well suited for linear models.
+And what is the reason for that? Because its distribution is not distorted, no matter how many missing values are there.
+So these are some key points.
+Now I will show you how you can apply random imputation using pandas both on numerical data as well as categorical data.
+So this is my data guys. First I will show you numerical data. I will show you numerical data on titanic dataset.
+And categorical data I will show you on house pricing dataset because in titanic there is not much data missing in categorical columns.
+So, we have imported all this. In the Titanic data set, we have used only 3 columns, age, fair and survived.
+And this is my outcome. This is my data. If you check the missing values according to the percentage,
+then almost 20% values are missing in age. Nothing is missing in fair and nothing is missing in survived.
+And what am I doing here? I am creating my x and y. There will be no survived column in x.
+and Y will be the survived column, train test is split, now what I am doing is
+I want to show you the changes in before imputation and after imputation
+that's why I am not making any changes in the old one and making a completely new column
+by the name of age imputed and since we have two sets, training and test set
+I am making this column on both data frames, at this point if you notice
+So, this is my X-train. This is my X-train. You can see.
+And now what I am doing is, I am adding a new column named age-imputed in which I am copying all the values of age.
+And I am doing the same work with test. So, it will be a bit boring to do this that you are doing changes in a part of data frame.
+But it's okay. Now if I show you, then my data frame looks something like this.
+Both, test and trained, both will be shown exactly like this, like this, a new column has come by saying age imputed
+And for now, there are only those values which are in our age, if I show you by tailing, then you will understand better
+Because in tailing, there are certain missing values, you can see, here exactly same values are there
+Now what I have done here, here is a little tricky piece of code, there will be a little problem in understanding
+Here I have done a step that I have replaced all the missing values in the age-imputed column
+by randomly selecting a value from all the values in age.
+See what I have done here. This is a bit complex code.
+If I show you what this is first, then you might be able to understand a bit.
+See, I took out age imputed column from x-strain and in fact, first see this, what I did, I am getting a little confused, this is our age imputed column.
+Now, I put this code in front of it, x-strain age imputed is null, so basically I will get those values which are null.
+and in total there are 148 values, means what I did by writing this code, I fetched the values of age imputed column in Xtrain where the value is missing,
+and then I replaced these missing values with this piece of code, now you will understand this piece of code immediately,
+see I will copy this and show you what I did here, first of all I hit drop n in Xtrain age,
+By doing this, all the missing values in x-train-h have disappeared.
+Now only the original values are left.
+Now I put a sample on it.
+Now what will the sample do?
+Out of all the values, one of them will be extracted and given to you.
+But I don't want one value.
+I want 148 values in total.
+Because 148 values are missing in the age-imputed column.
+So I just did this much that the code I wrote there, I wrote the same code here.
+x train age is null sum and if you see this value then it is exactly 148, you can see 148
+so in a way I just said that remove all the missing values from x train age and take out the sample, how many? 148
+so the answer of this whole thing is actually 148 and since this is a series so I took out the values and converted them in numpy array
+And you can see this is 148 randomly generated values from my age.
+When I will run it again and again, these numbers will be different.
+You can see.
+So I have done the same step here.
+I have replaced all the missing values of age imputed with these values.
+And I have done the same work in test set.
+And this step is completed.
+Again ignore that warning.
+If you are doing changes in a part of the data frame then it is not allowing you to do it.
+It means it is throwing a warning.
+And now if I run Xtrain and show you, you can see that there are still missing values in our age but there are no missing values in our age imputed.
+We have imputed everything with random values. Now we have two different columns.
+Age which is the first column, the original column and age imputed which is the imputed column.
+Now we can do side by side comparison in both of them.
+So first of all we will see that how much similarity is there in both the distributions.
+So if I run it, you can see, I will do one thing, I will false the histogram in both because there is some disturbance from the histogram.
+And you can see that the original one is blue and the imputed one is orange, they are almost same.
+Means if you are using a linear model, then in both these data frames, in both these data sets, there will not be any special difference in performance.
+It will come in the tree based model, it will not come in the linear model because your distribution is almost the same.
+Now let's talk about variance, so if we talk about the variance of the X-train age and the variance of the age imputed, there is not much difference.
+204 is coming in the original and 208 is coming in the imputation, so there is not much difference.
+The difference is in covariance. If I show you the relation of age with fair and the relation of age imputed with fair,
+you would see that the relation of age with fair is 71 but the relation of age imputed with fair is 43.
+This is what I discussed that the co-variance of your data changes with the rest of the columns.
+So you can't stop that here. Lastly, if you talk about outliers, then you will see the same outliers as before.
+There is no significant impact on outliers of this imputation technique.
+So this was about numerical data.
+Now let's talk about our, what have I done here, I just see.
+Okay.
+One last thing guys, what is the problem here?
+When you impute missing values from random numbers,
+then what is the problem?
+When you are on production, means a proper website is running
+and you have used this imputation technique in it,
+then it is possible that every time for the same input,
+For the same input also, you give different prediction.
+Think about it. Someone said that my fare is this much.
+Let's assume that it is 50.
+And he didn't tell the age.
+This time your model can be that
+you automatically see the age as 60.
+Next time you will tell the same fare again.
+But the age will be different again because you are selecting randomly.
+So what you should do here is
+when you are implementing this technique in production,
+this randomness that
+you are giving the same input again and again
+because you are generating random numbers
+What you should do is, for the same given input, you should generate the same random number every time.
+Meaning, if the fair is same, then the random value of age should also be same.
+If I just said 50, and the value of age is 40.
+Next time the user said fair 50, then the value of age should be 40 again.
+You should make sure of this.
+And for that, you can just add the fair value of the current observation in the random state.
+So, until the fair value remains the same, your random state will always ensure that the sampling is always the same.
+Otherwise, your model can make a little mistake.
+Because it is possible that two users are giving the same input and both are showing different results.
+So, this is not a good thing.
+So, to avoid this, you should generate random numbers on the basis of their given input.
+That is one input which you should remember while making production based projects.
+So I have discussed this. I am not able to understand what I have written here.
+I will comment it out. So yeah, now let's talk about categorical data.
+For categorical data, I am going to use this housing data set.
+And again I am using the same three columns.
+Garage quality, fire pace quality and sale price.
+Ok, and run it. This is my data, there are 3 columns and the missing values in the data are like this.
+In the fireplace, almost 50% data is missing. In the garage quality, 5% data is missing.
+And in the sale price, which is my target column, there is no data missing.
+What I have done here is that I have put full data in X and only sale price in Y.
+I did this because I will need a target column to plot the graph.
+So, that's why I did this. I did train test split.
+And guys, I did the same work here. I made two new columns.
+Garage quality imputed and fire pace quality imputed.
+And I added both of them in the original data frame.
+Both for training and test.
+If I show you after this step that how my x-train is looking, then you can see this is my x-train.
+So, this is my complete data including sale price. I have told you that I have kept the sale price on purpose because I need it further.
+And these are my two new columns which are the same now.
+Garage quality and fire place quality are the same.
+And here also I have used the same technique which I did above here.
+over here
+I have written the exact same code
+you should not have any confusion
+same warning is coming
+we will ignore it in the same way
+and now what I have done
+we have discussed this thing earlier
+what we are doing
+in every categorical column
+all the categories
+their frequency we are seeing
+before imputation, after imputation. If the frequency is changing, then it's not good.
+So, I did this first for the garage quality one, in which less data is missing, only 5%.
+And you can see that this is original and this is imputed. And these are my 5 categories.
+So, TA category is almost same. This is also almost same. This is also almost same, 99, 111.
+There is a slight difference actually, here also there is a slight difference, here also there is a slight difference, but there is not much difference, so you can use this technique here.
+And the same thing I applied on the fire place quality, where 50% data was missing, so you can see there are a lot of changes here.
+So this is a red flag, if you can see this, then you will have to see whether this technique should be applied or not.
+And you can make sure that if you plot this graph that you are looking at the sale price for every category.
+And you can see that before this was your distribution for every category.
+And when I put it in the after one, in the fireplace imputed one, you can see that your distribution has changed.
+See these two. The purple category is still the same.
+The orange category has come down a bit near the blue category.
+The green one went a little up and the red one also got a lot of changes.
+So this is not a good thing especially when you are dealing with a linear model
+that changes are coming in the distribution like this.
+So if you are using a linear model then you don't put random number imputation on the fireplace column
+because the reason for this is that a lot of data is missing
+and if there is a lot of data missing then it can be difficult to fill in this way.
+So, we have discussed this whole thing about random sample imputation. I hope you understood this whole thing.
+Now, we will discuss missing indicator. So guys, in this imputation technique what you do is that you make a completely new column.
+For every column which has a missing data. For any column which has any missing data, you make a new column.
+in which you keep only two values, true and false. When do you keep true? When in the corresponding row,
+let me draw and show you. Let's say you have two columns, age and fare. And here are the values like this,
+27, 32, 41, 35, missing value and 41, 62 and 32.
+Now what will you do in the missing indicator?
+In all those columns where there is a missing value, you make a new column for that.
+You can name this column as age na.
+Now if there is a value here, then you write false here that the value is not missing.
+in the next one also write false
+here you will write true because the corresponding value is missing
+and in the last one also you will write false
+and that is the whole concept
+this is what you have to do
+now you must be thinking what is he saying
+what is the use of this
+this seems weird
+but guess what
+this is a very useful technique
+in fact there is a competition KDD Cup
+There for the first time, some participants used this technique and they eventually won the competition.
+And they said that the differentiating factor due to which their team's model performed well,
+it was this technique, missing imputation, missing category, missing indicator.
+Now what happens, clearly no one knows this, but what happens by doing this,
+An estimate of people is that your machine learning model learns to differentiate between missing rows and non-missing rows in which data is not missing.
+And if the model learns to create that difference, then somehow its performance improves.
+Now, this thing doesn't always work, means this technique will not always work for you.
+But it is one of the techniques which you should try and see if your accuracy or R2 score is not improving.
+It looks a little weird but yes, it works sometimes.
+So what I will do is, I will show you one example, a very small example on the toy data set.
+But I can show you that it really improves the accuracy.
+So let me go back to code, so what I have done here, I have used the same titanic data set and used only 3 columns, age, fair and survived.
+You know the missing values in age, so let's run the code once and after that I am keeping both the columns except survived in X,
+in y i am keeping only survived and i am splitting between train and test so now my extreme is this
+in which there is only age and fair ok now i will show you first without using this technique
+how much accuracy you get and after using this technique how much accuracy you get
+so i made simple imputer class and i simply replaced everything with mean value
+both in the train set and the testing set.
+And this is my outcome.
+So if I run it,
+x train trf, this numpy array would have been made.
+Like this.
+Now there is no missing value here.
+In age.
+And now the work ahead is very simple.
+I called logistic regression,
+fit it,
+took out y test, y print,
+and calculated accuracy score
+which came somewhere around 61%. Now what we do is we use the concept of missing indicator.
+So for this you have to make an object of psychic learn of missing indicator class.
+Now the object of missing indicator is called mi and I have made mi.fit i.e. x-train.
+and here MI has some attributes
+features
+so it is telling you that in your first column
+there are missing values and it is correct
+there are missing values in age
+that is what it is telling us
+now what you have done is
+you have transformed MI dot to Xtrain
+and put it in this variable
+Xtrain missing
+so now we will run it
+so my Xtrain is missing
+This is a completely new column which is made by looking at the column of age and it has only false and true values.
+Simple. And I applied the same thing on my test set.
+And now my X test is also the same.
+Now what I have to do is, I have to add these values in this new column in my original x-train.
+So I have added x-train missing in age-na and did the same thing in test.
+Again warning is coming and after this if I run x-train then you would see that we have a new column
+of missing indicator where corresponding values are there.
+So if value is there in age then here value is false.
+If there is no value in age then here is true value. So now I have 3 input columns instead of 2.
+Which is the third one? The one with missing indicator. I have done the same thing in test also.
+Like this. And now I have done the same thing. I have again called the simple imputer.
+And all the missing values in the age column, I have replaced them with mean value.
+Both of them are in train and test and some value error is coming and I don't know why this error was coming
+But again I have run everything from top to bottom without changing any code and now I have X train trf2 and X train xtest trf2 as my input and output
+And then I used the same code of logistic regression and you can see my accuracy improved by 2%
+just by using this technique of missing indicator. So it works. It looks a bit strange that why it is working
+but it works. Somehow if you are able to explain to your model that there is missing value in these rows
+and there is no missing value in these rows, then sometimes your model can improve your accuracy with this knowledge also.
+So it depends, you can try it. It is an interesting technique.
+You just have to use the missing indicator class.
+The good part is that this technique has become so famous that even in your simple imputer,
+there is a parameter called add underscore indicator which you keep false by default.
+But if you want, you can do it directly true.
+Then you don't have to use this missing indicator class separately.
+So the next code, I am showing you directly without using the missing indicator class.
+I made it like this and I have to run the X-train and X-test again because there are 3 columns in it.
+So I have run it again and I went down and changed in X-train and X-test and the accuracy is the same.
+So either you can use the missing indicator class, if you are using the Pandas workflow then you have to use the missing indicator class.
+But if you are using scikit-learn, then directly turn on this parameter in the simple imputer class.
+You will see the same parameter in the can imputer and iterative imputer.
+So you can use it.
+Then you don't have to import a class separately, you don't have to make an object.
+And then you don't have to work so hard to merge the column coming from that object.
+I mean this code is much cleaner than the previous one which I have shown you here.
+We have to do the whole merging by making the columns, it is a little twisted work.
+So it is much better that you use this flow.
+So this was an interesting technique, sometimes I have also used it and I have seen the benefit.
+I hope it will also help you sometime.
+So now the last thing that is left in this video, we will discuss that is
+How can we automatically select the parameter values for any imputation technique?
+So let's start.
+So guys there is nothing special here.
+what you do is you use a technique called grid search CV. If you have read it before, then you will find it very easy.
+If you have not read it, then read it. There is a video on it on my channel. It is a very simple technique.
+Here automatically your scikit-learn tries all the combinations and gives you the best results. That's it.
+So there is nothing to explain here as such concept wise, I will show you the code directly, you will understand.
+So what I am doing here, I have taken all the imports and I will complete the Titanic project and in the same process we will find out that
+the best accuracy is coming from which imputation technique, that's it.
+So here we will use column transformers and pipelines etc. I hope you have seen those videos.
+So here is my data and here I have done one upfront work that I have removed these 4 columns which I don't think will be of much benefit
+You can keep it if you want, you can process it, I have removed it. Now my data is looking like this
+Now you should know that in all the remaining data, your missing value is in age and in embarked
+you have missing values in these two places. So I have extracted x and y first,
+leaving out the survived, everything else is input, survived output.
+I have split the train test, this is my x-train. You can see these are the input columns.
+Now what I am doing, I am applying some pre-processing here.
+I am going to do two things on my two numerical columns, age and fare.
+First, I will do imputation, although there is no missing value in fair but I will do imputation on age and then I will apply standard scaling and standardization on both of them.
+And on both of my categorical columns, sex and embarked, I will do two things on both of them.
+First, I will apply imputation on embarked and then I will apply one-hot encoding on both of them.
+And when both these works are done, then I will apply logistic regression on the whole data.
+So basically funda is this, let me show you this picture first.
+First I am applying simple imputer on all my numerical columns with a strategy of medium.
+And then I am applying standard scalar.
+And at the same time I am applying simple imputer on my categorical columns with a strategy of most frequent.
+And then I am applying one hot encoder.
+And when both of them will be ready, then I am applying logistic regression on the whole data.
+This is my strategy.
+So it is very simple. What we did? First of all, we removed our numerical columns.
+And created a pipeline.
+And the name of this pipeline is Numerical Transformer.
+There are two steps in this pipeline. First, only on the numerical column.
+First, if there is a missing value in any of the columns, then impute it using the median technique.
+and then scale it, and in categorical, I am applying two step transformation on these two columns
+first, simple imputer, if there is a missing value in any of the two columns
+then replace it with most frequent value, and then apply one hot encoder
+so, I have applied this, and now what I am doing, I am making a column transformer
+in which I will run these two transformers, all numerical transformers on numerical columns
+And all the Categorical Transformers on Categorical Features like this.
+And lastly, I am creating one more pipeline where Step 1 will be this Column Transformer
+and Step 2 will be Logistic Regression.
+Okay.
+And I have written this code so that you can see this picture.
+It has no other significance.
+And this is the main step where you are applying Grid Search CV.
+Now you send your entire pipeline in Grid Search CV.
+And you send a Parameter Grid.
+And in this parameter grid, you can see that the numerical imputer strategy that I have,
+means if you see here above, then the parameters for this, I have defined here, mean and median.
+And for the categorical one, most frequent and constant.
+And these parameters are decided for logistic regression.
+It is called C value. When you will study logistic regression, you will understand.
+and now i have just defined grid-srcv and in next step i have just given my x-train and y-train and fit it
+this takes some time and after doing this you can print the best parameters like this
+so i have run it once it will take some time because what is happening is that you are trying all the combinations
+so it takes some time and this is our result it is being said that the value of c should be 1
+in categorical use most frequent and in numerical use mean
+this data set is not that big so that you can see a lot of variation
+so this is the result of all the combinations
+this combination was giving this accuracy score and this combination was giving this score
+so you can see that in the beginning the same accuracy is coming for a long time
+and in the end from this point there are changes in 100 C
+so here you are not seeing much variation in titanic
+But if you use some bigger data set or do some different transformations in titanic.
+Like for constant you use fill value.
+Here we have kept strategy as most frequent.
+If you keep constant and try different values of fill value then maybe you can get different outcomes.
+But you have to keep this code with you as a reference material.
+That in future if you want to decide imputation parameters by running code.
+So you can use this code. I have picked up this code from the website of scikit-learn and have manipulated it according to me.
+So this is a very standard code. Scikit-learn itself recommends that you use this code.
+So with that, this is the video. We have discussed a lot. I think around 35-40 minutes have passed in this video.
+So it's okay. The good part is that we have covered a lot of ground. A lot of things were left.
+we have covered today. Now only two things are left, one is KNN imputer and second is iterative imputer.
+We will cover these two things in the next two videos. And with that our missing data imputation topic
+will be covered. So that's it for the video. Thanks for watching. Bye.

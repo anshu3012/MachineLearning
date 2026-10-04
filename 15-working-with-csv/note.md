@@ -330,7 +330,7 @@ When we see this error, we have two options:
 1. Find out the file's encoding and pass it in `encoding`.
 2. Open the file in a text editor (such as Sublime Text or VS Code) and save it again as UTF-8. Characters that cannot be converted may turn into blanks or odd symbols.
 
-> **Extra:** `latin-1` maps every possible byte to some character (Python docs, `codecs`), so it never raises this error. Loading without an error does not mean the text comes out right. In our file, a restaurant called "Café Daniel Briand" shows up as "Cafí© Daniel Briand", because the file's text was already garbled before it was saved: after "Caf" the file holds the bytes `ED A9`, which are neither the latin-1 "é" (`E9`) nor the UTF-8 "é" (`C3 A9`). If letters look wrong after loading, try other common encodings such as `"cp1252"` (Windows) and compare.
+> **Extra:** `latin-1` maps every possible byte to some character (Python docs, `codecs`), so it never raises this error. Loading without an error does not mean the text comes out right. In our file, a restaurant called "Café Daniel Briand" shows up as "Cafí© Daniel Briand". If letters look wrong after loading, try other common encodings such as `"cp1252"` (Windows) and compare.
 
 ## 13. Skipping bad lines (on_bad_lines)
 
@@ -346,7 +346,7 @@ isbn;title;author;year
 
 The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line splits into 5 values.
 
-**Before:** `pd.read_csv("books.csv", sep=";")` stops with `ParserError: Expected 4 fields in line 5, saw 5`. A **parser** (G-1455) is the part of a program that reads text and splits it into pieces; a parser error is a strong hint that some lines do not fit.
+**Before:** `pd.read_csv("books.csv", sep=";")` stops with `ParserError: Expected 4 fields in line 5, saw 5`. A **parser** (G-1454) is the part of a program that reads text and splits it into pieces; a parser error is a strong hint that some lines do not fit.
 
 **After:** we tell pandas what to do with bad lines.
 
@@ -374,7 +374,7 @@ Figure 8 shows why the line breaks. Watch the title: its `;` splits it in two, s
 
 > **Key point:** pandas guesses each column's type; `dtype` lets us set it ourselves, for example to save memory.
 
-Each column has one data type, its **dtype** (G-641): whole numbers (`int64`), decimals (`float64`), text (`str`), and so on. `read_csv` guesses each column's dtype from its values, and we can see the guesses with `df.info()`.
+Each column has one data type, its **dtype** (G-540): whole numbers (`int64`), decimals (`float64`), text (`str`), and so on. `read_csv` guesses each column's dtype from its values, and we can see the guesses with `df.info()`.
 
 In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0` and `1.0`, so pandas reads it as `float64`. A whole-number type is the natural choice for a 0/1 column.
 
@@ -534,7 +534,7 @@ Figure 12 shows our 1,000-row file read with `chunksize=300`: four chunks of 300
 
 Any work goes inside the loop: counting, filtering, or computing totals that we combine at the end.
 
-> **Extra:** Inside the loop, use the loop's own variable. A loop written `for chunks in reader:` that then prints `chunk.shape` uses a leftover `chunk` from earlier code, and prints the same shape every time. The reader is also used up after one loop; to loop again, call `read_csv` again.
+> **Extra:** The reader is used up after one loop; to loop again, call `read_csv` again.
 
 ## 19. Summary
 
@@ -584,8 +584,8 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 | Feature | An input variable, one column of the data table |
 | Target | The output a model predicts |
 | TSV file | Like a CSV file, with tabs between values |
-| Header | The line of a file that holds the column names |
-| Parameter | A named setting passed to a function, like `sep=";"` |
+| Header (G-884) | The line of a file that holds the column names |
+| Parameter (G-1448) | A named setting passed to a function, like `sep=";"` |
 | Relative path | A file's location, starting from the folder the code runs in |
 | User-Agent | A short text a browser sends to say what it is |
 | Separator | The character between values on a line, such as `,` or a tab |
@@ -594,9 +594,9 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 | Missing value | An empty entry, shown by pandas as `NaN` |
 | Encoding | The rulebook that maps text characters to stored bytes |
 | UTF-8 | The most common encoding, and `read_csv`'s default |
-| Parser | The part of a program that reads text and splits it into pieces |
-| dtype | The data type of a column, such as `int64`, `float64` or `str` |
-| DataFrame | The pandas name for a table |
+| Parser (G-1454) | The part of a program that reads text and splits it into pieces |
+| dtype (G-540) | The data type of a column, such as `int64`, `float64` or `str` |
+| DataFrame (G-1441) | The pandas name for a table |
 | Datetime | A value pandas understands as a point in time |
 | Chunk | A piece of a file, read as a small DataFrame |
 | Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time |

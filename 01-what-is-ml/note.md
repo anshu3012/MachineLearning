@@ -33,13 +33,26 @@ The rest of this Note covers:
 
 > **Key point:** Machine Learning is learning from data, without being explicitly programmed.
 
-The formal definition:
+In simple terms, Machine Learning is all about learning from data. A program that learns gets better at its job as it sees more examples, without anyone rewriting its code.
 
-**Machine Learning (ML)** is a field of computer science that uses statistical techniques to give computer systems the ability to *learn* with data, without being explicitly programmed.
+The standard definition attaches the terms: **Machine Learning (ML)** (G-1140) is a field of computer science that uses statistical techniques to give computer systems the ability to *learn* with data, without being **explicitly programmed** (G-730; section 3.1).
 
-In simpler terms: Machine Learning is all about learning from data.
+"Getting better with more examples" can be measured. Figure 2 does it with a real spam filter that learns from text messages.
 
-> **Extra:** The phrase "without being explicitly programmed" is usually credited to Arthur Samuel, who named the field in 1959 while building a checkers program that learned partly by playing against itself. The exact words are a later paraphrase of his paper, which says that learning from experience "should eventually eliminate the need for much of this detailed programming effort" (Samuel 1959). A more precise definition, from Tom Mitchell (Mitchell 1997, Ch. 1): a program **learns** from experience E at a task T, measured by P, if its performance at T, measured by P, improves with E. For a spam filter: T is sorting emails into spam and not spam, E is a set of emails already labelled, and P is the share of emails it sorts correctly.
+![A spam filter learning from more and more labelled text messages (SMS Spam Collection, 1,000 test messages, mean of 20 random training sets). The dashed line is a filter that calls every message "not spam".](images/spam_experience.gif)
+
+1. **The data.** 5,574 text messages, each with a **label** (G-1032): spam or not spam (Almeida et al. 2011). We keep 1,000 of them aside as a **test set** (G-1962), which the filter never learns from.
+2. **The experience.** A **Naive Bayes** (G-1297) filter (see [Note 87](../87-naive-bayes-intuition/note.md)) learns from 10 labelled messages, then 20, 50, and so on up to all 4,574 that are left.
+3. **The score.** Each time, we count how many of the 1,000 test messages it sorts correctly. This share is its **accuracy** (G-162).
+4. **The result.** With 10 messages it scores 86.9 percent, no better than always answering "not spam" (86.6 percent of the test messages are not spam). With 100 messages it scores 93.8 percent, and with all 4,574 it scores 98.1 percent. The code never changed; only the data grew.
+
+Tom Mitchell's definition states this exactly (Mitchell 1997, Ch. 1): a program **learns** from experience E at a task T, measured by P, if its performance at T, measured by P, improves with E. In Figure 2:
+
+- **T** is sorting messages into spam and not spam;
+- **E** is the set of labelled messages it has learned from (the horizontal axis);
+- **P** is the share of test messages it sorts correctly (the vertical axis).
+
+> **Extra:** The phrase "without being explicitly programmed" is usually credited to Arthur Samuel, who named the field in 1959 while building a checkers program that learned partly by playing against itself (Samuel 1959).
 
 ## 3. Explicit programming vs learning from data
 
@@ -61,9 +74,19 @@ In ML we do not write the logic. The bottom half of Figure 1 shows what we do in
 
 1. We collect **data** that contains both inputs and their outputs. Each input variable is a **feature** (G-772; one column of the data table), the output we want to predict is the **target** (G-1949), and each record is an **observation** (G-1374; one row of the table).
 2. We give the data to an **ML algorithm**, a general method for finding patterns.
-3. The algorithm explores the data and finds the **pattern** between input and output. This step is called **training** (G-2003).
+3. The algorithm explores the data and finds the **pattern** between input and output. This step is called **training** (G-1255).
 4. The result is a **model** (G-1256): the logic, found by the algorithm instead of written by us.
-5. We give the model new inputs, and it produces the outputs.
+5. We give the model new inputs, and it produces the outputs. Each output is a **prediction**: the model's answer for an input whose true output we do not know.
+
+Figure 3 shows steps 1 to 5 on real data: the CGPA and salary package (in lakh rupees per annum, LPA) of 200 students.
+
+![A model making predictions (200 students, CGPA and package). The dots are the training data, the black line is the model, and the dashed orange path reads off the prediction for a new student. Idea after StatQuest, "A Gentle Introduction to Machine Learning".](images/predict_line.gif)
+
+1. **The data.** Each dot is one student: the feature is the CGPA, the target is the package. The data a model learns from is its **training set** (G-2002), also called training data.
+2. **Training.** The algorithm fits a straight line through the dots (how it finds the line is the subject of [Note 50](../50-simple-linear-regression/note.md)). The line is the model: package = 0.57 × CGPA − 0.99.
+3. **Prediction.** A new student has a CGPA of 7.5. We go up from 7.5 to the line and across to the vertical axis: the prediction is 3.29 LPA. For a CGPA of 8.5 the same line predicts 3.86 LPA, and for 6.0 it predicts 2.43 LPA.
+
+Nobody wrote the rule "0.57 × CGPA − 0.99": training found it in the 200 dots. Predicting a number, as here, and sorting into classes, as the spam filter of Figure 2 does, are the two main jobs of ML models ([Note 3](../03-types-of-ml/note.md)).
 
 The advantage: we do not have to write code for each condition or case. The ML algorithm handles them automatically.
 
@@ -82,7 +105,15 @@ The advantage: we do not have to write code for each condition or case. The ML a
 | 1, 6, 2 | 9 |
 | 5, 5, 5, 5 | 20 |
 
-When the model trains on this data, it discovers that the pattern is addition. After training, whether we give it two, four or ten numbers, it adds them all.
+When the model trains on this data, it discovers that the pattern is addition. After training, the model adds the numbers of a new row, whether the rows it trained on held two, four or ten numbers.
+
+Figure 4 shows training at work on the two-number case. The model is a formula with three numbers it can change, called its **parameters** (G-1450): sum ≈ $w_1 a + w_2 b + c$.
+
+![Training a model on 20 pairs of numbers and their sums. Left: each dot is one pair, the model's answer against the true sum. Right: the three parameters, with black marks at 1, 1 and 0.](images/learn_addition.gif)
+
+1. **Start.** The parameters begin at $w_1 = 0.20$, $w_2 = -0.30$ and $c = 3.00$. The model knows nothing: for the new input 7 and 8 it answers 2.00, and its dots lie far below the dashed line.
+2. **One training step.** The model answers all 20 pairs (the two pairs of the table plus 18 random pairs from 0 to 10), measures how far each answer is from the true sum, and moves each parameter a little in the direction that shrinks that error. This repeated nudging is **gradient descent** (G-862; see [Note 57](../57-gradient-descent/note.md)).
+3. **After 3,000 steps.** The parameters are $w_1 = 1.00$, $w_2 = 1.00$ and $c = 0.04$, every dot sits on the dashed line, and the answer for 7 and 8 is 14.99. Nobody wrote "add" into the model: the values 1, 1 and 0 are addition, and they were found in the data.
 
 The hand-written program cannot do this. The program was coded to add exactly two numbers, so with more than two it fails until we rewrite it. Being free of the cases we coded is the key difference, and a large part of why ML is so powerful in industry.
 
@@ -112,13 +143,21 @@ Suppose we must build an **email spam classifier**: a program that decides wheth
 2. Look for patterns by hand. For example, spam often repeats words such as "discount", "sale" or "awesome", or is full of pictures.
 3. Write a long **if-else ladder**: one `if` condition for each pattern we found.
 
-Say one of our rules is: *if "huge" appears more than three times, mark the email as spam*. Figure 2 (left) shows what happens next.
+Say one of our rules is: *if "huge" appears more than three times, mark the email as spam*. Figure 5 (left) shows what happens next.
 
 ![Spam filtering with hand-written rules vs Machine Learning](images/spam_rules_vs_ml.png)
 
 Advertising companies find out about the rule and write "big" or "massive" instead of "huge". Our program no longer catches their emails, so we change the logic. They experiment with other words, and we have to change it again, and again.
 
-*With Machine Learning* (Figure 2, right), the logic comes from the data. When advertisers change their words, we add the new labelled emails to the data, and the change is reflected in the logic automatically. We write one algorithm, and it handles everything else.
+*With Machine Learning* (Figure 5, right), the logic comes from the data. When advertisers change their words, we add the new labelled emails to the data, and the change is reflected in the logic automatically. We write one algorithm, and it handles everything else.
+
+Figure 6 measures this story on the 5,574 text messages of Figure 2, with the word "call" in the role of "huge".
+
+![A hand-written rule and a learned filter, before and after spammers change one word (SMS Spam Collection; 134 spam messages in the test set). Left: share of the spam caught. Right: the weight the learned filter gives each word.](images/spam_arms_race.gif)
+
+1. **Today.** Our hand-written rule is: *if the message contains "call", mark it as spam*. The rule catches 42.5 percent of the spam. A Naive Bayes filter that learned from 4,574 labelled messages catches 88.1 percent. The filter gives every word a weight; "call" has a weight of +1.4, a sign of spam.
+2. **The spammers adapt.** We replace "call" with "ring" in every spam message. The hand-written rule now catches 0.0 percent. The learned filter still catches 87.3 percent, because it weighs all the words of a message, not one.
+3. **Retraining.** The filter trains again on labelled messages that contain the new wording. Nobody edits its code. The weight of "ring" moves from −0.3 to +4.1, the filter catches 91.0 percent, and the hand-written rule stays at 0.0 until someone rewrites it.
 
 > **Extra:** Real spam filters moved to ML in exactly this way. An early study trained a simple filter that learns word probabilities from labelled emails. Using words alone, 97.1% of the emails it flagged as junk really were junk, and it caught 94.3% of all junk (Sahami et al. 1998, Table 1). That method, Naive Bayes, is covered in [Note 87](../87-naive-bayes-intuition/note.md).
 
@@ -136,7 +175,11 @@ There are hundreds of dog breeds:
 
 To write this program by hand, we would need a case for every breed and every look. We cannot even imagine how many cases that is, so we cannot code it.
 
-Instead, we use the same technique humans use. From childhood we were shown animals and told "this is a dog", "that is not a dog, that is a cat". Our mind kept tagging names to animals and learned from that data. An ML model learns from labelled photos in the same way.
+![Twelve labelled photos (Kaggle Cats vs Dogs dataset). The eight dogs share no single colour, size or pose.](images/dog_photos.png)
+
+Figure 7 shows the problem on real photos. Try to write one rule that is true for all eight dogs and false for the four cats: "brown" fails, "large" fails, "standing on grass" fails.
+
+Instead, we use the same technique humans use. From childhood we were shown animals and told "this is a dog", "that is not a dog, that is a cat". Our mind kept tagging names to animals and learned from that data. An ML model learns from labelled photos, such as those of Figure 7, in the same way.
 
 ### 4.3 Data mining: finding hidden patterns
 
@@ -146,7 +189,7 @@ First, what data analysis is. **Data analysis** (G-530) is the process of search
 
 Sometimes the information is too well hidden to show up in any graph. For example, just by reading emails, we may be unable to spot which words make an email spam.
 
-**Data mining** (G-537) means applying an ML algorithm to data to extract such hidden patterns. Figure 3 contrasts the two:
+**Data mining** (G-537) means applying an ML algorithm to data to extract such hidden patterns. Figure 8 contrasts the two:
 
 ![Data analysis vs data mining](images/analysis_vs_mining.png){width=80%}
 
@@ -176,22 +219,20 @@ ML is similar. Its theory and mathematics have existed for 40 to 50 years, but i
 
 > **Key point:** Two problems held ML back: too little data and too weak hardware. The internet and smartphones solved both.
 
-ML needs a significant amount of data. Before 2010, two things held it back (Figure 4, left):
+ML needs a significant amount of data. Before 2010, two things held it back (Figure 9, left):
 
 1. **Data:** collecting and labelling data was slow, tedious work.
 2. **Hardware:** computers were not powerful enough to run the algorithms on large data. Even 128 MB of RAM was a big deal.
 
 ![What changed for ML around 2010](images/why_now.png)
 
-After 2010, the internet and smartphones solved both problems (Figure 4, right).
+After 2010, the internet and smartphones solved both problems (Figure 9, right).
 
 *Data.* We now generate data at a huge pace. Think of everything one person does on a phone from morning until bed; then multiply by about 4 billion internet users around the world.
 
 *Hardware.* Many of us carry phones with up to 12 GB of RAM and a GPU in our pocket, more than research scientists once had.
 
 With good hardware, plenty of data and the algorithms, ML is now enjoying its success, and its growth is not expected to stop any time soon.
-
-> **Extra:** The data figures move fast. A widely quoted IBM claim from around 2013 said that 90% of the world's data had been created in the previous two years (IBM 2013). About 5.3 billion people were online in 2022 and about 5.5 billion in 2024 (ITU 2022; ITU 2024), well above the 4 billion above.
 
 ## 6. Machine Learning jobs
 
@@ -218,9 +259,9 @@ Higher salaries make more people learn the technology. In a few years, most engi
 
 ![Demand for a new technology over time (schematic)](images/talent_curve.png)
 
-Figure 5 shows this pattern for any technology: the salary premium first rises, then falls back as experts become common. ML is still on the rising part, so if we learn it well now, we can benefit from that growth.
+Figure 10 shows this pattern for any technology: the salary premium first rises, then falls back as experts become common. ML is still on the rising part, so if we learn it well now, we can benefit from that growth.
 
-> **Extra:** Figure 5 is a sketch of the supply-and-demand argument, not measured data. Real salaries depend on the role, country and skill level.
+> **Extra:** Figure 10 is a sketch of the supply-and-demand argument, not measured data. Real salaries depend on the role, country and skill level.
 
 ## 7. Summary
 
@@ -244,17 +285,18 @@ Figure 5 shows this pattern for any technology: the salary premium first rises, 
 **Built from**
 
 - CampusX, "What is Machine Learning? | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=ZftI2fEz0Fw
+- StatQuest with Josh Starmer, "A Gentle Introduction to Machine Learning", YouTube, https://www.youtube.com/watch?v=Gv9_4yMHFhI (the fitted line that makes a prediction, Figure 3)
 
 **Other references**
 
+- Almeida, T. A., Gómez Hidalgo, J. M. and Yamakami, A. (2011). Contributions to the Study of SMS Spam Filtering: New Collection and Results. *Proceedings of the 11th ACM Symposium on Document Engineering (DocEng '11)*. The SMS Spam Collection v.1, UCI Machine Learning Repository, https://archive.ics.uci.edu/dataset/228/sms+spam+collection
+- Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [Note 1049](../1049-cat-vs-dog-cnn/note.md)).
 - Han, J., Kamber, M. and Pei, J. (2011). *Data Mining: Concepts and Techniques*, 3rd ed. Morgan Kaufmann.
-- ITU (2022, 2024). *Measuring Digital Development: Facts and Figures 2022* and *2024*. International Telecommunication Union.
 - Krizhevsky, A., Sutskever, I. and Hinton, G. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS*.
 - Mitchell, T. (1997). *Machine Learning*. McGraw-Hill.
 - Rosenblatt, F. (1957). *The Perceptron: A Perceiving and Recognizing Automaton*. Report 85-460-1, Cornell Aeronautical Laboratory.
 - Sahami, M., Dumais, S., Heckerman, D. and Horvitz, E. (1998). A Bayesian Approach to Filtering Junk E-Mail. *AAAI-98 Workshop on Learning for Text Categorization*, Technical Report WS-98-05.
 - Samuel, A. (1959). Some Studies in Machine Learning Using the Game of Checkers. *IBM Journal of Research and Development* 3(3).
-- IBM (2013). *IBM Smarter Computing: Big Data* (brochure). public.dhe.ibm.com.
 
 ## 9. Key terms
 
@@ -269,7 +311,14 @@ Figure 5 shows this pattern for any technology: the salary premium first rises, 
 | Observation | One record; one row of the data table |
 | ML algorithm | A general method that finds the pattern between inputs and outputs in data |
 | Pattern | The relationship between input and output that the algorithm discovers |
-| Training | The step in which an algorithm learns the pattern from data |
+| Training (G-1255) | The step in which an algorithm learns the pattern from data |
+| Training set | The data a model learns from; also called training data |
+| Prediction (G-1550) | A model's answer for an input whose true output is not known |
+| Parameter (G-1450) | A number inside a model that training changes, such as $w_1$ in sum ≈ $w_1 a + w_2 b + c$ |
+| Gradient descent | Training by repeatedly nudging each parameter in the direction that shrinks the error |
+| Label | The known answer attached to an observation, such as spam or not spam |
+| Test set | Observations kept aside, never learned from, used to measure performance |
+| Accuracy | The share of observations a model sorts correctly |
 | Model | The logic produced by training, used to give outputs for new inputs |
 | Spam classifier | A program that decides whether an email is spam or not |
 | If-else ladder | A long chain of hand-written conditions, one per case |

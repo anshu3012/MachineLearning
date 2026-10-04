@@ -38,7 +38,7 @@ The ANN part runs in this order:
 1. **Foundations:** what deep learning is, how it differs from ML, the main types of network, their history and applications.
 2. **The perceptron** (G-1486): a single artificial **neuron** (G-1318), how it predicts, how it is trained, and the problem that a single neuron cannot solve.
 3. **The multi-layer perceptron (MLP)** (G-1270): many neurons in **layers** (G-1056), the names of its **weights** (G-2106) and **biases** (G-287), and how it makes a prediction.
-4. **Training:** **loss functions** (G-1130), **backpropagation** (G-247) and **gradient descent** (G-862).
+4. **Training:** **loss functions** (G-706), **backpropagation** (G-247) and **gradient descent** (G-862).
 5. **First projects** in the **Keras** (G-1003) library: one classification and one regression problem.
 6. **Improving a network:** vanishing and exploding gradients, dropout, regularisation, activation functions, weight initialisation, batch normalisation, optimisers and hyperparameter tuning.
 

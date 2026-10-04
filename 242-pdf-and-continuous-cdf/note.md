@@ -140,7 +140,7 @@ The density histogram of Figure 1 rests on the same idea. A density bar has heig
 
 > **Key point:** The normal and log-normal distributions are famous continuous distributions with known PDF formulas; Poisson, often listed with them, is discrete.
 
-The famous continuous distributions of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) (Figure 4) each have a PDF formula:
+The famous continuous distributions of the [random variables and distributions Note](../240-random-variables-and-distributions/note.md) (Figure 6) each have a PDF formula:
 
 - **Normal distribution** (G-1343): parameters $\mu$ (mean, location) and $\sigma$ (standard deviation, scale). Much natural data follows it. Its PDF, worked through in the [Gaussian Naive Bayes Note](../90-gaussian-naive-bayes/note.md), is
   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
@@ -241,6 +241,6 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 |---|---|
 | Probability density | Probability per unit of $x$: the height of a PDF, whose area over a range is a probability |
 | Integration | Finding the area under a curve by adding up infinitely many thin strips |
-| $\int_a^b f(x)\thinspace dx$ | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$ |
+| $\int_a^b f(x)\thinspace dx$ (G-13) | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$ |
 | Log-normal distribution | A right-skewed continuous distribution whose logarithm is normal |
 | Differentiation | Finding the slope of a curve at each point; the derivative of the CDF is the PDF |

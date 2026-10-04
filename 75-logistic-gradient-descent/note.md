@@ -139,7 +139,7 @@ So for one observation, the derivative of the bracket is $(y - \hat{y})\thinspac
 
 $$\frac{\partial L}{\partial w} = -\frac{1}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 
-$X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \times 1$, so the **gradient** (G-865) has shape $(n + 1) \times 1$: one slope per weight, the same shape as $w$ (Figure 2).
+$X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \times 1$, so the **gradient** (G-863) has shape $(n + 1) \times 1$: one slope per weight, the same shape as $w$ (Figure 2).
 
 > **Extra:** This gradient has exactly the same form as the one for linear regression with mean squared error: $X^{\mathsf T}(\text{actual} - \text{predicted})$, scaled. The only difference is that the predictions now pass through the sigmoid (Bishop §4.3.2).
 
@@ -273,7 +273,7 @@ In practice this is handled by stopping after a fixed number of epochs, or by ad
 | Decision boundary | The line where the model's probability is exactly 0.5; one class is predicted on each side |
 | Learning rate ($\eta$) | The step size $\eta$ that scales each gradient descent update |
 | Epoch | One pass over all the training points |
-| Gradient | The vector of slopes of the loss, one for each weight |
+| Gradient (G-863) | The vector of slopes of the loss, one for each weight |
 | Batch gradient descent | Gradient descent that uses all observations for every update |
 | penalty=None | LogisticRegression setting that switches regularisation off |
 | Perfect separation | When a straight decision boundary splits the training classes with no mistakes; unregularised weights then grow without limit |

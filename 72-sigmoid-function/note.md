@@ -100,11 +100,26 @@ For a student with CGPA 7.5 and IQ 110, the model still computes $z = w_0 + w_1 
 
 To make a yes-or-no prediction, we predict "placed" when $\hat{y} \geq 0.5$, which is the same decision as before.
 
-### 5.2 A map of probabilities
+### 5.2 One feature: an S-curve through the data
 
-> **Key point:** Lines parallel to the boundary have equal probability; the probability changes gradually across the plane.
+> **Key point:** With one feature, the model is the S-curve itself. $w_0$ shifts the curve left or right and $w_1$ sets how steep it is.
 
-Figure 3 colours the plane by $\sigma(x_1 + x_2)$, for the line $x_1 + x_2 = 0$.
+Start with one feature only. Figure 3 plots 100 students by CGPA: each dot sits at 1 if the student was placed and at 0 if not. Low CGPAs are almost all at 0, high CGPAs almost all at 1, and the two groups overlap around CGPA 6.
+
+The model is $\hat y = \sigma(w_0 + w_1 \times \text{CGPA})$, an S-curve drawn through these dots. Watch the two weights do different jobs:
+
+- **$w_0$ shifts the curve.** The curve crosses 0.5 where $w_0 + w_1 \times \text{CGPA} = 0$, that is at CGPA $= -w_0 / w_1$. With $w_1 = 1$, moving $w_0$ from $-4.5$ to $-6.01$ moves the crossing from CGPA 4.5 to 6.01.
+- **$w_1$ sets the steepness.** A larger $w_1$ makes the probability climb from near 0 to near 1 over a narrower range of CGPA.
+
+The last frame is the curve that logistic regression fits to this data: $w_0 = -39.26$, $w_1 = 6.53$. To predict, read the curve: a student with CGPA 6.5 gets $\sigma(-39.26 + 6.53 \times 6.5) = 0.96$, a 96% chance of being placed. The crossing at CGPA 6.01 is the **decision boundary** (G-555): above it the model predicts placed, below it not placed.
+
+![The sigmoid on one feature: 100 students at 0 (not placed) or 1 (placed) against CGPA. First $w_0$ shifts the curve, then $w_1$ steepens it; the last frame is the fitted logistic regression curve, which crosses 0.5 at CGPA 6.01. Idea after StatQuest, "Logistic Regression".](images/s_curve.gif)
+
+### 5.3 A map of probabilities
+
+> **Key point:** Lines parallel to the decision boundary have equal probability; the probability changes gradually across the plane.
+
+With two features the crossing point becomes the line $w \cdot x = 0$, and the S-curve becomes a surface that rises across it. Figure 4 colours the plane by $\sigma(x_1 + x_2)$, for the line $x_1 + x_2 = 0$.
 
 ![σ(w · x) as the probability of being placed](images/probability_map.png){height=50%}
 
@@ -115,6 +130,23 @@ Figure 3 colours the plane by $\sigma(x_1 + x_2)$, for the line $x_1 + x_2 = 0$.
 So instead of a hard yes or no, every student now gets a **probability of being placed**: the further onto the positive side, the higher the chance. The probability of **not** being placed is $1 - \hat{y}$. A student with $\hat{y} = 0.7$ has a 70% chance of being placed and a 30% chance of not.
 
 This **probabilistic interpretation** (G-1566) is the second view of logistic regression mentioned in the perceptron Note, and the next Note builds on it.
+
+> **Extra:** What does the number $z = w \cdot x$ itself mean? The **odds** (G-1376) of an event are its probability divided by the probability of the opposite: $p / (1 - p)$. A 0.75 chance of being placed is odds of $0.75 / 0.25 = 3$, "3 to 1". The **log-odds** (G-1116) are the natural log of the odds. Solving $p = \sigma(z)$ for $z$ gives
+>
+> $$z = \ln\frac{p}{1 - p}$$
+>
+> so $z$ is exactly the log-odds of the positive class.
+>
+> | Probability $p$ | Odds $p / (1 - p)$ | Log-odds $z$ |
+> |---|---|---|
+> | 0.5 | 1 | 0 |
+> | 0.731 | 2.72 | 1 |
+> | 0.881 | 7.39 | 2 |
+> | 0.953 | 20.1 | 3 |
+>
+> Figure 5 draws the fitted CGPA model both ways. As a probability it is an S-curve. As log-odds it is the straight line $w_0 + w_1 \times \text{CGPA}$. So logistic regression is a linear model for the log-odds: $w_1 = 6.53$ means each extra CGPA point adds 6.53 to the log-odds of being placed, and $w_0$ is the log-odds at CGPA 0. The decision boundary is where the log-odds are 0, that is where the odds are 1 to 1 (StatQuest, "Logistic Regression Details Pt1: Coefficients"). Log-odds return in [gradient boosting for classification](../122-gradient-boosting-classification/note.md).
+>
+> ![The fitted CGPA model drawn two ways. Left: the probability of being placed, an S-curve. Right: the log-odds, a straight line. The red points mark the same four CGPA values in both panels: probabilities 0.5, 0.731, 0.881 and 0.953 are log-odds 0, 1, 2 and 3.](images/log_odds.png)
 
 ## 6. The new update in action
 
@@ -143,7 +175,7 @@ None of the values is 0, so every point updates the weights.
 
 > **Key point:** y − σ(z) is large for points deep on the wrong side and small for points deep on the correct side.
 
-Figure 4 draws $y - \sigma(z)$ against $z$, the point's signed position relative to the line.
+Figure 6 draws $y - \sigma(z)$ against $z$, the point's signed position relative to the line.
 
 ![The size of the update against the point's position](images/push_pull.png){height=42%}
 
@@ -154,6 +186,12 @@ For a positive point (green, $y = 1$):
 - deep on the correct side ($z = 4$): $1 - 0.982 = 0.018$, a very weak push.
 
 For a correct point, the push is strongest when it is just on the correct side, near the line, and fades as it gets further away. The negative points (blue) mirror this. The curve shows exactly the behaviour planned in the table of Section 2.2.
+
+Figure 7 shows the pushes on data. It starts where the step perceptron of the [perceptron trick Note](../70-perceptron-trick/note.md) stopped on its 24 students: every student is correct, but the line is only 0.14 away from the nearest one. Now the sigmoid rule runs, with learning rate 0.5. Each frame picks one student (red ring) and the arrow shows the push on the line; its length is $|y - \hat y|$. Watch the arrow lengths: at pick 1 the student is 0.16 from the line and pushes with strength 0.45; at pick 6 the student is 1.98 away and pushes with only 0.03. Every pick moves the line a little, and after 40 picks the smallest distance to a student has grown from 0.14 to 0.54.
+
+![The sigmoid rule on 24 students, starting from the line where the step perceptron stopped (dashed in the last frame). Each frame: the picked student (ring) pushes the line away; the arrow's length is the strength |y − ŷ|. Near students push hard, far students gently. After 40 picks the smallest distance from the line to a student has grown from 0.14 to 0.54.](images/push_pull_run.gif)
+
+All 40 picks are pushes, because every student is already on the correct side. The pull on a misclassified student is the perceptron trick's own move, animated in that Note.
 
 ## 7. Does it help?
 
@@ -176,7 +214,7 @@ For a correct point, the push is strongest when it is just on the correct side, 
 >     return w
 > ```
 
-Figure 5 compares three lines on data with a wide gap between the classes (`make_classification` with `class_sep=30`):
+Figure 8 compares three lines on data with a wide gap between the classes (`make_classification` with `class_sep=30`):
 
 ![Step perceptron, sigmoid perceptron and logistic regression](images/three_lines.png){height=50%}
 
@@ -186,7 +224,7 @@ Figure 5 compares three lines on data with a wide gap between the classes (`make
 | Perceptron with sigmoid | 3.07 | 1.21 |
 | Logistic regression (scikit-learn) | 2.20 | 1.97 |
 
-Figure 6 trains both perceptrons side by side on the same random sequence of points. The step perceptron makes its last change at the 44th point; after that every point is correct and the line freezes close to the green class. The sigmoid line keeps moving, because every point still sends an update, and it drifts away from the green points.
+Figure 9 trains both perceptrons side by side on the same random sequence of points. The step perceptron makes its last change at the 44th point; after that every point is correct and the line freezes close to the green class. The sigmoid line keeps moving, because every point still sends an update, and it drifts away from the green points.
 
 ![The step perceptron (left) and the sigmoid perceptron (right) trained on the same random points, learning rate 0.1. The step line stops changing after 44 points; the sigmoid line keeps moving away from the green class, ending with a gap of 1.21 against 0.25.](images/race.gif)
 
@@ -194,7 +232,7 @@ The step version stops right next to the green class. The sigmoid version moves 
 
 So the change was in the right direction. Why is the sigmoid line still off-centre? The line is not finished yet. Run longer, the sigmoid perceptron keeps moving towards the logistic regression line, and with the small penalty that scikit-learn adds by default it lands on that line (details in the Extra below). In fact the sigmoid update is already the gradient descent step of logistic regression (Bishop §4.3.2), as the [gradient descent Note](../75-logistic-gradient-descent/note.md) will show.
 
-What we still lack is a way to say which line is best: a **loss function** (G-1130), one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function is the subject of the next Note.
+What we still lack is a way to say which line is best: a **loss function** (G-706), one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function is the subject of the next Note.
 
 > **Extra:** The test, in the notebook. Gaps (blue, green) of the sigmoid perceptron:
 >
@@ -219,6 +257,8 @@ What we still lack is a way to say which line is best: a **loss function** (G-11
 **Built from**
 
 - CampusX, "Logistic Regression Part 3 | Sigmoid Function | 100 Days of ML", YouTube, https://www.youtube.com/watch?v=ehO0-6i9qD4
+- StatQuest with Josh Starmer, "StatQuest: Logistic Regression", YouTube, https://www.youtube.com/watch?v=yIYKR4sgzI8. The one-feature S-curve through 0/1 data (Figure 3), redrawn on the placement data.
+- StatQuest with Josh Starmer, "Logistic Regression Details Pt1: Coefficients", YouTube, https://www.youtube.com/watch?v=vN5cNN2-HWE. The log-odds view of the weights (Section 5.3, Extra).
 
 **Other references**
 
@@ -231,4 +271,7 @@ What we still lack is a way to say which line is best: a **loss function** (G-11
 | Sigmoid function | $\sigma(z) = 1/(1 + e^{-z})$; an S-shaped curve that maps any number into the range 0 to 1 |
 | Logistic function | Another name for the sigmoid function |
 | Probabilistic interpretation | Reading the model's output as the probability of the positive class |
+| Decision boundary | Where the model's prediction switches class: here, where $w \cdot x = 0$ and the probability is 0.5 |
+| Odds | The probability of an event divided by the probability of the opposite, $p / (1 - p)$ |
+| Log-odds | The natural log of the odds; equal to $z = w \cdot x$ in logistic regression |
 | Push and pull | Moving the line away from a correctly classified point, or towards a misclassified one |

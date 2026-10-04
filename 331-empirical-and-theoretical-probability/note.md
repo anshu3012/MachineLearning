@@ -272,4 +272,4 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 | Axioms of probability | The three rules every probability obeys: non-negative, $P(S) = 1$, mutually exclusive events add |
 | Complement ($A^c$) | The event that $A$ does not happen: every outcome not in $A$ |
 | Complement rule | $P(A^c) = 1 - P(A)$ |
-| General addition rule | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, for any two events |
+| General addition rule (G-173) | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, for any two events |

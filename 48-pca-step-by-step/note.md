@@ -270,7 +270,7 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 
 > **Key point:** An eigenvector is a recipe: how much of each original feature goes into the new one. An eigenvalue divided by the sum of all eigenvalues is the share of the variance that component keeps.
 
-**The recipe.** Each new feature is a weighted sum of the old ones, a **linear combination** (G-1091), and the weights are the entries of the eigenvector. These weights are called **loadings** (or loading scores).
+**The recipe.** Each new feature is a weighted sum of the old ones, a **linear combination** (G-1091), and the weights are the entries of the eigenvector. These weights are called **loadings** (G-2204) (or loading scores).
 
 1. **Flats.** PC1 is $(0.707, 0.707)$, so the position of a flat along PC1 is $0.707 \times \text{rooms} + 0.707 \times \text{washrooms}$ (after centring). The recipe uses equal parts of both features: PC1 is a "size of the flat" feature.
 2. **The 3-feature example.** PC1 is $(0.54, 0.66, 0.53)$ (NumPy prints it with every sign flipped, which is the same line), so all three features go in with about the same weight. PC2 is $(-0.69, -0.01, 0.72)$: feature 3 minus feature 1, with almost nothing of feature 2.
@@ -281,13 +281,13 @@ A feature with a loading near 0 hardly matters for that component; a feature wit
 
 $$\text{share of PC1} = \frac{1.354}{1.354 + 0.946 + 0.778} = \frac{1.354}{3.077} = 0.44$$
 
-A bar chart of these shares, one bar per component, is called a **scree plot**. Figure 9 builds it for the example: 44, 31 and 25 percent. The orange line adds the bars up: PC1 and PC2 together keep 75 percent, which is the number quoted under Figure 8.
+A bar chart of these shares, one bar per component, is called a **scree plot** (G-2205). Figure 9 builds it for the example: 44, 31 and 25 percent. The orange line adds the bars up: PC1 and PC2 together keep 75 percent, which is the number quoted under Figure 8.
 
 ![The scree plot of the 3-feature example, built one component at a time. Bars: eigenvalue ÷ sum of eigenvalues. Orange line: the running total.](images/scree.gif){height=38%}
 
 The [PCA on MNIST Note](../49-pca-mnist/note.md) uses the same shares, there called the explained variance ratio, to choose how many components to keep.
 
-> **Extra:** A frequent bug, also found in older code for this example: `np.linalg.eig` and `np.linalg.eigh` return the eigenvectors as the **columns** of the result, not its rows. Writing `vectors[0:2]` takes two rows, which are not principal components; along them the data's variance is 1.01 and 1.11 instead of 1.35 and 0.95. `eig` also does not sort its output by eigenvalue. Always sort, and take `vectors[:, :k]`.
+> **Extra:** A frequent bug: `np.linalg.eig` and `np.linalg.eigh` return the eigenvectors as the **columns** of the result, not its rows. Writing `vectors[0:2]` takes two rows, which are not principal components; along them the data's variance is 1.01 and 1.11 instead of 1.35 and 0.95. `eig` also does not sort its output by eigenvalue. Always sort, and take `vectors[:, :k]`.
 
 > **Python:** The same result from scikit-learn.
 >
@@ -302,7 +302,7 @@ The [PCA on MNIST Note](../49-pca-mnist/note.md) uses the same shares, there cal
 >
 > The columns of `Z_sk` equal those of `Z`, possibly with the sign flipped: an eigenvector and its negative lie on the same line.
 
-> **Extra:** Here the variances are computed by dividing by $n - 1$ (as `np.cov` and scikit-learn do), not by $n$ as in the formulas above. With 40 points the difference is small, and it never changes which direction is PC1: it only scales the whole covariance matrix by $n/(n-1)$, so every eigenvalue grows by the same factor and the eigenvectors stay the same.
+> **Extra:** `np.cov` and scikit-learn divide by $n - 1$, not by $n$ as in the formulas above, which is why the diagonal of $C$ is 1.026 and not 1. Dividing by $n - 1$ only scales every eigenvalue by $n/(n-1)$; the eigenvectors stay the same.
 
 ## 7. Summary
 
@@ -354,5 +354,5 @@ The [PCA on MNIST Note](../49-pca-mnist/note.md) uses the same shares, there cal
 | Eigenvalue | The factor by which a matrix stretches its eigenvector |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix |
 | Explained variance | The variance along a principal component; its eigenvalue |
-| Loading (loading score) | One entry of an eigenvector: the weight of one original feature in a principal component |
-| Scree plot | A bar chart of each component's share of the total variance (eigenvalue ÷ sum of eigenvalues) |
+| Loading (loading score) (G-2204) | One entry of an eigenvector: the weight of one original feature in a principal component |
+| Scree plot (G-2205) | A bar chart of each component's share of the total variance (eigenvalue ÷ sum of eigenvalues) |

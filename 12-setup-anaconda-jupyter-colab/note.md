@@ -81,8 +81,6 @@ To check the install, we open a new terminal and list the environments:
 > conda env list    # every environment; "base" is always there
 > ```
 
-> **Extra:** Older Anaconda guides show an "Individual Edition" download page and an installer of about 450 MB. Both have changed: the page now just says "Distribution", and the installer is about twice that size (about 480 MB in 2021, 1.0 GB in 2026, per the Anaconda archive). The steps stay the same: download, run, keep the defaults.
-
 ### 2.4 Navigator and Spyder
 
 > **Key point:** Anaconda adds a point-and-click control panel (Navigator) and a code editor (Spyder); Miniforge has neither, and we do not need them.
@@ -400,7 +398,7 @@ Files our code writes go to `/kaggle/working/` and appear in the **Output** pane
 
 **File > Download** saves the notebook itself as `.ipynb`. **Save Version** saves it on Kaggle, and a public notebook can be read, copied and upvoted by others. Upvotes build a Kaggle profile, which some people show to employers.
 
-> **Extra:** Older guides say Kaggle notebooks have no GPU. The claim is no longer true: in the notebook settings, the **Accelerator** option offers GPUs and a TPU, with a limited number of free hours per week (about 30 GPU hours and 20 TPU hours; Kaggle docs).
+> **Extra:** Kaggle notebooks also have a GPU: in the notebook settings, the **Accelerator** option offers GPUs and a TPU, with a limited number of free hours per week (about 30 GPU hours and 20 TPU hours; Kaggle docs).
 >
 > A **GPU** (graphics card) runs the big matrix maths of deep learning much faster than a normal processor (**CPU**). A **TPU** is Google's chip built only for that maths (Jouppi et al. 2017).
 
@@ -570,7 +568,7 @@ Figure 10 sums up the choice.
 | Notebook | A `.ipynb` file of cells, each with its output underneath |
 | Cell | One block of a notebook, holding either code or Markdown |
 | Markdown | A simple way to format text with symbols such as `#` and `**` |
-| Kernel | The running Python process behind a notebook |
+| Kernel (G-1009) | The running Python process behind a notebook |
 | Virtual environment | A separate folder of Python and packages for one project |
 | base environment | The environment the installer creates, holding conda itself |
 | Environment file | A file (`environment.yml`) listing an environment's packages and versions |

@@ -1,0 +1,316 @@
+Hi guys, welcome to my YouTube channel.
+We were studying regularization techniques and the first regularization technique we studied was Ridge Regression.
+Now we will study Lasso Regression which we also call L1 Regularization.
+In this video, our end goal is to understand everything about L1 or Lasso Regression
+and we have to understand how it helps us to reduce overfitting
+see if you remember what you used to do in ridge regression
+your loss function was mean squared error
+which you used to write like this
+in that you added a penalty term
+lambda this
+This was actually equal to lambda times W1 square plus W2 square dot dot dot plus Wn square.
+Here W1 to Wn were your coefficients.
+These are your coefficients.
+Now I have explained you after doing the derivation that by doing this, the value of all the coefficients slowly moves towards 0 if you increase the lambda.
+We have read this very carefully in the last 2-3 videos.
+Now what we are going to do is, we will see a variation of this which we call Lasso Regression.
+And by the way, I had told you in the previous video that this is called L2 regularization.
+Ridge regression is called L2 regularization because you are taking the second norm of this vector.
+Now you don't do much difference in LASSO.
+You do the same thing in LASSO.
+You take your MSE, mean squared error, which is this term.
+And again you add a penalty term in it.
+And the penalty term is L1 norm of one vector and that vector is this.
+So basically if you write it properly then this is nothing but lambda times absolute value of W1 plus absolute value of W2 plus absolute value of W3 dot dot dot plus absolute value of Wn.
+So that's the main difference.
+What you have added there were squared terms and what you have added here are absolute terms.
+Rest there is no single difference in ridge regression and lasso regression.
+Now if you understood what exactly we are changing in lasso regression.
+Now we will do two things.
+First of all we will read how to implement it in code.
+After that I will tell you some key points which you have to remember in lasso regression.
+And third most important thing we will see a very important difference which you get in ridge regression versus lasso regression.
+So, in the next video, I will teach you how you can make maths using scratch using python.
+We will learn all this in the next video.
+In this video, what I am going to do is, I am going to show you the coding of sklearn.
+How it is implemented in sklearn.
+We will discuss some key points and see the differences between rich and lasso.
+So, let's summarize before going.
+If you have seen last time regularization video of ridge then you have to make a small change for lasso
+and that change is that in your penalty term rather than using the L2 norm you are going to use the L1 norm
+L2 norm is square and L1 norm is mod
+So here you are just adding the mod of coefficients in your existing loss function and that's it.
+That is how LASSO regression works.
+Now let me quickly show you, I have already written the codes, how you implement LASSO regression using scikit-learn.
+So I have used this same data many times, so honestly you don't need to explain much about data.
+This is a very simple data where there is one input column and there is one output column and this is how the data looks.
+And you can see that I have already applied normal linear regression on it and calculated the original slope and intercept OLS values.
+And now what I have done in the next cell, I have taken different alpha values in the loop.
+I have taken different alpha values, 0, 1, 5, 10, 30.
+I guess you are understanding this.
+The one I am calling lambda here is the alpha.
+It's the same thing, please don't get confused.
+What we are doing is, as we increase the value of this alpha,
+then what happens is that you start thinking of minimizing this term more and then this situation is of under-fitting.
+We have already discussed this. And if you make the value of lambda to zero, then what will be the lasso regression?
+Normal linear regression because if this whole term becomes zero, only MSE will be left and whose MSE is there?
+of linear regression. If you reduce the value of lambda, then lasso regression will behave as linear regression
+which means it can be over fitting and if you increase the value of lambda, then it can be under fitting.
+The value of lambda should be greater than or equal to zero. It cannot be negative.
+I have tried different values for 0, 1, 5, 10 and 13
+and I have applied Lasso regression, by continuously changing the value of alpha
+I have fitted the model every time and then I have plotted the regression line in the graph
+and you can see this is the regression line, you can see this is the output
+So when the value of alpha was very less, alpha equal to 0, then the blue line became the same line which is formed in the case of actual linear regression.
+Then you will notice a trend, as you are increasing the value of alpha, the slope of your line is decreasing.
+Your coefficient y is equal to mx plus b, so your coefficient is decreasing as you are increasing lambda.
+You can see, when the value of alpha is 1, then there is an orange line.
+When the value of alpha is 5, then there is a green line.
+When the value of alpha is 10, then there is a red line.
+And guess what, when you did the value of alpha as 30, your slope became 0.
+You can see, the slope is now 0.
+Which means, now there is no contribution of X in your Y calculation.
+You are taking out Y directly from B.
+Now, this is a clear case of under-fitting.
+Okay.
+So, here, there is one thing to understand clearly.
+like in ridge regression, in ridge regression, your coefficient was never 0, you used to reach near 0, but it was never 0.
+Here, there is no such case, here clearly you can see that your coefficient becomes 0 very quickly.
+So, this is the first intuition that you should take from this whole discussion.
+Now, I will show you one more case where we will apply polynomial regression and there we will see how these things are working.
+So again I have generated a non-linear data set and on top of that I have made a degree 16 polynomial
+and for these different values, for these different lambda values I am fitting the polynomial
+and you can see after running this code the output is something like this
+The red line which is for alpha equal to 0 is showing normal linear regression
+and the green line which is for 0.1 alpha value is slightly better in terms of fitting the data
+and the blue line which is for very high alpha value is 1 and you can clearly see this line is underfitting
+Red line is not too much, but the green line is the balance between the two.
+Where red line is making some mistake, it is compensating there and where blue line is making mistake, it is compensating there also.
+So again, things are very similar as you saw in the case of ridge regression.
+till now the biggest difference is that in case of lasso regression if you increase the value of alpha or lambda then your coefficients will be zero
+which was never there in case of ridge regression. So what is the benefit of this?
+The biggest advantage of this is that if you are working with high dimensional data
+Let's say you have a very high dimensional data X1, X2, X3, Xn and then you have Y
+So in very high dimensional data the scenario of over fitting is very high
+If you are fitting a polynomial regression on it and keep increasing the degree, then the case of overfitting can come very easily.
+Now if you put ridge regression on it, then none of these coefficients will be zero.
+Means all those coefficients will have some value. You have to keep them in your system.
+Whereas if you put lasso regression and increase the value of lambda,
+then the corresponding coefficient of the less important columns will be zero.
+This means that you are inherently performing feature selection.
+So, automatically Lasso regression is telling you which columns are less important in Y calculation.
+And what is happening with this? The dimensionality of your data is decreasing.
+Because automatically when you will get to know that X3, X5, X10 are not working columns,
+you will remove them and you will work with the remaining columns.
+This means that your dimensionality will decrease.
+And automatically you are applying feature selection.
+So that's the main benefit of using Lasso.
+Lasso for higher values of lambda will do feature selection
+and feature selection means that it will zero the coefficients of that particular column
+which are not that useful, on which y does not rely that much
+and that's the best part about lasso
+you don't get this thing in ridge regression
+what ridge regression will do is
+it will know which column is not that important
+but still it will not be able to zero its value
+it will keep 0.5, 0.2
+and you will have to always take that column with you and that is a problem.
+So, this is asked a lot in the interview that which one should be preferred between the two.
+Mostly the answer is Lasso.
+If you are working on high dimensional data and some of the columns are not that important,
+do not matter then what should you do?
+You should use Lasso because it will inherently filter by selecting the feature.
+only those columns will remain which are important and those columns which are not important are removed by lasso.
+So I hope you understood the intuition till now.
+Now I will tell you some more key points about lasso regression.
+So guys we will discuss four key points.
+The first point although we have already discussed it but once you see it practically,
+By looking at it, you will get a better idea of how coefficients are affected when you increase lambda or alpha.
+This is the same notebook which I used in the last video for ridge regression.
+I just changed it so that I can show you the same thing in lasso regression.
+So, I have imported the same notebook with low diabetes data set.
+This is the data set that we have.
+Here we have so many input columns and one is our output column.
+We did train test split.
+And then I performed lasso regression for different lambda values.
+Every time I kept storing the value of coefficients in this list.
+so that I can plot this graph and you can see this is the graph guys that when your alpha was 0
+whatever you call it alpha or lambda when it was 0 then your coefficients for all the columns
+they were showing something like this and here you can see about the scale
+y scale is minus 750 to 750 so you can see at this point the coefficients are very big
+especially S1 column, BMI column, S5 column. The coefficient of these columns is very high
+which is telling that to calculate the values of your target column, these three columns are the most important.
+And mind you, here alpha is 0 which means this is a normal linear regression case.
+Now we increased the value of alpha by 0.1. You can see all the coefficients first of all shrunk
+And the scale is between minus 100 to 500.
+And now see, the value of different columns has increased.
+For example, the value of BMI has increased, which was not much before.
+The value of sex has also increased a little.
+S3 has increased in the negative direction.
+And S5 is still there.
+But all the others have decreased a lot.
+In fact, the age is equal to 0.
+Similarly, when we increased it a little and did alpha equal to 1,
+You can see now only 3 coefficients are left, BMI, Blood Pressure and S5.
+So here actually feature selection is happening.
+According to Lasso Regression, Lasso Regression is telling us that in this regression problem,
+the most important columns that you have are these 3 columns.
+Or if you take a little less value because you will also get R2 score.
+So, if you hold R2 score, then S2, S4 and H are not that much useful columns according to Lasso Regression.
+And when you increased the values a lot, what did it do? It made all the coefficients zero, which is clearly a case of underfitting and you can see that in R2 score.
+The R2 score is now negative, clearly signifying that your regression is getting very bad. I guess you are understanding this whole thing.
+Now the next point is to understand that the higher coefficients have more impact on them as you increase the value of lambda.
+So here again I have taken different values like lambda or alpha and for every alpha value I performed lasso regression again and stored the values of all coefficients.
+And this time I made a data frame where we have alpha value in row and all coefficients in columns.
+So you can see a gradual trend is that the value of every coefficient is decreasing as you are increasing alpha.
+And if you increase a lot in the end, then all will be zero.
+Sparsity is created.
+The meaning of sparsity is that a lot of zeros have come.
+If you see in the middle, like this.
+At point 1, you can see the value of age has become zero.
+The value of S2 has become zero.
+And the value of S4 has become zero.
+So this step, when you set the alpha value in the middle,
+here feature selection is happening.
+Here you are being told that which columns are more important and which columns are less important.
+And as you are increasing more and more, more number of coefficients are becoming zero.
+So you just have to keep an intuition here.
+Two things, first thing is that the more big coefficients have more impact on them.
+They have to come down more.
+Second feature selection is done on intermediate values.
+If you take a very high value of alpha, all the values will become zero and you will not get anything.
+Obviously, that is not a good case. You have to find the right zone somewhere in the middle
+where your feature is being selected and you are getting your best columns.
+One more graph that I would like to show you is that if you plot side by side
+Here on y-axis, there is a scale of coefficient values and x-axis is signifying alpha or lambda.
+As you are increasing it, you can see the very big columns, yellow is S5, purple is S1 and all the big columns are coming down very fast.
+And eventually after a point, everything is going to be zero.
+Will we get a valid value of alpha somewhere around here?
+Because if you increase it a lot, then you know what will happen?
+All the values will become zero.
+But by looking at this graph, you will understand that the higher values are being penalized more.
+They are being brought down very fast so that there is no overfitting.
+Because the main idea of overfitting is that the value of your coefficients is very high.
+If you bring those values down, then the overfitting will be reduced.
+and if you make it zero as you did here then it means you are doing under fitting.
+So I hope you understood these two points till now.
+Next we will discuss that what is the impact of increasing lambda on bias and variance.
+Next guys we have to study that what is the impact of lambda on bias and variance.
+And for this we have to do a discussion.
+We had done this discussion in the last video also in the case of ridge regression.
+Here also there is no difference. You know that when you increase the value of lambda, then your overfitting decreases.
+Decreases means your bias starts increasing. When does overfitting happen? When your bias is low.
+means you are giving very accurate results on training data
+so your bias is very less which is desirable thing
+the only problem is that variance becomes high in over fitting
+so as you increase the value of lambda
+so bias starts increasing
+and because of that your variance starts decreasing
+so if you try to plot all this in a graph
+here if you keep lambda
+and here if you take values
+So, I can show you that in the beginning, for very less values of lambda, we are talking about bias first.
+Bias is very less and gradually the bias starts increasing.
+Like this.
+If you talk about variance, then variance is very high for very less values.
+And as you increase lambda, then variance starts reducing.
+Like this.
+and then the total error which is the sum of both of them
+so it remains like this
+so this is the curve
+means I am writing here
+red signifies bias
+green signifies variance
+and the blue curve signifies total error
+ok
+for very small values
+Bias will be less, variance will be more and for big values, the bias of lambda will increase and variance will decrease.
+So, I tried the same thing to apply on a data.
+I used the same data last time, if you have seen the last video.
+I did train test split, created polynomial features and tried alpha values from 0 to 30, 100 different values.
+and every time I applied lasso regression and used bias variance decomp function of ML extend library
+and every time I calculated all three things for that particular value of alpha
+what is the loss, what is the bias, what is the variance and I did this 100 times inside a loop
+and after doing this it takes some time to run this code because you are doing this 100 times
+And this is a data set which has got multiple columns and if you are applying polynomial regression then the number of columns increases more.
+So that is why it takes some time.
+But when I did this and when I plotted the graph then I clearly saw that the bias is increasing.
+I will show you the graph.
+This is the graph that I got.
+So this is the graph.
+You can see here the orange curve is bias which is increasing as you are increasing the value of lambda.
+But the variance here is not reduced much.
+Now I had a little doubt, maybe because of this dataset that variance is not reducing.
+So what I will do is I will do some more research, I will do this work on some other datasets.
+and then I will make a video on what I will learn
+that how bias impact the variance
+but according to the theory it should happen
+that your bias should increase
+variance should decrease
+and you should select the value of lambda in this zone
+in this zone whatever is lambda
+you should select this value where bias and variance
+both are very close
+you should select value in this zone
+Unfortunately, I guess here the value is around 0.1.
+Here it is not getting overfitting much.
+That is why if you take too much value,
+say alpha or lambda,
+then you will not get good results.
+Okay.
+So this was the third key point.
+Now let's discuss the last key point.
+What is the effect of regularization as in lasso regression on loss function?
+Means if you keep increasing the value of lambda,
+then what impact does it have on loss function?
+To show this, just like the previous video, I have taken the same dataset.
+It is a 2D dataset. One input column and one output column. I have used it many times.
+This is the correct value of M and this is the correct value of B.
+Now I have made a function by saying calculateLoss where this is your loss of MSE
+and this is your term which you add in Lasso Regression
+where you have simply multiplied alpha with the absolute value of m.
+So this is my calculate function.
+And this is my predict function where I have done m into x,
+if I get any m, then I will do minus 2.29 by doing m into x.
+So here I have done my bias value as constant and I am talking only in terms of m.
+So now what I did is I took different values, 0, 100, 500, 1000, 2500,
+I took different values of lambda or alpha.
+and every time i plot the loss function with respect to m
+this is the code
+and when i run it
+i got to see something interesting
+this is the interesting part
+if you see the bottom line
+blue curve that is actually alpha
+equal to 0
+after that the orange curve is 100
+green curve is 500
+red curve is 1000
+and the purple curve is
+2500
+If you see carefully, what is happening is that from right side, your curve is rising up more and from left side, your curve is rising up less.
+Means, I will again draw and show you what exactly is happening here.
+When you have kept the value of lambda as 0, then this graph was like this, as it is normally.
+I should make it better.
+It was something like this.
+And you can see the minimum value is somewhere around 27, which was the minimum value of the slope.
+As you are increasing the value of lambda, then what is happening is that the curve is also rising a little from here, but it is rising more from here.
+Similarly, if you are increasing more, then it is rising a little from here, but it is rising more from here.
+And as you are increasing it a lot, then what is happening is that it is showing this kind of behavior.
+So, this is creating an angle, this is an angle, you can see an angle is being created here.
+And you can see after coming to this point, no matter how much you increase, it will start cutting from here, I can show you in fact.
+If I increase more, let's say I add 3500 also, then the output will look something like this.
+Now you are just raising it from the same point because you have come to 0, now it will not go more than this, it cannot be negative.
+So it will start rising from the same point and will always remain 0.
+So you started from here minimum value, this was the minimum value, now this is the minimum value.
+Now no matter how much you increase, at the same angle you will get the results.
+See, this is the output.
+So, when you applied the same thing in ridge regression then it was happening that curve was retaining its shape and slowly increasing towards 0 but 0 was never happening.
+But here it is not like that. Curve is first of all loosing its shape and second it is going towards 0.
+After that no matter how much you increase the values you will not go back from 0 and you will get fixated on 0.
+So this intuition is very important about lasso regression, you can see, this is the intuition which I wanted to show you, you are not going to go ahead of this, and slowly this line from here has become flat, see this is the flat lining, now why is this happening, for this you will have to understand the math behind it, we will do that in the next video, but at this point just make sure you are keeping your intuition clear that what is the difference between lasso and ridge,
+When and which one should be used and I guess that's it. So, that's the video guys. I hope you got an intuition about lasso regression.
+We have tried some codes also. I am sharing all these notebooks with you in the description. I will request you to do some experiment
+with some different data set and document your results. Then you will understand better what is going on behind the scenes.
+We will handle the Maths behind this in the next video.
+So yeah, that's it. Thanks for watching. Bye.

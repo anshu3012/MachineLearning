@@ -1,0 +1,214 @@
+Hey guys, welcome to my YouTube channel.
+We are studying outlier removal and detection.
+In the last video, we studied introduction to outliers.
+In this video, we are going to learn various techniques
+by which you can detect and remove outliers.
+First of all, we will study the most famous technique
+that is Z-score outlier detection and removal.
+So, let's start the video.
+So, this technique has an assumption that whichever column you are working on,
+that column should be normally distributed or almost normally distributed.
+So, I hope you already know what is normal distribution.
+It's a very famous thing in statistics.
+A normal bell curve looks like this.
+This means that many of your values are in the center and very few values are at both the ends.
+So this is bell curve and in nature, it is visible in many places.
+Your people's height, weight, marks in exams, all these things in nature follow bell curve, normal curve.
+Now the best part of normal curve is that you can consider it as a rule that 68% of the population will lie on the distance of one standard deviation from your mean.
+Means if you take out a range, if you have any data, you can take out its mean, you can take out its standard deviation.
+So if you do this calculation, mean plus 1 multiplied by standard deviation,
+or I will write it directly, I have made it a little complex, mu plus standard deviation, mu minus standard deviation.
+then in this range, your 68% values will definitely come
+if you increase this range and take 2 sigma
+then here your almost 95% values will come
+and if you increase this range by 3 times
+then your 99.7% values will come in this range
+So people took an assumption, mathematicians, computer scientists took an assumption that if any value is beyond these boundaries,
+I am sorry, if any value is beyond these boundaries, this side or this side, then you can treat it as an outlier.
+And guess what, this assumption works very well in many scenarios.
+So this technique is actually quite simple. You just have to check on your column whether it is normal distributed or not or close to normal distributed or not.
+If it is, then what you do is you find this range. You find out this range. Mu minus 3 standard deviation, mu plus 3 standard deviation.
+And beyond that range, all the rows are considered as outliers.
+Now you might be thinking, why is this technique called Z-score?
+We have not calculated Z-score.
+If you know Z-score, then the formula to calculate Z-score is actually this.
+You calculate the transformed value of all your values by doing this.
+xi minus mu divided by sigma
+means if you have a column called age
+it has different values
+then for every value
+you will take out x dash
+you will take out the transform value of 27
+you will take out the transform value of 32
+and that is how you Z transform the entire data
+but if you look carefully
+and if you consider this number as 3
+consider the transformed value as 3
+So, in a way you are doing the same thing, think about it, both the things are actually the same.
+When you are keeping things in this range, then you are calculating the z-score of all the values and checking whose z-score is between minus 3 and 3.
+Whenever you are calculating this thing, you are actually calculating the z-score only.
+And if it is between minus 3 to 3, because you are taking 3 standard deviations, then it means it is not an outlier.
+If it is outside this range, its z-score, it means it is an outlier.
+Now the question is, if any point is outside this range, means it is an outlier, then what to do?
+Then you have two possibilities.
+It means, the outlier has been detected, how to treat the outlier?
+It has two possibilities.
+One is trimming and the other is capping.
+Assume that the values between minus 3 and 3 are 5 outside this.
+5 observations are outliers.
+In the case of trimming, what you will do is you will remove those 5 rows.
+Suppose you had 1000 rows in the beginning, out of those 5 rows your outliers came out.
+So you will trim them and your new data set will have 995 rows in it.
+It is simple.
+Now in trimming sometimes the problem is that if too many outliers come out,
+then a significant portion of your data is being removed.
+So that is bad.
+So the way to avoid that is capping.
+In capping, depending on the lower side or upper side, you cap their values.
+If it is maximum, it will be 3 and if it is minimum, it will be minus 3.
+That is what you do.
+I will show you.
+Suppose this is your age curve and your value of mu plus 3 standard deviation is 80.
+The higher upper limit of not being an outlier is 80 and mu minus 3 sigma is 5.
+The lowest value of not being an outlier is 5.
+Now suppose your three values are outliers. One is 85, H, 3 and 90.
+So how will you transform all three? How will you cap them?
+You will make 85 as 80, 3 as 5 and 90 as 80.
+This is what you do in capping.
+It is very simple, you just put a cap that you can't go above this, if you go above this, then this will be your maximum value.
+And that's it. In this outlier removal technique, you just have to do this much. I will quickly summarize this.
+First of all, you have to be sure that the column on which you are working is normally distributed or close to normally distributed.
+It should not be very skewed because if it is very skewed, then for that we have another technique which we will cover in the next video.
+So you have to be sure that the data you have is normally distributed.
+Step 2, find out mean plus 3 standard deviation or mean minus 3 standard deviation.
+Find out the upper limit and lower limit.
+And after that decide whether you want to trim or cap.
+If you want to trim then it is very simple, remove everything.
+And if you want to cap then replace the outlier values with maximum values and minimum values.
+That's it. It is that simple.
+Now I will quickly show you a code where I have used the same technique.
+So I have a data set placement.csv and in this data set if you see we have three columns.
+This is a data set of a college where in one column there is student's CGPA after seven semesters
+after 6 semesters because in 7 semesters generally engineering students are placed in India
+and these are placement exam marks so if you are from engineering college then you might know
+that before placement there is an exam of aptitude test, coding test, English test etc
+so these are the marks from 100 in that test how much did that student get
+and after that it is told whether that student got placement or not
+So you can see a student whose CGPA is 7.09, he scored only 19 marks but his placement was not done.
+This student whose CGPA is 6.98 and placement marks are 41 but his placement was not done.
+So whatever it is, this is the data set that we have.
+Obviously, I have two columns about which I have to think whether there are outliers or not.
+One is CGPA and second is placement exam marks.
+So, first of all, I have plotted the distribution of both.
+So, this is the distribution of CGPA and this is the distribution of placement exam marks.
+And by doing this, I can clearly see that my CGPA is very good and normally distributed.
+But my marks are a bit skewed.
+I mean, by looking at the distribution, it seems that the exam was difficult.
+Because the marks of many people have come less and then the marks of very few people have come more.
+So it's a difficult exam I guess.
+CGPA is uniformly distributed so that is fine.
+So we understood that our Z-score technique can be applied only on the first column.
+That is the CGPA column.
+We cannot apply it on placement marks because this is skewed.
+So what I did was I showed you some statistics quickly.
+That how much is the mean of CGPA, what is the standard deviation, what is the minimum value, what is the maximum value.
+and by doing all this you can see that mean value is 6.96
+means on an average 6.96 is the CGPA of children
+in that standard deviation is 0.61
+minimum value of any child's marks is 4.89
+and any child's marks is 9.12
+and now what I did is I found the boundary values
+how? I did mean plus 3 standard deviation
+this will be my upper limit
+and then I did mean, minus 3 standard deviation, this will be my lower limit
+and you can see this is my higher limit
+on this everything is outlier
+and 5.11 below this everything is outlier
+ok
+so now let's detect how many outliers are there in our data
+very simple I wrote a code
+that if CGPA is more than 8.80
+or CGPA is less than 5.11
+show me that rose
+and after doing this code
+You can see that I have seen 5 children whose marks are outside the allowed range.
+So one child has 4.92 and 8.87 on the upper side, 9.12 on the topper, 4.89 and 4.90.
+These are 5 children and out of these 5, 4 have been placed, that is surprising.
+But surprising in the sense that the less ones should not have been placed.
+But I guess they will be 4-2, so they have been placed.
+Whatever it is, these are our outliers.
+So now we know our outliers, row number 485, 995, 996, 997 and 999.
+These are our outliers, we have to remove them.
+And there are two ways to remove them, either we can go for trimming or we can go for capping.
+So first I will show you by doing trimming.
+So in the case of trimming, you don't have to do anything, I have written this simple condition
+that I only want the rows where CGPA is below 8.80 and above 5.11
+and condition is set and I put this data in a new data frame
+and you can see there were 5 outliers, by the way total data was of 1000 students
+you can see that, I may not have written it here
+total data is of 1000 students
+So, there are 5 outliers, which means the new df will have 5 children, so our new data frame will have 995 rows, it will be trimmed.
+And there is a second approach also, you can come here and draw a new column.
+For every child, you calculate its z-score. How to calculate z-score?
+I have told you that this is the formula to calculate z-score.
+Subtract every value from its mean value and divide it by standard deviation
+So I did the same
+I subtracted the whole CGPA column from its mean value
+And divided it by standard deviation
+And after doing this, you can see
+Now I have a z-score for every child
+Okay
+Now I have to keep those children whose z-score is in the range of minus 3 to 3
+Outside that, both sides are outliers
+So I checked how many people are ahead of 3
+So you can see 2 children 8.87 and 9.12
+Their Z-score is more than 3
+And less than minus 3 is of these 3 children
+4.92, 4.89, 4.90
+Now we don't have to do anything
+We simply have to write this code
+By the way, this is the way to show both of them together
+5 children
+And we don't have to do anything for trimming
+We have to apply this logic again
+And when our new DF is made by applying this logic
+so there also we have exactly 995 rows, so both the ways are same, there is no difference, I just showed you both,
+now the thing is what if I have to cap them, means don't let them go out of maximum and minimum value without dropping them,
+so what I did for that, I put upper limit and lower limit in one variable, see this, I put both in one variable,
+So at this point, if I show you, then my upper limit is 8.80 and my lower limit is 5.11.
+Now I wrote a piece of code which is very simple. I wrote np.where. In np.where, you provide three things.
+First, condition. Second, if that condition is true, then how to replace that value.
+And third, if that condition is false then what we have to do?
+Means when you write np.where, in np.where you pass 3 things, x, y and z.
+What is x? x is a condition.
+What is y? y is if that condition is true then what we have to do?
+And what is z? if that condition is false then what we have to do?
+So I wrote here that np.where is the condition that if the value of the particular row of the CGPA column is more than the upper limit
+Then replace that value with the upper limit
+Means if the upper limit is 9, then replace it with 8.80
+And if it is false, then I put one more np.where condition
+And I wrote that if that value is less than the lower limit, then replace it with the lower limit.
+If both these conditions are not happening, then let the value be as it is.
+I hope you are understanding.
+Through very efficient code, I applied this logic that I am going row by row.
+I am checking the value of CGPA.
+If the value of CGPA is more than the upper limit, then I am converting it to the upper limit.
+If it is less than the lower limit, then I am converting it to lower limit.
+If there is nothing between these two, I am letting it remain as it is.
+And whatever value is coming from this, I am putting it back in the CGPA column.
+And you can see that now when I have on the CGPA column,
+first of all, if I see the CGPA column, that is, if I remove the df.shape,
+then you can see that still 1000 rows are remaining, nothing has been deleted.
+And if I put describe above CGPA, then you would see that our mean is almost the same, our standard deviation is almost the same.
+Our minimum value is now 5.11 instead of 4.89.
+You can see above, we had taken out that our minimum value is 4.89 and maximum value is 9.12.
+and after doing this step you would see maximum is 8.80 and minimum is 5.11
+so we have done capping
+so this is it guys, this technique is very simple
+it is very effective
+it has only one restriction that it works on normal distribution
+but if you get normal distribution then apply it without any tension
+it is a very simple technique
+it will give you good results
+In the next video, we will discuss how to handle non-normal distributions.
+So that's it for this video. Thanks for watching. Bye.

@@ -68,7 +68,7 @@ Figure 2 runs these steps on the 571 Titanic training ages with 10-year bins. Wa
 
 Binning has two benefits:
 
-- **Handles outliers** (G-1421). A very large value lands in the last bin, together with the other large values. The large value is then treated exactly like them, so its extreme size no longer matters.
+- **Handles outliers** (G-1420). A very large value lands in the last bin, together with the other large values. The large value is then treated exactly like them, so its extreme size no longer matters.
 - **Improves the value spread.** Some kinds of binning put about the same number of observations in every bin. A feature whose values are bunched in one place then becomes spread evenly over its range.
 
 ## 4. Kinds of discretization
@@ -229,10 +229,8 @@ The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot enc
 >
 > **`bin_edges_`** (G-299) holds the learned edges, one array per column, so `[0]` picks the first column's edges. `n_bins_` holds the number of bins actually made.
 
-> **Extra:** Details of `KBinsDiscretizer` in scikit-learn 1.9 (scikit-learn docs, `KBinsDiscretizer`).
+> **Extra:** Details of `KBinsDiscretizer` (scikit-learn docs, `KBinsDiscretizer`).
 >
-> - **`quantile_method`** (new in version 1.7) chooses how the quantiles are computed. Since version 1.9 its default is `"averaged_inverted_cdf"`; before, it was `"linear"`. Older code can give slightly different quantile edges.
-> - **`subsample`** (default 200,000): on bigger data, the edges are learned from a random sample of 200,000 rows to save time. Set `random_state` to make that sample repeat, or `subsample=None` to use every row.
 > - **Edge values:** a bin includes its left edge, so a value exactly on an edge goes to the upper bin. With edges 0, 10, 20 and 30, the value 10 lands in bin 1.
 > - **Values outside the training range:** the first and last edges are ignored when transforming. A test value below the smallest training value goes into bin 0, and one above the largest into the last bin.
 > - **Too-narrow bins are dropped:** with many tied values, two quantiles can be equal. The bin between them would be empty, so it is removed with a warning, and `n_bins_` shows fewer bins than asked for.
@@ -535,7 +533,7 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 | Bin edge | A boundary between two neighbouring bins |
 | Unsupervised binning | Binning that uses only the feature's own values |
 | Supervised binning | Binning that also uses the target, such as decision tree binning |
-| Quantile | A value that cuts sorted data at a given fraction: a fraction $p$ of the values lie below $Q(p)$ |
+| Quantile (G-1599) | A value that cuts sorted data at a given fraction: a fraction $p$ of the values lie below $Q(p)$ |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning |
 | Equal frequency binning | Binning into bins holding the same number of observations, with the quantiles as edges; also called quantile binning |
 | k-means binning | Binning whose edges lie halfway between the centres of the groups found by k-means |
@@ -544,10 +542,10 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning |
 | KBinsDiscretizer | scikit-learn's class for equal width, equal frequency and k-means binning |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins |
-| strategy | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans |
+| strategy (G-149) | The `KBinsDiscretizer` parameter choosing uniform, quantile or kmeans |
 | encode | The `KBinsDiscretizer` parameter choosing ordinal (bin numbers) or one-hot output |
 | bin_edges_ | The fitted `KBinsDiscretizer` attribute holding the learned edges |
 | Binarization | Turning a continuous feature into 0 or 1 by comparing it with one threshold |
-| Threshold | The value that separates 0 from 1 in binarization |
+| Threshold (G-1971) | The value that separates 0 from 1 in binarization |
 | Binarizer | scikit-learn's class for binarization, with parameters `threshold` and `copy` |
 | pd.cut | The pandas function that puts values into intervals we give it |
