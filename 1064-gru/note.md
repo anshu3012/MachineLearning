@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/gru]
 
 > **Key point:** A gated recurrent unit (GRU) is a simpler cousin of the LSTM. A GRU keeps a single memory, the hidden state, and controls it with two gates instead of three: a reset gate and an update gate. A GRU has fewer parameters than an LSTM and performs comparably.
 
-A **gated recurrent unit** (G-826) (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple RNN and the LSTM. The simple RNN cannot keep long-term context, because of vanishing and exploding gradients (see the [problems with RNNs Note](../1060-problems-with-rnn/note.md)). The [LSTM](../1061-lstm/note.md) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
+A **gated recurrent unit** (G-826) (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple **recurrent neural network** (G-1647) (RNN) and the **LSTM** (G-1123). The simple RNN cannot keep long-term context, because of the **vanishing gradient** (G-2070) and exploding gradients (see the [problems with RNNs Note](../1060-problems-with-rnn/note.md)). The [LSTM](../1061-lstm/note.md) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
 
 ![The GRU cell. The red line is the hidden state, the only memory. The reset gate (purple) decides how much of the old memory is used to build a candidate; the update gate (orange) decides, entry by entry, how much of the old memory to keep and how much of the candidate (blue) to take in. Boxes are neural network layers; circles are pointwise operations](images/gru_cell.png){width=100%}
 
@@ -39,7 +39,7 @@ Figure 1 is the whole cell. This Note covers:
 
 > **Key point:** The LSTM works, but its cell is complex and has many parameters, so it trains slowly on large datasets. The GRU has a simpler cell, fewer parameters and comparable performance.
 
-The LSTM keeps long-term and short-term context on two separate paths and uses three gates (forget, input and output) to control them. Its many parameters are its weakness: more parameters mean more computation, so training takes longer, especially on large datasets.
+The LSTM keeps long-term and short-term context on two separate paths and uses three gates (forget, input and output) to control them. The LSTM has many **parameters** (G-1450), the weights and biases that training has to learn, and they are its weakness: more parameters mean more computation, so training takes longer, especially on large datasets.
 
 The GRU offers a simpler cell:
 
@@ -52,17 +52,17 @@ The GRU offers a simpler cell:
 
 Despite the simpler cell, the GRU performs comparably to the LSTM. Neither is better everywhere: on some datasets the GRU wins, on others the LSTM. Chung et al. (2014) compared the two on music and speech data and "could not make concrete conclusion on which of the two gating units was better". Section 9 runs the same comparison on real movie reviews.
 
-![Parameters of one recurrent layer on 32-number inputs, as the number of units grows. The LSTM's cell has four layers, the GRU's three (Keras' default GRU, with the extra biases of section 9.1)](images/param_growth.png){width=90%}
+![Parameters of one recurrent layer on 32-number inputs, as the number of units grows. The LSTM's cell has four layers, the GRU's three (Keras' default GRU, with the extra biases of section 9.1), the simple RNN's one](images/param_growth.png){width=90%}
 
-In Figure 2, compare the two curves at any width: the GRU line stays at about three quarters of the LSTM line, from 8 units to 128.
+In Figure 2, compare the top two curves at any width: the GRU line stays at about three quarters of the LSTM line, from 8 units to 128. The grey line is the simple RNN, with one layer in its cell: the gates are what the extra parameters pay for.
 
 ## 4. The big idea: one state, two gates
 
 > **Key point:** The GRU drops the separate cell state. A single hidden state carries both long-term and short-term context, and two gates manipulate it: the reset gate and the update gate.
 
-The big idea of the LSTM was to keep the short-term and long-term context apart, on the hidden state and the cell state. The GRU says that two states are not needed. Its single **hidden state** (G-891) $h_t$ carries both the long-term and the short-term context from one time step to the next.
+The big idea of the LSTM was to keep the **short-term context** (G-1793) (what is happening right now) and the **long-term context** (G-1124) (what matters for the whole sequence) apart, on the hidden state and the **cell state** (G-361). The GRU says that two states are not needed. Its single **hidden state** (G-891) $h_t$ carries both the long-term and the short-term context from one time step to the next.
 
-Two gates control how the hidden state changes:
+A **gate** (G-825) is a vector of numbers between 0 and 1 that multiplies another vector entry by entry: 0 blocks an entry, 1 lets it through. Two gates control how the hidden state changes:
 
 - the **reset gate** (G-1679) $r_t$;
 - the **update gate** (G-2060) $z_t$.
@@ -92,19 +92,19 @@ The parts are the same kinds of things as in the [LSTM architecture Note](../106
 | $z_t$ | update gate |
 | $\tilde h_t$ | **candidate hidden state** (G-343) |
 
-All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $\tilde h_t$. The input $x_t$ can have any length: it is the current word (or sentence) turned into a vector, for example by one-hot encoding as in the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md).
+All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $\tilde h_t$. The input $x_t$ can have any length: it is the current word (or sentence) turned into a vector, for example by **one-hot encoding** (G-1379) as in the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md).
 
 ### 5.2 The layers
 
 > **Key point:** The three boxes are fully connected layers, two with sigmoid and one with tanh. All three have the same number of units, a hyperparameter, and that number is the length of every vector above.
 
-Each box in Figure 1 is a fully connected neural network layer. The number of nodes, the **units** (G-2049), is a hyperparameter we choose, and all three layers have the same number. With 5 units, every vector of section 5.1 except $x_t$ has 5 numbers.
+Each box in Figure 1 is a **fully connected (dense) layer** (G-583). The two gate layers use the **sigmoid function** (G-1798), whose output lies between 0 and 1, so it can act as a gate. The candidate layer uses **tanh** (G-1947), whose output lies between $-1$ and 1. The number of nodes, the **units** (G-2049), is a **hyperparameter** (G-910) we choose, and all three layers have the same number. With 5 units, every vector of section 5.1 except $x_t$ has 5 numbers.
 
 ### 5.3 The pointwise operations
 
 > **Key point:** $\times$, $+$ and $1-$ act element by element.
 
-With $a = [a_1, a_2, a_3]$ and $b = [b_1, b_2, b_3]$, the pointwise product is $a \odot b = [a_1 b_1, a_2 b_2, a_3 b_3]$, the pointwise sum is $[a_1 + b_1, a_2 + b_2, a_3 + b_3]$, and $1 - a = [1 - a_1, 1 - a_2, 1 - a_3]$.
+A **pointwise operation** (G-1508) works on two vectors of the same length, one pair of entries at a time. With $a = [a_1, a_2, a_3]$ and $b = [b_1, b_2, b_3]$, the pointwise product is $a \odot b = [a_1 b_1, a_2 b_2, a_3 b_3]$, the pointwise sum is $[a_1 + b_1, a_2 + b_2, a_3 + b_3]$, and $1 - a = [1 - a_1, 1 - a_2, 1 - a_3]$.
 
 ## 6. What the hidden state holds
 
@@ -143,9 +143,9 @@ Why not take the candidate directly as $h_t$? The candidate leans heavily on the
 
 In the story, after sentence 3 the memory is $h_{t-1} = [0.6, 0.6, 0.7, 0.1]$. Sentence 4 introduces Vikram's son. A candidate built on that sentence might be $[0.7, 0.2, 0.1, 0.2]$: more power (a new king), less conflict (no fight now), less tragedy, a hint of revenge. The new memory lies between the old one and the candidate.
 
-![Sentence 4 of the story. For each aspect, the segment runs from the old memory (red) to the candidate (blue); the new memory (diamond) sits a share $z$ of the way along it, with the update-gate values of section 8.3](images/blend.png){width=90%}
+![Sentence 4 of the story. For each aspect, the segment runs from the old memory (red) to the candidate (blue), and the new memory (diamond) slides along it. With $z = 0$ the diamond stays on the old memory; with $z = 1$ it lands on the candidate; at the end each aspect gets its own $z$, the update-gate values of section 8.3](images/blend.gif){width=90%}
 
-In Figure 5, compare power and tragedy: with $z = 0.1$ power barely moves from its old value, while with $z = 0.8$ tragedy moves most of the way to the candidate.
+In Figure 5, watch the diamonds slide from the red dots to the blue dots as $z$ goes from 0 to 1, then settle. Compare power and tragedy at the end: with $z = 0.1$ power barely moves from its old value, while with $z = 0.8$ tragedy moves most of the way to the candidate.
 
 The four computation steps, in order:
 
@@ -158,9 +158,13 @@ The four computation steps, in order:
 
 ## 8. The four steps of the GRU
 
-> **Key point:** $r_t = \sigma([h_{t-1}, x_t] W_r + b_r)$, $\tilde h_t = \tanh([r_t \odot h_{t-1}, x_t] W_c + b_c)$, $z_t = \sigma([h_{t-1}, x_t] W_z + b_z)$, $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t$.
+> **Key point:** One time step is four small computations in a fixed order: a gate that resets the old memory, a candidate memory, a gate that sets the balance, and the blend of old memory and candidate. Each step is one layer or one pointwise operation.
 
-We use the notation of the [LSTM architecture Note](../1062-lstm-architecture/note.md): row vectors, and $[h_{t-1}, x_t]$ for the two vectors joined end to end.
+We use the notation of the [LSTM architecture Note](../1062-lstm-architecture/note.md): row vectors, and the **concatenation** (G-436) $[h_{t-1}, x_t]$ for the two vectors joined end to end.
+
+![The four steps on the cell of Figure 1, for sentence 4 of the story. Each frame lights up the part of the cell that one step uses and writes the step's result on its wire](images/cell_steps.gif){width=100%}
+
+In Figure 6, follow the lit part of the cell from frame to frame: the reset gate on the left (step 1), the path into the tanh layer (step 2), the update gate in the middle (step 3), and the top line where the old memory and the candidate are blended (step 4). Sections 8.1 to 8.4 compute the numbers on the wires.
 
 ### 8.1 Step 1: the reset gate
 
@@ -203,7 +207,7 @@ The candidate leans on the current input, and we do not know in advance how much
 - Sometimes the current input really matters: the last line of a murder mystery reveals that a different person was the victim, and the whole context changes. Then the candidate should get most of the weight.
 - Sometimes it does not: a song in the middle of a film's story changes little. Then the old memory should get most of the weight.
 
-The update gate learns this balance during training, by backpropagation.
+The update gate learns this balance during training, by **backpropagation through time** (G-246).
 
 1. **In words:** join $h_{t-1}$ and $x_t$, pass them through a fully connected sigmoid layer.
 2. **Formula:**
@@ -212,7 +216,7 @@ The update gate learns this balance during training, by backpropagation.
 
 ### 8.4 Step 4: the new hidden state
 
-> **Key point:** $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t$. A large $z$ takes the candidate; a small $z$ keeps the old memory.
+> **Key point:** Each entry of the new memory is a blend of the old memory and the candidate. A large $z$ takes the candidate; a small $z$ keeps the old memory: $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t$.
 
 1. **In words:** for each entry, take a share $1 - z$ of the old memory and a share $z$ of the candidate, and add them.
 2. **Formula:**
@@ -228,7 +232,7 @@ Each entry of $h_t$ is a weighted average of the old value and the candidate val
 
 ![The four steps for sentence 4 of the story, one vector per frame. Row 1: the reset gate scales the old memory. Row 2: the update gate scales the candidate. Row 3: $1 - z_t$ scales the old memory. Bottom: the new memory, old part (red) plus new part (blue)](images/gru_step.gif){height=55%}
 
-In Figure 6, watch the bottom bars: power and revenge stay close to their old values (small $z$), while conflict and tragedy give most of the weight to the candidate (large $z$) and fall toward its small values.
+In Figure 7, watch the bottom bars: power and revenge stay close to their old values (small $z$), while conflict and tragedy give most of the weight to the candidate (large $z$) and fall toward its small values.
 
 > **Extra:** The update gate is why a GRU can carry information far. If an entry of $z_t$ is close to 0, that entry of $h_t$ is copied from $h_{t-1}$ almost unchanged, across as many time steps as the gate stays closed. Chung et al. (2014, §3.3) point to this additive update, shared by the LSTM and the GRU and missing from the simple RNN: it lets a feature be kept for a long series of steps, and it creates shortcut paths along which the error can be backpropagated without vanishing too quickly.
 
@@ -295,7 +299,7 @@ We train both on the same sentiment task. Each **observation** (G-1374) (one rec
 - an embedding of 32 numbers per word (see the [RNN sentiment analysis Note](../1057-rnn-sentiment-analysis/note.md)), a recurrent layer of 32 units, a sigmoid output;
 - Adam, 4 epochs, batch size 64, 5 seeds per model.
 
-Only the recurrent layer changes: `LSTM(32)` or `GRU(32)`.
+Only the recurrent layer changes: `LSTM(32)` or `GRU(32)`. We compare the two by test **accuracy** (G-162), the share of test reviews classified correctly.
 
 ![Test accuracy on IMDB reviews after each epoch, LSTM (blue) and GRU (orange). Thin lines: 5 runs each; thick lines: their mean. The single runs of the two models overlap; the means differ most at epoch 2 (0.838 against 0.859) and meet at epoch 4](images/gru_vs_lstm.png){width=100%}
 
@@ -357,6 +361,9 @@ The two models are indistinguishable on this task: the difference between their 
 | Reset (modulated) memory | $r_t \odot h_{t-1}$: the old memory scaled by the reset gate |
 | Candidate hidden state ($\tilde h_t$) | The proposed new memory, built by a tanh layer from the reset memory and the input |
 | Update gate ($z_t$) | A sigmoid layer's output that decides, entry by entry, how much of the candidate replaces the old memory |
+| Gate | A vector of numbers between 0 and 1 that multiplies another vector entry by entry |
+| Pointwise operation | An operation done entry by entry on vectors of the same length |
+| Concatenation ($[h_{t-1}, x_t]$) | Two vectors joined end to end into one longer vector |
 | Units | The number of nodes in each layer of the cell, and the length of the hidden state |
 | Observation | One record of the data, here one review |
 | Target | The output we predict, here the sentiment of a review |

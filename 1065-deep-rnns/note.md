@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/deep-rnn]
 
 > **Key point:** A deep RNN stacks several recurrent layers on top of each other. At every time step, each layer passes its hidden state up to the next layer and along to its own next time step. More layers give the network more representation power for complex patterns.
 
-A **deep RNN** (G-573), also called a **stacked RNN**, is an RNN with more than one recurrent layer. The idea is the same one that turns a perceptron into a multi-layer perceptron: when one hidden layer cannot capture the pattern in the data, we add more layers. In an RNN, the extra layers are recurrent layers, and the whole stack is unfolded through time.
+A **deep RNN** (G-573), also called a **stacked RNN**, is an RNN with more than one **recurrent layer** (G-1646). The idea is the same one that turns a perceptron into a **multi-layer perceptron** (G-1270): when one hidden layer cannot capture the pattern in the data, we add more layers. In an RNN, the extra layers are recurrent layers, and the whole stack is drawn once per time step: the **unfolding** (G-2041) of the [RNN forward propagation Note](../1056-rnn-forward-propagation/note.md).
 
 ![A deep RNN with two recurrent layers on the review "cat mat rat". Layer 1 (3 nodes) reads the words; layer 2 (2 nodes) reads layer 1's hidden state at the same time step. Each layer also passes its own hidden state to its next time step (red). The last hidden state of the top layer gives the prediction](images/stacked_unrolled.png){width=100%}
 
@@ -62,7 +62,7 @@ Take three toy reviews of three words each, with a sentiment of 1 (positive) or 
 | rat rat mat | 1 |
 | mat mat cat | 0 |
 
-With one-hot encoding, each word is 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (G-772) (one input variable). A single recurrent layer of 3 nodes reads cat at $t = 1$, mat at $t = 2$ and rat at $t = 3$, starting from $h_0 = 0$. Its input weights are $3 \times 3$, its feedback weights $3 \times 3$, and after the last word its hidden state goes to a sigmoid output node (see the [forward propagation Note](../1056-rnn-forward-propagation/note.md)).
+With **one-hot encoding** (G-1379), each word is 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (G-772) (one input variable). A single recurrent layer of 3 nodes reads cat at $t = 1$, mat at $t = 2$ and rat at $t = 3$, starting from $h_0 = 0$. Its input weights are $3 \times 3$, its feedback weights $3 \times 3$, and after the last word its hidden state goes to a sigmoid output node (see the [forward propagation Note](../1056-rnn-forward-propagation/note.md)).
 
 ### 4.2 Two recurrent layers
 
@@ -70,7 +70,7 @@ With one-hot encoding, each word is 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 
 
 Now we use two recurrent layers: layer 1 with 3 nodes and layer 2 with 2 nodes. The two layers can have the same or a different number of nodes.
 
-1. **Layer 1** reads the words, exactly as before. But instead of keeping its output until the end, it sends its hidden state $h_t^{(1)}$ up to layer 2 at every time step.
+1. **Layer 1** reads the words, exactly as before. But instead of keeping its output until the end, it sends its **hidden state** (G-891) $h_t^{(1)}$ up to layer 2 at every time step.
 2. **Layer 2** receives $h_t^{(1)}$ as its input at time $t$, plus its own previous hidden state $h_{t-1}^{(2)}$. Both layers start from a vector of zeros (or random numbers).
 3. After the last time step, the hidden state of the **top** layer, $h_3^{(2)}$, goes to the sigmoid output node.
 
@@ -84,7 +84,7 @@ The connections of the stack are:
 | layer 2 to itself (feedback), $W_h^{(2)}$ | $2 \times 2$ |
 | layer 2 to output, $W_y$ | $2 \times 1$ |
 
-Figure 1 shows the stack unfolded over the three time steps. Each layer has its own weights, shared across all time steps, as in a single RNN. The information flows in two directions: along the time axis inside each layer, and up the layers at each time step.
+Figure 1 shows the stack unfolded over the three time steps. Each layer has its own weights, shared across all time steps, as in a single RNN (**parameter sharing**, G-1447). The information flows in two directions: along the time axis inside each layer, and up the layers at each time step.
 
 Figure 3 runs the stack on "cat mat rat" with the numbers of the Notebook's hand forward pass. Watch the order in which the cells fill: a cell can be computed only once the cell below it and the cell to its left are known, so information moves up and to the right, and the top-right cell $h_3^{(2)}$ is the one that has seen every word.
 
@@ -145,7 +145,7 @@ The IMDB reviews of the [RNN sentiment analysis Note](../1057-rnn-sentiment-anal
 
 ### 6.2 Counting the parameters
 
-> **Key point:** Embedding 320,000; layer 1: $32 \times 5 + 5 \times 5 + 5 = 190$; layer 2: $5 \times 5 + 5 \times 5 + 5 = 55$; output 6. The second layer's input size is the first layer's number of nodes.
+> **Key point:** Each recurrent layer is counted like a single one. The only change: the second layer's input size is the first layer's number of nodes. Embedding 320,000; layer 1: $32 \times 5 + 5 \times 5 + 5 = 190$; layer 2: $5 \times 5 + 5 \times 5 + 5 = 55$; output 6.
 
 | Layer | Computation | Parameters |
 |---|---|---|
@@ -168,7 +168,7 @@ By default a Keras recurrent layer returns only its last hidden state, one vecto
 In Figure 5, compare the two arrows that leave the recurrent layers: the first carries (batch, 100, 5), a sequence for the next layer to read; the second carries (batch, 5), one vector for the output layer.
 
 - **Every recurrent layer except the last** needs `return_sequences=True`. Without it the upward connections break: Keras raises an error, because the upper layer expects a 3D input and gets a 2D one (Notebook).
-- **The last recurrent layer** keeps the default for a many-to-one task such as sentiment analysis, because the output layer needs only the last time step. For a many-to-many task, where the output layer needs a prediction at every time step, the last recurrent layer also returns sequences.
+- **The last recurrent layer** keeps the default for a **many-to-one** (G-1155) task such as sentiment analysis, because the output layer needs only the last time step. For a **many-to-many** (G-1154) task, where the output layer needs a prediction at every time step, the last recurrent layer also returns sequences.
 
 ## 7. Why use a deep RNN
 
@@ -178,7 +178,7 @@ In Figure 5, compare the two arrows that leave the recurrent layers: the first c
 
 > **Key point:** Lower layers turn the raw input into simpler features; higher layers build more abstract features from them.
 
-Text has a hierarchy: words make sentences, sentences make a review. A stack of recurrent layers can follow it. In a product review such as "The audio is bad. The display is great. Overall I am happy.":
+Text has a hierarchy: words make sentences, sentences make a review. A stack of recurrent layers can follow it, level by level. Features built in levels like this are a **hierarchical representation** (G-894). In a product review such as "The audio is bad. The display is great. Overall I am happy.":
 
 - **lower layers** can pick up word-level features: words such as love, hate, amazing, terrible;
 - **middle layers** can combine them at the level of a phrase or sentence: "the audio is bad";
@@ -194,14 +194,14 @@ The word, sentence and review levels are an intuition about what each layer spec
 
 > **Key point:** Encoder-decoder systems for machine translation use deep recurrent layers in both the encoder and the decoder.
 
-Deep RNNs also serve as parts of larger architectures. An encoder-decoder model for machine translation, with an attention mechanism, can use a deep RNN as its encoder and another as its decoder. Google's neural machine translation system used a deep LSTM network with 8 encoder and 8 decoder layers, with attention; its authors found that both had to be deep enough to reach good accuracy (Wu et al. 2016). Encoder-decoder models and attention have their own Notes later.
+Deep RNNs also serve as parts of larger architectures. An encoder-decoder model for **machine translation** (G-1141), with an attention mechanism, can use a deep RNN as its encoder and another as its decoder. Google's neural machine translation system used a deep LSTM network with 8 encoder and 8 decoder layers, with attention; its authors found that both had to be deep enough to reach good accuracy (Wu et al. 2016). Encoder-decoder models and attention have their own Notes later.
 
 ## 8. When to use a deep RNN
 
 > **Key point:** Try a deep RNN for complex tasks, with a lot of data, when the computing power is there and a single-layer model is not good enough.
 
 1. **Complex tasks.** Speech recognition and machine translation are the standard examples (Graves et al. 2013 in Goodfellow §10.5; Wu et al. 2016).
-2. **Large datasets.** A deep RNN has more parameters. On a small dataset it is likely to overfit, so deep RNNs need a lot of data (see the [improving a neural network Note](../1021-improving-a-neural-network/note.md)).
+2. **Large datasets.** A deep RNN has more parameters. On a small dataset it is likely to learn the training data too closely and fail on new data (**overfitting**, G-1429), so deep RNNs need a lot of data (see the [improving a neural network Note](../1021-improving-a-neural-network/note.md)).
 3. **Enough computing resources.** More layers mean more parameters and longer training; on a weak machine, training can take too long.
 4. **A single layer is not good enough.** Start with a single-layer RNN as a baseline. If its results are not satisfactory, a deep RNN is a natural next step.
 

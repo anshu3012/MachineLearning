@@ -84,7 +84,7 @@ The other seven columns are the **features** (G-772). The task is a model that t
 
 `df.isnull().sum()` shows two columns with missing values: Age (177 missing) and Embarked (2 missing). We cannot train a model until they are filled.
 
-Sex and Embarked hold text with no order, so they need one-hot encoding. The other columns are already numbers.
+Sex and Embarked hold text with no order, so they need **one-hot encoding** (G-1379): one 0/1 column per category. The other columns are already numbers.
 
 Figure 2 sorts the seven features by the work they need. Watch Embarked: it is the one column that needs both jobs.
 
@@ -146,8 +146,8 @@ Sex and Embarked each get their own `OneHotEncoder`. The two cannot share one en
 
 Two settings matter:
 
-- **`handle_unknown="ignore"`:** if a later input has a category never seen in training, the encoder outputs all zeros for it instead of raising an error.
-- **No `drop="first"`:** we keep every column. Dropping one avoids multicollinearity, which matters for linear models, but a decision tree is not affected by it.
+- **`handle_unknown="ignore"`** (G-876): if a later input has a category never seen in training, the encoder outputs all zeros for it instead of raising an error.
+- **No `drop="first"`:** we keep every column. Dropping one avoids **multicollinearity** (G-1273), which matters for linear models, but a decision tree is not affected by it.
 
 > **Python:** One encoder per column.
 >
@@ -262,7 +262,7 @@ The website's code then loads the three files and rebuilds the 10 columns for th
 
 The code above has three problems:
 
-- **Repeated work:** every preprocessing step from training is written again in the production code, the code that runs on the server.
+- **Repeated work:** every preprocessing step from training is written again in the **production code** (G-1578), the code that runs on the server.
 - **Fragile order:** the 10 columns must be joined in exactly the training order. One swap gives wrong predictions without any error.
 - **Changes spread:** if we change one preprocessing step in training, we must change the production code to match.
 
@@ -278,7 +278,7 @@ Repeating and re-ordering steps by hand is a poor way to write code, and the rea
 
 The pipeline has five steps, named `trf1` to `trf5`:
 
-1. **trf1, impute:** fill the missing Age and Embarked values, with a column transformer.
+1. **trf1, impute:** fill the missing Age and Embarked values, with a **column transformer** (G-415), the class that applies different transformations to different columns.
 2. **trf2, one-hot encode:** encode Sex and Embarked, with a second column transformer.
 3. **trf3, scale:** bring every column to the range 0 to 1 with `MinMaxScaler`, so all columns are on a similar scale.
 4. **trf4, feature selection:** keep only the 8 most useful of the 10 columns.
@@ -372,7 +372,7 @@ The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 1
 
 > **Key point:** `SelectKBest` scores each column against the target and keeps the `k` best; it needs no column transformer because it looks at every column.
 
-Feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)) keeps only the most useful features. **`SelectKBest`** does the job simply: it gives every column a score and keeps the `k` columns with the highest scores.
+Feature selection (see the [feature engineering Note](../23-what-is-feature-engineering/note.md)) keeps only the most useful features. **`SelectKBest`** (G-1762) does the job simply: it gives every column a score and keeps the `k` columns with the highest scores.
 
 The score here comes from `chi2`, the **chi-squared test** (G-382). The test measures how strongly each column is linked to the target; it only works on values of 0 or more (scikit-learn docs, `chi2`).
 
@@ -406,7 +406,7 @@ Figure 5 shows the scores the fitted `trf4` gave the 10 columns. The two lowest,
 
 > **Key point:** `Pipeline` takes a list of (name, object) tuples, in the order the data should flow.
 
-The class **`Pipeline`** (in `sklearn.pipeline`) takes a list of tuples. Each tuple has two items: a name we choose, and the step object. The order of the list is the order the data flows through.
+The class **`Pipeline`** (G-1498) (in `sklearn.pipeline`) takes a list of tuples. Each tuple has two items: a name we choose, and the step object. The order of the list is the order the data flows through.
 
 > **Python:** The pipeline.
 >
@@ -426,7 +426,7 @@ The class **`Pipeline`** (in `sklearn.pipeline`) takes a list of tuples. Each tu
 
 > **Key point:** `make_pipeline` builds the same pipeline without asking for names; it names each step after its class.
 
-**`make_pipeline`** is a shorter way to write the same thing: we pass only the objects. The names are made up automatically from the class names, in lower case.
+**`make_pipeline`** (G-1152) is a shorter way to write the same thing: we pass only the objects. The names are made up automatically from the class names, in lower case.
 
 > **Python:** The same pipeline with make_pipeline.
 >
@@ -514,12 +514,12 @@ The diagram makes it easy for anyone to see what the pipeline does:
 
 > **Key point:** `named_steps` is a dictionary from each step's name to its fitted object.
 
-**`named_steps`** gives every step of the pipeline, under the names we chose. From a step we can go further inside, which helps when debugging.
+**`named_steps`** (G-1301) gives every step of the pipeline, under the names we chose. From a step we can go further inside, which helps when debugging.
 
 For example, to find the mean age that the first imputer learned:
 
 1. `pipe.named_steps["trf1"]` is the first column transformer.
-2. Its **`transformers_`** attribute is the list of its fitted (name, transformer, columns) tuples. `[0]` is the first tuple, the Age imputer.
+2. Its **`transformers_`** (G-2009) attribute is the list of its fitted (name, transformer, columns) tuples. `[0]` is the first tuple, the Age imputer.
 3. `[1]` takes the second item of that tuple: the fitted `SimpleImputer`.
 4. Its `statistics_` attribute holds the value it fills gaps with.
 
@@ -561,7 +561,26 @@ Figure 8 shows the five rounds. Watch the orange part move: in each round the wh
 >                 scoring="accuracy").mean()   # 0.787
 > ```
 
-> **Extra:** Because every step is inside the pipeline, every step is refitted on the 4 training parts each time. The imputer's mean, the scaler's minimum and maximum, and the chosen columns never see the part used for testing. Preprocessing the whole training set first and then cross-validating only the model would let the test part leak into training. Pipelines prevent this quiet form of data leakage (scikit-learn User Guide, "Common pitfalls").
+### 8.1 Why the preprocessing must be inside: data leakage
+
+> **Key point:** A step fitted on all the data before cross-validation has already seen every test part, so the scores come out too high. Inside a pipeline, each step is refitted on the 4 training parts only.
+
+**The plain idea.** A test is only honest if nothing in the model has seen the test rows. A preprocessing step that learned from the whole table has seen them.
+
+**The standard term.** Information from the test rows reaching the training is called **data leakage** (G-535).
+
+**How a pipeline prevents it.** Because every step is inside the pipeline, every step is refitted on the 4 training parts each time. The imputer's mean, the scaler's minimum and maximum, and the chosen columns never see the part used for testing. Preprocessing the whole training set first and then cross-validating only the model would let the test part leak into training (scikit-learn User Guide, "Common pitfalls").
+
+**A worked example.** On the Titanic data the leak is too small to see, so Figure 9 uses made-up data with nothing to learn: 200 observations, 2,000 features of random numbers, and a random 0/1 target. On such data an honest accuracy is about 50%, the same as guessing. We keep the 20 "best" features with `SelectKBest` in two ways:
+
+1. **Select first, then cross-validate.** `SelectKBest` is fitted on all 200 rows, and only the model is cross-validated.
+2. **Selection inside the pipeline.** `SelectKBest` is a pipeline step, so each round picks its 20 features from its 4 training parts only.
+
+Watch the orange bars: selecting first gives 68% to 80% on data that holds no pattern at all. Averaged over 20 such datasets, the leaky way scores 78% and the pipeline 51%.
+
+![Cross-validation accuracy on pure-noise data: feature selection fitted before cross-validation (orange) and inside the pipeline (blue), fold by fold, then the mean over 20 datasets; experiment after the scikit-learn User Guide, "Common pitfalls"](images/leakage_folds.gif)
+
+The 78% is not skill. With 2,000 random features, some match the random target by chance on these 200 rows; choosing them with the test rows in view carries that chance match into every test part.
 
 ## 9. Hyperparameter tuning with a pipeline
 
@@ -569,9 +588,9 @@ Figure 8 shows the five rounds. Watch the orange part move: in each round the wh
 
 A **hyperparameter** (G-910) is a setting of an algorithm that we choose before training. A decision tree's `max_depth`, for example, limits how many questions deep the tree can grow, and changing it can make the model better or worse. **Hyperparameter tuning** (G-909) means trying several values and keeping the best.
 
-`GridSearchCV` does the search automatically. The search cross-validates the pipeline once for each value and keeps the value with the best average score.
+**`GridSearchCV`** (G-89) does the search automatically. The search cross-validates the pipeline once for each value and keeps the value with the best average score.
 
-For a single model, we would name the parameter just `max_depth`. In a pipeline, scikit-learn needs to know which step the parameter belongs to, so the name is **`step__parameter`**: the step's name, two underscores, then the parameter. Our tree is the step named `trf5`, so the name is `trf5__max_depth`.
+For a single model, we would name the parameter just `max_depth`. In a pipeline, scikit-learn needs to know which step the parameter belongs to, so the name is **`step__parameter`** (G-1890): the step's name, two underscores, then the parameter. Our tree is the step named `trf5`, so the name is `trf5__max_depth`.
 
 > **Python:** Tuning max_depth inside the pipeline.
 >
@@ -589,7 +608,7 @@ For a single model, we would name the parameter just `max_depth`. In a pipeline,
 
 The best tree has a depth of 3, with an average cross-validation accuracy of 80.3%. On the test set, the tuned pipeline scores 79.3%.
 
-Figure 9 shows the score for every depth tried. Depth 3 is the peak; deeper trees score lower here.
+Figure 10 shows the score for every depth tried. Depth 3 is the peak; deeper trees score lower here.
 
 ![Mean cross-validation accuracy of the pipeline for each value of `trf5__max_depth`](images/depth_tuning.png)
 
@@ -623,7 +642,7 @@ The production code loads that one file and calls `predict`. All the preprocessi
 > pipe.predict(new)   # 0: does not survive
 > ```
 
-Figure 10 compares the two versions of the production code.
+Figure 11 compares the two versions of the production code.
 
 ![Production code without a pipeline (three files, every step repeated) and with one (one file, one call)](images/production.png)
 
@@ -694,6 +713,7 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 - Column transformers inside a pipeline usually pick columns by position, and positions refer to the previous step's output: transformed columns come first.
 - `named_steps` and `transformers_` reach any fitted step and its learned values.
 - `cross_val_score` and `GridSearchCV` accept a pipeline; a step's parameter is named `step__parameter`.
+- Preprocessing fitted before cross-validation leaks the test parts into training; inside a pipeline it is refitted on the training parts of every fold.
 - One pickled pipeline is all the production code needs.
 
 ## 12. Sources
@@ -726,6 +746,9 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10 |
 | SelectKBest | scikit-learn class that scores every feature and keeps the `k` best |
 | Chi-squared test (chi2) | A test scoring how strongly a feature is linked to the target; needs values of 0 or more |
+| Data leakage | Information from the test rows reaching the training |
+| Column transformer | A scikit-learn class that applies different transformations to different columns |
+| One-hot encoding | Replacing a nominal column by one 0/1 column per category |
 | Cross-validation | Testing a model by training and testing it several times on different parts of the training data |
 | Hyperparameter | A setting of an algorithm chosen before training, such as a tree's `max_depth` |
 | Hyperparameter tuning | Trying several hyperparameter values and keeping the best |

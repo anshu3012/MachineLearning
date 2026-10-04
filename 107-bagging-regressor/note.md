@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 
 > **Key point:** A bagging regressor works exactly like a bagging classifier, except that aggregation takes the mean of the base models' numbers instead of a majority vote.
 
-The bagging regressor applies **bagging** (G-251) (the [bagging Note](../105-bagging-intuition/note.md)) to regression. Everything carries over from the [bagging classifier Note](../106-bagging-classifier/note.md): the four sampling types and every hyperparameter. This Note covers:
+The **bagging regressor** (G-252) applies **bagging** (G-251) (the [bagging Note](../105-bagging-intuition/note.md)) to regression. Everything carries over from the [bagging classifier Note](../106-bagging-classifier/note.md): the four sampling types and every hyperparameter. This Note covers:
 
 - the one difference, in the aggregation step;
 - a demo with curves: one tree against a bagged ensemble;
@@ -37,7 +37,17 @@ In the **aggregation** (G-183) step, each base model returns a number, since thi
 
 Figure 1 shows the aggregation step on the 50 trees of section 3. Watch how far apart the single trees land at x = -1 (from about 0.0 to 0.9), while the mean sits in the middle of the cloud: no tree is trusted on its own.
 
-scikit-learn's `BaggingRegressor` has exactly the same hyperparameters as `BaggingClassifier` (the [bagging classifier Note](../106-bagging-classifier/note.md), section 6): `estimator`, `n_estimators`, `max_samples`, `max_features`, `bootstrap`, `bootstrap_features` and `oob_score`.
+The aggregation step, on the numbers of Figure 1:
+
+1. **In words:** ask every base model for its number, add the numbers up, and divide by how many models there are.
+2. **Formula:** with $M$ base models $f_1, \dots, f_M$, the bagging prediction at an input $x$ is
+   $$\hat{y}(x) = \frac{1}{M}\sum_{m=1}^{M} f_m(x)$$
+   where $f_m(x)$ is the number that base model $m$ returns for $x$.
+3. **Example:** at x = -1, the first three trees return 0.38, 0.67 and 0.29, whose mean is $(0.38 + 0.67 + 0.29)/3 = 0.45$. Over all $M = 50$ trees the mean is **0.44**, the blue diamond of Figure 1, and exactly what `predict` returns.
+
+A classifier replaces only this step: it counts the base models' classes and returns the **majority vote** (G-1146).
+
+scikit-learn's `BaggingRegressor` (G-254) has exactly the same hyperparameters as `BaggingClassifier` (the [bagging classifier Note](../106-bagging-classifier/note.md), section 6): `estimator`, `n_estimators`, `max_samples`, `max_features`, `bootstrap`, `bootstrap_features` and `oob_score`.
 
 ## 3. Seeing it on a curve
 

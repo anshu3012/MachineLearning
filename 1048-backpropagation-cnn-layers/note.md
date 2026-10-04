@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 
 > **Key point:** Going backwards, flatten is undone by a reshape, max pooling sends each gradient to the position that held the maximum, ReLU lets gradients through only where its input was positive, and the convolution gives $\partial L/\partial b_1$ as the sum of $\partial L/\partial Z_1$ and $\partial L/\partial W_1 = X \ast\partial L/\partial Z_1$: the filter's gradient is itself a convolution.
 
-The [part 1 Note](../1047-backpropagation-in-cnn/note.md) set up a small CNN, wrote its forward equations and found the gradients of its output node. To train the filter we still need to go back through five more steps. This Note finds each backward step:
+The [part 1 Note](../1047-backpropagation-in-cnn/note.md) set up a small CNN, wrote its forward equations and found the gradients of its output node. To train the filter we still need to go back through five more steps. Going from the loss back towards the input, one gradient per tensor, is the **backward pass** (G-249). This Note finds each backward step:
 
 - the output node (section 4);
 - **flatten** (G-788) (section 5);
@@ -95,6 +95,10 @@ In every window, max pooling passed one value forward, the maximum, and dropped 
 3. **Example (Figure 4):** the maxima of $A_1$ are 5, 3, 7 and 4. With $\partial L/\partial P_1 = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$:
    $$\frac{\partial L}{\partial A_1} = \begin{bmatrix} 0 & 0.1 & 0 & -0.2 \cr0 & 0 & 0 & 0 \cr0.3 & 0 & 0.4 & 0 \cr0 & 0 & 0 & 0 \end{bmatrix}$$
 
+Sending each gradient only to the position of its window's maximum is called **gradient routing** (G-864). Figure 5 plays the example one window at a time: watch the green cell, the maximum, receive the window's gradient while the other three cells of the red window get 0.
+
+![Max pooling backwards on the example, one window per frame. Red: the current window in $A_1$, its gradient in $\partial L/\partial P_1$, and the same window in $\partial L/\partial A_1$. Green: the position of the maximum, the only cell that receives the gradient](images/pool_backward_route.gif){width=100%}
+
 The indices $x, y$ number the positions of $P_1$ and $m, n$ those of $A_1$; they help when writing the code. To do this backward step, the forward pass must remember where each maximum was (CS231n notes call these positions the "**switches** (G-1930)"). When a window holds two equal maxima, as in an all-zero window after ReLU, the Notebook sends the gradient to the first of them.
 
 ## 7. Back through ReLU: a mask
@@ -109,7 +113,7 @@ Multiplying cell by cell:
 
 $$\frac{\partial L}{\partial Z_1} = \frac{\partial L}{\partial A_1} \odot \mathbb{1}[Z_1 > 0]$$
 
-where $\odot$ means cell-by-cell multiplication. We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes with each value of the **feature map** (G-766).
+where $\odot$ means cell-by-cell multiplication. The matrix of ones and zeros, $\mathbb{1}[Z_1 > 0]$, is the **ReLU mask** (G-1667). We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes with each value of the **feature map** (G-766).
 
 ## 8. Back through the convolution
 
@@ -146,7 +150,7 @@ Each $\partial z/\partial b_1$ is 1, because $b_1$ enters every equation with co
 
 ![The bias reaches the loss along four paths, one through each value of $Z_1$, each with local derivative 1; the chain rule adds the four gradients.](images/bias_sum.png){width=80%}
 
-In Figure 5, every arrow from $b_1$ carries the factor 1, so each path contributes its gradient unchanged and the bias gradient is just their sum.
+In Figure 6, every arrow from $b_1$ carries the factor 1, so each path contributes its gradient unchanged and the bias gradient is just their sum.
 
 ### 8.2 The filter: a convolution
 
@@ -173,6 +177,10 @@ These look complex, but there is a pattern. In $\partial L/\partial w_{11}$, the
    $$0.5(1) - 1(2) + 0.25(4) + 2(5) = 9.5$$
    and the full result is $\begin{bmatrix} 9.5 & 11.25 \cr14.75 & 16.5 \end{bmatrix}$, exactly what `GradientTape` returns (Notebook).
 
+Figure 7 plays this example. Watch $\partial L/\partial Z_1$ sit on each 2 × 2 window of $X$ in turn, exactly as a filter would: each stop multiplies cell by cell, adds, and writes one entry of $\partial L/\partial W_1$.
+
+![The example above, one window per frame: the 2 × 2 gradient $\partial L/\partial Z_1$ (orange) slides over the 3 × 3 input $X$ like a filter, and each stop fills one cell of $\partial L/\partial W_1$ (green)](images/conv_backward_slide.gif){width=95% height=40%}
+
 The shapes agree: a $3 \times 3$ input convolved with a $2 \times 2$ matrix gives $3 - 2 + 1 = 2$, the shape of $W_1$. In the 6 × 6 network of part 1, $X$ is 6 × 6 and $\partial L/\partial Z_1$ is 4 × 4, which gives $6 - 4 + 1 = 3$: the 3 × 3 shape of the filter.
 
 > **Extra:** Goodfellow et al. (2016, §9.5, equation 9.11) give the same result for any number of channels and any stride: the gradient for kernel entry $K_{i,j,k,l}$ is a sum over output positions of the incoming gradient times the input value that entry multiplied. For a network with more convolution layers, the gradient must also pass back to the layer's input, $\partial L/\partial X$; that backward pass "is also a convolution (but with spatially-flipped filters)" (CS231n notes).
@@ -195,7 +203,7 @@ Putting the steps together, for one image:
 
 ![The whole backward pass on the 6 × 6 digit of the part 1 Note, with the same weights. The error $a_2 - y = 0.21$ is multiplied by $W_2^{\mathsf T}$, reshaped to 2 × 2, and routed to the maximum of each pooling window of $A_1$. ReLU passes everything here, because all 16 values of $Z_1$ are positive. Then $\partial L/\partial Z_1$ slides over $X$ like a filter: each position fills one cell of $\partial L/\partial W_1$](images/cnn_backward_strip.gif){width=100%}
 
-Figure 6 runs the table from top to bottom on a real image (Notebook, last section). Watch the shapes: 1 number becomes 4, then a 2 × 2 grid, then a 4 × 4 grid with only 4 non-zero cells, and finally the 3 × 3 shape of the filter. Only those 4 cells matter in the slide, so each value of $\partial L/\partial W_1$ adds up just 4 products. The sum of the 4 cells gives $\partial L/\partial b_1 = -0.44$.
+Figure 8 runs the table from top to bottom on a real image (Notebook, last section). Watch the shapes: 1 number becomes 4, then a 2 × 2 grid, then a 4 × 4 grid with only 4 non-zero cells, and finally the 3 × 3 shape of the filter. Only those 4 cells matter in the slide, so each value of $\partial L/\partial W_1$ adds up just 4 products. The sum of the 4 cells gives $\partial L/\partial b_1 = -0.44$.
 
 With a batch of images, each image goes through these steps and the gradients are averaged over the batch, as for $W_2$ in part 1.
 

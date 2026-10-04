@@ -32,9 +32,31 @@ Capping with percentile limits has its own name: **winsorization** (G-2123).
 
 > **Key point:** Everything below the 1st percentile or above the 99th percentile is an outlier; the two cut-offs are our choice.
 
-The $p$-th **percentile** (G-1483) is the value that $p$% of the feature's values lie below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains; it uses only the order of the values, never their shape.
+### 2.1 What a percentile says
 
-The method has a single step: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an outlier.
+> **Key point:** A percentile is a count: the share of the values that lie below a given value.
+
+A percentile tells where a value stands among all the others. A student whose exam score is at the 50th percentile has half the class behind them; a student at the 99th percentile has 99 percent of the class behind them. The highest score sits at the top, the 100th percentile.
+
+The $p$-th **percentile** (G-1483) is the value that $p$% of the feature's values lie below, as the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's **percentile rank** (G-1482).
+
+Figure 2 finds a percentile rank by counting, on the heights of 14 people from the data of Section 4 (every 700th person, rounded to whole inches). Watch the dots light up in two steps:
+
+1. **In words:** count the values below the one we ask about, and divide by the number of values.
+2. **Formula:**
+   $$\text{percentile rank} = \frac{\text{values below}}{\text{all values}} \times 100$$
+3. **Example:** the sorted heights are 63, 63, 63, 65, 67, 67, 67, 69, 70, 71, 73, 73, 74, 74. Seven of the 14 are below 69, so $7/14 \times 100 = 50$: a height of 69 inches is at the 50th percentile.
+4. **The other rule:** some textbooks count the values *at or below*. Then the person at 69 counts too: $8/14 \times 100 = 57$, the 57th percentile.
+
+![A percentile by counting on 14 heights: 7 dots lie below 69 inches (50th percentile); counting the dot at 69 as well gives 8 of 14 (57th percentile) (idea after Khan Academy, "Calculating percentile")](images/percentile_count.gif)
+
+Both rules are in use, and on small data they give different answers. This Note uses the first one, "below"; pandas' `quantile` also interpolates between neighbouring values (Extra at the end of this section). The 10,000 heights of Section 4 are all different, so there the two counting rules differ by one person out of 10,000.
+
+### 2.2 From percentiles to limits
+
+> **Key point:** Choose a low and a high percentile; the values there are the two limits.
+
+The method has a single step: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an **outlier** (G-1420). The rule treats both ends at once.
 
 The usual **cut-offs** (G-526) are the 1st and the 99th percentile. Other common pairs are:
 
@@ -48,7 +70,7 @@ The limits, step by step:
    $$\text{lower} = P_1, \qquad \text{upper} = P_{99}$$
 3. **Example:** the 10,000 heights of Section 4, sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
 
-Figure 2 lines up all 10,000 heights from shortest to tallest. Watch where the two dashed limits cross the curve: exactly at rank 100 and rank 9,900, so the red stretches at each end hold 100 people each.
+Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the two dashed limits cross the curve: exactly at rank 100 and rank 9,900, so the red stretches at each end hold 100 people each.
 
 ![The 10,000 heights sorted by rank; the 1st and 99th percentiles are the heights at ranks 100 and 9,900, and the 100 shortest and 100 tallest lie beyond them](images/sorted_heights.png)
 
@@ -58,7 +80,7 @@ Figure 2 lines up all 10,000 heights from shortest to tallest. Watch where the t
 
 > **Key point:** Trimming removes the observations beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
 
-Trimming and capping work as in the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers), with the percentile limits as the limits.
+**Trimming** (G-2019), which removes the rows, and **capping** (G-345), which moves each value onto the limit it crossed, work as in the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers), with the percentile limits as the limits.
 
 When the capping limits are percentiles, the technique is called **winsorization**, after the statistician who proposed it. Trimming with percentiles has no special name; it is simply trimming.
 
@@ -100,7 +122,7 @@ The summary numbers of `Height`:
 |---|---|---|---|---|---|---|---|
 | 10,000 | 66.37 | 3.85 | 54.26 | 63.51 | 66.32 | 69.17 | 79.00 |
 
-Figure 3 shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
+Figure 4 shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
 
 > **Extra:** One inch is 2.54 cm. The heights run from 54.26 inches (138 cm) to 79.00 inches (201 cm), with a mean of 66.37 inches (169 cm).
 
@@ -125,7 +147,7 @@ The two limits of Section 2:
 - **lower limit:** 58.13 inches (1st percentile);
 - **upper limit:** 74.79 inches (99th percentile).
 
-Figure 3 marks them as dashed lines. Exactly 100 heights lie below the lower limit (54.26 to 58.13) and 100 above the upper limit (74.79 to 79.00), in red.
+Figure 4 marks them as dashed lines. Exactly 100 heights lie below the lower limit (54.26 to 58.13) and 100 above the upper limit (74.79 to 79.00), in red.
 
 ![Height of 10,000 people: box plot above, histogram below, with the 1st and 99th percentiles dashed and the 200 values outside them in red](images/limits.png){height=45%}
 
@@ -169,7 +191,7 @@ The summary numbers before and after:
 | Median | 66.32 | 66.32 |
 | Maximum | 79.00 | 74.79 |
 
-The mean and median stay almost the same. The standard deviation drops a little, the minimum rises and the maximum falls. Figure 4 (middle row) shows the same bell with its two thin tails cut off, and a box plot with no dots left.
+The mean and median stay almost the same. The standard deviation drops a little, the minimum rises and the maximum falls. Figure 5 (middle row) shows the same bell with its two thin tails cut off, and a box plot with no dots left.
 
 ## 7. Capping in code (winsorization)
 
@@ -181,7 +203,7 @@ Capping goes through the feature value by value, as in Notes 42 and 43:
 - below the lower limit: replace it with the lower limit;
 - otherwise: leave it as it is.
 
-NumPy's `np.where(condition, value if true, value if false)` does this for the whole column; two conditions need two calls, one inside the other.
+NumPy's **`np.where`** (G-124), called as `np.where(condition, value if true, value if false)`, does this for the whole column; two conditions need two calls, one inside the other.
 
 > **Python:** Winsorization with `np.where`.
 >
@@ -210,13 +232,13 @@ The result, next to the original and the trimmed column:
 | Minimum | 54.26 | 58.13 | 58.13 |
 | Maximum | 79.00 | 74.79 | 74.79 |
 
-Only the minimum and maximum change much: they are now exactly the limits. Figure 4 (bottom row) shows the 100 low values piled onto 58.13 and the 100 high values onto 74.79, in orange. The histogram rises a little at both ends, and the box plot has no dots.
+Only the minimum and maximum change much: they are now exactly the limits. Figure 5 (bottom row) shows the 100 low values piled onto 58.13 and the 100 high values onto 74.79, in orange. The histogram rises a little at both ends, and the box plot has no dots.
 
 ![Before and after: the original column, the trimmed column (9,800 rows) and the capped column (10,000 rows, 200 values moved onto the limits); histograms on the left, box plots on the right, the limits dashed](images/before_after.png){height=62%}
 
 > **Extra:** Two shortcuts give the same kind of result.
 >
-> - pandas: `df["Height"].clip(lower_limit, upper_limit)` gives exactly the same column as the two `np.where` calls.
+> - pandas: **`clip`** (G-70), as in `df["Height"].clip(lower_limit, upper_limit)`, gives exactly the same column as the two `np.where` calls.
 > - SciPy has a ready-made function, `scipy.stats.mstats.winsorize(values, limits=(0.01, 0.01))`. `winsorize` caps at the most extreme value that is kept (58.1345 and 74.7857), not at the interpolated percentile, so its limits differ in the fourth decimal. The `np.where` code is short enough that the extra library is not needed.
 
 ## 8. Choosing the cut-offs
@@ -232,7 +254,7 @@ The percentiles decide how much data counts as an outlier, and the share is fixe
 | 2.5 and 97.5 | 59.26 | 73.70 | 500 (5%) |
 | 5 and 95 | 60.25 | 72.62 | 1,000 (10%) |
 
-Figure 5 slides the cut-offs from 0.5/99.5 to 5/95 on `Height`. Watch the red tails: the limits close in and the red share grows from 1% to 10%, whatever the shape of the bell.
+Figure 6 slides the cut-offs from 0.5/99.5 to 5/95 on `Height`. Watch the red tails: the limits close in and the red share grows from 1% to 10%, whatever the shape of the bell.
 
 ![Sliding the cut-offs inwards on Height: the limits move in and the share flagged grows from 100 (1%) to 1,000 (10%)](images/cutoff_slide.gif)
 
@@ -263,7 +285,7 @@ The limits follow the same train-only rule as the z-score limits of the [z-score
 >
 > ![Weight: the box-plot fences (green, dotted) flag 1 value, at 270 pounds; the 1st and 99th percentiles (red, dashed) flag 200](images/weight_share.png)
 >
-> In Figure 6, watch the gap between the red and the green lines: everything between them is a normal weight that the percentile rule still treats.
+> In Figure 7, watch the gap between the red and the green lines: everything between them is a normal weight that the percentile rule still treats.
 >
 > The intuition: winsorization calms the tails a little; it does not hunt for errors.
 
@@ -271,7 +293,7 @@ The limits follow the same train-only rule as the z-score limits of the [z-score
 
 > **Key point:** Use the z-score rule for a normal feature, the IQR rule for a skewed one, and the percentile rule when we want to treat a fixed share of each tail in any feature.
 
-This Note closes the outlier group. Figure 7 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
+This Note closes the outlier group. Figure 8 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
 
 ![The three detection rules on Height: the z-score and IQR limits lie close to the ends and flag 7 and 8 values; the 1st and 99th percentiles lie further in and flag 200](images/three_rules.png){height=48%}
 
@@ -307,6 +329,7 @@ This Note closes the outlier group. Figure 7 applies all three rules to the same
 **Built from**
 
 - CampusX, "Outlier Detection using the Percentile Method | Winsorization Technique", YouTube, https://www.youtube.com/watch?v=bcXA4CqRXvM
+- Khan Academy, "Calculating percentile", YouTube, https://www.youtube.com/watch?v=Ngyt8Q5tWkU
 
 **Other references**
 
@@ -321,8 +344,14 @@ This Note closes the outlier group. Figure 7 applies all three rules to the same
 |---|---|
 | Feature | An input variable: one column of the data table |
 | Observation | One record: one row of the data table |
+| Target | The output a model predicts |
+| Percentile | The value below which a given share of the data lies |
+| Percentile rank | The percentile at which a given value falls |
+| Trimming | Removing the rows that hold outliers |
+| Capping | Replacing every value beyond a limit with the limit itself |
 | Percentile method | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any feature |
 | Winsorization | Capping with limits set by percentiles: values beyond a limit are replaced with the limit |
 | Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95 |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default |
+| `np.where` | NumPy function that picks one value where a condition is true and another where it is false |
 | `clip` | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it |

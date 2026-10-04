@@ -118,3 +118,27 @@ The user said: "make sure none of it clashes with campus x explanations. And als
 2. **Pick the clearer explanation for the main path.** Compare them for a beginner: which one gives the mechanism step by step with a concrete example and a picture? Use that one as the main explanation. Never drop the CampusX explanation just because an outside source exists.
 3. **Keep a new angle.** If CampusX adds an angle the other source lacks (a different analogy, an Indian everyday example, a code-first view, a practical caveat), keep it as a second short view, such as "Another way to see it", with its own picture where it helps. The same applies the other way round.
 CampusX transcripts: ML `transcripts/NNN.*.txt`, DL `dl_map/transcripts/`, maths `transcripts/Mxx.whisper-en.txt`.
+
+## 14. Fixed depth, no nitpicking (user, 2026-10-04)
+
+The user said: "Don't nitpick" (example: "neural networks date from the 1960s" against 1943/1958) and "you have to decide on the depth… each time you go over something you go deeper into the topic and find something that's wrong, something which might be a niche obscure or some edge case".
+
+**The depth is the beginner level of the source video.** A Note teaches what its CampusX video teaches, as clearly as possible, with pictures. A new pass over a Note never goes deeper than that.
+
+**Fix an error only if it passes this test:** would a beginner end up with the wrong core idea, a wrong answer to a standard interview question, or code and numbers that don't work? If yes, fix it with a source. If no, leave the Note as it is.
+
+**Not worth a fix, a caveat or a report line:**
+- approximate dates, round figures, loose everyday wording, a rounded number;
+- edge cases, rare conditions and exceptions a beginner will not meet;
+- different conventions between sources;
+- slips in a source video that the Note does not repeat;
+- "technically" corrections that make the sentence harder to read.
+
+**No depth creep.** Do not add caveats, proofs or citations whose only job is to defend a simple, right-way explanation against a niche objection (§3: intuitions that point the right way stay). A review pass checks the Note against these rules; it is not a hunt for more errors.
+
+**Never remove real content** (user, 2026-10-04: "make sure we don't remove any gotchas or something advanced or any building blocks"). This rule is about trivia, not about how far a Note goes. Always keep, and keep adding where the sources teach them:
+- **gotchas:** practical pitfalls a learner will actually hit, such as data leakage, scaling before the split, the dummy-variable trap, a wrong default, a common interview trap;
+- **advanced material:** the formal version, derivations and Extra boxes that take the topic further (§11 still climbs to the formal version);
+- **building blocks:** any idea, term or step that a later Note or a later section depends on.
+
+When unsure whether something is trivia or a gotcha, keep it.

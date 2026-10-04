@@ -19,6 +19,15 @@ tags: [subject/ml, area/data, area/descriptive, area/models-1, step/foundations,
 
 So far every **feature** (G-772; input variable, one column of the data table) was categorical, so probabilities came from counting. This Note handles **numerical** features such as height or weight, and introduces **Gaussian Naive Bayes** (G-830), the most common variant for them.
 
+This Note covers:
+
+- why counting fails for numbers (section 2);
+- the assumption: one normal curve per class and feature (section 3);
+- the scores for a new person, read off the curves (section 4);
+- adding logs instead of multiplying small numbers (section 5);
+- reading the result: which feature decides, and where the prediction flips (section 6);
+- other variants for features that are not normal (section 7).
+
 ## 2. The problem
 
 > **Key point:** No man in the data is exactly 185 cm tall, so P(height = 185 | male) by counting is 0.
@@ -61,7 +70,7 @@ For each class and each feature:
 
    $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
 
-3. use $f(x)$ in place of $P(x \mid \text{class})$ in the Naive Bayes product.
+3. use $f(x)$ in place of $P(x \mid \text{class})$ in the Naive Bayes product. In this role the curve's height is the **likelihood** (G-1086) of the value under that class.
 
 ![A normal curve per class for each feature; the dots mark the new person's values](images/gaussians.png){height=52%}
 
@@ -82,11 +91,15 @@ $$\text{male: } 0.5 \times 0.03615 \times 0.03070 = 5.5 \times 10^{-4}$$
 
 $$\text{female: } 0.5 \times 0.00473 \times 0.00479 = 1.1 \times 10^{-5}$$
 
+Figure 3 shows where the four densities come from. A dashed line marks the new person's value on each chart; the height of each curve at that line is the density.
+
+![Reading the likelihoods off the curves. At 185 cm the male curve is 0.0361 high and the female curve 0.0047. At 170 lb the heights are 0.0307 and 0.0048. Prior × both heights gives the two scores. Idea after StatQuest, "Gaussian Naive Bayes, Clearly Explained!!!"; the data are ours.](images/density_read.gif){height=50%}
+
 The male score is about 49 times larger, so the prediction is **male**. As probabilities: 98% male, 2% female.
 
 ![The two scores built one factor at a time (log scale), then divided by their total](images/score_build.gif)
 
-In Figure 3, watch the gap open: both classes start at 0.5, the height density pulls the female score about 8 times lower, and the weight density widens the gap to about 49 times.
+In Figure 4, watch the gap open: both classes start at 0.5, the height density pulls the female score about 8 times lower, and the weight density widens the gap to about 49 times.
 
 > **Extra:** A density is not a probability: for a continuous variable, the probability of exactly 185.000... cm is 0, and densities can even be larger than 1. But the density measures how likely values **near** 185 are, and the same small interval would multiply every class's density equally. So comparing densities across classes gives the same decision as comparing probabilities.
 
@@ -103,7 +116,52 @@ In Figure 3, watch the gap open: both classes start at 0.5, the height density p
 >
 > `GaussianNB` estimates the variance by dividing by $n$ rather than $n - 1$ (and adds a tiny amount, `var_smoothing`, for numerical safety; scikit-learn docs, `GaussianNB`), so its numbers differ slightly from the table: 99.2% male instead of 98.0%. The prediction is the same.
 
-## 5. When the data is not normal
+## 5. Adding logs instead of multiplying
+
+> **Key point:** Many small factors multiplied together can become too small for the computer to store. Taking the log of each factor and adding gives the same winner, with ordinary-sized numbers.
+
+The two scores are already small: $5.5 \times 10^{-4}$ and $1.1 \times 10^{-5}$, with only two features. Every extra feature multiplies in another small density. With hundreds of features the product falls below the smallest number the computer can store and becomes 0 for every class. This failure is **underflow** (G-2036), met before in the [log loss Note](../73-log-loss/note.md).
+
+The fix is to take the natural log of the score. The log of a product is the sum of the logs, so the multiplication becomes an addition:
+
+$$\ln(\text{score}) = \ln P(\text{class}) + \ln f(\text{height}) + \ln f(\text{weight})$$
+
+On the new person:
+
+| | ln prior | ln density of height | ln density of weight | Sum |
+|---|---|---|---|---|
+| male | $\ln 0.5 = -0.69$ | $\ln 0.03615 = -3.32$ | $\ln 0.03070 = -3.48$ | $-7.50$ |
+| female | $\ln 0.5 = -0.69$ | $\ln 0.00473 = -5.35$ | $\ln 0.00479 = -5.34$ | $-11.39$ |
+
+The log is an increasing function, so the class with the larger score also has the larger log score. $-7.50$ is larger than $-11.39$, so the prediction is male, as before. scikit-learn computes Naive Bayes with log scores for this reason (its `GaussianNB` works with a joint log-likelihood).
+
+## 6. Reading the result
+
+> **Key point:** Each feature's say is the ratio of its two curve heights. Here height favours male 7.6 times and weight 6.4 times. With the weight fixed at 170 lb, the prediction flips from female to male at about 166 cm.
+
+### 6.1 Which feature decides
+
+> **Key point:** The feature whose two curve heights differ most has the largest say.
+
+Both priors are 0.5, so the 49-fold gap between the scores comes only from the densities. Figure 3 gives each feature's share:
+
+- height: $0.03615 / 0.00473 = 7.6$ times in favour of male;
+- weight: $0.03070 / 0.00479 = 6.4$ times in favour of male;
+- together: $7.6 \times 6.4 \approx 49$.
+
+Here the two features have a similar say. When one feature's ratio is far larger than all the others, that feature alone decides the class, and the others may not be needed. **Cross-validation** (G-510, [Note 29](../29-pipelines/note.md)) can check which features help.
+
+### 6.2 Where the prediction flips
+
+> **Key point:** The set of inputs where the two classes are equally likely is the decision boundary.
+
+Figure 5 keeps the weight at 170 lb and slides the height from 150 to 190 cm. On the left, the dashed line moves across the two height curves. On the right, the probability of male is traced out.
+
+![Sliding the height with the weight fixed at 170 lb. Left: the two height curves and the current height. Right: P(male) for each height. The curve crosses 50% at about 166 cm, the decision boundary](images/height_sweep.gif){height=45%}
+
+Watch the right-hand chart: for short heights the female curve is much higher and P(male) is near 0. Near 166 cm the two scores are equal and P(male) is 50%. Above that the male score wins. The point where the prediction switches is the **decision boundary** (G-555). It sits below the crossing point of the two height curves (about 172 cm) because the weight of 170 lb already favours male 6.4 times.
+
+## 7. When the data is not normal
 
 > **Key point:** The normal assumption can be wrong. Other variants assume other distributions: multinomial for counts, Bernoulli for yes/no, categorical for categories.
 
@@ -118,33 +176,38 @@ The normal assumption is a choice, and it can be poor, for example for a skewed 
 
 ![The shape each variant assumes for one feature within one class](images/nb_variants.png)
 
-In Figure 4, match the shape to the feature: a smooth bell for measurements, bars over 0, 1, 2, ... for counts, two bars for yes/no, one bar per category.
+In Figure 6, match the shape to the feature: a smooth bell for measurements, bars over 0, 1, 2, ... for counts, two bars for yes/no, one bar per category.
 
 Each variant suits one kind of data (scikit-learn user guide §1.9), so we look at each feature's distribution and pick the variant whose assumption fits it. A strongly skewed numerical feature can also be transformed first (the power transformer Note) so that it looks more normal.
 
-## 6. Summary
+## 8. Summary
 
 - Numerical values rarely repeat, so $P(x \mid \text{class})$ cannot be counted.
 - Gaussian Naive Bayes fits a normal curve (mean, standard deviation) per class and feature, and uses the density at $x$.
 - New person 185 cm, 170 lb: male score $5.5 \times 10^{-4}$, female $1.1 \times 10^{-5}$: male (98%).
+- With many features, add the logs of the factors instead of multiplying them, to avoid underflow.
+- A feature's say is the ratio of its two curve heights; the decision boundary is where the scores are equal.
 - Other variants (multinomial, Bernoulli, categorical) suit other kinds of features.
 
-## 7. Sources
+## 9. Sources
 
 **Built from**
 
 - CampusX, "Naive Bayes Part 9 | Handling Numerical Data", YouTube, https://www.youtube.com/watch?v=TCgK2nBJx9o
+- StatQuest with Josh Starmer, "Gaussian Naive Bayes, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=H3EjCKtlVog (the likelihood as the curve's height, adding logs to avoid underflow, one feature having the larger say; Figure 3 is redrawn from this idea with our own data)
 
 **Other references**
 
 - **scikit-learn docs:** `sklearn.naive_bayes.GaussianNB` (var_smoothing); user guide Section 1.9, "Naive Bayes", scikit-learn 1.9.
 
-## 8. Key terms
+## 10. Key terms
 
 | Term | Meaning |
 |---|---|
-| Gaussian Naive Bayes | Naive Bayes that models each numerical feature as normally distributed within each class |
-| Probability density | The height of a continuous distribution's curve; compares how likely nearby values are |
+| Gaussian Naive Bayes (G-830) | Naive Bayes that models each numerical feature as normally distributed within each class |
+| Probability density (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are |
 | GaussianNB | scikit-learn's Gaussian Naive Bayes |
-| MultinomialNB | Naive Bayes for count data, such as word counts |
-| BernoulliNB | Naive Bayes for binary (yes/no) features |
+| Underflow (G-2036) | A number too close to 0 for the computer to store, which then becomes 0 or loses precision |
+| Decision boundary (G-555) | The set of inputs where the model's prediction switches from one class to the other |
+| MultinomialNB (G-1277) | Naive Bayes for count data, such as word counts |
+| BernoulliNB (G-277) | Naive Bayes for binary (yes/no) features |

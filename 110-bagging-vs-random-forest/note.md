@@ -66,7 +66,7 @@ In a random forest, the draw happens again **every time a node is about to split
 - the next node draws again, col4 and col5, and splits on col4;
 - the next draws col2 and col1, and splits on col1.
 
-Node-level sampling is exactly the `max_features` setting of a single decision tree (the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4.6), applied in every tree of the forest. Node-level sampling adds more randomness than tree-level sampling.
+Building a forest tree this way is shown step by step in the [random forest introduction Note](../108-random-forest-intro/note.md), section 4.1. Node-level sampling is exactly the `max_features` setting of a single decision tree (the [decision tree hyperparameters Note](../98-decision-tree-hyperparameters/note.md), section 4.6), applied in every tree of the forest. Node-level sampling adds more randomness than tree-level sampling.
 
 ### 3.3 Why more randomness helps
 
@@ -184,6 +184,7 @@ The random forest makes about 13% fewer mistakes than bagging (4.7% against 5.4%
 **Built from**
 
 - CampusX, "Bagging Vs Random Forest | What is the difference between Bagging and Random Forest | Very Important", YouTube, https://www.youtube.com/watch?v=l93jRojZMqU
+- StatQuest with Josh Starmer, "StatQuest: Random Forests Part 1 - Building, Using and Evaluating", YouTube, https://www.youtube.com/watch?v=J4Wdy0Wc_xQ (a random subset of features at every split, section 3.2)
 
 **Other references**
 

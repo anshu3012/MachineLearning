@@ -13,11 +13,21 @@ tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 
 ## 1. Overview
 
-> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the **kernel** (G-1009) to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
+> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the **kernel** (G-1004) to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
 
 The [kernel trick intuition Note](../95-kernel-trick-intuition/note.md) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new features are needed. Figure 1 shows the four models we train.
 
 ![Decision regions of four SVMs on the circles data; ringed points are support vectors](images/kernels.png){height=58%}
+
+This Note covers:
+
+- the data: two circles (section 2);
+- a linear SVM failing on it (section 3);
+- lifting the data into 3D by hand (section 4);
+- the RBF kernel (section 5) and the polynomial kernel (section 6);
+- why the kernel is a trick: dot products without new features (section 7);
+- gamma, the RBF kernel's main setting (section 8);
+- an interactive playground (section 9).
 
 All the code is in the Notebook of this Note (`notebook.ipynb`).
 
@@ -102,7 +112,7 @@ On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the r
 
 The lift worked because the bump $e^{-x^2}$ is centred at 0, exactly where the inner class sits. If the inner class were centred at 5, we would need $e^{-(x - 5)^2}$ instead. In higher dimensions we cannot look at the data and see where the centre is.
 
-So SVM in effect tries a bump centred on each data point and keeps the combination that separates the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new features at all (Section 7).
+So SVM in effect places a bump on the data points themselves and adds the bumps up, each with its own weight; training finds the weights that separate the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new features at all (Section 7).
 
 > **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. The SVM's decision function is a weighted sum of such bumps, one centred on each support vector: $\sum_{i \in SV} y_i \alpha_i K(x_i, x) + b$ (sklearn UG §1.4.7).
 
@@ -182,11 +192,41 @@ Figure 4 draws the two routes side by side; watch both arrive at 25, while only 
 
 The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). Getting the dot product without building the features is exactly the **kernel trick** (G-1008).
 
-## 8. An interactive playground
+## 8. Gamma: how far one point's influence reaches
+
+> **Key point:** The RBF kernel value between two points falls as their distance grows. Gamma sets how fast. Small gamma: far points still count, smooth boundary. Large gamma: only very close points count, and the boundary wraps around single points.
+
+The RBF kernel compares two points through their distance:
+
+$$K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$$
+
+The value is 1 when the two points coincide and falls towards 0 as they move apart. We can read the value as the **influence** one training point has on another point: close points have a lot of influence, far points almost none. The setting **gamma** (G-823), $\gamma$, multiplies the squared distance, so gamma decides how quickly the influence dies out.
+
+For two points at distance 1, $K = e^{-\gamma}$:
+
+| gamma (G-823) | $K$ at distance 1 | Reading |
+|---|---|---|
+| 0.1 | $e^{-0.1} = 0.90$ | a point at distance 1 still has almost full influence |
+| 1 | $e^{-1} = 0.37$ | about a third |
+| 10 | $e^{-10} = 0.00005$ | practically none |
+
+Figure 5 draws the kernel value against the distance for the three gammas. Watch the red curve (gamma = 10): the influence is gone before distance 1, while the green curve (gamma = 0.1) is still high at distance 3.
+
+![The RBF kernel value against the distance between two points, for gamma = 0.1, 1 and 10. The dots mark distance 1: 0.90, 0.37 and 0.00005](images/gamma_bumps.png){height=32%}
+
+A small gamma makes each bump wide, so many training points have a say at every location and the decision boundary is smooth (risk of underfitting). A large gamma makes each bump narrow, so only the nearest training points have a say and the boundary wraps around individual points (risk of overfitting). Gamma is a **hyperparameter** (G-910).
+
+Figure 6 runs a gamma sweep on the moons data, from 0.01 to 1000, with C = 1. Watch the decision boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
+
+![RBF SVM on the moons data as gamma grows. Left: decision regions, with support vectors ringed. Right: training accuracy and accuracy on a fresh test set of 5,000 points](images/gamma_sweep.gif)
+
+> **Extra:** scikit-learn's default, `gamma="scale"`, sets gamma from the spread of the data: $1 / (p \times \text{variance of } X)$, where $p$ is `n_features`, the number of features. C and gamma are usually tuned together with a grid search (sklearn, "RBF SVM parameters").
+
+## 9. An interactive playground
 
 > **Key point:** app.py lets you change the dataset, kernel, C, gamma and degree and watch the decision regions and support vectors update.
 
-The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Figure 5 shows it with its default settings.
+The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Figure 7 shows it with its default settings.
 
 ![The playground on the circles data with the RBF kernel, C = 1 and gamma = 1](images/app_preview.png){height=42%}
 
@@ -195,15 +235,9 @@ Things to try:
 - **linear** on the circles: one straight cut, about 0.55 accuracy, and nearly every point a support vector.
 - **poly** with degree 3, then 2: the accuracy jumps from 0.45 to 1.00.
 - **C** from 3 down to $-3$ (that is, $10^3$ to $10^{-3}$): small C widens the margin and adds support vectors, as in the [soft-margin Note](../94-svm-soft-margin/note.md).
-- **gamma** with the RBF kernel on the moons data: from smooth boundaries at small gamma to tight islands around single points at large gamma.
+- **gamma** with the RBF kernel on the moons data: from smooth boundaries at small gamma to tight islands around single points at large gamma, as in Figure 6.
 
-> **Extra:** `gamma` sets how far the influence of one training point reaches in the RBF kernel $e^{-\gamma \lVert a - b \rVert^2}$. A small gamma makes each bump wide, giving smooth boundaries (risk of underfitting). A large gamma makes each bump narrow, so the boundary wraps around individual points (risk of overfitting). scikit-learn's default, `gamma="scale"`, sets it from the spread of the data: $1 / (p \times \text{variance of } X)$, where $p$ is `n_features`, the number of features. C and gamma are usually tuned together with a grid search (sklearn, "RBF SVM parameters").
-
-Figure 6 runs that gamma sweep on the moons data, from 0.01 to 1000, with C = 1. Watch the decision boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
-
-![RBF SVM on the moons data as gamma grows. Left: decision regions, with support vectors ringed. Right: training accuracy and accuracy on a fresh test set of 5,000 points](images/gamma_sweep.gif)
-
-## 9. Summary
+## 10. Summary
 
 | Model | Code | Test accuracy |
 |---|---|---|
@@ -216,13 +250,15 @@ Figure 6 runs that gamma sweep on the moons data, from 0.01 to 1000, with C = 1.
 - Lifting with $z = e^{-x_1^2} + e^{-x_2^2}$ makes them separable by a plane in 3D.
 - With a kernel, SVM gets the same effect from the original two features: no new features built.
 - The kernel's settings (degree, gamma) and C are hyperparameters to tune.
+- Gamma sets how far one point's influence reaches: small gamma gives smooth boundaries, large gamma tight ones.
 - A kernel returns the dot product in the higher-dimensional space directly: the kernel trick.
 
-## 10. Sources
+## 11. Sources
 
 **Built from**
 
 - CampusX, "Kernel Trick in SVM | Code Example", YouTube, https://www.youtube.com/watch?v=pjvmVMDrzVU
+- StatQuest with Josh Starmer, "Support Vector Machines Part 3: The Radial (RBF) Kernel (Part 3 of 3)", YouTube, https://www.youtube.com/watch?v=Qc5IyLW_hns (gamma scales the squared distance, and so the influence two points have on each other; section 8)
 
 **Other references**
 
@@ -231,12 +267,12 @@ Figure 6 runs that gamma sweep on the moons data, from 0.01 to 1000, with C = 1.
 - **sklearn UG:** scikit-learn User Guide, Section 1.4, Support Vector Machines (1.4.6 Kernel functions, 1.4.7 Mathematical formulation), and the `SVC` reference page. scikit-learn.org/stable/modules/svm.html
 - **sklearn, "RBF SVM parameters":** scikit-learn example gallery, *RBF SVM parameters*. scikit-learn.org, auto_examples/svm/plot_rbf_parameters
 
-## 11. Key terms
+## 12. Key terms
 
 | Term | Meaning |
 |---|---|
-| make_circles | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset |
-| Feature map ($\phi$) | The explicit transformation of a point into the higher-dimensional space |
-| Kernel function $K(a, b)$ | A function that returns $\phi(a) \cdot \phi(b)$ directly from the original points |
+| make_circles (G-1148) | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset |
+| Feature map ($\phi$) (G-765) | The explicit transformation of a point into the higher-dimensional space |
+| Kernel function $K(a, b)$ (G-1006) | A function that returns $\phi(a) \cdot \phi(b)$ directly from the original points |
 | degree | The degree of SVC's polynomial kernel; default 3 |
-| gamma | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries |
+| gamma (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries |

@@ -27,7 +27,7 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 > **Key point:** Forest settings decide which data each tree gets; tree settings decide how each tree grows; general settings handle training and bookkeeping.
 
-1. **Forest-level** (section 3): `n_estimators`, `max_features`, `bootstrap`, `max_samples`. These tune the forest itself.
+1. **Forest-level** (G-792; section 3): `n_estimators`, `max_features`, `bootstrap`, `max_samples`. These tune the forest itself.
 2. **Tree-level** (section 4): `criterion`, `max_depth`, `min_samples_split` and the rest. A forest is built from decision trees, and these are the settings of every one of them.
 3. **General** (section 5): `n_jobs`, `random_state`, `verbose` and others found in many scikit-learn algorithms.
 
@@ -41,10 +41,10 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `n_estimators` | 100 | the number of trees in the forest |
-| `max_features` | `"sqrt"` (classifier), 1.0 (regressor) | how many features each split considers |
+| `n_estimators` (G-1291) | 100 | the number of trees in the forest |
+| `max_features` (G-1185) | `"sqrt"` (classifier), 1.0 (regressor) | how many features each split considers |
 | `bootstrap` | `True` | draw each tree's observations with replacement (`True`) or give every tree the whole training set (`False`) |
-| `max_samples` | `None` (as many observations as the training set) | how many observations each tree gets; only used when `bootstrap=True` |
+| `max_samples` (G-1187) | `None` (as many observations as the training set) | how many observations each tree gets; only used when `bootstrap=True` |
 
 `max_features` and `max_samples` accept a whole number (a count) or a decimal (a share), as in `BaggingClassifier` (the [bagging classifier Note](../106-bagging-classifier/note.md), section 3.2).
 
@@ -61,6 +61,8 @@ At every split, a tree draws `max_features` features at random and picks the bes
 3. **Example:** with $p = 100$ features: "sqrt" gives $\sqrt{100} = 10$; "log2" gives $\log_2 100 = 6.64$, so **6**; $0.2$ gives 20; `None` gives all 100. The Notebook confirms each one.
 
 With the 2 features of our demo data, "sqrt" gives $\lfloor 1.41 \rfloor = 1$: each split may look at only one randomly chosen feature.
+
+**How to choose it.** Start at the square root of the number of features and try a few values above and below. Train a forest for each value and compare their out-of-bag scores (the [OOB score Note](../113-oob-score/note.md)), or their cross-validation scores (the [tuning Note](../112-random-forest-tuning/note.md)); keep the best.
 
 > **Extra:** Older code and documentation also list `max_features="auto"`, which meant "sqrt" for the classifier and all the features for the regressor. The "auto" option was removed in scikit-learn 1.3 and now raises an error; the classifier's default became "sqrt" in 1.1 and the regressor's 1.0 (all features). (scikit-learn API docs)
 
@@ -190,6 +192,7 @@ The regressor has no `class_weight`, since there are no classes.
 **Built from**
 
 - CampusX, "Random Forest Hyper-parameters", YouTube, https://www.youtube.com/watch?v=WOFVY_wQ9wU
+- StatQuest with Josh Starmer, "StatQuest: Random Forests Part 1 - Building, Using and Evaluating", YouTube, https://www.youtube.com/watch?v=J4Wdy0Wc_xQ (choosing the number of features per split, section 3.2)
 
 **Other references**
 

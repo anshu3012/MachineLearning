@@ -233,13 +233,23 @@ The objective function stays exactly the same; only the `sampler=` argument chan
 >
 > For `GridSampler`, the grid is written outside the objective, and the trial values come from it: 4 × 4 = 16 trials. With grid or random search inside Optuna, we no longer need scikit-learn's `GridSearchCV` or `RandomizedSearchCV`.
 
+Figure 5 places the trials of the three studies on the same plane, `n_estimators` across and `max_depth` up, one trial per frame. Watch where the dots land:
+
+- **Grid search** fills its 16 fixed points in order, whatever the scores.
+- **Random search** scatters its 50 trials evenly over the plane.
+- **TPE** starts with the same 10 random trials (both use seed 42). After those, its dots gather around `max_depth` 8 and 9, where the darkest (best) dots are.
+
+The green box is the best region of this study (`max_depth` 6 to 10, `n_estimators` up to 120). The counter in each title shows how many trials fall in it: 2 of 16 for the grid, 7 of 50 for random search, 10 of 50 for TPE.
+
+![The trials of the grid, random and TPE studies on the n_estimators × max_depth plane, one trial per frame; darker dots scored higher, the red ring marks the newest trial, and the green box is the best region](images/sampler_trials.gif){height=45%}
+
 Which sampler should we use? The books give a clear answer: Bayesian search reaches a good score in fewer trials than random search, and the saving is largest when each trial is expensive and the good settings fill only a small part of the search space (Shahriari et al. 2016, §I; Bergstra et al. 2011). Section 6.1 tests this under exactly those conditions.
 
 ### 6.1 Bayesian search needs fewer trials
 
 > **Key point:** Averaged over 20 runs, TPE reaches in 20 trials the score that random search needs about 42 trials to reach.
 
-Think of a treasure hunt. If gold lies everywhere, any random dig finds some, and clues do not help much. If the gold lies in one small patch, a hunter who uses the clues from earlier digs finds it far sooner than one who digs at random. Bayesian search is the hunter who uses the clues. Our random forest is the first kind of field: almost any depth and tree count scores about the same (see the Extra below). So we tune an RBF-kernel SVM ([kernel trick Note](../95-kernel-trick-intuition/note.md)) on the same diabetes data, over its two settings `C` and `gamma`, each from very small to very large on a log scale; only a narrow band of this space scores well. We run each sampler 20 times with different seeds, 50 trials each, and average the best score so far after every trial (Figure 5).
+Think of a treasure hunt. If gold lies everywhere, any random dig finds some, and clues do not help much. If the gold lies in one small patch, a hunter who uses the clues from earlier digs finds it far sooner than one who digs at random. Bayesian search is the hunter who uses the clues. Our random forest is the first kind of field: almost any depth and tree count scores about the same (see the Extra below). So we tune an RBF-kernel SVM ([kernel trick Note](../95-kernel-trick-intuition/note.md)) on the same diabetes data, over its two settings `C` and `gamma`, each from very small to very large on a log scale; only a narrow band of this space scores well. We run each sampler 20 times with different seeds, 50 trials each, and average the best score so far after every trial (Figure 6).
 
 ![Best 5-fold CV accuracy so far, averaged over 20 runs of each sampler on the SVM search; the bands are ± one standard error](images/best_so_far.png){width=100%}
 
@@ -283,7 +293,7 @@ The first 10 trials are identical, because TPE starts at random (section 5.2). F
 
 ![Optimisation history of the three studies: each trial (dots) and the best so far (lines)](images/history.png){width=100%}
 
-Figure 6 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. No study improved its best score after trial 29, so on this problem the last 20 trials added nothing; a flat history like this one helps us choose `n_trials` next time.
+Figure 7 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. No study improved its best score after trial 29, so on this problem the last 20 trials added nothing; a flat history like this one helps us choose `n_trials` next time.
 
 ### 7.2 Parallel coordinates and slices
 
@@ -291,7 +301,7 @@ Figure 6 puts the three studies on one chart. TPE's best, 0.790, came at trial 9
 
 ![Parallel coordinates of the TPE study: each line is a trial, darker is a higher score](images/parallel.png){width=100%}
 
-In Figure 7, the darkest lines all run through `max_depth` 8 to 9 and on to `n_estimators` between about 110 and 145. A **slice plot** (`plot_slice`) shows the same thing one hyperparameter at a time: each hyperparameter against the score, one dot per trial, so dense regions show where the sampler spent its trials.
+In Figure 8, the darkest lines all run through `max_depth` 8 to 9 and on to `n_estimators` between about 110 and 145. A **slice plot** (`plot_slice`) shows the same thing one hyperparameter at a time: each hyperparameter against the score, one dot per trial, so dense regions show where the sampler spent its trials.
 
 ### 7.3 Contour plot
 
@@ -299,7 +309,7 @@ In Figure 7, the darkest lines all run through `max_depth` 8 to 9 and on to `n_e
 
 ![Contour plot of the TPE study: max_depth against n_estimators, darker is a higher score; dots are trials](images/contour.png){width=90%}
 
-Figure 8 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 to 135, and the dots show that TPE placed many of its trials there. Away from that band of depths, the colours are pale whatever the number of trees.
+Figure 9 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 to 135, and the dots show that TPE placed many of its trials there. Away from that band of depths, the colours are pale whatever the number of trees.
 
 ### 7.4 Hyperparameter importances
 
@@ -307,7 +317,7 @@ Figure 8 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 
 
 ![Hyperparameter importances of the TPE study](images/importances.png){width=75%}
 
-Figure 9 gives `max_depth` a **hyperparameter importance** (G-908) of 0.78 and `n_estimators` 0.22; the values add up to 1. So on this data, when time is short, `max_depth` is the hyperparameter to tune carefully.
+Figure 10 gives `max_depth` a **hyperparameter importance** (G-908) of 0.78 and `n_estimators` 0.22; the values add up to 1. So on this data, when time is short, `max_depth` is the hyperparameter to tune carefully.
 
 > **Extra:** Optuna 5.0 computes these importances with **PED-ANOVA**: roughly, a hyperparameter is important if its values among the best trials look very different from its values among all trials (Watanabe et al. 2023; Optuna docs). The older **fANOVA** method, which fits a random forest predicting the score from the hyperparameters (Hutter et al. 2014), gives 0.88 and 0.12 on the same study: a different split, the same order.
 
@@ -412,7 +422,7 @@ The counts are uneven because TPE learns. Counting trials in blocks of 20 shows 
 | 40 to 59 | 2 | 11 | 7 |
 | 60 to 99 | **40** | 0 | 0 |
 
-Figure 10 replays the study trial by trial. Watch the colours: all three appear early, orange (gradient boosting) takes over in the middle, and blue (random forest) fills the last 40 trials.
+Figure 11 replays the study trial by trial. Watch the colours: all three appear early, orange (gradient boosting) takes over in the middle, and blue (random forest) fills the last 40 trials.
 
 ![The define-by-run study, 5 trials per frame: each dot is a trial, coloured by its classifier](images/algorithm_race.gif)
 

@@ -103,6 +103,10 @@ As in regression, we measure each observation's mistake as actual minus predicte
 3. **Example:** student 1 is not placed ($y = 0$), student 3 is placed ($y = 1$):
    $$r_1 = 0 - 0.625 = -0.625, \qquad r_3 = 1 - 0.625 = 0.375$$
 
+Figure 3 draws the residuals. Each dot is a student at the height of its true class, 0 or 1. The dashed line is the predicted probability, 0.625, the same for everyone. The red gap from the line to each dot is that student's residual: dots above the line have a positive residual, dots below it a negative one.
+
+![The eight students at stage 1: true class (dots), predicted probability 0.625 (dashed line) and the pseudo-residuals $y - p$ (red gaps). Drawing residuals as gaps to a probability line follows StatQuest, "Gradient Boost Part 3 (of 4): Classification"](images/residual_gaps.png){height=34%}
+
 Every placed student has residual 0.375, every student not placed $-0.625$. These are the **pseudo-residuals** (G-1589) of the log loss: the Extra in section 8 shows that $y - p$ is minus the gradient of the log loss.
 
 ## 7. Stage 2: a regression tree on the residuals
@@ -116,7 +120,7 @@ We train a regression tree with CGPA and IQ as features and the residuals as the
 - **leaf 3, CGPA $>$ 7.85:** students 6, 7 and 8 (all placed).
 
 
-Figure 3 draws the three leaves as bands of CGPA. Watch the middle band: it is the only one that mixes the two colours, so its residuals partly cancel.
+Figure 4 draws the three leaves as bands of CGPA. Watch the middle band: it is the only one that mixes the two colours, so its residuals partly cancel.
 
 ![Tree 1's three leaves as bands of CGPA over the eight students (numbered); orange students have residual $-0.625$, blue ones $+0.375$](images/tree1_regions.png){height=36%}
 
@@ -134,11 +138,15 @@ The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. 
 3. **Example:** leaf 1 holds students 1 and 2, both with residual $-0.625$ and previous probability 0.625:
    $$\gamma_1 = \frac{-0.625 + (-0.625)}{0.625 \times 0.375 + 0.625 \times 0.375} = \frac{-1.25}{0.469} = -2.67$$
 
-The same formula gives 0.18 for leaf 2 and 1.60 for leaf 3 (Figure 4). Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
+The same formula gives 0.18 for leaf 2 and 1.60 for leaf 3 (Figure 5). Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
 
 > **Extra:** Where the formula comes from. Write one observation's log loss in terms of its log-odds $z$, with $p = \sigma(z)$: since $\ln p = -\ln(1 + e^{-z})$ and $\ln(1-p) = -z - \ln(1 + e^{-z})$,
 > $$L = -\big[y \ln p + (1-y)\ln(1-p)\big] = \ln(1 + e^{-z}) + (1-y)\thinspace z$$
 > Its derivative with respect to $z$ is $-(1-p) + (1-y) = p - y$, so the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../74-sigmoid-derivative/note.md)). Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf; the log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms, $L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$ (the [XGBoost maths Note](../126-xgboost-maths/note.md) explains Taylor series). Setting the derivative to zero gives $\gamma = \sum (y_i - p_i) / \sum p_i(1 - p_i)$: our formula. The formula is one **Newton step** (G-1320) (Friedman 2001), and scikit-learn uses the same formula (scikit-learn source).
+
+Figure 6 shows what the formula does for leaf 2. The grey curve is the log loss of students 3, 4 and 5 for each possible leaf value $\gamma$. The dashed red parabola is built from the residuals and the $p(1-p)$ terms, as in the Extra above. The formula returns the lowest point of the parabola, $\gamma = 0.18$, which sits at the bottom of the grey curve.
+
+![The log loss of leaf 2's students against the leaf value $\gamma$ (grey), its second-order Taylor parabola (dashed red), and the parabola's lowest point: the leaf value 0.18](images/leaf_newton.png){height=36%}
 
 ## 9. The combined model after stage 2
 
@@ -171,7 +179,7 @@ The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we ca
 
 With $\eta = 0.1$, student 1's log-odds becomes $0.51 + 0.1 \times (-2.67) = 0.24$ and its probability 0.56: a small step in the right direction instead of a leap. In practice $\eta$ is around 0.1 and many more trees are used. The toy example keeps $\eta = 1$ so that two trees show visible progress.
 
-Figure 5 puts the two learning rates side by side for all eight students. Watch students 1 and 2: with learning rate 1 they drop from 0.625 to 0.10 in one stage; with 0.1 they only move to 0.56, still on the wrong side of 0.5.
+Figure 7 puts the two learning rates side by side for all eight students. Watch students 1 and 2: with learning rate 1 they drop from 0.625 to 0.10 in one stage; with 0.1 they only move to 0.56, still on the wrong side of 0.5.
 
 ![Probability of placement after stage 2, learning rate 1 (red dots, with the move from stage 1 as a red line) and 0.1 (blue diamonds); open circles mark each student's true class](images/lr_step.png){height=36%}
 
@@ -204,7 +212,7 @@ Each student's new log-odds adds both trees: student 4 gets $0.51 + 0.18 - 1.09 
 
 All eight students are now on the correct side of 0.5. Not every probability improved: students 1, 6 and 7 moved slightly away from their class, because tree 2 put them in a leaf with student 4. Taken together, though, the model got better: the average log loss fell from 0.66 (stage 1) to 0.31 (stage 2) and 0.22 (stage 3).
 
-Figure 6 plays the stages, and continues for two more trees built the same way. Watch the residual bars, the red gaps between each probability and its true class: every tree shortens most of them, student 4's long bar shrinks with tree 2, and the log loss on the right keeps falling (0.13 and 0.08 after trees 3 and 4).
+Figure 8 plays the stages, and continues for two more trees built the same way. Watch the residual bars, the red gaps between each probability and its true class: every tree shortens most of them, student 4's long bar shrinks with tree 2, and the log loss on the right keeps falling (0.13 and 0.08 after trees 3 and 4).
 
 ![Each student's probability of placement (filled dot) moves towards its true class (ring) stage by stage; the red bar is the pseudo-residual y - p that the next tree learns. Right: average log loss. Learning rate 1, trees with 3 leaves, as in the tables. Drawing residuals as bars to the true class follows StatQuest's "Gradient Boost Part 3: Classification" (Starmer)](images/prob_climb.gif)
 
@@ -220,7 +228,7 @@ Figure 6 plays the stages, and continues for two more trees built the same way. 
 
 The probability of placement is 0.82, above 0.5, so the prediction is "placed". scikit-learn's `GradientBoostingClassifier(loss="log_loss", n_estimators=2, learning_rate=1.0, max_leaf_nodes=3, max_depth=None)` reproduces every probability in this Note (Notebook).
 
-Figure 7 shows the two halves of the prediction. Watch the order: all adding happens in log-odds on the left, and only the total goes through the sigmoid on the right.
+Figure 9 shows the two halves of the prediction. Watch the order: all adding happens in log-odds on the left, and only the total goes through the sigmoid on the right.
 
 ![The new student (CGPA 7.2, IQ 100): $F_0 = 0.51$ plus 0.18 from tree 1 and 0.82 from tree 2 gives log-odds 1.51 (left); the sigmoid turns it into probability 0.82 (right)](images/new_student.png){height=34%}
 
@@ -248,11 +256,11 @@ To see what the stages do, we use a harder dataset of 1,500 points with two feat
 
 ![The data lifted to height 0 (class 0) or 1 (class 1), with the model's probability surface after one tree](images/view3d.png){height=42%}
 
-In Figure 8, each point sits at the height of its class: class 0 on the floor, class 1 at height 1. Stage 1 is a flat surface at the share of class 1, 0.5. One tree with 4 leaves cuts the plane into 4 rectangles and lifts or lowers the surface over each one, towards the points above or below it.
+In Figure 10, each point sits at the height of its class: class 0 on the floor, class 1 at height 1. Stage 1 is a flat surface at the share of class 1, 0.5. One tree with 4 leaves cuts the plane into 4 rectangles and lifts or lowers the surface over each one, towards the points above or below it.
 
 ![Probability of class 1 after 0, 1, 2, 10, 30 and 100 trees (learning rate 0.5, 4 leaves per tree); blue above 0.5, orange below](images/surfaces.png){height=50%}
 
-Figure 9 looks at the same surface from above, after more trees:
+Figure 11 looks at the same surface from above, after more trees:
 
 | Trees | Training accuracy | Test accuracy |
 |---|---|---|
@@ -288,7 +296,8 @@ Each tree splits on one feature at a time, an **axis-parallel split** (G-243), s
 **Built from**
 
 - CampusX, "Gradient Boosting for Classification | Geometric Intuition | CampusX", YouTube, https://www.youtube.com/watch?v=4p5EQtyxSyI
-- Starmer, J. (StatQuest). "Gradient Boost Part 3 (of 4): Classification." statquest.org. The idea of drawing each residual as the gap between a probability and its class (Figure 6).
+- StatQuest with Josh Starmer, "Gradient Boost Part 3 (of 4): Classification", YouTube, https://www.youtube.com/watch?v=jxuNLH5dXCs (residuals drawn as the gap between a probability and its class, the residual figures of sections 6 and 10)
+- StatQuest with Josh Starmer, "Gradient Boost Part 4 (of 4): Classification Details", YouTube, https://www.youtube.com/watch?v=StWY5QWMXCw (the leaf formula from a second-order Taylor polynomial, section 8)
 
 **Other references**
 

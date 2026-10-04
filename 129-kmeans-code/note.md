@@ -70,6 +70,10 @@ CGPA runs from 4.6 to 9.3 and IQ from 83 to 121. Plotted (Figure 1, left), the s
 
 Figure 2 plots the ten values. WCSS starts at 29,958 for one cluster and drops to 4,184 for two. WCSS keeps falling to 2,503 at k = 3 and 682 at k = 4. After that it barely moves: 530 at k = 5, 421 at k = 6.
 
+Figure 3 runs the loop itself. Watch the two panels together: the left panel shows the clusters that `KMeans` finds for the current k, and the right panel adds that model's WCSS to the curve. From k = 1 to k = 4 each new cluster takes one of the four groups and the WCSS drops sharply. From k = 5 on, a new cluster can only cut a group that is already tight, so the curve goes flat.
+
+![The elbow loop on the 200 students, k = 1 to 10. Left: the clusters for the current k (crosses are the centroids). Right: the WCSS of each model so far; the bend at k = 4 is the elbow](images/elbow_loop.gif){height=40%}
+
 The curve bends twice: a sharp bend at k = 2 and a second one at k = 4. After k = 4 nothing changes much, so k = 4 is the elbow, the same number we counted in Figure 1. With two bends to choose from, the plot of the data in Figure 1 confirms k = 4.
 
 ## 5. Training k-means with k = 4
@@ -97,7 +101,7 @@ The first student is in cluster 3, the second in cluster 2, and so on. The numbe
 | 2 | 5.89 | 109.5 |
 | 3 | 4.97 | 86.7 |
 
-Figure 3 replays what happens inside `fit_predict`. Watch the start: each new centroid is drawn from the students, and the farther a student is from the centroids already chosen, the bigger its dot and its chance. Then the assign and update rounds run until no student changes cluster, ending at the four centroids of the table.
+Figure 4 replays what happens inside `fit_predict`. Watch the start: each new centroid is drawn from the students, and the farther a student is from the centroids already chosen, the bigger its dot and its chance. Then the assign and update rounds run until no student changes cluster, ending at the four centroids of the table.
 
 ![k-means on the 200 students, k = 4, unscaled. First a k-means++ start (the plain version; scikit-learn runs a greedy variant): dot size is a student's chance to become the next centroid. Then assign and update rounds until no student moves: four clusters of 50](images/kmeans_start.gif){height=40%}
 
@@ -117,7 +121,7 @@ Figure 3 replays what happens inside `fit_predict`. Watch the start: each new ce
 
 ![Boolean indexing on the first five students: the labels y_means, the mask y_means == 1, and the CGPA values X[y_means == 1, 0] that the mask keeps](images/boolean_index.png){height=30%}
 
-Figure 4 follows the first five students through the indexing. Watch the orange rows: the mask is True where the label is 1, and only those rows, then only column 0, survive.
+Figure 5 follows the first five students through the indexing. Watch the orange rows: the mask is True where the label is 1, and only those rows, then only column 0, survive.
 
 > **Python:** One trace per cluster with Plotly.
 >
@@ -168,7 +172,7 @@ To see k-means beyond two features, we generate 200 points around four centres i
 >
 > `make_blobs` returns the points and the true group of each; `_` is the usual name for a value we ignore. `cluster_std=1` is the spread of each group.
 
-The elbow loop, run for k = 1 to 20 without changing a line, gives WCSS 11,144, 4,122, 2,552, 593, then 544: the elbow is again at k = 4. Training with k = 4 and colouring by cluster gives Figure 5. In the Notebook, `plotly.express.scatter_3d` draws it as a 3-D plot we can rotate.
+The elbow loop, run for k = 1 to 20 without changing a line, gives WCSS 11,144, 4,122, 2,552, 593, then 544: the elbow is again at k = 4. Training with k = 4 and colouring by cluster gives Figure 6. In the Notebook, `plotly.express.scatter_3d` draws it as a 3-D plot we can rotate.
 
 ![k-means with k = 4 on 200 points with three features](images/blobs_3d.png){height=45%}
 

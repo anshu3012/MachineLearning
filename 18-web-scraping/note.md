@@ -81,7 +81,7 @@ The **status code** (G-1886) is a number in the reply that says how the request 
 
 > **Key point:** A User-Agent header tells the server which browser is asking; sending a browser's User-Agent gets past simple bot checks.
 
-A browser announces itself with a short text called the User-Agent (see "Opening a file from a URL", section 5 of the [CSV Note](../15-working-with-csv/note.md)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
+A browser announces itself with a short text called the **User-Agent** (G-2064) (see "Opening a file from a URL", section 5 of the [CSV Note](../15-working-with-csv/note.md)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
 
 So we send a browser's User-Agent ourselves, in the request's **headers** (G-885) (extra information sent along with a request):
 
@@ -169,9 +169,9 @@ The page source is thousands of lines long, so we do not read it top to bottom. 
 
 Hovering over the whole TCS box highlights its `div` with class `company-content-wrapper`. Hovering over the next box, Accenture, highlights another `div` with the same class.
 
-The page is 30 identical boxes, one per company, filled with different values. This repetition is what makes scraping possible: once we know how one box is built, we know them all.
+The page is 30 identical boxes, one per company, filled with different values. A tag that holds everything about one item, as each of these `div` tags holds one company, is called a **container** (G-458). The repeated container is what makes scraping possible: once we know how one container is built, we know them all.
 
-Figure 4 shows the first three boxes of page 1 and the tag Inspect highlights for each. Watch the right column: the tag and its class are the same every time; only the values inside change.
+Figure 4 shows the first three containers (company boxes) of page 1 and the tag Inspect highlights for each. Watch the right column: the tag and its class are the same every time; only the values inside change.
 
 ![Three company boxes on the page, and the one kind of div that draws each of them](images/repeated_boxes.png)
 
@@ -179,7 +179,7 @@ Figure 4 shows the first three boxes of page 1 and the tag Inspect highlights fo
 
 > **Key point:** `soup.find_all("h2")` returns a list of every `h2` tag; `.text.strip()` gives the clean text inside one tag.
 
-`find_all` takes a tag name and returns a list of every tag with that name in the page.
+To collect every tag of one kind, we use **`find_all`** (G-83): it takes a tag name and returns a list of every tag with that name in the page.
 
 > **Python:** The page title.
 >
@@ -246,14 +246,14 @@ The same problem can hit any field that some companies lack. We need values that
 
 ## 10. Working one company box at a time
 
-> **Key point:** First find the 30 company boxes, then search inside each box; whatever we find there belongs to that company.
+> **Key point:** First find the 30 containers (one `div` per company), then search inside each container; whatever we find there belongs to that company.
 
 The fix is to change the order of the search. Instead of searching the whole page for each field, we:
 
-1. find the 30 company boxes, the `div` tags with class `company-content-wrapper`;
-2. loop over the boxes, and inside each box find the name, rating and details.
+1. find the 30 containers, the `div` tags with class `company-content-wrapper`;
+2. loop over the containers, and inside each one find the name, rating and details.
 
-A search inside one box can only find that company's tags. Figure 6B shows the result: Infosys BPM still has 3 details, but BYJU'S and every company after it are untouched.
+A search inside one container can only find that company's tags. Figure 6B shows the result: Infosys BPM still has 3 details, but BYJU'S and every company after it are untouched.
 
 > **Python:** The boxes, and a search inside one of them.
 >
@@ -282,7 +282,7 @@ Inside one box there is only one `h2` and one `p` with class `rating`, so `find`
 
 > **Key point:** One list per column; the loop appends one value to each list per company; a dictionary of the lists becomes the DataFrame.
 
-Figure 7 shows the loop at work. Each pass takes one box, reads its values, and adds one row to the table. Each company becomes one **observation** (G-1374) (one record, one row of the table), and each detail we collect becomes a **feature** (G-772) (a variable describing the company, one column of the table).
+Figure 7 shows the loop at work. Each pass takes one container, reads its values, and adds one row to the table. Each company becomes one **observation** (G-1374) (one record, one row of the table), and each detail we collect becomes a **feature** (G-772) (a variable describing the company, one column of the table).
 
 ![The loop turns each company box into one row](images/container_loop.gif)
 
@@ -342,9 +342,9 @@ Each page's address differs only in its number, so a loop over `page=1, 2, 3, ..
 3. build a small DataFrame;
 4. collect that DataFrame in a list.
 
-At the end, **`pd.concat`** stacks all the small DataFrames into one.
+At the end, **`pd.concat`** (G-125) stacks all the small DataFrames into one.
 
-Over hundreds of pages, some company will lack a field. Then `find` returns `None`, and `.text` on `None` stops the program with an `AttributeError`; `info[3]` on a company with three details stops it with an `IndexError`. To keep going, we record a missing value, `NaN`, instead.
+Over hundreds of pages, some company will lack a field. Then `find` returns `None`, and `.text` on `None` stops the program with an `AttributeError`; `info[3]` on a company with three details stops it with an `IndexError`. To keep going, we record a **missing value** (G-1234), `NaN`, instead.
 
 > **Python:** Every page into one DataFrame.
 >

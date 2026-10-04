@@ -1,0 +1,121 @@
+Hi guys, so now we are going to discuss a very important topic in machine learning.
+It's called bias-variance trade-off.
+And this is a topic which is like a general sort of topic.
+You will have to study this if you are studying machine learning.
+This concept is applicable on every topic, every machine learning algorithm.
+So let us discuss what is bias-variance trade-off.
+So I will explain the setup.
+I have one data set, actually a single data set.
+But I have made three different models on it.
+So this is M1, this straight line is my model, you can call it as a linear regression model.
+Then I have M2 which is a little curved, again it can be an example of polynomial regression.
+And this can also be a higher degree polynomial regression example.
+Here you can notice one more thing that all these crosses are representing training data
+and the blue circles are representing test data.
+So although these are all part of the same data set, but they are divided into two different parts.
+So now we will discuss these two terms, what is bias and what is variance.
+So let's talk about bias.
+So if you search the machine learning literature, there is a very straightforward definition of bias.
+The inability of a machine learning model to truly capture the relationship in the training data.
+training data. So the inability of a machine learning model to truly capture the relationship
+in the training data. It means if a machine learning model is not capable, if it is not
+able to perform well in the training data, if it is not able to find the pattern in the
+training data, then we call it bias. It means it is not able to understand what is in the
+training data because it is biased. So this is what bias is. So let's see all of these
+these three models M1, M2 and M3 and can you tell me which model gets the most bias?
+which model understands the training data relationship the least?
+and you can totally see this model is working exceptionally well
+see it is passing through every training point so it perfectly captured this relationship
+so there is no question of high bias in fact this is low bias
+if you look at this, it is able to capture it properly
+there is this curve in this data and this model is able to capture that curve
+it is not able to go exactly because there is an error
+these are errors, we call them residual, we add them in square
+so there are errors here, here these errors are zero
+but if you talk about this one, if there were more points like this
+then this model is performing the most terribly in these three
+So the model which has high bias, this is high bias, so we have defined the bias, now
+let's talk about variance, what is variance, again if you go by formal definition, I will
+tell you what variance is, so variance is basically difference of fits on different
+data sets, I will explain it, so if you have two sets of data, once you have trained it,
+you have to test it and let's say your error on training is 10 and on test let's say your error is 100
+then your variance is 90, the difference between the errors in both the data sets is 90
+so this is high variance, there is a lot of variability
+if you have a model which is giving 10 error on training data and 15 error on test data
+now this difference is only 5 right so here there is low variability or low variance ok
+again let's see all of these 3 models and let's see which one has high variance and
+which one has low variance ok so again if you look at these 2 models then since they
+were not performing so well in training data then bias was high but you can see still they
+are close to the test data points which means that somehow their training error or the test
+which means if the variability is less then the variance is low
+so in both of these there will be low variance
+I will write it down
+but if you talk about this model
+since the logic of this model
+it took a lot of time to capture the relationship of training
+now this error has increased a lot
+actually it will not come like this
+it will be here
+so this much difference
+this much difference
+When you add all these to the square, then the error of test set will increase a lot.
+Because think about it, we are talking about difference.
+So here it is 0, in training it is 0 and in test it is very high.
+So the difference will increase a lot.
+So this is a high variance model.
+High variance model.
+Now I will talk about two more terms.
+The first term is Overfitting and the second term is Underfitting, these are very famous
+terms and I guess you might have heard of them, I'll quickly define them.
+So what is underfitting?
+Overfitting is when your machine learning model does a very good job on training data
+but does not do a good job on test data, meaning its training error is extremely low but the
+test error is high.
+So the difference is very high between these two errors.
+this model so this is a clear-cut case of overfitting this is overfitting right
+let's talk about underfitting so if there is a machine learning model which
+you know is not able to capture the relationship properly in training data
+right we call that type of model underfitting this one this one is a case
+of underfitting right you can understand this like a student who got scared in exam
+he has read everything by heart
+he didn't try to understand logic
+obviously when he will sit in exam and will be asked questions which are out of his context
+his performance will be bad
+and this is the casual guy who takes everything lightly
+so he didn't study at all
+so he doesn't know anything
+obviously his exam performance will be bad
+so you don't have to be this guy
+and you don't have to be this guy also
+I am telling you that you have to go for low bias and low variance
+this is your target
+so you can see
+in these three cases
+low bias is with this
+and low variance is with this and this
+if we assume that the data is like this
+that its low variance goes with this
+means it has less variance in comparison
+so you could say that low bias is with this and low variance is with this
+But what you will do is you will eliminate this because of this factor
+Because there is high variance here
+And you will eliminate this because of this factor because it has high bias
+So you have only one model left
+Which was not good in any of the two
+But it was not bad in any of the two
+And this is what we call bias-variance trade-off
+Sometimes what you do is you let the bias go a little
+You keep a little high bias so that your variance is low
+you have to find out this sweet spot in between
+this model is actually a very simple model to be honest
+this is a very simplistic model
+so you find a sweet spot between a very simple model
+which under fits and a very complex model
+which over fits
+and you have to find a sweet spot in between
+and this is very important in machine learning
+and the 3 most important ways to do this are
+regularization, bagging and boosting
+which will be discussed in detail later
+so I hope guys this video is clear
+thanks for watching

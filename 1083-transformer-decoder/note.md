@@ -96,7 +96,7 @@ The result is the input matrix $X$, $5 \times 512$: rows $x_1, \dots, x_5$.
 
 ## 6. Inside one decoder block
 
-> **Key point:** $X \to$ masked attention $\to$ add & norm $\to Z_{\text{norm}}$; cross-attention with $H_{\text{enc}}$ $\to$ add & norm $\to Z_{c,\text{norm}}$; feed-forward $\to$ add & norm $\to Y_{\text{norm}}$. Every one of these matrices is $5 \times 512$.
+> **Key point:** A block does three things in order, each followed by add and norm: the French positions look at each other (masked), they look at the English sentence, and a feed-forward network transforms each position on its own. In symbols: $X \to$ masked attention $\to$ add & norm $\to Z_{\text{norm}}$; cross-attention with $H_{\text{enc}}$ $\to$ add & norm $\to Z_{c,\text{norm}}$; feed-forward $\to$ add & norm $\to Y_{\text{norm}}$. Every one of these matrices is $5 \times 512$.
 
 Figure 4 shows the path of the five French positions through one block, with every shape.
 
@@ -237,7 +237,7 @@ Here $7{,}356{,}416$ is one encoder block plus one decoder block. Our block coun
 After the sixth block, each French position has a 512-number vector, and we need a word. The output layer has two parts (the "Linear" and "Softmax" boxes at the top of Figure 1):
 
 1. **Linear.** A dense layer with no activation, 512 inputs and $V$ nodes, one node per word of the French vocabulary. Its weights $W_3$ are $512 \times V$ plus $V$ biases. Its outputs, one unnormalised score per word, are called **logits** (G-1122).
-2. **Softmax.** The softmax turns the $V$ logits of each position into $V$ probabilities that sum to 1 (the [loss functions Note](../1014-dl-loss-functions/note.md)).
+2. **Softmax.** The **softmax function** (G-1830) turns the $V$ logits of each position into $V$ probabilities that sum to 1 (the [loss functions Note](../1014-dl-loss-functions/note.md)).
 
 The **vocabulary** (G-2093) is the list of all distinct words of the French side of the data. A larger vocabulary means more nodes: with the Notebook's $V = 8{,}004$, the layer has $512 \times 8{,}004 + 8{,}004 = 4{,}106{,}052$ parameters, about as many as one decoder block.
 
@@ -253,6 +253,8 @@ The **vocabulary** (G-2093) is the list of all distinct words of the French side
 
 Figure 7 shows the softmax at work: the logit gap of 1 between "nous" and "sommes" becomes a probability ratio of $e^1 = 2.7$.
 
+The [unembedding and sampling Note](../1088-unembedding-and-sampling/note.md) looks at this layer more closely: each logit is a dot product between the position's vector and one word's vector, and the Note shows how a word is then chosen from the probabilities.
+
 All 5 positions go through the same layer together: $5 \times 512$ times $512 \times V$ gives a $5 \times V$ table of probabilities, one row per position. In the Notebook every row sums to 1.
 
 ## 9. Training: every position in one pass
@@ -261,7 +263,7 @@ All 5 positions go through the same layer together: $5 \times 512$ times $512 \t
 
 Because the whole target sentence is known and shifted right, and the mask stops each position from seeing later ones, all 5 predictions can be made in the same pass (the [masked self-attention Note](../1081-masked-self-attention/note.md)). The decoder is **non-autoregressive** (G-1331) during training: it does not wait for its own outputs.
 
-The five rows are then compared with the five targets of section 5.1. As in the encoder–decoder (section 5.3 of the [encoder–decoder Note](../1068-encoder-decoder/note.md)), each position is a classification over the vocabulary, and the loss is the categorical cross-entropy, minus the log of the probability given to the correct word (SLP3 eq. 13.13):
+The five rows are then compared with the five targets of section 5.1. As in the encoder–decoder (section 5.3 of the [encoder–decoder Note](../1068-encoder-decoder/note.md)), each position is a classification over the vocabulary, and the loss is the **categorical cross-entropy** (the [loss functions Note](../1014-dl-loss-functions/note.md)), minus the log of the probability given to the correct word (SLP3 eq. 13.13):
 
 $$L = -\frac{1}{5}\sum_{i=1}^{5} \ln P(t_i \text{ at position } i)$$
 

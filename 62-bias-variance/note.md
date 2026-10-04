@@ -54,6 +54,20 @@ Figure 2 fits a degree-11 polynomial to the same training set, then shows new po
 
 ![A degree-11 polynomial fitted to the same 20 training points (blue). Blue bars: training errors. Red rings and bars: new points at the same inputs and their errors. Averaged over 10,000 training sets, the training error is 0.10 and the test error 0.40: about four times larger.](images/variance_fit.png)
 
+A quick way to spot high variance is to compare the two errors. For the degree-11 polynomial the training error is 0.10 and the test error is 0.40: a gap of 0.30. For the straight line of Section 2 the errors are 0.65 and 0.70: a gap of only 0.05. A large gap between training error and test error is the usual sign of high variance, and variance is often described loosely as that gap. The gap is a symptom; the cause is that the fitted model changes from one training set to the next, which Section 4 measures directly.
+
+### 3.1 Another way to see it: three students before an exam
+
+> **Key point:** The student who learns nothing underfits; the student who memorises last year's answers overfits; the student who understands the subject does well on new questions.
+
+| Student | Prepares by | Questions seen before | New questions in the exam | Like a model with |
+|---|---|---|---|---|
+| Takes it lightly | not studying | wrong | wrong | high bias: underfitting |
+| Memoriser | learning old answers by heart, without the logic | right | wrong | low bias, high variance: overfitting |
+| Understands | learning the logic | mostly right | mostly right | low bias, low variance |
+
+The questions seen before play the role of the training set, and the exam plays the role of the test set. The memoriser's marks depend entirely on which old questions happened to come up, just as a high-variance model depends on which training set it happened to see. The goal is the third student: not perfect on the old questions, but good on both.
+
 Model variance has a different meaning from the variance of a feature, the average squared distance of its values from their mean (see the [understanding your data Note](../19-understanding-your-data/note.md), section seven point one, and the [PCA geometric intuition Note](../47-pca-geometric-intuition/note.md), section five). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
 
 ## 4. Seeing bias and variance
@@ -110,6 +124,10 @@ Figure 6 measures all three for degrees 1 to 11. The test error here is the erro
 - Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11.
 - The total error is smallest in between, here at degree 5 (0.326), close to the noise floor of 0.25.
 
+Figure 7 draws the same three curves one degree at a time, with the fits that produce each point above them. Watch the top panel: at degree 1 the orange fits lie together but far from the dashed wave; from degree 5 on they follow the wave but fan out more with every step. In the bottom panel the blue bias² curve drops, the orange variance curve climbs, and the red test error turns upward after degree 5.
+
+![The trade-off built degree by degree: top, 20 fits of the current degree, their average and the truth; bottom, bias², variance and expected test error up to that degree](images/tradeoff_build.gif){width=100%}
+
 Making a model more flexible buys lower bias at the price of higher variance, and the reverse: like a tailor choosing between one standard size that fits nobody well and a suit cut so tight to one fitting that it fails the next day. This exchange of one error for the other is the trade-off. The goal is not zero bias or zero variance, but the lowest total error.
 
 > **Extra:** The shapes in Figure 6 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
@@ -128,7 +146,7 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 | High bias (underfitting) | high training error, test error about the same | a more complex model, more or better features (feature engineering) |
 | High variance (overfitting) | low training error, much higher test error | more training data, a simpler model, regularisation, bagging |
 
-Three standard techniques, all covered later, target this trade-off directly:
+Finding the model between too simple and too complex is the practical goal: we accept a little more bias when it buys a larger drop in variance. Three standard techniques, all covered later, target this trade-off directly:
 
 - **Regularisation** (G-1659) (Ridge, Lasso, Elastic Net, the next Notes): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
 - **Bagging** (G-251) (for example random forests): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in Section 5 uses the same fact.
@@ -155,6 +173,7 @@ Three standard techniques, all covered later, target this trade-off directly:
 **Built from**
 
 - CampusX, "Bias Variance Trade-off | Overfitting and Underfitting in Machine Learning", YouTube, https://www.youtube.com/watch?v=74DU02Fyrhk
+- StatQuest with Josh Starmer, "Machine Learning Fundamentals: Bias and Variance", YouTube, https://www.youtube.com/watch?v=EuBBz3bI-aA
 
 **Other references**
 
@@ -170,6 +189,8 @@ Three standard techniques, all covered later, target this trade-off directly:
 | Target | The output we predict |
 | Bias | Error from a model being too simple to capture the true relationship |
 | Variance | How much a model's predictions change when it is trained on a different sample of data |
+| Underfitting | A model too simple for the pattern: high error on training and test data |
+| Overfitting | A model that fits the training data, noise included, and does badly on new data |
 | Bias-variance trade-off | Lowering bias by adding complexity tends to raise variance, and the reverse |
 | Noise (irreducible error) | Randomness in the data that no model can predict |
 | Regularisation | Penalising large coefficients to reduce a model's variance |

@@ -64,13 +64,17 @@ The random forest does not always win. But a large study of 179 classifiers on 1
 
 > **Key point:** 61 test observations give a noisy score; 10-fold cross-validation trains and tests 10 times and averages, a more reliable number.
 
-A single split of 61 observations can be lucky or unlucky. **Cross-validation** (G-510; the [pipelines Note](../29-pipelines/note.md), section 8) cuts the data into 10 parts, or folds; each fold is scored once by a model trained on the other 9, and the 10 scores are averaged, so it gives a steadier number.
+A single split of 61 observations can be lucky or unlucky: which 61 patients should be the test set? Instead of choosing, we use every part of the data as the test set once. Cut the data into blocks, train on all the blocks but one, test on the block left out, then rotate so that every block is tested once, and average the scores. This procedure is **cross-validation** (G-510; the [pipelines Note](../29-pipelines/note.md), section 8), and the blocks are called **folds**.
+
+Figure 3 runs it on the heart data with the default random forest. Watch the orange test block move one place per round. With 4 folds the four accuracies are 0.76, 0.80, 0.91 and 0.83, mean 0.825. With 10 folds, the common choice, each fold is scored by a model trained on the other 9, and the mean is 0.832.
+
+![Cross-validation as rotating blocks on the heart data: each round trains the default random forest on the blue blocks and tests it on the orange one; first 4 folds, then 10. Idea after StatQuest, "Machine Learning Fundamentals: Cross Validation"](images/cv_rotate.gif)
 
 With cross-validation (Figure 2, orange), logistic regression drops from 0.885 to **0.818**, while the random forest stays at **0.832**. The two are in fact close, and the forest is slightly ahead.
 
 ![One test split (red star) against the 10 folds of 10-fold cross-validation (dots) for the random forest and logistic regression on the heart data; the bar marks the mean of the 10 folds](images/cv_folds.png){height=32%}
 
-Figure 3 shows why. Watch the spread of the dots: one fold of about 30 patients scores anywhere from 0.70 to 0.90, and the single split of section 3 (the star) is just one such draw. For logistic regression it happened to land near the top.
+Figure 4 shows why. Watch the spread of the dots: one fold of about 30 patients scores anywhere from 0.70 to 0.90, and the single split of section 3 (the star) is just one such draw. For logistic regression it happened to land near the top.
 
 > **Python:** 10-fold cross-validation.
 >
@@ -102,9 +106,11 @@ Smaller samples score higher, and on the same folds 20% of the observations beat
 
 ![(a) Mean 10-fold cross-validated accuracy against the observations per tree (`max_samples`), 500 trees; each grey dot is one of 20 runs with new folds and a new forest. (b) Average correlation between two trees' predicted probabilities on the 61 test patients](images/max_samples_curve.png){height=36%}
 
-Figure 4 shows both halves of the argument. Watch the blue line creep up by less than 0.01 while the grey runs scatter over about 0.03: the gain is real on average but small next to the noise of one run, and panel (b) shows the trees growing less alike.
+Figure 5 shows both halves of the argument. Watch the blue line creep up by less than 0.01 while the grey runs scatter over about 0.03: the gain is real on average but small next to the noise of one run, and panel (b) shows the trees growing less alike.
 
 > **Extra:** The gain is small, about 2 or 3 of 303 patients, while a single cross-validation run moves by about 0.01 when only the seed changes. Because of this noise, the Notebook averages 20 runs, each with new folds and a new forest, and uses 500 trees so the forest's own randomness stays small. Too few observations hurt again, because each tree becomes too weak: the [random forest hyperparameters Note](../111-random-forest-hyperparameters/note.md) shows a forest with 25 observations per tree losing accuracy. The best share depends on the data: on that Note's demo data the score is flat from about a quarter of the observations, on the heart data about 20% is best.
+
+Cross-validation scores such a setting without touching the test set, which is how the searches below choose hyperparameters.
 
 So a setting can matter, and the problem is scale: a random forest has about 20 hyperparameters, and guessing a good value for each by hand is hopeless. We need a systematic search.
 
@@ -129,7 +135,7 @@ We choose values for the four settings that matter most:
 > }
 > ```
 >
-> The grid is a **dictionary**: each key is a hyperparameter's name, exactly as the model spells it, and each value is the list of values to try.
+> The grid, called a **parameter grid** (G-1446), is a **dictionary**: each key is a hyperparameter's name, exactly as the model spells it, and each value is the list of values to try.
 
 The search tries every combination, so the number of forests is the product of the list lengths:
 
@@ -186,7 +192,7 @@ The grid's 0.843 is the best of 108 scores measured on the same 5 folds, and pic
 
 This optimism is **selection bias** (G-2157; the [regression trees Note](../99-regression-trees/note.md), section 7.4; Cawley and Talbot 2010). The 0.869 on the test set comes from only 61 patients, one of which moves the score by 0.016.
 
-A fair test is **nested cross-validation** (G-2158), shown fold by fold in Figure 5. An outer cross-validation splits the data; inside each outer training part, the whole grid search runs and picks a winner; the winner is then scored on the outer test part, which the search never saw. With 5 outer folds repeated 4 times (20 outer folds):
+A fair test is **nested cross-validation** (G-2158), shown fold by fold in Figure 6. An outer cross-validation splits the data; inside each outer training part, the whole grid search runs and picks a winner; the winner is then scored on the outer test part, which the search never saw. With 5 outer folds repeated 4 times (20 outer folds):
 
 | | Mean accuracy |
 |---|---|
@@ -196,7 +202,7 @@ A fair test is **nested cross-validation** (G-2158), shown fold by fold in Figur
 
 ![Nested cross-validation on the heart data, 20 outer folds: the default forest (blue) and the grid-tuned forest (orange) scored on data the search never saw, joined by a grey line per fold, and the grid's own best inner score (red cross); dashed lines mark the means](images/nested_cv.png){height=45%}
 
-Figure 5 shows every outer fold. Watch the red crosses: they sit to the right of both forests in 14 of the 20 folds, so the grid's own score is the optimistic one, while the orange and blue points swap places from fold to fold.
+Figure 6 shows every outer fold. Watch the red crosses: they sit to the right of both forests in 14 of the 20 folds, so the grid's own score is the optimistic one, while the orange and blue points swap places from fold to fold.
 
 The tuned forest beats the default on only 5 of the 20 folds and ties on 5. The grid's own score, 0.845, overstates the tuned forest by about 0.03.
 
@@ -220,9 +226,9 @@ Putting both lists into one grid lets the search draw combinations such as `boot
 
 ![The 10 combinations a naive RandomizedSearchCV drew from one big grid on the heart data: blue bars are the cross-validated accuracies of those that ran; pink rows failed with no score](images/search_trap.png){height=36%}
 
-Figure 6 lists the 10 draws. Watch the pink rows: every one pairs `bootstrap=False` with a `max_samples` value, and every blue row has `bootstrap=True`.
+Figure 7 lists the 10 draws. Watch the pink rows: every one pairs `bootstrap=False` with a `max_samples` value, and every blue row has `bootstrap=True`.
 
-The fix is to pass a **list of grids**: the search picks one of the grids at random each time, then a combination from it.
+The fix is to pass a **list of grids** (G-1105): the search picks one of the grids at random each time, then a combination from it.
 
 > **Python:** Two grids, so max_samples only meets bootstrap=True.
 >
@@ -276,6 +282,7 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 **Built from**
 
 - CampusX, "Hyperparameter Tuning Random Forest using GridSearchCV and RandomizedSearchCV | Code Example", YouTube, https://www.youtube.com/watch?v=4Im0CT43QxY
+- StatQuest with Josh Starmer, "Machine Learning Fundamentals: Cross Validation", YouTube, https://www.youtube.com/watch?v=fSytzGwwBVw (cross-validation as rotating blocks, section 4)
 
 **Other references**
 
@@ -289,6 +296,7 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 
 | Term | Meaning |
 |---|---|
+| Fold | One of the equal blocks the data is cut into for cross-validation; each fold is the test block once |
 | Parameter grid | A dictionary of hyperparameter names and the values to try for each |
 | List of grids | Several parameter grids passed together, so incompatible values never meet |
 | Selection bias | The optimism of a score that was picked as the best of many noisy scores |

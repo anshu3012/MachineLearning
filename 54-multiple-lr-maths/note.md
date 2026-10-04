@@ -19,7 +19,7 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 
 A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) $y$ is the output we predict, and an **observation** (G-1374) is one record (one row).
 
-For simple linear regression we found two formulas, one for $m$ and one for $b$. With $m$ features there are $m + 1$ coefficients, and writing a separate formula for each is hopeless.
+For **simple linear regression** (G-1808), with one feature, we found two formulas, one for the slope $m$ and one for the intercept $b$ ([Note 51](../51-linear-regression-maths/note.md)). **Multiple linear regression** (G-1279) has several features ([Note 53](../53-multiple-linear-regression/note.md)). With $m$ features there are $m + 1$ **coefficients** (G-407), one weight per feature plus the intercept, and writing a separate formula for each is hopeless.
 
 Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a matrix lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices. Then the same three steps as before give one formula for every coefficient at once:
 
@@ -37,21 +37,56 @@ This Note builds it step by step. The next Note codes it from scratch. The deriv
 
 > **Key point:** Put the data in a matrix X with an extra first column of 1s, and the coefficients in a vector $\beta$. Then all predictions at once are $\hat{y} = X\beta$.
 
-For one observation $i$ with feature values $x_{i1}, \dots, x_{im}$, the model predicts
+### 2.1 One equation per student
+
+> **Key point:** Every student gets the same equation with the same coefficients; only the feature values change.
+
+Suppose we predict a student's package from three features: CGPA, IQ and gender. The model multiplies each feature by its coefficient and adds the intercept:
+
+$$\hat y = \beta_0 + \beta_1 \cdot \text{cgpa} + \beta_2 \cdot \text{iq} + \beta_3 \cdot \text{gender}$$
+
+Once the four numbers $\beta_0$ to $\beta_3$ are known, we can predict the package of any new student. Training means finding them.
+
+With 100 students there are 100 such equations. To tell the values apart we give each one two indices: $x_{ij}$ is the value of feature $j$ for student $i$, so $x_{21}$ is the CGPA of student 2.
+
+$$\hat y_1 = \beta_0 + \beta_1 x_{11} + \beta_2 x_{12} + \beta_3 x_{13}$$
+$$\hat y_2 = \beta_0 + \beta_1 x_{21} + \beta_2 x_{22} + \beta_3 x_{23}$$
+
+and so on, down to $\hat y_{100}$. The coefficients are the same in every line.
+
+In general, with $n$ observations and $m$ features, observation $i$ has the prediction
 
 $$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
 
-Writing this for every observation gives $n$ equations. Matrices write them all at once (Figure 1).
+and there are $n$ such equations.
+
+### 2.2 Stacking the equations
+
+> **Key point:** The $n$ equations split into a table of numbers, $X$, times a column of coefficients, $\beta$.
+
+A **matrix** (G-1180) is a table of numbers, and a **vector** (G-2081) is a single column of numbers. They let us write the $n$ equations as one.
+
+Figure 1 does it for four students with one feature, CGPA (the students of Section 6.1). Watch three things move:
+
+1. the four left sides stack into one vector, $\hat y$;
+2. the numbers stack into one matrix, $X$: a column of 1s and a column of CGPAs;
+3. the coefficients, which were repeated in every line, are written once, as the vector $\beta$.
+
+![Four prediction equations become one matrix equation: the predictions stack into a vector, the numbers into the matrix X with a first column of 1s, and the coefficients are written once](images/stack_equations.gif)
+
+Figure 2 shows the same split for $n$ observations and $m$ features.
 
 ![All predictions as one matrix product](images/matrix_form.png)
 
 - **$X$**, the **design matrix** (G-597), holds the data: one row per observation, one column per feature, plus a first column of 1s. The 1s multiply $\beta_0$, so the intercept is treated like any other coefficient.
-- **$\beta$** holds the $m + 1$ coefficients, $\beta_0$ to $\beta_m$.
+- **$\beta$**, the **coefficient vector** (G-410), holds the $m + 1$ coefficients, $\beta_0$ to $\beta_m$.
 - **$\hat{y}$** holds the $n$ predictions.
 
 Multiplying a row of $X$ by $\beta$ gives exactly $\beta_0 \cdot 1 + \beta_1 x_{i1} + \dots + \beta_m x_{im}$, one prediction. So all predictions together are
 
 $$\hat{y} = X\beta$$
+
+With numbers: the first student of Figure 1 has the row $[1, 6.89]$. With the coefficients $\beta_0 = -0.811$ and $\beta_1 = 0.565$ that Section 6.1 finds, the row times $\beta$ is $1 \times (-0.811) + 6.89 \times 0.565 = 3.08$, the predicted package of that student.
 
 > **Extra:** The shapes must fit: $X$ is $n \times (m+1)$ and $\beta$ is $(m+1) \times 1$. The inner sizes match, and the product is $n \times 1$, one prediction per row.
 
@@ -59,7 +94,7 @@ $$\hat{y} = X\beta$$
 
 > **Key point:** The vector of errors is $e = y - X\beta$. The sum of squared errors is $e^{\mathsf T}e$.
 
-The errors of all points form a vector:
+For each student, the error is the real package minus the predicted one. This error on one observation is called a **residual** (G-1685). The residuals of all observations form a vector:
 
 $$e = y - \hat{y} = y - X\beta$$
 
@@ -69,13 +104,15 @@ $$E = e^{\mathsf T}e = (y - X\beta)^{\mathsf T}(y - X\beta)$$
 
 With numbers: if $e = (0.2, -0.1, 0.3)$, then $e^{\mathsf T}e = 0.04 + 0.01 + 0.09 = 0.14$.
 
-Figure 2 draws the same idea on the four students of Section 6.1 and their best line. Each red segment is one entry of $e$, and the orange square on it has area $e_i^2$. Watch the biggest square: the student with CGPA 7.82 and error $-0.36$ supplies half of $E = 0.253$, because squaring makes large errors count much more than small ones.
+Figure 3 draws the same idea on the four students of Section 6.1 and their best line. Each red segment is one entry of $e$, and the orange square on it has area $e_i^2$. Watch the biggest square: the student with CGPA 7.82 and error $-0.36$ supplies half of $E = 0.253$, because squaring makes large errors count much more than small ones.
 
 ![The four students of Section 6.1 and their best line: the residuals e (red) and their squares (orange); $E = e^{\mathsf T}e = 0.253$ is the total orange area](images/error_squares.png)
 
 ## 4. Expanding the error
 
 > **Key point:** Multiplying out the brackets gives $E = y^{\mathsf T}y - 2y^{\mathsf T}X\beta + \beta^{\mathsf T}X^{\mathsf T}X\beta$.
+
+In ordinary algebra, $(a - b)^2$ multiplies out to $a^2 - 2ab + b^2$. The error $E = (y - X\beta)^{\mathsf T}(y - X\beta)$ is the matrix version of a square, and it multiplies out to the same three-part shape.
 
 Two rules about transposes are needed:
 
@@ -104,7 +141,7 @@ Two rules of **matrix calculus** (G-1176) do the work, the matrix versions of "t
 | $2y^{\mathsf T}X\beta$ (like $a\beta$) | $2X^{\mathsf T}y$ |
 | $\beta^{\mathsf T}X^{\mathsf T}X\beta$ (like $a\beta^2$) | $2X^{\mathsf T}X\beta$ |
 
-The last rule gives $2X^{\mathsf T}X\beta$ because $X^{\mathsf T}X$ is symmetric (MML §5.5).
+The last rule gives $2X^{\mathsf T}X\beta$ because $X^{\mathsf T}X$ is a **symmetric matrix** (G-1932), equal to its own transpose (MML §5.5).
 
 > **Extra:** The general rule is $\partial(x^{\mathsf T}Bx)/\partial x = x^{\mathsf T}(B + B^{\mathsf T})$ (MML eq. 5.107; the book writes gradients as rows, the table writes them as columns). With $B = X^{\mathsf T}X$, which equals its own transpose, $B + B^{\mathsf T} = 2X^{\mathsf T}X$.
 
@@ -112,7 +149,7 @@ So
 
 $$\frac{\partial E}{\partial \beta} = -2X^{\mathsf T}y + 2X^{\mathsf T}X\beta = 0$$
 
-Figure 3 shows the two entries of this gradient on the four students of Section 6.1. Each panel cuts the error bowl along one coefficient while the other is held fixed, and the orange tangent has the slope that the formula gives. Watch both slopes shrink as $\beta$ walks to $(-0.81, 0.57)$: there both tangents lie flat at the same moment, which is exactly the condition "gradient $= 0$".
+Figure 4 shows the two entries of this gradient on the four students of Section 6.1. Each panel cuts the error bowl along one coefficient while the other is held fixed, and the orange tangent has the slope that the formula gives. Watch both slopes shrink as $\beta$ walks to $(-0.81, 0.57)$: there both tangents lie flat at the same moment, which is exactly the condition "gradient $= 0$".
 
 ![The gradient $-2X^{\mathsf T}y + 2X^{\mathsf T}X\beta$ on the four students: each panel is the error $E$ along one coefficient, the orange tangent's slope is one entry of the gradient, and both reach 0 together at $\beta = (-0.81, 0.57)$](images/gradient_zero.gif)
 
@@ -126,11 +163,11 @@ These are the **normal equations** (G-1345): $m + 1$ equations, one for each coe
 
 > **Key point:** Multiplying both sides by the inverse of $X^{\mathsf T}X$ isolates $\beta$.
 
-To get $\beta$ alone we need to "divide" by $X^{\mathsf T}X$. Matrices have no division; instead we multiply by the **inverse** (G-968) $(X^{\mathsf T}X)^{-1}$, the matrix that undoes $X^{\mathsf T}X$ (their product is the identity matrix, which changes nothing).
+To get $\beta$ alone we need to "divide" by $X^{\mathsf T}X$. Matrices have no division; instead we multiply by the **inverse** (G-968) $(X^{\mathsf T}X)^{-1}$, the matrix that undoes $X^{\mathsf T}X$ (their product is the **identity matrix** (G-915), which changes nothing).
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
-The formula is the **normal equation** (G-1344): a closed-form solution for all coefficients of multiple linear regression at once. scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
+The formula is the **normal equation** (G-1344). A formula that gives the answer directly is a **closed-form solution** (G-398); this one gives all coefficients of multiple linear regression at once, and the method is called **ordinary least squares**, OLS (G-1406). scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
 
 ### 6.1 A worked example
 
@@ -149,30 +186,32 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
    $$\beta = \begin{bmatrix} 11.158 & -1.601 \cr-1.601 & 0.235 \end{bmatrix}\begin{bmatrix} 12.16 \cr85.25 \end{bmatrix} = \begin{bmatrix} -0.81 \cr0.57 \end{bmatrix}$$
 
-So $\beta_0 = -0.81$ (intercept) and $\beta_1 = 0.57$ (slope): exactly what the simple linear regression formulas give for these four points. The simple formulas are the normal equation with a single feature.
+So $\beta_0 = -0.81$, the **intercept** (G-960), and $\beta_1 = 0.57$, the **slope** (G-1823): exactly what the simple linear regression formulas give for these four points. The simple formulas are the normal equation with a single feature.
 
 ### 6.2 The picture: a projection
 
-> **Key point:** Every prediction $X\beta$ lies in the plane spanned by the columns of $X$. The best one is the point of that plane closest to $y$, where the error $y - X\hat\beta$ is perpendicular to every column; that right angle is the normal equation.
+> **Extra:** This section goes beyond the derivation: a second, geometric way to see the same equation.
+
+> **Key point:** Every prediction $X\beta$ lies in the plane spanned by the columns of $X$. The best one is the **projection** (G-1583) of $y$ onto that plane, the point of the plane closest to $y$, where the error $y - X\hat\beta$ is perpendicular to every column; that right angle is the normal equation.
 
 The normal equation also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ targets as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the **column space** (G-414) of $X$. Unless the data lie exactly on a line, $y$ is not in it.
 
-With three observations every vector has three entries, so we can draw it. Figure 4 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
+With three observations every vector has three entries, so we can draw it. Figure 5 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
 
 ![The column space of X for three students is a plane (the two blue columns span it). The target y (orange) sticks out of it. Moving the prediction Xβ through the plane, the error length is smallest, 0.36, at the foot of the perpendicular from y, where the residual meets the plane at a right angle](images/projection.gif)
 
 - **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of Section 3. It is smallest, 0.36, at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
-- **Right angle:** there the residual $y - X\hat\beta = [0.29, -0.10, -0.19]$ is perpendicular to both columns: its dot product with $\mathbf 1$ and with cgpa is 0. Stacked as one equation, that is $X^{\mathsf T}(y - X\hat\beta) = 0$, which rearranges to the normal equations $X^{\mathsf T}X\hat\beta = X^{\mathsf T}y$ of Section 5.
+- **Right angle:** there the residual $y - X\hat\beta = [0.29, -0.10, -0.19]$ is perpendicular to both columns: its **dot product** (G-634) with $\mathbf 1$ and with cgpa is 0. Stacked as one equation, that is $X^{\mathsf T}(y - X\hat\beta) = 0$, which rearranges to the normal equations $X^{\mathsf T}X\hat\beta = X^{\mathsf T}y$ of Section 5.
 
-So the calculus of Section 5 and the right angle of Figure 4 give the same equations. The figure draws the $\mathbf 1$ direction four times shorter so that the small residual is visible; shrinking a direction inside the plane does not change the right angle or which point is closest.
+So the calculus of Section 5 and the right angle of Figure 5 give the same equations. The figure draws the $\mathbf 1$ direction four times shorter so that the small residual is visible; shrinking a direction inside the plane does not change the right angle or which point is closest.
 
 ## 7. The cost of the inverse
 
 > **Key point:** Inverting $X^{\mathsf T}X$ takes time that grows roughly with the cube of the number of features. With very many features, gradient descent is used instead.
 
-$X^{\mathsf T}X$ is a square matrix with one row and one column per coefficient, $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the features makes the work about 8 times larger.
+The normal equation has one expensive step: the inverse. The more features, the bigger the matrix to invert. $X^{\mathsf T}X$ is a square matrix with one row and one column per coefficient, $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the features makes the work about 8 times larger.
 
-Figure 5 measures it on this computer.
+Figure 6 measures it on this computer.
 
 ![Time to invert a matrix as its size grows](images/inverse_cost.png)
 
@@ -181,11 +220,11 @@ From 1,000 to 2,000 features, the time grows about 7 times, from 0.08 to 0.59 se
 The cost of the inverse is why there is a second method, **gradient descent** (G-862): it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the normal equation's. In scikit-learn:
 
 - `LinearRegression` uses the closed-form (OLS) solution;
-- `SGDRegressor` uses gradient descent.
+- **`SGDRegressor`** (G-1783) uses gradient descent.
 
 For most tabular data the number of features is small, and `LinearRegression` is the usual choice. Gradient descent gets its own Notes next.
 
-> **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (multicollinearity, as in the dummy variable trap of the one-hot encoding Note). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation, both covered later. scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
+> **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (**multicollinearity**, G-1273, as in the dummy variable trap of the one-hot encoding Note). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation, both covered later. scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
 
 ## 8. Summary
 
@@ -228,4 +267,8 @@ For most tabular data the number of features is small, and `LinearRegression` is
 | Normal equations | $X^{\mathsf T}X\beta = X^{\mathsf T}y$: the conditions that the best coefficients satisfy |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression |
 | Inverse matrix | The matrix that undoes another: their product is the identity matrix |
+| Residual | The error on one observation: actual minus predicted value |
+| Closed-form solution | An answer given directly by a formula |
+| Ordinary least squares (OLS) | The closed-form method for linear regression: the coefficients with the smallest sum of squared errors |
+| Column space | All the vectors that can be built as weighted sums of a matrix's columns |
 | Identity matrix | The square matrix with 1s on the diagonal and 0s elsewhere; multiplying by it changes nothing |

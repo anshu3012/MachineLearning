@@ -15,7 +15,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/mlp-fact
 
 > **Key point:** The MLP block of a transformer can be read as a long list of questions and answers. Each row of its first matrix asks a question about the token's vector (a dot product plus a bias). The activation function keeps only clear "yes" answers, which makes a neuron behave like an AND gate. Each column of its second matrix is a direction that gets added to the vector when its neuron says yes. On GPT-2 small, which knows the sport of 18 of 19 athletes we tested, zeroing the early MLPs at the athlete's name loses the right sport far more often than zeroing them anywhere else.
 
-The [transformer encoder Note](../1080-transformer-encoder/note.md) built the feed-forward network, or MLP, from its shapes: two dense layers, applied to each token on its own. It holds two thirds of a transformer's parameters (the [GPT Note](../1087-decoder-only-gpt/note.md), §9), yet the shapes alone do not say what it does. This Note gives one reading of it, with a toy example and then a real model.
+Give a language model the text "Michael Jordan plays the sport of" and it continues with "basketball". Somewhere in its weights the model holds that fact. Where, and in what form?
+
+The [transformer encoder Note](../1080-transformer-encoder/note.md) built the **feed-forward network** (G-774), or MLP, from its shapes: two dense layers, applied to each token on its own. It holds two thirds of a transformer's parameters (the [GPT Note](../1087-decoder-only-gpt/note.md), §9), yet the shapes alone do not say what it does. This Note gives one reading of it, with a toy example and then a real model.
 
 Figure 1 follows one toy neuron. Watch the number in the orange circle: it is 1 only when both names, Michael **and** Jordan, are in the input vector, and only then is the basketball direction added to the output.
 
@@ -34,7 +36,7 @@ The toy follows Sanderson (2024, Ch 7). The real-model part (sections 6 and 7) t
 
 ## 3. The MLP block in one formula
 
-> **Key point:** For each token's vector $e$: multiply by $W_{\text{up}}$ and add $b_{\text{up}}$, apply the activation, multiply by $W_{\text{down}}$ and add $b_{\text{down}}$, then add the result back to $e$.
+> **Key point:** The block takes one token's vector, widens it, passes it through an activation function, narrows it back, and adds the result to the vector it started from. In symbols, for each token's vector $e$: multiply by $W_{\text{up}}$ and add $b_{\text{up}}$, apply the activation, multiply by $W_{\text{down}}$ and add $b_{\text{down}}$, then add the result back to $e$.
 
 1. **In words:** the vector goes up to a wider space (4 times wider), through an activation function, back down to its own size, and is added to itself.
 2. **Formula:**
@@ -58,7 +60,7 @@ The block works on each token's vector alone, in parallel; tokens do not talk to
 
 > **Key point:** Multiplying by a matrix computes one dot product per row.
 
-The [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md) shows two ways to read a matrix times a vector. The first: entry $i$ of the result is the dot product of row $i$ with the vector. Here each row of $W_{\text{up}}$ is a direction in the same 768-number space as $e$, so neuron $i$ measures how well $e$ points along row $i$. Sanderson (2024, Ch 7) calls each row a question asked about the vector.
+The [matrix multiplication Note](../510-matrix-multiplication-as-composition/note.md) shows two ways to read a matrix times a vector. The first: entry $i$ of the result is the **dot product** (G-634) of row $i$ with the vector. Here each row of $W_{\text{up}}$ is a direction in the same 768-number space as $e$, so neuron $i$ measures how well $e$ points along row $i$. Sanderson (2024, Ch 7) calls each row a question asked about the vector.
 
 ### 4.2 A toy fact: Michael Jordan plays basketball
 
@@ -105,7 +107,7 @@ In Figure 4, follow the two blue arrows on the right: each active neuron adds it
 
 Put together, the block is a store of question–answer pairs: 3,072 rows asking, 3,072 columns answering. Geva et al. (2021, §2, eq. 1) give the same reading and call the pairs **keys** (G-1011) and **values** (G-2068): they write the feed-forward layer as $\text{FF}(x) = f(x \cdot K^T) \cdot V$, where each key (a row of the first matrix) "captures a particular pattern (or set of patterns) in the input sequence", and each value (the matching row of the second matrix in their notation, our column) "represents the distribution of tokens that follows said pattern" (§2). In a 16-layer language model trained on WikiText-103 they found keys whose top triggering text shared human-readable patterns, shallow ones (e.g. ending with "substitutes") in lower layers and more semantic ones in upper layers (Geva et al. 2021, §3, Table 1).
 
-> **Extra:** The toy (Michael Jordan and basketball, the bias of $-1$), the AND-gate reading of ReLU, the rows of $W_{	ext{up}}$ as questions and the columns of $W_{	ext{down}}$ as directions that get added follow Sanderson's *How might LLMs store facts* (3Blue1Brown, 2024, Ch 7). The Michael Phelps and Alexis Jordan inputs are his examples too. The animation's design and the numbers are our own.
+> **Extra:** The toy (Michael Jordan and basketball, the bias of $-1$), the AND-gate reading of ReLU, the rows of $W_{\text{up}}$ as questions and the columns of $W_{\text{down}}$ as directions that get added follow Sanderson's *How might LLMs store facts* (3Blue1Brown, 2024, Ch 7). The Michael Phelps and Alexis Jordan inputs are his examples too. The animation's design and the numbers are our own.
 
 ## 6. A real model: does GPT-2 small know sports?
 
@@ -168,7 +170,7 @@ Nanda et al. (2023) found the same structure in a larger model, Pythia 2.8B, on 
 
 > **Key point:** At the last token, the attention blocks together write most of the push towards basketball over football (1.22); the MLPs together add 0.23, with blocks 8 and 9 the largest.
 
-The MLP works on each token alone, so whatever the MLPs wrote at the name tokens can reach the last position only through attention. We can measure what reached it. The final stream at the last token is a sum: the token-plus-position vector plus every attention and MLP output (the [GPT Note](../1087-decoder-only-gpt/note.md), §6.1). Freezing the final LayerNorm's scale at its value in this run makes the step to the logits linear, so the logit difference splits exactly into one share per block (Notebook; the shares add up to the measured difference, 0.454, to three decimals).
+The MLP works on each token alone, so whatever the MLPs wrote at the name tokens can reach the last position only through attention. We can measure what reached it. The final **residual stream** (G-1683) at the last token is a sum: the token-plus-position vector plus every attention and MLP output (the [GPT Note](../1087-decoder-only-gpt/note.md), §6.1). Freezing the final LayerNorm's scale at its value in this run makes the step to the logits linear, so the logit difference splits exactly into one share per block (Notebook; the shares add up to the measured difference, 0.454, to three decimals).
 
 ![What each block's attention (orange) and MLP (green) added at the last position of "Michael Jordan plays the sport of", measured as a push towards " basketball" over " football"](images/logit_split.png){width=90%}
 

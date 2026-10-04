@@ -67,7 +67,7 @@ The next model, an XGBoost tree, takes CGPA as its feature and these residuals a
 
 ## 5. The similarity score for classification
 
-> **Key point:** Similarity = (sum of residuals)$^2$ divided by ($\sum p(1-p) + \lambda$), where $p$ is each observation's previous probability. The root scores 0.
+> **Key point:** Similarity = (sum of residuals) squared divided by ($\sum p(1-p) + \lambda$), where $p$ is each observation's previous probability. The root scores 0.
 
 The **similarity score** (G-1804) keeps the numerator of regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the observations in the leaf, the same quantity as in the gradient boosting leaf formula.
 
@@ -76,7 +76,7 @@ The **similarity score** (G-1804) keeps the numerator of regression. The denomin
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{\sum p_i(1-p_i) + \lambda}$$
    Here $p_i$ is observation $i$'s predicted probability from the previous stage. As in regression, we take $\lambda = 0$.
 3. **Example:** the root holds all five residuals; every $p_i = 0.6$, so $p_i(1-p_i) = 0.6 \times 0.4 = 0.24$:
-   $$\text{similarity}_{\text{root}} = \frac{(-0.6 + 0.4 - 0.6 + 0.4 + 0.4)^2}{5 \times 0.24} = \frac{0^2}{1.2} = 0$$
+   $$\text{similarity} _{\text{root}} = \frac{(-0.6 + 0.4 - 0.6 + 0.4 + 0.4)^2}{5 \times 0.24} = \frac{0^2}{1.2} = 0$$
 
 As with the mean in regression, the residuals from the base log-odds add up to exactly 0, so the root scores 0.
 
@@ -117,7 +117,7 @@ Figure 4 runs the same search as an animation, in the style of the split search 
 2. **Formula:**
    $$\text{output} = \frac{\sum r_i}{\sum p_i(1-p_i) + \lambda}$$
 3. **Example:** the left leaf (students 1, 2, 3) has the **output value** (G-1425)
-   $$\text{output}_{\text{left}} = \frac{-0.6 + 0.4 - 0.6}{3 \times 0.24} = \frac{-0.8}{0.72} = -1.11$$
+   $$\text{output} _{\text{left}} = \frac{-0.6 + 0.4 - 0.6}{3 \times 0.24} = \frac{-0.8}{0.72} = -1.11$$
    The right leaf (students 4, 5): $0.8 / 0.48 = 1.67$.
 
 The output formula is the leaf formula of the [gradient boosting classification Note](../122-gradient-boosting-classification/note.md), now with $\lambda$ added. Figure 1 shows the finished tree.
@@ -128,7 +128,7 @@ The output formula is the leaf formula of the [gradient boosting classification 
 
 1. **In words:** add eta times the leaf output to the base log-odds, then apply the sigmoid.
 2. **Formula:**
-   $$z^{(2)} = f_0 + \eta \cdot \text{tree}_1(x), \qquad p^{(2)} = \frac{1}{1 + e^{-z^{(2)}}}$$
+   $$z^{(2)} = f_0 + \eta \cdot \text{tree} _1(x), \qquad p^{(2)} = \frac{1}{1 + e^{-z^{(2)}}}$$
 3. **Example:** student 1 (CGPA 5.70 < 7.625, left leaf), with $\eta = 0.3$:
    $$z^{(2)} = 0.405 + 0.3 \times (-1.111) = 0.405 - 0.333 = 0.072, \qquad p^{(2)} = \frac{1}{1 + e^{-0.072}} = 0.518$$
    For students 4 and 5 (right leaf): $z^{(2)} = 0.405 + 0.3 \times 1.667 = 0.905$ and $p^{(2)} = 0.712$.
@@ -153,7 +153,7 @@ Stage 3 grows a tree on CGPA and residual 2. The observations now have different
 
 The model after $M$ trees is
 
-$$z = f_0 + \eta \cdot \text{tree}_1(x) + \dots + \eta \cdot \text{tree}_M(x), \qquad p = \frac{1}{1 + e^{-z}}$$
+$$z = f_0 + \eta \cdot \text{tree} _1(x) + \dots + \eta \cdot \text{tree} _M(x), \qquad p = \frac{1}{1 + e^{-z}}$$
 
 and a new student is predicted "placed" when $p$ is above the threshold, usually 0.5.
 
@@ -209,7 +209,7 @@ Figure 7 compares the two. Watch the blue bars: because $\sum p(1-p)$ is small, 
 > model.get_booster().get_dump(with_stats=True)
 > ```
 >
-> For classification `base_score` (G-61) is given as a probability; XGBoost converts it to the log-odds 0.405 itself. The log-odds come out as 0.072 and 0.905. The dump shows the split `f0<7.625` with `gain=2.22` and `cover=1.2`, the **cover** (G-498): the sum of $p(1-p)$ over the five observations. The leaves read $-0.333$ and 0.5: the outputs $-1.11$ and 1.67 already multiplied by eta.
+> For classification `base_score` (G-61) is given as a probability; XGBoost converts it to the log-odds 0.405 itself. Many older tutorials start from probability 0.5 (log-odds 0), the default of older versions; the current library (checked on version 3.4) starts from the share of class 1, 0.6 here, when `base_score` is not given. The log-odds come out as 0.072 and 0.905. The dump shows the split `f0<7.625` with `gain=2.22` and `cover=1.2`, the **cover** (G-498): the sum of $p(1-p)$ over the five observations. The leaves read $-0.333$ and 0.5: the outputs $-1.11$ and 1.67 already multiplied by eta.
 
 With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain 1.39, as in section 9.
 
@@ -234,6 +234,7 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 **Built from**
 
 - CampusX, "XGBoost For Classification | How XGBoost works on Classification Problems | CampusX", YouTube, https://www.youtube.com/watch?v=mELtxVUNNrw
+- StatQuest with Josh Starmer, "XGBoost Part 2 (of 4): Classification", YouTube, https://www.youtube.com/watch?v=8b1JEDvenQU (residuals drawn as gaps to the probability line, Figure 2; cover and `min_child_weight`, section 10)
 
 **Other references**
 
@@ -244,7 +245,7 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 
 | Term | Meaning |
 |---|---|
-| Similarity score (classification) | (sum of residuals)$^2$ / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities |
+| Similarity score (classification) | (sum of residuals) squared / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities |
 | Output value (classification) | sum of residuals / ($\sum p(1-p) + \lambda$), in log-odds |
 | `min_child_weight` | Smallest allowed sum of $p(1-p)$ (in regression: number of observations) in a leaf; default 1 |
 | `base_score` | XGBoost's starting prediction; a probability for classification |

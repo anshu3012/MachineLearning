@@ -64,7 +64,7 @@ A convolution layer finds features such as edges, eyes or ears. Its output is ti
 
 For a task such as telling cats from dogs, the location of the ear does not matter, only that it is an ear. But the next layers see different numbers for the same ear at different places. We would like the network to treat a feature the same way wherever it appears, a property called **translation invariance** (G-2011). Pooling gives an approximate version of it.
 
-> **Extra:** The precise names (Goodfellow et al. 2016, §9.2 and §9.3): convolution is **equivariant** to translation, meaning that if the input shifts, the output shifts in the same way. Pooling makes the output approximately **invariant** to small translations, meaning that the pooled values mostly do not change. The problem of section 3.2 is therefore equivariance where invariance is wanted.
+> **Extra:** The precise names (Goodfellow et al. 2016, §9.2 and §9.3): convolution is **equivariant** to translation (**translation equivariance**, G-2010), meaning that if the input shifts, the output shifts in the same way. Pooling makes the output approximately **invariant** to small translations, meaning that the pooled values mostly do not change. The problem of section 3.2 is therefore equivariance where invariance is wanted.
 
 ## 4. Max pooling
 
@@ -98,6 +98,8 @@ A pooling layer needs three settings:
 
 The 4 × 4 feature map has become 2 × 2. The output size follows the formula of the [padding and strides Note](../1043-padding-and-strides/note.md) without padding: $\lfloor (4 - 2)/2 \rfloor + 1 = 2$ (Dumoulin and Visin 2016, Relationship 7).
 
+What does the largest value mean? A feature map is large where the filter's pattern is present (see the [convolution operation Note](../1042-convolution-operation/note.md)). So the maximum of a window marks the spot where the filter matched the image best, and max pooling keeps exactly that spot.
+
 Within each small region, the **receptive field** (G-1642) of the output value, max pooling keeps the strongest response and drops the weaker ones. The strongest response is the most dominant feature in that region. Low-level detail is discarded, and the dominant features move on.
 
 ## 5. Pooling a volume
@@ -112,7 +114,7 @@ Pooling changes the height and width, never the depth (Figure 3). The Notebook c
 
 ## 6. Pooling in Keras
 
-> **Key point:** `MaxPooling2D(pool_size=(2, 2), strides=2)` after each convolution layer. Pooling layers have 0 parameters.
+> **Key point:** `MaxPooling2D(pool_size=(2, 2), strides=2)` (G-116) after each convolution layer. Pooling layers have 0 parameters.
 
 > **Python:** Two convolution layers, each followed by max pooling.
 >
@@ -174,13 +176,25 @@ The Notebook measures it on 1,000 MNIST test digits, each shifted 1 pixel to the
 
 Larger pooling windows give more invariance, and a single maximum over the whole map (section 8.2) does not change at all. Pooling makes the network focus on whether a feature is present and less on where it is.
 
+The invariance holds for small shifts only. Figure 6 moves one digit 8 further and further to the right. Watch the feature map slide with the digit, while the pooled map keeps roughly the same dark cells at a shift of 1 pixel and then starts to change too.
+
+![One MNIST 8 shifted 0, 1, 2 and 3 pixels to the right (the dotted red line stays fixed): the digit, its feature map and its 2 × 2 max-pooled map. Bars: the relative change of each representation against the unshifted digit, averaged over 1,000 test digits](images/shift_anim.gif){width=100%}
+
+| Shift | No pooling | 2 × 2 max | 4 × 4 max | Global max |
+|---|---|---|---|---|
+| 1 pixel | 0.88 | 0.65 | 0.42 | 0.00 |
+| 2 pixels | 1.30 | 1.04 | 0.70 | 0.00 |
+| 3 pixels | 1.38 | 1.27 | 0.88 | 0.00 |
+
+At every shift the pooled maps change less than the feature map, and a larger window changes less than a smaller one. But a 2 × 2 window cannot hide a shift of 2 or 3 pixels: its change climbs from 0.65 to 1.04 and 1.27 (Notebook). Pooling absorbs small shifts, not large ones.
+
 ### 7.3 Enhanced features (max pooling only)
 
 > **Key point:** Max pooling keeps the strongest value of each window, so the edges in a pooled edge map look bolder; average pooling dilutes them.
 
 ![The vertical-edge map of a photo (left), after 4 × 4 max pooling (middle) and after 4 × 4 average pooling (right), on the same colour scale. Max pooling keeps the edges strong; averaging fades them](images/photo_pool.png){width=100%}
 
-Each window of an edge map holds a few strong edge values and many weak ones. Max pooling keeps the strong one, so the pooled map shows the edges brighter and bolder (Figure 6, middle). **Average pooling** (G-238) mixes the strong values with the weak ones, and the edges fade (right). In the Notebook the mean value of the edge map is 24.7; after max pooling it is 77.8, after average pooling 24.6. This enhancement only happens with max pooling.
+Each window of an edge map holds a few strong edge values and many weak ones. Max pooling keeps the strong one, so the pooled map shows the edges brighter and bolder (Figure 7, middle). **Average pooling** (G-238) mixes the strong values with the weak ones, and the edges fade (right). In the Notebook the mean value of the edge map is 24.7; after max pooling it is 77.8, after average pooling 24.6. This enhancement only happens with max pooling.
 
 ### 7.4 Nothing to train
 
@@ -196,7 +210,11 @@ The values of a convolution filter are learned by backpropagation. Pooling needs
 
 > **Key point:** On the windows of section 4.3: max gives 5, 3, 7, 4; average gives 3, 1.5, 2.75, 2.5.
 
-The window can be summarised in different ways (Goodfellow et al. 2016, §9.3):
+Max pooling keeps the largest value of each window. **Average pooling** (G-238) keeps the mean of the window instead: add the four values and divide by 4. In Figure 8, watch the same window fill both maps: the first window, 1, 5, 2, 4, gives 5 in the max-pooled map and $12/4 = 3$ in the average-pooled map.
+
+![The map of section 4.3 pooled two ways at once. The same 2 × 2 window (red) fills the max-pooled map (green) and the average-pooled map (orange)](images/max_avg_slide.gif){width=80% height=45%}
+
+The window can be summarised in other ways too (Goodfellow et al. 2016, §9.3):
 
 | Type | Summary of each window | On the example of section 4.3 |
 |---|---|---|
@@ -206,7 +224,7 @@ The window can be summarised in different ways (Goodfellow et al. 2016, §9.3):
 
 ![The map of section 4.3 summarised by max, average and L2 pooling (2 × 2, stride 2), and by global max and global average pooling.](images/pool_types.png){width=100%}
 
-Figure 7 puts the summaries side by side on the same map: max keeps the peaks 5, 3, 7, 4, average dilutes them, and the global versions squeeze the whole map into a single number.
+Figure 9 puts the summaries side by side on the same map: max keeps the peaks 5, 3, 7, 4, average dilutes them, and the global versions squeeze the whole map into a single number.
 
 Min pooling, the smallest value, is also possible but is not a Keras layer. Keras has `MaxPooling2D` and `AveragePooling2D`, and the Notebook checks that both give the numbers above. Max pooling is used most; average pooling can be worth trying in some problems.
 
@@ -214,7 +232,7 @@ Min pooling, the smallest value, is also possible but is not a Keras layer. Kera
 
 > **Key point:** Global pooling uses the whole feature map as one window: one number per map. A 4 × 4 × 3 volume gives 3 numbers.
 
-**Global max pooling** keeps the largest value of the whole feature map; for the map of section 4.3 that is 7. **Global average pooling** takes the mean of the whole map: 2.4375. With several feature maps, each gives one number: a 4 × 4 × 3 volume becomes a vector of 3 values.
+**Global pooling** (G-849) treats the whole feature map as one window. **Global max pooling** keeps the largest value of the whole feature map; for the map of section 4.3 that is 7. **Global average pooling** takes the mean of the whole map: 2.4375. With several feature maps, each gives one number: a 4 × 4 × 3 volume becomes a vector of 3 values.
 
 Global pooling can replace the Flatten layer before the fully connected layers. For a 5 × 5 × 32 volume, Flatten gives 800 values and a `Dense(10)` layer on them has 8,010 parameters; global average pooling gives 32 values and the same layer has 330 (Notebook). Fewer parameters reduce overfitting.
 
@@ -251,6 +269,7 @@ Whether to pool depends on the application.
 **Built from**
 
 - CampusX, "Pooling Layer in CNN | MaxPooling in Convolutional Neural Network", YouTube, https://www.youtube.com/watch?v=DwmGefkowCU
+- StatQuest with Josh Starmer, "Neural Networks Part 8: Image Classification with Convolutional Neural Networks (CNNs)", YouTube, https://www.youtube.com/watch?v=HGwBXDKFk9I (max pooling keeps the spot where the filter matched best; average pooling)
 
 **Other references**
 
@@ -274,3 +293,4 @@ Whether to pool depends on the application.
 | Translation invariance | The output stays (almost) the same when the input is shifted slightly |
 | Translation equivariance | The output shifts in the same way as the input; a property of convolution |
 | `MaxPooling2D` | The Keras layer for 2D max pooling: `MaxPooling2D(pool_size, strides)` |
+| Image segmentation | Dividing an image into regions by saying which pixels belong to which object |

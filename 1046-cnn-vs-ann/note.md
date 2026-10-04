@@ -63,6 +63,10 @@ Both compute the same thing: a dot product, plus a bias, through an activation. 
 
 The difference is in how the inputs are taken. A node uses all its inputs at once. A filter takes them in chunks, one window at a time, and slides across the image, repeating the same calculation with the same weights. Sliding is how the filter captures 2D patterns, the spatial arrangement of the pixels.
 
+Figure 3 shows the change from one to the other on a small 8 × 8 digit. First a node takes all 64 pixels, with one weight each. Then the same node is given only the 9 pixels under a 3 × 3 window. Then the window slides: watch the 9 orange lines move with it, while the caption still says 9 weights and 1 bias. Using the same weights at every position is **parameter sharing** (G-1447).
+
+![An ANN node with one weight per pixel (blue), then a filter: the same node on the 9 pixels under a 3 × 3 window (orange). The window slides over all 36 positions with the same 9 weights and 1 bias, and each position fills one cell of the feature map (green)](images/filter_as_node.gif){width=100%}
+
 So, as a shortcut: **a filter of a CNN works like a node of an ANN**. In an ANN we train the weights of the nodes; in a CNN we train the values of the filters. Adding one more filter, with its own bias, is like adding one more node.
 
 > **Extra:** Goodfellow et al. (2016, §9.2) name the two differences. **Sparse interactions:** (G-1842) each output depends only on a small window of the input, because the kernel is smaller than the input. **Parameter sharing:** (G-1447) the same weights are used at every position, instead of a separate weight for every input-output pair. Both reduce the number of parameters.
@@ -79,7 +83,7 @@ So, as a shortcut: **a filter of a CNN works like a node of an ANN**. In an ANN 
 2. **Formula:**
    $$\text{parameters} = (f \times f \times c + 1) \times k$$
    for $k$ filters of size $f \times f$ on an input with $c$ channels.
-3. **Example:** an RGB image of 224 × 224 × 3 and 50 filters of 3 × 3 × 3. One filter has $3 \times 3 \times 3 = 27$ weights; 50 filters have $1{,}350$; each filter has one trainable bias, $+50$. Total: $1{,}400$ learnable parameters. The output is a 222 × 222 × 50 volume.
+3. **Example:** an RGB image of 224 × 224 × 3 and 50 filters of 3 × 3 × 3. One filter has $3 \times 3 \times 3 = 27$ weights; 50 filters have $1{,}350$; each filter has one trainable bias, $+50$. Total: $1{,}400$ **learnable parameters** (G-1065). The output is a 222 × 222 × 50 volume.
 
 ### 5.2 The image size does not matter
 
@@ -89,7 +93,7 @@ Now take a much bigger image, 1080 × 1080 × 3, with the same 50 filters of 3 �
 
 ![The image grows from 28 × 28 × 3 to 1080 × 1080 × 3. Blue: parameters of a Conv2D layer of 50 filters of 3 × 3. Red: parameters of a Dense layer of 100 nodes on the flattened image. Log scale.](images/param_growth.gif){height=45%}
 
-In Figure 3, watch the two lines as the image grows: the blue line stays flat at 1,400, while the red line climbs with the number of pixels, $(n \times n \times 3 + 1) \times 100$, past 349 million at 1080 × 1080.
+In Figure 4, watch the two lines as the image grows: the blue line stays flat at 1,400, while the red line climbs with the number of pixels, $(n \times n \times 3 + 1) \times 100$, past 349 million at 1080 × 1080.
 
 An ANN behaves very differently. Flattening gives $224 \times 224 \times 3$ inputs, and a hidden layer of $y$ nodes needs (inputs × $y$) weights. If the inputs grow to $1080 \times 1080 \times 3$, the weights grow with them, into the millions. The Notebook builds both layers in Keras:
 

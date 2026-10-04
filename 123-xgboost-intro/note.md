@@ -225,13 +225,13 @@ XGBoost does this through its external-memory mode (Chen and Guestrin 2016, §4.
 
 ### 7.6 Distributed computing
 
-> **Key point:** Several machines each take a part of the data, find their best splits locally, and a master node combines them.
+> **Key point:** Several machines each take a part of the data and compute split statistics on it. The statistics are added together, and the best split is chosen from the totals.
 
 In **distributed computing** (G-625) a job is shared between several machines, called **nodes**, working in parallel. Out-of-core computing lets one machine handle big data, but it still processes one chunk at a time. With 5 nodes and a 10 GB dataset cut into 5 chunks of 2 GB, all five chunks are processed at the same moment.
 
 1. **Partition** the data: each node gets an equal share.
 2. **Work locally**: each node computes, for every feature, the split statistics on its own share.
-3. **Aggregate**: a **master node** collects the results, picks the split that helps most overall, and sends the decision back.
+3. **Aggregate**: a **master node** adds the nodes' statistics together, picks the split that is best on the totals, and sends the decision back (Chen and Guestrin 2016, §6.1: the distributed version is built on a library for "allreduce", which combines one result from every machine).
 
 Distributed training needs outside tools: XGBoost connects to Dask, Spark, Ray and Kubernetes for it (XGBoost docs).
 

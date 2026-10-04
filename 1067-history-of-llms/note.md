@@ -22,9 +22,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 >
 > Training GPT for dialogue with human feedback then gave **ChatGPT**.
 
-The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind machine translation, chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage (Figure 1). The architectures themselves (encoder–decoder, attention, self-attention, the transformer) each get their own Notes later.
+The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind machine translation, chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage. In Figure 1, watch the stages appear one at a time: each red line is the problem a stage left, and the next box is the idea that fixed it. The architectures themselves (encoder–decoder, attention, self-attention, the transformer) each get their own Notes later.
 
-![Five stages from the encoder–decoder to ChatGPT, each with a sketch of its architecture above it. Red: the problem each stage left, which the next stage fixed](images/timeline.png){width=100%}
+![Five stages from the encoder–decoder to ChatGPT, each with a sketch of its architecture above it. Red: the problem each stage left, which the next stage fixed](images/timeline.gif){width=100%}
 
 ## 2. Prerequisites
 
@@ -48,7 +48,7 @@ The hardest shape has a sequence on both sides with lengths that do not match. T
 
 In Figure 2, follow "India": it becomes "Bharat", the second output word, so the model cannot simply emit one output word per input word. Examples of such tasks:
 
-- **Machine translation:** a sentence in one language in, the same sentence in another language out.
+- **Machine translation** (G-1141): a sentence in one language in, the same sentence in another language out.
 - **Text summarization:** a long text in, a short summary out.
 - **Question answering:** a question in, an answer out.
 - **Chatbots:** a message in, a reply out.
@@ -63,13 +63,13 @@ In 2014 Ilya Sutskever, Oriol Vinyals and Quoc Le at Google published "Sequence 
 1. **Encoder** (G-682): an LSTM reads the input sentence one word per step. Its internal state is updated at every step, so after the last word the state is a summary of the whole sentence. This summary is the **context vector**.
 2. **Decoder** (G-564): a second LSTM starts from the context vector and produces the output sentence one word per step.
 
-An RNN or GRU cell would also work inside each part; the paper used LSTMs.
+A simple RNN or GRU cell would also work inside each part; the paper used the **LSTM** (G-1123).
 
 ![Top: the encoder (blue) squeezes the sentence into one context vector $c$, and the decoder (orange) sees only $c$. Bottom: with attention, the decoder can look back at every encoder state; the line widths show how much each input word counts for the current output word](images/encoder_decoder.png){width=88%}
 
 The weak point is the context vector. However long the input, everything must pass through one fixed-size vector. An analogy: reading a whole paragraph once and then translating it from memory. A short sentence fits in memory; a long paragraph does not, and the start is the first part to fade.
 
-The measurements agree. Bahdanau, Cho and Bengio (2015, Figure 2) plotted translation quality, measured by the **BLEU score** (G-315) (how many word sequences of a translation match a human reference translation), against sentence length. For the plain encoder–decoder, quality "dramatically drops as the length of the sentences increases".
+The measurements agree. Bahdanau, Cho and Bengio (2015, Figure 2) plotted translation quality, measured by the **BLEU score** (G-315) (how many word sequences of a translation match a human reference translation), against sentence length. For the plain encoder–decoder, quality "dramatically drops as the length of the sentences increases". The [attention mechanism Note](../1069-attention-mechanism/note.md), section 7, measures the same drop on our own data, with and without attention.
 
 ## 5. Stage 2: attention (2014–15)
 
@@ -164,6 +164,10 @@ What makes a language model "large" shows up in five places, here with GPT-3's n
 
 GPT and ChatGPT are often confused. GPT is a model; ChatGPT is a chat application built on a GPT model and released by OpenAI on 30 November 2022 (OpenAI 2022). An analogy: a laptop brand and the processor inside it. We call the laptop by its brand, not by its processor, and the same processor can power other brands' laptops. In the same way, other companies build their own products on GPT models through OpenAI's paid interface.
 
+![The analogy as a picture. Left: a laptop is a product built around a processor. Right: ChatGPT is an application built around a GPT model. The same processor, or the same model, can also power someone else's product](images/model_vs_app.png){width=90%}
+
+In Figure 8, the inner box is the part that does the computing and the outer box is what the user sees and names.
+
 ChatGPT was trained with the method of InstructGPT (Ouyang et al. 2022; OpenAI 2022), in three steps:
 
 1. **Supervised fine-tuning.** Human trainers wrote example conversations, playing both the user and the assistant. A GPT model was fine-tuned on these examples, so it learned what a good reply looks like.
@@ -172,7 +176,7 @@ ChatGPT was trained with the method of InstructGPT (Ouyang et al. 2022; OpenAI 2
 
 ![The three training steps of ChatGPT, after pre-training. Steps 2 and 3 form reinforcement learning from human feedback (RLHF)](images/rlhf.png){width=100%}
 
-Figure 8 shows the order: the human examples of step 1 come first, the human rankings of step 2 build the reward model, and step 3 uses that reward model.
+Figure 9 shows the order: the human examples of step 1 come first, the human rankings of step 2 build the reward model, and step 3 uses that reward model.
 
 Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the model learned to be more helpful and to refuse harmful requests, such as instructions for making weapons. Because ChatGPT is trained on dialogue, it can answer follow-up questions that refer to earlier parts of the conversation (OpenAI 2022). The thumbs-up and thumbs-down buttons in the app collect more feedback from users. In March 2023 OpenAI released GPT-4, a larger and more capable model (OpenAI 2023).
 

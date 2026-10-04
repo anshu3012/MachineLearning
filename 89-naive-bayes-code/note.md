@@ -15,7 +15,16 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 
 > **Key point:** Training Naive Bayes means building a lookup table of probabilities by counting. Predicting means looking up one probability per feature and multiplying.
 
-The previous two Notes gave the intuition and the formula. This Note applies them to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn. It also meets a practical problem, the **zero-frequency problem** (G-2149), and its standard fix.
+The previous two Notes gave the intuition and the formula. This Note applies them to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn.
+
+This Note covers:
+
+- the data and the question (section 2);
+- the two phases, training and testing (section 3);
+- training: building the lookup table by counting (section 4);
+- testing: looking up and multiplying (section 5);
+- a practical problem, the **zero-frequency problem** (G-2149) (section 6);
+- its standard fix, Laplace smoothing, and scikit-learn's `CategoricalNB` (section 7).
 
 ## 2. The data
 
@@ -31,6 +40,12 @@ Each day is one **observation** (one record, a row of the data table). Each has 
 The **target** (the output we predict) is **play** (yes or no). Tennis was played on 9 of the 14 days.
 
 The question: on a day that is sunny, hot, high-humidity with weak wind, will tennis be played?
+
+From the [previous Note](../88-naive-bayes-maths/note.md), each class gets a score: its prior multiplied by one likelihood per feature.
+
+$$\text{score(yes)} = P(\text{yes}) \times P(\text{sunny} \mid \text{yes}) \times P(\text{hot} \mid \text{yes}) \times P(\text{high} \mid \text{yes}) \times P(\text{weak} \mid \text{yes})$$
+
+The score for "no" has the same form. We predict the class with the larger score, which is the **MAP rule** (G-1157).
 
 ## 3. Two phases
 
@@ -61,7 +76,16 @@ Figure 1 shows the two phases side by side. Watch the dashed arrow: testing only
 >           for col in cols}
 > ```
 
-`pd.crosstab` counts how often each value appears with each class: for outlook, sunny appears on 3 "no" days and 2 "yes" days. Dividing each class column by the class size turns the counts into probabilities.
+`pd.crosstab` builds a **crosstab** (G-511): a table that counts how often each value appears with each class. Dividing each class column by the class size turns the counts into probabilities.
+
+Figure 2 runs these two steps for the feature outlook:
+
+1. **Count.** For each value and each class, count the matching days. Rain with "no" matches days 6 and 14, so the count is 2. Sunny appears on 3 "no" days and 2 "yes" days.
+2. **Divide.** Divide the "no" column by 5 (the number of "no" days) and the "yes" column by 9. The counts become $P(\text{rain} \mid \text{no}) = 2/5$, $P(\text{sunny} \mid \text{yes}) = 2/9$, and so on.
+
+![Training on one feature. The 14 days are counted into a crosstab, one cell at a time (the matching days are highlighted). Each column is then divided by its class size, 5 or 9, to give P(outlook | play)](images/crosstab_build.gif){height=50%}
+
+Figure 3 shows the result of the same two steps for all four features, plus the priors: the full lookup table.
 
 ![The full lookup table: P(value | play) for every feature, and P(play)](images/lookup.png){width=100%}
 
@@ -95,7 +119,7 @@ $$\text{no: } \frac{5}{14} \times \frac{3}{5} \times \frac{2}{5} \times \frac{4}
 
 The "no" score is larger: **no tennis**. As probabilities, $0.0274 / (0.0071 + 0.0274) = 0.795$, so 79.5% no. Sunny weather and high humidity, both much more common on "no" days, decide it.
 
-Figure 3 multiplies the factors in one at a time and shows the yes/no share after each. Watch "yes" start ahead at 64.3%, fall behind at "sunny", and end at 20.5%.
+Figure 4 multiplies the factors in one at a time and shows the yes/no share after each. Watch "yes" start ahead at 64.3%, fall behind at "sunny", and end at 20.5%.
 
 ![The sunny, hot, high, weak day, one factor at a time. Each bar is the yes/no share of the running product; brackets give P(value | yes) vs P(value | no)](images/belief_sunny.gif)
 
@@ -103,11 +127,11 @@ Figure 3 multiplies the factors in one at a time and shows the yes/no share afte
 
 > **Key point:** Overcast never occurred on a "no" day, so P(overcast | no) = 0, and any overcast day gets a "no" score of exactly 0.
 
-Now try an overcast, cool, normal-humidity day with weak wind. In the data, it was overcast on 4 days, and tennis was played on all of them. So $P(\text{overcast} \mid \text{no}) = 0/5 = 0$, and the whole "no" product is 0:
+The [intuition Note](../87-naive-bayes-intuition/note.md) (section 9) met this problem on word counts. The same problem appears in the tennis data. Take an overcast, cool, normal-humidity day with weak wind. In the data, it was overcast on 4 days, and tennis was played on all of them. So $P(\text{overcast} \mid \text{no}) = 0/5 = 0$, and the whole "no" product is 0:
 
 $$\text{no: } \frac{5}{14} \times 0 \times \dots = 0$$
 
-Figure 4 runs the same build-up for this day. Watch the red "no" share vanish at "overcast" and never come back, whatever the later factors say.
+Figure 5 runs the same build-up for this day. Watch the red "no" share vanish at "overcast" and never come back, whatever the later factors say.
 
 ![The overcast, cool, normal, weak day without smoothing. The factor P(overcast | no) = 0 sets the no share to 0 for good](images/belief_overcast.gif)
 
@@ -121,7 +145,13 @@ The model is 100% sure tennis will be played, purely because one value never hap
 
 $$P(\text{value} \mid \text{class}) = \frac{\text{count} + 1}{\text{class count} + \text{number of values}}$$
 
-For outlook given "no": $(0 + 1) / (5 + 3) = 0.125$ for overcast instead of 0, while sunny becomes $(3 + 1)/8 = 0.5$ instead of 0.6.
+The added count is usually written $\alpha$; here $\alpha = 1$. Step by step, for outlook given "no":
+
+1. The counts are overcast 0, rain 2, sunny 3, out of 5 "no" days.
+2. Add 1 to each: 1, 3, 4. The total grows by the number of values, 3, to 8.
+3. Divide: overcast $(0 + 1) / (5 + 3) = 0.125$ instead of 0, while sunny becomes $(3 + 1)/8 = 0.5$ instead of 0.6.
+
+The priors are not smoothed: adding counts to feature values does not change how many days belong to each class.
 
 | Day | Without smoothing | With Laplace smoothing |
 |---|---|---|
@@ -130,7 +160,7 @@ For outlook given "no": $(0 + 1) / (5 + 3) = 0.125$ for overcast instead of 0, w
 
 The predictions stay the same, but the model is no longer absolutely certain about anything it has seen only a few times.
 
-Figure 5 puts the overcast day before and after smoothing side by side. Watch the "no" share: without smoothing it drops to 0 at "overcast"; with smoothing it shrinks to 14.3% but survives, ending at 3.6%.
+Figure 6 puts the overcast day before and after smoothing side by side. Watch the "no" share: without smoothing it drops to 0 at "overcast"; with smoothing it shrinks to 14.3% but survives, ending at 3.6%.
 
 ![The overcast day without (left) and with (right) Laplace smoothing. Smoothed factors such as 1/8 for P(overcast | no) keep every class alive: 96.4% yes instead of 100%](images/smoothing.png){height=38%}
 
@@ -160,6 +190,7 @@ Figure 5 puts the overcast day before and after smoothing side by side. Watch th
 **Built from**
 
 - CampusX, "Naive Bayes Classifier | Part 8 | Simple Example Code", YouTube, https://www.youtube.com/watch?v=DeeWsqoY4Eo
+- StatQuest with Josh Starmer, "Naive Bayes, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=O2L2Uv9pdDA (the zero count and adding $\alpha = 1$ to every count, sections 6 and 7)
 
 **Other references**
 
@@ -170,8 +201,9 @@ Figure 5 puts the overcast day before and after smoothing side by side. Watch th
 
 | Term | Meaning |
 |---|---|
-| Lookup table | The stored probabilities that Naive Bayes computes during training |
-| pd.crosstab | pandas function that counts how often each pair of values from two columns occurs |
-| Zero-frequency problem | A probability of 0 for a value never seen with a class, which forces that class's score to 0 |
-| Laplace smoothing | Adding a small count (usually 1) to every count so that no probability is 0 |
-| CategoricalNB | scikit-learn's Naive Bayes for categorical features |
+| Lookup table (G-1128) | The stored probabilities that Naive Bayes computes during training |
+| Crosstab (G-511), `pd.crosstab` | A table counting the rows for every pair of categories of two columns; the pandas function that builds it |
+| MAP rule (G-1157) | Predict the class with the largest posterior probability |
+| Zero-frequency problem (G-2149) | A probability of 0 for a value never seen with a class, which forces that class's score to 0 |
+| Laplace smoothing (G-1045) | Adding a small count (usually 1) to every count so that no probability is 0 |
+| CategoricalNB (G-353) | scikit-learn's Naive Bayes for categorical features |

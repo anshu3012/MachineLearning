@@ -14,7 +14,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/cross-at
 
 ## 1. Overview
 
-> **Key point:** **Cross-attention** (G-507) is attention between two sequences. In the transformer decoder, the **queries** (G-1606) come from the output sentence being written (French), and the **keys** (G-1011) and **values** (G-2068) come from the encoder's output for the input sentence (English). Each French position gets a weighted mix of the English words, with weights that say how strongly it relates to each one. The computation is the same as self-attention; only the inputs differ.
+> **Key point:** **Cross-attention** (G-507) is attention between two sequences. In the transformer decoder, the **queries** (G-1607) come from the output sentence being written (French), and the **keys** (G-1011) and **values** (G-2068) come from the encoder's output for the input sentence (English). Each French position gets a weighted mix of the English words, with weights that say how strongly it relates to each one. The computation is the same as self-attention; only the inputs differ.
 
 The [masked self-attention Note](../1081-masked-self-attention/note.md) covered the decoder's first attention layer. Its second attention layer is different: in the paper's architecture diagram, two of its three inputs come from the encoder and one from the decoder (Vaswani et al. 2017, Figure 1). The paper calls it **encoder–decoder attention** (G-684); it is now usually called **cross-attention** (SLP3 §13.3).
 
@@ -46,7 +46,7 @@ Take a translation from English into French: "I want ice cream for dessert." bec
 Suppose the decoder has written "je veux de la" and must now write the next word. What does the choice depend on?
 
 1. **What it has written so far.** After "je veux de la", only certain words fit. Relating a word to the other words of its own sentence is the job of self-attention; in the decoder it is the [masked self-attention](../1081-masked-self-attention/note.md) layer.
-2. **What the input sentence says.** "crème" is right because the English sentence says "ice cream". The decoder needs to know which English words matter for the word it is writing.
+2. **What the input sentence says.** "crème" is right because the English sentence says "ice cream". The decoder needs to know which English words matter for the word it is writing. Losing track of a single input word can reverse the meaning: in "Don't eat the delicious looking pizza", a translation that drops "don't" tells the reader to eat it (StatQuest, "Transformer Neural Networks", 28:30).
 
 The second need is a relationship between two different sequences: for every French word, how strongly it relates to every English word. We can picture it as a table with one row per French word and one column per English word, with "crème" strongly tied to "ice" and "cream", and "veux" to "want".
 
@@ -76,7 +76,7 @@ In SLP3's notation, where self-attention takes $X$, "in cross attention the inpu
 
 ### 5.1 The formula
 
-> **Key point:** $Q = X_{dec}W_Q$, $K = H_{enc}W_K$, $V = H_{enc}W_V$, then $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+> **Key point:** The decoder's vectors are turned into queries, the encoder's output into keys and values, and the usual attention formula does the rest: $Q = X_{dec}W_Q$, $K = H_{enc}W_K$, $V = H_{enc}W_V$, then $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
 
 Cross-attention has its own three weight matrices $W_Q$, $W_K$, $W_V$, just like self-attention. The difference is which sequence each one multiplies:
 
@@ -86,7 +86,7 @@ $$\text{CrossAttention}(Q, K, V) = \text{softmax}\negthinspace\left(\frac{QK^T}{
 
 (SLP3 eq. 13.11 and 13.12). Each French position gets a query vector; each English word gets a key vector and a value vector. The paper describes the same thing: "the queries come from the previous decoder layer, and the memory keys and values come from the output of the encoder" (Vaswani et al. 2017, §3.2.3).
 
-From here on nothing is new. Every query is compared with every key by a dot product, the scores are scaled by $\sqrt{d_k}$, a softmax turns each row into weights, and each output is the weighted sum of the value vectors.
+From here on nothing is new. Every query is compared with every key by a dot product, the scores are scaled by $\sqrt{d_k}$, a softmax turns each row into **attention weights** (G-225), and each output is the weighted sum of the value vectors.
 
 ### 5.2 By hand
 
@@ -234,6 +234,7 @@ Tasks whose input and output are of different kinds, such as audio and text, or 
 **Built from**
 
 - CampusX, "Cross Attention in Transformers | 100 Days Of Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=smOnJtCevoU
+- StatQuest with Josh Starmer, "Transformer Neural Networks, ChatGPT's foundation, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=zxQyTK8quyY. 28:30–29:00 (encoder–decoder attention keeps track of the significant input words; the "don't eat the delicious looking pizza" example).
 
 **Other references**
 

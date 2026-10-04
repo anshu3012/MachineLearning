@@ -19,7 +19,9 @@ tags: [subject/ml, area/models-1, step/model, concept/minibatch-gd]
 
 A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-**Mini-batch gradient descent** (G-1222) is the third type of gradient descent. The three types differ only in how often they update the coefficients in one **epoch** (G-696), one full pass over the training data:
+**Gradient descent** (G-862) finds the best **coefficients** (G-407) by repeated small steps downhill on the loss ([Note 57](../57-gradient-descent/note.md)). The two types so far sit at opposite ends. Batch gradient descent reads every observation before each step: steady, but slow. Stochastic gradient descent steps after every single observation: fast, but noisy. The in-between option reads a small group of observations per step.
+
+**Mini-batch gradient descent** (G-1222) is this third type. The three types differ only in how often they update the coefficients in one **epoch** (G-696), one full pass over the training data:
 
 - **Batch:** once per epoch, after looking at all $n$ observations.
 - **Stochastic:** $n$ times per epoch, after each single observation.
@@ -45,17 +47,19 @@ Mini-batch is therefore the general form, and the batch size tunes how it behave
 
 > **Key point:** Each epoch: shuffle the observations, cut them into batches, and for each batch compute the derivatives from its observations only and update.
 
+In words: instead of asking every observation which way is downhill, or just one, we ask a small group, average their answers, and take one step. With 100 observations and a batch size of 10, an epoch has 10 such steps.
+
 1. Start with any coefficients, for example $\beta_0 = 0$ and every $\beta_j = 1$.
 2. For each epoch:
    - put the observations in a new random order, called **shuffling** (G-1797);
    - cut them into consecutive batches of the chosen size (the last batch may be smaller);
    - for each batch, compute the predictions, the errors and the derivatives using only its observations, and update.
 
-The derivatives are the batch ones, averaged over the observations $B$ of the current batch instead of all $n$ observations:
+The **derivatives** (G-595) of the loss $L$ are the batch ones, averaged over the observations $B$ of the current batch instead of all $n$ observations:
 
 $$\frac{\partial L}{\partial \beta_j} = -\frac{2}{|B|}\sum_{i \in B}(y_i - \hat y_i)\thinspace x_{ij}$$
 
-where $|B|$ is the number of observations in the batch.
+where $|B|$ is the number of observations in the batch, $y_i$ is the target of observation $i$, $\hat y_i$ its prediction and $x_{ij}$ its value of feature $j$. Each coefficient then moves against its derivative, by the derivative times the **learning rate** (G-1068).
 
 Figure 2 runs these steps on the 100-point example of section 4, with batch size 10 and learning rate 0.05, for 3 epochs. Each epoch opens with a new shuffle, which colours every point by the batch it falls into; then one batch at a time lights up green and the line makes one update. Watch the colours change between epochs, and the line move only once per batch.
 
@@ -107,7 +111,7 @@ Each observation's derivative points in a slightly different direction, because 
 
 > **Key point:** Smaller batches mean more updates per epoch but noisier ones; larger batches mean smoother but fewer updates. A small batch in between, here 8, gets both.
 
-Think of asking for directions: asking one passer-by is quick but may mislead you, polling the whole town is reliable but takes all day, and asking a handful of people is quick and mostly right. Figure 4 trains on the diabetes data with learning rate 0.1 for 100 epochs and four batch sizes, on one train/test split.
+Think of asking for directions: asking one passer-by is quick but may mislead you, polling the whole town is reliable but takes all day, and asking a handful of people is quick and mostly right. Figure 4 trains on the diabetes data with learning rate 0.1 for 100 epochs and four batch sizes, on one train/test split. The score is the **R² score** (G-1717) on the test set; ordinary least squares, **OLS** (G-1406), reaches 0.44.
 
 ![Test R² per epoch for four batch sizes](images/batch_sizes.png)
 
@@ -135,7 +139,7 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 
 > **Key point:** SGDRegressor has no batch size option, but its partial_fit method trains on one batch at a time, so a short loop gives mini-batch training.
 
-`SGDRegressor` (from the previous Note) always updates one observation at a time inside `fit`. Its `partial_fit` method (G-1458), however, does one pass over whatever observations it is given, keeping the coefficients learned so far. Feeding it one batch at a time gives mini-batch-style training:
+**`SGDRegressor`** (G-1783, from the previous Note) always updates one observation at a time inside `fit`. Its `partial_fit` method (G-1458), however, does one pass over whatever observations it is given, keeping the coefficients learned so far. Feeding it one batch at a time gives mini-batch-style training:
 
 > **Python:** Mini-batch training with partial_fit.
 >
@@ -153,9 +157,9 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 > sgd.score(X_test, y_test)      # R² 0.45
 > ```
 >
-> `partial_fit` is also how scikit-learn models learn from data that arrives over time, the online learning of Note 5.
+> `partial_fit` is also how scikit-learn models learn from data that arrives over time, the **online learning** (G-1391) of Note 5.
 
-> **Extra:** Inside `partial_fit`, `SGDRegressor` still updates once per observation of the batch rather than once per batch. True mini-batch updates (one update from the batch's average derivative) are standard in deep-learning libraries, where the batch size is a basic setting.
+> **Extra:** Inside `partial_fit`, `SGDRegressor` still updates once per observation of the batch rather than once per batch. True mini-batch updates (one update from the batch's average derivative) are standard in deep-learning libraries, where the batch size is a basic setting. Those libraries, and many texts, still call the method "SGD" even when each step uses a mini-batch, so "SGD" often means mini-batch gradient descent.
 
 ## 7. Summary
 
@@ -177,6 +181,7 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 **Built from**
 
 - CampusX, "Mini-Batch Gradient Descent", YouTube, https://www.youtube.com/watch?v=_scscQ4HVTY
+- StatQuest with Josh Starmer, "Stochastic Gradient Descent, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=vMh0zPT0tLI
 
 **Other references**
 
@@ -191,6 +196,7 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 | Feature | An input variable: one column of the data table |
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
+| Epoch | One full pass over the training data |
 | Mini-batch gradient descent | Gradient descent that updates after each small group of observations |
 | Batch (mini-batch) | A small group of training observations used for one update |
 | Batch size | The number of observations in each batch; a hyperparameter |

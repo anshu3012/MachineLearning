@@ -1,0 +1,247 @@
+Hey guys, welcome to my YouTube channel. This is day 2 of 100 days of machine learning.
+In this video we are going to talk about a very important topic, AI vs ML vs DL.
+I have always noticed that whenever a beginner enters this field, this is the first curiosity they have.
+They ping me, they ask what is the difference between AI vs ML vs DL.
+And if you google it, if you google AI versus ML versus DL, then mostly you will get this picture where you would see that there are 3 circles and the outer circle represents AI and inside that is the ML circle and inside that is the DL circle, right?
+Now by looking at it, we can understand that the outer set, the biggest thing is AI and in AI, a subset is machine learning and a subset of machine learning is deep learning, which is actually correct.
+But what I want is, I want to give you a very good intuition as to why this is so. So let's discuss that.
+Let's first discuss about AI. AI stands for Artificial Intelligence.
+or you can say that put intelligence in machines in some way
+and this idea has been around for a long time, probably for 100 years
+we human beings think that what if we can make machines intelligent like us
+now if you think carefully what is intelligence
+we human beings are better than other biological species
+we are advanced and evolved because of our intelligence
+but what exactly is intelligence
+So if you do some research on intelligence then you would understand that it is a complex thing
+And it is made up of multiple things
+So there is pattern recognition which we use on a day to day level
+Coding or solving puzzles or IQ
+It also includes creativity and imagination
+It also includes emotional intelligence
+So our intelligence is a very complex thing which has a lot of other things
+But if you talk about AI then at this point the AI that we human beings are pursuing is a subset of actual intelligence.
+We are trying to make a general intelligence that behaves like us but it is actually very difficult.
+So what we people are trying to do, we are trying to go a specific path and that is pattern recognition.
+So most of the AI stuff that you will see around that is mostly related to pattern recognition.
+We cannot go for creativity and imagination at this point or emotional intelligence at this point because that is hard to quantify.
+We don't know what are the right results. We don't know what is the equation of love or how you measure creativity.
+So for us, the measurable and quantifiable is pattern recognition.
+And that is why at this point whatever you see in AI that is mostly related to pattern recognition.
+Now let's talk about AI. Let's talk about all the work that has been done till now.
+So around 50s this idea started floating around. At that time Alan Turing and all.
+They started thinking that intelligence can be put in machines or not.
+And at that point only some such systems started being made which were intelligent.
+In fact at that time a new wave of intelligence came of AI which we call Symbolic AI.
+In symbolic AI, you build a huge knowledge system using if-else conditions.
+Basically, you write a logic for every condition.
+And from that symbolic AI, expert systems were made.
+Like if you played chess against a computer in your childhood, that was actually an expert system.
+where an expert is taken out of the system and converted into a code
+and then we play chess against that code
+now what happens in expert systems
+in expert systems there is a knowledge base which we take from an expert
+and then there is an influence engine
+a program which makes decisions based on that knowledge
+so in 80s everyone was thinking that expert systems are the future of AI
+and AI and expert systems were synonymous at that point of time
+Later people realized that there are some flaws in expert systems
+What are those flaws?
+Expert systems work on very closed problems
+Meaning on very specific problems
+Like playing chess
+Or I don't know, doing lung detection
+Meaning for medical purposes
+But if you give it a problem which is a little fuzzy
+Whose logic is a little fuzzy
+Like I don't know
+There is a dog in an image
+We have to detect it
+Now this is fuzzy logic because
+There are so many breeds of dogs and their features are different.
+So if you sit to write IF-ELSE then you cannot write all the conditions so as to build an expert system which can actually classify dogs in a given image.
+So problems like this where there was fuzzy logic like image classification, voice recognition and many other areas where this symbolic AI logic was not applicable.
+That is why expert systems were left behind and then came machine learning which solved this problem.
+So next we are going to discuss is machine learning.
+So now let's talk about ML. Where does ML fit?
+So if you must have seen the last video where I told you the definition of machine learning.
+Machine learning is a branch of computer science where you use statistical techniques to find pattern in your data.
+Effectively, we can say that the patterns in the data, the technique to learn them is called machine learning.
+The most important difference between machine learning and symbolic AI which was used earlier is that
+in machine learning, you never do explicit programming.
+Explicit programming means rule-based programming, you are writing a logic for everything.
+You don't do this in machine learning. Instead, what you do is you have a data,
+There is input and output in data and you feed that data to your system
+And your system's job is to find rules or patterns, mathematical patterns
+So that when you get a new input, now that you know the rules, you can tell a new output or prediction
+Now why is this approach better than symbolic AI? It is very easy to understand
+Where was symbolic AI failing? In fuzzy logic, in fuzzy logic based problems
+like an image classification problem where you have to classify dogs
+here you cannot write rules that you have to identify every dog breed
+but in machine learning you don't have to write rules
+rules will be generated by your system
+all you have to do is give correct data
+so now what I will do is
+I will provide my system with a lot of photographs of a lot of different dog breeds
+I will show you a lot of photos
+I will tell you this is a dog, this is not a dog, this is a dog, this is not a dog
+Now what the system will do is, it will automatically try to find the underlying representation of the data.
+This is called learning.
+This pattern is trying to learn, it is trying to recognize.
+This is called learning.
+And if you show it a lot of photos, eventually it will be ready to classify whether a given image has a dog in it or not.
+So that is the main idea.
+It is a small idea.
+The idea is that instead of writing rules, show data and your system will automatically understand who is called a dog and who is not.
+In a way, we also do the same thing. In childhood, we are also shown that this is a dog and this is not.
+And that is how we learn. So in a way, that learning is inspired from our own evolution of intelligence.
+So this was machine learning. And guess what?
+a small idea that rather than writing rules for everything you can just provide data and
+rules will be generated automatically this has changed the industry in the last 30 years
+in the 90s machine learning must have come in 2020 it has been just 30 years and this
+thing has been revolutionary specially in the last 15 years 10 years when data is very
+much available and hardware is very good available then machine learning has been hit hard and
+it's flying high right many people say in fact earlier it was said that machine learning
+is nothing but statistics but to be honest it's not purely statistics yes statistical
+tools we are using mathematical tools we are using but it is not much mathematics it is
+very limited mathematics it is highly practical it is engineering based okay so it is inspired
+by statistics but it is not exactly derived okay so machine learning I guess you understood
+now comes the question that what is deep learning if machine learning was able to do everything
+So let's do the discussion about deep learning in two parts.
+First, let's discuss what is deep learning and then let's discuss why deep learning is needed.
+So deep learning is very recent like although it was going on for a long time but
+after 2012 only that peak has come in the graph of deep learning which we are now hearing about deep learning.
+So deep learning is basically a class of algorithms.
+First of all it is machine learning. It is not different.
+Never keep in mind that deep learning is something else.
+Same procedures, same process flow you use in deep learning as you do in machine learning.
+Giving the same data, training the algorithm and reducing the error during training.
+And eventually your model gets trained and you give new data and you do prediction on it.
+Exact same flow is there in machine learning and exact same flow is there in deep learning.
+so deep learning is essentially machine learning
+it's just that the algorithms you use here are a little different
+and in a way you can say that they are inspired by biology
+our biology, neurons are inspired
+I would not say that it works completely like our brain
+deep learning is a wrong perception
+deep learning is inspired by our biology
+but we can't say that deep learning algorithms work like our brain
+to be honest we don't understand how our brain works
+Deep learning is a mathematical model. It's just that its core unit is based on biological neurons.
+That is why there is this biological connection. A lot of people are confused that the way the brain works,
+the same way deep learning works. It's not like that. So that is about deep learning.
+So why did deep learning come into use? Or why is deep learning so famous in today's date?
+The reason for this is that there are certain things that machine learning can't do
+Or you can say that it can't do that well
+And that is where deep learning shines
+Let me tell you where
+So the big problem of machine learning is that you have to provide features
+You have to tell what will happen in the input
+Like if you want to classify between dogs and cats in an image
+you will have to specify the features of dogs and you will have to specify the features of cats
+ears are pointed, it has to be a dog
+moustache, it has to be a cat
+tail is round, it has to be a dog
+this way you will have to define the features if you are in the machine learning space
+but if you are in deep learning space, in deep learning, these features automatically make your system or detect it
+you don't have to create them
+and if you are working in fuzzy logic based problems where you actually don't know what features can exist
+there deep learning can be very useful
+I will give you one more example
+For example, we were trying to make a system in our startup
+that by looking at the resume, we will decide whether the placement will be done or not
+We were trying to make a system like this
+Now here, if you work in machine learning
+then you will have to create features
+which you will give to the machine learning model
+Now you will have to create those features
+and you will be able to create them when you have knowledge about that data
+who knows a lot, probably a person who works in TMP cell
+If it has more than 2 certifications, then there is a chance of placement.
+If it has a percentage between 90-95%, then there is a chance of placement.
+If it has backlogs, then there is no chance of placement.
+All these are individual features.
+But if you are working in the deep learning space, then what you have to do is,
+you have to just provide raw text.
+And it will automatically create the features.
+So that is one of the big differences between machine learning and deep learning.
+In deep learning, you don't have to be concerned about the features.
+what deep learning will do is it will automatically extract those features
+you have to make those features in machine learning
+and that is difficult work
+you have to understand which features will be better
+second, in deep learning
+the more you add new layers of neurons
+the more your classification or regression
+whatever task you are doing
+that becomes better
+or it can be said that the more you add layers of neurons
+By the way, the efficiency of that system or the power of prediction is getting improved
+because with every layer, you can find out what is hidden deeper in your data.
+If you see this image, you will understand that gradually if we try to classify a digit,
+then the first layer will tell you the edges, the second layer will add digits to your bits and pieces
+and the next layer will add those digits and tell you which digit it is.
+so that is how deep learning works
+and this is one of the main reasons
+due to which machine learning
+where it was not able to do a good job
+deep learning was used there
+and deep learning gave good results
+the second reason is
+deep learning is something
+because of the algorithms
+the more data you give to deep learning
+the more its performance improves
+if you see this graph
+you will understand
+that machine learning models
+their accuracy will improve on increasing the data
+but after that it stabilizes
+in the case of deep learning, it is not like that
+if you keep on giving more data
+then your performance will also keep on improving
+so due to these 2-3 reasons
+deep learning has found a space
+where it is used like a lot
+like image classification tasks
+basically image related tasks
+text related tasks
+GANs
+there are some deep learning applications which are better than machine learning
+but then you can ask why to use machine learning if deep learning is so much better
+the answer is that where you need a needle you will not use a sword
+so deep learning is a powerful thing, it is a powerful technology
+but you will not use it everywhere
+in some things machine learning is really better
+in big data, you use deep learning and you get good results
+but you don't have much data so you will not use deep learning because
+machine learning will give you better results on less data and guess what
+90% of the world's data is small data
+since you use facebook, whatsapp, so you think that everyone has big data but it's not like that
+if you work in industry then banking companies, insurance companies
+sports analytics companies don't have much data
+so in such scenarios, machine learning is very useful today
+so that is the complete hierarchy
+let me summarize it once
+the biggest term is AI
+we are all behind this thing that we have to make AI
+now the most efficient system to make AI
+is machine learning
+and in machine learning too
+there is a way to solve complex problems
+which is called
+deep learning
+and in today's date both deep learning and machine learning
+are very famous
+now you never know
+it can take 10 years to make general AI
+But if at this point you are planning to learn to build AIs,
+Machine Learning and Deep Learning is the right path.
+Okay?
+So I hope you understood this whole video, guys.
+If so, please consider subscribing.
+I'll try to put a new video everyday.
+This is our goal, 100 days of Machine Learning.
+So yeah, that's it.
+Thanks for watching.
+We'll meet in the next video.

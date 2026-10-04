@@ -38,7 +38,7 @@ This Note shows the one limitation of that formula, then the fix that the transf
 
 > **Key point:** Self-attention gives each word a query, a key and a value vector, compares every query with every key, and returns each word as a weighted sum of the value vectors.
 
-Take the sentence "money bank". Each word's embedding is multiplied by three learned matrices, $W_Q$, $W_K$ and $W_V$, giving its query, key and value vectors. The query of "money" is compared with the keys of "money" and "bank" by dot products; the scores are divided by $\sqrt{d_k}$ and turned into weights by the softmax; the weighted sum of the value vectors is the contextual embedding of "money". The same happens for "bank". For all words at once, with the embeddings as the rows of a matrix $X$:
+Take the sentence "money bank". Each word's embedding is multiplied by three learned matrices, $W_Q$, $W_K$ and $W_V$, giving its **query, key and value vectors** (G-1607). The query of "money" is compared with the keys of "money" and "bank" by dot products; the scores are divided by $\sqrt{d_k}$ and turned into **attention weights** (G-225) by the softmax; the weighted sum of the value vectors is the contextual embedding of "money". The same happens for "bank". For all words at once, with the embeddings as the rows of a matrix $X$:
 
 $$Q = XW_Q, \quad K = XW_K, \quad V = XW_V, \qquad Z = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
@@ -128,7 +128,7 @@ $W_O$ is learned by backpropagation like $W_Q$, $W_K$ and $W_V$. Each output num
    $$[\thinspace Z_1 \thickspace\thickspace Z_2\thinspace]\thinspace W_O = Z_1 W_O^1 + Z_2 W_O^2$$
 3. **Example:** for "money", head 1 contributes $z^1_{\text{money}} W_O^1 = (1.66, 1.19, 1.27, -0.92)$ and head 2 contributes $z^2_{\text{money}} W_O^2 = (1.00, 0.50, 0.50, 2.50)$. Their sum is $(2.66, 1.69, 1.77, 1.58)$, exactly the output above (Notebook).
 
-So every head proposes its own change to the word's vector, and the layer adds the proposals up (Sanderson 2024, Ch 6). In the transformer, that sum is then added to the word's own vector by the residual connection (the [self-attention geometrically Note](../1075-self-attention-geometric-intuition/note.md), section 7.3). Figure 3 runs the whole computation for "money".
+So every head proposes its own change to the word's vector, and the layer adds the proposals up (Sanderson 2024, Ch 6). In the transformer, that sum is then added to the word's own vector by the **residual connection** (G-1681) (the [self-attention geometrically Note](../1075-self-attention-geometric-intuition/note.md), section 7.3). Figure 3 runs the whole computation for "money".
 
 ![Two heads on "money bank", followed for "money": each head's weights and output, the concatenation times $W_O$, and the same result as one change per head, added up](images/heads_wo.gif){height=55%}
 
@@ -187,9 +187,13 @@ Two full-size heads, as in section 5, would double the weights. Splitting $d_{\t
    which does not depend on $h$. Likewise every pair of words costs $h \times (d/h) = d$ multiplications in the scores $Q_iK_i^T$, whatever $h$ is.
 3. **Example:** $d = 512$: $4 \times 512^2 + 4 \times 512 = 1{,}050{,}624$ parameters.
 
+![The transformer's multi-head attention built up stage by stage. The title names the stage; the red line counts the learned weights so far. The heads' matrices hold 786,432 weights, $W_O$ adds 262,144, and with the biases the total is 1,050,624](images/shape_count.gif){width=100%}
+
+In Figure 5, watch the red count: it jumps only when a stage brings learned matrices (the heads, then $W_O$), and it ends on the number that one head of 512 would also need.
+
 ![Left: parameters of Keras' `MultiHeadAttention` for one head of 512, eight heads of 64 and two full heads of 512 (Notebook). Right: translation quality against the number of heads, with the total size fixed at 512 (Vaswani et al. 2017, Table 3, rows A)](images/head_budget.png){width=100%}
 
-In Figure 5, the first two bars are equal: splitting into 8 heads costs nothing extra, while two full-size heads double the count. The right panel is the paper's measurement of the number of heads, described in the Extra box below.
+In Figure 6, the first two bars are equal: splitting into 8 heads costs nothing extra, while two full-size heads double the count. The right panel is the paper's measurement of the number of heads, described in the Extra box below.
 
 Keras' `MultiHeadAttention` layer confirms it (Notebook):
 
@@ -201,7 +205,7 @@ Keras' `MultiHeadAttention` layer confirms it (Notebook):
 
 The paper puts it this way: "Due to the reduced dimension of each head, the total computational cost is similar to that of single-head attention with full dimensionality" (Vaswani et al. 2017, §3.2.2). Each head does one eighth of the work, and the 8 heads run in parallel.
 
-> **Extra:** The paper also measured the number of heads, keeping the total computation fixed (Vaswani et al. 2017, Table 3, rows A; English-to-German translation, development set). BLEU, a translation-quality score, was 24.9 with 1 head of 512, 25.5 with 4 heads of 128, 25.8 with 8 heads of 64, 25.8 with 16 heads of 32, and 25.4 with 32 heads of 16. "Single-head attention is 0.9 BLEU worse than the best setting, quality also drops off with too many heads." Very small heads lose quality: their 16-number queries and keys are too short to compare words well.
+> **Extra:** The paper also measured the number of heads, keeping the total computation fixed (Vaswani et al. 2017, Table 3, rows A; English-to-German translation, development set). The **BLEU score** (G-315), a translation-quality score, was 24.9 with 1 head of 512, 25.5 with 4 heads of 128, 25.8 with 8 heads of 64, 25.8 with 16 heads of 32, and 25.4 with 32 heads of 16. "Single-head attention is 0.9 BLEU worse than the best setting, quality also drops off with too many heads." Very small heads lose quality: their 16-number queries and keys are too short to compare words well.
 
 ## 7. Multi-head attention in code
 
@@ -237,7 +241,7 @@ Random weights only show that heads can differ. To see what trained heads do, we
 
 ![Heads 1 and 2 of BERT-base's first layer. Each row is a query word, and its 10 weights sum to 1. Outlined: the rows of "man" and "astronomer"](images/two_heads.png){width=100%}
 
-Figure 6 shows two heads of the same layer on the same sentence:
+Figure 7 shows two heads of the same layer on the same sentence:
 
 | Query word | Head 1: largest weight | Head 2: largest weight |
 |---|---|---|
@@ -248,7 +252,7 @@ In head 1, "man" looks most at "telescope". In head 2, "man" looks most at "astr
 
 ![The 12 heads of BERT-base's first layer on the same sentence (rows: query word, columns: key word)](images/bert_heads.png){width=100%}
 
-All 12 heads (Figure 7) differ, and several follow simple patterns. Averaged over the 8 real words (Notebook):
+All 12 heads (Figure 8) differ, and several follow simple patterns. Averaged over the 8 real words (Notebook):
 
 | Head | Typical behaviour | Average weight |
 |---|---|---|

@@ -14,6 +14,7 @@ User, 2026-10-03: "the primary sources should be stat quest, khan academy, 3b1b,
 ## What to do, per Note
 - **The whole Note, every concept.** The user's examples (the Hessian, EM) only illustrate the problem. Apply every point below to every concept in every Note on your list (NOTE-RULES §12).
 - **CampusX first (NOTE-RULES §13):** for every concept, compare the CampusX explanation with the outside source. No clash between them; use the clearer one as the main path; keep a CampusX angle the other lacks (and vice versa). Report each comparison: which was clearer, any angle kept, any clash and how it was resolved.
+- **Fixed depth, no nitpicking (NOTE-RULES §14):** stay at the beginner depth of the source videos. Fix only errors that mislead on the core idea. No new caveats for dates, rounding, edge cases or conventions.
 - **Reorder** the Note to follow the teaching path: the same order of ideas, analogies, build-up and worked examples. Where the Note's current order differs, use the path's order.
 - **Keep** every correct fact, number and experiment the Note already has. Move content; don't lose it. Numbers must still match the executed notebook.
 - **Every section climbs the §11 ladder.** Attach each standard term where its idea appears, as "**Hessian** (G-NNN)", taking the ID from `glossary.md` (read only). New terms go in Key terms; list them in your report too.

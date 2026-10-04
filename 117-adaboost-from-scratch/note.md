@@ -16,7 +16,7 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 
 > **Key point:** We code three stages of AdaBoost by hand on 10 observations: weights, stump, error, alpha, weight update, normalisation and upsampling, then the weighted vote. The result matches the steps of the step-by-step Note.
 
-![Three stages of AdaBoost on the 10-observation toy data, and their weighted vote. Marker size shows how many copies of a observation are in that stage's dataset; crosses are observations not drawn](images/stages.png){height=55%}
+![Three stages of AdaBoost on the 10-observation toy data, and their weighted vote. Marker size shows how many copies of an observation are in that stage's dataset; crosses are observations not drawn](images/stages.png){height=55%}
 
 The [AdaBoost step-by-step Note](../116-adaboost-step-by-step/note.md) went through one stage on paper. Here we write each step in Python with pandas, NumPy and scikit-learn, and run three stages (Figure 1). The Notebook (`notebook.ipynb`) holds the full code; `images/figs.py` draws the figures with the same data and random seed.
 
@@ -145,7 +145,7 @@ Figure 3 shows the update for every row, together with the normalising step of s
 
 Figure 4 plots the two factors.
 
-- **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets a observation wrong, that observation is likely a hard one, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
+- **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets an observation wrong, that observation is likely a hard one, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
 - **$e^{-\alpha}$ (green)** is the mirror image: below 1 for any positive alpha, and smaller the larger alpha is. Observations a trustworthy stump gets right lose most of their weight: $\times 0.33$ at $\alpha = 1.10$.
 - A stump we barely trust (small alpha) changes the weights only a little: $\times 1.53$ and $\times 0.65$ for our stage 1 stump ($\alpha = 0.42$).
 
@@ -190,7 +190,7 @@ $$\text{misclassified: } \frac{0.1528}{0.9165} = 0.1667 \qquad \text{correct: } 
 
 Our draw picks observations **6, 2, 0, 0, 8, 8, 6, 7, 6, 9**. The three mistakes (observations 2, 6 and 8) take 6 of the 10 places; observations 1, 3, 4 and 5 are not drawn at all (Figure 1, top right: crosses).
 
-**Weights start again.** In the new dataset every observation gets weight 0.1 again. The upsampling has already done the reweighting: a observation drawn three times counts three times.
+**Weights start again.** In the new dataset every observation gets weight 0.1 again. The upsampling has already done the reweighting: an observation drawn three times counts three times.
 
 Figure 5 plays the whole loop of sections 3 to 8, one step per frame, for the three stages. Watch the weight bars of the mistakes (red outlines) grow, the stretches of 0 to 1 they own widen, and the random darts land on them more often. A row drawn twice then starts the next stage with weight 0.2: the upsampling has turned weight into copies.
 
@@ -231,7 +231,7 @@ The third dataset is observations 7, 6, 7, 6, 7, 0, 7, 7, 8, 7. The new stump is
 
 $$\alpha_3 = \frac{1}{2}\ln\left(\frac{1-0.2}{0.2}\right) = \frac{1}{2}\ln 4 = 0.6931$$
 
-> **Extra:** A common slip when copying the stage code is to train the third stump on the second dataset while comparing its predictions with the labels of the third. The predictions then belong to different observations from the labels, and the "error" comes out meaninglessly high. The Notebook makes this slip on purpose and gets an "error" of 0.7 and a negative say, $\alpha = -0.42$. Each stump must be trained and scored on the same dataset; the Notebook keeps one table per stage for that reason.
+> **Extra:** A common slip when copying the stage code is to train the third stump on the second dataset while comparing its predictions with the labels of the third. The predictions then belong to different observations from the labels, and the "error" comes out meaninglessly high. The Notebook makes this slip on purpose and gets an "error" of 0.7 and a negative say, $\alpha = -0.42$. A negative say would flip that stump's vote in the final sum (the step-by-step Note, section 6.2). Each stump must be trained and scored on the same dataset; the Notebook keeps one table per stage for that reason.
 
 ## 9. Prediction: the weighted vote
 

@@ -20,23 +20,34 @@ The last Notes covered two regularised versions of linear regression:
 - **Ridge** (L2, **L2 regularisation**, G-1029): shrinks all coefficients, never to exactly 0. Suited to data where every **feature** (G-772) (an input variable, one column of the data table) matters.
 - **Lasso** (L1, **L1 regularisation**, G-1026): can set coefficients to exactly 0, removing features. Suited to data where only some features matter.
 
-With a large dataset of many features, it is often impossible to know in advance which of the two fits better. **Elastic Net regression** (G-668) uses both penalties at once and lets their mix be tuned like any other hyperparameter.
+Figure 1 recalls the difference on a made-up model of house prices with two useful features (area, rooms) and two useless ones (door number, the owner's birth month). Watch the two grey terms: Ridge keeps them with small coefficients, Lasso removes them.
+
+![One model, three fits. Linear regression keeps every feature at full size. Ridge keeps every feature and shrinks all coefficients. Lasso sets the coefficients of the useless features to exactly 0, which removes them from the model. Idea after StatQuest, "Regularization Part 3: Elastic Net Regression"; the example is our own](images/ridge_lasso_recap.png)
+
+**The problem.** Choosing between Ridge and Lasso needs knowledge of the features: are most of them useful, or only a few? With four features we can tell. With hundreds or thousands of features, nobody can check them one by one, so there is no way to choose in advance.
+
+**The fix.** There is no need to choose. **Elastic Net regression** (G-668) adds both penalties to the loss at once, each with its own strength, and the two strengths are tuned like any other hyperparameter.
 
 ## 2. The loss function
 
 > **Key point:** Loss = squared error + a × (sum of squared coefficients) + b × (sum of absolute coefficients).
 
-The Elastic Net loss is the squared error with both penalties added:
+In plain words: start from the squared error of linear regression, add the Ridge penalty with its own strength $a$, and add the Lasso penalty with its own strength $b$. As a formula, with $\beta_1, \dots, \beta_m$ the coefficients of the $m$ features:
 
 $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + a\sum_{j=1}^{m}\beta_j^2 + b\sum_{j=1}^{m}|\beta_j|$$
 
-$a$ sets the strength of the Ridge part and $b$ the strength of the Lasso part. They are separate numbers, so the two parts can be weighted differently.
+$a$ sets the strength of the Ridge part and $b$ the strength of the Lasso part. They are separate numbers, so the two parts can be weighted differently. Two strengths give four cases:
 
-- With $b = 0$, it is Ridge.
-- With $a = 0$, it is Lasso.
-- With $a = b = 0$, it is plain linear regression.
+| $a$ (Ridge) | $b$ (Lasso) | Model |
+|---|---|---|
+| 0 | 0 | plain linear regression |
+| above 0 | 0 | Ridge |
+| 0 | above 0 | Lasso |
+| above 0 | above 0 | Elastic Net, a hybrid of the two |
 
-Figure 1 places every model on one map of the two strengths. Watch the edges: they are the models of the earlier Notes, and only the inside is new.
+The best pair $(a, b)$ is found by **cross-validation** (G-510) (section 6).
+
+Figure 2 places every model on one map of the two strengths. Watch the edges: they are the models of the earlier Notes, and only the inside is new.
 
 ![Each pair of strengths (a, b) is one model. The horizontal edge (b = 0) is Ridge, the vertical edge (a = 0) is Lasso, the corner (a = b = 0) is linear regression, and everything inside is Elastic Net.](images/penalty_plane.png){height=40%}
 
@@ -59,9 +70,9 @@ In words: `alpha` is the total penalty, and `l1_ratio` is the fraction of it tha
 | 0.9 | 90% L1, 10% L2 | mostly Lasso |
 | 1 | all L1 | Lasso |
 
-Figure 2 draws the same map in scikit-learn's terms. Watch the four rows of the table: all have alpha 1, so they sit on one line, and l1_ratio only turns the direction from the Ridge edge to the Lasso edge.
+Figure 3 draws the same map in scikit-learn's terms. Watch the four rows of the table: all have alpha 1, so they sit on one line, and l1_ratio only turns the direction from the Ridge edge to the Lasso edge.
 
-![alpha and l1_ratio on the map of Figure 1. The dashed lines are constant alpha (a + b); the purple line is alpha 1. The four table rows sit on that line: l1_ratio 0 at (1, 0), 0.5 at (0.5, 0.5), 0.9 at (0.1, 0.9) and 1 at (0, 1).](images/alpha_ratio.png){height=42%}
+![alpha and l1_ratio on the map of Figure 2. The dashed lines are constant alpha (a + b); the purple line is alpha 1. The four table rows sit on that line: l1_ratio 0 at (1, 0), 0.5 at (0.5, 0.5), 0.9 at (0.1, 0.9) and 1 at (0, 1).](images/alpha_ratio.png){height=42%}
 
 With numbers: alpha 1 and l1_ratio 0.5 give $a = 0.5$ and $b = 0.5$. Going back is easy too: $b = \text{alpha} \times r$ and $a = \text{alpha} - b$.
 
@@ -73,7 +84,7 @@ With numbers: alpha 1 and l1_ratio 0.5 give $a = 0.5$ and $b = 0.5$. Going back 
 
 > **Key point:** The Elastic Net penalty is between Ridge's circle and Lasso's diamond: rounded, but still with corners on the axes, so it can still set coefficients to 0.
 
-For two coefficients, Figure 3 draws all the points where each penalty equals 1.
+For two coefficients, Figure 4 draws all the points where each penalty equals 1.
 
 ![The penalty shapes of Ridge, Lasso and Elastic Net](images/shapes.png){height=45%}
 
@@ -81,7 +92,7 @@ For two coefficients, Figure 3 draws all the points where each penalty equals 1.
 - **Lasso** gives a diamond with sharp corners on the axes, where one coefficient is 0. Those corners are why Lasso answers often land exactly on 0 (the [Lasso sparsity Note](../68-lasso-sparsity/note.md), section 5.2, grows the loss ellipse until it touches the diamond).
 - **Elastic Net** is between the two. Its sides bulge outwards like the circle, but it keeps the corners, so it can still produce exact zeros (Zou and Hastie 2005, Fig. 1).
 
-Figure 4 turns the shape from diamond into circle on real data: two diabetes features, bmi and s1, from the training split of the [Lasso Note](../67-lasso-regression/note.md), each scaled to standard deviation 1. The budget is fixed and only `l1_ratio` changes; the **feasible region** (G-759), the set of coefficients inside the budget, is $r\thinspace(\lvert b_1\rvert + \lvert b_2\rvert)/15 + (1 - r)(b_1^2 + b_2^2)/15^2 \le 1$, with $r$ the `l1_ratio`, so every shape keeps the same corners. Watch the dot where the loss ellipse first touches the shape, and the s1 coefficient traced on the right.
+Figure 5 turns the shape from diamond into circle on real data: two diabetes features, bmi and s1, from the training split of the [Lasso Note](../67-lasso-regression/note.md), each scaled to standard deviation 1. The budget is fixed and only `l1_ratio` changes; the **feasible region** (G-759), the set of coefficients inside the budget, is $r\thinspace(\lvert b_1\rvert + \lvert b_2\rvert)/15 + (1 - r)(b_1^2 + b_2^2)/15^2 \le 1$, with $r$ the `l1_ratio`, so every shape keeps the same corners. Watch the dot where the loss ellipse first touches the shape, and the s1 coefficient traced on the right.
 
 ![The feasible region morphs from Lasso's diamond (l1_ratio 1) to Ridge's circle (l1_ratio 0) on two diabetes features. The s1 coefficient, where the loss ellipse first touches the region, stays exactly 0 down to l1_ratio 0.6 and then grows to 4.28](images/shape_morph.gif)
 
@@ -96,7 +107,7 @@ The weak feature s1 is dropped over a whole range of mixes, not only at pure Las
 
 Elastic Net is especially recommended when features are strongly correlated with each other: **multicollinearity** (G-1273) (the regression assumptions Note). Height and weight are a typical pair: when one rises, the other usually does too.
 
-Figure 5 uses 200 **observations** (G-1374) (records, one row of the data table each) with six features. $x_1$, $x_2$ and $x_3$ are three almost identical copies of one signal, and the **target** (G-1949) (the output we predict) is 3 times that signal plus noise. The other three features are pure noise.
+Figure 6 uses 200 **observations** (G-1374) (records, one row of the data table each) with six features. $x_1$, $x_2$ and $x_3$ are three almost identical copies of one signal, and the **target** (G-1949) (the output we predict) is 3 times that signal plus noise. The other three features are pure noise.
 
 ![Coefficients of four models on three correlated inputs and three noise inputs](images/grouping.png){height=50%}
 
@@ -112,7 +123,16 @@ Figure 5 uses 200 **observations** (G-1374) (records, one row of the data table 
 - **Lasso** drops the noise, but also drops $x_1$, which is just as useful as the others. Which copy it drops is close to arbitrary: from a group of highly correlated features, Lasso tends to keep one and does not care which (Zou and Hastie 2005, §1). Here it kept two of the three.
 - **Elastic Net** does both: it shares the weight evenly among the three copies, like Ridge, and sets the noise features to 0, like Lasso.
 
-This sharing of weight among correlated features is called the **grouping effect** (G-874). For identical features, the Elastic Net penalty provably gives identical coefficients, while the Lasso penalty does not (Zou and Hastie 2005, §2.3).
+Figure 7 shows the step from one model to the next. The data and alpha (0.1) stay fixed, and only `l1_ratio` moves from 0 (the Ridge end) to 1 (Lasso). Watch the three grey noise bars first, then the bar of $x_1$.
+
+![The six Elastic Net coefficients on the data of Figure 6 while l1_ratio grows from 0 to 1 at alpha 0.1. The noise coefficients are small but not 0 at the Ridge end and exactly 0 from l1_ratio 0.5 on. The three copies share the weight until the Lasso end, where x1 loses its share and is dropped](images/ratio_sweep.gif)
+
+1. **l1_ratio 0 (the Ridge end):** the three copies share the weight (0.94, 1.01, 1.02), but the noise features keep small coefficients (about 0.04).
+2. **l1_ratio 0.5:** the noise coefficients are exactly 0, and the copies still share the weight (0.89, 1.02, 1.04). This mix has both good properties.
+3. **l1_ratio 0.9:** the sharing starts to break: $x_1$ is down to 0.60.
+4. **l1_ratio 1 (Lasso):** $x_1$ is dropped (0, 1.27, 1.68).
+
+This sharing of weight among correlated features is called the **grouping effect** (G-874). In short: Lasso tends to keep one feature of a correlated group and drop the rest, Ridge shrinks the group together, and Elastic Net keeps or removes the group together. For identical features, the Elastic Net penalty provably gives identical coefficients, while the Lasso penalty does not (Zou and Hastie 2005, §2.3).
 
 ## 6. Elastic Net on the diabetes data
 
@@ -120,7 +140,7 @@ This sharing of weight among correlated features is called the **grouping effect
 
 A penalty is like a seatbelt. On a smooth road (plenty of data) it changes little. On a bumpy road (few observations, correlated features) it keeps the coefficients from flying around. The diabetes data has bumps of the second kind: the features s1 and s2 have a correlation of 0.90.
 
-We give each model only 80 training observations of the diabetes data and test on the remaining 362. Every penalty strength (and, for Elastic Net, the l1_ratio) is chosen by 5-fold **cross-validation** (G-510) on the training part only, never on the test set: the training part is cut into 5 folds, each fold in turn scores a model trained on the other 4, and the setting with the best average score wins. The table averages 40 random splits:
+We give each model only 80 training observations of the diabetes data and test on the remaining 362. Every penalty strength (and, for Elastic Net, the l1_ratio) is chosen by 5-fold cross-validation on the training part only, never on the test set: the training part is cut into 5 folds, each fold in turn scores a model trained on the other 4, and the setting with the best average score wins. The table averages 40 random splits:
 
 | Model | Mean test R² |
 |---|---|
@@ -129,7 +149,7 @@ We give each model only 80 training observations of the diabetes data and test o
 | Lasso (`LassoCV`) | 0.431 |
 | Elastic Net (`ElasticNetCV`) | 0.437 |
 
-Figure 6 sets these results beside the full-data results of the Extra below. Watch the red dots spread out with 80 training observations, and the blue diamonds bunch together with 353.
+Figure 8 sets these results beside the full-data results of the Extra below. Watch the red dots spread out with 80 training observations, and the blue diamonds bunch together with 353.
 
 ![Mean test R² over 40 random splits of the diabetes data, with every penalty tuned by 5-fold cross-validation on the training part. Red: 80 training observations, where all penalties beat linear regression (0.412). Blue: 353 training observations, where all four tie (0.455 to 0.457).](images/small_data.png)
 
@@ -182,6 +202,7 @@ In practice, Elastic Net with l1_ratio tuned by cross-validation covers all thre
 **Built from**
 
 - CampusX, "ElasticNet Regression | Intuition and Code Example | Regularized Linear Models", YouTube, https://www.youtube.com/watch?v=2g2DBkFhTTY
+- StatQuest with Josh Starmer, "Regularization Part 3: Elastic Net Regression", YouTube, https://www.youtube.com/watch?v=1dKRdX9bfIo
 
 **Other references**
 

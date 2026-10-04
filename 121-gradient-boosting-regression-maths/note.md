@@ -61,6 +61,10 @@ $$F(x) = f_0(x) + f_1(x) + f_2(x) + \dots + f_M(x)$$
 
 All boosting algorithms build this kind of sum. The [AdaBoost intuition Note](../115-adaboost-intuition/note.md), section 3, called it a **stage-wise additive model** (G-1867): "additive" because the final model is a sum, "stage-wise" because the parts are added one per stage.
 
+Figure 3 shows both sums being built. Watch the left panel first: the red curve starts as the line $y = x$, and the wave is added bit by bit until the sum is $y = x + \sin x$. Then watch the right panel: a boosted model builds the same curve from a constant plus small trees with 4 leaves each. One tree gives a rough staircase (squared error 9.96); after 5 trees the error is 0.27, and after 60 trees the staircase lies on the curve.
+
+![Additive modelling in motion. Left: a line plus a wave gives $y = x + \sin x$. Right: gradient boosting builds the same curve as a constant plus small trees (4 leaves each, learning rate 0.5), one tree per frame](images/additive_build.gif){height=40%}
+
 In gradient boosting, $f_0$ is a constant and every later $f_m$ is a regression tree, which is also a function. Each new tree moves the sum closer to the training data, so the training error never rises from one stage to the next: section 8 picks each leaf value to make the loss as small as possible, and a leaf value of 0 (no change) is always one of the options.
 
 ## 4. The ingredients: training data and a differentiable loss
@@ -103,7 +107,7 @@ The $\frac{1}{2}$ is for convenience: when we differentiate, the 2 from the squa
 
 Step 1 finds the first function, $F_0$. $F_0$ does not depend on $x$: it is one number for every observation, a leaf on its own.
 
-1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all observations as small as possible. "$\arg\min_\gamma$" means "the value of $\gamma$ that minimises"; it is read **arg min** (G-211).
+1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all observations as small as possible. The symbol $\arg\min_\gamma$ means "the value of $\gamma$ that minimises"; the symbol is read **arg min** (G-211).
 2. **Formula:**
    $$F_0 = \arg\min_{\gamma} \sum_{i=1}^{n} \frac{1}{2}\thinspace(y_i - \gamma)^2$$
 3. **Example:** for our three startups we need the $\gamma$ that minimises $\frac{1}{2}\big[(192.26 - \gamma)^2 + (144.26 - \gamma)^2 + (90.71 - \gamma)^2\big]$. The derivation below gives $\gamma = 142.41$.
@@ -130,7 +134,7 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
 
 1. **In words:** differentiate the loss with respect to the prediction $F(x_i)$, plug in the current model $F_{m-1}$, and flip the sign.
 2. **Formula:**
-   $$r_{im} = -\left[\frac{\partial L\big(y_i, F(x_i)\big)}{\partial F(x_i)}\right]_{F = F_{m-1}}$$
+   $$r_{im} = -\left[\frac{\partial L\big(y_i, F(x_i)\big)}{\partial F(x_i)}\right] _{F = F_{m-1}}$$
    For $L = \frac{1}{2}(y_i - F(x_i))^2$, the chain rule gives $\frac{\partial L}{\partial F(x_i)} = -(y_i - F(x_i))$, so
    $$r_{im} = y_i - F_{m-1}(x_i)$$
 3. **Example:** for the first tree ($m = 1$) the current model is $F_0 = 142.41$:
@@ -154,7 +158,7 @@ The tree splits on R&D spend at 64.67 (halfway between 28.66 and 100.67). Startu
 
 ![The first tree on the pseudo-residuals: one split on R&D spend makes two terminal regions, each with its leaf value](images/regions.png){height=40%}
 
-Each leaf covers a part of the feature space, called a **terminal region** (G-1960) $R_{jm}$: region $j$ of tree $m$. In Figure 3, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
+Each leaf covers a part of the feature space, called a **terminal region** (G-1960) $R_{jm}$: region $j$ of tree $m$. In Figure 6, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
 
 The tree's own prediction in each region is the mean of the targets there: $-51.70$ on the left, $(49.85 + 1.85)/2 = 25.85$ on the right.
 
@@ -176,7 +180,7 @@ $$-\big[(192.26 - 142.41 - \gamma) + (144.26 - 142.41 - \gamma)\big] = 0 \quad\R
 
 Both values equal the tree's own leaf values, and not by coincidence: with the squared error, the minimising $\gamma$ is always the mean of the residuals in the leaf, which is exactly what a regression tree predicts. With another loss, step 2(c) gives different values, and then the step matters.
 
-Figure 6 shows both cases for region $R_{11}$, which holds startup 3 alone. Watch the red cross: with the squared error it sits at the bottom of the curve, so the tree's own value is already the best; with the absolute error (the Extra below) it sits far up the slope, and step 2(c) moves the leaf to $-53.55$.
+Figure 7 shows both cases for region $R_{11}$, which holds startup 3 alone. Watch the red cross: with the squared error it sits at the bottom of the curve, so the tree's own value is already the best; with the absolute error (the Extra below) it sits far up the slope, and step 2(c) moves the leaf to $-53.55$.
 
 ![Loss in region $R_{11}$ against the leaf value. Squared error (left): the tree's own value, $-51.70$, is the minimum. Absolute error (right): the tree's own value, $-1$, is far from the minimum at $-53.55$](images/leaf_values.png){height=36%}
 
@@ -195,11 +199,20 @@ Figure 6 shows both cases for region $R_{11}$, which holds startup 3 alone. Watc
 
 In practice each tree is multiplied by the **learning rate** (G-1067) $\eta$ before it is added, as in the [gradient boosting intuition Note](../120-gradient-boosting-intuition/note.md), section 8: $F_m(x) = F_{m-1}(x) + \eta \sum_j \gamma_{jm} \mathbf{1}(x \in R_{jm})$. With $\eta = 0.1$ the predictions become 144.995, 144.995 and 137.24. scikit-learn's `GradientBoostingRegressor` with one tree of depth 1 gives exactly these numbers for both learning rates (Notebook).
 
-Figure 7 compares the two updates. Watch startup 3: with learning rate 1 it jumps straight onto its actual profit, 90.71; with 0.1 it moves only a tenth of the way, from 142.41 to 137.24.
+Figure 8 compares the two updates. Watch startup 3: with learning rate 1 it jumps straight onto its actual profit, 90.71; with 0.1 it moves only a tenth of the way, from 142.41 to 137.24.
 
 ![Predictions of the three startups: $F_0$ (grey), $F_1$ with learning rate 1 (red) and with learning rate 0.1 (blue); black bars mark the actual profits](images/update.png){height=36%}
 
 Then the loop goes back to step 2(a) with $m = 2$: new pseudo-residuals from $F_1$, a new tree, new leaf values, a new update.
+
+Figure 9 plays the whole round in order, with learning rate 0.1, and then repeats it. Watch four things:
+
+1. **Step 2(a):** the red gaps between each profit and the black prediction bars are the pseudo-residuals.
+2. **Step 2(b):** the dashed line at R&D spend 64.67 cuts the feature space into the terminal regions $R_{11}$ and $R_{21}$.
+3. **Step 2(c):** the dotted red lines mark each region's leaf value added in full: $142.41 - 51.70 = 90.71$ and $142.41 + 25.85 = 168.26$.
+4. **Step 2(d):** the black bars move only a tenth of the way to those lines. As the round repeats, the red gaps shrink; after 60 trees every bar sits on its profit.
+
+![One round of the algorithm on the three startups (steps 1, 2(a) to 2(d), learning rate 0.1), then the same round repeated up to 60 trees. Black bars: the model's predictions; red: the pseudo-residuals](images/one_round.gif){height=60%}
 
 ## 10. Step 3: the output
 
@@ -248,6 +261,7 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 **Built from**
 
 - CampusX, "Gradient Boosting Regression Part 2 | Mathematics of Gradient Boosting", YouTube, https://www.youtube.com/watch?v=nMNiTZm-qY0
+- StatQuest with Josh Starmer, "Gradient Boost Part 2 (of 4): Regression Details", YouTube, https://www.youtube.com/watch?v=2xudPOBz-vs (why the factor of one half changes nothing, section 4.2; why the residuals are called "pseudo", section 6)
 
 **Other references**
 

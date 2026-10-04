@@ -68,7 +68,7 @@ Figure 2 runs these steps on the 571 Titanic training ages with 10-year bins. Wa
 
 Binning has two benefits:
 
-- **Handles outliers.** A very large value lands in the last bin, together with the other large values. The large value is then treated exactly like them, so its extreme size no longer matters.
+- **Handles outliers** (G-1421). A very large value lands in the last bin, together with the other large values. The large value is then treated exactly like them, so its extreme size no longer matters.
 - **Improves the value spread.** Some kinds of binning put about the same number of observations in every bin. A feature whose values are bunched in one place then becomes spread evenly over its range.
 
 ## 4. Kinds of discretization
@@ -116,14 +116,24 @@ Equal width binning:
 
 In **equal frequency binning**, we again choose the number of bins. This time each bin holds the same share of the observations: with 10 bins, each one holds 10% of them.
 
-The edges are the feature's **quantiles** (G-1599), the percentiles of Note 20 written as fractions. With 10 bins, the first edge is the 10th percentile, the second edge the 20th percentile, and so on up to the 90th.
+**The plain idea.** Sort the values, then draw lines that cut the sorted values into groups of equal size. Figure 4 does so on 20 Titanic training ages (the first 20 distinct ages in the training set). Watch the red lines:
+
+1. One line with 10 ages on each side is the median, 28.5.
+2. Three lines make four groups of 5 ages.
+3. Four lines make five groups of 4 ages. These four lines, at 18.8, 25.6, 30.4 and 35, are the edges of 5 equal frequency bins.
+
+![Quantiles as cutting lines on 20 sorted ages: the median, then the quartiles, then the four edges of 5 equal frequency bins; idea after StatQuest, "Quantiles and Percentiles, Clearly Explained!!!"](images/quantile_lines.gif)
+
+**The standard term.** A line that cuts sorted data into equal-sized groups is a **quantile** (G-1599). A quantile is named by the fraction of the values below it: the median is the 0.5 quantile, written $Q(0.5)$. A percentile (Section 7.2 of the [understanding your data Note](../19-understanding-your-data/note.md)) is the same thing written as a percentage: the 0.5 quantile is the 50th percentile.
+
+So the edges of equal frequency bins are the feature's quantiles. With 10 bins, the first edge is the 10th percentile, the second edge the 20th percentile, and so on up to the 90th.
 
 The bin edges, step by step:
 
 1. **In words:** with $k$ bins, the $i$-th inner edge is the value below which a fraction $i/k$ of the observations lie.
 2. **Formula:**
-   $$\text{edge}_i = Q\left(\frac{i}{k}\right), \quad i = 1, \dots, k - 1,$$
-   where $Q(p)$ is the value with a fraction $p$ of the feature's values below it.
+   $$e_i = Q\left(\frac{i}{k}\right), \quad i = 1, \dots, k - 1,$$
+   where $e_i$ is the $i$-th inner edge and $Q(p)$ is the value with a fraction $p$ of the feature's values below it.
 3. **Example:** for Age with 5 bins, the inner edges are the 20th, 40th, 60th and 80th percentiles:
    $$Q(0.2) = 19,\quad Q(0.4) = 25,\quad Q(0.6) = 32,\quad Q(0.8) = 42.$$
    So 20% of passengers are younger than 19, 40% are younger than 25, and so on.
@@ -132,7 +142,7 @@ The middle column of Figure 3 shows the result. The bins have very different wid
 
 The counts are not exactly equal because many passengers share the same age. All passengers aged exactly 25 must go into the same bin.
 
-Figure 4 shows where the edges come from. We sort the 571 ages from youngest to oldest and cut the sorted list into 5 piles of about 114 passengers each; the age at each cut is a quantile. Watch the flat steps: a run of passengers with the same age cannot be split, which is why the piles hold 108 to 118 passengers instead of exactly 114.
+Figure 5 shows where the edges come from. We sort the 571 ages from youngest to oldest and cut the sorted list into 5 piles of about 114 passengers each; the age at each cut is a quantile. Watch the flat steps: a run of passengers with the same age cannot be split, which is why the piles hold 108 to 118 passengers instead of exactly 114.
 
 ![The 571 training ages in sorted order: cutting the list into five equal piles (vertical lines) gives the quantile edges 19, 25, 32 and 42 (horizontal lines)](images/quantile_edges.png){width=100%}
 
@@ -155,28 +165,28 @@ k-means binning works best when the feature's values already form clusters: a gr
 
 > **Key point:** Place k centres, assign each value to its nearest centre, move each centre to the mean of its values, and repeat until nothing changes.
 
-Figure 5 runs k-means on 12 values with $k = 3$. The centres are also called **centroids** (G-367).
+Figure 6 runs k-means on 12 values with $k = 3$. The centres are also called **centroids** (G-367).
 
-1. **Place $k$ centres.** k-means places them at random. In Figure 5 they start at 14, 22 and 40.
+1. **Place $k$ centres.** k-means places them at random. In Figure 6 they start at 14, 22 and 40.
 2. **Assign each value to its nearest centre.** We compute the distance from every value to every centre, and each value joins the closest one.
 3. **Move each centre to the mean of its values.** For example, the blue centre's six values are 2, 5, 8, 10, 12 and 15, with mean 8.67, so the centre moves to 8.67.
 4. **Repeat steps 2 and 3** until no value changes its group.
 
 ![k-means binning on 12 values with k = 3: place centres, assign, move, repeat, then cut halfway between centres](images/kmeans_steps.gif)
 
-In Figure 5, the second round moves 33 and 36 from the green group to the orange one. After the centres move again, to 8.67, 33 and 55.67, no value changes group, so the algorithm stops.
+In Figure 6, the second round moves 33 and 36 from the green group to the orange one. After the centres move again, to 8.67, 33 and 55.67, no value changes group, so the algorithm stops.
 
 Each final group is one bin. The edge between two neighbouring bins lies halfway between their centres:
 
 $$\frac{8.67 + 33}{2} = 20.83, \qquad \frac{33 + 55.67}{2} = 44.33.$$
 
-> **Extra:** scikit-learn's `KBinsDiscretizer` does not start from random centres. The class places the first centres at the middles of equal-width bins, so its result is the same on every run. On the 12 values of Figure 5 the class finds the same edges, 20.83 and 44.33. A badly placed random start can leave k-means stuck in a poor grouping, which this fixed start avoids on simple data.
+> **Extra:** scikit-learn's `KBinsDiscretizer` does not start from random centres. The class places the first centres at the middles of equal-width bins, so its result is the same on every run. On the 12 values of Figure 6 the class finds the same edges, 20.83 and 44.33. A badly placed random start can leave k-means stuck in a poor grouping, which this fixed start avoids on simple data.
 
 ## 8. The three strategies on one feature
 
 > **Key point:** On a skewed feature, equal width bins leave almost every observation in the first bin, equal frequency bins share the rows out evenly, and k-means falls in between.
 
-Figure 3 compared the strategies on Age, which is close to symmetric. Figure 6 does the same on Fare, which has a long right tail (Note 30): most fares are below 50, and a few reach 512.
+Figure 3 compared the strategies on Age, which is close to symmetric. Figure 7 does the same on Fare, which has a long right tail (Note 30): most fares are below 50, and a few reach 512.
 
 ![The three binning strategies on Fare (571 training passengers, 5 bins): bin edges (top) and passengers per bin (bottom)](images/fare_strategies.png){width=100%}
 
@@ -337,7 +347,7 @@ To compare settings quickly, we wrap the steps in one function, `discretize(bins
 
 ![Cross-validated accuracy of the binned decision tree for each strategy and number of bins; the dashed line is the tree without binning](images/strategy_grid.png){height=40%}
 
-Figure 7 draws the table. Watch the green line stay flat while the blue one jumps: equal frequency gives about the same result whatever the number of bins, and its histograms after binning are flat, as expected. Equal width depends strongly on the number of bins: its histograms keep the shape of the original feature. The table is the only reliable guide.
+Figure 8 draws the table. Watch the green line stay flat while the blue one jumps: equal frequency gives about the same result whatever the number of bins, and its histograms after binning are flat, as expected. Equal width depends strongly on the number of bins: its histograms keep the shape of the original feature. The table is the only reliable guide.
 
 > **Python:** Part of the comparison function (the Notebook has the plots too).
 >
@@ -382,7 +392,7 @@ None of the three strategies would find these edges: they come from knowing what
 >
 > `bins` lists the edges; `np.inf` (infinity) makes the last bin open-ended. `labels` names the bins.
 
-On the Titanic passengers these groups matter (Figure 8): 54% of the 113 children survived, against 39% of the 575 adults and 27% of the 26 seniors. Watch the bars fall step by step from child to senior.
+On the Titanic passengers these groups matter (Figure 9): 54% of the 113 children survived, against 39% of the 575 adults and 27% of the 26 seniors. Watch the bars fall step by step from child to senior.
 
 ![Survival of the three custom age groups among the 714 passengers with a recorded age](images/custom_groups.png){height=35%}
 
@@ -403,7 +413,7 @@ The income feature has become a taxable or not taxable feature.
 
 Binarization is needed in a few specific cases. A well-known one is image processing.
 
-A greyscale image stores each pixel as a number from 0 (black) to 255 (white). With a threshold of 127.5, every pixel at or below it becomes 0 (black) and every pixel above it becomes 1 (white). Figure 9 shows the result: a black-and-white image.
+A greyscale image stores each pixel as a number from 0 (black) to 255 (white). With a threshold of 127.5, every pixel at or below it becomes 0 (black) and every pixel above it becomes 1 (white). Figure 10 shows the result: a black-and-white image.
 
 ![A greyscale image binarized with threshold 127.5: every pixel becomes black or white](images/binarize_image.png){width=100%}
 
@@ -464,7 +474,7 @@ After the transform, the passengers with families of 2 and 1 have `family` = 1, 
 
 Think of a light switch versus a dimmer. Survival behaves more like a switch: 32% of passengers travelling alone survived, against 52% of those with family. Logistic regression (a linear model, Note 30) can only draw one steady trend through the raw family size, like a dimmer turned one way. Passengers with 4 or more relatives on board survived only about 20% of the time, which drags that trend flat. The binarized feature hands the model the switch directly.
 
-Figure 10 shows the survival rate for each family size. Watch the jump between family 0 (grey) and family 1, and the drop again from 4 relatives on; the two dashed lines are what the binarized feature keeps: 32% alone and 52% with family.
+Figure 11 shows the survival rate for each family size. Watch the jump between family 0 (grey) and family 1, and the drop again from 4 relatives on; the two dashed lines are what the binarized feature keeps: 32% alone and 52% with family.
 
 ![Survival by family size among the 714 passengers with an age; binarizing at 0 keeps the jump from alone (0) to with family (1)](images/family_survival.png){height=40%}
 
@@ -506,6 +516,7 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 **Built from**
 
 - CampusX, "Binning and Binarization | Discretization | Quantile Binning | KMeans Binning", YouTube, https://www.youtube.com/watch?v=kKWsJGKcMvo
+- StatQuest with Josh Starmer, "Quantiles and Percentiles, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=IFKQLDmRK0Y
 
 **Other references**
 
@@ -524,6 +535,7 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 | Bin edge | A boundary between two neighbouring bins |
 | Unsupervised binning | Binning that uses only the feature's own values |
 | Supervised binning | Binning that also uses the target, such as decision tree binning |
+| Quantile | A value that cuts sorted data at a given fraction: a fraction $p$ of the values lie below $Q(p)$ |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning |
 | Equal frequency binning | Binning into bins holding the same number of observations, with the quantiles as edges; also called quantile binning |
 | k-means binning | Binning whose edges lie halfway between the centres of the groups found by k-means |

@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bidirectional-rnn
 
 > **Key point:** A bidirectional RNN runs two RNNs over the same sequence, one from left to right and one from right to left, and joins their hidden states at every time step. Each output can then use both the past and the future of the sequence.
 
-A **bidirectional RNN** (G-292) (Schuster and Paliwal 1997) combines an RNN that moves forward through time, from the start of the sequence, with another that moves backward through time, from the end (Goodfellow §10.3). The RNNs of the earlier Notes read only from left to right, so the output at a time step can depend only on the inputs up to that step. A bidirectional RNN removes that limit.
+An RNN keeps a **hidden state** (G-891), its summary of the inputs read so far, and updates it at every **time step** (G-1976), one word at a time. A **bidirectional RNN** (G-292) (Schuster and Paliwal 1997) combines an RNN that moves forward through time, from the start of the sequence, with another that moves backward through time, from the end (Goodfellow §10.3). The RNNs of the earlier Notes read only from left to right, so the output at a time step can depend only on the inputs up to that step. A bidirectional RNN removes that limit.
 
 ![A bidirectional RNN on "Amazon is a website". The forward RNN (blue) reads left to right; the backward RNN (green) reads right to left. At every time step their two hidden states are joined to give the output, so $\hat y_1$, the output for "Amazon", already depends on "website"](images/birnn_unrolled.png){width=100%}
 
@@ -54,7 +54,7 @@ A tagger reading left to right reaches Amazon with exactly the same context, "I 
 
 ![The two sentences as a left-to-right RNN meets them. Up to "Amazon" both read "I love Amazon"; the word that decides the label, "website" or "river", comes later, on the far side of the dashed line](images/ner_context.png){width=100%}
 
-In Figure 2, everything left of the dashed line is identical in the two sentences, so a left-to-right tagger must give "Amazon" the same label in both. The next inputs decide the output at an earlier step: that is the situation a bidirectional RNN is built for. Machine translation has the same need: a word of the output may depend on parts of the input that come later.
+In Figure 2, everything left of the dashed line is identical in the two sentences, so a left-to-right tagger must give "Amazon" the same label in both. The next inputs decide the output at an earlier step: that is the situation a bidirectional RNN is built for. **Machine translation** (G-1141) has the same need: a word of the output may depend on parts of the input that come later.
 
 Goodfellow §10.3 gives a speech example: the correct interpretation of the current sound may depend on the next few sounds, and even on the next few words.
 
@@ -149,7 +149,7 @@ Wrapping an `LSTM` gives a BiLSTM and wrapping a `GRU` gives a BiGRU. The bidire
 
 ### 6.1 The task and the models
 
-> **Key point:** 8,936 training sentences, 2,012 test sentences, 44 tags. Every model reads a sentence and gives one tag per word: a many-to-many task.
+> **Key point:** 8,936 training sentences, 2,012 test sentences, 44 tags. Every model reads a sentence and gives one tag per word: a **many-to-many** (G-1154) task.
 
 **Part-of-speech tagging** (G-1456) labels every word of a sentence with its grammatical class: noun (NN), plural noun (NNS), verb in the past tense (VBD), preposition (IN), adverb (RB) and so on. The data is the CoNLL-2000 corpus: Wall Street Journal sentences, each word labelled with one of 44 tags (Tjong Kim Sang and Buchholz 2000). A copy of the word and tag columns is stored in the Note's `data` folder (from the NLTK data collection), so the Notebook runs without a download.
 
@@ -248,10 +248,10 @@ Bidirectional RNNs have been extremely successful in handwriting recognition, sp
 
 > **Key point:** Twice the parameters, so more training time and more overfitting risk; and the whole sequence must be available before any output, which adds latency in real-time tasks.
 
-1. **Complexity.** The recurrent layer has twice the parameters, so training takes longer and the network can overfit more easily. The usual remedies apply: [dropout](../1024-dropout/note.md) and [regularisation](../1026-regularization-in-dl/note.md).
-2. **The whole sequence must be available.** The backward RNN starts at the last input. In **real-time speech recognition**, the words arrive one by one while the person speaks, so the backward RNN cannot start until the sentence is finished. The reply is delayed: a **latency** (G-1048) problem that a unidirectional RNN does not have. Figure 7 shows the delay on a four-word command. The unidirectional RNN gives each output when its word arrives; the bidirectional RNN gives all four outputs only after the last word.
+1. **Complexity.** The recurrent layer has twice the parameters, so training takes longer and the network can fit the training data too closely (**overfitting**, G-1429). The usual remedies apply: [dropout](../1024-dropout/note.md) and [regularisation](../1026-regularization-in-dl/note.md).
+2. **The whole sequence must be available.** The backward RNN starts at the last input. In **real-time speech recognition**, the words arrive one by one while the person speaks, so the backward RNN cannot start until the sentence is finished. The reply is delayed: a **latency** (G-1048) problem that a unidirectional RNN does not have. Figure 7 shows the delay on a four-word command. Watch the two rows as the words arrive: the unidirectional RNN gives each output when its word arrives, while the bidirectional RNN keeps waiting and gives all four outputs only after the last word.
 
-![The same four words arriving one by one. Top: a bidirectional RNN can give no output until the last word, because its backward pass starts there. Bottom: a unidirectional RNN gives each output as its word arrives](images/latency.png){width=100%}
+![The same four words arriving one by one. Top: a bidirectional RNN can give no output until the last word, because its backward pass starts there. Bottom: a unidirectional RNN gives each output as its word arrives](images/latency.gif){width=100%}
 
 The same constraint limits parallel computation: Google's translation system kept only its bottom encoder layer bidirectional, because a layer above a bidirectional one must wait for both directions to finish (Wu et al. 2016).
 

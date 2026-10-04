@@ -41,7 +41,7 @@ A **TSV file** (G-2025) (tab-separated values) is the same thing with a tab betw
 
 > **Key point:** `pd.read_csv` reads a CSV file into a DataFrame; its many parameters handle the ways real files differ from the ideal.
 
-Every CSV file in this Note is read with one function, `pd.read_csv`. Called with only a file name, it assumes a well-behaved file:
+Every CSV file in this Note is read with one function, `pd.read_csv`, which returns a **DataFrame** (G-1441): the pandas name for a table. Called with only a file name, it assumes a well-behaved file:
 
 - commas between values;
 - column names on the first line;
@@ -112,7 +112,7 @@ Some servers refuse requests that do not look like they come from a web browser.
 
 > **Key point:** `sep` tells pandas what separates the values; `names` supplies column names when the file has none.
 
-By default `sep=","`. Our movie file is a TSV, and it has no header line. Its first two lines look like this (each gap is a tab):
+The character that separates one value from the next is the **separator** (G-1770), also called the delimiter. By default `sep=","`. Our movie file is a TSV, and it has no header line. Its first two lines look like this (each gap is a tab):
 
 ```
 m0   10 things i hate about you   1999   6.90   62847   ['comedy' 'romance']
@@ -132,7 +132,7 @@ m1   1492: conquest of paradise   1992   6.20   10421   ['adventure' ...]
 >                      sep="\t", names=cols)
 > ```
 >
-> Square brackets make a **list**: an ordered collection of values, here six strings.
+> Square brackets make a **list** (G-1106): an ordered collection of values, here six strings.
 
 | sno | name | release_year | rating | votes | genres |
 |---|---|---|---|---|---|
@@ -281,9 +281,9 @@ The numbers do not have to be next to each other: `skiprows=[1, 5, 9]` works too
 >
 > `lambda i: ...` is a **lambda** (G-1040): a one-line function without a name. `i % 2` is the remainder after dividing by 2, so `i % 2 == 0` means "i is even". The result has 500 of the 1,000 rows.
 
-Figure 6 applies the rule to the first lines of the file. Watch line 0: the rule's `i > 0` part keeps the header, so only data rows are skipped.
+Figure 6 applies the rule to the first seven lines of the file, one line at a time. Watch line 0: the rule's `i > 0` part is False there, so the header is kept. After line 0, every even line number gives a remainder of 0, the rule returns `True`, and the line is struck out.
 
-![The skiprows rule on the first seven lines of aug_train.csv, and the result of skiprows=[1, 2]](images/skiprows_rule.png)
+![The skiprows rule checked on each of the first seven lines of aug_train.csv: even lines after the header are skipped](images/skiprows_rule.gif)
 
 ### 11.2 nrows
 
@@ -385,7 +385,7 @@ In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0`
 > df["target"].dtype    # int8
 > ```
 >
-> Curly brackets make a **dictionary**: pairs of `key: value`. Here the key is the column name and the value is the type we want.
+> Curly brackets make a **dictionary** (G-1106): pairs of `key: value`. Here the key is the column name and the value is the type we want.
 
 | | dtype | bytes per value | memory for 1,000 rows |
 |---|---|---|---|
@@ -404,7 +404,7 @@ Figure 9 shows the measured memory of the column, from `memory_usage`: the same 
 
 > **Key point:** Dates are read as plain text unless we list them in `parse_dates`; only then can we use date tools on them.
 
-Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the date of each match. By default `read_csv` reads `2008-04-18` as text. As text we cannot ask:
+Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the date of each match. By default `read_csv` reads `2008-04-18` as text. To work with a date, pandas must hold it as a **datetime** (G-545): a value it understands as a point in time. As text we cannot ask:
 
 - "which month?";
 - "which weekday?";
@@ -596,6 +596,8 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 | UTF-8 | The most common encoding, and `read_csv`'s default |
 | Parser | The part of a program that reads text and splits it into pieces |
 | dtype | The data type of a column, such as `int64`, `float64` or `str` |
+| DataFrame | The pandas name for a table |
+| Datetime | A value pandas understands as a point in time |
 | Chunk | A piece of a file, read as a small DataFrame |
 | Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time |
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}` |

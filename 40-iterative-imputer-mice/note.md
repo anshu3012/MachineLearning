@@ -18,7 +18,7 @@ tags: [subject/ml, area/data, step/clean, concept/mice]
 
 A **feature** (G-772) is an input variable (one column of the data table), and an **observation** (G-1374) is one record (one row). The **target** (G-1949) is the output we predict.
 
-The KNN imputer (Note 39) was the first multivariate technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
+A method that fills a gap using the other features too is called **multivariate imputation** (G-1282). The **KNN imputer** (G-1017, Note 39) was the first such technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
 
 The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputation by Chained Equations**. Figure 1 shows the whole loop:
 
@@ -28,7 +28,7 @@ The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputatio
 
 ![The MICE loop: a mean fill, then one model per column, repeated until the fills settle](images/overview.png){width=100%}
 
-Each model is one "equation" that predicts one feature. The equations are "chained" because each one uses the latest fills of the others.
+Each model is one "equation" that predicts one feature. The equations are "chained" because each one uses the latest fills of the others. One model per feature, each fed by the others' latest fills, is what **chained equations** (G-373) means.
 
 ## 2. When to use MICE
 
@@ -36,9 +36,9 @@ Each model is one "equation" that predicts one feature. The equations are "chain
 
 Note 35 (Section 5) names three ways in which data goes missing:
 
-- **MCAR (missing completely at random):** the value was never collected, for no reason related to the data.
+- **MCAR (missing completely at random)** (G-1192): the value was never collected, for no reason related to the data.
 - **MAR (missing at random)** (G-1158): whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
-- **MNAR (missing not at random):** whether a value is missing depends on the value itself, for example high earners hiding their income. The other features cannot fully account for the gaps.
+- **MNAR (missing not at random)** (G-1248): whether a value is missing depends on the value itself, for example high earners hiding their income. The other features cannot fully account for the gaps.
 
 MICE predicts a missing value from the other features, so it needs those features to be related to it. Imputation methods such as MICE commonly assume MAR, and checking that MAR is plausible is the first step of a MICE analysis (van Buuren and Groothuis-Oudshoorn 2011, §3.1 and §6.2). We can run MICE on any data, but it gives its best results under MAR.
 
@@ -105,7 +105,7 @@ Figure 4 runs the whole process on the table. Iteration 1 goes through the three
 
 ![MICE on the 5-row table: mean fill, iteration 1 column by column, the change after each iteration, and the settled values](images/mice_steps.gif)
 
-Any regression model can do the predicting: linear regression, a decision tree, a random forest. Here we use linear regression (Note 50). Values are kept to two decimals, as in a hand calculation.
+Any regression model can do the predicting: linear regression, a decision tree, a random forest. Here we use **linear regression** (G-1094, Note 50), which fits the straight line (with two inputs, the flat plane) closest to the training points. Values are kept to two decimals, as in a hand calculation.
 
 ### 6.1 The R&D column
 
@@ -125,7 +125,7 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 
 The prediction follows the usual three steps:
 
-1. **In words:** R&D is a starting value plus a weight times Administration plus a weight times Marketing.
+1. **In words:** R&D is a starting value plus a weight times Administration plus a weight times Marketing. Each weight is a **coefficient** (G-407) of the model.
 2. **Formula:** the trained model is
    $$\text{R and D} = 31.21 - 1.875 \times \text{Admin} + 0.065 \times \text{Marketing}$$
 3. **Example:** row 2 has Administration 5 and Marketing 20:
@@ -156,7 +156,7 @@ Put the Marketing gap of row 5 back to NaN. The training rows are rows 1 to 4, w
 
 The model is $\text{Marketing} = 8.12 + 0.386 \times \text{R and D} + 1.511 \times \text{Admin}$. Row 5 (R&D 2, Administration 15) gives $8.12 + 0.77 + 22.67 = 31.56$.
 
-After the last feature, iteration 1 is complete and the table has no gaps:
+One pass that re-predicts the gaps of every feature once, in order, is one **iteration** (G-976). After the last feature, iteration 1 is complete and the table has no gaps:
 
 | Gap | Iteration 0 (mean) | Iteration 1 |
 |---|---|---|
@@ -205,17 +205,17 @@ Two stopping rules are common:
 1. **Changes below a threshold:** stop when every fill moves by less than a small amount between two iterations.
 2. **A fixed number of iterations:** for example 5, 10 or 20.
 
-Figure 5 continues the example for 10 iterations at full precision. With linear regression (blue), the fills settle after about 6 iterations at 26.72, 13.02 and 70.69.
+Figure 5 continues the example for 10 iterations at full precision. With linear regression (blue), the fills settle after about 6 iterations at 26.72, 13.02 and 70.69. The point where the fills hardly change between two iterations is called **convergence** (G-472).
 
 ![The three fills after each iteration, with linear regression and with scikit-learn's default BayesianRidge; the dotted line is the true hidden value](images/convergence.png){width=100%}
 
 > **Extra:** Keeping only two decimals at each step makes the hand-calculated numbers drift slightly from the full-precision ones. Iteration 1 gives 31.60 for Marketing instead of 31.56, and iteration 2 gives 23.83, 11.23 and 39.39. The final values are the same.
 
-> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every residual is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. A linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, `BayesianRidge` (orange), the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
+> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every **residual** (G-1685), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is **extrapolation** (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
 
 ## 8. The iterative imputer in scikit-learn
 
-> **Key point:** `IterativeImputer` runs the whole MICE loop; it is still experimental, so it needs an extra import first.
+> **Key point:** **`IterativeImputer`** (G-98) runs the whole MICE loop; it is still experimental, so it needs an extra import first.
 
 > **Extra:** The rest of this section goes beyond the hand calculation: it covers the scikit-learn class, its settings, and a test on the full 50-row data.
 
@@ -243,11 +243,11 @@ scikit-learn marks `IterativeImputer` as **experimental**: its settings may stil
 |---|---|---|
 | `estimator` | the regression model trained for each feature | `BayesianRidge()` |
 | `initial_strategy` | the step-0 fill: `"mean"`, `"median"`, `"most_frequent"` or `"constant"` | `"mean"` |
-| `max_iter` | the largest number of iterations | 10 |
-| `tol` | stop when the changes between two iterations fall below `tol` times the largest value in the data | 0.001 |
+| `max_iter` (G-112) | the largest number of iterations | 10 |
+| `tol` (G-152) | stop when the changes between two iterations fall below `tol` times the largest value in the data | 0.001 |
 | `imputation_order` | the order of the features; `"ascending"` starts with the feature with the fewest gaps | `"ascending"` |
 | `n_nearest_features` | use only this many other features as inputs (faster on wide data) | `None` (all) |
-| `sample_posterior` | draw each fill at random from the model's spread instead of its best guess | `False` |
+| `sample_posterior` (G-141) | draw each fill at random from the model's spread instead of its best guess | `False` |
 | `add_indicator` | also add a 0/1 column marking each gap (Note 38) | `False` |
 | `random_state` | seed for the random parts | `None` |
 
@@ -289,7 +289,7 @@ On the full 50-row data, we:
 2. hid 20% of the values in both parts at random;
 3. fitted each imputer on the training part and filled the test part.
 
-The error is the root mean squared difference from the true values, in units of 10,000 dollars, over 100 random splits:
+The error is the **root mean squared error** (G-1705): square each difference from the true value, average the squares, and take the square root. The unit is 10,000 dollars, and the number is the average over 100 random splits:
 
 | Imputer | Error |
 |---|---|
@@ -297,7 +297,7 @@ The error is the root mean squared difference from the true values, in units of 
 | KNN (`KNNImputer`, k = 5) | 6.69 |
 | Iterative (`IterativeImputer`) | 5.88 |
 
-The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a correlation of 0.72, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of Section 2. The Extra below tests this reason directly.
+The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a **correlation** (G-490) of 0.72 on a scale from $-1$ to $+1$, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of Section 2. The Extra below tests this reason directly.
 
 Figure 6 puts the two experiments side by side. Watch the iterative imputer: lowest error on the real data, but no longer the best once the links between the features are broken.
 
@@ -317,7 +317,7 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 
 > **Key point:** With `sample_posterior=True`, each seed gives a different, equally plausible filled table; the "multiple" in MICE.
 
-> **Extra:** In statistics, MICE originally means making several filled copies of the data, analysing each one, and combining the results (Rubin 1987; van Buuren and Groothuis-Oudshoorn 2011). The spread between the copies shows how unsure the fills are. With `sample_posterior=True` and a different `random_state` each time, `IterativeImputer` produces such copies. With the default `False`, it gives one best-guess table, which is what a machine learning pipeline usually needs.
+> **Extra:** In statistics, MICE originally means **multiple imputation** (G-1278): making several filled copies of the data, analysing each one, and combining the results (Rubin 1987; van Buuren and Groothuis-Oudshoorn 2011). The spread between the copies shows how unsure the fills are. With `sample_posterior=True` and a different `random_state` each time, `IterativeImputer` produces such copies. With the default `False`, it gives one best-guess table, which is what a machine learning pipeline usually needs.
 
 ## 9. Summary
 
@@ -357,6 +357,8 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 |---|---|
 | Feature | An input variable: one column of the data table |
 | Observation | One record: one row of the data table |
+| Target | The output we predict |
+| Multivariate imputation | Imputation that also uses the other features |
 | Iterative imputer | A multivariate imputer that predicts each feature's gaps from the other features, repeating until the fills settle |
 | MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer |
 | Chained equations | One prediction model per feature, each using the latest fills of the others |

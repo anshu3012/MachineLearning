@@ -26,7 +26,7 @@ Figure 1 shows both on a small `city` column with two gaps:
 
 ![Two ways to fill gaps in a categorical column: the most frequent category, or a new category "Missing"](images/overview.png)
 
-Both are univariate techniques: they look only at the feature with the gap. scikit-learn's `SimpleImputer` does both.
+Both are **univariate imputation** (G-2051) techniques: they look only at the feature with the gap. scikit-learn's **`SimpleImputer`** (G-1809) does both.
 
 > **Extra:** A third technique, filling each gap with a random value drawn from the column, works for numerical and categorical columns alike. Note 38 covers it.
 
@@ -50,7 +50,7 @@ Mode imputation also works on a numerical column, since numbers have a mode too.
 
 Mode imputation rests on three conditions:
 
-1. **The data is MCAR** (missing completely at random, Note 35). The gaps have no pattern, so the observations with a gap look like the others.
+1. **The data is MCAR** (G-1192) (missing completely at random, Note 35). The gaps have no pattern, so the observations with a gap look like the others.
 2. **Few values are missing**, as a rule of thumb up to about 5% of the feature. The 5% limit is the same as for mean and median imputation.
 3. **One category dominates.** The mode should appear far more often than every other category. If Mumbai, Delhi and Kolkata each make up about a third of the column, guessing Mumbai for every gap is wrong two times out of three.
 
@@ -92,7 +92,7 @@ Suppose a third or more of the `city` column is missing. Filling all of those ga
 So the "Missing" category suits two cases:
 
 - **Many values are missing**, well above 5%.
-- **The data is not missing at random** (MAR or MNAR, Note 35). The fact that a value is missing may then carry information that the model can use.
+- **The data is not missing at random** (**MAR**, G-1158, or **MNAR**, G-1248; Note 35). The fact that a value is missing may then carry information that the model can use.
 
 ### 3.3 Advantages and disadvantages
 
@@ -106,7 +106,7 @@ So the "Missing" category suits two cases:
 
 **Disadvantage:** it does not estimate the missing value; it only labels it, so the results are not always good.
 
-> **Extra:** After one-hot encoding (Note 27), the "Missing" category becomes its own 0/1 column. That column is the same as a missing indicator (Note 38) for this feature.
+> **Extra:** After one-hot encoding (Note 27), the "Missing" category becomes its own 0/1 column. That column is the same as a **missing indicator** (G-1233) (Note 38) for this feature.
 
 ## 4. The house price data
 
@@ -157,7 +157,7 @@ The file `data/house_prices.csv` keeps these three columns and two more used in 
 
 > **Key point:** We split the data before imputing, and learn the mode from the training set alone.
 
-An imputer learns something from the data: here, the mode of each column. Like a scaler (Note 13), it must learn only from the training set, or information from the test set leaks into training. So we split first, with 80% of the houses for training.
+An imputer learns something from the data: here, the mode of each column. Like a scaler (Note 13), it must learn only from the training set, or information from the test set leaks into training (**data leakage**, G-535). So we split first, with 80% of the houses for training.
 
 > **Python:** Splitting before imputing.
 >
@@ -200,7 +200,7 @@ The share of a category, step by step:
 
 No share moves by more than 0.3 percentage points.
 
-A second check looks at the target. If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 5 (top left) compares the two as density curves (KDE, Note 20).
+A second check looks at the target. If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 5 (top left) compares the two as density curves (**KDE**, G-1005, Note 20).
 
 ![Sale prices as density curves. Left: houses in the most frequent category against houses with a gap. Right: the most frequent category before and after imputation](images/price_kde.png){width=100%}
 
@@ -341,7 +341,6 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 | Target | The output we predict |
 | Observation | One record: one row of the data table |
 | Mode | The most frequent value of a column |
-
 | Most frequent value imputation (mode imputation) | Filling every gap in a column with its mode |
 | Missing category imputation | Filling every gap in a categorical column with a new category, "Missing" |
 | Arbitrary value imputation | Filling gaps with a value that cannot occur naturally, such as 99, -1 or "Missing" |

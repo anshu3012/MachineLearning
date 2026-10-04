@@ -207,6 +207,10 @@ Doubling the step from 1,000 to 2,000 doubles the rate (the straight-line rise).
 
 ![The learning rate of the base model over its 100,000 training steps](images/warmup.png){width=95%}
 
+![The same schedule as the warm-up length slides from 1,000 to 8,000 steps (first 30,000 steps shown). Orange band: the warm-up. Dotted: the paper's 4,000. In the last frame the earlier curves stay as thin lines](images/warmup_slide.gif){width=95%}
+
+In Figure 8, watch the orange dot as the warm-up gets longer: the peak comes later and is lower, as the formula $(d_{\text{model}} \cdot \text{warmup})^{-0.5}$ says, and after its peak every curve joins the same falling line $1/\sqrt{\text{step}}$. The warm-up length only decides how high the learning rate is allowed to climb before the decay takes over.
+
 **Why start small.** The [improving a neural network Note](../1021-improving-a-neural-network/note.md), section 3.4, met warm-up as a way to train with large batches. For the transformer, Xiong et al. (2020) give a specific reason. In the original transformer, with layer normalisation after each residual addition, "the expected gradients of the parameters near the output layer are large. Therefore, using a large learning rate on those gradients makes the training unstable. The warm-up stage is practically helpful for avoiding this problem" (Xiong et al. 2020, abstract). They also show that moving the layer normalisation inside the residual branch, the **Pre-LN** transformer (G-1545), makes the warm-up unnecessary.
 
 ### 7.4 Regularisation: residual dropout and label smoothing
@@ -234,7 +238,7 @@ Three predictions, scored both ways (Notebook):
 
 ![The two losses as the probability of the correct word "nous" grows from 0.30 to 0.9999, with the rest shared evenly. The one-hot loss keeps falling towards certainty; the smoothed loss is lowest at 0.925 and rises again](images/label_smoothing.png){width=90%}
 
-With the one-hot target, the over-confident prediction wins (Figure 8, grey curve). With the smoothed target, the best prediction is $q'$ itself: scanning the probability of "nous" from 0.30 to 0.9999, with the rest shared evenly, the smoothed loss is lowest at exactly 0.925 (Notebook), and at 0.9999 it rises to 0.773. Over-confidence is now penalised.
+With the one-hot target, the over-confident prediction wins (Figure 9, grey curve). With the smoothed target, the best prediction is $q'$ itself: scanning the probability of "nous" from 0.30 to 0.9999, with the rest shared evenly, the smoothed loss is lowest at exactly 0.925 (Notebook), and at 0.9999 it rises to 0.773. Over-confidence is now penalised.
 
 The paper reports the trade-off: label smoothing "hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score" (Vaswani et al. 2017, §5.4, p. 8). **Perplexity** (G-1492) is the exponential of the mean cross-entropy per token; lower means the model gives the correct tokens higher probability (SLP3 §7.7.1). Table 3, rows (D), shows both effects on the English–German development set:
 
@@ -295,7 +299,7 @@ Table 3 is the paper's own evidence on its design choices (Vaswani et al. 2017, 
 
 ![Table 3 as bars around the base model's 25.8 BLEU: blue rows beat the base model, red rows fall below it](images/table3.png){height=60%}
 
-Figure 10 draws the table. The longest red bar is $N = 2$ blocks; the blue bars are all wider or bigger models.
+Figure 11 draws the table. The longest red bar is $N = 2$ blocks; the blue bars are all wider or bigger models.
 
 On rows (B), the paper adds: "This suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial" (§6.2, p. 9). On rows (C) and (D): "as expected, bigger models are better" (§6.2).
 
@@ -311,7 +315,7 @@ Table 3 changes sizes and settings; it never removes a part such as the residual
 
 ![The parse tree of "John has a dog ." and the same tree written out depth-first as one sequence, the form a sequence-to-sequence model produces](images/parse_tree.png){width=80%}
 
-Figure 11 shows the tree and its sequence form. The output is "subject to strong structural constraints and is significantly longer than the input" (Vaswani et al. 2017, §6.3, p. 9).
+Figure 12 shows the tree and its sequence form. The output is "subject to strong structural constraints and is significantly longer than the input" (Vaswani et al. 2017, §6.3, p. 9).
 
 - **Model:** 4 blocks, $d_{\text{model}} = 1024$; the other settings as the English–German base model, with only "a small number of experiments" to choose dropout, learning rates and beam size (§6.3).
 - **Data:** the Wall Street Journal part of the Penn Treebank, "about 40K training sentences"; and a semi-supervised setting with about 17 million extra sentences (§6.3).
@@ -336,7 +340,9 @@ The paper ends with plans: "to extend the Transformer to problems involving inpu
 
 ![From the 2017 transformer to ChatGPT: the encoder alone became BERT, the decoder alone became GPT, and scaling GPT up led to GPT-3 and ChatGPT](images/lineage.png){width=100%}
 
-Figure 12 puts the three bullets on one line of descent.
+Figure 13 puts the three bullets on one line of descent.
+
+The decoder-only layout is the one behind today's large language models. A **decoder-only transformer** (G-565) has no encoder and therefore no cross-attention: each block keeps the masked self-attention and the feed-forward network, and the model is trained only to predict the next token. The [decoder-only GPT Note](../1087-decoder-only-gpt/note.md) walks through it on GPT-2.
 
 The [introduction to transformers Note](../1071-introduction-to-transformers/note.md), section 6, follows the same architecture into images, proteins and code.
 
@@ -390,6 +396,9 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 
 **Built from**
 
+- CampusX, "Transformer Architecture | Part 1 Encoder Architecture | CampusX", YouTube, https://www.youtube.com/watch?v=Vs87qcdm8l0
+- CampusX, "Transformer Decoder Architecture | Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=DI2_hrAulYo
+- CampusX, "Transformer Inference | How Inference is done in Transformer? | Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=FtsMOzlwxws
 - Sanderson, G. (3Blue1Brown), "Transformers, the tech behind LLMs | Deep Learning Chapter 5", 2024, 3blue1brown.com/lessons/gpt, https://www.youtube.com/watch?v=wjZofJX0v4M. 1:31–5:42 (data flowing through embeddings, attention and MLP blocks to a next-word distribution; predict, append, repeat).
 - Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł. and Polosukhin, I. (2017). Attention Is All You Need. *NeurIPS 2017*. arXiv:1706.03762 (v7). Abstract; §1 (sequential computation); §3.1–3.5; Table 1 and §4; §5.1 (data, 4.5M pairs, 37,000 tokens, 36M sentences, 25,000-token batches); §5.2 (8 P100 GPUs, 0.4 s and 1.0 s per step, 12 hours and 3.5 days); §5.3 (Adam settings, eq. 3, 4,000 warm-up steps); §5.4 (residual dropout 0.1, label smoothing 0.1, the perplexity quote); §6.1 and footnote 5 (results, checkpoint averaging, beam search, FLOPs estimate, 9.5 TFLOPS for a P100); Table 2; §6.2 and Table 3; §6.3 and Table 4; §7.
 - The earlier Notes of this collection, 1060 to 1084, whose parts this Note puts back together (linked in its text).

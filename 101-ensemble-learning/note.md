@@ -23,16 +23,16 @@ The word **ensemble** means a group, for example a group of musicians. **Ensembl
 
 Ensembles are tried in almost every serious ML project and in almost every Kaggle competition. This Note covers:
 
-- the idea behind ensembles, the wisdom of the crowd;
-- how an ensemble predicts, and why its models must differ;
-- the four main types: voting, stacking, bagging and boosting (each gets its own Notes later);
-- why ensembles work, what they cost, and when to use them.
+- the idea behind ensembles, the wisdom of the crowd (section 2);
+- how an ensemble predicts, and why its models must differ (section 3);
+- the four main types: voting, stacking, bagging and boosting, each with its own Notes later (section 4);
+- why ensembles work (section 5), what they cost and what they give (section 6), and when to use them (section 7).
 
 ## 2. The wisdom of the crowd
 
 > **Key point:** The combined judgement of many people is often more accurate than the judgement of any one of them. Ensemble learning applies the same idea to models.
 
-The **wisdom of the crowd** is the observation that a crowd, taken together, often knows the answer better than a single member. We rely on it every day:
+The **wisdom of the crowd** (G-2124) is the observation that a crowd, taken together, often knows the answer better than a single member. We rely on it every day:
 
 - **Audience poll in a quiz show.** In *Kaun Banega Crorepati* (*Who Wants to Be a Millionaire*), a contestant can ask the studio audience. The most popular answer is right most of the time, although no single person in the audience is an expert in everything.
 - **Product reviews.** A product rated 4.5 out of 5 by 15,000 buyers feels safe to buy. The same 4.5 from one buyer does not.
@@ -41,6 +41,16 @@ The **wisdom of the crowd** is the observation that a crowd, taken together, oft
 - **Guessing a weight.** At a fair, visitors guessed the weight of an animal on show. Nobody guessed it exactly, but the average of all the guesses was very close to the true weight.
 
 > **Extra:** The weight-guessing story is real. At a fair in Plymouth, England, in 1906, about 800 visitors guessed the weight of an ox. Francis Galton reported that the middle guess (the median) was 1,207 pounds, within 1% of the true 1,198 pounds (Galton 1907). The book *The Wisdom of Crowds* collects many such cases (Surowiecki 2004).
+
+Figure 2 shows the mechanism on simulated guesses of that weight. Each guess is the true weight, 1,198 pounds, plus a random error of about 75 pounds, sometimes too high and sometimes too low. Step by step:
+
+1. **One guess** is typically off by 60 pounds.
+2. **Average 25 guesses.** The guesses that are too high and the guesses that are too low partly cancel. The mean is typically off by 12 pounds.
+3. **Average 800 guesses.** The cancelling is almost complete. The mean is typically off by 2 pounds.
+
+![Simulated guesses of an ox's weight (true weight 1,198 lb, each guess off by about 75 lb at random). As the crowd grows from 1 to 800, the mean of the guesses (black) closes in on the true weight (red dashed). The typical error is averaged over 2,000 simulated crowds of each size](images/crowd_guess.gif){height=50%}
+
+In Figure 2, watch the black line: the histogram of single guesses stays wide, but its mean moves onto the red line. The errors must be different from guess to guess for the cancelling to happen; a crowd in which everyone makes the same mistake gains nothing from averaging.
 
 Ensemble learning rests on the same fact: a crowd of models knows more than one model.
 
@@ -64,7 +74,7 @@ Models are the same: an ensemble of identical models makes the same mistakes as 
 2. **Same algorithm, different data:** for example three linear models, each trained on a different part of the data. Different data makes them learn differently.
 3. **Both:** different algorithms, each shown different data.
 
-Figure 2 tests the first way on the two-moons data of section 5. Watch the left panel: three copies of the same tree draw one **decision boundary** (G-555), the line where the prediction switches class, so their vote is that tree and scores the same 0.875. On the right, three different algorithms disagree in places, and their vote scores 0.890.
+Figure 3 tests the first way on the two-moons data of section 5. Watch the left panel: three copies of the same tree draw one **decision boundary** (G-555), the line where the prediction switches class, so their vote is that tree and scores the same 0.875. On the right, three different algorithms disagree in places, and their vote scores 0.890.
 
 ![Left: three copies of one depth-3 tree, trained on the same data, and their vote. Right: logistic regression (green), a depth-3 tree (red) and KNN with k = 5 (purple), and their vote (black dashed). Test accuracy of the vote in each title](images/same_vs_different.png)
 
@@ -74,7 +84,7 @@ Figure 2 tests the first way on the two-moons data of section 5. Watch the left 
 
 Take the placement data: from a student's CGPA and IQ, predict *placed* or *not placed* (the [toy project Note](../13-toy-project/note.md)). We have 5 trained base models and one new student.
 
-We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* and 2 say *not placed*. The ensemble answers *placed*: the **majority vote** (G-1146), exactly as KNN votes among neighbours. Figure 3 draws this vote with 5 models; Figure 1 shows the same with 3.
+We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* and 2 say *not placed*. The ensemble answers *placed*: the **majority vote** (G-1146), exactly as KNN votes among neighbours. Figure 4 draws this vote with 5 models; Figure 1 shows the same with 3.
 
 ### 3.3 Regression: the mean
 
@@ -88,7 +98,7 @@ Now the task is to predict the package, in lakh rupees per year (LPA), from CGPA
 3. **Example:** three models predict 6.2, 5.8 and 7.0 LPA:
    $$\hat{y} = \frac{6.2 + 5.8 + 7.0}{3} = \frac{19.0}{3} = 6.33 \text{ LPA}$$
 
-Figure 3 draws both worked examples, the vote of section 3.2 and the mean of section 3.3. Watch the vote take the class most models chose, and the mean land between the three predictions on the number line.
+Figure 4 draws both worked examples, the vote of section 3.2 and the mean of section 3.3. Watch the vote take the class most models chose, and the mean land between the three predictions on the number line.
 
 ![Left: five models vote, 3 for placed and 2 for not placed, so the ensemble says placed. Right: three models predict 6.2, 5.8 and 7.0 LPA, and the ensemble returns their mean, 6.33 LPA](images/vote_and_mean.png)
 
@@ -98,7 +108,7 @@ Figure 3 draws both worked examples, the vote of section 3.2 and the mean of sec
 
 ![The four main types of ensemble](images/ensemble_types.png){height=50%}
 
-Figure 4 shows the four types. Each one is taught in full in later Notes; here we only meet them.
+Figure 5 shows the four types. Each one is taught in full in later Notes; here we only meet them.
 
 ### 4.1 Voting
 
@@ -110,7 +120,7 @@ Take, say, an SVM, a logistic regression and a decision tree, and train all thre
 
 > **Key point:** Voting plus one more model on top, which learns how much weight each base model's opinion deserves.
 
-Stacking starts like voting: different algorithms trained on the same data. Then a further model, the **meta-model** (for example KNN), is trained on the base models' outputs.
+Stacking starts like voting: different algorithms trained on the same data. Then a further model, the **meta-model** (G-1213) (for example KNN), is trained on the base models' outputs.
 
 Each training observation gives the meta-model one example: what the SVM said, what the logistic regression said, what the tree said, and what the true answer was. For instance, (1, 0, 1) with true answer 1, or (0, 0, 1) with true answer 1.
 
@@ -122,7 +132,7 @@ From such observations the meta-model learns a weight for each base model: more 
 
 **Bagging** (G-2154) is short for **bootstrap aggregation**. All base models use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
 
-Suppose the data D has 1,000 students and we decide to show each model 500 of them. We draw 500 observations at random, with replacement (each drawn observation is put back, so the same one can be drawn twice), to make D1 and train model 1 on it. Then we draw another 500 the same way for D2, and so on. Drawing random samples like this is called **bootstrapping**.
+Suppose the data D has 1,000 students and we decide to show each model 500 of them. We draw 500 observations at random, with replacement (each drawn observation is put back, so the same one can be drawn twice), to make D1 and train model 1 on it. Then we draw another 500 the same way for D2, and so on. Drawing random samples like this is called **bootstrapping** (G-322).
 
 The samples differ, so the models learn differently. At prediction time we vote or average as before.
 
@@ -132,7 +142,7 @@ When the base models are decision trees, the bagging ensemble gets its own name:
 
 > **Key point:** Models are trained one after another; each one concentrates on the mistakes of the one before.
 
-**Boosting** also uses one algorithm, but the models are trained **in series**, not side by side. The first model is trained on the data and notes which observations it got wrong. The next model is told about those observations and pays extra attention to them, fixing some of them.
+**Boosting** (G-318) also uses one algorithm, but the models are trained **in series**, not side by side. The first model is trained on the data and notes which observations it got wrong. The next model is told about those observations and pays extra attention to them, fixing some of them.
 
 The second model then passes its own mistakes to the third model, and so on. Down the chain the mistakes shrink, and the combined model makes far fewer than the first. Boosting is the most powerful of the four, and also the most complex; it has several Notes of its own, starting with AdaBoost.
 
@@ -142,7 +152,7 @@ The second model then passes its own mistakes to the third model, and so on. Dow
 
 ![(a) Three classifiers' decision boundaries (dotted) and their majority-vote decision boundary (black) on two-moons data; (b) four lines, each fitted to 10 random points, and their mean](images/why_it_works.png){height=45%}
 
-**Classification.** In Figure 5a, three different models are trained on the same two-moons data (two interlocking half-moon classes):
+**Classification.** In Figure 6a, three different models are trained on the same two-moons data (two interlocking half-moon classes):
 
 - **logistic regression** draws a straight line;
 - a **decision tree** of depth 3 draws boxes;
@@ -150,9 +160,9 @@ The second model then passes its own mistakes to the third model, and so on. Dow
 
 Each decision boundary is wrong in its own places. The majority vote (black) follows a decision boundary where at least two of the three agree, so the quirks of any single model are outvoted. On 200 test points, the three models score 0.860, 0.875 and 0.870; the vote scores **0.890**, better than each.
 
-**Regression.** In Figure 5b, four lines are fitted, each to a different set of 10 random points. One is too steep, one too flat, two are in between. Their mean (black) is not extreme in any direction: it lands in the middle, close to the real trend.
+**Regression.** In Figure 6b, four lines are fitted, each to a different set of 10 random points. One is too steep, one too flat, two are in between. Their mean (black) is not extreme in any direction: it lands in the middle, close to the real trend.
 
-Figure 6 keeps adding lines, each fitted to its own 10 random points, up to 25. Watch the black mean settle near the true trend (red dashed) while single lines keep scattering. Averaged over 500 such crowds, one line misses the true trend by 0.75 (root mean squared gap), the mean of 5 lines by 0.45 and the mean of 25 by 0.37.
+Figure 7 keeps adding lines, each fitted to its own 10 random points, up to 25. Watch the black mean settle near the true trend (red dashed) while single lines keep scattering. Averaged over 500 such crowds, one line misses the true trend by 0.75 (root mean squared gap), the mean of 5 lines by 0.45 and the mean of 25 by 0.37.
 
 ![Lines added one at a time, each fitted to 10 random points of the same data. Left: the lines (blue), their mean (black) and the true trend (red dashed). Right: the gap between the mean line and the true trend, averaged over 500 crowds](images/crowd_of_lines.gif)
 
@@ -160,7 +170,7 @@ The vote does not always beat the best model; the [voting classifier Note](../10
 
 ## 6. Costs and benefits
 
-> **Key point:** An ensemble costs more computation. In return it usually gives better performance, lower bias and variance, and more robust results.
+> **Key point:** An ensemble costs more computation. In return it usually gives better performance, lower variance (voting and bagging) or lower bias (boosting), and more robust results.
 
 ### 6.1 The cost: more computation
 
@@ -168,7 +178,7 @@ The vote does not always beat the best model; the [voting classifier Note](../10
 
 Where we used to train one model, we now train many: tens, hundreds, even thousands. Training and prediction take longer. So an ensemble needs a solid advantage to be worth it, and it has three.
 
-Figure 7 puts the cost next to the first benefit, for bagging ensembles of 1 to 200 full-depth trees on the two-moons data of section 5. Watch training time keep climbing with the number of trees, while test accuracy rises from 0.83 to about 0.87 by 20 trees and then levels off, above the 0.84 of one full tree.
+Figure 8 puts the cost next to the first benefit, for bagging ensembles of 1 to 200 full-depth trees on the two-moons data of section 5. Watch training time keep climbing with the number of trees, while test accuracy rises from 0.83 to about 0.87 by 20 trees and then levels off, above the 0.84 of one full tree.
 
 ![Bagging ensembles of 1 to 200 full-depth trees on the two-moons data. Left: training time (log scale). Right: test accuracy, averaged over 5 seeds; dashed: one full tree](images/cost_benefit.png)
 
@@ -178,17 +188,22 @@ Figure 7 puts the cost next to the first benefit, for bagging ensembles of 1 to 
 
 As section 5 showed, combining models usually improves accuracy (classification) or $R^2$ (regression).
 
-### 6.3 Benefit 2: lower bias and variance
+### 6.3 Benefit 2: lower variance or lower bias
 
-> **Key point:** Ensembles can reach low bias and low variance together, which a single model rarely can.
+> **Key point:** Averaging models (voting, bagging) lowers variance and leaves bias unchanged. Training models in series (boosting) lowers bias. Either way the ensemble reaches low bias and low variance together, which a single model rarely can.
 
-A single model usually trades bias against variance (the [bias-variance Note](../62-bias-variance/note.md)). Ensembles escape the trade-off: bagging takes low-bias models such as deep trees and cuts their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3), while boosting takes simple high-bias models and cuts their bias (the [bagging vs boosting Note](../119-bagging-vs-boosting/note.md)).
+A single model usually trades **bias** (G-287) against **variance** (G-2073) (the [bias-variance Note](../62-bias-variance/note.md)). Ensembles escape the trade-off in two different ways:
+
+- **Bagging and voting lower variance.** They average models. Averaging cancels the errors that differ from model to model, as in Figure 2, and that part of the error is the variance. Averaging cannot remove an error that all the models share: if every model is too low by 2 on average, their mean is also too low by 2. So the bias stays the same. Bagging therefore starts from low-bias, high-variance models such as deep trees and cuts their variance (the [bagging Note](../105-bagging-intuition/note.md), section 3).
+- **Boosting lowers bias.** Each new model corrects the mistakes the earlier ones still make. Boosting therefore starts from simple high-bias models and cuts their bias (the [bagging vs boosting Note](../119-bagging-vs-boosting/note.md)).
+
+In short: bagging reduces variance, boosting reduces bias.
 
 ### 6.4 Benefit 3: robustness
 
 > **Key point:** The ensemble's performance changes little when the data changes.
 
-A **robust** model keeps performing well when the data it sees changes somewhat. Robustness is closely related to low variance, but it is often listed as a benefit in its own right.
+A **robust** model (**robustness**, G-1700) keeps performing well when the data it sees changes somewhat. Robustness is closely related to low variance, but it is often listed as a benefit in its own right.
 
 ## 7. When to use an ensemble
 
@@ -204,14 +219,14 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 
 | Type | Base models | Data each model sees | Combined by | Mainly reduces |
 |---|---|---|---|---|
-| Voting | different algorithms | the same data | majority vote or mean | errors of individual models |
+| Voting | different algorithms | the same data | majority vote or mean | variance (errors that differ between models) |
 | Stacking | different algorithms | the same data | a meta-model that learns weights | errors of individual models |
 | Bagging | one algorithm (random forest: trees) | random samples of the observations | majority vote or mean | variance |
 | Boosting | one algorithm, in series | observations weighted toward earlier mistakes | weighted combination | bias |
 
 - An ensemble combines several base models: majority vote for classification, mean for regression.
 - The base models must differ: different algorithms, different data, or both.
-- Ensembles cost more computation but usually improve performance, lower bias and variance, and are more robust.
+- Ensembles cost more computation but usually improve performance and are more robust. Voting and bagging lower variance; boosting lowers bias.
 - On two-moons data, three models scoring 0.860 to 0.875 give a vote scoring 0.890.
 
 ## 9. Sources
@@ -232,7 +247,7 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 
 | Term | Meaning |
 |---|---|
-| Wisdom of the crowd | The combined judgement of many is often more accurate than any one member's |
-| Base model | One of the models inside an ensemble |
-| Meta-model | The model in stacking that is trained on the base models' predictions |
-| Robustness | Performing well even when the data changes somewhat |
+| Wisdom of the crowd (G-2124) | The combined judgement of many is often more accurate than any one member's |
+| Base model (G-260) | One of the models inside an ensemble |
+| Meta-model (G-1213) | The model in stacking that is trained on the base models' predictions |
+| Robustness (G-1700) | Performing well even when the data changes somewhat |

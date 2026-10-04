@@ -15,17 +15,17 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 
 ## 1. Overview
 
-> **Key point:** A random forest trains many decision trees, each on a random part of the data, and combines their answers by majority vote (classification) or mean (regression).
+> **Key point:** A random forest trains many decision trees, each on its own random sample of the data and with a random choice of features at every split, and combines their answers by majority vote (classification) or mean (regression).
 
-![A random forest: each tree gets its own random rows (observations) and columns (features), grows differently, and votes](images/forest_overview.png){height=48%}
+![A random forest in outline, drawn for the three-tree forest built by hand in section 5: each tree gets its own random data, grows differently, and votes](images/forest_overview.png){height=48%}
 
-A **random forest** (G-1611) is **bagging** (G-251; the [bagging Note](../105-bagging-intuition/note.md)) with **decision trees** (G-561; the [decision trees Note](../97-decision-trees-intuition/note.md)) as the **base models** (G-260), the models the ensemble combines. Figure 1 shows the whole idea: random subsets of the data go to different trees, each tree predicts, and the forest takes the majority.
+A **random forest** (G-1611) is **bagging** (G-251; the [bagging Note](../105-bagging-intuition/note.md)) with **decision trees** (G-561; the [decision trees Note](../97-decision-trees-intuition/note.md)) as the **base models** (G-260), the models the ensemble combines. Figure 1 shows the whole idea: random data goes to different trees, each tree predicts, and the forest takes the majority.
 
 This Note covers:
 
 - why random forests are so widely used (section 2);
 - where the name comes from (section 3);
-- how a random forest works (section 4);
+- how a random forest is built, used and checked (section 4);
 - a small forest of three trees built by hand (section 5).
 
 The next Notes explain:
@@ -60,30 +60,65 @@ So a random forest is a special case of bagging: bagging lets the base model be 
 
 ## 4. How a random forest works
 
-> **Key point:** Step 1, bootstrapping: give each tree a random subset of the observations, features or both, and train it. Step 2, aggregation: send a new point to every tree and take the vote or the mean.
+> **Key point:** For each tree: draw a bootstrap sample of the observations, then grow a tree that looks at only a few randomly chosen features at every split. To predict, send the new point to every tree and take the vote or the mean.
 
-The two steps are those of bagging (the [bagging Note](../105-bagging-intuition/note.md), sections 2 and 6), here with trees:
+Here an **observation** is one record (a row of the data table), a **feature** is one input variable (a column), and the **target** is the output we predict.
 
-1. **Bootstrapping:** each tree is trained on its own random subset of the data, made by **row sampling** (G-1712; random **observations**, all features), **column sampling**, also called **feature sampling** (G-413; all observations, random **features**), or **combined sampling** (G-418; both). Here an observation is one record (a row of the data table) and a feature is one input variable (a column). These three ways are the bagging, random subspaces and random patches types of the bagging Note, section 6.
-2. **Aggregation** (G-183): a new **query point** (G-1605), the observation we want a prediction for, goes to every tree, and the forest returns the **majority vote** (G-1146; classification) or the mean (regression), as every ensemble does (the [ensemble learning Note](../101-ensemble-learning/note.md), section 3).
+### 4.1 Building one tree
 
-Because every tree sees different data, every tree learns a different structure: one splits first on feature 3, another on feature 7, and their split thresholds and depths differ too (Figure 1, middle).
+> **Key point:** Two sources of randomness: which observations the tree sees, and which features each split may use.
 
-Figure 2 builds a forest of 100 trees this way on the student placement data of the [toy project Note](../13-toy-project/note.md) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). The **decision boundary** (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
+Think of a panel of doctors. Each doctor has seen a different set of past patients, and for each question is allowed to look at only a couple of test results picked at random. The doctors end up reasoning in different ways, and their mistakes differ, so the panel's majority is better than any one doctor.
+
+Figure 2 builds one tree this way on 12 patients of the heart disease data (the data of the [tuning Note](../112-random-forest-tuning/note.md)) with 5 features:
+
+1. **Draw a bootstrap sample.** Pick 12 patients at random **with replacement**: the same patient can be picked again. The result is a **bootstrap sample** (G-319), as large as the data. In Figure 2, patient 1 is drawn three times, and patients 2, 5, 6, 9 and 12 are never drawn.
+2. **Grow a tree, with a random choice of features at every split.** At the first split the tree does not compare all 5 features. Two are drawn at random, pressure and cholesterol, and the better of the two (cholesterol) makes the split. At the next split two features are drawn again, and so on until every leaf is pure.
+3. **Repeat** steps 1 and 2 for every tree, usually a hundred or more.
+
+![One tree of a random forest, built on 12 patients of the heart disease data. Step 1: a bootstrap sample ("again": drawn before; "out": never drawn). Step 2: at every split, 2 of the 5 features are drawn at random (orange) and the better one (green) makes the split. Idea after StatQuest, "Random Forests Part 1"](images/build_tree.gif)
+
+Watch the feature row at the top of Figure 2: the two orange candidates change from split to split.
+
+Drawing the features again at every split is **node-level column sampling** (G-1325). The number of features drawn is the setting `max_features` (G-1185). scikit-learn's default for classification is the square root of the number of features: with 5 features, $\sqrt{5} = 2.2$, rounded down to **2**, as in Figure 2.
+
+Because every tree sees different observations and different features at each split, every tree learns a different structure. The variety of the trees is what makes the forest better than a single tree (the [random forest and bias-variance Note](../109-random-forest-bias-variance/note.md)).
+
+### 4.2 Using the forest
+
+> **Key point:** Every tree predicts; the forest returns the majority vote or the mean.
+
+A new **query point** (G-1605), the observation we want a prediction for, goes to every tree. The combining step is **aggregation** (G-183): the forest returns the **majority vote** (G-1146) for classification or the mean for regression, as every ensemble does (the [ensemble learning Note](../101-ensemble-learning/note.md), section 3). For example, if 57 of 100 trees say 1 and 43 say 0, the forest predicts 1.
+
+Figure 3 builds a forest of 100 trees on the student placement data of the [toy project Note](../13-toy-project/note.md) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). The **decision boundary** (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
 
 ![A random forest grows. Left: the newest tree's own bootstrap sample and its regions. Right: the share of all trees so far that vote "placed". Each tree is a bootstrap sample plus a fully grown tree with a random feature choice at each split, as in RandomForestClassifier. Growing the forest tree by tree follows StatQuest's "Random Forests Part 1" (Starmer)](images/forest_grows.gif)
+
+### 4.3 Checking the forest
+
+> **Key point:** The observations a tree never drew can test that tree, so a forest can be checked without a separate test set.
+
+Each tree leaves out about a third of the observations (the patients marked "out" in Figure 2). The left-out observations of a tree are its **out-of-bag** observations. Each observation is predicted by only the trees that never saw it, and the share predicted correctly is the **out-of-bag score** (G-1411): the [OOB score Note](../113-oob-score/note.md) explains it in full.
 
 ## 5. A random forest by hand
 
 > **Key point:** Three trees, each trained on its own random subset of a dataset of 100 observations, vote on one query point; with row, column or combined sampling, the majority gets it right even when one tree is wrong.
 
-To see every step, we build a forest of three trees ourselves. Our forest is a simplified version: a real random forest uses many more trees and samples the features in a slightly different way (section 5.4).
+To see every step, we build a forest of three trees ourselves (Figure 1). Our forest is a simplified version: it has only three trees, and it picks each tree's features **once per tree** instead of at every split (section 5.4).
+
+Each tree gets its own random subset of the data, made in one of three ways:
+
+- **row sampling** (G-1712): random observations, all features;
+- **column sampling**, also called **feature sampling** (G-413): all observations, random features;
+- **combined sampling** (G-418): random observations and random features.
+
+These three ways are the bagging, random subspaces and random patches types of the [bagging Note](../105-bagging-intuition/note.md), section 6.
 
 ### 5.1 The data and the sampling functions
 
 > **Key point:** 100 observations, 5 features, two classes; three small functions draw the subsets.
 
-We make a classification dataset of 100 observations with `make_classification` (the [perceptron code Note](../71-perceptron-code/note.md)): 5 features, in columns `col1` to `col5`, and a **target** (the output we predict) in the column `target`, with classes 0 and 1.
+We make a classification dataset of 100 observations with `make_classification` (the [perceptron code Note](../71-perceptron-code/note.md)): 5 features, in columns `col1` to `col5`, and a target in the column `target`, with classes 0 and 1.
 
 > **Python:** The three ways of sampling.
 >
@@ -120,15 +155,15 @@ With `sample_rows(df, 0.2)`, each tree gets 20 observations (20% of 100), drawn 
 | 2 | 20 | 1 | 2 | 0 |
 | 3 | 20 | 1 | 2 | 0 |
 
-Tree 1 is wrong, but two trees say 0, so the majority, **0**, is right. Each tree saw different observations, so each placed its decision boundaries in different places (Figure 3, top row).
+Tree 1 is wrong, but two trees say 0, so the majority, **0**, is right. Each tree saw different observations, so each placed its decision boundaries in different places (Figure 4, top row).
 
 ### 5.3 Column sampling and combined sampling
 
 > **Key point:** 4 of 5 features per tree: all three trees say 0. Half the observations and 2 of 5 features: the votes are 0, 0, 1, so the forest still says 0.
 
-With `sample_features(df, 0.8)` (Figure 3, middle row), each tree gets all 100 observations and 4 of the 5 features (80% of 5). The three trees got different feature sets: (col5, col4, col3, col2), (col5, col2, col1, col3) and (col1, col3, col2, col5). With all the observations, the trees grow deeper (depths 6, 3 and 3), and all three vote **0**.
+With `sample_features(df, 0.8)` (Figure 4, middle row), each tree gets all 100 observations and 4 of the 5 features (80% of 5). The three trees got different feature sets: (col5, col4, col3, col2), (col5, col2, col1, col3) and (col1, col3, col2, col5). With all the observations, the trees grow deeper (depths 6, 3 and 3), and all three vote **0**.
 
-With `combined_sampling(df, 0.5, 0.5)` (Figure 3, bottom row), each tree gets 50 observations (10 to 14 of them repeats) and 2 of the 5 features (half of 5 is 2.5, and `int` rounds down to 2). Figure 1 shows this setting:
+With `combined_sampling(df, 0.5, 0.5)` (Figure 4, bottom row), each tree gets 50 observations (10 to 14 of them repeats) and 2 of the 5 features (half of 5 is 2.5, and `int` rounds down to 2). Figure 1 shows this setting:
 
 | Tree | Features | Depth | Vote |
 |---|---|---|---|
@@ -140,7 +175,7 @@ Combined sampling adds the most randomness: the trees differ in both observation
 
 ![The forest built by hand: for each sampling setting, the three trees' votes on the query point (true class 0), with each tree's features and depth; a black frame marks a wrong vote. The right column is the forest's majority](images/hand_votes.png){height=40%}
 
-Figure 3 puts the three settings side by side. Watch the black-framed boxes: one tree is wrong in two of the settings, and the majority on the right is still the true class 0 every time.
+Figure 4 puts the three settings side by side. Watch the black-framed boxes: one tree is wrong in two of the settings, and the majority on the right is still the true class 0 every time.
 
 > **Python:** Asking one tree about the query point.
 >
@@ -170,24 +205,25 @@ The forest of 100 trees also predicts **0**.
 
 ![How the 100 trees of RandomForestClassifier vote on the same query point (true class 0)](images/forest_votes.png){height=28%}
 
-Figure 4 counts the votes: 96 trees say 0 and 4 say 1. With 100 voters, a few wrong trees barely dent the majority.
+Figure 5 counts the votes: 96 trees say 0 and 4 say 1. With 100 voters, a few wrong trees barely dent the majority.
 
 Two things differ from our hand-built version:
 
 - **More trees.** Three trees are only enough to show the idea; the default is 100.
-- **Column sampling at every split.** Our functions picked the features once per tree. A random forest picks a fresh random set of features at every node of every tree, called **node-level column sampling** (G-1325) (Breiman, 2001, section 4), which makes the trees even less alike (ESL §15.2). Sampling at every split is the main difference between bagging and a random forest, explained in the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md).
+- **Feature sampling at every split.** Our functions picked the features once per tree. A random forest picks a fresh random set of features at every node of every tree (section 4.1; Breiman, 2001, section 4), which makes the trees even less alike (ESL §15.2). Sampling at every split is the main difference between bagging and a random forest, explained in the [bagging vs random forest Note](../110-bagging-vs-random-forest/note.md).
 
 ## 6. Summary
 
 | Step | What happens | In our example |
 |---|---|---|
-| Bootstrapping | each tree gets a random subset: observations, features or both | 3 trees; 20 observations, or 4 features, or 50 observations and 2 features each |
-| Training | each subset trains its own fully grown decision tree | trees of depth 2 to 6, all different |
+| Bootstrapping | each tree gets a bootstrap sample of the observations | by hand: 3 trees; 20 observations, or 4 features, or 50 observations and 2 features each |
+| Training | each tree is fully grown, with a few random features to choose from at every split | trees of depth 2 to 6, all different |
 | Aggregation | majority vote (classes) or mean (numbers) | votes 1, 0, 0 and 0, 0, 1: prediction 0 |
 
 - A random forest is bagging with decision trees as the base models.
 - "Forest": many trees. "Random": each tree gets randomly sampled data.
-- Subsets can be made by row sampling, column sampling or both, with or without replacement.
+- Each tree is built from a bootstrap sample, and each split chooses among a few randomly drawn features (`max_features`, by default the square root of the number of features).
+- The observations a tree never drew are its out-of-bag observations; they give a free check of the forest.
 - A random forest works for classification and regression, and gives strong results with little tuning (ESL §15.1).
 
 ## 7. Sources
@@ -195,7 +231,7 @@ Two things differ from our hand-built version:
 **Built from**
 
 - CampusX, "Introduction to Random Forest | Intuition behind the Algorithm", YouTube, https://www.youtube.com/watch?v=F9uESCHGjhA
-- Starmer, J. (StatQuest). "Random Forests Part 1 - Building, Using and Evaluating." statquest.org. The idea of showing the forest built one bootstrapped tree at a time (Figure 2).
+- StatQuest with Josh Starmer, "StatQuest: Random Forests Part 1 - Building, Using and Evaluating", YouTube, https://www.youtube.com/watch?v=J4Wdy0Wc_xQ (the two building steps and Figures 2 and 3)
 
 **Other references**
 

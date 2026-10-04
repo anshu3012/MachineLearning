@@ -59,7 +59,7 @@ Figure 2 (left) shows the residuals as dotted lines. The next model, an XGBoost 
 
 ## 4. The similarity score
 
-> **Key point:** Put all the residuals in one leaf and score it: (sum of residuals)$^2$ divided by (number of residuals + $\lambda$). Residuals that agree in sign score high; residuals that cancel score low.
+> **Key point:** Put all the residuals in one leaf and score it: (sum of residuals) squared divided by (number of residuals + $\lambda$). Residuals that agree in sign score high; residuals that cancel score low.
 
 An XGBoost tree starts as a single leaf holding every residual. The tree then tries to split that leaf so that each part holds residuals that are alike.
 
@@ -68,7 +68,7 @@ An XGBoost tree starts as a single leaf holding every residual. The tree then tr
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{n + \lambda}$$
    Here $r_i$ are the residuals in the leaf, $n$ is how many there are, and $\lambda$ (lambda) is a **regularisation parameter** (G-1040). We set $\lambda = 0$ for now; section 12 brings it back.
 3. **Example:** the root leaf holds all four residuals:
-   $$\text{similarity}_{\text{root}} = \frac{(-2.875 + 3.625 - 1.375 + 0.625)^2}{4 + 0} = \frac{0^2}{4} = 0$$
+   $$\text{similarity} _{\text{root}} = \frac{(-2.875 + 3.625 - 1.375 + 0.625)^2}{4 + 0} = \frac{0^2}{4} = 0$$
 
 The residuals from the mean always add up to exactly 0, so the root's similarity is 0. (If we round the mean to 7.3 first, they add up to 0.3 and the root scores $0.3^2/4 = 0.02$; the rounding changes nothing important.)
 
@@ -154,7 +154,7 @@ The combined model is the mean plus the tree's output scaled by the learning rat
 
 1. **In words:** start from the mean and add eta times the output of the leaf the student falls into.
 2. **Formula:**
-   $$\hat{y}^{(2)} = f_0 + \eta \cdot \text{tree}_1(x)$$
+   $$\hat{y}^{(2)} = f_0 + \eta \cdot \text{tree} _1(x)$$
 3. **Example:** student 1 has CGPA 6.7: "6.7 < 8.25" is yes, "6.7 < 5.85" is no, so the leaf output is $-2.125$:
    $$\hat{y}^{(2)} = 7.375 + 0.3 \times (-2.125) = 7.375 - 0.6375 = 6.7375$$
 
@@ -180,7 +180,7 @@ Stage 3 grows a second tree on CGPA and residual 2, with the same steps:
 
 On our data it chooses the same two splits, with leaf outputs 0.4375, $-1.4875$ and 2.5375. The prediction becomes
 
-$$\hat{y}^{(3)} = 7.375 + 0.3 \cdot \text{tree}_1(x) + 0.3 \cdot \text{tree}_2(x)$$
+$$\hat{y}^{(3)} = 7.375 + 0.3 \cdot \text{tree} _1(x) + 0.3 \cdot \text{tree} _2(x)$$
 
 and the residuals shrink again, to $-1.79$, 1.78, $-0.29$ and 0.31.
 
@@ -218,7 +218,7 @@ Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-resi
 > | 5.85 to 8.25 | $-2.875$, $-1.375$ | $-2.125$ | $-4.25/3 = -1.42$ |
 > | CGPA $\geq$ 8.25 | 3.625 | 3.625 | $3.625/2 = 1.81$ |
 >
-> The one-residual leaves lose half their output; the two-residual leaf loses a third. The intuition: a leaf built on a single observation is the least trustworthy, so it is pulled hardest towards 0. The formula shows the same: the fewer observations a leaf has, the harder $\lambda$ pulls it towards 0, because the output is $\frac{n}{n+\lambda}$ times the mean of the residuals, which is $\frac{1}{2}$ of the mean for $n = 1$ and $\frac{2}{3}$ for $n = 2$. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. The shrinking is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../64-ridge-regression-maths/note.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
+> The one-residual leaves lose half their output; the two-residual leaf loses a third. The intuition: a leaf built on a single observation is the least trustworthy, so it is pulled hardest towards 0. The formula shows the same: the fewer observations a leaf has, the harder $\lambda$ pulls it towards 0, because the output is $\frac{n}{n+\lambda}$ times the mean of the residuals, which is $\frac{1}{2}$ of the mean for $n = 1$ and $\frac{2}{3}$ for $n = 2$. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. A gain can even turn negative: with $\lambda = 1$ the losing candidate of section 7, CGPA < 7.1, scores $1.69 + 0.95 - 3.29 = -0.65$. So with $\lambda > 0$ a split can be pruned even when $\gamma = 0$. The shrinking is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../64-ridge-regression-maths/note.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
 
 ## 13. Gamma: pruning weak splits
 
@@ -265,6 +265,8 @@ Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5
 > model.get_booster().get_dump(with_stats=True)
 > ```
 >
+> `base_score` is the starting prediction. Many older tutorials start XGBoost from 0.5 whatever the data, the default of older versions. The current library (checked on version 3.4) estimates the start from the data when `base_score` is not given: on our four students it starts from the mean, 7.375. Setting `base_score` ourselves, as here, gives the same result in every version.
+>
 > `predict` gives 6.7375, 8.4625, 6.7375 and 7.5625, our stage 2. The dump prints the tree as text: splits `f0<8.25` with `gain=17.52` and `f0<5.85` with `gain=5.04`, the gains of sections 6 and 7. The leaves read 0.1875, $-0.6375$ and 1.0875: XGBoost stores each output already multiplied by eta ($0.3 \times 0.625 = 0.1875$).
 
 The library agrees with the Extras as well. With `reg_lambda=1` the gains become 9.86 and 2.93; with `gamma=6` the lower split disappears. With `n_estimators=2` the predictions are those of section 10.
@@ -294,7 +296,7 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 **Built from**
 
 - CampusX, "XGBoost for Regression | XGBoost Part 2 | CampusX", YouTube, https://www.youtube.com/watch?v=gmp2tS2joaA
-- Starmer, J. (StatQuest). "XGBoost Part 1 (of 4): Regression." statquest.org. The idea of sliding the threshold and comparing gains (Figure 5).
+- StatQuest with Josh Starmer, "XGBoost Part 1 (of 4): Regression", YouTube, https://www.youtube.com/watch?v=OtD8wVaFm6E (sliding the threshold and comparing gains, Figure 5; pruning with gamma and the effect of lambda, sections 12 and 13)
 
 **Other references**
 
@@ -305,7 +307,7 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 
 | Term | Meaning |
 |---|---|
-| Similarity score | (sum of residuals)$^2$ / (number of residuals + $\lambda$): how much a leaf's residuals agree |
+| Similarity score | (sum of residuals) squared / (number of residuals + $\lambda$): how much a leaf's residuals agree |
 | Gain (XGBoost) | Similarity of the two children minus similarity of the parent; the split with the largest gain is chosen |
 | Output value (leaf weight) | A leaf's prediction: sum of residuals / (number of residuals + $\lambda$) |
 | Eta ($\eta$) | XGBoost's name for the learning rate; default 0.3 |

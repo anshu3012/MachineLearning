@@ -23,6 +23,23 @@ Figure 1 shows the nine stages and how they connect. Stage 1 happens first; stag
 
 Each stage gets its own Notes later. This Note gives the whole picture first, so that every later Note has a place on it.
 
+### 1.1 One row through the stages
+
+> **Key point:** Each stage does something concrete to the data. Following one row of a real table shows what.
+
+Figure 2 follows one passenger of the Titanic file (891 passengers, the dataset the [pipelines Note](../29-pipelines/note.md) cleans step by step). The passenger is the first one in the file whose age is empty. Watch the green cells: they are the cells each stage has just changed.
+
+![One Titanic passenger travelling from the raw file to a JSON prediction; green cells have just changed, the red cell is empty](images/row_journey.gif)
+
+1. **Gather (stage 2).** The row arrives as the file gives it: class 3, male, no age, fare 8.46.
+2. **Preprocess (stage 3).** The empty age is filled with the median age of the file, 28. Age and fare are then put on the same scale: the age becomes -0.10 and the fare -0.48.
+3. **EDA (stage 4).** We study the data. The row does not change.
+4. **Features (stage 5).** Sex is written as a number (male = 1). The two family columns are combined into one: siblings and spouses + parents and children + the passenger = a family size of 1.
+5. **Train (stage 6).** A model fitted on all 891 passengers reads the row and gives a probability of survival of 0.11.
+6. **Deploy (stage 7).** The prediction leaves the server as JSON: `{"survived": 0, "probability": 0.11}`. The passenger did not survive, so this prediction is correct.
+
+Sections 3 to 11 explain each stage in turn, with its standard terms.
+
 ## 2. From SDLC to MLDLC
 
 > **Key point:** The MLDLC is a set of guidelines for building an ML product from idea to finished product, in the same way the SDLC guides ordinary software.
@@ -31,7 +48,7 @@ Each stage gets its own Notes later. This Note gives the whole picture first, so
 
 > **Key point:** Ordinary software is built by following a standard process, the SDLC.
 
-The **software development life cycle (SDLC)** is the standard process for building a software product, from start to end. The SDLC is part of the subject *software engineering*. A software developer in a company follows it whenever they build a product.
+The **software development life cycle (SDLC)** (G-1755) is the standard process for building a software product, from start to end. The SDLC is part of the subject *software engineering*. A software developer in a company follows it whenever they build a product.
 
 ### 2.2 The machine learning development life cycle
 
@@ -51,7 +68,7 @@ The result is the **machine learning development life cycle (MLDLC)** (G-1240): 
 
 > **Key point:** Training a model and checking its accuracy is not the end of the work. Companies want people who can build the whole product.
 
-A common beginner's mistake is to train a model, look at its accuracy and stop there. In a company, the model must become a product that real users can use. Employers look for people with experience of building such **end-to-end** products, from raw idea to live software.
+A common beginner's mistake is to train a model, look at its accuracy and stop there. In a company, the model must become a product that real users can use. Employers look for people with experience of building such **end-to-end products** (G-687), from raw idea to live software.
 
 ### 2.4 The number of stages varies
 
@@ -63,7 +80,7 @@ The MLDLC is not yet strictly defined, because ML is still a young field. One bo
 
 > **Key point:** Before doing anything, we decide exactly what we are building, for whom, at what cost and how.
 
-In a company, we work for customers, and every change of direction costs money. We cannot start, realise halfway that we planned the wrong thing, and start again. So the first stage is to **frame the problem**: answer the big questions before any work begins.
+In a company, we work for customers, and every change of direction costs money. We cannot start, realise halfway that we planned the wrong thing, and start again. So the first stage is **framing the problem** (G-803): we answer the big questions before any work begins.
 
 The questions we answer at this stage:
 
@@ -79,7 +96,7 @@ The questions we answer at this stage:
 
 Once these are answered, we have a clear mental plan of what comes next. Only then do we move to stage 2.
 
-Figure 2 sorts the nine questions into two groups. Watch the left side: five of the nine are business questions, asked before any ML choice.
+Figure 3 sorts the nine questions into two groups. Watch the left side: five of the nine are business questions, asked before any ML choice.
 
 ![The questions of problem framing: five about the business, four about the ML plan](images/framing_questions.png)
 
@@ -99,15 +116,15 @@ In school or college projects, data comes ready-made: from Kaggle, from course m
 
 > **Key point:** Five common sources: CSV files, APIs, web scraping, data warehouses and big-data clusters.
 
-- **CSV files:** the easy case. We get the file and start working.
-- **APIs:** we call an API from Python code, receive the data in JSON format, and convert it to our preferred format, usually a CSV file.
-- **Web scraping:** the data is on a website but not offered for download. We write Python code that extracts it from the web pages. Hotel-comparison sites such as trivago collect hotel details from many hotel websites this way. Sites that compare a product's price across online shops also scrape those shops.
+- **CSV files** (G-513): the easy case. We get the file and start working.
+- **APIs** (G-204): we call an API from Python code, receive the data in **JSON** (G-987) format, and convert it to our preferred format, usually a CSV file.
+- **Web scraping** (G-2105): the data is on a website but not offered for download. We write Python code that extracts it from the web pages. Hotel-comparison sites such as trivago collect hotel details from many hotel websites this way. Sites that compare a product's price across online shops also scrape those shops.
 - **Databases and data warehouses:** the data is in the company's own database. We do not run ML directly on this live database, because a mistake could take the website down. Instead the data is copied into a separate **data warehouse** (G-541) through a process called **ETL** (G-714) (extract, transform, load), and we fetch our data from there.
 - **Big-data clusters:** very large data is spread across many machines (a cluster), handled by tools such as Spark. We fetch the data from those clusters.
 
 The goal of this stage is to fetch the data and store it in the right form, so that the work can start.
 
-Figure 3 puts the five sources side by side. Watch the middle column: every source except a CSV file needs a fetching step before the data is ready.
+Figure 4 puts the five sources side by side. Watch the middle column: every source except a CSV file needs a fetching step before the data is ready.
 
 ![Five places data lives, how we fetch it from each, and the one usable dataset they all end in](images/data_sources.png)
 
@@ -121,7 +138,7 @@ Figure 3 puts the five sources side by side. Watch the middle column: every sour
 
 > **Key point:** Dirty data gives bad results, so it must be fixed first.
 
-Data fetched from external sources is almost always **dirty** (unclean). If we pass it straight into a model, the results are poor. Typical problems:
+Data fetched from external sources is almost always **dirty data** (G-615): data with errors, gaps, duplicates or inconsistencies. If we pass it straight into a model, the results are poor. Typical problems:
 
 - structural issues,
 - missing data,
@@ -131,7 +148,7 @@ Data fetched from external sources is almost always **dirty** (unclean). If we p
 
 **Data preprocessing** (G-539) means the changes we make to the data before the main processing (training).
 
-Figure 4 shows three of these problems in a real dataset: the Titanic passenger list (891 passengers), which the [pipelines Note](../29-pipelines/note.md) cleans step by step. Watch the right panel: Fare reaches 512 while Age stops at 80, so Fare would dominate any distance.
+Figure 5 shows three of these problems in the Titanic file of Figure 2. Watch the right panel: Fare reaches 512 while Age stops at 80, so Fare would dominate any distance.
 
 ![Dirty data on the Titanic file: empty cells in three columns, fare outliers far above the median of 14, and two columns on very different scales](images/dirty_data.png)
 
@@ -141,16 +158,16 @@ Three words help from here on. An **observation** (G-1374) is one record (one ro
 
 > **Key point:** Remove duplicates, deal with missing values and outliers, and put features on similar scales.
 
-- **Remove duplicates:** observations that appear more than once.
-- **Handle missing values:** empty cells.
-- **Remove outliers:** values far from the rest.
-- **Scale values:** bring features to similar ranges.
+- **Remove duplicates:** observations that appear more than once (**duplicate rows**, G-648).
+- **Handle missing values** (G-1235): empty cells. In Figure 2, the empty age was filled with the median, 28.
+- **Remove outliers** (G-1421): values far from the rest, such as the fare of 512 in Figure 5.
+- **Scale values:** bring features to similar ranges. The standard term is **feature scaling** (G-767).
 
-Scaling matters because many algorithms compute distances between observations, and a feature in crores would outweigh one in decimals (see Section 7 of the [toy project Note](../13-toy-project/note.md)). One common way to scale is standardization (see the [standardization Note](../24-standardization/note.md)).
+Scaling matters because many algorithms compute distances between observations, and a feature in crores would outweigh one in decimals (see Section 7 of the [toy project Note](../13-toy-project/note.md)). One common way to scale is **standardization** (G-1874), the step that turned the age 28 into -0.10 in Figure 2 (see the [standardization Note](../24-standardization/note.md)).
 
 The core idea of the whole stage: bring the data into a format the ML algorithm can easily consume.
 
-> **Extra:** One crore is ten million (10,000,000). Removing rows is only one way to handle missing values; often we fill them in instead (imputation). Missing values, outliers and scaling each have several Notes of their own in the feature engineering part of this series.
+> **Extra:** One crore is ten million (10,000,000). Removing rows is only one way to handle missing values; often we fill them in instead (**imputation**, G-927). Missing values, outliers and scaling each have several Notes of their own in the feature engineering part of this series.
 
 ## 6. Exploratory data analysis (EDA)
 
@@ -167,13 +184,13 @@ The core idea of the whole stage: bring the data into a format the ML algorithm 
 > **Key point:** Visualise the data, study features one, two or several at a time, find outliers and check whether the classes are balanced.
 
 - **Visualization:** plot graphs of the data.
-- **Univariate analysis:** study each feature on its own: its mean, its standard deviation, the shape of its distribution.
-- **Bivariate analysis:** study two features together, to see the relationship between them.
-- **Multivariate analysis:** study three or four features together.
-- **Outlier detection:** find the values far from the rest.
+- **Univariate analysis** (G-2050): study each feature on its own: its mean, its standard deviation, the shape of its distribution.
+- **Bivariate analysis** (G-310): study two features together, to see the relationship between them.
+- **Multivariate analysis** (G-1280): study three or four features together.
+- **Outlier detection** (G-1419): find the values far from the rest.
 - **Handling imbalanced data:** turn an imbalanced dataset into a balanced one.
 
-Figure 5 runs three of these checks on the Titanic file. Watch the middle panel: 74% of women survived against 19% of men, so Sex is clearly linked to the target.
+Figure 6 runs three of these checks on the Titanic file. Watch the middle panel: 74% of women survived against 19% of men, so Sex is clearly linked to the target.
 
 ![EDA in miniature on the Titanic file: the age distribution, survival by sex, and the balance of the target](images/eda_views.png)
 
@@ -199,7 +216,7 @@ The **features** are the input variables, one column each in the data table. The
 
 **Feature engineering** (G-761) means creating new features from the existing ones, or making intelligent changes to existing features.
 
-*Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in Section 3.3 of the [types of ML Note](../03-types-of-ml/note.md), is feature construction (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
+In Figure 2, the family-size cell is such a new feature: it is built from two existing columns. *Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in Section 3.3 of the [types of ML Note](../03-types-of-ml/note.md), is **feature construction** (G-760) (see Section 7 of the [feature engineering Note](../23-what-is-feature-engineering/note.md)).
 
 Feature engineering is one of the most important techniques in the whole workflow, and it has several Notes of its own.
 
@@ -212,13 +229,13 @@ Some datasets have 100 or 200 features. We do not keep them all, for two reasons
 1. **Many features do not help.** Not every feature affects the target. We find the ones that do not and remove them.
 2. **Fewer features train faster.** The more features there are, the longer training takes.
 
-Choosing which features to keep is called feature selection; the [feature engineering Note](../23-what-is-feature-engineering/note.md) teaches it.
+Choosing which features to keep is called **feature selection** (G-768); the [feature engineering Note](../23-what-is-feature-engineering/note.md) teaches it.
 
 ## 8. Model training, evaluation and selection
 
 > **Key point:** We train several algorithms, measure each with a performance metric, pick the best, tune it, and often combine several models into one.
 
-Once the data is clean and the features are good, we are ready to train. Figure 6 shows the four steps of this stage.
+Once the data is clean and the features are good, we are ready to train. Figure 7 shows the four steps of this stage.
 
 ![Train several algorithms, evaluate them, select and tune the best, then combine](images/model_selection.png)
 
@@ -245,8 +262,8 @@ In the **evaluation** step, we measure every trained model with **performance me
 
 | Problem | Example metric |
 |---|---|
-| Classification | Accuracy |
-| Regression | Mean squared error |
+| Classification | Accuracy (G-162) |
+| Regression | Mean squared error (G-1201) |
 | Clustering | Dunn index |
 
 > **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Each of these metrics, and many more, has its own Note later.
@@ -297,7 +314,7 @@ Once we have a model that can make predictions, the main work is only beginning.
 
 > **Key point:** User input travels from the website to an API, the saved model makes a prediction, and the answer comes back as JSON.
 
-Figure 7 shows the usual setup.
+Figure 8 shows the usual setup.
 
 ![How a deployed model answers a user's request](images/deployment_flow.png)
 
@@ -323,9 +340,20 @@ Software updates rarely reach all users at once; they roll out gradually. **Beta
 
 > **Key point:** A/B testing is a well-known way to check whether the new model really performs well.
 
-A popular technique at this stage is **A/B testing** (G-157). After it, we decide whether the model we just built is working properly. A/B testing gets its own Note later.
+The plain idea: show the old model to half of the users and the new model to the other half, at the same time, and see which half does better. The standard name is **A/B testing** (G-157). After it, we decide whether the model we just built is working properly.
 
-> **Extra:** In A/B testing, users are split at random into two groups. Group A keeps the current version and group B gets the new one. We then compare a measure that matters to the business, such as clicks or sales, between the two groups. Because the groups are random, a clear difference can be put down to the new version (Kohavi et al. 2020, Ch. 1).
+The mechanism, step by step (Kohavi et al. 2020, Ch. 1):
+
+1. **Split the users at random** into two groups. Group A keeps the current model and group B gets the new one.
+2. **Pick one measure that matters to the business**, such as the **conversion rate** (G-474): the share of visitors who buy.
+3. **Run both groups over the same days** and count.
+4. **Compare the two rates.** Because the groups are random, a clear difference can be put down to the new model.
+
+Figure 9 runs these steps on simulated visitors (made-up numbers, built only to show the method). Each day, 1,000 new visitors are split at random. A visitor of group A buys with probability 0.10 and a visitor of group B with probability 0.12. Watch the dots and the lines: the dots (one day only) jump about, and on day 5 group A's dot even sits level with group B's. The lines (all days so far) settle and stay apart.
+
+![An A/B test over 14 days on simulated visitors: daily conversion rates (dots) and the rate over all days so far (lines)](images/ab_test.gif)
+
+After 14 days, group A has 713 buyers among 7,012 visitors (10.2%) and group B has 838 among 6,988 (12.0%). One day alone could mislead; the two weeks together show the new model ahead. A/B testing gets its own Note later.
 
 ### 10.3 When testing fails: going back
 
@@ -338,7 +366,7 @@ A problem can come from any earlier stage:
 - the feature selection was poor,
 - the chosen algorithm has issues.
 
-So we go back to that stage and redo the work from there. If the feedback is good, we move forward to the last stage. Figure 8 shows one pass through the cycle, a loop back after a failed test, and the retraining loop from section 11.
+So we go back to that stage and redo the work from there. If the feedback is good, we move forward to the last stage. Figure 10 shows one pass through the cycle, a loop back after a failed test, and the retraining loop from section 11.
 
 ![A failed test sends us back; a passed test leads to optimizing; a drifting model sends us back to new data](images/cycle_loop.gif)
 
@@ -353,10 +381,10 @@ So we go back to that stage and redo the work from there. If the feedback is goo
 In the last stage, we launch the model on the server for all customers. Before that, we take several steps:
 
 - **Back up the model** and **back up the data**.
-- **Set up rollback:** if the live model breaks or something goes wrong, we automatically return to the last working version and put it live again.
-- **Set up load balancing:** spread incoming requests across servers, so that many users at once are still served quickly.
+- **Set up rollback** (G-1703): if the live model breaks or something goes wrong, we automatically return to the last working version and put it live again.
+- **Set up load balancing** (G-1107): spread incoming requests across servers, so that many users at once are still served quickly.
 
-Figure 9 places these safeguards around the live model, together with the retraining of Section 11.2. Watch the red path: when the live model breaks, the backup goes live.
+Figure 11 places these safeguards around the live model, together with the retraining of Section 11.2. Watch the red path: when the live model breaks, the backup goes live.
 
 ![The launch safeguards: a load balancer in front of the servers, a backup with rollback, and automatic retraining](images/launch_safety.png)
 
@@ -368,7 +396,7 @@ If a model is never retrained, its performance gets worse as the real-world data
 
 *Example: a mask detection system.* The system checks whether a person in front of a camera is wearing a mask. Then new kinds of masks appear, for example one whose lower half is printed to look exactly like a face. Our classifier will fail on these, so we need new data and must train the model again.
 
-So we decide how often to retrain, for example weekly or monthly. The retraining must be automated: we cannot repeat the whole process by hand every week.
+So we decide how often to **retrain** (G-1689), for example weekly or monthly. The retraining must be automated: we cannot repeat the whole process by hand every week.
 
 ### 11.3 Cutting extra cost
 
@@ -376,13 +404,13 @@ So we decide how often to retrain, for example weekly or monthly. The retraining
 
 Optimizing also means going through the whole process and removing extra expense wherever we find it, until the process runs smoothly.
 
-> **Extra:** Watching a live model's performance so that we notice drift early is called **monitoring**. The practice of running and maintaining live models is called MLOps (Kreuzberger et al. 2023).
+> **Extra:** Watching a live model's performance so that we notice drift early is called **monitoring**. The practice of running and maintaining live models is called **MLOps** (G-1244) (Kreuzberger et al. 2023).
 
 ## 12. The life cycle and the Pipeline map
 
 > **Key point:** The Course map's Pipeline map follows this life cycle but splits it into finer steps. Most stages match one step; a few differ.
 
-The Pipeline map in the Course map uses 14 steps, based on these nine stages. Figure 10 and the table show how they line up.
+The Pipeline map in the Course map uses 14 steps, based on these nine stages. Figure 12 and the table show how they line up.
 
 ![The nine life-cycle stages and the 14 Pipeline map steps](images/stage_map.png){height=60%}
 
@@ -476,5 +504,9 @@ Where the two differ:
 | JSON | A plain-text format for structured data, used by APIs |
 | Beta testing | Releasing a new version to a small group of trusted users first |
 | A/B testing | Comparing an old and a new version on two random groups of users |
+| Conversion rate | The share of people reached who become customers |
+| Feature scaling | Putting features on the same scale, so no feature dominates distances |
+| Feature selection | Keeping only the useful features and dropping the rest |
+| Imputation | Filling in missing values, for example with the mean or median |
 | Rollback | Returning automatically to the last working version when something breaks |
 | Load balancing | Spreading requests across servers so all users are served quickly |

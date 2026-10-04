@@ -15,28 +15,71 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 
 ## 1. Overview
 
-> **Key point:** In the Lasso formula for one feature, λ is subtracted from the top of the fraction, so a large enough λ makes the slope exactly 0. In Ridge, λ is added to the bottom, which can only make the slope small.
+> **Key point:** The Lasso penalty puts a sharp corner into the loss curve at slope 0, and a large enough λ makes that corner the lowest point. The Ridge penalty keeps the curve smooth, so its lowest point only moves towards 0.
 
 The Lasso Note showed that **Lasso regression** (G-1047) sets coefficients to exactly 0, while **Ridge regression** (G-1691) only shrinks them. A model in which many coefficients are exactly 0 is called **sparse** (G-1846), so the effect is called **sparsity** (G-1849).
 
-"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on **regularisation** (G-1659). This Note answers it with the formula for the slope when there is one **feature** (G-772) (an input variable, one column of the data table). The same idea carries over to many features.
+Sparsity matters when many **features** (G-772) (input variables, one column of the data table each) are useless for the prediction. Lasso removes those features from the equation, which leaves a simpler model that is easier to read. Ridge keeps every feature, so it suits data in which most features are useful.
 
-## 2. Reminder: the Ridge slope
+"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on **regularisation** (G-1659). This Note answers it for one feature, in this order:
 
-> **Key point:** Ridge: m = S / (D + λ). λ sits in the denominator.
+- the picture: the loss curve and its corner (section 2);
+- the formula for the Lasso slope, in cases (section 3);
+- the numbers: the slope reaching 0 and staying there (section 4);
+- the same effect for many features (section 5);
+- a check against scikit-learn (section 6).
 
-To keep the formulas short, write
+## 2. The picture: a corner in the loss curve
+
+> **Key point:** The best slope is the lowest point of the loss curve. Lasso's penalty λ|m| bends the curve into a corner at m = 0; once λ is large enough, the corner is the lowest point.
+
+### 2.1 The best slope is the lowest point of a curve
+
+Take one feature $x$ and a **target** (G-1949) $y$ (the output we predict). Every **slope** (G-1823) $m$ gives a different line, and every line has a total squared error, the **residual sum of squares** (G-1684). Plotting that error against the slope gives a U-shaped curve, a parabola. The best slope is the bottom of the U.
+
+To write the curve down, two sums are enough:
 
 $$S = \sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y}) \qquad D = \sum_{i=1}^{n}(x_i - \bar{x})^2$$
 
-$D$ is always positive. $S$ is positive when $y$ tends to rise with $x$, and negative when it tends to fall.
+- $S$ measures how strongly $x$ and $y$ move together. $S$ is positive when $y$ tends to rise with $x$, and negative when it tends to fall.
+- $D$ measures how spread out $x$ is. $D$ is always positive.
 
-- **Linear regression** (OLS Note): $m = S / D$ and $b = \bar{y} - m\bar{x}$.
-- **Ridge** (Ridge maths Note): $m = S / (D + \lambda)$, with the same $b$.
+With the best **intercept** (G-960) $b = \bar{y} - m\bar{x}$ put in, each error is $(y_i - \bar{y}) - m(x_i - \bar{x})$, and squaring and adding gives
+
+$$\sum_{i=1}^{n}\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right]^2 = D m^2 - 2 S m + \text{constant}$$
+
+The constant, $\sum (y_i - \bar{y})^2$, does not depend on $m$, so it moves the curve up or down without moving its lowest point. This Note uses $S = 100$ and $D = 50$ throughout. The curve $50m^2 - 200m$ has its bottom at $m = S/D = 2$, the linear regression slope.
+
+### 2.2 Adding a penalty moves the lowest point
+
+A **penalty term** (G-1476) is an extra cost for a large slope, added to the squared error. Its strength is $\lambda$.
+
+| | Penalty | Loss curve (constant left out) |
+|---|---|---|
+| Ridge | $\lambda m^2$ | $D m^2 - 2 S m + \lambda m^2$ |
+| Lasso | $2\lambda\lvert m\rvert$ | $D m^2 - 2 S m + 2\lambda\lvert m\rvert$ |
+
+(The 2 in the Lasso penalty only rescales $\lambda$; section 3.1 explains it.)
+
+Figure 1 draws both curves while $\lambda$ grows from 0 to 150. Watch the black dot, the lowest point of each curve.
+
+![The one-feature loss against the slope m for S = 100 and D = 50, as λ grows from 0 to 150. Left: the Lasso curve grows a corner at m = 0, and from λ = 100 the lowest point is the corner itself. Right: the Ridge curve stays a smooth parabola, and its lowest point moves towards 0 without reaching it (m = 0.5 at λ = 150). Grey curves: λ = 0, 50 and 100. Idea after StatQuest, "Ridge vs Lasso Regression, Visualized!!!"; the curves are this Note's own numbers](images/loss_kink.gif)
+
+Step by step, in Figure 1:
+
+1. **λ = 0.** Both curves are the same parabola, with the lowest point at $m = 2$.
+2. **Ridge, any λ.** Adding $\lambda m^2$ to a parabola gives a narrower parabola. The curve is still smooth, and its bottom slides left: $m = 1$ at λ = 50, 0.67 at λ = 100, 0.5 at λ = 150. The bottom never lands on 0.
+3. **Lasso, λ = 50.** The penalty $2\lambda\lvert m\rvert$ is a V with its point at $m = 0$. Adding a V to a parabola leaves a sharp corner in the curve at $m = 0$. The lowest point is still to the right of the corner, at $m = 1$.
+4. **Lasso, λ = 100.** The corner has grown, and the lowest point has slid into it: $m = 0$.
+5. **Lasso, λ = 150.** The curve now rises on both sides of the corner. The lowest point stays at $m = 0$.
+
+A slope of exactly 0 means the feature is no longer used in the prediction. The rest of the Note explains the same result with a formula: where the corner comes from, why the lowest point reaches it at λ = 100, and why it stays.
 
 ## 3. The Lasso slope
 
 > **Key point:** Because of the absolute value, the derivative is different for m > 0 and m < 0, so the formula comes in cases.
+
+Without a penalty, setting the **derivative** (G-595) of the curve of section 2.1 to zero gives $2Dm - 2S = 0$, so **linear regression** has $m = S / D$ and $b = \bar{y} - m\bar{x}$ (OLS Note). The Lasso slope is found the same way.
 
 ### 3.1 The loss
 
@@ -48,13 +91,13 @@ $$L = \sum_{i=1}^{n}(y_i - m x_i - b)^2 + 2\lambda|m|$$
 
 The factor 2 does not change the idea: it only rescales $\lambda$, and it makes the final formula simpler.
 
-The penalty does not contain $b$, so differentiating with respect to $b$ gives the OLS result again: $b = \bar{y} - m\bar{x}$. Substituting it, each error becomes $(y_i - \bar{y}) - m(x_i - \bar{x})$.
+The penalty does not contain $b$, so differentiating with respect to $b$ gives the OLS result again: $b = \bar{y} - m\bar{x}$. Substituting it, each error becomes $(y_i - \bar{y}) - m(x_i - \bar{x})$, as in section 2.1.
 
 ### 3.2 Why cases are needed
 
 > **Key point:** |m| has no derivative at m = 0, but on each side of 0 it is a simple line.
 
-The absolute value $|m|$ has a sharp corner at $m = 0$ (the Lasso Note's loss curves), so it cannot be differentiated there. On either side, though, it is simple:
+The **absolute value** (G-159) $|m|$ has a sharp corner at $m = 0$: the corner of the Lasso curve in Figure 1. A curve has no single slope at a corner, so $|m|$ is not **differentiable** (G-606) at $m = 0$. On either side, though, it is simple:
 
 - if $m > 0$, then $|m| = m$;
 - if $m < 0$, then $|m| = -m$.
@@ -91,15 +134,25 @@ The result of case 3.3 is only valid if it really is positive, which needs $S > 
 | $-\lambda \leq S \leq \lambda$ | $m = 0$ |
 | $S < -\lambda$ | $m = (S + \lambda) / D$ |
 
-Figure 1 draws the derivative of the loss, both cases, for $S = 100$, $D = 50$ and three values of $\lambda$. Watch the jump at the corner $m = 0$: once $\lambda$ reaches $S$, the jump spans zero and the lowest loss sits on the corner.
+Figure 2 draws the derivative of the loss, both cases, for $S = 100$, $D = 50$ and three values of $\lambda$. Watch the jump at the corner $m = 0$: once $\lambda$ reaches $S$, the jump spans zero and the lowest loss sits on the corner.
 
 ![The derivative of the Lasso loss against the slope m (S = 100, D = 50). Blue: the m < 0 case; red: the m > 0 case; dotted: the jump at the corner. At λ = 50 the red line crosses zero at m = 1. At λ = 100 and 150 neither line crosses zero on its own side: the derivative jumps from negative to positive at m = 0, so the slope is 0.](images/cases_derivative.png)
+
+### 3.6 The Ridge slope, for comparison
+
+> **Key point:** Ridge: m = S / (D + λ). λ sits in the denominator.
+
+The Ridge penalty $\lambda m^2$ has no corner, so one derivative covers every $m$: $2Dm - 2S + 2\lambda m = 0$ (Ridge maths Note). Solving for $m$:
+
+$$m = \frac{S}{D + \lambda}$$
+
+with the same $b$ as before.
 
 ## 4. Watching the slope reach 0
 
 > **Key point:** Subtracting λ from S brings the top of the fraction down to exactly 0. After that, the slope stays at 0.
 
-Take simple numbers: $S = 100$ and $D = 50$, so the linear regression slope is $100 / 50 = 2$. Figure 2 follows both slopes as $\lambda$ grows.
+Take the same numbers: $S = 100$ and $D = 50$, so the linear regression slope is $100 / 50 = 2$. Figure 3 follows both slopes as $\lambda$ grows; the values are the lowest points of Figure 1.
 
 ![Slope against λ for Lasso and Ridge, with S = 100 and D = 50](images/slope_vs_lambda.png){height=52%}
 
@@ -122,11 +175,21 @@ At $\lambda = 100$, the numerator $S - \lambda$ is 0, so the slope is exactly 0.
 
 > **Key point:** Going past 0 would need the other case's formula, which pushes the slope back to the positive side.
 
-At $\lambda = 150$, the positive-case formula gives $(100 - 150)/50 = -1$. The value $-1$ is negative, so the positive-case formula no longer applies (Figure 2, dashed). The negative-case formula would give $(100 + 150)/50 = 5$, which is positive, so it does not apply either (dotted).
+Work through $\lambda = 150$ step by step:
+
+1. The positive-case formula gives $(100 - 150)/50 = -1$.
+2. The value $-1$ is negative, so the positive-case formula no longer applies (Figure 3, dashed).
+3. The negative-case formula gives $(100 + 150)/50 = 5$.
+4. The value 5 is positive, so the negative-case formula does not apply either (Figure 3, dotted).
 
 Neither side has a valid answer, so the slope stays at $m = 0$. The same happens for every larger $\lambda$.
 
-> **Extra:** The same holds with a negative $S$. With $S = -100$ and $D = 50$, the slope starts at $-2$, rises to $-1$ at $\lambda = 50$ and reaches 0 at $\lambda = 100$. At $\lambda = 150$ the negative-case formula would give $(-100 + 150)/50 = 1$, positive, so it does not apply, and the slope stays at 0.
+**The mirror case.** The same holds with a negative $S$. With $S = -100$ and $D = 50$, the negative-case formula $(S + \lambda)/D$ gives a slope of $-2$ at $\lambda = 0$, $-1$ at $\lambda = 50$ and 0 at $\lambda = 100$. At $\lambda = 150$:
+
+1. The negative-case formula gives $(-100 + 150)/50 = 1$, which is positive, so it does not apply.
+2. The positive-case formula gives $(-100 - 150)/50 = -5$, which is negative, so it does not apply either.
+
+Again neither side has a valid answer, and the slope stays at 0.
 
 ### 4.3 Why Ridge never reaches 0
 
@@ -145,7 +208,7 @@ In short:
 
 > **Key point:** For a fixed λ, every feature whose S lies between −λ and λ gets a slope of exactly 0.
 
-Figure 3 turns the view around: $\lambda$ is fixed at 100, and the slope is drawn for every value of $S$.
+Figure 4 turns the view around: $\lambda$ is fixed at 100, and the slope is drawn for every value of $S$.
 
 ![The slope against S for linear regression, Ridge and Lasso](images/dead_zone.png){height=45%}
 
@@ -153,7 +216,7 @@ Figure 3 turns the view around: $\lambda$ is fixed at 100, and the slope is draw
 - **Ridge** (blue): also proportional to $S$, just flatter. The Ridge slope is 0 only when $S$ is exactly 0.
 - **Lasso** (red): flat at 0 for every $S$ between $-100$ and 100, the shaded **dead zone** (G-552). Outside it, Lasso follows the linear regression line moved $\lambda / D = 2$ towards 0.
 
-$S$ measures how strongly the feature and the **target** (G-1949) (the output we predict) move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is the **feature selection** (G-768) of the Lasso Note.
+$S$ measures how strongly the feature and the target move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is the **feature selection** (G-768) of the Lasso Note: the model that is left uses fewer features, so it is simpler and easier to read.
 
 Think of λ as an entry fee. A feature's link with the target, $|S|$, must be larger than the fee to get any slope at all, and above the fee the feature keeps only what is left over.
 
@@ -163,7 +226,7 @@ Think of λ as an entry fee. A feature's link with the target, $|S|$, must be la
 
 > **Key point:** On the 10-feature diabetes data, Lasso coefficients drop to exactly 0 one after another; Ridge coefficients only shrink.
 
-Figure 4 grows λ for Ridge (left) and Lasso (right) on the diabetes data of the [Lasso Note](../67-lasso-regression/note.md) (same split). Watch the dots: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
+Figure 5 grows λ for Ridge (left) and Lasso (right) on the diabetes data of the [Lasso Note](../67-lasso-regression/note.md) (same split). Watch the dots: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
 
 ![Ridge (left) and Lasso (right) coefficients of the 10 diabetes features as λ grows. Each panel has its own λ range, because Ridge shrinks faster on these features. An open circle marks a coefficient that is exactly 0](images/paths_race.gif)
 
@@ -181,7 +244,7 @@ The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and La
 
 The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the **ordinary least squares** (G-1406) answer, and points of equal loss form ellipses around it, the loss **contours** (G-468). Growing the ellipse until it first touches the feasible region gives the answer: the point of the region with the smallest loss.
 
-Figure 5 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
+Figure 6 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
 
 ![Lasso (left) and Ridge (right) with the same budget on two diabetes features. The loss ellipse grows from the least-squares point until it first touches each region: the diamond at its corner (bp coefficient exactly 0), the circle at a point where both coefficients are non-zero](images/constraint_touch.gif)
 
@@ -204,7 +267,7 @@ For the example of the earlier Notes, with 100 **observations** (G-1374) (record
 | 2416.73 | 0 | 0 |
 | 3000 | 0 | 0 |
 
-Figure 6 checks many more values of $\lambda$. Watch the circles from scikit-learn sit on the formula's line, including the flat part after $\lambda = 2416.73$.
+Figure 7 checks many more values of $\lambda$. Watch the circles from scikit-learn sit on the formula's line, including the flat part after $\lambda = 2416.73$.
 
 ![The one-feature Lasso slope on the 100-observation example: the formula (red line) and scikit-learn's Lasso (circles), for λ from 0 to 3000. The two agree to within 0.0001, and both are exactly 0 from λ = S = 2416.73 on.](images/sklearn_check.png)
 
@@ -234,6 +297,7 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 | Weak features | kept with small coefficients | dropped (dead zone) |
 
 - Sparsity means many coefficients exactly 0.
+- The Lasso penalty puts a corner into the loss curve at slope 0; a large enough λ makes the corner the lowest point. The Ridge curve stays a smooth parabola.
 - The absolute value forces the Lasso formula into cases, and λ ends up subtracted from the numerator.
 - Once $\lambda \geq |S|$, the slope is 0 and stays there.
 - In pictures: the loss ellipse usually first touches Lasso's diamond at a corner, where a coefficient is exactly 0; Ridge's circle has no corners.
@@ -243,6 +307,8 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 **Built from**
 
 - CampusX, "Why Lasso Regression creates sparsity?", YouTube, https://www.youtube.com/watch?v=FN4aZPIAfI4
+- StatQuest with Josh Starmer, "Ridge vs Lasso Regression, Visualized!!!", YouTube, https://www.youtube.com/watch?v=Xm2C_gTAl8c
+- StatQuest with Josh Starmer, "Regularization Part 2: Lasso (L1) Regression", YouTube, https://www.youtube.com/watch?v=NGf0voTMlcs
 
 **Other references**
 

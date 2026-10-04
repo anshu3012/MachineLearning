@@ -32,19 +32,45 @@ Figure 1 shows the whole method, in three steps:
 
 A feature is **skewed** (G-1817) when its values have a long tail on one side (Note 20). The z-score method of Note 42 does not fit such a feature, because it assumes a bell shape.
 
-The IQR method makes no such assumption. The IQR method is built only on percentiles, which do not care about the shape of the feature. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from Note 20: the box plot and the IQR.
+The IQR method makes no such assumption. The IQR method is built only on **percentiles** (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from Note 20: the **box plot** (G-329), the picture of this method, and the IQR.
 
 ## 3. The fences
 
 > **Key point:** The lower fence is $Q_1 - 1.5 \times \text{IQR}$ and the upper fence is $Q_3 + 1.5 \times \text{IQR}$; values outside them are outliers.
 
-The **quartiles** (G-1602) $Q_1$ (25th percentile) and $Q_3$ (75th percentile) come from the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). The **interquartile range** (G-966) $\text{IQR} = Q_3 - Q_1$ and the two box-plot **fences** (G-776) come from the [univariate analysis Note](../20-univariate-analysis/note.md) (sections 8 and 8.1). The IQR method uses exactly those fences as its lower and upper limits.
+### 3.1 Quartiles and the IQR, by hand
 
-For the placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$, so $\text{IQR} = 44 - 17 = 27$ and $1.5 \times 27 = 40.5$:
+> **Key point:** Sort the values; the median splits them into two halves; $Q_1$ and $Q_3$ are the middles of the halves, and the IQR is the distance between them.
 
-$$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
+Sort the values and cut the sorted list into four equal parts. The three cut points are the **quartiles** (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data Note](../19-understanding-your-data/note.md) (section 7.2). The distance from $Q_1$ to $Q_3$ is the **interquartile range** (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([univariate analysis Note](../20-univariate-analysis/note.md), section 8).
 
-A mark below $-23.5$ or above 84.5 is an outlier. Figure 2 builds the fences on the real marks; watch the orange arms grow 40.5 marks out of each side of the box, and only the far right tail turn red.
+Figure 2 finds them by hand for the exam marks of the first nine students of Section 5. Watch each step add one line:
+
+1. **Sort:** 8, 11, 17, 23, 26, 38, 38, 39, 40.
+2. **Median:** nine values, so the fifth one, 26, has four values on each side.
+3. **$Q_1$:** the middle of the lower half (8, 11, 17, 23). Four values have two in the middle, so we average them: $(11 + 17)/2 = 14$.
+4. **$Q_3$:** the middle of the upper half (38, 38, 39, 40): $(38 + 39)/2 = 38.5$.
+5. **IQR:** $38.5 - 14 = 24.5$.
+
+The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its two arms reach to the smallest and the largest mark, 8 and 40, because no mark lies beyond the fences of Section 3.2.
+
+![Quartiles by hand on the marks of nine students: sort, mark the median, take the middle of each half, and draw the box (idea after Khan Academy, "How to calculate interquartile range IQR")](images/quartiles_by_hand.gif)
+
+> **Extra:** pandas computes quartiles a little differently. The steps above take the middle of each half. pandas' `quantile` places the percentile between two neighbouring sorted values, in proportion to its position (**linear interpolation**, G-1092; [Note 44](../44-outliers-percentile/note.md)). On these nine values pandas gives $Q_1 = 17$ and $Q_3 = 38$, not 14 and 38.5. On the 1,000 marks both ways give $Q_1 = 17$ and $Q_3 = 44$. Every number in the rest of this Note comes from pandas' `quantile`.
+
+### 3.2 From the IQR to the fences
+
+> **Key point:** Step 1.5 IQR out from each side of the box; a value beyond either point is an outlier.
+
+The two box-plot **fences** (G-776) come from the [univariate analysis Note](../20-univariate-analysis/note.md) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
+
+1. **In words:** measure the width of the box, the IQR. Go one and a half box-widths below $Q_1$ for the lower fence, and one and a half above $Q_3$ for the upper fence.
+2. **Formula:**
+   $$\text{lower} = Q_1 - 1.5 \times \text{IQR}, \qquad \text{upper} = Q_3 + 1.5 \times \text{IQR}$$
+3. **Example:** for the 1,000 placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$, so $\text{IQR} = 44 - 17 = 27$ and $1.5 \times 27 = 40.5$:
+   $$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
+
+A mark below $-23.5$ or above 84.5 is an **outlier** (G-1420). Figure 3 builds the fences on the real marks; watch the orange arms grow 40.5 marks out of each side of the box, and only the far right tail turn red.
 
 ![The IQR fences built step by step on the 1,000 exam marks: Q1 and Q3, the IQR of 27, arms of 1.5 IQR, then the 15 outliers beyond 84.5](images/fences_build.gif)
 
@@ -54,7 +80,7 @@ The plan for any skewed feature is therefore short:
 2. compute the two fences;
 3. trim or cap every value outside them.
 
-> **Extra:** The fences are robust. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
+> **Extra:** The fences are robust: they hardly move when a few values are extreme. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note 42. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
 ## 4. Treating the outliers: trimming or capping
 
@@ -79,7 +105,7 @@ The data is the placement data of Note 42: one observation per student of a coll
 - `placement_exam_marks`: marks out of 100 in the aptitude test held before placement.
 - `placed`: 1 if the student got a job offer, 0 if not; the **target** (G-1949), the output a model would predict.
 
-Note 42 (Figure 4) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
+Note 42 (Figure 5) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
 
 The summary numbers of the marks feature tell the same story:
 
@@ -105,7 +131,7 @@ A quarter of the students scored below 17, half below 28 and three quarters belo
 
 > **Key point:** $Q_1 = 17$ and $Q_3 = 44$ give an IQR of 27 and fences of $-23.5$ and 84.5; 15 students lie above the upper fence and none below the lower one.
 
-Figure 3 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 (Section 3).
+Figure 4 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 (Section 3).
 
 ![The placement exam marks: box plot with Q1, median and Q3, the two fences, and the 15 outliers in red](images/fences.png){width=100%}
 
@@ -137,7 +163,7 @@ The 15 outliers:
 > df[marks < lower_limit]   # 0 rows
 > ```
 >
-> `quantile(0.25)` returns the 25th percentile; `quantile` takes the fraction (0.25), not the percent (25).
+> **`quantile(0.25)`** (G-127) returns the 25th percentile; `quantile` takes the fraction (0.25), not the percent (25).
 
 ## 7. Trimming in code
 
@@ -153,7 +179,7 @@ Trimming is a filter: keep the rows whose mark lies between the two fences. Sinc
 > new_df.shape    # (985, 3)
 > ```
 
-Figure 5 (middle row) shows the result. The histogram barely changes: only its thin right tail is gone. The box plot loses its row of red dots.
+Figure 6 (middle row) shows the result. The histogram barely changes: only its thin right tail is gone. The box plot loses its row of red dots.
 
 The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
 
@@ -161,7 +187,7 @@ The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
 
 > **Key point:** The box plot of the trimmed data computes new fences from the 985 remaining rows, so a value that was inside before can now be outside.
 
-The trimmed box plot in Figure 5 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its fences from the data it is given.
+The trimmed box plot in Figure 6 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its fences from the data it is given.
 
 For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is $43 + 1.5 \times (43 - 17) = 82$. The mark 83, safely inside the old fence of 84.5, is now just outside the new one.
 
@@ -169,7 +195,7 @@ In this Note we detect once, with the fences of the original data, and treat onc
 
 ![Detecting again after each trim: the fence moves from 84.5 to 82, catches the 83, and then stays at 82 with nothing outside](images/trim_rounds.png)
 
-In Figure 4, watch the dashed fence step left between rounds 1 and 2 and then stop moving.
+In Figure 5, watch the dashed fence step left between rounds 1 and 2 and then stop moving.
 
 ## 8. Capping in code
 
@@ -181,7 +207,7 @@ Capping goes through the column value by value, exactly as in Note 42:
 - below the lower fence: replace it with the lower fence;
 - otherwise: leave it as it is.
 
-NumPy's `np.where(condition, value if true, value if false)` does this for the whole column; two conditions need two calls, one inside the other.
+NumPy's **`np.where`** (G-124), called as `np.where(condition, value if true, value if false)`, does this for the whole column; two conditions need two calls, one inside the other.
 
 > **Python:** Capping with `np.where`.
 >
@@ -210,11 +236,11 @@ The result, compared with the original and the trimmed column:
 | Maximum | 100 | 83 | 84.5 |
 | Skewness | 0.84 | 0.65 | 0.76 |
 
-Figure 5 (bottom row) shows the capped column. The 15 outliers now all sit at 84.5, so the histogram rises in that one spot (the orange bar). The box plot has no dots: its whisker ends exactly at the fence.
+Figure 6 (bottom row) shows the capped column. The 15 outliers now all sit at 84.5, so the histogram rises in that one spot (the orange bar). The box plot has no dots: its whisker ends exactly at the fence.
 
 ![Before and after: the original column, the trimmed column (985 rows) and the capped column (1,000 rows, outliers moved onto 84.5); histograms on the left, box plots on the right, the upper fence dashed](images/before_after.png){width=100%}
 
-> **Extra:** pandas has a one-line shortcut for capping, `clip`. `clip` gives exactly the same column as the two nested `np.where` calls.
+> **Extra:** pandas has a one-line shortcut for capping, **`clip`** (G-70). `clip` gives exactly the same column as the two nested `np.where` calls.
 >
 > ```python
 > marks.clip(lower_limit, upper_limit)
@@ -241,9 +267,9 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 
 - **Simple:** two percentiles give both fences.
 - **Shape-free:** it needs no bell shape, so it fits skewed features.
-- **Robust:** the quartiles are not pulled by extreme values (Section 3, Extra).
+- **Robust:** the quartiles are not pulled by extreme values (Section 3.2, Extra).
 
-To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 6). Watch the two lines: the z-score limit of Note 42 chases the typo from 89.6 up to 141.2, while the IQR fence never leaves 84.5.
+To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 7). Watch the two lines: the z-score limit of Note 42 chases the typo from 89.6 up to 141.2, while the IQR fence never leaves 84.5.
 
 ![One typed-in extreme value: the z-score upper limit (mean + 3 std) climbs with it, the IQR upper fence stays at 84.5](images/robust_fence.png)
 
@@ -283,6 +309,7 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 **Built from**
 
 - CampusX, "Outlier Detection and Removal using the IQR Method | Handing Outliers Part 3", YouTube, https://www.youtube.com/watch?v=Ccv1-W5ilak
+- Khan Academy, "How to calculate interquartile range IQR", YouTube, https://www.youtube.com/watch?v=qLYYHWYr8xI
 
 **Other references**
 
@@ -297,4 +324,11 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 | Observation | One record: one row of the data table |
 | Target | The output a model predicts |
 | IQR method (IQR proximity rule) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed features |
+| Percentile | The value below which a given share of the sorted data lies |
+| Quartiles | $Q_1$, the median and $Q_3$: the 25th, 50th and 75th percentiles |
+| Interquartile range (IQR) | $Q_3 - Q_1$: the width of the middle half of the data |
+| Fences | $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$; values beyond them are outliers |
+| Trimming | Removing the rows that hold outliers |
+| Capping | Replacing every value beyond a limit with the limit itself |
+| Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position |
 | `quantile` | pandas method that returns a percentile, given as a fraction (0.25 for the 25th) |

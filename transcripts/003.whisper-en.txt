@@ -1,0 +1,318 @@
+Hello guys, welcome to my YouTube channel.
+This is day 3 of 100 days of machine learning.
+And today we are going to learn about types of machine learning.
+It's a very important topic and I will try to explain everything in detail.
+So first of all, the types of machine learning depends on different things.
+So we will talk about 3 different things.
+But in today's video, we are going to focus on just one thing.
+the amount of supervision needed for a machine learning algorithm to get trained.
+How much supervision is required? External supervision.
+On the basis of that, we will study the types of machine learning algorithms.
+So, I will first show you a chart and then we will discuss that chart in detail.
+So, yeah guys, based on the amount of supervision needed,
+we can divide our machine learning algorithms into four categories.
+So the first category is supervised machine learning, next one is unsupervised machine learning, third is semi-supervised machine learning and the last one is reinforcement learning.
+This is the most famous categorization and whenever you watch any video or read any book, this will be the categorization that you will see in most of the videos and texts.
+So, let's discuss them in detail.
+For example, you can divide supervised machine learning into two parts.
+Regression and Classification.
+You can divide unsupervised learning into four categories.
+Clustering, Dimensionality Reduction, Anomaly Reduction and Association Rule Learning.
+So, we will study them in detail one by one.
+So that we can understand the logic behind them.
+So we will start with supervised machine learning. What is supervised machine learning?
+So I will just switch tab and over here we will discuss supervised machine learning.
+So see machine learning is all about learning from data, getting trained on your data.
+Now in data if you have input and output and your work is to find relationship between input and output
+so that you can tell the output for a new input, then this learning is called supervised machine learning.
+Let me explain it with an example. Let's say we have some data of students
+where we have two pieces of information about each student. First, how much is his IQ?
+Second, how much is his CGPA? And then we also have this data whether his placement has been done or not.
+We have this data, let's say 5000 students, so a possible row will look like this, 87 IQ, 7.1 CGPA, placement is done, 111 IQ, 8.9 CGPA, placement is done, 75 IQ, 6.3 CGPA, placement is not done, and so on.
+In this way, I have data of 5000 students.
+If someone asks you that which is the input column of the three columns you have,
+then actually you can easily tell that these two columns IQ and CGPA are your input columns
+and this placement or not is your output column.
+So the output, whether it is placement or not, depends on the other two columns.
+So in a way it can be said that whatever data you have here, you have input as well as output.
+Now when you bring a machine learning algorithm, its work will be to draw a mathematical relationship between this input and this output.
+So that in future if you ask about a new student, let's say you asked that there is 7.3 CGPA and 73 IQ.
+So tell me whether there will be placement or not.
+So now your machine learning algorithm since it has learnt about this data, what are the patterns,
+it can easily tell the output for this new input, yes or no.
+And this is what supervised machine learning is.
+Let me summarize this for you.
+If you have a data set which has both input and output and your work is to understand the relationship between input and output and to predict the new input,
+then this type of machine learning is known as supervised machine learning.
+And to be honest, most of the machine learning that you will do ahead, you will find that you are working more on supervised machine learning.
+Now comes the second part.
+There are two parts of supervised machine learning.
+The first one is regression and the second one is classification.
+Now let's discuss what is regression and classification.
+To understand these two, we have to understand what are the types of data.
+What are the types of any data that you pick up.
+Generally, data is of two types. One is numerical data like age, weight, CGPA, IQ.
+IQ, these are all your numerical data and second is categorical data like your gender, nationality,
+which brand phone you use, all these things are categorical. Now that we know that there are two types of data,
+let us understand what is regression. It is very simple guys. If you are working on a supervised machine learning problem
+which means that you have a data set which has input and output columns both
+so if your output column is numerical then that supervised machine learning problem is called regression
+let's say I give you an example IQ is my input, CGPA is my input and my output is that how much was the package
+How much was the package after leaving college? 4.5, 3.0, 3.5, 6 lakhs. Now, here a row will be something like this, 8.7, 8.9, package 6 lakhs.
+111 IQ, 8.9, 4 lakhs. So, these are the numbers. So, it is still a supervised machine learning problem but its type will be regression.
+Because the target column is numerical.
+If you understand this, then you can easily understand the classification.
+In classification, the only difference is that you are still working on the supervised machine learning problem.
+But your output column is categorical this time.
+As you have already seen in this case.
+Placement will be there or not, this is categorical.
+So, the first example we took was the classification problem in supervised machine learning.
+In future also you will get a lot of different supervised machine learning problems which will be of either regression or classification.
+I will give you some examples. Given the data of the house, you have to predict the price of the house. Regression problem.
+There is a lot of information about the mail. You have to predict whether that mail is spam or not.
+After seeing all the weather conditions, tell whether it will rain today or not.
+Classification.
+So you can see, you will get to predict in different ways.
+By looking at an image, tell whether there is a dog in it or not.
+By looking at different images, tell how many number of dogs are there in it.
+Again regression problem.
+So it's very simple guys, you have to just ask this question.
+That first of all, is there input and output, both are there or not?
+If both are there, then it is a supervised machine learning problem.
+If someone asks you whether it is a regression or classification, you will just see the output column, if it is a number, regression, if it is a category, classification.
+And that is the entire thing. You just have to read this much.
+I hope you understood supervised machine learning well.
+Now let's move on to unsupervised machine learning.
+What is unsupervised machine learning? We are discussing that.
+So, I will just write it down.
+So, unsupervised machine learning is quite opposite of supervised machine learning.
+In supervised machine learning, you have input and output.
+Right?
+This doesn't happen in unsupervised.
+In unsupervised, you only have input.
+I'll give you an example.
+Let's say you have data of 5000 students.
+And what is the data you have?
+There are only two columns. IQ and CGPL.
+There is no data of placement.
+So, your data is like this.
+70, 7.0, 60, 6.0, 100, 9, in this way you have data of 5000 students
+now if you see carefully, here I have only input not output
+so it means task prediction cannot happen here
+because I don't know what to predict
+so the question is what to do
+so in unsupervised learning you do many things
+Precisely you do 4 things which I have shown you in the first slide. Either you do clustering, I will discuss this one by one, you don't have to worry.
+Or you do dimensionality reduction or you do anomaly detection or you do clustering, dimensionality reduction, anomaly detection and association rule learning.
+learning. These are the 4 things you do. So, we will discuss these 4 things one by one.
+Let's first talk about clustering. So, what is clustering? I will tell you. It is very
+simple and useful. To be honest, unsupervised is very interesting and very useful. In fact,
+when you do a lot of machine learning, you will have to work on unsupervised machine
+learning only. I will give you one example of clustering. If you see here, you have
+So, you have the data of the students about two columns, so you can actually plot this data onto a 2D coordinate system
+where IQ will be on x-axis and CGPA will be on y-axis and all your data can be plotted here, like this, right.
+Now, what will a clustering algorithm do? It can detect which students should come in one group.
+Like if you see here, you can see that these students are of one group, these students are of another group and these students are of third group.
+So what benefit I am getting is that I am able to divide my students into categories.
+Those students whose IQ is more and CGPA is more, those students whose IQ is more and CGPA is less, those students whose CGPA is more and IQ is less.
+So I can put any incoming student in categories and then I can process whatever I want to do.
+In fact, what can I do now? I can label these students myself.
+0 means both things are more. 1 means CGPA is more and IQ is less.
+2 means IQ is more and CGPA is less.
+In this way, I can create labeled data for supervised machine learning.
+Or this thing will also help me in my own analysis.
+For example, if I am running an e-commerce website,
+So I should know the type of my customers, how they behave, in which category they can be put.
+So clustering in that sense is very very important.
+And the good part about clustering is that here there were only two columns.
+So here you can tell with naked eye that there will be three clusters.
+But what can clustering algorithms do?
+They can divide very high dimensional data into clusters in an n-dimensional hyperspace.
+Where you can't see it with naked eye.
+So clustering is a very powerful technique used quite a lot in industry to do a lot of things.
+In today's industry, a lot of things are being done in this way in which clustering is very important.
+You can divide all your customers into groups within groups.
+If you do hierarchical clustering, there is a concept of hierarchical clustering
+where you create groups within groups, something like this.
+One more group is formed in this, one more group is formed in this.
+So you can know everything group by group.
+So, it's a powerful technique and we will study about it in the future.
+In fact, there are already some videos on my channel related to clustering.
+You can watch them.
+Next is dimensionality reduction.
+Dimensionality reduction is again a very powerful concept.
+So, I will tell you what is the need for it.
+Sometimes, when you are working on supervised machine learning,
+then the input data that you have,
+like right now we only had two input columns, IQ and CGPA.
+But sometimes what will happen is that you will have a lot of input columns.
+Like some particular problems, like you work on image based data or work on textual data.
+So it is possible that you have 1000 input columns which are very much.
+Now what is the problem with having 1000 input columns?
+First of all, your algorithm will run very slow because you have to work on a lot of data.
+And second, after one point, by adding extra input columns, there is no improvement in the result.
+then there is no need of some columns.
+So what is dimensionality reduction?
+Dimensionality reduction comes from dimension
+and dimension means column, column means input columns.
+So dimensionality reduction will do what?
+It will remove those extra columns.
+I will give you one example.
+Let's say you were working on a house dataset
+where you have two columns,
+means there are many columns but two of them were
+number of rooms and number of washrooms.
+And you had to predict the price of the house. So, what will a dimensionality reduction algorithm do?
+It will pick up such related columns and convert them into a single column.
+Square feet area. It said that by combining the number of rooms and washrooms, the area of the house is increasing.
+So, instead of keeping two separate columns, let's keep one single column by the name of square feet area.
+and here you have created a new column from given columns, this is called feature extraction by the way,
+you will read about this in future, this is called feature extraction, so you have created a new column from given multiple columns
+and since number of columns reduced then this is called dimensionality reduction, this is a very powerful technique,
+there is an algorithm called PCA, you will work on PCA, one more thing related to this is visualization,
+sometimes what happens is that you get some data which has many dimensions, now you can't plot it on graph
+because on graph you can plot maximum on how many axis, on 3 axis, but the data you have is 1000 axis
+or 2000 axis or 500 columns or whatever it is. You cannot plot that onto a 3D coordinate system.
+So in this kind of scenario also what you do is you use dimensionality reduction algorithms
+and reduce the number of dimensions to 2 or 3 and then in that 2 or 3 coordinate system
+2 or 3 dimensional coordinate system what you do is you plot those same points which were in higher dimension.
+Now you are capturing the same relationship in lower dimension and you can study it.
+I will show you an example of this.
+There is a very famous data set called MNIST.
+MNIST is basically image of handwritten digits.
+And these images are very small images of 28 by 28 pixels.
+So people converted it in tabular form.
+every pixel's value is made into a column. So in total how many columns do we have?
+28 multiplied by 28 means 784 columns. So this data is in 784 dimensional space.
+Now obviously I can't visualize things in 784 dimensional space.
+So here you apply a technique called Teissnet which is a dimensionality reduction technique.
+What it has to do is it has to pick up 784 dimensional space and bring it in 3 dimension.
+And in that three dimensional space also you can see the relationship between two points.
+That is what is done in this blog.
+So here you can see, actually there are ten different colours
+and each colour is signifying one digit.
+Like this yellow colour is signifying 1,
+this blue is signifying 6, red is signifying 0, green is signifying 4.
+And this is the relationship between these points in 3D space.
+which are actually 784 dimensional points, I brought them in 3D and still I am able to visualize the relationship between them
+again a very powerful technique, it is a bit advanced, you will read it in the future but just to show you that something like this exists
+I am discussing this example, next is anomaly detection, you can understand from the name that
+you want to detect something different that is going wrong, so it could be anything manufacturing defect
+credit card is detected in processing, loan is detected in approval, you just have to detect the outliers and remove them from the system
+and for this type of thing also you use unsupervised machine learning, I will give you one example
+as you can see here, you have already trained your model on all these red points and you have told that these are normal points
+there is no problem, tomorrow a new green point will come which lies here, so your system will say okay because it looks like other points
+But if tomorrow you get this point which is quite far from other points and is different, then you will raise a flag that this is an anomaly.
+This can also happen in the case of classification, this can also happen in the case of regression that the values of share were in a range,
+then suddenly it went up and raised an anomaly. So anomaly detection is also a very powerful application of unsupervised learning.
+And the last one is association rule based learning. What is association rule based learning?
+I will give you an example of this. Let's say you are going to a super market like Spencers or Big Bazaar.
+If you notice there, there are a lot of things which are properly organized.
+Things get together in sections. If you think about it, there would be 5000-6000 different products.
+How can we arrange all of them properly? If you think about this, it is a serious problem.
+If you are setting up a store like Big Bazaar, how would you decide which thing will go where?
+Which thing will be with whom? It is very difficult to decide this.
+So here you can use association. What do you do in association?
+Like in this Spencer's scenario, whatever shopping has happened in the last 1-2 years,
+you will generate the bills of all those shopping and then you will notice the patterns there.
+If you scan 100 bills, then you get to know that 80 times milk was bought in 100 bills and 60 times egg was also bought.
+So you can see there is a strong association between these two products and that is why you will keep them together always.
+So that is how you do association rule-based learning. Here you fetch information in data, you mine data and then you do draw conclusions.
+A very interesting case study came in US, I don't know if it was Walmart or any other company.
+One of their employee suggested that you should keep beer with baby diapers.
+For the first time, this sound is very weird that baby diapers, huggies and beer.
+Why should we keep them with us? Both seem to be unrelated products.
+But from this study we came to know that many customers of Walmart used to buy beer when they used to buy baby diapers.
+Due to which a correlation was developed. Now this correlation was visible in the bills.
+So as soon as they implemented this thing that they used to keep baby diapers next to the beer, their sale increased.
+This is a very interesting case study. I will put its link with the video. You will get a strong feeling about machine learning.
+How many hidden patterns exist in this world which are bringing machine learning to the surface and helping businesses.
+This was an interesting example.
+Unsupervised learning is very useful and you have to do it many times.
+These are the four most important use cases that you have to study.
+Going back to the first slide, we have covered these two things.
+Supervised and unsupervised learning.
+Now we are studying semi-supervised.
+So what is the funda of semi-supervised? It is partially unsupervised and it is partially supervised.
+That is why the word semi-supervised. So see, the labels, the output column is very expensive.
+What does it mean to be expensive? At the end, who will tell whether there is a dog in this image or not?
+Someone will tell about the human being. At the end, who will tell about the IQ of this student,
+CGP was this much, so its placement was done or not, someone will tell about human being, so the labeling,
+the output column is called labels, to create the labels, human effort is required, so human effort means
+you will give him salary, it will cost money, right, so creating the labels is a very difficult work,
+if you want input columns, you can fetch them from anywhere, in today's date, if I want a lot of images,
+I can scrape them on the internet, I can download a lot of images in my folder, but what is in that image,
+To know this, I will have to do manual labelling in which human hours and money are used.
+So labelling is a difficult and expensive work.
+So people thought, what if we use a technique in which I don't have to label all the data points.
+I just have to label one or two data points and the rest of the points will be automatically labelled.
+And that is the core idea behind semi-supervised learning.
+I will give an example of this.
+All of you must have used Google photos.
+Google Photos is a service where it automatically identifies the person by clicking on them.
+It takes all the photos at one place.
+It also separates the photos of the other person.
+So in a way you are clustering the photos.
+Now it will ask you about the photo of a person and you will tell it that he is Papa.
+It will automatically label the other photos as Papa.
+Then he will ask the next one, you will say that it is mummy. So he will label all the photos of mummy.
+So it became very cheap. As a user, I had to tell only one photo and the rest of the work was done by unsupervised machine learning behind the scenes.
+And I just had to copy the labels on it. So that is one example where semi-supervised learning is used.
+And to be honest, this technique has become very famous in the last few years and is used in many places now.
+So you may have to do semi-supervised learning sometime in the future.
+The last one is reinforcement learning. What is the funda of reinforcement learning?
+What is the funda of supervised learning? In which there is both input and output.
+What is the funda of unsupervised learning? In which there is only input.
+What is the funda of reinforcement learning? That you don't give data here.
+There is no data with your system. Your algorithm starts learning from scratch.
+And then gradually improves. It's like us human beings.
+We study in a new scenario. Let's say you go to college. You don't have data on how to behave or live in college.
+But you learn by making mistakes. Right. A very good example of this is a self-driving car.
+Self-driving car doesn't have data from the beginning. It gets down on the road and gradually learns how to drive the car. Right.
+So the FUNTA is very simple actually. I got this image from Google.
+So, in reinforcement learning, you call the algorithm an agent.
+What an agent has to do is to live in a given environment.
+For example, we are living in life, we are living in the world.
+By the way, this is an agent's environment.
+For example, the environment of a self-driving car is roads.
+The environment of a chess-playing agent is that chess game.
+So, there are multiple possibilities.
+For example, there is a threat here, fire, and extinguishing fire means water is one more possibility.
+So now the agent has to decide whether he goes to fire or water.
+Now what happens is that the agent first observes that some changes are happening.
+And then the agent has a policy.
+So policy is basically his rule book, what he should do.
+So let's say it is written in policy to go to fire.
+As soon as he went to the fire, you had defined the fire as a negative reward or punishment.
+So, as soon as he went to the fire, you have deducted some points from it.
+So, the agent understood that he should not go to the fire.
+He will immediately update his policy.
+And then according to the updated policy, he will repeat this process again.
+Since now he does not have to go to the fire because his marks are being deducted there.
+So, he will go to the water because he is getting marks there.
+So, the overall idea is very simple.
+There is an agent who is in an environment and on every action you either give him a reward or punish him.
+And his end goal is to increase his rewards and reduce his punishment while living in that environment.
+It's like training your dog. If he is doing something good, you give him chocolate and if he is doing something wrong, you kill him.
+His mind is being reinforced that doing this is beneficial and doing that is wrong.
+We also live like this. So this is a very good technique.
+Recently it is becoming very famous. There is a company called DeepMind which was acquired by Google.
+They made an agent which is called Go. Go is a game.
+Go game. This game is actually a Chinese game.
+And it is very complex. It is more complex than chess.
+And people used to think that defeating human beings in this game is next to impossible.
+But DeepMind is a company, they created an agent called AlphaGo which in 2017 or 2016 defeated the champion of this game 4 times straight in 5 games.
+So since then there is a lot of talk about reinforcement learning in the industry.
+This is the application of self-driving car, this is the application of game-playing agents.
+There are many more applications of this.
+It is a little difficult obviously because you must be able to understand by looking at it. You have zero data. You have to learn on your own.
+So it is a little difficult but people use it these days. So guys this is our whole thing which we have to learn.
+We will start with supervised learning then we will move on to unsupervised. There are 3-4 techniques in unsupervised.
+Sometimes you may need semi-supervised and a completely different thing is reinforcement learning.
+So, if you are a beginner in machine learning, trust me, you should remember this diagram from the bottom of your heart.
+You should always know that you are solving a problem.
+So, what is the problem among these? You should always have this understanding if you are a beginner.
+So, I had to discuss this thing today. I hope I was able to explain it to you properly.
+And tomorrow and day after tomorrow, we will discuss the types of machine learning on the basis of two more things.
+That is the next topic.
+so yeah that's it for the video if you liked it please consider subscribing thanks for watching guys

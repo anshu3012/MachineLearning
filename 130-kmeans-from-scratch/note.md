@@ -68,7 +68,7 @@ The **constructor** (G-457), the method that runs when the object is created, ta
 
 > **Key point:** Pick k different row numbers at random and take those rows as the first centroids.
 
-`X` is a 2-D NumPy array: with 100 points in 2 columns, it holds 100 rows of 2 numbers each. Each row is an **observation** (one record of the data) and each column a **feature** (an input variable). To start, we pick k different row numbers between 0 and 99 at random, then take those rows. Figure 2 shows one such start on the 200 students: the four chosen rows are real students. They fall in pairs inside two groups, and two groups start with no centroid at all; the loop of Figure 5 still recovers all four.
+`X` is a 2-D NumPy array: with 100 points in 2 columns, it holds 100 rows of 2 numbers each. Each row is an **observation** (one record of the data) and each column a **feature** (an input variable). To start, we pick k different row numbers between 0 and 99 at random, then take those rows. Figure 2 shows one such start on the 200 students: the four chosen rows are real students. They fall in pairs inside two groups, and two groups start with no centroid at all; the loop of Figure 6 still recovers all four.
 
 ![Step 2 on the students: rows 47, 16, 35 and 159, picked at random, become the first four centroids](images/start_centroids.png)
 
@@ -101,6 +101,10 @@ $$d(a, b) = \sqrt{(b - a) \cdot (b - a)}$$
 For $a = (1, 2)$, $b = (4, 5)$: $b - a = (3, 3)$, $(3, 3) \cdot (3, 3) = 18$ and $d = \sqrt{18} \approx 4.24$. With a third feature, $(1, 2, 3)$ and $(4, 5, 6)$, the dot product is 27 and $d = \sqrt{27} \approx 5.196$, from the same code. In Figure 3, watch the two dashed sides: each feature adds one squared side, and the dot product adds them all at once.
 
 ![The distance from (1, 2) to (4, 5): the difference vector (3, 3), its dot product with itself, and its square root](images/distance.png)
+
+Figure 4 plays the same calculation step by step: the difference vector, its dot product with itself, the square root. Watch the last part: a third feature adds one more term to the dot product, and the line of code stays the same.
+
+![The distance from (1, 2) to (4, 5) as a dot product, step by step; then a third feature is added, (1, 2, 3) to (4, 5, 6), and the same code gives 5.196](images/distance_dot.gif){height=60%}
 
 > **Python:** The distance in NumPy.
 >
@@ -146,7 +150,7 @@ Take five rows and their clusters:
 | 3 | (4, 5) | 0 |
 | 4 | (5, 6) | 1 |
 
-`X[cluster_group == 0]` keeps rows 0, 2 and 3. Their column means are $(1 + 3 + 4)/3 = 2.67$ and $(2 + 4 + 5)/3 = 3.67$, so the new centroid of cluster 0 is (2.67, 3.67). Cluster 1 gets $(3.5, 4.5)$. Figure 4 draws both: each cross lands in the middle of its own rows, and the other cluster's rows (grey) play no part.
+`X[cluster_group == 0]` keeps rows 0, 2 and 3. Their column means are $(1 + 3 + 4)/3 = 2.67$ and $(2 + 4 + 5)/3 = 3.67$, so the new centroid of cluster 0 is (2.67, 3.67). Cluster 1 gets $(3.5, 4.5)$. Figure 5 draws both: each cross lands in the middle of its own rows, and the other cluster's rows (grey) play no part.
 
 ![Moving the centroids for the five-row example: each new centroid is the column mean of its own rows](images/move_example.png)
 
@@ -183,7 +187,7 @@ Take five rows and their clusters:
 >
 > `break` leaves the loop at once. `np.allclose` is True when every pair of numbers is equal up to a tiny rounding error. `(old == new).all()` also works, but computed means can differ in the last decimal place.
 
-Figure 5 runs the whole loop on the 200 students from the start of Figure 2. Watch the largest move shrink round by round; in round 4 the centroids do not move at all, `np.allclose` is True, and the loop breaks.
+Figure 6 runs the whole loop on the 200 students from the start of Figure 2. Watch the largest move shrink round by round; in round 4 the centroids do not move at all, `np.allclose` is True, and the loop breaks.
 
 ![The assign-and-move loop on the students: colours change at step 3, crosses move at step 4, and the loop stops in round 4](images/kmeans_rounds.gif)
 
@@ -197,7 +201,7 @@ We generate test data with `make_blobs` (the [k-means in Python Note](../129-kme
 
 ![The from-scratch class on 2, 3 and 4 blobs and on the students; crosses are the final centroids](images/four_datasets.png){height=55%}
 
-Figure 6 shows all four results: every group found, every centroid in the middle of its group. The loops finished after 2, 5, 3 and 4 rounds. Plotting needs one scatter call per cluster, so the plotting code (not the class) must be extended each time k grows.
+Figure 7 shows all four results: every group found, every centroid in the middle of its group. The loops finished after 2, 5, 3 and 4 rounds. Plotting needs one scatter call per cluster, so the plotting code (not the class) must be extended each time k grows.
 
 > **Python:** The self-check in `kmeans.py`.
 >
@@ -217,9 +221,13 @@ Figure 6 shows all four results: every group found, every centroid in the middle
 
 Sometimes the class returns wrong clusters. Blaming `max_iter` and raising it is tempting, but the round counts say otherwise. Across 30 random starts on the four blobs, k-means never needed more than 10 rounds; at most 10 of the 100 allowed rounds were ever used.
 
-Figure 7 shows the real cause on the students. With one random start (left), two centroids end up in the bottom-left group. That group gets split in two, while two real groups, the top ones, have to share one centroid placed in the empty space between them. After 3 rounds nothing changes any more, so the algorithm stops, stuck. Raising `max_iter` to 500 gives exactly the same result.
+Figure 8 shows the real cause on the students. With one random start (left), two centroids end up in the bottom-left group. That group gets split in two, while two real groups, the top ones, have to share one centroid placed in the empty space between them. After 3 rounds nothing changes any more, so the algorithm stops, stuck. Raising `max_iter` to 500 gives exactly the same result.
 
 ![The same students and k = 4 from two random starts: stuck in poor clusters (left) and the right clusters (right)](images/bad_start.png)
+
+Figure 9 runs both starts round by round. Watch the status in each panel's title. The bad start stops in round 3 and the good start in round 4: in both, the centroids no longer move, so the loop breaks long before `max_iter`. From then on nothing changes in either panel, and the bad run stays at WCSS 2,280. Extra rounds are never used, so they cannot repair a bad start.
+
+![The bad start (left) and the good start (right) on the students, one assign-and-move round per frame, with the WCSS after each round. The bad run stops in round 3 at WCSS 2,280, the good run in round 4 at WCSS 682](images/start_race.gif){height=40%}
 
 The two runs can be compared by their WCSS (the [k-means Note](../128-kmeans-intuition/note.md), section 5.1): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple (ESL §14.3.6):
 
@@ -256,6 +264,7 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 **Built from**
 
 - CampusX, "K-Means Clustering Algorithm From Scratch In Python | ML Algorithms From Scratch", YouTube, https://www.youtube.com/watch?v=MFraC1JObUo
+- StatQuest with Josh Starmer, "StatQuest: K-means clustering", YouTube, https://www.youtube.com/watch?v=4b5d3muPQmA (a bad start is fixed by rerunning from new starts and keeping the lowest total variation, section 9)
 
 **Other references**
 

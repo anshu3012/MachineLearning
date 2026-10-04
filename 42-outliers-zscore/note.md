@@ -41,7 +41,7 @@ So before we use the method, we plot the feature and check that it looks like a 
 
 > **Key point:** In a normal feature, about 68.3% of the values lie within 1 standard deviation of the mean, 95.4% within 2, and 99.7% within 3.
 
-A normal distribution always spreads its values in the same fixed way around its mean. Write $\mu$ for the mean and $\sigma$ for the standard deviation. Figure 2 shows the three ranges:
+A normal distribution always spreads its values in the same fixed way around its mean. Write $\mu$ for the **mean** (G-1203), the average of the values, and $\sigma$ for the **standard deviation** (G-1871), the typical distance of a value from the mean. Figure 2 shows the three ranges:
 
 - from $\mu - \sigma$ to $\mu + \sigma$: about 68.3% of the values;
 - from $\mu - 2\sigma$ to $\mu + 2\sigma$: about 95.4%;
@@ -51,11 +51,27 @@ This spread is called the **68-95-99.7 rule** (or the **empirical rule** (G-53))
 
 ![The 68-95-99.7 rule; the red tails beyond 3 standard deviations hold only 0.3% of the values](images/empirical_rule.png)
 
-Only about 0.3% of the values lie beyond 3 standard deviations, about 0.13% on each side. A value out there is so rare that the usual practice is to call it an outlier: like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
+Figure 3 reads the same three ranges off real data: the CGPA of the 1,000 students of Section 6, with mean 6.96 and standard deviation 0.62. Watch the bands shade in turn, from the narrowest to the widest. The count of students inside each band is close to the rule: 679 (67.9%), 957 (95.7%) and 995 (99.5%). The last frame shows what is left outside the widest band: 5 students, in red.
+
+![The 68-95-99.7 rule on the CGPA of 1,000 students: the bands of 1, 2 and 3 standard deviations shade in turn, then the 5 students outside all three (idea after Khan Academy, "ck12.org normal distribution problems: Empirical rule")](images/rule_bands.gif)
+
+### 3.1 Reading the two tails
+
+> **Key point:** What a band leaves out is split equally between the two ends, so only about 0.15% of the values lie above $\mu + 3\sigma$.
+
+The part of a distribution far from the centre, where values are rare, is a **tail** (G-1942). A normal distribution has two tails, and they are mirror images: the bell is symmetric around the mean. So the share in one tail follows from the rule, step by step:
+
+1. **In words:** take what the band leaves out, and halve it.
+2. **Formula:**
+   $$\text{share in one tail} = \frac{100 - \text{share inside the band}}{2}$$
+3. **Example, one standard deviation:** the band $\mu \pm \sigma$ holds 68%, so each tail holds $(100 - 68)/2 = 16$ percent. On the CGPA data, 163 students (16.3%) are below 6.35 and 158 (15.8%) are above 7.58.
+4. **Example, three standard deviations:** the band $\mu \pm 3\sigma$ holds 99.7%, so each tail holds $(100 - 99.7)/2 = 0.15$ percent. On the CGPA data, 3 students are below 5.11 and 2 are above 8.81.
+
+A value beyond 3 standard deviations is so rare that the usual practice is to call it an **outlier** (G-1420): like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
 
 > **Extra:** The exact numbers are 68.27%, 95.45% and 99.73%. They come from the area under the bell curve, and they are only true for a perfectly normal feature. A real column that is close to normal gives numbers close to them: the `cgpa` column of Section 6 has 67.9%, 95.7% and 99.5% of its values in the three ranges (last cell of the Notebook).
 
-### 3.1 The limits
+### 3.2 The limits
 
 > **Key point:** The lower limit is $\mu - 3\sigma$ and the upper limit is $\mu + 3\sigma$; values outside them are outliers.
 
@@ -72,7 +88,7 @@ The rule turns into two limits, step by step:
 
 > **Key point:** A value's z-score counts how many standard deviations it lies from the mean, so "outside mean ± 3 standard deviations" is the same as "z-score above 3 or below -3".
 
-The **z-score** (G-2141) of a value is the standardization formula of Note 24 (Section 5), applied to one value:
+The **z-score** (G-2141) of a value is the **standardization** (G-1874) formula of Note 24 (Section 5), applied to one value:
 
 1. **In words:** subtract the mean of the column, then divide by its standard deviation.
 2. **Formula:**
@@ -82,7 +98,7 @@ The **z-score** (G-2141) of a value is the standardization formula of Note 24 (S
    and for a CGPA of 4.89,
    $$z = \frac{4.89 - 6.9612}{0.6159} = -3.36.$$
 
-Converting the whole column to z-scores gives the bottom row of numbers in Figure 2. The limit $\mu + 3\sigma$ becomes $z = 3$, and $\mu - 3\sigma$ becomes $z = -3$. Figure 3 does the conversion on the real `cgpa` column; watch the two dashed limits travel with the data and land exactly on $-3$ and $+3$, with the same five red students still outside.
+Converting the whole column to z-scores gives the bottom row of numbers in Figure 2. The limit $\mu + 3\sigma$ becomes $z = 3$, and $\mu - 3\sigma$ becomes $z = -3$. Figure 4 does the conversion on the real `cgpa` column; watch the two dashed limits travel with the data and land exactly on $-3$ and $+3$, with the same five red students still outside.
 
 ![Subtracting the mean slides the CGPA column to 0; dividing by the standard deviation squeezes it, so the limits 5.11 and 8.81 become z = -3 and z = +3](images/zscore_slide.gif)
 
@@ -97,7 +113,7 @@ Both flag exactly the same rows. Section 9 does it the second way.
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
 
-Both treatments, **trimming** (G-2019) and **capping** (G-345), come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers). With the limits of Section 3.1, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
+Both treatments, **trimming** (G-2019) and **capping** (G-345), come from the [outliers Note](../41-what-are-outliers/note.md) (section seven, ways to treat outliers). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
 ## 6. The placement data
 
@@ -116,11 +132,11 @@ The data comes from a college: one observation per student, 1,000 students, thre
 - `placement_exam_marks`: marks out of 100 in the aptitude test that companies hold before placement (aptitude, coding, English).
 - `placed`: 1 if the student got a job offer, 0 if not. This column is the **target** (G-1949), the output a model would predict.
 
-Two features are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 4 plots the distribution of each.
+Two features are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 5 plots the distribution of each.
 
 ![CGPA is bell-shaped; the placement exam marks have a long tail to the right](images/distributions.png)
 
-- **`cgpa`** is close to normal: a bell, with skewness $-0.01$ (0 means perfectly symmetric, Note 20).
+- **`cgpa`** is close to normal: a bell. Its **skewness** (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric, Note 20).
 - **`placement_exam_marks`** is right-skewed (skewness 0.84): many students scored low and only a few scored high.
 
 So the z-score method can only be used on `cgpa`. The marks feature needs the IQR rule of Note 43.
@@ -138,7 +154,7 @@ So the z-score method can only be used on `cgpa`. The marks feature needs the IQ
 > # cgpa -0.01, placement_exam_marks 0.84
 > ```
 >
-> The Notebook draws Figure 4 with Seaborn's objects interface: `so.Hist` for the bars and `so.KDE` for the smooth curve.
+> The Notebook draws Figure 5 with Seaborn's objects interface: `so.Hist` for the bars and `so.KDE` for the smooth curve.
 
 ## 7. Finding the limits and the outliers
 
@@ -150,9 +166,9 @@ First we look at four numbers of the `cgpa` column:
 |---|---|---|---|
 | 6.96 | 0.62 | 4.89 | 9.12 |
 
-The limits are mean ± 3 standard deviations, as in Section 3.1: **5.11** and **8.81**. The minimum, 4.89, is below the lower limit and the maximum, 9.12, is above the upper limit, so the column does have outliers.
+The limits are mean ± 3 standard deviations, as in Section 3.2: **5.11** and **8.81**. They are the **lower limit** and the **upper limit** (G-2062) of the method. The minimum, 4.89, is below the lower limit and the maximum, 9.12, is above the upper limit, so the column does have outliers.
 
-Five students fall outside the limits (Figure 5, red):
+Five students fall outside the limits (Figure 6, red):
 
 | Row | cgpa | placement_exam_marks | placed |
 |---|---|---|---|
@@ -185,7 +201,7 @@ Four of the five were placed, including two of the three students with a CGPA be
 
 > **Key point:** Keeping only the rows inside the limits removes the 5 outliers and leaves 995 rows.
 
-Trimming is a filter: keep only the rows whose CGPA lies between the two limits. Figure 6 (middle) shows the result: the same bell, without the five values at the ends.
+Trimming is a filter: keep only the rows whose CGPA lies between the two limits. Figure 7 (middle) shows the result: the same bell, without the five values at the ends.
 
 > **Python:** Trimming.
 >
@@ -239,7 +255,7 @@ For capping we go through the column value by value:
 - below the lower limit: replace it with the lower limit;
 - otherwise: leave it as it is.
 
-NumPy's **`np.where`** does this for a whole column at once. `np.where` takes three things: a condition, the value to use where the condition is true, and the value to use where it is false. Two conditions need two `np.where` calls, one inside the other.
+NumPy's **`np.where`** (G-124) does this for a whole column at once. `np.where` takes three things: a condition, the value to use where the condition is true, and the value to use where it is false. Two conditions need two `np.where` calls, one inside the other.
 
 > **Python:** Capping with `np.where`.
 >
@@ -268,17 +284,21 @@ The result, compared with the original column:
 | Minimum | 4.89 | 5.11 |
 | Maximum | 9.12 | 8.81 |
 
-The mean barely moves and the standard deviation shrinks a little. The minimum and maximum are now exactly the limits. Figure 6 (bottom) shows the three low values piled onto 5.11 and the two high values onto 8.81, in orange.
+The mean barely moves and the standard deviation shrinks a little. The minimum and maximum are now exactly the limits. Figure 7 (bottom) shows the three low values piled onto 5.11 and the two high values onto 8.81, in orange.
 
 ![Before and after: the original column, the trimmed column (995 rows) and the capped column (1,000 rows, outliers moved onto the limits)](images/before_after.png){height=62%}
 
-> **Extra:** pandas has a one-line shortcut for capping: `df["cgpa"].clip(lower_limit, upper_limit)`. `clip` gives exactly the same column as the two nested `np.where` calls.
+Figure 8 shows capping as a movement. Watch the five red students: each slides onto the limit it crossed, and no dot leaves the picture.
+
+![Capping the CGPA column: the 5 outliers slide onto the limits 5.11 and 8.81; all 1,000 students stay](images/capping_slide.gif)
+
+> **Extra:** pandas has a one-line shortcut for capping: `df["cgpa"].clip(lower_limit, upper_limit)`. **`clip`** (G-70) gives exactly the same column as the two nested `np.where` calls.
 
 ## 11. Learning the limits on the training set
 
 > **Key point:** The limits are learned from the data, so they should be learned on the training set only, like the mean and standard deviation of a scaler.
 
-> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. Computing them on all rows lets the test rows influence the limits, the same [data leakage](../13-toy-project/note.md) that the toy-project Note avoids for scaling (section seven). The cleaner order is:
+> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. Computing them on all rows lets the test rows influence the limits, the same [data leakage](../13-toy-project/note.md) (G-535) that the toy-project Note avoids for scaling (section seven). The cleaner order is:
 >
 > 1. Split the data into training and test sets.
 > 2. Compute the mean, standard deviation and limits on the training set only.
@@ -293,7 +313,7 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 >
 > ![Limits learned on the 800 training rows (5.12 and 8.78), applied to both sets: 4 outliers in training, 1 in test](images/train_limits.png)
 >
-> In Figure 7, watch the test student with CGPA 8.87: the training limits flag that student even though no test row helped set them.
+> In Figure 9, watch the test student with CGPA 8.87: the training limits flag that student even though no test row helped set them.
 >
 > The limits move only a little here, because 800 rows give almost the same mean and standard deviation as 1,000. Trimming is done on the training set only, since we cannot delete test rows (or real users) at prediction time. Capping can be applied to both sets with the training limits; the Notebook shows both steps.
 
@@ -307,7 +327,7 @@ The mean barely moves and the standard deviation shrinks a little. The minimum a
 
 ![The same rule on the skewed marks: the lower limit -25.17 sits where no mark can be, and 8 high marks are flagged](images/marks_limits.png)
 
-In Figure 8, watch the grey band: half of the rule is spent on impossible negative marks, while the long right tail gets cut.
+In Figure 10, watch the grey band: half of the rule is spent on impossible negative marks, while the long right tail gets cut.
 
 > **Extra:** Two more things to keep in mind.
 >
@@ -337,6 +357,7 @@ In Figure 8, watch the grey band: half of the rule is spent on impossible negati
 **Built from**
 
 - CampusX, "Outlier Detection and Removal using Z-score Method | Handling Outliers Part 2", YouTube, https://www.youtube.com/watch?v=OnPE-Z8jtqM
+- Khan Academy, "ck12.org normal distribution problems: Empirical rule", YouTube, https://www.youtube.com/watch?v=OhRr26AfFBU
 
 **Other references**
 
@@ -355,5 +376,7 @@ In Figure 8, watch the grey band: half of the rule is spent on impossible negati
 | Bell curve | The curve of a normal distribution |
 | 68-95-99.7 rule (empirical rule) | In a normal feature, about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean |
 | Z-score | How many standard deviations a value lies from the mean: $(x - \mu)/\sigma$ |
+| Tail | The part of a distribution far from the centre, where values are rare |
+| Outlier | A value far from the rest of the data |
 | Upper / lower limit | $\mu + 3\sigma$ and $\mu - 3\sigma$; values beyond them are outliers |
 | `np.where` | NumPy function that picks one value where a condition is true and another where it is false |

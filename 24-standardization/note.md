@@ -27,7 +27,28 @@ Figure 1 shows the whole topic. Standardization is two moves done one after the 
 
 > **Key point:** Feature scaling brings the features to a similar range, so a feature with big numbers does not drown out one with small numbers.
 
-Feature scaling brings the features of a dataset into a similar range. The [toy project Note](../13-toy-project/note.md) (section "Scaling the inputs") shows why: algorithms such as KNN measure distances, so salary differences in thousands swamp age differences in tens. Two points are new here:
+**Feature scaling** (G-767) brings the features of a dataset into a similar range. The [toy project Note](../13-toy-project/note.md) (section "Scaling the inputs") introduced the reason; here we work it through on this Note's data (Section 6.1), where each user has an age and a salary.
+
+**The plain idea.** Algorithms such as KNN decide which users are alike by measuring the distance between them. A salary gap is in the thousands and an age gap is in the tens, so the salary gap decides the distance alone.
+
+**The standard term.** The distance used is the **Euclidean distance** (G-715): the straight-line distance between two points. For two users it is
+
+$$d = \sqrt{(\text{age gap})^2 + (\text{salary gap})^2}.$$
+
+**Worked example.** Take a user aged 26 with a salary of 15,000 rupees, and two others:
+
+| Other user | Age gap | Salary gap | Distance |
+|---|---|---|---|
+| age 42, salary 53,000 | 16 | 38,000 | $\sqrt{256 + 1{,}444{,}000{,}000} \approx 38{,}000$ |
+| age 35, salary 59,000 | 9 | 44,000 | $\sqrt{81 + 1{,}936{,}000{,}000} \approx 44{,}000$ |
+
+The age gaps add 256 and 81 to numbers above a billion: they change nothing. The 42-year-old counts as the nearer user only because the salaries are closer.
+
+Figure 2 draws the squared distance to five users as bars, split into the age part (blue) and the salary part (orange). Watch the blue part: on raw data it is too small to see. After standardization, both parts show, and the nearest user changes from the 42-year-old to the 35-year-old, who is closer in age.
+
+![The squared distance from one user to five others, split into its age part and its salary part, on raw and on standardized data](images/distance_parts.gif)
+
+Two more points about feature scaling:
 
 - Only the features are scaled, never the **target** (G-1949) (the output we predict).
 - Scaling is usually the last step of feature engineering: we first handle missing values, transform columns and deal with categories, then scale just before giving the data to the model.
@@ -47,6 +68,30 @@ Standardization is sometimes called **z-score normalization** (G-2140) in ML wri
 
 > **Key point:** Each value is replaced by its distance from the column's mean, measured in standard deviations.
 
+### 4.1 The idea: how many standard deviations from the mean
+
+> **Key point:** A z-score answers one question about a value: how many standard deviations above or below the mean is it?
+
+The **mean** is the average of a column. The **standard deviation** is the typical distance of the values from that mean (both are taught in the [understanding your data Note](../19-understanding-your-data/note.md)). The **z-score** (G-2141) of a value is the number of standard deviations the value lies from the mean.
+
+Figure 3 builds the z-scores of eight made-up ages, chosen so that the arithmetic is easy: the mean is 30 and the standard deviation is 4. Watch the numbers under the dots: the dots stay where they are, and only their numbers change, in two steps.
+
+![Eight ages turned into z-scores in two steps: subtract the mean, 30, then divide by the standard deviation, 4](images/z_score_line.gif)
+
+| Age | Age - 30 | Divided by 4 (z-score) | In words |
+|---|---|---|---|
+| 24 | -6 | -1.5 | 1.5 standard deviations below the mean |
+| 28 | -2 | -0.5 | half a standard deviation below |
+| 30 | 0 | 0 | exactly at the mean |
+| 34 | 4 | 1 | 1 standard deviation above |
+| 38 | 8 | 2 | 2 standard deviations above |
+
+Step 1 is **mean centring** (G-1195): subtracting the mean, so that the mean itself becomes 0. Step 2 changes the unit from years to standard deviations. Doing both steps to every value of a column is standardization.
+
+### 4.2 The formula
+
+> **Key point:** $x' = (x - \bar{x}) / \sigma$, applied to every value of the column.
+
 Take a column `age` holding the ages of 500 customers (and the data has a salary column too). To standardize `age`, we compute a new value for every **observation** (G-1374) (one record, one row of the table), one by one.
 
 **Standardization**, step by step:
@@ -59,7 +104,7 @@ Take a column `age` holding the ages of 500 customers (and the data has a salary
    and a customer aged 15 becomes
    $$x' = \frac{15 - 32}{10} = -1.7.$$
 
-Figure 2 draws the two worked ages on two number lines, one in years and one in standard deviations. Watch the mean, 32, land on 0, and each step of 10 years become a step of 1.
+Figure 4 draws the two worked ages on two number lines, one in years and one in standard deviations. Watch the mean, 32, land on 0, and each step of 10 years become a step of 1.
 
 ![The ages 27 and 15 on the age line (mean 32, std 10) and the same two customers on the z line](images/z_number_line.png)
 
@@ -76,14 +121,14 @@ The new column always has two fixed properties, whatever the original numbers we
 
 > **Key point:** Standardization first moves the cloud of points so its centre sits at the origin (mean centring), then squeezes or stretches each axis until its standard deviation is 1.
 
-Plot every row as a point, with one column on each axis. The 500 customers form a cloud somewhere away from the origin, with some spread along each axis. Standardization moves this cloud in two steps (Figure 3):
+Plot every row as a point, with one column on each axis. The 500 customers form a cloud somewhere away from the origin, with some spread along each axis. Standardization moves this cloud in two steps (Figure 5):
 
 1. **Mean centring:** subtracting the mean slides the whole cloud, unchanged, until its mean sits at the origin $(0, 0)$.
 2. **Scaling by the standard deviation:** dividing by the standard deviation changes the spread along each axis to exactly 1.
 
 ![Standardization in two steps: shift the mean to the origin, then make the spread 1 on each axis](images/standardize_steps.gif){height=55%}
 
-In Figure 3, the red cross marks the mean and the dashed box reaches one standard deviation either side of it. Feature 1 starts with standard deviation 2 and feature 2 with 0.6.
+In Figure 5, the red cross marks the mean and the dashed box reaches one standard deviation either side of it. Feature 1 starts with standard deviation 2 and feature 2 with 0.6.
 
 The second step works differently for the two axes:
 
@@ -124,7 +169,7 @@ The data is the Social Network Ads file: 400 users of a social network, and whet
 
 > **Key point:** Always do the train-test split before any feature scaling.
 
-Whether we standardize or normalize, the train-test split comes first. The scaler should learn only from the training set, as the [toy project Note](../13-toy-project/note.md) explained under data leakage. With 30% of the rows held back for testing, the training set has 280 rows and the test set 120.
+Whether we standardize or normalize, the **train-test split** (G-1998) comes first. The scaler should learn only from the training set, as the [toy project Note](../13-toy-project/note.md) explained under **data leakage** (G-535). With 30% of the rows held back for testing, the training set has 280 rows and the test set 120.
 
 > **Python:** Splitting the data.
 >
@@ -142,14 +187,14 @@ Whether we standardize or normalize, the train-test split comes first. The scale
 
 > **Key point:** `fit` learns the mean and standard deviation of each column; `transform` applies the formula to every value.
 
-scikit-learn's **`StandardScaler`** class does exactly what Section 4 described: it takes every value and applies $(x_i - \bar{x}) / \sigma$. Using it has two steps:
+scikit-learn's **`StandardScaler`** (G-1876) class does exactly what Section 4 described: it takes every value and applies $(x_i - \bar{x}) / \sigma$. Using it has two steps:
 
-- **fit:** learn each column's mean and standard deviation from the training set, and store them.
+- **fit** (G-783): learn each column's mean and standard deviation from the training set, and store them.
 - **transform:** apply the formula to every value, using the stored numbers.
 
 We fit on the training set only, but transform both the training set and the test set. The test set is scaled with the training set's mean and standard deviation, never its own.
 
-Figure 4 shows the flow with the real numbers. Watch the arrows: only the training set feeds `fit`, while both sets pass through `transform`.
+Figure 6 shows the flow with the real numbers. Watch the arrows: only the training set feeds `fit`, while both sets pass through `transform`.
 
 ![fit learns the mean and standard deviation from the 280 training rows; transform applies them to both sets, here to the first training row](images/fit_transform.png)
 
@@ -216,7 +261,7 @@ Before scaling, the two columns live in completely different ranges. After scali
 
 > **Key point:** The cloud of points looks the same; only its centre and its units change.
 
-Figure 5 plots every training user by age and salary, before and after scaling. The two clouds look the same: every point keeps its place relative to the others.
+Figure 7 plots every training user by age and salary, before and after scaling. The two clouds look the same: every point keeps its place relative to the others.
 
 ![The training data before and after standardization](images/scatter_before_after.png)
 
@@ -226,7 +271,7 @@ The difference is on the axes. Before scaling, age runs from about 20 to 60 and 
 
 > **Key point:** Before scaling, the two density curves cannot be compared; after scaling, they sit on the same range.
 
-Figure 6 draws the density curve (KDE) of both columns on one axis. Before scaling, age lives in a very small range (18 to 60), so its curve is a tall, thin spike near 0. Salary is spread over a huge range, so its curve is almost a flat line: its density is around 0.000003.
+Figure 8 draws the **kernel density estimate (KDE)** (G-1005), a smooth curve of where the values lie, of both columns on one axis. Before scaling, age lives in a very small range (18 to 60), so its curve is a tall, thin spike near 0. Salary is spread over a huge range, so its curve is almost a flat line: its density is around 0.000003.
 
 ![Density curves of age (blue) and salary (orange), before and after standardization](images/kde_before_after.png)
 
@@ -236,11 +281,11 @@ The two curves cannot be compared because their scales differ so much. After sta
 
 > **Key point:** Standardization does not change the shape of a column's distribution.
 
-Figure 7 shows each column on its own. Age before scaling and age after scaling have exactly the same curve; so do salary before and after.
+Figure 9 shows each column on its own. Age before scaling and age after scaling have exactly the same curve; so do salary before and after.
 
 ![Each column's distribution before and after: the shape stays, the numbers change](images/shape_unchanged.png)
 
-Only the numbers under the curve change: the mean becomes 0 and the standard deviation 1. If a column was skewed before, it is just as skewed after standardization.
+Only the numbers under the curve change: the mean becomes 0 and the standard deviation 1. If a column was skewed (lopsided, with a long tail on one side) before, it is just as skewed after standardization.
 
 ## 8. Why scaling matters: an experiment
 
@@ -254,9 +299,9 @@ Think of judging two runners, one timed in seconds and one in milliseconds: unti
 | Logistic regression | 65.8% | 86.7% |
 | Decision tree | 87.5% | 87.5% |
 
-For **KNN**, which measures distances, scaling raised the accuracy from 82.5% to 91.7%. On raw data, salary differences in thousands decide the distance alone; after scaling, age counts too (scikit-learn examples, "Importance of Feature Scaling").
+For **KNN**, which measures distances, scaling raised the accuracy from 82.5% to 91.7%. On raw data, salary differences in thousands decide the distance alone; after scaling, age counts too, as Figure 2 showed (scikit-learn examples, "Importance of Feature Scaling").
 
-Figure 8 shows the two KNN models on the same axes, in the original units. Each coloured area is a **decision region** (G-557): the set of points that KNN would label with that class. The line where the two colours meet is the **decision boundary** (G-555). KNN labels a point by its 5 nearest training users. On raw data, the distance between two users is almost entirely their salary gap, because a salary gap of thousands dwarfs an age gap of tens. So the 5 nearest users are simply those with the closest salaries, whatever their age, and the raw model's decision boundary runs flat across the plot. After standardization, one standard deviation of age counts as much as one standard deviation of salary, so the boundary bends with age as well.
+Figure 10 shows the two KNN models on the same axes, in the original units. Each coloured area is a **decision region** (G-557): the set of points that KNN would label with that class. The line where the two colours meet is the **decision boundary** (G-555). KNN labels a point by its 5 nearest training users. On raw data, the distance between two users is almost entirely their salary gap, because a salary gap of thousands dwarfs an age gap of tens. So the 5 nearest users are simply those with the closest salaries, whatever their age, and the raw model's decision boundary runs flat across the plot. After standardization, one standard deviation of age counts as much as one standard deviation of salary, so the boundary bends with age as well.
 
 ![Where KNN (5 neighbours) predicts "bought" (orange) and "did not buy" (blue), trained on raw and on standardized data; dots are the 120 test users](images/knn_regions.png)
 
@@ -301,13 +346,13 @@ The original data has ages from 18 to 60 and salaries from 15,000 to 150,000 rup
 | 90 | 250,000 | 1 |
 | 95 | 350,000 | 1 |
 
-After adding them, we split, standardize and plot the data again. Two of the three land in the training set (the third went to the test set), and Figure 9 shows them in red.
+After adding them, we split, standardize and plot the data again. Two of the three land in the training set (the third went to the test set), and Figure 11 shows them in red.
 
 ![Two added outliers (red) before and after standardization](images/outliers.png)
 
 After scaling, the outliers are still outliers. They sit just as far from the main cloud as before; only the numbers on the axes changed.
 
-So whenever we standardize a column that has outliers, we must deal with the outliers separately. Later Notes cover how to detect and handle them.
+So whenever we standardize a column that has **outliers** (G-1420), we must deal with the outliers separately. Later Notes cover how to detect and handle them.
 
 > **Python:** Adding rows to a DataFrame.
 >
@@ -365,6 +410,7 @@ Tree-based algorithms only compare values within one feature, asking questions l
 
 - Feature scaling is usually the last step before the model, and only the features are scaled.
 - Standardization: $x' = (x - \bar{x}) / \sigma$, giving mean 0 and standard deviation 1.
+- A z-score says how many standard deviations a value lies above or below the mean.
 - Geometrically: mean centring, then squeezing or stretching each axis to standard deviation 1.
 - Split first; fit the scaler on the training set only; transform both sets.
 - Standardization keeps the shape of the data and does not remove outliers.
@@ -375,12 +421,13 @@ Tree-based algorithms only compare values within one feature, asking questions l
 **Built from**
 
 - CampusX, "Feature Scaling - Standardization | Day 24 | 100 Days of Machine Learning", YouTube, https://www.youtube.com/watch?v=1Yw9sC0PNwY
+- Khan Academy, "Z-score introduction | Modeling data distributions", YouTube, https://www.youtube.com/watch?v=5S-Zfa-vOXs
 
 **Other references**
 
 - scikit-learn examples. Importance of Feature Scaling. scikit-learn.org (auto_examples/preprocessing).
 - scikit-learn documentation. `sklearn.linear_model.LogisticRegression` (note on the `sag` and `saga` solvers). scikit-learn.org.
-- scikit-learn documentation. `sklearn.preprocessing.StandardScaler`. scikit-learn.org.
+- scikit-learn documentation. `StandardScaler`, in the module `sklearn.preprocessing`. scikit-learn.org.
 
 ## 13. Key terms
 
@@ -389,6 +436,8 @@ Tree-based algorithms only compare values within one feature, asking questions l
 | Feature | An input variable, one column of the data table |
 | Target | The output we predict |
 | Observation | One record, one row of the data table |
+| Feature scaling | Putting features on the same scale, so no feature dominates distances |
+| Euclidean distance | The straight-line distance between two points |
 | Standardization | Scaling a column by subtracting its mean and dividing by its standard deviation, so it gets mean 0 and std 1 |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean |
 | Z-score normalization | Another name for standardization |
@@ -398,5 +447,7 @@ Tree-based algorithms only compare values within one feature, asking questions l
 | Mean centring | Subtracting the mean from every value, so the column's mean becomes 0 |
 | StandardScaler | scikit-learn's class that standardizes columns with `fit` and `transform` |
 | fit / transform | Learn the scaler's numbers from the training set / apply them to any data |
+| Kernel density estimate (KDE) | A smooth curve that shows where a column's values lie |
+| Data leakage | Information from the test set leaking into training |
 | Solver | The method a model uses to find its best settings during training |
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill |

@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 
 > **Key point:** The normal equation fits in three lines of NumPy. Our own class gives the same coefficients and the same R² (0.44) as scikit-learn on the diabetes data.
 
-The previous Note derived the normal equation:
+The [previous Note](../54-multiple-lr-maths/note.md) derived the **normal equation** (G-1344), one formula that gives every **coefficient** (G-407) of multiple linear regression at once:
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
@@ -42,7 +42,7 @@ Figure 1 shows how strongly each pair of features moves together on the training
 
 ![Correlation between the 10 diabetes features on the 353 training patients; s1 and s2 (outlined) are at 0.90](images/feature_corr.png)
 
-We split the data 80/20: 353 patients to train, 89 to test.
+We split the data 80/20, a **train-test split** (G-1998): 353 patients to train, 89 to test.
 
 > **Python:** Loading and splitting.
 >
@@ -85,7 +85,7 @@ Then $R^2 = 1 - 275{,}407 / 491{,}740 = 0.44$. Watch the two rows: the model's e
 
 > **Key point:** fit adds a column of 1s and applies the normal equation; predict multiplies the inputs by the coefficients and adds the intercept.
 
-Figure 3 follows the shapes of the arrays through both methods. Watch the column of 1s: `fit` adds it (10 columns become 11), and `predict` leaves it out and adds the intercept at the end instead.
+The class has two methods. `fit` learns the coefficients from the training data, and `predict` uses them on new data. Figure 3 follows the shapes of the arrays through both methods. Watch the column of 1s: `fit` adds it (10 columns become 11), and `predict` leaves it out and adds the intercept at the end instead.
 
 ![The shapes through MyMLR: fit turns the 353 × 10 training data into 11 numbers, the intercept and 10 coefficients; predict turns the 89 × 10 test data into 89 predictions](images/fit_shapes.png)
 
@@ -93,9 +93,11 @@ Figure 3 follows the shapes of the arrays through both methods. Watch the column
 
 > **Key point:** Three steps: add the 1s, compute $\beta$, split it into intercept and coefficients.
 
-1. **Add a column of 1s** at the front of $X$, so the intercept is learned like any other coefficient. `np.insert(X, 0, 1, axis=1)` inserts the value 1 at position 0 along the columns. The training data goes from 353 × 10 to 353 × 11.
-2. **Apply the normal equation.** In NumPy, `@` is matrix multiplication, `.T` is the transpose and `np.linalg.inv` the inverse. The result has 11 numbers.
+1. **Add a column of 1s** at the front of $X$, so the **intercept** (G-960) is learned like any other coefficient. **`np.insert`** (G-1356), called as `np.insert(X, 0, 1, axis=1)`, inserts the value 1 at position 0 along the columns. The training data goes from 353 × 10 to 353 × 11.
+2. **Apply the normal equation.** In NumPy, **`@`** (G-55) is matrix multiplication, `.T` is the **transpose** (G-2012) and **`np.linalg.inv`** (G-1357) the **inverse** (G-968). The result has 11 numbers.
 3. **Split the result:** the first number is the intercept $\beta_0$, the other 10 are the coefficients.
+
+The four-student example of the [previous Note](../54-multiple-lr-maths/note.md) (section 6.1) does the same three steps by hand, with every number shown.
 
 ### 4.2 predict
 
@@ -147,10 +149,10 @@ The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+5
 
 > **Key point:** In practice, libraries solve the least-squares problem from $X$ itself instead of computing an inverse; the result is the same, and more accurate when features are nearly copies of each other.
 
-Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it can lose accuracy when the matrix is close to having no inverse. Two other NumPy functions give the same coefficients:
+The class above follows the formula word for word, inverse included. Libraries get the same coefficients by a safer route. Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it can lose accuracy when the matrix is close to having no inverse. Two other NumPy functions give the same coefficients:
 
 - `np.linalg.solve(Xb.T @ Xb, Xb.T @ y)` solves $X^{\mathsf T}X\beta = X^{\mathsf T}y$ directly.
-- `np.linalg.lstsq(Xb, y)` finds the least-squares solution from $X$ itself, without forming $X^{\mathsf T}X$.
+- **`np.linalg.lstsq`** (G-1358), called as `np.linalg.lstsq(Xb, y)`, finds the least-squares solution from $X$ itself, without forming $X^{\mathsf T}X$.
 
 Both agree with scikit-learn to within $10^{-11}$ here (see the Notebook). The safer one is `lstsq`: when one column is almost a copy of another, `inv` and `solve` both lose accuracy, while `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate. scikit-learn's `LinearRegression` uses a least-squares solver of this second kind (scikit-learn docs, LinearRegression).
 
@@ -194,6 +196,9 @@ Figure 5 plots these errors on a log scale, where each step up the axis means 10
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised features, and disease progression one year later |
+| Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression |
+| R² score | 1 minus the model's squared error divided by the squared error of always predicting the mean |
+| Multicollinearity | A relationship between features, so that one can be calculated from the others |
 | np.insert | NumPy function that inserts values into an array at a given position |
 | @ (matrix multiplication) | Python's operator for multiplying matrices and vectors |
 | np.linalg.inv | NumPy function that computes the inverse of a square matrix |

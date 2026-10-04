@@ -68,7 +68,7 @@ Only two places in the network hold parameters:
 | $W_2$ | weights of the output node | 1 × 4 | 4 |
 | $b_2$ | bias of the output node | 1 × 1 | 1 |
 
-The total is $9 + 1 + 4 + 1 = 15$ trainable parameters. ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
+The total is $9 + 1 + 4 + 1 = 15$ **trainable parameters** (G-1999). ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
 
 ### 3.3 The loss
 
@@ -82,7 +82,7 @@ For a batch of $m$ images the loss is the average of the $m$ single losses. For 
 
 ## 4. Forward propagation
 
-> **Key point:** $Z_1 = X \ast W_1 + b_1$, $A_1 = \text{ReLU}(Z_1)$, $P_1 = \text{maxpool}(A_1)$, $F = \text{flatten}(P_1)$, $Z_2 = W_2F + b_2$, $A_2 = \sigma(Z_2)$.
+> **Key point:** **Forward propagation** (G-797) computes the prediction from the image, one operation at a time: $Z_1 = X \ast W_1 + b_1$, $A_1 = \text{ReLU}(Z_1)$, $P_1 = \text{maxpool}(A_1)$, $F = \text{flatten}(P_1)$, $Z_2 = W_2F + b_2$, $A_2 = \sigma(Z_2)$.
 
 Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one operation, each box one tensor. Written as equations:
 
@@ -131,7 +131,13 @@ and $\partial L/\partial b_1$ is the same chain with $\partial Z_1/\partial b_1$
 
 ![The two paths from a parameter to the loss. Each arrow is one link of the chain rule. Green links are those of an ordinary ANN; red links pass through the CNN part.](images/chain_paths.png){width=100%}
 
-Figure 3 shows the two chains side by side: the last three links are shared, so the work of section 6 is reused for the filter; the four red links, through the CNN part, are left for the part 2 Note. Three of these factors are new: $\partial F/\partial P_1$ goes back through flatten, $\partial P_1/\partial A_1$ through max pooling, and $\partial Z_1/\partial W_1$ through the convolution. The part 2 Note finds them.
+Figure 3 shows the two chains side by side: the last three links are shared, so the work of section 6 is reused for the filter; the four red links, through the CNN part, are left for the part 2 Note.
+
+Figure 4 plays the whole plan. First the forward chain is drawn, one operation per arrow. Then the gradients appear from right to left, one per tensor, each with the same shape as its tensor: 1 × 1 at the output, then 4 × 1, 2 × 2 and 4 × 4. The last frame shows where the two weight gradients come from.
+
+![The chain of the small CNN, then the backward pass over it. Each lower box is the gradient of the loss with respect to the tensor above it, with its shape; the word under it is the rule that produces it. Green: the ANN part, found in this Note. Red: the CNN part, found in the part 2 Note](images/chain_backward.gif){width=100%}
+
+Three of these factors are new: $\partial F/\partial P_1$ goes back through flatten, $\partial P_1/\partial A_1$ through max pooling, and $\partial Z_1/\partial W_1$ through the convolution. The part 2 Note finds them.
 
 ## 6. The ANN part: $\partial L/\partial W_2$ and $\partial L/\partial b_2$
 
@@ -162,11 +168,11 @@ From $Z_2 = W_2 F + b_2 = w_{1}f_1 + w_{2}f_2 + w_{3}f_3 + w_{4}f_4 + b_2$, the 
 3. **Example:** in the Notebook, the first image is a 0 ($y = 0$) and the untrained network predicts $a_2 = 0.2104$, so $a_2 - y = 0.2104$. Its flattened pooled values $F$ are $(0.4947, 0.4006, 0.5311, 0.7707)$, which gives
    $$\frac{\partial L}{\partial W_2} = 0.2104 \times (0.4947,\ 0.4006,\ 0.5311,\ 0.7707) = (0.1041,\ 0.0843,\ 0.1117,\ 0.1621), \qquad \frac{\partial L}{\partial b_2} = 0.2104$$
 
-TensorFlow's `GradientTape`, which differentiates the same network automatically, gives the same numbers (largest difference 0, Notebook).
+TensorFlow's `GradientTape` (G-88), which differentiates the same network automatically, gives the same numbers (largest difference 0, Notebook).
 
 ![The Notebook's first image, a 0 shrunk to 6 × 6, through the small CNN with the Notebook's starting weights. The 3 × 3 filter slides over $X$ to fill $Z_1$; ReLU changes nothing here, since all 16 values are positive; each 2 × 2 window sends its maximum to $P_1$; flatten gives $F$ and the sigmoid gives $\hat{y} = 0.21$. Then the error $a_2 - y = 0.21$ multiplies each value of $F$ to give $\partial L/\partial W_2$](images/cnn_forward_last_layer.gif){width=100%}
 
-Figure 4 plays the forward equations of section 4 on this image, then this section's gradient. Watch the last step: every weight of $W_2$ gets the same error, 0.21, times the value of $F$ it multiplied.
+Figure 5 plays the forward equations of section 4 on this image, then this section's gradient. Watch the last step: every weight of $W_2$ gets the same error, 0.21, times the value of $F$ it multiplied.
 
 ### 6.3 Checking the shapes
 
@@ -180,7 +186,7 @@ $$\underbrace{(a_2 - y)}_{1 \times 1}\thickspace\underbrace{F^{\mathsf T}}_{1 \t
 
 > **Key point:** For $m$ images, $F$ is 4 × $m$ and $A_2$, $Y$ are 1 × $m$. Then $\partial L/\partial W_2 = \frac{1}{m}(A_2 - Y)F^{\mathsf T}$, still 1 × 4.
 
-With mini-batch gradient descent, a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md)).
+With **mini-batch gradient descent** (G-1222), a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see the [gradient descent in neural networks Note](../1020-gradient-descent-in-neural-networks/note.md)).
 
 With $m$ images, each column holds one image:
 
@@ -196,7 +202,7 @@ The matrix product adds up the 32 single-image gradients, and the $1/m$ turns th
 
 ![The 32 images of the Notebook's batch with the starting weights. Each dot is one image's gradient for one weight of $W_2$; the black bar is the batch gradient, $\frac{1}{m}(A_2 - Y)F^{\mathsf T}$, their average.](images/batch_grads.png){height=40%}
 
-In Figure 5, the images of 0s (blue) push every weight one way and the images of 1s (red) the other way, because $a_2 - y$ is positive for a 0 and negative for a 1; the batch gradient is the average of both groups.
+In Figure 6, the images of 0s (blue) push every weight one way and the images of 1s (red) the other way, because $a_2 - y$ is positive for a 0 and negative for a 1; the batch gradient is the average of both groups.
 
 ## 8. Summary
 

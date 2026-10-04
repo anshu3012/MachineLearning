@@ -106,11 +106,15 @@ In **fine-tuning** we also unfreeze the last few convolution layers, here VGG16'
 Chollet gives the reasoning: "Earlier layers in the convolutional base encode more generic, reusable features, while layers higher up encode more specialized features. It is more useful to fine-tune the more specialized features" (Chollet 2017, §5.3). Two rules come with fine-tuning:
 
 1. **Train the new top first.** A new top starts with random weights and makes large errors. "If the classifier wasn't already trained, then the error signal propagating through the network during training would be too large, and the representations previously learned by the layers being fine-tuned would be destroyed" (Chollet 2017, §5.3).
-2. **Use a very low **learning rate** (G-1068), to "limit the magnitude of the modifications we make to the representations" of the unfrozen layers (Chollet 2017, §5.3). The Keras guide also fine-tunes "with a very low learning rate" (Keras documentation, Transfer learning and fine-tuning).
+2. **Use a very low learning rate.** The **learning rate** (G-1068) sets how far each update moves a weight. The filters of block 5 are already good: they were trained on 1.2 million photos. A normal learning rate would move them far from those values in a few updates, on only 2,000 photos, and the learned features would be lost. A very low learning rate changes each filter only a little, so the block adapts without forgetting. Chollet gives this reason: the low rate is there to "limit the magnitude of the modifications we make to the representations" of the unfrozen layers (Chollet 2017, §5.3). The Keras guide gives the same one: the model is now much larger and the dataset small, so "you are at risk of overfitting very quickly if you apply large weight updates"; we "only want to readapt the pretrained weights in an incremental way" (Keras documentation, Transfer learning and fine-tuning).
+
+Figure 4 plays the two methods one after the other. Watch the padlocks: all five blocks are locked for feature extraction, and only block 5 opens for fine-tuning.
+
+![Transfer learning on VGG16 in three steps. The ImageNet top is cut off and a new top is added; every block of the convolutional base is frozen (feature extraction, 2,097,665 trainable parameters); then block 5 is unfrozen (fine-tuning, 9,177,089 trainable parameters)](images/freeze_unfreeze.gif){width=100%}
 
 ![Choosing between the two forms of transfer, following sections 6.1 and 6.2.](images/which_method.png){width=75%}
 
-Figure 4 sums up the section: the closer the new classes are to ImageNet's, the less of the network needs to change.
+Figure 5 sums up the section: the closer the new classes are to ImageNet's, the less of the network needs to change.
 
 ## 7. Transfer learning in Keras
 
@@ -154,7 +158,7 @@ The top's count follows from the dense-layer formula: Flatten gives $4 \times 4 
 
 ![Trainable parameters of the same model under the three settings of `trainable` (Notebook).](images/param_counts.png){width=85%}
 
-In Figure 5, the gap between the grey and green bars is block 5 alone: three $3 \times 3$ convolution layers of 512 filters, $3 \times (3 \times 3 \times 512 \times 512 + 512) = 7{,}079{,}424$ parameters that fine-tuning sets free.
+In Figure 6, the gap between the grey and green bars is block 5 alone: three $3 \times 3$ convolution layers of 512 filters, $3 \times (3 \times 3 \times 512 \times 512 + 512) = 7{,}079{,}424$ parameters that fine-tuning sets free.
 
 > **Extra:** Each pretrained model expects its inputs prepared the way its training photos were. For VGG16, `preprocess_input` reorders the colour channels to BGR and subtracts ImageNet's mean of each channel (the [pretrained models Note](../1051-pretrained-models/note.md)). Dividing by 255 instead also trains, because the new top adapts, but the frozen base then receives inputs on a different scale from the one it learned on.
 
@@ -195,7 +199,9 @@ Methods 2 and 3 thus both train for 20 epochs from the same start; the only diff
 
 > **Key point:** Transfer learning beats training from scratch by about 18 points. Fine-tuning block 5 adds 0.8 points on average and makes the three runs agree more closely.
 
-![Validation accuracy per epoch (left; mean of 3 seeds) and test accuracy (right; bars: mean, whiskers: lowest and highest of 3 seeds). The dotted line marks where fine-tuning unfreezes block 5](images/results.png){width=100%}
+![Validation accuracy drawn epoch by epoch (left; mean of 3 seeds), then the test accuracy (right; bars: mean, whiskers: lowest and highest of 3 seeds). The dotted line marks where fine-tuning unfreezes block 5](images/results_anim.gif){width=100%}
+
+In Figure 7, watch the first frame: after one epoch the two transfer models are already at 0.96, while the model trained from scratch starts at 0.51 and is still climbing 60 epochs later.
 
 | Method | Test accuracy (mean of 3 seeds) | Lowest–highest | Training accuracy, last epoch |
 |---|---|---|---|
@@ -203,7 +209,7 @@ Methods 2 and 3 thus both train for 20 epochs from the same start; the only diff
 | Feature extraction (20 epochs) | 94.9% | 94.3%–95.9% | 99.5% |
 | Fine-tuning (10 + 10 epochs) | 95.7% | 95.5%–95.9% | 100.0% |
 
-Three things stand out (Figure 6; Notebook).
+Three things stand out (Figure 7; Notebook).
 
 **Transfer learning wins by a wide margin.** With the same 2,000 photos, the frozen VGG16 base gives 94.9% test accuracy, against 76.5% for the best model trained from scratch. Feature extraction reaches 96.0% validation accuracy after a single epoch, a level the scratch model never approaches: its best validation accuracy in 60 epochs is 78.0%. The base was trained on 1.2 million ImageNet photos, including many cats and dogs, so its features already separate the two animals; 2,000 photos are far too few to learn such features from nothing.
 
@@ -217,7 +223,7 @@ Three things stand out (Figure 6; Notebook).
 |---|---|---|
 | Frozen | the whole convolutional base | the early blocks (here 1 to 4) |
 | Trained | the new top | the new top, then the last block too |
-| Learning rate | normal (Adam) | very low for the second stage ($10^{-5}$) |
+| Learning rate | normal (Adam) | very low for the second stage ($10^{-5}$), so the pretrained filters change only a little |
 | When | new classes similar to ImageNet's (cats, dogs) | new classes further from ImageNet's |
 | Here (test accuracy) | 94.9% | 95.7% (from scratch: 76.5%) |
 
@@ -235,7 +241,7 @@ Three things stand out (Figure 6; Notebook).
 
 **Other references**
 
-- Keras documentation: Transfer learning and fine-tuning, keras.io/guides/transfer_learning (definition; the workflow: take layers, freeze them, add new trainable layers, train, then optionally fine-tune "with a very low learning rate").
+- Keras documentation: Transfer learning and fine-tuning, keras.io/guides/transfer_learning (definition; the workflow: take layers, freeze them, add new trainable layers, train, then optionally fine-tune "with a very low learning rate"; the reason for the low rate: large weight updates overfit quickly, the pretrained weights should be readapted incrementally).
 - Yosinski, J., Clune, J., Bengio, Y. and Lipson, H. (2014). How transferable are features in deep neural networks? *NeurIPS 2014*. arXiv:1411.1792. Abstract (general first-layer features, specific last-layer features; transferability falls as the tasks grow apart).
 - Chollet, F. (2017). *Deep Learning with Python*. Manning. §5.3 and its companion notebook (fine-tuning: train the top first, fine-tune the specialised higher layers, use a very low learning rate).
 - Chollet, F. (2021). *Deep Learning with Python*, 2nd ed. Manning. Ch. 8, companion notebook (VGG16 base at 150 × 150; fine-tuning the last block with `RMSprop(learning_rate=1e-5)`).

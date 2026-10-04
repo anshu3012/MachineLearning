@@ -99,9 +99,9 @@ Top-5 is fair on ImageNet because many photos contain several objects, and some 
 
 > **Key point:** Hand-made features won in 2010 and 2011 with about 28% and 26% error. CNNs won every year from 2012, and the error fell to 3.6% in 2015.
 
-![The winning top-5 error of ILSVRC, 2010 to 2015. Grey: classic machine learning on hand-made features. Blue: CNNs. Dashed: one trained human annotator](images/ilsvrc_errors.png){width=95%}
+![The winning top-5 error of ILSVRC, one year per frame, 2010 to 2015. Grey: classic machine learning on hand-made features. Blue: CNNs, with the number of layers of the winning network. Dashed: one trained human annotator](images/ilsvrc_race.gif){width=95%}
 
-Figure 3 shows the winners (Russakovsky et al. 2015, Tables 5 to 7; He et al. 2016, Table 5):
+Figure 3 adds one winner per frame. Watch for two things: the drop in 2012, when the first CNN appears, and the last bar, which ends below the dashed human line. The winners (Russakovsky et al. 2015, Tables 5 to 7; He et al. 2016, Table 5):
 
 | Year | Winner | Top-5 error | How |
 |---|---|---|---|

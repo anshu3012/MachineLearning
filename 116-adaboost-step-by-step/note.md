@@ -80,7 +80,7 @@ Model 1 gets observations 2 and 3 wrong. The predictions are an assumed example:
 
 > **Key point:** A stump's error is the total weight of the observations it misclassified, not simply the share of observations it got wrong.
 
-1. **In words:** add up the weights of the misclassified observations.
+1. **In words:** add up the weights of the misclassified observations. The total is the **weighted error** (G-2114).
 2. **Formula:**
    $$\text{error} = \sum_{i \thinspace:\thinspace\hat y_i \neq y_i} w_i$$
    The sum runs over the observations where the prediction $\hat y_i$ differs from the true class $y_i$.
@@ -93,7 +93,7 @@ In this first stage all weights are equal, so the error equals the share of obse
 
 > **Key point:** Alpha, half the log of (1 - error)/error, is large and positive for a small error, 0 at error 0.5, and large and negative for an error near 1.
 
-The **model weight** $\alpha$ is the stump's say in the final vote. The say must depend on the error: a model that makes many mistakes should have a small say, and a model that makes few a large one.
+The **model weight** $\alpha$ (**alpha**, G-192) is the stump's say in the final vote. The say must depend on the error: a model that makes many mistakes should have a small say, and a model that makes few a large one.
 
 ### 6.1 What shape alpha should have
 
@@ -119,7 +119,7 @@ So we want a function of the error that:
 
 > **Key point:** Half the natural log of the ratio of correct weight to wrong weight.
 
-![Alpha against the error: model A (error near 0) gets a large positive say, model C (error 0.5) none, model B (error near 1) a large negative say](images/alpha_curve.png){height=40%}
+![Alpha against the error: model A (error near 0) gets a large positive say, model C (error 0.5) none, model B (error near 1) a large negative say; red: the stump of this Note; green: two stumps with fewer mistakes](images/alpha_curve.png){height=40%}
 
 The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 3, has exactly that shape.
 
@@ -130,7 +130,7 @@ The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 3,
 3. **Example:** model 1 has error 0.4:
    $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.4}{0.4}\right) = \frac{1}{2}\ln(1.5) = \frac{1}{2} \times 0.405 = 0.20$$
 
-So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 3, red point). The checks: an error of 0.5 gives $0.5 \times \ln 1 = 0$, and an error of 0.98 gives $0.5 \times \ln(0.02/0.98) = -1.95$, the mirror image of an error of 0.02.
+So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 3, red point). Fewer mistakes earn a larger say: a stump with error 0.3 gets $\alpha = 0.42$ and a stump with error 0.1 gets $\alpha = 1.10$ (Figure 3, green points; these two stumps appear in the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md)). The checks: an error of 0.5 gives $0.5 \times \ln 1 = 0$, and an error of 0.98 gives $0.5 \times \ln(0.02/0.98) = -1.95$, the mirror image of an error of 0.02.
 
 > **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more on two classes (scikit-learn source; the [AdaBoost hyperparameters Note](../118-adaboost-hyperparameters/note.md)).
 
@@ -138,7 +138,7 @@ So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it g
 
 > **Key point:** Multiply the weight of each misclassified observation by $e^{\alpha}$ (it grows) and of each correct observation by $e^{-\alpha}$ (it shrinks).
 
-Now we tell the next stump about the mistakes, by **boosting** the weights of the misclassified observations and lowering the rest. Raising these weights is where boosting gets its name.
+Now we tell the next stump about the mistakes, by **boosting** the weights of the misclassified observations and lowering the rest: the **weight update** (G-2110). Raising these weights is where boosting gets its name.
 
 1. **In words:** a misclassified observation's weight is multiplied by $e$ to the power alpha; a correctly classified observation's weight by $e$ to the power minus alpha.
 2. **Formula:**
@@ -149,9 +149,9 @@ Now we tell the next stump about the mistakes, by **boosting** the weights of th
 
 Observations 2 and 3 rise from 0.2 to about 0.24; observations 1, 4 and 5 fall to about 0.16. Why the exponential is the right choice is shown in the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md).
 
-Figure 5 runs steps 1 to 6 on these weights. Watch the two red bars, the mistakes, grow above the dotted line at 0.2 while the green bars shrink below it.
+Figure 4 runs steps 1 to 7 on these weights. Watch the two red bars, the mistakes, grow above the dotted line at 0.2 while the green bars shrink below it. Its last frames show step 7 (section 9).
 
-![The 5 sample weights through one stage of the worked example: equal at 0.2, observations 2 and 3 misclassified (error 0.4, alpha 0.2027), multiplied by $e^{\alpha}$ or $e^{-\alpha}$, then normalised](images/weight_update.gif)
+![The 5 sample weights through one stage of the worked example: equal at 0.2, observations 2 and 3 misclassified (error 0.4, alpha 0.2027), multiplied by $e^{\alpha}$ or $e^{-\alpha}$, normalised, then laid end to end on the line from 0 to 1, where five random numbers pick the new dataset](images/weight_update.gif)
 
 
 > **Extra:** With classes +1 and -1, both cases fit in one formula: $w_i^{\text{new}} = w_i\thinspace e^{-\alpha\thinspace y_i\thinspace h(x_i)}$. If the stump is right, $y_i h(x_i) = (+1)(+1)$ or $(-1)(-1) = +1$, giving $e^{-\alpha}$. If it is wrong, $y_i h(x_i) = -1$, giving $e^{\alpha}$. The single formula is another reason AdaBoost uses +1 and -1.
@@ -168,7 +168,7 @@ After the update the weights no longer add up to 1.
 3. **Example:** the sum is $2 \times 0.2449 + 3 \times 0.1633 = 0.4899 + 0.4899 = 0.9798$, so
    $$\text{misclassified: } \frac{0.2449}{0.9798} = 0.25 \qquad \text{correct: } \frac{0.1633}{0.9798} = 0.1667$$
 
-Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. The last frame of Figure 5 shows the normalised weights. The two mistakes now carry half of the total weight between them, against 40% before.
+Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. Figure 4 shows the normalised weights at the end of step 6. The two mistakes now carry half of the total weight between them, against 40% before.
 
 > **Extra:** Here the misclassified observations end up with exactly half the total weight. The half-and-half split holds after every normalised AdaBoost update. Before normalising, the mistakes weigh $\text{error} \cdot e^{\alpha}$ in total and the correct observations $(1-\text{error}) \cdot e^{-\alpha}$. With $e^{\alpha} = \sqrt{(1-\text{error})/\text{error}}$ from step 4, both totals equal $\sqrt{\text{error}\thinspace(1-\text{error})}$: in our example $\sqrt{0.4 \times 0.6} = 0.4899$, the two equal halves of the sum above. So the old stump, judged on the new weights, has an error of exactly 0.5 and would get $\alpha = 0$: repeating it adds nothing to the vote, and the next stump only earns a say by doing better on the reweighted observations.
 
@@ -180,13 +180,15 @@ The new weights are passed on through the data itself. We build a new dataset of
 
 ![Upsampling: each observation owns a stretch of the line from 0 to 1 as long as its weight; five random numbers pick observations 1, 3, 3, 3 and 4](images/ranges.png){height=26%}
 
-1. **Make ranges.** Each observation owns a stretch of the line from 0 to 1, as long as its weight. Observation 1 owns 0 to 0.167, observation 2 owns 0.167 to 0.417, observation 3 owns 0.417 to 0.667, observation 4 owns 0.667 to 0.833, and observation 5 owns 0.833 to 1 (Figure 4). Each boundary is the running total, the **cumulative sum**, of the weights.
+1. **Make ranges.** Each observation owns a stretch of the line from 0 to 1, as long as its weight. Observation 1 owns 0 to 0.167, observation 2 owns 0.167 to 0.417, observation 3 owns 0.417 to 0.667, observation 4 owns 0.667 to 0.833, and observation 5 owns 0.833 to 1 (Figure 5). Each boundary is the running total, the **cumulative sum** (G-519), of the weights.
 2. **Draw random numbers.** Draw 5 random numbers between 0 and 1, say 0.13, 0.43, 0.62, 0.50 and 0.80.
 3. **Pick observations.** Each number picks the observation whose range it falls in: 0.13 picks observation 1; 0.43, 0.62 and 0.50 all pick observation 3; 0.80 picks observation 4.
 
 The new dataset is observations 1, 3, 3, 3 and 4. Observation 3, a mistake, appears three times; observations 2 and 5 do not appear at all. Another draw could give, for example, observations 1, 3, 2, 2 and 5. Either way, observations with larger weights own longer stretches of the line and are picked more often.
 
-The next stump trains on this new dataset, so it pays most attention to the observations the first stump got wrong.
+The last frames of Figure 4 play the draw: each random number lands as a dart on one observation's stretch.
+
+The next stump trains on this new dataset, so it pays most attention to the observations the first stump got wrong. In the new dataset every observation starts with the same weight, $1/n$, again. Nothing is lost by the reset: a heavy observation is now present as several copies, and the copies carry its importance.
 
 > **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each observation in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (scikit-learn source; the [AdaBoost from scratch Note](../117-adaboost-from-scratch/note.md), section 10).
 
@@ -231,6 +233,7 @@ Figure 6 runs three real stages on our 5 observations. Here the stumps are fitte
 **Built from**
 
 - CampusX, "AdaBoost - A Step by Step Explanation", YouTube, https://www.youtube.com/watch?v=RT0t9a3Xnfw
+- StatQuest with Josh Starmer, "AdaBoost, Clearly Explained", YouTube, https://www.youtube.com/watch?v=LsK-xG1cLYA (the same steps on a second example; equal weights again after the new dataset is drawn)
 
 **Other references**
 

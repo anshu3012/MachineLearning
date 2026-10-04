@@ -39,7 +39,7 @@ Figure 1 shows LeNet-5. This Note covers:
 
 ![The common pattern of a CNN: convolution and pooling blocks extract features; flatten and fully connected layers classify](images/cnn_pattern.png){width=100%}
 
-Almost every CNN follows the pattern of Figure 2:
+Almost every CNN follows the pattern of Figure 2. The sequence of layers is the **CNN architecture** (G-403):
 
 1. **Input:** an image, for example an RGB image of 32 × 32 × 3.
 2. **Convolution layer:** (G-480) a set of **filters** (G-778) (kernels), say 3, each with 3 channels because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
@@ -47,8 +47,8 @@ Almost every CNN follows the pattern of Figure 2:
 4. **Pooling layer:** shrinks the volume.
 5. **Repeat** steps 2–4 as many times as needed: a second convolution, a second pooling, and so on.
 6. **Flatten:** turn the final 3D volume into one long 1D vector of numbers.
-7. **Fully connected layers:** the Dense layers of an ANN, as many as the problem needs.
-8. **Output layer:** one node with sigmoid for binary classification, or one node per class with softmax for multi-class classification.
+7. **Fully connected layers** (G-811): the Dense layers of an ANN, as many as the problem needs.
+8. **Output layer** (G-1424): one node with sigmoid for binary classification, or one node per class with softmax for multi-class classification.
 
 The convolution and pooling blocks extract the features; the fully connected part uses them to classify. The CS231n notes write the same pattern as INPUT → [[CONV → RELU] × N → POOL?] × M → [FC → RELU] × K → FC.
 
@@ -64,7 +64,7 @@ Different CNN architectures come from different choices for:
 - the activation function;
 - whether [dropout](../1024-dropout/note.md) or [batch normalisation](../1031-batch-normalization/note.md) is used.
 
-Over the years, competitions such as ImageNet, a hard image classification task with many classes, have produced a series of famous architectures: LeNet, AlexNet, GoogLeNet, VGGNet, ResNet and Inception. All of them follow the pattern above with different choices. LeNet came first.
+Over the years, competitions such as **ImageNet** (G-920), a hard image classification task with many classes, have produced a series of famous architectures: LeNet, AlexNet, GoogLeNet, VGGNet, ResNet and Inception. All of them follow the pattern above with different choices. LeNet came first.
 
 ## 4. LeNet-5
 
@@ -74,7 +74,7 @@ Over the years, competitions such as ImageNet, a hard image classification task 
 
 > **Key point:** LeCun worked on CNNs from 1989; the 1998 paper describes LeNet-5, used in a commercial system that read millions of cheques a day.
 
-Yann LeCun, often called the father of CNNs, worked on convolutional networks from 1989. An early network of his read handwritten US Postal Service zip codes (LeCun et al. 1998 describe LeNet-1 as developed on this zip-code data). In 1998 he and his co-authors published LeNet-5 for handwritten digit recognition. A check-reading system built on CNN character recognisers "is deployed commercially and reads several million checks per day" (LeCun et al. 1998).
+Yann LeCun, often called the father of CNNs, worked on convolutional networks from 1989. An early network of his read handwritten US Postal Service zip codes (LeCun et al. 1998 describe LeNet-1 as developed on this zip-code data). In 1998 he and his co-authors published **LeNet-5** (G-1080) for handwritten digit recognition. A check-reading system built on CNN character recognisers "is deployed commercially and reads several million checks per day" (LeCun et al. 1998).
 
 ### 4.2 The layers
 
@@ -111,13 +111,17 @@ The sizes follow from the formulas of the [padding and strides Note](../1043-pad
 | Dense | | 84 |
 | Output | | 10 |
 
+Figure 3 draws the table one layer at a time. Each block is drawn to scale, one square per map, and its calculation appears below as the block is drawn: watch the squares get smaller while the stacks get thicker.
+
+![The shape arithmetic of LeNet-5, one layer per step. Blue: after a convolution. Orange: after average pooling. Red: the 400 flattened numbers. Green: the dense layers of 120, 84 and 10 nodes](images/lenet_shapes.gif){width=100%}
+
 So the first fully connected layer has $400 \times 120$ weights, the second $120 \times 84$, and the output layer $84 \times 10$.
 
 The number of filters grows as we go deeper, from 6 to 16, while the filter size stays 5 × 5 and the height and width of the maps shrink. More filters in deeper layers is a pattern we will see again in later architectures.
 
 ![One MNIST test digit flowing through a trained LeNet-5 (the Keras model of section 6, seed 1, 98.4% test accuracy): the real values after every layer. Red is positive, blue negative; the dense layers are drawn as grids of cells, one per node.](images/lenet_flow.gif){height=50%}
 
-In Figure 3, watch the 7 stay visible while the maps shrink from 28 × 28 to 5 × 5 and multiply from 6 to 16, then dissolve into 400 numbers once flattened; by the output, the model puts a probability of 1.000 on the digit 7.
+In Figure 4, watch the 7 stay visible while the maps shrink from 28 × 28 to 5 × 5 and multiply from 6 to 16, then dissolve into 400 numbers once flattened; by the output, the model puts a probability of 1.000 on the digit 7.
 
 ### 4.4 Why "5"
 
@@ -152,7 +156,7 @@ Pooling layers have no parameters because pooling involves no training, and Flat
 
 ![LeNet-5's 61,706 parameters by layer (Notebook).](images/param_share.png){height=38%}
 
-Figure 4 shows where the weights live: the two convolution layers hold 4.2% of them, and the first dense layer, which connects all 400 flattened numbers to 120 nodes, holds 78%.
+Figure 5 shows where the weights live: the two convolution layers hold 4.2% of them, and the first dense layer, which connects all 400 flattened numbers to 120 nodes, holds 78%.
 
 > **Extra:** The original LeNet-5 differs from the Keras version in a few details, all from LeCun et al. (1998). Its pooling layers multiply each average by a trainable coefficient and add a trainable bias (12 and 32 parameters). C3 connects each of its 16 maps to only some of S2's 6 maps (1,516 parameters instead of 2,416). C5 is a convolution layer with 120 filters of 5 × 5, which on a 5 × 5 input amounts to a fully connected layer. The activation is a scaled tanh, $1.7159 \tanh(Sa)$, and the output layer uses Euclidean radial basis function units instead of softmax. Adding the paper's own counts, $156 + 12 + 1{,}516 + 32 + 48{,}120 + 10{,}164 = 60{,}000$, the "60,000 trainable free parameters" the paper states.
 
@@ -183,7 +187,7 @@ Trained for 10 epochs with batch size 128, averaged over 3 seeds, LeNet-5 reache
 
 ![LeNet-5 training on MNIST: accuracy on the training images and on the validation images (the last 10% of the training set), per epoch, mean of 3 seeds. Dashed: the test accuracy of the MNIST ANN.](images/lenet_training.png){height=38%}
 
-In Figure 5, the validation curve reaches the ANN's line at epoch 2 and levels off near 98.5%, while the training curve keeps climbing towards 99.5%.
+In Figure 6, the validation curve reaches the ANN's line at epoch 2 and levels off near 98.5%, while the training curve keeps climbing towards 99.5%.
 
 ## 7. Summary
 

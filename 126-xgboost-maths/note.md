@@ -69,6 +69,10 @@ Figure 3 adds up the objective for three trees on the same students, with $\gamm
 
 ![The objective of three trees on the four students (gamma = lambda = 1, each leaf output = the mean of its residuals): loss (blue), gamma times the number of leaves (orange) and lambda/2 times the sum of squared outputs (green)](images/objective.png){height=34%}
 
+Figure 4 shows what $\lambda$ does to one leaf. The leaf holds students 1 and 3 of the regression Note, with residuals $-2.875$ and $-1.375$. The blue curve is the leaf's loss for each possible output $w$; the green curve is the penalty $\frac{1}{2}\lambda w^2$; the black curve is their sum, and the red dot is its lowest point. With $\lambda = 0$ the dot sits at the mean residual, $-2.125$. Watch the dot as $\lambda$ grows: the penalty pulls it towards 0, to $-1.417$ at $\lambda = 1$ and $-0.354$ at $\lambda = 10$. Section 10 derives the formula in the title.
+
+![One leaf's loss (blue), the penalty $\frac{1}{2}\lambda w^2$ (green) and their sum (black) against the leaf output $w$, as lambda grows from 0 to 10; the red dot is the lowest point of the sum. Plotting a leaf's loss against its output and watching the minimum move towards 0 follows StatQuest, "XGBoost Part 3 (of 4): Mathematical Details"](images/leaf_lambda.gif){height=45%}
+
 > **Extra:** The $\gamma$ here is a penalty per leaf, not the $\gamma_{jm}$ used for leaf values in the [gradient boosting maths Note](../121-gradient-boosting-regression-maths/note.md); the two papers just use the same Greek letter. In this Note leaf values are always $w_j$.
 
 ## 5. The objective, stage by stage
@@ -92,17 +96,22 @@ At a general stage $t$, everything up to $f_{t-1}$ is already known. We call tha
 
 The goal is to choose the new tree, and so its leaf weights, to make $\text{Obj}^{(t)}$ as small as possible.
 
-## 6. Why we cannot simply differentiate
+## 6. Why XGBoost approximates the loss
 
-> **Key point:** For a general loss, the objective has no simple closed-form minimum in $f_t$. XGBoost replaces the loss by a simple quadratic that is easy to minimise.
+> **Key point:** For a general loss, the best leaf weights have no simple formula. XGBoost replaces the loss by a parabola that is easy to minimise, and the same recipe then works for every loss.
 
-In linear regression the prediction is $mx + b$, a smooth function of $m$ and $b$. The loss is a smooth bowl, so we set its derivatives to 0 ([linear regression maths Note](../51-linear-regression-maths/note.md)) or walk downhill ([gradient descent Note](../57-gradient-descent/note.md)).
+In linear regression the prediction is $mx + b$. The unknowns are two numbers, $m$ and $b$, so we set the derivatives of the loss to 0 ([linear regression maths Note](../51-linear-regression-maths/note.md)) or walk downhill ([gradient descent Note](../57-gradient-descent/note.md)).
 
-![The same data fitted by a straight line (left) and by boosted trees (right): the trees give flat steps with sudden jumps](images/steps.png)
+![The same data fitted by a straight line (left) and by boosted trees (right): the line is described by two numbers, the boosted model by a set of trees](images/steps.png)
 
-A boosted model is different. Its output is a staircase: flat inside each region, with jumps at the split points (Figure 4, right). The loss as a function of the trees is therefore not a smooth bowl. Even for one leaf, log loss is awkward: when the observations start from different log-odds, setting the derivative to 0 gives an equation with no simple formula for the answer (Extra in section 12).
+A boosted model is different in two ways (Figure 5, right):
 
-The way out is to approximate the loss near the current prediction by something smooth and simple, a parabola, and minimise that instead. A hiker in fog does the same: she cannot see the whole valley, so she judges the slope and the curve of the ground under her feet, steps to the bottom of that local bowl, and looks again. The tool for this is the Taylor series.
+1. **The unknowns are trees, not numbers.** A tree is a set of splits plus leaf weights. Splits cannot be found by setting a derivative to 0, so the model is built greedily: one tree at a time, and inside a tree one split at a time, each chosen by trying the candidates (Chen and Guestrin 2016, §2.2).
+2. **The leaf weights have no simple formula for a general loss.** Once the splits are fixed, the objective is a smooth function of the leaf weights $w_j$, and we can differentiate it. For squared error the derivative gives a formula at once. For log loss, setting the derivative to 0 gives an equation with no simple formula for the answer (Extra in section 12).
+
+Gradient boosting handled each loss in its own way: the mean of the residuals for squared error, a special formula for log loss. XGBoost uses one method for every loss: approximate the loss near the current prediction by a parabola, and minimise the parabola. In the paper's words, the second-order approximation "can be used to quickly optimize the objective in the general setting" (Chen and Guestrin 2016, §2.2).
+
+A hiker in fog does the same: she cannot see the whole valley, so she judges the slope and the curve of the ground under her feet, steps to the bottom of that local bowl, and looks again. The tool for this is the Taylor series.
 
 ## 7. The Taylor series
 
@@ -120,7 +129,7 @@ The **Taylor series** (G-1954) approximates a complicated function by a polynomi
 
 ![e^x and its Taylor approximations around 0: each extra term follows the curve over a wider range](images/taylor.png){height=40%}
 
-Figure 5 shows the pattern. The straight line $1 + x$ is right only near 0. Adding $x^2/2$ follows the curve further, and adding $x^3/6$ further still. XGBoost stops at the second-order term, a parabola.
+Figure 6 shows the pattern. The straight line $1 + x$ is right only near 0. Adding $x^2/2$ follows the curve further, and adding $x^3/6$ further still. XGBoost stops at the second-order term, a parabola.
 
 ## 8. The second-order approximation of the objective
 
@@ -158,7 +167,7 @@ The objective now has two sums of different kinds: one over the $n$ observations
 
 ![Four observations and a tree with two leaves: adding up the observations one by one gives the same total as adding them up leaf by leaf](images/regroup.png){height=30%}
 
-Figure 6 shows the idea with a tree "CGPA < 7" and four observations with CGPA 7.1, 8.2, 6.5 and 9.1. Observation 3 lands in leaf 1; observations 1, 2 and 4 land in leaf 2. The set of observations in leaf $j$ is its **instance set** (G-954) $I_j$: here $I_1 = \lbrace3\rbrace$ and $I_2 = \lbrace1, 2, 4\rbrace$.
+Figure 7 shows the idea with a tree "CGPA < 7" and four observations with CGPA 7.1, 8.2, 6.5 and 9.1. Observation 3 lands in leaf 1; observations 1, 2 and 4 land in leaf 2. The set of observations in leaf $j$ is its **instance set** (G-954) $I_j$: here $I_1 = \lbrace3\rbrace$ and $I_2 = \lbrace1, 2, 4\rbrace$.
 
 Two facts make the regrouping work:
 
@@ -195,7 +204,7 @@ $$\frac{\partial \tilde{\text{Obj}}}{\partial w_j} = G_j + (H_j + \lambda) w_j =
 
 The Notebook checks this against a brute-force search over a fine grid of $w$ values: the minimum lands at the same place. Because $H_j + \lambda > 0$, the parabola opens upwards, so this point is a minimum, not a maximum.
 
-Figure 7 draws the three parabolas of the regression tree. Watch each star sit at its own $-G_j/(H_j + \lambda)$, independent of the other leaves; with $\lambda = 1$ (dotted) each parabola gets steeper and its minimum moves towards 0.
+Figure 8 draws the three parabolas of the regression tree. Watch each star sit at its own $-G_j/(H_j + \lambda)$, independent of the other leaves; with $\lambda = 1$ (dotted) each parabola gets steeper and its minimum moves towards 0.
 
 ![One parabola per leaf of the first regression tree: G w + (H + lambda) w^2 / 2. Solid: lambda = 0, with minima 0.625, -2.125 and 3.625 (stars). Dotted: lambda = 1, with minima pulled towards 0 (dots)](images/parabolas.png){height=38%}
 
@@ -230,9 +239,9 @@ with $p_i$ the previous stage's probability.
 
 ![Exact log loss of this leaf's three observations (blue) and its second-order approximation (red) as the leaf output w changes: they agree near 0, and their minima are close](images/leaf.png){height=40%}
 
-For log loss the parabola is only an approximation (Figure 8). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
+For log loss the parabola is only an approximation (Figure 9). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
 
-Figure 9 moves the touching point. Watch the parabola: wherever we expand, it touches the loss at that point $a$ with the same slope and curvature, and its minimum (the star, $a - g/h$) is a good guess only when $a$ is near the true minimum; from $a = 1.2$ it overshoots to $-2.39$. Each tree expands around the current predictions, so XGBoost always uses the parabola where it fits. At the end, $\lambda$ grows from 0 to 3: the parabola gets steeper and $w^\ast= -0.8/(0.72 + \lambda)$ shrinks towards 0, as section 10 says.
+Figure 10 moves the touching point. Watch the parabola: wherever we expand, it touches the loss at that point $a$ with the same slope and curvature, and its minimum (the star, $a - g/h$) is a good guess only when $a$ is near the true minimum; from $a = 1.2$ it overshoots to $-2.39$. Each tree expands around the current predictions, so XGBoost always uses the parabola where it fits. At the end, $\lambda$ grows from 0 to 3: the parabola gets steeper and $w^\ast= -0.8/(0.72 + \lambda)$ shrinks towards 0, as section 10 says.
 
 ![The second-order approximation of this leaf's log loss, animated. The red parabola touches the exact loss (blue) at the expansion point a; the star is its minimum, the Newton step. Last part: back at a = 0, lambda grows and the leaf output w* shrinks towards 0. Watching the minimum move towards 0 as lambda grows follows StatQuest's "XGBoost Part 3 (of 4): Mathematical Details" (Starmer)](images/newton_leaf.gif)
 
@@ -263,7 +272,7 @@ $$-\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}(H_j + \lambda)\frac{G_j^2}{(H_j + \
 3. **Example:** the regression tree with one split at CGPA < 8.25, $\lambda = \gamma = 0$. Left: $G = 2.875 + 1.375 - 0.625 = 3.625$, $H = 3$. Right: $G = -3.625$, $H = 1$.
    $$\tilde{\text{Obj}}^{\ast} = -\frac{1}{2}\Big(\frac{3.625^2}{3} + \frac{3.625^2}{1}\Big) = -\frac{1}{2}(4.38 + 13.14) = -8.76$$
 
-This number is the tree's **structure score** (G-1905): the lower it is, the better the tree's structure. Figure 10 scores the three candidate root splits of the regression tree this way: CGPA < 8.25 reaches $-8.76$, far below the others, the same winner the gain picked.
+This number is the tree's **structure score** (G-1905): the lower it is, the better the tree's structure. Figure 11 scores the three candidate root splits of the regression tree this way: CGPA < 8.25 reaches $-8.76$, far below the others, the same winner the gain picked.
 
 ![The best objective of each candidate root split of the regression tree (lambda = gamma = 0): no split 0, CGPA < 5.85 -0.26, CGPA < 7.1 -2.53, CGPA < 8.25 -8.76 (green, the lowest)](images/structure.png){height=32%}
 
@@ -321,7 +330,7 @@ The XGBoost library follows the same convention as those Notes. Its tree dump pr
 **Built from**
 
 - CampusX, "The Maths Behind XGBoost | Machine Learning | CampusX", YouTube, https://www.youtube.com/watch?v=0Eo-_5bfers
-- Starmer, J. (StatQuest). "XGBoost Part 3 (of 4): Mathematical Details." statquest.org. The idea of plotting a leaf's loss against its output value and watching the minimum move towards 0 as λ grows (last part of Figure 9).
+- StatQuest with Josh Starmer, "XGBoost Part 3 (of 4): Mathematical Details", YouTube, https://www.youtube.com/watch?v=ZVFeW798-2I (a leaf's loss plotted against its output value, with the minimum moving towards 0 as lambda grows: the lambda figures of sections 4 and 12; one approximation for every loss, section 6)
 
 **Other references**
 

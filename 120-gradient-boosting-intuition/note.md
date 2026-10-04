@@ -33,7 +33,13 @@ The maths behind each step is in the [gradient boosting maths Note](../121-gradi
 
 Boosting, from the [AdaBoost intuition Note](../115-adaboost-intuition/note.md), builds a big model from small models, added one after another: a **stage-wise additive model** (G-1867). What makes it boosting is that each new model learns from the mistakes of the ones before.
 
-The two algorithms pass on those mistakes in different ways:
+Gradient boosting changes three things in **AdaBoost** (G-167):
+
+- **The first model.** AdaBoost starts with a **decision stump** (G-559), a tree with one split. Gradient boosting starts with a single leaf: one number, predicted for every observation (section 4).
+- **The size of the trees.** AdaBoost adds stumps. Gradient boosting adds trees that are larger than a stump but still limited in size, commonly 8 to 32 leaves.
+- **How the trees are scaled.** AdaBoost gives each stump its own say. Gradient boosting multiplies every tree by the same number, the learning rate (section 8).
+
+Section 13 returns to these differences with data. The fourth difference is the main one. The two algorithms pass on the mistakes in different ways:
 
 - **AdaBoost** raises the weights of the observations it got wrong and draws a new dataset by weight, so the next stump focuses on those observations ([AdaBoost step by step Note](../116-adaboost-step-by-step/note.md)).
 - **Gradient boosting** writes the mistakes down as numbers, one per observation, and trains the next model to predict exactly those numbers.
@@ -291,6 +297,7 @@ The leaf count depends on the data: about 8 leaves for small datasets, up to abo
 **Built from**
 
 - CampusX, "Gradient Boosting Explained | How Gradient Boosting Works?", YouTube, https://www.youtube.com/watch?v=fbKz7N92mhQ
+- StatQuest with Josh Starmer, "Gradient Boost Part 1 (of 4): Regression Main Ideas", YouTube, https://www.youtube.com/watch?v=3CC4N4z3GJc (the opening comparison with AdaBoost, section 2)
 
 **Other references**
 

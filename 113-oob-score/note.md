@@ -33,7 +33,7 @@ The Notebook (`notebook.ipynb`) runs every step.
 
 > **Key point:** Drawing with replacement means some observations are drawn several times for a tree and others not at all; the observations a tree missed are out-of-bag for that tree.
 
-Each tree is trained on a **bootstrap sample** (G-319), drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations (the [bagging Note](../105-bagging-intuition/note.md), section 2.3). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations**: the tree has never seen them, so they can serve as test data for that tree.
+Each tree is trained on a **bootstrap sample** (G-319), drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations (the [bagging Note](../105-bagging-intuition/note.md), section 2.3). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations** (G-1412): the tree has never seen them, so they can serve as test data for that tree.
 
 Figure 2 draws one tree's bootstrap sample from 20 observations, one draw at a time. Each draw picks any of the 20 observations, including ones already drawn. Watch the bars: some observations are drawn two, three or four times, and 7 of the 20 (35%) are never drawn. Those 7 are the tree's out-of-bag observations (orange).
 
@@ -57,7 +57,7 @@ Figure 1 runs these steps on 6 observations and 4 trees:
 
 1. **Record each tree's bootstrap sample.** Blue cells are observations a tree was trained on ("x2": drawn twice); orange cells are its OOB observations. Tree 1 missed observations 3 and 6; tree 4 missed observations 4 and 5.
 2. **For each observation, find the trees that never saw it.** Observation 5 is OOB for trees 2 and 4; observation 1 only for tree 2.
-3. **Let only those trees vote.** Trees 2 and 4 both say 1 for observation 5, so observation 5's OOB prediction is 1.
+3. **Let only those trees vote.** Trees 2 and 4 both say 1 for observation 5, so observation 5's **OOB prediction** (G-1392) is 1.
 4. **Compare with the truth.** Observation 3 is really 1, but its only OOB tree, tree 1, says 0: wrong. The other five observations are right.
 
 ### 3.2 The formula
@@ -107,6 +107,8 @@ Figure 3 plots all 50 splits. Each point is one split: its OOB score across, and
 ![50 random splits of the heart disease data, 500 trees each. Across: the OOB score of the split. Up: the 5-fold cross-validation score (blue) and the accuracy on the 61 test patients (grey). Dashed: equal to the OOB score](images/oob_vs_cv.png)
 
 So the OOB observations act as a **validation set** (G-2067) that comes for free: about 37% of the data, unseen by each tree, without holding out any observations from training.
+
+A free validation score is also a way to tune a forest: train forests with different settings, for example different values of `max_features` (the [random forest hyperparameters Note](../111-random-forest-hyperparameters/note.md), section 3.2), and keep the one with the best OOB score.
 
 ## 5. Rebuilding the OOB score by hand
 
@@ -182,6 +184,7 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 **Built from**
 
 - CampusX, "OOB Score | Out of Bag Evaluation in Random Forest | Machine Learning", YouTube, https://www.youtube.com/watch?v=tdDhyFoSG94
+- StatQuest with Josh Starmer, "StatQuest: Random Forests Part 1 - Building, Using and Evaluating", YouTube, https://www.youtube.com/watch?v=J4Wdy0Wc_xQ (the per-observation OOB vote of section 3, and tuning with the OOB score)
 
 **Other references**
 

@@ -48,6 +48,8 @@ The comparison shows the trick's weakness, which the following Notes fix.
 
 > **Key point:** Add a column of 1s, start with weights of 1, and repeat 1,000 times: pick a random row, predict it with the step function, and apply w = w + lr (y − ŷ) x.
 
+In plain words, the code does three things. First it adds a column of 1s to the data, so the intercept can be handled like any other weight. Then it starts with all weights at 1. Then it repeats one small step 1,000 times: pick a random point, predict its class, and move the weights only if the prediction was wrong.
+
 > **Python:** The perceptron trick.
 >
 > ```python
@@ -124,6 +126,8 @@ Most loops pick a point that is already correctly classified: then $y - \hat{y} 
 
 > **Key point:** Fit scikit-learn's LogisticRegression on the same data and draw both decision boundaries.
 
+We train scikit-learn's `LogisticRegression` on the same 100 points and turn its weights into a line with the formulas of section 4.
+
 > **Python:** Logistic regression in scikit-learn.
 >
 > ```python
@@ -151,6 +155,13 @@ All six boundaries separate the training data perfectly. The difference is where
 | Logistic regression | 0.117 | 0.143 |
 
 Three of the five perceptron boundaries pass within about 0.02 of a green point. The logistic regression boundary keeps a similar margin to both classes.
+
+Figure 5 shows why the two end up in different places. Both models start from the same weights $(1, 1, 1)$. On the left is the perceptron run of section 5. On the right, logistic regression is trained step by step with gradient descent (the method of the [logistic gradient descent Note](../75-logistic-gradient-descent/note.md)). Watch the right panel after the left one has stopped.
+
+![The perceptron trick (left, seed 0) and logistic regression trained by gradient descent (right) on the same 100 points, zoomed on the gap between the classes. The perceptron's decision boundary stops after its 6th update, 0.06 from the nearest blue point. The logistic regression boundary keeps moving after every point is already on its correct side, and ends near the middle of the gap (0.12 and 0.14)](images/perceptron_vs_logistic.gif)
+
+1. **Perceptron:** after 6 updates no point is misclassified, so nothing can move the boundary again. The boundary stays where the last update left it, 0.13 from the nearest green point and 0.06 from the nearest blue point.
+2. **Logistic regression:** the boundary also reaches zero misclassified points early, but it does not stop there. Every later step still moves it a little, until it settles at 0.12 and 0.14: the same boundary scikit-learn finds.
 
 ### 6.2 Why it matters
 

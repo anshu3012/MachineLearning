@@ -9,12 +9,13 @@ FONT = dict(family="Latin Modern Roman", size=20)
 e = np.linspace(0.005, 0.995, 400)
 alpha = 0.5 * np.log((1 - e) / e)
 fig = go.Figure(go.Scatter(x=e, y=alpha, mode="lines", line=dict(color="#4C78A8", width=3), showlegend=False))
-pts = [(0.02, "A: almost always right", "top right"), (0.4, "our stump: error 0.4, alpha 0.20", "top right"),
+pts = [(0.02, "A: almost always right", "top right"), (0.1, "error 0.1, alpha 1.10", "middle right"),
+       (0.3, "error 0.3, alpha 0.42", "top right"), (0.4, "our stump: error 0.4, alpha 0.20", "top right"),
        (0.5, "C: right half the time", "bottom left"), (0.98, "B: almost always wrong", "bottom left")]
 for x, label, pos in pts:
     y = 0.5 * np.log((1 - x) / x)
     fig.add_trace(go.Scatter(x=[x], y=[y], mode="markers+text", text=[label], textposition=pos, showlegend=False,
-                             marker=dict(color="#E45756" if x == 0.4 else "#F58518", size=12),
+                             marker=dict(color="#E45756" if x == 0.4 else ("#54A24B" if x in (0.1, 0.3) else "#F58518"), size=12),
                              textfont=dict(size=19)))
     print(label, round(y, 4))
 fig.add_hline(y=0, line=dict(color="#6B6B6B", width=1, dash="dash"))

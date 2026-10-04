@@ -14,9 +14,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/bahdanau
 
 ## 1. Overview
 
-> **Key point:** Both attentions build a context vector $c_i = \sum_j \alpha_{ij} h_j$; they differ in how they score each encoder state and where the context enters the decoder. **Bahdanau** (additive) attention scores the previous decoder state $s_{i-1}$ against $h_j$ with a small neural network, and feeds $c_i$ *into* the LSTM step. **Luong** (multiplicative) attention scores the current state $s_i$ against $h_j$ with a dot product, and joins $c_i$ to the LSTM's *output*.
+> **Key point:** Both attentions build the context vector as a weighted mix of the encoder states, $c_i = \sum_j \alpha_{ij} h_j$. They differ in two things: how they score each encoder state, and where the context enters the decoder. **Bahdanau** (additive) attention scores the previous decoder state $s_{i-1}$ against $h_j$ with a small neural network, and feeds $c_i$ *into* the LSTM step. **Luong** (multiplicative) attention scores the current state $s_i$ against $h_j$ with a dot product, and joins $c_i$ to the LSTM's *output*.
 
-The [attention Note](../1069-attention-mechanism/note.md) introduced attention in the encoder–decoder: at every decoder step, a weighted sum of all the encoder's hidden states, with weights from a softmax over scores $e_{ij}$. That Note left open how the scores are computed. This Note opens the two best-known answers: Bahdanau et al. (2015) and Luong et al. (2015). Luong's dot-product score is, apart from a scaling factor, the one the transformer uses (Vaswani et al. 2017, section 3.2.1).
+The [attention Note](../1069-attention-mechanism/note.md) introduced attention in the encoder–decoder: at every decoder step, the **context vector** (G-460) is a weighted sum of all the encoder's hidden states. The weights are the **attention weights** (G-224) $\alpha_{ij}$, and they come from a **softmax** (G-1830) over raw scores, the **alignment scores** (G-190) $e_{ij}$. That Note left open how the scores are computed. This Note opens the two best-known answers: Bahdanau et al. (2015) and Luong et al. (2015). Luong's dot-product score is, apart from a scaling factor, the one the transformer uses (Vaswani et al. 2017, section 3.2.1).
 
 ![Where attention sits in the two designs. (a) Bahdanau: the previous state $s_{i-1}$ is scored, and $c_i$ is an input of the LSTM step. (b) Luong: the LSTM step runs first, its new state $s_i$ is scored, and $c_i$ is combined with $s_i$ before the output layer](images/two_paths.png){width=78%}
 
@@ -29,9 +29,9 @@ The [attention Note](../1069-attention-mechanism/note.md) introduced attention i
 
 ## 3. Recap: what both must compute
 
-> **Key point:** Scores $e_{ij}$, weights $\alpha_{ij}$ from a softmax of the scores over $j$, context $c_i = \sum_j \alpha_{ij} h_j$. Only the score function and the wiring differ.
+> **Key point:** Both designs do the same three things at every decoder step: score every encoder state ($e_{ij}$), turn the scores into weights with a softmax ($\alpha_{ij}$), and add up the weighted states into the context $c_i = \sum_j \alpha_{ij} h_j$. Only the score function and the wiring differ.
 
-For "turn off the lights" → "light band karo", decoder step 1 needs $c_1 = \alpha_{11}h_1 + \alpha_{12}h_2 + \alpha_{13}h_3 + \alpha_{14}h_4$, step 2 needs $c_2$ with new weights, and so on: (number of input words) × (number of output words) weights in all. Each weight is a word-to-word similarity: $\alpha_{11}$ says how much "turn" counts when writing "light". The question of this Note is how to get the raw scores $e_{ij}$.
+For "turn off the lights" → "light band karo", decoder step 1 needs $c_1 = \alpha_{11}h_1 + \alpha_{12}h_2 + \alpha_{13}h_3 + \alpha_{14}h_4$, step 2 needs $c_2$ with new weights, and so on: (number of input words) × (number of output words) weights in all. Each weight is a word-to-word similarity: $\alpha_{11}$ says how much "turn" counts when writing "light". The question of this Note is how to get the raw scores $e_{ij}$: the choice of **score function** (G-1752).
 
 ![The three stages that both attentions share, for the first output word of "turn off the lights": score every encoder state, turn the scores into weights with a softmax, and add up the weighted states into the context vector $c_1$. Only the score function, the grey box, differs between Bahdanau and Luong](images/context_sum.png){width=90%}
 
@@ -39,13 +39,13 @@ In Figure 2, the softmax and the weighted sum are fixed; everything this Note co
 
 ## 4. Bahdanau attention
 
-> **Key point:** A feed-forward network with one hidden layer scores the pair $(s_{i-1}, h_j)$: $e_{ij} = v^\top \tanh(W[s_{i-1}; h_j])$. The context vector is then an input of decoder step $i$.
+> **Key point:** A small neural network with one hidden layer looks at the decoder's previous state and one encoder state, and gives the pair a score: $e_{ij} = v^\top \tanh(W[s_{i-1}; h_j])$. The context vector is then an input of decoder step $i$.
 
 ### 4.1 What the score depends on
 
 > **Key point:** On the encoder state $h_j$ and on the decoder's *previous* state $s_{i-1}$, which holds what has been translated so far.
 
-As the [attention Note](../1069-attention-mechanism/note.md) (section 6) explains, $\alpha_{ij}$ must depend on $h_j$, the input word being judged, and on what the decoder has already written, which is stored in $s_{i-1}$. To compute $\alpha_{11}$, the weight of "turn" for the first output word, we need $h_1$ and $s_0$; for $\alpha_{21}$ we need $h_1$ and $s_1$. Bahdanau et al. (2015) do not choose a formula for the score; they let a small feed-forward network learn it, the **alignment model** (G-189).
+As the [attention Note](../1069-attention-mechanism/note.md) (section 6) explains, $\alpha_{ij}$ must depend on $h_j$, the input word being judged, and on what the decoder has already written, which is stored in $s_{i-1}$. To compute $\alpha_{11}$, the weight of "turn" for the first output word, we need $h_1$ and $s_0$; for $\alpha_{21}$ we need $h_1$ and $s_1$. Bahdanau et al. (2015) do not choose a formula for the score; they let a small **feed-forward network** (G-775) learn it, the **alignment model** (G-189).
 
 ### 4.2 The alignment network, step by step
 
@@ -85,7 +85,7 @@ Luong, Pham and Manning (2015) kept the goal and changed the means.
 
 > **Key point:** Two similar vectors have a large dot product. Using the dot product as the score needs no network at all.
 
-The aim of the score is not to approximate some exact function; it is to find which encoder states are useful now. A similarity measure does that job, and the simplest one is the dot product (the [dot product Note](../362-dot-product-and-cosine-similarity/note.md)): large when two vectors point the same way, small or negative when they do not. Luong et al. (2015, section 3.1) proposed three content-based scores:
+The aim of the score is not to approximate some exact function; it is to find which encoder states are useful now. A similarity measure does that job, and the simplest one is the **dot product** (G-634) (the [dot product Note](../362-dot-product-and-cosine-similarity/note.md)): large when two vectors point the same way, small or negative when they do not. Luong et al. (2015, section 3.1) proposed three content-based scores:
 
 | Name | Score $e_{ij}$ | Learned parameters |
 |---|---|---|
@@ -154,7 +154,7 @@ Luong et al. (2015, section 3.1) describe their path $s_i \to \alpha_i \to c_i \
 
 > **Key point:** Three attention models on the same 60,000 sentence pairs, 3 runs each.
 
-The Notebook trains the attention model of the [attention Note](../1069-attention-mechanism/note.md) (Bahdanau) and two Luong models (dot and general) on the same English–French data, with the same bidirectional encoder and the same decoder LSTM of 256 units, for 12 epochs, 3 runs each. The Luong models follow equations 5–7 of Luong et al. (2015) without input feeding.
+The Notebook trains the attention model of the [attention Note](../1069-attention-mechanism/note.md) (Bahdanau) and two Luong models (dot and general) on the same English–French data, with the same bidirectional encoder and the same decoder LSTM of 256 units, for 12 epochs, 3 runs each. Translation quality is measured by the **BLEU score** (G-315): how many word sequences of a translation match a human reference. The Luong models follow equations 5–7 of Luong et al. (2015) without input feeding.
 
 | | Bahdanau (concat) | Luong dot | Luong general |
 |---|---|---|---|
@@ -172,7 +172,7 @@ The Bahdanau numbers differ slightly from those of the [attention Note](../1069-
 
 **Parameters.** Bahdanau's model has more because its output layer reads $[s_i; c_i]$ (512 numbers) and its LSTM reads $[y_{i-1}; c_i]$; Luong's output layer reads the 256-number $\tilde h_i$. The scores themselves are a small part: the dot score has no parameters, and general adds one $256 \times 256$ matrix (65,536 numbers).
 
-**Time.** In Bahdanau's model, $c_i$ is an input of LSTM step $i$, so each step must wait for the attention of that step: the decoder runs as a loop of small operations. In Luong's model the LSTM never needs $c_i$, so during training (with teacher forcing) the decoder LSTM runs over the whole gold sentence in one call, and the attention for all steps at once is two matrix products, $S H^\top$ for the scores and $A H$ for the contexts. Each epoch took less than half the time.
+**Time.** In Bahdanau's model, $c_i$ is an input of LSTM step $i$, so each step must wait for the attention of that step: the decoder runs as a loop of small operations. In Luong's model the LSTM never needs $c_i$, so during training (with **teacher forcing**, G-1955) the decoder LSTM runs over the whole gold sentence in one call, and the attention for all steps at once is two matrix products, $S H^\top$ for the scores and $A H$ for the contexts. Each epoch took less than half the time.
 
 **Quality.** Luong's dot attention gave the best translations at all lengths. The general score did worst; Luong et al. (2015, Table 4) also found dot better than general for global attention (BLEU 18.6 against 17.3 on English–German).
 

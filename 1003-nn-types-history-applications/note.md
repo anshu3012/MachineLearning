@@ -20,7 +20,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 This Note gives the big picture before the technical Notes start. The Note has three parts:
 
 1. **Types of neural networks:** what each of the five main types is for (Figure 1).
-2. **History:** from the first perceptron in 1958 to the ImageNet breakthrough of 2012 (Figure 2).
+2. **History:** from the first perceptron in 1958 to the ImageNet breakthrough of 2012 (Figure 3).
 3. **Applications:** where deep learning is used today.
 
 The [what is deep learning Note](../1002-what-is-deep-learning/note.md) already introduced the parts of a network (input, hidden and output layers) and the five forces behind deep learning's success. This Note builds on both.
@@ -31,13 +31,19 @@ The [what is deep learning Note](../1002-what-is-deep-learning/note.md) already 
 
 ![The five main types of neural network](images/nn_types.png)
 
-There are many types of neural networks, and each type is a large subject on its own. Figure 1 shows the five main ones.
+There are many types of neural networks, and each type is a large subject on its own. Figure 1 shows the structure of the five main ones.
+
+![How data moves through each of the five types, one type at a time. The digit is a real 8 × 8 image; the filter values and the rebuilt digit are computed, and the GAN part is a schematic](images/nn_flows.gif){height=60%}
+
+Figure 2 animates the same five types. In each part, watch where the orange signal travels: that path is what makes the types differ. The subsections below take the parts one by one.
 
 ### 2.1 Multi-layer perceptron (MLP)
 
 > **Key point:** Perceptrons organised in layers; the simplest network, good at non-linear relationships in ordinary supervised problems.
 
-A **multi-layer perceptron (MLP)** (G-1270) is many perceptrons organised in layers: an input layer, one or more hidden layers and an output layer. The MLP is the simplest type of network; until the other types appeared, "MLP" and "artificial neural network" meant the same thing.
+The simplest network stacks small units in layers and passes the data straight through them. In part 1 of Figure 2, the signal starts at the input layer, crosses the two hidden layers and ends at the output layer, always in one direction.
+
+The units are perceptrons, so the network is called a **multi-layer perceptron (MLP)** (G-1270): many perceptrons organised in an input layer, one or more hidden layers and an output layer. Until the other types appeared, "MLP" and "artificial neural network" meant the same thing.
 
 MLPs work on any supervised problem, regression or classification. Adding hidden layers helps them capture non-linear relationships, which a single perceptron cannot (the [MLP intuition Note](../1009-mlp-intuition/note.md) shows why).
 
@@ -45,13 +51,17 @@ MLPs work on any supervised problem, regression or classification. Adding hidden
 
 > **Key point:** At least one convolutional layer; the standard network for images and video.
 
-A **convolutional neural network (CNN)** (G-484) is a network with at least one **convolutional layer** (G-483), a layer that slides small filters over an image (taught in the CNN Notes). CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
+An image is a grid of pixels, and what matters in it (an edge, a corner) is small and can sit anywhere. So the network looks at the image through a small window. In part 2 of Figure 2, a 3 × 3 filter slides over the digit one stop at a time; at each stop it writes one number, and the numbers form a new grid called a feature map.
+
+A layer that slides small filters over an image in this way is a **convolutional layer** (G-483), taught in the CNN Notes. A **convolutional neural network (CNN)** (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
 
 ### 2.3 Recurrent neural network (RNN) and LSTM
 
 > **Key point:** Information loops back from a hidden layer, so the network remembers earlier steps of a sequence; LSTM is a stronger variant.
 
-MLPs and CNNs are **feed-forward networks** (G-775): information moves in one direction only, from the first layer to the last. In a **recurrent neural network (RNN)** (G-1647), the output of a hidden layer is fed back into the network as feedback, so earlier inputs influence later ones.
+A sentence arrives one word at a time, and each word only makes sense with the words before it. A network for such data needs a memory.
+
+MLPs and CNNs have none. They are **feed-forward networks** (G-775): information moves in one direction only, from the first layer to the last. In a **recurrent neural network (RNN)** (G-1647), the output of a hidden layer is fed back into the network, so earlier inputs influence later ones. In part 3 of Figure 2, the words "the film was good" enter one by one; after each word the red loop carries the hidden layer's output back, and the hidden layer ends up holding all four words.
 
 A popular improved variant is the **LSTM** (G-1136) (long short-term memory). RNNs and LSTMs are used heavily in natural language processing: voice assistants such as Google Now, Siri and Cortana, and chatbots.
 
@@ -59,7 +69,9 @@ A popular improved variant is the **LSTM** (G-1136) (long short-term memory). RN
 
 > **Key point:** Input and output layers have the same size, the middle is narrow; the network learns to squeeze data and rebuild it.
 
-An **autoencoder** (G-231) is used to compress data, such as an image, a file or a video, while keeping its quality as far as possible. Its input and output layers have the same number of nodes, and its hidden layers have fewer. The network learns to pass the data through the narrow middle and rebuild it on the other side.
+To make an image, a file or a video smaller while keeping its quality as far as possible, a network can be trained to squeeze the data and then rebuild it. In part 4 of Figure 2, a digit of 64 pixel values is squeezed into 8 numbers in the middle, and the right half of the network rebuilds 64 pixel values from those 8 numbers. The rebuilt digit is a little blurred but is clearly the same digit.
+
+Such a network is an **autoencoder** (G-231). Its input and output layers have the same number of nodes, and its hidden layers have fewer. The network learns to pass the data through the narrow middle and rebuild it on the other side.
 
 > **Extra:** The narrow middle layer cannot hold a full copy of the input, so the autoencoder learns to keep only the most important features, and the rebuilt output loses some detail (Goodfellow et al. 2016, §14.1). Trained to rebuild clean inputs from noisy copies, an autoencoder removes noise (§14.5). Inputs that rebuild badly can be flagged as unusual: anomaly detection (Sakurada and Yairi 2014).
 
@@ -67,7 +79,9 @@ An **autoencoder** (G-231) is used to compress data, such as an image, a file or
 
 > **Key point:** A generator makes fakes, a discriminator judges real or fake; competing, the generator learns to create realistic new data.
 
-A **generative adversarial network (GAN)** (G-840), introduced by Ian Goodfellow and colleagues in 2014 (Goodfellow et al. 2014), is two networks playing a game against each other:
+The last type creates new data instead of labelling existing data. The idea is a contest between a forger and a judge. In part 5 of Figure 2, one network produces a fake image, the other network compares it with real images and gives its verdict, and the verdict goes back to the first network, which adjusts. Round after round the fakes get better, until the judge can no longer tell.
+
+The contest is a **generative adversarial network (GAN)** (G-840), introduced by Ian Goodfellow and colleagues in 2014 (Goodfellow et al. 2014): two networks playing a game against each other.
 
 - The **generator** (G-843) creates new data, for example photos of faces.
 - The **discriminator** (G-620) decides whether each photo is real or fake.
@@ -78,9 +92,11 @@ As the game goes on, the generator learns to fool the discriminator. Its output 
 
 > **Key point:** Two booms and two winters: the perceptron (1958) and its XOR failure (1969), backpropagation (1986) and its scaling failure, then deep belief nets (2006) and the 2012 ImageNet win.
 
-Deep learning is a young field, and many of the people who shaped it are still active. Its history has two rises and two falls (Figure 2).
+Deep learning is a young field, and many of the people who shaped it are still active. Its history reads like the plot of a film, full of ups and downs: two rises and two falls (Figure 3).
 
-![Interest in neural networks over time, with the two AI winters shaded](images/timeline.png)
+![Interest in neural networks drawn year by year, with the two AI winters shaded. The height of the curve is a sketch of the story below, not measured data; the events and years are exact](images/timeline_anim.gif)
+
+In Figure 3, watch the curve pause at each orange dot: every rise starts with an invention, and every shaded fall starts when the networks of the time hit a limit. Sections 3.1 to 3.6 follow the curve from left to right.
 
 ### 3.1 The perceptron and the first AI winter
 
@@ -88,7 +104,11 @@ Deep learning is a young field, and many of the people who shaped it are still a
 
 After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the **perceptron** (G-1486), a model that learns, loosely based on a neuron in the brain (Rosenblatt 1958). The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
 
-In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** (G-2134) function, however long it is trained. The reason is that a perceptron draws a straight line, and XOR's classes cannot be split by one line (the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md) shows this in code).
+In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** (G-2134) function, however long it is trained. The reason is that a perceptron separates its two classes with one straight line, and XOR's classes cannot be split by one line (the [problem with the perceptron Note](../1007-problem-with-perceptron/note.md) shows this in code).
+
+![The four XOR points. The output is 1 (orange) when exactly one input is 1. No straight line puts both orange points on one side and both blue points on the other](images/xor.png){height=22%}
+
+In Figure 4, try any of the dashed lines: each one leaves a blue point and an orange point on the same side.
 
 Funding, media attention and research on neural networks dropped sharply. A period like this, when interest and money for AI collapse, is called an **AI winter** (G-185); this was the first.
 
@@ -112,11 +132,13 @@ Training layered networks with backpropagation overcame the perceptron's biggest
 
 > **Key point:** A network with a hidden layer and enough neurons can approximate any continuous function as closely as we like.
 
-The **universal approximation theorem** (G-2052) states that a neural network with at least one hidden layer and enough neurons can approximate any continuous function, to any accuracy we want. The theorem is why neural networks are called **universal function approximators**.
+In plain words, a neural network is a machine that bends a curve until the curve fits the data. Each hidden neuron adds one bend, so with enough neurons the curve can follow almost any shape.
+
+The formal statement is the **universal approximation theorem** (G-2052): a neural network with at least one hidden layer and enough neurons can approximate any continuous function, to any accuracy we want. The theorem is why neural networks are called **universal function approximators**.
 
 ![One hidden layer of 1, 2, 4, 8, 16 and 32 sigmoid neurons approximating the same continuous function (grey). The hidden neurons are placed evenly along the input; only the output weights are fitted, by least squares](images/universal_approx.gif){height=36%}
 
-Figure 3 is a small experiment of our own design: watch the red curve as neurons are added. With one neuron it is a single smooth step; with 32 it follows every bend, and the worst error falls from 1.05 to 0.07.
+Figure 5 is a small experiment of our own design: watch the red curve as neurons are added. With one neuron it is a single smooth step; with 32 it follows every bend, and the worst error falls from 1.05 to 0.07.
 
 > **Extra:** The theorem was proved by George Cybenko (1989) and Kurt Hornik (1991), not in the 1986 backpropagation paper. One hidden layer is already enough in principle, though that layer may need an enormous number of neurons; deeper networks often need far fewer. The theorem says a good network exists; it does not promise that training will find it (Goodfellow et al. 2016, §6.4.1).
 
@@ -147,11 +169,11 @@ From then on, the field of artificial neural networks was rebranded as **deep le
 
 **ImageNet** (G-920) is a very large dataset of labelled images, and from 2010 a yearly competition asked teams to classify its images. The best error rates in 2010 and 2011 were around 28% and 26%.
 
-In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called **AlexNet** (G-187), trained on GPUs. Its error was about 15%, almost half that of the best other entry (Figure 4).
+In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called **AlexNet** (G-187), trained on GPUs. Its error was about 15%, almost half that of the best other entry (Figure 6).
 
 ![ImageNet top-5 error: the best entries of 2010 and 2011 (about 28% and 26%), and in 2012 the second-best entry against AlexNet](images/imagenet_errors.png){height=28%}
 
-In Figure 4, the first three bars barely move; the red bar is the jump that made companies and researchers take notice. Google, Facebook and other companies took notice, researchers flooded in, and a whole ecosystem grew.
+In Figure 6, the first three bars barely move; the red bar is the jump that made companies and researchers take notice. Google, Facebook and other companies took notice, researchers flooded in, and a whole ecosystem grew.
 
 Further milestones:
 
@@ -171,19 +193,23 @@ Deep learning is everywhere: recommendation engines such as Netflix's, chatbots,
 
 ![The applications of deep learning in four groups, one per subsection below](images/app_map.png){width=85%}
 
-Figure 5 is the map of this section: each coloured group is one of the subsections 4.1 to 4.4.
+Figure 7 is the map of this section: each coloured group is one of the subsections 4.1 to 4.4.
 
 ### 4.1 Mainstream applications
 
 > **Key point:** Self-driving cars, game-playing agents, and virtual assistants.
 
-- **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** (G-1083) on the roof to measure the distance to nearby objects, and GPS. A computer runs deep learning models on all this input and controls the car's mechanics. Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
+- **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** (G-1083) on the roof to measure the distance to nearby objects, and GPS. A computer runs deep learning models on all this input and controls the car's mechanics (Figure 8). Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
 - **Game-playing agents:** **deep reinforcement learning** (G-572), the combination of deep learning and [reinforcement learning](../03-types-of-ml/note.md), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
 - **Virtual assistants and chatbots:** Google Now, Siri and Cortana understand speech and follow the context of a conversation. Their quality jumped once deep learning, such as RNNs, became mainstream around 2015, and most companies now run chatbots built on it.
 
+![A self-driving car in three steps: the sensors read the surroundings, the computer's deep learning models decide, and the controls act](images/self_driving.png){height=24%}
+
+In Figure 8, follow the arrows from left to right: every sensor feeds the same computer, and only the computer touches the steering, brake and accelerator.
+
 ![Possible sequences of moves after a number of turns, with about 35 choices per turn (chess) and about 250 (Go), on a log scale](images/go_vs_chess.png){height=28%}
 
-Figure 6 shows why Go was the harder target: after 40 turns there are about $10^{62}$ move sequences in chess but about $10^{96}$ in Go, far too many for any program to search one by one.
+Figure 9 shows why Go was the harder target: after 40 turns there are about $10^{62}$ move sequences in chess but about $10^{96}$ in Go, far too many for any program to search one by one.
 
 ### 4.2 Image, sound and text applications
 
@@ -240,6 +266,7 @@ GANs generate data that never existed: photos of people who never lived, a predi
 **Built from**
 
 - CampusX, "Types of Neural Networks | History of Deep Learning | Applications of Deep Learning", YouTube, https://www.youtube.com/watch?v=fne_UE7hDn0
+- StatQuest with Josh Starmer, "The Essential Main Ideas of Neural Networks", YouTube, https://www.youtube.com/watch?v=CqOfi41LfDw (the plain-words view in section 3.3: a network fits a curve to the data)
 
 **Other references**
 

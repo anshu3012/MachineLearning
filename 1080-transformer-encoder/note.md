@@ -73,7 +73,7 @@ The three resulting vectors $x_1, x_2, x_3$ are stacked as the rows of a $3 \tim
 
 ## 5. Inside one encoder block
 
-> **Key point:** $X \to$ multi-head attention $\to Z$; add $X$ and normalise $\to Z_{\text{norm}}$; feed-forward network $\to Y$; add $Z_{\text{norm}}$ and normalise $\to Y_{\text{norm}}$. Every one of these matrices is $3 \times 512$, except the hidden layer of the feed-forward network, which is $3 \times 2048$.
+> **Key point:** A block does four things in order: attention lets the words exchange information, an add-and-norm step adds the input back and rescales, a feed-forward network transforms each word on its own, and a second add-and-norm step follows. In symbols: $X \to$ multi-head attention $\to Z$; add $X$ and normalise $\to Z_{\text{norm}}$; feed-forward network $\to Y$; add $Z_{\text{norm}}$ and normalise $\to Y_{\text{norm}}$. Every one of these matrices is $3 \times 512$, except the hidden layer of the feed-forward network, which is $3 \times 2048$.
 
 Figure 4 shows the path of the three words through one block, with every shape.
 
@@ -241,7 +241,7 @@ The paper uses residual connections without explaining the choice; it cites the 
 
 A follow-up paper showed a second effect of the identity path: the gradient of the loss with respect to an early layer contains a term that comes straight from the last layer, without passing through any weights, so it "is unlikely" to vanish (He et al. 2016b, §3, eq. 5).
 
-**Reason 2: each word keeps its own information.** The residual connection carries the original vector forward, and each sub-layer only adds to it. Jurafsky and Martin describe the transformer this way, as a **residual stream** (G-1683) per word: it "starts with the original input vector, and the various components read their input from the residual stream and add their output back into the stream" (SLP3 §7.2). If a sub-layer produces a poor output, the word's earlier vector is still there for the next layer to use.
+**Reason 2: each word keeps its own information.** The residual connection carries the original vector forward, and each sub-layer only adds to it. The attention sub-layer can then concentrate on one job, relating the words to each other, without also having to preserve each word's embedding and position (StatQuest, "Transformer Neural Networks", 22:30). Jurafsky and Martin describe the transformer this way, as a **residual stream** (G-1683) per word: it "starts with the original input vector, and the various components read their input from the residual stream and add their output back into the stream" (SLP3 §7.2). If a sub-layer produces a poor output, the word's earlier vector is still there for the next layer to use.
 
 Without that stream, attention alone tends to make all words alike. Dong et al. (2021) proved that a stack of attention layers without skip connections or feed-forward layers converges to an output in which every word has the same vector, and found that "skip connections play a key role in mitigating" this **rank collapse** (G-1628).
 
@@ -267,8 +267,8 @@ Without residual connections, one block is enough: all 30 words get the same vec
 
 Attention already produces contextual vectors, so why add a second sub-layer? Two observations from the formulas:
 
-- **Attention mixes, the feed-forward network transforms.** Each attention output is a weighted average of the value vectors, and each value vector is a linear function of the input ($v = xW_V$). The feed-forward network does not mix positions: it is "position-wise, meaning that it operates on each token position i independently. This makes a contrast with the attention network, whose job is to mix information from different token positions" (SLP3 §7.2.1). Section 5.3 measured this split.
-- **A non-linearity per word.** The ReLU inside the feed-forward network is the only activation function in the block (the [activation functions Note](../1027-activation-functions/note.md) explains why stacked layers need one). It lets the block apply a non-linear transformation to each contextual vector.
+- **Attention mixes, the feed-forward network transforms.** Each attention output is a weighted average of the value vectors, and each value vector is a linear function of the input ($v = xW_V$). The weights of that average are not linear in the input: they come from a softmax of dot products between the words' own vectors, so attention as a whole is not a linear operation. The feed-forward network does not mix positions: it is "position-wise, meaning that it operates on each token position i independently. This makes a contrast with the attention network, whose job is to mix information from different token positions" (SLP3 §7.2.1). Section 5.3 measured this split.
+- **A non-linearity per word.** Once the weights are fixed, attention only averages value vectors. The ReLU inside the feed-forward network is the only activation function applied to each word's own vector in the block (the [activation functions Note](../1027-activation-functions/note.md) explains why stacked layers need one). It lets the block apply a non-linear transformation to each contextual vector.
 
 What the feed-forward layers learn is an open research topic. One finding: in trained language models they behave like **key-value memories**, where the first layer's weights detect patterns in the input text and the second layer's weights push the prediction towards particular output words (Geva et al. 2021). Jurafsky and Martin add that the feed-forward parameters "seem to encode most of the factual knowledge in the transformer" (SLP3 §7.2.1).
 
@@ -313,6 +313,7 @@ Figure 9 draws the table. Going from 2 to 6 blocks adds 2.1 BLEU; going to 8 add
 **Built from**
 
 - CampusX, "Transformer Architecture | Part 1 Encoder Architecture | CampusX", YouTube, https://www.youtube.com/watch?v=Vs87qcdm8l0
+- StatQuest with Josh Starmer, "Transformer Neural Networks, ChatGPT's foundation, Clearly Explained!!!", YouTube, https://www.youtube.com/watch?v=zxQyTK8quyY. 22:30 (residual connections let self-attention relate the words without also having to preserve the embedding and position).
 - Sanderson, G. (3Blue1Brown), "Attention in transformers, step-by-step | Deep Learning Chapter 6", 2024, 3blue1brown.com/lessons/attention, https://www.youtube.com/watch?v=eMlx5fFNoYc. 14:45–15:44 (the attention output as a change added to the embedding).
 - Sanderson, G. (3Blue1Brown), "How might LLMs store facts | Deep Learning Chapter 7", 2024, 3blue1brown.com/lessons/mlp, https://www.youtube.com/watch?v=9-Jl0dxWQs8. 7:30–13:49 (rows of the first matrix as questions, ReLU as a gate, columns of the second matrix as directions added to the vector).
 
